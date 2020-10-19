@@ -6,48 +6,48 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "meta information")
-    helptext: em.pty+qsTranslate("settingsmanager", "Which meta information to extract and display.")
+    title: em.pty+qsTranslate("settingsmanager_metadata", "meta information")
+    helptext: em.pty+qsTranslate("settingsmanager_metadata", "Which meta information to extract and display.")
 
     //: Part of the meta information about the current image.
-    property var meta: [["metaFilename", em.pty+qsTranslate("settingsmanager", "file name")],
+    property var meta: [["metaFilename", em.pty+qsTranslate("settingsmanager_metadata", "file name")],
                         //: Part of the meta information about the current image.
-                        ["metaFileType", em.pty+qsTranslate("settingsmanager", "file type")],
+                        ["metaFileType", em.pty+qsTranslate("settingsmanager_metadata", "file type")],
                         //: Part of the meta information about the current image.
-                        ["metaFileSize", em.pty+qsTranslate("settingsmanager", "file size")],
+                        ["metaFileSize", em.pty+qsTranslate("settingsmanager_metadata", "file size")],
                         //: Part of the meta information about the current image.
-                        ["metaImageNumber", em.pty+qsTranslate("settingsmanager", "image #/#")],
+                        ["metaImageNumber", em.pty+qsTranslate("settingsmanager_metadata", "image #/#")],
                         //: Part of the meta information about the current image.
-                        ["metaDimensions", em.pty+qsTranslate("settingsmanager", "dimensions")],
+                        ["metaDimensions", em.pty+qsTranslate("settingsmanager_metadata", "dimensions")],
                         //: Part of the meta information about the current image.
-                        ["metaCopyright", em.pty+qsTranslate("settingsmanager", "copyright")],
+                        ["metaCopyright", em.pty+qsTranslate("settingsmanager_metadata", "copyright")],
                         //: Part of the meta information about the current image.
-                        ["metaExposureTime", em.pty+qsTranslate("settingsmanager", "exposure time")],
+                        ["metaExposureTime", em.pty+qsTranslate("settingsmanager_metadata", "exposure time")],
                         //: Part of the meta information about the current image.
-                        ["metaFlash", em.pty+qsTranslate("settingsmanager", "flash")],
+                        ["metaFlash", em.pty+qsTranslate("settingsmanager_metadata", "flash")],
                         //: Part of the meta information about the current image.
-                        ["metaFLength", em.pty+qsTranslate("settingsmanager", "focal length")],
+                        ["metaFLength", em.pty+qsTranslate("settingsmanager_metadata", "focal length")],
                         //: Part of the meta information about the current image.
-                        ["metaFNumber", em.pty+qsTranslate("settingsmanager", "f-number")],
+                        ["metaFNumber", em.pty+qsTranslate("settingsmanager_metadata", "f-number")],
                         //: Part of the meta information about the current image.
-                        ["metaGps", em.pty+qsTranslate("settingsmanager", "GPS position")],
+                        ["metaGps", em.pty+qsTranslate("settingsmanager_metadata", "GPS position")],
                         ["metaIso", "ISO"],
                         //: Part of the meta information about the current image.
-                        ["metaKeywords", em.pty+qsTranslate("settingsmanager", "keywords")],
+                        ["metaKeywords", em.pty+qsTranslate("settingsmanager_metadata", "keywords")],
                         //: Part of the meta information about the current image.
-                        ["metaLightSource", em.pty+qsTranslate("settingsmanager", "light source")],
+                        ["metaLightSource", em.pty+qsTranslate("settingsmanager_metadata", "light source")],
                         //: Part of the meta information about the current image.
-                        ["metaLocation", em.pty+qsTranslate("settingsmanager", "location")],
+                        ["metaLocation", em.pty+qsTranslate("settingsmanager_metadata", "location")],
                         //: Part of the meta information about the current image.
-                        ["metaMake", em.pty+qsTranslate("settingsmanager", "make")],
+                        ["metaMake", em.pty+qsTranslate("settingsmanager_metadata", "make")],
                         //: Part of the meta information about the current image.
-                        ["metaModel", em.pty+qsTranslate("settingsmanager", "model")],
+                        ["metaModel", em.pty+qsTranslate("settingsmanager_metadata", "model")],
                         //: Part of the meta information about the current image.
-                        ["metaSceneType", em.pty+qsTranslate("settingsmanager", "scene type")],
+                        ["metaSceneType", em.pty+qsTranslate("settingsmanager_metadata", "scene type")],
                         //: Part of the meta information about the current image.
-                        ["metaSoftware", em.pty+qsTranslate("settingsmanager", "software")],
+                        ["metaSoftware", em.pty+qsTranslate("settingsmanager_metadata", "software")],
                         //: Part of the meta information about the current image.
-                        ["metaTimePhotoTaken", em.pty+qsTranslate("settingsmanager", "time photo was taken")]]
+                        ["metaTimePhotoTaken", em.pty+qsTranslate("settingsmanager_metadata", "time photo was taken")]]
 
     content: [
 

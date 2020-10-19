@@ -31,7 +31,7 @@ Column {
         x: (parent.width-width)/2
         color: "white"
         font.pointSize: 15
-        //: Used as in 'Other Desktop Environment'
+        //: Used as in: Other Desktop Environment
         text: em.pty+qsTranslate("wallpaper", "Other")
         font.bold: true
     }
@@ -73,7 +73,7 @@ Column {
         Text {
             y: (feh.height-height)/2
             color: "white"
-            //: 'Tool' refers to a program that can be executed
+            //: Tool refers to a program that can be executed
             text: em.pty+qsTranslate("wallpaper", "Tool:")
         }
 

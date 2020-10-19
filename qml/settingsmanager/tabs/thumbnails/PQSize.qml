@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title referring to the size of the thumbnails.
-    title: em.pty+qsTranslate("settingsmanager", "size")
-    helptext: em.pty+qsTranslate("settingsmanager", "How large (or small) the thumbnails should be.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "size")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "How large (or small) the thumbnails should be.")
     content: [
 
         Row {

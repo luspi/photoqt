@@ -37,7 +37,7 @@ Item {
                     x: 10
                     y: 5
                     color: "#dddddd"
-                    text: thisIsAnExternalCategory ? em.pty+qsTranslate("settingsmanager", "External shortcut") : shcont.available[index][1]
+                    text: thisIsAnExternalCategory ? em.pty+qsTranslate("settingsmanager_shortcuts", "External shortcut") : shcont.available[index][1]
                 }
 
                 Text {
@@ -45,14 +45,14 @@ Item {
                     x: parent.width-width-10
                     y: 5
                     color: "#666666"
-                    text: em.pty+qsTranslate("settingsmanager", "Click to add shortcut")
+                    text: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to add shortcut")
                 }
 
                 PQMouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    tooltip: "<b>" + cmdtxt.text + "</b><br><br>" + em.pty+qsTranslate("settingsmanager", "Click to add shortcut")
+                    tooltip: "<b>" + cmdtxt.text + "</b><br><br>" + em.pty+qsTranslate("settingsmanager_shortcuts", "Click to add shortcut")
                     onEntered:
                         parent.hovered = true
                     onExited:

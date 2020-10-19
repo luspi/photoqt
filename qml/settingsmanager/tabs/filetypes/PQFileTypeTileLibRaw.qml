@@ -8,7 +8,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsRAW()
     currentlyEnabled: PQImageFormats.enabledFileformatsRAW
     projectWebpage: ["libraw.org", "https://www.libraw.org"]
-    description: em.pty+qsTranslate("settingsmanager", "With the help of libraw PhotoQt can display almost any raw image that exists.")
+    description: em.pty+qsTranslate("settingsmanager_filetypes", "With the help of libraw PhotoQt can display almost any raw image that exists.")
 
     Connections {
 

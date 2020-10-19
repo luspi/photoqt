@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "mouse wheel sensitivity")
-    helptext: em.pty+qsTranslate("settingsmanager", "How sensitive the mouse wheel is for shortcuts, etc.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "mouse wheel sensitivity")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "How sensitive the mouse wheel is for shortcuts, etc.")
     expertmodeonly: true
     content: [
         Row {
@@ -15,7 +15,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 //: The sensitivity here refers to the sensitivity of the mouse wheel
-                text: em.pty+qsTranslate("settingsmanager", "not sensitive")
+                text: em.pty+qsTranslate("settingsmanager_interface", "not sensitive")
             }
 
             PQSlider {
@@ -31,7 +31,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 //: The sensitivity here refers to the sensitivity of the mouse wheel
-                text: em.pty+qsTranslate("settingsmanager", "very sensitive")
+                text: em.pty+qsTranslate("settingsmanager_interface", "very sensitive")
             }
         }
     ]

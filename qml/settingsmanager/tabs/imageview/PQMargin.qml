@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title about the margin around the main image
-    title: em.pty+qsTranslate("settingsmanager", "margin")
-    helptext: em.pty+qsTranslate("settingsmanager", "How much space to show between the main image and the application border.")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "margin")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "How much space to show between the main image and the application border.")
     expertmodeonly: true
     content: [
 
@@ -17,8 +17,9 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                //: 'none' as in 'no margin between the main image and the window edges'
-                text: em.pty+qsTranslate("settingsmanager", "none")
+                // The translation context here needs to be unique otherwise this string will be conflated with a different 'none' in tabs/filetypes/PQAdvancedTuning.qml
+                //: As in: no margin between the main image and the window edges
+                text: em.pty+qsTranslate("settingsmanager_imageview", "none")
             }
 
             PQSlider {

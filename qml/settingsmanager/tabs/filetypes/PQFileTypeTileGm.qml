@@ -8,7 +8,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsGm()
     currentlyEnabled: PQImageFormats.enabledFileformatsGm
     projectWebpage: ["graphicsmagick.org", "http://www.graphicsmagick.org"]
-    description: em.pty+qsTranslate("settingsmanager", "GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.")
+    description: em.pty+qsTranslate("settingsmanager_filetypes", "GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.")
 
     iconsource: "/settingsmanager/filetypes/gm.jpg"
 

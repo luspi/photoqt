@@ -14,7 +14,7 @@ Item {
         "page up" : em.pty+qsTranslate("keymouse", "Page Up"),
         //: Refers to one of the keys on the keyboard
         "page down" : em.pty+qsTranslate("keymouse", "Page Down"),
-        //: Refers to the key that usually has the 'Windows' symbol on it
+        //: Refers to the key that usually has the Windows symbol on it
         "meta" : em.pty+qsTranslate("keymouse", "Meta"),
         //: Refers to the key that triggers the number block on keyboards
         "keypad" : em.pty+qsTranslate("keymouse", "Keypad"),
@@ -42,10 +42,10 @@ Item {
         "insert" : em.pty+qsTranslate("keymouse", "Insert"),
         //: Refers to one of the keys on the keyboard
         "tab" : em.pty+qsTranslate("keymouse", "Tab"),
-        //: 'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button)
+        //: Return refers to the enter key of the number block - please try to make the translations of Return and Enter (the main button)
         //: different if possible!
         "return" : em.pty+qsTranslate("keymouse", "Return"),
-        //: 'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter'
+        //: Enter refers to the main enter key - please try to make the translations of Return (in the number block) and Enter
         //: different if possible!
         "enter" : em.pty+qsTranslate("keymouse", "Enter"),
     }

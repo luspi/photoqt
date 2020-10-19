@@ -12,7 +12,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsPoppler()
     currentlyEnabled: PQImageFormats.enabledFileformatsPoppler
     projectWebpage: ["poppler.freedesktop.org", "https://poppler.freedesktop.org"]
-    description: em.pty+qsTranslate("settingsmanager", "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
+    description: em.pty+qsTranslate("settingsmanager_filetypes", "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
 
     additionalSetting: [
         Row {
@@ -22,7 +22,7 @@ PQFileTypeTile {
             PQCheckbox {
                 id: docviewer
                 //: this is a display mode for PDF files
-                text: em.pty+qsTranslate("settingsmanager", "document viewer")
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "document viewer")
             }
             PQSlider {
                 id: qual_slider
@@ -34,7 +34,7 @@ PQFileTypeTile {
                 wheelStepSize: 5
                 toolTipSuffix: " dpi"
                 //: the quality setting to be used when loading PDFs
-                toolTipPrefix: em.pty+qsTranslate("settingsmanager", "Quality: ")
+                toolTipPrefix: em.pty+qsTranslate("settingsmanager_filetypes", "Quality: ")
             }
         }
     ]

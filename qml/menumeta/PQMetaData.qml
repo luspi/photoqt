@@ -297,7 +297,7 @@ Rectangle {
         onCheckedChanged:
             variables.metaDataWidthWhenKeptOpen = (checked ? metadata_top.width : 0)
 
-        //: Used as in 'Keep the metadata element open even if the cursor leaves it'
+        //: Used as in: Keep the metadata element open even if the cursor leaves it
         text: PQSettings.metadataPopoutElement ? "" : (em.pty+qsTranslate("metadata", "Keep Open"))
 
     }

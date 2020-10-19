@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager", "pixmap cache")
-    helptext: em.pty+qsTranslate("settingsmanager", "Size of runtime cache for fully loaded images. This cache is cleared when the application quits.")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "pixmap cache")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Size of runtime cache for fully loaded images. This cache is cleared when the application quits.")
     expertmodeonly: true
     content: [
 
@@ -17,8 +17,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                //: 'off' as in 'pixmap cache turned off'
-                text: em.pty+qsTranslate("settingsmanager", "off")
+                //: as in: pixmap cache turned off
+                text: em.pty+qsTranslate("settingsmanager_imageview", "off")
             }
 
             PQSlider {

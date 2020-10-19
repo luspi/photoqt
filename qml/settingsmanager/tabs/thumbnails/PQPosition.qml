@@ -5,17 +5,17 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title referring to the position of the thumbnails (upper or lower edge of PhotoQt).
-    title: em.pty+qsTranslate("settingsmanager", "position")
-    helptext: em.pty+qsTranslate("settingsmanager", "Which edge to show the thumbnails on, upper or lower edge.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "position")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Which edge to show the thumbnails on, upper or lower edge.")
     content: [
 
         PQComboBox {
             id: edge
             y: (parent.height-height)/2
             //: The upper edge of PhotoQt
-            model: [em.pty+qsTranslate("settingsmanager", "upper edge"),
+            model: [em.pty+qsTranslate("settingsmanager_thumbnails", "upper edge"),
                     //: The lower edge of PhotoQt
-                    em.pty+qsTranslate("settingsmanager", "lower edge")]
+                    em.pty+qsTranslate("settingsmanager_thumbnails", "lower edge")]
         }
 
     ]

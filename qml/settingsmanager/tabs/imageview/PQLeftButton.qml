@@ -5,14 +5,14 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager", "left mouse button")
-    helptext: em.pty+qsTranslate("settingsmanager", "The left button of the mouse is by default used to move the image around. However, this prevents the left mouse button from being used for shortcuts.")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "left mouse button")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "The left button of the mouse is by default used to move the image around. However, this prevents the left mouse button from being used for shortcuts.")
     expertmodeonly: true
     content: [
 
         PQCheckbox {
             id: left_check
-            text: em.pty+qsTranslate("settingsmanager", "use left button to move image")
+            text: em.pty+qsTranslate("settingsmanager_imageview", "use left button to move image")
         }
 
     ]

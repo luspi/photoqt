@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title. This refers to using only the filename as thumbnail and no actual image.
-    title: em.pty+qsTranslate("settingsmanager", "filename-only")
-    helptext: em.pty+qsTranslate("settingsmanager", "Show only the filename as thumbnail, no actual image.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "filename-only")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Show only the filename as thumbnail, no actual image.")
     expertmodeonly: true
     content: [
 
@@ -21,7 +21,7 @@ PQSetting {
                 PQCheckbox {
                     id: fname_chk
                     y: (parent.height-height)/2
-                    text: em.pty+qsTranslate("settingsmanager", "enable")
+                    text: em.pty+qsTranslate("settingsmanager_thumbnails", "enable")
                 }
 
             }
@@ -33,7 +33,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
-                    text: em.pty+qsTranslate("settingsmanager", "font size:")
+                    text: em.pty+qsTranslate("settingsmanager_thumbnails", "font size:")
                 }
 
                 Text {

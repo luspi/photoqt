@@ -5,13 +5,13 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "thumbnail cache")
-    helptext: em.pty+qsTranslate("settingsmanager", "Thumbnails can be cached (permanently), following the freedesktop.org standard.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "thumbnail cache")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Thumbnails can be cached (permanently), following the freedesktop.org standard.")
     expertmodeonly: true
     content: [
         PQCheckbox {
             id: thb_cache
-            text: em.pty+qsTranslate("settingsmanager", "enable")
+            text: em.pty+qsTranslate("settingsmanager_thumbnails", "enable")
         }
 
     ]

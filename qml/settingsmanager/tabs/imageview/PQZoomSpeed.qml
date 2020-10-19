@@ -4,9 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    //: A settings title, the 'zoom' here is the zoom of the main image
-    title: em.pty+qsTranslate("settingsmanager", "zoom speed")
-    helptext: em.pty+qsTranslate("settingsmanager", "Images are zoomed at a relative speed as specified by this percentage. A higher value means faster zoom.")
+    //: A settings title, the zoom here is the zoom of the main image
+    title: em.pty+qsTranslate("settingsmanager_imageview", "zoom speed")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Images are zoomed at a relative speed as specified by this percentage. A higher value means faster zoom.")
     expertmodeonly: true
     content: [
 
@@ -18,7 +18,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 //: This refers to the zoom speed, the zoom here is the zoom of the main image
-                text: em.pty+qsTranslate("settingsmanager", "super slow")
+                text: em.pty+qsTranslate("settingsmanager_imageview", "super slow")
             }
 
             PQSlider {
@@ -33,7 +33,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 //: This refers to the zoom speed, the zoom here is the zoom of the main image
-                text: em.pty+qsTranslate("settingsmanager", "very fast")
+                text: em.pty+qsTranslate("settingsmanager_imageview", "very fast")
             }
 
         }

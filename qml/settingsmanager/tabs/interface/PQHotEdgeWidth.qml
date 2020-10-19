@@ -4,9 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    //: A settings title. The 'hot edge' refers to the area along the edges of PhotoQt where the mouse cursor triggers an action (e.g., showing the thumbnails or the main menu)
-    title: em.pty+qsTranslate("settingsmanager", "size of 'hot edge'")
-    helptext: em.pty+qsTranslate("settingsmanager", "Adjusts the sensitivity of the edges for showing elements like the metadata and main menu elements.")
+    //: A settings title. The hot edge refers to the area along the edges of PhotoQt where the mouse cursor triggers an action (e.g., showing the thumbnails or the main menu)
+    title: em.pty+qsTranslate("settingsmanager_interface", "size of 'hot edge'")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "Adjusts the sensitivity of the edges for showing elements like the metadata and main menu elements.")
     expertmodeonly: true
     content: [
         Row {
@@ -14,8 +14,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                //: used as in 'small area'
-                text: em.pty+qsTranslate("settingsmanager", "small")
+                //: used as in: small area
+                text: em.pty+qsTranslate("settingsmanager_interface", "small")
             }
 
             PQSlider {
@@ -31,8 +31,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                //: used as in 'large area'
-                text: em.pty+qsTranslate("settingsmanager", "large")
+                //: used as in: large area
+                text: em.pty+qsTranslate("settingsmanager_interface", "large")
             }
         }
 

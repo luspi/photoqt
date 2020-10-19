@@ -6,9 +6,9 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    //: A settings title. The face tags are labels that can be shown (if available) on people's faces including their name.
-    title: em.pty+qsTranslate("settingsmanager", "face tags - border")
-    helptext: em.pty+qsTranslate("settingsmanager", "If and what style of border to show around tagged faces.")
+    //: A settings title. The face tags are labels that can be shown (if available) on faces including their name.
+    title: em.pty+qsTranslate("settingsmanager_metadata", "face tags - border")
+    helptext: em.pty+qsTranslate("settingsmanager_metadata", "If and what style of border to show around tagged faces.")
     expertmodeonly: true
     property var rgba: handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
     content: [
@@ -20,7 +20,7 @@ PQSetting {
             PQCheckbox {
                 id: ft_border
                 //: The border here is the border around face tags.
-                text: em.pty+qsTranslate("settingsmanager", "show border")
+                text: em.pty+qsTranslate("settingsmanager_metadata", "show border")
             }
 
             Row {
@@ -72,7 +72,7 @@ PQSetting {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    tooltip: em.pty+qsTranslate("settingsmanager", "click to change color")
+                    tooltip: em.pty+qsTranslate("settingsmanager_metadata", "click to change color")
                     onClicked: {
                         colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
                         colorDialog.visible = true
@@ -87,7 +87,7 @@ PQSetting {
 
     ColorDialog {
         id: colorDialog
-        title: em.pty+qsTranslate("settingsmanager", "please choose a color")
+        title: em.pty+qsTranslate("settingsmanager_metadata", "please choose a color")
         showAlphaChannel: true
         modality: Qt.ApplicationModal
         onAccepted:

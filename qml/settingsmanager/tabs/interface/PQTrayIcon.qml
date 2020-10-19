@@ -5,15 +5,15 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "tray icon")
-    helptext: em.pty+qsTranslate("settingsmanager", "If a tray icon is to be shown and, if shown, whether to hide it or not.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "tray icon")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "If a tray icon is to be shown and, if shown, whether to hide it or not.")
     content: [
         PQComboBox {
             id: tray_combo
             model: [
-                em.pty+qsTranslate("settingsmanager", "no tray icon"),
-                em.pty+qsTranslate("settingsmanager", "hide to tray icon"),
-                em.pty+qsTranslate("settingsmanager", "show tray icon but don't hide to it")
+                em.pty+qsTranslate("settingsmanager_interface", "no tray icon"),
+                em.pty+qsTranslate("settingsmanager_interface", "hide to tray icon"),
+                em.pty+qsTranslate("settingsmanager_interface", "show tray icon but don't hide to it")
             ]
         }
 

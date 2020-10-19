@@ -6,14 +6,14 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "quick info")
-    helptext: em.pty+qsTranslate("settingsmanager", "The quick info refers to the labels along the top edge of the main view.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "quick info")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "The quick info refers to the labels along the top edge of the main view.")
     content: [
 
         PQCheckbox {
             id: quick_show
             //: checkbox in settings manager
-            text: em.pty+qsTranslate("settingsmanager", "show quick info")
+            text: em.pty+qsTranslate("settingsmanager_interface", "show quick info")
             opacity: variables.settingsManagerExpertMode ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
@@ -54,7 +54,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     id: quick_counter
                     //: refers to the image counter (i.e., image #/# in current folder)
-                    text: em.pty+qsTranslate("settingsmanager", "counter")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "counter")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -67,7 +67,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     id: quick_filepath
                     //: show filepath in the quickinfo. This is specifically the filePATH and not the filename.
-                    text: em.pty+qsTranslate("settingsmanager", "filepath")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "filepath")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -79,7 +79,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     id: quick_filename
                     //: show filename in the quickinfo. This is specifically the fileNAME and not the filepath.
-                    text: em.pty+qsTranslate("settingsmanager", "filename")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "filename")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -90,7 +90,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_zoom
-                    text: em.pty+qsTranslate("settingsmanager", "current zoom level")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "current zoom level")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -101,8 +101,8 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_exit
-                    //: the exit button is the 'x' shown in the top right corner of the window
-                    text: em.pty+qsTranslate("settingsmanager", "exit button")
+                    //: the exit button is the x shown in the top right corner of the window
+                    text: em.pty+qsTranslate("settingsmanager_interface", "exit button")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -121,8 +121,8 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: "white"
-                    //: the size of the exit button (the 'x' shown in the top right corner of the window)
-                    text: em.pty+qsTranslate("settingsmanager", "size of exit button") + ":"
+                    //: the size of the exit button (the x shown in the top right corner of the window)
+                    text: em.pty+qsTranslate("settingsmanager_interface", "size of exit button") + ":"
                 }
                 PQSlider {
                     id: quick_exitsize

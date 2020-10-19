@@ -25,7 +25,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        tooltip: em.pty+qsTranslate("settingsmanager", "Click here to close popup")
+        tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Click here to close popup")
         onClicked: hide()
     }
 
@@ -99,10 +99,10 @@ Rectangle {
                 x: 0
                 y: 0
                 forceWidth: parent.width/3
-                //: 'default' as in 'default file types'
-                text: em.pty+qsTranslate("settingsmanager", "default")
-                //: The 'check' here refers to marking a checkbox
-                tooltip: em.pty+qsTranslate("settingsmanager", "Check default file endings")
+                //: as in: default file types
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "default")
+                //: Check here refers to marking a checkbox (i.e., the act of checking the box)
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Check default file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = (tile_top.defaultEnabled.indexOf(key) != -1)
@@ -115,10 +115,10 @@ Rectangle {
                 x: parent.width/3 +1
                 y: 0
                 forceWidth: parent.width/3 -2
-                //: 'all' as in 'all file types'
-                text: em.pty+qsTranslate("settingsmanager", "all")
-                //: The 'check' here refers to marking a checkbox
-                tooltip: em.pty+qsTranslate("settingsmanager", "Check all file endings")
+                //: as in: all file types
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "all")
+                //: Check here refers to marking a checkbox (i.e., the act of checking the box)
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Check all file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = true
@@ -131,10 +131,10 @@ Rectangle {
                 x: 2*parent.width/3
                 y: 0
                 forceWidth: parent.width/3
-                //: 'none' as in 'no file types'
-                text: em.pty+qsTranslate("settingsmanager", "none")
-                //: The 'check' here refers to marking a checkbox
-                tooltip: em.pty+qsTranslate("settingsmanager", "Check no file endings")
+                //: as in: no file types
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "none")
+                //: Check here refers to marking a checkbox (i.e., the act of checking the box)
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Check no file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = false
@@ -167,7 +167,7 @@ Rectangle {
                             id: endingtile
                             overrideWidth: 115
                             text: tile_top.available[index][0]
-                            tooltip: "<b>" + tile_top.available[index][1] + "</b><br><br>" + em.pty+qsTranslate("settingsmanager", "Left click to check/uncheck. Right click to check/uncheck all endings for this image type.")
+                            tooltip: "<b>" + tile_top.available[index][1] + "</b><br><br>" + em.pty+qsTranslate("settingsmanager_filetypes", "Left click to check/uncheck. Right click to check/uncheck all endings for this image type.")
                             onRightClicked: {
                                 popuptop.toggleCategory(tile_top.available[index][2], !endingtile.checked)
                             }
@@ -222,7 +222,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: em.pty+qsTranslate("settingsmanager", "Click here to close popup")
+            tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Click here to close popup")
             onClicked: hide()
         }
     }

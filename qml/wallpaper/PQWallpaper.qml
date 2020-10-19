@@ -86,7 +86,7 @@ Item {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                                //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("Plasma 5")
                                 onClicked:
                                     curCat = "plasma"
@@ -104,7 +104,7 @@ Item {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                                //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("Gnome/Unity/Cinnamon")
                                 onClicked:
                                     curCat = "gnome"
@@ -122,7 +122,7 @@ Item {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                                //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("XFCE4")
                                 onClicked:
                                     curCat = "xfce"
@@ -140,7 +140,7 @@ Item {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                                //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("Enlightenment")
                                 onClicked:
                                     curCat = "enlightenment"
@@ -158,9 +158,9 @@ Item {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                                //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1")
-                                            //: Used as in 'Other Desktop Environment'
+                                            //: Used as in: Other Desktop Environment
                                             .arg(em.pty+qsTranslate("wallpaper", "Other"))
                                 onClicked:
                                     curCat = "other"

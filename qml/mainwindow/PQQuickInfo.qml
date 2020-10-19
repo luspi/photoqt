@@ -88,7 +88,7 @@ Item {
             y: 5
 
             text: (variables.indexOfCurrentImage>-1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length && variables.allImageFilesInOrder[variables.indexOfCurrentImage].indexOf("::PQT::")>-1) ?
-                      //: Used as in 'Page 12/34' - please keep as short as possible
+                      //: Used as in: Page 12/34 - please keep as short as possible
                       (em.pty+qsTranslate("quickinfo", "Page") + " " + (variables.allImageFilesInOrder[variables.indexOfCurrentImage].split("::PQT::")[0]*1+1) + " of " + variables.allImageFilesInOrder.length) :
                       ""
             visible: text != "" && (variables.indexOfCurrentImage > -1)

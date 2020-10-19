@@ -29,8 +29,8 @@ PQSetting {
                                  ["zh_TW","Chinese (traditional)"]]
 
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "language")
-    helptext: em.pty+qsTranslate("settingsmanager", "Change the language of the application.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "language")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "Change the language of the application.")
     content: [
         PQComboBox {
             id: lang

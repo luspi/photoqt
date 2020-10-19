@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title. This refers to the lift up of thumbnail images when active/hovered.
-    title: em.pty+qsTranslate("settingsmanager", "lift up")
-    helptext: em.pty+qsTranslate("settingsmanager", "How many pixels to lift up thumbnails when either hovered or active.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "lift up")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "How many pixels to lift up thumbnails when either hovered or active.")
     content: [
 
         Row {

@@ -92,7 +92,7 @@ Item {
                     font.bold: true
                     font.italic: true
                     visible: !report.visible
-                    //: Used as in 'Upload image as anonymous user'
+                    //: Used as in: Upload image as anonymous user
                     text: anonymous ? em.pty+qsTranslate("imgur", "anonymous") : accountname
                 }
 

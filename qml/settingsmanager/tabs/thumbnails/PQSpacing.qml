@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title referring to the spacing of thumbnails, i.e., how much empty space to have between each.
-    title: em.pty+qsTranslate("settingsmanager", "spacing")
-    helptext: em.pty+qsTranslate("settingsmanager", "How much space to show between the thumbnails.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "spacing")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "How much space to show between the thumbnails.")
     content: [
 
         Row {

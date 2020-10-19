@@ -103,7 +103,7 @@ Rectangle {
             y: 15
             text: variables.indexOfCurrentImage==-1 ?
                       em.pty+qsTranslate("histogram", "Histogram")+"..." :
-                      //: As in 'Loading the histogram for the current image'
+                      //: As in: Loading the histogram for the current image
                       em.pty+qsTranslate("histogram", "Loading...")
             color: "white"
             font.pixelSize: 15

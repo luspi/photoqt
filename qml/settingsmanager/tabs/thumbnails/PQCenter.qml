@@ -4,13 +4,13 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    //: A settings title. Used as in 'keep thumbnail for current main image in center'.
-    title: em.pty+qsTranslate("settingsmanager", "keep in center")
-    helptext: em.pty+qsTranslate("settingsmanager", "Keep currently active thumbnail in the center of the screen")
+    //: A settings title. Used as in: Keep thumbnail for current main image in center.
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "keep in center")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Keep currently active thumbnail in the center of the screen")
     content: [
         PQCheckbox {
             id: thb_center
-            text: em.pty+qsTranslate("settingsmanager", "center on active thumbnail")
+            text: em.pty+qsTranslate("settingsmanager_thumbnails", "center on active thumbnail")
         }
 
     ]

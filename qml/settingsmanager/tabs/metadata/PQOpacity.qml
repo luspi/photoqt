@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "opacity")
-    helptext: em.pty+qsTranslate("settingsmanager", "The opacity of the metadata element.")
+    title: em.pty+qsTranslate("settingsmanager_metadata", "opacity")
+    helptext: em.pty+qsTranslate("settingsmanager_metadata", "The opacity of the metadata element.")
     expertmodeonly: true
     content: [
 

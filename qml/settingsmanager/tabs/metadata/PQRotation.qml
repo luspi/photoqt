@@ -5,14 +5,14 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "auto-rotation")
-    helptext: em.pty+qsTranslate("settingsmanager", "Automatically rotate images based on metadata information.")
+    title: em.pty+qsTranslate("settingsmanager_metadata", "auto-rotation")
+    helptext: em.pty+qsTranslate("settingsmanager_metadata", "Automatically rotate images based on metadata information.")
     expertmodeonly: true
     content: [
 
         PQCheckbox {
             id: meta_rot
-            text: em.pty+qsTranslate("settingsmanager", "enable")
+            text: em.pty+qsTranslate("settingsmanager_metadata", "enable")
         }
 
     ]

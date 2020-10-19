@@ -11,7 +11,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsVideo()
     currentlyEnabled: PQImageFormats.enabledFileformatsVideo
 
-    description: em.pty+qsTranslate("settingsmanager", "Here are some of the common video formats listed. Which ones are supported depend entirely on what codecs you have available on your system. Thus the list of enabled video formats might have to be adjusted to the proper set of supported formats.")
+    description: em.pty+qsTranslate("settingsmanager_filetypes", "Here are some of the common video formats listed. Which ones are supported depend entirely on what codecs you have available on your system. Thus the list of enabled video formats might have to be adjusted to the proper set of supported formats.")
 
     additionalSetting: [
         Row {
@@ -21,13 +21,13 @@ PQFileTypeTile {
                 id: autoplay
                 y: (combo.height-height)/2+10
                 //: Used as setting for video files (i.e., autoplay videos)
-                text: em.pty+qsTranslate("settingsmanager", "Autoplay")
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "Autoplay")
             }
             PQCheckbox {
                 id: loop
                 y: (combo.height-height)/2+10
                 //: Used as setting for video files (i.e., loop videos)
-                text: em.pty+qsTranslate("settingsmanager", "Loop")
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "Loop")
             }
             PQComboBox {
                 id: combo

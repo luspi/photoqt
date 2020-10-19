@@ -6,8 +6,8 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "window management")
-    helptext: em.pty+qsTranslate("settingsmanager", "Some basic window management properties.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "window management")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "Some basic window management properties.")
     expertmodeonly: true
     content: [
         Flow {
@@ -15,18 +15,18 @@ PQSetting {
             width: set.contwidth
             PQCheckbox {
                 id: wm_manage
-                text: em.pty+qsTranslate("settingsmanager", "manage window through quick info labels")
+                text: em.pty+qsTranslate("settingsmanager_interface", "manage window through quick info labels")
             }
 
             PQCheckbox {
                 id: wm_save
                 y: (parent.height-height)/2
-                text: em.pty+qsTranslate("settingsmanager", "save and restore window geometry")
+                text: em.pty+qsTranslate("settingsmanager_interface", "save and restore window geometry")
             }
             PQCheckbox {
                 id: wm_keep
                 y: (parent.height-height)/2
-                text: em.pty+qsTranslate("settingsmanager", "keep above other windows")
+                text: em.pty+qsTranslate("settingsmanager_interface", "keep above other windows")
             }
         }
 

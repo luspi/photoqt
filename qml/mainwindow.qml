@@ -88,7 +88,7 @@ Window {
             Text {
                 id: filtermessage
                 anchors.centerIn: parent
-                //: Used as in 'No matches found for the currently set filter'
+                //: Used as in: No matches found for the currently set filter
                 text: em.pty+qsTranslate("other", "No matches found")
                 visible: variables.filterSet&&variables.indexOfCurrentImage==-1
                 font.pointSize: 50

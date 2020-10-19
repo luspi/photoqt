@@ -5,13 +5,13 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title referring to whether to fit images in window
-    title: em.pty+qsTranslate("settingsmanager", "fit in window")
-    helptext: em.pty+qsTranslate("settingsmanager", "Zoom smaller images to fill the full window width and/or height.")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "fit in window")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Zoom smaller images to fill the full window width and/or height.")
     content: [
 
         PQCheckbox {
             id: fitinwin
-            text: em.pty+qsTranslate("settingsmanager", "fit smaller images in window")
+            text: em.pty+qsTranslate("settingsmanager_imageview", "fit smaller images in window")
         }
 
     ]

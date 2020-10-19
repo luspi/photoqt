@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title. The filename label here is the one that is written on thumbnails.
-    title: em.pty+qsTranslate("settingsmanager", "filename label")
-    helptext: em.pty+qsTranslate("settingsmanager", "Show the filename on a small label on the thumbnail image.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "filename label")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Show the filename on a small label on the thumbnail image.")
     content: [
 
         Column {
@@ -20,7 +20,7 @@ PQSetting {
                 PQCheckbox {
                     id: fnamelabel_chk
                     y: (parent.height-height)/2
-                    text: em.pty+qsTranslate("settingsmanager", "enable")
+                    text: em.pty+qsTranslate("settingsmanager_thumbnails", "enable")
                 }
 
             }
@@ -32,7 +32,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: fnamelabel_chk.checked ? "white" : "#cccccc"
-                    text: em.pty+qsTranslate("settingsmanager", "font size:")
+                    text: em.pty+qsTranslate("settingsmanager_thumbnails", "font size:")
                 }
 
                 Text {

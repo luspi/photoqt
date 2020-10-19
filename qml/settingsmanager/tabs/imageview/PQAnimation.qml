@@ -6,9 +6,9 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title referring to the in/out animation of images
-    title: em.pty+qsTranslate("settingsmanager", "animation")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "animation")
     //: This is referring to the in/out animation of images
-    helptext: em.pty+qsTranslate("settingsmanager", "What type of animation to show, and how fast.")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "What type of animation to show, and how fast.")
     content: [
 
         Flow {
@@ -19,14 +19,14 @@ PQSetting {
             PQComboBox {
                 id: anim_type
                 //: This is referring to the in/out animation of images
-                tooltip: em.pty+qsTranslate("settingsmanager", "type of animation")
+                tooltip: em.pty+qsTranslate("settingsmanager_imageview", "type of animation")
                 y: (parent.height-height)/2
                 //: This is referring to the in/out animation of images
-                model: [em.pty+qsTranslate("settingsmanager", "opacity"),
+                model: [em.pty+qsTranslate("settingsmanager_imageview", "opacity"),
                         //: This is referring to the in/out animation of images
-                        em.pty+qsTranslate("settingsmanager", "along x-axis"),
+                        em.pty+qsTranslate("settingsmanager_imageview", "along x-axis"),
                         //: This is referring to the in/out animation of images
-                        em.pty+qsTranslate("settingsmanager", "along y-axis")]
+                        em.pty+qsTranslate("settingsmanager_imageview", "along y-axis")]
             }
 
             Item {
@@ -42,7 +42,7 @@ PQSetting {
                     height: anim_type.height
                     verticalAlignment: Text.AlignVCenter
                     //: This is referring to the in/out animation of images
-                    text: em.pty+qsTranslate("settingsmanager", "no animation")
+                    text: em.pty+qsTranslate("settingsmanager_imageview", "no animation")
                     color: "white"
                 }
 
@@ -57,7 +57,7 @@ PQSetting {
                     height: anim_type.height
                     verticalAlignment: Text.AlignVCenter
                     //: This is referring to the in/out animation of images
-                    text: em.pty+qsTranslate("settingsmanager", "long animation")
+                    text: em.pty+qsTranslate("settingsmanager_imageview", "long animation")
                     color: "white"
                 }
 

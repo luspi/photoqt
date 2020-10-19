@@ -60,8 +60,8 @@ Rectangle {
             width: childrenRect.width
             Text {
                 id: count_txt
-                //: the placeholder will be replaced with the number of enabled file endings, as in '10 [file endings] enabled'
-                text: em.pty+qsTranslate("settingsmanager", "%1 enabled").arg("<b>"+counter+"</b>")
+                //: the placeholder will be replaced with the number of enabled file endings, as in: 10 [file endings] enabled
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "%1 enabled").arg("<b>"+counter+"</b>")
                 color: "white"
                 font.pointSize: 12
                 property int counter: 0
@@ -81,9 +81,9 @@ Rectangle {
 
         PQButton {
             forceWidth: parent.width
-            //: used as in 'enable all default file endings'
-            text: em.pty+qsTranslate("settingsmanager", "enable default")
-            tooltip: em.pty+qsTranslate("settingsmanager", "Enable default file endings")
+            //: used as in: enable all default file endings
+            text: em.pty+qsTranslate("settingsmanager_filetypes", "enable default")
+            tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Enable default file endings")
             onClicked: {
                 for(var key in tile_top.checkedItems)
                     tile_top.checkedItems[key] = (tile_top.defaultEnabled.indexOf(key) != -1)
@@ -93,10 +93,10 @@ Rectangle {
 
         PQButton {
             forceWidth: parent.width
-            //: used as in 'disable this category of file types'
-            text: em.pty+qsTranslate("settingsmanager", "disable")
-            //: used as in 'disable this category of file types'
-            tooltip: em.pty+qsTranslate("settingsmanager", "Disable this category")
+            //: used as in: disable this category of file types
+            text: em.pty+qsTranslate("settingsmanager_filetypes", "disable")
+            //: used as in: disable this category of file types
+            tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Disable this category")
             onClicked: {
                 for(var key in tile_top.checkedItems)
                     tile_top.checkedItems[key] = false
@@ -107,9 +107,9 @@ Rectangle {
         PQButton {
             forceWidth: parent.width
             //: used on button to show some advanced settings for some file types
-            text: em.pty+qsTranslate("settingsmanager", "advanced fine-tuning")
+            text: em.pty+qsTranslate("settingsmanager_filetypes", "advanced fine-tuning")
             //: used for tooltip on button that is used to show advanced settings for some file types
-            tooltip: em.pty+qsTranslate("settingsmanager", "Fine-tune enabled fine endings")
+            tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Fine-tune enabled fine endings")
             onClicked:
                 advanced.show()
         }

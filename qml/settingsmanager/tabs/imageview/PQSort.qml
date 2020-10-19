@@ -6,8 +6,8 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager", "sort images by")
-    helptext: em.pty+qsTranslate("settingsmanager", "Sort all images in a folder by the set property.")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "sort images by")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Sort all images in a folder by the set property.")
     content: [
 
         Flow  {
@@ -18,29 +18,29 @@ PQSetting {
             PQComboBox {
                 id: sort_combo
                 //: A criteria for sorting images
-                model: [em.pty+qsTranslate("settingsmanager", "natural name"),
+                model: [em.pty+qsTranslate("settingsmanager_imageview", "natural name"),
                         //: A criteria for sorting images
-                        em.pty+qsTranslate("settingsmanager", "name"),
+                        em.pty+qsTranslate("settingsmanager_imageview", "name"),
                         //: A criteria for sorting images
-                        em.pty+qsTranslate("settingsmanager", "time"),
+                        em.pty+qsTranslate("settingsmanager_imageview", "time"),
                         //: A criteria for sorting images
-                        em.pty+qsTranslate("settingsmanager", "size"),
+                        em.pty+qsTranslate("settingsmanager_imageview", "size"),
                         //: A criteria for sorting images
-                        em.pty+qsTranslate("settingsmanager", "type")]
+                        em.pty+qsTranslate("settingsmanager_imageview", "type")]
             }
 
             PQRadioButton {
                 id: sort_asc
                 height: sort_combo.height
                 //: Sort images in ascending order
-                text: em.pty+qsTranslate("settingsmanager", "ascending")
+                text: em.pty+qsTranslate("settingsmanager_imageview", "ascending")
             }
 
             PQRadioButton {
                 id: sort_desc
                 height: sort_combo.height
                 //: Sort images in descending order
-                text: em.pty+qsTranslate("settingsmanager", "descending")
+                text: em.pty+qsTranslate("settingsmanager_imageview", "descending")
             }
 
         }

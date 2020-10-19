@@ -89,7 +89,7 @@ Rectangle {
             font.bold: true
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-            //: Used as in 'Loading the image at the moment'. Please try to keep as short as possible!
+            //: Used as in: Loading the image at the moment. Please try to keep as short as possible!
             text: em.pty+qsTranslate("other", "Loading")
 
         }

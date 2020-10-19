@@ -396,7 +396,7 @@ QString PQMetaData::analyzeFlash(const QString val) {
 
     //: This string identifies that flash was fired, stored in image metadata
     QString fYes = tr("yes");
-    //: This string identifies that flash wasn't fired, stored in image metadata
+    //: This string identifies that flash was not fired, stored in image metadata
     QString fNo = tr("no");
     //: This string refers to the absense of a flash, stored in image metadata
     QString fNoFlash = tr("No flash function");

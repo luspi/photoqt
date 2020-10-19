@@ -5,18 +5,18 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title referring to the visibility of the thumbnails, i.e., if and when to hide them.
-    title: em.pty+qsTranslate("settingsmanager", "visibility")
-    helptext: em.pty+qsTranslate("settingsmanager", "If and how to keep thumbnails visible")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "visibility")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "If and how to keep thumbnails visible")
     content: [
 
         PQComboBox {
             id: thb_vis
                     //: This is talking about the thumbnails.
-            model: [em.pty+qsTranslate("settingsmanager", "hide when not needed"),
+            model: [em.pty+qsTranslate("settingsmanager_thumbnails", "hide when not needed"),
                     //: This is talking about the thumbnails.
-                    em.pty+qsTranslate("settingsmanager", "never hide"),
+                    em.pty+qsTranslate("settingsmanager_thumbnails", "never hide"),
                     //: This is talking about the thumbnails.
-                    em.pty+qsTranslate("settingsmanager", "hide when zoomed in")]
+                    em.pty+qsTranslate("settingsmanager_thumbnails", "hide when zoomed in")]
         }
 
     ]

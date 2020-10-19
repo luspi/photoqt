@@ -32,7 +32,7 @@ Rectangle {
             id: cat
             color: "white"
             //: Category here refers to shortcut categories.
-            text: em.pty+qsTranslate("settingsmanager", "Category")
+            text: em.pty+qsTranslate("settingsmanager_shortcuts", "Category")
             font.bold: true
             font.pointSize: 12
             x: (parent.width-width)/2
@@ -62,15 +62,15 @@ Rectangle {
                 width: parent.width/2
                 horizontalAlignment: Text.AlignHCenter
                 color: "white"
-                //: 'Active shortcuts' as in 'set shortcuts' or 'enabled shortcuts'.
-                text: em.pty+qsTranslate("settingsmanager", "Active shortcuts")
+                //: As in: enabled shortcuts
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "Active shortcuts")
             }
             Text {
                 width: parent.width/2
                 horizontalAlignment: Text.AlignHCenter
                 color: "white"
                 //: Available commands that can be used for shortcuts.
-                text: em.pty+qsTranslate("settingsmanager", "Available commands")
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "Available commands")
             }
         }
 

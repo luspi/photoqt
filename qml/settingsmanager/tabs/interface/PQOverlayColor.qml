@@ -7,8 +7,8 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager", "overlay color")
-    helptext: em.pty+qsTranslate("settingsmanager", "This is the color that is shown on top of any background image/...")
+    title: em.pty+qsTranslate("settingsmanager_interface", "overlay color")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "This is the color that is shown on top of any background image/...")
     expertmodeonly: true
     property var rgba: [PQSettings.backgroundColorRed, PQSettings.backgroundColorGreen, PQSettings.backgroundColorBlue, PQSettings.backgroundColorAlpha]
     content: [
@@ -33,7 +33,7 @@ PQSetting {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: em.pty+qsTranslate("settingsmanager", "click to change color")
+                tooltip: em.pty+qsTranslate("settingsmanager_interface", "click to change color")
                 onClicked: {
                     colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
                     colorDialog.visible = true
@@ -46,7 +46,7 @@ PQSetting {
 
     ColorDialog {
         id: colorDialog
-        title: em.pty+qsTranslate("settingsmanager", "please choose a color")
+        title: em.pty+qsTranslate("settingsmanager_interface", "please choose a color")
         showAlphaChannel: true
         modality: Qt.ApplicationModal
         onAccepted:

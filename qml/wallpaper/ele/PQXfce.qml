@@ -65,7 +65,7 @@ Column {
             x: (parent.width-width)/2
             color: "white"
             font.pointSize: 15
-            //: As in 'set wallpaper to which screens'
+            //: As in: Set wallpaper to which screens
             text: em.pty+qsTranslate("wallpaper", "Set to which screens")
         }
 

@@ -5,14 +5,14 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager", "transparency marker")
-    helptext: em.pty+qsTranslate("settingsmanager", "Show checkerboard pattern behind transparent areas of (half-)transparent images.")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "transparency marker")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Show checkerboard pattern behind transparent areas of (half-)transparent images.")
     content: [
 
         PQCheckbox {
             id: trans_chk
             //: Setting for how to display images that have transparent areas, whether to show checkerboard pattern in that area or not
-            text: em.pty+qsTranslate("settingsmanager", "show checkerboard pattern")
+            text: em.pty+qsTranslate("settingsmanager_imageview", "show checkerboard pattern")
         }
 
     ]

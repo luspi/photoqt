@@ -37,7 +37,7 @@ Rectangle {
         color: "white"
         font.pointSize: 18
         font.bold: true
-        text: em.pty+qsTranslate("settingsmanager", "Press any key combination, or perform any mouse gesture.")
+        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Press any key combination, or perform any mouse gesture.")
     }
 
     Text {
@@ -50,7 +50,7 @@ Rectangle {
         color: "#888888"
         font.pointSize: 15
         font.bold: true
-        text: em.pty+qsTranslate("settingsmanager", "Current shortcut:") + " <b>" + previouscombo + "</b>"
+        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Current shortcut:") + " <b>" + previouscombo + "</b>"
     }
 
     Text {
@@ -163,7 +163,7 @@ Rectangle {
         x: (parent.width-width)/2
         y: parent.height-height-20
         scale: 1.5
-        text: em.pty+qsTranslate("settingsmanager", "Cancel")
+        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Cancel")
         onClicked: {
             currentcombo = ""
             canceltimer.stop()
