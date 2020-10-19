@@ -5,8 +5,10 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "face tags - font size"
-    helptext: "The font size of the name labels."
+    //: A settings title. The face tags are labels that can be shown (if available) on people's faces including their name.
+    title: em.pty+qsTranslate("settingsmanager", "face tags - font size")
+    //: The name labels here are the labels with the name used for the face tags.
+    helptext: em.pty+qsTranslate("settingsmanager", "The font size of the name labels.")
     expertmodeonly: true
     content: [
 

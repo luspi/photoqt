@@ -4,13 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "looping"
-    helptext: "What to do when the end of a folder has been reacher: stop or loop back to first image in folder."
+    //: A settings title for looping through images in folder
+    title: em.pty+qsTranslate("settingsmanager", "looping")
+    helptext: em.pty+qsTranslate("settingsmanager", "What to do when the end of a folder has been reacher: stop or loop back to first image in folder.")
     content: [
 
         PQCheckbox {
             id: loop_check
-            text: "loop through images in folder"
+            text: em.pty+qsTranslate("settingsmanager", "loop through images in folder")
         }
 
     ]

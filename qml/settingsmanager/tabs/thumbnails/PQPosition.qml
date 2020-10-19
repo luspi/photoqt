@@ -4,14 +4,18 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "position"
-    helptext: "Which edge to show the thumbnails on, upper or lower edge."
+    //: A settings title referring to the position of the thumbnails (upper or lower edge of PhotoQt).
+    title: em.pty+qsTranslate("settingsmanager", "position")
+    helptext: em.pty+qsTranslate("settingsmanager", "Which edge to show the thumbnails on, upper or lower edge.")
     content: [
 
         PQComboBox {
             id: edge
             y: (parent.height-height)/2
-            model: ["upper edge", "lower edge"]
+            //: The upper edge of PhotoQt
+            model: [em.pty+qsTranslate("settingsmanager", "upper edge"),
+                    //: The lower edge of PhotoQt
+                    em.pty+qsTranslate("settingsmanager", "lower edge")]
         }
 
     ]

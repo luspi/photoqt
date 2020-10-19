@@ -5,8 +5,10 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "animation"
-    helptext: "What type of animation to show, and how fast."
+    //: A settings title referring to the in/out animation of images
+    title: em.pty+qsTranslate("settingsmanager", "animation")
+    //: This is referring to the in/out animation of images
+    helptext: em.pty+qsTranslate("settingsmanager", "What type of animation to show, and how fast.")
     content: [
 
         Flow {
@@ -16,9 +18,15 @@ PQSetting {
 
             PQComboBox {
                 id: anim_type
-                tooltip: "type of animation"
+                //: This is referring to the in/out animation of images
+                tooltip: em.pty+qsTranslate("settingsmanager", "type of animation")
                 y: (parent.height-height)/2
-                model: ["opacity", "along x-axis", "along y-axis"]
+                //: This is referring to the in/out animation of images
+                model: [em.pty+qsTranslate("settingsmanager", "opacity"),
+                        //: This is referring to the in/out animation of images
+                        em.pty+qsTranslate("settingsmanager", "along x-axis"),
+                        //: This is referring to the in/out animation of images
+                        em.pty+qsTranslate("settingsmanager", "along y-axis")]
             }
 
             Item {
@@ -33,7 +41,8 @@ PQSetting {
                 Text {
                     height: anim_type.height
                     verticalAlignment: Text.AlignVCenter
-                    text: "no animation"
+                    //: This is referring to the in/out animation of images
+                    text: em.pty+qsTranslate("settingsmanager", "no animation")
                     color: "white"
                 }
 
@@ -47,7 +56,8 @@ PQSetting {
                 Text {
                     height: anim_type.height
                     verticalAlignment: Text.AlignVCenter
-                    text: "long animation"
+                    //: This is referring to the in/out animation of images
+                    text: em.pty+qsTranslate("settingsmanager", "long animation")
                     color: "white"
                 }
 

@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "filename label"
-    helptext: "Show the filename on a small label on the thumbnail image."
+    //: A settings title. The filename label here is the one that is written on thumbnails.
+    title: em.pty+qsTranslate("settingsmanager", "filename label")
+    helptext: em.pty+qsTranslate("settingsmanager", "Show the filename on a small label on the thumbnail image.")
     content: [
 
         Column {
@@ -19,7 +20,7 @@ PQSetting {
                 PQCheckbox {
                     id: fnamelabel_chk
                     y: (parent.height-height)/2
-                    text: "enable"
+                    text: em.pty+qsTranslate("settingsmanager", "enable")
                 }
 
             }
@@ -31,7 +32,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: fnamelabel_chk.checked ? "white" : "#cccccc"
-                    text: "font size:"
+                    text: em.pty+qsTranslate("settingsmanager", "font size:")
                 }
 
                 Text {

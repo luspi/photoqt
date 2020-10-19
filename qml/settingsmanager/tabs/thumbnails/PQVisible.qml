@@ -4,15 +4,19 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "visibility"
-    helptext: "If and how to keep thumbnails visible"
+    //: A settings title referring to the visibility of the thumbnails, i.e., if and when to hide them.
+    title: em.pty+qsTranslate("settingsmanager", "visibility")
+    helptext: em.pty+qsTranslate("settingsmanager", "If and how to keep thumbnails visible")
     content: [
 
         PQComboBox {
             id: thb_vis
-            model: ["hide when not needed",
-                    "never hide",
-                    "hide when zoomed in"]
+                    //: This is talking about the thumbnails.
+            model: [em.pty+qsTranslate("settingsmanager", "hide when not needed"),
+                    //: This is talking about the thumbnails.
+                    em.pty+qsTranslate("settingsmanager", "never hide"),
+                    //: This is talking about the thumbnails.
+                    em.pty+qsTranslate("settingsmanager", "hide when zoomed in")]
         }
 
     ]

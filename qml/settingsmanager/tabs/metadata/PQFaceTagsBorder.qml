@@ -6,8 +6,9 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "face tags - border"
-    helptext: "If and what style of border to show around tagged faces."
+    //: A settings title. The face tags are labels that can be shown (if available) on people's faces including their name.
+    title: em.pty+qsTranslate("settingsmanager", "face tags - border")
+    helptext: em.pty+qsTranslate("settingsmanager", "If and what style of border to show around tagged faces.")
     expertmodeonly: true
     property var rgba: handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
     content: [
@@ -18,7 +19,8 @@ PQSetting {
 
             PQCheckbox {
                 id: ft_border
-                text: "show border"
+                //: The border here is the border around face tags.
+                text: em.pty+qsTranslate("settingsmanager", "show border")
             }
 
             Row {
@@ -70,7 +72,7 @@ PQSetting {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    tooltip: "Click to change color"
+                    tooltip: em.pty+qsTranslate("settingsmanager", "click to change color")
                     onClicked: {
                         colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
                         colorDialog.visible = true
@@ -85,14 +87,11 @@ PQSetting {
 
     ColorDialog {
         id: colorDialog
-        title: "Please choose a color"
+        title: em.pty+qsTranslate("settingsmanager", "please choose a color")
         showAlphaChannel: true
         modality: Qt.ApplicationModal
         onAccepted:
             rgba = handlingGeneral.convertHexToRgba(colorDialog.color)
-        onRejected: {
-            console.log("Canceled")
-        }
     }
 
     Connections {

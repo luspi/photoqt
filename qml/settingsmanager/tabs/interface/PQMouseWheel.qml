@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "mouse wheel sensitivity"
-    helptext: "How sensitive the mouse wheel is for shortcuts/..."
+    //: A settings title.
+    title: em.pty+qsTranslate("settingsmanager", "mouse wheel sensitivity")
+    helptext: em.pty+qsTranslate("settingsmanager", "How sensitive the mouse wheel is for shortcuts, etc.")
     expertmodeonly: true
     content: [
         Row {
@@ -13,7 +14,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "not sensitive"
+                //: The sensitivity here refers to the sensitivity of the mouse wheel
+                text: em.pty+qsTranslate("settingsmanager", "not sensitive")
             }
 
             PQSlider {
@@ -28,7 +30,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "very sensitive"
+                //: The sensitivity here refers to the sensitivity of the mouse wheel
+                text: em.pty+qsTranslate("settingsmanager", "very sensitive")
             }
         }
     ]

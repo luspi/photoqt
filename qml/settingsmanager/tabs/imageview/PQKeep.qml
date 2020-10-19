@@ -4,14 +4,15 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "remember per session"
-    helptext: "By default, PhotoQt resets the zoom, rotation, flipping/mirroring and position when switching to a different image. For certain tasks, for example for comparing two images, it can be helpful to keep these properties."
+    //: A settings title
+    title: em.pty+qsTranslate("settingsmanager", "remember per session")
+    helptext: em.pty+qsTranslate("settingsmanager", "By default, PhotoQt resets the zoom, rotation, flipping/mirroring and position when switching to a different image. For certain tasks, for example for comparing two images, it can be helpful to keep these properties.")
     expertmodeonly: true
     content: [
 
         PQCheckbox {
             id: remember
-            text: "remember zoom, rotation, flip, position"
+            text: em.pty+qsTranslate("settingsmanager", "remember zoom, rotation, flip, position")
         }
 
     ]

@@ -5,13 +5,15 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "quick info"
-    helptext: "The quick info refers to the labels along the top edge of the main view."
+    //: A settings title.
+    title: em.pty+qsTranslate("settingsmanager", "quick info")
+    helptext: em.pty+qsTranslate("settingsmanager", "The quick info refers to the labels along the top edge of the main view.")
     content: [
 
         PQCheckbox {
             id: quick_show
-            text: "show quick info"
+            //: checkbox in settings manager
+            text: em.pty+qsTranslate("settingsmanager", "show quick info")
             opacity: variables.settingsManagerExpertMode ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
@@ -51,7 +53,8 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_counter
-                    text: "counter"
+                    //: refers to the image counter (i.e., image #/# in current folder)
+                    text: em.pty+qsTranslate("settingsmanager", "counter")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -63,7 +66,8 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_filepath
-                    text: "filepath"
+                    //: show filepath in the quickinfo. This is specifically the filePATH and not the filename.
+                    text: em.pty+qsTranslate("settingsmanager", "filepath")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -74,7 +78,8 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_filename
-                    text: "filename"
+                    //: show filename in the quickinfo. This is specifically the fileNAME and not the filepath.
+                    text: em.pty+qsTranslate("settingsmanager", "filename")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -85,7 +90,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_zoom
-                    text: "current zoom level"
+                    text: em.pty+qsTranslate("settingsmanager", "current zoom level")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -96,7 +101,8 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_exit
-                    text: "exit button"
+                    //: the exit button is the 'x' shown in the top right corner of the window
+                    text: em.pty+qsTranslate("settingsmanager", "exit button")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -115,7 +121,8 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: "white"
-                    text: "size of exit button:"
+                    //: the size of the exit button (the 'x' shown in the top right corner of the window)
+                    text: em.pty+qsTranslate("settingsmanager", "size of exit button") + ":"
                 }
                 PQSlider {
                     id: quick_exitsize

@@ -5,13 +5,21 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "face tags - visibility"
-    helptext: "When to show the face tags and for how long."
+    //: A settings title. The face tags are labels that can be shown (if available) on people's faces including their name.
+    title: em.pty+qsTranslate("settingsmanager", "face tags - visibility")
+    helptext: em.pty+qsTranslate("settingsmanager", "When to show the face tags and for how long.")
     content: [
 
         PQComboBox {
             id: ft_combo
-            model: ["hybrid mode", "always show all", "show one on hover", "show all on hover"]
+            //: A mode for showing face tags.
+            model: [em.pty+qsTranslate("settingsmanager", "hybrid mode"),
+                    //: A mode for showing face tags.
+                    em.pty+qsTranslate("settingsmanager", "always show all"),
+                    //: A mode for showing face tags.
+                    em.pty+qsTranslate("settingsmanager", "show one on hover"),
+                    //: A mode for showing face tags.
+                    em.pty+qsTranslate("settingsmanager", "show all on hover")]
         }
 
     ]

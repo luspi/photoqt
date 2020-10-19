@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "size"
-    helptext: "How large the thumbnails should be."
+    //: A settings title referring to the size of the thumbnails.
+    title: em.pty+qsTranslate("settingsmanager", "size")
+    helptext: em.pty+qsTranslate("settingsmanager", "How large (or small) the thumbnails should be.")
     content: [
 
         Row {

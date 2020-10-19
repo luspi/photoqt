@@ -37,7 +37,7 @@ Rectangle {
         color: "white"
         font.pointSize: 18
         font.bold: true
-        text: "Press any key combination, or perform any mouse gesture."
+        text: em.pty+qsTranslate("settingsmanager", "Press any key combination, or perform any mouse gesture.")
     }
 
     Text {
@@ -50,7 +50,7 @@ Rectangle {
         color: "#888888"
         font.pointSize: 15
         font.bold: true
-        text: "Current shortcut: <b>" + previouscombo + "</b>"
+        text: em.pty+qsTranslate("settingsmanager", "Current shortcut:") + " <b>" + previouscombo + "</b>"
     }
 
     Text {
@@ -128,7 +128,7 @@ Rectangle {
         onPressed: {
             pressedEventInProgress = true
             pressedPosLast = Qt.point(mouse.x, mouse.y)
-            currentcombo = (mouse.button == Qt.LeftButton ? "Left Button" : (mouse.button == Qt.MiddleButton ? "Middle Button" : "Right Button"))
+            currentcombo = (mouse.button == Qt.LeftButton ? keymousestrings.translateShortcut("Left Button") : (mouse.button == Qt.MiddleButton ? keymousestrings.translateShortcut("Middle Button") : keymousestrings.translateShortcut("Right Button")))
             cat_keys.opacity = 0.2
             cat_mouse.opacity = 0.8
         }
@@ -141,7 +141,7 @@ Rectangle {
                     if(!currentcombo.endsWith(mov)) {
                         if(!(currentcombo.endsWith("N") || currentcombo.endsWith("S") || currentcombo.endsWith("E") || currentcombo.endsWith("W")))
                             currentcombo += "+"
-                        currentcombo += mov
+                        currentcombo += keymousestrings.translateShortcut(mov)
                     }
                     pressedPosLast = Qt.point(mouse.x, mouse.y)
                 }
@@ -163,7 +163,7 @@ Rectangle {
         x: (parent.width-width)/2
         y: parent.height-height-20
         scale: 1.5
-        text: "Cancel"
+        text: em.pty+qsTranslate("settingsmanager", "Cancel")
         onClicked: {
             currentcombo = ""
             canceltimer.stop()

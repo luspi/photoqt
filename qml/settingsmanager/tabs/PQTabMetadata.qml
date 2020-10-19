@@ -51,7 +51,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: em.pty+qsTranslate("settingsmanager", "These settings affect the metadata element, what information it should show and some of its behavior.\nSome settings are only shown in expert mode.")
+                text: em.pty+qsTranslate("settingsmanager", "These settings affect the metadata element, what information it should show and some of its behavior.") + "\n" + em.pty+qsTranslate("settingsmanager", "Some settings are only shown in expert mode.")
             }
 
             PQMetaData { id: mtd }

@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "pixmap cache"
-    helptext: "Size of runtime cache for fully loaded images. This cache is cleared when the application quits."
+    //: A settings title
+    title: em.pty+qsTranslate("settingsmanager", "pixmap cache")
+    helptext: em.pty+qsTranslate("settingsmanager", "Size of runtime cache for fully loaded images. This cache is cleared when the application quits.")
     expertmodeonly: true
     content: [
 
@@ -16,7 +17,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "off"
+                //: 'off' as in 'pixmap cache turned off'
+                text: em.pty+qsTranslate("settingsmanager", "off")
             }
 
             PQSlider {

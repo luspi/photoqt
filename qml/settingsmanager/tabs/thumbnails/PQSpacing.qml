@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "spacing"
-    helptext: "How much space to show between the thumbnails."
+    //: A settings title referring to the spacing of thumbnails, i.e., how much empty space to have between each.
+    title: em.pty+qsTranslate("settingsmanager", "spacing")
+    helptext: em.pty+qsTranslate("settingsmanager", "How much space to show between the thumbnails.")
     content: [
 
         Row {

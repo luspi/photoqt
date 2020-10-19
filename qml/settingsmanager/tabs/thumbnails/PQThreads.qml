@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "threads"
-    helptext: "How many threads to use to create thumbnails. Too many threads can slow down your computer!"
+    //: A settings title, as in 'how many threads to use to generate thumbnails'.
+    title: em.pty+qsTranslate("settingsmanager", "threads")
+    helptext: em.pty+qsTranslate("settingsmanager", "How many threads to use to create thumbnails. Too many threads can slow down your computer!")
     expertmodeonly: true
     content: [
 
@@ -24,7 +25,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 from: 1
                 to: 8
-                toolTipSuffix: " threads"
+                toolTipPrefix: em.pty+qsTranslate("settingsmanager", "Threads:") + " "
             }
 
             Text {

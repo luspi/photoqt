@@ -72,12 +72,12 @@ Item {
             property int currentIndex: 0
             property int count: tabs.length
 
-            property var tabs: [["interface", "Tab to control interface settings"],
-                                ["image view", "Tab to control how images are viewed"],
-                                ["thumbnails", "Tab to control the look and behaviour of thumbnails"],
-                                ["metadata", "Tab to control metadata settings"],
-                                ["file types", "Tab to control which file types PhotoQt should recognize"],
-                                ["shortcuts", "Tab to control which shortcuts are set"]]
+            property var tabs: [["interface", em.pty+qsTranslate("settingsmanager", "Tab to control interface settings")],
+                                ["image view", em.pty+qsTranslate("settingsmanager", "Tab to control how images are viewed")],
+                                ["thumbnails", em.pty+qsTranslate("settingsmanager", "Tab to control the look and behaviour of thumbnails")],
+                                ["metadata", em.pty+qsTranslate("settingsmanager", "Tab to control metadata settings")],
+                                ["file types", em.pty+qsTranslate("settingsmanager", "Tab to control which file types PhotoQt should recognize")],
+                                ["shortcuts", em.pty+qsTranslate("settingsmanager", "Tab to control which shortcuts are set")]]
 
             Repeater {
 
@@ -182,17 +182,18 @@ Item {
             PQButton {
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
-                text: "advanced"
+                //: Written on button in setting manager. A click on this button opens a menu with some advanced actions.
+                text: em.pty+qsTranslate("settingsmanager", "advanced")
                 clickOpensMenu: true
                 menuOpenDownward: false
                 buttonSameWidthAsMenu: true
-                listMenuItems: ["import settings", "export settings", (variables.settingsManagerExpertMode ? "disable expert mode" : "enable expert mode")]
+                listMenuItems: [em.pty+qsTranslate("settingsmanager", "import settings"),
+                                em.pty+qsTranslate("settingsmanager", "export settings"),
+                                (variables.settingsManagerExpertMode ? em.pty+qsTranslate("settingsmanager", "disable expert mode") : em.pty+qsTranslate("settingsmanager", "enable expert mode"))]
                 onMenuItemClicked: {
                     if(pos == 0) {
-                        console.log("import")
                         openFileDialog.visible = true
                     } else if(pos == 1) {
-                        console.log("export")
                         saveFileDialog.visible = true
                     } else if(pos == 2) {
                         variables.settingsManagerExpertMode = !variables.settingsManagerExpertMode
@@ -207,7 +208,7 @@ Item {
             folder: "file://"+handlingFileDialog.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.SaveFile
-            nameFilters: ["PhotoQt backup (*.pqt)"]
+            nameFilters: ["PhotoQt (*.pqt)"]
             onAccepted: {
                 if(saveFileDialog.file != "")
                     handlingExternal.exportConfigTo(handlingFileDialog.cleanPath(saveFileDialog.file))
@@ -223,11 +224,11 @@ Item {
             folder: "file://"+handlingFileDialog.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.OpenFile
-            nameFilters: ["PhotoQt backup (*.pqt)"]
+            nameFilters: ["PhotoQt (*.pqt)"]
             onAccepted: {
                 if(openFileDialog.file != "") {
-                    var yes = handlingGeneral.askForConfirmation("Import of '" + handlingGeneral.getFileNameFromFullPath(openFileDialog.file) + "'. This will replace your current settings with the ones stored in the backup.",
-                                                                 "Do you want to continue?")
+                    var yes = handlingGeneral.askForConfirmation(em.pty+qsTranslate("settingsmanager", "Import of %1. This will replace your current settings with the ones stored in the backup.").arg("'" + handlingGeneral.getFileNameFromFullPath(openFileDialog.file) + "'"),
+                                                                 em.pty+qsTranslate("settingsmanager", "Do you want to continue?"))
                     if(yes) {
                         handlingExternal.importConfigFrom(handlingFileDialog.cleanPath(openFileDialog.file) )
                         rst.start()
@@ -277,8 +278,7 @@ Item {
 
                 PQButton {
                     id: button_ok
-                    //: Written on a clickable button - please keep short
-                    text: "Save Changes and Exit"
+                    text: em.pty+qsTranslate("settingsmanager", "Save changes and exit")
                     onClicked: {
                         if(!modalWindowOpen) {
                             saveSettings()
@@ -289,7 +289,7 @@ Item {
                 }
                 PQButton {
                     id: button_cancel
-                    text: "Exit and Discard Changes"
+                    text: em.pty+qsTranslate("settingsmanager", "Exit and discard changes")
                     onClicked: {
                         if(modalWindowOpen)
                             closeModalWindow()

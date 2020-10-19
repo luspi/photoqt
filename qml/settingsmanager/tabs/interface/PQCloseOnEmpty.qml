@@ -4,12 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "empty area around image"
-    helptext: "How to handle clicks on empty area around images."
+    //: A settings title
+    title: em.pty+qsTranslate("settingsmanager", "empty area around image")
+    helptext: em.pty+qsTranslate("settingsmanager", "How to handle clicks on empty area around images.")
     content: [
         PQCheckbox {
             id: closecheck
-            text: "close on click"
+            //: Used as in 'close PhotoQt on click on empty area around main image'
+            text: em.pty+qsTranslate("settingsmanager", "close on click")
         }
 
     ]

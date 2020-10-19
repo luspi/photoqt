@@ -43,19 +43,28 @@ Item {
                 font.pointSize: 12
                 width: cont.width-30
                 wrapMode: Text.WordWrap
-                text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be adjusted, new ones added and existing ones removed. Any key combination or mouse gesture can be used.\nBelow the shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. A click on any available command starts the process of adding a new shortcut.")
+                text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be adjusted, new ones added and existing ones removed. Any key combination or mouse gesture can be used.") + "\n" + em.pty+qsTranslate("settingsmanager", "Below the shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. A click on any available command starts the process of adding a new shortcut.")
             }
 
             PQContainer {
                 id: sh_nav
+                //: A shortcuts category: navigation
                 category: em.pty+qsTranslate("settingsmanager", "Navigation")
+                            //: Name of shortcut action
                 available: [["__open", em.pty+qsTranslate("settingsmanager", "Open new file")],
+                            //: Name of shortcut action
                             ["__filterImages", em.pty+qsTranslate("settingsmanager", "Filter images in folder"), "__filterImages"],
+                            //: Name of shortcut action
                             ["__next", em.pty+qsTranslate("settingsmanager", "Next image"), "__next"],
+                            //: Name of shortcut action
                             ["__prev", em.pty+qsTranslate("settingsmanager", "Previous image"), "__prev"],
+                            //: Name of shortcut action
                             ["__gotoFirstThb", em.pty+qsTranslate("settingsmanager", "Go to first image"), "__gotoFirstThb"],
+                            //: Name of shortcut action
                             ["__gotoLastThb", em.pty+qsTranslate("settingsmanager", "Go to last image"), "__gotoLastThb"],
+                            //: Name of shortcut action
                             ["__close", em.pty+qsTranslate("settingsmanager", "Hide to system tray (if enabled)"), "__close"],
+                            //: Name of shortcut action
                             ["__quit", em.pty+qsTranslate("settingsmanager", "Quit PhotoQt"), "__quit"]]
             }
 
@@ -63,17 +72,29 @@ Item {
                 id: sh_img
                 //: A shortcuts category: image manipulation
                 category: em.pty+qsTranslate("settingsmanager", "Image")
+                            //: Name of shortcut action
                 available: [["__zoomIn", em.pty+qsTranslate("settingsmanager", "Zoom In")],
+                            //: Name of shortcut action
                             ["__zoomOut", em.pty+qsTranslate("settingsmanager", "Zoom Out")],
+                            //: Name of shortcut action
                             ["__zoomActual", em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size")],
+                            //: Name of shortcut action
                             ["__zoomReset", em.pty+qsTranslate("settingsmanager", "Reset Zoom")],
+                            //: Name of shortcut action
                             ["__rotateR", em.pty+qsTranslate("settingsmanager", "Rotate Right")],
+                            //: Name of shortcut action
                             ["__rotateL", em.pty+qsTranslate("settingsmanager", "Rotate Left")],
+                            //: Name of shortcut action
                             ["__rotate0", em.pty+qsTranslate("settingsmanager", "Reset Rotation")],
+                            //: Name of shortcut action
                             ["__flipH", em.pty+qsTranslate("settingsmanager", "Flip Horizontally")],
+                            //: Name of shortcut action
                             ["__flipV", em.pty+qsTranslate("settingsmanager", "Flip Vertically")],
+                            //: Name of shortcut action
                             ["__scale", em.pty+qsTranslate("settingsmanager", "Scale Image")],
+                            //: Name of shortcut action
                             ["__playPauseAni", em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video")],
+                            //: Name of shortcut action
                             ["__tagFaces", em.pty+qsTranslate("settingsmanager", "Tag faces (stored in metadata)")]]
             }
 
@@ -81,11 +102,17 @@ Item {
                 id: sh_fil
                 //: A shortcuts category: file management
                 category: em.pty+qsTranslate("settingsmanager", "File")
+                            //: Name of shortcut action
                 available: [["__rename", em.pty+qsTranslate("settingsmanager", "Rename File")],
+                            //: Name of shortcut action
                             ["__delete", em.pty+qsTranslate("settingsmanager", "Delete File")],
+                            //: Name of shortcut action
                             ["__deletePermanent", em.pty+qsTranslate("settingsmanager", "Delete File (without confirmation)")],
+                            //: Name of shortcut action
                             ["__copy", em.pty+qsTranslate("settingsmanager", "Copy File to a New Location")],
+                            //: Name of shortcut action
                             ["__move", em.pty+qsTranslate("settingsmanager", "Move File to a New Location")],
+                            //: Name of shortcut action
                             ["__clipboard", em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")]]
             }
 
@@ -93,14 +120,23 @@ Item {
                 id: sh_oth
                 //: A shortcuts category: other functions
                 category: em.pty+qsTranslate("settingsmanager", "Other")
+                            //: Name of shortcut action
                 available: [["__hideMeta", em.pty+qsTranslate("settingsmanager", "Hide/Show Exif Info")],
+                            //: Name of shortcut action
                             ["__settings", em.pty+qsTranslate("settingsmanager", "Show Settings")],
+                            //: Name of shortcut action
                             ["__slideshow", em.pty+qsTranslate("settingsmanager", "Start Slideshow")],
+                            //: Name of shortcut action
                             ["__slideshowQuick", em.pty+qsTranslate("settingsmanager", "Start Slideshow (Quickstart)")],
+                            //: Name of shortcut action
                             ["__about", em.pty+qsTranslate("settingsmanager", "About PhotoQt")],
+                            //: Name of shortcut action
                             ["__wallpaper", em.pty+qsTranslate("settingsmanager", "Set as Wallpaper")],
+                            //: Name of shortcut action
                             ["__histogram", em.pty+qsTranslate("settingsmanager", "Show Histogram")],
+                            //: Name of shortcut action
                             ["__imgurAnonym", em.pty+qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)")],
+                            //: Name of shortcut action
                             ["__imgur", em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account")]]
             }
 
@@ -108,6 +144,7 @@ Item {
                 id: sh_ext
                 //: A shortcuts category: external shortcuts
                 category: em.pty+qsTranslate("settingsmanager", "External")
+                //: Please leave the three placeholders (%f, %u, %d) as is.
                 subtitle: em.pty+qsTranslate("settingsmanager", "%f = filename including path, %u = filename without path, %d = directory containing file")
                 thisIsAnExternalCategory: true
             }

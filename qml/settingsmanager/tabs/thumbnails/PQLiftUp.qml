@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "lift up"
-    helptext: "How many pixels to lift up thumbnails when either hovered or active."
+    //: A settings title. This refers to the lift up of thumbnail images when active/hovered.
+    title: em.pty+qsTranslate("settingsmanager", "lift up")
+    helptext: em.pty+qsTranslate("settingsmanager", "How many pixels to lift up thumbnails when either hovered or active.")
     content: [
 
         Row {

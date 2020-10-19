@@ -4,13 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "fit in window"
-    helptext: "Zoom smaller images to fill the full window width and/or height."
+    //: A settings title referring to whether to fit images in window
+    title: em.pty+qsTranslate("settingsmanager", "fit in window")
+    helptext: em.pty+qsTranslate("settingsmanager", "Zoom smaller images to fill the full window width and/or height.")
     content: [
 
         PQCheckbox {
             id: fitinwin
-            text: "fit smaller images in window"
+            text: em.pty+qsTranslate("settingsmanager", "fit smaller images in window")
         }
 
     ]

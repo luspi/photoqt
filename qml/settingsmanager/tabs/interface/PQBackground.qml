@@ -6,8 +6,10 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "background"
-    helptext: "What type of background is to be shown."
+    //: A settings title referring to the background of PhotoQt (behind any image/element)
+    title: em.pty+qsTranslate("settingsmanager", "background")
+    //: The 'background' here refers to the area behind the main image and any element in PhotoQt, the very back.
+    helptext: em.pty+qsTranslate("settingsmanager", "What type of background is to be shown.")
     content: [
         Flow {
 
@@ -17,9 +19,12 @@ PQSetting {
             PQComboBox {
                 id: bg_type
                 model: [
-                    "(half-)transparent background",
-                    "faked transparency",
-                    "custom background image"
+                    //: How the background of PhotoQt should be
+                    em.pty+qsTranslate("settingsmanager", "(half-)transparent background"),
+                    //: How the background of PhotoQt should be
+                    em.pty+qsTranslate("settingsmanager", "faked transparency"),
+                    //: How the background of PhotoQt should be
+                    em.pty+qsTranslate("settingsmanager", "custom background image")
                 ]
             }
 
@@ -45,7 +50,8 @@ PQSetting {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    tooltip: "Click to select an image"
+                    //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
+                    tooltip: em.pty+qsTranslate("settingsmanager", "Click to select an image")
                     onClicked: {
                         settingsmanager_top.modalWindowOpen = true
                         fileDialog.open()
@@ -57,11 +63,16 @@ PQSetting {
                 id: bg_image_type
                 visible: bg_type.currentIndex==2
                 model: [
-                    "scale to fit",
-                    "scale and crop to fit",
-                    "stretch to fit",
-                    "center image",
-                    "tile image"
+                    //: If an image is set as background of PhotoQt this is one way it can be handled.
+                    em.pty+qsTranslate("settingsmanager", "scale to fit"),
+                    //: If an image is set as background of PhotoQt this is one way it can be handled.
+                    em.pty+qsTranslate("settingsmanager", "scale and crop to fit"),
+                    //: If an image is set as background of PhotoQt this is one way it can be handled.
+                    em.pty+qsTranslate("settingsmanager", "stretch to fit"),
+                    //: If an image is set as background of PhotoQt this is one way it can be handled.
+                    em.pty+qsTranslate("settingsmanager", "center image"),
+                    //: If an image is set as background of PhotoQt this is one way it can be handled.
+                    em.pty+qsTranslate("settingsmanager", "tile image")
                 ]
             }
 
@@ -167,7 +178,8 @@ PQSetting {
         folder: (PQSettings.backgroundImagePath == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(PQSettings.backgroundImagePath))
         modality: Qt.ApplicationModal
         Component.onCompleted: {
-            var str = ["All Images (" + PQImageFormats.getAllEnabledFileFormats().join(" ") + ")"]
+            //: This is a category in a file dialog for selecting images used as in 'All images supported by PhotoQt' (please try to keep it short)
+            var str = [em.pty+qsTranslate("settingsmanager", "All Images") + " (" + PQImageFormats.getAllEnabledFileFormats().join(" ") + ")"]
             str.push("Qt (" + PQImageFormats.getAvailableEndingsQt().join(" ") + ")")
             if(handlingGeneral.isGraphicsMagickSupportEnabled())
                 str.push("GraphicsMagick (" + PQImageFormats.getAvailableEndingsGm().join(" ") + ")")
@@ -179,7 +191,8 @@ PQSetting {
                 str.push("FreeImage (" + PQImageFormats.getAvailableEndingsFreeImage().join(" ") + ")")
             if(handlingGeneral.isPopplerSupportEnabled())
                 str.push("Poppler (" + PQImageFormats.getAvailableEndingsPoppler().join(" ") + ")")
-            str.push("Video (" + PQImageFormats.getAvailableEndingsVideo().join(" ") + ")")
+            //: This is a category in a file dialog for selecting images used as in 'Video files supported by PhotoQt'
+            str.push(em.pty+qsTranslate("settingsmanager", "Video") + " (" + PQImageFormats.getAvailableEndingsVideo().join(" ") + ")")
             fileDialog.nameFilters = str
         }
         onAccepted: {

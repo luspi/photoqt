@@ -5,23 +5,38 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "popout elements"
-    helptext: "Here you can choose for most elements whether they are to be shown integrated into the main window or in their own, separate window."
+    //: A settings title. The popping out that is talked about here refers to the possibility of showing any element in its own window (i.e., 'popped out').
+    title: em.pty+qsTranslate("settingsmanager", "pop out elements")
+    helptext: em.pty+qsTranslate("settingsmanager", "Here you can choose for most elements whether they are to be shown integrated into the main window or in their own, separate window.")
 
-    property var pops: [["openPopoutElement", "File dialog", "openPopoutElementKeepOpen", "keep open"],
-                        ["settingsManagerPopoutElement", "Settings Manager"],
-                        ["mainMenuPopoutElement", "Main Menu"],
-                        ["metadataPopoutElement", "Metadata"],
-                        ["histogramPopoutElement", "Histogram"],
-                        ["scalePopoutElement", "Scale"],
-                        ["slideShowSettingsPopoutElement", "Slideshow Settings"],
-                        ["slideShowControlsPopoutElement", "Slideshow Controls"],
-                        ["fileRenamePopoutElement", "Rename File"],
-                        ["fileDeletePopoutElement", "Delete File"],
-                        ["aboutPopoutElement", "About"],
-                        ["imgurPopoutElement", "Imgur"],
-                        ["wallpaperPopoutElement", "Wallpaper"],
-                        ["filterPopoutElement", "Filter"]]
+    //: Used as identifying name for one of the elements in the interface
+    property var pops: [["openPopoutElement", em.pty+qsTranslate("settingsmanager", "File dialog"), "openPopoutElementKeepOpen", em.pty+qsTranslate("settingsmanager", "keep open")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["settingsManagerPopoutElement", em.pty+qsTranslate("settingsmanager", "Settings Manager")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["mainMenuPopoutElement", em.pty+qsTranslate("settingsmanager", "Main Menu")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["metadataPopoutElement", em.pty+qsTranslate("settingsmanager", "Metadata")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["histogramPopoutElement", em.pty+qsTranslate("settingsmanager", "Histogram")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["scalePopoutElement", em.pty+qsTranslate("settingsmanager", "Scale")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["slideShowSettingsPopoutElement", em.pty+qsTranslate("settingsmanager", "Slideshow Settings")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["slideShowControlsPopoutElement", em.pty+qsTranslate("settingsmanager", "Slideshow Controls")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["fileRenamePopoutElement", em.pty+qsTranslate("settingsmanager", "Rename File")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["fileDeletePopoutElement", em.pty+qsTranslate("settingsmanager", "Delete File")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["aboutPopoutElement", em.pty+qsTranslate("settingsmanager", "About")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["imgurPopoutElement", em.pty+qsTranslate("settingsmanager", "Imgur")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["wallpaperPopoutElement", em.pty+qsTranslate("settingsmanager", "Wallpaper")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["filterPopoutElement", em.pty+qsTranslate("settingsmanager", "Filter")]]
 
     content: [
 

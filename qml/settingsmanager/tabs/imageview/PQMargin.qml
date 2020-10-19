@@ -4,8 +4,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "margin"
-    helptext: "How much space to show between the main image and the application border."
+    //: A settings title about the margin around the main image
+    title: em.pty+qsTranslate("settingsmanager", "margin")
+    helptext: em.pty+qsTranslate("settingsmanager", "How much space to show between the main image and the application border.")
     expertmodeonly: true
     content: [
 
@@ -16,7 +17,8 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "none"
+                //: 'none' as in 'no margin between the main image and the window edges'
+                text: em.pty+qsTranslate("settingsmanager", "none")
             }
 
             PQSlider {

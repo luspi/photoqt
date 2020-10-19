@@ -5,8 +5,9 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "sort images by"
-    helptext: "Sort all images in a folder by the set property."
+    //: A settings title
+    title: em.pty+qsTranslate("settingsmanager", "sort images by")
+    helptext: em.pty+qsTranslate("settingsmanager", "Sort all images in a folder by the set property.")
     content: [
 
         Flow  {
@@ -16,19 +17,30 @@ PQSetting {
 
             PQComboBox {
                 id: sort_combo
-                model: ["natural name", "name", "time", "size", "type"]
+                //: A criteria for sorting images
+                model: [em.pty+qsTranslate("settingsmanager", "natural name"),
+                        //: A criteria for sorting images
+                        em.pty+qsTranslate("settingsmanager", "name"),
+                        //: A criteria for sorting images
+                        em.pty+qsTranslate("settingsmanager", "time"),
+                        //: A criteria for sorting images
+                        em.pty+qsTranslate("settingsmanager", "size"),
+                        //: A criteria for sorting images
+                        em.pty+qsTranslate("settingsmanager", "type")]
             }
 
             PQRadioButton {
                 id: sort_asc
                 height: sort_combo.height
-                text: "ascending"
+                //: Sort images in ascending order
+                text: em.pty+qsTranslate("settingsmanager", "ascending")
             }
 
             PQRadioButton {
                 id: sort_desc
                 height: sort_combo.height
-                text: "descending"
+                //: Sort images in descending order
+                text: em.pty+qsTranslate("settingsmanager", "descending")
             }
 
         }

@@ -5,8 +5,9 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "GPS online map"
-    helptext: "Which map service to use to show location of GPS positions."
+    //: A settings title.
+    title: em.pty+qsTranslate("settingsmanager", "GPS online map")
+    helptext: em.pty+qsTranslate("settingsmanager", "Which map service to use when a GPS position is clicked.")
     content: [
 
         PQComboBox {

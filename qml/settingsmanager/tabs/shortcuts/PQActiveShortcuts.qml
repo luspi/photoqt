@@ -19,7 +19,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         font.italic: true
         color: "#666666"
-        text: "(No shortcut set)"
+        text: "(" + em.pty+qsTranslate("settingsmanager", "No shortcut set") + ")"
         visible: view.count==0
     }
 
@@ -94,7 +94,8 @@ Item {
                 visible: thisIsAnExternalCategory
                 x: 5
                 y: (parent.height-height)/2
-                text: "quit"
+                //: checkbox in shortcuts settings, used as in 'quit PhotoQt'. Please keep as short as possible!
+                text: em.pty+qsTranslate("settingsmanager", "quit")
                 checked: close=="1"
                 onCheckedChanged:
                     close = (checked ? "1" : "0")
@@ -147,7 +148,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: parent.hovered = true
                 onExited: parent.hovered = false
-                tooltip: cmd_txt.text + "<br><b>" + sh_txt.text + "</b><br><br>Click to change key combination."
+                tooltip: cmd_txt.text + "<br><b>" + sh_txt.text + "</b><br><br>" + em.pty+qsTranslate("settingsmanager", "Click to change shortcut.")
                 onClicked: {
                     detectingNewShortcut = true
                     detectcombo.show(handlingShortcuts.composeDisplayString(sh))
@@ -163,7 +164,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: parent.delhovered = true
                 onExited: parent.delhovered = false
-                tooltip: "Click to delete shortcut"
+                tooltip: em.pty+qsTranslate("settingsmanager", "Click to delete shortcut")
                 onClicked:
                     parent.inProcessOfDeletingMe = true
             }
