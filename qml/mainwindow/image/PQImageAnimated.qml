@@ -20,6 +20,18 @@ AnimatedImage {
     onStatusChanged: {
         theimage.imageStatus = status
         if(status == Image.Ready) {
+            // there seems to be a bug (QTBUG-87748):
+            // paintedWidth and sourceSize are still zero here but are available in a Timer with 0 interval.
+            tim.restart()
+        }
+    }
+
+    Timer {
+        id: tim
+        interval: 0
+        repeat: false
+        running: false
+        onTriggered: {
             variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
             variables.currentPaintedZoomLevel = elem.scale
 
