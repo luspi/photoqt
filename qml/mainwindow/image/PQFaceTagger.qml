@@ -129,6 +129,7 @@ Item {
                 color: "white"
                 font.pointSize: 15
                 font.bold: true
+                //: This question is asked in the face tagger to ask for the name of a tagged face
                 text: em.pty+qsTranslate("facetagging", "Who is this?")
             }
 

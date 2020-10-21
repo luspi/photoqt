@@ -72,12 +72,24 @@ Item {
             property int currentIndex: 0
             property int count: tabs.length
 
-            property var tabs: [["interface", em.pty+qsTranslate("settingsmanager", "Tab to control interface settings")],
-                                ["image view", em.pty+qsTranslate("settingsmanager", "Tab to control how images are viewed")],
-                                ["thumbnails", em.pty+qsTranslate("settingsmanager", "Tab to control the look and behaviour of thumbnails")],
-                                ["metadata", em.pty+qsTranslate("settingsmanager", "Tab to control metadata settings")],
-                                ["file types", em.pty+qsTranslate("settingsmanager", "Tab to control which file types PhotoQt should recognize")],
-                                ["shortcuts", em.pty+qsTranslate("settingsmanager", "Tab to control which shortcuts are set")]]
+                                //: settings manager tab title
+            property var tabs: [[em.pty+qsTranslate("settingsmanager", "interface"),
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control interface settings")],
+                                //: settings manager tab title
+                                [em.pty+qsTranslate("settingsmanager", "image view"),
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control how images are viewed")],
+                                //: settings manager tab title
+                                [em.pty+qsTranslate("settingsmanager", "thumbnails"),
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control the look and behaviour of thumbnails")],
+                                //: settings manager tab title
+                                [em.pty+qsTranslate("settingsmanager", "metadata"),
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control metadata settings")],
+                                //: settings manager tab title
+                                [em.pty+qsTranslate("settingsmanager", "file types"),
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control which file types PhotoQt should recognize")],
+                                //: settings manager tab title
+                                [em.pty+qsTranslate("settingsmanager", "shortcuts"),
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control which shortcuts are set")]]
 
             Repeater {
 
