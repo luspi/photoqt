@@ -10,6 +10,9 @@ QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
 
 #ifdef EXIV2
 
+    if(filename.contains("::PQT::") || filename.contains("::ARC::"))
+        return ret;
+
     Exiv2::Image::AutoPtr image;
     try {
         image  = Exiv2::ImageFactory::open(filename.toStdString());
