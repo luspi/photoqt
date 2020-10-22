@@ -99,7 +99,7 @@ Item {
                     visible: false
                     font.pointSize: 15
                     horizontalAlignment: Qt.AlignHCenter
-                    text: em.pty+qsTranslate("scale", "This file format can not (yet) be scaled with PhotoQt!")
+                    text: em.pty+qsTranslate("scale", "This file format cannot (yet) be scaled with PhotoQt!")
                 }
 
                 Item {
