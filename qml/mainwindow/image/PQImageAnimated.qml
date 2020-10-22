@@ -105,7 +105,7 @@ AnimatedImage {
             enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
             anchors.fill: parent
             drag.target: elem
-            hoverEnabled: true
+            hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
             onPressed: {
                 if(PQSettings.closeOnEmptyBackground) {
                     var paintedX = (container.width-elem.paintedWidth)/2

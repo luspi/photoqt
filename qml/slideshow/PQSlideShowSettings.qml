@@ -17,6 +17,7 @@ Item {
     opacity: PQSettings.slideShowSettingsPopoutElement ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.slideShowSettingsPopoutElement ? 0 : PQSettings.animationDuration*100 } }
     visible: opacity!=0
+    enabled: visible
 
     Item {
         id: dummyitem

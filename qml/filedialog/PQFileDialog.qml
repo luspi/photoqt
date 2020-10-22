@@ -19,6 +19,7 @@ Rectangle {
 
     opacity: PQSettings.openPopoutElement ? 1 : 0
     visible: (opacity != 0)
+    enabled: visible
 
     color: "#333333"
 
