@@ -109,7 +109,7 @@ Rectangle {
             //: used on button to show some advanced settings for some file types
             text: em.pty+qsTranslate("settingsmanager_filetypes", "advanced fine-tuning")
             //: used for tooltip on button that is used to show advanced settings for some file types
-            tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Fine-tune enabled fine endings")
+            tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Fine-tune enabled file endings")
             onClicked:
                 advanced.show()
         }

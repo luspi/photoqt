@@ -149,7 +149,7 @@ Item {
                         color: "red"
                         horizontalAlignment: Text.AlignHCenter
                         font.pointSize: 12
-                        text: em.pty+qsTranslate("imgur", "An Error occured while uploading image!") + "<br>" +
+                        text: em.pty+qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
                               em.pty+qsTranslate("imgur", "Error code:") + " " + code
                     }
 
