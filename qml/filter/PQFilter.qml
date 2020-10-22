@@ -192,99 +192,99 @@ Item {
             }
         }
 
-        function setFilter(term) {
+    }
 
-            variables.filterStrings = []
-            variables.filterSuffixes = []
+    function setFilter(term) {
 
-            var filterStr = ""
+        variables.filterStrings = []
+        variables.filterSuffixes = []
 
-            // filter out search terms and search suffixes
-            var spl = filteredit.text.split(" ")
-            for(var iSpl = 0; iSpl < spl.length; ++iSpl) {
-                if(spl[iSpl][0] == ".") {
-                    variables.filterSuffixes.push(spl[iSpl].slice(1))
-                    filterStr += ", ." + spl[iSpl].slice(1)
-                } else {
-                    variables.filterStrings.push(spl[iSpl])
-                    filterStr += ", " + spl[iSpl]
-                }
+        var filterStr = ""
+
+        // filter out search terms and search suffixes
+        var spl = filteredit.text.split(" ")
+        for(var iSpl = 0; iSpl < spl.length; ++iSpl) {
+            if(spl[iSpl][0] == ".") {
+                variables.filterSuffixes.push(spl[iSpl].slice(1))
+                filterStr += ", ." + spl[iSpl].slice(1)
+            } else {
+                variables.filterStrings.push(spl[iSpl])
+                filterStr += ", " + spl[iSpl]
             }
-            variables.filterStringConcat = filterStr.slice(2)
+        }
+        variables.filterStringConcat = filterStr.slice(2)
 
-            var filteredlist = []
+        var filteredlist = []
 
-            // deep copy image list
-            if(!variables.filterSet) {
-                variables.allImageFilesInOrderFilterBackup = []
-                for(var i = 0; i < variables.allImageFilesInOrder.length; ++i)
-                    variables.allImageFilesInOrderFilterBackup.push(variables.allImageFilesInOrder[i])
-                variables.filterSet = true
-            }
-
-
-            // we check for filenames that satisfies all filter terms
-
-            for(var j = 0; j < variables.allImageFilesInOrderFilterBackup.length; ++j) {
-
-                var suf = handlingFileDialog.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
-                var bas = handlingFileDialog.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
-
-                var allgood = true
-
-                // check search term
-                for(var k = 0; k < variables.filterStrings.length; ++k) {
-                    if(bas.indexOf(variables.filterStrings[k]) == -1) {
-                        allgood = false
-                        break
-                    }
-                }
-
-                if(allgood) {
-                    for(var l = 0; l < variables.filterSuffixes.length; ++l) {
-                        if(suf != variables.filterSuffixes[l]) {
-                            allgood = false
-                            break;
-                        }
-                    }
-                }
-
-                if(allgood)
-                    filteredlist.push(variables.allImageFilesInOrderFilterBackup[j])
-
-            }
-
-            var newindex = filteredlist.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-            if(filteredlist.length > 0 && newindex == -1)
-                newindex = 0
-
+        // deep copy image list
+        if(!variables.filterSet) {
+            variables.allImageFilesInOrderFilterBackup = []
+            for(var i = 0; i < variables.allImageFilesInOrder.length; ++i)
+                variables.allImageFilesInOrderFilterBackup.push(variables.allImageFilesInOrder[i])
             variables.filterSet = true
-            variables.allImageFilesInOrder = filteredlist
-            variables.indexOfCurrentImage = -1
-            variables.indexOfCurrentImage = newindex
-            thumbnails.reloadThumbnails()
+        }
+
+
+        // we check for filenames that satisfies all filter terms
+
+        for(var j = 0; j < variables.allImageFilesInOrderFilterBackup.length; ++j) {
+
+            var suf = handlingFileDialog.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
+            var bas = handlingFileDialog.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
+
+            var allgood = true
+
+            // check search term
+            for(var k = 0; k < variables.filterStrings.length; ++k) {
+                if(bas.indexOf(variables.filterStrings[k]) == -1) {
+                    allgood = false
+                    break
+                }
+            }
+
+            if(allgood) {
+                for(var l = 0; l < variables.filterSuffixes.length; ++l) {
+                    if(suf != variables.filterSuffixes[l]) {
+                        allgood = false
+                        break;
+                    }
+                }
+            }
+
+            if(allgood)
+                filteredlist.push(variables.allImageFilesInOrderFilterBackup[j])
 
         }
 
-        function removeFilter() {
+        var newindex = filteredlist.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        if(filteredlist.length > 0 && newindex == -1)
+            newindex = 0
 
-            var newindex = variables.allImageFilesInOrderFilterBackup.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        variables.filterSet = true
+        variables.allImageFilesInOrder = filteredlist
+        variables.indexOfCurrentImage = newindex
+        variables.newFileLoaded()
+        thumbnails.reloadThumbnails()
 
-            variables.allImageFilesInOrder = []
-            for(var i = 0; i < variables.allImageFilesInOrderFilterBackup.length; ++i)
-                variables.allImageFilesInOrder.push(variables.allImageFilesInOrderFilterBackup[i]);
+    }
 
-            variables.filterSet = false
-            variables.filterStrings = []
-            variables.filterSuffixes = []
-            filteredit.text = ""
+    function removeFilter() {
 
-            variables.indexOfCurrentImage = -1
-            variables.indexOfCurrentImage = (newindex==-1 ? 0 : newindex)
+        var newindex = variables.allImageFilesInOrderFilterBackup.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
 
-            thumbnails.reloadThumbnails()
+        variables.allImageFilesInOrder = []
+        for(var i = 0; i < variables.allImageFilesInOrderFilterBackup.length; ++i)
+            variables.allImageFilesInOrder.push(variables.allImageFilesInOrderFilterBackup[i]);
 
-        }
+        variables.filterSet = false
+        variables.filterStrings = []
+        variables.filterSuffixes = []
+        filteredit.text = ""
+
+        variables.indexOfCurrentImage = -1
+        variables.indexOfCurrentImage = (newindex==-1 ? 0 : newindex)
+
+        thumbnails.reloadThumbnails()
 
     }
 
