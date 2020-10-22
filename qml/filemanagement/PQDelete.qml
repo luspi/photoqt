@@ -173,7 +173,7 @@ Item {
                     color: "white"
                     textFormat: Text.RichText
                     text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
-                          "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to Trash") +
+                          "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to trash") +
                           "</td</tr><tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") +
                           "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
                 }
