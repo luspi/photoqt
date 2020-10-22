@@ -98,7 +98,7 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
                                                           .arg(info.suffix());
 
         QFileDialog dialog;
-        dialog.setWindowTitle(tr("Select new file", "scale"));
+        dialog.setWindowTitle(QApplication::translate("scale", "Select new file"));
         dialog.setDirectory(info.absolutePath());
         dialog.selectFile(suggestedfilename);
         if(!dialog.exec())
