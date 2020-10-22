@@ -121,7 +121,7 @@ Item {
                 //: A shortcuts category: other functions
                 category: em.pty+qsTranslate("settingsmanager", "Other")
                             //: Name of shortcut action
-                available: [["__hideMeta", em.pty+qsTranslate("settingsmanager", "Hide/Show Exif Info")],
+                available: [["__hideMeta", em.pty+qsTranslate("settingsmanager", "Hide/Show metadata")],
                             //: Name of shortcut action
                             ["__settings", em.pty+qsTranslate("settingsmanager", "Show Settings")],
                             //: Name of shortcut action

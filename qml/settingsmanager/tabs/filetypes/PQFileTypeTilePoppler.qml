@@ -34,7 +34,7 @@ PQFileTypeTile {
                 wheelStepSize: 5
                 toolTipSuffix: " dpi"
                 //: the quality setting to be used when loading PDFs
-                toolTipPrefix: em.pty+qsTranslate("settingsmanager_filetypes", "Quality: ")
+                toolTipPrefix: em.pty+qsTranslate("settingsmanager_filetypes", "Quality:") + " "
             }
         }
     ]
