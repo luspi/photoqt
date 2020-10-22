@@ -89,12 +89,22 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
 
     QString targetFilename = sourceFilename;
     if(!scaleInPlace) {
+
         QFileInfo info(sourceFilename);
-        targetFilename = QString("%1/%2_%3x%4.%5").arg(info.absolutePath())
-                                                  .arg(info.baseName())
-                                                  .arg(targetSize.width())
-                                                  .arg(targetSize.height())
-                                                  .arg(info.suffix());
+
+        QString suggestedfilename = QString("%2_%3x%4.%5").arg(info.baseName())
+                                                          .arg(targetSize.width())
+                                                          .arg(targetSize.height())
+                                                          .arg(info.suffix());
+
+        QFileDialog dialog;
+        dialog.setWindowTitle(tr("Select new file", "scale"));
+        dialog.setDirectory(info.absolutePath());
+        dialog.selectFile(suggestedfilename);
+        if(!dialog.exec())
+            return false;
+        targetFilename = dialog.selectedFiles().at(0);
+
     }
 
     if(!img.save(targetFilename, 0, targetQuality)) {

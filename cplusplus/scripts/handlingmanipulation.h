@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QImageReader>
+#include <QFileDialog>
 #include "../logger.h"
 #ifdef EXIV2
 #include <exiv2/exiv2.hpp>
