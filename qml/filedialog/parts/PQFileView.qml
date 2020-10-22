@@ -268,12 +268,12 @@ GridView {
                            em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString() + "</b>") :
 
-                          ("<tr><td><img src=\"image://thumb/" + filePath + "\"></td><td>&nbsp;&nbsp;</td>" +
-                           "<td valign=middle><b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
+                          ("<img src=\"image://thumb/" + filePath + "\"><br><br>" +
+                           "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
                            em.pty+qsTranslate("filedialog", "File size:")+" <b>" + filesizenum.text + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDialog.getFileType(filePath) + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString()+ "</b></td></tr>"))
+                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString()+ "</b>"))
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
