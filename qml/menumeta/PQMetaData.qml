@@ -232,7 +232,7 @@ Rectangle {
                 hoverEnabled: true
                 tooltip: (index==((allMetaData.length/3) -1)) ?
                              em.pty+qsTranslate("metadata", "Click to open GPS position with online map") :
-                             (visible ? "<b>" + allMetaData[3*index] + "</b><br>" + allMetaData[3*index+1] : "")
+                             ((visible&&allMetaData[3*index]!="") ? "<b>" + allMetaData[3*index] + "</b><br>" + allMetaData[3*index+1] : "")
                 cursorShape: index==(allMetaData.length/3 -1) ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
                     if(index == allMetaData.length/3 -1) {
