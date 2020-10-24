@@ -10,7 +10,7 @@ PQSetting {
     content: [
         PQCheckbox {
             id: start_load_last
-            text: em.pty+qsTranslate("settingsmanager_interface", "re-open last used image at startup")
+            text: em.pty+qsTranslate("settingsmanager_interface", "re-open last loaded image at startup")
         }
 
     ]
