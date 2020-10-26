@@ -6,7 +6,7 @@ import "../../../elements"
 PQSetting {
     //: A settings title for looping through images in folder
     title: em.pty+qsTranslate("settingsmanager_imageview", "looping")
-    helptext: em.pty+qsTranslate("settingsmanager_imageview", "What to do when the end of a folder has been reacher: stop or loop back to first image in folder.")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "What to do when the end of a folder has been reached: stop or loop back to first image in folder.")
     content: [
 
         PQCheckbox {

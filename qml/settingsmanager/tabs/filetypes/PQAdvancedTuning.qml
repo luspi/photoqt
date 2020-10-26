@@ -102,7 +102,7 @@ Rectangle {
                 //: as in: default file types
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "default")
                 //: Check here refers to marking a checkbox (i.e., the act of checking the box)
-                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Check default file endings")
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Select the default file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = (tile_top.defaultEnabled.indexOf(key) != -1)
@@ -118,7 +118,7 @@ Rectangle {
                 //: as in: all file types
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "all")
                 //: Check here refers to marking a checkbox (i.e., the act of checking the box)
-                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Check all file endings")
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Select all file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = true
@@ -134,7 +134,7 @@ Rectangle {
                 //: as in: no file types
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "none")
                 //: Check here refers to marking a checkbox (i.e., the act of checking the box)
-                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Check no file endings")
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Don't select any file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = false

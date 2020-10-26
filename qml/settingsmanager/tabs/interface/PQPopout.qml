@@ -35,7 +35,7 @@ PQSetting {
                         ["imgurPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Imgur")],
                         //: Used as identifying name for one of the elements in the interface
                         ["wallpaperPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Wallpaper")],
-                        //: Used as identifying name for one of the elements in the interface
+                        //: Noun, not a verb. Used as identifying name for one of the elements in the interface
                         ["filterPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Filter")]]
 
     content: [
