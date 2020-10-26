@@ -41,6 +41,9 @@ appimage:
     - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null  # update cmake
     - apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && apt-get update
     - apt-get install -y cmake
+    - rm -rf lang/
+    - git clone -b l10n_master https://gitlab.com/luspi/photoqt-lang
+    - mv photoqt-lang/localized lang
     - mkdir -p build && cd build/  # build PhotoQt
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF -DEXIV2=OFF
     - make -j$(nproc)
