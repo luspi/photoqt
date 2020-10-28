@@ -66,9 +66,9 @@ Item {
             PQBackground { id: bck }
                 PQHorizontalLine { expertModeOnly: bck.expertmodeonly }
             PQOverlayColor { id: ovc }
-                PQHorizontalLine { expertModeOnly: mwh.expertmodeonly }
-            PQPopout { id: pop }
                 PQHorizontalLine { expertModeOnly: ovc.expertmodeonly }
+            PQPopout { id: pop }
+                PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
             PQStartupLoadLast { id: sll }
                 PQHorizontalLine { expertModeOnly: sll.expertmodeonly }
             PQCloseOnEmpty { id: coe }

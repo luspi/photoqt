@@ -61,7 +61,7 @@ Item {
             PQLiftUp { id: lft }
                 PQHorizontalLine { expertModeOnly: lft.expertmodeonly }
             PQVisible { id: vis }
-                PQHorizontalLine { expertModeOnly: thr.expertmodeonly }
+                PQHorizontalLine { expertModeOnly: vis.expertmodeonly }
             PQCenter { id: cent }
                 PQHorizontalLine { expertModeOnly: cent.expertmodeonly }
             PQPosition { id: pos }
