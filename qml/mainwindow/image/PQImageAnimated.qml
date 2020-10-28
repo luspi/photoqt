@@ -66,9 +66,11 @@ AnimatedImage {
 
     property bool scaleAdjustedFromRotation: false
     property int rotateTo: 0    // used to know where a rotation will end up before the animation has finished
-    rotation: rotateTo
-    Behavior on rotation { NumberAnimation { id: rotationAni; duration: PQSettings.animationDuration*100 } }
+    rotation: 0
+    Behavior on rotation { RotationAnimation { id: rotationAni; duration: PQSettings.animationDuration*100 } }
     onRotateToChanged: {
+        if(pincharea.pinch.active) return // if the update came from a pinch event, don't do anything here
+        rotation = rotateTo
         if((rotateTo%180+180)%180 == 90 && elem.scale == 1) {
             elem.scale = Math.min(elem.height/elem.paintedWidth, 1)
             scaleAdjustedFromRotation = true
@@ -91,6 +93,8 @@ AnimatedImage {
 
     PinchArea {
 
+        id: pincharea
+
         anchors.fill: parent
 
         pinch.target: elem
@@ -100,6 +104,8 @@ AnimatedImage {
         pinch.maximumScale: 10
         pinch.dragAxis: Pinch.XAndYAxis
 
+        onPinchUpdated:
+            elem.rotateTo = elem.rotation
 
         MouseArea {
             enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
