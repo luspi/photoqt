@@ -106,7 +106,7 @@ ListView {
             }
 
             onEntered:
-                hoverIndex = index
+                hoverIndex = (index>0 ? index : -1)
             onExited:
                 hoverIndex = -1
 

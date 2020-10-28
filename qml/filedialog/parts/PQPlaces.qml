@@ -134,6 +134,7 @@ ListView {
 
                 // if drag is started
                 drag.onActiveChanged: {
+                    if(index == 0) return
                     if (mouseArea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
                         userplaces_top.dragItemIndex = index
@@ -151,17 +152,18 @@ ListView {
 
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: {
-                        if(mouse.button == Qt.LeftButton && index > 0)
-                            filedialog_top.setCurrentDirectory(path)
-                        else if(mouse.button == Qt.RightButton) {
-                            if(index == 0) {
-                                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                                contextmenu_title.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                            } else {
-                                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                                contextmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                            }
+                    if(index == 0) return
+                    if(mouse.button == Qt.LeftButton && index > 0)
+                        filedialog_top.setCurrentDirectory(path)
+                    else if(mouse.button == Qt.RightButton) {
+                        if(index == 0) {
+                            var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                            contextmenu_title.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                        } else {
+                            var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                            contextmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
                         }
+                    }
                 }
 
                 onEntered:
