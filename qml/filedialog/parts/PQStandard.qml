@@ -98,11 +98,12 @@ ListView {
 
             // clicking an entry loads the location or shows a context menu (depends on which button was used)
             onClicked: {
-                    if(mouse.button == Qt.LeftButton)
-                        filedialog_top.setCurrentDirectory(locs[(index-1)*3 + 1])
-//                            openvariables.currentDirectory = path
-//                        else
-//                            delegcontext.popup()
+                if(mouse.button == Qt.LeftButton)
+                    filedialog_top.setCurrentDirectory(locs[(index-1)*3 + 1])
+                else {
+                    var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                    filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(standard_top.x+pos.x, standard_top.y+pos.y))
+                }
             }
 
             onEntered:

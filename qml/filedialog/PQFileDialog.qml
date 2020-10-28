@@ -243,4 +243,8 @@ Rectangle {
         variables.visibleItem = ""
     }
 
+    function leftPanelPopupGenericRightClickMenu(pos) {
+        rightclickmenu.popup(pos)
+    }
+
 }

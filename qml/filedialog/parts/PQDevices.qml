@@ -132,6 +132,10 @@ ListView {
                 onClicked: {
                     if(mouse.button == Qt.LeftButton)
                         filedialog_top.setCurrentDirectory(location)
+                    else {
+                        var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                        filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(storageinfo.x+pos.x, storageinfo.y+pos.y))
+                    }
                 }
 
             }
