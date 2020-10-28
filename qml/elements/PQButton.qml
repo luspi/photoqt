@@ -64,7 +64,7 @@ Button {
     }
 
     background: Rectangle {
-        implicitWidth: (iconview.visible ? iconview.width+txt.width : txt.width)
+        implicitWidth: (iconview.visible ? iconview.width : txt.width)
         color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
         Behavior on color { ColorAnimation { duration: 100 } }
         implicitHeight: contentItem.height
