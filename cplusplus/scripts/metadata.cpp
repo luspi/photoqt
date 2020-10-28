@@ -96,8 +96,6 @@ void PQMetaData::updateMetadata(QString path) {
 
 #ifdef EXIV2
 
-    LOG << "reading metadata" << NL;
-
     // Obtain METADATA
 
     Exiv2::Image::AutoPtr image;

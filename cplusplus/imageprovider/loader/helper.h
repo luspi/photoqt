@@ -19,10 +19,8 @@ public:
 
     QImage *getCachedImage(QString filename) {
 
-        if(cache->contains(getUniqueCacheKey(filename))) {
-            qDebug() << "get cached";
+        if(cache->contains(getUniqueCacheKey(filename)))
             return cache->object(getUniqueCacheKey(filename));
-        }
 
         return new QImage();
 
@@ -30,11 +28,8 @@ public:
 
     bool saveImageToCache(QString filename, QImage *img) {
 
-        qDebug() << "save to cache";
-
         // we need to use a copy of the image here as otherwise img will have two owners (BAD idea!)
         QImage *n = new QImage(*img);
-        qDebug() << "format:" << n->format();
         return cache->insert(getUniqueCacheKey(filename), n, 1);
 
     }
