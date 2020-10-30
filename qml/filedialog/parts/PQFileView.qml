@@ -41,8 +41,11 @@ GridView {
                                      PQFileFolderModel.Size :
                                      PQFileFolderModel.Type)))
         sortReversed: !PQSettings.sortbyAscending
-        folder: handlingFileDialog.getHomeDir()
-    }
+
+        Component.onCompleted:
+            loadFolder(variables.openCurrentDirectory)
+
+        }
 
     model: files_model
 
@@ -473,15 +476,6 @@ GridView {
             if(!rightclickmenu.visible)
                 files_grid.rightclickopen = false
         }
-    }
-
-    Timer {
-        id: delayAtStartup
-        interval: 200
-        repeat: false
-        running: true
-        onTriggered:
-            loadFolder(variables.openCurrentDirectory)
     }
 
     function loadFolder(loc) {
