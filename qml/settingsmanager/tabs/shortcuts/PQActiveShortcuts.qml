@@ -128,7 +128,7 @@ Item {
                 font.bold: true
                 color: newsh ? "#00ff00" : "#dddddd"
                 Behavior on color { ColorAnimation { id: sh_txt_colani; duration: 1000 } }
-                text: handlingShortcuts.composeDisplayString(sh)
+                text: keymousestrings.translateShortcut(handlingShortcuts.composeDisplayString(sh))
 
             }
 

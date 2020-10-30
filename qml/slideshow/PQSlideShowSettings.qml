@@ -113,7 +113,8 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "interval:"
+                        //: The interval between images in a slideshow
+                        text: em.pty+qsTranslate("slideshow", "interval") + ":"
                     }
 
                     PQSlider {
@@ -151,7 +152,12 @@ Item {
 
                     PQComboBox {
                         id: animtype_combo
-                        model: ["opacity", "along x-axis", "along y-axis"]
+                        //: This is referring to the in/out animation of images during slideshows
+                        model: [em.pty+qsTranslate("slideshow", "opacity"),
+                                //: This is referring to the in/out animation of images during slideshows
+                                em.pty+qsTranslate("slideshow", "along x-axis"),
+                                //: This is referring to the in/out animation of images during slideshows
+                                em.pty+qsTranslate("slideshow", "along y-axis")]
                     }
 
                 }
@@ -172,7 +178,8 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "animation speed:"
+                        //: The speed of transitioning from one image to another during slideshows
+                        text: em.pty+qsTranslate("slideshow", "animation speed") + ":"
                     }
 
                     Column {
@@ -185,18 +192,23 @@ Item {
                             from: 0
                             to: 15
                             tooltip: (value == 15 ?
-                                         "immediately, without animation" :
+                                         //: This refers to a speed of transitioning from one image to another during slideshows
+                                         em.pty+qsTranslate("slideshow", "immediately, without animation") :
                                          (value > 9 ?
-                                              "pretty fast animation" :
+                                              //: This refers to a speed of transitioning from one image to another during slideshows
+                                              em.pty+qsTranslate("slideshow", "pretty fast animation") :
                                               (value > 4 ?
-                                                   "not too fast and not too slow" :
-                                                   "very slow animation")))
+                                                   //: This refers to a speed of transitioning from one image to another during slideshows
+                                                   em.pty+qsTranslate("slideshow", "not too fast and not too slow") :
+                                                   //: This refers to a speed of transitioning from one image to another during slideshows
+                                                   em.pty+qsTranslate("slideshow", "very slow animation"))))
                         }
 
                         Text {
                             id: transspeed_txt
                             color: "white"
-                            text: "current speed: <b>" + transition_slider.tooltip + "</b>"
+                            //: This refers to the currently set speed of transitioning from one image to another during slideshows
+                            text: em.pty+qsTranslate("slideshow", "current speed") + ": <b>" + transition_slider.tooltip + "</b>"
                         }
 
                     }
@@ -218,13 +230,15 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "looping"
+                        //: Loop over all images during slideshows
+                        text: em.pty+qsTranslate("slideshow", "looping")
                     }
 
                     PQCheckbox {
                         id: loop_check
                         y: (loop_txt.height-height)/2
-                        text: "loop over all files"
+                        //: Loop over all images during slideshows
+                        text: em.pty+qsTranslate("slideshow", "loop over all files")
                     }
 
                 }
@@ -244,13 +258,15 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "shuffle:"
+                        //: during slideshows shuffle the order of all images
+                        text: em.pty+qsTranslate("slideshow", "shuffle") + ":"
                     }
 
                     PQCheckbox {
                         id: shuffle_check
                         y: (shuffle_txt.height-height)/2
-                        text: "shuffle all files"
+                        //: during slideshows shuffle the order of all images
+                        text: em.pty+qsTranslate("slideshow", "shuffle all files")
                     }
 
                 }
@@ -271,13 +287,15 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "quickinfo:"
+                        //: What to do with the quick info during slideshows
+                        text: em.pty+qsTranslate("slideshow", "quickinfo") + ":"
                     }
 
                     PQCheckbox {
                         id: quick_check
                         y: (quick_txt.height-height)/2
-                        text: "hide quickinfo"
+                        //: What to do with the quick info during slideshows
+                        text: em.pty+qsTranslate("slideshow", "hide quickinfo")
                     }
 
                 }
@@ -297,7 +315,8 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "music:"
+                        //: The music that is to be played during slideshows
+                        text: em.pty+qsTranslate("slideshow", "music") + ":"
                     }
 
                     Column {
@@ -307,15 +326,18 @@ Item {
                         PQCheckbox {
                             id: music_check
                             height: music_txt.height
-                            text: "enable music"
+                            //: Enable music to be played during slideshows
+                            text: em.pty+qsTranslate("slideshow", "enable music")
                         }
 
                         PQButton {
                             id: music_button
                             enabled: music_check.checked
                             property string musicfile: ""
-                            text: musicfile=="" ? "[no file selected]" : handlingGeneral.getFileNameFromFullPath(musicfile)
-                            tooltip: (musicfile=="" ? "Click to select music file" : ("<b>"+musicfile+"</b><br><br>Click to change music file"))
+                            text: musicfile=="" ? "[" + em.pty+qsTranslate("slideshow", "no file selected") + "]" : handlingGeneral.getFileNameFromFullPath(musicfile)
+                            tooltip: (musicfile==""
+                                        ? em.pty+qsTranslate("slideshow", "Click to select music file")
+                                        : ("<b>"+musicfile+"</b><br><br>" + em.pty+qsTranslate("slideshow", "Click to change music file")))
                             onClicked: {
                                 fileDialog.visible = true
                             }
@@ -326,7 +348,8 @@ Item {
                             currentFile: music_button.musicfile=="" ? "" : music_button.musicfile
                             folder: (music_button.musicfile == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(music_button.musicfile))
                             modality: Qt.ApplicationModal
-                            nameFilters: ["Common music formats (aac *.flac *.mp3 *.ogg *.oga *.wav *.wma)", "All Files (*.*)"]
+                            nameFilters: [em.pty+qsTranslate("slideshow", "Common music file formats") + " (aac *.flac *.mp3 *.ogg *.oga *.wav *.wma)",
+                                          em.pty+qsTranslate("slideshow", "All Files") + " (*.*)"]
                             onAccepted: {
                                 if(fileDialog.file != "")
                                     music_button.musicfile = handlingFileDialog.cleanPath(fileDialog.file)

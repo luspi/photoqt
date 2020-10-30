@@ -137,6 +137,7 @@ Item {
             PQLineEdit {
                 id: nameedit
                 x: (parent.width-width)/2
+                placeholderText: em.pty+qsTranslate("facetagging", "Enter name")
             }
 
             // buttons to save/cancel

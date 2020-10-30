@@ -74,7 +74,7 @@ Item {
 
 
     function get(combo) {
-        var tmp = combo.toLowerCase()
+        var tmp = combo.toLowerCase().trim()
         if(tmp in dictKeys)
             return dictKeys[tmp]
         if(tmp in dictMouse)
@@ -92,7 +92,7 @@ Item {
         var ret = ""
         for(var i in parts) {
             if(ret != "")
-                ret += "+"
+                ret += " + "
             if(parts[i] === "")
                 continue
             if(parts[i] === "PLUS")
@@ -109,19 +109,20 @@ Item {
             var lastItem = p[p.length-1]
             ret = ""
             for(var j = 0; j < p.length-1; ++j)
-                ret += p[j] + "+"
+                ret += p[j] + " + "
 
             for(var k = 0; k < lastItem.length; ++k) {
-                if(k > 0) ret += "-"
                 if(lastItem[k] === "E")
-                    ret += dictMouse["east"]
+                    ret += dictMouse["east"] + "-"
                 else if(lastItem[k] === "S")
-                    ret += dictMouse["south"]
+                    ret += dictMouse["south"] + "-"
                 else if(lastItem[k] === "W")
-                    ret += dictMouse["west"]
+                    ret += dictMouse["west"] + "-"
                 else if(lastItem[k] === "N")
-                    ret += dictMouse["north"]
+                    ret += dictMouse["north"] + "-"
             }
+            if(ret.endsWith("-"))
+                ret = ret.slice(0,-1)
 
         }
 
