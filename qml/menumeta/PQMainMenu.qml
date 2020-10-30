@@ -63,6 +63,8 @@ Rectangle {
 
             enabled: !PQSettings.mainMenuPopoutElement
 
+            hoverEnabled: true
+
             cursorShape: Qt.SizeHorCursor
 
             tooltip: em.pty+qsTranslate("MainMenu", "Click and drag to resize main menu")
