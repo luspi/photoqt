@@ -124,7 +124,7 @@ Item {
                                     return
                                 }
 
-                                LoadFiles.removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                                LoadFiles.removeCurrentFilenameFromList()
                                 thumbnails.reloadThumbnails()
 
                                 delete_top.opacity = 0
@@ -141,7 +141,7 @@ Item {
                                     return
                                 }
 
-                                LoadFiles.removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                                LoadFiles.removeCurrentFilenameFromList()
                                 thumbnails.reloadThumbnails()
 
                                 delete_top.opacity = 0

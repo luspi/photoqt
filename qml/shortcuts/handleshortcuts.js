@@ -75,13 +75,13 @@ function whatToDoWithFoundShortcut(sh) {
         loader.passOn("copymove", "move", undefined)
     } else if(cmd === "__deletePermanent") {
         if(variables.indexOfCurrentImage != -1 && handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
-            removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+            removeCurrentFilenameFromList()
             thumbnails.reloadThumbnails()
             variables.newFileLoaded()
         }
     } else if(cmd === "__deleteTrash") {
         if(variables.indexOfCurrentImage != -1 && handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
-            removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+            removeCurrentFilenameFromList()
             thumbnails.reloadThumbnails()
             variables.newFileLoaded()
         }

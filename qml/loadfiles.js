@@ -54,16 +54,16 @@ function loadFile(path, copyOfAllFiles) {
 
 }
 
-function changeCurrentFilename(dir, newfile) {
+function changeCurrentFilename(newfile) {
 
-    variables.allImageFilesInOrder[variables.indexOfCurrentImage] = dir + "/" + newfile
+    variables.allImageFilesInOrder[variables.indexOfCurrentImage] = newfile
     var tmp = variables.indexOfCurrentImage
     variables.indexOfCurrentImage = -1
     variables.indexOfCurrentImage = tmp
 
 }
 
-function removeCurrentFilenameFromList(file) {
+function removeCurrentFilenameFromList() {
 
     variables.allImageFilesInOrder.splice(variables.indexOfCurrentImage, 1)
     if(variables.indexOfCurrentImage >= variables.allImageFilesInOrder.length)

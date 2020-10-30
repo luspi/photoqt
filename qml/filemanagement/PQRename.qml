@@ -144,7 +144,7 @@ Item {
                                 }
                                 error.visible = false
 
-                                LoadFiles.changeCurrentFilename(dir, filenameedit.text+"."+suf)
+                                LoadFiles.changeCurrentFilename(dir + "/" + filenameedit.text + "." + suf)
                                 thumbnails.reloadThumbnails()
 
                                 rename_top.opacity = 0
