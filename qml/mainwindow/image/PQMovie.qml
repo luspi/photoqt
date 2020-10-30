@@ -49,7 +49,7 @@ Item {
         notifyInterval: videoelem.duration>2*notifyIntervalLONG ? notifyIntervalLONG : notifyIntervalSHORT
 
         onStatusChanged: {
-            theimage.imageStatus = (status==MediaPlayer.Loaded ? Image.Ready : Image.Loading)
+            theimage.imageStatus = ((status==MediaPlayer.Loaded||status==MediaPlayer.Buffered) ? Image.Ready : Image.Loading)
             if(status == MediaPlayer.Loaded) {
                 variables.currentZoomLevel = videoelem.scale*100
                 variables.currentPaintedZoomLevel = videoelem.scale
