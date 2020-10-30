@@ -10,6 +10,7 @@ Item {
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
     signal fileDeletePassOn(var what, var param)
+    signal copyMoveFilePassOn(var what, var param)
     signal scalePassOn(var what, var param)
     signal aboutPassOn(var what, var param)
     signal imgurPassOn(var what, var param)
@@ -73,6 +74,9 @@ Item {
 
         else if(component == "facetagger")
             faceTaggerPassOn(what, param)
+
+        else if(component == "copymove")
+            copyMoveFilePassOn(what, param)
 
     }
 
@@ -238,6 +242,11 @@ Item {
 
             else if(!PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManager.qml"
+
+        } else if(component == "copymove") {
+
+            if(copymove.source != "filemanagement/PQCopyMove.qml")
+                copymove.source = "filemanagement/PQCopyMove.qml"
 
         }
 

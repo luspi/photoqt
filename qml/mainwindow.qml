@@ -220,6 +220,7 @@ Window {
 
     Loader { id: filerename }
     Loader { id: filedelete }
+    Loader { id: copymove }
 
     Loader { id: scaleimage }
     Loader { id: about }

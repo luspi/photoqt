@@ -141,5 +141,6 @@
         <file>settingsmanager/tabs/shortcuts/PQActiveShortcuts.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQDetectCombo.qml</file>
         <file>shortcuts/mouseshortcuts.js</file>
+        <file>filemanagement/PQCopyMove.qml</file>
     </qresource>
 </RCC>

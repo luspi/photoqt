@@ -146,3 +146,48 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
 #endif
 
 }
+
+QString PQHandlingFileManagement::copyFile(QString filename) {
+
+    QString ending = QFileInfo(filename).suffix();
+
+    //: Title of filedialog to select new filename/location to copy file to.
+    QString newfilename = QFileDialog::getSaveFileName(0, "Where to copy the file to", filename, QString("*.%1 (*.%2)").arg(ending).arg(ending));
+
+    if(newfilename.trimmed() == "")
+        return "";
+
+    QFile file(filename);
+    if(!file.copy(newfilename)) {
+        LOG << CURDATE << "PQHandlingFileManagement::moveFile(): ERROR: The file could not be copied to its new location." << NL;
+        return "";
+    }
+
+    return newfilename;
+
+}
+
+QString PQHandlingFileManagement::moveFile(QString filename) {
+
+    QString ending = QFileInfo(filename).suffix();
+
+    //: Title of filedialog to select new filename/location to move file to.
+    QString newfilename = QFileDialog::getSaveFileName(0, "Where to move the file to", filename, QString("*.%1 (*.%2)").arg(ending).arg(ending));
+
+    if(newfilename.trimmed() == "")
+        return "";
+
+    QFile file(filename);
+    if(!file.copy(newfilename)) {
+        LOG << CURDATE << "PQHandlingFileManagement::moveFile(): ERROR: The file could not be moved to its new location, copy process failed." << NL;
+        return "";
+    }
+
+    if(!file.remove()) {
+        LOG << CURDATE << "PQHandlingFileManagement::moveFile(): ERROR: The file was successfully copied to new location but the old file could not be removed." << NL;
+        return newfilename;
+    }
+
+    return newfilename;
+
+}

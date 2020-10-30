@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QUrl>
 #include <QStorageInfo>
+#include <QFileDialog>
 #ifndef Q_OS_WIN
 #include <unistd.h>
 #endif
@@ -18,6 +19,8 @@ class PQHandlingFileManagement : public QObject {
 public:
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
     Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
+    Q_INVOKABLE QString copyFile(QString filename);
+    Q_INVOKABLE QString moveFile(QString filename);
 };
 
 #endif // PQHANDLINGFILEMANAGEMENT_H

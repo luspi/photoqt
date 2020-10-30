@@ -67,15 +67,23 @@ function whatToDoWithFoundShortcut(sh) {
         loader.show("filerename")
     else if(cmd === "__delete")
         loader.show("filedelete")
-    else if(cmd === "__deletePermanent") {
+    else if(cmd === "__copy") {
+        loader.ensureItIsReady("copymove")
+        loader.passOn("copymove", "copy", undefined)
+    } else if(cmd === "__move") {
+        loader.ensureItIsReady("copymove")
+        loader.passOn("copymove", "move", undefined)
+    } else if(cmd === "__deletePermanent") {
         if(variables.indexOfCurrentImage != -1 && handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
             removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
             thumbnails.reloadThumbnails()
+            variables.newFileLoaded()
         }
     } else if(cmd === "__deleteTrash") {
         if(variables.indexOfCurrentImage != -1 && handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
             removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
             thumbnails.reloadThumbnails()
+            variables.newFileLoaded()
         }
     } else if(cmd === "__hideMeta")
         loader.passOn("metadata", "toggle", undefined)
