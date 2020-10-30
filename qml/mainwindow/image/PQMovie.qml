@@ -12,6 +12,9 @@ Item {
     width: container.width-2*PQSettings.marginAroundImage
     height: container.height-2*PQSettings.marginAroundImage
 
+    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
+    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
+
     MouseArea {
         enabled: PQSettings.leftButtonMouseClickAndMove
         anchors.fill: parent
@@ -37,9 +40,6 @@ Item {
         y: (parent.height-height)/2
         width: PQSettings.fitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
         height: PQSettings.fitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
-
-        Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
-        Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
 
         volume: PQSettings.videoVolume/100
 
