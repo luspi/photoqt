@@ -106,27 +106,6 @@ Rectangle {
                 em.pty+qsTranslate("filedialog", "Video files"),
                 em.pty+qsTranslate("filedialog", "All files")]
 
-        Component.onCompleted: {
-            if(!handlingGeneral.isGraphicsMagickSupportEnabled())
-                hideItems.push(2)
-            if(!handlingGeneral.isLibRawSupportEnabled())
-                hideItems.push(3)
-            if(!handlingGeneral.isDevILSupportEnabled())
-                hideItems.push(4)
-            if(!handlingGeneral.isFreeImageSupportEnabled())
-                hideItems.push(5)
-            if(!handlingGeneral.isPopplerSupportEnabled())
-                hideItems.push(6)
-
-            var neg = 2
-            while(true) {
-                if(hideItems.indexOf(model.length-neg) != -1)
-                    neg += 1
-                else
-                    break
-            }
-            allfiles.lineBelowItem = model.length-neg
-        }
 
         onCurrentIndexChanged:
             showWhichFileTypeIndex = allfiletypes[allfiles.currentIndex]
@@ -139,6 +118,10 @@ Rectangle {
         tooltipFollowsMouse: false
 
         firstItemEmphasized: true
+
+        Component.onCompleted:
+            readFileTypeSettings()
+
     }
 
     PQButton {
@@ -181,6 +164,29 @@ Rectangle {
         onClicked:
             PQSettings.openDefaultView = (PQSettings.openDefaultView=="icons" ? "list" : "icons")
 
+    }
+
+    function readFileTypeSettings() {
+        allfiles.hideItems = []
+        if(!handlingGeneral.isGraphicsMagickSupportEnabled())
+            allfiles.hideItems.push(2)
+        if(!handlingGeneral.isLibRawSupportEnabled())
+            allfiles.hideItems.push(3)
+        if(!handlingGeneral.isDevILSupportEnabled())
+            allfiles.hideItems.push(4)
+        if(!handlingGeneral.isFreeImageSupportEnabled())
+            allfiles.hideItems.push(5)
+        if(!handlingGeneral.isPopplerSupportEnabled())
+            allfiles.hideItems.push(6)
+
+        var neg = 2
+        while(neg < allfiles.model.length) {
+            if(allfiles.hideItems.indexOf(allfiles.model.length-neg) != -1)
+                neg += 1
+            else
+                break
+        }
+        allfiles.lineBelowItem = allfiles.model.length-neg
     }
 
     function zoomOut() {

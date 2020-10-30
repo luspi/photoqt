@@ -220,6 +220,8 @@ Rectangle {
             filedialog_window.visible = true
         if(!PQSettings.openPopoutElementKeepOpen)
             variables.visibleItem = "filedialog"
+        tweaks.readFileTypeSettings()
+        fileview.loadFolder(variables.openCurrentDirectory)
     }
 
     function hideFileDialog() {

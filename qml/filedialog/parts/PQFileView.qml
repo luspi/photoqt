@@ -24,11 +24,6 @@ GridView {
         id: files_model
 
         property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler", "video"]
-        nameFilters: tweaks.showWhichFileTypeIndex==="all" ?
-                         PQImageFormats.getAllEnabledFileFormats() :
-                         (validcategories.indexOf(tweaks.showWhichFileTypeIndex) > -1 ?
-                              PQImageFormats.getEnabledFileFormats(tweaks.showWhichFileTypeIndex) :
-                              [])
 
         showHidden: PQSettings.openShowHiddenFilesFolders
         sortField: PQSettings.sortby=="name" ?
@@ -45,7 +40,7 @@ GridView {
         Component.onCompleted:
             loadFolder(variables.openCurrentDirectory)
 
-        }
+    }
 
     model: files_model
 
@@ -479,6 +474,13 @@ GridView {
     }
 
     function loadFolder(loc) {
+
+        // set right name filter
+        files_model.nameFilters = tweaks.showWhichFileTypeIndex==="all" ?
+                                    PQImageFormats.getAllEnabledFileFormats() :
+                                      (validcategories.indexOf(tweaks.showWhichFileTypeIndex) > -1 ?
+                                        PQImageFormats.getEnabledFileFormats(tweaks.showWhichFileTypeIndex) :
+                                          [])
 
         loc = handlingFileDialog.cleanPath(loc)
 
