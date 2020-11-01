@@ -22,7 +22,7 @@ ListView {
 
         id: deleg
 
-        width: parent.width
+        width: userplaces_top.width
         height: !visible ? 0 : 30
 
         visible: ((path!=undefined&&(hidden=="false"||showHiddenEntries))||index==0)
