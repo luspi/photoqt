@@ -60,6 +60,10 @@ Item {
                 id: theimage
                 property int imageStatus: Image.Loading
                 onImageStatusChanged: {
+                    if(imageStatus == Image.Ready) {
+                        loadingtimer.stop()
+                        loadingindicator.visible = false
+                    }
                     if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
                         hideShowAni.showing = true
                         hideShowAni.imageIndex = imageIndex
@@ -88,6 +92,9 @@ Item {
                                              "image/PQImageNormal.qml")
                 if(theimage.source != "image/PQMovie.qml")
                     variables.videoControlsVisible = false
+
+                loadingindicator.visible = false
+                loadingtimer.restart()
             }
 
             Connections {
@@ -220,6 +227,17 @@ Item {
         }
 
     }
+
+    Timer {
+        id: loadingtimer
+        interval: 1000
+        running: false
+        repeat: false
+        onTriggered:
+            loadingindicator.visible = true
+    }
+
+    PQLoading { id: loadingindicator }
 
     Connections {
         target: variables

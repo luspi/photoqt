@@ -6,7 +6,6 @@
         <file>mainwindow/image/PQImageNormal.qml</file>
         <file>elements/PQSlider.qml</file>
         <file>elements/PQCheckbox.qml</file>
-        <file>mainwindow/image/PQLoading.qml</file>
         <file>elements/PQButton.qml</file>
         <file>elements/PQMenu.qml</file>
         <file>elements/PQMouseArea.qml</file>
@@ -142,5 +141,6 @@
         <file>settingsmanager/tabs/shortcuts/PQDetectCombo.qml</file>
         <file>shortcuts/mouseshortcuts.js</file>
         <file>filemanagement/PQCopyMove.qml</file>
+        <file>mainwindow/PQLoading.qml</file>
     </qresource>
 </RCC>
