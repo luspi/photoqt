@@ -84,17 +84,22 @@ Item {
             property string uniqueid: handlingGeneral.getUniqueId()
 
             Component.onCompleted: {
+
                 container.imageLatestAdded = deleg.uniqueid
-                theimage.source = (PQImageFormats.enabledFileformatsVideo.indexOf("*."+handlingFileDialog.getSuffix(src))>-1) ?
-                                        "image/PQMovie.qml" :
-                                        (imageproperties.isAnimated(src) ?
-                                             "image/PQImageAnimated.qml" :
-                                             "image/PQImageNormal.qml")
-                if(theimage.source != "image/PQMovie.qml")
-                    variables.videoControlsVisible = false
 
                 loadingindicator.visible = false
                 loadingtimer.restart()
+
+                if(PQImageFormats.enabledFileformatsVideo.indexOf("*."+handlingFileDialog.getSuffix(src))>-1) {
+                    theimage.source = "image/PQMovie.qml"
+                    variables.videoControlsVisible = true
+                } else if(imageproperties.isAnimated(src)) {
+                    theimage.source = "image/PQImageAnimated.qml"
+                    variables.videoControlsVisible = false
+                } else {
+                    theimage.source = "image/PQImageNormal.qml"
+                    variables.videoControlsVisible = false
+                }
             }
 
             Connections {
