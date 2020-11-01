@@ -308,32 +308,44 @@ Item {
                     nointernet.visible = false
                     report.visible = false
 
-                    if(!handlingGeneral.checkIfConnectedToInternet())
-                        nointernet.visible = true
-
-                    handlingShareImgur.authorizeHandlePin("68713a8441")
-
                     opacity = 1
                     variables.visibleItem = "imgur"
 
-                    if(!anonymous) {
-                        var ret = handlingShareImgur.authAccount()
-                        if(ret !== 0) {
-                            abortUpload()
-                            return
-                        }
-                        accountname = handlingShareImgur.getAccountUsername()
-                        handlingShareImgur.upload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    } else {
-                        accountname = ""
-                        handlingShareImgur.anonymousUpload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    }
+                    // Some of the actions in there would block the GUI if started in main thread
+                    // -> timer with timeout=0 moves it to subthread
+                    startupload.start()
 
                 } else if(what == "hide") {
                     abortUpload()
                 } else if(what == "keyevent") {
                     if(param[0] == Qt.Key_Escape)
                         abortUpload()
+                }
+            }
+        }
+
+        Timer {
+            id: startupload
+            interval: 0
+            repeat: false
+            running: false
+            onTriggered: {
+                if(!handlingGeneral.checkIfConnectedToInternet())
+                    nointernet.visible = true
+
+                handlingShareImgur.authorizeHandlePin("68713a8441")
+
+                if(!anonymous) {
+                    var ret = handlingShareImgur.authAccount()
+                    if(ret !== 0) {
+                        abortUpload()
+                        return
+                    }
+                    accountname = handlingShareImgur.getAccountUsername()
+                    handlingShareImgur.upload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                } else {
+                    accountname = ""
+                    handlingShareImgur.anonymousUpload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                 }
             }
         }
