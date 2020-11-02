@@ -53,6 +53,7 @@ public:
     Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
+    Q_INVOKABLE bool doesItExist(QString path);
 
     Q_INVOKABLE QStringList getFoldersIn(QString path);
 

@@ -448,6 +448,11 @@ QString PQHandlingFileDialog::getDirectory(QString path, bool lowerCase) {
     return QFileInfo(path).absolutePath();
 }
 
+bool PQHandlingFileDialog::doesItExist(QString path) {
+    QFile file(path);
+    return file.exists();
+}
+
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
     QDir dir(path);
@@ -471,7 +476,10 @@ QString PQHandlingFileDialog::getLastLocation() {
         ret = in.readAll().trimmed();
         file.close();
     }
-    return ret;
+    QDir folder(ret);
+    if(folder.exists())
+        return ret;
+    return QDir::homePath();
 
 }
 
