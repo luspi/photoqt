@@ -50,7 +50,7 @@ Rectangle {
         color: "#888888"
         font.pointSize: 15
         font.bold: true
-        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Current shortcut:") + " <b>" + previouscombo + "</b>"
+        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Current shortcut:") + " <b>" + keymousestrings.translateShortcut(previouscombo) + "</b>"
     }
 
     Text {
@@ -67,7 +67,7 @@ Rectangle {
         Connections {
             target: detect_top
             onCurrentcomboChanged:
-                txt_combo.text = handlingShortcuts.composeDisplayString(currentcombo)
+                txt_combo.text = keymousestrings.translateShortcut(handlingShortcuts.composeDisplayString(currentcombo))
         }
     }
 
