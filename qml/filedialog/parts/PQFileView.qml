@@ -14,8 +14,6 @@ GridView {
 
     property int dragItemIndex: -1
 
-    property int currentlyHoveredIndex: -1
-
     property bool rightclickopen: false
 
     ScrollBar.vertical: PQScrollBar { id: scroll }
@@ -88,8 +86,8 @@ GridView {
 
             property bool mouseInside: false
             color: fileIsDir
-                       ? (currentlyHoveredIndex==index ? "#44888899" : "#44222233")
-                       : (currentlyHoveredIndex==index ? "#44aaaaaa" : "#44444444")
+                       ? (files_grid.currentIndex==index ? "#44888899" : "#44222233")
+                       : (files_grid.currentIndex==index ? "#44aaaaaa" : "#44444444")
 
             border.width: 1
             border.color: "#282828"
@@ -107,7 +105,7 @@ GridView {
 
                 asynchronous: true
 
-                opacity: currentlyHoveredIndex==index ? 1 : 0.6
+                opacity: files_grid.currentIndex==index ? 1 : 0.6
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 source: fileName==".."||filethumb.status==Image.Ready ? "" : "image://icon/" + (fileIsDir ? "folder" : "image")
@@ -276,9 +274,9 @@ GridView {
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
                 onEntered:
-                    currentlyHoveredIndex = index
+                    files_grid.currentIndex = index
                 onExited:
-                    currentlyHoveredIndex = -1
+                    files_grid.currentIndex = -1
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(!files_grid.rightclickopen) {
@@ -355,22 +353,22 @@ GridView {
         if(key == Qt.Key_Down) {
 
             if(modifiers == Qt.NoModifier) {
-                if(currentlyHoveredIndex == -1)
-                    currentlyHoveredIndex = 0
-                else if(currentlyHoveredIndex < model.count-1)
-                    currentlyHoveredIndex += 1
+                if(currentIndex == -1)
+                    currentIndex = 0
+                else if(currentIndex < model.count-1)
+                    currentIndex += 1
             } else if(modifiers == Qt.ControlModifier)
-                currentlyHoveredIndex = model.count-1
+                currentIndex = model.count-1
 
         } else if(key == Qt.Key_Up) {
 
             if(modifiers == Qt.NoModifier) {
-                if(currentlyHoveredIndex == -1)
-                    currentlyHoveredIndex = model.count-1
-                else if(currentlyHoveredIndex > 0)
-                    currentlyHoveredIndex -= 1
+                if(currentIndex == -1)
+                    currentIndex = model.count-1
+                else if(currentIndex > 0)
+                    currentIndex -= 1
             } else if(modifiers == Qt.ControlModifier)
-                currentlyHoveredIndex = 0
+                currentIndex = 0
             else if(modifiers == Qt.AltModifier && handlingFileDialog.cleanPath(variables.openCurrentDirectory) != "/")
                 filedialog_top.setCurrentDirectory(variables.openCurrentDirectory+"/..")
 
@@ -379,10 +377,10 @@ GridView {
             if(modifiers == Qt.AltModifier)
                 breadcrumbs.goBackwards()
             else if(modifiers == Qt.NoModifier) {
-                if(currentlyHoveredIndex == -1)
-                    currentlyHoveredIndex = model.count-1
-                else if(currentlyHoveredIndex > 0)
-                    currentlyHoveredIndex -= 1
+                if(currentIndex == -1)
+                    currentIndex = model.count-1
+                else if(currentIndex > 0)
+                    currentIndex -= 1
             }
 
 
@@ -391,26 +389,26 @@ GridView {
             if(modifiers == Qt.AltModifier)
                 breadcrumbs.goForwards()
             else if(modifiers == Qt.NoModifier) {
-                if(currentlyHoveredIndex == -1)
-                    currentlyHoveredIndex = 0
-                else if(currentlyHoveredIndex < model.count-1)
-                    currentlyHoveredIndex += 1
+                if(currentIndex == -1)
+                    currentIndex = 0
+                else if(currentIndex < model.count-1)
+                    currentIndex += 1
             }
 
         } else if(key == Qt.Key_PageUp && modifiers == Qt.NoModifier)
 
-            currentlyHoveredIndex = Math.max(currentlyHoveredIndex-5, 0)
+            currentIndex = Math.max(currentIndex-5, 0)
 
         else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier)
 
-            currentlyHoveredIndex = Math.min(currentlyHoveredIndex+5, files_model.count-1)
+            currentIndex = Math.min(currentIndex+5, files_model.count-1)
 
         else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
-            if(files_model.getFileIsDir(currentlyHoveredIndex)) {
-                filedialog_top.setCurrentDirectory(files_model.getFilePath(currentlyHoveredIndex))
+            if(files_model.getFileIsDir(currentIndex)) {
+                filedialog_top.setCurrentDirectory(files_model.getFilePath(currentIndex))
             } else {
-                LoadFiles.loadFile(files_model.getFilePath(currentlyHoveredIndex), files_model.getCopyOfAllFiles())
+                LoadFiles.loadFile(files_model.getFilePath(currentIndex), files_model.getCopyOfAllFiles())
                 filedialog_top.hideFileDialog()
             }
 
@@ -433,13 +431,13 @@ GridView {
 
         else {
 
-            var tmp = (currentlyHoveredIndex==-1 ? 0 : currentlyHoveredIndex+1)
+            var tmp = (currentIndex==-1 ? 0 : currentIndex+1)
             var foundSomething = false
 
             for(var i = tmp; i < files_model.count; ++i) {
 
                 if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
-                    currentlyHoveredIndex = i
+                    currentIndex = i
                     foundSomething = true
                     break;
                 }
@@ -451,7 +449,7 @@ GridView {
                 for(var i = 0; i < tmp; ++i) {
 
                     if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
-                        currentlyHoveredIndex = i
+                        currentIndex = i
                         foundSomething = true
                         break;
                     }
@@ -489,7 +487,7 @@ GridView {
         loc = handlingFileDialog.cleanPath(loc)
 
         files_model.folder = loc
-        currentlyHoveredIndex = -1
+        currentIndex = -1
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]
