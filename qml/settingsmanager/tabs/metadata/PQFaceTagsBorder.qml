@@ -26,6 +26,7 @@ PQSetting {
             Row {
 
                 spacing: 10
+                height: ft_border_w.height
 
                 Text {
                     y: (parent.height-height)/2
@@ -36,7 +37,6 @@ PQSetting {
                 PQSlider {
                     id: ft_border_w
                     enabled: ft_border.checked
-                    y: (parent.height-height)/2
                     from: 1
                     to: 20
                 }
@@ -51,7 +51,6 @@ PQSetting {
 
             Rectangle {
                 enabled: ft_border.checked
-                y: (parent.height-height)/2
                 id: rgba_rect
                 width: rgba_txt.width+20
                 height: rgba_txt.height+20

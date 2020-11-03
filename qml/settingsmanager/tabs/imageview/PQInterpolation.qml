@@ -16,7 +16,6 @@ PQSetting {
 
             PQCheckbox {
                 id: interp_check
-                y: (parent.height-height)/2
                 //: A type of interpolation to use for small images
                 text: em.pty+qsTranslate("settingsmanager_imageview", "use 'nearest neighbour' algorithm for upscaling")
             }
@@ -24,6 +23,7 @@ PQSetting {
             Row {
 
                 spacing: 5
+                height: interp_thr.height
 
                 Text {
                     y: (parent.height-height)/2
@@ -40,7 +40,6 @@ PQSetting {
 
                 PQSlider {
                     id: interp_thr
-                    y: (parent.height-height)/2
                     toolTipSuffix: " px"
                     from: 0
                     to: 1000
