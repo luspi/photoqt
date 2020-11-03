@@ -156,6 +156,18 @@ Rectangle {
                 canceltime.text = timeoutDone
         }
 
+       onWheel: {
+           var txt = PQAnalyseMouse.analyseMouseWheelAction(currentcombo, wheel.angleDelta, wheel.modifiers)
+           currentcombo = txt
+           if(txt.endsWith("+")) {
+               canceltimer.restart()
+               canceltime.text = timeoutWait
+           } else {
+               if(canceltime.text*1 > 2)
+                   canceltime.text = timeoutDone
+           }
+       }
+
     }
 
     PQButton {

@@ -23,3 +23,31 @@ function analyseMouseGestureUpdate(current, before) {
     return ""
 
 }
+
+function analyseMouseWheelAction(currentCombo, angleDelta, modifiers) {
+
+    var combo = ""
+
+    if(modifiers & Qt.ControlModifier)
+        combo += "Ctrl+";
+    if(modifiers & Qt.AltModifier)
+        combo += "Alt+";
+    if(modifiers & Qt.ShiftModifier)
+        combo += "Shift+";
+    if(modifiers & Qt.MetaModifier)
+        combo += "Meta+";
+    if(modifiers & Qt.KeypadModifier)
+        combo += "Keypad+";
+
+    if(angleDelta.y < 0)
+        combo += "Wheel Up"
+    else if(angleDelta.y > 0)
+        combo += "Wheel Down"
+    else
+        // at the end of a wheel move there usually is a wheel event with angleDelta being zero
+        // we want to ignore that
+        return currentCombo
+
+    return combo
+
+}
