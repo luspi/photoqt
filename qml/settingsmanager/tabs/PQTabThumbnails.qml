@@ -76,6 +76,9 @@ Item {
                 PQHorizontalLine { expertModeOnly: cac.expertmodeonly }
             PQThreads { id: thr }
 
+            // add some spacing at the bottom
+            Item { width: 1; height: 25 }
+
         }
 
     }

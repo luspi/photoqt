@@ -75,6 +75,9 @@ Item {
                 PQHorizontalLine { expertModeOnly: kee.expertmodeonly }
             PQZoomSpeed { id: zos }
 
+            // add some spacing at the bottom
+            Item { width: 1; height: 25 }
+
         }
 
     }

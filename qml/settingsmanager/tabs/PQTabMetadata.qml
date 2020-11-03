@@ -72,6 +72,9 @@ Item {
                 PQHorizontalLine { expertModeOnly: ftb.expertmodeonly }
             PQFaceTagsVisibility { id: ftv }
 
+            // add some spacing at the bottom
+            Item { width: 1; height: 25 }
+
 
         }
 
