@@ -27,7 +27,7 @@ public:
     Q_INVOKABLE QString detectWM();
 
 private:
-    bool checkCommand(QString cmd, QString &out);
+    bool checkIfCommandExists(QString cmd, QStringList args, QString &out);
 
 };
 

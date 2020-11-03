@@ -163,43 +163,48 @@ int PQHandlingWallpaper::getScreenCount() {
 
 bool PQHandlingWallpaper::checkXfce() {
     QString out;
-    return checkCommand("which xfconf-query", out);
+    checkIfCommandExists("xfconf-query", QStringList() << "--version", out);
+    return (out=="");
 }
 
 bool PQHandlingWallpaper::checkFeh() {
     QString out;
-    return checkCommand("which feh", out);
+    checkIfCommandExists("feh", QStringList() << "--version", out);
+    return (out=="");
 }
 
 bool PQHandlingWallpaper::checkNitrogen() {
     QString out;
-    return checkCommand("which nitrogen", out);
+    checkIfCommandExists("nitrogen", QStringList() << "--version", out);
+    return (out=="");
 }
 
 bool PQHandlingWallpaper::checkGSettings() {
     QString out;
-    return checkCommand("which gsettings", out);
+    checkIfCommandExists("gsettings", QStringList() << "--version", out);
+    return (out=="");
 }
 
 bool PQHandlingWallpaper::checkEnlightenmentRemote() {
     QString out;
-    return checkCommand("which enlightenment_remote", out);
+    checkIfCommandExists("enlightenment_remote", QStringList() << "-h", out);
+    return (out=="");
 }
 
 bool PQHandlingWallpaper::checkEnlightenmentMsgbus() {
     QString out;
-    checkCommand("enlightenment_remote -module-list", out);
+    checkIfCommandExists("enlightenment_remote", QStringList() << "-module-list", out);
     return (out.contains("msgbus -- Enabled") ? 0 : 1);
 }
 
-bool PQHandlingWallpaper::checkCommand(QString cmd, QString &out) {
+bool PQHandlingWallpaper::checkIfCommandExists(QString cmd, QStringList args, QString &out) {
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);
-    proc.start(cmd, QStringList());
+    proc.start(cmd, args);
     proc.waitForFinished(1000);
     out = proc.readAll();
     int ret = proc.exitCode();
-    return (ret != 0);
+    return (ret == 0);
 }
 
 QString PQHandlingWallpaper::detectWM() {
