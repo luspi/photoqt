@@ -5,10 +5,6 @@ PQHandlingWallpaper::PQHandlingWallpaper(QObject *parent) : QObject(parent) {}
 
 void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVariantMap options) {
 
-    qDebug() << category;
-    qDebug() << filename;
-    qDebug() << options;
-
     if(category == "plasma") {
 
         QVariantList screens = options.value("screens").toList();
