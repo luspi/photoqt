@@ -28,6 +28,13 @@ QVariantList PQHandlingShortcuts::loadFromFile() {
             continue;
         }
 
+        // these shortcuts have changed names from 1.7.1 to 2.0
+        // this can be removed in a later version
+        if(parts[2] == "__gotoLastThb")
+            parts[2] = "__goToLast";
+        if(parts[2] == "__gotoFirstThb")
+            parts[2] = "__goToFirst";
+
         // close, sh, cmd
         ret << parts;
 

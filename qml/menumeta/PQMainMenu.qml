@@ -124,9 +124,9 @@ Rectangle {
                 //: This is an entry in the main menu on the right, used as in: go to next image. Please keep short!
                 ["__next","",em.pty+qsTranslate("MainMenu", "next"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in: go to first image. Please keep short!
-                ["__gotoFirstThb","",em.pty+qsTranslate("MainMenu", "first"), "donthide"],
+                ["__goToFirst","",em.pty+qsTranslate("MainMenu", "first"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in: go to last image. Please keep short!
-                ["__gotoLastThb","",em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
+                ["__goToLast","",em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
         //: This is an entry in the main menu on the right, used as in: Zoom image. Please keep short!
         [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
                 ["__zoomIn","","+", "donthide"],

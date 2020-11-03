@@ -87,9 +87,9 @@ function whatToDoWithFoundShortcut(sh) {
         }
     } else if(cmd === "__hideMeta")
         loader.passOn("metadata", "toggle", undefined)
-    else if(cmd === "__gotoFirstThb")
+    else if(cmd === "__goToFirst")
         imageitem.loadFirstImage()
-    else if(cmd === "__gotoLastThb")
+    else if(cmd === "__goToLast")
         imageitem.loadLastImage()
     else if(cmd === "__wallpaper")
         loader.show("wallpaper")

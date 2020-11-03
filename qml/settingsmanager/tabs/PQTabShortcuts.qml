@@ -59,9 +59,9 @@ Item {
                             //: Name of shortcut action
                             ["__prev", em.pty+qsTranslate("settingsmanager", "Previous image"), "__prev"],
                             //: Name of shortcut action
-                            ["__gotoFirstThb", em.pty+qsTranslate("settingsmanager", "Go to first image"), "__gotoFirstThb"],
+                            ["__goToFirst", em.pty+qsTranslate("settingsmanager", "Go to first image"), "__goToFirst"],
                             //: Name of shortcut action
-                            ["__gotoLastThb", em.pty+qsTranslate("settingsmanager", "Go to last image"), "__gotoLastThb"],
+                            ["__goToLast", em.pty+qsTranslate("settingsmanager", "Go to last image"), "__goToLast"],
                             //: Name of shortcut action
                             ["__close", em.pty+qsTranslate("settingsmanager", "Hide to system tray (if enabled)"), "__close"],
                             //: Name of shortcut action
