@@ -34,21 +34,13 @@ public:
         return QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
     }
 
-    static const QString DATA_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    }
-
     static const QString GENERIC_DATA_DIR() {
         return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     }
 
-    static const QString CACHE_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    }
-
     static const QString GENERIC_CACHE_DIR() {
         QString path = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
-        return (path.trimmed() != "" ? path : CACHE_DIR());
+        return (path.trimmed() != "" ? path : QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
     }
 
     static const QString SETTINGS_FILE() {
@@ -76,11 +68,11 @@ public:
     }
 
     static const QString THUMBNAILS_DB() {
-        return QString("%1/thumbnails").arg(CACHE_DIR());
+        return QString("%1/thumbnails").arg(GENERIC_CACHE_DIR());
     }
 
     static const QString SETTINGS_SESSION_FILE() {
-        return QString("%1/settings_session").arg(CACHE_DIR());
+        return QString("%1/settings_session").arg(GENERIC_CACHE_DIR());
     }
 
     static const QString WINDOW_GEOMETRY_FILE() {
@@ -88,7 +80,7 @@ public:
     }
 
     static const QString OPENFILE_LAST_LOCATION() {
-        return QString("%1/openfilelastlocation").arg(CACHE_DIR());
+        return QString("%1/openfilelastlocation").arg(GENERIC_CACHE_DIR());
     }
 
     static const QString LASTOPENEDIMAGE_FILE() {
