@@ -336,17 +336,17 @@ Item {
                         bar.currentIndex = (bar.currentIndex+1)%bar.count
                     else if(param[0] == Qt.Key_Backtab && (param[1] & Qt.ControlModifier))
                         bar.currentIndex = (bar.count + bar.currentIndex-1)%bar.count
-                    else if(param[0] == Qt.Key_1 && (param[1] & Qt.AltModifier))
+                    else if(param[0] == Qt.Key_1 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
                         bar.currentIndex = 0
-                    else if(param[0] == Qt.Key_2 && (param[1] & Qt.AltModifier))
+                    else if(param[0] == Qt.Key_2 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
                         bar.currentIndex = 1
-                    else if(param[0] == Qt.Key_3 && (param[1] & Qt.AltModifier))
+                    else if(param[0] == Qt.Key_3 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
                         bar.currentIndex = 2
-                    else if(param[0] == Qt.Key_4 && (param[1] & Qt.AltModifier))
+                    else if(param[0] == Qt.Key_4 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
                         bar.currentIndex = 3
-                    else if(param[0] == Qt.Key_5 && (param[1] & Qt.AltModifier))
+                    else if(param[0] == Qt.Key_5 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
                         bar.currentIndex = 4
-                    else if(param[0] == Qt.Key_6 && (param[1] & Qt.AltModifier))
+                    else if(param[0] == Qt.Key_6 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
                         bar.currentIndex = 5
 
                 }
