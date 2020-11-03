@@ -65,6 +65,7 @@ Column {
         id: col
         x: (parent.width-width)/2
         width: childrenRect.width
+        spacing: 10
         PQRadioButton {
             id: opt_wallpaper
             text: "wallpaper"

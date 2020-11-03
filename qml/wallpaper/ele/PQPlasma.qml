@@ -47,6 +47,7 @@ Column {
         x: (parent.width-width)/2
         width: childrenRect.width
         id: desk_col
+        spacing: 10
         Repeater {
             model: numDesktops
             PQCheckbox {

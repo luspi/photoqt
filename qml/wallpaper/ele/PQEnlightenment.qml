@@ -85,6 +85,7 @@ Column {
             width: childrenRect.width
             height: childrenRect.height
             id: desk_col
+            spacing: 10
             Repeater {
                 model: numDesktops
                 PQCheckbox {
@@ -122,6 +123,7 @@ Column {
             width: childrenRect.width
             height: childrenRect.height
             id: ws_col
+            spacing: 10
             Repeater {
                 model: numWorkspaces[0]*numWorkspaces[1]
                 PQCheckbox {

@@ -69,6 +69,7 @@ Column {
 
         x: (parent.width-width)/2
         width: childrenRect.width
+        spacing: 10
 
         Text {
             y: (feh.height-height)/2
@@ -99,12 +100,18 @@ Column {
     }
 
     Item {
+        width: 1
+        height: 10
+    }
+
+    Item {
         width: parent.width
         height: childrenRect.height
         Column {
             id: col
             x: (parent.width-width)/2
             width: childrenRect.width
+            spacing: 10
             PQRadioButton {
                 id: opt_one
                 text: feh.checked ? "--bg-center" : "--set-auto"
