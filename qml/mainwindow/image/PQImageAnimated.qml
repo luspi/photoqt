@@ -182,6 +182,19 @@ AnimatedImage {
             elem.paused = !elem.paused
     }
 
+    Connections {
+        target: variables
+        property bool pauseStateWhenElementOpens: false
+        onVisibleItemChanged: {
+            if(variables.visibleItem == "")
+                elem.paused = pauseStateWhenElementOpens
+            else {
+                pauseStateWhenElementOpens = elem.paused
+                elem.paused = true
+            }
+        }
+    }
+
     function restorePosZoomRotationMirror() {
         if(PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror) {
 

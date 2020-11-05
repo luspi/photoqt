@@ -359,6 +359,20 @@ Item {
         }
     }
 
+    Connections {
+        target: variables
+        property bool pauseStateWhenElementOpens: false
+        onVisibleItemChanged: {
+            if(variables.visibleItem == "") {
+                if(!pauseStateWhenElementOpens && videoelem.playbackState == MediaPlayer.PausedState)
+                    videoelem.play()
+            } else {
+                pauseStateWhenElementOpens = (videoelem.playbackState != MediaPlayer.PlayingState)
+                videoelem.pause()
+            }
+        }
+    }
+
     function restorePosZoomRotationMirror() {
         if(PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror) {
 
