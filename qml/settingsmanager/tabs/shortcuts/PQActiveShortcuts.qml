@@ -33,12 +33,16 @@ Item {
         spacing: 5
         interactive: false
 
+        property var cols: ["yellow", "orange", "orange", "red"]
+
         width: parent.width
         height: childrenRect.height
 
         model: ListModel { id: setmodel }
 
         delegate: Rectangle {
+
+            id: deleg_rect
 
             radius: 5
             clip: true
@@ -48,6 +52,7 @@ Item {
             Behavior on height { NumberAnimation { duration: 150 } }
             onHeightChanged: {
                 if(height == 0 && inProcessOfDeletingMe) {
+                    updateActiveShortcuts(sh, "")
                     deleted = true
                     view.deleteElementsWithHeightZero()
                 }
@@ -56,11 +61,18 @@ Item {
             color: delhovered ? "#44ff0000" : (sh_txt.text=="..." ? "#440000aa" : (hovered ? "#2a2a2a" : "#222222"))
             Behavior on color { ColorAnimation { duration: 100 } }
 
+            property var multipleShortcuts: tab_shortcuts.shortcutsIncludingUnsavedChanges
+            onMultipleShortcutsChanged: {
+                if(sh in multipleShortcuts && multipleShortcuts[sh] > 0)
+                    duplicate = Math.min(multipleShortcuts[sh]-1, view.cols.length)
+            }
+
             property bool inProcessOfCreatingMe: true
             property bool inProcessOfDeletingMe: false
 
             property bool hovered: false
             property bool delhovered: false
+            property int duplicate: 0
 
             property bool detectingNewShortcut: false
 
@@ -126,7 +138,7 @@ Item {
                 elide: Text.ElideRight
                 y: 5
                 font.bold: true
-                color: newsh ? "#00ff00" : "#dddddd"
+                color: newsh ? "#00ff00" : (deleg_rect.duplicate ? view.cols[deleg_rect.duplicate-1] : "#dddddd")
                 Behavior on color { ColorAnimation { id: sh_txt_colani; duration: 1000 } }
                 text: keymousestrings.translateShortcut(handlingShortcuts.composeDisplayString(sh))
 
@@ -181,11 +193,19 @@ Item {
                 target: shcont
                 onNewShortcutCombo: {
                     if(detectingNewShortcut && combo != "") {
+
+                        var oldcombo = sh
+
                         sh = combo
-                        sh_txt_colani.duration = 0
-                        sh_txt.newsh = true
-                        sh_txt_colani.duration  = 2000
-                        sh_txt.newsh = false
+                        if(!deleg_rect.duplicate) {
+                            sh_txt_colani.duration = 0
+                            sh_txt.newsh = true
+                            sh_txt_colani.duration  = 2000
+                            sh_txt.newsh = false
+                        }
+
+                        updateActiveShortcuts(oldcombo, combo)
+
                     }
                     detectingNewShortcut = false
                 }
@@ -199,6 +219,20 @@ Item {
                     setmodel.remove(i)
             }
         }
+
+    }
+
+    function updateActiveShortcuts(oldcombo, newcombo) {
+
+        if(oldcombo != "")
+            tab_shortcuts.shortcutsIncludingUnsavedChanges[oldcombo] -= 1
+        if(newcombo != "") {
+            if(newcombo in tab_shortcuts.shortcutsIncludingUnsavedChanges)
+                tab_shortcuts.shortcutsIncludingUnsavedChanges[newcombo] += 1
+            else
+                tab_shortcuts.shortcutsIncludingUnsavedChanges[newcombo] = 1
+        }
+        tab_shortcuts.shortcutsIncludingUnsavedChangesChanged()
 
     }
 

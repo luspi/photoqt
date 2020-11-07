@@ -6,7 +6,6 @@ function checkComboForShortcut(combo) {
 
         if(variables.shortcuts[i][1] === combo) {
             whatToDoWithFoundShortcut(variables.shortcuts[i])
-            break;
         }
 
     }

@@ -6,7 +6,10 @@ import "../../elements"
 
 Item {
 
-    property bool activeShortcutsLoaded: false
+    id: tab_shortcuts
+
+    property var shortcutsIncludingUnsavedChanges: ({})
+
 
     Flickable {
 
@@ -181,6 +184,17 @@ Item {
 
     function load() {
         var sh = handlingShortcuts.loadFromFile()
+
+        // filter out all shortcuts
+        var tmp = ({})
+        for(var s in sh) {
+            var key = sh[s][1]
+            if(key in tmp)
+                tmp[key] += 1
+            else
+                tmp[key] = 1
+        }
+        shortcutsIncludingUnsavedChanges = tmp
 
         sh_nav.active = filterOutTheRightOnes(sh, sh_nav.available)
         sh_img.active = filterOutTheRightOnes(sh, sh_img.available)
