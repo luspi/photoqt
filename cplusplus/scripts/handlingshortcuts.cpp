@@ -1,5 +1,4 @@
 #include "handlingshortcuts.h"
-#include <QtDebug>
 
 PQHandlingShortcuts::PQHandlingShortcuts(QObject *parent) : QObject(parent) {}
 

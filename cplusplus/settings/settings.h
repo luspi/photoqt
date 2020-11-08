@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QQmlContext>
 #include <QQmlEngine>
-#include <QtDebug>
 #include <QPoint>
 #include <QSize>
 #include <QTimer>

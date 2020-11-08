@@ -1,5 +1,4 @@
 #include "handlingexternal.h"
-#include <QtDebug>
 
 bool PQHandlingExternal::exportConfigTo(QString path) {
 

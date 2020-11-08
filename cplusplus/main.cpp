@@ -1,6 +1,5 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QtDebug>
 
 #include "variables.h"
 #include "startup.h"

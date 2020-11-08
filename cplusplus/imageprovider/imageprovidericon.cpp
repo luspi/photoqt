@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "imageprovidericon.h"
-#include <QtDebug>
 
 QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
 

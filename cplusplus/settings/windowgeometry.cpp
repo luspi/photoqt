@@ -1,5 +1,4 @@
 #include "windowgeometry.h"
-#include <QtDebug>
 
 PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
 

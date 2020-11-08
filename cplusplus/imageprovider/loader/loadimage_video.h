@@ -60,7 +60,7 @@ public:
 
         }
 
-        qDebug() << "unknown video thumbnailer used:" << PQSettings::get().getVideoThumbnailer();
+        LOG << CURDATE << "LoadImageVideo: unknown video thumbnailer used: " << PQSettings::get().getVideoThumbnailer().toStdString() << NL;
         return QImage();
 
     }

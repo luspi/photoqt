@@ -1,5 +1,4 @@
 #include "handlingfilemanagement.h"
-#include <QtDebug>
 
 bool PQHandlingFileManagement::renameFile(QString dir, QString oldName, QString newName) {
 

@@ -1,5 +1,4 @@
 #include "handlingwallpaper.h"
-#include <QtDebug>
 
 PQHandlingWallpaper::PQHandlingWallpaper(QObject *parent) : QObject(parent) {}
 

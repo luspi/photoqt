@@ -4,7 +4,6 @@
 #include <QAbstractListModel>
 #include <QDateTime>
 #include <QDir>
-#include <QtDebug>
 #include <QTimer>
 #include <QCollator>
 #include <QFileSystemWatcher>
