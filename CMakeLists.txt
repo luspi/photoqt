@@ -10,7 +10,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="dev")
+add_definitions(-DVERSION="2.0b")
 
 
 ########################################
@@ -148,32 +148,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -O3)
 endif()
-
-########################
-#### HANDLE TESTING ####
-########################
-
-# if(TESTING)
-
-    # Set the testing project name
-#     set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)
-
-    # Enable testing and fint the required test package
-#     enable_testing()
-#     find_package(Qt5Test REQUIRED)
-
-    # Add the test executable and mark
-#     add_executable(${PROJECT_TEST_NAME} ${photoqt_TESTING})
-#     add_test(${PROJECT_TEST_NAME} ${PROJECT_TEST_NAME})
-#     qt5_use_modules(${PROJECT_TEST_NAME} Quick Core Widgets)
-
-    # link against the testing library
-#     target_link_libraries(${PROJECT_TEST_NAME} Qt5::Test)
-
-    # And inform the user
-#     message("** TESTING ENABLED")
-
-# endif(TESTING)
 
 
 ##############################################
