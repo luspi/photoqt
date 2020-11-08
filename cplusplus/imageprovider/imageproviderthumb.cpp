@@ -84,7 +84,7 @@ void PQAsyncImageResponseThumb::run() {
 
     // Load image
     QSize origSize;
-    loader->load(filename, m_requestedSize, &origSize, p);
+    QString msg = loader->load(filename, m_requestedSize, &origSize, p);
 
     /**********************************************************/
 
@@ -111,7 +111,7 @@ void PQAsyncImageResponseThumb::run() {
         p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create file cache thumbnail
-    if(PQSettings::get().getThumbnailCache()) {
+    if(PQSettings::get().getThumbnailCache() && msg != "x") {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
         if(!filename.startsWith(QString(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8())

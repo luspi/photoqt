@@ -69,5 +69,6 @@
         <file>settingsmanager/shortcuts/categorymouse.png</file>
         <file>filedialog/remember.png</file>
         <file>filedialog/dontremember.png</file>
+        <file>image/genericvideothumb.png</file>
     </qresource>
 </RCC>

@@ -32,7 +32,8 @@ PQFileTypeTile {
             PQComboBox {
                 id: combo
                 y: 10
-                model: ["ffmpegthumbnailer"]
+                model: ["------",
+                        "ffmpegthumbnailer"]
             }
         }
 
@@ -57,7 +58,7 @@ PQFileTypeTile {
             PQImageFormats.enabledFileformatsVideo = c
             PQSettings.videoAutoplay = autoplay.checked
             PQSettings.videoLoop = loop.checked
-            PQSettings.videoThumbnailer = combo.currentText
+            PQSettings.videoThumbnailer = (combo.currentIndex == 0 ? "" : combo.currentText)
         }
 
     }
@@ -70,6 +71,7 @@ PQFileTypeTile {
         resetChecked()
         autoplay.checked = PQSettings.videoAutoplay
         loop.checked = PQSettings.videoLoop
+        combo.currentIndex = (PQSettings.videoThumbnailer == "" ? 0 : 1)
     }
 
 }

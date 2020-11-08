@@ -117,7 +117,6 @@ public:
 
         } else if(PQImageFormats::get().getEnabledFileformatsVideo().contains("*." + info.suffix().toLower())) {
 
-            qDebug() << "video thumb";
             img = load_video->load(filename, requestedSize, origSize);
             ret_err = load_video->errormsg;
 

@@ -20,8 +20,6 @@ public:
 
         errormsg = "";
 
-        QImage img;
-
         if(PQSettings::get().getVideoThumbnailer() == "ffmpegthumbnailer") {
 
             // the temp image thumbnail path (incl random int)
@@ -32,16 +30,17 @@ public:
             proc.execute("ffmpegthumbnailer", QStringList() << "-i" << filename << "-s" << QString::number(maxSize.width()) << "-o" << tmp_path);
 
             // thumbnail and film border pixmap
-            QPixmap thumb(tmp_path);
+            QPixmap thumb_tmp(tmp_path);
+            QPixmap thumb(thumb_tmp.width()+40, thumb_tmp.height());
             QPixmap border(":/image/filmborder.png");
 
             // create painter (part opaque)
             QPainter paint(&thumb);
-            paint.setOpacity(0.5);
 
             // add border left and right of thumbnail
-            paint.drawPixmap(QRectF(0, 0, 20, thumb.height()), border, QRectF(0, 0, 20, thumb.height()));
-            paint.drawPixmap(QRectF(thumb.width()-20, 0, 20, thumb.height()), border, QRectF(0, 0, 20, thumb.height()));
+            paint.drawPixmap(QRectF(20, 0, thumb_tmp.width(), thumb.height()), thumb_tmp, QRectF(0, 0, thumb_tmp.width(), thumb_tmp.height()));
+            paint.drawPixmap(QRectF(0, 0, 20, thumb.height()), border, QRectF(0, 0, border.width(), border.height()));
+            paint.drawPixmap(QRectF(thumb.width()-20, 0, 20, thumb.height()), border, QRectF(0, 0, border.width(), border.height()));
 
             // done
             paint.end();
@@ -51,13 +50,18 @@ public:
             file.remove();
 
             // store in return variable
-            img = thumb.toImage();
+            return thumb.toImage();
 
-        } else {
-            qDebug() << "unknown video thumbnailer used:" << PQSettings::get().getVideoThumbnailer();
+        } else if(PQSettings::get().getVideoThumbnailer() == "") {
+
+            QImage img(":/image/genericvideothumb.png");
+            errormsg = "x";
+            return img.scaledToWidth(maxSize.width());
+
         }
 
-        return img;
+        qDebug() << "unknown video thumbnailer used:" << PQSettings::get().getVideoThumbnailer();
+        return QImage();
 
     }
 
