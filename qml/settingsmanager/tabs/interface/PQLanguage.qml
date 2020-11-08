@@ -5,28 +5,7 @@ import "../../../elements"
 
 PQSetting {
 
-    property var languageitems: [["en/en_IE/en_US/en_CA","English"],
-                                 ["ar","عربي ,عربى"],
-                                 ["cs","Čeština"],
-                                 ["de/de_DE/de_CH/de_AT","Deutsch"],
-                                 ["el","Ελληνικά"],
-                                 ["es/es_ES","Español (España)"],
-                                 ["es_CR","Español (Costa Rica)"],
-                                 ["fi","Suomen kieli"],
-                                 ["fr/fr_FR","Français"],
-                                 ["he","עברית"],
-                                 ["it","Italiano"],
-                                 ["ja","日本語"],
-                                 ["lt","lietuvių kalba"],
-                                 ["pl","Polski"],
-                                 ["pt_BR","Português (Brasil)"],
-                                 ["pt/pt_PT","Português (Portugal)"],
-                                 ["ru/ru_RU","русский язык"],
-                                 ["sk","Slovenčina"],
-                                 ["tr","Türkçe"],
-                                 ["uk/uk_UA","Українська"],
-                                 ["zh/zh_CN","Chinese"],
-                                 ["zh_TW","Chinese (traditional)"]]
+    property var languageitems: []
 
     //: A settings title.
     title: em.pty+qsTranslate("settingsmanager_interface", "language")
@@ -37,14 +16,6 @@ PQSetting {
         }
     ]
 
-    Component.onCompleted: {
-        var mod = []
-        for(var i = 0; i < languageitems.length; ++i)
-            mod.push(languageitems[i][1])
-        lang.model = mod
-        loadLang()
-    }
-
     Connections {
 
         target: settingsmanager_top
@@ -54,29 +25,82 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.language = languageitems[lang.currentIndex][0]
+            PQSettings.language = languageitems[lang.currentIndex]
         }
 
     }
 
     function loadLang() {
-        var foundIndex = -1
-        var settingsLanguage = PQSettings.language.split("/")[0]
 
-        for(var i = 0; i < languageitems.length; ++i) {
-            var l = languageitems[i][0].split("/")
-            for(var j = 0; j < l.length; ++j) {
-                if(l[j] == settingsLanguage) {
-                    foundIndex = i
-                    break
+        // LOAD AVAILABLE LANGUAGES
+
+        var languages = {"en" : "English",
+                         "ar" : "عربي ,عربى",
+                         "cs" : "Čeština",
+                         "de" : "Deutsch",
+                         "el" : "Ελληνικά",
+                         "es" : "Español (España)",
+                         "es_CR" : "Español (Costa Rica)",
+                         "fi" : "Suomen kieli",
+                         "fr" : "Français",
+                         "he" : "עברית",
+                         "it" : "Italiano",
+                         "ja" : "日本語",
+                         "lt" : "lietuvių kalba",
+                         "pl" : "Polski",
+                         "pt" : "Português (Portugal)",
+                         "pt_BR" : "Português (Brasil)",
+                         "ru" : "русский язык",
+                         "sk" : "Slovenčina",
+                         "tr" : "Türkçe",
+                         "uk" : "Українська",
+                         "zh" : "Chinese",
+                         "zh_TW" : "Chinese (traditional)"}
+
+        var tmp = []
+
+        var trans = handlingGeneral.getAvailableTranslations()
+        for(var i in trans) {
+
+            var cur = trans[i]
+
+            // if the current one is in the dict, done
+            if(cur in languages) {
+                tmp.push(languages[cur])
+                languageitems.push(cur)
+            } else {
+                if(cur.includes("_")) {
+                    var cur2 = cur.split("_")[0]
+                    if(cur2 in languages) {
+                        tmp.push(languages[cur2])
+                        languageitems.push(cur2)
+                    } else {
+                        tmp.push(cur)
+                        languageitems.push(cur)
+                    }
                 }
             }
-            if(foundIndex != -1)
-                break;
+
         }
-        if(foundIndex == -1)
-            foundIndex = 0
+
+        lang.model = tmp
+
+
+        // FIND SELECTED LANGUAGE
+
+        var foundIndex = 0
+        var l = PQSettings.language.split("/")[0]
+
+        if(languageitems.indexOf(l) != -1)
+            foundIndex = languageitems.indexOf(l)
+        else if(l.includes("_")) {
+            l = l.split("_")[0]
+            if(languageitems.indexOf(l) != -1)
+                foundIndex = languageitems.indexOf(l)
+        }
+
         lang.currentIndex = foundIndex
+
     }
 
 }

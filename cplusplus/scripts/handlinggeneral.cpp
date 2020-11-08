@@ -284,3 +284,35 @@ QString PQHandlingGeneral::getVersion() {
 QString PQHandlingGeneral::getQtVersion() {
     return QString::fromStdString(QT_VERSION_STR);
 }
+
+QStringList PQHandlingGeneral::getAvailableTranslations() {
+
+    QStringList ret;
+
+    // these are shown first
+    // they are the ones with recent activity
+    // this list will be updated before release
+    // the other ones are shown afterwards sorted alphabetically
+    ret << "en";
+    ret << "de";
+    ret << "pt_PT";
+
+    QStringList tmp;
+
+    QDirIterator it(":");
+    while (it.hasNext()) {
+        QString file = it.next();
+        if(file.endsWith(".qm")) {
+            file = file.remove(0, 10);
+            file = file.remove(file.length()-3, file.length());
+            if(!ret.contains(file))
+                tmp.push_back(file);
+        }
+    }
+
+    tmp.sort();
+    ret.append(tmp);
+
+    return ret;
+
+}

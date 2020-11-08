@@ -58,6 +58,8 @@ public:
     Q_INVOKABLE QString getVersion();
     Q_INVOKABLE QString getQtVersion();
 
+    Q_INVOKABLE QStringList getAvailableTranslations();
+
 private:
     PQImageProviderFull *imageprovider;
     QMimeDatabase mimedb;
