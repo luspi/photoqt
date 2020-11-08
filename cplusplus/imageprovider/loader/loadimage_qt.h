@@ -1,9 +1,6 @@
-#ifndef PQLOADIMAGEQT_H
-#define PQLOADIMAGEQT_H
-
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,6 +19,9 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+
+#ifndef PQLOADIMAGEQT_H
+#define PQLOADIMAGEQT_H
 
 #include <QImage>
 #include <QtSvg>
