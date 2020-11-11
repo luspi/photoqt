@@ -51,6 +51,12 @@ Item {
 
     property bool videoControlsVisible: false
 
+    Component.onCompleted: {
+        // this is to break the property binding of this variable
+        // if we don't do this then turning the 'remember' property off in the file dialog might load the home directory
+        openCurrentDirectory = openCurrentDirectory
+    }
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 
