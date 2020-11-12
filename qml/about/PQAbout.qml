@@ -100,12 +100,8 @@ Item {
                     height: 5
                 }
 
-                Text {
-                    x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: 25
-                    font.bold: true
-                    text: "   PhotoQt v" + handlingGeneral.getVersion() + "   "
+                Image {
+                    source: "qrc:/other/logo.png"
                 }
 
                 Text {
@@ -115,6 +111,13 @@ Item {
                     property date currentDate: new Date()
                     text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
                     textFormat: Text.RichText
+                }
+
+                Text {
+                    x: (parent.width-width)/2
+                    color: "white"
+                    font.pointSize: 12
+                    text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
                 }
 
                 Text {

@@ -70,5 +70,6 @@
         <file>filedialog/remember.png</file>
         <file>filedialog/dontremember.png</file>
         <file>image/genericvideothumb.png</file>
+        <file>other/logo.png</file>
     </qresource>
 </RCC>
