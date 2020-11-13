@@ -73,70 +73,63 @@ Item {
 
         Text {
             id: heading
-            x: 0
-            y: 25
+            y: insidecont.y-height
             width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
             text: em.pty+qsTranslate("slideshow", "Slideshow settings")
             font.pointSize: 25
             font.bold: true
             color: "white"
+            horizontalAlignment: Text.AlignHCenter
         }
 
-        Rectangle {
-            id: sep_top
-            color: "white"
-            x: 0
-            y: heading.y+heading.height+25
-            width: parent.width
-            height: 1
-        }
+        Item {
 
-        Flickable {
-            id: flickable
-            anchors {
-                top: sep_top.bottom
-                bottom: sep_bot.top
-                left: parent.left
-                right: parent.right
-                margins: 10
-            }
+            id: insidecont
+
+            x: ((parent.width-width)/2)
+            y: ((parent.height-height)/2)
+            width: childrenRect.width
+            height: childrenRect.height
 
             clip: true
-            contentHeight: col.height
+
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+            }
 
             Column {
 
                 id: col
 
-                spacing: 25
+                property int leftcolwidth: 100
 
-                property int leftcolwidth: 8*width/17
-
-                width: parent.width
+                spacing: 10
 
                 Item {
                     width: 1
-                    height: PQSettings.slideShowSettingsPopoutElement ? 0 : 20
+                    height: 20
                 }
 
                 Row {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: interval_txt
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
                         //: The interval between images in a slideshow
                         text: em.pty+qsTranslate("slideshow", "interval") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     PQSlider {
@@ -159,17 +152,20 @@ Item {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: animtype_txt
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
                         text: "animation:"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     PQComboBox {
@@ -189,19 +185,22 @@ Item {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: trans_txt
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignTop
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
                         //: The speed of transitioning from one image to another during slideshows
                         text: em.pty+qsTranslate("slideshow", "animation speed") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     Column {
@@ -237,23 +236,28 @@ Item {
 
                 }
 
+
+
+
+
                 Row {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: loop_txt
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignTop
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        //: Loop over all images during slideshows
-                        text: em.pty+qsTranslate("slideshow", "looping")
+                        text: em.pty+qsTranslate("slideshow", "looping") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     PQCheckbox {
@@ -269,19 +273,21 @@ Item {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: shuffle_txt
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignTop
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
                         //: during slideshows shuffle the order of all images
                         text: em.pty+qsTranslate("slideshow", "shuffle") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     PQCheckbox {
@@ -297,20 +303,23 @@ Item {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: quick_txt
                         y: (loop_txt-height)/2
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignTop
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
                         //: What to do with the quick info during slideshows
                         text: em.pty+qsTranslate("slideshow", "quickinfo") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     PQCheckbox {
@@ -326,19 +335,22 @@ Item {
 
                     spacing: 15
 
-                    width: parent.width
                     height: childrenRect.height
 
                     Text {
                         id: music_txt
-                        width: col.leftcolwidth
-                        horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignTop
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
                         //: The music that is to be played during slideshows
                         text: em.pty+qsTranslate("slideshow", "music") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
                     }
 
                     Column {
@@ -382,19 +394,14 @@ Item {
 
                 }
 
+                Item {
+                    width: 1
+                    height: 5
+                }
+
             }
 
         }
-
-        Rectangle {
-            id: sep_bot
-            color: "white"
-            x: 0
-            y: button_row.y-10
-            width: parent.width
-            height: 1
-        }
-
 
         Row {
 
@@ -402,8 +409,8 @@ Item {
 
             spacing: 5
 
+            y: insidecont.y+insidecont.height
             x: (parent.width-width)/2
-            y: (parent.height-height)
 
             height: button_start.height+20
 
@@ -447,7 +454,6 @@ Item {
             }
 
         }
-
 
         Connections {
             target: loader
