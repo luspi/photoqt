@@ -104,7 +104,7 @@ Item {
 
                 property int leftcolwidth: 100
 
-                spacing: 10
+                spacing: 15
 
                 Item {
                     width: 1
