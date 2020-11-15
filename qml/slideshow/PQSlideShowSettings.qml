@@ -159,7 +159,8 @@ Item {
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        text: "animation:"
+                        //: This is referring to the in/out animation of images during a slideshow
+                        text: em.pty+qsTranslate("slideshow", "animation") + ":"
                         horizontalAlignment: Text.AlignRight
                         Component.onCompleted: {
                             if(width > col.leftcolwidth)
