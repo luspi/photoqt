@@ -165,7 +165,6 @@ Item {
                     spacing: 5
                     PQButton {
                         text: "0.25x"
-                        width: 50
                         onClicked: {
                             newwidth.value = newwidth.origVal*0.25
                             newheight.value = newheight.origVal*0.25
@@ -173,7 +172,6 @@ Item {
                     }
                     PQButton {
                         text: "0.5x"
-                        width: 50
                         onClicked: {
                             newwidth.value = newwidth.origVal*0.5
                             newheight.value = newheight.origVal*0.5
@@ -181,7 +179,6 @@ Item {
                     }
                     PQButton {
                         text: "0.75x"
-                        width: 50
                         onClicked: {
                             newwidth.value = newwidth.origVal*0.75
                             newheight.value = newheight.origVal*0.75
@@ -189,7 +186,6 @@ Item {
                     }
                     PQButton {
                         text: "1x"
-                        width: 50
                         onClicked: {
                             newwidth.value = newwidth.origVal
                             newheight.value = newheight.origVal
@@ -197,7 +193,6 @@ Item {
                     }
                     PQButton {
                         text: "1.5x"
-                        width: 50
                         onClicked: {
                             newwidth.value = newwidth.origVal*1.5
                             newheight.value = newheight.origVal*1.5
