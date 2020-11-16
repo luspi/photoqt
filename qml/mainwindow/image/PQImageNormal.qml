@@ -42,6 +42,7 @@ Image {
     onStatusChanged: {
         theimage.imageStatus = status
         if(status == Image.Ready) {
+            container.currentVideoLength = -1
             variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
             variables.currentPaintedZoomLevel = elem.scale
 

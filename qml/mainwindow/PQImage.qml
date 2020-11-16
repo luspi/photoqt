@@ -48,6 +48,9 @@ Item {
     signal mirrorReset()
 
     signal playPauseAnim()
+    signal playAnim()
+    signal pauseAnim()
+    signal restartAnim()
 
     signal hideAllImages()
 
@@ -59,6 +62,8 @@ Item {
 
     // currently shown index
     property int currentlyShownIndex: -1
+
+    property int currentVideoLength: -1
 
     Repeater {
 
@@ -306,6 +311,10 @@ Item {
 
     function playPauseAnimation() {
         container.playPauseAnim()
+    }
+
+    function getCurrentVideoLength() {
+        return currentVideoLength
     }
 
 }

@@ -57,11 +57,13 @@ Rectangle {
     property bool running: false
     onRunningChanged: {
         if(running) {
+            imageitem.playAnim()
             switcher.restart()
             hideBarAfterTimeout.restart()
             if(slideshowmusic.source != "")
                 slideshowmusic.play()
         } else {
+            imageitem.pauseAnim()
             controls_top.opacity = 1
             slideshowmusic.pause()
         }
@@ -363,7 +365,7 @@ Rectangle {
 
     Timer {
         id: switcher
-        interval: Math.max(1000, Math.min(300*1000, PQSettings.slideShowTime*1000))
+        interval: imageitem.getCurrentVideoLength()==-1 ? Math.max(1000, Math.min(300*1000, PQSettings.slideShowTime*1000)) : imageitem.getCurrentVideoLength()
         repeat: true
         running: variables.slideShowActive&&controls_top.running
         onTriggered: loadNextImage()
@@ -394,6 +396,7 @@ Rectangle {
         }
 
         controls_top.running = true
+        imageitem.restartAnim()
 
         controls_top.opacity = 1
         if(PQSettings.slideShowControlsPopoutElement)

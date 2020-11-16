@@ -42,6 +42,7 @@ AnimatedImage {
     onStatusChanged: {
         theimage.imageStatus = status
         if(status == Image.Ready) {
+            container.currentVideoLength = -1
             // there seems to be a bug (QTBUG-87748):
             // paintedWidth and sourceSize are still zero here but are available in a Timer with 0 interval.
             tim.restart()

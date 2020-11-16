@@ -73,6 +73,7 @@ Item {
         onStatusChanged: {
             theimage.imageStatus = ((status==MediaPlayer.Loaded||status==MediaPlayer.Buffered) ? Image.Ready : Image.Loading)
             if(status == MediaPlayer.Loaded) {
+                container.currentVideoLength = videoelem.duration
                 variables.currentZoomLevel = videoelem.scale*100
                 variables.currentPaintedZoomLevel = videoelem.scale
                 if(PQSettings.videoAutoplay)
@@ -190,7 +191,7 @@ Item {
 
             property bool mouseHasBeenMovedRecently: false
 
-            opacity: (videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently || volumecontrol_slider.manipulate) ? 1 : 0
+            opacity: (!variables.slideShowActive && (videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently || volumecontrol_slider.manipulate)) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 250 } }
 
             onOpacityChanged: {
@@ -222,6 +223,8 @@ Item {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
+                            if(variables.slideShowActive)
+                                return
                             if(videoelem.playbackState == MediaPlayer.PlayingState)
                                 videoelem.pause()
                             else
@@ -378,6 +381,15 @@ Item {
                 videoelem.pause()
             else
                 videoelem.play()
+        }
+        onPlayAnim: {
+            videoelem.play()
+        }
+        onPauseAnim: {
+            videoelem.pause()
+        }
+        onRestartAnim: {
+            videoelem.seek(0)
         }
     }
 
