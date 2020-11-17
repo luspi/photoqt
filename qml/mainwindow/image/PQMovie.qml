@@ -145,6 +145,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
                 drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined
+                cursorShape: controls.mouseHasBeenMovedRecently ? Qt.ArrowCursor : Qt.BlankCursor
                 onClicked: {
                     if(videoelem.playbackState == MediaPlayer.PlayingState)
                         videoelem.pause()

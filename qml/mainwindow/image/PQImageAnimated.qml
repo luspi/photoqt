@@ -131,6 +131,7 @@ AnimatedImage {
             elem.rotateTo = elem.rotation
 
         MouseArea {
+            id: mousearea
             enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
             anchors.fill: parent
             drag.target: elem
@@ -144,6 +145,32 @@ AnimatedImage {
                         toplevel.close()
                 }
             }
+        }
+
+        Connections {
+            target: variables
+            onMousePosChanged: {
+                hidecursor.restart()
+                mousearea.cursorShape = Qt.ArrowCursor
+            }
+            onVisibleItemChanged: {
+                if(variables.visibleItem != "") {
+                    hidecursor.stop()
+                    mousearea.cursorShape = Qt.ArrowCursor
+                } else {
+                    hidecursor.restart()
+                    mousearea.cursorShape = Qt.ArrowCursor
+                }
+            }
+        }
+
+        Timer {
+            id: hidecursor
+            interval: 1000
+            repeat: false
+            running: true
+            onTriggered:
+                mousearea.cursorShape = Qt.BlankCursor
         }
 
     }
