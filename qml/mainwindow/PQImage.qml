@@ -288,7 +288,8 @@ Item {
             ++variables.indexOfCurrentImage
         else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && PQSettings.loopThroughFolder)
             variables.indexOfCurrentImage = 0
-        variables.newFileLoaded()
+        if(variables.allImageFilesInOrder.length > 1)
+            variables.newFileLoaded()
     }
 
     function loadPrevImage() {
@@ -296,17 +297,20 @@ Item {
             --variables.indexOfCurrentImage
         else if(variables.indexOfCurrentImage == 0 && PQSettings.loopThroughFolder)
             variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
-        variables.newFileLoaded()
+        if(variables.allImageFilesInOrder.length > 1)
+            variables.newFileLoaded()
     }
 
     function loadFirstImage() {
         variables.indexOfCurrentImage = 0
-        variables.newFileLoaded()
+        if(variables.allImageFilesInOrder.length > 1)
+            variables.newFileLoaded()
     }
 
     function loadLastImage() {
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
-        variables.newFileLoaded()
+        if(variables.allImageFilesInOrder.length > 1)
+            variables.newFileLoaded()
     }
 
     function playPauseAnimation() {
