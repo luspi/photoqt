@@ -28,7 +28,7 @@ Image {
 
     source: "image://full/" + src
 
-    x: PQSettings.marginAroundImage
+    x: 0 // offset taking care of in container
     y: PQSettings.marginAroundImage
     width: container.width-2*PQSettings.marginAroundImage
     height: container.height-2*PQSettings.marginAroundImage
