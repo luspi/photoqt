@@ -67,6 +67,9 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     if(result & PQCommandLineDebug)
         message += ":://::_D_E_B_U_G_";
 
+    if(result & PQCommandLineStandalone)
+        message += ":://::_S_T_A_N_D_A_L_O_N_E_";
+
 
     // STANDALONE, EXPORT, IMPORT
 
@@ -86,7 +89,7 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
         return;
     }
 
-    if(message.contains("::standalone::")) {
+    if(message.contains(":://::_S_T_A_N_D_A_L_O_N_E_")) {
         handleMessage(message);
         return;
     }
