@@ -208,7 +208,7 @@ Image {
         }
         onZoomActual: {
             if(variables.currentZoomLevel != 100)
-                elem.scale = 100/variables.currentZoomLevel
+                elem.scale = elem.sourceSize.width/elem.paintedWidth
         }
         onRotate: {
             elem.rotateTo += deg
