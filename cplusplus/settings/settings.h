@@ -338,22 +338,22 @@ public:
             }
         }
 
-        Q_PROPERTY(int interpolationNearestNeighbourThreshold READ getInterpolationNearestNeighbourThreshold WRITE setInterpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
-        int getInterpolationNearestNeighbourThreshold() { return m_interpolationNearestNeighbourThreshold; }
-        void setInterpolationNearestNeighbourThreshold(int val) {
-            if(m_interpolationNearestNeighbourThreshold != val) {
-                m_interpolationNearestNeighbourThreshold = val;
-                emit interpolationNearestNeighbourThresholdChanged();
+        Q_PROPERTY(int interpolationThreshold READ getInterpolationThreshold WRITE setInterpolationThreshold NOTIFY interpolationThresholdChanged)
+        int getInterpolationThreshold() { return m_interpolationThreshold; }
+        void setInterpolationThreshold(int val) {
+            if(m_interpolationThreshold != val) {
+                m_interpolationThreshold = val;
+                emit interpolationThresholdChanged();
                 saveSettingsTimer->start();
             }
         }
 
-        Q_PROPERTY(bool interpolationNearestNeighbourUpscale READ getInterpolationNearestNeighbourUpscale WRITE setInterpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
-        bool getInterpolationNearestNeighbourUpscale() { return m_interpolationNearestNeighbourUpscale; }
-        void setInterpolationNearestNeighbourUpscale(bool val) {
-            if(m_interpolationNearestNeighbourUpscale != val) {
-                m_interpolationNearestNeighbourUpscale = val;
-                emit interpolationNearestNeighbourUpscaleChanged();
+        Q_PROPERTY(bool interpolationDisableForSmallImages READ getInterpolationDisableForSmallImages WRITE setInterpolationDisableForSmallImages NOTIFY interpolationDisableForSmallImagesChanged)
+        bool getInterpolationDisableForSmallImages() { return m_interpolationDisableForSmallImages; }
+        void setInterpolationDisableForSmallImages(bool val) {
+            if(m_interpolationDisableForSmallImages != val) {
+                m_interpolationDisableForSmallImages = val;
+                emit interpolationDisableForSmallImagesChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1498,8 +1498,8 @@ private:
         int     m_mouseWheelSensitivity;
         bool    m_keepZoomRotationMirror;
         bool    m_fitInWindow;
-        int     m_interpolationNearestNeighbourThreshold;
-        bool    m_interpolationNearestNeighbourUpscale;
+        int     m_interpolationThreshold;
+        bool    m_interpolationDisableForSmallImages;
         int     m_pixmapCache;
         bool    m_showTransparencyMarkerBackground;
         bool    m_leftButtonMouseClickAndMove;
@@ -1655,8 +1655,8 @@ signals:
         void mouseWheelSensitivityChanged();
         void keepZoomRotationMirrorChanged();
         void fitInWindowChanged();
-        void interpolationNearestNeighbourThresholdChanged();
-        void interpolationNearestNeighbourUpscaleChanged();
+        void interpolationThresholdChanged();
+        void interpolationDisableForSmallImagesChanged();
         void pixmapCacheChanged();
         void showTransparencyMarkerBackgroundChanged();
         void leftButtonMouseClickAndMoveChanged();

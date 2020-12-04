@@ -53,7 +53,8 @@ Item {
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
-        mipmap: scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)
+        smooth: (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
+        mipmap: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
 
         rotation: useStoredData ? variables.zoomRotationMirror[src][1] : 0
         property real rotateTo: 0.0

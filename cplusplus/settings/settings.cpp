@@ -86,8 +86,8 @@ void PQSettings::setDefault() {
     setMouseWheelSensitivity(1);
     setKeepZoomRotationMirror(false);
     setFitInWindow(false);
-    setInterpolationNearestNeighbourThreshold(100);
-    setInterpolationNearestNeighbourUpscale(true);
+    setInterpolationThreshold(100);
+    setInterpolationDisableForSmallImages(true);
     setPixmapCache(128);
     setLeftButtonMouseClickAndMove(true);
     setShowTransparencyMarkerBackground(false);
@@ -331,11 +331,11 @@ void PQSettings::readSettings() {
             else if(line.startsWith("FitInWindow="))
                 setFitInWindow(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("InterpolationNearestNeighbourThreshold="))
-                setInterpolationNearestNeighbourThreshold(line.split("=").at(1).toInt());
+            else if(line.startsWith("InterpolationThreshold="))
+                setInterpolationThreshold(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("InterpolationNearestNeighbourUpscale="))
-                setInterpolationNearestNeighbourUpscale(line.split("=").at(1).toInt());
+            else if(line.startsWith("InterpolationDisableForSmallImages="))
+                setInterpolationDisableForSmallImages(line.split("=").at(1).toInt());
 
             else if(line.startsWith("PixmapCache="))
                 setPixmapCache(line.split("=").at(1).toInt());
@@ -720,8 +720,8 @@ void PQSettings::saveSettings() {
         cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
         cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
         cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
-        cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(m_interpolationNearestNeighbourThreshold);
-        cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(m_interpolationNearestNeighbourUpscale));
+        cont += QString("InterpolationThreshold=%1\n").arg(m_interpolationThreshold);
+        cont += QString("InterpolationDisableForSmallImages=%1\n").arg(int(m_interpolationDisableForSmallImages));
         cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
         cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));

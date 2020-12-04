@@ -28,7 +28,7 @@ import "../../../elements"
 PQSetting {
     //: A settings title referring to the type of interpolation to use for small images
     title: em.pty+qsTranslate("settingsmanager_imageview", "interpolation")
-    helptext: em.pty+qsTranslate("settingsmanager_imageview", "There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better choice. The threshold defines at which size to switch from one to the other algorithm.")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "PhotoQt tries to improve the rendering of images that are shown much larger than they are (i.e., zoomed in a lot). For very tiny images that are zoomed in quite a lot, this can result in the loss of too much information in the image. Thus a threshold can be defined here, images that are smaller than this threshold are shown exactly as they are without any smoothing or other attempts to improve them.")
     expertmodeonly: true
     content: [
 
@@ -39,7 +39,7 @@ PQSetting {
             PQCheckbox {
                 id: interp_check
                 //: A type of interpolation to use for small images
-                text: em.pty+qsTranslate("settingsmanager_imageview", "use 'nearest neighbour' algorithm for upscaling")
+                text: em.pty+qsTranslate("settingsmanager_imageview", "Do not use any interpolation algorithm for very small images")
             }
 
             Row {
@@ -90,8 +90,8 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.interpolationNearestNeighbourUpscale = interp_check.checked
-            PQSettings.interpolationNearestNeighbourThreshold = interp_thr.value
+            PQSettings.interpolationDisableForSmallImages = interp_check.checked
+            PQSettings.interpolationThreshold = interp_thr.value
         }
 
     }
@@ -101,8 +101,8 @@ PQSetting {
     }
 
     function load() {
-        interp_check.checked = PQSettings.interpolationNearestNeighbourUpscale
-        interp_thr.value = PQSettings.interpolationNearestNeighbourThreshold
+        interp_check.checked = PQSettings.interpolationDisableForSmallImages
+        interp_thr.value = PQSettings.interpolationThreshold
     }
 
 }
