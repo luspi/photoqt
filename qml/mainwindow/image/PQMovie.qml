@@ -71,7 +71,7 @@ Item {
         notifyInterval: videoelem.duration>2*notifyIntervalLONG ? notifyIntervalLONG : notifyIntervalSHORT
 
         onStatusChanged: {
-            theimage.imageStatus = ((status==MediaPlayer.Loaded||status==MediaPlayer.Buffered) ? Image.Ready : Image.Loading)
+            deleg.imageStatus = ((status==MediaPlayer.Loaded||status==MediaPlayer.Buffered) ? Image.Ready : Image.Loading)
             if(status == MediaPlayer.Loaded) {
                 container.currentVideoLength = videoelem.duration
                 variables.currentZoomLevel = videoelem.scale*100
@@ -419,6 +419,12 @@ Item {
             elem.mirror = variables.zoomRotationMirror[src][3]
 
         }
+    }
+
+    function storePosRotZoomMirror() {
+
+        variables.zoomRotationMirror[src] = [Qt.point(elem.x, elem.y), elem.rotation, elem.scale, elem.mirror]
+
     }
 
 

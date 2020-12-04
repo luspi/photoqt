@@ -22,6 +22,7 @@
 
 import QtQuick 2.9
 import "./image/"
+import "../elements"
 
 Item {
 
@@ -78,37 +79,27 @@ Item {
         delegate: Item {
 
             id: deleg
-            x: 0
-            y: 0
-            width: repeat.width
-            height: repeat.height
+            property int imageStatus: Image.Loading
 
             Loader {
-                id: theimage
-                property int imageStatus: Image.Loading
-                onImageStatusChanged: {
-                    if(imageStatus == Image.Ready) {
-                        loadingtimer.stop()
-                        loadingindicator.visible = false
-                    }
-                    if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
-                        hideShowAni.showing = true
-                        hideShowAni.imageIndex = imageIndex
-                        hideShowAni.startAni()
-                        container.newImageLoaded(deleg.uniqueid)
-                    }
-                }
-            }
-
-            Connections {
-                target: container
-                onHideAllImages: {
-                    hideShowAni.showing = false
-                    hideShowAni.startAni()
-                }
+                id: imageloader
+                property alias imageStatus: deleg.imageStatus
             }
 
             property string uniqueid: handlingGeneral.getUniqueId()
+
+            onImageStatusChanged: {
+                if(imageStatus == Image.Ready) {
+                    loadingtimer.stop()
+                    loadingindicator.visible = false
+                }
+                if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
+                    hideShowAni.showing = true
+                    hideShowAni.imageIndex = imageIndex
+                    hideShowAni.startAni()
+                    container.newImageLoaded(deleg.uniqueid)
+                }
+            }
 
             Component.onCompleted: {
 
@@ -118,14 +109,23 @@ Item {
                 loadingtimer.restart()
 
                 if(PQImageFormats.enabledFileformatsVideo.indexOf("*."+handlingFileDialog.getSuffix(src))>-1) {
-                    theimage.source = "image/PQMovie.qml"
+                    imageloader.source = "image/PQMovie.qml"
                     variables.videoControlsVisible = true
                 } else if(imageproperties.isAnimated(src)) {
-                    theimage.source = "image/PQImageAnimated.qml"
+                    imageloader.source = "image/PQImageAnimated.qml"
                     variables.videoControlsVisible = false
                 } else {
-                    theimage.source = "image/PQImageNormal.qml"
+                    imageloader.source = "image/PQImageNormal.qml"
                     variables.videoControlsVisible = false
+                }
+
+            }
+
+            Connections {
+                target: container
+                onHideAllImages: {
+                    hideShowAni.showing = false
+                    hideShowAni.startAni()
                 }
             }
 
@@ -137,13 +137,10 @@ Item {
                             if(hideShowAni.showing)
                                 hideShowAni.continueToDeleteAfterShowing = true
                         } else {
-                            if(theimage.imageStatus == Image.Ready) {
+                            if(deleg.imageStatus == Image.Ready) {
                                 hideShowAni.showing = false
                                 // store pos/zoom/rotation/mirror, can be restored when setting enabled
-                                variables.zoomRotationMirror[src] = [Qt.point(theimage.item.x, theimage.item.y),
-                                                                     theimage.item.scale,
-                                                                     theimage.item.rotation,
-                                                                     theimage.item.mirror]
+                                imageloader.item.storePosRotZoomMirror()
                                 hideShowAni.startAni()
                             } else
                                 image_model.remove(index)
@@ -190,7 +187,7 @@ Item {
                                 from = container.width
                                 to = PQSettings.marginAroundImage
                             } else {
-                                from = -deleg.width
+                                from = -container.width
                                 to = PQSettings.marginAroundImage
                             }
 
@@ -200,7 +197,7 @@ Item {
                                 from = container.height
                                 to = PQSettings.marginAroundImage
                             } else {
-                                from = -deleg.height
+                                from = -container.height
                                 to = PQSettings.marginAroundImage
                             }
 
@@ -216,7 +213,7 @@ Item {
 
                             if(hideshow == "left") {
                                 from = deleg.x
-                                to = -deleg.width
+                                to = -container.width
                             } else {
                                 from = deleg.x
                                 to = container.width
@@ -226,7 +223,7 @@ Item {
 
                             if(hideshow == "left") {
                                 from = deleg.x
-                                to = -deleg.height
+                                to = -container.height
                             } else {
                                 from = deleg.x
                                 to = container.height
@@ -245,13 +242,12 @@ Item {
                 }
 
                 onStopped: {
-                    if(!showing)
+                    if(!showing) {
                         image_model.remove(index)
-                    else if(continueToDeleteAfterShowing) {
+                    } else if(continueToDeleteAfterShowing) {
                         showing = false
                         startAni()
-                    } else if(showing)
-                        theimage.item.restorePosZoomRotationMirror()
+                    }
                 }
 
             }

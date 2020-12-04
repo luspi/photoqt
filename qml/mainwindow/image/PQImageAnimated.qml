@@ -22,214 +22,204 @@
 
 import QtQuick 2.9
 
-AnimatedImage {
+Item {
 
-    id: elem
+    id: cont
+    x: useStoredData ? variables.zoomRotationMirror[src][4].x : 0
+    y: useStoredData ? variables.zoomRotationMirror[src][4].y : 0
+    width: container.width
+    height: container.height
 
-    source: "file://" + src
+    property bool imageMoved: false
+    property real defaultScale: 1.0
+    property bool useStoredData: PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror
 
-    x: 0 // offset taking care of in container
-    y: PQSettings.marginAroundImage
-    width: container.width-2*PQSettings.marginAroundImage
-    height: container.height-2*PQSettings.marginAroundImage
+    AnimatedImage {
 
-    // set this as default
-    // this way larger images will not be reloaded when adjusting fillMode while smaller images will (might) be.
-    // As smaller images are very quick to load, especially from cache, this is acceptable.
-    // Note: The reason for all this is because a change in fillMode triggers a reload of the image
-    fillMode: Image.PreserveAspectFit
+        id: theimage
+        x: useStoredData ? variables.zoomRotationMirror[src][0].x : 0
+        y: useStoredData ? variables.zoomRotationMirror[src][0].y : 0
+        width: sourceSize.width
+        height: sourceSize.height
+        fillMode: Image.Pad
+        clip: true
 
-    onStatusChanged: {
-        theimage.imageStatus = status
-        if(status == Image.Ready) {
-            container.currentVideoLength = -1
-            // there seems to be a bug (QTBUG-87748):
-            // paintedWidth and sourceSize are still zero here but are available in a Timer with 0 interval.
-            tim.restart()
+        source: "file:/" + src
+
+        onXChanged:
+            imageMoved = true
+        onYChanged:
+            imageMoved = true
+
+        mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
+
+        mipmap: scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)
+
+        rotation: useStoredData ? variables.zoomRotationMirror[src][1] : 0
+        property real rotateTo: 0.0
+        onRotateToChanged: {
+            rotation = rotateTo
+            if(theimage.scale == defaultScale && !imageMoved)
+                reset(true, false)
         }
-    }
+        onRotationChanged: {
+            if(!rotani.running)
+                rotateTo = rotation
+        }
 
-    Timer {
-        id: tim
-        interval: 0
-        repeat: false
-        running: false
-        onTriggered: {
-            variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
-            variables.currentPaintedZoomLevel = elem.scale
+        scale: useStoredData ? variables.zoomRotationMirror[src][2] : 1
+        onScaleChanged: {
+            variables.currentZoomLevel = theimage.scale*100
+            variables.currentPaintedZoomLevel = theimage.scale
+        }
 
-            // update fillmode (if change necessary)
-            if(sourceSize.width < width && sourceSize.height < height && !PQSettings.fitInWindow && fillMode != Image.Pad) {
-                fillMode = Image.Pad
-            } else if((sourceSize.width >= width || sourceSize.height >= height || PQSettings.fitInWindow) && fillMode != Image.PreserveAspectFit) {
-                fillMode = Image.PreserveAspectFit
+        onStatusChanged: {
+            cont.parent.imageStatus = status
+            if(status == Image.Ready) {
+                theimage_load.restart()
             }
-
         }
-    }
 
-    Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
-    onScaleChanged: {
-        variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
-        variables.currentPaintedZoomLevel = elem.scale
-    }
+        Behavior on x { NumberAnimation { id: xani; duration: PQSettings.animationDuration*100  } }
+        Behavior on y { NumberAnimation { id: yani; duration: PQSettings.animationDuration*100  } }
+        Behavior on rotation { NumberAnimation { id: rotani; duration: PQSettings.animationDuration*100  } }
+        // its duration it set to proper value after image has been loaded properly (in reset())
+        Behavior on scale { NumberAnimation { id: scaleani; duration: 0  } }
 
-    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
-    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
-
-    asynchronous: true
-    cache: true
-    antialiasing: true
-    smooth: (PQSettings.interpolationNearestNeighbourUpscale &&
-             elem.paintedWidth<=PQSettings.interpolationNearestNeighbourThreshold &&
-             elem.paintedHeight<=PQSettings.interpolationNearestNeighbourThreshold) ? false : true
-    mipmap: (PQSettings.interpolationNearestNeighbourUpscale &&
-             elem.paintedWidth<=PQSettings.interpolationNearestNeighbourThreshold &&
-             elem.paintedHeight<=PQSettings.interpolationNearestNeighbourThreshold) ? false : true
-
-    property bool scaleAdjustedFromRotation: false
-    property int rotateTo: 0    // used to know where a rotation will end up before the animation has finished
-    rotation: 0
-    Behavior on rotation { RotationAnimation { id: rotationAni; duration: PQSettings.animationDuration*100 } }
-    onRotateToChanged: {
-        if(pincharea.pinch.active) return // if the update came from a pinch event, don't do anything here
-        rotation = rotateTo
-        if((rotateTo%180+180)%180 == 90 && elem.scale == 1) {
-            elem.scale = Math.min(elem.height/elem.paintedWidth, 1)
-            scaleAdjustedFromRotation = true
-        } else if(scaleAdjustedFromRotation) {
-            elem.scale = 1
-            scaleAdjustedFromRotation = false
+        Image {
+            x: 0
+            y: 0
+            width: parent.width
+            height: parent.height
+            z: -1
+            fillMode: Image.Tile
+            visible: PQSettings.showTransparencyMarkerBackground
+            source: PQSettings.showTransparencyMarkerBackground ? "/image/transparent.png" : ""
         }
+
+
+        Timer {
+            id: theimage_load
+            interval: 0
+            repeat: false
+            running: false
+            onTriggered: {
+                if(!useStoredData)
+                    reset(true, true)
+            }
+        }
+
     }
 
-    Image {
-        width: parent.paintedWidth
-        height: parent.paintedHeight
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
-        z: -1
-        fillMode: Image.Tile
-        visible: PQSettings.showTransparencyMarkerBackground
-        source: PQSettings.showTransparencyMarkerBackground ? "/image/transparent.png" : ""
+    MouseArea {
+        x: -cont.x
+        y: -cont.y
+        width: container.width
+        height: container.height
+        hoverEnabled: false
+        onPressed: {
+            if(PQSettings.closeOnEmptyBackground)
+                toplevel.close()
+        }
     }
 
     PinchArea {
 
         id: pincharea
 
-        anchors.fill: parent
+        anchors.fill: theimage
 
-        pinch.target: elem
-        pinch.minimumRotation: -360
-        pinch.maximumRotation: 360
+        scale: theimage.scale
+        rotation: theimage.rotation
+
+        pinch.target: theimage
+        pinch.minimumRotation: -360*5
+        pinch.maximumRotation: 360*5
         pinch.minimumScale: 0.1
         pinch.maximumScale: 10
         pinch.dragAxis: Pinch.XAndYAxis
 
-        onPinchUpdated:
-            elem.rotateTo = elem.rotation
-
         MouseArea {
             id: mousearea
-            enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
+            enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
-            drag.target: elem
+            drag.target: theimage
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
-            onPressed: {
-                if(PQSettings.closeOnEmptyBackground) {
-                    var paintedX = (container.width-elem.paintedWidth)/2
-                    var paintedY = (container.height-elem.paintedHeight)/2
-                    if(mouse.x < paintedX || mouse.x > paintedX+elem.paintedWidth ||
-                       mouse.y < paintedY || mouse.y > paintedY+elem.paintedHeight)
-                        toplevel.close()
-                }
-            }
-        }
-
-        Connections {
-            target: variables
-            onMousePosChanged: {
-                hidecursor.restart()
-                mousearea.cursorShape = Qt.ArrowCursor
-            }
-            onVisibleItemChanged: {
-                if(variables.visibleItem != "") {
-                    hidecursor.stop()
-                    mousearea.cursorShape = Qt.ArrowCursor
-                } else {
+            Connections {
+                target: variables
+                onMousePosChanged: {
                     hidecursor.restart()
                     mousearea.cursorShape = Qt.ArrowCursor
                 }
+                onVisibleItemChanged: {
+                    if(variables.visibleItem != "") {
+                        hidecursor.stop()
+                        mousearea.cursorShape = Qt.ArrowCursor
+                    } else {
+                        hidecursor.restart()
+                        mousearea.cursorShape = Qt.ArrowCursor
+                    }
+                }
             }
-        }
 
-        Timer {
-            id: hidecursor
-            interval: 1000
-            repeat: false
-            running: true
-            onTriggered:
-                mousearea.cursorShape = Qt.BlankCursor
+            Timer {
+                id: hidecursor
+                interval: 1000
+                repeat: false
+                running: true
+                onTriggered:
+                    mousearea.cursorShape = Qt.BlankCursor
+            }
+
         }
 
     }
 
+    PQFaceTracker {
+        id: facetracker
+        x: 0
+        y: -cont.y
+        width: container.width
+        height: container.height
+        filename: src
+        visible: !facetagger.visible
+        Connections {
+            target: facetagger
+            onHasBeenUpdated:
+                facetracker.updateData()
+        }
+    }
+
+    PQFaceTagger {
+        id: facetagger
+        x: 0
+        y: -cont.y
+        width: container.width
+        height: container.height
+        filename: src
+    }
+
     Connections {
-        target: container
-        onZoomIn: {
-            elem.scale *= (1+PQSettings.zoomSpeed/100)
-            scaleAdjustedFromRotation = false
-        }
-        onZoomOut: {
-            elem.scale /= (1+PQSettings.zoomSpeed/100)
-            scaleAdjustedFromRotation = false
-        }
-        onZoomReset: {
-            xAni.duration = PQSettings.animationDuration*100
-            yAni.duration = PQSettings.animationDuration*100
-            if(!scaleAdjustedFromRotation)
-                elem.scale = 1
-            elem.x = PQSettings.marginAroundImage
-            elem.y = PQSettings.marginAroundImage
-        }
-        onZoomActual: {
-            if(variables.currentZoomLevel != 100)
-                elem.scale = elem.sourceSize.width/elem.paintedWidth
-        }
-        onRotate: {
-            elem.rotateTo += deg
-        }
-        onRotateReset: {
-            var old = elem.rotateTo%360
-            if(old > 0) {
-                if(old <= 180)
-                    elem.rotateTo -= old
-                else
-                    elem.rotateTo += 360-old
-            } else if(old < 0) {
-                if(old >= -180)
-                    elem.rotateTo -= old
-                else
-                    elem.rotateTo -= (old+360)
+        target: toplevel
+        onWidthChanged:
+            widthHeightChanged.start()
+        onHeightChanged:
+            widthHeightChanged.start()
+    }
+
+    Timer {
+        id: widthHeightChanged
+        interval: 10
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!useStoredData) {
+                if(!imageMoved && theimage.scale == defaultScale)
+                    reset(true, true)
+                else if(!imageMoved)
+                    reset(false, true)
             }
         }
-        onMirrorH: {
-            var old = elem.mirror
-            elem.mirror = !old
-        }
-        onMirrorV: {
-            var old = elem.mirror
-            elem.mirror = !old
-            rotationAni.duration = 0
-            elem.rotateTo += 180
-            rotationAni.duration = PQSettings.animationDuration*100
-        }
-        onMirrorReset: {
-            elem.mirror = false
-        }
-        onPlayPauseAnim:
-            elem.paused = !elem.paused
     }
 
     Connections {
@@ -237,25 +227,112 @@ AnimatedImage {
         property bool pauseStateWhenElementOpens: false
         onVisibleItemChanged: {
             if(variables.visibleItem == "")
-                elem.paused = pauseStateWhenElementOpens
+                theimage.paused = pauseStateWhenElementOpens
             else {
-                pauseStateWhenElementOpens = elem.paused
-                elem.paused = true
+                pauseStateWhenElementOpens = theimage.paused
+                theimage.paused = true
             }
         }
     }
 
-    function restorePosZoomRotationMirror() {
-        if(PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror) {
+    Connections {
+        target: container
+        onZoomIn: {
+            theimage.scale *= (1+PQSettings.zoomSpeed/100)
+        }
+        onZoomOut: {
+            theimage.scale /= (1+PQSettings.zoomSpeed/100)
+        }
+        onZoomReset: {
+            reset(true, true)
+        }
+        onZoomActual: {
+            if(variables.currentZoomLevel != 100)
+                theimage.scale = 1
+        }
+        onRotate: {
+            theimage.rotateTo += deg
+        }
+        onRotateReset: {
+            var old = theimage.rotateTo%360
+            if(old > 0) {
+                if(old <= 180)
+                    theimage.rotateTo -= old
+                else
+                    theimage.rotateTo += 360-old
+            } else if(old < 0) {
+                if(old >= -180)
+                    theimage.rotateTo -= old
+                else
+                    theimage.rotateTo -= (old+360)
+            }
+        }
+        onMirrorH: {
+            var old = theimage.mirror
+            theimage.mirror = !old
+        }
+        onMirrorV: {
+            var old = theimage.mirror
+            theimage.mirror = !old
+            theimage.rotation += 180
+        }
+        onMirrorReset: {
+            theimage.mirror = false
+        }
+    }
 
-            elem.x = variables.zoomRotationMirror[src][0].x
-            elem.y = variables.zoomRotationMirror[src][0].y
+    function reset(scaling, position) {
 
-            elem.scale = variables.zoomRotationMirror[src][1]
-            elem.rotation = variables.zoomRotationMirror[src][2]
-            elem.mirror = variables.zoomRotationMirror[src][3]
+        var sc1 = 1.0
+        var sc2 = 1.0
+
+        if(Math.abs(theimage.rotateTo%180) == 90) {
+            sc1 = (container.width-2*PQSettings.marginAroundImage)/theimage.height
+            sc2 = (container.height-2*PQSettings.marginAroundImage)/theimage.width
+        } else {
+            sc1 = (container.width-2*PQSettings.marginAroundImage)/theimage.width
+            sc2 = (container.height-2*PQSettings.marginAroundImage)/theimage.height
+        }
+
+        var useThisScale = 1.0
+
+        if((PQSettings.fitInWindow && ((Math.abs(theimage.rotateTo%180) == 0 && theimage.width < container.width && theimage.height < container.height) ||
+                                       (Math.abs(theimage.rotateTo%180) == 90 && theimage.height < container.width && theimage.width > container.height)))
+                ||
+                ((Math.abs(theimage.rotateTo%180) != 90 && (theimage.width > container.width || theimage.height > container.height)) ||
+                 (Math.abs(theimage.rotateTo%180) == 90 && (theimage.height > container.width || theimage.width > container.height)))) {
+
+            useThisScale = Math.min(sc1, sc2)
 
         }
+
+        if(position) {
+            theimage.x = 0
+            theimage.y = 0
+            if(Math.abs(theimage.rotateTo%180) == 0) {
+                cont.x = PQSettings.marginAroundImage + Math.floor(-(theimage.width*(1-sc1))/2)
+                cont.y = PQSettings.marginAroundImage + Math.floor(-(theimage.height*(1-sc2))/2)
+            }
+            imageMoved = false
+        }
+
+        if(scaling) {
+            defaultScale = useThisScale
+            theimage.scale = useThisScale
+            variables.currentZoomLevel = useThisScale*100
+            variables.currentPaintedZoomLevel = useThisScale
+        }
+
+        // set the right duration
+        // at start this value is zero (to load image without animation) and needs to be set here
+        scaleani.duration = PQSettings.animationDuration*100
+
+    }
+
+    function storePosRotZoomMirror() {
+
+        variables.zoomRotationMirror[src] = [Qt.point(theimage.x, theimage.y), theimage.rotation, theimage.scale, theimage.mirror, Qt.point(cont.x, cont.y)]
+
     }
 
 }
