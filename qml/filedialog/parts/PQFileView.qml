@@ -38,6 +38,19 @@ GridView {
 
     property bool rightclickopen: false
 
+    property var currentIndexChangedUsingKeyIgnoreMouse: false
+    onCurrentIndexChangedUsingKeyIgnoreMouseChanged:
+        resetCurrentIndexChangedUsingKeyIgnoreMouse.restart()
+
+    Timer {
+        id: resetCurrentIndexChangedUsingKeyIgnoreMouse
+        interval: 300
+        repeat: false
+        running: false
+        onTriggered:
+            currentIndexChangedUsingKeyIgnoreMouse = false
+    }
+
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
     PQFileFolderModel {
@@ -295,10 +308,14 @@ GridView {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-                onEntered:
-                    files_grid.currentIndex = index
-                onExited:
-                    files_grid.currentIndex = -1
+                onEntered: {
+                    if(!currentIndexChangedUsingKeyIgnoreMouse)
+                        files_grid.currentIndex = index
+                }
+                onExited: {
+                    if(!currentIndexChangedUsingKeyIgnoreMouse)
+                        files_grid.currentIndex = -1
+                }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(!files_grid.rightclickopen) {
@@ -374,6 +391,8 @@ GridView {
 
         if(key == Qt.Key_Down) {
 
+            currentIndexChangedUsingKeyIgnoreMouse = true
+
             if(modifiers == Qt.NoModifier) {
                 if(currentIndex == -1)
                     currentIndex = 0
@@ -383,6 +402,8 @@ GridView {
                 currentIndex = model.count-1
 
         } else if(key == Qt.Key_Up) {
+
+            currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(modifiers == Qt.NoModifier) {
                 if(currentIndex == -1)
@@ -396,6 +417,8 @@ GridView {
 
         } else if(key == Qt.Key_Left) {
 
+            currentIndexChangedUsingKeyIgnoreMouse = true
+
             if(modifiers == Qt.AltModifier)
                 breadcrumbs.goBackwards()
             else if(modifiers == Qt.NoModifier) {
@@ -408,6 +431,8 @@ GridView {
 
         } else if(key == Qt.Key_Right) {
 
+            currentIndexChangedUsingKeyIgnoreMouse = true
+
             if(modifiers == Qt.AltModifier)
                 breadcrumbs.goForwards()
             else if(modifiers == Qt.NoModifier) {
@@ -417,15 +442,19 @@ GridView {
                     currentIndex += 1
             }
 
-        } else if(key == Qt.Key_PageUp && modifiers == Qt.NoModifier)
+        } else if(key == Qt.Key_PageUp && modifiers == Qt.NoModifier) {
+
+            currentIndexChangedUsingKeyIgnoreMouse = true
 
             currentIndex = Math.max(currentIndex-5, 0)
 
-        else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier)
+        } else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier) {
+
+            currentIndexChangedUsingKeyIgnoreMouse = true
 
             currentIndex = Math.min(currentIndex+5, files_model.count-1)
 
-        else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
+        } else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
             if(files_model.getFileIsDir(currentIndex)) {
                 filedialog_top.setCurrentDirectory(files_model.getFilePath(currentIndex))
@@ -452,6 +481,8 @@ GridView {
             filedialog_top.hideFileDialog()
 
         else {
+
+            currentIndexChangedUsingKeyIgnoreMouse = true
 
             var tmp = (currentIndex==-1 ? 0 : currentIndex+1)
             var foundSomething = false
