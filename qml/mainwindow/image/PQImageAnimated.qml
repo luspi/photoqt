@@ -87,15 +87,33 @@ Item {
         // its duration it set to proper value after image has been loaded properly (in reset())
         Behavior on scale { NumberAnimation { id: scaleani; duration: 0  } }
 
-        Image {
+        Item {
+            id: trans
             x: 0
             y: 0
-            width: parent.width
-            height: parent.height
-            z: -1
-            fillMode: Image.Tile
+            width: parent.width*parent.scale
+            height: parent.height*parent.scale
+            scale: 1/parent.scale
             visible: PQSettings.showTransparencyMarkerBackground
-            source: PQSettings.showTransparencyMarkerBackground ? "/image/transparent.png" : ""
+            z: -1
+            Column {
+                Repeater {
+                    id: colrepeater
+                    model: (trans.height*trans.scale)/10 +1
+                    Row {
+                        id: therow
+                        property int colIndex: index
+                        Repeater {
+                            model: (trans.width*trans.scale)/10 +1
+                            Rectangle {
+                                width: 10
+                                height: 10
+                                color: (index+therow.colIndex)%2 ? "#666666" : "#999999"
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
