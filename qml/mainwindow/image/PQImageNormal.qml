@@ -201,10 +201,26 @@ Item {
 
     Connections {
         target: toplevel
-        onWidthChanged:
+        onWidthChanged: {
+            widthHeightChanged.interval = 10
             widthHeightChanged.start()
-        onHeightChanged:
+        }
+        onHeightChanged: {
+            widthHeightChanged.interval = 10
             widthHeightChanged.start()
+        }
+    }
+
+    Connections {
+        target: container
+        onWidthChanged: {
+            widthHeightChanged.interval = PQSettings.animationDuration*100
+            widthHeightChanged.start()
+        }
+        onHeightChanged: {
+            widthHeightChanged.interval = PQSettings.animationDuration*100
+            widthHeightChanged.start()
+        }
     }
 
     Timer {
