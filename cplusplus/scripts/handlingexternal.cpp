@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-#include <QtDebug>
 #include "handlingexternal.h"
 
 bool PQHandlingExternal::exportConfigTo(QString path) {
