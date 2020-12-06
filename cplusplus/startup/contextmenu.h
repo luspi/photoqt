@@ -59,22 +59,22 @@ namespace PQStartup {
                 // These are the possible entries
                 // There will be a ' %f' added at the end of each executable.
                 QStringList m;
-                //: Used as in 'Edit with application abc'
-                m << QApplication::translate("startup", "Edit with") + " Gimp" << "gimp"
-                     //: Used as in 'Edit with application abc'
-                  << QApplication::translate("startup", "Edit with") + " Krita" << "krita"
-                     //: Used as in 'Edit with application abc'
-                  << QApplication::translate("startup", "Edit with") + " KolourPaint" << "kolourpaint"
-                     //: Used as in 'Open in application abc'
-                  << QApplication::translate("startup", "Open in") + " GwenView" << "gwenview"
-                     //: Used as in 'Open in application abc'
-                  << QApplication::translate("startup", "Open in") + " showFoto" << "showfoto"
-                     //: Used as in 'Open in application abc'
-                  << QApplication::translate("startup", "Open in") + " Shotwell" << "shotwell"
-                     //: Used as in 'Open in application abc'
-                  << QApplication::translate("startup", "Open in") + " GThumb" << "gthumb"
-                     //: Used as in 'Open in application abc'
-                  << QApplication::translate("startup", "Open in") + " Eye of Gnome" << "eog";
+                //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+                m << QApplication::translate("startup", "Edit with %1").arg("Gimp") << "gimp"
+                     //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Edit with %1").arg("Krita") << "krita"
+                     //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Edit with %1").arg("KolourPaint") << "kolourpaint"
+                     //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Open in %1").arg("GwenView") << "gwenview"
+                     //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Open in %1").arg("showFoto") << "showfoto"
+                     //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Open in %1").arg("Shotwell") << "shotwell"
+                     //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Open in %1").arg("GThumb") << "gthumb"
+                     //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+                  << QApplication::translate("startup", "Open in %1").arg("Eye of Gnome") << "eog";
 
                 QString cont = "";
                 // Check for all entries
