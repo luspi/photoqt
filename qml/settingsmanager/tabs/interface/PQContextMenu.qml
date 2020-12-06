@@ -33,7 +33,7 @@ PQSetting {
     title: em.pty+qsTranslate("settingsmanager_interface", "custom main menu entries")
     helptext: em.pty+qsTranslate("settingsmanager_interface", "Add some custom entries in the main menu on the right.")
 
-    expertmodeonly: false//true
+    expertmodeonly: true
 
     property var entries: [["","",false],
                            ["","",false],
