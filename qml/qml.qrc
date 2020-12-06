@@ -142,5 +142,6 @@
         <file>shortcuts/mouseshortcuts.js</file>
         <file>filemanagement/PQCopyMove.qml</file>
         <file>mainwindow/PQLoading.qml</file>
+        <file>settingsmanager/tabs/interface/PQContextMenu.qml</file>
     </qresource>
 </RCC>

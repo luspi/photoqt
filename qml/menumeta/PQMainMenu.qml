@@ -68,6 +68,7 @@ Rectangle {
     Component.onCompleted: {
         if(PQSettings.mainMenuPopoutElement)
                 mainmenu_top.opacity = 1
+        readExternalContextmenu()
     }
 
     MouseArea {
@@ -271,8 +272,8 @@ Rectangle {
                     sourceSize.width: width
                     sourceSize.height: height
                     source: allitems[subview.mainindex][index][1]===""
-                            ? "" : (allitems[subview.mainindex][index][0].slice(0,8)==="_:_EX_:_"
-                                    ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
+                            ? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
+                                    ? handlingGeneral.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
                                       "/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
                     opacity: allitems[subview.mainindex][index][0] !== "hide" ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
@@ -323,15 +324,15 @@ Rectangle {
                                     mainmenu_top.opacity = 0
                                 var cmd = allitems[subview.mainindex][index][0]
                                 var close = 0
-                                var external = false
                                 if(cmd.slice(0,8) === "_:_EX_:_") {
-                                    external = true
-                                    var parts = (cmd.split("_:_EX_:_")[1]).split("___")
-                                    close = parts[0];
-                                    cmd = parts[1];
+                                    if(variables.indexOfCurrentImage != -1 && variables.allImageFilesInOrder.length > 0) {
+                                        handlingExternal.executeExternal(cmd.substring(8), variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                                        if(allitems[subview.mainindex][index][3] === "close")
+                                            toplevel.closePhotoQt()
+                                    }
+                                    return
                                 }
-                                if(!external)
-                                    HandleShortcuts.executeInternalFunction(cmd)
+                                HandleShortcuts.executeInternalFunction(cmd)
                             }
                         }
 
@@ -382,6 +383,23 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             onClicked: Qt.openUrlExternally("http://photoqt.org/man")
         }
+
+    }
+
+    Connections {
+        target: filewatcher
+        onContextmenuChanged: {
+            readExternalContextmenu()
+        }
+    }
+
+    function readExternalContextmenu() {
+        var tmpentries = handlingExternal.getContextMenuEntries()
+        var entries = [[["heading","",""]]]
+        for(var i = 0; i < tmpentries.length; ++i) {
+            entries.push([tmpentries[i]])
+        }
+        allitems_external = entries
 
     }
 

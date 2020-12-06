@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QProcess>
 #ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
@@ -39,7 +40,9 @@ class PQHandlingExternal : public QObject {
 public:
     Q_INVOKABLE bool exportConfigTo(QString path);
     Q_INVOKABLE bool importConfigFrom(QString path);
-
+    Q_INVOKABLE QVariantList getContextMenuEntries();
+    Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
+    Q_INVOKABLE void executeExternal(QString cmd, QString currentfile);
 };
 
 #endif // PQHANDLINGEXTERNAL_H

@@ -26,6 +26,7 @@
 #include "startup/folders.h"
 #include "startup/screenshots.h"
 #include "startup/shortcuts.h"
+#include "startup/contextmenu.h"
 
 namespace PQStartup {
 
@@ -33,6 +34,7 @@ namespace PQStartup {
         ::PQStartup::Folders::ensureConfigDataFoldersExist();
         ::PQStartup::Screenshots::getAndStore();
         ::PQStartup::Shortcuts::createDefaultShortcuts();
+        ::PQStartup::ContextMenu::createDefault();
     }
 
 }

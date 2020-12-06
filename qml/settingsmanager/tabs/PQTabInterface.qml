@@ -100,6 +100,8 @@ Item {
             PQWindowManagement { id: wma }
                 PQHorizontalLine { expertModeOnly: wma.expertmodeonly }
             PQMouseWheel { id: mwh }
+                PQHorizontalLine { expertModeOnly: mwh.expertmodeonly }
+            PQContextMenu { id: ctx }
 
             // add some spacing at the bottom
             Item { width: 1; height: 25 }

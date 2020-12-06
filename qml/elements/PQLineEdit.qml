@@ -32,6 +32,8 @@ TextField {
     selectedTextColor: "black"
     selectionColor: "white"
 
+    property string borderColor: "#cccccc"
+
     focus: true
 
     enabled: opacity>0 && visible
@@ -40,7 +42,7 @@ TextField {
         implicitWidth: 200
         implicitHeight: 40
         color: control.enabled ? "transparent" : "#cccccc"
-        border.color: control.enabled ? "#cccccc" : "transparent"
+        border.color: control.enabled ? borderColor : "transparent"
     }
 
     function setFocus() {

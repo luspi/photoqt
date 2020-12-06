@@ -20,6 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
+#include <QtDebug>
 #include "handlingexternal.h"
 
 bool PQHandlingExternal::exportConfigTo(QString path) {
@@ -189,5 +190,110 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
 #endif
 
     return false;
+
+}
+
+QVariantList PQHandlingExternal::getContextMenuEntries() {
+
+    QVariantList ret;
+
+    QFile file(ConfigFiles::CONTEXTMENU_FILE());
+    if(file.open(QIODevice::ReadOnly)) {
+
+        QTextStream in(&file);
+
+        QString cont = in.readAll();
+        QStringList entries = cont.split("\n\n");
+        for(auto entry : entries) {
+            if(entry.trimmed() == "")
+                continue;
+            QStringList parts = entry.split("\n");
+            QStringList thisentry;
+            QString after = parts[0].at(0);
+            thisentry << QString("_:_EX_:_%1").arg(parts[0].remove(0,1));
+            thisentry << parts[0].split(" ")[0].trimmed();
+            thisentry << parts[1];
+            thisentry << (after=="0" ? "donthide" : "close");
+            ret << thisentry;
+        }
+
+        file.close();
+
+    }
+
+    return ret;
+
+}
+
+void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
+
+    QString cont = "";
+
+    for(auto entry : entries) {
+        QVariantList entrylist = entry.toList();
+
+        bool close = entrylist.at(2).toBool();
+        QString cmd = entrylist.at(1).toString();
+        QString dsc = entrylist.at(0).toString();
+
+        if(cmd != "" && dsc != "") {
+            cont += (close ? "1" : "0");
+            cont += QString("%1\n").arg(cmd);
+            cont += QString("%1\n\n").arg(dsc);
+        }
+    }
+
+    QFile file(ConfigFiles::CONTEXTMENU_FILE());
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): Error: Unable to open contextmenu for writing" << NL;
+        return;
+    }
+
+    QTextStream out(&file);
+    out << cont;
+    file.close();
+
+}
+
+void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
+
+    QString executable = "";
+    QStringList arguments = cmd.split(" ");
+    if(!arguments.at(0).startsWith("/")) {
+        executable = arguments.at(0);
+        arguments.removeFirst();
+    } else {
+
+        QString path = arguments[0];
+        int i;
+        for(i = 1; i < arguments.length(); ++i) {
+            path += " ";
+            path += arguments[i];
+            QFileInfo info(path);
+            if(info.exists() && info.isFile()) {
+                i += 1;
+                break;
+            }
+        }
+        if(i == arguments.length()) {
+            LOG << CURDATE << "PQHandlingExternal::executeExternal(): Error, unable to execute: " << cmd.toStdString() << NL;
+            return;
+        }
+        executable = path;
+        arguments.erase(arguments.begin(), arguments.begin()+i);
+    }
+
+    QFileInfo info(currentfile);
+
+    for(int i = 0; i < arguments.length(); ++i) {
+        if(arguments[i] == "%f")
+            arguments[i] = currentfile;
+        if(arguments[i] == "%u")
+            arguments[i] = info.fileName();
+        if(arguments[i] == "%d")
+            arguments[i] = info.absolutePath();
+    }
+
+    QProcess::startDetached(executable, arguments);
 
 }

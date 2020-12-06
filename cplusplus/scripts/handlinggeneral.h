@@ -82,6 +82,8 @@ public:
 
     Q_INVOKABLE QStringList getAvailableTranslations();
 
+    Q_INVOKABLE QString getIconPathFromTheme(QString binary);
+
 private:
     PQImageProviderFull *imageprovider;
     QMimeDatabase mimedb;
