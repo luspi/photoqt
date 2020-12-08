@@ -91,7 +91,8 @@ Item {
             anchors.fill: parent
             z: -1
             smooth: false
-            source: "qrc:/image/checkerboard.png"
+            visible: PQSettings.showTransparencyMarkerBackground
+            source: PQSettings.showTransparencyMarkerBackground ? "qrc:/image/checkerboard.png" : ""
             sourceSize.width: Math.max(20, Math.min((parent.height/50), (parent.width/50)))
             fillMode: Image.Tile
         }
