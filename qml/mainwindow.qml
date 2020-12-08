@@ -168,6 +168,12 @@ Window {
 
         }
 
+        loader.ensureItIsReady("mainmenu")
+        loader.ensureItIsReady("metadata")
+
+        if(PQSettings.histogram)
+            loader.ensureItIsReady("histogram")
+
         var filenameToLoad = handlingGeneral.getLastLoadedImage()
 
         if(PQCppVariables.cmdFilePath != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
@@ -185,21 +191,15 @@ Window {
                 if(variables.allImageFilesInOrder.length == 0) {
                     loader.show("filedialog")
                     variables.openCurrentDirectory = filenameToLoad
-                }else {
+                    return
+                } else
                     filenameToLoad = variables.allImageFilesInOrder[0]
-                    variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
-                }
-            } else
-                variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
+            }
+            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
+            variables.newFileLoaded()
 
         } else
             loader.show("filedialog")
-
-        loader.ensureItIsReady("mainmenu")
-        loader.ensureItIsReady("metadata")
-
-        if(PQSettings.histogram)
-            loader.ensureItIsReady("histogram")
 
     }
 
