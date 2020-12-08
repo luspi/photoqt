@@ -28,7 +28,6 @@ Item {
 
     property int xOffset: (view.contentWidth < (toplevel.width-variables.metaDataWidthWhenKeptOpen) ? ((toplevel.width-variables.metaDataWidthWhenKeptOpen)-view.contentWidth)/2 : 0)
     x: variables.metaDataWidthWhenKeptOpen + xOffset
-    Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     y:
         PQSettings.thumbnailPosition=="Top" ?
@@ -43,15 +42,24 @@ Item {
            (variables.mousePos.y > toplevel.height-height && visible) ||
            (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
 
-    Behavior on y { NumberAnimation { duration: 200 } }
 
     visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
 
     width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
+    height: PQSettings.thumbnailSize+PQSettings.thumbnailLiftUp+scroll.height
 
     clip: true
 
-    height: PQSettings.thumbnailSize+PQSettings.thumbnailLiftUp+scroll.height
+    Behavior on x { NumberAnimation { duration: justAfterStartup ? 0 : PQSettings.animationDuration*100 } }
+    Behavior on y { NumberAnimation { duration: justAfterStartup ? 0 : PQSettings.animationDuration*100 } }
+
+    property bool justAfterStartup: true
+    Timer {
+        running: true
+        repeat: false
+        interval: 250
+        onTriggered: justAfterStartup = false
+    }
 
     ListView {
 
@@ -75,13 +83,13 @@ Item {
         preferredHighlightEnd: currentItem==null ? width : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2+currentItem.width : (width-PQSettings.thumbnailSize/2))
         highlightRangeMode: ListView.ApplyRange
 
-        Behavior on contentItem.x { NumberAnimation { duration: 200 } }
+        Behavior on contentItem.x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
         delegate: Rectangle {
 
             x: 0
             y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailLiftUp
-            Behavior on y { NumberAnimation { duration: 100 } }
+            Behavior on y { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
             width: PQSettings.thumbnailSize
             height: PQSettings.thumbnailSize

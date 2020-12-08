@@ -66,6 +66,14 @@ Item {
 
     property int currentVideoLength: -1
 
+    property bool justAfterStartup: true
+    Timer {
+        running: true
+        repeat: false
+        interval: 250
+        onTriggered: justAfterStartup = false
+    }
+
     Repeater {
 
         id: repeat

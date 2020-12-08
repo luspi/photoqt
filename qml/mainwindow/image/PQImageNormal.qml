@@ -81,9 +81,9 @@ Item {
             }
         }
 
-        Behavior on x { NumberAnimation { id: xani; duration: PQSettings.animationDuration*100  } }
-        Behavior on y { NumberAnimation { id: yani; duration: PQSettings.animationDuration*100  } }
-        Behavior on rotation { NumberAnimation { id: rotani; duration: PQSettings.animationDuration*100  } }
+        Behavior on x { NumberAnimation { id: xani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on y { NumberAnimation { id: yani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on rotation { NumberAnimation { id: rotani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
         // its duration it set to proper value after image has been loaded properly (in reset())
         Behavior on scale { NumberAnimation { id: scaleani; duration: 0  } }
 
@@ -280,6 +280,9 @@ Item {
         onMirrorReset: {
             theimage.mirror = false
         }
+        onJustAfterStartupChanged: {
+            scaleani.duration = PQSettings.animationDuration*100
+        }
     }
 
     function reset(scaling, position) {
@@ -326,7 +329,8 @@ Item {
 
         // set the right duration
         // at start this value is zero (to load image without animation) and needs to be set here
-        scaleani.duration = PQSettings.animationDuration*100
+        if(!container.justAfterStartup)
+            scaleani.duration = PQSettings.animationDuration*100
 
     }
 
