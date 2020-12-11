@@ -276,7 +276,9 @@ Item {
         onMirrorV: {
             var old = theimage.mirror
             theimage.mirror = !old
-            theimage.rotation += 180
+            rotani.duration = 0
+            theimage.rotateTo += 180
+            rotani.duration = PQSettings.animationDuration*100
         }
         onMirrorReset: {
             theimage.mirror = false
