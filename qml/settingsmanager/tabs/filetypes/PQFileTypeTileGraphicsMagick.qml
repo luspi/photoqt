@@ -26,9 +26,9 @@ PQFileTypeTile {
 
     title: "GraphicsMagick"
 
-    available: PQImageFormats.getAvailableEndingsWithDescriptionGm()
-    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsGm()
-    currentlyEnabled: PQImageFormats.enabledFileformatsGm
+    available: PQImageFormats.getAvailableEndingsWithDescriptionGraphicsMagick()
+    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsGraphicsMagick()
+    currentlyEnabled: PQImageFormats.enabledFileformatsGraphicsMagick
     projectWebpage: ["graphicsmagick.org", "http://www.graphicsmagick.org"]
     description: em.pty+qsTranslate("settingsmanager_filetypes", "GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.")
 
@@ -48,7 +48,7 @@ PQFileTypeTile {
                 if(checkedItems[key])
                     c.push(key)
             }
-            PQImageFormats.enabledFileformatsGm = c
+            PQImageFormats.enabledFileformatsGraphicsMagick = c
         }
 
     }

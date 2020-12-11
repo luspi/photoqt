@@ -129,7 +129,6 @@
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileQt.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileLibArchive.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileLibRaw.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileGm.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileDevil.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileFreeImage.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTilePoppler.qml</file>
@@ -143,5 +142,6 @@
         <file>filemanagement/PQCopyMove.qml</file>
         <file>mainwindow/PQLoading.qml</file>
         <file>settingsmanager/tabs/interface/PQContextMenu.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQFileTypeTileGraphicsMagick.qml</file>
     </qresource>
 </RCC>

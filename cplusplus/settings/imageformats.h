@@ -58,8 +58,8 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsPoppler() {
         return availableFileformats[categories.indexOf("poppler")];
     }
-    Q_INVOKABLE QVariantList getAvailableEndingsGm() {
-        return availableFileformats[categories.indexOf("gm")];
+    Q_INVOKABLE QVariantList getAvailableEndingsGraphicsMagick() {
+        return availableFileformats[categories.indexOf("graphicsmagick")];
     }
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() {
         return availableFileformats[categories.indexOf("raw")];
@@ -87,8 +87,8 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionPoppler() {
         return availableFileformatsWithDescription[categories.indexOf("poppler")];
     }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGm() {
-        return availableFileformatsWithDescription[categories.indexOf("gm")];
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGraphicsMagick() {
+        return availableFileformatsWithDescription[categories.indexOf("graphicsmagick")];
     }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() {
         return availableFileformatsWithDescription[categories.indexOf("raw")];
@@ -116,8 +116,8 @@ public:
     Q_INVOKABLE QStringList getDefaultEnabledEndingsPoppler() {
         return defaultEnabledFileformats[categories.indexOf("poppler")];
     }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsGm() {
-        return defaultEnabledFileformats[categories.indexOf("gm")];
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsGraphicsMagick() {
+        return defaultEnabledFileformats[categories.indexOf("graphicsmagick")];
     }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsRAW() {
         return defaultEnabledFileformats[categories.indexOf("raw")];
@@ -167,15 +167,15 @@ public:
                                                     emit enabledFileformatsPopplerChanged(val); }
     void setEnabledFileformatsPopplerWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val; }
 
-    // ... GM
-    Q_PROPERTY(QStringList enabledFileformatsGm
-               READ getEnabledFileformatsGm
-               WRITE setEnabledFileformatsGm
-               NOTIFY enabledFileformatsGmChanged)
-    QStringList getEnabledFileformatsGm() { return enabledFileformats[categories.indexOf("gm")]; }
-    void setEnabledFileformatsGm(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val;
-                                                    emit enabledFileformatsGmChanged(val); }
-    void setEnabledFileformatsGmWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val; }
+    // ... GraphicsMagick
+    Q_PROPERTY(QStringList enabledFileformatsGraphicsMagick
+               READ getEnabledFileformatsGraphicsMagick
+               WRITE setEnabledFileformatsGraphicsMagick
+               NOTIFY enabledFileformatsGraphicsMagickChanged)
+    QStringList getEnabledFileformatsGraphicsMagick() { return enabledFileformats[categories.indexOf("graphicsmagick")]; }
+    void setEnabledFileformatsGraphicsMagick(QStringList val) { enabledFileformats[categories.indexOf("graphicsmagick")] = val;
+                                                    emit enabledFileformatsGraphicsMagickChanged(val); }
+    void setEnabledFileformatsGraphicsMagickWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("graphicsmagick")] = val; }
 
     // ... RAW
     Q_PROPERTY(QStringList enabledFileformatsRAW
@@ -237,8 +237,8 @@ public:
             setEnabledFileformatsXCF(defaultEnabledFileformats[categories.indexOf("xcftools")]);
         if(category == "" || category == "poppler")
             setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]);
-        if(category == "" || category == "gm")
-            setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
+        if(category == "" || category == "graphicsmagick")
+            setEnabledFileformatsGraphicsMagick(defaultEnabledFileformats[categories.indexOf("graphicsmagick")]);
         if(category == "" || category == "raw")
             setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
         if(category == "" || category == "devil")
@@ -259,8 +259,8 @@ public:
             return getEnabledFileformatsXCF();
         if(category == "poppler")
             return getEnabledFileformatsPoppler();
-        if(category == "gm")
-            return getEnabledFileformatsGm();
+        if(category == "graphicsmagick")
+            return getEnabledFileformatsGraphicsMagick();
         if(category == "raw")
             return getEnabledFileformatsRAW();
         if(category == "devil")
@@ -295,9 +295,9 @@ public:
             allFormats.append(entry.toString());
 #endif
 
-#ifdef GM
-        // GM
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
+#ifdef GRAPHICSMAGICK
+        // GraphicsMagick
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("graphicsmagick")])
             allFormats.append(entry.toString());
 #endif
 
@@ -333,7 +333,7 @@ public:
 
 signals:
     void enabledFileformatsQtChanged(QStringList val);
-    void enabledFileformatsGmChanged(QStringList val);
+    void enabledFileformatsGraphicsMagickChanged(QStringList val);
     void enabledFileformatsXCFChanged(QStringList val);
     void enabledFileformatsPopplerChanged(QStringList val);
     void enabledFileformatsRAWChanged(QStringList val);

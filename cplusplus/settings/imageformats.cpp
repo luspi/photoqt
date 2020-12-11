@@ -24,7 +24,7 @@
 
 PQImageFormats::PQImageFormats() {
 
-    categories << "qt" << "xcftools" << "poppler" << "gm" << "raw"
+    categories << "qt" << "xcftools" << "poppler" << "graphicsmagick" << "raw"
                << "devil" << "freeimage" << "archive" << "video";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
@@ -528,8 +528,8 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "poppler")
             setEnabledFileformatsPoppler(val);
 
-        else if(cat == "gm")
-            setEnabledFileformatsGm(val);
+        else if(cat == "graphicsmagick")
+            setEnabledFileformatsGraphicsMagick(val);
 
         else if(cat == "raw")
             setEnabledFileformatsRAW(val);
@@ -557,8 +557,8 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "poppler")
             setEnabledFileformatsPopplerWithoutSaving(val);
 
-        else if(cat == "gm")
-            setEnabledFileformatsGmWithoutSaving(val);
+        else if(cat == "graphicsmagick")
+            setEnabledFileformatsGraphicsMagickWithoutSaving(val);
 
         else if(cat == "raw")
             setEnabledFileformatsRAWWithoutSaving(val);

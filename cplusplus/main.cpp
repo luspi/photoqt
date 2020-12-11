@@ -51,7 +51,7 @@
 #include "imageprovider/imageproviderfull.h"
 #include "imageprovider/imageproviderhistogram.h"
 
-#ifdef GM
+#ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
 #endif
 
@@ -84,7 +84,7 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
-#ifdef GM
+#ifdef GRAPHICSMAGICK
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);
 #endif

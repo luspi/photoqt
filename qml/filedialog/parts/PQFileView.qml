@@ -56,7 +56,7 @@ GridView {
     PQFileFolderModel {
         id: files_model
 
-        property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler", "video"]
+        property var validcategories: ["qt", "graphicsmagick", "raw", "devil", "freeimage", "poppler", "video"]
 
         showHidden: PQSettings.openShowHiddenFilesFolders
         sortField: PQSettings.sortby=="name" ?

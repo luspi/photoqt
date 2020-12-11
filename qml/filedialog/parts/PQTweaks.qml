@@ -120,7 +120,7 @@ Rectangle {
 
         id: allfiles
 
-        property var allfiletypes: ["all", "qt", "gm", "raw", "devil", "freeimage", "poppler", "video", "allfiles"]
+        property var allfiletypes: ["all", "qt", "graphicsmagick", "raw", "devil", "freeimage", "poppler", "video", "allfiles"]
 
         model: [em.pty+qsTranslate("filedialog", "All supported images"),
                 "Qt", "GraphicsMagick", "LibRaw", "DevIL",

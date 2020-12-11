@@ -23,7 +23,7 @@
 #include "handlinggeneral.h"
 
 bool PQHandlingGeneral::isGraphicsMagickSupportEnabled() {
-#ifdef GM
+#ifdef GRAPHICSMAGICK
     return true;
 #endif
     return false;

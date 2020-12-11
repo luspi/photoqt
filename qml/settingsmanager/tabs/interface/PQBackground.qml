@@ -204,7 +204,7 @@ PQSetting {
             var str = [em.pty+qsTranslate("settingsmanager_interface", "All Images") + " (" + PQImageFormats.getAllEnabledFileFormats().join(" ") + ")"]
             str.push("Qt (" + PQImageFormats.getAvailableEndingsQt().join(" ") + ")")
             if(handlingGeneral.isGraphicsMagickSupportEnabled())
-                str.push("GraphicsMagick (" + PQImageFormats.getAvailableEndingsGm().join(" ") + ")")
+                str.push("GraphicsMagick (" + PQImageFormats.getAvailableEndingsGraphicsMagick().join(" ") + ")")
             if(handlingGeneral.isLibRawSupportEnabled())
                 str.push("LibRaw (" + PQImageFormats.getAvailableEndingsRAW().join(" ") + ")")
             if(handlingGeneral.isDevILSupportEnabled())

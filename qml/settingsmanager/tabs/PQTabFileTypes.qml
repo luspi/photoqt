@@ -73,7 +73,7 @@ Item {
                 spacing: 10
 
                 PQFileTypeTileQt {}
-                PQFileTypeTileGm {}
+                PQFileTypeTileGraphicsMagick {}
                 PQFileTypeTileLibRaw {}
                 PQFileTypeTileLibArchive {}
                 PQFileTypeTileDevil {}

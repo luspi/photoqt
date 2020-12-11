@@ -20,28 +20,28 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQLOADIMAGEGM_H
-#define PQLOADIMAGEGM_H
+#ifndef PQLOADIMAGEGRAPHICSMAGICK_H
+#define PQLOADIMAGEGRAPHICSMAGICK_H
 
 #include <QFile>
 #include <QImage>
 
 #include "../../logger.h"
 
-#ifdef GM
+#ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
 #endif
 
-class PQLoadImageGM {
+class PQLoadImageGraphicsMagick {
 
 public:
-    PQLoadImageGM() {
+    PQLoadImageGraphicsMagick() {
         errormsg = "";
     }
 
     QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
-#ifdef GM
+#ifdef GRAPHICSMAGICK
 
         errormsg = "";
 
@@ -51,7 +51,7 @@ public:
         QFile file(filename);
         if(!file.open(QIODevice::ReadOnly)) {
             errormsg = "ERROR opening file, returning empty image";
-            LOG << CURDATE << "PQLoadImageGM::load(): ERROR opening file, returning empty image" << NL;
+            LOG << CURDATE << "PQLoadImageGraphicsMagick::load(): ERROR opening file, returning empty image" << NL;
             return QImage();
         }
         char *data = new char[file.size()];
@@ -65,8 +65,6 @@ public:
             return QImage();
         }
 
-        // Read image into blob
-        Magick::Blob blob(data, file.size());
         try {
 
             // Prepare Magick
@@ -78,7 +76,7 @@ public:
             if(magick != "") image.magick(magick);
 
             // Read image into Magick
-            image.read(blob);
+            image.read(filename.toStdString());
 
             finalSize = QSize(image.columns(), image.rows());
             *origSize = finalSize;
@@ -123,7 +121,7 @@ public:
 
         } catch(Magick::Exception &e) {
             delete[] data;
-            LOG << CURDATE << "PQLoadImageGM::load(): Exception: " << e.what() << NL;
+            LOG << CURDATE << "PQLoadImageGraphicsMagick::load(): Exception: " << e.what() << NL;
             errormsg = QString("GraphicsMagick Exception: %1").arg(e.what());
             return QImage();
         }
@@ -139,7 +137,7 @@ public:
 
 private:
 
-#ifdef GM
+#ifdef GRAPHICSMAGICK
     std::string getImageMagickString(QString suf) {
 
         std::string magick = suf.toUpper().toStdString();
@@ -207,4 +205,4 @@ private:
 
 };
 
-#endif
+#endif // PQLOADIMAGEGRAPHICSMAGICK_H

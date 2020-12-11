@@ -28,7 +28,7 @@
 #include "../settings/imageformats.h"
 #include "loader/errorimage.h"
 #include "loader/loadimage_qt.h"
-#include "loader/loadimage_gm.h"
+#include "loader/loadimage_graphicsmagick.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
 #include "loader/loadimage_raw.h"
@@ -47,7 +47,7 @@ public:
         load_helper = new PQLoadImageHelper;
         load_err = new PQLoadImageErrorImage;
         load_qt = new PQLoadImageQt;
-        load_gm = new PQLoadImageGM;
+        load_graphicsmagick = new PQLoadImageGraphicsMagick;
         load_xcf = new PQLoadImageXCF;
         load_poppler = new PQLoadImagePoppler;
         load_raw = new PQLoadImageRAW;
@@ -62,7 +62,7 @@ public:
         delete load_helper;
         delete load_err;
         delete load_qt;
-        delete load_gm;
+        delete load_graphicsmagick;
         delete load_xcf;
         delete load_poppler;
         delete load_raw;
@@ -100,9 +100,9 @@ public:
         } else if(PQImageFormats::get().getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower())) {
             img = load_poppler->load(filename, requestedSize, origSize);
             ret_err = load_poppler->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsGm().contains("*." + info.suffix().toLower())) {
-            img = load_gm->load(filename, requestedSize, origSize);
-            ret_err = load_gm->errormsg;
+        } else if(PQImageFormats::get().getEnabledFileformatsGraphicsMagick().contains("*." + info.suffix().toLower())) {
+            img = load_graphicsmagick->load(filename, requestedSize, origSize);
+            ret_err = load_graphicsmagick->errormsg;
         } else if(PQImageFormats::get().getEnabledFileformatsRAW().contains("*." + info.suffix().toLower())) {
             img = load_raw->load(filename, requestedSize, origSize);
             ret_err = load_raw->errormsg;
@@ -160,7 +160,7 @@ private:
     PQLoadImageHelper *load_helper;
     PQLoadImageErrorImage *load_err;
     PQLoadImageQt *load_qt;
-    PQLoadImageGM *load_gm;
+    PQLoadImageGraphicsMagick *load_graphicsmagick;
     PQLoadImageXCF *load_xcf;
     PQLoadImagePoppler *load_poppler;
     PQLoadImageRAW *load_raw;
