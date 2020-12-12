@@ -49,6 +49,17 @@ option(PUGIXML "Enable features that require pugixml" ON)
 option(VIDEO "Enable video support" ON)
 # option(TESTING "Enable some tests" OFF)
 
+# name of this option changed
+# this helps to make sure nothing breaks
+if(GM)
+    message("")
+    message("** DEPRECATED OPTION to enable GraphicsMagick used: GM")
+    message("** Support of this name will be removed in a future version")
+    message("** Please use new option name: GRAPHICSMAGICK")
+    message("** (make sure to remove GM variable from cmake cache)")
+    message("")
+    set(GRAPHICSMAGICK ON)
+endif(GM)
 
 ################################
 #### FIND REQUIRED PACKAGES ####
