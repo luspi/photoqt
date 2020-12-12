@@ -135,9 +135,6 @@ Item {
             if(mouse.modifiers & Qt.KeypadModifier)
                 modifiers.push("Keypad")
 
-            if(variables.visibleItem != "")
-                loader.passMouseEvent(variables.visibleItem, [buttons, modifiers])
-
         }
 
         onPositionChanged: {

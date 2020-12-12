@@ -177,10 +177,9 @@ Item {
 
     PQFaceTracker {
         id: facetracker
-        x: 0
-        y: -cont.y
-        width: container.width
-        height: container.height
+        anchors.fill: theimage
+        scale: theimage.scale
+        rotation: theimage.rotation
         filename: src
         visible: !facetagger.visible
         Connections {
@@ -192,10 +191,9 @@ Item {
 
     PQFaceTagger {
         id: facetagger
-        x: 0
-        y: -cont.y
-        width: container.width
-        height: container.height
+        anchors.fill: theimage
+        scale: theimage.scale
+        rotation: theimage.rotation
         filename: src
     }
 

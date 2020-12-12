@@ -144,13 +144,6 @@ Item {
 
     }
 
-    function passMouseEvent(component, button, mod) {
-
-        if(component == "facetagger")
-            faceTaggerPassOn("mouseevent", [button, mod])
-
-    }
-
     function ensureItIsReady(component) {
 
         if(component == "filedialog") {

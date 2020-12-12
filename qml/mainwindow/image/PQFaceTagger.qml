@@ -113,6 +113,42 @@ Item {
 
     }
 
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: false
+        onClicked: {
+
+            if(newtag.visible) {
+
+                if(newtag.width/facetagger_top.scale < 10 || newtag.height/facetagger_top.scale < 10) {
+                    newtag.visible = false
+                    return
+                }
+
+                namecont.opacity = 1
+                nameedit.text = ""
+                nameedit.setFocus()
+
+            } else {
+                var p = facetagger_top.mapFromItem(theimage, mouse.x, mouse.y)
+
+                if(p.x < 0 || p.x > facetagger_top.width || p.y < 0 || p.y > facetagger_top.height)
+                    return
+
+                newtag.setX = p.x
+                newtag.x = p.x
+                newtag.setY = p.y
+                newtag.y = p.y
+                newtag.setWidth = 0
+                newtag.setHeight = 0
+                updateNewtagPos()
+                newtag.visible = true
+            }
+
+        }
+
+    }
+
     // mark a new tag
     Rectangle {
         id: newtag
@@ -220,6 +256,7 @@ Item {
 
         target: loader
         onFaceTaggerPassOn: {
+
             if(what == "start") {
 
                 // start tagger
@@ -256,40 +293,8 @@ Item {
                 } else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
                     savename.clicked()
 
-            } else if(what == "mouseevent") {
-
-                if(param[0][0] == "Left Button") {
-
-                    if(newtag.visible) {
-
-                        if(newtag.width/facetagger_top.scale < 10 || newtag.height/facetagger_top.scale < 10) {
-                            newtag.visible = false
-                            return
-                        }
-
-                        namecont.opacity = 1
-                        nameedit.text = ""
-                        nameedit.setFocus()
-
-                    } else {
-                        var p = facetagger_top.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y)
-
-                        if(p.x < 0 || p.x > facetagger_top.width || p.y < 0 || p.y > facetagger_top.height)
-                            return
-
-                        newtag.setX = p.x
-                        newtag.x = p.x
-                        newtag.setY = p.y
-                        newtag.y = p.y
-                        newtag.setWidth = 0
-                        newtag.setHeight = 0
-                        updateNewtagPos()
-                        newtag.visible = true
-                    }
-
-                }
-
             }
+
         }
 
     }
