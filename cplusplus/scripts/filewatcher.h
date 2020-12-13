@@ -27,6 +27,7 @@
 #include <QFileSystemWatcher>
 #include <QFileInfo>
 #include <thread>
+#include <QTimer>
 #include "../configfiles.h"
 
 class PQFileWatcher : public QObject {
@@ -35,16 +36,21 @@ class PQFileWatcher : public QObject {
 
 public:
     explicit PQFileWatcher(QObject *parent = nullptr);
+    ~PQFileWatcher();
 
 private:
     QFileSystemWatcher *userPlacesWatcher;
     QFileSystemWatcher *shortcutsWatcher;
     QFileSystemWatcher *contextmenuWatcher;
 
+    QTimer *checkRepeatedly;
+
 private slots:
     void userPlacesChangedSLOT();
     void shortcutsChangedSLOT();
     void contextmenuChangedSLOT();
+
+    void checkRepeatedlyTimeout();
 
 signals:
     void userPlacesChanged();
