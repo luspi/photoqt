@@ -92,7 +92,7 @@ void PQSettings::setDefault() {
     setLeftButtonMouseClickAndMove(true);
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
-    setMainMenuWindowWidth(350);
+    setMainMenuWindowWidth(450);
     setPdfSingleDocument(true);
     setPdfQuality(150);
     setArchiveSingleFile(true);
@@ -177,7 +177,7 @@ void PQSettings::setDefault() {
 
     setMetadataEnableHotEdge(true);
     setMetadataOpacity(220);
-    setMetadataWindowWidth(350);
+    setMetadataWindowWidth(450);
 
     setOpenDefaultView("list");
     setOpenPreview(true);
