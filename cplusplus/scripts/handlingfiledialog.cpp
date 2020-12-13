@@ -68,6 +68,19 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
 #ifdef PUGIXML
 
+    // if file does not exist yet then we create a sceleton file
+    if(!QFile(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel")).exists()) {
+        QString cont = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        cont += "<xbel xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n";
+        cont += "</xbel>";
+        QFile file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel"));
+        if(file.open(QIODevice::WriteOnly)) {
+            QTextStream out(&file);
+            out << cont;
+            file.close();
+        }
+    }
+
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
@@ -292,58 +305,110 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
     while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))
         ++counter;
 
-    QString insertAfterId = allIds[qMax(0, pos-2)];
+    // no items currenty set
+    if(allIds.length() == 0) {
 
-    for(pugi::xpath_node node : bookmarks) {
+        pugi::xpath_node_set toplevel = doc.select_nodes("/xbel");
 
-        pugi::xml_node cur = node.node();
+        pugi::xml_node newnode = toplevel.first().node().append_child("bookmark");
+        if(newnode == nullptr)
+            LOG << CURDATE << "PQHandlingFileDialog::addNewUserPlacesEntry(): ERROR: Unable to add first node..." << NL;
 
-        if(cur.select_node("info/metadata/ID").node().child_value() == insertAfterId) {
+        // <bookmark>
+        newnode.set_name("bookmark");
+        newnode.append_attribute("href");
+        newnode.attribute("href").set_value(QString("file://%1").arg(path).toStdString().c_str());
 
-            pugi::xml_node newnode = cur.parent().insert_child_after(pugi::node_element, cur);
-            if(newnode == nullptr)
-                LOG << CURDATE << "ERROR: Unable to add new node..." << NL;
+        // <title>
+        pugi::xml_node title = newnode.append_child("title");
+        title.text().set(QFileInfo(path).fileName().toStdString().c_str());
 
-            // <bookmark>
-            newnode.set_name("bookmark");
-            newnode.append_attribute("href");
-            newnode.attribute("href").set_value(QString("file://%1").arg(path).toStdString().c_str());
+        // <info>
+        pugi::xml_node info = newnode.append_child("info");
 
-            // <title>
-            pugi::xml_node title = newnode.append_child("title");
-            title.text().set(QFileInfo(path).fileName().toStdString().c_str());
+        // <metadata> freedesktop.org
+        pugi::xml_node metadata1 = info.append_child("metadata");
+        metadata1.append_attribute("owner");
+        metadata1.attribute("owner").set_value("http://freedesktop.org");
 
-            // <info>
-            pugi::xml_node info = newnode.append_child("info");
+        // <bookmark:icon>
+        pugi::xml_node icon = metadata1.append_child("bookmark:icon");
+        icon.append_attribute("name");
+        icon.attribute("name").set_value("folder");
 
-            // <metadata> freedesktop.org
-            pugi::xml_node metadata1 = info.append_child("metadata");
-            metadata1.append_attribute("owner");
-            metadata1.attribute("owner").set_value("http://freedesktop.org");
+        // <metadata> kde.org
+        pugi::xml_node metadata2 = info.append_child("metadata");
+        metadata2.append_attribute("owner");
+        metadata2.attribute("owner").set_value("http://www.kde.org");
 
-            // <bookmark:icon>
-            pugi::xml_node icon = metadata1.append_child("bookmark:icon");
-            icon.append_attribute("name");
-            icon.attribute("name").set_value("folder");
+        // <ID>
+        pugi::xml_node ID = metadata2.append_child("ID");
+        ID.text().set(QString("%1/%2").arg(newid_base).arg(counter).toStdString().c_str());
 
-            // <metadata> kde.org
-            pugi::xml_node metadata2 = info.append_child("metadata");
-            metadata2.append_attribute("owner");
-            metadata2.attribute("owner").set_value("http://www.kde.org");
+        // <IsHidden>
+        pugi::xml_node IsHidden = metadata2.append_child("IsHidden");
+        IsHidden.text().set("false");
 
-            // <ID>
-            pugi::xml_node ID = metadata2.append_child("ID");
-            ID.text().set(QString("%1/%2").arg(newid_base).arg(counter).toStdString().c_str());
+        // <isSystemItem>
+        pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
+        isSystemItem.text().set("false");
 
-            // <IsHidden>
-            pugi::xml_node IsHidden = metadata2.append_child("IsHidden");
-            IsHidden.text().set("false");
+    } else {
 
-            // <isSystemItem>
-            pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
-            isSystemItem.text().set("false");
+        QString insertAfterId = allIds.length() == 0 ? "" : allIds[qMax(0, pos-2)];
 
-            break;
+        for(pugi::xpath_node node : bookmarks) {
+
+            pugi::xml_node cur = node.node();
+
+            if(insertAfterId == "" || cur.select_node("info/metadata/ID").node().child_value() == insertAfterId) {
+
+                pugi::xml_node newnode = cur.parent().insert_child_after(pugi::node_element, cur);
+                if(newnode == nullptr)
+                    LOG << CURDATE << "PQHandlingFileDialog::addNewUserPlacesEntry(): ERROR: Unable to add new node..." << NL;
+
+                // <bookmark>
+                newnode.set_name("bookmark");
+                newnode.append_attribute("href");
+                newnode.attribute("href").set_value(QString("file://%1").arg(path).toStdString().c_str());
+
+                // <title>
+                pugi::xml_node title = newnode.append_child("title");
+                title.text().set(QFileInfo(path).fileName().toStdString().c_str());
+
+                // <info>
+                pugi::xml_node info = newnode.append_child("info");
+
+                // <metadata> freedesktop.org
+                pugi::xml_node metadata1 = info.append_child("metadata");
+                metadata1.append_attribute("owner");
+                metadata1.attribute("owner").set_value("http://freedesktop.org");
+
+                // <bookmark:icon>
+                pugi::xml_node icon = metadata1.append_child("bookmark:icon");
+                icon.append_attribute("name");
+                icon.attribute("name").set_value("folder");
+
+                // <metadata> kde.org
+                pugi::xml_node metadata2 = info.append_child("metadata");
+                metadata2.append_attribute("owner");
+                metadata2.attribute("owner").set_value("http://www.kde.org");
+
+                // <ID>
+                pugi::xml_node ID = metadata2.append_child("ID");
+                ID.text().set(QString("%1/%2").arg(newid_base).arg(counter).toStdString().c_str());
+
+                // <IsHidden>
+                pugi::xml_node IsHidden = metadata2.append_child("IsHidden");
+                IsHidden.text().set("false");
+
+                // <isSystemItem>
+                pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
+                isSystemItem.text().set("false");
+
+                break;
+
+            }
 
         }
 
