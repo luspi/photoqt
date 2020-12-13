@@ -83,8 +83,22 @@ public:
             if(mime.size() == 2 && mime.at(0) == "image")
                 reader.setFormat(mime.at(1).toUtf8());
 
+            reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
+
             // Store the width/height for later use
             *origSize = reader.size();
+
+            // return image
+            QImage *img = new QImage;
+
+            bool readImageEarly = false;
+            if(origSize->width() == -1 || origSize->height() == -1)
+                readImageEarly = true;
+
+            if(readImageEarly) {
+                reader.read(img);
+                *origSize = img->size();
+            }
 
             if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
 
@@ -110,11 +124,10 @@ public:
 
             }
 
-            reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
-
-            // Eventually load the image
-            QImage *img = new QImage;
-            reader.read(img);
+            if(!readImageEarly) {
+                // Eventually load the image
+                reader.read(img);
+            }
 
             // If an error occured
             if(img->isNull()) {
