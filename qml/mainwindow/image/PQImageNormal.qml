@@ -34,6 +34,11 @@ Item {
     property real defaultScale: 1.0
     property bool useStoredData: PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror
 
+    // large images can cause flickering when transitioning before scale is reset
+    // this makes that invisible
+    // this is set to true *after* proper scale has been set
+    visible: false
+
     Image {
 
         id: theimage
@@ -43,6 +48,7 @@ Item {
         height: sourceSize.height
         fillMode: Image.Pad
         clip: true
+        cache: false
 
         source: "image://full/" + src
 
@@ -105,6 +111,7 @@ Item {
             onTriggered: {
                 if(!useStoredData)
                     reset(true, true)
+                cont.visible = true
             }
         }
 
