@@ -78,7 +78,7 @@ Item {
         property int mouseOverItem: -1
 
         highlightFollowsCurrentItem: true
-        highlightMoveDuration: 200
+        highlightMoveDuration: 0
         preferredHighlightBegin: currentItem==null ? 0 : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2 : PQSettings.thumbnailSize/2)
         preferredHighlightEnd: currentItem==null ? width : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2+currentItem.width : (width-PQSettings.thumbnailSize/2))
         highlightRangeMode: ListView.ApplyRange
