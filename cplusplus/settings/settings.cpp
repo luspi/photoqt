@@ -88,7 +88,7 @@ void PQSettings::setDefault() {
     setFitInWindow(false);
     setInterpolationThreshold(100);
     setInterpolationDisableForSmallImages(true);
-    setPixmapCache(128);
+    setPixmapCache(256);
     setLeftButtonMouseClickAndMove(true);
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
@@ -97,7 +97,7 @@ void PQSettings::setDefault() {
     setPdfQuality(150);
     setArchiveSingleFile(true);
     setZoomSpeed(20);
-    setAnimationType("x");
+    setAnimationType("opacity");
     setAnimationDuration(3);
 
 #ifdef Q_OS_LINUX
