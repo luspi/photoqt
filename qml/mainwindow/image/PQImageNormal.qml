@@ -62,6 +62,26 @@ Item {
         smooth: (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
         mipmap: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
 
+        Repeater {
+            model: defaultScale < 0.8 ? 5 : 0
+            delegate: Image {
+                property real threshold: 1.0-index*0.2
+                anchors.fill: source == "" ? undefined : theimage
+                cache: false
+                antialiasing: false
+                smooth: theimage.smooth
+                mipmap: theimage.scale < defaultScale*threshold
+                source: ""
+                sourceSize.width: theimage.width*(defaultScale*threshold)
+                sourceSize.height: theimage.height*(defaultScale*threshold)
+                visible: (defaultScale < 0.8 || index > 1) && theimage.scale < defaultScale*threshold*1.0001
+                onVisibleChanged: {
+                    if(visible && source == "" && PQSettings.pixmapCache > 0)
+                        source = parent.source
+                }
+            }
+        }
+
         rotation: useStoredData ? variables.zoomRotationMirror[src][1] : 0
         property real rotateTo: 0.0
         onRotateToChanged: {
