@@ -294,6 +294,8 @@ Item {
                                 var tmp = variables.indexOfCurrentImage
                                 variables.indexOfCurrentImage = -1
                                 variables.indexOfCurrentImage = tmp
+                                thumbnails.reloadThumbnails()
+                                variables.newFileLoaded()
 
                                 scale_top.opacity = 0
                                 variables.visibleItem = ""

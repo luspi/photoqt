@@ -148,6 +148,7 @@ Item {
 
                                 LoadFiles.removeCurrentFilenameFromList()
                                 thumbnails.reloadThumbnails()
+                                variables.newFileLoaded()
 
                                 delete_top.opacity = 0
                                 variables.visibleItem = ""
@@ -165,6 +166,7 @@ Item {
 
                                 LoadFiles.removeCurrentFilenameFromList()
                                 thumbnails.reloadThumbnails()
+                                variables.newFileLoaded()
 
                                 delete_top.opacity = 0
                                 variables.visibleItem = ""
