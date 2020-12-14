@@ -266,7 +266,7 @@ Item {
                                 var bas = handlingFileDialog.getBaseName(cur, false)
                                 var suf = handlingFileDialog.getSuffix(cur, false)
 
-                                LoadFile.addFilenameToList(dir + "/" + bas + "_" + newwidth.value+"x"+newheight.value+"."+suf, variables.indexOfCurrentImage+1)
+                                LoadFile.addFilenameToList(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf, variables.indexOfCurrentImage+1)
                                 ++variables.indexOfCurrentImage
                                 thumbnails.reloadThumbnails()
 
