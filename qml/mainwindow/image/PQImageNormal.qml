@@ -76,7 +76,7 @@ Item {
                 sourceSize.height: theimage.height*(defaultScale*threshold)
                 visible: (defaultScale < 0.8 || index > 1) && theimage.scale < defaultScale*threshold*1.0001
                 onVisibleChanged: {
-                    if(visible && source == "" && PQSettings.pixmapCache > 0)
+                    if(visible && source == "" && PQSettings.pixmapCache > 0 && !rotani.running)
                         source = parent.source
                 }
             }
