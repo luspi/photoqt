@@ -157,6 +157,15 @@ Item {
                 }
                 onExited:
                     view.mouseOverItem = -1
+                onWheel: {
+                    // assume horizontal scrolling
+                    var newx = view.contentX - wheel.angleDelta.x
+                    // if scrolling was vertical
+                    if(wheel.angleDelta.x == 0 && wheel.angleDelta.y != 0)
+                        var newx = view.contentX - wheel.angleDelta.y
+                    // set new contentX, but don't move beyond left/right end of thumbnails
+                    view.contentX = Math.max(0, Math.min(newx, view.contentWidth-view.width))
+                }
             }
 
         }
