@@ -69,18 +69,17 @@ public:
             return QImage();
         }
 
-        QImage ret;
-        // load full size as specified by quality parameter
-        if(maxSize.width() == -1 || maxSize.height() == -1)
-            ret = p->renderToImage(PQSettings::get().getPdfQuality(), PQSettings::get().getPdfQuality());
-        // load properly scaled version
-        else {
+        double useQuality = PQSettings::get().getPdfQuality();
+        if(maxSize.width() != -1 && maxSize.height() != -1) {
             double factor1 = maxSize.width()/p->pageSizeF().width();
             double factor2 = maxSize.height()/p->pageSizeF().height();
             double factor = qMin(factor1, factor2);
-            ret = p->renderToImage(72.0*factor, 72.0*factor);
+            useQuality = 72.0*factor;
         }
-        *origSize = p->pageSize();
+
+        QImage ret = p->renderToImage(useQuality, useQuality);
+
+        *origSize = p->pageSize()*(PQSettings::get().getPdfQuality()/72.0);
         delete document;
 
         // return render image
