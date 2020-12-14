@@ -68,15 +68,20 @@ public:
             LOG << CURDATE << "PQLoadImage::PDF::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
-        QImage ret = p->renderToImage(PQSettings::get().getPdfQuality(), PQSettings::get().getPdfQuality());
-        *origSize = ret.size();
-        delete document;
 
-        // ensure it fits inside maxSize
-        if(maxSize.width() > 5 && maxSize.height() > 5) {
-            if(ret.width() > maxSize.width() || ret.height() > maxSize.height())
-                return ret.scaled(maxSize, ::Qt::KeepAspectRatio);
+        QImage ret;
+        // load full size as specified by quality parameter
+        if(maxSize.width() == -1 || maxSize.height() == -1)
+            ret = p->renderToImage(PQSettings::get().getPdfQuality(), PQSettings::get().getPdfQuality());
+        // load properly scaled version
+        else {
+            double factor1 = maxSize.width()/p->pageSizeF().width();
+            double factor2 = maxSize.height()/p->pageSizeF().height();
+            double factor = qMin(factor1, factor2);
+            ret = p->renderToImage(72.0*factor, 72.0*factor);
         }
+        *origSize = p->pageSize();
+        delete document;
 
         // return render image
         return ret;
