@@ -33,11 +33,13 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         for(int i = 0; i < screens.length(); ++i) {
 
             QString arg = "string: "
-                          "var Desktops = desktops(); "
-                          "d = Desktops[" + QString::number(screens.at(i).toInt()-1) + "]; "
+                          "var allDesktops = desktops(); "
+                          "for(i = 0; i < allDesktops.length; i++) {"
+                          "d = allDesktops[i];"
                           "d.wallpaperPlugin = \"org.kde.image\"; "
                           "d.currentConfigGroup = Array(\"Wallpaper\", \"org.kde.image\", \"General\"); "
-                          "d.writeConfig(\"Image\", \"file://" + filename + "\");";
+                          "d.writeConfig(\"Image\", \"file://" + filename + "\");"
+                          "}";
 
             QDBusConnection bus = QDBusConnection::sessionBus();
 

@@ -61,31 +61,7 @@ Column {
         x: (parent.width-width)/2
         color: "white"
         font.pointSize: 15
-        //: As in: Set wallpaper to which screens
-        text: em.pty+qsTranslate("wallpaper", "Set to which screens")
-    }
-
-    Column {
-        x: (parent.width-width)/2
-        width: childrenRect.width
-        id: desk_col
-        spacing: 10
-        Repeater {
-            model: numDesktops
-            PQCheckbox {
-                text: em.pty+qsTranslate("wallpaper", "Screen") + " #" + (index+1)
-                checked: true
-                onCheckedChanged: {
-                    if(!checked)
-                        checkedScreens.splice(checkedScreens.indexOf(index+1), 1)
-                    else
-                        checkedScreens.push(index+1)
-                }
-                Component.onCompleted: {
-                    checkedScreens.push(index+1)
-                }
-            }
-        }
+        text: "---"
     }
 
     function check() {
