@@ -48,7 +48,6 @@ Item {
         height: sourceSize.height
         fillMode: Image.Pad
         clip: true
-        cache: false
 
         source: "file:/" + src
 
