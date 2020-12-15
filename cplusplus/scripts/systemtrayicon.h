@@ -38,6 +38,8 @@ public:
         tray = new QSystemTrayIcon;
         tray->setIcon(QIcon(":/other/icon.png"));
 
+        m_visible = true;
+
         menu = new QMenu;
         acToggle = new QAction("Hide/Show PhotoQt");
         connect(acToggle, &QAction::triggered, this, &PQSystemTrayIcon::toggleAction);
