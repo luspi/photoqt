@@ -57,6 +57,11 @@ Item {
 
             spacing: 15
 
+            Item {
+                width: 1
+                height: 1
+            }
+
             Text {
                 id: title
                 width: cont.width-20
@@ -65,6 +70,11 @@ Item {
                 font.bold: true
                 color: "white"
                 text: em.pty+qsTranslate("settingsmanager", "Metadata settings")
+            }
+
+            Item {
+                width: 1
+                height: 1
             }
 
             Text {

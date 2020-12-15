@@ -52,6 +52,11 @@ Item {
 
             spacing: 15
 
+            Item {
+                width: 1
+                height: 1
+            }
+
             Text {
                 id: title
                 width: cont.width-30
@@ -60,6 +65,11 @@ Item {
                 font.bold: true
                 color: "white"
                 text: em.pty+qsTranslate("settingsmanager", "Shortcuts")
+            }
+
+            Item {
+                width: 1
+                height: 1
             }
 
             Text {
