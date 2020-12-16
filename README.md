@@ -1,5 +1,5 @@
-# PhotoQt v1.7.1
-__Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org)
+# PhotoQt v2.0
+__Copyright (C) 2011-2020, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
 
@@ -9,7 +9,7 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 
 ## DEPENDENCIES
 
-- Qt >= 5.5
+- Qt >= 5.9
 - CMake (needed for building PhotoQt)
 - libarchive
 - Qt5 ImageFormats
@@ -24,6 +24,7 @@ Dependencies, that are needed by default, but can be disabled via CMake
 - Poppler
 - FreeImage
 - DevIL
+- pugixml
 
 #### NOTE
 
@@ -31,7 +32,7 @@ On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - 
 
 #### NOTE
 
-Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2002), trying to build PhotoQt with ImageMagick wont work!
+Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2002), trying to build PhotoQt with ImageMagick wont currently work!
 
 ## OPTIONAL DEPENDENCIES
 
@@ -58,7 +59,7 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
     \# (if you don't specify anything, it asumes a value of ON)
 
     _-DEXIV2=OFF_  
-    _-DGM=OFF_  
+    _-DGRAPHICSMAGICK=OFF_  
     _-DRAW=OFF_  
     _-DPOPPLER=OFF_  
     _-DFREEIMAGE=OFF_  
