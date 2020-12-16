@@ -29,7 +29,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #############################
 
 include(CMake/ListFilesCPlusPlus.cmake)
-# include(CMake/ListFilesTesting.cmake)
 include(CMake/ListFilesQML.cmake)
 include(CMake/ListFilesResources.cmake)
 
@@ -47,7 +46,6 @@ option(POPPLER "Use Poppler library" ON)
 option(LIBARCHIVE "Enable features that require libarchive" ON)
 option(PUGIXML "Enable features that require pugixml" ON)
 option(VIDEO "Enable video support" ON)
-# option(TESTING "Enable some tests" OFF)
 
 # name of this option changed
 # this helps to make sure nothing breaks
