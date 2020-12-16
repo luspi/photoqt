@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,45 +20,36 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef STARTUPCHECK_EXPORTIMPORT_H
-#define STARTUPCHECK_EXPORTIMPORT_H
+#ifndef PQSTARTUP_EXPORTIMPORT_H
+#define PQSTARTUP_EXPORTIMPORT_H
 
 #include "../logger.h"
-#include "../scripts/getanddostuff/external.h"
-#include "../singleinstance/singleinstance.h"
+#include "../scripts/handlingexternal.h"
 
-namespace StartupCheck {
+namespace PQStartup {
 
-    namespace ExportImport {
+    namespace Export {
 
-        static int handleExportImport(SingleInstance *a) {
+        static void perform(QString path) {
+            PQHandlingExternal external;
+            bool ret = external.exportConfigTo(path);
+            if(ret)
+                LOG << CURDATE << "Configuration successfully exported... I will quit now!" << NL;
+            else
+                LOG << CURDATE << "Configuration was not exported... I will quit now!" << NL;
+        }
 
-            if(a->exportAndQuitNow != "") {
-                GetAndDoStuffExternal external;
-                QString ret = external.exportConfig(a->exportAndQuitNow);
-                if(ret == "-")
-                    LOG << CURDATE << "Exporting was aborted by user... I will quit now!" << NL;
-                else if(ret != "")
-                    LOG << CURDATE << "Exporting configuration failed!" << NL;
-                else
-                    LOG << CURDATE << "Configuration successfully exported... I will quit now!" << NL;
-                QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
-                return a->exec();
-            }
-            if(a->importAndQuitNow != "") {
-                GetAndDoStuffExternal external;
-                QString ret = external.importConfig(a->importAndQuitNow);
-                if(ret != "")
-                    LOG << CURDATE << "Importing configuration failed!" << NL;
-                else
-                    LOG << CURDATE << "Configuration successfully imported... I will quit now!" << NL;
-                QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
-                return a->exec();
-            }
+    }
 
-            // return value of -1 means: just ignore this and keep going normally, nothing happened
-            return -1;
+    namespace Import {
 
+        static void perform(QString path) {
+            PQHandlingExternal external;
+            bool ret = external.importConfigFrom(path);
+            if(ret)
+                LOG << CURDATE << "Configuration successfully imported... I will quit now!" << NL;
+            else
+                LOG << CURDATE << "Configuration was not imported... I will quit now!" << NL;
         }
 
     }

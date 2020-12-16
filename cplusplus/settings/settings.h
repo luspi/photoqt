@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,1586 +20,1753 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef PQSETTINGS_H
+#define PQSETTINGS_H
+
+#include <QObject>
+#include <QQmlContext>
+#include <QQmlEngine>
+#include <QPoint>
+#include <QSize>
+#include <QTimer>
+#include <QFileSystemWatcher>
+#include <QFile>
+#include <QFileInfo>
+
+#ifdef Q_OS_WIN
+#include <QtWinExtras>
+#endif
 
 #include "../logger.h"
 
-#include <iostream>
-#include <thread>
-#include <QObject>
-#include <QSettings>
-#include <QDir>
-#include <QFileSystemWatcher>
-#include <QTimer>
-#include <QTextStream>
-#include <QPoint>
-#include <QSize>
-#include <QProcess>
-#ifdef Q_OS_WIN
-#include <QtWinExtras/QtWin>
-#endif
-
-// Convenience class to access and change permanent settings
-
-class Settings : public QObject {
+class PQSettings : public QObject {
 
     Q_OBJECT
 
 public:
-    explicit Settings(QObject *parent = 0);
+        static PQSettings& get() {
+            static PQSettings instance;
+            return instance;
+        }
 
-    // CLean-up
-    ~Settings();
+        PQSettings(PQSettings const&)     = delete;
+        void operator=(PQSettings const&) = delete;
 
-private slots:
-    void addFileToWatcher();
+        Q_INVOKABLE void setDefault();
+
+        Q_PROPERTY(QString version READ getVersion WRITE setVersion NOTIFY versionChanged)
+        QString getVersion() { return m_version; }
+        void setVersion(QString val) {
+            if(m_version != val) {
+                m_version = val;
+                emit versionChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString versionInTextFile READ getVersionInTextFile WRITE setVersionInTextFile NOTIFY versionInTextFileChanged)
+        QString getVersionInTextFile() { return m_versionInTextFile; }
+        void setVersionInTextFile(QString val) {
+            if(m_versionInTextFile != val) {
+                m_versionInTextFile = val;
+                emit versionInTextFileChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString language READ getLanguage WRITE setLanguage NOTIFY languageChanged)
+        QString getLanguage() { return m_language; }
+        void setLanguage(QString val) {
+            if(m_language != val) {
+                m_language = val;
+                emit languageChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool saveWindowGeometry READ getSaveWindowGeometry WRITE setSaveWindowGeometry NOTIFY saveWindowGeometryChanged)
+        bool getSaveWindowGeometry() { return m_saveWindowGeometry; }
+        void setSaveWindowGeometry(bool val) {
+            if(m_saveWindowGeometry != val) {
+                m_saveWindowGeometry = val;
+                emit saveWindowGeometryChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool keepOnTop READ getKeepOnTop WRITE setKeepOnTop NOTIFY keepOnTopChanged)
+        bool getKeepOnTop() { return m_keepOnTop; }
+        void setKeepOnTop(bool val) {
+            if(m_keepOnTop != val) {
+                m_keepOnTop = val;
+                emit keepOnTopChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool startupLoadLastLoadedImage READ getStartupLoadLastLoadedImage WRITE setStartupLoadLastLoadedImage NOTIFY startupLoadLastLoadedImageChanged)
+        bool getStartupLoadLastLoadedImage() { return m_startupLoadLastLoadedImage; }
+        void setStartupLoadLastLoadedImage(bool val) {
+            if(m_startupLoadLastLoadedImage != val) {
+                m_startupLoadLastLoadedImage = val;
+                emit startupLoadLastLoadedImageChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(int backgroundColorRed READ getBackgroundColorRed WRITE setBackgroundColorRed NOTIFY backgroundColorRedChanged)
+        int getBackgroundColorRed() { return m_backgroundColorRed; }
+        void setBackgroundColorRed(int val) {
+            if(m_backgroundColorRed != val) {
+                m_backgroundColorRed = val;
+                emit backgroundColorRedChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int backgroundColorGreen READ getBackgroundColorGreen WRITE setBackgroundColorGreen NOTIFY backgroundColorGreenChanged)
+        int getBackgroundColorGreen() { return m_backgroundColorGreen; }
+        void setBackgroundColorGreen(int val) {
+            if(m_backgroundColorGreen != val) {
+                m_backgroundColorGreen = val;
+                emit backgroundColorGreenChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int backgroundColorBlue READ getBackgroundColorBlue WRITE setBackgroundColorBlue NOTIFY backgroundColorBlueChanged)
+        int getBackgroundColorBlue() { return m_backgroundColorBlue; }
+        void setBackgroundColorBlue(int val) {
+            if(m_backgroundColorBlue != val) {
+                m_backgroundColorBlue = val;
+                emit backgroundColorBlueChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int backgroundColorAlpha READ getBackgroundColorAlpha WRITE setBackgroundColorAlpha NOTIFY backgroundColorAlphaChanged)
+        int getBackgroundColorAlpha() { return m_backgroundColorAlpha; }
+        void setBackgroundColorAlpha(int val) {
+            if(m_backgroundColorAlpha != val) {
+                m_backgroundColorAlpha = val;
+                emit backgroundColorAlphaChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageScreenshot READ getBackgroundImageScreenshot WRITE setBackgroundImageScreenshot NOTIFY backgroundImageScreenshotChanged)
+        bool getBackgroundImageScreenshot() { return m_backgroundImageScreenshot; }
+        void setBackgroundImageScreenshot(bool val) {
+            if(m_backgroundImageScreenshot != val) {
+                m_backgroundImageScreenshot = val;
+                emit backgroundImageScreenshotChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageUse READ getBackgroundImageUse WRITE setBackgroundImageUse NOTIFY backgroundImageUseChanged)
+        bool getBackgroundImageUse() { return m_backgroundImageUse; }
+        void setBackgroundImageUse(bool val) {
+            if(m_backgroundImageUse != val) {
+                m_backgroundImageUse = val;
+                emit backgroundImageUseChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString backgroundImagePath READ getBackgroundImagePath WRITE setBackgroundImagePath NOTIFY backgroundImagePathChanged)
+        QString getBackgroundImagePath() { return m_backgroundImagePath; }
+        void setBackgroundImagePath(QString val) {
+            if(m_backgroundImagePath != val) {
+                m_backgroundImagePath = val;
+                emit backgroundImagePathChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageScale READ getBackgroundImageScale WRITE setBackgroundImageScale NOTIFY backgroundImageScaleChanged)
+        bool getBackgroundImageScale() { return m_backgroundImageScale; }
+        void setBackgroundImageScale(bool val) {
+            if(m_backgroundImageScale != val) {
+                m_backgroundImageScale = val;
+                emit backgroundImageScaleChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageScaleCrop READ getBackgroundImageScaleCrop WRITE setBackgroundImageScaleCrop NOTIFY backgroundImageScaleCropChanged)
+        bool getBackgroundImageScaleCrop() { return m_backgroundImageScaleCrop; }
+        void setBackgroundImageScaleCrop(bool val) {
+            if(m_backgroundImageScaleCrop != val) {
+                m_backgroundImageScaleCrop = val;
+                emit backgroundImageScaleCropChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageStretch READ getBackgroundImageStretch WRITE setBackgroundImageStretch NOTIFY backgroundImageStretchChanged)
+        bool getBackgroundImageStretch() { return m_backgroundImageStretch; }
+        void setBackgroundImageStretch(bool val) {
+            if(m_backgroundImageStretch != val) {
+                m_backgroundImageStretch = val;
+                emit backgroundImageStretchChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageCenter READ getBackgroundImageCenter WRITE setBackgroundImageCenter NOTIFY backgroundImageCenterChanged)
+        bool getBackgroundImageCenter() { return m_backgroundImageCenter; }
+        void setBackgroundImageCenter(bool val) {
+            if(m_backgroundImageCenter != val) {
+                m_backgroundImageCenter = val;
+                emit backgroundImageCenterChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool backgroundImageTile READ getBackgroundImageTile WRITE setBackgroundImageTile NOTIFY backgroundImageTileChanged)
+        bool getBackgroundImageTile() { return m_backgroundImageTile; }
+        void setBackgroundImageTile(bool val) {
+            if(m_backgroundImageTile != val) {
+                m_backgroundImageTile = val;
+                emit backgroundImageTileChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(int trayIcon READ getTrayIcon WRITE setTrayIcon NOTIFY trayIconChanged)
+        int getTrayIcon() { return m_trayIcon; }
+        void setTrayIcon(int val) {
+            if(m_trayIcon != val) {
+                m_trayIcon = val;
+                emit trayIconChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int loopThroughFolder READ getLoopThroughFolder WRITE setLoopThroughFolder NOTIFY loopThroughFolderChanged)
+        int getLoopThroughFolder() { return m_loopThroughFolder; }
+        void setLoopThroughFolder(bool val) {
+            if(m_loopThroughFolder != val) {
+                m_loopThroughFolder = val;
+                emit loopThroughFolderChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int hotEdgeWidth READ getHotEdgeWidth WRITE setHotEdgeWidth NOTIFY hotEdgeWidthChanged)
+        int getHotEdgeWidth() { return m_hotEdgeWidth; }
+        void setHotEdgeWidth(int val) {
+            if(m_hotEdgeWidth != val) {
+                m_hotEdgeWidth = val;
+                emit hotEdgeWidthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool closeOnEmptyBackground READ getCloseOnEmptyBackground WRITE setCloseOnEmptyBackground NOTIFY closeOnEmptyBackgroundChanged)
+        bool getCloseOnEmptyBackground() { return m_closeOnEmptyBackground; }
+        void setCloseOnEmptyBackground(bool val) {
+            if(m_closeOnEmptyBackground != val) {
+                m_closeOnEmptyBackground = val;
+                emit closeOnEmptyBackgroundChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int marginAroundImage READ getMarginAroundImage WRITE setMarginAroundImage NOTIFY marginAroundImageChanged)
+        int getMarginAroundImage() { return m_marginAroundImage; }
+        void setMarginAroundImage(int val) {
+            if(m_marginAroundImage != val) {
+                m_marginAroundImage = val;
+                emit marginAroundImageChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString sortby READ getSortby WRITE setSortby NOTIFY sortbyChanged)
+        QString getSortby() { return m_sortby; }
+        void setSortby(QString val) {
+            if(m_sortby != val) {
+                m_sortby = val;
+                emit sortbyChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool sortbyAscending READ getSortbyAscending WRITE setSortbyAscending NOTIFY sortbyAscendingChanged)
+        bool getSortbyAscending() { return m_sortbyAscending; }
+        void setSortbyAscending(bool val) {
+            if(m_sortbyAscending != val) {
+                m_sortbyAscending = val;
+                emit sortbyAscendingChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int mouseWheelSensitivity READ getMouseWheelSensitivity WRITE setMouseWheelSensitivity NOTIFY mouseWheelSensitivityChanged)
+        int getMouseWheelSensitivity() { return m_mouseWheelSensitivity; }
+        void setMouseWheelSensitivity(int val) {
+            if(m_mouseWheelSensitivity != val) {
+                m_mouseWheelSensitivity = val;
+                emit mouseWheelSensitivityChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool keepZoomRotationMirror READ getKeepZoomRotationMirror WRITE setKeepZoomRotationMirror NOTIFY keepZoomRotationMirrorChanged)
+        bool getKeepZoomRotationMirror() { return m_keepZoomRotationMirror; }
+        void setKeepZoomRotationMirror(bool val) {
+            if(m_keepZoomRotationMirror != val) {
+                m_keepZoomRotationMirror = val;
+                emit keepZoomRotationMirrorChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool fitInWindow READ getFitInWindow WRITE setFitInWindow NOTIFY fitInWindowChanged)
+        bool getFitInWindow() { return m_fitInWindow; }
+        void setFitInWindow(bool val) {
+            if(m_fitInWindow != val) {
+                m_fitInWindow = val;
+                emit fitInWindowChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int interpolationThreshold READ getInterpolationThreshold WRITE setInterpolationThreshold NOTIFY interpolationThresholdChanged)
+        int getInterpolationThreshold() { return m_interpolationThreshold; }
+        void setInterpolationThreshold(int val) {
+            if(m_interpolationThreshold != val) {
+                m_interpolationThreshold = val;
+                emit interpolationThresholdChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool interpolationDisableForSmallImages READ getInterpolationDisableForSmallImages WRITE setInterpolationDisableForSmallImages NOTIFY interpolationDisableForSmallImagesChanged)
+        bool getInterpolationDisableForSmallImages() { return m_interpolationDisableForSmallImages; }
+        void setInterpolationDisableForSmallImages(bool val) {
+            if(m_interpolationDisableForSmallImages != val) {
+                m_interpolationDisableForSmallImages = val;
+                emit interpolationDisableForSmallImagesChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int pixmapCache READ getPixmapCache WRITE setPixmapCache NOTIFY pixmapCacheChanged)
+        int getPixmapCache() { return m_pixmapCache; }
+        void setPixmapCache(int val) {
+            if(m_pixmapCache != val) {
+                m_pixmapCache = val;
+                emit pixmapCacheChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool showTransparencyMarkerBackground READ getShowTransparencyMarkerBackground WRITE setShowTransparencyMarkerBackground NOTIFY showTransparencyMarkerBackgroundChanged)
+        bool getShowTransparencyMarkerBackground() { return m_showTransparencyMarkerBackground; }
+        void setShowTransparencyMarkerBackground(bool val) {
+            if(m_showTransparencyMarkerBackground != val) {
+                m_showTransparencyMarkerBackground = val;
+                emit showTransparencyMarkerBackgroundChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool leftButtonMouseClickAndMove READ getLeftButtonMouseClickAndMove WRITE setLeftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
+        bool getLeftButtonMouseClickAndMove() { return m_leftButtonMouseClickAndMove; }
+        void setLeftButtonMouseClickAndMove(bool val) {
+            if(m_leftButtonMouseClickAndMove != val) {
+                m_leftButtonMouseClickAndMove = val;
+                emit leftButtonMouseClickAndMoveChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int zoomSpeed READ getZoomSpeed WRITE setZoomSpeed NOTIFY zoomSpeedChanged)
+        int getZoomSpeed() { return m_zoomSpeed; }
+        void setZoomSpeed(int val) {
+            if(m_zoomSpeed != val) {
+                m_zoomSpeed = val;
+                emit zoomSpeedChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString animationType READ getAnimationType WRITE setAnimationType NOTIFY animationTypeChanged)
+        QString getAnimationType() { return m_animationType; }
+        void setAnimationType(QString val) {
+            if(m_animationType != val) {
+                m_animationType = val;
+                emit animationTypeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int animationDuration READ getAnimationDuration WRITE setAnimationDuration NOTIFY animationDurationChanged)
+        int getAnimationDuration() { return m_animationDuration; }
+        void setAnimationDuration(int val) {
+            if(m_animationDuration != val) {
+                m_animationDuration = val;
+                emit animationDurationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+        Q_PROPERTY(bool pdfSingleDocument READ getPdfSingleDocument WRITE setPdfSingleDocument NOTIFY pdfSingleDocumentChanged)
+        bool getPdfSingleDocument() { return m_pdfSingleDocument; }
+        void setPdfSingleDocument(bool val) {
+            if(m_pdfSingleDocument != val) {
+                m_pdfSingleDocument = val;
+                emit pdfSingleDocumentChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int pdfQuality READ getPdfQuality WRITE setPdfQuality NOTIFY pdfQualityChanged)
+        int getPdfQuality() { return m_pdfQuality; }
+        void setPdfQuality(int val) {
+            if(m_pdfQuality != val) {
+                m_pdfQuality = val;
+                emit pdfQualityChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool archiveSingleFile READ getArchiveSingleFile WRITE setArchiveSingleFile NOTIFY archiveSingleFileChanged)
+        bool getArchiveSingleFile() { return m_archiveSingleFile; }
+        void setArchiveSingleFile(bool val) {
+            if(m_archiveSingleFile != val) {
+                m_archiveSingleFile = val;
+                emit archiveSingleFileChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool archiveUseExternalUnrar READ getArchiveUseExternalUnrar WRITE setArchiveUseExternalUnrar NOTIFY archiveUseExternalUnrarChanged)
+        bool getArchiveUseExternalUnrar() { return m_archiveUseExternalUnrar; }
+        void setArchiveUseExternalUnrar(bool val) {
+            if(m_archiveUseExternalUnrar != val) {
+                m_archiveUseExternalUnrar = val;
+                emit archiveUseExternalUnrarChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(bool quickInfoHideCounter READ getQuickInfoHideCounter WRITE setQuickInfoHideCounter NOTIFY quickInfoHideCounterChanged)
+        bool getQuickInfoHideCounter() { return m_quickInfoHideCounter; }
+        void setQuickInfoHideCounter(bool val) {
+            if(m_quickInfoHideCounter != val) {
+                m_quickInfoHideCounter = val;
+                emit quickInfoHideCounterChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool quickInfoHideFilepath READ getQuickInfoHideFilepath WRITE setQuickInfoHideFilepath NOTIFY quickInfoHideFilepathChanged)
+        bool getQuickInfoHideFilepath() { return m_quickInfoHideFilepath; }
+        void setQuickInfoHideFilepath(bool val) {
+            if(m_quickInfoHideFilepath != val) {
+                m_quickInfoHideFilepath = val;
+                emit quickInfoHideFilepathChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool quickInfoHideFilename READ getQuickInfoHideFilename WRITE setQuickInfoHideFilename NOTIFY quickInfoHideFilenameChanged)
+        bool getQuickInfoHideFilename() { return m_quickInfoHideFilename; }
+        void setQuickInfoHideFilename(bool val) {
+            if(m_quickInfoHideFilename != val) {
+                m_quickInfoHideFilename = val;
+                emit quickInfoHideFilenameChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool quickInfoHideX READ getQuickInfoHideX WRITE setQuickInfoHideX NOTIFY quickInfoHideXChanged)
+        bool getQuickInfoHideX() { return m_quickInfoHideX; }
+        void setQuickInfoHideX(bool val) {
+            if(m_quickInfoHideX != val) {
+                m_quickInfoHideX = val;
+                emit quickInfoHideXChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool quickInfoHideZoomLevel READ getQuickInfoHideZoomLevel WRITE setQuickInfoHideZoomLevel NOTIFY quickInfoHideZoomLevelChanged)
+        bool getQuickInfoHideZoomLevel() { return m_quickInfoHideZoomLevel; }
+        void setQuickInfoHideZoomLevel(bool val) {
+            if(m_quickInfoHideZoomLevel != val) {
+                m_quickInfoHideZoomLevel = val;
+                emit quickInfoHideZoomLevelChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int quickInfoCloseXSize READ getQuickInfoCloseXSize WRITE setQuickInfoCloseXSize NOTIFY quickInfoCloseXSizeChanged)
+        int getQuickInfoCloseXSize() { return m_quickInfoCloseXSize; }
+        void setQuickInfoCloseXSize(int val) {
+            if(m_quickInfoCloseXSize != val) {
+                m_quickInfoCloseXSize = val;
+                emit quickInfoCloseXSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool quickInfoManageWindow READ getQuickInfoManageWindow WRITE setQuickInfoManageWindow NOTIFY quickInfoManageWindowChanged)
+        bool getQuickInfoManageWindow() { return m_quickInfoManageWindow; }
+        void setQuickInfoManageWindow(bool val) {
+            if(m_quickInfoManageWindow != val) {
+                m_quickInfoManageWindow = val;
+                emit quickInfoManageWindowChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(int slideShowTime READ getSlideShowTime WRITE setSlideShowTime NOTIFY slideShowTimeChanged)
+        int getSlideShowTime() { return m_slideShowTime; }
+        void setSlideShowTime(int val) {
+            if(m_slideShowTime != val) {
+                m_slideShowTime = val;
+                emit slideShowTimeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int slideShowImageTransition READ getSlideShowImageTransition WRITE setSlideShowImageTransition NOTIFY slideShowImageTransitionChanged)
+        int getSlideShowImageTransition() { return m_slideShowImageTransition; }
+        void setSlideShowImageTransition(int val) {
+            if(m_slideShowImageTransition != val) {
+                m_slideShowImageTransition = val;
+                emit slideShowImageTransitionChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString slideShowMusicFile READ getSlideShowMusicFile WRITE setSlideShowMusicFile NOTIFY slideShowMusicFileChanged)
+        QString getSlideShowMusicFile() { return m_slideShowMusicFile; }
+        void setSlideShowMusicFile(QString val) {
+            if(m_slideShowMusicFile != val) {
+                m_slideShowMusicFile = val;
+                emit slideShowMusicFileChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowShuffle READ getSlideShowShuffle WRITE setSlideShowShuffle NOTIFY slideShowShuffleChanged)
+        bool getSlideShowShuffle() { return m_slideShowShuffle; }
+        void setSlideShowShuffle(bool val) {
+            if(m_slideShowShuffle != val) {
+                m_slideShowShuffle = val;
+                emit slideShowShuffleChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowLoop READ getSlideShowLoop WRITE setSlideShowLoop NOTIFY slideShowLoopChanged)
+        bool getSlideShowLoop() { return m_slideShowLoop; }
+        void setSlideShowLoop(bool val) {
+            if(m_slideShowLoop != val) {
+                m_slideShowLoop = val;
+                emit slideShowLoopChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowHideQuickInfo READ getSlideShowHideQuickInfo WRITE setSlideShowHideQuickInfo NOTIFY slideShowHideQuickInfoChanged)
+        bool getSlideShowHideQuickInfo() { return m_slideShowHideQuickInfo; }
+        void setSlideShowHideQuickInfo(bool val) {
+            if(m_slideShowHideQuickInfo != val) {
+                m_slideShowHideQuickInfo = val;
+                emit slideShowHideQuickInfoChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString slideShowTypeAnimation READ getSlideShowTypeAnimation WRITE setSlideShowTypeAnimation NOTIFY slideShowTypeAnimationChanged)
+        QString getSlideShowTypeAnimation() { return m_slideShowTypeAnimation; }
+        void setSlideShowTypeAnimation(QString val) {
+            if(m_slideShowTypeAnimation != val) {
+                m_slideShowTypeAnimation = val;
+                emit slideShowTypeAnimationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(int thumbnailSize READ getThumbnailSize WRITE setThumbnailSize NOTIFY thumbnailSizeChanged)
+        int getThumbnailSize() { return m_thumbnailSize; }
+        void setThumbnailSize(int val) {
+            if(m_thumbnailSize != val) {
+                m_thumbnailSize = val;
+                emit thumbnailSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString thumbnailPosition READ getThumbnailPosition WRITE setThumbnailPosition NOTIFY thumbnailPositionChanged)
+        QString getThumbnailPosition() { return m_thumbnailPosition; }
+        void setThumbnailPosition(QString val) {
+            if(m_thumbnailPosition != val) {
+                m_thumbnailPosition = val;
+                emit thumbnailPositionChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailCache READ getThumbnailCache WRITE setThumbnailCache NOTIFY thumbnailCacheChanged)
+        bool getThumbnailCache() { return m_thumbnailCache; }
+        void setThumbnailCache(bool val) {
+            if(m_thumbnailCache != val) {
+                m_thumbnailCache = val;
+                emit thumbnailCacheChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int thumbnailSpacingBetween READ getThumbnailSpacingBetween WRITE setThumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
+        int getThumbnailSpacingBetween() { return m_thumbnailSpacingBetween; }
+        void setThumbnailSpacingBetween(int val) {
+            if(m_thumbnailSpacingBetween != val) {
+                m_thumbnailSpacingBetween = val;
+                emit thumbnailSpacingBetweenChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int thumbnailLiftUp READ getThumbnailLiftUp WRITE setThumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
+        int getThumbnailLiftUp() { return m_thumbnailLiftUp; }
+        void setThumbnailLiftUp(int val) {
+            if(m_thumbnailLiftUp != val) {
+                m_thumbnailLiftUp = val;
+                emit thumbnailLiftUpChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailKeepVisible READ getThumbnailKeepVisible WRITE setThumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
+        bool getThumbnailKeepVisible() { return m_thumbnailKeepVisible; }
+        void setThumbnailKeepVisible(bool val) {
+            if(m_thumbnailKeepVisible != val) {
+                m_thumbnailKeepVisible = val;
+                emit thumbnailKeepVisibleChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailKeepVisibleWhenNotZoomedIn READ getThumbnailKeepVisibleWhenNotZoomedIn WRITE setThumbnailKeepVisibleWhenNotZoomedIn NOTIFY thumbnailKeepVisibleWhenNotZoomedInChanged)
+        bool getThumbnailKeepVisibleWhenNotZoomedIn() { return m_thumbnailKeepVisibleWhenNotZoomedIn; }
+        void setThumbnailKeepVisibleWhenNotZoomedIn(bool val) {
+            if(m_thumbnailKeepVisibleWhenNotZoomedIn != val) {
+                m_thumbnailKeepVisibleWhenNotZoomedIn = val;
+                emit thumbnailKeepVisibleWhenNotZoomedInChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailCenterActive READ getThumbnailCenterActive WRITE setThumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
+        bool getThumbnailCenterActive() { return m_thumbnailCenterActive; }
+        void setThumbnailCenterActive(bool val) {
+            if(m_thumbnailCenterActive != val) {
+                m_thumbnailCenterActive = val;
+                emit thumbnailCenterActiveChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailFilenameInstead READ getThumbnailFilenameInstead WRITE setThumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
+        bool getThumbnailFilenameInstead() { return m_thumbnailFilenameInstead; }
+        void setThumbnailFilenameInstead(bool val) {
+            if(m_thumbnailFilenameInstead != val) {
+                m_thumbnailFilenameInstead = val;
+                emit thumbnailFilenameInsteadChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int thumbnailFilenameInsteadFontSize READ getThumbnailFilenameInsteadFontSize WRITE setThumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
+        int getThumbnailFilenameInsteadFontSize() { return m_thumbnailFilenameInsteadFontSize; }
+        void setThumbnailFilenameInsteadFontSize(int val) {
+            if(m_thumbnailFilenameInsteadFontSize != val) {
+                m_thumbnailFilenameInsteadFontSize = val;
+                emit thumbnailFilenameInsteadFontSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailDisable READ getThumbnailDisable WRITE setThumbnailDisable NOTIFY thumbnailDisableChanged)
+        bool getThumbnailDisable() { return m_thumbnailDisable; }
+        void setThumbnailDisable(bool val) {
+            if(m_thumbnailDisable != val) {
+                m_thumbnailDisable = val;
+                emit thumbnailDisableChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool thumbnailWriteFilename READ getThumbnailWriteFilename WRITE setThumbnailWriteFilename NOTIFY thumbnailWriteFilenameChanged)
+        bool getThumbnailWriteFilename() { return m_thumbnailWriteFilename; }
+        void setThumbnailWriteFilename(bool val) {
+            if(m_thumbnailWriteFilename != val) {
+                m_thumbnailWriteFilename = val;
+                emit thumbnailWriteFilenameChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int thumbnailFontSize READ getThumbnailFontSize WRITE setThumbnailFontSize NOTIFY thumbnailFontSizeChanged)
+        int getThumbnailFontSize() { return m_thumbnailFontSize; }
+        void setThumbnailFontSize(int val) {
+            if(m_thumbnailFontSize != val) {
+                m_thumbnailFontSize = val;
+                emit thumbnailFontSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int thumbnailMaxNumberThreads READ getThumbnailMaxNumberThreads WRITE setThumbnailMaxNumberThreads NOTIFY thumbnailMaxNumberThreadsChanged)
+        int getThumbnailMaxNumberThreads() { return m_thumbnailMaxNumberThreads; }
+        void setThumbnailMaxNumberThreads(int val) {
+            if(m_thumbnailMaxNumberThreads != val) {
+                m_thumbnailMaxNumberThreads = val;
+                emit thumbnailMaxNumberThreadsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+        Q_PROPERTY(bool windowMode READ getWindowMode WRITE setWindowMode NOTIFY windowModeChanged)
+        bool getWindowMode() { return m_windowMode; }
+        void setWindowMode(bool val) {
+            if(m_windowMode != val) {
+                m_windowMode = val;
+                emit windowModeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool windowDecoration READ getWindowDecoration WRITE setWindowDecoration NOTIFY windowDecorationChanged)
+        bool getWindowDecoration() { return m_windowDecoration; }
+        void setWindowDecoration(bool val) {
+            if(m_windowDecoration != val) {
+                m_windowDecoration = val;
+                emit windowDecorationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(bool metadataEnableHotEdge READ getMetadataEnableHotEdge WRITE setMetadataEnableHotEdge NOTIFY metadataEnableHotEdgeChanged)
+        bool getMetadataEnableHotEdge() { return m_metadataEnableHotEdge; }
+        void setMetadataEnableHotEdge(bool val) {
+            if(m_metadataEnableHotEdge != val) {
+                m_metadataEnableHotEdge = val;
+                emit metadataEnableHotEdgeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaApplyRotation READ getMetaApplyRotation WRITE setMetaApplyRotation NOTIFY metaApplyRotationChanged)
+        bool getMetaApplyRotation() { return m_metaApplyRotation; }
+        void setMetaApplyRotation(bool val) {
+            if(m_metaApplyRotation != val) {
+                m_metaApplyRotation = val;
+                emit metaApplyRotationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString metaGpsMapService READ getMetaGpsMapService WRITE setMetaGpsMapService NOTIFY metaGpsMapServiceChanged)
+        QString getMetaGpsMapService() { return m_metaGpsMapService; }
+        void setMetaGpsMapService(QString val) {
+            if(m_metaGpsMapService != val) {
+                m_metaGpsMapService = val;
+                emit metaGpsMapServiceChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int metadataOpacity READ getMetadataOpacity WRITE setMetadataOpacity NOTIFY metadataOpacityChanged)
+        int getMetadataOpacity() { return m_metadataOpacity; }
+        void setMetadataOpacity(int val) {
+            if(m_metadataOpacity != val) {
+                m_metadataOpacity = val;
+                emit metadataOpacityChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaFilename READ getMetaFilename WRITE setMetaFilename NOTIFY metaFilenameChanged)
+        bool getMetaFilename() { return m_metaFilename; }
+        void setMetaFilename(bool val) {
+            if(m_metaFilename != val) {
+                m_metaFilename = val;
+                emit metaFilenameChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaFileType READ getMetaFileType WRITE setMetaFileType NOTIFY metaFileTypeChanged)
+        bool getMetaFileType() { return m_metaFileType; }
+        void setMetaFileType(bool val) {
+            if(m_metaFileType != val) {
+                m_metaFileType = val;
+                emit metaFileTypeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaFileSize READ getMetaFileSize WRITE setMetaFileSize NOTIFY metaFileSizeChanged)
+        bool getMetaFileSize() { return m_metaFileSize; }
+        void setMetaFileSize(bool val) {
+            if(m_metaFileSize != val) {
+                m_metaFileSize = val;
+                emit metaFileSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaImageNumber READ getMetaImageNumber WRITE setMetaImageNumber NOTIFY metaImageNumberChanged)
+        bool getMetaImageNumber() { return m_metaImageNumber; }
+        void setMetaImageNumber(bool val) {
+            if(m_metaImageNumber != val) {
+                m_metaImageNumber = val;
+                emit metaImageNumberChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaDimensions READ getMetaDimensions WRITE setMetaDimensions NOTIFY metaDimensionsChanged)
+        bool getMetaDimensions() { return m_metaDimensions; }
+        void setMetaDimensions(bool val) {
+            if(m_metaDimensions != val) {
+                m_metaDimensions = val;
+                emit metaDimensionsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaMake READ getMetaMake WRITE setMetaMake NOTIFY metaMakeChanged)
+        bool getMetaMake() { return m_metaMake; }
+        void setMetaMake(bool val) {
+            if(m_metaMake != val) {
+                m_metaMake = val;
+                emit metaMakeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaModel READ getMetaModel WRITE setMetaModel NOTIFY metaModelChanged)
+        bool getMetaModel() { return m_metaModel; }
+        void setMetaModel(bool val) {
+            if(m_metaModel != val) {
+                m_metaModel = val;
+                emit metaModelChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaSoftware READ getMetaSoftware WRITE setMetaSoftware NOTIFY metaSoftwareChanged)
+        bool getMetaSoftware() { return m_metaSoftware; }
+        void setMetaSoftware(bool val) {
+            if(m_metaSoftware != val) {
+                m_metaSoftware = val;
+                emit metaSoftwareChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaTimePhotoTaken READ getMetaTimePhotoTaken WRITE setMetaTimePhotoTaken NOTIFY metaTimePhotoTakenChanged)
+        bool getMetaTimePhotoTaken() { return m_metaTimePhotoTaken; }
+        void setMetaTimePhotoTaken(bool val) {
+            if(m_metaTimePhotoTaken != val) {
+                m_metaTimePhotoTaken = val;
+                emit metaTimePhotoTakenChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaExposureTime READ getMetaExposureTime WRITE setMetaExposureTime NOTIFY metaExposureTimeChanged)
+        bool getMetaExposureTime() { return m_metaExposureTime; }
+        void setMetaExposureTime(bool val) {
+            if(m_metaExposureTime != val) {
+                m_metaExposureTime = val;
+                emit metaExposureTimeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaFlash READ getMetaFlash WRITE setMetaFlash NOTIFY metaFlashChanged)
+        bool getMetaFlash() { return m_metaFlash; }
+        void setMetaFlash(bool val) {
+            if(m_metaFlash != val) {
+                m_metaFlash = val;
+                emit metaFlashChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaIso READ getMetaIso WRITE setMetaIso NOTIFY metaIsoChanged)
+        bool getMetaIso() { return m_metaIso; }
+        void setMetaIso(bool val) {
+            if(m_metaIso != val) {
+                m_metaIso = val;
+                emit metaIsoChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaSceneType READ getMetaSceneType WRITE setMetaSceneType NOTIFY metaSceneTypeChanged)
+        bool getMetaSceneType() { return m_metaSceneType; }
+        void setMetaSceneType(bool val) {
+            if(m_metaSceneType != val) {
+                m_metaSceneType = val;
+                emit metaSceneTypeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaFLength READ getMetaFLength WRITE setMetaFLength NOTIFY metaFLengthChanged)
+        bool getMetaFLength() { return m_metaFLength; }
+        void setMetaFLength(bool val) {
+            if(m_metaFLength != val) {
+                m_metaFLength = val;
+                emit metaFLengthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaFNumber READ getMetaFNumber WRITE setMetaFNumber NOTIFY metaFNumberChanged)
+        bool getMetaFNumber() { return m_metaFNumber; }
+        void setMetaFNumber(bool val) {
+            if(m_metaFNumber != val) {
+                m_metaFNumber = val;
+                emit metaFNumberChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaLightSource READ getMetaLightSource WRITE setMetaLightSource NOTIFY metaLightSourceChanged)
+        bool getMetaLightSource() { return m_metaLightSource; }
+        void setMetaLightSource(bool val) {
+            if(m_metaLightSource != val) {
+                m_metaLightSource = val;
+                emit metaLightSourceChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaKeywords READ getMetaKeywords WRITE setMetaKeywords NOTIFY metaKeywordsChanged)
+        bool getMetaKeywords() { return m_metaKeywords; }
+        void setMetaKeywords(bool val) {
+            if(m_metaKeywords != val) {
+                m_metaKeywords = val;
+                emit metaKeywordsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaLocation READ getMetaLocation WRITE setMetaLocation NOTIFY metaLocationChanged)
+        bool getMetaLocation() { return m_metaLocation; }
+        void setMetaLocation(bool val) {
+            if(m_metaLocation != val) {
+                m_metaLocation = val;
+                emit metaLocationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaCopyright READ getMetaCopyright WRITE setMetaCopyright NOTIFY metaCopyrightChanged)
+        bool getMetaCopyright() { return m_metaCopyright; }
+        void setMetaCopyright(bool val) {
+            if(m_metaCopyright != val) {
+                m_metaCopyright = val;
+                emit metaCopyrightChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool metaGps READ getMetaGps WRITE setMetaGps NOTIFY metaGpsChanged)
+        bool getMetaGps() { return m_metaGps; }
+        void setMetaGps(bool val) {
+            if(m_metaGps != val) {
+                m_metaGps = val;
+                emit metaGpsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(bool peopleTagInMetaDisplay READ getPeopleTagInMetaDisplay WRITE setPeopleTagInMetaDisplay NOTIFY peopleTagInMetaDisplayChanged)
+        bool getPeopleTagInMetaDisplay() { return m_peopleTagInMetaDisplay; }
+        void setPeopleTagInMetaDisplay(bool val) {
+            if(m_peopleTagInMetaDisplay != val) {
+                m_peopleTagInMetaDisplay = val;
+                emit peopleTagInMetaDisplayChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool peopleTagInMetaBorderAroundFace READ getPeopleTagInMetaBorderAroundFace WRITE setPeopleTagInMetaBorderAroundFace NOTIFY peopleTagInMetaBorderAroundFaceChanged)
+        bool getPeopleTagInMetaBorderAroundFace() { return m_peopleTagInMetaBorderAroundFace; }
+        void setPeopleTagInMetaBorderAroundFace(bool val) {
+            if(m_peopleTagInMetaBorderAroundFace != val) {
+                m_peopleTagInMetaBorderAroundFace = val;
+                emit peopleTagInMetaBorderAroundFaceChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString peopleTagInMetaBorderAroundFaceColor READ getPeopleTagInMetaBorderAroundFaceColor WRITE setPeopleTagInMetaBorderAroundFaceColor NOTIFY peopleTagInMetaBorderAroundFaceColorChanged)
+        QString getPeopleTagInMetaBorderAroundFaceColor() { return m_peopleTagInMetaBorderAroundFaceColor; }
+        void setPeopleTagInMetaBorderAroundFaceColor(QString val) {
+            if(m_peopleTagInMetaBorderAroundFaceColor != val) {
+                m_peopleTagInMetaBorderAroundFaceColor = val;
+                emit peopleTagInMetaBorderAroundFaceColorChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int peopleTagInMetaBorderAroundFaceWidth READ getPeopleTagInMetaBorderAroundFaceWidth WRITE setPeopleTagInMetaBorderAroundFaceWidth NOTIFY peopleTagInMetaBorderAroundFaceWidthChanged)
+        int getPeopleTagInMetaBorderAroundFaceWidth() { return m_peopleTagInMetaBorderAroundFaceWidth; }
+        void setPeopleTagInMetaBorderAroundFaceWidth(int val) {
+            if(m_peopleTagInMetaBorderAroundFaceWidth != val) {
+                m_peopleTagInMetaBorderAroundFaceWidth = val;
+                emit peopleTagInMetaBorderAroundFaceWidthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool peopleTagInMetaAlwaysVisible READ getPeopleTagInMetaAlwaysVisible WRITE setPeopleTagInMetaAlwaysVisible NOTIFY peopleTagInMetaAlwaysVisibleChanged)
+        bool getPeopleTagInMetaAlwaysVisible() { return m_peopleTagInMetaAlwaysVisible; }
+        void setPeopleTagInMetaAlwaysVisible(bool val) {
+            if(m_peopleTagInMetaAlwaysVisible != val) {
+                m_peopleTagInMetaAlwaysVisible = val;
+                emit peopleTagInMetaAlwaysVisibleChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool peopleTagInMetaIndependentLabels READ getPeopleTagInMetaIndependentLabels WRITE setPeopleTagInMetaIndependentLabels NOTIFY peopleTagInMetaIndependentLabelsChanged)
+        bool getPeopleTagInMetaIndependentLabels() { return m_peopleTagInMetaIndependentLabels; }
+        void setPeopleTagInMetaIndependentLabels(bool val) {
+            if(m_peopleTagInMetaIndependentLabels != val) {
+                m_peopleTagInMetaIndependentLabels = val;
+                emit peopleTagInMetaIndependentLabelsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool peopleTagInMetaHybridMode READ getPeopleTagInMetaHybridMode WRITE setPeopleTagInMetaHybridMode NOTIFY peopleTagInMetaHybridModeChanged)
+        bool getPeopleTagInMetaHybridMode() { return m_peopleTagInMetaHybridMode; }
+        void setPeopleTagInMetaHybridMode(bool val) {
+            if(m_peopleTagInMetaHybridMode != val) {
+                m_peopleTagInMetaHybridMode = val;
+                emit peopleTagInMetaHybridModeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int peopleTagInMetaFontSize READ getPeopleTagInMetaFontSize WRITE setPeopleTagInMetaFontSize NOTIFY peopleTagInMetaFontSizeChanged)
+        int getPeopleTagInMetaFontSize() { return m_peopleTagInMetaFontSize; }
+        void setPeopleTagInMetaFontSize(int val) {
+            if(m_peopleTagInMetaFontSize != val) {
+                m_peopleTagInMetaFontSize = val;
+                emit peopleTagInMetaFontSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(QString openDefaultView READ getOpenDefaultView WRITE setOpenDefaultView NOTIFY openDefaultViewChanged)
+        QString getOpenDefaultView() { return m_openDefaultView; }
+        void setOpenDefaultView(QString val) {
+            if(m_openDefaultView != val) {
+                m_openDefaultView = val;
+                emit openDefaultViewChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openPreview READ getOpenPreview WRITE setOpenPreview NOTIFY openPreviewChanged)
+        bool getOpenPreview() { return m_openPreview; }
+        void setOpenPreview(bool val) {
+            if(m_openPreview != val) {
+                m_openPreview = val;
+                emit openPreviewChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int openZoomLevel READ getOpenZoomLevel WRITE setOpenZoomLevel NOTIFY openZoomLevelChanged)
+        int getOpenZoomLevel() { return m_openZoomLevel; }
+        void setOpenZoomLevel(int val) {
+            if(m_openZoomLevel != val) {
+                m_openZoomLevel = val;
+                emit openZoomLevelChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int openUserPlacesWidth READ getOpenUserPlacesWidth WRITE setOpenUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
+        int getOpenUserPlacesWidth() { return m_openUserPlacesWidth; }
+        void setOpenUserPlacesWidth(int val) {
+            if(m_openUserPlacesWidth != val) {
+                m_openUserPlacesWidth = val;
+                emit openUserPlacesWidthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int openFoldersWidth READ getOpenFoldersWidth WRITE setOpenFoldersWidth NOTIFY openFoldersWidthChanged)
+        int getOpenFoldersWidth() { return m_openFoldersWidth; }
+        void setOpenFoldersWidth(int val) {
+            if(m_openFoldersWidth != val) {
+                m_openFoldersWidth = val;
+                emit openFoldersWidthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openThumbnails READ getOpenThumbnails WRITE setOpenThumbnails NOTIFY openThumbnailsChanged)
+        bool getOpenThumbnails() { return m_openThumbnails; }
+        void setOpenThumbnails(bool val) {
+            if(m_openThumbnails != val) {
+                m_openThumbnails = val;
+                emit openThumbnailsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openUserPlacesStandard READ getOpenUserPlacesStandard WRITE setOpenUserPlacesStandard NOTIFY openUserPlacesStandardChanged)
+        bool getOpenUserPlacesStandard() { return m_openUserPlacesStandard; }
+        void setOpenUserPlacesStandard(bool val) {
+            if(m_openUserPlacesStandard != val) {
+                m_openUserPlacesStandard = val;
+                emit openUserPlacesStandardChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openUserPlacesUser READ getOpenUserPlacesUser WRITE setOpenUserPlacesUser NOTIFY openUserPlacesUserChanged)
+        bool getOpenUserPlacesUser() { return m_openUserPlacesUser; }
+        void setOpenUserPlacesUser(bool val) {
+            if(m_openUserPlacesUser != val) {
+                m_openUserPlacesUser = val;
+                emit openUserPlacesUserChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openUserPlacesVolumes READ getOpenUserPlacesVolumes WRITE setOpenUserPlacesVolumes NOTIFY openUserPlacesVolumesChanged)
+        bool getOpenUserPlacesVolumes() { return m_openUserPlacesVolumes; }
+        void setOpenUserPlacesVolumes(bool val) {
+            if(m_openUserPlacesVolumes != val) {
+                m_openUserPlacesVolumes = val;
+                emit openUserPlacesVolumesChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openKeepLastLocation READ getOpenKeepLastLocation WRITE setOpenKeepLastLocation NOTIFY openKeepLastLocationChanged)
+        bool getOpenKeepLastLocation() { return m_openKeepLastLocation; }
+        void setOpenKeepLastLocation(bool val) {
+            if(m_openKeepLastLocation != val) {
+                m_openKeepLastLocation = val;
+                emit openKeepLastLocationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openShowHiddenFilesFolders READ getOpenShowHiddenFilesFolders WRITE setOpenShowHiddenFilesFolders NOTIFY openShowHiddenFilesFoldersChanged)
+        bool getOpenShowHiddenFilesFolders() { return m_openShowHiddenFilesFolders; }
+        void setOpenShowHiddenFilesFolders(bool val) {
+            if(m_openShowHiddenFilesFolders != val) {
+                m_openShowHiddenFilesFolders = val;
+                emit openShowHiddenFilesFoldersChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(int metadataWindowWidth READ getMetadataWindowWidth WRITE setMetadataWindowWidth NOTIFY metadataWindowWidthChanged)
+        int getMetadataWindowWidth() { return m_metadataWindowWidth; }
+        void setMetadataWindowWidth(int val) {
+            if(m_metadataWindowWidth != val) {
+                m_metadataWindowWidth = val;
+                emit metadataWindowWidthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int mainMenuWindowWidth READ getMainMenuWindowWidth WRITE setMainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
+        int getMainMenuWindowWidth() { return m_mainMenuWindowWidth; }
+        void setMainMenuWindowWidth(int val) {
+            if(m_mainMenuWindowWidth != val) {
+                m_mainMenuWindowWidth = val;
+                emit mainMenuWindowWidthChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(bool histogram READ getHistogram WRITE setHistogram NOTIFY histogramChanged)
+        bool getHistogram() { return m_histogram; }
+        void setHistogram(bool val) {
+            if(m_histogram != val) {
+                m_histogram = val;
+                emit histogramChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QPoint histogramPosition READ getHistogramPosition WRITE setHistogramPosition NOTIFY histogramPositionChanged)
+        QPoint getHistogramPosition() { return m_histogramPosition; }
+        void setHistogramPosition(QPoint val) {
+            if(m_histogramPosition != val) {
+                m_histogramPosition = val;
+                emit histogramPositionChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QSize histogramSize READ getHistogramSize WRITE setHistogramSize NOTIFY histogramSizeChanged)
+        QSize getHistogramSize() { return m_histogramSize; }
+        void setHistogramSize(QSize val) {
+            if(m_histogramSize != val) {
+                m_histogramSize = val;
+                emit histogramSizeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString histogramVersion READ getHistogramVersion WRITE setHistogramVersion NOTIFY histogramVersionChanged)
+        QString getHistogramVersion() { return m_histogramVersion; }
+        void setHistogramVersion(QString val) {
+            if(m_histogramVersion != val) {
+                m_histogramVersion = val;
+                emit histogramVersionChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+        Q_PROPERTY(bool videoAutoplay READ getVideoAutoplay WRITE setVideoAutoplay NOTIFY videoAutoplayChanged)
+        bool getVideoAutoplay() { return m_videoAutoplay; }
+        void setVideoAutoplay(bool val) {
+            if(m_videoAutoplay != val) {
+                m_videoAutoplay = val;
+                emit videoAutoplayChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool videoLoop READ getVideoLoop WRITE setVideoLoop NOTIFY videoLoopChanged)
+        bool getVideoLoop() { return m_videoLoop; }
+        void setVideoLoop(bool val) {
+            if(m_videoLoop != val) {
+                m_videoLoop = val;
+                emit videoLoopChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int videoVolume READ getVideoVolume WRITE setVideoVolume NOTIFY videoVolumeChanged)
+        int getVideoVolume() { return m_videoVolume; }
+        void setVideoVolume(int val) {
+            if(m_videoVolume != val) {
+                m_videoVolume = val;
+                emit videoVolumeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(QString videoThumbnailer READ getVideoThumbnailer WRITE setVideoThumbnailer NOTIFY videoThumbnailerChanged)
+        QString getVideoThumbnailer() { return m_videoThumbnailer; }
+        void setVideoThumbnailer(QString val) {
+            if(m_videoThumbnailer != val) {
+                m_videoThumbnailer = val;
+                emit videoThumbnailerChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+
+        Q_PROPERTY(int mainMenuPopoutElement READ getMainMenuPopoutElement WRITE setMainMenuPopoutElement NOTIFY mainMenuPopoutElementChanged)
+        int getMainMenuPopoutElement() { return m_mainMenuPopoutElement; }
+        void setMainMenuPopoutElement(int val) {
+            if(m_mainMenuPopoutElement != val) {
+                m_mainMenuPopoutElement = val;
+                emit mainMenuPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int metadataPopoutElement READ getMetadataPopoutElement WRITE setMetadataPopoutElement NOTIFY metadataPopoutElementChanged)
+        int getMetadataPopoutElement() { return m_metadataPopoutElement; }
+        void setMetadataPopoutElement(int val) {
+            if(m_metadataPopoutElement != val) {
+                m_metadataPopoutElement = val;
+                emit metadataPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool histogramPopoutElement READ getHistogramPopoutElement WRITE setHistogramPopoutElement NOTIFY histogramPopoutElementChanged)
+        bool getHistogramPopoutElement() { return m_histogramPopoutElement; }
+        void setHistogramPopoutElement(bool val) {
+            if(m_histogramPopoutElement != val) {
+                m_histogramPopoutElement = val;
+                emit histogramPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int scalePopoutElement READ getScalePopoutElement WRITE setScalePopoutElement NOTIFY scalePopoutElementChanged)
+        int getScalePopoutElement() { return m_scalePopoutElement; }
+        void setScalePopoutElement(int val) {
+            if(m_scalePopoutElement != val) {
+                m_scalePopoutElement = val;
+                emit scalePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openPopoutElement READ getOpenPopoutElement WRITE setOpenPopoutElement NOTIFY openPopoutElementChanged)
+        bool getOpenPopoutElement() { return m_openPopoutElement; }
+        void setOpenPopoutElement(bool val) {
+            if(m_openPopoutElement != val) {
+                m_openPopoutElement = val;
+                emit openPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openPopoutElementKeepOpen READ getOpenPopoutElementKeepOpen WRITE setOpenPopoutElementKeepOpen NOTIFY openPopoutElementKeepOpenChanged)
+        bool getOpenPopoutElementKeepOpen() { return m_openPopoutElementKeepOpen; }
+        void setOpenPopoutElementKeepOpen(bool val) {
+            if(m_openPopoutElementKeepOpen != val) {
+                m_openPopoutElementKeepOpen = val;
+                emit openPopoutElementKeepOpenChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowSettingsPopoutElement READ getSlideShowSettingsPopoutElement WRITE setSlideShowSettingsPopoutElement NOTIFY slideShowSettingsPopoutElementChanged)
+        bool getSlideShowSettingsPopoutElement() { return m_slideShowSettingsPopoutElement; }
+        void setSlideShowSettingsPopoutElement(bool val) {
+            if(m_slideShowSettingsPopoutElement != val) {
+                m_slideShowSettingsPopoutElement = val;
+                emit slideShowSettingsPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowControlsPopoutElement READ getSlideShowControlsPopoutElement WRITE setSlideShowControlsPopoutElement NOTIFY slideShowControlsPopoutElementChanged)
+        bool getSlideShowControlsPopoutElement() { return m_slideShowControlsPopoutElement; }
+        void setSlideShowControlsPopoutElement(bool val) {
+            if(m_slideShowControlsPopoutElement != val) {
+                m_slideShowControlsPopoutElement = val;
+                emit slideShowControlsPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool fileRenamePopoutElement READ getFileRenamePopoutElement WRITE setFileRenamePopoutElement NOTIFY fileRenamePopoutElementChanged)
+        bool getFileRenamePopoutElement() { return m_fileRenamePopoutElement; }
+        void setFileRenamePopoutElement(bool val) {
+            if(m_fileRenamePopoutElement != val) {
+                m_fileRenamePopoutElement = val;
+                emit fileRenamePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool fileDeletePopoutElement READ getFileDeletePopoutElement WRITE setFileDeletePopoutElement NOTIFY fileDeletePopoutElementChanged)
+        bool getFileDeletePopoutElement() { return m_fileDeletePopoutElement; }
+        void setFileDeletePopoutElement(bool val) {
+            if(m_fileDeletePopoutElement != val) {
+                m_fileDeletePopoutElement = val;
+                emit fileDeletePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool aboutPopoutElement READ getAboutPopoutElement WRITE setAboutPopoutElement NOTIFY aboutPopoutElementChanged)
+        bool getAboutPopoutElement() { return m_aboutPopoutElement; }
+        void setAboutPopoutElement(bool val) {
+            if(m_aboutPopoutElement != val) {
+                m_aboutPopoutElement = val;
+                emit aboutPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool imgurPopoutElement READ getImgurPopoutElement WRITE setImgurPopoutElement NOTIFY imgurPopoutElementChanged)
+        bool getImgurPopoutElement() { return m_imgurPopoutElement; }
+        void setImgurPopoutElement(bool val) {
+            if(m_imgurPopoutElement != val) {
+                m_imgurPopoutElement = val;
+                emit imgurPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool wallpaperPopoutElement READ getWallpaperPopoutElement WRITE setWallpaperPopoutElement NOTIFY wallpaperPopoutElementChanged)
+        bool getWallpaperPopoutElement() { return m_wallpaperPopoutElement; }
+        void setWallpaperPopoutElement(bool val) {
+            if(m_wallpaperPopoutElement != val) {
+                m_wallpaperPopoutElement = val;
+                emit wallpaperPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool filterPopoutElement READ getFilterPopoutElement WRITE setFilterPopoutElement NOTIFY filterPopoutElementChanged)
+        bool getFilterPopoutElement() { return m_filterPopoutElement; }
+        void setFilterPopoutElement(bool val) {
+            if(m_filterPopoutElement != val) {
+                m_filterPopoutElement = val;
+                emit filterPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool settingsManagerPopoutElement READ getSettingsManagerPopoutElement WRITE setSettingsManagerPopoutElement NOTIFY settingsManagerPopoutElementChanged)
+        bool getSettingsManagerPopoutElement() { return m_settingsManagerPopoutElement; }
+        void setSettingsManagerPopoutElement(bool val) {
+            if(m_settingsManagerPopoutElement != val) {
+                m_settingsManagerPopoutElement = val;
+                emit settingsManagerPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
 
 private:
-
-    QTimer *saveSettingsTimer;
-    QFileSystemWatcher *watcher;
-    QTimer *watcherAddFileTimer;
-
-    /*#################################################################################################*/
-    /*#################################################################################################*/
-
-    /************
-     * ELEMENTS *
-     ************/
-
-    QString m_version;
-    QString m_versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
-    QString m_language;
-    bool    m_animations;
-    bool    m_saveWindowGeometry;
-    bool    m_keepOnTop;
-    bool    m_composite;
-    bool    m_startupLoadLastLoadedImage;
-
-    int     m_backgroundColorRed;
-    int     m_backgroundColorGreen;
-    int     m_backgroundColorBlue;
-    int     m_backgroundColorAlpha;
-    bool    m_backgroundImageScreenshot;
-    bool    m_backgroundImageUse;
-    QString m_backgroundImagePath;
-    bool    m_backgroundImageScale;
-    bool    m_backgroundImageScaleCrop;
-    bool    m_backgroundImageStretch;
-    bool    m_backgroundImageCenter;
-    bool    m_backgroundImageTile;
-
-    int     m_trayIcon;
-    int     m_imageTransition;
-    bool    m_loopThroughFolder;
-    int     m_hotEdgeWidth;
-    bool    m_closeOnEmptyBackground;
-    int     m_marginAroundImage;
-    QString m_sortby;
-    bool    m_sortbyAscending;
-    int     m_mouseWheelSensitivity;
-    bool    m_keepZoomRotationMirror;
-    bool    m_fitInWindow;
-    int     m_interpolationNearestNeighbourThreshold;
-    bool    m_interpolationNearestNeighbourUpscale;
-    int     m_pixmapCache;
-    bool    m_showTransparencyMarkerBackground;
-    bool    m_leftButtonMouseClickAndMove;
-    int     m_zoomSpeed;
-
-    bool    m_pdfSingleDocument;
-    int     m_pdfQuality;
-    bool    m_archiveSingleFile;
-    bool    m_archiveUseExternalUnrar;
-
-    bool    m_quickInfoHideCounter;
-    bool    m_quickInfoHideFilepath;
-    bool    m_quickInfoHideFilename;
-    bool    m_quickInfoHideX;
-    bool    m_quickInfoHideZoomLevel;
-    bool    m_quickInfoFullX;
-    int     m_quickInfoCloseXSize;
-    bool    m_quickInfoManageWindow;
-
-    int     m_slideShowTime;
-    int     m_slideShowImageTransition;
-    QString m_slideShowMusicFile;
-    bool    m_slideShowShuffle;
-    bool    m_slideShowLoop;
-    bool    m_slideShowHideQuickInfo;
-
-    int     m_thumbnailSize;
-    QString m_thumbnailPosition;
-    bool    m_thumbnailCache;
-    bool    m_thumbnailCacheFile;
-    int     m_thumbnailSpacingBetween;
-    int     m_thumbnailLiftUp;
-    bool    m_thumbnailKeepVisible;
-    bool    m_thumbnailKeepVisibleWhenNotZoomedIn;
-    bool    m_thumbnailCenterActive;
-    bool    m_thumbnailFilenameInstead;
-    int     m_thumbnailFilenameInsteadFontSize;
-    bool    m_thumbnailDisable;
-    bool    m_thumbnailWriteFilename;
-    int     m_thumbnailFontSize;
-
-    bool    m_windowMode;
-    bool    m_windowDecoration;
-
-    bool    m_metadataEnableHotEdge;
-    bool    m_metaApplyRotation;
-    QString m_metaGpsMapService;
-    int     m_metadataFontSize;
-    int     m_metadataOpacity;
-    bool    m_metaFilename;
-    bool    m_metaFileType;
-    bool    m_metaFileSize;
-    bool    m_metaImageNumber;
-    bool    m_metaDimensions;
-    bool    m_metaMake;
-    bool    m_metaModel;
-    bool    m_metaSoftware;
-    bool    m_metaTimePhotoTaken;
-    bool    m_metaExposureTime;
-    bool    m_metaFlash;
-    bool    m_metaIso;
-    bool    m_metaSceneType;
-    bool    m_metaFLength;
-    bool    m_metaFNumber;
-    bool    m_metaLightSource;
-    bool    m_metaKeywords;
-    bool    m_metaLocation;
-    bool    m_metaCopyright;
-    bool    m_metaGps;
-
-    bool    m_peopleTagInMetaDisplay;
-    bool    m_peopleTagInMetaBorderAroundFace;
-    QString m_peopleTagInMetaBorderAroundFaceColor;
-    int     m_peopleTagInMetaBorderAroundFaceWidth;
-    bool    m_peopleTagInMetaAlwaysVisible;
-    bool    m_peopleTagInMetaIndependentLabels;
-    bool    m_peopleTagInMetaHybridMode;
-    int     m_peopleTagInMetaFontSize;
-
-    QString m_openDefaultView;
-    bool    m_openPreview;
-    int     m_openZoomLevel;
-    int     m_openUserPlacesWidth;
-    int     m_openFoldersWidth;
-    bool    m_openThumbnails;
-    bool    m_openPreviewHighQuality;
-    bool    m_openUserPlacesStandard;
-    bool    m_openUserPlacesUser;
-    bool    m_openUserPlacesVolumes;
-    bool    m_openKeepLastLocation;
-    bool    m_openShowHiddenFilesFolders;
-    bool    m_openHideUserPlaces;
-
-    int     m_metadataWindowWidth;
-    int     m_mainMenuWindowWidth;
-
-    bool    m_histogram;
-    QPoint  m_histogramPosition;
-    QSize   m_histogramSize;
-    QString m_histogramVersion;
-
-
-    /*#################################################################################################*/
-    /*#################################################################################################*/
-
-public:
-    /**********************
-     * Q_PROPERTY methods *
-     **********************/
-
-    // version
-    Q_PROPERTY(QString version
-               READ    getVersion
-               WRITE   setVersion
-               NOTIFY  versionChanged)
-    QString getVersion() { return m_version; }
-    void    setVersion(QString val) { if(val != m_version) { m_version = val;
-                                                             emit versionChanged(val);
-                                                             saveSettingsTimer->start(); } }
-
-    QString getVersionInTextFile() { return m_versionInTextFile; }
-
-    // language
-    Q_PROPERTY(QString language
-               READ    getLanguage
-               WRITE   setLanguage
-               NOTIFY  languageChanged)
-    QString getLanguage() { return m_language; }
-    void    setLanguage(QString val) { if(val != m_language) { m_language = val;
-                                                               emit languageChanged(val);
-                                                               saveSettingsTimer->start(); } }
-
-    // animations
-    Q_PROPERTY(bool   animations
-               READ   getAnimations
-               WRITE  setAnimations
-               NOTIFY animationsChanged)
-    bool getAnimations() { return m_animations; }
-    void setAnimations(bool val) { if(val != m_animations) { m_animations = val;
-                                                             emit animationsChanged(val);
-                                                             saveSettingsTimer->start(); } }
-
-    // saveWindowGeometry
-    Q_PROPERTY(bool   saveWindowGeometry
-               READ   getSaveWindowGeometry
-               WRITE  setSaveWindowGeometry
-               NOTIFY saveWindowGeometryChanged)
-    bool getSaveWindowGeometry() { return m_saveWindowGeometry; }
-    void setSaveWindowGeometry(bool val) { if(val != m_saveWindowGeometry) { m_saveWindowGeometry = val;
-                                                                             emit saveWindowGeometryChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // keepOnTop
-    Q_PROPERTY(bool   keepOnTop
-               READ   getKeepOnTop
-               WRITE  setKeepOnTop
-               NOTIFY keepOnTopChanged)
-    bool getKeepOnTop() { return m_keepOnTop; }
-    void setKeepOnTop(bool val) { if(val != m_keepOnTop) { m_keepOnTop = val;
-                                                           emit keepOnTopChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
-    // composite
-    Q_PROPERTY(bool   composite
-               READ   getComposite
-               WRITE  setComposite
-               NOTIFY compositeChanged)
-    bool getComposite() { return m_composite; }
-    void setComposite(bool val) { if(val != m_composite) { m_composite = val;
-                                                           emit compositeChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
-    // startupLoadLastLoadedImage
-    Q_PROPERTY(bool   startupLoadLastLoadedImage
-               READ   getStartupLoadLastLoadedImage
-               WRITE  setStartupLoadLastLoadedImage
-               NOTIFY startupLoadLastLoadedImageChanged)
-    bool getStartupLoadLastLoadedImage() { return m_startupLoadLastLoadedImage; }
-    void setStartupLoadLastLoadedImage(bool val) { if(val != m_startupLoadLastLoadedImage) { m_startupLoadLastLoadedImage = val;
-                                                                                             emit startupLoadLastLoadedImageChanged(val);
-                                                                                             saveSettingsTimer->start(); } }
-
-    // backgroundColorRed
-    Q_PROPERTY(int    backgroundColorRed
-               READ   getBackgroundColorRed
-               WRITE  setBackgroundColorRed
-               NOTIFY backgroundColorRedChanged)
-    int  getBackgroundColorRed() { return m_backgroundColorRed; }
-    void setBackgroundColorRed(int val) { if(val != m_backgroundColorRed) { m_backgroundColorRed = val;
-                                                                            emit backgroundColorRedChanged(val);
-                                                                            saveSettingsTimer->start(); } }
-
-    // backgroundColorGreen
-    Q_PROPERTY(int    backgroundColorGreen
-               READ   getBackgroundColorGreen
-               WRITE  setBackgroundColorGreen
-               NOTIFY backgroundColorGreenChanged)
-    int  getBackgroundColorGreen() { return m_backgroundColorGreen; }
-    void setBackgroundColorGreen(int val) { if(val != m_backgroundColorGreen) { m_backgroundColorGreen = val;
-                                                                                emit backgroundColorGreenChanged(val);
-                                                                                saveSettingsTimer->start(); } }
-
-    // backgroundColorBlue
-    Q_PROPERTY(int    backgroundColorBlue
-               READ   getBackgroundColorBlue
-               WRITE  setBackgroundColorBlue
-               NOTIFY backgroundColorBlueChanged)
-    int  getBackgroundColorBlue() { return m_backgroundColorBlue; }
-    void setBackgroundColorBlue(int val) { if(val != m_backgroundColorBlue) { m_backgroundColorBlue = val;
-                                                                              emit backgroundColorBlueChanged(val);
-                                                                              saveSettingsTimer->start(); } }
-
-    // backgroundColorAlpha
-    Q_PROPERTY(int    backgroundColorAlpha
-               READ   getBackgroundColorAlpha
-               WRITE  setBackgroundColorAlpha
-               NOTIFY backgroundColorAlphaChanged)
-    int  getBackgroundColorAlpha() { return m_backgroundColorAlpha; }
-    void setBackgroundColorAlpha(int val) { if(val != m_backgroundColorAlpha) { m_backgroundColorAlpha = val;
-                                                                                emit backgroundColorAlphaChanged(val);
-                                                                                saveSettingsTimer->start(); } }
-
-    // backgroundImageScreenshot
-    Q_PROPERTY(bool   backgroundImageScreenshot
-               READ   getBackgroundImageScreenshot
-               WRITE  setBackgroundImageScreenshot
-               NOTIFY backgroundImageScreenshotChanged)
-    bool getBackgroundImageScreenshot() { return m_backgroundImageScreenshot; }
-    void setBackgroundImageScreenshot(bool val) { if(val != m_backgroundImageScreenshot) { m_backgroundImageScreenshot = val;
-                                                                                           emit backgroundImageScreenshotChanged(val);
-                                                                                           saveSettingsTimer->start(); } }
-
-    // backgroundImageUse
-    Q_PROPERTY(bool   backgroundImageUse
-               READ   getBackgroundImageUse
-               WRITE  setBackgroundImageUse
-               NOTIFY backgroundImageUseChanged)
-    bool getBackgroundImageUse() { return m_backgroundImageUse; }
-    void setBackgroundImageUse(bool val) { if(val != m_backgroundImageUse) { m_backgroundImageUse = val;
-                                                                             emit backgroundImageUseChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // backgroundImagePath
-    Q_PROPERTY(QString backgroundImagePath
-               READ    getBackgroundImagePath
-               WRITE   setBackgroundImagePath
-               NOTIFY  backgroundImagePathChanged)
-    QString getBackgroundImagePath() { return m_backgroundImagePath; }
-    void    setBackgroundImagePath(QString val) { if(val != m_backgroundImagePath) { m_backgroundImagePath = val;
-                                                                                     emit backgroundImagePathChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // backgroundImageScale
-    Q_PROPERTY(bool   backgroundImageScale
-               READ   getBackgroundImageScale
-               WRITE  setBackgroundImageScale
-               NOTIFY backgroundImageScaleChanged)
-    bool getBackgroundImageScale() { return m_backgroundImageScale; }
-    void setBackgroundImageScale(bool val) { if(val != m_backgroundImageScale) { m_backgroundImageScale = val;
-                                                                                 emit backgroundImageScaleChanged(val);
-                                                                                 saveSettingsTimer->start(); } }
-
-    // backgroundImageScaleCrop
-    Q_PROPERTY(bool   backgroundImageScaleCrop
-               READ   getBackgroundImageScaleCrop
-               WRITE  setBackgroundImageScaleCrop
-               NOTIFY backgroundImageScaleCropChanged)
-    bool getBackgroundImageScaleCrop() { return m_backgroundImageScaleCrop; }
-    void setBackgroundImageScaleCrop(bool val) { if(val != m_backgroundImageScaleCrop) { m_backgroundImageScaleCrop = val;
-                                                                                         emit backgroundImageScaleCropChanged(val);
-                                                                                         saveSettingsTimer->start(); } }
-
-    // backgroundImageStretch
-    Q_PROPERTY(bool   backgroundImageStretch
-               READ   getBackgroundImageStretch
-               WRITE  setBackgroundImageStretch
-               NOTIFY backgroundImageStretchChanged)
-    bool getBackgroundImageStretch() { return m_backgroundImageStretch; }
-    void setBackgroundImageStretch(bool val) { if(val != m_backgroundImageStretch) { m_backgroundImageStretch = val;
-                                                                                     emit backgroundImageStretchChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // backgroundImageCenter
-    Q_PROPERTY(bool   backgroundImageCenter
-               READ   getBackgroundImageCenter
-               WRITE  setBackgroundImageCenter
-               NOTIFY backgroundImageCenterChanged)
-    bool getBackgroundImageCenter() { return m_backgroundImageCenter; }
-    void setBackgroundImageCenter(bool val) { if(val != m_backgroundImageCenter) { m_backgroundImageCenter = val;
-                                                                                   emit backgroundImageCenterChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // backgroundImageTile
-    Q_PROPERTY(bool   backgroundImageTile
-               READ   getBackgroundImageTile
-               WRITE  setBackgroundImageTile
-               NOTIFY backgroundImageTileChanged)
-    bool getBackgroundImageTile() { return m_backgroundImageTile; }
-    void setBackgroundImageTile(bool val) { if(val != m_backgroundImageTile) { m_backgroundImageTile = val;
-                                                                               emit backgroundImageTileChanged(val);
-                                                                               saveSettingsTimer->start(); } }
-
-    // trayIcon
-    Q_PROPERTY(int    trayIcon
-               READ   getTrayIcon
-               WRITE  setTrayIcon
-               NOTIFY trayIconChanged)
-    int  getTrayIcon() { return m_trayIcon; }
-    void setTrayIcon(int val) { if(val != m_trayIcon) { m_trayIcon = val;
-                                                        emit trayIconChanged(val);
-                                                        saveSettingsTimer->start(); } }
-
-    // imageTransition
-    Q_PROPERTY(int    imageTransition
-               READ   getImageTransition
-               WRITE  setImageTransition
-               NOTIFY imageTransitionChanged)
-    int  getImageTransition() { return m_imageTransition; }
-    void setImageTransition(int val) { if(val != m_imageTransition) { m_imageTransition = val;
-                                                                      emit imageTransitionChanged(val);
-                                                                      saveSettingsTimer->start(); } }
-
-    // loopThroughFolder
-    Q_PROPERTY(bool   loopThroughFolder
-               READ   getLoopThroughFolder
-               WRITE  setLoopThroughFolder
-               NOTIFY loopThroughFolderChanged)
-    bool getLoopThroughFolder() { return m_loopThroughFolder; }
-    void setLoopThroughFolder(bool val) { if(val != m_loopThroughFolder) { m_loopThroughFolder = val;
-                                                                           emit loopThroughFolderChanged(val);
-                                                                           saveSettingsTimer->start(); } }
-
-    // hotEdgeWidth
-    Q_PROPERTY(int    hotEdgeWidth
-               READ   getHotEdgeWidth
-               WRITE  setHotEdgeWidth
-               NOTIFY hotEdgeWidthChanged)
-    int  getHotEdgeWidth() { return m_hotEdgeWidth; }
-    void setHotEdgeWidth(int val) { if(val != m_hotEdgeWidth) { m_hotEdgeWidth = val;
-                                                                emit hotEdgeWidthChanged(val);
-                                                                saveSettingsTimer->start(); } }
-
-    // closeOnEmptyBackground
-    Q_PROPERTY(bool   closeOnEmptyBackground
-               READ   getCloseOnEmptyBackground
-               WRITE  setCloseOnEmptyBackground
-               NOTIFY closeOnEmptyBackgroundChanged)
-    bool getCloseOnEmptyBackground() { return m_closeOnEmptyBackground; }
-    void setCloseOnEmptyBackground(bool val) { if(val != m_closeOnEmptyBackground) { m_closeOnEmptyBackground = val;
-                                                                                     emit closeOnEmptyBackgroundChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // marginAroundImage
-    Q_PROPERTY(int    marginAroundImage
-               READ   getMarginAroundImage
-               WRITE  setMarginAroundImage
-               NOTIFY marginAroundImageChanged)
-    int  getMarginAroundImage() { return m_marginAroundImage; }
-    void setMarginAroundImage(int val) { if(val != m_marginAroundImage) { m_marginAroundImage = val;
-                                                                          emit marginAroundImageChanged(val);
-                                                                          saveSettingsTimer->start(); } }
-
-    // sortby
-    Q_PROPERTY(QString sortby
-               READ    getSortby
-               WRITE   setSortby
-               NOTIFY  sortbyChanged)
-    QString getSortby() { return m_sortby; }
-    void    setSortby(QString val) { if(val != m_sortby) { m_sortby = val;
-                                                           emit sortbyChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
-    // sortbyAscending
-    Q_PROPERTY(bool   sortbyAscending
-               READ   getSortbyAscending
-               WRITE  setSortbyAscending
-               NOTIFY sortbyAscendingChanged)
-    bool getSortbyAscending() { return m_sortbyAscending; }
-    void setSortbyAscending(bool val) { if(val != m_sortbyAscending) { m_sortbyAscending = val;
-                                                                       emit sortbyAscendingChanged(val);
-                                                                       saveSettingsTimer->start(); } }
-
-    // mouseWheelSensitivity
-    Q_PROPERTY(int    mouseWheelSensitivity
-               READ   getMouseWheelSensitivity
-               WRITE  setMouseWheelSensitivity
-               NOTIFY mouseWheelSensitivityChanged)
-    int  getMouseWheelSensitivity() { return m_mouseWheelSensitivity; }
-    void setMouseWheelSensitivity(int val) { if(val != m_mouseWheelSensitivity) { m_mouseWheelSensitivity = val;
-                                                                                  emit mouseWheelSensitivityChanged(val);
-                                                                                  saveSettingsTimer->start(); } }
-
-    // keepZoomRotationMirror
-    Q_PROPERTY(bool   keepZoomRotationMirror
-               READ   getKeepZoomRotationMirror
-               WRITE  setKeepZoomRotationMirror
-               NOTIFY keepZoomRotationMirrorChanged)
-    bool getKeepZoomRotationMirror() { return m_keepZoomRotationMirror; }
-    void setKeepZoomRotationMirror(bool val) { if(val != m_keepZoomRotationMirror) { m_keepZoomRotationMirror = val;
-                                                                                     emit keepZoomRotationMirrorChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // fitInWindow
-    Q_PROPERTY(bool   fitInWindow
-               READ   getFitInWindow
-               WRITE  setFitInWindow
-               NOTIFY fitInWindowChanged)
-    bool getFitInWindow() { return m_fitInWindow; }
-    void setFitInWindow(bool val) { if(val != m_fitInWindow) { m_fitInWindow = val;
-                                                               emit fitInWindowChanged(val);
-                                                               saveSettingsTimer->start(); } }
-
-    // interpolationNearestNeighbourThreshold
-    Q_PROPERTY(int    interpolationNearestNeighbourThreshold
-               READ   getInterpolationNearestNeighbourThreshold
-               WRITE  setInterpolationNearestNeighbourThreshold
-               NOTIFY interpolationNearestNeighbourThresholdChanged)
-    int  getInterpolationNearestNeighbourThreshold() { return m_interpolationNearestNeighbourThreshold; }
-    void setInterpolationNearestNeighbourThreshold(int val) { if(val != m_interpolationNearestNeighbourThreshold) {
-                                                                            m_interpolationNearestNeighbourThreshold = val;
-                                                                            emit interpolationNearestNeighbourThresholdChanged(val);
-                                                                            saveSettingsTimer->start(); } }
-
-    // interpolationNearestNeighbourUpscale
-    Q_PROPERTY(bool   interpolationNearestNeighbourUpscale
-               READ   getInterpolationNearestNeighbourUpscale
-               WRITE  setInterpolationNearestNeighbourUpscale
-               NOTIFY interpolationNearestNeighbourUpscaleChanged)
-    bool getInterpolationNearestNeighbourUpscale() { return m_interpolationNearestNeighbourUpscale; }
-    void setInterpolationNearestNeighbourUpscale(bool val) { if(val != m_interpolationNearestNeighbourUpscale) {
-                                                                            m_interpolationNearestNeighbourUpscale = val;
-                                                                            emit interpolationNearestNeighbourUpscaleChanged(val);
-                                                                            saveSettingsTimer->start(); } }
-
-    // pixmapCache
-    Q_PROPERTY(int    pixmapCache
-               READ   getPixmapCache
-               WRITE  setPixmapCache
-               NOTIFY pixmapCacheChanged)
-    int  getPixmapCache() { return m_pixmapCache; }
-    void setPixmapCache(int val) { if(val != m_pixmapCache) { m_pixmapCache = val;
-                                                              emit pixmapCacheChanged(val);
-                                                              saveSettingsTimer->start(); } }
-
-    // showTransparencyMarkerBackground
-    Q_PROPERTY(bool   showTransparencyMarkerBackground
-               READ   getShowTransparencyMarkerBackground
-               WRITE  setShowTransparencyMarkerBackground
-               NOTIFY showTransparencyMarkerBackgroundChanged)
-    bool getShowTransparencyMarkerBackground() { return m_showTransparencyMarkerBackground; }
-    void setShowTransparencyMarkerBackground(bool val) { if(val != m_showTransparencyMarkerBackground) {
-                                                                        m_showTransparencyMarkerBackground = val;
-                                                                        emit showTransparencyMarkerBackgroundChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
-    // leftButtonMouseClickAndMove
-    Q_PROPERTY(bool   leftButtonMouseClickAndMove
-               READ   getLeftButtonMouseClickAndMove
-               WRITE  setLeftButtonMouseClickAndMove
-               NOTIFY leftButtonMouseClickAndMoveChanged)
-    bool getLeftButtonMouseClickAndMove() { return m_leftButtonMouseClickAndMove; }
-    void setLeftButtonMouseClickAndMove(bool val) { if(val != m_leftButtonMouseClickAndMove) { m_leftButtonMouseClickAndMove = val;
-                                                                                               emit leftButtonMouseClickAndMoveChanged(val);
-                                                                                               saveSettingsTimer->start(); } }
-
-    // zoomSpeed
-    Q_PROPERTY(int    zoomSpeed
-               READ   getZoomSpeed
-               WRITE  setZoomSpeed
-               NOTIFY zoomSpeedChanged)
-    int  getZoomSpeed() { return m_zoomSpeed; }
-    void setZoomSpeed(int val) { if(val != m_zoomSpeed) { m_zoomSpeed = val;
-                                                          emit zoomSpeedChanged(val);
-                                                          saveSettingsTimer->start(); } }
-
-    // pdfSingleDocument
-    Q_PROPERTY(bool   pdfSingleDocument
-               READ   getPdfSingleDocument
-               WRITE  setPdfSingleDocument
-               NOTIFY pdfSingleDocumentChanged)
-    bool getPdfSingleDocument() { return m_pdfSingleDocument; }
-    void setPdfSingleDocument(bool val) { if(val != m_pdfSingleDocument) { m_pdfSingleDocument = val;
-                                                                           emit pdfSingleDocumentChanged(val);
-                                                                           saveSettingsTimer->start(); } }
-
-    // pdfSingleDocument
-    Q_PROPERTY(int    pdfQuality
-               READ   getPdfQuality
-               WRITE  setPdfQuality
-               NOTIFY pdfQualityChanged)
-    int  getPdfQuality() { return m_pdfQuality; }
-    void setPdfQuality(int val) { if(val != m_pdfQuality) { m_pdfQuality = val;
-                                                            emit pdfQualityChanged(val);
-                                                            saveSettingsTimer->start(); } }
-
-    // archiveSingleFile
-    Q_PROPERTY(int    archiveSingleFile
-               READ   getArchiveSingleFile
-               WRITE  setArchiveSingleFile
-               NOTIFY archiveSingleFileChanged)
-    int  getArchiveSingleFile() { return m_archiveSingleFile; }
-    void setArchiveSingleFile(int val) { if(val != m_archiveSingleFile) { m_archiveSingleFile = val;
-                                                                          emit archiveSingleFileChanged(val);
-                                                                          saveSettingsTimer->start(); } }
-
-    // archiveUseExternalUnrar
-    Q_PROPERTY(bool   archiveUseExternalUnrar
-               READ   getArchiveUseExternalUnrar
-               WRITE  setArchiveUseExternalUnrar
-               NOTIFY archiveUseExternalUnrarChanged)
-    bool getArchiveUseExternalUnrar() { return m_archiveUseExternalUnrar; }
-    void setArchiveUseExternalUnrar(bool val) { if(val != m_archiveUseExternalUnrar) { m_archiveUseExternalUnrar = val;
-                                                                                       emit archiveUseExternalUnrarChanged(val);
-                                                                                       saveSettingsTimer->start(); } }
-
-    // quickInfoHideCounter
-    Q_PROPERTY(bool   quickInfoHideCounter
-               READ   getQuickInfoHideCounter
-               WRITE  setQuickInfoHideCounter
-               NOTIFY quickInfoHideCounterChanged)
-    bool getQuickInfoHideCounter() { return m_quickInfoHideCounter; }
-    void setQuickInfoHideCounter(bool val) { if(val != m_quickInfoHideCounter) { m_quickInfoHideCounter = val;
-                                                                                 emit quickInfoHideCounterChanged(val);
-                                                                                 saveSettingsTimer->start(); } }
-
-    // quickInfoHideFilepath
-    Q_PROPERTY(bool   quickInfoHideFilepath
-               READ   getQuickInfoHideFilepath
-               WRITE  setQuickInfoHideFilepath
-               NOTIFY quickInfoHideFilepathChanged)
-    bool getQuickInfoHideFilepath() { return m_quickInfoHideFilepath; }
-    void setQuickInfoHideFilepath(bool val) { if(val != m_quickInfoHideFilepath) { m_quickInfoHideFilepath = val;
-                                                                                   emit quickInfoHideFilepathChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // quickInfoHideFilename
-    Q_PROPERTY(bool   quickInfoHideFilename
-               READ   getQuickInfoHideFilename
-               WRITE  setQuickInfoHideFilename
-               NOTIFY quickInfoHideFilenameChanged)
-    bool getQuickInfoHideFilename() { return m_quickInfoHideFilename; }
-    void setQuickInfoHideFilename(bool val) { if(val != m_quickInfoHideFilename) { m_quickInfoHideFilename = val;
-                                                                                   emit quickInfoHideFilenameChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // quickInfoHideX
-    Q_PROPERTY(bool   quickInfoHideX
-               READ   getQuickInfoHideX
-               WRITE  setQuickInfoHideX
-               NOTIFY quickInfoHideXChanged)
-    bool getQuickInfoHideX() { return m_quickInfoHideX; }
-    void setQuickInfoHideX(bool val) { if(val != m_quickInfoHideX) { m_quickInfoHideX = val;
-                                                                     emit quickInfoHideXChanged(val);
-                                                                     saveSettingsTimer->start(); } }
-
-    // quickInfoHideZoomLevel
-    Q_PROPERTY(bool   quickInfoHideZoomLevel
-               READ   getQuickInfoHideZoomLevel
-               WRITE  setQuickInfoHideZoomLevel
-               NOTIFY quickInfoHideZoomLevelChanged)
-    bool getQuickInfoHideZoomLevel() { return m_quickInfoHideZoomLevel; }
-    void setQuickInfoHideZoomLevel(bool val) { if(val != m_quickInfoHideZoomLevel) { m_quickInfoHideZoomLevel = val;
-                                                                                     emit quickInfoHideZoomLevelChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // quickInfoFullX
-    Q_PROPERTY(bool   quickInfoFullX
-               READ   getQuickInfoFullX
-               WRITE  setQuickInfoFullX
-               NOTIFY quickInfoFullXChanged)
-    bool getQuickInfoFullX() { return m_quickInfoFullX; }
-    void setQuickInfoFullX(bool val) { if(val != m_quickInfoFullX) { m_quickInfoFullX = val;
-                                                                     emit quickInfoFullXChanged(val);
-                                                                     saveSettingsTimer->start(); } }
-
-    // quickInfoCloseXSize
-    Q_PROPERTY(int    quickInfoCloseXSize
-               READ   getQuickInfoCloseXSize
-               WRITE  setQuickInfoCloseXSize
-               NOTIFY quickInfoCloseXSizeChanged)
-    int  getQuickInfoCloseXSize() { return m_quickInfoCloseXSize; }
-    void setQuickInfoCloseXSize(int val) { if(val != m_quickInfoCloseXSize) { m_quickInfoCloseXSize = val;
-                                                                              emit quickInfoCloseXSizeChanged(val);
-                                                                              saveSettingsTimer->start(); } }
-
-    // quickInfoManageWindow
-    Q_PROPERTY(bool   quickInfoManageWindow
-               READ   getQuickInfoManageWindow
-               WRITE  setQuickInfoManageWindow
-               NOTIFY quickInfoManageWindowChanged)
-    bool getQuickInfoManageWindow() { return m_quickInfoManageWindow; }
-    void setQuickInfoManageWindow(bool val) { if(val != m_quickInfoManageWindow) { m_quickInfoManageWindow = val;
-                                                                                   emit quickInfoManageWindowChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // slideShowTime
-    Q_PROPERTY(int    slideShowTime
-               READ   getSlideShowTime
-               WRITE  setSlideShowTime
-               NOTIFY slideShowTimeChanged)
-    int  getSlideShowTime() { return m_slideShowTime; }
-    void setSlideShowTime(int val) { if(val != m_slideShowTime) { m_slideShowTime = val;
-                                                                  emit slideShowTimeChanged(val);
-                                                                  saveSettingsTimer->start(); } }
-
-    // slideShowImageTransition
-    Q_PROPERTY(int    slideShowImageTransition
-               READ   getSlideShowImageTransition
-               WRITE  setSlideShowImageTransition
-               NOTIFY slideShowImageTransitionChanged)
-    int  getSlideShowImageTransition() { return m_slideShowImageTransition; }
-    void setSlideShowImageTransition(int val) { if(val != m_slideShowImageTransition) { m_slideShowImageTransition = val;
-                                                                                        emit slideShowImageTransitionChanged(val);
-                                                                                        saveSettingsTimer->start(); } }
-
-    // slideShowMusicFile
-    Q_PROPERTY(QString slideShowMusicFile
-               READ    getSlideShowMusicFile
-               WRITE   setSlideShowMusicFile
-               NOTIFY  slideShowMusicFileChanged)
-    QString getSlideShowMusicFile() { return m_slideShowMusicFile; }
-    void    setSlideShowMusicFile(QString val) { if(val != m_slideShowMusicFile) { m_slideShowMusicFile = val;
-                                                                                   emit slideShowMusicFileChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // slideShowShuffle
-    Q_PROPERTY(bool   slideShowShuffle
-               READ   getSlideShowShuffle
-               WRITE  setSlideShowShuffle
-               NOTIFY slideShowShuffleChanged)
-    bool getSlideShowShuffle() { return m_slideShowShuffle; }
-    void setSlideShowShuffle(bool val) { if(val != m_slideShowShuffle) { m_slideShowShuffle = val;
-                                                                         emit slideShowShuffleChanged(val);
-                                                                         saveSettingsTimer->start(); } }
-
-    // slideShowLoop
-    Q_PROPERTY(bool   slideShowLoop
-               READ   getSlideShowLoop
-               WRITE  setSlideShowLoop
-               NOTIFY slideShowLoopChanged)
-    bool getSlideShowLoop() { return m_slideShowLoop; }
-    void setSlideShowLoop(bool val) { if(val != m_slideShowLoop) { m_slideShowLoop = val;
-                                                                   emit slideShowLoopChanged(val);
-                                                                   saveSettingsTimer->start(); } }
-
-    // slideShowHideQuickInfo
-    Q_PROPERTY(bool   slideShowHideQuickInfo
-               READ   getSlideShowHideQuickInfo
-               WRITE  setSlideShowHideQuickInfo
-               NOTIFY slideShowHideQuickInfoChanged)
-    bool getSlideShowHideQuickInfo() { return m_slideShowHideQuickInfo; }
-    void setSlideShowHideQuickInfo(bool val) { if(val != m_slideShowHideQuickInfo) { m_slideShowHideQuickInfo = val;
-                                                                                     emit slideShowHideQuickInfoChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // thumbnailSize
-    Q_PROPERTY(int    thumbnailSize
-               READ   getThumbnailSize
-               WRITE  setThumbnailSize
-               NOTIFY thumbnailSizeChanged)
-    int  getThumbnailSize() { return m_thumbnailSize; }
-    void setThumbnailSize(int val) { if(val != m_thumbnailSize) { m_thumbnailSize = val;
-                                                                  emit thumbnailSizeChanged(val);
-                                                                  saveSettingsTimer->start(); } }
-
-    // thumbnailPosition
-    Q_PROPERTY(QString thumbnailPosition
-               READ    getThumbnailPosition
-               WRITE   setThumbnailPosition
-               NOTIFY  thumbnailPositionChanged)
-    QString getThumbnailPosition() { return m_thumbnailPosition; }
-    void    setThumbnailPosition(QString val) { if(val != m_thumbnailPosition) { m_thumbnailPosition = val;
-                                                                                 emit thumbnailPositionChanged(val);
-                                                                                 saveSettingsTimer->start(); } }
-
-    // thumbnailCache
-    Q_PROPERTY(bool   thumbnailCache
-               READ   getThumbnailCache
-               WRITE  setThumbnailCache
-               NOTIFY thumbnailCacheChanged)
-    bool getThumbnailCache() { return m_thumbnailCache; }
-    void setThumbnailCache(bool val) { if(val != m_thumbnailCache) { m_thumbnailCache = val;
-                                                                     emit thumbnailCacheChanged(val);
-                                                                     saveSettingsTimer->start(); } }
-
-    // thumbnailCacheFile
-    Q_PROPERTY(bool   thumbnailCacheFile
-               READ   getThumbnailCacheFile
-               WRITE  setThumbnailCacheFile
-               NOTIFY thumbnailCacheFileChanged)
-    bool getThumbnailCacheFile() { return m_thumbnailCacheFile; }
-    void setThumbnailCacheFile(bool val) { if(val != m_thumbnailCacheFile) { m_thumbnailCacheFile = val;
-                                                                             emit thumbnailCacheFileChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // thumbnailSpacingBetween
-    Q_PROPERTY(int    thumbnailSpacingBetween
-               READ   getThumbnailSpacingBetween
-               WRITE  setThumbnailSpacingBetween
-               NOTIFY thumbnailSpacingBetweenChanged)
-    int  getThumbnailSpacingBetween() { return m_thumbnailSpacingBetween; }
-    void setThumbnailSpacingBetween(int val) { if(val != m_thumbnailSpacingBetween) { m_thumbnailSpacingBetween = val;
-                                                                                      emit thumbnailSpacingBetweenChanged(val);
-                                                                                      saveSettingsTimer->start(); } }
-
-    // thumbnailLiftUp
-    Q_PROPERTY(int    thumbnailLiftUp
-               READ   getThumbnailLiftUp
-               WRITE  setThumbnailLiftUp
-               NOTIFY thumbnailLiftUpChanged)
-    int  getThumbnailLiftUp() { return m_thumbnailLiftUp; }
-    void setThumbnailLiftUp(int val) { if(val != m_thumbnailLiftUp) { m_thumbnailLiftUp = val;
-                                                                      emit thumbnailLiftUpChanged(val);
-                                                                      saveSettingsTimer->start(); } }
-
-    // thumbnailKeepVisible
-    Q_PROPERTY(bool   thumbnailKeepVisible
-               READ   getThumbnailKeepVisible
-               WRITE  setThumbnailKeepVisible
-               NOTIFY thumbnailKeepVisibleChanged)
-    bool getThumbnailKeepVisible() { return m_thumbnailKeepVisible; }
-    void setThumbnailKeepVisible(bool val) { if(val != m_thumbnailKeepVisible) { m_thumbnailKeepVisible = val;
-                                                                                 emit thumbnailKeepVisibleChanged(val);
-                                                                                 saveSettingsTimer->start(); } }
-
-    // thumbnailKeepVisibleWhenNotZoomedIn
-    Q_PROPERTY(bool   thumbnailKeepVisibleWhenNotZoomedIn
-               READ   getThumbnailKeepVisibleWhenNotZoomedIn
-               WRITE  setThumbnailKeepVisibleWhenNotZoomedIn
-               NOTIFY thumbnailKeepVisibleWhenNotZoomedInChanged)
-    bool getThumbnailKeepVisibleWhenNotZoomedIn() { return m_thumbnailKeepVisibleWhenNotZoomedIn; }
-    void setThumbnailKeepVisibleWhenNotZoomedIn(bool val) { if(val != m_thumbnailKeepVisibleWhenNotZoomedIn) {
-                                                                            m_thumbnailKeepVisibleWhenNotZoomedIn = val;
-                                                                            emit thumbnailKeepVisibleWhenNotZoomedInChanged(val);
-                                                                            saveSettingsTimer->start(); } }
-
-    // thumbnailCenterActive
-    Q_PROPERTY(bool   thumbnailCenterActive
-               READ   getThumbnailCenterActive
-               WRITE  setThumbnailCenterActive
-               NOTIFY thumbnailCenterActiveChanged)
-    bool getThumbnailCenterActive() { return m_thumbnailCenterActive; }
-    void setThumbnailCenterActive(bool val) { if(val != m_thumbnailCenterActive) { m_thumbnailCenterActive = val;
-                                                                                   emit thumbnailCenterActiveChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // thumbnailFilenameInstead
-    Q_PROPERTY(bool   thumbnailFilenameInstead
-               READ   getThumbnailFilenameInstead
-               WRITE  setThumbnailFilenameInstead
-               NOTIFY thumbnailFilenameInsteadChanged)
-    bool getThumbnailFilenameInstead() { return m_thumbnailFilenameInstead; }
-    void setThumbnailFilenameInstead(bool val) { if(val != m_thumbnailFilenameInstead) { m_thumbnailFilenameInstead = val;
-                                                                                         emit thumbnailFilenameInsteadChanged(val);
-                                                                                         saveSettingsTimer->start(); } }
-
-    // thumbnailFilenameInsteadFontSize
-    Q_PROPERTY(int    thumbnailFilenameInsteadFontSize
-               READ   getThumbnailFilenameInsteadFontSize
-               WRITE  setThumbnailFilenameInsteadFontSize
-               NOTIFY thumbnailFilenameInsteadFontSizeChanged)
-    int  getThumbnailFilenameInsteadFontSize() { return m_thumbnailFilenameInsteadFontSize; }
-    void setThumbnailFilenameInsteadFontSize(int val) { if(val != m_thumbnailFilenameInsteadFontSize) {
-                                                                        m_thumbnailFilenameInsteadFontSize = val;
-                                                                        emit thumbnailFilenameInsteadFontSizeChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
-    // thumbnailDisable
-    Q_PROPERTY(bool   thumbnailDisable
-               READ   getThumbnailDisable
-               WRITE  setThumbnailDisable
-               NOTIFY thumbnailDisableChanged)
-    bool getThumbnailDisable() { return m_thumbnailDisable; }
-    void setThumbnailDisable(bool val) { if(val != m_thumbnailDisable) { m_thumbnailDisable = val;
-                                                                         emit thumbnailDisableChanged(val);
-                                                                         saveSettingsTimer->start(); } }
-
-    // thumbnailWriteFilename
-    Q_PROPERTY(bool   thumbnailWriteFilename
-               READ   getThumbnailWriteFilename
-               WRITE  setThumbnailWriteFilename
-               NOTIFY thumbnailWriteFilenameChanged)
-    bool getThumbnailWriteFilename() { return m_thumbnailWriteFilename; }
-    void setThumbnailWriteFilename(bool val) { if(val != m_thumbnailWriteFilename) { m_thumbnailWriteFilename = val;
-                                                                                     emit thumbnailWriteFilenameChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // thumbnailFontSize
-    Q_PROPERTY(int    thumbnailFontSize
-               READ   getThumbnailFontSize
-               WRITE  setThumbnailFontSize
-               NOTIFY thumbnailFontSizeChanged)
-    int  getThumbnailFontSize() { return m_thumbnailFontSize; }
-    void setThumbnailFontSize(int val) { if(val != m_thumbnailFontSize) { m_thumbnailFontSize = val;
-                                                                          emit thumbnailFontSizeChanged(val);
-                                                                          saveSettingsTimer->start(); } }
-
-    // windowMode
-    Q_PROPERTY(bool   windowMode
-               READ   getWindowMode
-               WRITE  setWindowMode
-               NOTIFY windowModeChanged)
-    bool getWindowMode() { return m_windowMode; }
-    void setWindowMode(bool val) { if(val != m_windowMode) { m_windowMode = val;
-                                                             emit windowModeChanged(val);
-                                                             saveSettingsTimer->start(); } }
-
-    // windowDecoration
-    Q_PROPERTY(bool   windowDecoration
-               READ   getWindowDecoration
-               WRITE  setWindowDecoration
-               NOTIFY windowDecorationChanged)
-    bool getWindowDecoration() { return m_windowDecoration; }
-    void setWindowDecoration(bool val) { if(val != m_windowDecoration) { m_windowDecoration = val;
-                                                                         emit windowDecorationChanged(val);
-                                                                         saveSettingsTimer->start(); } }
-
-    // metadataEnableHotEdge
-    Q_PROPERTY(bool   metadataEnableHotEdge
-               READ   getMetadataEnableHotEdge
-               WRITE  setMetadataEnableHotEdge
-               NOTIFY metadataEnableHotEdgeChanged)
-    bool getMetadataEnableHotEdge() { return m_metadataEnableHotEdge; }
-    void setMetadataEnableHotEdge(bool val) { if(val != m_metadataEnableHotEdge) { m_metadataEnableHotEdge = val;
-                                                                                   emit metadataEnableHotEdgeChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // metaApplyRotation
-    Q_PROPERTY(bool   metaApplyRotation
-               READ   getMetaApplyRotation
-               WRITE  setMetaApplyRotation
-               NOTIFY metaApplyRotationChanged)
-    bool getMetaApplyRotation() { return m_metaApplyRotation; }
-    void setMetaApplyRotation(bool val) { if(val != m_metaApplyRotation) { m_metaApplyRotation = val;
-                                                                           emit metaApplyRotationChanged(val);
-                                                                           saveSettingsTimer->start(); } }
-
-    // metaGpsMapService
-    Q_PROPERTY(QString metaGpsMapService
-               READ    getMetaGpsMapService
-               WRITE   setMetaGpsMapService
-               NOTIFY  metaGpsMapServiceChanged)
-    QString getMetaGpsMapService() { return m_metaGpsMapService; }
-    void    setMetaGpsMapService(QString val) { if(val != m_metaGpsMapService) { m_metaGpsMapService = val;
-                                                                                 emit metaGpsMapServiceChanged(val);
-                                                                                 saveSettingsTimer->start(); } }
-
-    // metadataFontSize
-    Q_PROPERTY(int    metadataFontSize
-               READ   getMetadataFontSize
-               WRITE  setMetadataFontSize
-               NOTIFY metadataFontSizeChanged)
-    int  getMetadataFontSize() { return m_metadataFontSize; }
-    void setMetadataFontSize(int val) { if(val != m_metadataFontSize) { m_metadataFontSize = val;
-                                                                        emit metadataFontSizeChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
-    // metadataOpacity
-    Q_PROPERTY(int    metadataOpacity
-               READ   getMetadataOpacity
-               WRITE  setMetadataOpacity
-               NOTIFY metadataOpacityChanged)
-    int  getMetadataOpacity() { return m_metadataOpacity; }
-    void setMetadataOpacity(int val) { if(val != m_metadataOpacity) { m_metadataOpacity = val;
-                                                                      emit metadataOpacityChanged(val);
-                                                                      saveSettingsTimer->start(); } }
-
-    // metaFilename
-    Q_PROPERTY(bool   metaFilename
-               READ   getMetaFilename
-               WRITE  setMetaFilename
-               NOTIFY metaFilenameChanged)
-    bool getMetaFilename() { return m_metaFilename; }
-    void setMetaFilename(bool val) { if(val != m_metaFilename) { m_metaFilename = val;
-                                                                 emit metaFilenameChanged(val);
-                                                                 saveSettingsTimer->start(); } }
-
-    // metaFileType
-    Q_PROPERTY(bool   metaFileType
-               READ   getMetaFileType
-               WRITE  setMetaFileType
-               NOTIFY metaFileTypeChanged)
-    bool getMetaFileType() { return m_metaFileType; }
-    void setMetaFileType(bool val) { if(val != m_metaFileType) { m_metaFileType = val;
-                                                                 emit metaFileTypeChanged(val);
-                                                                 saveSettingsTimer->start(); } }
-
-    // metaFileSize
-    Q_PROPERTY(bool   metaFileSize
-               READ   getMetaFileSize
-               WRITE  setMetaFileSize
-               NOTIFY metaFileSizeChanged)
-    bool getMetaFileSize() { return m_metaFileSize; }
-    void setMetaFileSize(bool val) { if(val != m_metaFileSize) { m_metaFileSize = val;
-                                                                 emit metaFileSizeChanged(val);
-                                                                 saveSettingsTimer->start(); } }
-
-    // metaImageNumber
-    Q_PROPERTY(bool   metaImageNumber
-               READ   getMetaImageNumber
-               WRITE  setMetaImageNumber
-               NOTIFY metaImageNumberChanged)
-    bool getMetaImageNumber() { return m_metaImageNumber; }
-    void setMetaImageNumber(bool val) { if(val != m_metaImageNumber) { m_metaImageNumber = val;
-                                                                       emit metaImageNumberChanged(val);
-                                                                       saveSettingsTimer->start(); } }
-
-    // metaDimensions
-    Q_PROPERTY(bool   metaDimensions
-               READ   getMetaDimensions
-               WRITE  setMetaDimensions
-               NOTIFY metaDimensionsChanged)
-    bool getMetaDimensions() { return m_metaDimensions; }
-    void setMetaDimensions(bool val) { if(val != m_metaDimensions) { m_metaDimensions = val;
-                                                                     emit metaDimensionsChanged(val);
-                                                                     saveSettingsTimer->start(); } }
-
-    // metaMake
-    Q_PROPERTY(bool   metaMake
-               READ   getMetaMake
-               WRITE  setMetaMake
-               NOTIFY metaMakeChanged)
-    bool getMetaMake() { return m_metaMake; }
-    void setMetaMake(bool val) { if(val != m_metaMake) { m_metaMake = val;
-                                                         emit metaMakeChanged(val);
-                                                         saveSettingsTimer->start(); } }
-
-    // metaModel
-    Q_PROPERTY(bool   metaModel
-               READ   getMetaModel
-               WRITE  setMetaModel
-               NOTIFY metaModelChanged)
-    bool getMetaModel() { return m_metaModel; }
-    void setMetaModel(bool val) { if(val != m_metaModel) { m_metaModel = val;
-                                                           emit metaModelChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
-    // metaSoftware
-    Q_PROPERTY(bool   metaSoftware
-               READ   getMetaSoftware
-               WRITE  setMetaSoftware
-               NOTIFY metaSoftwareChanged)
-    bool getMetaSoftware() { return m_metaSoftware; }
-    void setMetaSoftware(bool val) { if(val != m_metaSoftware) { m_metaSoftware = val;
-                                                                 emit metaSoftwareChanged(val);
-                                                                 saveSettingsTimer->start(); } }
-
-    // metaTimePhotoTaken
-    Q_PROPERTY(bool   metaTimePhotoTaken
-               READ   getMetaTimePhotoTaken
-               WRITE  setMetaTimePhotoTaken
-               NOTIFY metaTimePhotoTakenChanged)
-    bool getMetaTimePhotoTaken() { return m_metaTimePhotoTaken; }
-    void setMetaTimePhotoTaken(bool val) { if(val != m_metaTimePhotoTaken) { m_metaTimePhotoTaken = val;
-                                                                             emit metaTimePhotoTakenChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // metaExposureTime
-    Q_PROPERTY(bool   metaExposureTime
-               READ   getMetaExposureTime
-               WRITE  setMetaExposureTime
-               NOTIFY metaExposureTimeChanged)
-    bool getMetaExposureTime() { return m_metaExposureTime; }
-    void setMetaExposureTime(bool val) { if(val != m_metaExposureTime) { m_metaExposureTime = val;
-                                                                         emit metaExposureTimeChanged(val);
-                                                                         saveSettingsTimer->start(); } }
-
-    // metaFlash
-    Q_PROPERTY(bool   metaFlash
-               READ   getMetaFlash
-               WRITE  setMetaFlash
-               NOTIFY metaFlashChanged)
-    bool getMetaFlash() { return m_metaFlash; }
-    void setMetaFlash(bool val) { if(val != m_metaFlash) { m_metaFlash = val;
-                                                           emit metaFlashChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
-    // metaIso
-    Q_PROPERTY(bool   metaIso
-               READ   getMetaIso
-               WRITE  setMetaIso
-               NOTIFY metaIsoChanged)
-    bool getMetaIso() { return m_metaIso; }
-    void setMetaIso(bool val) { if(val != m_metaIso) { m_metaIso = val;
-                                                       emit metaIsoChanged(val);
-                                                       saveSettingsTimer->start(); } }
-
-    // metaSceneType
-    Q_PROPERTY(bool   metaSceneType
-               READ   getMetaSceneType
-               WRITE  setMetaSceneType
-               NOTIFY metaSceneTypeChanged)
-    bool getMetaSceneType() { return m_metaSceneType; }
-    void setMetaSceneType(bool val) { if(val != m_metaSceneType) { m_metaSceneType = val;
-                                                                   emit metaSceneTypeChanged(val);
-                                                                   saveSettingsTimer->start(); } }
-
-    // metaFLength
-    Q_PROPERTY(bool   metaFLength
-               READ   getMetaFLength
-               WRITE  setMetaFLength
-               NOTIFY metaFLengthChanged)
-    bool getMetaFLength() { return m_metaFLength; }
-    void setMetaFLength(bool val) { if(val != m_metaFLength) { m_metaFLength = val;
-                                                               emit metaFLengthChanged(val);
-                                                               saveSettingsTimer->start(); } }
-
-    // metaFNumber
-    Q_PROPERTY(bool   metaFNumber
-               READ   getMetaFNumber
-               WRITE  setMetaFNumber
-               NOTIFY metaFNumberChanged)
-    bool getMetaFNumber() { return m_metaFNumber; }
-    void setMetaFNumber(bool val) { if(val != m_metaFNumber) { m_metaFNumber = val;
-                                                               emit metaFNumberChanged(val);
-                                                               saveSettingsTimer->start(); } }
-
-    // metaLightSource
-    Q_PROPERTY(bool   metaLightSource
-               READ   getMetaLightSource
-               WRITE  setMetaLightSource
-               NOTIFY metaLightSourceChanged)
-    bool getMetaLightSource() { return m_metaLightSource; }
-    void setMetaLightSource(bool val) { if(val != m_metaLightSource) { m_metaLightSource = val;
-                                                                       emit metaLightSourceChanged(val);
-                                                                       saveSettingsTimer->start(); } }
-
-    // metaKeywords
-    Q_PROPERTY(bool   metaKeywords
-               READ   getMetaKeywords
-               WRITE  setMetaKeywords
-               NOTIFY metaKeywordsChanged)
-    bool getMetaKeywords() { return m_metaKeywords; }
-    void setMetaKeywords(bool val) { if(val != m_metaKeywords) { m_metaKeywords = val;
-                                                                 emit metaKeywordsChanged(val);
-                                                                 saveSettingsTimer->start(); } }
-
-    // metaLocation
-    Q_PROPERTY(bool   metaLocation
-               READ   getMetaLocation
-               WRITE  setMetaLocation
-               NOTIFY metaLocationChanged)
-    bool getMetaLocation() { return m_metaLocation; }
-    void setMetaLocation(bool val) { if(val != m_metaLocation) { m_metaLocation = val;
-                                                                 emit metaLocationChanged(val);
-                                                                 saveSettingsTimer->start(); } }
-
-    // metaCopyright
-    Q_PROPERTY(bool   metaCopyright
-               READ   getMetaCopyright
-               WRITE  setMetaCopyright
-               NOTIFY metaCopyrightChanged)
-    bool getMetaCopyright() { return m_metaCopyright; }
-    void setMetaCopyright(bool val) { if(val != m_metaCopyright) { m_metaCopyright = val;
-                                                                   emit metaCopyrightChanged(val);
-                                                                   saveSettingsTimer->start(); } }
-
-    // metaGps
-    Q_PROPERTY(bool   metaGps
-               READ   getMetaGps
-               WRITE  setMetaGps
-               NOTIFY metaGpsChanged)
-    bool getMetaGps() { return m_metaGps; }
-    void setMetaGps(bool val) { if(val != m_metaGps) { m_metaGps = val;
-                                                       emit metaGpsChanged(val);
-                                                       saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaDisplay
-    Q_PROPERTY(bool   peopleTagInMetaDisplay
-               READ   getPeopleTagInMetaDisplay
-               WRITE  setPeopleTagInMetaDisplay
-               NOTIFY peopleTagInMetaDisplayChanged)
-    bool getPeopleTagInMetaDisplay() { return m_peopleTagInMetaDisplay; }
-    void setPeopleTagInMetaDisplay(bool val) { if(val != m_peopleTagInMetaDisplay) { m_peopleTagInMetaDisplay = val;
-                                                                                     emit peopleTagInMetaDisplayChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaBorderAroundFace
-    Q_PROPERTY(bool   peopleTagInMetaBorderAroundFace
-               READ   getPeopleTagInMetaBorderAroundFace
-               WRITE  setPeopleTagInMetaBorderAroundFace
-               NOTIFY peopleTagInMetaBorderAroundFaceChanged)
-    bool getPeopleTagInMetaBorderAroundFace() { return m_peopleTagInMetaBorderAroundFace; }
-    void setPeopleTagInMetaBorderAroundFace(bool val) { if(val != m_peopleTagInMetaBorderAroundFace) {
-                                                                        m_peopleTagInMetaBorderAroundFace = val;
-                                                                        emit peopleTagInMetaBorderAroundFaceChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaBorderAroundFaceColor
-    Q_PROPERTY(QString peopleTagInMetaBorderAroundFaceColor
-               READ    getPeopleTagInMetaBorderAroundFaceColor
-               WRITE   setPeopleTagInMetaBorderAroundFaceColor
-               NOTIFY  peopleTagInMetaBorderAroundFaceColorChanged)
-    QString getPeopleTagInMetaBorderAroundFaceColor() { return m_peopleTagInMetaBorderAroundFaceColor; }
-    void    setPeopleTagInMetaBorderAroundFaceColor(QString val) { if(val != m_peopleTagInMetaBorderAroundFaceColor) {
-                                                                                    m_peopleTagInMetaBorderAroundFaceColor = val;
-                                                                                    emit peopleTagInMetaBorderAroundFaceColorChanged(val);
-                                                                                    saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaBorderAroundFaceWidth
-    Q_PROPERTY(int    peopleTagInMetaBorderAroundFaceWidth
-               READ   getPeopleTagInMetaBorderAroundFaceWidth
-               WRITE  setPeopleTagInMetaBorderAroundFaceWidth
-               NOTIFY peopleTagInMetaBorderAroundFaceWidthChanged)
-    int  getPeopleTagInMetaBorderAroundFaceWidth() { return m_peopleTagInMetaBorderAroundFaceWidth; }
-    void setPeopleTagInMetaBorderAroundFaceWidth(int val) { if(val != m_peopleTagInMetaBorderAroundFaceWidth) {
-                                                                            m_peopleTagInMetaBorderAroundFaceWidth = val;
-                                                                            emit peopleTagInMetaBorderAroundFaceWidthChanged(val);
-                                                                            saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaAlwaysVisible
-    Q_PROPERTY(bool   peopleTagInMetaAlwaysVisible
-               READ   getPeopleTagInMetaAlwaysVisible
-               WRITE  setPeopleTagInMetaAlwaysVisible
-               NOTIFY peopleTagInMetaAlwaysVisibleChanged)
-    bool getPeopleTagInMetaAlwaysVisible() { return m_peopleTagInMetaAlwaysVisible; }
-    void setPeopleTagInMetaAlwaysVisible(bool val) { if(val != m_peopleTagInMetaAlwaysVisible) { m_peopleTagInMetaAlwaysVisible = val;
-                                                                                                 emit peopleTagInMetaAlwaysVisibleChanged(val);
-                                                                                                 saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaIndependentLabels
-    Q_PROPERTY(bool   peopleTagInMetaIndependentLabels
-               READ   getPeopleTagInMetaIndependentLabels
-               WRITE  setPeopleTagInMetaIndependentLabels
-               NOTIFY peopleTagInMetaIndependentLabelsChanged)
-    bool getPeopleTagInMetaIndependentLabels() { return m_peopleTagInMetaIndependentLabels; }
-    void setPeopleTagInMetaIndependentLabels(bool val) { if(val != m_peopleTagInMetaIndependentLabels) {
-                                                                        m_peopleTagInMetaIndependentLabels = val;
-                                                                        emit peopleTagInMetaIndependentLabelsChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaHybridMode
-    Q_PROPERTY(bool   peopleTagInMetaHybridMode
-               READ   getPeopleTagInMetaHybridMode
-               WRITE  setPeopleTagInMetaHybridMode
-               NOTIFY peopleTagInMetaHybridModeChanged)
-    bool getPeopleTagInMetaHybridMode() { return m_peopleTagInMetaHybridMode; }
-    void setPeopleTagInMetaHybridMode(bool val) { if(val != m_peopleTagInMetaHybridMode) { m_peopleTagInMetaHybridMode= val;
-                                                                                           emit peopleTagInMetaHybridModeChanged(val);
-                                                                                           saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaFontSize
-    Q_PROPERTY(int    peopleTagInMetaFontSize
-               READ   getPeopleTagInMetaFontSize
-               WRITE  setPeopleTagInMetaFontSize
-               NOTIFY peopleTagInMetaFontSizeChanged)
-    int  getPeopleTagInMetaFontSize() { return m_peopleTagInMetaFontSize; }
-    void setPeopleTagInMetaFontSize(int val) { if(val != m_peopleTagInMetaFontSize) { m_peopleTagInMetaFontSize = val;
-                                                                                      emit peopleTagInMetaFontSizeChanged(val);
-                                                                                      saveSettingsTimer->start(); } }
-
-    // openDefaultView
-    Q_PROPERTY(QString openDefaultView
-               READ    getOpenDefaultView
-               WRITE   setOpenDefaultView
-               NOTIFY  openDefaultViewChanged)
-    QString getOpenDefaultView() { return m_openDefaultView; }
-    void    setOpenDefaultView(QString val) { if(val != m_openDefaultView) { m_openDefaultView = val;
-                                                                             emit openDefaultViewChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // openPreview
-    Q_PROPERTY(bool   openPreview
-               READ   getOpenPreview
-               WRITE  setOpenPreview
-               NOTIFY openPreviewChanged)
-    bool getOpenPreview() { return m_openPreview; }
-    void setOpenPreview(bool val) { if(val != m_openPreview) { m_openPreview = val;
-                                                               emit openPreviewChanged(val);
-                                                               saveSettingsTimer->start(); } }
-
-    // openZoomLevel
-    Q_PROPERTY(int    openZoomLevel
-               READ   getOpenZoomLevel
-               WRITE  setOpenZoomLevel
-               NOTIFY openZoomLevelChanged)
-    int  getOpenZoomLevel() { return m_openZoomLevel; }
-    void setOpenZoomLevel(int val) { if(val != m_openZoomLevel) { m_openZoomLevel = val;
-                                                                  emit openZoomLevelChanged(val);
-                                                                  saveSettingsTimer->start(); } }
-
-    // openUserPlacesWidth
-    Q_PROPERTY(int    openUserPlacesWidth
-               READ   getOpenUserPlacesWidth
-               WRITE  setOpenUserPlacesWidth
-               NOTIFY openUserPlacesWidthChanged)
-    int  getOpenUserPlacesWidth() { return m_openUserPlacesWidth; }
-    void setOpenUserPlacesWidth(int val) { if(val != m_openUserPlacesWidth) { m_openUserPlacesWidth = val;
-                                                                              emit openUserPlacesWidthChanged(val);
-                                                                              saveSettingsTimer->start(); } }
-
-    // openFoldersWidth
-    Q_PROPERTY(int    openFoldersWidth
-               READ   getOpenFoldersWidth
-               WRITE  setOpenFoldersWidth
-               NOTIFY openFoldersWidthChanged)
-    int  getOpenFoldersWidth() { return m_openFoldersWidth; }
-    void setOpenFoldersWidth(int val) { if(val != m_openFoldersWidth) { m_openFoldersWidth = val;
-                                                                        emit openFoldersWidthChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
-    // openThumbnails
-    Q_PROPERTY(bool   openThumbnails
-               READ   getOpenThumbnails
-               WRITE  setOpenThumbnails
-               NOTIFY openThumbnailsChanged)
-    bool getOpenThumbnails() { return m_openThumbnails; }
-    void setOpenThumbnails(bool val) { if(val != m_openThumbnails) { m_openThumbnails = val;
-                                                                     emit openThumbnailsChanged(val);
-                                                                     saveSettingsTimer->start(); } }
-
-    // openPreviewHighQuality
-    Q_PROPERTY(bool   openPreviewHighQuality
-               READ   getOpenPreviewHighQuality
-               WRITE  setOpenPreviewHighQuality
-               NOTIFY openPreviewHighQualityChanged)
-    bool getOpenPreviewHighQuality() { return m_openPreviewHighQuality; }
-    void setOpenPreviewHighQuality(bool val) { if(val != m_openPreviewHighQuality) { m_openPreviewHighQuality = val;
-                                                                                     emit openPreviewHighQualityChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // openUserPlacesStandard
-    Q_PROPERTY(bool   openUserPlacesStandard
-               READ   getOpenUserPlacesStandard
-               WRITE  setOpenUserPlacesStandard
-               NOTIFY openUserPlacesStandardChanged)
-    bool getOpenUserPlacesStandard() { return m_openUserPlacesStandard; }
-    void setOpenUserPlacesStandard(bool val) { if(val != m_openUserPlacesStandard) { m_openUserPlacesStandard = val;
-                                                                                     emit openUserPlacesStandardChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
-
-    // openUserPlacesUser
-    Q_PROPERTY(bool   openUserPlacesUser
-               READ   getOpenUserPlacesUser
-               WRITE  setOpenUserPlacesUser
-               NOTIFY openUserPlacesUserChanged)
-    bool getOpenUserPlacesUser() { return m_openUserPlacesUser; }
-    void setOpenUserPlacesUser(bool val) { if(val != m_openUserPlacesUser) { m_openUserPlacesUser = val;
-                                                                             emit openUserPlacesUserChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // openUserPlacesVolumes
-    Q_PROPERTY(bool   openUserPlacesVolumes
-               READ   getOpenUserPlacesVolumes
-               WRITE  setOpenUserPlacesVolumes
-               NOTIFY openUserPlacesVolumesChanged)
-    bool getOpenUserPlacesVolumes() { return m_openUserPlacesVolumes; }
-    void setOpenUserPlacesVolumes(bool val) { if(val != m_openUserPlacesVolumes) { m_openUserPlacesVolumes = val;
-                                                                                   emit openUserPlacesVolumesChanged(val);
-                                                                                   saveSettingsTimer->start(); } }
-
-    // openKeepLastLocation
-    Q_PROPERTY(bool   openKeepLastLocation
-               READ   getOpenKeepLastLocation
-               WRITE  setOpenKeepLastLocation
-               NOTIFY openKeepLastLocationChanged)
-    bool getOpenKeepLastLocation() { return m_openKeepLastLocation; }
-    void setOpenKeepLastLocation(bool val) { if(val != m_openKeepLastLocation) { m_openKeepLastLocation = val;
-                                                                                 emit openKeepLastLocationChanged(val);
-                                                                                 saveSettingsTimer->start(); } }
-
-    // openShowHiddenFilesFolders
-    Q_PROPERTY(bool   openShowHiddenFilesFolders
-               READ   getOpenShowHiddenFilesFolders
-               WRITE  setOpenShowHiddenFilesFolders
-               NOTIFY openShowHiddenFilesFoldersChanged)
-    bool getOpenShowHiddenFilesFolders() { return m_openShowHiddenFilesFolders; }
-    void setOpenShowHiddenFilesFolders(bool val) { if(val != m_openShowHiddenFilesFolders) { m_openShowHiddenFilesFolders = val;
-                                                                                             emit openShowHiddenFilesFoldersChanged(val);
-                                                                                             saveSettingsTimer->start(); } }
-
-    // openHideUserPlaces
-    Q_PROPERTY(bool   openHideUserPlaces
-               READ   getOpenHideUserPlaces
-               WRITE  setOpenHideUserPlaces
-               NOTIFY openHideUserPlacesChanged)
-    bool getOpenHideUserPlaces() { return m_openHideUserPlaces; }
-    void setOpenHideUserPlaces(bool val) { if(val != m_openHideUserPlaces) { m_openHideUserPlaces = val;
-                                                                             emit openHideUserPlacesChanged(val);
-                                                                             saveSettingsTimer->start(); } }
-
-    // metadataWindowWidth
-    Q_PROPERTY(int    metadataWindowWidth
-               READ   getMetadataWindowWidth
-               WRITE  setMetadataWindowWidth
-               NOTIFY metadataWindowWidthChanged)
-    int  getMetadataWindowWidth() { return m_metadataWindowWidth; }
-    void setMetadataWindowWidth(int val) { if(val != m_metadataWindowWidth) { m_metadataWindowWidth = val;
-                                                                              emit metadataWindowWidthChanged(val);
-                                                                              saveSettingsTimer->start(); } }
-
-    // mainMenuWindowWidth
-    Q_PROPERTY(int    mainMenuWindowWidth
-               READ   getMainMenuWindowWidth
-               WRITE  setMainMenuWindowWidth
-               NOTIFY mainMenuWindowWidthChanged)
-    int  getMainMenuWindowWidth() { return m_mainMenuWindowWidth; }
-    void setMainMenuWindowWidth(int val) { if(val != m_mainMenuWindowWidth) { m_mainMenuWindowWidth = val;
-                                                                              emit mainMenuWindowWidthChanged(val);
-                                                                              saveSettingsTimer->start(); } }
-
-    // histogramPosition
-    Q_PROPERTY(QPoint histogramPosition
-               READ   getHistogramPosition
-               WRITE  setHistogramPosition
-               NOTIFY histogramPositionChanged)
-    QPoint getHistogramPosition() { return m_histogramPosition; }
-    void   setHistogramPosition(QPoint val) { if(val != m_histogramPosition) { m_histogramPosition = val;
-                                                                               emit histogramPositionChanged(val);
-                                                                               saveSettingsTimer->start(); } }
-
-    // histogramSize
-    Q_PROPERTY(QSize  histogramSize
-               READ   getHistogramSize
-               WRITE  setHistogramSize
-               NOTIFY histogramSizeChanged)
-    QSize getHistogramSize() { return m_histogramSize; }
-    void  setHistogramSize(QSize val) { if(val != m_histogramSize) { m_histogramSize = val;
-                                                                     emit histogramSizeChanged(val);
-                                                                     saveSettingsTimer->start(); } }
-
-    // histogram
-    Q_PROPERTY(bool   histogram
-               READ   getHistogram
-               WRITE  setHistogram
-               NOTIFY histogramChanged)
-    bool getHistogram() { return m_histogram; }
-    void setHistogram(bool val) { if(val != m_histogram) { m_histogram = val;
-                                                           emit histogramChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
-    // histogramVersion
-    Q_PROPERTY(QString histogramVersion
-               READ    getHistogramVersion
-               WRITE   setHistogramVersion
-               NOTIFY  histogramVersionChanged)
-    QString getHistogramVersion() { return m_histogramVersion; }
-    void    setHistogramVersion(QString val) { if(val != m_histogramVersion) { m_histogramVersion = val;
-                                                                               emit histogramVersionChanged(val);
-                                                                               saveSettingsTimer->start(); } }
-
-
-    /*#################################################################################################*/
-
-    // Set the default settings
-    Q_INVOKABLE void setDefault();
-
-    /*#################################################################################################*/
-
-public slots:
-
-    // Save settings
-    void saveSettings();
-
-    /*#################################################################################################*/
-
-    // Read the current settings
-    void readSettings();
-
-    /*#################################################################################################*/
+        PQSettings();
+
+        QTimer *saveSettingsTimer;
+        QFileSystemWatcher *watcher;
+        QTimer *watcherAddFileTimer;
+
+        QString m_version;
+        QString m_versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
+        QString m_language;
+        bool    m_saveWindowGeometry;
+        bool    m_keepOnTop;
+        bool    m_startupLoadLastLoadedImage;
+
+        int     m_backgroundColorRed;
+        int     m_backgroundColorGreen;
+        int     m_backgroundColorBlue;
+        int     m_backgroundColorAlpha;
+        bool    m_backgroundImageScreenshot;
+        bool    m_backgroundImageUse;
+        QString m_backgroundImagePath;
+        bool    m_backgroundImageScale;
+        bool    m_backgroundImageScaleCrop;
+        bool    m_backgroundImageStretch;
+        bool    m_backgroundImageCenter;
+        bool    m_backgroundImageTile;
+
+        int     m_trayIcon;
+        bool    m_loopThroughFolder;
+        int     m_hotEdgeWidth;
+        bool    m_closeOnEmptyBackground;
+        int     m_marginAroundImage;
+        QString m_sortby;
+        bool    m_sortbyAscending;
+        int     m_mouseWheelSensitivity;
+        bool    m_keepZoomRotationMirror;
+        bool    m_fitInWindow;
+        int     m_interpolationThreshold;
+        bool    m_interpolationDisableForSmallImages;
+        int     m_pixmapCache;
+        bool    m_showTransparencyMarkerBackground;
+        bool    m_leftButtonMouseClickAndMove;
+        int     m_zoomSpeed;
+        QString m_animationType;
+        int     m_animationDuration;
+
+        bool    m_pdfSingleDocument;
+        int     m_pdfQuality;
+        bool    m_archiveSingleFile;
+        bool    m_archiveUseExternalUnrar;
+
+        bool    m_quickInfoHideCounter;
+        bool    m_quickInfoHideFilepath;
+        bool    m_quickInfoHideFilename;
+        bool    m_quickInfoHideX;
+        bool    m_quickInfoHideZoomLevel;
+        int     m_quickInfoCloseXSize;
+        bool    m_quickInfoManageWindow;
+
+        int     m_slideShowTime;
+        int     m_slideShowImageTransition;
+        QString m_slideShowMusicFile;
+        bool    m_slideShowShuffle;
+        bool    m_slideShowLoop;
+        bool    m_slideShowHideQuickInfo;
+        QString m_slideShowTypeAnimation;
+
+        int     m_thumbnailSize;
+        QString m_thumbnailPosition;
+        bool    m_thumbnailCache;
+        int     m_thumbnailSpacingBetween;
+        int     m_thumbnailLiftUp;
+        bool    m_thumbnailKeepVisible;
+        bool    m_thumbnailKeepVisibleWhenNotZoomedIn;
+        bool    m_thumbnailCenterActive;
+        bool    m_thumbnailFilenameInstead;
+        int     m_thumbnailFilenameInsteadFontSize;
+        bool    m_thumbnailDisable;
+        bool    m_thumbnailWriteFilename;
+        int     m_thumbnailFontSize;
+        int     m_thumbnailMaxNumberThreads;
+
+        bool    m_windowMode;
+        bool    m_windowDecoration;
+
+        bool    m_metadataEnableHotEdge;
+        bool    m_metaApplyRotation;
+        QString m_metaGpsMapService;
+        int     m_metadataOpacity;
+        bool    m_metaFilename;
+        bool    m_metaFileType;
+        bool    m_metaFileSize;
+        bool    m_metaImageNumber;
+        bool    m_metaDimensions;
+        bool    m_metaMake;
+        bool    m_metaModel;
+        bool    m_metaSoftware;
+        bool    m_metaTimePhotoTaken;
+        bool    m_metaExposureTime;
+        bool    m_metaFlash;
+        bool    m_metaIso;
+        bool    m_metaSceneType;
+        bool    m_metaFLength;
+        bool    m_metaFNumber;
+        bool    m_metaLightSource;
+        bool    m_metaKeywords;
+        bool    m_metaLocation;
+        bool    m_metaCopyright;
+        bool    m_metaGps;
+
+        bool    m_peopleTagInMetaDisplay;
+        bool    m_peopleTagInMetaBorderAroundFace;
+        QString m_peopleTagInMetaBorderAroundFaceColor;
+        int     m_peopleTagInMetaBorderAroundFaceWidth;
+        bool    m_peopleTagInMetaAlwaysVisible;
+        bool    m_peopleTagInMetaIndependentLabels;
+        bool    m_peopleTagInMetaHybridMode;
+        int     m_peopleTagInMetaFontSize;
+
+        QString m_openDefaultView;
+        bool    m_openPreview;
+        int     m_openZoomLevel;
+        int     m_openUserPlacesWidth;
+        int     m_openFoldersWidth;
+        bool    m_openThumbnails;
+        bool    m_openUserPlacesStandard;
+        bool    m_openUserPlacesUser;
+        bool    m_openUserPlacesVolumes;
+        bool    m_openKeepLastLocation;
+        bool    m_openShowHiddenFilesFolders;
+
+        int     m_metadataWindowWidth;
+        int     m_mainMenuWindowWidth;
+
+        bool    m_histogram;
+        QPoint  m_histogramPosition;
+        QSize   m_histogramSize;
+        QString m_histogramVersion;
+
+        bool    m_videoAutoplay;
+        bool    m_videoLoop;
+        int     m_videoVolume;
+        QString m_videoThumbnailer;
+
+        bool    m_mainMenuPopoutElement;
+        bool    m_metadataPopoutElement;
+        bool    m_histogramPopoutElement;
+        bool    m_scalePopoutElement;
+        bool    m_openPopoutElement;
+        bool    m_openPopoutElementKeepOpen;
+        bool    m_slideShowSettingsPopoutElement;
+        bool    m_slideShowControlsPopoutElement;
+        bool    m_fileRenamePopoutElement;
+        bool    m_fileDeletePopoutElement;
+        bool    m_aboutPopoutElement;
+        bool    m_imgurPopoutElement;
+        bool    m_wallpaperPopoutElement;
+        bool    m_filterPopoutElement;
+        bool    m_settingsManagerPopoutElement;
+
+private slots:
+        void readSettings();
+        void saveSettings();
+        void addFileToWatcher();
 
 signals:
-    void versionChanged(QString val);
-    void languageChanged(QString val);
-    void animationsChanged(bool val);
-    void saveWindowGeometryChanged(bool val);
-    void keepOnTopChanged(bool val);
-    void compositeChanged(bool val);
-    void startupLoadLastLoadedImageChanged(bool val);
+        void versionChanged();
+        void versionInTextFileChanged();
+        void languageChanged();
+        void saveWindowGeometryChanged();
+        void keepOnTopChanged();
+        void startupLoadLastLoadedImageChanged();
+        void backgroundColorRedChanged();
+        void backgroundColorGreenChanged();
+        void backgroundColorBlueChanged();
+        void backgroundColorAlphaChanged();
+        void backgroundImageScreenshotChanged();
+        void backgroundImageUseChanged();
+        void backgroundImagePathChanged();
+        void backgroundImageScaleChanged();
+        void backgroundImageScaleCropChanged();
+        void backgroundImageStretchChanged();
+        void backgroundImageCenterChanged();
+        void backgroundImageTileChanged();
+        void trayIconChanged();
+        void loopThroughFolderChanged();
+        void hotEdgeWidthChanged();
+        void closeOnEmptyBackgroundChanged();
+        void marginAroundImageChanged();
+        void sortbyChanged();
+        void sortbyAscendingChanged();
+        void mouseWheelSensitivityChanged();
+        void keepZoomRotationMirrorChanged();
+        void fitInWindowChanged();
+        void interpolationThresholdChanged();
+        void interpolationDisableForSmallImagesChanged();
+        void pixmapCacheChanged();
+        void showTransparencyMarkerBackgroundChanged();
+        void leftButtonMouseClickAndMoveChanged();
+        void zoomSpeedChanged();
+        void animationTypeChanged();
+        void animationDurationChanged();
+        void pdfSingleDocumentChanged();
+        void pdfQualityChanged();
+        void archiveSingleFileChanged();
+        void archiveUseExternalUnrarChanged();
+        void quickInfoHideCounterChanged();
+        void quickInfoHideFilepathChanged();
+        void quickInfoHideFilenameChanged();
+        void quickInfoHideXChanged();
+        void quickInfoHideZoomLevelChanged();
+        void quickInfoCloseXSizeChanged();
+        void quickInfoManageWindowChanged();
+        void slideShowTimeChanged();
+        void slideShowImageTransitionChanged();
+        void slideShowMusicFileChanged();
+        void slideShowShuffleChanged();
+        void slideShowLoopChanged();
+        void slideShowHideQuickInfoChanged();
+        void slideShowTypeAnimationChanged();
+        void thumbnailSizeChanged();
+        void thumbnailPositionChanged();
+        void thumbnailCacheChanged();
+        void thumbnailSpacingBetweenChanged();
+        void thumbnailLiftUpChanged();
+        void thumbnailKeepVisibleChanged();
+        void thumbnailKeepVisibleWhenNotZoomedInChanged();
+        void thumbnailCenterActiveChanged();
+        void thumbnailFilenameInsteadChanged();
+        void thumbnailFilenameInsteadFontSizeChanged();
+        void thumbnailDisableChanged();
+        void thumbnailWriteFilenameChanged();
+        void thumbnailFontSizeChanged();
+        void thumbnailMaxNumberThreadsChanged();
+        void windowModeChanged();
+        void windowDecorationChanged();
+        void metadataEnableHotEdgeChanged();
+        void metaApplyRotationChanged();
+        void metaGpsMapServiceChanged();
+        void metadataOpacityChanged();
+        void metaFilenameChanged();
+        void metaFileTypeChanged();
+        void metaFileSizeChanged();
+        void metaImageNumberChanged();
+        void metaDimensionsChanged();
+        void metaMakeChanged();
+        void metaModelChanged();
+        void metaSoftwareChanged();
+        void metaTimePhotoTakenChanged();
+        void metaExposureTimeChanged();
+        void metaFlashChanged();
+        void metaIsoChanged();
+        void metaSceneTypeChanged();
+        void metaFLengthChanged();
+        void metaFNumberChanged();
+        void metaLightSourceChanged();
+        void metaKeywordsChanged();
+        void metaLocationChanged();
+        void metaCopyrightChanged();
+        void metaGpsChanged();
+        void peopleTagInMetaDisplayChanged();
+        void peopleTagInMetaBorderAroundFaceChanged();
+        void peopleTagInMetaBorderAroundFaceColorChanged();
+        void peopleTagInMetaBorderAroundFaceWidthChanged();
+        void peopleTagInMetaAlwaysVisibleChanged();
+        void peopleTagInMetaIndependentLabelsChanged();
+        void peopleTagInMetaHybridModeChanged();
+        void peopleTagInMetaFontSizeChanged();
+        void openDefaultViewChanged();
+        void openPreviewChanged();
+        void openZoomLevelChanged();
+        void openUserPlacesWidthChanged();
+        void openFoldersWidthChanged();
+        void openThumbnailsChanged();
+        void openUserPlacesStandardChanged();
+        void openUserPlacesUserChanged();
+        void openUserPlacesVolumesChanged();
+        void openKeepLastLocationChanged();
+        void openShowHiddenFilesFoldersChanged();
+        void metadataWindowWidthChanged();
+        void mainMenuWindowWidthChanged();
+        void histogramChanged();
+        void histogramPositionChanged();
+        void histogramSizeChanged();
+        void histogramVersionChanged();
+        void videoAutoplayChanged();
+        void videoLoopChanged();
+        void videoVolumeChanged();
+        void videoThumbnailerChanged();
+        void mainMenuPopoutElementChanged();
+        void metadataPopoutElementChanged();
+        void histogramPopoutElementChanged();
+        void scalePopoutElementChanged();
+        void openPopoutElementChanged();
+        void openPopoutElementKeepOpenChanged();
+        void slideShowSettingsPopoutElementChanged();
+        void slideShowControlsPopoutElementChanged();
+        void fileRenamePopoutElementChanged();
+        void fileDeletePopoutElementChanged();
+        void aboutPopoutElementChanged();
+        void imgurPopoutElementChanged();
+        void wallpaperPopoutElementChanged();
+        void filterPopoutElementChanged();
+        void settingsManagerPopoutElementChanged();
 
-    void backgroundColorRedChanged(int val);
-    void backgroundColorGreenChanged(int val);
-    void backgroundColorBlueChanged(int val);
-    void backgroundColorAlphaChanged(int val);
-
-    void backgroundImageScreenshotChanged(bool val);
-    void backgroundImageUseChanged(bool val);
-    void backgroundImagePathChanged(QString val);
-    void backgroundImageScaleChanged(bool val);
-    void backgroundImageScaleCropChanged(bool val);
-    void backgroundImageStretchChanged(bool val);
-    void backgroundImageCenterChanged(bool val);
-    void backgroundImageTileChanged(bool val);
-
-    void trayIconChanged(int val);
-    void imageTransitionChanged(int val);
-    void loopThroughFolderChanged(bool val);
-    void hotEdgeWidthChanged(int val);
-    void closeOnEmptyBackgroundChanged(bool val);
-    void marginAroundImageChanged(int val);
-    void sortbyChanged(QString val);
-    void sortbyAscendingChanged(bool val);
-    void mouseWheelSensitivityChanged(int val);
-    void keepZoomRotationMirrorChanged(bool val);
-    void fitInWindowChanged(bool val);
-    void interpolationNearestNeighbourThresholdChanged(int val);
-    void interpolationNearestNeighbourUpscaleChanged(bool val);
-    void pixmapCacheChanged(int val);
-    void showTransparencyMarkerBackgroundChanged(bool val);
-    void leftButtonMouseClickAndMoveChanged(bool val);
-    void pdfSingleDocumentChanged(bool val);
-    void pdfQualityChanged(int val);
-    void archiveSingleFileChanged(int val);
-    void archiveUseExternalUnrarChanged(bool val);
-    void zoomSpeedChanged(int val);
-
-    void quickInfoHideCounterChanged(bool val);
-    void quickInfoHideFilepathChanged(bool val);
-    void quickInfoHideFilenameChanged(bool val);
-    void quickInfoHideXChanged(bool val);
-    void quickInfoHideZoomLevelChanged(bool val);
-    void quickInfoFullXChanged(bool val);
-    void quickInfoCloseXSizeChanged(int val);
-    void quickInfoManageWindowChanged(bool val);
-
-    void slideShowTimeChanged(int val);
-    void slideShowMusicFileChanged(QString);
-    void slideShowShuffleChanged(bool val);
-    void slideShowLoopChanged(bool val);
-    void slideShowImageTransitionChanged(int val);
-    void slideShowHideQuickInfoChanged(bool val);
-
-    void thumbnailSizeChanged(int val);
-    void thumbnailCacheChanged(bool val);
-    void thumbnailCacheFileChanged(bool val);
-    void thumbnailSpacingBetweenChanged(int val);
-    void thumbnailLiftUpChanged(int val);
-    void thumbnailKeepVisibleChanged(bool val);
-    void thumbnailKeepVisibleWhenNotZoomedInChanged(bool val);
-    void thumbnailFontSizeChanged(int val);
-    void thumbnailCenterActiveChanged(bool val);
-    void thumbnailPositionChanged(QString val);
-    void thumbnailFilenameInsteadChanged(bool val);
-    void thumbnailFilenameInsteadFontSizeChanged(int val);
-    void thumbnailDisableChanged(bool val);
-    void thumbnailWriteFilenameChanged(bool val);
-
-    void windowModeChanged(bool val);
-    void windowDecorationChanged(bool val);
-
-    void metadataFontSizeChanged(int val);
-    void metadataOpacityChanged(int val);
-    void metadataEnableHotEdgeChanged(bool val);
-    void metaApplyRotationChanged(bool val);
-    void metaGpsMapServiceChanged(QString val);
-    void metaFilenameChanged(bool val);
-    void metaFileTypeChanged(bool val);
-    void metaFileSizeChanged(bool val);
-    void metaImageNumberChanged(bool val);
-    void metaDimensionsChanged(bool val);
-    void metaMakeChanged(bool val);
-    void metaModelChanged(bool val);
-    void metaSoftwareChanged(bool val);
-    void metaTimePhotoTakenChanged(bool val);
-    void metaExposureTimeChanged(bool val);
-    void metaFlashChanged(bool val);
-    void metaIsoChanged(bool val);
-    void metaSceneTypeChanged(bool val);
-    void metaFLengthChanged(bool val);
-    void metaFNumberChanged(bool val);
-    void metaLightSourceChanged(bool val);
-    void metaKeywordsChanged(bool val);
-    void metaLocationChanged(bool val);
-    void metaCopyrightChanged(bool val);
-    void metaGpsChanged(bool val);
-
-    void peopleTagInMetaDisplayChanged(bool val);
-    void peopleTagInMetaBorderAroundFaceChanged(bool val);
-    void peopleTagInMetaBorderAroundFaceColorChanged(QString val);
-    void peopleTagInMetaBorderAroundFaceWidthChanged(int val);
-    void peopleTagInMetaAlwaysVisibleChanged(bool val);
-    void peopleTagInMetaIndependentLabelsChanged(bool val);
-    void peopleTagInMetaHybridModeChanged(bool val);
-    void peopleTagInMetaFontSizeChanged(int val);
-
-    void openDefaultViewChanged(QString val);
-    void openPreviewChanged(bool val);
-    void openPreviewHighQualityChanged(bool val);
-    void openZoomLevelChanged(int val);
-    void openUserPlacesWidthChanged(int val);
-    void openFoldersWidthChanged(int val);
-    void openThumbnailsChanged(bool val);
-    void openUserPlacesStandardChanged(bool val);
-    void openUserPlacesUserChanged(bool val);
-    void openUserPlacesVolumesChanged(bool val);
-    void openKeepLastLocationChanged(bool val);
-    void openShowHiddenFilesFoldersChanged(bool val);
-    void openHideUserPlacesChanged(bool val);
-
-    void metadataWindowWidthChanged(int val);
-    void mainMenuWindowWidthChanged(int val);
-
-    void histogramChanged(bool val);
-    void histogramVersionChanged(QString val);
-    void histogramPositionChanged(QPoint val);
-    void histogramSizeChanged(QSize val);
 
 };
 
-#endif // SETTINGS_H
+#endif // PQSETTINGS_H

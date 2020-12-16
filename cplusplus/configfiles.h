@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -34,21 +34,13 @@ public:
         return QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
     }
 
-    static const QString DATA_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    }
-
     static const QString GENERIC_DATA_DIR() {
         return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     }
 
-    static const QString CACHE_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    }
-
     static const QString GENERIC_CACHE_DIR() {
         QString path = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
-        return (path.trimmed() != "" ? path : CACHE_DIR());
+        return (path.trimmed() != "" ? path : QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
     }
 
     static const QString SETTINGS_FILE() {
@@ -76,19 +68,19 @@ public:
     }
 
     static const QString THUMBNAILS_DB() {
-        return QString("%1/thumbnails").arg(CACHE_DIR());
+        return QString("%1/thumbnails").arg(GENERIC_CACHE_DIR());
     }
 
     static const QString SETTINGS_SESSION_FILE() {
-        return QString("%1/settings_session").arg(CACHE_DIR());
+        return QString("%1/settings_session").arg(GENERIC_CACHE_DIR());
     }
 
-    static const QString MAINWINDOW_GEOMETRY_FILE() {
+    static const QString WINDOW_GEOMETRY_FILE() {
         return QString("%1/geometry").arg(CONFIG_DIR());
     }
 
     static const QString OPENFILE_LAST_LOCATION() {
-        return QString("%1/openfilelastlocation").arg(CACHE_DIR());
+        return QString("%1/openfilelastlocation").arg(GENERIC_CACHE_DIR());
     }
 
     static const QString LASTOPENEDIMAGE_FILE() {

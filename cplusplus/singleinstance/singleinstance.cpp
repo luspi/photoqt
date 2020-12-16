@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,10 +22,14 @@
 
 #include "singleinstance.h"
 
-SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
+PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
+
+    setApplicationName("photoqt");
+    setApplicationVersion(VERSION);
 
     // Parse the command line arguments
-    CommandLineParser handler(this);
+    PQCommandLineParser parser(*this);
+    PQCommandLineResult result = parser.getResult();
 
     // This is the message string that we send to a running instance (if it exists
     QByteArray message = "";
@@ -33,43 +37,60 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
     socket = nullptr;
     server = nullptr;
 
-    // Check for filenames
-    if(handler.foundFilename.length() > 0) {
-        QString fname = handler.foundFilename;
-        // If PhotoQt has been restarted (from importing config file)
-        // -> wait for a little bit to make sure the previous instance of PhotoQt is properly closed
-        if(fname.startsWith("RESTARTRESTARTRESTART")) {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            fname = fname.remove(0,21);
-        }
-        if(fname.trimmed() != "")
-            message += ":-:-:" + QByteArray("::file::") + QFileInfo(fname).absoluteFilePath();
-    }
+    if(result & PQCommandLineFile)
+        message += ":://::_F_I_L_E_" + QFileInfo(parser.filename).absoluteFilePath().toUtf8();
 
-    // Check for any other set option
-    for(QString opt : handler.foundOptions)
-        message += ":-:-:::" + opt.toUtf8() + "::";
+    if(result & PQCommandLineOpen)
+        message += ":://::_O_P_E_N_";
 
-    // This is treated specially: We export the config file and then quit without continuing
-    exportAndQuitNow = "";
-    if(message.contains("::export::")) {
-        exportAndQuitNow = handler.foundValues["export"];
-        // we need to 'new' the following two otherwise it will crash in the destructor
+    if(result & PQCommandLineShow)
+        message += ":://::_S_H_O_W_";
+
+    if(result & PQCommandLineHide)
+        message += ":://::_H_I_D_E_";
+
+    if(result & PQCommandLineToggle)
+        message += ":://::_T_O_G_G_L_E_";
+
+    if(result & PQCommandLineThumbs)
+        message += ":://::_T_H_U_M_B_S_";
+
+    if(result & PQCommandLineNoThumbs)
+        message += ":://::_N_O_T_H_U_M_B_S_";
+
+    if(result & PQShortcutSequence)
+        message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence.toUtf8();
+
+    if(result & PQCommandLineTray)
+        message += ":://::_T_R_A_Y_";
+
+    if(result & PQCommandLineDebug)
+        message += ":://::_D_E_B_U_G_";
+
+    if(result & PQCommandLineStandalone)
+        message += ":://::_S_T_A_N_D_A_L_O_N_E_";
+
+
+    // STANDALONE, EXPORT, IMPORT
+
+    exportAndQuit = "";
+    if(result & PQCommandLineExport) {
+        exportAndQuit = parser.exportFileName;
         socket = new QLocalSocket();
         server = new QLocalServer();
         return;
-     }
-    importAndQuitNow = "";
-    if(message.contains("::import::")) {
-        importAndQuitNow = handler.foundValues["import"];
-        // we need to 'new' the following two otherwise it will crash in the destructor
+    }
+
+    importAndQuit = "";
+    if(result & PQCommandLineImport) {
+        importAndQuit = parser.importFileName;
         socket = new QLocalSocket();
         server = new QLocalServer();
         return;
     }
 
-    if(message.contains("::standalone::")) {
-        handleResponse(message);
+    if(message.contains(":://::_S_T_A_N_D_A_L_O_N_E_")) {
+        handleMessage(message);
         return;
     }
 
@@ -78,8 +99,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
     /* Server/Socket */
     /*****************/
 
-    // Create server name - a more 'portable' way would be to possibly also use organisationName, and to make sure no
-    // special characters are used. However in our case that's not necessary...
+    // Create server name
     QString server_str = qApp->applicationName();
 
     // Connect to a Local Server (if available)
@@ -87,11 +107,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
     socket->connectToServer(server_str);
 
     // If this is successfull, then an instance is already running
-    if(socket->waitForConnected(1000)) {
-
-        // if no argument was passed on, we add 'show'
-        if(argc == 1)
-            message += ":-:-:::show::";
+    if(socket->waitForConnected(100)) {
 
         // Send composed message string
         socket->write(message);
@@ -111,76 +127,83 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
         server = new QLocalServer();
         server->removeServer(server_str);
         server->listen(server_str);
-        connect(server, &QLocalServer::newConnection, this, &SingleInstance::newConnection);
+        connect(server, &QLocalServer::newConnection, this, &PQSingleInstance::newConnection);
 
-        handleResponse(message);
+        handleMessage(message);
 
     }
 }
 
-void SingleInstance::newConnection() {
+void PQSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
     if(socket->waitForReadyRead(2000))
-        handleResponse(socket->readAll());
+        handleMessage(socket->readAll());
     socket->close();
     delete socket;
 }
 
-void SingleInstance::handleResponse(QString msg) {
+void PQSingleInstance::handleMessage(QString msg) {
 
-    // Analyse what action(s) to take
+    DBG << CURDATE << "PQSingleInstance::handleMessage()" << NL
+        << CURDATE << "** msg = " << msg.toStdString() << NL;
 
-    // If verbose/debug mode enabled, set environment variable. This variable can be read anywhere to detect this mode.
-    // On quit, this variable will be unset again
-    if(msg.contains("::debug::")) {
-        std::cout << "***********************" << std::endl;
-        std::cout << "ENABLING DEBUG MESSAGES" << std::endl;
-        std::cout << "***********************" << std::endl;
-        qputenv("PHOTOQT_DEBUG", "yes");
-    }
-    // This allows the user to undo the switch during runtime, enabling getting debug messages for specific actions only
-    if(msg.contains("::no-debug::")) {
-        std::cout << "************************" << std::endl;
-        std::cout << "DISABLING DEBUG MESSAGES" << std::endl;
-        std::cout << "************************" << std::endl;
-        qunsetenv("PHOTOQT_DEBUG");
-    }
+    QStringList parts = msg.split(":://::");
 
-    // Reset this variable before checking
-    startintray = false;
+    for(QString m : parts) {
 
-    bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
+        if(m.startsWith("_F_I_L_E_"))
 
-    if(msg.contains("::file::")) {
-        filename = msg.split("::file::").at(1).split(":-:-:").at(0);
-        if(debug) LOG << CURDATE << "SingleInstance - found filename: " << filename.toStdString() << NL;
-        emit interaction("::file::" + filename);
-    } else if(msg.contains("::start-in-tray::")) {
-        startintray = true;
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: start-in-tray" << NL;
-    } else if((msg.contains("::open::") || msg.contains("::o::"))) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: o/open" << NL;
-        emit interaction("open");
-    } else if(msg.contains("::thumbs::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: thumbs" << NL;
-        emit interaction("thumbs");
-    } else if(msg.contains("::no-thumbs::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: no-thumbs" << NL;
-        emit interaction("nothumbs");
-    } else if(msg.contains("::toggle::") || msg.contains("::t::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: t/toggle" << NL;
-        emit interaction("toggle");
-    } else if(msg.contains("::show::") || msg.contains("::s::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: s/show" << NL;
-        emit interaction("show");
-    } else if(msg.contains("::hide::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: hide" << NL;
-        emit interaction("hide");
+            PQVariables::get().setCmdFilePath(m.remove(0, 9));
+
+        else if(m.startsWith("_O_P_E_N_"))
+
+            PQVariables::get().setCmdOpen(true);
+
+        else if(m.startsWith("_S_H_O_W_"))
+
+            PQVariables::get().setCmdShow(true);
+
+        else if(m.startsWith("_H_I_D_E_"))
+
+            PQVariables::get().setCmdHide(true);
+
+        else if(m.startsWith("_T_O_G_G_L_E_"))
+
+            PQVariables::get().setCmdToggle(true);
+
+        else if(m.startsWith("_N_O_T_H_U_M_B_S_"))
+
+            PQVariables::get().setCmdNoThumbs(true);
+
+        else if(m.startsWith("_T_R_A_Y_"))
+
+            PQVariables::get().setCmdTray(true);
+
+        else if(m.startsWith("_S_H_O_R_T_C_U_T_"))
+
+            PQVariables::get().setCmdShortcutSequence(m.remove(0, 17));
+
+        else if(m.startsWith("_D_E_B_U_G_"))
+
+            PQVariables::get().setCmdDebug(true);
+
     }
 
 }
 
-SingleInstance::~SingleInstance() {
+bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
+
+    if(e->type() == QEvent::KeyPress) {
+        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+        if(rootQmlAddress == receiver)
+            emit PQKeyPressChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
+    }
+
+    return QApplication::notify(receiver, e);
+
+}
+
+PQSingleInstance::~PQSingleInstance() {
     if(socket != nullptr)
         delete socket;
     if(server != nullptr) {

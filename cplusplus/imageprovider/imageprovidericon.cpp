@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,7 +22,11 @@
 
 #include "imageprovidericon.h"
 
-QPixmap ImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
+QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
+
+    DBG << CURDATE << "PQImageProviderIcon::requestPixmap() " << NL
+        << CURDATE << "** icon = " << icon.toStdString() << NL
+        << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "ImageProviderIcon: Attempting to load icon from theme: " << icon.toStdString() << NL;
@@ -41,16 +45,15 @@ QPixmap ImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSi
     // If icon is not available or if on Windows, choose from a small selection of custom provided icons
     // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
     if(ret.isNull()) {
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
-        if(QFile(":/img/openfile/backupicons/" + icon + ".svg").exists())
-            ret = QIcon(":/img/openfile/backupicons/" + icon + ".svg");
+        LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
+        if(QFile(":/filedialog/backupicons/" + icon + ".svg").exists())
+            ret = QIcon(":/filedialog/backupicons/" + icon + ".svg");
         else if(icon.contains("folder") || icon.contains("directory"))
-            ret = QIcon(":/img/openfile/backupicons/folder.svg");
+            ret = QIcon(":/filedialog/backupicons/folder.svg");
         else if(icon.contains("image"))
-            ret = QIcon(":/img/openfile/backupicons/image.svg");
+            ret = QIcon(":/filedialog/backupicons/image.svg");
         else
-            ret = QIcon(":/img/openfile/backupicons/unknown.svg");
+            ret = QIcon(":/filedialog/backupicons/unknown.svg");
     }
 
     return QPixmap(ret.pixmap(use));

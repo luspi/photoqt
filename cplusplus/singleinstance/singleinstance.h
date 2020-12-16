@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,37 +20,38 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef SINGLEINSTANCE_H
-#define SINGLEINSTANCE_H
+#ifndef PQSINGLEINSTANCE_H
+#define PQSINGLEINSTANCE_H
 
-#include "../logger.h"
-#include <thread>
 #include <QApplication>
 #include <QLocalSocket>
 #include <QLocalServer>
-#include <QFile>
-#include <QDir>
-#include <QFileInfo>
-#include <QDate>
+#include <thread>
 #include "commandlineparser.h"
+#include "../logger.h"
+#include "../variables.h"
+#include "../keypresschecker.h"
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
-class SingleInstance : public QApplication {
+class PQSingleInstance : public QApplication {
+
     Q_OBJECT
+
 public:
-    explicit SingleInstance(int&, char *[]);
-    ~SingleInstance();
+    explicit PQSingleInstance(int&, char *[]);
+    ~PQSingleInstance();
 
-    bool startintray;
-    QString filename;
+    QString exportAndQuit;
+    QString importAndQuit;
 
-    // dont start photoqt but quit now (e.g., after exporting config)
-    QString exportAndQuitNow;
-    QString importAndQuitNow;
+    void *rootQmlAddress;
+
+protected:
+    virtual bool notify(QObject * receiver, QEvent * event) override;
 
 signals:
     // Interact with application
-    void interaction(QString exec);
+    void interaction(PQCommandLineResult result, QString value);
 
 private slots:
     // A new application instance was started (notification to main instance)
@@ -61,8 +62,8 @@ private:
     QLocalServer *server;
 
     // This one is used in main process, handling the message sent by sub-instances
-    void handleResponse(QString msg);
+    void handleMessage(QString msg);
 
 };
 
-#endif // SINGLEINSTANCE_H
+#endif // PQSINGLEINSTANCE_H

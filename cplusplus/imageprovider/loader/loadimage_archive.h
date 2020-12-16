@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,131 +20,136 @@
  **                                                                      **
  **************************************************************************/
 
+#ifndef PQLOADIMAGEARCHIVE_H
+#define PQLOADIMAGEARCHIVE_H
+
 #include <QImage>
 
+#ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
+#endif
 
-#include "errorimage.h"
 #include "../../logger.h"
+#include "../../variables.h"
+#include "../../scripts/handlingfiledialog.h"
 
-namespace PLoadImage {
+class PQLoadImageArchive {
 
-    namespace Archive {
+public:
+    PQLoadImageArchive() {
+        errormsg = "";
+    }
 
-        QImage load(QString filename, QSize maxSize) {
+    QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
-            // If no archive info is stored, return error image
-            if(!filename.contains("::ARCHIVE1::") || !filename.contains("::ARCHIVE2::")) {
+        errormsg = "";
 
-                QString suffix = QFileInfo(filename).suffix();
-
-                QStringList knownSuffix = QStringList() << "cbz" << "cbr" << "cbt" << "cb7" << "zip" << "rar" << "tar" << "7z";
-
-                QImage ret;
-
-                if(knownSuffix.contains(suffix))
-                    ret = QImage(QString(":/img/openfile/archive/%1.png").arg(suffix));
-                else
-                    ret = QImage(":/img/openfile/archive/zip.png");
-
-                // This is to make sure that this type of thumbnail is not cached (pretends to be error image)
-                ret.setText("error", "error");
-
-                // If image needs to be scaled down, return scaled down version
-                if(maxSize.width() > 5 && maxSize.height() > 5)
-                    if(ret.width() > maxSize.width() || ret.height() > maxSize.height())
-                        return ret.scaled(maxSize, ::Qt::KeepAspectRatio);
-
-                return ret;
-
+        // filter out name of archivefile and of compressed file inside
+        QString archivefile = filename;
+        QString compressedFilename = "";
+        if(archivefile.contains("::ARC::")) {
+            QStringList parts = archivefile.split("::ARC::");
+            archivefile = parts.at(1);
+            compressedFilename = parts.at(0);
+        } else {
+            PQHandlingFileDialog handling;
+            QStringList cont = handling.listArchiveContent(archivefile);
+            if(cont.length() == 0) {
+                errormsg = "Error: unable to list contents of archive file...";
+                LOG << CURDATE << "PQLoadImage::Archive::load(): " << errormsg.toStdString() << NL;
+                return QImage();
             }
+            compressedFilename = cont.at(0).split("::ARC::").at(0);
+        }
 
-            // filter out name of archivefile and of compressed file inside
-            QString archivefile = filename.split("::ARCHIVE1::").at(1).split("::ARCHIVE2::").at(0);
-            QString compressedFilename = filename.split("::ARCHIVE2::").at(1);
+        if(!QFileInfo(archivefile).exists()) {
+            errormsg = "ERROR loading archive, file doesn't seem to exist...";
+            LOG << CURDATE << errormsg.toStdString() << NL;
+            return QImage();
+        }
 
-            if(!QFileInfo(archivefile).exists()) {
-                std::stringstream ss;
-                ss << "ERROR loading archive, file doesn't seem to exist...";
-                LOG << CURDATE << ss.str() << NL;
-                return ErrorImage::load(QString::fromStdString(ss.str()));
-            }
+#ifdef LIBARCHIVE
 
-            // Extract suffix and remove (added on to signal archive compressed file, not part of actual compressed filename)
-            QString suffix = QFileInfo(filename).suffix();
-            compressedFilename = compressedFilename.remove(compressedFilename.length()-suffix.length()-1, compressedFilename.length());
+        // Create new archive handler
+        struct archive *a = archive_read_new();
 
-            // Create new archive handler
-            struct archive *a = archive_read_new();
+        // We allow any type of compression and format
+        archive_read_support_filter_all(a);
+        archive_read_support_format_all(a);
 
-            // We allow any type of compression and format
-            archive_read_support_filter_all(a);
-            archive_read_support_format_all(a);
+        // Read file
+        int r = archive_read_open_filename(a, archivefile.toLocal8Bit().data(), 10240);
 
-            // Read file
-            int r = archive_read_open_filename(a, archivefile.toLatin1(), 10240);
+        // If something went wrong, output error message and stop here
+        if(r != ARCHIVE_OK) {
+            errormsg = QString("PQLoadImage::Archive::load(): ERROR: archive_read_open_filename() returned code of %1").arg(r);
+            LOG << CURDATE << errormsg.toStdString() << NL;
+            return QImage();
+        }
 
-            // If something went wrong, output error message and stop here
-            if(r != ARCHIVE_OK) {
-                std::stringstream ss;
-                ss << CURDATE << "LoadImage::Archive::load(): ERROR: archive_read_open_filename() returned code of " << r << NL;
-                LOG << ss.str();
-                return ErrorImage::load(QString::fromStdString(ss.str()));
-            }
+        // Loop over entries in archive
+        struct archive_entry *entry;
+        QImage ret;
+        while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
 
-            // Loop over entries in archive
-            struct archive_entry *entry;
-            QImage ret;
-            while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+            // Read the current file entry
+            QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
 
-                // Read the current file entry
-                QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
+            // If this is the file we are looking for:
+            if(filenameinside == compressedFilename || (compressedFilename == "" && QFileInfo(filenameinside).suffix() != "")) {
 
-                // If this is the file we are looking for:
-                if(filenameinside == compressedFilename) {
+                // Find out the size of the data
+                int64_t size = archive_entry_size(entry);
 
-                    // Find out the size of the data
-                    int64_t size = archive_entry_size(entry);
+                // Create a uchar buffer of that size to hold the image data
+                uchar *buff = new uchar[size];
 
-                    // Create a uchar buffer of that size to hold the image data
-                    uchar *buff = new uchar[size];
-
-                    // And finally read the file into the buffer
-                    ssize_t r = archive_read_data(a, (void*)buff, size);
-                    if(r != size) {
-                        std::stringstream ss;
-                        ss << "LoadImage::Archive::load(): ERROR: Failed to read image data, read size (" << r << ")"
-                           << " doesn't match expected size (" << size << ")...";
-                        LOG << CURDATE << ss.str();
-                        return ErrorImage::load(QString::fromStdString(ss.str()));
-                    }
-
-                    // and finish off by turning it into an image
-                    ret = QImage::fromData(buff, size);
-
-                    delete[] buff;
-
-                    // Nothing more to do except some cleaning up below
-                    break;
+                // And finally read the file into the buffer
+                ssize_t r = archive_read_data(a, (void*)buff, size);
+                if(r != size) {
+                    errormsg = QString("LoadImage::Archive::load(): ERROR: Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
+                    LOG << CURDATE << errormsg.toStdString() << NL;
+                    return QImage();
                 }
 
+                // and finish off by turning it into an image
+                ret = QImage::fromData(buff, size);
+
+                *origSize = ret.size();
+
+                delete[] buff;
+
+                // Nothing more to do except some cleaning up below
+                break;
             }
-
-            // Close archive
-            r = archive_read_free(a);
-            if(r != ARCHIVE_OK)
-                LOG << CURDATE << "LoadImage::Archive::load(): ERROR: archive_read_free() returned code of " << r << NL;
-
-            // If image needs to be scaled down, return scaled down version
-            if(maxSize.width() > 5 && maxSize.height() > 5)
-                if(ret.width() > maxSize.width() || ret.height() > maxSize.height())
-                    return ret.scaled(maxSize, ::Qt::KeepAspectRatio);
-
-            return ret;
 
         }
 
+        // Close archive
+        r = archive_read_free(a);
+        if(r != ARCHIVE_OK)
+            LOG << CURDATE << "PQLoadImage::Archive::load(): ERROR: archive_read_free() returned code of " << r << NL;
+
+        // If image needs to be scaled down, return scaled down version
+        if(maxSize.width() > 5 && maxSize.height() > 5)
+            if(ret.width() > maxSize.width() || ret.height() > maxSize.height())
+                return ret.scaled(maxSize, ::Qt::KeepAspectRatio);
+
+        return ret;
+
+#else
+
+        errormsg = "LoadImage::Archive::load(): ERROR: LibArchive support disabled at compile time...";
+        LOG << CURDATE << errormsg.toStdString() << NL;
+        return QImage();
+
+#endif
+
     }
 
-}
+    QString errormsg;
+
+};
+
+#endif // PQLOADIMAGEARCHIVE_H

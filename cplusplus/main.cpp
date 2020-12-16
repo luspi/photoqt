@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,32 +20,71 @@
  **                                                                      **
  **************************************************************************/
 
-#include <QApplication>
-#include "mainhandler.h"
-#include "singleinstance/singleinstance.h"
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+
+#include "variables.h"
+#include "startup.h"
 #include "startup/exportimport.h"
-#ifdef GM
+#include "settings/settings.h"
+#include "scripts/handlingfiledialog.h"
+#include "scripts/handlinggeneral.h"
+#include "scripts/handlingshortcuts.h"
+#include "scripts/handlingfilemanagement.h"
+#include "scripts/handlingmanipulation.h"
+#include "scripts/handlingshareimgur.h"
+#include "scripts/handlingwallpaper.h"
+#include "scripts/handlingfacetags.h"
+#include "scripts/handlingexternal.h"
+#include "scripts/localisation.h"
+#include "scripts/imageproperties.h"
+#include "settings/imageformats.h"
+#include "scripts/filewatcher.h"
+#include "scripts/filefoldermodel.h"
+#include "singleinstance/singleinstance.h"
+#include "settings/windowgeometry.h"
+#include "scripts/metadata.h"
+#include "scripts/systemtrayicon.h"
+
+#include "imageprovider/imageprovidericon.h"
+#include "imageprovider/imageproviderthumb.h"
+#include "imageprovider/imageproviderfull.h"
+#include "imageprovider/imageproviderhistogram.h"
+
+#ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
 #endif
+
 #ifdef DEVIL
 #include <IL/il.h>
 #endif
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
+
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    PQSingleInstance app(argc, argv);
 
     // We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
     QString version = VERSION;
 
     // Set app name and version
-    QApplication::setApplicationName("PhotoQt");
-    QApplication::setApplicationVersion(version);
+    QGuiApplication::setApplicationName("PhotoQt");
+    QGuiApplication::setOrganizationName("");
+    QGuiApplication::setOrganizationDomain("photoqt.org");
+    QGuiApplication::setApplicationVersion(version);
 
-    // Create a new instance (includes handling of argc/argv)
-    // This class ensures, that only one instance is running. If one is already running, we pass the commands to the main process and exit.
-    // If no process is running yet, we create a LocalServer and continue below
-    SingleInstance app(argc, argv);
+    QGuiApplication::setQuitOnLastWindowClosed(true);
 
-#ifdef GM
+    if(app.exportAndQuit != "") {
+        PQStartup::Export::perform(app.exportAndQuit);
+        std::exit(0);
+    } else if(app.importAndQuit != "") {
+        PQStartup::Import::perform(app.importAndQuit);
+        std::exit(0);
+    }
+
+#ifdef GRAPHICSMAGICK
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);
 #endif
@@ -54,27 +93,48 @@ int main(int argc, char *argv[]) {
     ilInit();
 #endif
 
-#ifdef FREEIMAGE
-    FreeImage_Initialise();
-#endif
+    QQmlApplicationEngine engine;
+    const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
 
-    // This means, that, e.g., --export or --import was passed along -> we will simply quit (handling is done in the handleExportImport() function)
-    if(StartupCheck::ExportImport::handleExportImport(&app) != -1) return 0;
+    PQStartup::PQStartup();
 
-    // Ensure that PhotoQt actually quits when last window is closed
-    // Shouldn't be an issue, but set just in case
-    qApp->setQuitOnLastWindowClosed(true);
+    qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
+    qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
+    qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
+    qmlRegisterType<PQHandlingFileManagement>("PQHandlingFileManagement", 1, 0, "PQHandlingFileManagement");
+    qmlRegisterType<PQHandlingManipulation>("PQHandlingManipulation", 1, 0, "PQHandlingManipulation");
+    qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
+    qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
+    qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
+    qmlRegisterType<PQWindowGeometry>("PQWindowGeometry", 1, 0, "PQWindowGeometry");
+    qmlRegisterType<PQMetaData>("PQCppMetaData", 1, 0, "PQCppMetaData");
+    qmlRegisterType<PQHandlingShareImgur>("PQHandlingShareImgur", 1, 0, "PQHandlingShareImgur");
+    qmlRegisterType<PQHandlingWallpaper>("PQHandlingWallpaper", 1, 0, "PQHandlingWallpaper");
+    qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
+    qmlRegisterType<PQSystemTrayIcon>("PQSystemTrayIcon", 1, 0, "PQSystemTrayIcon");
+    qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
 
-    // Create a handler to manage the qml files and do some preliminary stuff (e.g., startup checks)
-    MainHandler handle;
+    engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
+    engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
+    engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
+    engine.rootContext()->setContextProperty("PQKeyPressChecker", &PQKeyPressChecker::get());
 
-    // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
-    QObject::connect(&app, &SingleInstance::interaction, &handle, &MainHandler::remoteAction);
+    qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
-    // How to proceed when starting PhotoQt in tray or passing on a filename
-    handle.manageStartupFilename(app.startintray, app.filename);
+    engine.addImageProvider("icon",new PQImageProviderIcon);
+    engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);
+    engine.addImageProvider("full",new PQImageProviderFull);
+    engine.addImageProvider("hist",new PQImageProviderHistogram);
 
-    // And execute
+    engine.load(url);
+
+    app.rootQmlAddress = engine.rootObjects().at(0);
+
     return app.exec();
 
 }

@@ -1,0 +1,76 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.9
+import QtQuick.Window 2.9
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.9
+import "../elements"
+
+Window {
+
+    id: about_window
+
+    Component.onCompleted: {
+        about_window.setX(windowgeometry.aboutWindowGeometry.x)
+        about_window.setY(windowgeometry.aboutWindowGeometry.y)
+        about_window.setWidth(windowgeometry.aboutWindowGeometry.width)
+        about_window.setHeight(windowgeometry.aboutWindowGeometry.height)
+    }
+
+    minimumWidth: 300
+    minimumHeight: 200
+
+    modality: Qt.ApplicationModal
+
+    onClosing: {
+
+        windowgeometry.aboutWindowGeometry = Qt.rect(about_window.x, about_window.y, about_window.width, about_window.height)
+        windowgeometry.aboutWindowMaximized = (about_window.visibility==Window.Maximized)
+
+        if(variables.visibleItem == "about")
+            variables.visibleItem = ""
+    }
+
+    visible: PQSettings.aboutPopoutElement&&curloader.item.opacity==1
+
+    Connections {
+        target: PQSettings
+        onAboutPopoutElementChanged: {
+            if(!PQSettings.aboutPopoutElement)
+                about_window.visible = Qt.binding(function() { return PQSettings.aboutPopoutElement&&curloader.item.opacity==1; })
+        }
+    }
+
+    color: "#88000000"
+
+    Loader {
+        id: curloader
+        source: "PQAbout.qml"
+        onStatusChanged:
+            if(status == Loader.Ready) {
+                item.parentWidth = Qt.binding(function() { return about_window.width })
+                item.parentHeight = Qt.binding(function() { return about_window.height })
+            }
+    }
+
+}

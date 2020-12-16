@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -29,11 +29,11 @@
 #include "../logger.h"
 
 
-class ImageProviderIcon : public QQuickImageProvider {
+class PQImageProviderIcon : public QQuickImageProvider {
 
 public:
-    explicit ImageProviderIcon() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
-    ~ImageProviderIcon() { }
+    explicit PQImageProviderIcon() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
+    ~PQImageProviderIcon() { }
 
     QPixmap requestPixmap(const QString &icon, QSize *, const QSize &requestedSize);
 

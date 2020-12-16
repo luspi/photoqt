@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,117 +20,77 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef STARTUPCHECK_SHORTCUTS_H
-#define STARTUPCHECK_SHORTCUTS_H
+#ifndef PQSTARTUP_SHORTCUTS_H
+#define PQSTARTUP_SHORTCUTS_H
 
-#include "../configfiles.h"
 #include "../logger.h"
-#include "../settings/settings.h"
-#include "../shortcuts/shortcuts.h"
+#include "../configfiles.h"
 
-namespace StartupCheck {
+namespace PQStartup {
 
     namespace Shortcuts {
 
-        static void renameShortcutsFunctions() {
+        static void createDefaultShortcuts() {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - renameShortcutsFunctions()" << NL;
+            // If the shortcuts file does not exist create it with the set of default shortcuts
+            QFile shortcutsfile(ConfigFiles::SHORTCUTS_FILE());
+            if(!shortcutsfile.exists()) {
 
-            QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
+                QString cont = QString("Version=%1\n").arg(VERSION);
 
-            if(!allshortcuts.exists())
-                return;
+                cont += "0::Left::__prev\n";
+                cont += "0::Backspace::__prev\n";
+                cont += "0::Right Button+W::__prev\n";
+                cont += "0::Right::__next\n";
+                cont += "0::Space::__next\n";
+                cont += "0::Right Button+E::__next\n";
+                cont += "0::Home::__goToFirst\n";
+                cont += "0::End::__goToLast\n";
+                cont += "0::O::__open\n";
+                cont += "0::Ctrl+O::__open\n";
+                cont += "0::Right Button+WE::__open\n";
+                cont += "0::Escape::__quit\n";
+                cont += "0::Q::__quit\n";
+                cont += "0::Ctrl+Q::__quit\n";
+                cont += "0::Right Button+SES::__quit\n";
+                cont += "0::+::__zoomIn\n";
+                cont += "0::=::__zoomIn\n";
+                cont += "0::Ctrl++::__zoomIn\n";
+                cont += "0::Ctrl+=::__zoomIn\n";
+                cont += "0::Ctrl+Wheel Up::__zoomIn\n";
+                cont += "0::-::__zoomOut\n";
+                cont += "0::Ctrl+-::__zoomOut\n";
+                cont += "0::Ctrl+Wheel Down::__zoomOut\n";
+                cont += "0::1::__zoomActual\n";
+                cont += "0::Ctrl+1::__zoomActual\n";
+                cont += "0::0::__zoomReset\n";
+                cont += "0::L::__rotateL\n";
+                cont += "0::R::__rotateR\n";
+                cont += "0::Ctrl+0::__rotate0\n";
+                cont += "0::Ctrl+H::__flipH\n";
+                cont += "0::Ctrl+V::__flipV\n";
+                cont += "0::P::__settings\n";
+                cont += "0::Ctrl+X::__scale\n";
+                cont += "0::Ctrl+C::__copy\n";
+                cont += "0::Delete::__delete\n";
+                cont += "0::Ctrl+M::__move\n";
+                cont += "0::F2::__rename\n";
+                cont += "0::I::__about\n";
+                cont += "0::H::__histogram\n";
+                cont += "0::M::__slideshow\n";
+                cont += "0::Shift+M::__slideshowQuick\n";
+                cont += "0::W::__wallpaper\n";
+                cont += "0::Ctrl+F::__filterImages\n";
+                cont += "0::Shift+P::__playPauseAni\n";
+                cont += "0::F::__tagFaces\n";
+                cont += "0::Ctrl+Shift+I::__imgurAnonym\n";
 
-            if(!allshortcuts.open(QIODevice::ReadOnly)) {
-                LOG << CURDATE << "ERROR: Unable to open shortcuts file for reading!" << std::endl;
-                return;
-            }
-
-            QTextStream in(&allshortcuts);
-            QString all = in.readAll();
-
-            allshortcuts.close();
-
-            if(!all.contains("__close") && !all.contains("__hide"))
-                return;
-
-            all = all.replace("__close", "__quit");
-            all = all.replace("__hide", "__close");
-
-            if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
-                LOG << CURDATE << "ERROR: Unable to open shortcuts file for writing!" << std::endl;
-                return;
-            }
-
-            QTextStream out(&allshortcuts);
-            out << all;
-
-            allshortcuts.close();
-
-        }
-
-        static void setDefaultShortcutsIfShortcutFileDoesntExist() {
-
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - setDefaultShortcutsIfShortcutFileDoesntExist()" << NL;
-
-            // All shortcuts are stored in this single file
-            QFileInfo allshortcuts(ConfigFiles::SHORTCUTS_FILE());
-
-            // If file doesn't exist (i.e., on first start)
-            if(!allshortcuts.exists()) {
-
-                // Get handler to shortcuts object (the :: are needed as the current namespace is also called Shortcuts)
-                ::Shortcuts sh;
-
-                // Load and save default shortcuts
-                sh.saveShortcuts(sh.loadDefaults());
-
-            }
-
-        }
-
-        static void combineKeyMouseShortcutsSingleFile() {
-
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - combineKeyMouseShortcutsSingleFile()" << NL;
-
-            // All shortcuts are stored in this single file
-            QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
-
-            // Potential mouse shortcuts from previous versions
-            QFile mouseshortcuts(QString("%1/mouseshortcuts").arg(ConfigFiles::CONFIG_DIR()));
-
-            // If mouse shortcuts exist in the wrong place, migrate!
-            if(mouseshortcuts.exists()) {
-
-                // Open for reading only
-                if(!mouseshortcuts.open(QIODevice::ReadOnly)) {
-                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - "
-                                   << "ERROR: unable to open mouseshortcuts for reading..." << NL;
-                    return;
-                }
-
-                // Open for appending only
-                if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Append)) {
-                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - "
-                                   << "ERROR: unable to open shortcuts for writing..." << NL;
-                    return;
-                }
-
-                // stream to both files
-                QTextStream in(&mouseshortcuts);
-                QTextStream out(&allshortcuts);
-
-                // Add a linebreak, just to be save, before adding the mouse shortcuts to allshortcuts file
-                out << "\n" << in.readAll();
-
-                // close both files
-                mouseshortcuts.close();
-                allshortcuts.close();
-
-                // and remove old mouse shortcuts file (not needed anymore)
-                if(!mouseshortcuts.remove())
-                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - "
-                                   << "ERROR: Unable to remove redundant mouse_shortcuts file!" << NL;
+                if(shortcutsfile.open(QIODevice::WriteOnly)) {
+                    QTextStream out(&shortcutsfile);
+                    out << cont;
+                    shortcutsfile.close();
+                } else
+                    LOG << CURDATE << "ERROR: Unable to create default shortcuts file" << NL;
 
             }
 
@@ -140,4 +100,4 @@ namespace StartupCheck {
 
 }
 
-#endif // STARTUPCHECK_SHORTCUTS_H
+#endif

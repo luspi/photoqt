@@ -1,28 +1,64 @@
-bionic:
+localization:
+
+  image: ubuntu:focal
+
+  except:
+    - schedules
+
+  script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update && apt-get install -y  qttools5-dev-tools openssh-client git wget
+    - eval `ssh-agent -s`
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "${SSH_PUBLIC_KEY}" >> ~/.ssh/id_rsa.pub
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+    - git config --global user.email "${CI_EMAIL}"
+    - git config --global user.name "${CI_USERNAME}"
+    - git clone git@gitlab.com:luspi/photoqt-lang.git && cd photoqt-lang
+    - lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt.ts
+    - git add photoqt.ts
+    - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI"
+    - git push
+
+
+appimage:
 
   image: ubuntu:xenial
 
   only:
-    - master
+    - schedules
 
   script:
-    - echo "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_REF_NAME}/raw/QtQuickApp-x86_64.AppImage?job=${CI_JOB_NAME}"
-    - apt-get update -qq
-    - apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules
-    - apt-get -y install qt5-default qtbase5-dev qtdeclarative5-dev qtdeclarative5-dev-tools libqt5svg5-dev qttools5-dev qttools5-dev-tools libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev qml-module-qtquick-controls qml-module-qtmultimedia qml-module-qtgraphicaleffects qml-module-qtquick-layouts qml-module-qtquick-extras libqt5quick5
-    - mkdir -p build && cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl
+    - add-apt-repository -y ppa:beineri/opt-qt597-xenial && apt-get update
+    - apt-get -y install qt59base qt59declarative qt59svg qt59tools qt59multimedia qt59quickcontrols qt59quickcontrols2 libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev libpugixml-dev qt59imageformats qt59graphicaleffects libqt5multimedia5-plugins
+    - export QTDIR=/opt/qt59  # Set new qt env variables
+    - export PATH=/opt/qt59/bin:$PATH
+    - export LD_LIBRARY_PATH=/opt/qt59/lib/x86_64-linux-gnu:/opt/qt59/lib:$LD_LIBRARY_PATH
+    - export PKG_CONFIG_PATH=/opt/qt59/lib/pkgconfig:$PKG_CONFIG_PATH
+    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null  # update cmake
+    - apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && apt-get update
+    - apt-get install -y cmake
+    - rm -rf lang/
+    - git clone -b l10n_master https://gitlab.com/luspi/photoqt-lang
+    - mv photoqt-lang/localized lang
+    - mkdir -p build && cd build/  # build PhotoQt
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF -DEXIV2=OFF
     - make -j$(nproc)
-    - make DESTDIR=../appdir -j$(nproc) install ; find ../appdir/
-    - cd -
-    - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-    - chmod a+x linuxdeployqt*.AppImage ; ./linuxdeployqt-*.AppImage --appimage-extract ; rm linuxdeployqt*.AppImage
-    - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-#    - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
-    - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -appimage -qmldir=./qml
-    - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq # fyi
-    - ./*.AppImage --appimage-updateinformation # fyi
+    - make DESTDIR=../appdir -j$(nproc) install
+    - cd ..  # Generate AppImage
+    - wget -c https://photoqt.org/downloads/linuxdeploy-x86_64-20200805.AppImage
+    - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+    - chmod a+x linuxdeploy-plugin-qt-x86_64.AppImage
+    - chmod a+x linuxdeploy-x86_64-20200805.AppImage
+    - ./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
+    - ./linuxdeploy-x86_64-20200805.AppImage --appimage-extract
+    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ -d ./appdir/usr/share/applications/photoqt.desktop --plugin=qt --output appimage
+    - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
+    - curl --data-binary @PhotoQt-nightly.AppImage ${UPLOAD_URL}
 
   artifacts:
     paths:
-      - "*.AppImage*"
+      - PhotoQt-nightly.AppImage

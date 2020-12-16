@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2018 Lukas Spies <Lukas_at_photoqt.org> -->
 <component type="desktop">
-    <id>org.photoqt.PhotoQt</id>
+    <id>org.photoqt.photoqt</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
     <name>PhotoQt Image Viewer</name>
@@ -20,24 +20,24 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>http://photoqt.org/screenshots/appdataxml1.jpg</image>
+            <image>https://photoqt.org/screenshots/appdataxml1.jpg</image>
             <caption>The main window showing PhotoQt in action</caption>
         </screenshot>
         <screenshot>
-            <image>http://photoqt.org/screenshots/appdataxml2.jpg</image>
+            <image>https://photoqt.org/screenshots/appdataxml2.jpg</image>
             <caption>Opening a new file from within PhotoQt</caption>
         </screenshot>
         <screenshot>
-            <image>http://photoqt.org/screenshots/appdataxml3.jpg</image>
+            <image>https://photoqt.org/screenshots/appdataxml3.jpg</image>
             <caption>The shortcuts management (part of settings)</caption>
         </screenshot>
     </screenshots>
-    <url type="homepage">http://photoqt.org</url>
-    <url type="translate">http://www.transifex.com/lukas91/photo</url>
+    <url type="homepage">https://photoqt.org</url>
+    <url type="translate">https://crowdin.com/project/photoqt</url>
     <update_contact>Lukas_at_photoqt.org</update_contact>
     <developer_name>Lukas Spies</developer_name>
     <url type="bugtracker">https://gitlab.com/luspi/photoqt/issues</url>
-    <url type="donation">http://photoqt.org/about#donate</url>
+    <url type="donation">https://photoqt.org/about#donate</url>
     <url type="help">https://gitlab.com/luspi/photoqt/issues</url>
     <keywords>
         <keyword>image</keyword>

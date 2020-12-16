@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-    <file>../qml/vars/Variables.qml</file>
-    <file>../qml/vars/Strings.qml</file>
-    </qresource>
-</RCC>

@@ -1,0 +1,148 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+
+Button {
+    id: control
+
+    text: ""
+
+    implicitHeight: 40
+    width: buttonSameWidthAsMenu ? menu.width : ((forceWidth==0) ? undefined : forceWidth)
+
+    padding: 0
+
+    property string backgroundColor: "#333333"
+    property string backgroundColorHover: "#3a3a3a"
+    property string backgroundColorActive: "#444444"
+    property string backgroundColorMenuOpen: "#666666"
+    property string textColor: "#ffffff"
+    property string textColorHover: "#ffffff"
+    property string textColorActive: "#ffffff"
+
+    property bool clickOpensMenu: false
+    property bool menuOpenDownward: true
+    property bool centerMenuOnButton: false
+    property bool buttonSameWidthAsMenu: false
+    property var listMenuItems: []
+
+    property string imageButtonSource: ""
+    property real imageOpacity: 1
+
+    property bool mouseOver: false
+
+    property alias tooltip: mousearea.tooltip
+    property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
+
+    property int forceWidth: 0
+
+    signal menuItemClicked(var pos)
+
+    property string leftRightTextSpacing: "   "
+
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringCancel: em.pty+qsTranslate("buttongeneric", "Cancel")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringSave: em.pty+qsTranslate("buttongeneric", "Save")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringClose: em.pty+qsTranslate("buttongeneric", "Close")
+
+    contentItem: Text {
+        id: txt
+        text: control.text=="" ? "" : (leftRightTextSpacing+control.text+leftRightTextSpacing)
+        font: control.font
+        y: (parent.height-height)/2
+        x: (parent.width-width)/2
+        width: buttonSameWidthAsMenu ? menu.width-20 : ((forceWidth==0) ? undefined : forceWidth-20)
+        opacity: enabled ? 1.0 : 0.3
+        color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
+        Behavior on color { ColorAnimation { duration: 100 } }
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+    }
+
+    background: Rectangle {
+        implicitWidth: (iconview.visible ? iconview.width : txt.width)
+        color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
+        Behavior on color { ColorAnimation { duration: 100 } }
+        implicitHeight: contentItem.height
+        opacity: enabled ? 1 : 0.3
+        radius: 2
+
+        Image {
+
+            id: iconview
+
+            source: imageButtonSource
+
+            opacity: imageOpacity
+            visible: imageButtonSource!=undefined&&imageButtonSource!=""
+
+            sourceSize: Qt.size(30,30)
+
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
+
+        }
+
+    }
+
+    PQMouseArea {
+        id: mousearea
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onEntered:
+            control.mouseOver = true
+        onExited:
+            control.mouseOver = false
+        onPressed:
+            control.down = true
+        onReleased:
+            control.down = false
+        onClicked: {
+            if(clickOpensMenu) {
+                var pos = parent.mapFromItem(parent.parent, parent.x, parent.y)
+                if(menuOpenDownward)
+                    menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
+                else
+                    menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
+            } else
+                control.clicked()
+        }
+    }
+
+    PQMenu {
+
+        id: menu
+
+        model: listMenuItems
+        onTriggered: control.menuItemClicked(index)
+
+    }
+
+}

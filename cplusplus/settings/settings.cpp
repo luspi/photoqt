@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,14 +22,14 @@
 
 #include "settings.h"
 
-Settings::Settings(QObject *parent) : QObject(parent) {
+PQSettings::PQSettings() {
 
     // When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds,
     // but use a timer to save it once after all settings are set
     saveSettingsTimer = new QTimer;
     saveSettingsTimer->setInterval(400);
     saveSettingsTimer->setSingleShot(true);
-    connect(saveSettingsTimer, &QTimer::timeout, this, &Settings::saveSettings);
+    connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
 
     watcher = new QFileSystemWatcher;
     connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
@@ -37,33 +37,16 @@ Settings::Settings(QObject *parent) : QObject(parent) {
     watcherAddFileTimer = new QTimer;
     watcherAddFileTimer->setInterval(500);
     watcherAddFileTimer->setSingleShot(true);
-    connect(watcherAddFileTimer, &QTimer::timeout, this, &Settings::addFileToWatcher);
+    connect(watcherAddFileTimer, &QTimer::timeout, this, &PQSettings::addFileToWatcher);
 
     setDefault();
     readSettings();
 
 }
 
-// Clean-up
-Settings::~Settings() {
-    delete saveSettingsTimer;
-}
+void PQSettings::setDefault() {
 
-void Settings::addFileToWatcher() {
-    QFileInfo info(ConfigFiles::SETTINGS_FILE());
-    if(!info.exists()) {
-        watcherAddFileTimer->start();
-        return;
-    }
-    watcher->removePath(ConfigFiles::SETTINGS_FILE());
-    watcher->addPath(ConfigFiles::SETTINGS_FILE());
-}
-
-// Set the default settings
-void Settings::setDefault() {
-
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "Settings::setDefault()" << NL;
+    DBG << CURDATE << "PQSettings::setDefault()" << NL;
 
     setVersion(QString::fromStdString(VERSION));
     m_versionInTextFile = "";
@@ -74,7 +57,6 @@ void Settings::setDefault() {
     setWindowMode(true);
     setWindowDecoration(false);
 
-    setAnimations(true);
     setSaveWindowGeometry(false);
     setKeepOnTop(false);
 
@@ -98,13 +80,7 @@ void Settings::setDefault() {
     setBackgroundImageCenter(false);
     setBackgroundImageTile(false);
 
-#ifdef Q_OS_WIN
-    setComposite(QtWin::isCompositionEnabled() ? true : false);
-#else
-    setComposite(true);
-#endif
     setTrayIcon(0);
-    setImageTransition(1);
     setLoopThroughFolder(true);
     setHotEdgeWidth(4);
     setCloseOnEmptyBackground(false);
@@ -112,17 +88,19 @@ void Settings::setDefault() {
     setMouseWheelSensitivity(1);
     setKeepZoomRotationMirror(false);
     setFitInWindow(false);
-    setInterpolationNearestNeighbourThreshold(100);
-    setInterpolationNearestNeighbourUpscale(true);
-    setPixmapCache(128);
+    setInterpolationThreshold(100);
+    setInterpolationDisableForSmallImages(true);
+    setPixmapCache(256);
     setLeftButtonMouseClickAndMove(true);
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
-    setMainMenuWindowWidth(350);
+    setMainMenuWindowWidth(450);
     setPdfSingleDocument(true);
     setPdfQuality(150);
     setArchiveSingleFile(true);
     setZoomSpeed(20);
+    setAnimationType("opacity");
+    setAnimationDuration(3);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -137,7 +115,6 @@ void Settings::setDefault() {
     setQuickInfoHideFilename(false);
     setQuickInfoHideX(false);
     setQuickInfoHideZoomLevel(false);
-    setQuickInfoFullX(true);
     setQuickInfoCloseXSize(10);
 #ifdef Q_OS_WIN
     setQuickInfoManageWindow(true);
@@ -148,11 +125,6 @@ void Settings::setDefault() {
     setThumbnailSize(80);
     setThumbnailPosition("Bottom");
     setThumbnailCache(true);
-#ifdef Q_OS_WIN
-    setThumbnailCacheFile(false);
-#else
-    setThumbnailCacheFile(true);
-#endif
     setThumbnailSpacingBetween(0);
     setThumbnailLiftUp(6);
     setThumbnailKeepVisible(false);
@@ -163,6 +135,7 @@ void Settings::setDefault() {
     setThumbnailFontSize(7);
     setThumbnailFilenameInstead(false);
     setThumbnailFilenameInsteadFontSize(8);
+    setThumbnailMaxNumberThreads(4);
 
     setSlideShowTime(5);
     setSlideShowImageTransition(4);
@@ -170,6 +143,7 @@ void Settings::setDefault() {
     setSlideShowShuffle(false);
     setSlideShowLoop(true);
     setSlideShowHideQuickInfo(true);
+    setSlideShowTypeAnimation("opacity");
 
     setMetaFilename(true);
     setMetaFileType(true);
@@ -204,221 +178,64 @@ void Settings::setDefault() {
     setPeopleTagInMetaFontSize(10);
 
     setMetadataEnableHotEdge(true);
-    setMetadataFontSize(10);
     setMetadataOpacity(220);
-    setMetadataWindowWidth(350);
+    setMetadataWindowWidth(450);
 
     setOpenDefaultView("list");
     setOpenPreview(true);
-    setOpenPreviewHighQuality(false);
-    setOpenZoomLevel(25);
+    setOpenZoomLevel(20);
     setOpenUserPlacesWidth(300);
-    setOpenFoldersWidth(400);
     setOpenThumbnails(true);
     setOpenUserPlacesStandard(true);
     setOpenUserPlacesUser(true);
-    setOpenUserPlacesVolumes(false);
+    setOpenUserPlacesVolumes(true);
     setOpenKeepLastLocation(false);
     setOpenShowHiddenFilesFolders(false);
-    setOpenHideUserPlaces(false);
 
     setHistogram(false);
     setHistogramVersion("color");
     setHistogramPosition(QPoint(100,100));
     setHistogramSize(QSize(300,200));
 
+    setVideoAutoplay(true);
+    setVideoLoop(false);
+    setVideoVolume(100);
+    setVideoThumbnailer("ffmpegthumbnailer");
+
+    setMainMenuPopoutElement(false);
+    setMetadataPopoutElement(false);
+    setHistogramPopoutElement(false);
+    setScalePopoutElement(false);
+    setOpenPopoutElement(false);
+    setOpenPopoutElementKeepOpen(false);
+    setSlideShowSettingsPopoutElement(false);
+    setSlideShowControlsPopoutElement(false);
+    setFileRenamePopoutElement(false);
+    setFileDeletePopoutElement(false);
+    setAboutPopoutElement(false);
+    setImgurPopoutElement(false);
+    setWallpaperPopoutElement(false);
+    setFilterPopoutElement(false);
+    setSettingsManagerPopoutElement(false);
+
 }
 
-// Save settings
-void Settings::saveSettings() {
+void PQSettings::addFileToWatcher() {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "Settings::saveSettings()" << NL;
+    DBG << CURDATE << "PQSettings::addFileToWatcher()" << NL;
 
-    QFile file(ConfigFiles::SETTINGS_FILE());
-
-    if(file.exists() && !file.open(QIODevice::ReadWrite))
-
-        LOG << CURDATE << "Settings::saveSettings() - ERROR saving settings" << NL;
-
-    else {
-
-        if(file.exists()) {
-            file.close();
-            file.remove();
-        }
-        file.open(QIODevice::ReadWrite);
-
-        QTextStream out(&file);
-
-        QString cont = "Version=" + m_version + "\n";
-
-        cont += QString("Language=%1\n").arg(m_language);
-        cont += QString("WindowMode=%1\n").arg(int(m_windowMode));
-        cont += QString("WindowDecoration=%1\n").arg(int(m_windowDecoration));
-        cont += QString("Animations=%1\n").arg(int(m_animations));
-        cont += QString("SaveWindowGeometry=%1\n").arg(int(m_saveWindowGeometry));
-        cont += QString("KeepOnTop=%1\n").arg(int(m_keepOnTop));
-        cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(m_startupLoadLastLoadedImage));
-
-        cont += "\n[Look]\n";
-
-        cont += QString("Composite=%1\n").arg(int(m_composite));
-        cont += QString("BackgroundColorRed=%1\n").arg(m_backgroundColorRed);
-        cont += QString("BackgroundColorGreen=%1\n").arg(m_backgroundColorGreen);
-        cont += QString("BackgroundColorBlue=%1\n").arg(m_backgroundColorBlue);
-        cont += QString("BackgroundColorAlpha=%1\n").arg(m_backgroundColorAlpha);
-        cont += QString("BackgroundImageScreenshot=%1\n").arg(m_backgroundImageScreenshot);
-        cont += QString("BackgroundImageUse=%1\n").arg(m_backgroundImageUse);
-        cont += QString("BackgroundImagePath=%1\n").arg(m_backgroundImagePath);
-        cont += QString("BackgroundImageScale=%1\n").arg(m_backgroundImageScale);
-        cont += QString("BackgroundImageScaleCrop=%1\n").arg(m_backgroundImageScaleCrop);
-        cont += QString("BackgroundImageStretch=%1\n").arg(m_backgroundImageStretch);
-        cont += QString("BackgroundImageCenter=%1\n").arg(m_backgroundImageCenter);
-        cont += QString("BackgroundImageTile=%1\n").arg(m_backgroundImageTile);
-
-        cont += "\n[Behaviour]\n";
-
-        cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
-        cont += QString("ImageTransition=%1\n").arg(m_imageTransition);
-        cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));
-        cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
-        cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
-        cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
-        cont += QString("SortImagesBy=%1\n").arg(m_sortby);
-        cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
-        cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
-        cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
-        cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
-        cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(m_interpolationNearestNeighbourThreshold);
-        cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(m_interpolationNearestNeighbourUpscale));
-        cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
-        cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
-        cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
-        cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
-        cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
-        cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
-        cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
-        cont += QString("ArchiveUseExternalUnrar=%1\n").arg(int(m_archiveUseExternalUnrar));
-
-        cont += "\n[QuickInfo]\n";
-
-        cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
-        cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
-        cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
-        cont += QString("QuickInfoHideX=%1\n").arg(int(m_quickInfoHideX));
-        cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
-        cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
-        cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
-        cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
-
-        cont += "\n[Thumbnail]\n";
-
-        cont += QString("ThumbnailSize=%1\n").arg(m_thumbnailSize);
-        cont += QString("ThumbnailPosition=%1\n").arg(m_thumbnailPosition);
-        cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
-        cont += QString("ThumbnailCacheFile=%1\n").arg(int(m_thumbnailCacheFile));
-        cont += QString("ThumbnailSpacingBetween=%1\n").arg(m_thumbnailSpacingBetween);
-        cont += QString("ThumbnailLiftUp=%1\n").arg(m_thumbnailLiftUp);
-        cont += QString("ThumbnailKeepVisible=%1\n").arg(int(m_thumbnailKeepVisible));
-        cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(m_thumbnailKeepVisibleWhenNotZoomedIn));
-        cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
-        cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));
-        cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(m_thumbnailFilenameInsteadFontSize);
-        cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
-        cont += QString("ThumbnailWriteFilename=%1\n").arg(int(m_thumbnailWriteFilename));
-        cont += QString("ThumbnailFontSize=%1\n").arg(m_thumbnailFontSize);
-
-        cont += "\n[Slideshow]\n";
-
-        cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
-        cont += QString("SlideShowImageTransition=%1\n").arg(m_slideShowImageTransition);
-        cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
-        cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
-        cont += QString("SlideShowLoop=%1\n").arg(int(m_slideShowLoop));
-        cont += QString("SlideShowHideQuickInfo=%1\n").arg(int(m_slideShowHideQuickInfo));
-
-        cont += "\n[Metadata]\n";
-
-        cont += QString("MetaFilename=%1\n").arg(int(m_metaFilename));
-        cont += QString("MetaFileType=%1\n").arg(int(m_metaFileType));
-        cont += QString("MetaFileSize=%1\n").arg(int(m_metaFileSize));
-        cont += QString("MetaImageNumber=%1\n").arg(int(m_metaImageNumber));
-        cont += QString("MetaDimensions=%1\n").arg(int(m_metaDimensions));
-        cont += QString("MetaMake=%1\n").arg(int(m_metaMake));
-        cont += QString("MetaModel=%1\n").arg(int(m_metaModel));
-        cont += QString("MetaSoftware=%1\n").arg(int(m_metaSoftware));
-        cont += QString("MetaTimePhotoTaken=%1\n").arg(int(m_metaTimePhotoTaken));
-        cont += QString("MetaExposureTime=%1\n").arg(int(m_metaExposureTime));
-        cont += QString("MetaFlash=%1\n").arg(int(m_metaFlash));
-        cont += QString("MetaIso=%1\n").arg(int(m_metaIso));
-        cont += QString("MetaSceneType=%1\n").arg(int(m_metaSceneType));
-        cont += QString("MetaFLength=%1\n").arg(int(m_metaFLength));
-        cont += QString("MetaFNumber=%1\n").arg(int(m_metaFNumber));
-        cont += QString("MetaLightSource=%1\n").arg(int(m_metaLightSource));
-        cont += QString("MetaGps=%1\n").arg(int(m_metaGps));
-        cont += QString("MetaApplyRotation=%1\n").arg(int(m_metaApplyRotation));
-        cont += QString("MetaGpsMapService=%1\n").arg(m_metaGpsMapService);
-        cont += QString("MetaKeywords=%1\n").arg(int(m_metaKeywords));
-        cont += QString("MetaLocation=%1\n").arg(int(m_metaLocation));
-        cont += QString("MetaCopyright=%1\n").arg(int(m_metaCopyright));
-
-        cont += "\n[Metadata Element]\n";
-
-        cont += QString("MetadataEnableHotEdge=%1\n").arg(int(m_metadataEnableHotEdge));
-        cont += QString("MetadataFontSize=%1\n").arg(m_metadataFontSize);
-        cont += QString("MetadataOpacity=%1\n").arg(m_metadataOpacity);
-        cont += QString("MetadataWindowWidth=%1\n").arg(m_metadataWindowWidth);
-
-        cont += "\n[People Tags in Metadata]\n";
-
-        cont += QString("PeopleTagInMetaDisplay=%1\n").arg(int(m_peopleTagInMetaDisplay));
-        cont += QString("PeopleTagInMetaBorderAroundFace=%1\n").arg(int(m_peopleTagInMetaBorderAroundFace));
-        cont += QString("PeopleTagInMetaBorderAroundFaceColor=%1\n").arg(m_peopleTagInMetaBorderAroundFaceColor);
-        cont += QString("PeopleTagInMetaBorderAroundFaceWidth=%1\n").arg(m_peopleTagInMetaBorderAroundFaceWidth);
-        cont += QString("PeopleTagInMetaAlwaysVisible=%1\n").arg(int(m_peopleTagInMetaAlwaysVisible));
-        cont += QString("PeopleTagInMetaIndependentLabels=%1\n").arg(int(m_peopleTagInMetaIndependentLabels));
-        cont += QString("PeopleTagInMetaHybridMode=%1\n").arg(int(m_peopleTagInMetaHybridMode));
-        cont += QString("PeopleTagInMetaFontSize=%1\n").arg(m_peopleTagInMetaFontSize);
-
-        cont += "\n[Open File]\n";
-        cont += QString("OpenDefaultView=%1\n").arg(m_openDefaultView);
-        cont += QString("OpenPreview=%1\n").arg(int(m_openPreview));
-        cont += QString("OpenPreviewHighQuality=%1\n").arg(int(m_openPreviewHighQuality));
-        cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
-        cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
-        cont += QString("OpenFoldersWidth=%1\n").arg(m_openFoldersWidth);
-        cont += QString("OpenThumbnails=%1\n").arg(int(m_openThumbnails));
-        cont += QString("OpenUserPlacesStandard=%1\n").arg(int(m_openUserPlacesStandard));
-        cont += QString("OpenUserPlacesUser=%1\n").arg(int(m_openUserPlacesUser));
-        cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
-        cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
-        cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
-        cont += QString("OpenHideUserPlaces=%1\n").arg(int(m_openHideUserPlaces));
-
-        cont += "\n[Histogram]\n";
-
-        cont += QString("Histogram=%1\n").arg(int(m_histogram));
-        cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
-        cont += QString("HistogramPosition=%1,%2\n").arg(m_histogramPosition.x()).arg(m_histogramPosition.y());
-        cont += QString("HistogramSize=%1,%2\n").arg(m_histogramSize.width()).arg(m_histogramSize.height());
-
-        cont += "\n[Main Menu Element]\n";
-
-        cont += QString("MainMenuWindowWidth=%1\n").arg(m_mainMenuWindowWidth);
-
-        out << cont;
-        file.close();
-
+    QFileInfo info(ConfigFiles::SETTINGS_FILE());
+    if(!info.exists()) {
+        watcherAddFileTimer->start();
+        return;
     }
-
+    watcher->removePath(ConfigFiles::SETTINGS_FILE());
+    watcher->addPath(ConfigFiles::SETTINGS_FILE());
 }
 
-// Read the current settings
-void Settings::readSettings() {
+void PQSettings::readSettings() {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "Settings::readSettings()" << NL;
+    DBG << CURDATE << "PQSettings::readSettings()" << NL;
 
     watcherAddFileTimer->start();
 
@@ -456,17 +273,11 @@ void Settings::readSettings() {
             else if(line.startsWith("WindowDecoration="))
                 setWindowDecoration(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("Animations="))
-                setAnimations(line.split("=").at(1).toInt());
-
             else if(line.startsWith("SaveWindowGeometry="))
                 setSaveWindowGeometry(line.split("=").at(1).toInt());
 
             else if(line.startsWith("KeepOnTop="))
                 setKeepOnTop(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("Composite="))
-                setComposite(line.split("=").at(1).toInt());
 
             else if(line.startsWith("StartupLoadLastLoadedImage="))
                 setStartupLoadLastLoadedImage(line.split("=").at(1).toInt());
@@ -503,8 +314,8 @@ void Settings::readSettings() {
             else if(line.startsWith("TrayIcon="))
                 setTrayIcon(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("ImageTransition="))
-                setImageTransition(line.split("=").at(1).toInt());
+            else if(line.startsWith("AnimationDuration="))
+                setAnimationDuration(line.split("=").at(1).toInt());
 
             else if(line.startsWith("LoopThroughFolder="))
                 setLoopThroughFolder(line.split("=").at(1).toInt());
@@ -527,11 +338,11 @@ void Settings::readSettings() {
             else if(line.startsWith("FitInWindow="))
                 setFitInWindow(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("InterpolationNearestNeighbourThreshold="))
-                setInterpolationNearestNeighbourThreshold(line.split("=").at(1).toInt());
+            else if(line.startsWith("InterpolationThreshold="))
+                setInterpolationThreshold(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("InterpolationNearestNeighbourUpscale="))
-                setInterpolationNearestNeighbourUpscale(line.split("=").at(1).toInt());
+            else if(line.startsWith("InterpolationDisableForSmallImages="))
+                setInterpolationDisableForSmallImages(line.split("=").at(1).toInt());
 
             else if(line.startsWith("PixmapCache="))
                 setPixmapCache(line.split("=").at(1).toInt());
@@ -557,6 +368,9 @@ void Settings::readSettings() {
             else if(line.startsWith("ZoomSpeed="))
                 setZoomSpeed(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("AnimationType="))
+                setAnimationType(line.split("=").at(1).trimmed());
+
 
             else if(line.startsWith("QuickInfoHideCounter="))
                 setQuickInfoHideCounter(line.split("=").at(1).toInt());
@@ -576,9 +390,6 @@ void Settings::readSettings() {
             else if(line.startsWith("QuickInfoCloseXSize="))
                 setQuickInfoCloseXSize(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoFullX="))
-                setQuickInfoFullX(line.split("=").at(1).toInt());
-
             else if(line.startsWith("QuickInfoManageWindow="))
                 setQuickInfoManageWindow(line.split("=").at(1).toInt());
 
@@ -591,9 +402,6 @@ void Settings::readSettings() {
 
             else if(line.startsWith("ThumbnailCache="))
                 setThumbnailCache(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("ThumbnailCacheFile="))
-                setThumbnailCacheFile(line.split("=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailSpacingBetween="))
                 setThumbnailSpacingBetween(line.split("=").at(1).toInt());
@@ -625,6 +433,9 @@ void Settings::readSettings() {
             else if(line.startsWith("ThumbnailFontSize="))
                 setThumbnailFontSize(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("ThumbnailMaxNumberThreads="))
+                setThumbnailMaxNumberThreads(line.split("=").at(1).toInt());
+
 
             else if(line.startsWith("SlideShowTime="))
                 setSlideShowTime(line.split("=").at(1).toInt());
@@ -643,6 +454,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("SlideShowHideQuickInfo="))
                 setSlideShowHideQuickInfo(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SlideShowTypeAnimation="))
+                setSlideShowTypeAnimation(line.split("=").at(1).trimmed());
 
 
             else if(line.startsWith("MetaFilename="))
@@ -714,9 +528,6 @@ void Settings::readSettings() {
             else if(line.startsWith("MetadataEnableHotEdge="))
                 setMetadataEnableHotEdge(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("MetadataFontSize="))
-                setMetadataFontSize(line.split("=").at(1).toInt());
-
             else if(line.startsWith("MetadataOpacity="))
                 setMetadataOpacity(line.split("=").at(1).toInt());
 
@@ -761,14 +572,8 @@ void Settings::readSettings() {
             else if(line.startsWith("OpenUserPlacesWidth="))
                 setOpenUserPlacesWidth(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("OpenFoldersWidth="))
-                setOpenFoldersWidth(line.split("=").at(1).toInt());
-
             else if(line.startsWith("OpenThumbnails="))
                 setOpenThumbnails(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("OpenPreviewHighQuality="))
-                setOpenPreviewHighQuality(line.split("=").at(1).toInt());
 
             else if(line.startsWith("OpenUserPlacesStandard="))
                 setOpenUserPlacesStandard(line.split("=").at(1).toInt());
@@ -784,9 +589,6 @@ void Settings::readSettings() {
 
             else if(line.startsWith("OpenShowHiddenFilesFolders="))
                 setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("OpenHideUserPlaces="))
-                setOpenHideUserPlaces(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("MainMenuWindowWidth="))
@@ -809,7 +611,270 @@ void Settings::readSettings() {
                 setHistogramSize(QSize(parts.at(0).toInt(), parts.at(1).toInt()));
             }
 
+            else if(line.startsWith("VideoAutoplay="))
+                setVideoAutoplay(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("VideoLoop="))
+                setVideoLoop(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("VideoVolume="))
+                setVideoVolume(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("VideoThumbnailer="))
+                setVideoThumbnailer(line.split("=").at(1));
+
+
+            else if(line.startsWith("MainMenuPopoutElement="))
+                setMainMenuPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("MetadataPopoutElement="))
+                setMetadataPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("HistogramPopoutElement="))
+                setHistogramPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ScalePopoutElement="))
+                setScalePopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("OpenPopoutElement="))
+                setOpenPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("OpenPopoutElementKeepOpen="))
+                setOpenPopoutElementKeepOpen(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SlideShowSettingsPopoutElement="))
+                setSlideShowSettingsPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SlideShowControlsPopoutElement="))
+                setSlideShowControlsPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("FileRenamePopoutElement="))
+                setFileRenamePopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("FileDeletePopoutElement="))
+                setFileDeletePopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("AboutPopoutElement="))
+                setAboutPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ImgurPopoutElement="))
+                setImgurPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("WallpaperPopoutElement="))
+                setWallpaperPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("FilterPopoutElement="))
+                setFilterPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SettingsManagerPopoutElement="))
+                setSettingsManagerPopoutElement(line.split("=").at(1).toInt());
+
         }
+
+    }
+
+}
+
+// Save settings
+void PQSettings::saveSettings() {
+
+    DBG << CURDATE << "PQSettings::saveSettings()" << NL;
+
+    QFile file(ConfigFiles::SETTINGS_FILE());
+
+    if(file.exists() && !file.open(QIODevice::ReadWrite))
+
+        LOG << CURDATE << "Settings::saveSettings() - ERROR saving settings" << NL;
+
+    else {
+
+        if(file.exists()) {
+            file.close();
+            file.remove();
+        }
+        file.open(QIODevice::ReadWrite);
+
+        QTextStream out(&file);
+
+        QString cont = "Version=" + m_version + "\n";
+
+        cont += QString("Language=%1\n").arg(m_language);
+        cont += QString("WindowMode=%1\n").arg(int(m_windowMode));
+        cont += QString("WindowDecoration=%1\n").arg(int(m_windowDecoration));
+        cont += QString("SaveWindowGeometry=%1\n").arg(int(m_saveWindowGeometry));
+        cont += QString("KeepOnTop=%1\n").arg(int(m_keepOnTop));
+        cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(m_startupLoadLastLoadedImage));
+
+        cont += "\n[Look]\n";
+
+        cont += QString("BackgroundColorAlpha=%1\n").arg(m_backgroundColorAlpha);
+        cont += QString("BackgroundColorBlue=%1\n").arg(m_backgroundColorBlue);
+        cont += QString("BackgroundColorGreen=%1\n").arg(m_backgroundColorGreen);
+        cont += QString("BackgroundColorRed=%1\n").arg(m_backgroundColorRed);
+        cont += QString("BackgroundImageCenter=%1\n").arg(m_backgroundImageCenter);
+        cont += QString("BackgroundImagePath=%1\n").arg(m_backgroundImagePath);
+        cont += QString("BackgroundImageScale=%1\n").arg(m_backgroundImageScale);
+        cont += QString("BackgroundImageScaleCrop=%1\n").arg(m_backgroundImageScaleCrop);
+        cont += QString("BackgroundImageScreenshot=%1\n").arg(m_backgroundImageScreenshot);
+        cont += QString("BackgroundImageStretch=%1\n").arg(m_backgroundImageStretch);
+        cont += QString("BackgroundImageTile=%1\n").arg(m_backgroundImageTile);
+        cont += QString("BackgroundImageUse=%1\n").arg(m_backgroundImageUse);
+
+        cont += "\n[Behaviour]\n";
+
+        cont += QString("AnimationDuration=%1\n").arg(m_animationDuration);
+        cont += QString("AnimationType=%1\n").arg(m_animationType);
+        cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
+        cont += QString("ArchiveUseExternalUnrar=%1\n").arg(int(m_archiveUseExternalUnrar));
+        cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
+        cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
+        cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
+        cont += QString("InterpolationThreshold=%1\n").arg(m_interpolationThreshold);
+        cont += QString("InterpolationDisableForSmallImages=%1\n").arg(int(m_interpolationDisableForSmallImages));
+        cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
+        cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
+        cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));
+        cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
+        cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
+        cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
+        cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
+        cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
+        cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
+        cont += QString("SortImagesBy=%1\n").arg(m_sortby);
+        cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
+        cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
+        cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
+
+        cont += "\n[QuickInfo]\n";
+
+        cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
+        cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
+        cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
+        cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
+        cont += QString("QuickInfoHideX=%1\n").arg(int(m_quickInfoHideX));
+        cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
+        cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
+
+        cont += "\n[Thumbnail]\n";
+
+        cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
+        cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
+        cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
+        cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));
+        cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(m_thumbnailFilenameInsteadFontSize);
+        cont += QString("ThumbnailFontSize=%1\n").arg(m_thumbnailFontSize);
+        cont += QString("ThumbnailKeepVisible=%1\n").arg(int(m_thumbnailKeepVisible));
+        cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(m_thumbnailKeepVisibleWhenNotZoomedIn));
+        cont += QString("ThumbnailLiftUp=%1\n").arg(m_thumbnailLiftUp);
+        cont += QString("ThumbnailMaxNumberThreads=%1\n").arg(m_thumbnailMaxNumberThreads);
+        cont += QString("ThumbnailPosition=%1\n").arg(m_thumbnailPosition);
+        cont += QString("ThumbnailSize=%1\n").arg(m_thumbnailSize);
+        cont += QString("ThumbnailSpacingBetween=%1\n").arg(m_thumbnailSpacingBetween);
+        cont += QString("ThumbnailWriteFilename=%1\n").arg(int(m_thumbnailWriteFilename));
+
+        cont += "\n[Slideshow]\n";
+
+        cont += QString("SlideShowHideQuickInfo=%1\n").arg(int(m_slideShowHideQuickInfo));
+        cont += QString("SlideShowImageTransition=%1\n").arg(m_slideShowImageTransition);
+        cont += QString("SlideShowLoop=%1\n").arg(int(m_slideShowLoop));
+        cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
+        cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
+        cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
+        cont += QString("SlideShowTypeAnimation=%1\n").arg(m_slideShowTypeAnimation);
+
+        cont += "\n[Metadata]\n";
+
+        cont += QString("MetaApplyRotation=%1\n").arg(int(m_metaApplyRotation));
+        cont += QString("MetaCopyright=%1\n").arg(int(m_metaCopyright));
+        cont += QString("MetaDimensions=%1\n").arg(int(m_metaDimensions));
+        cont += QString("MetaExposureTime=%1\n").arg(int(m_metaExposureTime));
+        cont += QString("MetaFilename=%1\n").arg(int(m_metaFilename));
+        cont += QString("MetaFileType=%1\n").arg(int(m_metaFileType));
+        cont += QString("MetaFileSize=%1\n").arg(int(m_metaFileSize));
+        cont += QString("MetaFlash=%1\n").arg(int(m_metaFlash));
+        cont += QString("MetaFLength=%1\n").arg(int(m_metaFLength));
+        cont += QString("MetaFNumber=%1\n").arg(int(m_metaFNumber));
+        cont += QString("MetaGps=%1\n").arg(int(m_metaGps));
+        cont += QString("MetaGpsMapService=%1\n").arg(m_metaGpsMapService);
+        cont += QString("MetaImageNumber=%1\n").arg(int(m_metaImageNumber));
+        cont += QString("MetaIso=%1\n").arg(int(m_metaIso));
+        cont += QString("MetaKeywords=%1\n").arg(int(m_metaKeywords));
+        cont += QString("MetaLightSource=%1\n").arg(int(m_metaLightSource));
+        cont += QString("MetaLocation=%1\n").arg(int(m_metaLocation));
+        cont += QString("MetaMake=%1\n").arg(int(m_metaMake));
+        cont += QString("MetaModel=%1\n").arg(int(m_metaModel));
+        cont += QString("MetaSceneType=%1\n").arg(int(m_metaSceneType));
+        cont += QString("MetaSoftware=%1\n").arg(int(m_metaSoftware));
+        cont += QString("MetaTimePhotoTaken=%1\n").arg(int(m_metaTimePhotoTaken));
+
+        cont += "\n[Metadata Element]\n";
+
+        cont += QString("MetadataEnableHotEdge=%1\n").arg(int(m_metadataEnableHotEdge));
+        cont += QString("MetadataOpacity=%1\n").arg(m_metadataOpacity);
+        cont += QString("MetadataWindowWidth=%1\n").arg(m_metadataWindowWidth);
+
+        cont += "\n[People Tags in Metadata]\n";
+
+        cont += QString("PeopleTagInMetaAlwaysVisible=%1\n").arg(int(m_peopleTagInMetaAlwaysVisible));
+        cont += QString("PeopleTagInMetaBorderAroundFace=%1\n").arg(int(m_peopleTagInMetaBorderAroundFace));
+        cont += QString("PeopleTagInMetaBorderAroundFaceColor=%1\n").arg(m_peopleTagInMetaBorderAroundFaceColor);
+        cont += QString("PeopleTagInMetaBorderAroundFaceWidth=%1\n").arg(m_peopleTagInMetaBorderAroundFaceWidth);
+        cont += QString("PeopleTagInMetaDisplay=%1\n").arg(int(m_peopleTagInMetaDisplay));
+        cont += QString("PeopleTagInMetaFontSize=%1\n").arg(m_peopleTagInMetaFontSize);
+        cont += QString("PeopleTagInMetaHybridMode=%1\n").arg(int(m_peopleTagInMetaHybridMode));
+        cont += QString("PeopleTagInMetaIndependentLabels=%1\n").arg(int(m_peopleTagInMetaIndependentLabels));
+
+        cont += "\n[Open File]\n";
+        cont += QString("OpenDefaultView=%1\n").arg(m_openDefaultView);
+        cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
+        cont += QString("OpenPreview=%1\n").arg(int(m_openPreview));
+        cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
+        cont += QString("OpenThumbnails=%1\n").arg(int(m_openThumbnails));
+        cont += QString("OpenUserPlacesStandard=%1\n").arg(int(m_openUserPlacesStandard));
+        cont += QString("OpenUserPlacesUser=%1\n").arg(int(m_openUserPlacesUser));
+        cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
+        cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
+        cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
+
+        cont += "\n[Histogram]\n";
+
+        cont += QString("Histogram=%1\n").arg(int(m_histogram));
+        cont += QString("HistogramPosition=%1,%2\n").arg(m_histogramPosition.x()).arg(m_histogramPosition.y());
+        cont += QString("HistogramSize=%1,%2\n").arg(m_histogramSize.width()).arg(m_histogramSize.height());
+        cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
+
+        cont += "\n[Main Menu Element]\n";
+
+        cont += QString("MainMenuWindowWidth=%1\n").arg(m_mainMenuWindowWidth);
+
+        cont += "\n[Video]\n";
+
+        cont += QString("VideoAutoplay=%1\n").arg(int(m_videoAutoplay));
+        cont += QString("VideoLoop=%1\n").arg(int(m_videoLoop));
+        cont += QString("VideoVolume=%1\n").arg(m_videoVolume);
+        cont += QString("VideoThumbnailer=%1\n").arg(m_videoThumbnailer);
+
+        cont += "\n[Popout]\n";
+
+        cont += QString("MainMenuPopoutElement=%1\n").arg(m_mainMenuPopoutElement);
+        cont += QString("MetadataPopoutElement=%1\n").arg(m_metadataPopoutElement);
+        cont += QString("HistogramPopoutElement=%1\n").arg(int(m_histogramPopoutElement));
+        cont += QString("ScalePopoutElement=%1\n").arg(m_scalePopoutElement);
+        cont += QString("OpenPopoutElement=%1\n").arg(int(m_openPopoutElement));
+        cont += QString("OpenPopoutElementKeepOpen=%1\n").arg(int(m_openPopoutElementKeepOpen));
+        cont += QString("SlideShowSettingsPopoutElement=%1\n").arg(int(m_slideShowSettingsPopoutElement));
+        cont += QString("SlideShowControlsPopoutElement=%1\n").arg(int(m_slideShowControlsPopoutElement));
+        cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
+        cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
+        cont += QString("AboutPopoutElement=%1\n").arg(int(m_aboutPopoutElement));
+        cont += QString("ImgurPopoutElement=%1\n").arg(int(m_imgurPopoutElement));
+        cont += QString("WallpaperPopoutElement=%1\n").arg(int(m_wallpaperPopoutElement));
+        cont += QString("FilterPopoutElement=%1\n").arg(int(m_filterPopoutElement));
+        cont += QString("SettingsManagerPopoutElement=%1\n").arg(int(m_settingsManagerPopoutElement));
+
+
+        out << cont;
+        file.close();
 
     }
 

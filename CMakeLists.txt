@@ -2,40 +2,26 @@
 # CMakeLists for PhotoQt: http://photoqt.org #
 ##############################################
 
-cmake_minimum_required(VERSION 2.8.12)
-project(photoqt)
+cmake_minimum_required(VERSION 3.9)
+project(photoqt LANGUAGES CXX)
 
 
 ##################################################################
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="1.7.1")
+add_definitions(-DVERSION="2.0")
 
 
-#################################
-#### SET SOME COMPILER FLAGS ####
-#################################
-
-add_definitions(-DQT_DEPRECATED_WARNINGS)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
-
-
-################################
-#### MANIPULATE DEBUG BUILD ####
-################################
-
-#add_definitions(-DPHOTOQTDEBUG)
-set(CMAKE_BUILD_TYPE "Release")
-
-
-##########################
-####  ENABLE AUTOMOC  ####
-##########################
+########################################
+####  SOME SETTINGS/FLAGS FOR CMAKE ####
+########################################
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 #############################
@@ -43,7 +29,6 @@ set(CMAKE_AUTORCC ON)
 #############################
 
 include(CMake/ListFilesCPlusPlus.cmake)
-include(CMake/ListFilesTesting.cmake)
 include(CMake/ListFilesQML.cmake)
 include(CMake/ListFilesResources.cmake)
 
@@ -54,29 +39,46 @@ include(CMake/ListFilesResources.cmake)
 
 option(RAW "Use libraw library" ON)
 option(EXIV2 "Use exiv2 library" ON)
-option(GM "Use graphicsmagick library" ON)
+option(GRAPHICSMAGICK "Use graphicsmagick library" ON)
 option(DEVIL "Use DevIL library" ON)
 option(FREEIMAGE "Use FreeImage library" ON)
 option(POPPLER "Use Poppler library" ON)
-option(TESTING "Enable some tests" OFF)
+option(LIBARCHIVE "Enable features that require libarchive" ON)
+option(PUGIXML "Enable features that require pugixml" ON)
+option(VIDEO "Enable video support" ON)
 
+# name of this option changed
+# this helps to make sure nothing breaks
+if(GM)
+    message("")
+    message("** DEPRECATED OPTION to enable GraphicsMagick used: GM")
+    message("** Support of this name will be removed in a future version")
+    message("** Please use new option name: GRAPHICSMAGICK")
+    message("** (make sure to remove GM variable from cmake cache)")
+    message("")
+    set(GRAPHICSMAGICK ON)
+endif(GM)
 
 ################################
 #### FIND REQUIRED PACKAGES ####
 ################################
 
 if(WIN32)
-    find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools WinExtras REQUIRED)
-elseif(NOT WIN32)
-    find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
-endif(WIN32)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools WinExtras REQUIRED)
+else()
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools REQUIRED)
+endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
-if(GM)
+if(GRAPHICSMAGICK)
     find_package(Magick)
-endif(GM)
+endif(GRAPHICSMAGICK)
 if(EXIV2)
-    find_package(LibExiv2)
+    find_package(exiv2 REQUIRED CONFIG NAMES exiv2)
+    if(WIN32)
+        find_package(Threads)
+        find_package(Iconv)
+    endif(WIN32)
 endif(EXIV2)
 if(RAW)
     find_package(LibRaw)
@@ -84,42 +86,40 @@ endif(RAW)
 if(FREEIMAGE)
     find_package(FreeImage)
 endif(FREEIMAGE)
-find_package(LibArchive)
+if(LIBARCHIVE)
+    find_package(LibArchive)
+endif()
 
-find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "${CMAKE_MODULE_PATH}")
-if(POPPLER)
-    find_package(Poppler COMPONENTS Qt5)
-endif(POPPLER)
-if(DEVIL)
-    find_package(DevIL)
-endif(DEVIL)
+if(NOT WIN32)
+    find_package(ECM REQUIRED NO_MODULE)
+    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "${CMAKE_MODULE_PATH}")
+    if(POPPLER)
+        find_package(Poppler COMPONENTS Qt5)
+    endif(POPPLER)
+    if(DEVIL)
+        find_package(DevIL)
+    endif(DEVIL)
+endif()
 
-####################################
-#### TRANSLATIONS AND RESOURCES ####
-####################################
+
+######################
+#### TRANSLATIONS ####
+######################
 
 # We first copy the most recent *.ts files to the build directory and then process them
 # This way, we don't have to mess with files outside of the build folder
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
 file(GLOB files "lang/*.ts")
 foreach(file ${files})
    get_filename_component(filename ${file} NAME)
-   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-   qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
+   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+   qt5_add_translation(qm_files ${CMAKE_CURRENT_BINARY_DIR}/${filename})
 endforeach()
+add_custom_target(translations ALL DEPENDS ${qm_files})
 
-# Copy the language QRC file to the output directory, because the files listed in the
-# qrc file are relative to that directory.
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
-    DEPENDS ${qm_files})
-
-# Add the resource files
-qt5_add_resources(RESOURCES ${photoqt_RESOURCES})
-
+# Create the lang resource file
+include("CMake/ComposeLangResourceFile.cmake")
+composeLangResourceFile()
 
 ##################################################################
 #### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
@@ -139,39 +139,28 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 
 # on windows we add application icons
 if(WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES} windowsicons.rc)
-    target_link_libraries(${PROJECT_NAME} Qt5::Quick Qt5::Sql Qt5::Svg Qt5::Core Qt5::Xml Qt5::WinExtras)
+    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
+    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::WinExtras)
 elseif(NOT WIN32)
-    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES})
-    target_link_libraries(${PROJECT_NAME} Qt5::Quick Qt5::Sql Qt5::Svg Qt5::Core Qt5::Xml)
+    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files})
+    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus)
 endif(WIN32)
 
+######################################################
+#### CMAKE BUILD TYPE (DETERMINES COMPILER FLAGS) ####
+######################################################
 
-########################
-#### HANDLE TESTING ####
-########################
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
 
-if(TESTING)
-
-    # Set the testing project name
-    set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)
-
-    # Enable testing and fint the required test package
-    enable_testing()
-    find_package(Qt5Test REQUIRED)
-
-    # Add the test executable and mark
-    add_executable(${PROJECT_TEST_NAME} ${photoqt_TESTING})
-    add_test(${PROJECT_TEST_NAME} ${PROJECT_TEST_NAME})
-    qt5_use_modules(${PROJECT_TEST_NAME} Quick Core Widgets)
-
-    # link against the testing library
-    target_link_libraries(${PROJECT_TEST_NAME} Qt5::Test)
-
-    # And inform the user
-    message("** TESTING ENABLED")
-
-endif(TESTING)
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    add_definitions(-DPHOTOQTDEBUG)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE QT_QML_DEBUG)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror -O0 -g)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -O3)
+endif()
 
 
 ##############################################
@@ -186,13 +175,27 @@ composeDesktopFile()
 #### CUSTOM OPTIONS ####
 ########################
 
-if(NOT ${LibArchive_FOUND})
-    message(FATAL_ERROR "** Unable to locate LibArchive... is it installed?")
-elseif(${LibArchive_FOUND})
-    include_directories(${LibArchive_INCLUDE_DIRS})
-    target_link_libraries(${PROJECT_NAME} ${LibArchive_LIBRARIES})
-    message("** Found LibArchive " ${LibArchive_VERSION})
-endif(NOT ${LibArchive_FOUND})
+if(PUGIXML)
+    add_definitions(-DPUGIXML)
+    target_link_libraries(${PROJECT_NAME} "pugixml")
+endif()
+
+if(VIDEO)
+    add_definitions(-DVIDEO)
+endif()
+
+if(LIBARCHIVE)
+    if(NOT ${LibArchive_FOUND})
+        message(FATAL_ERROR "** Unable to locate LibArchive... is it installed?")
+    elseif(${LibArchive_FOUND})
+        include_directories(${LibArchive_INCLUDE_DIRS})
+        target_link_libraries(${PROJECT_NAME} ${LibArchive_LIBRARIES})
+        message("** Using LibArchive " ${LibArchive_VERSION})
+        add_definitions(-DLIBARCHIVE)
+    endif(NOT ${LibArchive_FOUND})
+else(NOT LIBARCHIVE)
+    message("** LibArchive disabled")
+endif()
 
 if(POPPLER)
     if(NOT ${Poppler_FOUND})
@@ -200,7 +203,7 @@ if(POPPLER)
     elseif(${Poppler_FOUND})
         include_directories(${Poppler_INCLUDE_DIRS})
         target_link_libraries(${PROJECT_NAME} ${Poppler_LIBRARIES})
-        message("** Poppler enabled")
+        message("** Using Poppler ${Poppler_VERSION}")
         add_definitions(-DPOPPLER)
     endif(NOT ${Poppler_FOUND})
 elseif(NOT POPPLER)
@@ -213,7 +216,7 @@ if(DEVIL)
     elseif(${IL_FOUND})
         include_directories(${IL_INCLUDE_DIR})
         target_link_libraries(${PROJECT_NAME} ${IL_LIBRARIES})
-        message("** DevIL enabled")
+        message("** Using DevIL")
         add_definitions(-DDEVIL)
     endif(NOT ${IL_FOUND})
 elseif(NOT DEVIL)
@@ -226,7 +229,7 @@ if(FREEIMAGE)
     elseif(${FREEIMAGE_FOUND})
         include_directories(${FREEIMAGE_INCLUDE_DIRS})
         target_link_libraries(${PROJECT_NAME} ${FREEIMAGE_LIBRARIES})
-        message("** FreeImage enabled")
+        message("** Using FreeImage")
         add_definitions(-DFREEIMAGE)
     endif(NOT ${FREEIMAGE_FOUND})
 elseif(NOT FREEIMAGE)
@@ -239,7 +242,7 @@ if(RAW)
     elseif(${LIBRAW_FOUND})
         include_directories(${LIBRAW_INCLUDE_DIR})
         target_link_libraries(${PROJECT_NAME} "raw")
-        message("** LibRaw enabled")
+         message("** Using LibRaw")
         add_definitions(-DRAW)
     endif(NOT ${LIBRAW_FOUND})
 elseif(NOT RAW)
@@ -247,50 +250,30 @@ elseif(NOT RAW)
 endif(RAW)
 
 if(EXIV2)
-    if(NOT ${EXIV2_FOUND})
+    if(NOT ${exiv2_FOUND})
         message(FATAL_ERROR "** Unable to locate Exiv2... is it installed?")
-    elseif(${EXIV2_FOUND})
-        target_link_libraries(${PROJECT_NAME} LibExiv2::LibExiv2)
-        if(TESTING)
-            target_link_libraries(${PROJECT_TEST_NAME} LibExiv2::LibExiv2)
-        endif(TESTING)
-        if(WIN32)
-            target_link_libraries(${PROJECT_NAME} "expat")
-            target_link_libraries(${PROJECT_NAME} "ws2_32")
-            target_link_libraries(${PROJECT_NAME} "wsock32")
-            target_link_libraries(${PROJECT_NAME} "z")
-            target_link_libraries(${PROJECT_NAME} "intl")
-            target_link_libraries(${PROJECT_NAME} "iconv")
-            target_link_libraries(${PROJECT_NAME} "psapi")
-            if(TESTING)
-                target_link_libraries(${PROJECT_TEST_NAME} "expat")
-                target_link_libraries(${PROJECT_TEST_NAME} "ws2_32")
-                target_link_libraries(${PROJECT_TEST_NAME} "wsock32")
-                target_link_libraries(${PROJECT_TEST_NAME} "z")
-                target_link_libraries(${PROJECT_TEST_NAME} "intl")
-                target_link_libraries(${PROJECT_TEST_NAME} "iconv")
-                target_link_libraries(${PROJECT_TEST_NAME} "psapi")
-            endif(TESTING)
-        endif(WIN32)
+    elseif(${exiv2_FOUND})
+        include_directories(${EXIV2_INCLUDE_DIR})
+        target_link_libraries(${PROJECT_NAME} "exiv2lib")
         add_definitions(-DEXIV2)
-        message("** Exiv2 enabled")
-    endif(NOT ${EXIV2_FOUND})
+        message("** Using Exiv2 ${exiv2_VERSION}")
+    endif(NOT ${exiv2_FOUND})
 elseif(NOT EXIV2)
-        message("** Exiv2 DISABLED")
+    message("** Exiv2 DISABLED")
 endif(EXIV2)
 
-if(GM)
+if(GRAPHICSMAGICK)
     if(NOT ${MAGICK++_FOUND})
         message(FATAL_ERROR "** Unable to locate GraphicsMagick... is it installed?")
     elseif(${MAGICK++_FOUND})
         include_directories(${MAGICK++_INCLUDE_DIR})
         target_link_libraries(${PROJECT_NAME} "GraphicsMagick++")
-        add_definitions(-DGM)
-        message("** Graphicsmagick enabled")
+        add_definitions(-DGRAPHICSMAGICK)
+        message("** Using Graphicsmagick")
     endif(NOT ${MAGICK++_FOUND})
-elseif(NOT GM)
+elseif(NOT GRAPHICSMAGICK)
     message("** Graphicsmagick DISABLED")
-endif(GM)
+endif(GRAPHICSMAGICK)
 
 
 #######################
@@ -346,3 +329,4 @@ endif(UNIX)
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/CMake/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
 add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+

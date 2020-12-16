@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,37 +27,26 @@
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
 #include "../settings/imageformats.h"
-#include "../settings/mimetypes.h"
-#include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
+#include "loadimage.h"
 
-#ifdef GM
-#include <GraphicsMagick/Magick++.h>
-#endif
-
-class ImageProviderFull : public QQuickImageProvider {
+class PQImageProviderFull : public QQuickImageProvider {
 
 public:
-    explicit ImageProviderFull();
-    ~ImageProviderFull();
+    explicit PQImageProviderFull();
+    ~PQImageProviderFull();
 
-    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize);
 
 private:
-    QSize maxSize;
-    SlimSettingsReadOnly *settings;
-    ImageFormats *imageformats;
-    MimeTypes *mimetypes;
-
-    QPixmapCache *pixmapcache;
-
     QString whatDoIUse(QString filename);
 
     QByteArray getUniqueCacheKey(QString path);
 
-    QMimeDatabase mimedb;
-
     int foundExternalUnrar;
+
+    PQLoadImage *loader;
+    PQLoadImageErrorImage *load_err;
 
 };
 

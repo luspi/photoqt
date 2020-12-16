@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,21 +20,20 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef STARTUPCHECK_SCREENSHOTS_H
-#define STARTUPCHECK_SCREENSHOTS_H
+#ifndef PQSTARTUP_SCREENSHOTS_H
+#define PQSTARTUP_SCREENSHOTS_H
 
 #include <QScreen>
 #include <QDir>
 #include <QGuiApplication>
+#include <QPixmap>
 #include "../logger.h"
 
-namespace StartupCheck {
+namespace PQStartup {
 
     namespace Screenshots {
 
         static void getAndStore() {
-
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Screenshots" << NL;
 
             // Get screenshots for fake transparency
             for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
@@ -52,4 +51,4 @@ namespace StartupCheck {
 
 }
 
-#endif // STARTUPCHECK_SCREENSHOTS_H
+#endif // PQSTARTUPCHECK_SCREENSHOTS_H

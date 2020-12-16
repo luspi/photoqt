@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,10 +22,11 @@
 
 #include "imageproviderhistogram.h"
 
-QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize) {
+QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize) {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "ImageProviderHistogram: Loading histogram for " << QFileInfo(fpath).fileName().toStdString() << NL;
+    DBG << CURDATE << "PQImageProviderHistogram::requestPixmap() " << NL
+        << CURDATE << "** fpath = " << fpath.toStdString() << NL
+        << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
 
     // Obtain type of histogram
     bool color = false;
@@ -42,8 +43,6 @@ QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, con
     if(tmp.trimmed() == "") {
         QPixmap pix = QPixmap(1,1);
         pix.fill(Qt::transparent);
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "ImageProviderHistogram: Empty path specified, returning 1x1 transparent/empty image" << NL;
         return pix;
     }
 
@@ -69,15 +68,13 @@ QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, con
 
         // Retrieve the current image
         if(recalcvalues_filepath) {
-            ImageProviderFull *prov = new ImageProviderFull;
-            QSize *tmp = new QSize();
-            histimg = prov->requestImage(filepath, tmp, QSize());
-            delete tmp;
+            QSize origSize;
+            loader->load(filepath, QSize(), &origSize, histimg);
         }
 
         // Read and store image dimensions
-        int wid = histimg.width();
-        int hei = histimg.height();
+        int imgWidth = histimg.width();
+        int imgHeight = histimg.height();
 
         // Prepare the lists for the levels
         levels_grey = new int[256]{};
@@ -86,13 +83,13 @@ QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, con
         levels_blue = new int[256]{};
 
         // Loop over all rows of the image
-        for(int i = 0; i < hei; ++i) {
+        for(int i = 0; i < imgHeight; ++i) {
 
             // Get the pixel data of row i of the image
             QRgb *rowData = (QRgb*)histimg.scanLine(i);
 
             // Loop over all columns
-            for(int j = 0; j < wid; ++j) {
+            for(int j = 0; j < imgWidth; ++j) {
 
                 // Get pixel data of pixel at column j in row i
                 QRgb pixelData = rowData[j];

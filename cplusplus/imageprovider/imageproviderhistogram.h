@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -28,15 +28,17 @@
 #include <QFile>
 #include <QPainter>
 #include <algorithm>
-#include "imageproviderfull.h"
 #include "../logger.h"
+#include "loadimage.h"
 
 
-class ImageProviderHistogram : public QQuickImageProvider {
+class PQImageProviderHistogram : public QQuickImageProvider {
 
 public:
-    explicit ImageProviderHistogram() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
-    ~ImageProviderHistogram() { }
+    explicit PQImageProviderHistogram() : QQuickImageProvider(QQuickImageProvider::Pixmap) {
+        loader = new PQLoadImage;
+    }
+    ~PQImageProviderHistogram() { }
 
     QPixmap requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize);
 
@@ -53,6 +55,7 @@ private:
     bool colorversion;
     QImage histimg;
     int greatestvalue;
+    PQLoadImage *loader;
 
 };
 

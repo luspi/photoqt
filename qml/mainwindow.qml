@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Copyright (C) 2011-2020 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,399 +20,280 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.5
+import QtQuick 2.9
+import QtQuick.Window 2.2
 
-import PSettings 1.0
-import PImageFormats 1.0
-import PMimeTypes 1.0
-import PGetAndDoStuff 1.0
-import PGetMetaData 1.0
-import PToolTip 1.0
-import PColour 1.0
-import QtGraphicalEffects 1.0
-import PImgur 1.0
-import PShortcutsNotifier 1.0
-import PThumbnailManagement 1.0
-import PShortcutsHandler 1.0
-import PWatcher 1.0
-import PLocalisation 1.0
-import PManagePeopleTags 1.0
+import PQHandlingFileDialog 1.0
+import PQHandlingGeneral 1.0
+import PQHandlingShortcuts 1.0
+import PQHandlingFileManagement 1.0
+import PQHandlingManipulation 1.0
+import PQLocalisation 1.0
+import PQImageProperties 1.0
+import PQFileWatcher 1.0
+import PQWindowGeometry 1.0
+import PQFileFolderModel 1.0
+import PQCppMetaData 1.0
+import PQHandlingShareImgur 1.0
+import PQHandlingWallpaper 1.0
+import PQHandlingFaceTags 1.0
+import PQSystemTrayIcon 1.0
+import PQHandlingExternal 1.0
 
-import "./mainview"
+import "./mainwindow"
 import "./shortcuts"
-import "./openfile"
-import "./vars"
-import "./elements"
+import "./menumeta"
+import "./histogram"
+import "./slideshow"
+import "./settingsmanager"
 
-import "./handlestuff.js" as Handle
+import "./loadfiles.js" as LoadFiles
 
-Rectangle {
+Window {
 
-    id: mainwindow
+    id: toplevel
 
-    // Some signals for communicating back to the C++ code base
-    signal verboseMessage(string loc, string msg)
-    signal setOverrideCursor()
-    signal restoreOverrideCursor()
-
-    signal closePhotoQt()
-    signal quitPhotoQt()
-
-    // tell the c++ code to update the tray icon
-    // We need to pass on the value as there is a delay for writing a change of the settings to file,
-    // thus it might not be updated on harddrive when we get to this point
-    signal trayIconValueChanged(int icon)
-
-    signal windowModeChanged(bool windowmode, bool windowdeco, bool keepontop)
-
-    signal moveWindowByX(int dx)
-    signal moveWindowByY(int dy)
-    signal toggleWindowMaximise()
-
-    anchors.fill: parent
-
-    // Transparent background, the Background element handles the actual background
-    color: "transparent"
-
-    // Without this nothing will be visible
     visible: true
 
-    /**************************************************************
-     *                                                            *
-     * SOME INVISIBLE ELEMENTS FOR INTERACTING WITH C++ CODE BASE *
-     *                                                            *
-     **************************************************************/
+    visibility: PQSettings.windowMode ? (PQSettings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen
+    flags: PQSettings.windowDecoration ?
+               (PQSettings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
+               (PQSettings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
 
-    // All the permanent settings
-    PSettings { id: settings }
+    minimumWidth: 600
+    minimumHeight: 400
 
-    // The fileformats known to PhotoQt
-    PImageFormats {
-        id: imageformats;
-        // Changes in the fileformats trigger a forced reload of the current directory
-        onEnabledFileformatsSaved: forceReloadFile.restart()
-        onEnabledFileformatsChanged: forceReloadFile.restart()
+    width: 1024
+    height: 768
+
+    color: "#00000000"
+
+    Image {
+
+        id: bgimage
+
+        anchors.fill: parent
+
+        source: PQSettings.backgroundImageScreenshot ?
+                    ("file://" + handlingGeneral.getTempDir() + "/photoqt_screenshot_0.jpg") :
+                    (PQSettings.backgroundImageUse ? ("file://"+PQSettings.backgroundImagePath) : "")
+
+        fillMode: PQSettings.backgroundImageScale ?
+                      Image.PreserveAspectFit :
+                      PQSettings.backgroundImageScaleCrop ?
+                          Image.PreserveAspectCrop :
+                          PQSettings.backgroundImageStretch ?
+                              Image.Stretch :
+                              PQSettings.backgroundImageCenter ?
+                                  Image.Pad :
+                                  Image.Tile
+
+        Rectangle {
+
+            anchors.fill: parent
+
+            color: Qt.rgba(PQSettings.backgroundColorRed/256.0,
+                           PQSettings.backgroundColorGreen/256.0,
+                           PQSettings.backgroundColorBlue/256.0,
+                           PQSettings.backgroundColorAlpha/256.0)
+
+            Text {
+                id: emptymessage
+                anchors.centerIn: parent
+                text: em.pty+qsTranslate("other", "Open a file to begin")
+                visible: !variables.filterSet&&variables.indexOfCurrentImage==-1
+                font.pointSize: 50
+                font.bold: true
+                color: "#bb808080"
+            }
+
+            Text {
+                id: filtermessage
+                anchors.centerIn: parent
+                //: Used as in: No matches found for the currently set filter
+                text: em.pty+qsTranslate("other", "No matches found")
+                visible: variables.filterSet&&variables.indexOfCurrentImage==-1
+                font.pointSize: 50
+                font.bold: true
+                color: "#bb808080"
+            }
+
+        }
+
     }
-    // The mime types known to PhotoQt
-    PMimeTypes {
-        id: mimetypes
-        // Changes in the mime types trigger a forced reload of the current directory
-        onEnabledMimeTypesSaved: forceReloadFile.restart()
-        onEnabledMimeTypesChanged: forceReloadFile.restart()
-    }
-    Timer {
-        id: forceReloadFile
-        repeat: false
-        interval: 500
-        onTriggered: Handle.loadFile(variables.currentFile, variables.filter, true)
-    }
 
-    // The colouring of PhotoQt
-    PColour { id: colour; }
+    //: The window title of PhotoQt
+    title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
-    // A whole bunch of C++ helper functions for QML
-    PGetAndDoStuff { id: getanddostuff; }
+    onClosing: {
 
-    // Read the Exif/IPTC metadata of images
-    PGetMetaData { id: getmetadata; }
+        if(variables.slideShowActive)
+            loader.passOn("slideshowcontrols", "quit", undefined)
 
-    PManagePeopleTags { id: managepeopletags; }
+        if(PQSettings.saveWindowGeometry) {
+            windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
+            windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
+        }
+        if(variables.indexOfCurrentImage > -1 && PQSettings.startupLoadLastLoadedImage)
+            handlingGeneral.setLastLoadedImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        else
+            handlingGeneral.deleteLastLoadedImage()
+        handlingGeneral.cleanUpScreenshotsTakenAtStartup()
 
-    // Share images to imgur.com
-    PImgur { id: shareonline_imgur; }
-
-    // Provide some management of the thumbnails database
-    PThumbnailManagement { id: thumbnailmanagement; }
-
-    // Load the shortcuts from file and provide some shortcut related convenience functions
-    PShortcutsHandler { id: shortcutshandler }
-
-    // Watch for changes to files/folders/devices
-    PWatcher { id: watcher }
-
-    // Localisation handler, allows for runtime switches of languages
-    PLocalisation { id : em }
-
-    //////////////////////////////////////////////
-    // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
-    // DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
-    // TO A QWIDGETS BASED QTOOLTIP
-    //////////////////////////////////////////////
-    PToolTip {
-        id: globaltooltip;
-        Component.onCompleted: {
-            setBackgroundColor(colour.tooltip_bg)
-            setTextColor(colour.tooltip_text)
+        if(PQSettings.trayIcon == 1) {
+            close.accepted = false
+            toplevel.visible = false
+        } else {
+            close.accepted = true
+            Qt.quit()
         }
     }
 
+    Component.onCompleted:  {
 
-    /*******************************************
-     *                                         *
-     * SOME INVISIBLE ELEMENTS FOR QML CLASSES *
-     *                                         *
-     *******************************************/
+        if(PQSettings.saveWindowGeometry) {
 
-    // The shortcuts engine
-    Shortcuts { id: shortcuts }
+            if(windowgeometry.mainWindowMaximized)
 
-    // Some of the variables used in various places
-    Variables { id: variables }
+                toplevel.visibility = Window.Maximized
 
-    // Some strings for keys and mouse shortcuts
-    Strings { id: strings }
+            else {
 
-    // Used to show and hide elements that are loaded when needed
-    Caller { id: call }
+                toplevel.setX(windowgeometry.mainWindowGeometry.x)
+                toplevel.setY(windowgeometry.mainWindowGeometry.y)
+                toplevel.setWidth(windowgeometry.mainWindowGeometry.width)
+                toplevel.setHeight(windowgeometry.mainWindowGeometry.height)
 
+            }
 
-    /************************************
-     *                                  *
-     * THE VISIBLE ELEMENTS FOR THE GUI *
-     *                                  *
-     ************************************/
+        }
 
-    // Managing the background begind everything
-    Background { id: background }
+        loader.ensureItIsReady("mainmenu")
+        loader.ensureItIsReady("metadata")
 
-    // The item for displaying the main image
-    MainImage { id: imageitem }
+        if(PQSettings.histogram)
+            loader.ensureItIsReady("histogram")
 
-    // This mousearea sits below fadeable events to show/hide them appropriately
-    HandleMouseMovements { id: handlemousemovements }
+        var filenameToLoad = handlingGeneral.getLastLoadedImage()
 
-    // The quickinfo element displays some information about the currently visible image and its position in the folder
-    QuickInfo { id: quickinfo }
+        if(PQCppVariables.cmdFilePath != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
 
-    // An 'x' in the top right corner for closing PhotoQt
-    ClosingX { id: closingx }
+            if(PQCppVariables.cmdFilePath != "")
+                filenameToLoad = PQCppVariables.cmdFilePath
 
-    /**************************/
-    // ITEMS THAT FADE IN/OUT
+            var folderToLoad = handlingGeneral.getFilePathFromFullPath(filenameToLoad)
 
-    // The thumbnail bar
-    Loader { id: thumbnails }
+            LoadFiles.loadFile(folderToLoad)
 
-    // A floating, movable element showing the histogram for the currently loaded image
+            variables.openCurrentDirectory = folderToLoad
+
+            if(handlingGeneral.isDir(filenameToLoad)) {
+                if(variables.allImageFilesInOrder.length == 0) {
+                    loader.show("filedialog")
+                    variables.openCurrentDirectory = filenameToLoad
+                    return
+                } else
+                    filenameToLoad = variables.allImageFilesInOrder[0]
+            }
+            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
+            variables.newFileLoaded()
+
+        } else
+            loader.show("filedialog")
+
+    }
+
+    PQSystemTrayIcon {
+        id: trayicon
+        visible: PQSettings.trayIcon>0
+        trayIconSetting: PQSettings.trayIcon
+        onToggleAction: {
+            if(PQSettings.trayIcon == 1)
+                toplevel.visible = !toplevel.visible
+        }
+        onQuitAction: {
+            Qt.quit();
+        }
+    }
+
+    // needed to load folders without PQFileDialog
+    PQFileFolderModel { id: filefoldermodel }
+
+    PQVariables { id: variables }
+    PQLoader { id: loader }
+
+    PQMouseShortcuts { id: mouseshortcuts }
+
+    PQImage { id: imageitem }
+    PQQuickInfo { id: quickinfo }
+    PQMessage { id: message }
+    PQCloseButton { id: closebutton }
+
+    PQThumbnailBar { id: thumbnails }
+
     Loader { id: histogram }
 
-    // The mainmenu, right screen edge
-    MainMenu { id: mainmenu }
+    Loader { id: mainmenu }
+    Loader { id: metadata }
 
-    // The metadata about the currently loaded image, left screen edge
-    MetaData { id: metadata }
+    Loader { id: slideshowsettings }
+    Loader { id: slideshowcontrols }
+    Loader { id: filedialog }
 
-    // An element for browsing and opening files (loaded as needed)
-    Loader { id: openfile }
+    Loader { id: filerename }
+    Loader { id: filedelete }
+    Loader { id: copymove }
 
-    // The settings manager for tweaking PhotoQt
+    Loader { id: scaleimage }
+    Loader { id: about }
+    Loader { id: imgur }
+    Loader { id: wallpaper }
+    Loader { id: filter }
     Loader { id: settingsmanager }
 
-    // An element to tweak the settings of a slideshow and then start one
-    Loader { id: slideshowsettings }
+    PQImageProperties { id: imageproperties }
+    PQFileWatcher { id: filewatcher }
 
-    // A bar handling the actualy slideshow, providing ways to pause/quit the slideshow and adjust the music volume
-    Loader { id: slideshowbar }
+    PQHandlingFileDialog { id: handlingFileDialog }
+    PQHandlingGeneral { id: handlingGeneral }
+    PQHandlingShortcuts { id: handlingShortcuts }
+    PQHandlingFileManagement { id: handlingFileManagement }
+    PQHandlingManipulation { id: handlingManipulation }
+    PQHandlingShareImgur { id: handlingShareImgur }
+    PQHandlingWallpaper { id: handlingWallpaper }
+    PQHandlingFaceTags { id: handlingFaceTags }
+    PQHandlingExternal { id: handlingExternal }
 
-    // Some file management features, such as copy, move, rename, delete
-    Loader { id: filemanagement }
+    PQWindowGeometry { id: windowgeometry }
+    PQCppMetaData { id: cppmetadata }
 
-    // Some information about me and PhotoQt
-    Loader { id: about }
+    PQKeyShortcuts { id: shortcuts }
+    PQKeyMouseStrings { id: keymousestrings }
 
-    // Shows status and result information about uploading images to imgur.com
-    Loader { id: imgurfeedback }
-
-    // Filter the currently loaded folder
-    Loader { id: filter }
-
-    // Set the currently loaded image as wallpaper (if available)
-    Loader { id: wallpaper }
-
-    // Scale the currently loaded image (or inform that it can't be scaled)
-    Loader { id: scaleimage }
-    Loader { id: scaleimageunsupported }
-
-    // A small message at first startup after an update/install
-    Loader { id: startup }
-
-    // The shortcut notifier element
-    PShortcutsNotifier { id: sh_notifier; }
-
-
-    /********************************************************************************
-     *                                                                              *
-     * SOME SETTINGS NEED TO BE APPLIED PROPERLY WHEN THEY CHANGE AND/OR AT STARTUP *
-     *                                                                              *
-     ********************************************************************************/
+    // Localisation handler, allows for runtime switches of languages
+    PQLocalisation {
+        id : em
+        Component.onCompleted:
+            em.setLanguage(PQSettings.language)
+    }
 
     Connections {
-        target: settings
-        onThumbnailKeepVisibleChanged: {
-            if(settings.thumbnailKeepVisible) {
-                call.ensureElementSetup("thumbnails")
-                call.show("thumbnails")
-            } else
-                call.hide("thumbnails")
-            if(!imageitem.isZoomedIn())
-                imageitem.resetZoom()
-        }
-        onThumbnailKeepVisibleWhenNotZoomedInChanged: {
-            if(settings.thumbnailKeepVisibleWhenNotZoomedIn) {
-                call.ensureElementSetup("thumbnails")
-                call.show("thumbnails")
-            } else
-                call.hide("thumbnails")
-            if(!imageitem.isZoomedIn())
-                imageitem.resetZoom()
-        }
-        onThumbnailDisableChanged: {
-            if(!settings.thumbnailDisable) {
-                call.ensureElementSetup("thumbnails")
-                call.load("thumbnailLoadDirectory")
-            }
-            if(!imageitem.isZoomedIn())
-                imageitem.resetZoom()
-        }
-        onTrayIconChanged:
-            trayIconValueChanged(settings.trayIcon)
-        onSortbyChanged:
-            Handle.loadFile(variables.currentFile, variables.filter, true)
-        onSortbyAscendingChanged:
-            Handle.loadFile(variables.currentFile, variables.filter, true)
-        onWindowModeChanged:
-            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
-        onWindowDecorationChanged:
-            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
-        onKeepOnTopChanged:
-            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
+        target: PQSettings
         onLanguageChanged:
-            em.setLanguage(settings.language)
-        onStartupLoadLastLoadedImageChanged:
-            getanddostuff.saveLastOpenedImage("")
+            em.setLanguage(PQSettings.language)
     }
 
-    Component.onCompleted: {
-        if(settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn)
-            call.show("thumbnails")
-
-        em.setLanguage(settings.language)
-
+    function quitPhotoQt() {
+        Qt.quit()
     }
 
+    function closePhotoQt() {
 
-    /**************************************************
-     *                                                *
-     * A WHOLE BUNCH OF FUNCTIONS TO DO GENERAL STUFF *
-     *                                                *
-     **************************************************/
+        if(PQSettings.trayIcon == 1)
+            close()
+        else
+            Qt.quit()
 
-    function windowXYchanged(x, y) {
-        variables.windowXY = Qt.point(x, y)
-    }
-
-    function processShortcut(sh) {
-        shortcuts.processString(sh)
-    }
-
-    function keysRelease() {
-        call.load("keysReleased")
-    }
-
-    // Called from c++ code to open a new file (needed for remote controlling)
-    function openfileShow() {
-        call.show("openfile")
-    }
-
-    // Called from c++ code to load an image file (needed for remote controlling)
-    function loadFile(filename) {
-        variables.filter = ""
-        Handle.loadFile(filename, "", true)
-    }
-
-    function loadFileFromThumbnails(filename, filter) {
-        Handle.loadFile(filename, filter, false)
-    }
-
-    // Called from c++ code to get the filename of the currently loaded image file (needed for remote controlling)
-    function getCurrentFile() {
-        return variables.currentFile
-    }
-
-    // Close any possibly open element. This is needed for remote controlling, e.g., for loading an image while there is an element open in PhotoQt.
-    // We use the system shortcut for closing elements, Escape. As there might be multiple levels of elements open, we use a timer to call Escape
-    // repeatedly until any element is closed and the GUI is unblocked.
-    function closeAnyElement() {
-        call.load("closeAnyElement")
-    }
-
-    // Manage the startup event, called from c++ after everything is set up with filename and update state.
-    function manageStartup(filename, update) {
-
-        // If thumbnails are not disabled, we ensure the element is set up, but no need to actually show the bar
-        if(!settings.thumbnailDisable)
-            call.ensureElementSetup("thumbnails")
-
-        // Same for the histogram, but it we actually show
-        if(settings.histogram)
-            call.ensureElementSetup("histogram")
-
-        // The first time after an update/install, we display an update/install message before processing the received filename
-        if(update !== 0) {
-            variables.startupUpdateStatus = update
-            variables.startupFilenameAfter = filename
-            call.show("startup")
-        } else {
-
-            if(settings.startupLoadLastLoadedImage && filename === "")
-                filename = getanddostuff.getLastOpenedImage()
-
-            // If no filename has been passed, show the OpenFile element
-            if(filename === "")
-                call.show("openfile")
-            // Otherwise just load the received file
-            else
-                Handle.loadFile(filename)
-        }
-
-    }
-
-    function handleMouseExit(pos) {
-        if(pos.x < 10 || pos.x > mainwindow.width-10 || pos.y < 10 || pos.y > mainwindow.height-10)
-            hideEverythingAfterExit.restart()
-        else {
-            hideEverythingAfterExit.stop()
-        }
-    }
-
-    function emitMoveWindowByX(dx) {
-        moveWindowByX(dx)
-    }
-    function emitMoveWindowByY(dy) {
-        moveWindowByY(dy)
-    }
-    function emitToggleWindowMaximise() {
-        toggleWindowMaximise()
-    }
-
-    function setWhetherWindowFullscreen(fullscreen) {
-        variables.isWindowFullscreen = fullscreen
-    }
-
-    Timer {
-        id: hideEverythingAfterExit
-        interval: 1000
-        repeat: false
-        onTriggered: {
-            if(!variables.guiBlocked) {
-                mainmenu.hide()
-                metadata.hide()
-                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
-                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
-                    call.hide("thumbnails")
-                call.hide("slideshowbar")
-            }
-        }
     }
 
 }
