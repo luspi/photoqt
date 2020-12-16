@@ -37,7 +37,7 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
     contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
 
     checkRepeatedly = new QTimer;
-    checkRepeatedly->setInterval(1000);
+    checkRepeatedly->setInterval(2500);
     checkRepeatedly->setSingleShot(false);
     connect(checkRepeatedly, &QTimer::timeout, this, &PQFileWatcher::checkRepeatedlyTimeout);
     checkRepeatedly->start();
