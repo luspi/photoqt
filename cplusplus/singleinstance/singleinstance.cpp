@@ -144,6 +144,9 @@ void PQSingleInstance::newConnection() {
 
 void PQSingleInstance::handleMessage(QString msg) {
 
+    DBG << CURDATE << "PQSingleInstance::handleMessage()" << NL
+        << CURDATE << "** msg = " << msg.toStdString() << NL;
+
     QStringList parts = msg.split(":://::");
 
     for(QString m : parts) {

@@ -24,6 +24,10 @@
 
 QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize) {
 
+    DBG << CURDATE << "PQImageProviderHistogram::requestPixmap() " << NL
+        << CURDATE << "** fpath = " << fpath.toStdString() << NL
+        << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
+
     // Obtain type of histogram
     bool color = false;
     QString tmp = fpath;

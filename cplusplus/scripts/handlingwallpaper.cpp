@@ -26,6 +26,10 @@ PQHandlingWallpaper::PQHandlingWallpaper(QObject *parent) : QObject(parent) {}
 
 void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVariantMap options) {
 
+    DBG << CURDATE << "PQHandlingWallpaper::setWallpaper()" << NL
+        << CURDATE << "** category = " << category.toStdString() << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     if(category == "plasma") {
 
         QVariantList screens = options.value("screens").toList();
@@ -181,46 +185,58 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
 }
 
 int PQHandlingWallpaper::getScreenCount() {
+    DBG << CURDATE << "PQHandlingWallpaper::getScreenCount()" << NL;
     return QGuiApplication::screens().count();
 }
 
 bool PQHandlingWallpaper::checkXfce() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkXfce()" << NL;
     QString out;
     checkIfCommandExists("xfconf-query", QStringList() << "--version", out);
     return (out=="");
 }
 
 bool PQHandlingWallpaper::checkFeh() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkFeh()" << NL;
     QString out;
     checkIfCommandExists("feh", QStringList() << "--version", out);
     return (out=="");
 }
 
 bool PQHandlingWallpaper::checkNitrogen() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkNitrogen()" << NL;
     QString out;
     checkIfCommandExists("nitrogen", QStringList() << "--version", out);
     return (out=="");
 }
 
 bool PQHandlingWallpaper::checkGSettings() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkGSettings()" << NL;
     QString out;
     checkIfCommandExists("gsettings", QStringList() << "--version", out);
     return (out=="");
 }
 
 bool PQHandlingWallpaper::checkEnlightenmentRemote() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentRemote()" << NL;
     QString out;
     checkIfCommandExists("enlightenment_remote", QStringList() << "-h", out);
     return (out=="");
 }
 
 bool PQHandlingWallpaper::checkEnlightenmentMsgbus() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentMsgbus()" << NL;
     QString out;
     checkIfCommandExists("enlightenment_remote", QStringList() << "-module-list", out);
     return (out.contains("msgbus -- Enabled") ? 0 : 1);
 }
 
 bool PQHandlingWallpaper::checkIfCommandExists(QString cmd, QStringList args, QString &out) {
+
+    DBG << CURDATE << "PQHandlingWallpaper::checkIfCommandExists()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** args = " << args.join(",").toStdString() << NL;
+
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);
     proc.start(cmd, args);
@@ -228,9 +244,12 @@ bool PQHandlingWallpaper::checkIfCommandExists(QString cmd, QStringList args, QS
     out = proc.readAll();
     int ret = proc.exitCode();
     return (ret == 0);
+
 }
 
 QString PQHandlingWallpaper::detectWM() {
+
+    DBG << CURDATE << "PQHandlingWallpaper::detectWM()" << NL;
 
     if(QString(getenv("KDE_FULL_SESSION")).toLower() == "true" && QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
         return "plasma";
@@ -247,6 +266,8 @@ QString PQHandlingWallpaper::detectWM() {
 }
 
 QList<int> PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
+
+    DBG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount()" << NL;
 
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);

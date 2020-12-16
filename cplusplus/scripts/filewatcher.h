@@ -29,6 +29,7 @@
 #include <thread>
 #include <QTimer>
 #include "../configfiles.h"
+#include "../logger.h"
 
 class PQFileWatcher : public QObject {
 

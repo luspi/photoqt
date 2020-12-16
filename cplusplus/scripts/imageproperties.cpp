@@ -27,6 +27,9 @@ PQImageProperties::PQImageProperties(QObject *parent) : QObject(parent) { }
 
 bool PQImageProperties::isAnimated(QString path) {
 
+    DBG << CURDATE << "PQImageProperties::isAnimated()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     QImageReader reader(path);
 
     return (reader.supportsAnimation()&&reader.imageCount()>1);

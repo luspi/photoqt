@@ -517,6 +517,10 @@ PQImageFormats::PQImageFormats() {
 
 void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool withSaving) {
 
+    DBG << CURDATE << "PQImageFormats::setEnabledFileformats()" << NL
+        << CURDATE << "** cat = " << cat.toStdString() << NL
+        << CURDATE << "** withSaving = " << withSaving << NL;
+
     if(withSaving) {
 
         if(cat == "qt")
@@ -581,6 +585,8 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 // Called at setup, these do not change during runtime
 void PQImageFormats::composeAvailableFormats() {
 
+    DBG << CURDATE << "PQImageFormats::composeAvailableFormats()" << NL;
+
     for(int i = 0; i < categories.length(); ++i) {
 
         QString cat = categories.at(i);
@@ -604,6 +610,9 @@ void PQImageFormats::composeAvailableFormats() {
 
 // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
 void PQImageFormats::composeEnabledFormats(bool withSaving) {
+
+    DBG << CURDATE << "PQImageFormats::composeEnabledFormats()" << NL
+        << CURDATE << "** withSaving = " << withSaving << NL;
 
     QFile disabled(ConfigFiles::IMAGEFORMATS_FILE());
     // If file does not exist we use default entries. The same happens as when the file cannot be opened, but in this case no message is printed out.
@@ -675,6 +684,8 @@ void PQImageFormats::composeEnabledFormats(bool withSaving) {
 
 // Save file formats
 void PQImageFormats::saveEnabledFormats() {
+
+    DBG << CURDATE << "PQImageFormats::saveEnabledFormats()" << NL;
 
     QString disabled = "";
 

@@ -26,12 +26,18 @@ PQHandlingManipulation::PQHandlingManipulation(QObject *parent) : QObject(parent
 
 QSize PQHandlingManipulation::getCurrentImageResolution(QString filename) {
 
+    DBG << CURDATE << "PQHandlingManipulation::getCurrentImageResolution()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     QImageReader reader(filename);
     return reader.size();
 
 }
 
 bool PQHandlingManipulation::canThisBeScaled(QString filename) {
+
+    DBG << CURDATE << "PQHandlingManipulation::canThisBeScaled()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     // These image formats known by exiv2 are also supported by PhotoQt
     QStringList formats;
@@ -59,6 +65,12 @@ bool PQHandlingManipulation::canThisBeScaled(QString filename) {
 }
 
 bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlace, QSize targetSize, int targetQuality) {
+
+    DBG << CURDATE << "PQHandlingManipulation::scaleImage()" << NL
+        << CURDATE << "** sourceFilename = " << sourceFilename.toStdString() << NL
+        << CURDATE << "** scaleInPlace = " << scaleInPlace << NL
+        << CURDATE << "** targetSize = " << targetSize.width() << "x" << targetSize.height() << NL
+        << CURDATE << "** targetQuality = " << targetQuality << NL;
 
     if(!canThisBeScaled(sourceFilename)) {
         LOG << CURDATE << "PQHandlingManipulation::scaleImage: ERROR file '" << sourceFilename.toStdString() << "' not supported for scaling" << NL;

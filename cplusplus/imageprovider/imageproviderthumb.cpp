@@ -24,6 +24,11 @@
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
+
+    DBG << CURDATE << "PQAsyncImageProviderThumb::requestImageResponse()" << NL
+        << CURDATE << "** url = " << url.toStdString() << NL
+        << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
+
     PQAsyncImageResponseThumb *response = new PQAsyncImageResponseThumb(url, requestedSize);
     QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQSettings::get().getThumbnailMaxNumberThreads()));
     pool.start(response);

@@ -60,6 +60,8 @@ PQHandlingShareImgur::~PQHandlingShareImgur() {
 // Return the web address to obtain a new pin
 QString PQHandlingShareImgur::authorizeUrlForPin() {
 
+    DBG << CURDATE << "PQHandlingShareImgur::authorizeUrlForPin()" << NL;
+
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
         if(ret != IMGUR_NOERROR)
@@ -73,6 +75,9 @@ QString PQHandlingShareImgur::authorizeUrlForPin() {
 
 // Handle a new PIN passed on by the user
 int PQHandlingShareImgur::authorizeHandlePin(QByteArray pin) {
+
+    DBG << CURDATE << "PQHandlingShareImgur::authorizeHandlePin()" << NL
+        << CURDATE << "** pin = " << pin.toStdString() << NL;
 
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
@@ -145,6 +150,9 @@ int PQHandlingShareImgur::authorizeHandlePin(QByteArray pin) {
 // Save access stuff to file
 int PQHandlingShareImgur::saveAccessRefreshTokenUserName(QString filename) {
 
+    DBG << CURDATE << "PQHandlingShareImgur::saveAccessRefreshTokenUserName()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     // Compose text file content
     QString txt = QString("%1\n%2\n%3\n").arg(access_token).arg(refresh_token).arg(account_name);
 
@@ -171,6 +179,8 @@ int PQHandlingShareImgur::saveAccessRefreshTokenUserName(QString filename) {
 
 // Read client id and secret from server
 int PQHandlingShareImgur::obtainClientIdSecret() {
+
+    DBG << CURDATE << "PQHandlingShareImgur::obtainClientIdSecret()" << NL;
 
     // If we have done it already, no need to do it again
     if(imgurClientID != "" && imgurClientSecret != "")
@@ -213,6 +223,8 @@ int PQHandlingShareImgur::obtainClientIdSecret() {
 // Forget the currently connected account
 int PQHandlingShareImgur::forgetAccount() {
 
+    DBG << CURDATE << "PQHandlingShareImgur::forgetAccount()" << NL;
+
     // Delete file
     QFile file(imgurLocalConfigFilename);
     if(file.exists() && !file.remove()) {
@@ -239,6 +251,8 @@ int PQHandlingShareImgur::forgetAccount() {
 
 // Connect to saved account and return success
 int PQHandlingShareImgur::authAccount() {
+
+    DBG << CURDATE << "PQHandlingShareImgur::authAccount()" << NL;
 
     // If data is stored
     if(QFile(imgurLocalConfigFilename).exists()) {
@@ -286,6 +300,9 @@ int PQHandlingShareImgur::authAccount() {
 
 // Upload a file to a connected account
 int PQHandlingShareImgur::upload(QString filename) {
+
+    DBG << CURDATE << "PQHandlingShareImgur::upload()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
@@ -348,6 +365,9 @@ int PQHandlingShareImgur::upload(QString filename) {
 
 int PQHandlingShareImgur::anonymousUpload(QString filename) {
 
+    DBG << CURDATE << "PQHandlingShareImgur::anonymousUpload()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
         if(ret != IMGUR_NOERROR) {
@@ -398,6 +418,9 @@ int PQHandlingShareImgur::anonymousUpload(QString filename) {
 // Delete an image, identified by delete_hash
 int PQHandlingShareImgur::deleteImage(QString hash) {
 
+    DBG << CURDATE << "PQHandlingShareImgur::deleteImage()" << NL
+        << CURDATE << "** hash = " << hash.toStdString() << NL;
+
     // Set up the network request
     QNetworkRequest request(QUrl(QString("https://api.imgur.com/3/image/%1").arg(hash)));
     request.setRawHeader("Authorization", QByteArray("Bearer ") + access_token.toLatin1());
@@ -438,6 +461,10 @@ int PQHandlingShareImgur::deleteImage(QString hash) {
 // Handle upload progress
 void PQHandlingShareImgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 
+    DBG << CURDATE << "PQHandlingShareImgur::uploadProgress()" << NL
+        << CURDATE << "** bytesSent = " << bytesSent << NL
+        << CURDATE << "** bytesTotal = " << bytesTotal << NL;
+
     // Avoid division by zero
     if(bytesTotal == 0)
         return;
@@ -450,6 +477,8 @@ void PQHandlingShareImgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 
 // An error occured
 void PQHandlingShareImgur::uploadError(QNetworkReply::NetworkError err) {
+
+    DBG << CURDATE << "PQHandlingShareImgur::uploadError()" << NL;
 
     // Access sender object and delete it
     QNetworkReply *reply = (QNetworkReply*)(sender());
@@ -468,6 +497,8 @@ void PQHandlingShareImgur::uploadError(QNetworkReply::NetworkError err) {
 
 // Finished uploading an image
 void PQHandlingShareImgur::uploadFinished() {
+
+    DBG << CURDATE << "PQHandlingShareImgur::uploadFinished()" << NL;
 
     // The sending network reply
     QNetworkReply *reply = (QNetworkReply*)(sender());
@@ -515,6 +546,8 @@ void PQHandlingShareImgur::uploadFinished() {
 
 QString PQHandlingShareImgur::getAuthDateTime() {
 
+    DBG << CURDATE << "PQHandlingShareImgur::getAuthDateTime()" << NL;
+
     QFileInfo info(ConfigFiles::SHAREONLINE_IMGUR_FILE());
     if(info.exists())
         return info.lastModified().toString("yyyy-MM-dd, hh:mm:ss");
@@ -525,7 +558,11 @@ QString PQHandlingShareImgur::getAuthDateTime() {
 
 // Abort all network requests and stop
 void PQHandlingShareImgur::abort() {
+
+    DBG << CURDATE << "PQHandlingShareImgur::abort()" << NL;
+
     // We do it twice spaced out, in case we were just before a networkrequest to really cancel everything
     emit abortAllRequests();
     QTimer::singleShot(500, this, &PQHandlingShareImgur::abortAllRequests);
+
 }

@@ -28,6 +28,9 @@ PQHandlingFaceTags::PQHandlingFaceTags(QObject *parent) : QObject(parent) {
 
 QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
 
+    DBG << CURDATE << "PQHandlingFaceTags::getFaceTags()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     QVariantList ret;
 
 #ifdef EXIV2
@@ -137,6 +140,9 @@ QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
 
 void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
 
+    DBG << CURDATE << "PQHandlingFaceTags::setFaceTags()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     if(!canWriteXmpTags(filename))
         return;
 
@@ -212,6 +218,9 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
 }
 
 bool PQHandlingFaceTags::canWriteXmpTags(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFaceTags::canWriteXmpTags()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     QStringList supportedEndings;
     supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "tif" << "tiff" << "webp" << "dng" << "net"

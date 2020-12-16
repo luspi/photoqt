@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QImageReader>
 #include <QUrl>
+#include "../logger.h"
 
 class PQImageProperties : public QObject {
 

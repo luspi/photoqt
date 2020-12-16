@@ -36,6 +36,10 @@ PQImageProviderFull::~PQImageProviderFull() { }
 
 QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize) {
 
+    DBG << CURDATE << "PQImageProviderFull::requestImage()" << NL
+        << CURDATE << "** filename = " << filename_encoded.toStdString() << NL
+        << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
+
     QString full_filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 #ifdef Q_OS_WIN
     // It is not always clear whether the file url prefix comes with two or three slashes
@@ -76,9 +80,16 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 }
 
 QByteArray PQImageProviderFull::getUniqueCacheKey(QString path) {
+
+    DBG << CURDATE << "PQImageProviderFull::getUniqueCacheKey() " << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     path = path.remove("image://full/");
     path = path.remove("file:/");
+
     QFileInfo info(path);
     QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
+
     return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
+
 }

@@ -24,6 +24,10 @@
 
 QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
 
+    DBG << CURDATE << "PQImageProviderIcon::requestPixmap() " << NL
+        << CURDATE << "** icon = " << icon.toStdString() << NL
+        << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
+
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "ImageProviderIcon: Attempting to load icon from theme: " << icon.toStdString() << NL;
 

@@ -26,6 +26,8 @@ PQHandlingShortcuts::PQHandlingShortcuts(QObject *parent) : QObject(parent) {}
 
 QVariantList PQHandlingShortcuts::loadFromFile() {
 
+    DBG << CURDATE << "PQHandlingShortcuts::loadFromFile()" << NL;
+
     QVariantList ret;
 
     QFile file(ConfigFiles::SHORTCUTS_FILE());
@@ -69,6 +71,8 @@ QVariantList PQHandlingShortcuts::loadFromFile() {
 
 void PQHandlingShortcuts::saveToFile(QVariantList lst) {
 
+    DBG << CURDATE << "PQHandlingShortcuts::saveToFile()" << NL;
+
     QString cont = QString("Version=%1\n").arg(VERSION);
     for(auto l : lst)
         cont += QString("%1::%2::%3\n").arg(l.toList()[0].toString()).arg(l.toList()[1].toString()).arg(l.toList()[2].toString());
@@ -85,13 +89,22 @@ void PQHandlingShortcuts::saveToFile(QVariantList lst) {
 }
 
 QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
+
+    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
+        << CURDATE << "** id = " << id << NL;
+
     QString ret = QKeySequence(id).toString();
     if(ret == "Esc") ret = "Escape";    // Up to v1.7.1 'Escape' was used so we should stick to that
     if(ret == "Del") ret = "Delete";
     return ret;
+
 }
 
 void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
+
+    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     QByteArray fn = QByteArray::fromPercentEncoding(filename.toUtf8());
 
@@ -109,6 +122,8 @@ void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
 }
 
 QString PQHandlingShortcuts::composeString(Qt::KeyboardModifiers mods, Qt::Key keys) {
+
+    DBG << CURDATE << "PQHandlingShortcuts::composeString()" << NL;
 
     QString combostring = "";
 
@@ -339,6 +354,9 @@ QString PQHandlingShortcuts::composeString(Qt::KeyboardModifiers mods, Qt::Key k
 }
 
 QString PQHandlingShortcuts::composeDisplayString(QString combo) {
+
+    DBG << CURDATE << "PQHandlingShortcuts::composeDisplayString()" << NL
+        << CURDATE << "** combo = " << combo.toStdString() << NL;
 
     QString ret;
 

@@ -53,6 +53,8 @@ PQFileWatcher::~PQFileWatcher() {
 
 void PQFileWatcher::checkRepeatedlyTimeout() {
 
+    DBG << CURDATE << "PQFileWatcher::checkRepeatedlyTimeout()" << NL;
+
     if(!userPlacesWatcher->files().contains(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel")) {
         if(QFile(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").exists())
             userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
@@ -72,6 +74,8 @@ void PQFileWatcher::checkRepeatedlyTimeout() {
 
 void PQFileWatcher::userPlacesChangedSLOT() {
 
+    DBG << CURDATE << "PQFileWatcher::userPlacesChangedSLOT()" << NL;
+
     QFileInfo info(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
     for(int i = 0; i < 5; ++i) {
         if(info.exists())
@@ -88,6 +92,8 @@ void PQFileWatcher::userPlacesChangedSLOT() {
 
 void PQFileWatcher::shortcutsChangedSLOT() {
 
+    DBG << CURDATE << "PQFileWatcher::shortcutsChangedSLOT()" << NL;
+
     QFileInfo info(ConfigFiles::SHORTCUTS_FILE());
     for(int i = 0; i < 5; ++i) {
         if(info.exists())
@@ -103,6 +109,8 @@ void PQFileWatcher::shortcutsChangedSLOT() {
 }
 
 void PQFileWatcher::contextmenuChangedSLOT() {
+
+    DBG << CURDATE << "PQFileWatcher::contextmenuChangedSLOT()" << NL;
 
     QFileInfo info(ConfigFiles::CONTEXTMENU_FILE());
     for(int i = 0; i < 5; ++i) {

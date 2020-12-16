@@ -65,6 +65,11 @@ bool PQHandlingGeneral::isVideoSupportEnabled() {
 }
 
 QString PQHandlingGeneral::getFileNameFromFullPath(QString path, bool onlyExtraInfo) {
+
+    DBG << CURDATE << "PQHandlingGeneral::getFileNameFromFullPath()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** onlyExtraInfo = " << onlyExtraInfo << NL;
+
     QString ret = QFileInfo(path).fileName();
     if(onlyExtraInfo) {
         if(path.contains("::PQT::"))
@@ -76,10 +81,18 @@ QString PQHandlingGeneral::getFileNameFromFullPath(QString path, bool onlyExtraI
 }
 
 QString PQHandlingGeneral::getFilePathFromFullPath(QString path) {
+
+    DBG << CURDATE << "PQHandlingGeneral::getFilePathFromFullPath()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     return QFileInfo(path).absolutePath();
+
 }
 
 void PQHandlingGeneral::setLastLoadedImage(QString path) {
+
+    DBG << CURDATE << "PQHandlingGeneral::setLastLoadedImage()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
     QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
     if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
@@ -92,6 +105,8 @@ void PQHandlingGeneral::setLastLoadedImage(QString path) {
 }
 
 QString PQHandlingGeneral::getLastLoadedImage() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getLastLoadedImage()" << NL;
 
     QString ret = "";
 
@@ -108,6 +123,8 @@ QString PQHandlingGeneral::getLastLoadedImage() {
 
 void PQHandlingGeneral::deleteLastLoadedImage() {
 
+    DBG << CURDATE << "PQHandlingGeneral::deleteLastLoadedImage()" << NL;
+
     // attempts to remove stored last loaded image
     // not a big deal if this fails thus no need to error check
     QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
@@ -117,18 +134,34 @@ void PQHandlingGeneral::deleteLastLoadedImage() {
 }
 
 bool PQHandlingGeneral::isDir(QString path) {
+
+    DBG << CURDATE << "PQHandlingGeneral::isDir()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     return QFileInfo(path).isDir();
+
 }
 
 QString PQHandlingGeneral::getFileSize(QString path) {
+
+    DBG << CURDATE << "PQHandlingGeneral::getFileSize()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     return QString::number(QFileInfo(path).size()/1024) + " KB";
+
 }
 
 QString PQHandlingGeneral::getTempDir() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getTempDir()" << NL;
+
     return QDir::tempPath();
+
 }
 
 void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
+
+    DBG << CURDATE << "PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup()" << NL;
 
     int count = 0;
     while(true) {
@@ -142,10 +175,18 @@ void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
 }
 
 QString PQHandlingGeneral::getUniqueId() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getUniqueId()" << NL;
+
     return QString::number(QDateTime::currentMSecsSinceEpoch());
+
 }
 
 QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVal) {
+
+    DBG << CURDATE << "PQHandlingGeneral::convertSecsToProperTime()" << NL
+        << CURDATE << "** secs = " << secs << NL
+        << CURDATE << "** sameFormatsAsVal = " << sameFormatsAsVal << NL;
 
     if(secs < 10 && sameFormatsAsVal < 10)
         return QString("0%1").arg(secs);
@@ -177,10 +218,18 @@ QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVa
 }
 
 void PQHandlingGeneral::openInDefaultFileManager(QString filename) {
+
+    DBG << CURDATE << "PQHandlingGeneral::openInDefaultFileManager()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     QDesktopServices::openUrl(QUrl("file://" + QFileInfo(filename).absolutePath()));
+
 }
 
 void PQHandlingGeneral::copyToClipboard(QString filename) {
+
+    DBG << CURDATE << "PQHandlingGeneral::copyToClipboard()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     // Make sure image provider exists
     if(imageprovider == nullptr)
@@ -200,10 +249,17 @@ void PQHandlingGeneral::copyToClipboard(QString filename) {
 }
 
 void PQHandlingGeneral::copyTextToClipboard(QString txt) {
+
+    DBG << CURDATE << "PQHandlingGeneral::copyTextToClipboard()" << NL
+        << CURDATE << "** txt = " << txt.toStdString() << NL;
+
     QGuiApplication::clipboard()->setText(txt, QClipboard::Clipboard);
+
 }
 
 bool PQHandlingGeneral::checkIfConnectedToInternet() {
+
+    DBG << CURDATE << "PQHandlingGeneral::checkIfConnectedToInternet()" << NL;
 
     // will store the return value
     bool internetConnected = false;
@@ -252,12 +308,20 @@ bool PQHandlingGeneral::checkIfConnectedToInternet() {
 }
 
 QString PQHandlingGeneral::getFileType(QString filename) {
+
+    DBG << CURDATE << "PQHandlingGeneral::getFileType()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     if(filename.trimmed().isEmpty() || !QFile(filename).exists())
         return "";
     return mimedb.mimeTypeForFile(filename).name();
+
 }
 
 QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
+
+    DBG << CURDATE << "PQHandlingGeneral::convertHexToRgba()" << NL
+        << CURDATE << "** hex = " << hex.toStdString() << NL;
 
     int a = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
     int r = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
@@ -270,6 +334,8 @@ QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
 
 QString PQHandlingGeneral::convertRgbaToHex(QVariantList rgba) {
 
+    DBG << CURDATE << "PQHandlingGeneral::convertRgbaToHex()" << NL;
+
     std::stringstream ss;
     ss << "#";
     ss << std::hex << (rgba[3].toInt() << 24 | rgba[0].toInt() << 16 | rgba[1].toInt() << 8 | rgba[2].toInt());
@@ -278,6 +344,10 @@ QString PQHandlingGeneral::convertRgbaToHex(QVariantList rgba) {
 }
 
 bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText) {
+
+    DBG << CURDATE << "PQHandlingGeneral::askForConfirmation()" << NL
+        << CURDATE << "** text = " << text.toStdString() << NL
+        << CURDATE << "** informativeText = " << informativeText.toStdString() << NL;
 
     QMessageBox msg;
 
@@ -293,21 +363,36 @@ bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText
 }
 
 void PQHandlingGeneral::setOverrideCursor(bool enabled) {
+
+    DBG << CURDATE << "PQHandlingGeneral::setOverrideCursor()" << NL
+        << CURDATE << "** enabled = " << enabled << NL;
+
     if(enabled)
         qApp->setOverrideCursor(Qt::BusyCursor);
     else
         qApp->restoreOverrideCursor();
+
 }
 
 QString PQHandlingGeneral::getVersion() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getVersion()" << NL;
+
     return QString::fromStdString(VERSION);
+
 }
 
 QString PQHandlingGeneral::getQtVersion() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getQtVersion()" << NL;
+
     return QString::fromStdString(QT_VERSION_STR);
+
 }
 
 QStringList PQHandlingGeneral::getAvailableTranslations() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getAvailableTranslations()" << NL;
 
     QStringList ret;
 
@@ -340,6 +425,9 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
 }
 
 QString PQHandlingGeneral::getIconPathFromTheme(QString binary) {
+
+    DBG << CURDATE << "PQHandlingGeneral::getIconPathFromTheme()" << NL
+        << CURDATE << "** binary = " << binary.toStdString() << NL;
 
     // We go through all the themeSearchPath elements
     for(int i = 0; i < QIcon::themeSearchPaths().length(); ++i) {

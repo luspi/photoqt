@@ -39,6 +39,8 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QAbstractListModel(paren
 
 void PQFileFolderModel::loadData() {
 
+    DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;
+
     beginRemoveRows(QModelIndex(), 0, rowCount());
 
     for(int i = 0; i < entries.length(); ++i)
@@ -104,6 +106,12 @@ void PQFileFolderModel::loadData() {
 
 QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed) {
 
+    DBG << CURDATE << "PQFileFolderModel::getAllFoldersInFolder()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** showHidden = " << showHidden << NL
+        << CURDATE << "** sortfield = " << sortfield << NL
+        << CURDATE << "** sortReversed = " << sortReversed << NL;
+
     QDir dir;
     dir.setPath(path);
 
@@ -151,6 +159,13 @@ QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHi
 }
 
 QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortfield, bool sortReversed) {
+
+    DBG << CURDATE << "PQFileFolderModel::getAllImagesInFolder()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** showHidden = " << showHidden << NL
+        << CURDATE << "** nameFilters = " << nameFilters.join(",").toStdString() << NL
+        << CURDATE << "** sortfield = " << sortfield << NL
+        << CURDATE << "** sortReversed = " << sortReversed << NL;
 
     QDir dir;
 

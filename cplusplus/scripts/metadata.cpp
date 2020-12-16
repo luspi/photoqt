@@ -53,6 +53,9 @@ PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
 void PQMetaData::updateMetadata(QString path) {
 
+    DBG << CURDATE << "PQMetaData::updateMetadata()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     if(path.contains("::PQT::"))
         path = path.split("::PQT::").at(1);
     if(path.contains("::ARC::"))
@@ -378,6 +381,9 @@ void PQMetaData::updateMetadata(QString path) {
 
 QString PQMetaData::analyzeDateTimeOriginal(const QString val) {
 
+    DBG << CURDATE << "PQMetaData::analyzeDateTimeOriginal()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
+
     QStringList split1 = val.split(" ");
     QStringList split2 = split1.at(0).split(":");
     if(split1.length() > 1 && split2.length() > 2)
@@ -388,6 +394,9 @@ QString PQMetaData::analyzeDateTimeOriginal(const QString val) {
 }
 
 QString PQMetaData::analyzeExposureTime(const QString val) {
+
+    DBG << CURDATE << "PQMetaData::analyzeExposureTime()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
 
     if(val.contains("/")) {
 
@@ -413,6 +422,9 @@ QString PQMetaData::analyzeExposureTime(const QString val) {
 }
 
 QString PQMetaData::analyzeFlash(const QString val) {
+
+    DBG << CURDATE << "PQMetaData::analyzeFlash()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
 
     //: This string identifies that flash was fired, stored in image metadata
     QString fYes = tr("yes");
@@ -487,6 +499,9 @@ QString PQMetaData::analyzeFlash(const QString val) {
 
 QString PQMetaData::analyzeSceneCaptureType(const QString val) {
 
+    DBG << CURDATE << "PQMetaData::analyzeSceneCaptureType()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
+
     if(val == "0")
         //: This string refers to a type of scene, stored in image metadata
         return tr("Standard");
@@ -507,6 +522,9 @@ QString PQMetaData::analyzeSceneCaptureType(const QString val) {
 
 QString PQMetaData::analyzeFocalLength(const QString val) {
 
+    DBG << CURDATE << "PQMetaData::analyzeFocalLength()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
+
     if(val.contains("/")) {
 
         QStringList split = val.split("/");
@@ -525,6 +543,9 @@ QString PQMetaData::analyzeFocalLength(const QString val) {
 
 QString PQMetaData::analyzeFNumber(const QString val) {
 
+    DBG << CURDATE << "PQMetaData::analyzeFNumber()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
+
     if(val.contains("/")) {
 
         QStringList split = val.split("/");
@@ -542,6 +563,9 @@ QString PQMetaData::analyzeFNumber(const QString val) {
 }
 
 QString PQMetaData::analyzeLightSource(const QString val) {
+
+    DBG << CURDATE << "PQMetaData::analyzeLightSource()" << NL
+        << CURDATE << "** val = " << val.toStdString() << NL;
 
     if(val == "0")
         //: This string refers to the light source stored in image metadata
@@ -608,6 +632,12 @@ QString PQMetaData::analyzeLightSource(const QString val) {
 }
 
 QString PQMetaData::analyzeGPS(QString latRef, QString lat, QString lonRef, QString lon) {
+
+    DBG << CURDATE << "PQMetaData::analyzeGPS()" << NL
+        << CURDATE << "** latRef = " << latRef.toStdString() << NL
+        << CURDATE << "** lat = " << lat.toStdString() << NL
+        << CURDATE << "** lonRef = " << lonRef.toStdString() << NL
+        << CURDATE << "** lon = " << lon.toStdString() << NL;
 
     if(latRef == "") latRef = "N";
     if(lonRef == "") lonRef = "E";

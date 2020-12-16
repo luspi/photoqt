@@ -78,6 +78,8 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
 
 void PQWindowGeometry::readGeometries() {
 
+    DBG << CURDATE << "PQWindowGeometry::readGeometries()" << NL;
+
     if(settings->allKeys().contains("mainWindowGeometry"))
         m_mainWindowGeometry = settings->value("mainWindowGeometry").toRect();
     if(settings->allKeys().contains("mainWindowMaximized"))
@@ -156,6 +158,8 @@ void PQWindowGeometry::readGeometries() {
 }
 
 void PQWindowGeometry::saveGeometries() {
+
+    DBG << CURDATE << "PQWindowGeometry::saveGeometries()" << NL;
 
     settings->setValue("mainWindowGeometry", m_mainWindowGeometry);
     settings->setValue("mainWindowMaximized", m_mainWindowMaximized);

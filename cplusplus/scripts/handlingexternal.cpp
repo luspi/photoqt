@@ -24,6 +24,9 @@
 
 bool PQHandlingExternal::exportConfigTo(QString path) {
 
+    DBG << CURDATE << "PQHandlingExternal::exportConfigTo()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
 #ifdef LIBARCHIVE
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
@@ -111,6 +114,9 @@ bool PQHandlingExternal::exportConfigTo(QString path) {
 
 bool PQHandlingExternal::importConfigFrom(QString path) {
 
+    DBG << CURDATE << "PQHandlingExternal::importConfigFrom()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
 #ifdef LIBARCHIVE
 
     // All the config files to be imported. To be backwards-compatible we use the filename keys (old way) and the real filenames (new way)
@@ -194,6 +200,8 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
 
 QVariantList PQHandlingExternal::getContextMenuEntries() {
 
+    DBG << CURDATE << "PQHandlingExternal::getContextMenuEntries()" << NL;
+
     QVariantList ret;
 
     QFile file(ConfigFiles::CONTEXTMENU_FILE());
@@ -226,6 +234,8 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
 
 void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
+    DBG << CURDATE << "PQHandlingExternal::saveContextMenuEntries()" << NL;
+
     QString cont = "";
 
     for(auto entry : entries) {
@@ -255,6 +265,10 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 }
 
 void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
+
+    DBG << CURDATE << "PQHandlingExternal::executeExternal()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** currentfile = " << currentfile.toStdString() << NL;
 
     QString executable = "";
     QStringList arguments = cmd.split(" ");

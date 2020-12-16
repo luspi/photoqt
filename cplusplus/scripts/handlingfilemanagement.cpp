@@ -24,12 +24,21 @@
 
 bool PQHandlingFileManagement::renameFile(QString dir, QString oldName, QString newName) {
 
+    DBG << CURDATE << "PQHandlingFileManagement::renameFile()" << NL
+        << CURDATE << "** dir = " << dir.toStdString() << NL
+        << CURDATE << "** oldName = " << oldName.toStdString() << NL
+        << CURDATE << "** newName = " << newName.toStdString() << NL;
+
     QFile file(dir + "/" + oldName);
     return file.rename(dir + "/" + newName);
 
 }
 
 bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
+
+    DBG << CURDATE << "PQHandlingFileManagement::deleteFile()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** permanent = " << permanent << NL;
 
 #ifndef Q_OS_WIN
     if(permanent) {
@@ -170,6 +179,9 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
 
 QString PQHandlingFileManagement::copyFile(QString filename) {
 
+    DBG << CURDATE << "PQHandlingFileManagement::copyFile()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
     QString ending = QFileInfo(filename).suffix();
 
     //: Title of filedialog to select new filename/location to copy file to.
@@ -189,6 +201,9 @@ QString PQHandlingFileManagement::copyFile(QString filename) {
 }
 
 QString PQHandlingFileManagement::moveFile(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFileManagement::moveFile()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     QString ending = QFileInfo(filename).suffix();
 

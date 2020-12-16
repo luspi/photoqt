@@ -28,6 +28,8 @@ PQHandlingFileDialog::~PQHandlingFileDialog() {}
 
 QString PQHandlingFileDialog::getNewUniqueId() {
 
+    DBG << CURDATE << "PQHandlingFileDialog::getNewUniqueId()" << NL;
+
 #ifdef PUGIXML
 
     pugi::xml_document doc;
@@ -63,6 +65,8 @@ QString PQHandlingFileDialog::getNewUniqueId() {
 }
 
 QVariantList PQHandlingFileDialog::getUserPlaces() {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getUserPlaces()" << NL;
 
     QVariantList ret;
 
@@ -170,6 +174,11 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
 void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int howmany) {
 
+    DBG << CURDATE << "PQHandlingFileDialog::moveUserPlacesEntry()" << NL
+        << CURDATE << "** id = " << id.toStdString() << NL
+        << CURDATE << "** moveDown = " << moveDown << NL
+        << CURDATE << "** howmany = " << howmany << NL;
+
 #ifdef PUGIXML
 
     pugi::xml_document doc;
@@ -240,6 +249,10 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
 
 void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
 
+    DBG << CURDATE << "PQHandlingFileDialog::hideUserPlacesEntry()" << NL
+        << CURDATE << "** id = " << id.toStdString() << NL
+        << CURDATE << "** hidden = " << hidden << NL;
+
 #ifdef PUGIXML
 
     pugi::xml_document doc;
@@ -275,6 +288,10 @@ void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
 }
 
 void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::addNewUserPlacesEntry()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** pos = " << pos << NL;
 
 #ifdef PUGIXML
 
@@ -422,6 +439,9 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
 
 void PQHandlingFileDialog::removeUserPlacesEntry(QString id) {
 
+    DBG << CURDATE << "PQHandlingFileDialog::removeUserPlacesEntry()" << NL
+        << CURDATE << "** id = " << id.toStdString() << NL;
+
 #ifdef PUGIXML
 
     pugi::xml_document doc;
@@ -453,6 +473,8 @@ void PQHandlingFileDialog::removeUserPlacesEntry(QString id) {
 
 QVariantList PQHandlingFileDialog::getStorageInfo() {
 
+    DBG << CURDATE << "PQHandlingFileDialog::getStorageInfo()" << NL;
+
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffOpenFile::getStorageInfo()" << NL;
 
@@ -482,6 +504,8 @@ QVariantList PQHandlingFileDialog::getStorageInfo() {
 
 unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
 
+    // no debug statement here, this function is only and always called by the next function with the same name
+
     QDir dir(path);
 
     QStringList checkForTheseFormats = PQImageFormats::get().getAllEnabledFileFormats();
@@ -493,6 +517,10 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
 }
 
 void PQHandlingFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue &callback) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getNumberOfFilesInFolder()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     auto *watcher = new QFutureWatcher<unsigned int>(this);
     QObject::connect(watcher, &QFutureWatcher<unsigned int>::finished,
                      this, [this,watcher,callback]() {
@@ -507,6 +535,9 @@ void PQHandlingFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue
 
 QString PQHandlingFileDialog::cleanPath(QString path) {
 
+    DBG << CURDATE << "PQHandlingFileDialog::cleanPath()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     if(path.startsWith("file:///"))
         path = path.remove(0, 7);
     if(path.startsWith("file://"))
@@ -517,29 +548,55 @@ QString PQHandlingFileDialog::cleanPath(QString path) {
 }
 
 QString PQHandlingFileDialog::getSuffix(QString path, bool lowerCase) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getSuffix()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** lowerCase = " << lowerCase << NL;
+
     if(lowerCase)
         return QFileInfo(path).suffix().toLower();
     return QFileInfo(path).suffix();
+
 }
 
 QString PQHandlingFileDialog::getBaseName(QString path, bool lowerCase) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getBaseName()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** lowerCase = " << lowerCase << NL;
+
     if(lowerCase)
         return QFileInfo(path).baseName().toLower();
     return QFileInfo(path).baseName();
+
 }
 
 QString PQHandlingFileDialog::getDirectory(QString path, bool lowerCase) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getDirectory()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** lowerCase = " << lowerCase << NL;
+
     if(lowerCase)
         return QFileInfo(path).absolutePath().toLower();
     return QFileInfo(path).absolutePath();
+
 }
 
 bool PQHandlingFileDialog::doesItExist(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::doesItExist()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     QFile file(path);
     return file.exists();
+
 }
 
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getFoldersIn()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
     QDir dir(path);
 
@@ -550,10 +607,16 @@ QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 }
 
 QString PQHandlingFileDialog::getHomeDir() {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getHomeDir()" << NL;
+
     return QDir::homePath();
+
 }
 
 QString PQHandlingFileDialog::getLastLocation() {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getLastLocation()" << NL;
 
     QString ret = QDir::currentPath();
     QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
@@ -571,6 +634,9 @@ QString PQHandlingFileDialog::getLastLocation() {
 
 void PQHandlingFileDialog::setLastLocation(QString path) {
 
+    DBG << CURDATE << "PQHandlingFileDialog::setLastLocation()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
@@ -581,25 +647,42 @@ void PQHandlingFileDialog::setLastLocation(QString path) {
 }
 
 QString PQHandlingFileDialog::convertBytesToHumanReadable(qint64 bytes) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::convertBytesToHumanReadable()" << NL
+        << CURDATE << "** bytes = " << bytes << NL;
+
     if(bytes <= 1024)
         return (QString::number(bytes) + " B");
     else if(bytes <= 1024*1024)
         return (QString::number(qRound(10.0*(bytes/1024.0))/10.0) + " KB");
 
     return (QString::number(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0) + " MB");
+
 }
 
 QString PQHandlingFileDialog::getFileType(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::getFileType()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     QMimeDatabase db;
     QMimeType mime = db.mimeTypeForFile(path);
     return mime.name();
 }
 
 int PQHandlingFileDialog::convertCharacterToKeyCode(QString key) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::convertCharacterToKeyCode()" << NL
+        << CURDATE << "** key = " << key.toStdString() << NL;
+
     return QKeySequence(key)[0];
+
 }
 
 QStringList PQHandlingFileDialog::listPDFPages(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::listPDFPages()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
     QStringList ret;
 
@@ -620,6 +703,9 @@ QStringList PQHandlingFileDialog::listPDFPages(QString path) {
 }
 
 QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDialog::listArchiveContent()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
     QStringList ret;
 

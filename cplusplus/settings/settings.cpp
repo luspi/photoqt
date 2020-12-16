@@ -46,6 +46,8 @@ PQSettings::PQSettings() {
 
 void PQSettings::setDefault() {
 
+    DBG << CURDATE << "PQSettings::setDefault()" << NL;
+
     setVersion(QString::fromStdString(VERSION));
     m_versionInTextFile = "";
 
@@ -219,6 +221,9 @@ void PQSettings::setDefault() {
 }
 
 void PQSettings::addFileToWatcher() {
+
+    DBG << CURDATE << "PQSettings::addFileToWatcher()" << NL;
+
     QFileInfo info(ConfigFiles::SETTINGS_FILE());
     if(!info.exists()) {
         watcherAddFileTimer->start();
@@ -229,6 +234,8 @@ void PQSettings::addFileToWatcher() {
 }
 
 void PQSettings::readSettings() {
+
+    DBG << CURDATE << "PQSettings::readSettings()" << NL;
 
     watcherAddFileTimer->start();
 
@@ -670,6 +677,8 @@ void PQSettings::readSettings() {
 
 // Save settings
 void PQSettings::saveSettings() {
+
+    DBG << CURDATE << "PQSettings::saveSettings()" << NL;
 
     QFile file(ConfigFiles::SETTINGS_FILE());
 
