@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018 Lukas Spies <Lukas_at_photoqt.org> -->
 <component type="desktop">
-    <id>org.photoqt.photoqt</id>
+    <id>org.photoqt.PhotoQt</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
     <name>PhotoQt Image Viewer</name>
@@ -29,15 +28,15 @@
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/screenshots/appdataxml3.jpg</image>
-            <caption>The shortcuts management (part of settings)</caption>
+            <caption>The settings manager</caption>
         </screenshot>
     </screenshots>
     <url type="homepage">https://photoqt.org</url>
-    <url type="translate">https://crowdin.com/project/photoqt</url>
+    <url type="translate">https://translate.photoqt.org</url>
     <update_contact>Lukas_at_photoqt.org</update_contact>
     <developer_name>Lukas Spies</developer_name>
     <url type="bugtracker">https://gitlab.com/luspi/photoqt/issues</url>
-    <url type="donation">https://photoqt.org/about#donate</url>
+    <url type="donation">https://photoqt.org/about</url>
     <url type="help">https://gitlab.com/luspi/photoqt/issues</url>
     <keywords>
         <keyword>image</keyword>
@@ -71,6 +70,7 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="2.0" date="2020-12-16" />
         <release version="1.7.1" date="2018-06-03" />
         <release version="1.7" date="2018-05-15" />
         <release version="1.6" date="2018-02-20" />
