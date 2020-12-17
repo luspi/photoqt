@@ -154,7 +154,7 @@ public:
         }
 
         // cache image (if not scaled)
-        if(ret_err == "" && img.width() == origSize->width() && img.height() == origSize->height() && requestedSize.width() != -1 && requestedSize.height() != -1)
+        if(ret_err == "" && img.width() == origSize->width() && img.height() == origSize->height() && requestedSize.width() == -1 && requestedSize.height() == -1)
             load_helper->saveImageToCache(filename, &img);
 
         return ret_err;
