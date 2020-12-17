@@ -172,6 +172,8 @@ Item {
         anchors.fill: parent
         color: "#cc000000"
 
+        scale: 1/parent.scale
+
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
