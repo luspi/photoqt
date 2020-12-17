@@ -24,8 +24,8 @@
 
 PQImageFormats::PQImageFormats() {
 
-    categories << "qt" << "xcftools" << "poppler" << "graphicsmagick" << "raw"
-               << "devil" << "freeimage" << "archive" << "video";
+    categories << "qt" << "xcftools" << "poppler" << "graphicsmagick" << "imagemagick"
+               << "raw" << "devil" << "freeimage" << "archive" << "video";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -289,199 +289,241 @@ PQImageFormats::PQImageFormats() {
 
     /************************************************************/
     /************************************************************/
+    // ImageMagick
+    // working
+    setupAvailable[4].insert("*.aai", QStringList() << "aai" << "AAI Dune image" << "1");
+    setupAvailable[4].insert("*.art", QStringList() << "art" << "PFS: 1st Publisher" << "1");
+    setupAvailable[4].insert("*.bmp", QStringList() << "bmp" << "Microsoft Windows bitmap" << "1");
+    setupAvailable[4].insert("*.rle", QStringList() << "bmp" << "Microsoft Windows RLE-compressed bitmap" << "1");
+    setupAvailable[4].insert("*.dib", QStringList() << "bmp" << "Microsoft Windows Device-Independent bitmap" << "1");
+    setupAvailable[4].insert("*.cals", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.cal", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.ct1", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.ct2", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.ct3", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.nif", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.ct4", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.c4", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.ras", QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image" << "1");
+    setupAvailable[4].insert("*.cin", QStringList() << "cin" << "Kodak Cineon" << "1");
+    setupAvailable[4].insert("*.cr2", QStringList() << "crw" << "Canon Digital Camera Raw Image Format" << "1");
+    setupAvailable[4].insert("*.crw", QStringList() << "crw" << "Canon Digital Camera Raw Image Format" << "1");
+    setupAvailable[4].insert("*.cur", QStringList() << "cur" << "Microsoft Cursor Icon" << "1");
+    setupAvailable[4].insert("*.cut", QStringList() << "cut" << "DR Halo" << "1");
+    setupAvailable[4].insert("*.dcm", QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");
+    setupAvailable[4].insert("*.dicom", QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");
+    setupAvailable[4].insert("*.dic", QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");
+    // working, requires libbgm
+    setupAvailable[4].insert("*.bpg", QStringList() << "bpg" << "Better Portable Graphics" << "1");
+    // not working (requires ralcgm?)
+    setupAvailable[4].insert("*.cgm", QStringList() << "cgm" << "Computer Graphics Metafile" << "0");
+    // not working
+    setupAvailable[4].insert("*.arw", QStringList() << "arw" << "Sony Digital Camera Alpha Raw Image Format" << "0");
+    setupAvailable[4].insert("*.avs", QStringList() << "avs" << "AVS X image" << "0");
+    setupAvailable[4].insert("*.x", QStringList() << "avs" << "AVS X image" << "0");
+    setupAvailable[4].insert("*.mbfavs", QStringList() << "avs" << "AVS X image" << "0");
+    setupAvailable[4].insert("*.cgm", QStringList() << "cgm" << "Computer Graphics Metafile" << "0");
+    setupAvailable[4].insert("*.dcr", QStringList() << "dcr" << "Kodak Digital Camera Raw Image File" << "0");
+    setupAvailable[4].insert("*.kdc", QStringList() << "dcr" << "Kodak Digital Camera Raw Image File" << "0");
+
+    // incomplete list, not yet finished here...
+
+
+    /************************************************************/
+    /************************************************************/
     // RAW
-    setupAvailable[4].insert("*.3fr"        , QStringList() << "has" << "Hasselblad"                << "1");
-    setupAvailable[4].insert("*.ari"        , QStringList() << "arr" << "ARRIFLEX"                  << "1");
-    setupAvailable[4].insert("*.arw"        , QStringList() << "son" << "Sony"                      << "1");
-    setupAvailable[4].insert("*.srf"        , QStringList() << "son" << "Sony"                      << "1");
-    setupAvailable[4].insert("*.sr2"        , QStringList() << "son" << "Sony"                      << "1");
-    setupAvailable[4].insert("*.bay"        , QStringList() << "cas" << "Casio"                     << "1");
-    setupAvailable[4].insert("*.crw"        , QStringList() << "can" << "Canon"                     << "1");
-    setupAvailable[4].insert("*.crr"        , QStringList() << "can" << "Canon"                     << "1");
-    setupAvailable[4].insert("*.cr2"        , QStringList() << "can" << "Canon"                     << "1");
-    setupAvailable[4].insert("*.cap"        , QStringList() << "ph1" << "Phase_one"                 << "1");
-    setupAvailable[4].insert("*.liq"        , QStringList() << "ph1" << "Phase_one"                 << "1");
-    setupAvailable[4].insert("*.eip"        , QStringList() << "ph1" << "Phase_one"                 << "1");
-    setupAvailable[4].insert("*.dcs"        , QStringList() << "kod" << "Kodak"                     << "1");
-    setupAvailable[4].insert("*.dcr"        , QStringList() << "kod" << "Kodak"                     << "1");
-    setupAvailable[4].insert("*.drf"        , QStringList() << "kod" << "Kodak"                     << "1");
-    setupAvailable[4].insert("*.k25"        , QStringList() << "kod" << "Kodak"                     << "1");
-    setupAvailable[4].insert("*.kdc"        , QStringList() << "kod" << "Kodak"                     << "1");
-    setupAvailable[4].insert("*.dng"        , QStringList() << "ado" << "Adobe"                     << "1");
-    setupAvailable[4].insert("*.erf"        , QStringList() << "eps" << "Epson"                     << "1");
-    setupAvailable[4].insert("*.fff"        , QStringList() << "fff" << "Imacon/Hasselblad raw"     << "1");
-    setupAvailable[4].insert("*.mef"        , QStringList() << "mam" << "Mamiya"                    << "1");
-    setupAvailable[4].insert("*.mdc"        , QStringList() << "min" << "Minolta, Agfa"             << "1");
-    setupAvailable[4].insert("*.mos"        , QStringList() << "mos" << "Leaf"                      << "1");
-    setupAvailable[4].insert("*.mrw"        , QStringList() << "min" << "Minolta, Konica Minolta"   << "1");
-    setupAvailable[4].insert("*.nef"        , QStringList() << "nik" << "Nikon"                     << "1");
-    setupAvailable[4].insert("*.nrw"        , QStringList() << "nik" << "Nikon"                     << "1");
-    setupAvailable[4].insert("*.orf"        , QStringList() << "oly" << "Olympus"                   << "1");
-    setupAvailable[4].insert("*.pef"        , QStringList() << "pen" << "Pentax"                    << "1");
-    setupAvailable[4].insert("*.ptx"        , QStringList() << "pen" << "Pentax"                    << "1");
-    setupAvailable[4].insert("*.pxn"        , QStringList() << "log" << "Logitech"                  << "1");
-    setupAvailable[4].insert("*.r3d"        , QStringList() << "red" << "RED Digital Cinema"        << "1");
-    setupAvailable[4].insert("*.raf"        , QStringList() << "fuj" << "Fuji"                      << "1");
-    setupAvailable[4].insert("*.raw"        , QStringList() << "pan" << "Panasonic"                 << "1");
-    setupAvailable[4].insert("*.rw2"        , QStringList() << "pan" << "Panasonic"                 << "1");
-    setupAvailable[4].insert("*.raw"        , QStringList() << "lei" << "Leica"                     << "1");
-    setupAvailable[4].insert("*.rwl"        , QStringList() << "lei" << "Leica"                     << "1");
-    setupAvailable[4].insert("*.dng"        , QStringList() << "lei" << "Leica"                     << "1");
-    setupAvailable[4].insert("*.rwz"        , QStringList() << "raw" << "Rawzor"                    << "1");
-    setupAvailable[4].insert("*.srw"        , QStringList() << "sam" << "Samsung"                   << "1");
-    setupAvailable[4].insert("*.x3f"        , QStringList() << "sig" << "Sigma"                     << "1");
+    setupAvailable[5].insert("*.3fr"        , QStringList() << "has" << "Hasselblad"                << "1");
+    setupAvailable[5].insert("*.ari"        , QStringList() << "arr" << "ARRIFLEX"                  << "1");
+    setupAvailable[5].insert("*.arw"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[5].insert("*.srf"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[5].insert("*.sr2"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[5].insert("*.bay"        , QStringList() << "cas" << "Casio"                     << "1");
+    setupAvailable[5].insert("*.crw"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[5].insert("*.crr"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[5].insert("*.cr2"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[5].insert("*.cap"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[5].insert("*.liq"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[5].insert("*.eip"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[5].insert("*.dcs"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.dcr"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.drf"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.k25"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.kdc"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.dng"        , QStringList() << "ado" << "Adobe"                     << "1");
+    setupAvailable[5].insert("*.erf"        , QStringList() << "eps" << "Epson"                     << "1");
+    setupAvailable[5].insert("*.fff"        , QStringList() << "fff" << "Imacon/Hasselblad raw"     << "1");
+    setupAvailable[5].insert("*.mef"        , QStringList() << "mam" << "Mamiya"                    << "1");
+    setupAvailable[5].insert("*.mdc"        , QStringList() << "min" << "Minolta, Agfa"             << "1");
+    setupAvailable[5].insert("*.mos"        , QStringList() << "mos" << "Leaf"                      << "1");
+    setupAvailable[5].insert("*.mrw"        , QStringList() << "min" << "Minolta, Konica Minolta"   << "1");
+    setupAvailable[5].insert("*.nef"        , QStringList() << "nik" << "Nikon"                     << "1");
+    setupAvailable[5].insert("*.nrw"        , QStringList() << "nik" << "Nikon"                     << "1");
+    setupAvailable[5].insert("*.orf"        , QStringList() << "oly" << "Olympus"                   << "1");
+    setupAvailable[5].insert("*.pef"        , QStringList() << "pen" << "Pentax"                    << "1");
+    setupAvailable[5].insert("*.ptx"        , QStringList() << "pen" << "Pentax"                    << "1");
+    setupAvailable[5].insert("*.pxn"        , QStringList() << "log" << "Logitech"                  << "1");
+    setupAvailable[5].insert("*.r3d"        , QStringList() << "red" << "RED Digital Cinema"        << "1");
+    setupAvailable[5].insert("*.raf"        , QStringList() << "fuj" << "Fuji"                      << "1");
+    setupAvailable[5].insert("*.raw"        , QStringList() << "pan" << "Panasonic"                 << "1");
+    setupAvailable[5].insert("*.rw2"        , QStringList() << "pan" << "Panasonic"                 << "1");
+    setupAvailable[5].insert("*.raw"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[5].insert("*.rwl"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[5].insert("*.dng"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[5].insert("*.rwz"        , QStringList() << "raw" << "Rawzor"                    << "1");
+    setupAvailable[5].insert("*.srw"        , QStringList() << "sam" << "Samsung"                   << "1");
+    setupAvailable[5].insert("*.x3f"        , QStringList() << "sig" << "Sigma"                     << "1");
 
 
     /************************************************************/
     /************************************************************/
     // DevIL
-    setupAvailable[5].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-    setupAvailable[5].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
-    setupAvailable[5].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "1");
-    setupAvailable[5].insert("*.fits"       , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
-    setupAvailable[5].insert("*.fit"        , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
-    setupAvailable[5].insert("*.ftx"        , QStringList() << "ftx" << "Heavy Metal: FAKK 2"                           << "1");
-    setupAvailable[5].insert("*.hdr"        , QStringList() << "hdr" << "Radiance High Dynamic"                         << "1");
-    setupAvailable[5].insert("*.icns"       , QStringList() << "icn" << "Macintosh icon"                                << "1");
-    setupAvailable[5].insert("*.ico"        , QStringList() << "ico" << "Windows icon/cursor"                           << "1");
-    setupAvailable[5].insert("*.cur"        , QStringList() << "ico" << "Windows icon/cursor"                           << "1");
-    setupAvailable[5].insert("*.iff"        , QStringList() << "iff" << "Interchange File Format"                       << "1");
-    setupAvailable[5].insert("*.gif"        , QStringList() << "gif" << "Graphics Interchange Format"                   << "1");
-    setupAvailable[5].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[5].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[5].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[5].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 JP2 File Format Syntax"              << "1");
-    setupAvailable[5].insert("*.lbm"        , QStringList() << "lbm" << "Interlaced Bitmap"                             << "1");
-    setupAvailable[5].insert("*.pcd"        , QStringList() << "pcd" << "Kodak PhotoCD"                                 << "1");
-    setupAvailable[5].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
-    setupAvailable[5].insert("*.pbm"        , QStringList() << "pbm" << "Portable bitmap format (black and white)"      << "1");
-    setupAvailable[5].insert("*.pgm"        , QStringList() << "pbm" << "Portable graymap format (gray scale)"          << "1");
-    setupAvailable[5].insert("*.ppm"        , QStringList() << "pbm" << "Portable pixmap format (color)"                << "1");
-    setupAvailable[5].insert("*.pnm"        , QStringList() << "pbm" << "Portable pixmap format (pbm, pgm, or ppm)"     << "1");
-    setupAvailable[5].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
-    setupAvailable[5].insert("*.psp"        , QStringList() << "psp" << "PaintShop Pro"                                 << "1");
-    setupAvailable[5].insert("*.raw"        , QStringList() << "raw" << "Raw data"                                      << "1");
-    setupAvailable[5].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[5].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[5].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[5].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[5].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
-    setupAvailable[5].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
-    setupAvailable[5].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+    setupAvailable[6].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
+    setupAvailable[6].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
+    setupAvailable[6].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "1");
+    setupAvailable[6].insert("*.fits"       , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
+    setupAvailable[6].insert("*.fit"        , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
+    setupAvailable[6].insert("*.ftx"        , QStringList() << "ftx" << "Heavy Metal: FAKK 2"                           << "1");
+    setupAvailable[6].insert("*.hdr"        , QStringList() << "hdr" << "Radiance High Dynamic"                         << "1");
+    setupAvailable[6].insert("*.icns"       , QStringList() << "icn" << "Macintosh icon"                                << "1");
+    setupAvailable[6].insert("*.ico"        , QStringList() << "ico" << "Windows icon/cursor"                           << "1");
+    setupAvailable[6].insert("*.cur"        , QStringList() << "ico" << "Windows icon/cursor"                           << "1");
+    setupAvailable[6].insert("*.iff"        , QStringList() << "iff" << "Interchange File Format"                       << "1");
+    setupAvailable[6].insert("*.gif"        , QStringList() << "gif" << "Graphics Interchange Format"                   << "1");
+    setupAvailable[6].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[6].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[6].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[6].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 JP2 File Format Syntax"              << "1");
+    setupAvailable[6].insert("*.lbm"        , QStringList() << "lbm" << "Interlaced Bitmap"                             << "1");
+    setupAvailable[6].insert("*.pcd"        , QStringList() << "pcd" << "Kodak PhotoCD"                                 << "1");
+    setupAvailable[6].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
+    setupAvailable[6].insert("*.pbm"        , QStringList() << "pbm" << "Portable bitmap format (black and white)"      << "1");
+    setupAvailable[6].insert("*.pgm"        , QStringList() << "pbm" << "Portable graymap format (gray scale)"          << "1");
+    setupAvailable[6].insert("*.ppm"        , QStringList() << "pbm" << "Portable pixmap format (color)"                << "1");
+    setupAvailable[6].insert("*.pnm"        , QStringList() << "pbm" << "Portable pixmap format (pbm, pgm, or ppm)"     << "1");
+    setupAvailable[6].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
+    setupAvailable[6].insert("*.psp"        , QStringList() << "psp" << "PaintShop Pro"                                 << "1");
+    setupAvailable[6].insert("*.raw"        , QStringList() << "raw" << "Raw data"                                      << "1");
+    setupAvailable[6].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[6].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[6].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[6].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[6].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
+    setupAvailable[6].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+    setupAvailable[6].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
     // no test image available
-    setupAvailable[5].insert("*.iwi"        , QStringList() << "iwi" << "Infinity Ward Image"                           << "0");
-    setupAvailable[5].insert("*.lif"        , QStringList() << "lif" << "Homeworld texture"                             << "0");
-    setupAvailable[5].insert("*.pxr"        , QStringList() << "pxr" << "Pixar"                                         << "0");
-    setupAvailable[5].insert("*.rot"        , QStringList() << "rot" << "Homeworld 2 Texture"                           << "0");
-    setupAvailable[5].insert("*.texture"    , QStringList() << "tex" << "Creative Assembly Texture"                     << "0");
-    setupAvailable[5].insert("*.tpl"        , QStringList() << "tpl" << "Gamecube Texture"                              << "0");
-    setupAvailable[5].insert("*.utx"        , QStringList() << "utx" << "Unreal Texture"                                << "0");
-    setupAvailable[5].insert("*.wal"        , QStringList() << "wal" << "Quake2 Texture"                                << "0");
-    setupAvailable[5].insert("*.vtf"        , QStringList() << "vtf" << "Valve Texture Format"                          << "0");
+    setupAvailable[6].insert("*.iwi"        , QStringList() << "iwi" << "Infinity Ward Image"                           << "0");
+    setupAvailable[6].insert("*.lif"        , QStringList() << "lif" << "Homeworld texture"                             << "0");
+    setupAvailable[6].insert("*.pxr"        , QStringList() << "pxr" << "Pixar"                                         << "0");
+    setupAvailable[6].insert("*.rot"        , QStringList() << "rot" << "Homeworld 2 Texture"                           << "0");
+    setupAvailable[6].insert("*.texture"    , QStringList() << "tex" << "Creative Assembly Texture"                     << "0");
+    setupAvailable[6].insert("*.tpl"        , QStringList() << "tpl" << "Gamecube Texture"                              << "0");
+    setupAvailable[6].insert("*.utx"        , QStringList() << "utx" << "Unreal Texture"                                << "0");
+    setupAvailable[6].insert("*.wal"        , QStringList() << "wal" << "Quake2 Texture"                                << "0");
+    setupAvailable[6].insert("*.vtf"        , QStringList() << "vtf" << "Valve Texture Format"                          << "0");
     // fails on my system
-    setupAvailable[5].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "0");
-    setupAvailable[5].insert("*.dcx"        , QStringList() << "dcx" << "Multi-PCX"                                     << "0");
-    setupAvailable[5].insert("*.dcm"        , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
-    setupAvailable[5].insert("*.dicom"      , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
-    setupAvailable[5].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "0");
-    setupAvailable[5].insert("*.pic"        , QStringList() << "pic" << "Softimage PIC"                                 << "0");
-    setupAvailable[5].insert("*.pix"        , QStringList() << "pix" << "Alias | Wavefront"                             << "0");
-    setupAvailable[5].insert("*.wdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
-    setupAvailable[5].insert("*.hdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
+    setupAvailable[6].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "0");
+    setupAvailable[6].insert("*.dcx"        , QStringList() << "dcx" << "Multi-PCX"                                     << "0");
+    setupAvailable[6].insert("*.dcm"        , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
+    setupAvailable[6].insert("*.dicom"      , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
+    setupAvailable[6].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "0");
+    setupAvailable[6].insert("*.pic"        , QStringList() << "pic" << "Softimage PIC"                                 << "0");
+    setupAvailable[6].insert("*.pix"        , QStringList() << "pix" << "Alias | Wavefront"                             << "0");
+    setupAvailable[6].insert("*.wdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
+    setupAvailable[6].insert("*.hdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
 
 
     /************************************************************/
     /************************************************************/
     // FreeImage
-    setupAvailable[6].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-    setupAvailable[6].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "1");
-    setupAvailable[6].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
-    setupAvailable[6].insert("*.g3"         , QStringList() << "fax" << "Raw Fax"                                       << "1");
-    setupAvailable[6].insert("*.g4"         , QStringList() << "fax" << "Raw Fax"                                       << "1");
-    setupAvailable[6].insert("*.gif"        , QStringList() << "gif" << "CompuServe Graphics Interchange Format"        << "1");
-    setupAvailable[6].insert("*.ico"        , QStringList() << "ico" << "Windows icon/cursor"                           << "1");
-    setupAvailable[6].insert("*.iff"        , QStringList() << "iff" << "Interchange File Format"                       << "1");
-    setupAvailable[6].insert("*.jng"        , QStringList() << "jng" << "JPEG Network Graphics"                         << "1");
-    setupAvailable[6].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[6].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[6].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[6].insert("*.jif"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[6].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 JP2 File Format Syntax"              << "1");
-    setupAvailable[6].insert("*.jpc"        , QStringList() << "jpc" << "JPEG-2000 Code Stream Syntax"                  << "1");
-    setupAvailable[6].insert("*.pcd"        , QStringList() << "pcd" << "Kodak PhotoCD"                                 << "1");
-    setupAvailable[6].insert("*.mng"        , QStringList() << "mng" << "Multiple-image Network Graphics"               << "1");
-    setupAvailable[6].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "1");
-    setupAvailable[6].insert("*.pbm"        , QStringList() << "pbm" << "Portable bitmap format (black and white)"      << "1");
-    setupAvailable[6].insert("*.pgm"        , QStringList() << "pbm" << "Portable graymap format (gray scale)"          << "1");
-    setupAvailable[6].insert("*.ppm"        , QStringList() << "pbm" << "Portable pixmap format (color)"                << "1");
-    setupAvailable[6].insert("*.pnm"        , QStringList() << "pbm" << "Portable pixmap format (pbm, pgm, or ppm)"     << "1");
-    setupAvailable[6].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
-    setupAvailable[6].insert("*.pict"       , QStringList() << "pic" << "Apple Macintosh QuickDraw /PICT file"          << "1");
-    setupAvailable[6].insert("*.pct"        , QStringList() << "pic" << "Apple Macintosh QuickDraw /PICT file"          << "1");
-    setupAvailable[6].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw /PICT file"          << "1");
-    setupAvailable[6].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
-    setupAvailable[6].insert("*.sun"        , QStringList() << "sun" << "SUN Rasterfile"                                << "1");
-    setupAvailable[6].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[6].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[6].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[6].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[6].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
-    setupAvailable[6].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
-    setupAvailable[6].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
-    setupAvailable[6].insert("*.wbmp"       , QStringList() << "wbm" << "Wireless Bitmap"                               << "1");
-    setupAvailable[6].insert("*.webp"       , QStringList() << "wep" << "Google web image format"                       << "1");
-    setupAvailable[6].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
-    setupAvailable[6].insert("*.xpm"        , QStringList() << "xpm" << "X Windows system pixmap"                       << "1");
+    setupAvailable[7].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
+    setupAvailable[7].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "1");
+    setupAvailable[7].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
+    setupAvailable[7].insert("*.g3"         , QStringList() << "fax" << "Raw Fax"                                       << "1");
+    setupAvailable[7].insert("*.g4"         , QStringList() << "fax" << "Raw Fax"                                       << "1");
+    setupAvailable[7].insert("*.gif"        , QStringList() << "gif" << "CompuServe Graphics Interchange Format"        << "1");
+    setupAvailable[7].insert("*.ico"        , QStringList() << "ico" << "Windows icon/cursor"                           << "1");
+    setupAvailable[7].insert("*.iff"        , QStringList() << "iff" << "Interchange File Format"                       << "1");
+    setupAvailable[7].insert("*.jng"        , QStringList() << "jng" << "JPEG Network Graphics"                         << "1");
+    setupAvailable[7].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[7].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[7].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[7].insert("*.jif"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[7].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 JP2 File Format Syntax"              << "1");
+    setupAvailable[7].insert("*.jpc"        , QStringList() << "jpc" << "JPEG-2000 Code Stream Syntax"                  << "1");
+    setupAvailable[7].insert("*.pcd"        , QStringList() << "pcd" << "Kodak PhotoCD"                                 << "1");
+    setupAvailable[7].insert("*.mng"        , QStringList() << "mng" << "Multiple-image Network Graphics"               << "1");
+    setupAvailable[7].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "1");
+    setupAvailable[7].insert("*.pbm"        , QStringList() << "pbm" << "Portable bitmap format (black and white)"      << "1");
+    setupAvailable[7].insert("*.pgm"        , QStringList() << "pbm" << "Portable graymap format (gray scale)"          << "1");
+    setupAvailable[7].insert("*.ppm"        , QStringList() << "pbm" << "Portable pixmap format (color)"                << "1");
+    setupAvailable[7].insert("*.pnm"        , QStringList() << "pbm" << "Portable pixmap format (pbm, pgm, or ppm)"     << "1");
+    setupAvailable[7].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
+    setupAvailable[7].insert("*.pict"       , QStringList() << "pic" << "Apple Macintosh QuickDraw /PICT file"          << "1");
+    setupAvailable[7].insert("*.pct"        , QStringList() << "pic" << "Apple Macintosh QuickDraw /PICT file"          << "1");
+    setupAvailable[7].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw /PICT file"          << "1");
+    setupAvailable[7].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
+    setupAvailable[7].insert("*.sun"        , QStringList() << "sun" << "SUN Rasterfile"                                << "1");
+    setupAvailable[7].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[7].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[7].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[7].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    setupAvailable[7].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
+    setupAvailable[7].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+    setupAvailable[7].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+    setupAvailable[7].insert("*.wbmp"       , QStringList() << "wbm" << "Wireless Bitmap"                               << "1");
+    setupAvailable[7].insert("*.webp"       , QStringList() << "wep" << "Google web image format"                       << "1");
+    setupAvailable[7].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
+    setupAvailable[7].insert("*.xpm"        , QStringList() << "xpm" << "X Windows system pixmap"                       << "1");
     // missing test image
-    setupAvailable[6].insert("*.koa"        , QStringList() << "koa" << "KOALA files"                                   << "0");
+    setupAvailable[7].insert("*.koa"        , QStringList() << "koa" << "KOALA files"                                   << "0");
     // fails currently (apparently needs some more code for proper conversion)
-    setupAvailable[6].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "0");
-    setupAvailable[6].insert("*.hdr"        , QStringList() << "hdr" << "Radiance High Dynamic"                         << "0");
-    setupAvailable[6].insert("*.pfm"        , QStringList() << "pfm" << "Portable Float Map"                            << "0");
+    setupAvailable[7].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "0");
+    setupAvailable[7].insert("*.hdr"        , QStringList() << "hdr" << "Radiance High Dynamic"                         << "0");
+    setupAvailable[7].insert("*.pfm"        , QStringList() << "pfm" << "Portable Float Map"                            << "0");
     // fails on my system
-    setupAvailable[6].insert("*.jxr"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
-    setupAvailable[6].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
-    setupAvailable[6].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
+    setupAvailable[7].insert("*.jxr"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
+    setupAvailable[7].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
+    setupAvailable[7].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
 
     /************************************************************/
     /************************************************************/
     // Archive
-    setupAvailable[7].insert("*.cbz"        , QStringList() << "zip" << "Comic book archive (ZIP)"                      << "1");
-    setupAvailable[7].insert("*.cbr"        , QStringList() << "rar" << "Comic book archive (RAR)"                      << "1");
-    setupAvailable[7].insert("*.cb7"        , QStringList() << "7z " << "Comic book archive (7z)"                       << "1");
-    setupAvailable[7].insert("*.cbt"        , QStringList() << "tar" << "Comic book archive (TAR)"                      << "1");
-    setupAvailable[7].insert("*.zip"        , QStringList() << "zip" << "ZIP file format"                               << "0");
-    setupAvailable[7].insert("*.rar"        , QStringList() << "rar" << "RAR file format"                               << "0");
-    setupAvailable[7].insert("*.7z"         , QStringList() << "7z " << "7z file format"                                << "0");
-    setupAvailable[7].insert("*.tar"        , QStringList() << "tar" << "TAR file format"                               << "0");
+    setupAvailable[8].insert("*.cbz"        , QStringList() << "zip" << "Comic book archive (ZIP)"                      << "1");
+    setupAvailable[8].insert("*.cbr"        , QStringList() << "rar" << "Comic book archive (RAR)"                      << "1");
+    setupAvailable[8].insert("*.cb7"        , QStringList() << "7z " << "Comic book archive (7z)"                       << "1");
+    setupAvailable[8].insert("*.cbt"        , QStringList() << "tar" << "Comic book archive (TAR)"                      << "1");
+    setupAvailable[8].insert("*.zip"        , QStringList() << "zip" << "ZIP file format"                               << "0");
+    setupAvailable[8].insert("*.rar"        , QStringList() << "rar" << "RAR file format"                               << "0");
+    setupAvailable[8].insert("*.7z"         , QStringList() << "7z " << "7z file format"                                << "0");
+    setupAvailable[8].insert("*.tar"        , QStringList() << "tar" << "TAR file format"                               << "0");
 
 
     /************************************************************/
     /************************************************************/
     // Video
 #ifdef VIDEO
-    setupAvailable[8].insert("*.webm"       , QStringList() << "webm" << "WebM"                                         << "0");
-    setupAvailable[8].insert("*.mkv"        , QStringList() << "mkv" << "Matroska Video"                                << "0");
-    setupAvailable[8].insert("*.flv"        , QStringList() << "flv" << "Flash Video"                                   << "0");
-    setupAvailable[8].insert("*.f4v"        , QStringList() << "flv" << "Flash Video"                                   << "0");
-    setupAvailable[8].insert("*.vob"        , QStringList() << "vob" << "Video Object"                                  << "0");
-    setupAvailable[8].insert("*.ogg"        , QStringList() << "ogg" << "Theora"                                        << "0");
-    setupAvailable[8].insert("*.ogv"        , QStringList() << "ogg" << "Theora"                                        << "0");
-    setupAvailable[8].insert("*.avi"        , QStringList() << "avi" << "Audio Video Interleave"                        << "0");
-    setupAvailable[8].insert("*.mov"        , QStringList() << "quk" << "QuickTime File Format"                         << "0");
-    setupAvailable[8].insert("*.qt"         , QStringList() << "quk" << "QuickTime File Format"                         << "0");
-    setupAvailable[8].insert("*.wmv"        , QStringList() << "wmv" << "Windows Media Video"                           << "0");
-    setupAvailable[8].insert("*.asf"        , QStringList() << "wmv" << "Advanced Systems Format"                       << "0");
-    setupAvailable[8].insert("*.amv"        , QStringList() << "amv" << "AMV video format"                              << "0");
-    setupAvailable[8].insert("*.mp4"        , QStringList() << "mp4" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.m4v"        , QStringList() << "mp4" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.3gp"        , QStringList() << "mp4" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.3g2"        , QStringList() << "mp4" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.mpg"        , QStringList() << "mpg" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.mpeg"       , QStringList() << "mpg" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.mpv"        , QStringList() << "mpg" << "MPEG"                                          << "0");
-    setupAvailable[8].insert("*.m2v"        , QStringList() << "mpg" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.webm"       , QStringList() << "webm" << "WebM"                                         << "0");
+    setupAvailable[9].insert("*.mkv"        , QStringList() << "mkv" << "Matroska Video"                                << "0");
+    setupAvailable[9].insert("*.flv"        , QStringList() << "flv" << "Flash Video"                                   << "0");
+    setupAvailable[9].insert("*.f4v"        , QStringList() << "flv" << "Flash Video"                                   << "0");
+    setupAvailable[9].insert("*.vob"        , QStringList() << "vob" << "Video Object"                                  << "0");
+    setupAvailable[9].insert("*.ogg"        , QStringList() << "ogg" << "Theora"                                        << "0");
+    setupAvailable[9].insert("*.ogv"        , QStringList() << "ogg" << "Theora"                                        << "0");
+    setupAvailable[9].insert("*.avi"        , QStringList() << "avi" << "Audio Video Interleave"                        << "0");
+    setupAvailable[9].insert("*.mov"        , QStringList() << "quk" << "QuickTime File Format"                         << "0");
+    setupAvailable[9].insert("*.qt"         , QStringList() << "quk" << "QuickTime File Format"                         << "0");
+    setupAvailable[9].insert("*.wmv"        , QStringList() << "wmv" << "Windows Media Video"                           << "0");
+    setupAvailable[9].insert("*.asf"        , QStringList() << "wmv" << "Advanced Systems Format"                       << "0");
+    setupAvailable[9].insert("*.amv"        , QStringList() << "amv" << "AMV video format"                              << "0");
+    setupAvailable[9].insert("*.mp4"        , QStringList() << "mp4" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.m4v"        , QStringList() << "mp4" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.3gp"        , QStringList() << "mp4" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.3g2"        , QStringList() << "mp4" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.mpg"        , QStringList() << "mpg" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.mpeg"       , QStringList() << "mpg" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.mpv"        , QStringList() << "mpg" << "MPEG"                                          << "0");
+    setupAvailable[9].insert("*.m2v"        , QStringList() << "mpg" << "MPEG"                                          << "0");
 #endif
 
 
@@ -535,6 +577,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "graphicsmagick")
             setEnabledFileformatsGraphicsMagick(val);
 
+        else if(cat == "imagemagick")
+            setEnabledFileformatsImageMagick(val);
+
         else if(cat == "raw")
             setEnabledFileformatsRAW(val);
 
@@ -563,6 +608,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 
         else if(cat == "graphicsmagick")
             setEnabledFileformatsGraphicsMagickWithoutSaving(val);
+
+        else if(cat == "imagemagick")
+            setEnabledFileformatsImageMagickWithoutSaving(val);
 
         else if(cat == "raw")
             setEnabledFileformatsRAWWithoutSaving(val);

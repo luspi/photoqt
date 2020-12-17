@@ -61,6 +61,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsGraphicsMagick() {
         return availableFileformats[categories.indexOf("graphicsmagick")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsImageMagick() {
+        return availableFileformats[categories.indexOf("imagemagick")];
+    }
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() {
         return availableFileformats[categories.indexOf("raw")];
     }
@@ -90,6 +93,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGraphicsMagick() {
         return availableFileformatsWithDescription[categories.indexOf("graphicsmagick")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionImageMagick() {
+        return availableFileformatsWithDescription[categories.indexOf("imagemagick")];
+    }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() {
         return availableFileformatsWithDescription[categories.indexOf("raw")];
     }
@@ -118,6 +124,9 @@ public:
     }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsGraphicsMagick() {
         return defaultEnabledFileformats[categories.indexOf("graphicsmagick")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsImageMagick() {
+        return defaultEnabledFileformats[categories.indexOf("imagemagick")];
     }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsRAW() {
         return defaultEnabledFileformats[categories.indexOf("raw")];
@@ -176,6 +185,16 @@ public:
     void setEnabledFileformatsGraphicsMagick(QStringList val) { enabledFileformats[categories.indexOf("graphicsmagick")] = val;
                                                     emit enabledFileformatsGraphicsMagickChanged(val); }
     void setEnabledFileformatsGraphicsMagickWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("graphicsmagick")] = val; }
+
+    // ... ImageMagick
+    Q_PROPERTY(QStringList enabledFileformatsImageMagick
+               READ getEnabledFileformatsImageMagick
+               WRITE setEnabledFileformatsImageMagick
+               NOTIFY enabledFileformatsImageMagickChanged)
+    QStringList getEnabledFileformatsImageMagick() { return enabledFileformats[categories.indexOf("imagemagick")]; }
+    void setEnabledFileformatsImageMagick(QStringList val) { enabledFileformats[categories.indexOf("imagemagick")] = val;
+                                                    emit enabledFileformatsImageMagickChanged(val); }
+    void setEnabledFileformatsImageMagickWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("imagemagick")] = val; }
 
     // ... RAW
     Q_PROPERTY(QStringList enabledFileformatsRAW
@@ -239,6 +258,8 @@ public:
             setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]);
         if(category == "" || category == "graphicsmagick")
             setEnabledFileformatsGraphicsMagick(defaultEnabledFileformats[categories.indexOf("graphicsmagick")]);
+        if(category == "" || category == "imagemagick")
+            setEnabledFileformatsImageMagick(defaultEnabledFileformats[categories.indexOf("imagemagick")]);
         if(category == "" || category == "raw")
             setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
         if(category == "" || category == "devil")
@@ -261,6 +282,8 @@ public:
             return getEnabledFileformatsPoppler();
         if(category == "graphicsmagick")
             return getEnabledFileformatsGraphicsMagick();
+        if(category == "imagemagick")
+            return getEnabledFileformatsImageMagick();
         if(category == "raw")
             return getEnabledFileformatsRAW();
         if(category == "devil")
@@ -301,6 +324,12 @@ public:
             allFormats.append(entry.toString());
 #endif
 
+#ifdef IMAGEMAGICK
+        // ImageMagick
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("imagemagick")])
+            allFormats.append(entry.toString());
+#endif
+
 #ifdef RAW
         // RAW
         foreach(QVariant entry, enabledFileformats[categories.indexOf("raw")])
@@ -334,6 +363,7 @@ public:
 signals:
     void enabledFileformatsQtChanged(QStringList val);
     void enabledFileformatsGraphicsMagickChanged(QStringList val);
+    void enabledFileformatsImageMagickChanged(QStringList val);
     void enabledFileformatsXCFChanged(QStringList val);
     void enabledFileformatsPopplerChanged(QStringList val);
     void enabledFileformatsRAWChanged(QStringList val);

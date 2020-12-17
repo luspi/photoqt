@@ -143,5 +143,6 @@
         <file>mainwindow/PQLoading.qml</file>
         <file>settingsmanager/tabs/interface/PQContextMenu.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileGraphicsMagick.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQFileTypeTileImageMagick.qml</file>
     </qresource>
 </RCC>

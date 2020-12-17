@@ -55,6 +55,10 @@
 #include <GraphicsMagick/Magick++.h>
 #endif
 
+#ifdef IMAGEMAGICK
+#include <ImageMagick-7/Magick++.h>
+#endif
+
 #ifdef DEVIL
 #include <IL/il.h>
 #endif
@@ -84,7 +88,7 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
-#ifdef GRAPHICSMAGICK
+#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);
 #endif

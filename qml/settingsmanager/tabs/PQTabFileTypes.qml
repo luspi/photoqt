@@ -83,6 +83,7 @@ Item {
                 spacing: 10
 
                 PQFileTypeTileQt {}
+                PQFileTypeTileImageMagick {}
                 PQFileTypeTileGraphicsMagick {}
                 PQFileTypeTileLibRaw {}
                 PQFileTypeTileLibArchive {}

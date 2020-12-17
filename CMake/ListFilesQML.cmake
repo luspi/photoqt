@@ -72,7 +72,7 @@ SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdge.qml ${d}/PQOpacity.qml ${d}/PQRotation.qml ${d}/PQGPSMap.qml ${d}/PQMetaData.qml ${d}/PQFaceTags.qml ${d}/PQFaceTagsFontSize.qml ${d}/PQFaceTagsBorder.qml ${d}/PQFaceTagsVisibility.qml)
 
 SET(d "qml/settingsmanager/tabs/filetypes")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypeTile.qml ${d}/PQAdvancedTuning.qml ${d}/PQFileTypeTileQt.qml ${d}/PQFileTypeTileLibArchive.qml ${d}/PQFileTypeTileLibRaw.qml ${d}/PQFileTypeTileGraphicsMagick.qml ${d}/PQFileTypeTileDevil.qml ${d}/PQFileTypeTileFreeImage.qml ${d}/PQFileTypeTilePoppler.qml ${d}/PQFileTypeTileXCF.qml ${d}/PQFileTypeTileVideo.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypeTile.qml ${d}/PQAdvancedTuning.qml ${d}/PQFileTypeTileQt.qml ${d}/PQFileTypeTileLibArchive.qml ${d}/PQFileTypeTileLibRaw.qml ${d}/PQFileTypeTileGraphicsMagick.qml ${d}/PQFileTypeTileDevil.qml ${d}/PQFileTypeTileFreeImage.qml ${d}/PQFileTypeTilePoppler.qml ${d}/PQFileTypeTileXCF.qml ${d}/PQFileTypeTileVideo.qml ${d}/PQFileTypeTileImageMagick.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcuts.qml ${d}/PQContainer.qml ${d}/PQDetectCombo.qml)

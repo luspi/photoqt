@@ -29,6 +29,13 @@ bool PQHandlingGeneral::isGraphicsMagickSupportEnabled() {
     return false;
 }
 
+bool PQHandlingGeneral::isImageMagickSupportEnabled() {
+#ifdef IMAGEMAGICK
+    return true;
+#endif
+    return false;
+}
+
 bool PQHandlingGeneral::isLibRawSupportEnabled() {
 #ifdef RAW
     return true;

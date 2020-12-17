@@ -203,6 +203,8 @@ PQSetting {
             //: This is a category in a file dialog for selecting images used as in: All images supported by PhotoQt.
             var str = [em.pty+qsTranslate("settingsmanager_interface", "All Images") + " (" + PQImageFormats.getAllEnabledFileFormats().join(" ") + ")"]
             str.push("Qt (" + PQImageFormats.getAvailableEndingsQt().join(" ") + ")")
+            if(handlingGeneral.isImageMagickSupportEnabled())
+                str.push("ImageMagick (" + PQImageFormats.getAvailableEndingsImageMagick().join(" ") + ")")
             if(handlingGeneral.isGraphicsMagickSupportEnabled())
                 str.push("GraphicsMagick (" + PQImageFormats.getAvailableEndingsGraphicsMagick().join(" ") + ")")
             if(handlingGeneral.isLibRawSupportEnabled())

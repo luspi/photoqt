@@ -123,7 +123,7 @@ Rectangle {
         property var allfiletypes: ["all", "qt", "graphicsmagick", "raw", "devil", "freeimage", "poppler", "video", "allfiles"]
 
         model: [em.pty+qsTranslate("filedialog", "All supported images"),
-                "Qt", "GraphicsMagick", "LibRaw", "DevIL",
+                "Qt", "ImageMagick", "GraphicsMagick", "LibRaw", "DevIL",
                 "FreeImage", "PDF (Poppler)",
                 em.pty+qsTranslate("filedialog", "Video files"),
                 em.pty+qsTranslate("filedialog", "All files")]
@@ -190,16 +190,20 @@ Rectangle {
 
     function readFileTypeSettings() {
         allfiles.hideItems = []
-        if(!handlingGeneral.isGraphicsMagickSupportEnabled())
+        if(!handlingGeneral.isImageMagickSupportEnabled())
             allfiles.hideItems.push(2)
-        if(!handlingGeneral.isLibRawSupportEnabled())
+        if(!handlingGeneral.isGraphicsMagickSupportEnabled())
             allfiles.hideItems.push(3)
-        if(!handlingGeneral.isDevILSupportEnabled())
+        if(!handlingGeneral.isLibRawSupportEnabled())
             allfiles.hideItems.push(4)
-        if(!handlingGeneral.isFreeImageSupportEnabled())
+        if(!handlingGeneral.isDevILSupportEnabled())
             allfiles.hideItems.push(5)
-        if(!handlingGeneral.isPopplerSupportEnabled())
+        if(!handlingGeneral.isFreeImageSupportEnabled())
             allfiles.hideItems.push(6)
+        if(!handlingGeneral.isPopplerSupportEnabled())
+            allfiles.hideItems.push(7)
+        if(!handlingGeneral.isVideoSupportEnabled())
+            allfiles.hideItems.push(7)
 
         var neg = 2
         while(neg < allfiles.model.length) {
