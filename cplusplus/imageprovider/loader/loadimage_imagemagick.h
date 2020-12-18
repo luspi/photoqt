@@ -54,16 +54,6 @@ public:
             LOG << CURDATE << "PQLoadImageImageMagick::load(): ERROR opening file, returning empty image" << NL;
             return QImage();
         }
-        char *data = new char[file.size()];
-        qint64 s = file.read(data, file.size());
-
-        // A return value of -1 means error
-        if (s == -1) {
-            delete[] data;
-            LOG << CURDATE << "PQLoadImageImageMagick::load(): ERROR reading image file data" << NL;
-            errormsg = "ERROR reading image file data";
-            return QImage();
-        }
 
         try {
 
@@ -118,11 +108,9 @@ public:
             QImage img = QImage::fromData(imgData);
 
             // And we're done!
-            delete[] data;
             return img;
 
         } catch(Magick::Exception &e) {
-            delete[] data;
             LOG << CURDATE << "PQLoadImageImageMagick::load(): Exception: " << e.what() << NL;
             errormsg = QString("ImageMagick Exception: %1").arg(e.what());
             return QImage();
@@ -130,7 +118,7 @@ public:
 
 #endif
 
-        errormsg = "Failed to load image with GraphicsMagick!";
+        errormsg = "Failed to load image with ImageMagick!";
         return QImage();
 
     }
@@ -204,6 +192,26 @@ private:
         else if(suf == "kdc")
 
             magick = "DCR";
+
+        else if(suf == "gv")
+
+            magick = "DOT";
+
+        else if(suf == "g4")
+
+            magick = "FAX";
+
+        else if(suf == "rgbe" || suf == "xyze" || suf == "pic" || suf == "rad")
+
+            magick = "HDR";
+
+        else if(suf == "p7")
+
+            magick = "XV";
+
+        else if(suf == "pic")
+
+            magick = "PICT";
 
         return magick;
     }
