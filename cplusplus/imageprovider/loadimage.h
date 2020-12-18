@@ -93,64 +93,263 @@ public:
 
         QString ret_err = "";
 
-        if(info.suffix().toLower() == "svg" || info.suffix().toLower() == "svgz" ||
-            PQImageFormats::get().getEnabledFileformatsQt().contains("*." + info.suffix().toLower())) {
-            img = load_qt->load(filename, requestedSize, origSize);
-            ret_err = load_qt->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsXCF().contains("*." + info.suffix().toLower())) {
-            img = load_xcf->load(filename, requestedSize, origSize);
-            ret_err = load_xcf->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower())) {
-            img = load_poppler->load(filename, requestedSize, origSize);
-            ret_err = load_poppler->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsGraphicsMagick().contains("*." + info.suffix().toLower())) {
-            img = load_graphicsmagick->load(filename, requestedSize, origSize);
-            ret_err = load_graphicsmagick->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsImageMagick().contains("*." + info.suffix().toLower())) {
-            img = load_imagemagick->load(filename, requestedSize, origSize);
-            ret_err = load_imagemagick->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsRAW().contains("*." + info.suffix().toLower())) {
-            img = load_raw->load(filename, requestedSize, origSize);
-            ret_err = load_raw->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower())) {
-            img = load_devil->load(filename, requestedSize, origSize);
-            ret_err = load_devil->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower())) {
-            img = load_freeimage->load(filename, requestedSize, origSize);
-            ret_err = load_freeimage->errormsg;
-        } else if(PQImageFormats::get().getEnabledFileformatsArchive().contains("*." + info.suffix().toLower())) {
+        QStringList order;
+        order << "qt"
+              << "libraw"
+              << "poppler"
+              << "archive"
+              << "xcftools"
+              << "graphicsmagick"
+              << "imagemagick"
+              << "freeimage"
+              << "devil"
+              << "video";
 
-            bool used_unrar = false;
+        QString suffix = info.suffix().toLower();
 
-            if(PQSettings::get().getArchiveUseExternalUnrar() && (info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr")) {
-                if(foundExternalUnrar == -1) {
-                    QProcess which;
-                    which.setStandardOutputFile(QProcess::nullDevice());
-                    which.start("which", QStringList() << "unrar");
-                    which.waitForFinished();
-                    foundExternalUnrar = which.exitCode() ? 0 : 1;
+        // this stores whether we already attempted to use GraphicsMagick/ImageMagick once
+        // if loading fails, then this way we don't need to try again with graphicsmagick/imagemagick, thus being slightly faster
+        bool triedWithMagick = false;
+
+        for(QString o : order) {
+
+            if(o == "qt") {
+
+                if(PQImageFormats::get().getEnabledFileformatsQt().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "qt";
+
+                    if(suffix == "svg" || suffix == "svgz" || PQImageFormats::get().getEnabledFileformatsQt().contains("*." + suffix)) {
+                        img = load_qt->load(filename, requestedSize, origSize);
+                        ret_err = load_qt->errormsg;
+                    }
+
+                    if(ret_err != "" || img.width() < 1 || img.height() < 1) {
+                        img = load_qt->load(filename, requestedSize, origSize);
+                        ret_err = load_qt->errormsg;
+                    }
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
                 }
-                if(foundExternalUnrar == 1) {
-                    img = load_unrar->load(filename, requestedSize, origSize);
-                    ret_err = load_unrar->errormsg;
-                    if(ret_err == "")
-                        used_unrar = true;
+
+            } else if(o == "libraw") {
+
+#ifdef RAW
+
+                if(PQImageFormats::get().getEnabledFileformatsRAW().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "libraw";
+
+                    img = load_raw->load(filename, requestedSize, origSize);
+                    ret_err = load_raw->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
                 }
+
+#endif
+
+            } else if(o == "poppler") {
+
+#ifdef POPPLER
+
+                if(PQImageFormats::get().getEnabledFileformatsPoppler().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "poppler";
+
+                    img = load_poppler->load(filename, requestedSize, origSize);
+                    ret_err = load_poppler->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
+            } else if(o == "archive") {
+
+#ifdef LIBARCHIVE
+
+                if(PQImageFormats::get().getEnabledFileformatsArchive().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "archive";
+
+                    bool used_unrar = false;
+
+                    if(PQSettings::get().getArchiveUseExternalUnrar() && (info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr")) {
+                        if(foundExternalUnrar == -1) {
+                            QProcess which;
+                            which.setStandardOutputFile(QProcess::nullDevice());
+                            which.start("which", QStringList() << "unrar");
+                            which.waitForFinished();
+                            foundExternalUnrar = which.exitCode() ? 0 : 1;
+                        }
+                        if(foundExternalUnrar == 1) {
+                            img = load_unrar->load(filename, requestedSize, origSize);
+                            ret_err = load_unrar->errormsg;
+                            if(ret_err == "")
+                                used_unrar = true;
+                        }
+                    }
+
+                    if(!used_unrar) {
+                        img = load_archive->load(filename, requestedSize, origSize);
+                        ret_err = load_archive->errormsg;
+                    }
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
+            } else if(o == "xcftools") {
+
+                if(PQImageFormats::get().getEnabledFileformatsXCF().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "xcftools";
+
+                    img = load_xcf->load(filename, requestedSize, origSize);
+                    ret_err = load_xcf->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+            } else if(o == "graphicsmagick") {
+
+#ifdef GRAPHICSMAGICK
+
+                if(PQImageFormats::get().getEnabledFileformatsGraphicsMagick().contains("*." + suffix)) {
+
+                    triedWithMagick = true;
+
+                    qDebug() << "load with" << "graphicsmagick";
+
+                    img = load_graphicsmagick->load(filename, requestedSize, origSize);
+                    ret_err = load_graphicsmagick->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
+            } else if(o == "imagemagick") {
+
+#ifdef IMAGEMAGICK
+
+                if(PQImageFormats::get().getEnabledFileformatsImageMagick().contains("*." + suffix)) {
+
+                    triedWithMagick = true;
+
+                    qDebug() << "load with" << "imagemagick";
+
+                    img = load_imagemagick->load(filename, requestedSize, origSize);
+                    ret_err = load_imagemagick->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
+            } else if(o == "freeimage") {
+
+#ifdef FREEIMAGE
+
+                if(PQImageFormats::get().getEnabledFileformatsFreeImage().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "freeimage";
+
+                    img = load_freeimage->load(filename, requestedSize, origSize);
+                    ret_err = load_freeimage->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
+            } else if(o == "devil") {
+
+#ifdef DEVIL
+
+                if(PQImageFormats::get().getEnabledFileformatsDevIL().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "devil";
+
+                    img = load_devil->load(filename, requestedSize, origSize);
+                    ret_err = load_devil->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
+            } else if(o == "video") {
+
+#ifdef VIDEO
+
+                if(PQImageFormats::get().getEnabledFileformatsVideo().contains("*." + suffix)) {
+
+                    qDebug() << "load with" << "video";
+
+                    img = load_video->load(filename, requestedSize, origSize);
+                    ret_err = load_video->errormsg;
+
+                    if(ret_err != "")
+                        LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
+
+                }
+
+#endif
+
             }
 
-            if(!used_unrar) {
-                img = load_unrar->load(filename, requestedSize, origSize);
-                ret_err = load_unrar->errormsg;
+            if(ret_err == "" && img.width() > 0 && img.height() > 0)
+                break;
+
+        }
+
+        // if everything failed, we make sure to try one more time with ImageMagick to see what could be done
+        if(ret_err != "" && !triedWithMagick) {
+
+#ifdef IMAGEMAGICK
+
+            qDebug() << "load once more with" << "imagemagick";
+
+            QImage new_img = load_imagemagick->load(filename, requestedSize, origSize);
+            QString new_ret_err = load_imagemagick->errormsg;
+            if(new_ret_err == "") {
+                img = new_img;
+                ret_err = "";
             }
 
-        } else if(PQImageFormats::get().getEnabledFileformatsVideo().contains("*." + info.suffix().toLower())) {
+#elif defined(GRAPHICSMAGICK)
 
-            img = load_video->load(filename, requestedSize, origSize);
-            ret_err = load_video->errormsg;
+            qDebug() << "load once more with" << "graphicsmagick";
 
-        } else {
-            img = load_qt->load(filename, requestedSize, origSize);
-            ret_err = load_qt->errormsg;
+            QImage new_img = load_graphicsmagick->load(filename, requestedSize, origSize);
+            QString new_ret_err = load_graphicsmagick->errormsg;
+            if(new_ret_err == "") {
+                img = new_img;
+                ret_err = "";
+            }
+
+#endif
+
         }
 
         // cache image (if not scaled)
