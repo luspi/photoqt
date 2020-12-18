@@ -823,6 +823,8 @@ void PQImageFormats::composeEnabledFormats(bool withSaving) {
         return;
     }
 
+    QStringList categoriesFoundInDisabledFile;
+
     QTextStream in(&disabled);
     QString line, cat = "";
     QMap<QString,QStringList> allDisabled;
@@ -834,6 +836,7 @@ void PQImageFormats::composeEnabledFormats(bool withSaving) {
             foreach(QString c, categories) {
                 if(line.trimmed() == QString("[%1]").arg(c)) {
                     cat = c;
+                    categoriesFoundInDisabledFile.push_back(c);
                     break;
                 }
             }
@@ -851,6 +854,13 @@ void PQImageFormats::composeEnabledFormats(bool withSaving) {
     }
 
     for(QString cat : categories) {
+
+        // if this category wasn't found in the file with the disabled formats, then it must be a new category
+        // even if all formats are enabled, the category is still listed (just without any formats below)
+        if(!categoriesFoundInDisabledFile.contains(cat)) {
+            setDefaultFileformats(cat);
+            continue;
+        }
 
         // These will hold the formats that are enabled
         QStringList setTheseAsEnabled;
