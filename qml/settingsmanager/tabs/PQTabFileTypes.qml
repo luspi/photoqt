@@ -77,6 +77,10 @@ Item {
                 text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + "\n" + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
             }
 
+            PQImageLibraryOrder {
+                id: imagelibrary
+            }
+
             Flow {
 
                 width: cont.width-25

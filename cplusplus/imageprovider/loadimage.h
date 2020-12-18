@@ -318,8 +318,9 @@ public:
 
             }
 
-            if(ret_err == "" && img.width() > 0 && img.height() > 0)
+            if(ret_err == "" && img.width() > 0 && img.height() > 0) {
                 break;
+            }
 
         }
 

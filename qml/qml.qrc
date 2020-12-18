@@ -144,5 +144,7 @@
         <file>settingsmanager/tabs/interface/PQContextMenu.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileGraphicsMagick.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileImageMagick.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQImageLibraryOrder.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQImageLibraryOrderItem.qml</file>
     </qresource>
 </RCC>
