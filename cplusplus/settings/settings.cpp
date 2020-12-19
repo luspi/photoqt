@@ -95,6 +95,7 @@ void PQSettings::setDefault() {
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
     setMainMenuWindowWidth(450);
+    setImageLibrariesOrder("qt,libraw,poppler,archive,xcftools,graphicsmagick,imagemagick,freeimage,devil,video");
     setPdfSingleDocument(true);
     setPdfQuality(150);
     setArchiveSingleFile(true);
@@ -352,6 +353,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("LeftButtonMouseClickAndMove="))
                 setLeftButtonMouseClickAndMove(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ImageLibrariesOrder="))
+                setImageLibrariesOrder(line.split("=").at(1).trimmed());
 
             else if(line.startsWith("PdfSingleDocument="))
                 setPdfSingleDocument(line.split("=").at(1).toInt());
@@ -729,6 +733,7 @@ void PQSettings::saveSettings() {
         cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
         cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
         cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
+        cont += QString("ImageLibrariesOrder=%1\n").arg(m_imageLibrariesOrder);
         cont += QString("InterpolationThreshold=%1\n").arg(m_interpolationThreshold);
         cont += QString("InterpolationDisableForSmallImages=%1\n").arg(int(m_interpolationDisableForSmallImages));
         cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
