@@ -109,7 +109,8 @@ public:
 
         // this stores whether we already attempted to use GraphicsMagick/ImageMagick once
         // if loading fails, then this way we don't need to try again with graphicsmagick/imagemagick, thus being slightly faster
-        bool triedWithMagick = false;
+        bool triedWithGraphicsMagick = false;
+        bool triedWithImageMagick = false;
 
         for(QString o : order) {
 
@@ -228,7 +229,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsGraphicsMagick().contains("*." + suffix)) {
 
-                    triedWithMagick = true;
+                    triedWithGraphicsMagick = true;
 
                     qDebug() << "load with" << "graphicsmagick";
 
@@ -248,7 +249,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsImageMagick().contains("*." + suffix)) {
 
-                    triedWithMagick = true;
+                    triedWithImageMagick = true;
 
                     qDebug() << "load with" << "imagemagick";
 
@@ -325,7 +326,24 @@ public:
         }
 
         // if everything failed, we make sure to try one more time with ImageMagick to see what could be done
-        if(ret_err != "" && !triedWithMagick) {
+        if(ret_err != "" && !triedWithGraphicsMagick) {
+
+#ifdef GRAPHICSMAGICK
+
+            qDebug() << "load once more with" << "graphicsmagick";
+
+            QImage new_img = load_graphicsmagick->load(filename, requestedSize, origSize);
+            QString new_ret_err = load_graphicsmagick->errormsg;
+            if(new_ret_err == "") {
+                img = new_img;
+                ret_err = "";
+            }
+
+        }
+
+#endif
+
+        if(ret_err != "" && !triedWithImageMagick) {
 
 #ifdef IMAGEMAGICK
 
@@ -333,17 +351,6 @@ public:
 
             QImage new_img = load_imagemagick->load(filename, requestedSize, origSize);
             QString new_ret_err = load_imagemagick->errormsg;
-            if(new_ret_err == "") {
-                img = new_img;
-                ret_err = "";
-            }
-
-#elif defined(GRAPHICSMAGICK)
-
-            qDebug() << "load once more with" << "graphicsmagick";
-
-            QImage new_img = load_graphicsmagick->load(filename, requestedSize, origSize);
-            QString new_ret_err = load_graphicsmagick->errormsg;
             if(new_ret_err == "") {
                 img = new_img;
                 ret_err = "";
