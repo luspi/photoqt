@@ -56,7 +56,15 @@
 #endif
 
 #ifdef IMAGEMAGICK
-#include <ImageMagick-7/Magick++.h>
+#  ifdef __has_include
+#    if __has_include("ImageMagick-7/Magick++.h")
+#      include <ImageMagick-7/Magick++.h>
+#    else
+#      include <ImageMagick-6/Magick++.h>
+#    endif
+#  else
+#    include <ImageMagick-7/Magick++.h>
+#  endif
 #endif
 
 #ifdef DEVIL
