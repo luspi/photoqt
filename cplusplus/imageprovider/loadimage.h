@@ -78,6 +78,10 @@ public:
 
     QString load(QString filename, QSize requestedSize, QSize *origSize, QImage &img) {
 
+        DBG << CURDATE << "PQLoadImage::load()" << NL
+            << CURDATE << "** filename = " << filename.toStdString() << NL
+            << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
+
         if(filename.trimmed() == "")
             return "";
 
@@ -118,7 +122,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsQt().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "qt";
+                    DBG << CURDATE << "attempt to load image with qt" << NL;
 
                     if(suffix == "svg" || suffix == "svgz" || PQImageFormats::get().getEnabledFileformatsQt().contains("*." + suffix)) {
                         img = load_qt->load(filename, requestedSize, origSize);
@@ -141,7 +145,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsRAW().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "libraw";
+                    DBG << CURDATE << "attempt to load image with libraw" << NL;
 
                     img = load_raw->load(filename, requestedSize, origSize);
                     ret_err = load_raw->errormsg;
@@ -159,7 +163,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsPoppler().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "poppler";
+                    DBG << CURDATE << "attempt to load image with poppler" << NL;
 
                     img = load_poppler->load(filename, requestedSize, origSize);
                     ret_err = load_poppler->errormsg;
@@ -177,7 +181,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsArchive().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "archive";
+                    DBG << CURDATE << "attempt to load image with archive" << NL;
 
                     bool used_unrar = false;
 
@@ -213,7 +217,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsXCF().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "xcftools";
+                    DBG << CURDATE << "attempt to load image with xcftools" << NL;
 
                     img = load_xcf->load(filename, requestedSize, origSize);
                     ret_err = load_xcf->errormsg;
@@ -229,9 +233,9 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsGraphicsMagick().contains("*." + suffix)) {
 
-                    triedWithGraphicsMagick = true;
+                    DBG << CURDATE << "attempt to load image with graphicsmagick" << NL;
 
-                    qDebug() << "load with" << "graphicsmagick";
+                    triedWithGraphicsMagick = true;
 
                     img = load_graphicsmagick->load(filename, requestedSize, origSize);
                     ret_err = load_graphicsmagick->errormsg;
@@ -249,9 +253,9 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsImageMagick().contains("*." + suffix)) {
 
-                    triedWithImageMagick = true;
+                    DBG << CURDATE << "attempt to load image with imagemagick" << NL;
 
-                    qDebug() << "load with" << "imagemagick";
+                    triedWithImageMagick = true;
 
                     img = load_imagemagick->load(filename, requestedSize, origSize);
                     ret_err = load_imagemagick->errormsg;
@@ -269,7 +273,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsFreeImage().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "freeimage";
+                    DBG << CURDATE << "attempt to load image with freeimage" << NL;
 
                     img = load_freeimage->load(filename, requestedSize, origSize);
                     ret_err = load_freeimage->errormsg;
@@ -287,7 +291,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsDevIL().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "devil";
+                    DBG << CURDATE << "attempt to load image with devil" << NL;
 
                     img = load_devil->load(filename, requestedSize, origSize);
                     ret_err = load_devil->errormsg;
@@ -305,7 +309,7 @@ public:
 
                 if(PQImageFormats::get().getEnabledFileformatsVideo().contains("*." + suffix)) {
 
-                    qDebug() << "load with" << "video";
+                    DBG << CURDATE << "attempt to load image with video" << NL;
 
                     img = load_video->load(filename, requestedSize, origSize);
                     ret_err = load_video->errormsg;
@@ -330,7 +334,7 @@ public:
 
 #ifdef GRAPHICSMAGICK
 
-            qDebug() << "load once more with" << "graphicsmagick";
+            DBG << CURDATE << "loading image failed, trying with graphicsmagick" << NL;
 
             QImage new_img = load_graphicsmagick->load(filename, requestedSize, origSize);
             QString new_ret_err = load_graphicsmagick->errormsg;
@@ -347,7 +351,7 @@ public:
 
 #ifdef IMAGEMAGICK
 
-            qDebug() << "load once more with" << "imagemagick";
+            DBG << CURDATE << "loading image failed, trying with imagemagick" << NL;
 
             QImage new_img = load_imagemagick->load(filename, requestedSize, origSize);
             QString new_ret_err = load_imagemagick->errormsg;
