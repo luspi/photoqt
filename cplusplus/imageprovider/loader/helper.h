@@ -39,12 +39,14 @@ public:
         return QCryptographicHash::hash(QString("%1%2").arg(filename).arg(QFileInfo(filename).lastModified().toMSecsSinceEpoch()).toUtf8(),QCryptographicHash::Md5).toHex();
     }
 
-    QImage *getCachedImage(QString filename) {
+    bool getCachedImage(QString filename, QImage &img) {
 
-        if(cache->contains(getUniqueCacheKey(filename)))
-            return cache->object(getUniqueCacheKey(filename));
+        if(cache->contains(getUniqueCacheKey(filename))) {
+            img = *cache->object(getUniqueCacheKey(filename));
+            return true;
+        }
 
-        return new QImage();
+        return false;
 
     }
 
@@ -56,13 +58,13 @@ public:
 
     }
 
-    bool ensureImageFitsMaxSize(QImage *img, QSize maxSize) {
+    bool ensureImageFitsMaxSize(QImage &img, QSize maxSize) {
 
         if(maxSize.width() < 3 || maxSize.height() < 3)
             return false;
 
-        if(img->width() > maxSize.width() || img->height() > maxSize.height()) {
-            *img = img->scaled(maxSize.width(), maxSize.height(), ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
+        if(img.width() > maxSize.width() || img.height() > maxSize.height()) {
+            img = img.scaled(maxSize.width(), maxSize.height(), ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
             return true;
         }
 

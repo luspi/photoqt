@@ -88,10 +88,8 @@ public:
         QFileInfo info(filename);
 
         // check image cache, we might be done right here
-        QImage *cachedImg = load_helper->getCachedImage(filename);
-        if(!cachedImg->isNull()) {
-            load_helper->ensureImageFitsMaxSize(cachedImg, requestedSize);
-            img = *cachedImg;
+        if(load_helper->getCachedImage(filename, img)) {
+            load_helper->ensureImageFitsMaxSize(img, requestedSize);
             return "";
         }
 
