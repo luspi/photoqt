@@ -44,11 +44,14 @@ PQSetting {
 
             model: DelegateModel {
 
-                property var imagelibraries: ["qt", "libraw", "poppler", "archive", "xcftools", "graphicsmagick", "imagemagick", "freeimage", "devil", "video"]
-                property var imagelibraries_disp: ["Qt", "libraw", "Poppler", "LibArchive", "XCFTools", "GraphicsMagick", "ImageMagick", "FreeImage", "DevIL", "Video"]
+                property var imagelibraries: []             // the internal key (in order)
+                property var imagelibraries_disp: []        // what to display them as (in same order)
+                property var imagelibraries_modified: ({})  // keys in modified order
 
                 id: visualModel
                 model: imagelibraries.length
+
+                signal updateOrder()
 
                 delegate: DropArea {
                     id: delegate
@@ -57,15 +60,29 @@ PQSetting {
                     height: gridview.cellHeight
 
                     onEntered: function(drag) {
-                        visualModel.items.move((drag.source as Icon).visualIndex, icon.visualIndex)
+                        visualModel.items.move((drag.source as PQImageLibraryOrderItem).visualIndex, icon.visualIndex)
                     }
 
-                    property int listIndex: 0
+                    onVisualIndexChanged: {
+                        updateImageLibrariesOrder.restart()
+                    }
+
+                    Connections {
+                        target: visualModel
+                        onUpdateOrder: {
+                            if(delegate.listIndex == -1) return  // ignore startup trigger
+                            visualModel.imagelibraries_modified[delegate.visualIndex] = visualModel.imagelibraries[delegate.listIndex]
+                        }
+                    }
+
+                    property int listIndex: -1
                     property int visualIndex: DelegateModel.itemsIndex
 
                     // we don't want to have a property binding for this property:
                     // the initial index should remain its listIndex no matter what position it is dragged to
-                    Component.onCompleted: listIndex = DelegateModel.itemsIndex
+                    Component.onCompleted: {
+                        listIndex = DelegateModel.itemsIndex
+                    }
 
                     PQImageLibraryOrderItem {
                         id: icon
@@ -82,6 +99,14 @@ PQSetting {
 
     ]
 
+    Timer {
+        id: updateImageLibrariesOrder
+        interval: 100
+        repeat: false
+        onTriggered:
+            visualModel.updateOrder()
+    }
+
     Connections {
 
         target: settingsmanager_top
@@ -91,7 +116,12 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-
+            var libs = ""
+            for(var key in visualModel.imagelibraries_modified) {
+                if(libs != "") libs += ","
+                libs += visualModel.imagelibraries_modified[key]
+            }
+            PQSettings.imageLibrariesOrder = libs
         }
 
     }
@@ -101,6 +131,30 @@ PQSetting {
     }
 
     function load() {
+
+        var dispstr = { "qt" : "Qt",
+                        "libraw" : "libraw",
+                        "poppler" : "Poppler",
+                        "archive" : "LibArchive",
+                        "xcftools" : "XCFTools",
+                        "graphicsmagick" : "GraphicsMagick",
+                        "imagemagick" : "ImageMagick",
+                        "freeimage" : "FreeImage",
+                        "devil" : "DevIL",
+                        "video" : "Video"}
+
+        var libs = PQSettings.imageLibrariesOrder.split(",")
+        var disp = []
+        for(var l in libs) {
+            disp.push(dispstr[libs[l]])
+        }
+
+        visualModel.imagelibraries_disp = disp
+
+        for(var i = 0; i < libs.length; ++i)
+            visualModel.imagelibraries_modified[i] = libs[i]
+
+        visualModel.imagelibraries = libs
 
     }
 
