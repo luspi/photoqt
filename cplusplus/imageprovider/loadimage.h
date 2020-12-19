@@ -95,17 +95,7 @@ public:
 
         QString ret_err = "";
 
-        QStringList order;
-        order << "qt"
-              << "libraw"
-              << "poppler"
-              << "archive"
-              << "xcftools"
-              << "graphicsmagick"
-              << "imagemagick"
-              << "freeimage"
-              << "devil"
-              << "video";
+        QStringList order = PQSettings::get().getImageLibrariesOrder().split(",");
 
         QString suffix = info.suffix().toLower();
 
