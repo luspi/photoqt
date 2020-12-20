@@ -37,6 +37,63 @@ class PQLoadImageGraphicsMagick {
 public:
     PQLoadImageGraphicsMagick() {
         errormsg = "";
+
+        sufToMagick.insert("x", QStringList() << "AVS");
+
+        sufToMagick.insert("ct1", QStringList() << "CALS");
+        sufToMagick.insert("cal", QStringList() << "CALS");
+        sufToMagick.insert("ras", QStringList() << "CALS" << "SUN");
+        sufToMagick.insert("ct2", QStringList() << "CALS");
+        sufToMagick.insert("ct3", QStringList() << "CALS");
+        sufToMagick.insert("nif", QStringList() << "CALS");
+        sufToMagick.insert("ct4", QStringList() << "CALS");
+        sufToMagick.insert("c4",  QStringList() << "CALS");
+
+        sufToMagick.insert("acr",   QStringList() << "DCM");
+        sufToMagick.insert("dicom", QStringList() << "DCM");
+        sufToMagick.insert("dic",   QStringList() << "DCM");
+
+        sufToMagick.insert("pct", QStringList() << "PICT");
+        sufToMagick.insert("pic", QStringList() << "PICT" << "HDR");
+
+        sufToMagick.insert("pal", QStringList() << "PIX");
+        sufToMagick.insert("wbm", QStringList() << "WBMP");
+        sufToMagick.insert("jpe", QStringList() << "JPEG");
+        sufToMagick.insert("mif", QStringList() << "MIFF");
+
+        sufToMagick.insert("alb", QStringList() << "PWP");
+        sufToMagick.insert("sfw", QStringList() << "PWP");
+        sufToMagick.insert("pwm", QStringList() << "PWP");
+
+        sufToMagick.insert("bw", QStringList() << "SGI");
+        sufToMagick.insert("rgb", QStringList() << "SGI");
+        sufToMagick.insert("rgba", QStringList() << "SGI");
+
+        sufToMagick.insert("rast", QStringList() << "SUN");
+        sufToMagick.insert("rs", QStringList() << "SUN");
+        sufToMagick.insert("sr", QStringList() << "SUN");
+        sufToMagick.insert("scr", QStringList() << "SUN");
+        sufToMagick.insert("im1", QStringList() << "SUN");
+        sufToMagick.insert("im8", QStringList() << "SUN");
+        sufToMagick.insert("im24", QStringList() << "SUN");
+        sufToMagick.insert("im32", QStringList() << "SUN");
+
+        sufToMagick.insert("icb", QStringList() << "TGA");
+        sufToMagick.insert("vda", QStringList() << "TGA");
+        sufToMagick.insert("vst", QStringList() << "TGA");
+
+        sufToMagick.insert("vic", QStringList() << "VICAR");
+        sufToMagick.insert("img", QStringList() << "VICAR");
+        sufToMagick.insert("bm", QStringList() << "XBM");
+        sufToMagick.insert("kdc", QStringList() << "DCR");
+        sufToMagick.insert("gv", QStringList() << "DOR");
+        sufToMagick.insert("g4", QStringList() << "FAX");
+        sufToMagick.insert("rgbe", QStringList() << "HDR");
+        sufToMagick.insert("xyze", QStringList() << "HDR");
+        sufToMagick.insert("rad", QStringList() << "HDR");
+        sufToMagick.insert("p7", QStringList() << "XV");
+        sufToMagick.insert("tif", QStringList() << "TIFF");
+
     }
 
     QImage load(QString filename, QSize maxSize, QSize *origSize) {
@@ -54,29 +111,41 @@ public:
             LOG << CURDATE << "PQLoadImageGraphicsMagick::load(): ERROR opening file, returning empty image" << NL;
             return QImage();
         }
-        char *data = new char[file.size()];
-        qint64 s = file.read(data, file.size());
 
-        // A return value of -1 means error
-        if (s == -1) {
-            delete[] data;
-            LOG << CURDATE << "PQLoadImage::GraphicsMagick::load(): ERROR reading image file data" << NL;
-            errormsg = "ERROR reading image file data";
-            return QImage();
+        // Prepare Magick
+        QString suf = QFileInfo(filename).suffix().toUpper();
+        Magick::Image image;
+
+        QStringList mgs = QStringList() << suf.toLower();
+        if(sufToMagick.keys().contains(suf.toLower()))
+            mgs = sufToMagick.value(suf.toLower());
+
+        int howOftenFailed = 0;
+        for(int i = 0; i < mgs.length(); ++i) {
+
+            try {
+
+                // set current magick
+                image.magick(mgs.at(i).toUpper().toStdString());
+                // Read image into Magick
+                image.read(filename.toStdString());
+
+            } catch(Magick::Exception &e) {
+
+                ++howOftenFailed;
+                LOG << CURDATE << "PQLoadImageImageMagick::load(): Exception: " << e.what() << NL;
+                if(errormsg != "") errormsg += "<br><br>";
+                errormsg += QString("ImageMagick Exception (2): %1").arg(e.what());
+
+            }
+
         }
 
+        // no attempt was successful -> stop here
+        if(howOftenFailed == mgs.length())
+            return QImage();
+
         try {
-
-            // Prepare Magick
-            QString suf = QFileInfo(filename).suffix().toUpper();
-            Magick::Image image;
-
-            // Detect and set Magick format
-            std::string magick = getImageMagickString(suf.toLower());
-            if(magick != "") image.magick(magick);
-
-            // Read image into Magick
-            image.read(filename.toStdString());
 
             finalSize = QSize(image.columns(), image.rows());
             *origSize = finalSize;
@@ -116,11 +185,9 @@ public:
             QImage img = QImage::fromData(imgData);
 
             // And we're done!
-            delete[] data;
             return img;
 
         } catch(Magick::Exception &e) {
-            delete[] data;
             LOG << CURDATE << "PQLoadImageGraphicsMagick::load(): Exception: " << e.what() << NL;
             errormsg = QString("GraphicsMagick Exception: %1").arg(e.what());
             return QImage();
@@ -136,72 +203,7 @@ public:
     QString errormsg;
 
 private:
-
-#ifdef GRAPHICSMAGICK
-    std::string getImageMagickString(QString suf) {
-
-        std::string magick = suf.toUpper().toStdString();
-
-        if(suf == "x")
-
-            magick = "AVS";
-
-        else if(suf == "ct1" || suf == "cal" || suf == "ras" || suf == "ct2" || suf == "ct3" || suf == "nif" || suf == "ct4" || suf == "c4")
-
-            magick = "CALS";
-
-        else if(suf == "acr" || suf == "dicom" || suf == "dic")
-
-            magick = "DCM";
-
-        else if(suf == "pct" || suf == "pic")
-
-            magick = "PICT";
-
-        else if(suf == "pal")
-
-            magick = "PIX";
-
-        else if(suf == "wbm")
-
-            magick = "WBMP";
-
-        else if(suf == "jpe")
-
-            magick = "JPEG";
-
-        else if(suf == "mif")
-
-            magick = "MIFF";
-
-        else if(suf == "alb" || suf == "sfw" || suf == "pwm")
-
-            magick = "PWP";
-
-        else if(suf == "bw" || suf == "rgb" || suf == "rgba")
-
-            magick = "SGI";
-
-        else if(suf == "ras" || suf == "rast" || suf == "rs" || suf == "sr" || suf == "scr" ||
-                suf == "im1" || suf == "im8" || suf == "im24" || suf == "im32")
-
-            magick = "SUN";
-
-        else if(suf == "icb" || suf == "vda" || suf == "vst")
-
-            magick = "TGA";
-
-        else if(suf == "vic" || suf == "img")
-
-            magick = "VICAR";
-
-        else if(suf == "bm")
-
-            magick = "XBM";
-
-        return magick;
-    }
-#endif
+    QMap<QString, QStringList> sufToMagick;
 
 };
 
