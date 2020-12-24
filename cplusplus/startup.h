@@ -27,6 +27,7 @@
 #include "startup/screenshots.h"
 #include "startup/shortcuts.h"
 #include "startup/contextmenu.h"
+#include "startup/imageformats.h"
 
 namespace PQStartup {
 
@@ -35,6 +36,7 @@ namespace PQStartup {
         ::PQStartup::Screenshots::getAndStore();
         ::PQStartup::Shortcuts::createDefaultShortcuts();
         ::PQStartup::ContextMenu::createDefault();
+        ::PQStartup::ImageFormats::ensureImageFormatsDatabaseExists();
     }
 
 }

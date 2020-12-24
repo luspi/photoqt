@@ -155,11 +155,11 @@ public:
             if(!PQSettings::get().getPdfSingleDocument() && (info.suffix().toLower() == "pdf" || info.suffix().toLower() == "epdf"))
                 ret += handlingFileDialog.listPDFPages(info.absoluteFilePath());
             else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf") {
-                if(!PQSettings::get().getArchiveSingleFile() && PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                if(!PQSettings::get().getArchiveSingleFile() && PQImageFormats2::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
                     ret += handlingFileDialog.listArchiveContent(info.absoluteFilePath());
-                else if(!PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                else if(!PQImageFormats2::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
                     ret.push_back(info.absoluteFilePath());
-            } else if(!PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+            } else if(!PQImageFormats2::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
 #endif
                 ret.push_back(info.absoluteFilePath());
         }

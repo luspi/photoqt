@@ -532,9 +532,9 @@ GridView {
 
         // set right name filter
         files_model.nameFilters = tweaks.showWhichFileTypeIndex==="all" ?
-                                    PQImageFormats.getAllEnabledFileFormats() :
+                                    PQImageFormats2.getAllEnabledFileFormats() :
                                       (validcategories.indexOf(tweaks.showWhichFileTypeIndex) > -1 ?
-                                        PQImageFormats.getEnabledFileFormats(tweaks.showWhichFileTypeIndex) :
+                                        PQImageFormats2.getEnabledFileFormats(tweaks.showWhichFileTypeIndex) :
                                           [])
 
         loc = handlingFileDialog.cleanPath(loc)

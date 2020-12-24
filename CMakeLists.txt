@@ -65,9 +65,9 @@ endif(GM)
 ################################
 
 if(WIN32)
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools WinExtras REQUIRED)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql WinExtras REQUIRED)
 else()
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools REQUIRED)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql REQUIRED)
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
@@ -144,10 +144,10 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 # on windows we add application icons
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
-    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::WinExtras)
+    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql Qt5::WinExtras)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files})
-    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus)
+    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql)
 endif(WIN32)
 
 ######################################################

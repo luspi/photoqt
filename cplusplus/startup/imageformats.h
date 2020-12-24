@@ -20,38 +20,27 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
+#ifndef PQSTARTUP_IMAGEFORMATS_H
+#define PQSTARTUP_IMAGEFORMATS_H
 
-PQFileTypeTile {
+#include "../logger.h"
 
-    title: "libraw"
+namespace PQStartup {
 
-    available: PQImageFormats.getAvailableEndingsWithDescriptionRAW()
-    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsRAW()
-    currentlyEnabled: PQImageFormats.enabledFileformatsRAW
-    projectWebpage: ["libraw.org", "https://www.libraw.org"]
-    description: em.pty+qsTranslate("settingsmanager_filetypes", "With the help of libraw PhotoQt can display almost any raw image that exists.")
+    namespace ImageFormats {
 
-    Connections {
+        static void ensureImageFormatsDatabaseExists() {
 
-        target: settingsmanager_top
-
-        onLoadAllSettings: {
-            resetChecked()
-        }
-
-        onSaveAllSettings: {
-            var c = []
-            for(var key in checkedItems) {
-                if(checkedItems[key])
-                    c.push(key)
+            QFile db(ConfigFiles::IMAGEFORMATS_DB());
+            if(!db.exists()) {
+                if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
+                    LOG << CURDATE << "PQStartup::ImageFormats: unable to create default imageformats database" << NL;
             }
-            PQImageFormats.enabledFileformatsRAW = c
+
         }
 
     }
 
-    Component.onCompleted: {
-        resetChecked()
-    }
 }
+
+#endif // PQSTARTUP_IMAGEFORMATS_H

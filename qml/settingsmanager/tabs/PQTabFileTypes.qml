@@ -77,30 +77,15 @@ Item {
                 text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + "\n" + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
             }
 
-            PQImageLibraryOrder {
-                id: imagelibrary
-            }
-
-            Flow {
-
-                width: cont.width-25
-                spacing: 10
-
-                PQFileTypeTileQt {}
-                PQFileTypeTileImageMagick {}
-                PQFileTypeTileGraphicsMagick {}
-                PQFileTypeTileLibRaw {}
-                PQFileTypeTileLibArchive {}
-                PQFileTypeTileDevil {}
-                PQFileTypeTileFreeImage {}
-                PQFileTypeTilePoppler {}
-                PQFileTypeTileXCF {}
-                PQFileTypeTileVideo {}
-
-                // add some spacing at the bottom
-                Item { width: 1; height: 25 }
-
-            }
+            PQImageLibraryOrder { id: lib }
+                PQHorizontalLine { expertModeOnly: lib.expertmodeonly }
+            PQPoppler { id: pop }
+                PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
+            PQLibArchive { id: arc }
+                PQHorizontalLine { expertModeOnly: arc.expertmodeonly }
+            PQVideo { id: vid }
+                PQHorizontalLine { expertModeOnly: vid.expertmodeonly }
+            PQFileTypes { id: fty }
 
         }
 

@@ -55,6 +55,10 @@ public:
         return QString("%1/imageformats_disabled").arg(CONFIG_DIR());
     }
 
+    static const QString IMAGEFORMATS_DB() {
+        return QString("%1/imageformats.db").arg(CONFIG_DIR());
+    }
+
     static const QString MIMEFORMATS_FILE() {
         return QString("%1/mimeformats_disabled").arg(CONFIG_DIR());
     }

@@ -39,7 +39,7 @@
 #include <QKeySequence>
 
 #include "../logger.h"
-#include "../settings/imageformats.h"
+#include "../settings/imageformats2.h"
 #include "../settings/settings.h"
 #include "../variables.h"
 

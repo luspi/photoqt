@@ -116,7 +116,7 @@ Item {
                 loadingindicator.visible = false
                 loadingtimer.restart()
 
-                if(PQImageFormats.enabledFileformatsVideo.indexOf("*."+handlingFileDialog.getSuffix(src))>-1) {
+                if(PQImageFormats2.enabledFileformatsVideo.indexOf("*."+handlingFileDialog.getSuffix(src))>-1) {
                     imageloader.source = "image/PQMovie.qml"
                     variables.videoControlsVisible = true
                 } else if(imageproperties.isAnimated(src)) {

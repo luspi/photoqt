@@ -23,14 +23,14 @@
 function loadFile(path, copyOfAllFiles) {
 
 
-    if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
+    if(PQImageFormats2.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(path)
         variables.indexOfCurrentImage = 0
 
         variables.newFileLoaded()
 
-    } else if(PQImageFormats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
+    } else if(PQImageFormats2.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(path)
         variables.indexOfCurrentImage = 0
@@ -57,14 +57,14 @@ function loadFile(path, copyOfAllFiles) {
 
             variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(path,
                                                                                PQSettings.openShowHiddenFilesFolders,
-                                                                               PQImageFormats.getEnabledFileFormats("all"),
+                                                                               PQImageFormats2.getEnabledFileFormats("all"),
                                                                                sortField,
                                                                                !PQSettings.sortbyAscending)
 
         }
 
         var fp = path
-        if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
+        if(PQImageFormats2.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
             fp = "0::PQT::" + fp
 
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)

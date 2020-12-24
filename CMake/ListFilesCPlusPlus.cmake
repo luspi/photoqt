@@ -6,7 +6,7 @@ SET(d "cplusplus")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/logger.h ${d}/configfiles.h ${d}/variables.h ${d}/startup.h ${d}/keypresschecker.h)
 
 SET(d "cplusplus/settings")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.cpp ${d}/imageformats.cpp ${d}/windowgeometry.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.cpp ${d}/imageformats.cpp ${d}/windowgeometry.cpp ${d}/imageformats2.cpp)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfiledialog.cpp ${d}/localisation.h ${d}/imageproperties.cpp)
@@ -24,4 +24,4 @@ SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/startup")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/screenshots.h ${d}/exportimport.h ${d}/shortcuts.h ${d}/folders.h ${d}/contextmenu.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/screenshots.h ${d}/exportimport.h ${d}/shortcuts.h ${d}/folders.h ${d}/contextmenu.h ${d}/imageformats.h)

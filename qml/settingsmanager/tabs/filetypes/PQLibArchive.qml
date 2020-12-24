@@ -21,39 +21,64 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQml.Models 2.9
 
-PQFileTypeTile {
+import "../../../elements"
 
-    title: "ImageMagick"
+PQSetting {
+    id: set
+    //: A settings title
+    title: em.pty+qsTranslate("settingsmanager_filetypes", "LibArchive settings")
+    helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for opening archives.")
+    content: [
 
-    available: PQImageFormats.getAvailableEndingsWithDescriptionImageMagick()
-    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsImageMagick()
-    currentlyEnabled: PQImageFormats.enabledFileformatsImageMagick
-    projectWebpage: ["imagemagick.org", "https://imagemagick.org/"]
-    description: em.pty+qsTranslate("settingsmanager_filetypes", "ImageMagick is a free and open-source cross-platform software suite for displaying, creating, converting, modifying, and editing raster images. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.")
+        Row {
 
-    iconsource: "/settingsmanager/filetypes/im.png"
+            spacing: 10
+
+            PQCheckbox {
+                id: ext_unrar
+                tooltip: "LibArchive supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool unrar instead of libarchive for proper support of RAR archives."
+                //: used for checkbox
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "use external 'unrar'")
+            }
+            PQCheckbox {
+                id: isolate
+                tooltip: "PhotoQt uses LibArchive to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file inside the archive file as one image) or it can ignore them completely except when asked to open an archive. In that case it then wont load any other images (like a document viewer)."
+                //: as in: when an archive is loaded all other files in the folder are ignored
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "isolate archives")
+            }
+
+        }
+
+    ]
 
     Connections {
 
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            resetChecked()
+            load()
         }
 
         onSaveAllSettings: {
-            var c = []
-            for(var key in checkedItems) {
-                if(checkedItems[key])
-                    c.push(key)
-            }
-            PQImageFormats.enabledFileformatsImageMagick = c
+            PQSettings.archiveUseExternalUnrar = ext_unrar.checked
+            PQSettings.archiveSingleFile = isolate.checked
         }
 
     }
 
     Component.onCompleted: {
-        resetChecked()
+        load()
     }
+
+    function load() {
+
+        ext_unrar.checked = PQSettings.archiveUseExternalUnrar
+        isolate.checked = PQSettings.archiveSingleFile
+
+    }
+
+
 }

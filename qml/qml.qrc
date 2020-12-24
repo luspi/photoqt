@@ -124,16 +124,6 @@
         <file>elements/PQHorizontalLine.qml</file>
         <file>settingsmanager/tabs/PQTabShortcuts.qml</file>
         <file>settingsmanager/tabs/PQTabFileTypes.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTile.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQAdvancedTuning.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileQt.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileLibArchive.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileLibRaw.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileDevil.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileFreeImage.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTilePoppler.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileXCF.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileVideo.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQAvailableCommands.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQContainer.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQActiveShortcuts.qml</file>
@@ -142,9 +132,11 @@
         <file>filemanagement/PQCopyMove.qml</file>
         <file>mainwindow/PQLoading.qml</file>
         <file>settingsmanager/tabs/interface/PQContextMenu.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileGraphicsMagick.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQFileTypeTileImageMagick.qml</file>
         <file>settingsmanager/tabs/filetypes/PQImageLibraryOrder.qml</file>
         <file>settingsmanager/tabs/filetypes/PQImageLibraryOrderItem.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQVideo.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQPoppler.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQLibArchive.qml</file>
+        <file>settingsmanager/tabs/filetypes/PQFileTypes.qml</file>
     </qresource>
 </RCC>

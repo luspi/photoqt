@@ -108,11 +108,11 @@ public:
 
             if(o == "qt") {
 
-                if(PQImageFormats::get().getEnabledFileformatsQt().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsQt().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with qt" << NL;
 
-                    if(suffix == "svg" || suffix == "svgz" || PQImageFormats::get().getEnabledFileformatsQt().contains("*." + suffix)) {
+                    if(suffix == "svg" || suffix == "svgz" || PQImageFormats2::get().getEnabledFileformatsQt().contains("*." + suffix)) {
                         img = load_qt->load(filename, requestedSize, origSize);
                         ret_err = load_qt->errormsg;
                     }
@@ -131,7 +131,7 @@ public:
 
 #ifdef RAW
 
-                if(PQImageFormats::get().getEnabledFileformatsRAW().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsRAW().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with libraw" << NL;
 
@@ -149,7 +149,7 @@ public:
 
 #ifdef POPPLER
 
-                if(PQImageFormats::get().getEnabledFileformatsPoppler().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsPoppler().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with poppler" << NL;
 
@@ -167,7 +167,7 @@ public:
 
 #ifdef LIBARCHIVE
 
-                if(PQImageFormats::get().getEnabledFileformatsArchive().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsArchive().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with archive" << NL;
 
@@ -203,7 +203,7 @@ public:
 
             } else if(o == "xcftools") {
 
-                if(PQImageFormats::get().getEnabledFileformatsXCF().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsXCF().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with xcftools" << NL;
 
@@ -219,7 +219,7 @@ public:
 
 #ifdef GRAPHICSMAGICK
 
-                if(PQImageFormats::get().getEnabledFileformatsGraphicsMagick().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsGraphicsMagick().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with graphicsmagick" << NL;
 
@@ -239,7 +239,7 @@ public:
 
 #ifdef IMAGEMAGICK
 
-                if(PQImageFormats::get().getEnabledFileformatsImageMagick().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsImageMagick().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with imagemagick" << NL;
 
@@ -259,7 +259,7 @@ public:
 
 #ifdef FREEIMAGE
 
-                if(PQImageFormats::get().getEnabledFileformatsFreeImage().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsFreeImage().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with freeimage" << NL;
 
@@ -277,7 +277,7 @@ public:
 
 #ifdef DEVIL
 
-                if(PQImageFormats::get().getEnabledFileformatsDevIL().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsDevIL().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with devil" << NL;
 
@@ -295,7 +295,7 @@ public:
 
 #ifdef VIDEO
 
-                if(PQImageFormats::get().getEnabledFileformatsVideo().contains("*." + suffix)) {
+                if(PQImageFormats2::get().getEnabledFileformatsVideo().contains("*." + suffix)) {
 
                     DBG << CURDATE << "attempt to load image with video" << NL;
 
