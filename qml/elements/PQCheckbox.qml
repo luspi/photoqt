@@ -76,6 +76,7 @@ CheckBox {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         tooltip: control.tooltip
+        tooltipWrapMode: Text.WrapAtWordBoundaryOrAnywhere
         acceptedButtons: Qt.RightButton
 
         onClicked:
