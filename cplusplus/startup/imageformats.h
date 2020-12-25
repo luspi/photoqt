@@ -35,6 +35,10 @@ namespace PQStartup {
             if(!db.exists()) {
                 if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
                     LOG << CURDATE << "PQStartup::ImageFormats: unable to create default imageformats database" << NL;
+                else {
+                    QFile file(ConfigFiles::IMAGEFORMATS_DB());
+                    file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+                }
             }
 
         }

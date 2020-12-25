@@ -50,8 +50,7 @@ public:
         return formats;
     }
     Q_INVOKABLE void setAllFormats(QVariantList f) {
-        formats = f;
-        writeToDatabase();
+        writeToDatabase(f);
     }
 
     Q_INVOKABLE QVector<QString> getEnabledFormats() {
@@ -62,15 +61,11 @@ public:
         return formats_defaultenabled;
     }
 
-
-signals:
-
-
 private:
     PQImageFormats();
 
     void readFromDatabase();
-    void writeToDatabase();
+    void writeToDatabase(QVariantList f);
 
     QSqlDatabase db;
 

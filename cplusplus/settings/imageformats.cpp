@@ -38,6 +38,20 @@ PQImageFormats::PQImageFormats() {
 
 void PQImageFormats::readFromDatabase() {
 
+    formats.clear();
+    formats_enabled.clear();
+    formats_defaultenabled.clear();
+    formats_qt.clear();
+    formats_im.clear();
+    formats_gm.clear();
+    formats_libraw.clear();
+    formats_poppler.clear();
+    formats_xcftools.clear();
+    formats_devil.clear();
+    formats_freeimage.clear();
+    formats_archive.clear();
+    formats_video.clear();
+
     QSqlQuery query("SELECT * FROM imageformats ORDER BY description ASC", db);
 
     while(query.next()) {
@@ -139,7 +153,7 @@ void PQImageFormats::readFromDatabase() {
             if(enabled)
                 formats_enabled << ending.split(",").toVector();
             if(defaultenabled)
-                formats_defaultenabled << ending.split(",").toVector();
+                formats_defaultenabled << ending;
             if(magickToBeAdded) {
                 for(QString e : ending.split(","))
                     magick.insert(e, im_gm_magick);
@@ -150,11 +164,11 @@ void PQImageFormats::readFromDatabase() {
 
 }
 
-void PQImageFormats::writeToDatabase() {
+void PQImageFormats::writeToDatabase(QVariantList f) {
 
     db.transaction();
 
-    for(QVariant entry : formats) {
+    for(QVariant entry : f) {
 
         QSqlQuery query(db);
         query.prepare("UPDATE imageformats SET enabled=:enabled WHERE endings=:endings");
@@ -166,5 +180,7 @@ void PQImageFormats::writeToDatabase() {
     }
 
     db.commit();
+
+    readFromDatabase();
 
 }
