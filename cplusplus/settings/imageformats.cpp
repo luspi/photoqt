@@ -27,12 +27,42 @@ PQImageFormats::PQImageFormats() {
     db = QSqlDatabase::addDatabase("QSQLITE3");
     db.setHostName("formats");
     db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
-    if(!db.open()) {
-        LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR opening database: " << db.lastError().text().trimmed().toStdString() << NL;
-        return;
-    }
 
-    readFromDatabase();
+    if(!QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) || !db.open()) {
+
+        LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "PQImageFormats::PQImageFormats(): Will load built-in read-only database of imageformats" << NL;
+
+        readonly = true;
+        db.setConnectOptions("QSQLITE_OPEN_READONLY");
+
+        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/imageformats.db";
+
+        if(QFile::exists(tmppath))
+            QFile::remove(tmppath);
+
+        if(!QFile::copy(":/imageformats.db", tmppath)) {
+            LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR copying read-only default database!" << NL;
+            QMessageBox::critical(0, "ERROR getting default image formats", "I tried hard, but I just cannot open even a read-only version of the database of default image formats, something went terribly wrong somewhere... :/");
+            return;
+        }
+
+        db.setDatabaseName(tmppath);
+
+        if(!db.open()) {
+            LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR opening read-only default database!" << NL;
+            QMessageBox::critical(0, "ERROR getting default image formats", "I tried hard, but I just cannot open the database of default image formats, something went terribly wrong somewhere... :/");
+            return;
+        }
+
+        readFromDatabase();
+
+    } else {
+
+        readonly = false;
+        readFromDatabase();
+
+    }
 
 }
 
@@ -165,6 +195,8 @@ void PQImageFormats::readFromDatabase() {
 }
 
 void PQImageFormats::writeToDatabase(QVariantList f) {
+
+    if(readonly) return;
 
     db.transaction();
 

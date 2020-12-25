@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <QtSql>
+#include <QMessageBox>
 
 #include "../logger.h"
 #include "../configfiles.h"
@@ -86,6 +87,10 @@ private:
     QVector<QString> formats_video;
 
     QVariantMap magick;
+
+    // this is true if reading from the permanent database failed
+    // in that case we load the built-in default database but read-only
+    bool readonly;
 
 };
 
