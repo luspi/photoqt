@@ -32,10 +32,65 @@ Item {
     width: cont.width-20
     height: childrenRect.height
 
+    signal checkAll()
+    signal checkDefault()
+
     Column {
 
         width: parent.width-10
         spacing: 10
+
+        Column {
+            spacing: 10
+            Row {
+                spacing: 10
+                PQButton {
+                    text: "Select all default image formats"
+                    onClicked: {
+                        filetypes_top.checkDefault()
+                        listview.ftChanged()
+                    }
+                }
+                PQButton {
+                    text: "Select all image formats"
+                    onClicked: {
+                        if(handlingGeneral.askForConfirmation("Enable all image formats?", "This will also enable all untested image formats.")) {
+                            filetypes_top.checkAll()
+                            listview.ftChanged()
+                        }
+                    }
+                }
+            }
+            Item {
+                width: 1
+                height: 1
+            }
+            Text {
+                id: countEnabled
+                property int num: 0
+                color: "white"
+                font.pointSize: 12
+                text: "Currently there are %1 image formats enabled".arg("<b>"+num+"</b>")
+                Connections {
+                    target: listview
+                    onFtChanged:
+                        countEnabled.countFormats()
+                }
+                Component.onCompleted: {
+                    countEnabled.countFormats()
+                }
+                function countFormats() {
+                    var c = 0
+                    for(var i = 0; i< listview.ft.length; ++i)
+                        if(listview.ft[i][1] == 1) c += 1
+                    countEnabled.num = c
+                }
+            }
+            Item {
+                width: 1
+                height: 1
+            }
+        }
 
         Row {
             spacing: 10
@@ -139,6 +194,17 @@ Item {
                         tooltip: "<b>File endings:</b> *." + listview.ft[index][0].split(",").join(", *.")
                     }
 
+                    Connections {
+                        target: filetypes_top
+                        onCheckAll:
+                            listview.ft[index][1] = 1
+                        onCheckDefault: {
+                            listview.ft[index][1] = 1
+                            if(PQImageFormats.getDefaultEnabledFormats().indexOf(listview.ft[index][0]) == -1)
+                                listview.ft[index][1] = 0
+                        }
+                    }
+
                 }
 
         }
@@ -150,9 +216,7 @@ Item {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            // nothing to load here
-            // the endings are set above as property binding, and this is the only place where they will ever be changed
-            // thus there is no reason to load (re-)load them here
+            listview.ft = PQImageFormats.getAllFormats()
         }
 
         onSaveAllSettings: {
