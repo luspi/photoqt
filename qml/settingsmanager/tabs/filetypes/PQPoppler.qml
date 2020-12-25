@@ -31,6 +31,7 @@ PQSetting {
     //: A settings title
     title: em.pty+qsTranslate("settingsmanager_filetypes", "Poppler settings")
     helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for showing PDFs.")
+    expertmodeonly: true
     content: [
 
         Row {

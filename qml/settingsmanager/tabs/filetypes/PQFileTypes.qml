@@ -98,13 +98,13 @@ Item {
             PQLineEdit {
                 id: filter_desc
                 width: filetypes_top.width/2
-                placeholderText: "Filter by description"
+                placeholderText: "Search by description"
             }
 
             PQLineEdit {
                 id: filter_lib
                 width: filetypes_top.width/2 -20
-                placeholderText: "Filter by image library"
+                placeholderText: "Search by image library"
             }
         }
 

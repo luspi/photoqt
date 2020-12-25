@@ -31,6 +31,7 @@ PQSetting {
     //: A settings title
     title: em.pty+qsTranslate("settingsmanager_filetypes", "LibArchive settings")
     helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for opening archives.")
+    expertmodeonly: true
     content: [
 
         Row {

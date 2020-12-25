@@ -74,7 +74,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + "\n" + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
+                text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + " " + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
             }
 
             PQImageLibraryOrder { id: lib }
