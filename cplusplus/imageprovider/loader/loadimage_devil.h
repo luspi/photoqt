@@ -68,8 +68,34 @@ public:
         const int height = ilGetInteger(IL_IMAGE_HEIGHT);
         *origSize = QSize(width, height);
 
+
+        // this would be the way to load images directly from DevIL into QImage,
+        // but DevIL seems to have some issues with being used from different threads
+        // this *will* make PhotoQt crash often (not always)
+//        ILubyte *bt = ilGetData();
+//        if(bt == NULL) LOG << "bt is NULL!!" << NL;
+//        QImage tmpimg(bt, width, height, QImage::Format_ARGB32);
+//        if(tmpimg.isNull()) LOG << "QImage is NULL!!" << NL;
+
+//        QImage img;
+
+//        // If image needs to be scaled down, do so now
+//        if(maxSize.width() > 5 && maxSize.height() > 5) {
+//            double q = 1;
+//            if(width > maxSize.width())
+//                q = (double)maxSize.width()/(double)width;
+//            if(height*q > maxSize.height())
+//                q = (double)maxSize.height()/(double)height;
+//            img = tmpimg.scaled(width*q, height*q);
+//        } else
+//            img = tmpimg.copy();
+
+//        ilBindImage(0);
+//        ilDeleteImages(1, &imageID);
+
+
         // This is the temporary file we will load the image into
-        QString tempimage = QDir::tempPath() + "/photoqtdevil.bmp";
+        QString tempimage = QDir::tempPath() + "/photoqtdevil.ppm";
 
         // Make sure DevIL can overwrite any previously created file
         ilEnable(IL_FILE_OVERWRITE);
