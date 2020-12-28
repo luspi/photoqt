@@ -62,6 +62,50 @@ public:
         return formats_defaultenabled;
     }
 
+    Q_INVOKABLE QVector<QString> getEnabledFormatsQt() {
+        return formats_qt;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsImageMagick() {
+        return formats_im;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsGraphicsMagick() {
+        return formats_gm;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsLibRaw() {
+        return formats_libraw;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsPoppler() {
+        return formats_poppler;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsXCFTools() {
+        return formats_xcftools;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsDevIL() {
+        return formats_devil;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsFreeImage() {
+        return formats_freeimage;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsLibArchive() {
+        return formats_archive;
+    }
+
+    Q_INVOKABLE QVector<QString> getEnabledFormatsVideo() {
+        return formats_video;
+    }
+
+    Q_INVOKABLE QVariantMap getMagick() {
+        return magick;
+    }
+
 private:
     PQImageFormats();
 

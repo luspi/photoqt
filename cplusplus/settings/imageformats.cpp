@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "imageformats.h"
+#include <QImageReader>
 
 PQImageFormats::PQImageFormats() {
 
@@ -82,11 +83,14 @@ void PQImageFormats::readFromDatabase() {
     formats_archive.clear();
     formats_video.clear();
 
+    const QList<QByteArray> qtSupported = QImageReader::supportedImageFormats();
+
     QSqlQuery query("SELECT * FROM imageformats ORDER BY description ASC", db);
 
     while(query.next()) {
 
-        const QString ending = query.record().value("endings").toString();
+        const QString endings = query.record().value("endings").toString();
+        const QString mimetypes = query.record().value("mimetypes").toString();
         const QString desc = query.record().value("description").toString();
         const int enabled = query.record().value("enabled").toInt();
         const int defaultenabled = query.record().value("defaultenabled").toInt();
@@ -101,25 +105,30 @@ void PQImageFormats::readFromDatabase() {
         const int archive = query.record().value("archive").toInt();
         const int video = query.record().value("video").toInt();
         const QString im_gm_magick = query.record().value("im_gm_magick").toString();
+        const QString qt_formatname = query.record().value("qt_formatname").toString();
 
         bool supportedByAnyLibrary = false;
         bool magickToBeAdded = false;
 
         QList<QVariant> all;
-        all << ending;
+        all << endings;
         all << enabled;
         all << desc;
         if(qt) {
-            supportedByAnyLibrary = true;
-            all << "Qt";
-            formats_qt << ending.split(",").toVector();
+            // we check the formats against the list of supported image formats
+            // this list can vary depending on which plugins are installed
+            if(qtSupported.contains(qt_formatname.toUtf8())) {
+                supportedByAnyLibrary = true;
+                all << "Qt";
+                formats_qt << endings.split(",").toVector();
+            }
         }
 #ifdef IMAGEMAGICK
         if(im) {
             supportedByAnyLibrary = true;
             magickToBeAdded = true;
             all << "ImageMagick";
-            formats_im << ending.split(",").toVector();
+            formats_im << endings.split(",").toVector();
         }
 #endif
 #ifdef GRAPHICSMAGICK
@@ -127,52 +136,52 @@ void PQImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             magickToBeAdded = true;
             all << "GraphicsMagick";
-            formats_gm << ending.split(",").toVector();
+            formats_gm << endings.split(",").toVector();
         }
 #endif
         if(libraw) {
             supportedByAnyLibrary = true;
             all << "libraw";
-            formats_libraw << ending.split(",").toVector();
+            formats_libraw << endings.split(",").toVector();
         }
 #ifdef POPPLER
         if(poppler) {
             supportedByAnyLibrary = true;
             all << "Poppler";
-            formats_poppler << ending.split(",").toVector();
+            formats_poppler << endings.split(",").toVector();
         }
 #endif
         if(xcftools) {
             supportedByAnyLibrary = true;
             all << "XCFTools";
-            formats_xcftools << ending.split(",").toVector();
+            formats_xcftools << endings.split(",").toVector();
         }
 #ifdef DEVIL
         if(devil) {
             supportedByAnyLibrary = true;
             all << "DevIL";
-            formats_devil << ending.split(",").toVector();
+            formats_devil << endings.split(",").toVector();
         }
 #endif
 #ifdef FREEIMAGE
         if(freeimage) {
             supportedByAnyLibrary = true;
             all << "FreeImage";
-            formats_freeimage << ending.split(",").toVector();
+            formats_freeimage << endings.split(",").toVector();
         }
 #endif
 #ifdef LIBARCHIVE
         if(archive) {
             supportedByAnyLibrary = true;
             all << "LibArchive";
-            formats_archive << ending.split(",").toVector();
+            formats_archive << endings.split(",").toVector();
         }
 #endif
 #ifdef VIDEO
         if(video) {
             supportedByAnyLibrary = true;
             all << "Video";
-            formats_video << ending.split(",").toVector();
+            formats_video << endings.split(",").toVector();
         }
 #endif
 
@@ -181,16 +190,23 @@ void PQImageFormats::readFromDatabase() {
             formats << QVariant::fromValue(all);
 
             if(enabled)
-                formats_enabled << ending.split(",").toVector();
+                formats_enabled << endings.split(",").toVector();
             if(defaultenabled)
-                formats_defaultenabled << ending;
-            if(magickToBeAdded) {
-                for(QString e : ending.split(","))
-                    magick.insert(e, im_gm_magick);
+                formats_defaultenabled << endings;
+            if(magickToBeAdded && im_gm_magick != "") {
+                for(QString e : endings.split(",")) {
+                    if(magick.keys().contains(e))
+                        magick[e] = QStringList() << magick[e].toStringList() << im_gm_magick;
+                    else
+                        magick.insert(e, QStringList() << im_gm_magick);
+                }
             }
 
         }
     }
+
+    for(QString e : magick.keys())
+        LOG << e.toStdString() << " :: " << magick.value(e).toStringList().join(",").toStdString() << NL;
 
 }
 
