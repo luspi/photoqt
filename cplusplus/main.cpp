@@ -57,15 +57,7 @@
 #endif
 
 #ifdef IMAGEMAGICK
-#  ifdef __has_include
-#    if __has_include("ImageMagick-7/Magick++.h")
-#      include <ImageMagick-7/Magick++.h>
-#    else
-#      include <ImageMagick-6/Magick++.h>
-#    endif
-#  else
-#    include <ImageMagick-7/Magick++.h>
-#  endif
+#include <Magick++.h>
 #endif
 
 #ifdef DEVIL
@@ -97,6 +89,7 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
+// only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);

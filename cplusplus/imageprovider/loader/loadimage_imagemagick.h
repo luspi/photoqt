@@ -26,18 +26,11 @@
 #include <QFile>
 #include <QImage>
 
+#include "../../settings/imageformats.h"
 #include "../../logger.h"
 
 #ifdef IMAGEMAGICK
-#  ifdef __has_include
-#    if __has_include("ImageMagick-7/Magick++.h")
-#      include <ImageMagick-7/Magick++.h>
-#    else
-#      include <ImageMagick-6/Magick++.h>
-#    endif
-#  else
-#    include <ImageMagick-7/Magick++.h>
-#  endif
+#include <Magick++.h>
 #endif
 
 class PQLoadImageImageMagick {
@@ -124,24 +117,33 @@ public:
         QString suf = QFileInfo(filename).suffix().toUpper();
         Magick::Image image;
 
-        QStringList mgs = QStringList() << suf.toLower();
-        if(sufToMagick.keys().contains(suf.toLower()))
-            mgs = sufToMagick.value(suf.toLower());
+        QStringList mgs = QStringList() << suf.toUpper();
+        if(PQImageFormats::get().getMagick().keys().contains(suf.toLower()))
+            mgs = PQImageFormats::get().getMagick().value(suf.toLower()).toStringList();
+
+        // if nothing else worked try without any magick, maybe this will help...
+        mgs << "";
 
         int howOftenFailed = 0;
         for(int i = 0; i < mgs.length(); ++i) {
 
             try {
 
+                LOG << "magick = " << mgs.at(i).toUpper().toStdString() << NL;
+
                 // set current magick
                 image.magick(mgs.at(i).toUpper().toStdString());
+
                 // Read image into Magick
                 image.read(filename.toStdString());
+
+                // done with the loop if we manage to get here.
+                break;
 
             } catch(Magick::Exception &e) {
 
                 ++howOftenFailed;
-                LOG << CURDATE << "PQLoadImageImageMagick::load(): Exception: " << e.what() << NL;
+                LOG << CURDATE << "PQLoadImageImageMagick::load(): Exception (2): " << e.what() << NL;
                 if(errormsg != "") errormsg += "<br><br>";
                 errormsg += QString("ImageMagick Exception (2): %1").arg(e.what());
 
@@ -150,8 +152,11 @@ public:
         }
 
         // no attempt was successful -> stop here
-        if(howOftenFailed == mgs.length())
+        if(howOftenFailed == mgs.length()) {
+            LOG << CURDATE << "PQLoadImageImageMagick::load(): Error: No attempt to load image was successful..." << NL;
+            errormsg += QString("ImageMagick Error: No attempt to load image was successful...");
             return QImage();
+        }
 
         try {
 
@@ -184,8 +189,9 @@ public:
 
             // Write Magick as BMP to memory
             // We used to use PNG here, but BMP is waaaayyyyyy faster (even faster than JPG)
+            // PPM can be even faster but causes some formats to fail.
             Magick::Blob ob;
-            image.magick("PPM");
+            image.magick("BMP");
             image.write(&ob);
 
             // And load JPG from memory into QImage
@@ -196,7 +202,7 @@ public:
             return img;
 
         } catch(Magick::Exception &e) {
-            LOG << CURDATE << "PQLoadImageImageMagick::load(): Exception: " << e.what() << NL;
+            LOG << CURDATE << "PQLoadImageImageMagick::load(): Exception (3): " << e.what() << NL;
             errormsg = QString("ImageMagick Exception (3): %1").arg(e.what());
             return QImage();
         }
