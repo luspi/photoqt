@@ -208,17 +208,19 @@ QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHid
     QMimeDatabase db;
 
     QFileInfoList allfiles;
-    QFileInfoList tmpallfiles = dir.entryInfoList();
-    for(QFileInfo f : tmpallfiles) {
-        // check file ending
-        if(nameFilters.contains(f.suffix().toLower()))
-            allfiles << f;
-        // if not the ending, then check the mime type
-        else if(mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
-            allfiles << f;
+    if(nameFilters.size() == 0 && mimeTypeFilters.size() == 0)
+        allfiles =dir.entryInfoList();
+    else {
+        QFileInfoList tmpallfiles = dir.entryInfoList();
+        for(QFileInfo f : tmpallfiles) {
+            // check file ending
+            if(nameFilters.size() == 0 || nameFilters.contains(f.suffix().toLower()))
+                allfiles << f;
+            // if not the ending, then check the mime type
+            else if(mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
+                allfiles << f;
+        }
     }
-
-
 
 
     if(sortfield == SortBy::NaturalName) {

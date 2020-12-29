@@ -28,8 +28,7 @@
 #include "../settings/imageformats.h"
 #include "loader/errorimage.h"
 #include "loader/loadimage_qt.h"
-#include "loader/loadimage_graphicsmagick.h"
-#include "loader/loadimage_imagemagick.h"
+#include "loader/loadimage_imagemagickgraphicsmagick.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
 #include "loader/loadimage_raw.h"
@@ -48,8 +47,7 @@ public:
         load_helper = new PQLoadImageHelper;
         load_err = new PQLoadImageErrorImage;
         load_qt = new PQLoadImageQt;
-        load_graphicsmagick = new PQLoadImageGraphicsMagick;
-        load_imagemagick = new PQLoadImageImageMagick;
+        load_imagemagickgraphicsmagick = new PQLoadImageImageMagickGraphicsMagick;
         load_xcf = new PQLoadImageXCF;
         load_poppler = new PQLoadImagePoppler;
         load_raw = new PQLoadImageRAW;
@@ -64,8 +62,7 @@ public:
         delete load_helper;
         delete load_err;
         delete load_qt;
-        delete load_graphicsmagick;
-        delete load_imagemagick;
+        delete load_imagemagickgraphicsmagick;
         delete load_xcf;
         delete load_poppler;
         delete load_raw;
@@ -102,8 +99,7 @@ public:
 
         // this stores whether we already attempted to use GraphicsMagick/ImageMagick once
         // if loading fails, then this way we don't need to try again with graphicsmagick/imagemagick, thus being slightly faster
-        bool triedWithGraphicsMagick = false;
-        bool triedWithImageMagick = false;
+        bool triedWithImageOrGraphicsMagick = false;
 
         for(QString o : order) {
 
@@ -224,10 +220,10 @@ public:
 
                     DBG << CURDATE << "attempt to load image with graphicsmagick" << NL;
 
-                    triedWithGraphicsMagick = true;
+                    triedWithImageOrGraphicsMagick = true;
 
-                    img = load_graphicsmagick->load(filename, requestedSize, origSize);
-                    ret_err = load_graphicsmagick->errormsg;
+                    img = load_imagemagickgraphicsmagick->load(filename, requestedSize, origSize);
+                    ret_err = load_imagemagickgraphicsmagick->errormsg;
 
                     if(ret_err != "")
                         LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
@@ -242,13 +238,12 @@ public:
 
                 if(PQImageFormats::get().getEnabledFormatsImageMagick().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesImageMagick().contains(mimetype)) {
 
-                    LOG << filename.toStdString() << NL;
-                    LOG << CURDATE << "attempt to load image with imagemagick" << NL;
+                    DBG << CURDATE << "attempt to load image with imagemagick" << NL;
 
-                    triedWithImageMagick = true;
+                    triedWithImageOrGraphicsMagick = true;
 
-                    img = load_imagemagick->load(filename, requestedSize, origSize);
-                    ret_err = load_imagemagick->errormsg;
+                    img = load_imagemagickgraphicsmagick->load(filename, requestedSize, origSize);
+                    ret_err = load_imagemagickgraphicsmagick->errormsg;
 
                     if(ret_err != "")
                         LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
@@ -319,32 +314,19 @@ public:
 
         }
 
-        // if everything failed, we make sure to try one more time with ImageMagick to see what could be done
+#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
+        // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
+        if(ret_err != "" && !triedWithImageOrGraphicsMagick) {
+
 #ifdef GRAPHICSMAGICK
-        if(ret_err != "" && !triedWithGraphicsMagick) {
-
-
-            DBG << CURDATE << "loading image failed, trying with graphicsmagick" << NL;
-
-            QImage new_img = load_graphicsmagick->load(filename, requestedSize, origSize);
-            QString new_ret_err = load_graphicsmagick->errormsg;
-            if(new_ret_err == "") {
-                img = new_img;
-                ret_err = "";
-            }
-
-        }
+            DBG << CURDATE << "Loading image failed, trying with GraphicsMagick" << NL;
+#endif
+#ifdef IMAGEMAGICK
+            DBG << CURDATE << "Loading image failed, trying with ImageMagick" << NL;
 #endif
 
-
-#ifdef IMAGEMAGICK
-        if(ret_err != "" && !triedWithImageMagick) {
-
-
-            DBG << CURDATE << "loading image failed, trying with imagemagick" << NL;
-
-            QImage new_img = load_imagemagick->load(filename, requestedSize, origSize);
-            QString new_ret_err = load_imagemagick->errormsg;
+            QImage new_img = load_imagemagickgraphicsmagick->load(filename, requestedSize, origSize);
+            QString new_ret_err = load_imagemagickgraphicsmagick->errormsg;
             if(new_ret_err == "") {
                 img = new_img;
                 ret_err = "";
@@ -366,8 +348,7 @@ private:
     PQLoadImageHelper *load_helper;
     PQLoadImageErrorImage *load_err;
     PQLoadImageQt *load_qt;
-    PQLoadImageGraphicsMagick *load_graphicsmagick;
-    PQLoadImageImageMagick *load_imagemagick;
+    PQLoadImageImageMagickGraphicsMagick *load_imagemagickgraphicsmagick;
     PQLoadImageXCF *load_xcf;
     PQLoadImagePoppler *load_poppler;
     PQLoadImageRAW *load_raw;

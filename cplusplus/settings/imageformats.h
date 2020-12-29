@@ -150,6 +150,10 @@ public:
         return magick;
     }
 
+    Q_INVOKABLE QVariantMap getMagickMimeType() {
+        return magick_mimetype;
+    }
+
 private:
     PQImageFormats();
 
@@ -186,6 +190,7 @@ private:
     QVector<QString> mimetypes_video;
 
     QVariantMap magick;
+    QVariantMap magick_mimetype;
 
     // this is true if reading from the permanent database failed
     // in that case we load the built-in default database but read-only

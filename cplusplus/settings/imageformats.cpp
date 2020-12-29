@@ -95,6 +95,9 @@ void PQImageFormats::readFromDatabase() {
     mimetypes_archive.clear();
     mimetypes_video.clear();
 
+    magick.clear();
+    magick_mimetype.clear();
+
     const QList<QByteArray> qtSupported = QImageReader::supportedImageFormats();
 
     QSqlQuery query("SELECT * FROM imageformats ORDER BY description ASC", db);
@@ -154,9 +157,10 @@ void PQImageFormats::readFromDatabase() {
             all << "GraphicsMagick";
             formats_gm << endings.split(",").toVector();
             if(mimetypes != "")
-                mimetype_gm << mimetypes.split(",").toVector();
+                mimetypes_gm << mimetypes.split(",").toVector();
         }
 #endif
+#ifdef RAW
         if(libraw) {
             supportedByAnyLibrary = true;
             all << "libraw";
@@ -164,6 +168,7 @@ void PQImageFormats::readFromDatabase() {
             if(mimetypes != "")
                 mimetypes_libraw << mimetypes.split(",").toVector();
         }
+#endif
 #ifdef POPPLER
         if(poppler) {
             supportedByAnyLibrary = true;
@@ -234,6 +239,12 @@ void PQImageFormats::readFromDatabase() {
                         magick[e] = QStringList() << magick[e].toStringList() << im_gm_magick;
                     else
                         magick.insert(e, QStringList() << im_gm_magick);
+                }
+                for(QString mt : mimetypes.split(",")) {
+                    if(magick_mimetype.keys().contains(mt))
+                        magick_mimetype[mt] = QStringList() << magick_mimetype[mt].toStringList() << im_gm_magick;
+                    else
+                        magick_mimetype.insert(mt, QStringList() << im_gm_magick);
                 }
             }
 
