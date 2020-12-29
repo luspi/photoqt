@@ -27,6 +27,10 @@
 #include <QtSql>
 #include <QMessageBox>
 
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include <Magick++.h>
+#endif
+
 #include "../logger.h"
 #include "../configfiles.h"
 

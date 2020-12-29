@@ -110,8 +110,12 @@ void PQImageFormats::readFromDatabase() {
         const int enabled = query.record().value("enabled").toInt();
         const int defaultenabled = query.record().value("defaultenabled").toInt();
         const int qt = query.record().value("qt").toInt();
+#ifdef IMAGEMAGICK
         const int im = query.record().value("imagemagick").toInt();
+#endif
+#ifdef GRAPHICSMAGICK
         const int gm = query.record().value("graphicsmagick").toInt();
+#endif
         const int libraw = query.record().value("libraw").toInt();
         const int poppler = query.record().value("poppler").toInt();
         const int xcftools = query.record().value("xcftools").toInt();
@@ -140,24 +144,39 @@ void PQImageFormats::readFromDatabase() {
                     mimetypes_qt << mimetypes.split(",").toVector();
             }
         }
-#ifdef IMAGEMAGICK
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
         if(im) {
-            supportedByAnyLibrary = true;
-            magickToBeAdded = true;
-            all << "ImageMagick";
-            formats_im << endings.split(",").toVector();
-            if(mimetypes != "")
-                mimetypes_im << mimetypes.split(",").toVector();
-        }
+
+            // we check with the Magick++ API to see if each format is readable
+            // by default we assume it is and if either no codec is available (exception thrown)
+            // or when it is reported as not readable, then we skip this format
+            bool alright = true;
+            if(im_gm_magick != "") {
+                try {
+                    Magick::CoderInfo magickCoderInfo(im_gm_magick.toStdString());
+                    if(!magickCoderInfo.isReadable())
+                        alright = false;
+                } catch(Magick::Exception &) {
+                    alright = false;
+                }
+            }
+
+            if(alright) {
+                supportedByAnyLibrary = true;
+                magickToBeAdded = true;
+#ifdef IMAGEMAGICK
+                all << "ImageMagick";
+                formats_im << endings.split(",").toVector();
+                if(mimetypes != "")
+                    mimetypes_im << mimetypes.split(",").toVector();
 #endif
 #ifdef GRAPHICSMAGICK
-        if(gm) {
-            supportedByAnyLibrary = true;
-            magickToBeAdded = true;
-            all << "GraphicsMagick";
-            formats_gm << endings.split(",").toVector();
-            if(mimetypes != "")
-                mimetypes_gm << mimetypes.split(",").toVector();
+                all << "GraphicsMagick";
+                formats_gm << endings.split(",").toVector();
+                if(mimetypes != "")
+                    mimetypes_gm << mimetypes.split(",").toVector();
+#endif
+            }
         }
 #endif
 #ifdef RAW
