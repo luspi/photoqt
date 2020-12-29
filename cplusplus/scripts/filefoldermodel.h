@@ -110,9 +110,13 @@ public:
     bool getNaturalOrdering() { return m_naturalOrdering; }
     void setNaturalOrdering(bool val) { m_naturalOrdering = val; loadDelay->start(); }
 
-    Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters)
-    QStringList getNameFilters() { return m_nameFilters; }
-    void setNameFilters(QStringList val) { m_nameFilters = val; loadDelay->start(); }
+    Q_PROPERTY(QVector<QString> nameFilters READ getNameFilters WRITE setNameFilters)
+    QVector<QString> getNameFilters() { return m_nameFilters; }
+    void setNameFilters(QVector<QString> val) { m_nameFilters = val; loadDelay->start(); }
+
+    Q_PROPERTY(QVector<QString> mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters)
+    QVector<QString> getMimeTypeFilters() { return m_mimeTypeFilters; }
+    void setMimeTypeFilters(QVector<QString> val) { m_mimeTypeFilters = val; loadDelay->start(); }
 
     Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden)
     bool getShowHidden() { return m_showHidden; }
@@ -166,13 +170,13 @@ public:
         return ret;
     }
 
-    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortField, bool sortReversed) {
-        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, sortField, sortReversed);
+    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, QVector<QString> nameFilters, QVector<QString> mimeTypeFilters, SortBy sortField, bool sortReversed) {
+        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
         return getCopyOfAllFiles();
     }
 
     static QFileInfoList getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed);
-    static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortfield, bool sortReversed);
+    static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QVector<QString> nameFilters, QVector<QString> mimeTypeFilters, SortBy sortfield, bool sortReversed);
 
 protected:
     QHash<int, QByteArray> roleNames() const {
@@ -191,7 +195,8 @@ private:
 
     QString m_folder;
     bool m_naturalOrdering;
-    QStringList m_nameFilters;
+    QVector<QString> m_nameFilters;
+    QVector<QString> m_mimeTypeFilters;
     bool m_showHidden;
     SortBy m_sortField;
     bool m_sortReversed;

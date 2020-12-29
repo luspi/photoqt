@@ -98,6 +98,7 @@ public:
         QStringList order = PQSettings::get().getImageLibrariesOrder().split(",");
 
         QString suffix = info.suffix().toLower();
+        QString mimetype = db.mimeTypeForFile(filename).name();
 
         // this stores whether we already attempted to use GraphicsMagick/ImageMagick once
         // if loading fails, then this way we don't need to try again with graphicsmagick/imagemagick, thus being slightly faster
@@ -108,7 +109,7 @@ public:
 
             if(o == "qt") {
 
-                if(PQImageFormats::get().getEnabledFormatsQt().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsQt().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesQt().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with qt" << NL;
 
@@ -131,7 +132,7 @@ public:
 
 #ifdef RAW
 
-                if(PQImageFormats::get().getEnabledFormatsLibRaw().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsLibRaw().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with libraw" << NL;
 
@@ -149,7 +150,7 @@ public:
 
 #ifdef POPPLER
 
-                if(PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with poppler" << NL;
 
@@ -167,7 +168,7 @@ public:
 
 #ifdef LIBARCHIVE
 
-                if(PQImageFormats::get().getEnabledFormatsLibArchive().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsLibArchive().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with archive" << NL;
 
@@ -203,7 +204,7 @@ public:
 
             } else if(o == "xcftools") {
 
-                if(PQImageFormats::get().getEnabledFormatsXCFTools().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsXCFTools().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with xcftools" << NL;
 
@@ -219,7 +220,7 @@ public:
 
 #ifdef GRAPHICSMAGICK
 
-                if(PQImageFormats::get().getEnabledFormatsGraphicsMagick().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsGraphicsMagick().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesGraphicsMagick().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with graphicsmagick" << NL;
 
@@ -239,7 +240,7 @@ public:
 
 #ifdef IMAGEMAGICK
 
-                if(PQImageFormats::get().getEnabledFormatsImageMagick().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsImageMagick().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesImageMagick().contains(mimetype)) {
 
                     LOG << filename.toStdString() << NL;
                     LOG << CURDATE << "attempt to load image with imagemagick" << NL;
@@ -260,7 +261,7 @@ public:
 
 #ifdef FREEIMAGE
 
-                if(PQImageFormats::get().getEnabledFormatsFreeImage().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsFreeImage().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with freeimage" << NL;
 
@@ -278,7 +279,7 @@ public:
 
 #ifdef DEVIL
 
-                if(PQImageFormats::get().getEnabledFormatsDevIL().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsDevIL().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with devil" << NL;
 
@@ -296,7 +297,7 @@ public:
 
 #ifdef VIDEO
 
-                if(PQImageFormats::get().getEnabledFormatsVideo().contains(suffix)) {
+                if(PQImageFormats::get().getEnabledFormatsVideo().contains(suffix) || PQImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype)) {
 
                     DBG << CURDATE << "attempt to load image with video" << NL;
 
@@ -319,9 +320,9 @@ public:
         }
 
         // if everything failed, we make sure to try one more time with ImageMagick to see what could be done
+#ifdef GRAPHICSMAGICK
         if(ret_err != "" && !triedWithGraphicsMagick) {
 
-#ifdef GRAPHICSMAGICK
 
             DBG << CURDATE << "loading image failed, trying with graphicsmagick" << NL;
 
@@ -333,12 +334,12 @@ public:
             }
 
         }
-
 #endif
 
-        if(ret_err != "" && !triedWithImageMagick) {
 
 #ifdef IMAGEMAGICK
+        if(ret_err != "" && !triedWithImageMagick) {
+
 
             DBG << CURDATE << "loading image failed, trying with imagemagick" << NL;
 
@@ -349,15 +350,14 @@ public:
                 ret_err = "";
             }
 
-#endif
-
         }
+#endif
 
         // cache image (if not scaled)
         if(ret_err == "" && img.width() == origSize->width() && img.height() == origSize->height() && requestedSize.width() == -1 && requestedSize.height() == -1)
             load_helper->saveImageToCache(filename, &img);
 
-        return ret_err;
+        return ret_err.trimmed();
 
     }
 
@@ -376,6 +376,8 @@ private:
     PQLoadImageArchive *load_archive;
     PQLoadImageUNRAR *load_unrar;
     PQLoadImageVideo *load_video;
+
+    QMimeDatabase db;
 
 };
 

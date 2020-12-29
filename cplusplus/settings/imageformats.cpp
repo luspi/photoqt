@@ -83,6 +83,18 @@ void PQImageFormats::readFromDatabase() {
     formats_archive.clear();
     formats_video.clear();
 
+    mimetypes_enabled.clear();
+    mimetypes_qt.clear();
+    mimetypes_im.clear();
+    mimetypes_gm.clear();
+    mimetypes_libraw.clear();
+    mimetypes_poppler.clear();
+    mimetypes_xcftools.clear();
+    mimetypes_devil.clear();
+    mimetypes_freeimage.clear();
+    mimetypes_archive.clear();
+    mimetypes_video.clear();
+
     const QList<QByteArray> qtSupported = QImageReader::supportedImageFormats();
 
     QSqlQuery query("SELECT * FROM imageformats ORDER BY description ASC", db);
@@ -121,6 +133,8 @@ void PQImageFormats::readFromDatabase() {
                 supportedByAnyLibrary = true;
                 all << "Qt";
                 formats_qt << endings.split(",").toVector();
+                if(mimetypes != "")
+                    mimetypes_qt << mimetypes.split(",").toVector();
             }
         }
 #ifdef IMAGEMAGICK
@@ -129,6 +143,8 @@ void PQImageFormats::readFromDatabase() {
             magickToBeAdded = true;
             all << "ImageMagick";
             formats_im << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_im << mimetypes.split(",").toVector();
         }
 #endif
 #ifdef GRAPHICSMAGICK
@@ -137,30 +153,40 @@ void PQImageFormats::readFromDatabase() {
             magickToBeAdded = true;
             all << "GraphicsMagick";
             formats_gm << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetype_gm << mimetypes.split(",").toVector();
         }
 #endif
         if(libraw) {
             supportedByAnyLibrary = true;
             all << "libraw";
             formats_libraw << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_libraw << mimetypes.split(",").toVector();
         }
 #ifdef POPPLER
         if(poppler) {
             supportedByAnyLibrary = true;
             all << "Poppler";
             formats_poppler << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_poppler << mimetypes.split(",").toVector();
         }
 #endif
         if(xcftools) {
             supportedByAnyLibrary = true;
             all << "XCFTools";
             formats_xcftools << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_xcftools << mimetypes.split(",").toVector();
         }
 #ifdef DEVIL
         if(devil) {
             supportedByAnyLibrary = true;
             all << "DevIL";
             formats_devil << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_devil << mimetypes.split(",").toVector();
         }
 #endif
 #ifdef FREEIMAGE
@@ -168,6 +194,8 @@ void PQImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << "FreeImage";
             formats_freeimage << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_freeimage << mimetypes.split(",").toVector();
         }
 #endif
 #ifdef LIBARCHIVE
@@ -175,6 +203,8 @@ void PQImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << "LibArchive";
             formats_archive << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_archive << mimetypes.split(",").toVector();
         }
 #endif
 #ifdef VIDEO
@@ -182,6 +212,8 @@ void PQImageFormats::readFromDatabase() {
             supportedByAnyLibrary = true;
             all << "Video";
             formats_video << endings.split(",").toVector();
+            if(mimetypes != "")
+                mimetypes_video << mimetypes.split(",").toVector();
         }
 #endif
 
@@ -189,8 +221,11 @@ void PQImageFormats::readFromDatabase() {
 
             formats << QVariant::fromValue(all);
 
-            if(enabled)
+            if(enabled) {
                 formats_enabled << endings.split(",").toVector();
+                if(mimetypes != "")
+                    mimetypes_enabled << mimetypes.split(",").toVector();
+            }
             if(defaultenabled)
                 formats_defaultenabled << endings;
             if(magickToBeAdded && im_gm_magick != "") {
@@ -204,9 +239,6 @@ void PQImageFormats::readFromDatabase() {
 
         }
     }
-
-    for(QString e : magick.keys())
-        LOG << e.toStdString() << " :: " << magick.value(e).toStringList().join(",").toStdString() << NL;
 
 }
 

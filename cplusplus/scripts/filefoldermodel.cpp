@@ -62,7 +62,7 @@ void PQFileFolderModel::loadData() {
     QFileInfoList alldirs = getAllFoldersInFolder(m_folder, m_showHidden, m_sortField, m_sortReversed);
 
     // Files
-    allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_sortField, m_sortReversed);
+    allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed);
 
     m_count = alldirs.length()+allImageFilesInOrder.length();
 
@@ -158,12 +158,12 @@ QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHi
 
 }
 
-QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortfield, bool sortReversed) {
+QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QVector<QString> nameFilters, QVector<QString> mimeTypeFilters, SortBy sortfield, bool sortReversed) {
 
     DBG << CURDATE << "PQFileFolderModel::getAllImagesInFolder()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL
         << CURDATE << "** showHidden = " << showHidden << NL
-        << CURDATE << "** nameFilters = " << nameFilters.join(",").toStdString() << NL
+        << CURDATE << "** nameFilters = " << nameFilters.toList().join(",").toStdString() << NL
         << CURDATE << "** sortfield = " << sortfield << NL
         << CURDATE << "** sortReversed = " << sortReversed << NL;
 
@@ -185,7 +185,6 @@ QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHid
     else
         dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 
-    dir.setNameFilters(nameFilters);
     dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
 
     if(sortfield != SortBy::NaturalName) {
@@ -206,7 +205,21 @@ QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHid
 
     }
 
-    QFileInfoList allfiles = dir.entryInfoList();
+    QMimeDatabase db;
+
+    QFileInfoList allfiles;
+    QFileInfoList tmpallfiles = dir.entryInfoList();
+    for(QFileInfo f : tmpallfiles) {
+        // check file ending
+        if(nameFilters.contains(f.suffix().toLower()))
+            allfiles << f;
+        // if not the ending, then check the mime type
+        else if(mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
+            allfiles << f;
+    }
+
+
+
 
     if(sortfield == SortBy::NaturalName) {
         QCollator collator;
