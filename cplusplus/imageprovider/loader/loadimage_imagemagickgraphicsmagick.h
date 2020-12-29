@@ -77,8 +77,11 @@ public:
                 mgs = PQImageFormats::get().getMagick().value(suf.toLower()).toStringList();
         }
         if(mimetype != "") {
-            if(PQImageFormats::get().getMagickMimeType().keys().contains(mimetype))
-                mgs << PQImageFormats::get().getMagickMimeType().value(mimetype).toStringList();
+            if(PQImageFormats::get().getMagickMimeType().keys().contains(mimetype)) {
+                for(QString mt : PQImageFormats::get().getMagickMimeType().value(mimetype).toStringList())
+                    if(!mgs.contains(mt))
+                        mgs << mt;
+            }
         }
 
         // if nothing else worked try without any magick, maybe this will help...
@@ -88,8 +91,6 @@ public:
         for(int i = 0; i < mgs.length(); ++i) {
 
             try {
-
-                LOG << suf.toStdString() << " :: magick = " << mgs.at(i).toUpper().toStdString() << NL;
 
                 // set current magick
                 image.magick(mgs.at(i).toUpper().toStdString());
