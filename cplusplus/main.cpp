@@ -98,6 +98,10 @@ int main(int argc, char **argv) {
     ilInit();
 #endif
 
+#ifdef FREEIMAGE
+    FreeImage_Initialise();
+#endif
+
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -140,6 +144,12 @@ int main(int argc, char **argv) {
 
     app.rootQmlAddress = engine.rootObjects().at(0);
 
-    return app.exec();
+    int ret = app.exec();
+
+#ifdef FREEIMAGE
+    FreeImage_DeInitialise();
+#endif
+
+    return ret;
 
 }

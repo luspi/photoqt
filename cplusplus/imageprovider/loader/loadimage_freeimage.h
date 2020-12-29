@@ -108,9 +108,6 @@ public:
         // This will be the access handler for the data that we can load into QImage
         FIMEMORY *stream = FreeImage_OpenMemory();
 
-        // FreeImage can only save 24-bit highcolor or 8-bit greyscale/palette bitmaps as JPEG, so we need to make sure to convert it to that
-        dib = FreeImage_ConvertTo24Bits(dib);
-
         // Error check!
         if(freeImageErrorMessage != "") {
             errormsg = QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
@@ -123,7 +120,7 @@ public:
 
         // Error check!
         if(freeImageErrorMessage != "") {
-            errormsg = QString("FreeImage failed to save image to memory as JPEG: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            errormsg = QString("FreeImage failed to save image to memory as BMP: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
             return QImage();
         }
 
@@ -147,6 +144,11 @@ public:
         QByteArray array = QByteArray::fromRawData((char*)mem_buffer, size_in_bytes);
         // ... and load QByteArray into QImage
         QImage img = QImage::fromData(array);
+
+        if(img.isNull()) {
+            errormsg = "Loading FreeImage image into QImage resulted in NULL image";
+            return QImage();
+        }
 
         // If image needs to be scaled down, return scaled down version
         if(maxSize.width() > 5 && maxSize.height() > 5)
