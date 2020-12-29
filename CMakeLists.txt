@@ -271,7 +271,6 @@ else()
 endif()
 
 if(GRAPHICSMAGICK)
-    message("incl: ${MAGICK++_INCLUDE_DIR}")
     if(NOT ${MAGICK++_FOUND})
         message(FATAL_ERROR "** Unable to locate GraphicsMagick... is it installed?")
     else()

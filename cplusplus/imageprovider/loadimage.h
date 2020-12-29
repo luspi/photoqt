@@ -109,7 +109,7 @@ public:
 
                     DBG << CURDATE << "attempt to load image with qt" << NL;
 
-                    if(suffix == "svg" || suffix == "svgz" || PQImageFormats2::get().getEnabledFileformatsQt().contains("*." + suffix)) {
+                    if(suffix == "svg" || suffix == "svgz" || PQImageFormats::get().getEnabledFormatsQt().contains(suffix)) {
                         img = load_qt->load(filename, requestedSize, origSize);
                         ret_err = load_qt->errormsg;
                     }

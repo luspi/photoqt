@@ -508,7 +508,10 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
 
     QDir dir(path);
 
-    QStringList checkForTheseFormats = PQImageFormats2::get().getAllEnabledFileFormats();
+    QStringList checkForTheseFormats;
+    for(QString c : PQImageFormats::get().getEnabledFormats())
+        checkForTheseFormats << QString("*.%1").arg(c);
+
     dir.setNameFilters(checkForTheseFormats);
     dir.setFilter(QDir::Files);
 
@@ -736,7 +739,7 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
 #endif
             allfiles.sort();
             foreach(QString f, allfiles) {
-                if(PQImageFormats2::get().getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()))
+                if(PQImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
                     ret.append(QString("%1::ARC::%2").arg(f).arg(path));
             }
 
@@ -773,7 +776,7 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
             QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
 
             // If supported file format, append to temporary list
-            if((PQImageFormats2::get().getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix())))
+            if((PQImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(filenameinside).suffix())))
                 allfiles.append(filenameinside);
 
         }

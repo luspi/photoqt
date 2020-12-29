@@ -39,7 +39,6 @@
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
-#include "settings/imageformats2.h"
 #include "scripts/filewatcher.h"
 #include "scripts/filefoldermodel.h"
 #include "singleinstance/singleinstance.h"
@@ -127,7 +126,6 @@ int main(int argc, char **argv) {
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
-    engine.rootContext()->setContextProperty("PQImageFormats2", &PQImageFormats2::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
     engine.rootContext()->setContextProperty("PQKeyPressChecker", &PQKeyPressChecker::get());
 

@@ -201,22 +201,22 @@ PQSetting {
         modality: Qt.ApplicationModal
         Component.onCompleted: {
             //: This is a category in a file dialog for selecting images used as in: All images supported by PhotoQt.
-            var str = [em.pty+qsTranslate("settingsmanager_interface", "All Images") + " (" + PQImageFormats2.getAllEnabledFileFormats().join(" ") + ")"]
-            str.push("Qt (" + PQImageFormats2.getAvailableEndingsQt().join(" ") + ")")
+            var str = [em.pty+qsTranslate("settingsmanager_interface", "All Images") + " (*." + PQImageFormats.getEnabledFormats().join(" *.") + ")"]
+            str.push("Qt (*." + PQImageFormats.getEnabledFormatsQt().join(" *.") + ")")
             if(handlingGeneral.isImageMagickSupportEnabled())
-                str.push("ImageMagick (" + PQImageFormats2.getAvailableEndingsImageMagick().join(" ") + ")")
+                str.push("ImageMagick (*." + PQImageFormats.getEnabledFormatsImageMagick().join(" *.") + ")")
             if(handlingGeneral.isGraphicsMagickSupportEnabled())
-                str.push("GraphicsMagick (" + PQImageFormats2.getAvailableEndingsGraphicsMagick().join(" ") + ")")
+                str.push("GraphicsMagick (*." + PQImageFormats.getEnabledFormatsGraphicsMagick().join(" *.") + ")")
             if(handlingGeneral.isLibRawSupportEnabled())
-                str.push("LibRaw (" + PQImageFormats2.getAvailableEndingsRAW().join(" ") + ")")
+                str.push("LibRaw (*." + PQImageFormats.getEnabledFormatsLibRaw().join(" *.") + ")")
             if(handlingGeneral.isDevILSupportEnabled())
-                str.push("DevIL (" + PQImageFormats2.getAvailableEndingsDevIL().join(" ") + ")")
+                str.push("DevIL (*." + PQImageFormats.getEnabledFormatsDevIL().join(" *.") + ")")
             if(handlingGeneral.isFreeImageSupportEnabled())
-                str.push("FreeImage (" + PQImageFormats2.getAvailableEndingsFreeImage().join(" ") + ")")
+                str.push("FreeImage (*." + PQImageFormats.getEnabledFormatsFreeImage().join(" *.") + ")")
             if(handlingGeneral.isPopplerSupportEnabled())
-                str.push("Poppler (" + PQImageFormats2.getAvailableEndingsPoppler().join(" ") + ")")
+                str.push("Poppler (*." + PQImageFormats.getEnabledFormatsPoppler().join(" *.") + ")")
             //: This is a category in a file dialog for selecting images used as in: Video files supported by PhotoQt.
-            str.push(em.pty+qsTranslate("settingsmanager_interface", "Video") + " (" + PQImageFormats2.getAvailableEndingsVideo().join(" ") + ")")
+            str.push(em.pty+qsTranslate("settingsmanager_interface", "Video") + " (*." + PQImageFormats.getEnabledFormatsVideo().join(" *.") + ")")
             fileDialog.nameFilters = str
         }
         onAccepted: {
