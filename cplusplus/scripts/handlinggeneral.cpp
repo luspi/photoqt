@@ -409,6 +409,7 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
     // the other ones are shown afterwards sorted alphabetically
     ret << "en";
     ret << "de";
+    ret << "es";
     ret << "lt";
     ret << "pl";
     ret << "pt_PT";
