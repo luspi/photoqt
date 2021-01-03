@@ -162,7 +162,10 @@ public:
         raw.dcraw_clear_mem(img);
         raw.recycle();
 
-        *origSize = image.size();
+        if(thumb || half)
+            *origSize = QSize(-1,-1);
+        else
+            *origSize = image.size();
 
         if(maxSize.width() > 5 && maxSize.height() > 5 && (image.width() > maxSize.width() || image.height() > maxSize.height()))
             return image.scaled(maxSize, ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
