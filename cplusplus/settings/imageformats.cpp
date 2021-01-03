@@ -25,7 +25,15 @@
 
 PQImageFormats::PQImageFormats() {
 
-    db = QSqlDatabase::addDatabase("QSQLITE3");
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE");
+    else {
+        LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
+        QMessageBox::critical(0, "ERROR getting default image formats", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading the enabled/default image formats. Without it some things will not work correctly.");
+        return;
+    }
     db.setHostName("formats");
     db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
 
