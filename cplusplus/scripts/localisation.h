@@ -67,7 +67,6 @@ public:
             } else {
                 c = QString("%1_%2").arg(c).arg(c.toUpper());
                 if(QFile(":/photoqt_" + c + ".qm").exists()) {
-                    qDebug() << "3:" << c;
                     trans->load(":/photoqt_" + c);
                     qApp->installTranslator(trans);
                     emit languageChanged();
@@ -77,9 +76,8 @@ public:
 
         }
 
-        // Store translation in settings file
-        trans->load(":/photoqt_en.qm");
-        qApp->installTranslator(trans);
+        // no translator to be added
+        // signal change (to English)
         emit languageChanged();
 
     }

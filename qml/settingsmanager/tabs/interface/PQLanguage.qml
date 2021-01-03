@@ -121,6 +121,14 @@ PQSetting {
                 foundIndex = languageitems.indexOf(l)
         }
 
+        if(foundIndex == 0) {
+            var langtmp = []
+            for(var i in languageitems)
+                langtmp.push(languageitems[i].split("_")[0])
+            if(langtmp.indexOf(l) != -1)
+                foundIndex = langtmp.indexOf(l)
+        }
+
         lang.currentIndex = foundIndex
 
     }
