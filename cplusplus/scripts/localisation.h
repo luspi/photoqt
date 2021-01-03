@@ -64,6 +64,15 @@ public:
                     emit languageChanged();
                     return;
                 }
+            } else {
+                c = QString("%1_%2").arg(c).arg(c.toUpper());
+                if(QFile(":/photoqt_" + c + ".qm").exists()) {
+                    qDebug() << "3:" << c;
+                    trans->load(":/photoqt_" + c);
+                    qApp->installTranslator(trans);
+                    emit languageChanged();
+                    return;
+                }
             }
 
         }

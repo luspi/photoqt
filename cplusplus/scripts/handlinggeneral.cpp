@@ -408,10 +408,10 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
     // this list will be updated before release
     // the other ones are shown afterwards sorted alphabetically
     ret << "en";
-    ret << "de";
-    ret << "es";
-    ret << "lt";
-    ret << "pl";
+    ret << "de_DE";
+    ret << "es_ES";
+    ret << "lt_LT";
+    ret << "pl_PL";
     ret << "pt_PT";
 
     QStringList tmp;
