@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQLOADIMAGEIMAGEMAGICKGRAPHICSMAGICK_H
-#define PQLOADIMAGEIMAGEMAGICKGRAPHICSMAGICK_H
+#ifndef PQLOADIMAGEMAGICK_H
+#define PQLOADIMAGEMAGICK_H
 
 #include <QFile>
 #include <QImage>
@@ -33,10 +33,10 @@
 #include <Magick++.h>
 #endif
 
-class PQLoadImageImageMagickGraphicsMagick {
+class PQLoadImageMagick {
 
 public:
-    PQLoadImageImageMagickGraphicsMagick() {
+    PQLoadImageMagick() {
         errormsg = "";
     }
 
@@ -180,4 +180,4 @@ public:
 
 };
 
-#endif // PQLOADIMAGEIMAGEMAGICKGRAPHICSMAGICK_H
+#endif // PQLOADIMAGEMAGICK_H

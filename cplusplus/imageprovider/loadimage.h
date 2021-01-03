@@ -28,7 +28,7 @@
 #include "../settings/imageformats.h"
 #include "loader/errorimage.h"
 #include "loader/loadimage_qt.h"
-#include "loader/loadimage_imagemagickgraphicsmagick.h"
+#include "loader/loadimage_magick.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
 #include "loader/loadimage_raw.h"
@@ -47,7 +47,7 @@ public:
         load_helper = new PQLoadImageHelper;
         load_err = new PQLoadImageErrorImage;
         load_qt = new PQLoadImageQt;
-        load_imagemagickgraphicsmagick = new PQLoadImageImageMagickGraphicsMagick;
+        load_magick = new PQLoadImageMagick;
         load_xcf = new PQLoadImageXCF;
         load_poppler = new PQLoadImagePoppler;
         load_raw = new PQLoadImageRAW;
@@ -62,7 +62,7 @@ public:
         delete load_helper;
         delete load_err;
         delete load_qt;
-        delete load_imagemagickgraphicsmagick;
+        delete load_magick;
         delete load_xcf;
         delete load_poppler;
         delete load_raw;
@@ -234,8 +234,8 @@ public:
 
                         triedWithImageOrGraphicsMagick = true;
 
-                        img = load_imagemagickgraphicsmagick->load(filename, requestedSize, origSize);
-                        ret_err = load_imagemagickgraphicsmagick->errormsg;
+                        img = load_magick->load(filename, requestedSize, origSize);
+                        ret_err = load_magick->errormsg;
 
                         if(ret_err != "")
                             LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
@@ -256,8 +256,8 @@ public:
 
                         triedWithImageOrGraphicsMagick = true;
 
-                        img = load_imagemagickgraphicsmagick->load(filename, requestedSize, origSize);
-                        ret_err = load_imagemagickgraphicsmagick->errormsg;
+                        img = load_magick->load(filename, requestedSize, origSize);
+                        ret_err = load_magick->errormsg;
 
                         if(ret_err != "")
                             LOG << CURDATE << "PQLoadImage::load(): failed to load image with " << o.toStdString() << NL;
@@ -348,8 +348,8 @@ public:
             DBG << CURDATE << "Loading image failed, trying with ImageMagick" << NL;
 #endif
 
-            QImage new_img = load_imagemagickgraphicsmagick->load(filename, requestedSize, origSize);
-            QString new_ret_err = load_imagemagickgraphicsmagick->errormsg;
+            QImage new_img = load_magick->load(filename, requestedSize, origSize);
+            QString new_ret_err = load_magick->errormsg;
             if(new_ret_err == "") {
                 img = new_img;
                 ret_err = "";
@@ -371,7 +371,7 @@ private:
     PQLoadImageHelper *load_helper;
     PQLoadImageErrorImage *load_err;
     PQLoadImageQt *load_qt;
-    PQLoadImageImageMagickGraphicsMagick *load_imagemagickgraphicsmagick;
+    PQLoadImageMagick *load_magick;
     PQLoadImageXCF *load_xcf;
     PQLoadImagePoppler *load_poppler;
     PQLoadImageRAW *load_raw;
