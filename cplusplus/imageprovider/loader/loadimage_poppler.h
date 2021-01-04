@@ -54,18 +54,16 @@ public:
         // Load poppler document and render to QImage
         Poppler::Document* document = Poppler::Document::load(filename);
         if(!document || document->isLocked()) {
-            std::stringstream ss;
-            ss << "PQLoadImage::PDF::load(): ERROR: Invalid PDF document, unable to load!";
-            LOG << CURDATE << ss.str() << NL;
             errormsg = "Invalid PDF document, unable to load!";
+            LOG << CURDATE << "PQLoadImagePoppler::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
         document->setRenderHint(Poppler::Document::TextAntialiasing);
         document->setRenderHint(Poppler::Document::Antialiasing);
         Poppler::Page *p = document->page(page);
         if(p == nullptr) {
-            errormsg = QString("Error: unable to read page %1").arg(page);
-            LOG << CURDATE << "PQLoadImage::PDF::load(): " << errormsg.toStdString() << NL;
+            errormsg = QString("Unable to read page %1").arg(page);
+            LOG << CURDATE << "PQLoadImagePoppler::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -87,7 +85,8 @@ public:
 
 #endif
 
-    errormsg = "Failed to load image with Poppler!";
+    errormsg = "Failed to load image, Poppler not supported by this build of PhotoQt!";
+    LOG << CURDATE << "PQLoadImagePoppler::load(): " << errormsg.toStdString() << NL;
     return QImage();
 
 

@@ -28,6 +28,8 @@
 #include <FreeImagePlus.h>
 #endif
 
+#include "../../logger.h"
+
 #ifdef FREEIMAGE
 static QString freeImageErrorMessage;
 static FREE_IMAGE_FORMAT freeImageErrorFormat;
@@ -57,19 +59,29 @@ public:
         // Get image format
         // First we try to get it through file type...
         FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.toStdString().c_str(), 0);
+
+        // If an error occured (caught by output handler), return error image
+        if(freeImageErrorMessage != "") {
+            errormsg = QString("FreeImage_GetFileType: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
+            return QImage();
+        }
+
         // .. and if that didn't work, we look at the filename
         if(fif == FIF_UNKNOWN)
             fif = FreeImage_GetFIFFromFilename(filename.toStdString().c_str());
 
         // If an error occured (caught by output handler), return error image
         if(freeImageErrorMessage != "") {
-            errormsg = QString("FreeImage failed to get image type: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            errormsg = QString("FreeImage_GetFIFFromFilename: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
         // If loading the image failed for any other reason, return error image
         if(fif == FIF_UNKNOWN) {
-            errormsg = "FreeImage failed to load image! Unknown file type...";
+            errormsg = "Unknown file type (FIF_UNKNOWN)";
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -84,19 +96,22 @@ public:
 
             // Error check!
             if(freeImageErrorMessage != "") {
-                errormsg = QString("FreeImage failed to load image: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+                errormsg = QString("FreeImage_FIFSupportsReading: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+                LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
             // If anything else went wrong, return error image
             if(dib == nullptr) {
-                errormsg = "FreeImage ERROR: Loading failed, nullptr returned!";
+                errormsg = "FreeImage_FIFSupportsReading: Loading failed, nullptr returned!";
+                LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
         // If reading of this format is not supported, return error image
         } else {
-            errormsg = "FreeImage ERROR: FIF not supported!";
+            errormsg = "FreeImage_FIFSupportsReading: FIF not supported!";
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -110,7 +125,8 @@ public:
 
         // Error check!
         if(freeImageErrorMessage != "") {
-            errormsg = QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            errormsg = QString("FreeImage_OpenMemory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -120,7 +136,8 @@ public:
 
         // Error check!
         if(freeImageErrorMessage != "") {
-            errormsg = QString("FreeImage failed to save image to memory as BMP: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            errormsg = QString("FreeImage_SaveToMemory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -136,7 +153,8 @@ public:
 
         // Error check!
         if(freeImageErrorMessage != "") {
-            errormsg = QString("FreeImage failed to acquire memory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            errormsg = QString("FreeImage_AcquireMemory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -147,6 +165,7 @@ public:
 
         if(img.isNull()) {
             errormsg = "Loading FreeImage image into QImage resulted in NULL image";
+            LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -160,6 +179,7 @@ public:
 
 #endif
         errormsg = "Failed to load image, FreeImage not supported by this build of PhotoQt!";
+        LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }

@@ -47,8 +47,8 @@ public:
         which.waitForFinished();
         // If it isn't -> display error
         if(which.exitCode()) {
-            LOG << CURDATE << "LoadImageXCF: reader xcf - Error: xcftools not found" << NL;
-            errormsg = "Error: xcftools not found";
+            errormsg = "'xcftools' not found";
+            LOG << CURDATE << "PQLoadImageXCF::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -73,6 +73,11 @@ public:
         }
 
         QImage img = reader.read();
+
+        if(img.isNull()) {
+            errormsg = "Invalid PNG image rendered by xcftools.";
+            LOG << CURDATE << "PQLoadImageXCF::load(): " << errormsg.toStdString() << NL;
+        }
 
         return img;
 

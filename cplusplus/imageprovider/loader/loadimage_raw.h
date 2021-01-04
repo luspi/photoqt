@@ -29,6 +29,8 @@
 #include <libraw/libraw.h>
 #endif
 
+#include "../../logger.h"
+
 class PQLoadImageRAW {
 
 public:
@@ -61,7 +63,8 @@ public:
         int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
         if(ret != LIBRAW_SUCCESS) {
             raw.recycle();
-            errormsg = QString("LibRaw: failed to run open_file: %1").arg(libraw_strerror(ret));
+            errormsg = QString("Failed to run open_file: %1").arg(libraw_strerror(ret));
+            LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -85,7 +88,8 @@ public:
 
         if(ret != LIBRAW_SUCCESS) {
             raw.recycle();
-            errormsg = QString("LibRaw: failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack").arg(libraw_strerror(ret));
+            errormsg = QString("Failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack").arg(libraw_strerror(ret));
+            LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -94,7 +98,8 @@ public:
 
         if (ret != LIBRAW_SUCCESS) {
             raw.recycle();
-            errormsg = QString("LibRaw: failed to run dcraw_process: %1").arg(libraw_strerror(ret));
+            errormsg = QString("Failed to run dcraw_process: %1").arg(libraw_strerror(ret));
+            LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -117,7 +122,8 @@ public:
             // The return image is loaded from the QByteArray above
             if(!image.loadFromData(img->data, img->data_size, "JPEG")) {
                 raw.recycle();
-                errormsg = "Failed to load JPEG data from LibRaw!";
+                errormsg = "Failed to load JPEG data!";
+                LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
@@ -145,14 +151,16 @@ public:
 
             if(imgData.isEmpty()) {
                 raw.recycle();
-                errormsg = "Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + " from LibRaw!";
+                errormsg = "Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + "!";
+                LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
             // The return image is loaded from the QByteArray above
             if(!image.loadFromData(imgData)) {
                 raw.recycle();
-                errormsg = "Failed to load PPM data from LibRaw!";
+                errormsg = "Failed to load image from data!";
+                LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
@@ -174,7 +182,8 @@ public:
 
 #endif
 
-        errormsg = "ERROR! PhotoQt was compiled without LibRaw support!";
+        errormsg = "Failed to load image, LibRaw not supported by this build of PhotoQt!";
+        LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }

@@ -58,8 +58,8 @@ public:
         // We first read the image into memory
         QFile file(filename);
         if(!file.open(QIODevice::ReadOnly)) {
-            errormsg = "ERROR opening file, returning empty image";
-            LOG << CURDATE << "PQLoadImageImageMagickGraphicsMagick::load(): ERROR opening file, returning empty image" << NL;
+            errormsg = "QFile::open() failed.";
+            LOG << CURDATE << "PQLoadImageMagick::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -104,8 +104,8 @@ public:
             } catch(Magick::Exception &e) {
 
                 ++howOftenFailed;
-                LOG << CURDATE << "PQLoadImageImageMagickGraphicsMagick::load(): Exception (2): " << e.what() << NL;
-                if(errormsg != "") errormsg += "<br><br>";
+                LOG << CURDATE << "PQLoadImageMagick::load(): Exception (2): " << e.what() << NL;
+                if(errormsg != "") errormsg += "<br>";
                 errormsg += QString("%1 Exception (2): %2").arg(whichone).arg(e.what());
 
             }
@@ -114,8 +114,9 @@ public:
 
         // no attempt was successful -> stop here
         if(howOftenFailed == mgs.length()) {
-            LOG << CURDATE << "PQLoadImageImageMagickGraphicsMagick::load(): Error: No attempt to load image was successful..." << NL;
-            errormsg += QString("%1 Error: No attempt to load image was successful...").arg(whichone);
+            QString err = QString("%1 failed to read image").arg(whichone);
+            errormsg += "<br>" + err;
+            LOG << CURDATE << "PQLoadImageMagick::load(): " << err.toStdString() << NL;
             return QImage();
         }
 
@@ -163,14 +164,15 @@ public:
             return img;
 
         } catch(Magick::Exception &e) {
-            LOG << CURDATE << "PQLoadImageImageMagickGraphicsMagick::load(): Exception (3): " << e.what() << NL;
             errormsg = QString("%1 Exception (3): %2").arg(whichone).arg(e.what());
+            LOG << CURDATE << "PQLoadImageMagick::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
 #endif
 
-        errormsg = QString("Failed to load image with %1!").arg(whichone);
+        errormsg = "Failed to load image, ImageMagick/GraphicsMagick not supported by this build of PhotoQt!";
+        LOG << CURDATE << "PQLoadImageMagick::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }

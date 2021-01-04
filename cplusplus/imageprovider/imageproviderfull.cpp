@@ -68,7 +68,7 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 
     // if returned image is not an error image ...
     if(ret.isNull())
-        return load_err->load(err);
+        ret = load_err->load(err);
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())

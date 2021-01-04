@@ -82,7 +82,8 @@ public:
 
         }
 
-        LOG << CURDATE << "LoadImageVideo: unknown video thumbnailer used: " << PQSettings::get().getVideoThumbnailer().toStdString() << NL;
+        errormsg = "Unknown video thumbnailer used: " + PQSettings::get().getVideoThumbnailer();
+        LOG << CURDATE << "PQLoadImageVideo::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }

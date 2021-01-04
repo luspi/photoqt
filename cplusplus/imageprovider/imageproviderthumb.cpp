@@ -115,7 +115,7 @@ void PQAsyncImageResponseThumb::run() {
 
     /**********************************************************/
 
-    if(p.isNull()) {
+    if(p.isNull() || msg != "") {
 
         m_image = QIcon(":/filedialog/unknownfile.svg").pixmap(m_requestedSize).toImage();
         emit finished();

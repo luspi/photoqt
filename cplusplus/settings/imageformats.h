@@ -78,20 +78,12 @@ public:
         return mimetypes_qt;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsImageMagick() {
-        return formats_im;
+    Q_INVOKABLE QVector<QString> getEnabledFormatsMagick() {
+        return formats_magick;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesImageMagick() {
-        return mimetypes_im;
-    }
-
-    Q_INVOKABLE QVector<QString> getEnabledFormatsGraphicsMagick() {
-        return formats_gm;
-    }
-
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesGraphicsMagick() {
-        return mimetypes_gm;
+    Q_INVOKABLE QVector<QString> getEnabledMimeTypesMagick() {
+        return mimetypes_magick;
     }
 
     Q_INVOKABLE QVector<QString> getEnabledFormatsLibRaw() {
@@ -174,10 +166,8 @@ private:
 
     QVector<QString> formats_qt;
     QVector<QString> mimetypes_qt;
-    QVector<QString> formats_im;
-    QVector<QString> mimetypes_im;
-    QVector<QString> formats_gm;
-    QVector<QString> mimetypes_gm;
+    QVector<QString> formats_magick;
+    QVector<QString> mimetypes_magick;
     QVector<QString> formats_libraw;
     QVector<QString> mimetypes_libraw;
     QVector<QString> formats_poppler;

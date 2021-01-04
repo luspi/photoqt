@@ -60,19 +60,19 @@ public:
         ilGenImages(1, &imageID);
         ilBindImage(imageID);
 
-        checkForError();
+        if(checkForError()) return QImage();
 
         // load the passed on image file
         ilLoadImage(filename.toStdString().c_str());
 
-        checkForError();
+        if(checkForError()) return QImage();
 
         // get the width/height
         const int width  = ilGetInteger(IL_IMAGE_WIDTH);
         const int height = ilGetInteger(IL_IMAGE_HEIGHT);
         *origSize = QSize(width, height);
 
-        checkForError();
+        if(checkForError()) return QImage();
 
 /*
         // this would be the way to load images directly from DevIL into QImage,
@@ -111,11 +111,15 @@ public:
             // If it fails, return error image
             ilBindImage(0);
             ilDeleteImages(1, &imageID);
-            errormsg = "Failed to save image decoded with DevIL!";
+            checkForError();
+            if(errormsg == "") {
+                errormsg = "Failed to save image decoded with DevIL!";
+                LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
+            }
             return QImage();
         }
 
-        checkForError();
+        if(checkForError()) return QImage();
 
         // Create reader for temporary image
         QImageReader reader(tempimage);
@@ -139,7 +143,8 @@ public:
         QFile(tempimage).remove();
 
         if(img.isNull() || img.size() == QSize(1,1)) {
-            errormsg = "Failed to load image with DevIL!";
+            errormsg = "Failed to load image with DevIL (unknown error)!";
+            LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -147,7 +152,8 @@ public:
 
 #endif
 
-        errormsg = "Failed to load image with DevIL!";
+        errormsg = "Failed to load image, DevIL not supported by this build of PhotoQt!";
+        LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }
@@ -156,13 +162,19 @@ public:
 
 private:
 
-    void checkForError() {
-        QString err = "";
+    bool checkForError() {
         ILenum err_enum = ilGetError();
         while(err_enum != IL_NO_ERROR) {
-            LOG << "DevIL ERROR: " << err_enum << NL;
+            if(errormsg == "") errormsg = "Error: ";
+            else errormsg += ", ";
+            errormsg += QString::number(err_enum);
             err_enum = ilGetError();
         }
+        if(errormsg != "") {
+            LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
+            return true;
+        }
+        return false;
     }
 
 };

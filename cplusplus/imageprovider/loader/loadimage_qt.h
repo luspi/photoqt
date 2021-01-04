@@ -132,7 +132,7 @@ public:
             // If an error occured
             if(img->isNull()) {
                 errormsg = reader.errorString();
-                LOG << CURDATE << "LoadImageQt: reader qt - Error: '" << QFileInfo(filename).fileName().toStdString() << "' failed to load: " << errormsg.toStdString() << NL;
+                LOG << CURDATE << "PQLoadImageQt::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 

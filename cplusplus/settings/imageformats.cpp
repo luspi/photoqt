@@ -81,8 +81,7 @@ void PQImageFormats::readFromDatabase() {
     formats_enabled.clear();
     formats_defaultenabled.clear();
     formats_qt.clear();
-    formats_im.clear();
-    formats_gm.clear();
+    formats_magick.clear();
     formats_libraw.clear();
     formats_poppler.clear();
     formats_xcftools.clear();
@@ -93,8 +92,7 @@ void PQImageFormats::readFromDatabase() {
 
     mimetypes_enabled.clear();
     mimetypes_qt.clear();
-    mimetypes_im.clear();
-    mimetypes_gm.clear();
+    mimetypes_magick.clear();
     mimetypes_libraw.clear();
     mimetypes_poppler.clear();
     mimetypes_xcftools.clear();
@@ -119,10 +117,9 @@ void PQImageFormats::readFromDatabase() {
         const int defaultenabled = query.record().value("defaultenabled").toInt();
         const int qt = query.record().value("qt").toInt();
 #ifdef IMAGEMAGICK
-        const int im = query.record().value("imagemagick").toInt();
-#endif
-#ifdef GRAPHICSMAGICK
-        const int gm = query.record().value("graphicsmagick").toInt();
+        const int imgmmagick = query.record().value("imagemagick").toInt();
+#elif defined(GRAPHICSMAGICK)
+        const int imgmmagick = query.record().value("graphicsmagick").toInt();
 #endif
         const int libraw = query.record().value("libraw").toInt();
         const int poppler = query.record().value("poppler").toInt();
@@ -153,7 +150,7 @@ void PQImageFormats::readFromDatabase() {
             }
         }
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-        if(im) {
+        if(imgmmagick) {
 
             // we check with the Magick++ API to see if each format is readable
             // by default we assume it is and if either no codec is available (exception thrown)
@@ -174,16 +171,12 @@ void PQImageFormats::readFromDatabase() {
                 magickToBeAdded = true;
 #ifdef IMAGEMAGICK
                 all << "ImageMagick";
-                formats_im << endings.split(",").toVector();
-                if(mimetypes != "")
-                    mimetypes_im << mimetypes.split(",").toVector();
-#endif
-#ifdef GRAPHICSMAGICK
+#elif defined(GRAPHICSMAGICK)
                 all << "GraphicsMagick";
-                formats_gm << endings.split(",").toVector();
-                if(mimetypes != "")
-                    mimetypes_gm << mimetypes.split(",").toVector();
 #endif
+                formats_magick << endings.split(",").toVector();
+                if(mimetypes != "")
+                    mimetypes_magick << mimetypes.split(",").toVector();
             }
         }
 #endif
@@ -261,13 +254,13 @@ void PQImageFormats::readFromDatabase() {
             if(defaultenabled)
                 formats_defaultenabled << endings;
             if(magickToBeAdded && im_gm_magick != "") {
-                for(QString e : endings.split(",")) {
+                for(QString &e : endings.split(",")) {
                     if(magick.keys().contains(e))
                         magick[e] = QStringList() << magick[e].toStringList() << im_gm_magick;
                     else
                         magick.insert(e, QStringList() << im_gm_magick);
                 }
-                for(QString mt : mimetypes.split(",")) {
+                for(QString &mt : mimetypes.split(",")) {
                     if(magick_mimetype.keys().contains(mt))
                         magick_mimetype[mt] = QStringList() << magick_mimetype[mt].toStringList() << im_gm_magick;
                     else
