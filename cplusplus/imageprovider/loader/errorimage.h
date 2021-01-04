@@ -38,7 +38,7 @@ public:
         QPixmap pix(":/image/plainerrorimg.png");
         QPainter paint(&pix);
         QTextDocument txt;
-        txt.setHtml("<div align='center' style='color: white; font-size: 15pt'>" + errormessage + "</div>");
+        txt.setHtml("<div align='center' style='color: white; font-size: 20pt'><b>Image failed to load</b></div><br><div align='center' style='color: white; font-size: 15pt'>" + errormessage + "</div>");
         txt.setTextWidth(800);
         paint.translate(0,(600-txt.size().height())/2.0);
         QPen pen;

@@ -397,7 +397,7 @@ private:
 
         if(load_magick->errormsg != "") {
             LOG << CURDATE << "PQLoadImage::load(): failed to load image with magick" << NL;
-            err += QString("<b>Magick</b><br>%1<br><br>").arg(load_magick->errormsg);
+            err += QString("<div style='font-weight: bold'>Magick</div>%1<br><br>").arg(load_magick->errormsg);
         }
 
     }

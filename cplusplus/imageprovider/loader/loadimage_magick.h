@@ -104,9 +104,8 @@ public:
             } catch(Magick::Exception &e) {
 
                 ++howOftenFailed;
-                LOG << CURDATE << "PQLoadImageMagick::load(): Exception (2): " << e.what() << NL;
-                if(errormsg != "") errormsg += "<br>";
-                errormsg += QString("%1 Exception (2): %2").arg(whichone).arg(e.what());
+                LOG << CURDATE << "PQLoadImageMagick::load(): Exception (1): " << e.what() << NL;
+                errormsg += QString("<div style='margin-bottom: 5px'>%1</div>").arg(e.what());
 
             }
 
@@ -114,9 +113,8 @@ public:
 
         // no attempt was successful -> stop here
         if(howOftenFailed == mgs.length()) {
-            QString err = QString("%1 failed to read image").arg(whichone);
-            errormsg += "<br>" + err;
-            LOG << CURDATE << "PQLoadImageMagick::load(): " << err.toStdString() << NL;
+            // no need to add anything to the errormsg variable here, it already contains the errors from the loop above
+            LOG << CURDATE << "PQLoadImageMagick::load(): Failed to read image" << NL;
             return QImage();
         }
 
@@ -164,8 +162,8 @@ public:
             return img;
 
         } catch(Magick::Exception &e) {
-            errormsg = QString("%1 Exception (3): %2").arg(whichone).arg(e.what());
-            LOG << CURDATE << "PQLoadImageMagick::load(): " << errormsg.toStdString() << NL;
+            errormsg = e.what();
+            LOG << CURDATE << "PQLoadImageMagick::load(): Exception (2): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
