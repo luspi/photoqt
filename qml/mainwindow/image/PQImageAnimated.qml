@@ -47,6 +47,7 @@ Item {
         width: sourceSize.width
         height: sourceSize.height
         fillMode: Image.Pad
+        asynchronous: true
         clip: true
 
         source: "file:/" + src
