@@ -92,9 +92,36 @@ public:
 
         QString err = "";
 
-        QStringList order = PQSettings::get().getImageLibrariesOrder().split(",");
-        qDebug() << order;
+        // the order in which to traverse the libraries
+        // it is best to start with specilized libraries first before getting to the more catch-all libraries
+        // the specialized ones are usually better for their specific image formats then the catch-all ones
+        QStringList order;
+        order << "qt"
+#ifdef RAW
+              << "libraw"
+#endif
+#ifdef POPPLER
+              << "poppler"
+#endif
+#ifdef LIBARCHIVE
+              << "archive"
+#endif
+              << "xcftools"
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+              << "magick"
+#endif
+#ifdef FREEIMAGE
+              << "freeimage"
+#endif
+#ifdef DEVIL
+              << "devil"
+#endif
+#ifdef VIDEO
+              << "video"
+#endif
+        ;
 
+        // for easier access below
         QString suffix = info.suffix().toLower();
 
 
