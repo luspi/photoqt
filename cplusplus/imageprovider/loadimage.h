@@ -201,73 +201,79 @@ public:
         //////////////////////////////////////////////
         // if that failed, then we check for mimetype matches
 
+
         if(img.isNull() && !img.isNull()) {
 
             QString mimetype = db.mimeTypeForFile(filename).name();
 
-            for(QString o : order) {
+            // the 'application/octet-stream' mime type simply means 'binary file', not enough info for our purposes
+            if(mimetype != "" && mimetype != "application/octet-stream") {
 
-                if(o == "qt" && PQImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
+                for(QString o : order) {
 
-                    loadWithQt(filename, requestedSize, origSize, img, err);
+                    if(o == "qt" && PQImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
+
+                        loadWithQt(filename, requestedSize, origSize, img, err);
 
 #ifdef RAW
 
-                 else if(o == "libraw" && PQImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
+                     else if(o == "libraw" && PQImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
 
-                    loadWithLibRaw(filename, requestedSize, origSize, img, err);
+                        loadWithLibRaw(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef POPPLER
 
-                else if(o == "poppler" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+                    else if(o == "poppler" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
 
-                    loadWithPoppler(filename, requestedSize, origSize, img, err);
+                        loadWithPoppler(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef LIBARCHIVE
 
-                else if(o == "archive" && PQImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
+                    else if(o == "archive" && PQImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
 
-                    loadWithLibArchive(filename, requestedSize, origSize, img, err);
+                        loadWithLibArchive(filename, requestedSize, origSize, img, err);
 
 #endif
 
-                else if(o == "xcftools" && PQImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
+                    else if(o == "xcftools" && PQImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
 
-                    loadWithXCFTools(filename, requestedSize, origSize, img, err);
+                        loadWithXCFTools(filename, requestedSize, origSize, img, err);
 
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
 
-                else if(o == "magick" && PQImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
+                    else if(o == "magick" && PQImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
 
-                    loadWithMagick(filename, requestedSize, origSize, img, err);
+                        loadWithMagick(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef FREEIMAGE
 
-                else if(o == "freeimage" && PQImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
+                    else if(o == "freeimage" && PQImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
 
-                    loadWithFreeImage(filename, requestedSize, origSize, img, err);
+                        loadWithFreeImage(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef DEVIL
 
-                else if(o == "devil" && PQImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
+                    else if(o == "devil" && PQImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
 
-                    loadWithDevIL(filename, requestedSize, origSize, img, err);
+                        loadWithDevIL(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef VIDEO
 
-                else if(o == "video" && PQImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype))
+                    else if(o == "video" && PQImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype))
 
-                    loadWithVideo(filename, requestedSize, origSize, img, err);
+                        loadWithVideo(filename, requestedSize, origSize, img, err);
 
 #endif
 
-                if(!img.isNull())
-                    break;
+                    if(!img.isNull())
+                        break;
+
+                }
 
             }
 
