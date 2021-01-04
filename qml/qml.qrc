@@ -132,8 +132,6 @@
         <file>filemanagement/PQCopyMove.qml</file>
         <file>mainwindow/PQLoading.qml</file>
         <file>settingsmanager/tabs/interface/PQContextMenu.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQImageLibraryOrder.qml</file>
-        <file>settingsmanager/tabs/filetypes/PQImageLibraryOrderItem.qml</file>
         <file>settingsmanager/tabs/filetypes/PQVideo.qml</file>
         <file>settingsmanager/tabs/filetypes/PQPoppler.qml</file>
         <file>settingsmanager/tabs/filetypes/PQLibArchive.qml</file>

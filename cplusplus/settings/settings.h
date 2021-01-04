@@ -420,16 +420,6 @@ public:
 
 
 
-        Q_PROPERTY(QString imageLibrariesOrder READ getImageLibrariesOrder WRITE setImageLibrariesOrder NOTIFY imageLibrariesOrderChanged)
-        QString getImageLibrariesOrder() { return m_imageLibrariesOrder; }
-        void setImageLibrariesOrder(QString val) {
-            if(m_imageLibrariesOrder != val) {
-                m_imageLibrariesOrder = val;
-                emit imageLibrariesOrderChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(bool pdfSingleDocument READ getPdfSingleDocument WRITE setPdfSingleDocument NOTIFY pdfSingleDocumentChanged)
         bool getPdfSingleDocument() { return m_pdfSingleDocument; }
         void setPdfSingleDocument(bool val) {
@@ -1518,7 +1508,6 @@ private:
         QString m_animationType;
         int     m_animationDuration;
 
-        QString m_imageLibrariesOrder;
         bool    m_pdfSingleDocument;
         int     m_pdfQuality;
         bool    m_archiveSingleFile;
@@ -1675,7 +1664,6 @@ signals:
         void zoomSpeedChanged();
         void animationTypeChanged();
         void animationDurationChanged();
-        void imageLibrariesOrderChanged();
         void pdfSingleDocumentChanged();
         void pdfQualityChanged();
         void archiveSingleFileChanged();

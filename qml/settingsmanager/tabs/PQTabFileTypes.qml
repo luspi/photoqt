@@ -77,8 +77,6 @@ Item {
                 text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + " " + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
             }
 
-            PQImageLibraryOrder { id: lib }
-                PQHorizontalLine { expertModeOnly: lib.expertmodeonly }
             PQPoppler { id: pop }
                 PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
             PQLibArchive { id: arc }

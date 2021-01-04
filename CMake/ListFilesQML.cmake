@@ -72,7 +72,7 @@ SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdge.qml ${d}/PQOpacity.qml ${d}/PQRotation.qml ${d}/PQGPSMap.qml ${d}/PQMetaData.qml ${d}/PQFaceTags.qml ${d}/PQFaceTagsFontSize.qml ${d}/PQFaceTagsBorder.qml ${d}/PQFaceTagsVisibility.qml)
 
 SET(d "qml/settingsmanager/tabs/filetypes")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImageLibraryOrder.qml ${d}/PQImageLibraryOrderItem.qml ${d}/PQVideo.qml ${d}/PQPoppler.qml ${d}/PQLibArchive.qml ${d}/PQFileTypes.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQVideo.qml ${d}/PQPoppler.qml ${d}/PQLibArchive.qml ${d}/PQFileTypes.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcuts.qml ${d}/PQContainer.qml ${d}/PQDetectCombo.qml)
