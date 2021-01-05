@@ -78,11 +78,11 @@ Item {
             }
 
             PQPoppler { id: pop }
-                PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
+                PQHorizontalLine { expertModeOnly: pop.expertmodeonly; available: pop.available }
             PQLibArchive { id: arc }
-                PQHorizontalLine { expertModeOnly: arc.expertmodeonly }
+                PQHorizontalLine { expertModeOnly: arc.expertmodeonly; available: arc.available }
             PQVideo { id: vid }
-                PQHorizontalLine { expertModeOnly: vid.expertmodeonly }
+                PQHorizontalLine { expertModeOnly: vid.expertmodeonly; available: vid.available }
             PQFileTypes { id: fty }
 
         }

@@ -43,6 +43,13 @@ bool PQHandlingGeneral::isLibRawSupportEnabled() {
     return false;
 }
 
+bool PQHandlingGeneral::isLibArchiveSupportEnabled() {
+#ifdef LIBARCHIVE
+    return true;
+#endif
+    return false;
+}
+
 bool PQHandlingGeneral::isDevILSupportEnabled() {
 #ifdef DEVIL
     return true;

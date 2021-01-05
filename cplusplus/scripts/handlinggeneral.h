@@ -42,6 +42,7 @@ public:
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
     Q_INVOKABLE bool isImageMagickSupportEnabled();
     Q_INVOKABLE bool isLibRawSupportEnabled();
+    Q_INVOKABLE bool isLibArchiveSupportEnabled();
     Q_INVOKABLE bool isDevILSupportEnabled();
     Q_INVOKABLE bool isFreeImageSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
