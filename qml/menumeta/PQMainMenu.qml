@@ -50,7 +50,7 @@ Rectangle {
         onMousePosChanged: {
             if(PQSettings.mainMenuPopoutElement)
                 return
-            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && !variables.slideShowActive && !variables.faceTaggingActive)
+            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && variables.mousePos.y > closebutton.height*2 && !variables.slideShowActive && !variables.faceTaggingActive)
                 mainmenu_top.opacity = 1
             else
                 mainmenu_top.opacity = 0
