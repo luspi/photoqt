@@ -88,7 +88,11 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
     try {
 
         // Open image for exif reading
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        Exiv2::Image::UniquePtr image_read = Exiv2::ImageFactory::open(sourceFilename.toStdString());
+#else
         Exiv2::Image::AutoPtr image_read = Exiv2::ImageFactory::open(sourceFilename.toStdString());
+#endif
 
         if(image_read.get() != 0) {
 
@@ -153,7 +157,11 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
         try {
 
             // And write exif data to new image file
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            Exiv2::Image::UniquePtr image_write = Exiv2::ImageFactory::open(targetFilename.toStdString());
+#else
             Exiv2::Image::AutoPtr image_write = Exiv2::ImageFactory::open(targetFilename.toStdString());
+#endif
             image_write->setExifData(exifData);
             image_write->setIptcData(iptcData);
             image_write->setXmpData(xmpData);

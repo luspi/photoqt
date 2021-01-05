@@ -123,7 +123,11 @@ void PQMetaData::updateMetadata(QString path) {
 
     // Obtain METADATA
 
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
     Exiv2::Image::AutoPtr image;
+#endif
     try {
         image  = Exiv2::ImageFactory::open(path.toStdString());
         image->readMetadata();
