@@ -79,7 +79,6 @@ void PQImageFormats::readFromDatabase() {
 
     formats.clear();
     formats_enabled.clear();
-    formats_defaultenabled.clear();
     formats_qt.clear();
     formats_magick.clear();
     formats_libraw.clear();
@@ -113,8 +112,8 @@ void PQImageFormats::readFromDatabase() {
         const QString endings = query.record().value("endings").toString();
         const QString mimetypes = query.record().value("mimetypes").toString();
         const QString desc = query.record().value("description").toString();
+        const QString cat = query.record().value("category").toString();
         const int enabled = query.record().value("enabled").toInt();
-        const int defaultenabled = query.record().value("defaultenabled").toInt();
         const int qt = query.record().value("qt").toInt();
 #ifdef IMAGEMAGICK
         const int imgmmagick = query.record().value("imagemagick").toInt();
@@ -138,6 +137,7 @@ void PQImageFormats::readFromDatabase() {
         all << endings;
         all << enabled;
         all << desc;
+        all << cat;
         if(qt) {
             // we check the formats against the list of supported image formats
             // this list can vary depending on which plugins are installed
@@ -251,8 +251,6 @@ void PQImageFormats::readFromDatabase() {
                 if(mimetypes != "")
                     mimetypes_enabled << mimetypes.split(",").toVector();
             }
-            if(defaultenabled)
-                formats_defaultenabled << endings;
             if(magickToBeAdded && im_gm_magick != "") {
                 for(QString &e : endings.split(",")) {
                     if(magick.keys().contains(e))

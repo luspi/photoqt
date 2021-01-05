@@ -42,13 +42,13 @@ PQSetting {
             PQCheckbox {
                 id: ext_unrar
                 tooltip: "LibArchive supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool unrar instead of libarchive for proper support of RAR archives."
-                //: used for checkbox
-                text: em.pty+qsTranslate("settingsmanager_filetypes", "use external 'unrar'")
+                //: used as label for checkbox
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "use external tool: unrar")
             }
             PQCheckbox {
                 id: isolate
                 tooltip: "PhotoQt uses LibArchive to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file inside the archive file as one image) or it can ignore them completely except when asked to open an archive. In that case it then wont load any other images (like a document viewer)."
-                //: as in: when an archive is loaded all other files in the folder are ignored
+                //: used as label for checkbox, used as in: when an archive is loaded all other files in the folder are ignored
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "isolate archives")
             }
 

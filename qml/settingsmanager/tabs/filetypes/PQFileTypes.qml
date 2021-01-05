@@ -33,7 +33,10 @@ Item {
     height: childrenRect.height
 
     signal checkAll()
-    signal checkDefault()
+    signal checkImg(var checked)
+    signal checkPac(var checked)
+    signal checkDoc(var checked)
+    signal checkVid(var checked)
 
     Column {
 
@@ -44,22 +47,62 @@ Item {
             spacing: 10
             Row {
                 spacing: 10
+
+                PQComboBox {
+                    id: catCombo
+                    y: (enableBut.height-height)/2
+                            //: This is a category of files PhotoQt can recognize: any image format
+                    model: [em.pty+qsTranslate("settingsmanager_filetypes", "images"),
+                            //: This is a category of files PhotoQt can recognize: compressed files like zip, tar, cbr, 7z, etc.
+                            em.pty+qsTranslate("settingsmanager_filetypes", "compressed files")+" (zip, cbr, ...)",
+                            //: This is a category of files PhotoQt can recognize: documents like pdf, txt, etc.
+                            em.pty+qsTranslate("settingsmanager_filetypes", "documents")+" (pdf, txt, ...)",
+                            //: This is a type of category of files PhotoQt can recognize: videos like mp4, avi, etc.
+                            em.pty+qsTranslate("settingsmanager_filetypes", "videos")]
+                }
+
                 PQButton {
-                    text: "Select all default image formats"
+                    id: enableBut
+                    //: As in: "Enable all formats in the seleted category of file types"
+                    text: em.pty+qsTranslate("settingsmanager_filetypes", "Enable")
+                    onClicked:
+                        parent.checkUncheck(1)
+                }
+                PQButton {
+                    //: As in: "Disable all formats in the seleted category of file types"
+                    text: em.pty+qsTranslate("settingsmanager_filetypes", "Disable")
+                    onClicked:
+                        parent.checkUncheck(0)
+                }
+
+                function checkUncheck(checked) {
+                    if(catCombo.currentIndex == 0)
+                        filetypes_top.checkImg(checked)
+                    else if(catCombo.currentIndex == 1)
+                        filetypes_top.checkPac(checked)
+                    else if(catCombo.currentIndex == 2)
+                        filetypes_top.checkDoc(checked)
+                    else if(catCombo.currentIndex == 3)
+                        filetypes_top.checkVid(checked)
+                    else
+                        console.log("Error: Unknown category selected:", catCombo.currentText)
+                    listview.ftChanged()
+                }
+
+                Item {
+                    width: 10
+                    height: 1
+                }
+
+                PQButton {
+                    //: As in "Enable every single file format PhotoQt can open in any category"
+                    text: em.pty+qsTranslate("settingsmanager_filetypes", "Enable everything")
                     onClicked: {
-                        filetypes_top.checkDefault()
+                        filetypes_top.checkAll()
                         listview.ftChanged()
                     }
                 }
-                PQButton {
-                    text: "Select all image formats"
-                    onClicked: {
-                        if(handlingGeneral.askForConfirmation("Enable all image formats?", "This will also enable all untested image formats.")) {
-                            filetypes_top.checkAll()
-                            listview.ftChanged()
-                        }
-                    }
-                }
+
             }
             Item {
                 width: 1
@@ -70,7 +113,8 @@ Item {
                 property int num: 0
                 color: "white"
                 font.pointSize: 12
-                text: "Currently there are %1 image formats enabled".arg("<b>"+num+"</b>")
+                //: The %1 will be replaced with the number of file formats, please don't forget to add it.
+                text:  em.pty+qsTranslate("settingsmanager_filetypes", "Currently there are %1 file formats enabled").arg("<b>"+num+"</b>")
                 Connections {
                     target: listview
                     onFtChanged:
@@ -98,13 +142,13 @@ Item {
             PQLineEdit {
                 id: filter_desc
                 width: filetypes_top.width/2
-                placeholderText: "Search by description"
+                placeholderText: em.pty+qsTranslate("settingsmanager_filetypes", "Search by description or file ending")
             }
 
             PQLineEdit {
                 id: filter_lib
                 width: filetypes_top.width/2 -20
-                placeholderText: "Search by image library"
+                placeholderText: em.pty+qsTranslate("settingsmanager_filetypes", "Search by image library or category")
             }
         }
 
@@ -178,7 +222,7 @@ Item {
                         }
                         width: entry_rect.width/2-10
                         verticalAlignment: Text.AlignVCenter
-                        text: listview.ft[index].slice(3).join(", ")
+                        text: listview.ft[index].slice(4).join(", ")
                         color: checkenable.checked ? "#bbbbbb" : "#666666"
                         Behavior on color { ColorAnimation { duration: 50 } }
                     }
@@ -191,17 +235,29 @@ Item {
                             listview.ft[index][1] = !listview.ft[index][1]
                             listview.ftChanged()
                         }
-                        tooltip: "<b>File endings:</b> *." + listview.ft[index][0].split(",").join(", *.")
+                        tooltip: "<b>" + em.pty+qsTranslate("settingsmanager_filetypes", "File endings:") + "</b> *." + listview.ft[index][0].split(",").join(", *.")
                     }
 
                     Connections {
                         target: filetypes_top
-                        onCheckAll:
+                        onCheckAll: {
                             listview.ft[index][1] = 1
-                        onCheckDefault: {
-                            listview.ft[index][1] = 1
-                            if(PQImageFormats.getDefaultEnabledFormats().indexOf(listview.ft[index][0]) == -1)
-                                listview.ft[index][1] = 0
+                        }
+                        onCheckImg: {
+                            if(listview.ft[index][3] === "img")
+                                listview.ft[index][1] = checked
+                        }
+                        onCheckPac: {
+                            if(listview.ft[index][3] === "pac")
+                                listview.ft[index][1] = checked
+                        }
+                        onCheckDoc: {
+                            if(listview.ft[index][3] === "doc")
+                                listview.ft[index][1] = checked
+                        }
+                        onCheckVid: {
+                            if(listview.ft[index][3] === "vid")
+                                listview.ft[index][1] = checked
                         }
                     }
 

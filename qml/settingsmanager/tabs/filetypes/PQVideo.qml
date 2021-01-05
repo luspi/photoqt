@@ -53,7 +53,8 @@ PQSetting {
             }
             PQComboBox {
                 id: combo
-                tooltip: "Select tool for creating video thumbnails"
+                //: Tooltip shown for combobox for selectiong video thumbnailer
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Select tool for creating video thumbnails")
                 model: ["------",
                         "ffmpegthumbnailer"]
             }

@@ -66,10 +66,6 @@ public:
         return mimetypes_enabled;
     }
 
-    Q_INVOKABLE QVector<QString> getDefaultEnabledFormats() {
-        return formats_defaultenabled;
-    }
-
     Q_INVOKABLE QVector<QString> getEnabledFormatsQt() {
         return formats_qt;
     }
@@ -162,7 +158,6 @@ private:
 
     QVector<QString> formats_enabled;
     QVector<QString> mimetypes_enabled;
-    QVector<QString> formats_defaultenabled;
 
     QVector<QString> formats_qt;
     QVector<QString> mimetypes_qt;
