@@ -535,12 +535,9 @@ GridView {
         } else if(tweaks.showWhichFileTypeIndex == "qt") {
             files_model.nameFilters = PQImageFormats.getEnabledFormatsQt()
             files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesQt()
-        } else if(tweaks.showWhichFileTypeIndex == "graphicsmagick") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsGraphicsMagick()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesGraphicsMagick()
-        } else if(tweaks.showWhichFileTypeIndex == "imagemagick") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsImageMagick()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesImageMagick()
+        } else if(tweaks.showWhichFileTypeIndex == "magick") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsMagick()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesMagick()
         } else if(tweaks.showWhichFileTypeIndex == "libraw") {
             files_model.nameFilters = PQImageFormats.getEnabledFormatsLibRaw()
             files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesLibRaw()

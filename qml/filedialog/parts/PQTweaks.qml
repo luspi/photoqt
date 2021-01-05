@@ -120,10 +120,12 @@ Rectangle {
 
         id: allfiles
 
-        property var allfiletypes: ["all", "qt", "imagemagick", "graphicsmagick", "libraw", "devil", "freeimage", "poppler", "video", "allfiles"]
+        property var allfiletypes: ["all", "qt", "magick", "libraw", "devil", "freeimage", "poppler", "video", "allfiles"]
 
         model: [em.pty+qsTranslate("filedialog", "All supported images"),
-                "Qt", "ImageMagick", "GraphicsMagick", "LibRaw", "DevIL",
+                "Qt",
+                (handlingGeneral.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick"),
+                "LibRaw", "DevIL",
                 "FreeImage", "PDF (Poppler)",
                 em.pty+qsTranslate("filedialog", "Video files"),
                 em.pty+qsTranslate("filedialog", "All files")]
