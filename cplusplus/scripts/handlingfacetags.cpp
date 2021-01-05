@@ -213,8 +213,10 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
 #else
                 Exiv2::XmpTextValue::AutoPtr arrayTwo(new Exiv2::XmpTextValue);
 #endif
-                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString()).arg(tags[6*i+2].toString())
-                                                        .arg(tags[6*i+3].toString()).arg(tags[6*i+4].toString()).toStdString());
+                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString(),
+                                                             tags[6*i+2].toString(),
+                                                             tags[6*i+3].toString(),
+                                                             tags[6*i+4].toString()).toStdString());
                 xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:Rectangle").arg(i+1).toStdString()), arrayTwo.get());
 
                 // Third: This is the name of the person
