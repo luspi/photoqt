@@ -147,6 +147,8 @@ Item {
 
                     Text {
                         anchors.fill: parent
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 10
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         color: "#ffffff"
