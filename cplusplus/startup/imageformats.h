@@ -32,6 +32,13 @@ namespace PQStartup {
         static void ensureImageFormatsDatabaseExists() {
 
             QFile db(ConfigFiles::IMAGEFORMATS_DB());
+
+            /////////////////////////////
+            // REMOVE BEFORE RELEASE!!!
+            if(db.exists())
+                db.remove();
+            /////////////////////////////
+
             if(!db.exists()) {
                 if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
                     LOG << CURDATE << "PQStartup::ImageFormats: unable to create default imageformats database" << NL;
