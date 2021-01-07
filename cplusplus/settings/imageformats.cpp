@@ -144,9 +144,9 @@ void PQImageFormats::readFromDatabase() {
             if(qtSupported.contains(qt_formatname.toUtf8())) {
                 supportedByAnyLibrary = true;
                 all << "Qt";
-                formats_qt << endings.split(",").toVector();
+                formats_qt << endings.split(",");
                 if(mimetypes != "")
-                    mimetypes_qt << mimetypes.split(",").toVector();
+                    mimetypes_qt << mimetypes.split(",");
             }
         }
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
@@ -174,9 +174,9 @@ void PQImageFormats::readFromDatabase() {
 #elif defined(GRAPHICSMAGICK)
                 all << "GraphicsMagick";
 #endif
-                formats_magick << endings.split(",").toVector();
+                formats_magick << endings.split(",");
                 if(mimetypes != "")
-                    mimetypes_magick << mimetypes.split(",").toVector();
+                    mimetypes_magick << mimetypes.split(",");
             }
         }
 #endif
@@ -184,61 +184,61 @@ void PQImageFormats::readFromDatabase() {
         if(libraw) {
             supportedByAnyLibrary = true;
             all << "libraw";
-            formats_libraw << endings.split(",").toVector();
+            formats_libraw << endings.split(",");
             if(mimetypes != "")
-                mimetypes_libraw << mimetypes.split(",").toVector();
+                mimetypes_libraw << mimetypes.split(",");
         }
 #endif
 #ifdef POPPLER
         if(poppler) {
             supportedByAnyLibrary = true;
             all << "Poppler";
-            formats_poppler << endings.split(",").toVector();
+            formats_poppler << endings.split(",");
             if(mimetypes != "")
-                mimetypes_poppler << mimetypes.split(",").toVector();
+                mimetypes_poppler << mimetypes.split(",");
         }
 #endif
         if(xcftools) {
             supportedByAnyLibrary = true;
             all << "XCFTools";
-            formats_xcftools << endings.split(",").toVector();
+            formats_xcftools << endings.split(",");
             if(mimetypes != "")
-                mimetypes_xcftools << mimetypes.split(",").toVector();
+                mimetypes_xcftools << mimetypes.split(",");
         }
 #ifdef DEVIL
         if(devil) {
             supportedByAnyLibrary = true;
             all << "DevIL";
-            formats_devil << endings.split(",").toVector();
+            formats_devil << endings.split(",");
             if(mimetypes != "")
-                mimetypes_devil << mimetypes.split(",").toVector();
+                mimetypes_devil << mimetypes.split(",");
         }
 #endif
 #ifdef FREEIMAGE
         if(freeimage) {
             supportedByAnyLibrary = true;
             all << "FreeImage";
-            formats_freeimage << endings.split(",").toVector();
+            formats_freeimage << endings.split(",");
             if(mimetypes != "")
-                mimetypes_freeimage << mimetypes.split(",").toVector();
+                mimetypes_freeimage << mimetypes.split(",");
         }
 #endif
 #ifdef LIBARCHIVE
         if(archive) {
             supportedByAnyLibrary = true;
             all << "LibArchive";
-            formats_archive << endings.split(",").toVector();
+            formats_archive << endings.split(",");
             if(mimetypes != "")
-                mimetypes_archive << mimetypes.split(",").toVector();
+                mimetypes_archive << mimetypes.split(",");
         }
 #endif
 #ifdef VIDEO
         if(video) {
             supportedByAnyLibrary = true;
             all << "Video";
-            formats_video << endings.split(",").toVector();
+            formats_video << endings.split(",");
             if(mimetypes != "")
-                mimetypes_video << mimetypes.split(",").toVector();
+                mimetypes_video << mimetypes.split(",");
         }
 #endif
 
@@ -247,9 +247,9 @@ void PQImageFormats::readFromDatabase() {
             formats << QVariant::fromValue(all);
 
             if(enabled) {
-                formats_enabled << endings.split(",").toVector();
+                formats_enabled << endings.split(",");
                 if(mimetypes != "")
-                    mimetypes_enabled << mimetypes.split(",").toVector();
+                    mimetypes_enabled << mimetypes.split(",");
             }
             if(magickToBeAdded && im_gm_magick != "") {
                 for(QString &e : endings.split(",")) {

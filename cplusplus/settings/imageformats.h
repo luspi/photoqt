@@ -58,83 +58,83 @@ public:
         writeToDatabase(f);
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormats() {
+    Q_INVOKABLE QStringList getEnabledFormats() {
         return formats_enabled;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypes() {
+    Q_INVOKABLE QStringList getEnabledMimeTypes() {
         return mimetypes_enabled;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsQt() {
+    Q_INVOKABLE QStringList getEnabledFormatsQt() {
         return formats_qt;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesQt() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesQt() {
         return mimetypes_qt;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsMagick() {
+    Q_INVOKABLE QStringList getEnabledFormatsMagick() {
         return formats_magick;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesMagick() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesMagick() {
         return mimetypes_magick;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsLibRaw() {
+    Q_INVOKABLE QStringList getEnabledFormatsLibRaw() {
         return formats_libraw;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesLibRaw() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibRaw() {
         return mimetypes_libraw;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsPoppler() {
+    Q_INVOKABLE QStringList getEnabledFormatsPoppler() {
         return formats_poppler;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesPoppler() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesPoppler() {
         return mimetypes_poppler;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsXCFTools() {
+    Q_INVOKABLE QStringList getEnabledFormatsXCFTools() {
         return formats_xcftools;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesXCFTools() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesXCFTools() {
         return mimetypes_xcftools;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsDevIL() {
+    Q_INVOKABLE QStringList getEnabledFormatsDevIL() {
         return formats_devil;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesDevIL() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesDevIL() {
         return mimetypes_devil;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsFreeImage() {
+    Q_INVOKABLE QStringList getEnabledFormatsFreeImage() {
         return formats_freeimage;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesFreeImage() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesFreeImage() {
         return mimetypes_freeimage;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsLibArchive() {
+    Q_INVOKABLE QStringList getEnabledFormatsLibArchive() {
         return formats_archive;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesLibArchive() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibArchive() {
         return mimetypes_archive;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledFormatsVideo() {
+    Q_INVOKABLE QStringList getEnabledFormatsVideo() {
         return formats_video;
     }
 
-    Q_INVOKABLE QVector<QString> getEnabledMimeTypesVideo() {
+    Q_INVOKABLE QStringList getEnabledMimeTypesVideo() {
         return mimetypes_video;
     }
 
@@ -156,27 +156,27 @@ private:
 
     QVariantList formats;
 
-    QVector<QString> formats_enabled;
-    QVector<QString> mimetypes_enabled;
+    QStringList formats_enabled;
+    QStringList mimetypes_enabled;
 
-    QVector<QString> formats_qt;
-    QVector<QString> mimetypes_qt;
-    QVector<QString> formats_magick;
-    QVector<QString> mimetypes_magick;
-    QVector<QString> formats_libraw;
-    QVector<QString> mimetypes_libraw;
-    QVector<QString> formats_poppler;
-    QVector<QString> mimetypes_poppler;
-    QVector<QString> formats_xcftools;
-    QVector<QString> mimetypes_xcftools;
-    QVector<QString> formats_devil;
-    QVector<QString> mimetypes_devil;
-    QVector<QString> formats_freeimage;
-    QVector<QString> mimetypes_freeimage;
-    QVector<QString> formats_archive;
-    QVector<QString> mimetypes_archive;
-    QVector<QString> formats_video;
-    QVector<QString> mimetypes_video;
+    QStringList formats_qt;
+    QStringList mimetypes_qt;
+    QStringList formats_magick;
+    QStringList mimetypes_magick;
+    QStringList formats_libraw;
+    QStringList mimetypes_libraw;
+    QStringList formats_poppler;
+    QStringList mimetypes_poppler;
+    QStringList formats_xcftools;
+    QStringList mimetypes_xcftools;
+    QStringList formats_devil;
+    QStringList mimetypes_devil;
+    QStringList formats_freeimage;
+    QStringList mimetypes_freeimage;
+    QStringList formats_archive;
+    QStringList mimetypes_archive;
+    QStringList formats_video;
+    QStringList mimetypes_video;
 
     QVariantMap magick;
     QVariantMap magick_mimetype;

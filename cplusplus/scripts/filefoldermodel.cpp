@@ -158,12 +158,12 @@ QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHi
 
 }
 
-QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QVector<QString> nameFilters, QVector<QString> mimeTypeFilters, SortBy sortfield, bool sortReversed) {
+QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed) {
 
     DBG << CURDATE << "PQFileFolderModel::getAllImagesInFolder()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL
         << CURDATE << "** showHidden = " << showHidden << NL
-        << CURDATE << "** nameFilters = " << nameFilters.toList().join(",").toStdString() << NL
+        << CURDATE << "** nameFilters = " << nameFilters.join(",").toStdString() << NL
         << CURDATE << "** sortfield = " << sortfield << NL
         << CURDATE << "** sortReversed = " << sortReversed << NL;
 
