@@ -205,11 +205,13 @@ Item {
                             top: parent.top
                             bottom: parent.bottom
                         }
+                        elide: Text.ElideRight
                         width: entry_rect.width/2 - checkenable.width-10
                         verticalAlignment: Text.AlignVCenter
-                        text: listview.ft[index][2]
-                        color: checkenable.checked ? "#ffffff" : "#aaaaaa"
+                        text: "<b>" + listview.ft[index][2] + "</b> &nbsp;&nbsp; *." + listview.ft[index][0].split(",").join(", *.")
+                        color: checkenable.checked ? "#dddddd" : "#aaaaaa"
                         Behavior on color { ColorAnimation { duration: 50 } }
+                        textFormat: Text.StyledText
                     }
 
                     Text {
