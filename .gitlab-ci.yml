@@ -2,7 +2,7 @@ localization:
 
   image: ubuntu:focal
 
-  except:
+  only:
     - schedules
 
   script:
