@@ -20,29 +20,42 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQHANDLINGFILEMANAGEMENT_H
-#define PQHANDLINGFILEMANAGEMENT_H
+#ifndef PQHANDLINGFILEDIR_H
+#define PQHANDLINGFILEDIR_H
 
 #include <QObject>
 #include <QFile>
 #include <QUrl>
 #include <QStorageInfo>
 #include <QFileDialog>
+#include <QMimeDatabase>
 #ifndef Q_OS_WIN
 #include <unistd.h>
 #endif
 
 #include "../logger.h"
 
-class PQHandlingFileManagement : public QObject {
+class PQHandlingFileDir : public QObject {
 
     Q_OBJECT
 
 public:
-    Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
-    Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
+    Q_INVOKABLE QString cleanPath(QString path);
     Q_INVOKABLE QString copyFile(QString filename);
+    Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
+    Q_INVOKABLE bool doesItExist(QString path);
+    Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
+    Q_INVOKABLE QString getFilePathFromFullPath(QString path);
+    Q_INVOKABLE QString getFileSize(QString path);
+    Q_INVOKABLE QString getFileType(QString path);
+    Q_INVOKABLE QString getHomeDir();
+    Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getTempDir();
+    Q_INVOKABLE bool isDir(QString path);
     Q_INVOKABLE QString moveFile(QString filename);
+    Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
 };
 
-#endif // PQHANDLINGFILEMANAGEMENT_H
+#endif // PQHANDLINGFILEDIR_H

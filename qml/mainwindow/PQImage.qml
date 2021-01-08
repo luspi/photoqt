@@ -116,7 +116,7 @@ Item {
                 loadingindicator.visible = false
                 loadingtimer.restart()
 
-                if(PQImageFormats.getEnabledFormatsVideo().indexOf(handlingFileDialog.getSuffix(src))>-1) {
+                if(PQImageFormats.getEnabledFormatsVideo().indexOf(handlingFileDir.getSuffix(src))>-1) {
                     imageloader.source = "image/PQMovie.qml"
                     variables.videoControlsVisible = true
                 } else if(imageproperties.isAnimated(src)) {
@@ -280,7 +280,7 @@ Item {
         // The signal to hide old images is emitted whenever the new image has loaded (its status)
         onNewFileLoaded: {
             if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length) {
-                var src = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                var src = handlingFileDir.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                 image_model.append({"src" : src, "imageIndex" : variables.indexOfCurrentImage})
             } else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
                 hideAllImages()

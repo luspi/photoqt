@@ -45,7 +45,7 @@ Rectangle {
 
     color: "#333333"
 
-    property var historyListDirectory: [handlingFileDialog.getHomeDir()]
+    property var historyListDirectory: [handlingFileDir.getHomeDir()]
     property int historyListIndex: 0
 
     PQMouseArea {

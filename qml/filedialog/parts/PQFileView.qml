@@ -300,7 +300,7 @@ GridView {
                           ("<img src=\"image://thumb/" + filePath + "\"><br><br>" +
                            "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
                            em.pty+qsTranslate("filedialog", "File size:")+" <b>" + filesizenum.text + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDialog.getFileType(filePath) + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDir.getFileType(filePath) + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString()+ "</b>"))
 
@@ -410,7 +410,7 @@ GridView {
                     currentIndex -= 1
             } else if(modifiers == Qt.ControlModifier)
                 currentIndex = 0
-            else if(modifiers == Qt.AltModifier && handlingFileDialog.cleanPath(variables.openCurrentDirectory) != "/")
+            else if(modifiers == Qt.AltModifier && handlingFileDir.cleanPath(variables.openCurrentDirectory) != "/")
                 filedialog_top.setCurrentDirectory(variables.openCurrentDirectory+"/..")
 
         } else if(key == Qt.Key_Left) {
@@ -487,7 +487,7 @@ GridView {
 
             for(var i = tmp; i < files_model.count; ++i) {
 
-                if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                if(handlingShortcuts.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
                     currentIndex = i
                     foundSomething = true
                     break;
@@ -499,7 +499,7 @@ GridView {
 
                 for(var i = 0; i < tmp; ++i) {
 
-                    if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                    if(handlingShortcuts.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
                         currentIndex = i
                         foundSomething = true
                         break;
@@ -559,7 +559,7 @@ GridView {
         } else
             console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
 
-        loc = handlingFileDialog.cleanPath(loc)
+        loc = handlingFileDir.cleanPath(loc)
 
         files_model.folder = loc
         currentIndex = -1

@@ -241,23 +241,23 @@ Item {
 
         FileDialog {
             id: saveFileDialog
-            folder: "file://"+handlingFileDialog.getHomeDir()
+            folder: "file://"+handlingFileDir.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.SaveFile
             nameFilters: ["PhotoQt (*.pqt)"]
             onAccepted: {
                 if(saveFileDialog.file != "")
-                    handlingExternal.exportConfigTo(handlingFileDialog.cleanPath(saveFileDialog.file))
+                    handlingExternal.exportConfigTo(handlingFileDir.cleanPath(saveFileDialog.file))
             }
             onVisibleChanged: {
                 if(visible)
-                    currentFile = "file://" + handlingFileDialog.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
+                    currentFile = "file://" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
             }
         }
 
         FileDialog {
             id: openFileDialog
-            folder: "file://"+handlingFileDialog.getHomeDir()
+            folder: "file://"+handlingFileDir.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.OpenFile
             nameFilters: ["PhotoQt (*.pqt)"]
@@ -266,7 +266,7 @@ Item {
                     var yes = handlingGeneral.askForConfirmation(em.pty+qsTranslate("settingsmanager", "Import of %1. This will replace your current settings with the ones stored in the backup.").arg("'" + handlingGeneral.getFileNameFromFullPath(openFileDialog.file) + "'"),
                                                                  em.pty+qsTranslate("settingsmanager", "Do you want to continue?"))
                     if(yes) {
-                        handlingExternal.importConfigFrom(handlingFileDialog.cleanPath(openFileDialog.file) )
+                        handlingExternal.importConfigFrom(handlingFileDir.cleanPath(openFileDialog.file) )
                         rst.start()
                     }
                 }

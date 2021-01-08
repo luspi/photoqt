@@ -105,7 +105,7 @@ Rectangle {
 
     property var allMetaData: [
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
+        em.pty+qsTranslate("metadata", "File name"), handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
         //: The dimensions of the loaded image. Please keep string short!
         em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
@@ -113,7 +113,7 @@ Rectangle {
         //: Please keep string short!
         em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File type"), handlingGeneral.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
+        em.pty+qsTranslate("metadata", "File type"), handlingFileDir.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
         "", "", true,
         //: Exif image metadata: the make of the camera used to take the photo. Please keep string short!
         em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,

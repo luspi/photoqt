@@ -79,9 +79,9 @@ Item {
             text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || variables.indexOfCurrentImage==-1) ?
                       "" :
                       (PQSettings.quickInfoHideFilepath ?
-                           handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
+                           handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
                            (PQSettings.quickInfoHideFilename ?
-                                handlingGeneral.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
+                                handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
                                 variables.allImageFilesInOrder[variables.indexOfCurrentImage]))
         }
 

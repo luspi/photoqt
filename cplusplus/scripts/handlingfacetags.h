@@ -35,11 +35,9 @@ class PQHandlingFaceTags : public QObject {
     Q_OBJECT
 
 public:
-    explicit PQHandlingFaceTags(QObject *parent = nullptr);
-
+    Q_INVOKABLE bool canWriteXmpTags(QString filename);
     Q_INVOKABLE QVariantList getFaceTags(QString filename);
     Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
-    Q_INVOKABLE bool canWriteXmpTags(QString filename);
 
 };
 

@@ -38,10 +38,10 @@ ListView {
 
     property int hoverIndex: -1
 
-    property var locs: [StandardPaths.displayName(StandardPaths.HomeLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.HomeLocation)), "user-home",
-                        StandardPaths.displayName(StandardPaths.DesktopLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.DesktopLocation)), "user-desktop",
-                        StandardPaths.displayName(StandardPaths.PicturesLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.PicturesLocation)), "folder-pictures",
-                        StandardPaths.displayName(StandardPaths.DownloadLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.DownloadLocation)), "folder-downloads"]
+    property var locs: [StandardPaths.displayName(StandardPaths.HomeLocation), handlingFileDir.cleanPath(StandardPaths.writableLocation(StandardPaths.HomeLocation)), "user-home",
+                        StandardPaths.displayName(StandardPaths.DesktopLocation), handlingFileDir.cleanPath(StandardPaths.writableLocation(StandardPaths.DesktopLocation)), "user-desktop",
+                        StandardPaths.displayName(StandardPaths.PicturesLocation), handlingFileDir.cleanPath(StandardPaths.writableLocation(StandardPaths.PicturesLocation)), "folder-pictures",
+                        StandardPaths.displayName(StandardPaths.DownloadLocation), handlingFileDir.cleanPath(StandardPaths.writableLocation(StandardPaths.DownloadLocation)), "folder-downloads"]
 
     delegate: Rectangle {
 

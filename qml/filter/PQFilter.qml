@@ -252,8 +252,8 @@ Item {
 
         for(var j = 0; j < variables.allImageFilesInOrderFilterBackup.length; ++j) {
 
-            var suf = handlingFileDialog.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
-            var bas = handlingFileDialog.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
+            var suf = handlingFileDir.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
+            var bas = handlingFileDir.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
 
             var allgood = true
 

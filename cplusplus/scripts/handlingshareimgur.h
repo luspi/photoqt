@@ -63,6 +63,8 @@ public:
     explicit PQHandlingShareImgur(QObject *parent = 0);
     ~PQHandlingShareImgur();
 
+    Q_INVOKABLE bool checkIfConnectedToInternet();
+
     // three public upload function
     Q_INVOKABLE int upload(QString filename);
     Q_INVOKABLE int anonymousUpload(QString filename);

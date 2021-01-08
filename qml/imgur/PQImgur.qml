@@ -228,7 +228,7 @@ Item {
                             PQButton {
                                 text: em.pty+qsTranslate("imgur", "Copy to clipboard")
                                 onClicked:
-                                    handlingGeneral.copyTextToClipboard(report.accessurl)
+                                    handlingExternal.copyTextToClipboard(report.accessurl)
                             }
 
                             Item {
@@ -260,7 +260,7 @@ Item {
                             PQButton {
                                 text: em.pty+qsTranslate("imgur", "Copy to clipboard")
                                 onClicked:
-                                    handlingGeneral.copyTextToClipboard(report.deleteurl)
+                                    handlingExternal.copyTextToClipboard(report.deleteurl)
                             }
 
                         }
@@ -352,7 +352,7 @@ Item {
             repeat: false
             running: false
             onTriggered: {
-                if(!handlingGeneral.checkIfConnectedToInternet())
+                if(!handlingShareImgur.checkIfConnectedToInternet())
                     nointernet.visible = true
 
                 handlingShareImgur.authorizeHandlePin("68713a8441")

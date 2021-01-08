@@ -22,18 +22,6 @@
 
 #include "handlingmanipulation.h"
 
-PQHandlingManipulation::PQHandlingManipulation(QObject *parent) : QObject(parent) { }
-
-QSize PQHandlingManipulation::getCurrentImageResolution(QString filename) {
-
-    DBG << CURDATE << "PQHandlingManipulation::getCurrentImageResolution()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    QImageReader reader(filename);
-    return reader.size();
-
-}
-
 bool PQHandlingManipulation::canThisBeScaled(QString filename) {
 
     DBG << CURDATE << "PQHandlingManipulation::canThisBeScaled()" << NL
@@ -61,6 +49,16 @@ bool PQHandlingManipulation::canThisBeScaled(QString filename) {
             << "tga";
 
     return formats.contains(QFileInfo(filename).suffix().toLower());
+
+}
+
+QSize PQHandlingManipulation::getCurrentImageResolution(QString filename) {
+
+    DBG << CURDATE << "PQHandlingManipulation::getCurrentImageResolution()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QImageReader reader(filename);
+    return reader.size();
 
 }
 

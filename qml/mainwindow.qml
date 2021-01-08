@@ -26,7 +26,7 @@ import QtQuick.Window 2.2
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
-import PQHandlingFileManagement 1.0
+import PQHandlingFileDir 1.0
 import PQHandlingManipulation 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
@@ -75,7 +75,7 @@ Window {
         anchors.fill: parent
 
         source: PQSettings.backgroundImageScreenshot ?
-                    ("file://" + handlingGeneral.getTempDir() + "/photoqt_screenshot_0.jpg") :
+                    ("file://" + handlingFileDir.getTempDir() + "/photoqt_screenshot_0.jpg") :
                     (PQSettings.backgroundImageUse ? ("file://"+PQSettings.backgroundImagePath) : "")
 
         fillMode: PQSettings.backgroundImageScale ?
@@ -181,13 +181,13 @@ Window {
             if(PQCppVariables.cmdFilePath != "")
                 filenameToLoad = PQCppVariables.cmdFilePath
 
-            var folderToLoad = handlingGeneral.getFilePathFromFullPath(filenameToLoad)
+            var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
             LoadFiles.loadFile(folderToLoad)
 
             variables.openCurrentDirectory = folderToLoad
 
-            if(handlingGeneral.isDir(filenameToLoad)) {
+            if(handlingFileDir.isDir(filenameToLoad)) {
                 if(variables.allImageFilesInOrder.length == 0) {
                     loader.show("filedialog")
                     variables.openCurrentDirectory = filenameToLoad
@@ -257,7 +257,7 @@ Window {
     PQHandlingFileDialog { id: handlingFileDialog }
     PQHandlingGeneral { id: handlingGeneral }
     PQHandlingShortcuts { id: handlingShortcuts }
-    PQHandlingFileManagement { id: handlingFileManagement }
+    PQHandlingFileDir { id: handlingFileDir }
     PQHandlingManipulation { id: handlingManipulation }
     PQHandlingShareImgur { id: handlingShareImgur }
     PQHandlingWallpaper { id: handlingWallpaper }

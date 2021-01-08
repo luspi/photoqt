@@ -23,14 +23,14 @@
 function loadFile(path, copyOfAllFiles) {
 
 
-    if(PQImageFormats.getEnabledFormatsPoppler().indexOf(handlingFileDialog.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
+    if(PQImageFormats.getEnabledFormatsPoppler().indexOf(handlingFileDir.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(path)
         variables.indexOfCurrentImage = 0
 
         variables.newFileLoaded()
 
-    } else if(PQImageFormats.getEnabledFormatsLibArchive().indexOf(handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
+    } else if(PQImageFormats.getEnabledFormatsLibArchive().indexOf(handlingFileDir.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(path)
         variables.indexOfCurrentImage = 0
@@ -68,7 +68,7 @@ function loadFile(path, copyOfAllFiles) {
         }
 
         var fp = path
-        if(PQImageFormats.getEnabledFormatsPoppler().indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
+        if(PQImageFormats.getEnabledFormatsPoppler().indexOf("*." + handlingFileDir.getSuffix(fp)) > -1)
             fp = "0::PQT::" + fp
 
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)

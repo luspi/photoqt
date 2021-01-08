@@ -141,7 +141,7 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Move to trash")
                             onClicked: {
 
-                                if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
+                                if(!handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
                                     error.visible = true
                                     return
                                 }
@@ -159,7 +159,7 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Delete permanently")
                             onClicked: {
 
-                                if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
+                                if(!handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
                                     error.visible = true
                                     return
                                 }
@@ -215,7 +215,7 @@ Item {
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filedelete"
-                    filename.text = handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {

@@ -273,7 +273,7 @@ Rectangle {
                     sourceSize.height: height
                     source: allitems[subview.mainindex][index][1]===""
                             ? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
-                                    ? handlingGeneral.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
+                                    ? handlingExternal.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
                                       "/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
                     opacity: allitems[subview.mainindex][index][0] !== "hide" ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")

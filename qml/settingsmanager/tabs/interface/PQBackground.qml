@@ -154,7 +154,7 @@ PQSetting {
             }
 
             if(bg_type.currentIndex == 2)
-                PQSettings.backgroundImagePath = handlingFileDialog.cleanPath(bg_image_img.source)
+                PQSettings.backgroundImagePath = handlingFileDir.cleanPath(bg_image_img.source)
             else
                 PQSettings.backgroundImagePath = ""
 
@@ -197,7 +197,7 @@ PQSetting {
     FileDialog {
         id: fileDialog
         currentFile: (PQSettings.backgroundImagePath == "" ? "" : "file://"+PQSettings.backgroundImagePath)
-        folder: (PQSettings.backgroundImagePath == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(PQSettings.backgroundImagePath))
+        folder: (PQSettings.backgroundImagePath == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(PQSettings.backgroundImagePath))
         modality: Qt.ApplicationModal
         Component.onCompleted: {
             //: This is a category in a file dialog for selecting images used as in: All images supported by PhotoQt.

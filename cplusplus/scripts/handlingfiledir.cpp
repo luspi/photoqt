@@ -20,23 +20,48 @@
  **                                                                      **
  **************************************************************************/
 
-#include "handlingfilemanagement.h"
+#include "handlingfiledir.h"
 
-bool PQHandlingFileManagement::renameFile(QString dir, QString oldName, QString newName) {
+QString PQHandlingFileDir::cleanPath(QString path) {
 
-    DBG << CURDATE << "PQHandlingFileManagement::renameFile()" << NL
-        << CURDATE << "** dir = " << dir.toStdString() << NL
-        << CURDATE << "** oldName = " << oldName.toStdString() << NL
-        << CURDATE << "** newName = " << newName.toStdString() << NL;
+    DBG << CURDATE << "PQHandlingFileDir::cleanPath()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
-    QFile file(dir + "/" + oldName);
-    return file.rename(dir + "/" + newName);
+    if(path.startsWith("file:///"))
+        path = path.remove(0, 7);
+    if(path.startsWith("file://"))
+        path = path.remove(0, 6);
+
+    return QDir::cleanPath(path);
 
 }
 
-bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
+QString PQHandlingFileDir::copyFile(QString filename) {
 
-    DBG << CURDATE << "PQHandlingFileManagement::deleteFile()" << NL
+    DBG << CURDATE << "PQHandlingFileDir::copyFile()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QString ending = QFileInfo(filename).suffix();
+
+    //: Title of filedialog to select new filename/location to copy file to.
+    QString newfilename = QFileDialog::getSaveFileName(0, "Where to copy the file to", filename, QString("*.%1 (*.%2)").arg(ending).arg(ending));
+
+    if(newfilename.trimmed() == "")
+        return "";
+
+    QFile file(filename);
+    if(!file.copy(newfilename)) {
+        LOG << CURDATE << "PQHandlingFileDir::copyFile(): ERROR: The file could not be copied to its new location." << NL;
+        return "";
+    }
+
+    return newfilename;
+
+}
+
+bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
+
+    DBG << CURDATE << "PQHandlingFileDir::deleteFile()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL
         << CURDATE << "** permanent = " << permanent << NL;
 
@@ -74,21 +99,21 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
                 dir.setPath(baseTrash);
                 if(!dir.exists()) {
                     if(!dir.mkpath(baseTrash)) {
-                        LOG << "PQHandlingFileManagement [mkdir home: baseTrash] ERROR: mkdir() failed!";
+                        LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(baseTrash) failed!";
                         return false;
                     }
                 }
                 dir.setPath(baseTrash + "files");
                 if(!dir.exists()) {
                     if(!dir.mkdir(baseTrash + "files")) {
-                        LOG << "PQHandlingFileManagement [mkdir home: baseTrash/Trash] ERROR: mkdir() failed!";
+                        LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(files) failed!";
                         return false;
                     }
                 }
                 dir.setPath(baseTrash + "info");
                 if(!dir.exists()) {
                     if(!dir.mkdir(baseTrash + "info")) {
-                        LOG << "PQHandlingFileManagement [mkdir home: baseTrash/info] ERROR: mkdir() failed!";
+                        LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(info) failed!";
                         return false;
                     }
                 }
@@ -106,21 +131,21 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
                 dir.setPath(baseTrash);
                 if(!dir.exists()) {
                     if(!dir.mkdir(baseTrash)) {
-                        LOG << "PQHandlingFileManagement [mkdir baseTrash] ERROR: mkdir() failed!";
+                        LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(baseTrash) failed!";
                         return false;
                     }
                 }
                 dir.setPath(baseTrash + "files");
                 if(!dir.exists()) {
                     if(!dir.mkdir(baseTrash + "files")) {
-                        LOG << "PQHandlingFileManagement [mkdir baseTrash/files] ERROR: mkdir() failed!";
+                        LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(files) failed!";
                         return false;
                     }
                 }
                 dir.setPath(baseTrash + "info");
                 if(!dir.exists()) {
                     if(!dir.mkdir(baseTrash + "info")) {
-                        LOG << "PQHandlingFileManagement [mkdir baseTrash/info] ERROR: mkdir() failed!";
+                        LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(info) failed!";
                         return false;
                     }
                 }
@@ -144,7 +169,7 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
 
                 // And remove the old file
                 if(!file.remove()) {
-                    LOG << CURDATE << "PQHandlingFileManagement: ERROR: Old file couldn't be removed!" << NL;
+                    LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: Old file couldn't be removed!" << NL;
                     return false;
                 }
 
@@ -155,17 +180,17 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
                     out << info;
                     i.close();
                 } else {
-                    LOG << CURDATE << "PQHandlingFileManagement: ERROR: *.trashinfo file couldn't be created!" << NL;
+                    LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: *.trashinfo file couldn't be created!" << NL;
                     return false;
                 }
 
             } else {
-                LOG << CURDATE << "PQHandlingFileManagement: ERROR: File couldn't be deleted (moving file failed)" << NL;
+                LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: File couldn't be deleted (moving file failed)" << NL;
                 return false;
             }
 
         } else {
-            LOG << CURDATE << "PQHandlingFileManagement: ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << NL;
+            LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << NL;
             return false;
         }
 
@@ -177,32 +202,125 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
 
 }
 
-QString PQHandlingFileManagement::copyFile(QString filename) {
+bool PQHandlingFileDir::doesItExist(QString path) {
 
-    DBG << CURDATE << "PQHandlingFileManagement::copyFile()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
+    DBG << CURDATE << "PQHandlingFileDir::doesItExist()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
-    QString ending = QFileInfo(filename).suffix();
-
-    //: Title of filedialog to select new filename/location to copy file to.
-    QString newfilename = QFileDialog::getSaveFileName(0, "Where to copy the file to", filename, QString("*.%1 (*.%2)").arg(ending).arg(ending));
-
-    if(newfilename.trimmed() == "")
-        return "";
-
-    QFile file(filename);
-    if(!file.copy(newfilename)) {
-        LOG << CURDATE << "PQHandlingFileManagement::moveFile(): ERROR: The file could not be copied to its new location." << NL;
-        return "";
-    }
-
-    return newfilename;
+    QFile file(path);
+    return file.exists();
 
 }
 
-QString PQHandlingFileManagement::moveFile(QString filename) {
+QString PQHandlingFileDir::getBaseName(QString path, bool lowerCase) {
 
-    DBG << CURDATE << "PQHandlingFileManagement::moveFile()" << NL
+    DBG << CURDATE << "PQHandlingFileDir::getBaseName()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** lowerCase = " << lowerCase << NL;
+
+    if(lowerCase)
+        return QFileInfo(path).baseName().toLower();
+    return QFileInfo(path).baseName();
+
+}
+
+QString PQHandlingFileDir::getDirectory(QString path, bool lowerCase) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getDirectory()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** lowerCase = " << lowerCase << NL;
+
+    if(lowerCase)
+        return QFileInfo(path).absolutePath().toLower();
+    return QFileInfo(path).absolutePath();
+
+}
+
+QString PQHandlingFileDir::getFileNameFromFullPath(QString path, bool onlyExtraInfo) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFileNameFromFullPath()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** onlyExtraInfo = " << onlyExtraInfo << NL;
+
+    QString ret = QFileInfo(path).fileName();
+    if(onlyExtraInfo) {
+        if(path.contains("::PQT::"))
+            ret = QString("Page %1").arg(path.split("::PQT::").at(0).toInt()+1);
+        if(path.contains("::ARC::"))
+            ret = path.split("::ARC::").at(0);
+    }
+    return ret;
+}
+
+QString PQHandlingFileDir::getFilePathFromFullPath(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFilePathFromFullPath()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    return QFileInfo(path).absolutePath();
+
+}
+
+QString PQHandlingFileDir::getFileSize(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFileSize()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    return QString::number(QFileInfo(path).size()/1024) + " KB";
+
+}
+
+QString PQHandlingFileDir::getFileType(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFileType()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    if(path.trimmed() == "")
+        return "";
+    QMimeDatabase db;
+    return db.mimeTypeForFile(path).name();
+}
+
+QString PQHandlingFileDir::getHomeDir() {
+
+    DBG << CURDATE << "PQHandlingFileDir::getHomeDir()" << NL;
+
+    return QDir::homePath();
+
+}
+
+QString PQHandlingFileDir::getSuffix(QString path, bool lowerCase) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getSuffix()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL
+        << CURDATE << "** lowerCase = " << lowerCase << NL;
+
+    if(lowerCase)
+        return QFileInfo(path).suffix().toLower();
+    return QFileInfo(path).suffix();
+
+}
+
+QString PQHandlingFileDir::getTempDir() {
+
+    DBG << CURDATE << "PQHandlingFileDir::getTempDir()" << NL;
+
+    return QDir::tempPath();
+
+}
+
+bool PQHandlingFileDir::isDir(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::isDir()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    return QFileInfo(path).isDir();
+
+}
+
+QString PQHandlingFileDir::moveFile(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFileDir::moveFile()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     QString ending = QFileInfo(filename).suffix();
@@ -215,15 +333,27 @@ QString PQHandlingFileManagement::moveFile(QString filename) {
 
     QFile file(filename);
     if(!file.copy(newfilename)) {
-        LOG << CURDATE << "PQHandlingFileManagement::moveFile(): ERROR: The file could not be moved to its new location, copy process failed." << NL;
+        LOG << CURDATE << "PQHandlingFileDir::moveFile(): ERROR: The file could not be moved to its new location, copy process failed." << NL;
         return "";
     }
 
     if(!file.remove()) {
-        LOG << CURDATE << "PQHandlingFileManagement::moveFile(): ERROR: The file was successfully copied to new location but the old file could not be removed." << NL;
+        LOG << CURDATE << "PQHandlingFileDir::moveFile(): ERROR: The file was successfully copied to new location but the old file could not be removed." << NL;
         return newfilename;
     }
 
     return newfilename;
+
+}
+
+bool PQHandlingFileDir::renameFile(QString dir, QString oldName, QString newName) {
+
+    DBG << CURDATE << "PQHandlingFileDir::renameFile()" << NL
+        << CURDATE << "** dir = " << dir.toStdString() << NL
+        << CURDATE << "** oldName = " << oldName.toStdString() << NL
+        << CURDATE << "** newName = " << newName.toStdString() << NL;
+
+    QFile file(dir + "/" + oldName);
+    return file.rename(dir + "/" + newName);
 
 }

@@ -262,9 +262,9 @@ Item {
                                 }
 
                                 var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
-                                var dir = handlingGeneral.getFilePathFromFullPath(cur)
-                                var bas = handlingFileDialog.getBaseName(cur, false)
-                                var suf = handlingFileDialog.getSuffix(cur, false)
+                                var dir = handlingFileDir.getFilePathFromFullPath(cur)
+                                var bas = handlingFileDir.getBaseName(cur, false)
+                                var suf = handlingFileDir.getSuffix(cur, false)
 
                                 LoadFile.addFilenameToList(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf, variables.indexOfCurrentImage+1)
                                 ++variables.indexOfCurrentImage

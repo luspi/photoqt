@@ -369,7 +369,7 @@ Item {
                             id: music_button
                             enabled: music_check.checked
                             property string musicfile: ""
-                            text: musicfile=="" ? "[" + em.pty+qsTranslate("slideshow", "no file selected") + "]" : handlingGeneral.getFileNameFromFullPath(musicfile)
+                            text: musicfile=="" ? "[" + em.pty+qsTranslate("slideshow", "no file selected") + "]" : handlingFileDir.getFileNameFromFullPath(musicfile)
                             tooltip: (musicfile==""
                                         ? em.pty+qsTranslate("slideshow", "Click to select music file")
                                         : ("<b>"+musicfile+"</b><br><br>" + em.pty+qsTranslate("slideshow", "Click to change music file")))
@@ -381,13 +381,13 @@ Item {
                         FileDialog {
                             id: fileDialog
                             currentFile: music_button.musicfile=="" ? "" : music_button.musicfile
-                            folder: (music_button.musicfile == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(music_button.musicfile))
+                            folder: (music_button.musicfile == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(music_button.musicfile))
                             modality: Qt.ApplicationModal
                             nameFilters: [em.pty+qsTranslate("slideshow", "Common music file formats") + " (aac *.flac *.mp3 *.ogg *.oga *.wav *.wma)",
                                           em.pty+qsTranslate("slideshow", "All Files") + " (*.*)"]
                             onAccepted: {
                                 if(fileDialog.file != "")
-                                    music_button.musicfile = handlingFileDialog.cleanPath(fileDialog.file)
+                                    music_button.musicfile = handlingFileDir.cleanPath(fileDialog.file)
                             }
                         }
 

@@ -32,7 +32,7 @@ Item {
     property int indexOfCurrentImage: -1
     property real currentZoomLevel: 1
     property real currentPaintedZoomLevel: 1
-    property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDialog.getHomeDir()
+    property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
     property point mousePos: Qt.point(-1, -1)
     property int metaDataWidthWhenKeptOpen: 0
 
@@ -73,11 +73,11 @@ Item {
 
             if(PQCppVariables.cmdFilePath != "") {
 
-                var folderOld = (variables.allImageFilesInOrder.length == 0 ? "" : handlingGeneral.getFilePathFromFullPath(variables.allImageFilesInOrder[0]))
-                var folderNew = handlingGeneral.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
+                var folderOld = (variables.allImageFilesInOrder.length == 0 ? "" : handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[0]))
+                var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
                 if(folderNew == folderOld) {
-                    var newindex = variables.allImageFilesInOrder.indexOf(handlingFileDialog.cleanPath(PQCppVariables.cmdFilePath))
+                    var newindex = variables.allImageFilesInOrder.indexOf(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
                     if(newindex > -1) {
                         variables.indexOfCurrentImage = newindex
                         return

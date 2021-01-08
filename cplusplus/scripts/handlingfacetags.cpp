@@ -22,7 +22,16 @@
 
 #include "handlingfacetags.h"
 
-PQHandlingFaceTags::PQHandlingFaceTags(QObject *parent) : QObject(parent) {
+bool PQHandlingFaceTags::canWriteXmpTags(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFaceTags::canWriteXmpTags()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QStringList supportedEndings;
+    supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "tif" << "tiff" << "webp" << "dng" << "net"
+                     << "pef" << "srw" << "orf" << "png" << "pgf" << "eps" << "xmp" << "psd" << "jp2";
+
+    return supportedEndings.contains(QFileInfo(filename).suffix().toLower());
 
 }
 
@@ -244,18 +253,5 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
     }
 
 #endif
-
-}
-
-bool PQHandlingFaceTags::canWriteXmpTags(QString filename) {
-
-    DBG << CURDATE << "PQHandlingFaceTags::canWriteXmpTags()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    QStringList supportedEndings;
-    supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "tif" << "tiff" << "webp" << "dng" << "net"
-                     << "pef" << "srw" << "orf" << "png" << "pgf" << "eps" << "xmp" << "psd" << "jp2";
-
-    return supportedEndings.contains(QFileInfo(filename).suffix().toLower());
 
 }

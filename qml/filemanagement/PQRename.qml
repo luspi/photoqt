@@ -158,9 +158,9 @@ Item {
                                     return
 
                                 var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
-                                var dir = handlingGeneral.getFilePathFromFullPath(cur)
-                                var suf = handlingFileDialog.getSuffix(cur)
-                                if(!handlingFileManagement.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
+                                var dir = handlingFileDir.getFilePathFromFullPath(cur)
+                                var suf = handlingFileDir.getSuffix(cur)
+                                if(!handlingFileDir.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
                                     error.visible = true
                                     return
                                 }
@@ -200,8 +200,8 @@ Item {
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filerename"
-                    filename.text = handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    filenameedit.text =  handlingFileDialog.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filenameedit.text =  handlingFileDir.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                     filenameedit.setFocus()
                 } else if(what == "hide") {
                     button_cancel.clicked()

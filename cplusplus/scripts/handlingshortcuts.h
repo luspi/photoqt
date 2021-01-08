@@ -34,14 +34,13 @@ class PQHandlingShortcuts : public QObject {
     Q_OBJECT
 
 public:
-    PQHandlingShortcuts(QObject *parent = nullptr);
-
-    Q_INVOKABLE QVariantList loadFromFile();
-    Q_INVOKABLE void saveToFile(QVariantList lst);
+    Q_INVOKABLE QString composeDisplayString(QString combo);
+    Q_INVOKABLE QString composeString(Qt::KeyboardModifiers mods, Qt::Key keys);
+    Q_INVOKABLE int convertCharacterToKeyCode(QString key);
     Q_INVOKABLE QString convertKeyCodeToText(int id);
     Q_INVOKABLE void executeExternalApp(QString cmd, QString filename);
-    Q_INVOKABLE QString composeString(Qt::KeyboardModifiers mods, Qt::Key keys);
-    Q_INVOKABLE QString composeDisplayString(QString combo);
+    Q_INVOKABLE QVariantList loadFromFile();
+    Q_INVOKABLE void saveToFile(QVariantList lst);
 
 };
 

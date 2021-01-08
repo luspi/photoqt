@@ -39,52 +39,29 @@ class PQHandlingGeneral : public QObject {
     Q_OBJECT
 
 public:
+    Q_INVOKABLE bool askForConfirmation(QString text, QString informativeText);
+    Q_INVOKABLE void cleanUpScreenshotsTakenAtStartup();
+    Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
+    Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
+    Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
+    Q_INVOKABLE void deleteLastLoadedImage();
+    Q_INVOKABLE QStringList getAvailableTranslations();
+    Q_INVOKABLE QString getLastLoadedImage();
+    Q_INVOKABLE QString getQtVersion();
+    Q_INVOKABLE QString getUniqueId();
+    Q_INVOKABLE QString getVersion();
+    Q_INVOKABLE bool isDevILSupportEnabled();
+    Q_INVOKABLE bool isFreeImageSupportEnabled();
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
     Q_INVOKABLE bool isImageMagickSupportEnabled();
     Q_INVOKABLE bool isLibRawSupportEnabled();
     Q_INVOKABLE bool isLibArchiveSupportEnabled();
-    Q_INVOKABLE bool isDevILSupportEnabled();
-    Q_INVOKABLE bool isFreeImageSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
     Q_INVOKABLE bool isVideoSupportEnabled();
-
-    Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
-    Q_INVOKABLE QString getFilePathFromFullPath(QString path);
-    Q_INVOKABLE bool isDir(QString path);
-    Q_INVOKABLE QString getFileSize(QString path);
-
     Q_INVOKABLE void setLastLoadedImage(QString path);
-    Q_INVOKABLE QString getLastLoadedImage();
-    Q_INVOKABLE void deleteLastLoadedImage();
-
-    Q_INVOKABLE QString getTempDir();
-    Q_INVOKABLE void cleanUpScreenshotsTakenAtStartup();
-
-    Q_INVOKABLE QString getUniqueId();
-
-    Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
-
-    Q_INVOKABLE void openInDefaultFileManager(QString filename);
-    Q_INVOKABLE void copyToClipboard(QString filename);
-    Q_INVOKABLE void copyTextToClipboard(QString txt);
-
-    Q_INVOKABLE bool checkIfConnectedToInternet();
-
-    Q_INVOKABLE QString getFileType(QString filename);
-
-    Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
-    Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
-
-    Q_INVOKABLE bool askForConfirmation(QString text, QString informativeText);
-
     Q_INVOKABLE void setOverrideCursor(bool enabled);
 
-    Q_INVOKABLE QString getVersion();
-    Q_INVOKABLE QString getQtVersion();
 
-    Q_INVOKABLE QStringList getAvailableTranslations();
-
-    Q_INVOKABLE QString getIconPathFromTheme(QString binary);
 
 private:
     PQImageProviderFull *imageprovider;
