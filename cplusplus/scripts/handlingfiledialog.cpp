@@ -172,20 +172,6 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
 
 }
 
-QString PQHandlingFileDialog::convertBytesToHumanReadable(qint64 bytes) {
-
-    DBG << CURDATE << "PQHandlingFileDialog::convertBytesToHumanReadable()" << NL
-        << CURDATE << "** bytes = " << bytes << NL;
-
-    if(bytes <= 1024)
-        return (QString::number(bytes) + " B");
-    else if(bytes <= 1024*1024)
-        return (QString::number(qRound(10.0*(bytes/1024.0))/10.0) + " KB");
-
-    return (QString::number(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0) + " MB");
-
-}
-
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
     DBG << CURDATE << "PQHandlingFileDialog::getFoldersIn()" << NL

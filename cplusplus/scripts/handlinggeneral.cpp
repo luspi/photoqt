@@ -56,6 +56,20 @@ void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
 
 }
 
+QString PQHandlingGeneral::convertBytesToHumanReadable(qint64 bytes) {
+
+    DBG << CURDATE << "PQHandlingGeneral::convertBytesToHumanReadable()" << NL
+        << CURDATE << "** bytes = " << bytes << NL;
+
+    if(bytes <= 1024)
+        return (QString::number(bytes) + " B");
+    else if(bytes <= 1024*1024)
+        return (QString::number(qRound(10.0*(bytes/1024.0))/10.0) + " KB");
+
+    return (QString::number(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0) + " MB");
+
+}
+
 QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
 
     DBG << CURDATE << "PQHandlingGeneral::convertHexToRgba()" << NL

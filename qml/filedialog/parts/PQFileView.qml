@@ -276,7 +276,7 @@ GridView {
                 visible: PQSettings.openDefaultView=="list"
                 color: "white"
                 font.bold: true
-                text: fileIsDir ? "" : handlingFileDialog.convertBytesToHumanReadable(fileSize)
+                text: fileIsDir ? "" : handlingGeneral.convertBytesToHumanReadable(fileSize)
 
             }
 

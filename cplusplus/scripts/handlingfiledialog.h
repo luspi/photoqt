@@ -58,7 +58,6 @@ class PQHandlingFileDialog : public QObject {
 
 public:
     Q_INVOKABLE void addNewUserPlacesEntry(QString path, int pos);
-    Q_INVOKABLE QString convertBytesToHumanReadable(qint64 bytes);
     Q_INVOKABLE QStringList getFoldersIn(QString path);
     Q_INVOKABLE QString getLastLocation();
     unsigned int getNumberOfFilesInFolder(QString path);

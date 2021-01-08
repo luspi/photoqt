@@ -41,6 +41,7 @@ class PQHandlingGeneral : public QObject {
 public:
     Q_INVOKABLE bool askForConfirmation(QString text, QString informativeText);
     Q_INVOKABLE void cleanUpScreenshotsTakenAtStartup();
+    Q_INVOKABLE QString convertBytesToHumanReadable(qint64 bytes);
     Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
     Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
     Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
