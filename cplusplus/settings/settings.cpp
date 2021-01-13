@@ -217,6 +217,7 @@ void PQSettings::setDefault() {
     setWallpaperPopoutElement(false);
     setFilterPopoutElement(false);
     setSettingsManagerPopoutElement(false);
+    setFileSaveAsPopoutElement(false);
 
 }
 
@@ -669,6 +670,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("SettingsManagerPopoutElement="))
                 setSettingsManagerPopoutElement(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("FileSaveAsPopoutElement="))
+                setFileSaveAsPopoutElement(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -871,6 +875,7 @@ void PQSettings::saveSettings() {
         cont += QString("WallpaperPopoutElement=%1\n").arg(int(m_wallpaperPopoutElement));
         cont += QString("FilterPopoutElement=%1\n").arg(int(m_filterPopoutElement));
         cont += QString("SettingsManagerPopoutElement=%1\n").arg(int(m_settingsManagerPopoutElement));
+        cont += QString("FileSaveAsPopoutElement=%1\n").arg(int(m_fileSaveAsPopoutElement));
 
 
         out << cont;

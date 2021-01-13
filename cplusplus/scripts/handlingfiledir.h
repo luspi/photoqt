@@ -56,6 +56,7 @@ public:
     Q_INVOKABLE bool isDir(QString path);
     Q_INVOKABLE QString moveFile(QString filename);
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
+    Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);
 };
 
 #endif // PQHANDLINGFILEDIR_H

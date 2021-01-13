@@ -293,3 +293,83 @@ void PQImageFormats::writeToDatabase(QVariantList f) {
     readFromDatabase();
 
 }
+
+QVariantList PQImageFormats::getWriteableFormats() {
+
+    QVariantList ret;
+
+    QImageWriter writer;
+    QSqlQuery query("SELECT * FROM imageformats", db);
+    while(query.next()) {
+
+        QString qt_formatname = query.record().value("qt_formatname").toString();
+        const QString endings = query.record().value("endings").toString();
+        const QString description = query.record().value("description").toString();
+        const QString magick = query.record().value("im_gm_magick").toString();
+
+        bool qt = false;
+        bool imgm = false;
+        if(qt_formatname != "" &&writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
+            qt = true;
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+        else if(magick != "") {
+            try {
+                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                if(magickCoderInfo.isReadable() && magickCoderInfo.isWritable())
+                    imgm = true;
+            } catch(Magick::Exception &) {}
+        }
+#endif
+
+        if(qt || imgm) {
+
+            QVariantList entry;
+            entry << (qt&&imgm ? "qt/magick" : (qt ? "qt" : "magick"));
+            entry << endings << description << magick;
+
+            ret << QVariant::fromValue(entry);
+        }
+    }
+
+    return ret;
+
+}
+
+QVariantMap PQImageFormats::getFormatsInfo(QString endings) {
+
+    QVariantMap ret;
+
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM imageformats WHERE endings=:endings");
+    query.bindValue(":endings", endings);
+    if(!query.exec()) {
+        LOG << CURDATE << "PQImageFormats::getFormatsInfo(): SQL Query error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return ret;
+    }
+
+    if(!query.next()) {
+        LOG << CURDATE << "PQImageFormats::getFormatsInfo(): No SQL results returned" << NL;
+        return ret;
+    }
+
+    ret.insert("endings", endings);
+    ret.insert("mimetypes", query.record().value("mimetypes"));
+    ret.insert("description", query.record().value("description"));
+    ret.insert("category", query.record().value("category"));
+    ret.insert("enabled", query.record().value("enabled"));
+    ret.insert("qt", query.record().value("qt"));
+    ret.insert("imagemagick", query.record().value("imagemagick"));
+    ret.insert("graphicsmagick", query.record().value("graphicsmagick"));
+    ret.insert("libraw", query.record().value("libraw"));
+    ret.insert("poppler", query.record().value("poppler"));
+    ret.insert("xcftools", query.record().value("xcftools"));
+    ret.insert("devil", query.record().value("devil"));
+    ret.insert("freeimage", query.record().value("freeimage"));
+    ret.insert("archive", query.record().value("archive"));
+    ret.insert("video", query.record().value("video"));
+    ret.insert("im_gm_magick", query.record().value("im_gm_magick"));
+    ret.insert("qt_formatname", query.record().value("qt_formatname"));
+
+    return ret;
+
+}

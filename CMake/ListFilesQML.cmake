@@ -33,7 +33,7 @@ SET(d "qml/slideshow")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideShowSettings.qml ${d}/PQSlideShowSettingsPopout.qml ${d}/PQSlideShowControls.qml ${d}/PQSlideShowControlsPopout.qml)
 
 SET(d "qml/filemanagement")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQRename.qml ${d}/PQRenamePopout.qml ${d}/PQDelete.qml ${d}/PQDeletePopout.qml ${d}/PQCopyMove.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQRename.qml ${d}/PQRenamePopout.qml ${d}/PQDelete.qml ${d}/PQDeletePopout.qml ${d}/PQCopyMove.qml ${d}/PQSaveAs.qml ${d}/PQSaveAsPopout.qml)
 
 SET(d "qml/scale")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQScale.qml ${d}/PQScalePopout.qml)

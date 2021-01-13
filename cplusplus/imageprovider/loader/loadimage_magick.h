@@ -38,9 +38,10 @@ class PQLoadImageMagick {
 public:
     PQLoadImageMagick() {
         errormsg = "";
+        image = Magick::Image();
     }
 
-    QImage load(QString filename, QSize maxSize, QSize *origSize) {
+    QImage load(QString filename, QSize maxSize, QSize *origSize, bool onlyLoadMagickImage = false) {
 
 #ifdef GRAPHICSMAGICK
         QString whichone = "GraphicsMagick";
@@ -65,7 +66,7 @@ public:
 
         // Prepare Magick
         QString suf = QFileInfo(filename).suffix().toUpper();
-        Magick::Image image;
+        image = Magick::Image();
 
         QMimeDatabase db;
         QString mimetype = db.mimeTypeForFile(filename).name();
@@ -147,19 +148,25 @@ public:
 
             }
 
-            // Write Magick as BMP to memory
-            // We used to use PNG here, but BMP is waaaayyyyyy faster (even faster than JPG)
-            // PPM can be even faster but causes some formats to fail.
-            Magick::Blob ob;
-            image.magick("BMP");
-            image.write(&ob);
+            // this stops after successfully loading the image into Magick.
+            if(!onlyLoadMagickImage) {
 
-            // And load JPG from memory into QImage
-            const QByteArray imgData((char*)(ob.data()),ob.length());
-            QImage img = QImage::fromData(imgData);
+                // Write Magick as BMP to memory
+                // We used to use PNG here, but BMP is waaaayyyyyy faster (even faster than JPG)
+                // PPM can be even faster but causes some formats to fail.
+                Magick::Blob ob;
+                image.magick("BMP");
+                image.write(&ob);
 
-            // And we're done!
-            return img;
+                // And load JPG from memory into QImage
+                const QByteArray imgData((char*)(ob.data()),ob.length());
+                QImage img = QImage::fromData(imgData);
+
+                // And we're done!
+                return img;
+
+            } else
+                return QImage();
 
         } catch(Magick::Exception &e) {
             errormsg = e.what();
@@ -176,6 +183,7 @@ public:
     }
 
     QString errormsg;
+    Magick::Image image;
 
 
 };

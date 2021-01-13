@@ -357,3 +357,14 @@ bool PQHandlingFileDir::renameFile(QString dir, QString oldName, QString newName
     return file.rename(dir + "/" + newName);
 
 }
+
+QString PQHandlingFileDir::replaceSuffix(QString filename, QString newSuffix) {
+
+    DBG << CURDATE << "PQHandlingFileDir::replaceSuffix()" << NL
+        << CURDATE << "** dir = " << filename.toStdString() << NL
+        << CURDATE << "** oldName = " << newSuffix.toStdString() << NL;
+
+    QFileInfo info(filename);
+    return QString("%1.%2").arg(info.baseName(), newSuffix);
+
+}

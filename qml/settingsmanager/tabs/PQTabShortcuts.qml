@@ -148,7 +148,8 @@ Item {
                             //: Name of shortcut action
                             ["__move", em.pty+qsTranslate("settingsmanager", "Move File to a New Location")],
                             //: Name of shortcut action
-                            ["__clipboard", em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")]]
+                            ["__clipboard", em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")],
+                            ["__saveAs", "Save image in another format"]]
             }
 
             PQContainer {

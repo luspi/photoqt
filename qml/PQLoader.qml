@@ -40,6 +40,7 @@ Item {
     signal filterPassOn(var what, var param)
     signal faceTaggerPassOn(var what, var param)
     signal settingsManagerPassOn(var what, var param)
+    signal fileSaveAsPassOn(var what, var param);
 
     function show(component) {
 
@@ -80,6 +81,9 @@ Item {
 
         else if(component == "settingsmanager")
             settingsManagerPassOn("show", undefined)
+
+        else if(component == "filesaveas")
+            fileSaveAsPassOn("show", undefined)
 
     }
 
@@ -141,6 +145,9 @@ Item {
 
         else if(component == "settingsmanager")
             settingsManagerPassOn("keyevent", [key, mod])
+
+        else if(component == "filesaveas")
+            fileSaveAsPassOn("keyevent", [key, mod])
 
     }
 
@@ -262,6 +269,14 @@ Item {
 
             if(copymove.source != "filemanagement/PQCopyMove.qml")
                 copymove.source = "filemanagement/PQCopyMove.qml"
+
+        } else if(component == "filesaveas") {
+
+            if(PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
+                filesaveas.source = "settingsmanager/PQSettingsManagerPopout.qml"
+
+            else if(!PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAs.qml")
+                filesaveas.source = "filemanagement/PQSaveAs.qml"
 
         }
 

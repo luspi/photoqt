@@ -52,6 +52,8 @@ PQSetting {
                         //: Used as identifying name for one of the elements in the interface
                         ["fileDeletePopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Delete File")],
                         //: Used as identifying name for one of the elements in the interface
+                        ["fileSaveAsPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Save File As")],
+                        //: Used as identifying name for one of the elements in the interface
                         ["aboutPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "About")],
                         //: Used as identifying name for one of the elements in the interface
                         ["imgurPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Imgur")],

@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QtSql>
 #include <QMessageBox>
+#include <QImageWriter>
 
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
 #include <Magick++.h>
@@ -145,6 +146,9 @@ public:
     Q_INVOKABLE QVariantMap getMagickMimeType() {
         return magick_mimetype;
     }
+
+    Q_INVOKABLE QVariantList getWriteableFormats();
+    QVariantMap getFormatsInfo(QString endings);
 
 private:
     PQImageFormats();

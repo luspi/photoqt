@@ -84,6 +84,8 @@ namespace PQStartup {
                 cont += "0::Shift+P::__playPauseAni\n";
                 cont += "0::F::__tagFaces\n";
                 cont += "0::Ctrl+Shift+I::__imgurAnonym\n";
+                cont += "0::Ctrl+Shift+S::__saveAs\n";
+                cont += "0::Ctrl+S::__saveAs\n";
 
                 if(shortcutsfile.open(QIODevice::WriteOnly)) {
                     QTextStream out(&shortcutsfile);

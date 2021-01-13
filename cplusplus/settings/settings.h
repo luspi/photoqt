@@ -1462,6 +1462,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool fileSaveAsPopoutElement READ getFileSaveAsPopoutElement WRITE setFileSaveAsPopoutElement NOTIFY fileSaveAsPopoutElementChanged)
+        bool getFileSaveAsPopoutElement() { return m_fileSaveAsPopoutElement; }
+        void setFileSaveAsPopoutElement(bool val) {
+            if(m_fileSaveAsPopoutElement != val) {
+                m_fileSaveAsPopoutElement = val;
+                emit fileSaveAsPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1621,6 +1631,7 @@ private:
         bool    m_wallpaperPopoutElement;
         bool    m_filterPopoutElement;
         bool    m_settingsManagerPopoutElement;
+        bool    m_fileSaveAsPopoutElement;
 
 private slots:
         void readSettings();
@@ -1766,6 +1777,7 @@ signals:
         void wallpaperPopoutElementChanged();
         void filterPopoutElementChanged();
         void settingsManagerPopoutElementChanged();
+        void fileSaveAsPopoutElementChanged();
 
 
 };

@@ -136,5 +136,7 @@
         <file>settingsmanager/tabs/filetypes/PQPoppler.qml</file>
         <file>settingsmanager/tabs/filetypes/PQLibArchive.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypes.qml</file>
+        <file>filemanagement/PQSaveAs.qml</file>
+        <file>filemanagement/PQSaveAsPopout.qml</file>
     </qresource>
 </RCC>

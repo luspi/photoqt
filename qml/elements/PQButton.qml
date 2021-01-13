@@ -41,6 +41,9 @@ Button {
     property string textColorHover: "#ffffff"
     property string textColorActive: "#ffffff"
 
+    property string borderColor: "#00000000"
+    property int borderWidth: 0
+
     property bool clickOpensMenu: false
     property bool menuOpenDownward: true
     property bool centerMenuOnButton: false
@@ -91,6 +94,8 @@ Button {
         Behavior on color { ColorAnimation { duration: 100 } }
         implicitHeight: contentItem.height
         opacity: enabled ? 1 : 0.3
+        border.width: control.borderWidth
+        border.color: control.borderColor
         radius: 2
 
         Image {
@@ -116,6 +121,7 @@ Button {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        tooltip: control.text
         onEntered:
             control.mouseOver = true
         onExited:

@@ -28,6 +28,11 @@
 #include <QFileDialog>
 #include <QApplication>
 #include "../logger.h"
+#include "../settings/imageformats.h"
+#include "../imageprovider/loader/loadimage_qt.h"
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include "../imageprovider/loader/loadimage_magick.h"
+#endif
 #ifdef EXIV2
 #include <exiv2/exiv2.hpp>
 #endif
@@ -38,6 +43,7 @@ class PQHandlingManipulation : public QObject {
 
 public:
     Q_INVOKABLE bool canThisBeScaled(QString filename);
+    Q_INVOKABLE bool chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings);
     Q_INVOKABLE QSize getCurrentImageResolution(QString filename);
     Q_INVOKABLE bool scaleImage(QString sourceFilename, bool scaleInPlace, QSize targetSize, int targetQuality);
 
