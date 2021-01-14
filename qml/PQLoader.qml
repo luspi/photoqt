@@ -273,7 +273,7 @@ Item {
         } else if(component == "filesaveas") {
 
             if(PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
-                filesaveas.source = "settingsmanager/PQSettingsManagerPopout.qml"
+                filesaveas.source = "filemanagement/PQSaveAsPopout.qml"
 
             else if(!PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAs.qml")
                 filesaveas.source = "filemanagement/PQSaveAs.qml"

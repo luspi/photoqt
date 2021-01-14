@@ -71,7 +71,7 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_settingsManagerWindowGeometry = QRect(0, 0, 800, 600);
 
     m_fileSaveAsWindowMaximized = true;
-    m_fileSaveAsWindowGeometry = QRect(0, 0, 800, 600);
+    m_fileSaveAsWindowGeometry = QRect(0, 0, 1024, 768);
 
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
