@@ -119,6 +119,16 @@ Item {
                     text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be converted!")
                 }
 
+                Text {
+                    id: abort
+                    x: (insidecont.width-width)/2
+                    color: "orange"
+                    visible: false
+                    font.pointSize: 15
+                    horizontalAlignment: Qt.AlignHCenter
+                    text: em.pty+qsTranslate("filemanagement", "Operation cancelled")
+                }
+
                 PQLineEdit {
                     id: formatsfilter
                     x: (insidecont.width-width)/2
@@ -247,7 +257,10 @@ Item {
                             borderColor: "black"
                             enabled: formatsview.currentIndex != -1
                             onClicked: {
-                                if(handlingManipulation.chooseLocationAndConvertImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage], newfilename.text, formatsview.data[formatsview.currentIndex][1])) {
+                                var stat = handlingManipulation.chooseLocationAndConvertImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage], newfilename.text, formatsview.data[formatsview.currentIndex][1])
+                                if(stat == -1)
+                                    abort.visible = true
+                                else if(stat == 1) {
                                     saveas_top.opacity = 0
                                     variables.visibleItem = ""
                                 } else
@@ -283,6 +296,7 @@ Item {
                         return
                     opacity = 1
                     error.visible = false
+                    abort.visible = false
                     variables.visibleItem = "filesaveas"
                     filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                     newfilename.text = filename.text
