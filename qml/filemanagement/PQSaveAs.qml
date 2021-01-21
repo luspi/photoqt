@@ -258,13 +258,16 @@ Item {
                             enabled: formatsview.currentIndex != -1
                             onClicked: {
                                 var stat = handlingManipulation.chooseLocationAndConvertImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage], newfilename.text, formatsview.data[formatsview.currentIndex][1])
-                                if(stat == -1)
+                                if(stat == -1) {
                                     abort.visible = true
-                                else if(stat == 1) {
+                                    hideErrorAbort.restart()
+                                } else if(stat == 1) {
                                     saveas_top.opacity = 0
                                     variables.visibleItem = ""
-                                } else
+                                } else {
                                     error.visible = true
+                                    hideErrorAbort.restart()
+                                }
 
                             }
                         }
@@ -325,6 +328,17 @@ Item {
             onActivated: button_ok.clicked()
         }
 
+    }
+
+    Timer {
+        id: hideErrorAbort
+        interval: 3000
+        repeat: false
+        running: false
+        onTriggered: {
+            error.visible = false
+            abort.visible = false
+        }
     }
 
 }
