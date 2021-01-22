@@ -69,14 +69,11 @@ int main(int argc, char **argv) {
 
     PQSingleInstance app(argc, argv);
 
-    // We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
-    QString version = VERSION;
-
     // Set app name and version
     QGuiApplication::setApplicationName("PhotoQt");
     QGuiApplication::setOrganizationName("");
     QGuiApplication::setOrganizationDomain("photoqt.org");
-    QGuiApplication::setApplicationVersion(version);
+    QGuiApplication::setApplicationVersion(VERSION);
 
     QGuiApplication::setQuitOnLastWindowClosed(true);
 
@@ -87,6 +84,15 @@ int main(int argc, char **argv) {
         PQStartup::Import::perform(app.importAndQuit);
         std::exit(0);
     }
+
+    // check for update or new install
+    bool update = false;
+    bool newinstall = false;
+    QFile txt(ConfigFiles::SETTINGS_FILE());
+    if(!txt.exists())
+        newinstall = true;
+    else if(PQSettings::get().getVersion() != QString::fromStdString(VERSION))
+        update = true;
 
 // only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
@@ -110,7 +116,9 @@ int main(int argc, char **argv) {
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    PQStartup::PQStartup();
+    // we only do startup checks on updates and new installs
+    if(update || newinstall)
+        PQStartup::PQStartup();
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
