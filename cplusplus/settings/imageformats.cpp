@@ -299,7 +299,7 @@ QVariantList PQImageFormats::getWriteableFormats() {
     QVariantList ret;
 
     QImageWriter writer;
-    QSqlQuery query("SELECT * FROM imageformats", db);
+    QSqlQuery query("SELECT * FROM imageformats ORDER BY qt DESC", db);
     while(query.next()) {
 
         QString qt_formatname = query.record().value("qt_formatname").toString();

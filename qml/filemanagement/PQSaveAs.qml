@@ -109,6 +109,11 @@ Item {
                     text: "this_is_the_filename.jpg"
                 }
 
+                Item {
+                    width: 1
+                    height: 1
+                }
+
                 Text {
                     id: error
                     x: (insidecont.width-width)/2
@@ -206,6 +211,8 @@ Item {
                                 PQMouseArea {
                                     anchors.fill: parent
                                     hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    tooltip: "<b>" + formatsview.data[index][2] + "</b><br>*." + formatsview.data[index][1].split(",").join(", *.")
                                     onEntered:
                                         formatsview.currentHover = index
                                     onClicked:
