@@ -86,13 +86,12 @@ int main(int argc, char **argv) {
     }
 
     // check for update or new install
-    bool update = false;
-    bool newinstall = false;
+    bool performStartupChecks = false;
     QFile txt(ConfigFiles::SETTINGS_FILE());
-    if(!txt.exists())
-        newinstall = true;
-    else if(PQSettings::get().getVersion() != QString::fromStdString(VERSION))
-        update = true;
+    if(!txt.exists()) {
+        performStartupChecks = true;
+    } else if(PQSettings::get().getVersion() != QString::fromStdString(VERSION))
+        performStartupChecks = true;
 
 // only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
@@ -117,7 +116,7 @@ int main(int argc, char **argv) {
     }, Qt::QueuedConnection);
 
     // we only do startup checks on updates and new installs
-    if(update || newinstall)
+    if(performStartupChecks)
         PQStartup::PQStartup();
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
