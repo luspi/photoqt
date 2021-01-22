@@ -98,6 +98,7 @@ Item {
                     color: "white"
                     font.pointSize: 20
                     font.bold: true
+                    //: This is a title, similar to all the 'save as' options in many programs.
                     text: em.pty+qsTranslate("filemanagement", "Save file as")
                 }
 
@@ -121,7 +122,7 @@ Item {
                     visible: false
                     font.pointSize: 15
                     horizontalAlignment: Qt.AlignHCenter
-                    text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be converted!")
+                    text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be saved!")
                 }
 
                 Text {
@@ -131,6 +132,7 @@ Item {
                     visible: false
                     font.pointSize: 15
                     horizontalAlignment: Qt.AlignHCenter
+                    //: 'Operation' here is the operation of saving an image in a new format
                     text: em.pty+qsTranslate("filemanagement", "Operation cancelled")
                 }
 
@@ -138,7 +140,8 @@ Item {
                     id: formatsfilter
                     x: (insidecont.width-width)/2
                     width: formatsflick.width
-                    placeholderText: "Filter formats"
+                    //: This is a short hint informing the user that here they can 'filter all the possible file formats'
+                    placeholderText: em.pty+qsTranslate("filemanagement", "Filter formats")
                 }
 
                 Rectangle {
@@ -231,14 +234,14 @@ Item {
                     Text {
                         id: newfilename_label
                         y: (newfilename.height-height)/2
-                        text: "New filename:"
+                        text: em.pty+qsTranslate("filemanagement", "New filename") + ":"
                         color: "white"
                     }
 
                     PQLineEdit {
                         id: newfilename
                         width: formatsflick.width-newfilename_label.width-5
-                        placeholderText: "New filename"
+                        placeholderText: em.pty+qsTranslate("filemanagement", "New filename")
 
                     }
                 }
@@ -259,7 +262,7 @@ Item {
 
                         PQButton {
                             id: button_ok
-                            text: em.pty+qsTranslate("filemanagement", "Choose location and convert")
+                            text: em.pty+qsTranslate("filemanagement", "Choose location and save file")
                             borderWidth: 1
                             borderColor: "black"
                             enabled: formatsview.currentIndex != -1
