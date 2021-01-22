@@ -64,16 +64,6 @@ public:
             }
         }
 
-        Q_PROPERTY(QString versionInTextFile READ getVersionInTextFile WRITE setVersionInTextFile NOTIFY versionInTextFileChanged)
-        QString getVersionInTextFile() { return m_versionInTextFile; }
-        void setVersionInTextFile(QString val) {
-            if(m_versionInTextFile != val) {
-                m_versionInTextFile = val;
-                emit versionInTextFileChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(QString language READ getLanguage WRITE setLanguage NOTIFY languageChanged)
         QString getLanguage() { return m_language; }
         void setLanguage(QString val) {
@@ -1480,7 +1470,6 @@ private:
         QTimer *watcherAddFileTimer;
 
         QString m_version;
-        QString m_versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
         QString m_language;
         bool    m_saveWindowGeometry;
         bool    m_keepOnTop;
@@ -1640,7 +1629,6 @@ private slots:
 
 signals:
         void versionChanged();
-        void versionInTextFileChanged();
         void languageChanged();
         void saveWindowGeometryChanged();
         void keepOnTopChanged();

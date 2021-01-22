@@ -29,7 +29,6 @@ PQSettings::PQSettings() {
     saveSettingsTimer = new QTimer;
     saveSettingsTimer->setInterval(400);
     saveSettingsTimer->setSingleShot(true);
-    connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
 
     watcher = new QFileSystemWatcher;
     connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
@@ -42,6 +41,9 @@ PQSettings::PQSettings() {
     setDefault();
     readSettings();
 
+    // we only connect it here so that setting the defaults doesn't accidentally trigger overwriting existing settings
+    connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
+
 }
 
 void PQSettings::setDefault() {
@@ -49,7 +51,6 @@ void PQSettings::setDefault() {
     DBG << CURDATE << "PQSettings::setDefault()" << NL;
 
     setVersion(QString::fromStdString(VERSION));
-    m_versionInTextFile = "";
 
     setSortby("naturalname");
     setSortbyAscending(true);
@@ -259,7 +260,7 @@ void PQSettings::readSettings() {
                 setLanguage(line.split("=").at(1).trimmed());
 
             else if(line.startsWith("Version="))
-                m_versionInTextFile = line.split("=").at(1).trimmed();
+                setVersion(line.split("=").at(1).trimmed());
 
 
             else if(line.startsWith("SortImagesBy="))
@@ -700,7 +701,7 @@ void PQSettings::saveSettings() {
 
         QTextStream out(&file);
 
-        QString cont = "Version=" + m_version + "\n";
+        QString cont = "Version=" + QString::fromStdString(VERSION) + "\n";
 
         cont += QString("Language=%1\n").arg(m_language);
         cont += QString("WindowMode=%1\n").arg(int(m_windowMode));
