@@ -31,7 +31,9 @@ PQImageFormats::PQImageFormats() {
         db = QSqlDatabase::addDatabase("QSQLITE");
     else {
         LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
-        QMessageBox::critical(0, "ERROR getting default image formats", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading the enabled/default image formats. Without it some things will not work correctly.");
+        //: This is the window title of an error message box
+        QMessageBox::critical(0, QCoreApplication::translate("PQImageFormats", "ERROR getting default image formats"),
+                                 QCoreApplication::translate("PQImageFormats", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading the enabled/default image formats. Without it some things will not work correctly!"));
         return;
     }
     db.setHostName("formats");
@@ -52,7 +54,9 @@ PQImageFormats::PQImageFormats() {
 
         if(!QFile::copy(":/imageformats.db", tmppath)) {
             LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR copying read-only default database!" << NL;
-            QMessageBox::critical(0, "ERROR getting default image formats", "I tried hard, but I just cannot open even a read-only version of the database of default image formats, something went terribly wrong somewhere... :/");
+            //: This is the window title of an error message box
+            QMessageBox::critical(0, QCoreApplication::translate("PQImageFormats", "ERROR getting default image formats"),
+                                     QCoreApplication::translate("PQImageFormats", "I tried hard, but I just cannot open even a read-only version of the database of default image formats.") + QCoreApplication::translate("PQImageFormats", "Something went terribly wrong somewhere!"));
             return;
         }
 
@@ -60,7 +64,8 @@ PQImageFormats::PQImageFormats() {
 
         if(!db.open()) {
             LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR opening read-only default database!" << NL;
-            QMessageBox::critical(0, "ERROR getting default image formats", "I tried hard, but I just cannot open the database of default image formats, something went terribly wrong somewhere... :/");
+            QMessageBox::critical(0, QCoreApplication::translate("PQImageFormats", "ERROR getting default image formats"),
+                                     QCoreApplication::translate("PQImageFormats", "I tried hard, but I just cannot open the database of default image formats.") + QCoreApplication::translate("PQImageFormats", "Something went terribly wrong somewhere!"));
             return;
         }
 
