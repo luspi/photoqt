@@ -90,7 +90,11 @@ int main(int argc, char **argv) {
     QFile txt(ConfigFiles::SETTINGS_FILE());
     if(!txt.exists()) {
         performStartupChecks = true;
-    } else if(PQSettings::get().getVersion() != QString::fromStdString(VERSION))
+        PQVariables::get().setFreshInstall(true);
+    } else
+        PQVariables::get().setFreshInstall(false);
+
+    if(!performStartupChecks && PQSettings::get().getVersion() != QString::fromStdString(VERSION))
         performStartupChecks = true;
 
 // only one of them will be defined at a time

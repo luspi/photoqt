@@ -397,3 +397,7 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
     file.close();
 
 }
+
+QSize PQHandlingExternal::getScreenSize() {
+    return QApplication::primaryScreen()->size();
+}

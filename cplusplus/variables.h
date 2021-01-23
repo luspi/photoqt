@@ -129,13 +129,34 @@ public:
             }
         }
 
+        Q_PROPERTY(bool freshInstall READ getFreshInstall WRITE setFreshInstall NOTIFY freshInstallChanged)
+        bool getFreshInstall() { return m_freshInstall; }
+        void setFreshInstall(bool val) {
+            if(val != m_freshInstall) {
+                m_freshInstall = val;
+                emit freshInstallChanged();
+            }
+        }
+
 #ifdef DEVIL
         // DevIL is not threadsafe -> this ensures only one image is loaded at a time
         QMutex devilMutex;
 #endif
 
 private:
-        PQVariables() {}
+        PQVariables() {
+            QString m_cmdFilePath = "";
+            m_cmdOpen = false;
+            m_cmdShow = false;
+            m_cmdHide = false;
+            m_cmdToggle = false;
+            m_cmdThumbs = false;
+            m_cmdNoThumbs = false;
+            m_cmdShortcutSequence = "";
+            m_cmdTray = false;
+            m_cmdDebug = false;
+            m_freshInstall = false;
+        }
 
         QString m_cmdFilePath;
         bool m_cmdOpen;
@@ -147,6 +168,7 @@ private:
         QString m_cmdShortcutSequence;
         bool m_cmdTray;
         bool m_cmdDebug;
+        bool m_freshInstall;
 
 signals:
         void cmdFilePathChanged();
@@ -159,6 +181,7 @@ signals:
         void cmdTrayChanged();
         void cmdShortcutSequenceChanged();
         void cmdDebugChanged();
+        void freshInstallChanged();
 
 };
 

@@ -55,6 +55,7 @@ RadioButton {
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: control.checked ? "#ffffff" : "#aaaaaa"
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         Behavior on color { ColorAnimation { duration: 50 } }
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
@@ -66,7 +67,7 @@ RadioButton {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked:
-            control.checked = !control.checked
+            control.checked = true
     }
 
 }

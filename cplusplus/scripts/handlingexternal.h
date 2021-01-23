@@ -48,6 +48,7 @@ public:
     Q_INVOKABLE bool importConfigFrom(QString path);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
+    Q_INVOKABLE QSize getScreenSize();
 
 private:
     PQImageProviderFull *imageprovider;

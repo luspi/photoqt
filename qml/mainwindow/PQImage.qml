@@ -131,14 +131,12 @@ Item {
 
             Connections {
                 target: container
+
                 onHideAllImages: {
                     hideShowAni.showing = false
                     hideShowAni.startAni()
                 }
-            }
 
-            Connections {
-                target: container
                 onNewImageLoaded: {
                     if(id != deleg.uniqueid) {
                         if(hideShowAni.running) {
@@ -155,6 +153,7 @@ Item {
                         }
                     }
                 }
+
             }
 
             PropertyAnimation {

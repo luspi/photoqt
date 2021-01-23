@@ -46,6 +46,7 @@ import "./menumeta"
 import "./histogram"
 import "./slideshow"
 import "./settingsmanager"
+import "./welcome"
 
 import "./loadfiles.js" as LoadFiles
 
@@ -53,9 +54,7 @@ Window {
 
     id: toplevel
 
-    visible: true
-
-    visibility: PQSettings.windowMode ? (PQSettings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen
+    visibility: Window.Hidden
     flags: PQSettings.windowDecoration ?
                (PQSettings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (PQSettings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
@@ -151,55 +150,13 @@ Window {
 
     Component.onCompleted:  {
 
-        if(PQSettings.saveWindowGeometry) {
+        if(PQCppVariables.freshInstall)
 
-            if(windowgeometry.mainWindowMaximized)
+            welcome.source = "welcome/PQWelcome.qml"
 
-                toplevel.visibility = Window.Maximized
+        else
 
-            else {
-
-                toplevel.setX(windowgeometry.mainWindowGeometry.x)
-                toplevel.setY(windowgeometry.mainWindowGeometry.y)
-                toplevel.setWidth(windowgeometry.mainWindowGeometry.width)
-                toplevel.setHeight(windowgeometry.mainWindowGeometry.height)
-
-            }
-
-        }
-
-        loader.ensureItIsReady("mainmenu")
-        loader.ensureItIsReady("metadata")
-
-        if(PQSettings.histogram)
-            loader.ensureItIsReady("histogram")
-
-        var filenameToLoad = handlingGeneral.getLastLoadedImage()
-
-        if(PQCppVariables.cmdFilePath != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
-
-            if(PQCppVariables.cmdFilePath != "")
-                filenameToLoad = PQCppVariables.cmdFilePath
-
-            var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
-
-            LoadFiles.loadFile(folderToLoad)
-
-            variables.openCurrentDirectory = folderToLoad
-
-            if(handlingFileDir.isDir(filenameToLoad)) {
-                if(variables.allImageFilesInOrder.length == 0) {
-                    loader.show("filedialog")
-                    variables.openCurrentDirectory = filenameToLoad
-                    return
-                } else
-                    filenameToLoad = variables.allImageFilesInOrder[0]
-            }
-            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
-            variables.newFileLoaded()
-
-        } else
-            loader.show("filedialog")
+            start()
 
     }
 
@@ -215,6 +172,8 @@ Window {
             Qt.quit();
         }
     }
+
+    Loader { id: welcome }
 
     // needed to load folders without PQFileDialog
     PQFileFolderModel { id: filefoldermodel }
@@ -282,6 +241,62 @@ Window {
         target: PQSettings
         onLanguageChanged:
             em.setLanguage(PQSettings.language)
+    }
+
+    function start() {
+
+        toplevel.visibility = (PQSettings.windowMode ? (PQSettings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen)
+
+        if(PQSettings.saveWindowGeometry) {
+
+            if(windowgeometry.mainWindowMaximized)
+
+                toplevel.visibility = Window.Maximized
+
+            else {
+
+                toplevel.setX(windowgeometry.mainWindowGeometry.x)
+                toplevel.setY(windowgeometry.mainWindowGeometry.y)
+                toplevel.setWidth(windowgeometry.mainWindowGeometry.width)
+                toplevel.setHeight(windowgeometry.mainWindowGeometry.height)
+
+            }
+
+        }
+
+        loader.ensureItIsReady("mainmenu")
+        loader.ensureItIsReady("metadata")
+
+        if(PQSettings.histogram)
+            loader.ensureItIsReady("histogram")
+
+        var filenameToLoad = handlingGeneral.getLastLoadedImage()
+
+        if(PQCppVariables.cmdFilePath != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
+
+            if(PQCppVariables.cmdFilePath != "")
+                filenameToLoad = PQCppVariables.cmdFilePath
+
+            var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
+
+            LoadFiles.loadFile(folderToLoad)
+
+            variables.openCurrentDirectory = folderToLoad
+
+            if(handlingFileDir.isDir(filenameToLoad)) {
+                if(variables.allImageFilesInOrder.length == 0) {
+                    loader.show("filedialog")
+                    variables.openCurrentDirectory = filenameToLoad
+                    return
+                } else
+                    filenameToLoad = variables.allImageFilesInOrder[0]
+            }
+            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
+            variables.newFileLoaded()
+
+        } else
+            loader.show("filedialog")
+
     }
 
     function quitPhotoQt() {

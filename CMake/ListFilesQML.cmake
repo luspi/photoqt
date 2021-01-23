@@ -76,3 +76,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQVideo.qml ${d}/PQPoppler.qml ${d}/PQLibArc
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcuts.qml ${d}/PQContainer.qml ${d}/PQDetectCombo.qml)
+
+SET(d "qml/welcome")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQWelcome.qml)
