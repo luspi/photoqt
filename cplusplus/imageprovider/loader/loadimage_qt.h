@@ -89,15 +89,15 @@ public:
             *origSize = reader.size();
 
             // return image
-            QImage *img = new QImage;
+            QImage img;
 
             bool readImageEarly = false;
             if(origSize->width() == -1 || origSize->height() == -1)
                 readImageEarly = true;
 
             if(readImageEarly) {
-                reader.read(img);
-                *origSize = img->size();
+                reader.read(&img);
+                *origSize = img.size();
             }
 
             if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
@@ -126,17 +126,17 @@ public:
 
             if(!readImageEarly) {
                 // Eventually load the image
-                reader.read(img);
+                reader.read(&img);
             }
 
             // If an error occured
-            if(img->isNull()) {
+            if(img.isNull()) {
                 errormsg = reader.errorString();
                 LOG << CURDATE << "PQLoadImageQt::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
-            return *img;
+            return img;
 
         }
 
