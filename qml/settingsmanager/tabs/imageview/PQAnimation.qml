@@ -71,7 +71,7 @@ PQSetting {
                 PQSlider {
                     id: anim_dur
                     height: anim_type.height
-                    from: 1
+                    from: 0
                     to: 10
                 }
 
