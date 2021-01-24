@@ -312,7 +312,11 @@ void PQHandlingGeneral::setOverrideCursor(bool enabled) {
 }
 
 void PQHandlingGeneral::storeQmlWindowMemoryAddress(QString objName) {
+
+    DBG << CURDATE << "PQHandlingGeneral::storeQmlWindowMemoryAddress()" << NL
+        << CURDATE << "** objName = " << objName.toStdString() << NL;
+
     PQSingleInstance *inst = reinterpret_cast<PQSingleInstance*>(PQSingleInstance::instance());
     inst->qmlWindowAddresses.push_back(inst->qmlEngine->rootObjects().at(0)->findChild<QObject*>(objName));
-    qDebug() << objName << "::" << inst->qmlEngine->rootObjects().at(0)->findChild<QObject*>(objName);
+
 }
