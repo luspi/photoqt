@@ -33,11 +33,11 @@ namespace PQStartup {
 
             QFile db(ConfigFiles::IMAGEFORMATS_DB());
 
-            /////////////////////////////
-            // REMOVE BEFORE RELEASE!!!
+            if(QString(VERSION).remove(3,999) != "2.1")
+                LOG << "WARNING:" << "resetting image formats database!" << NL;
+
             if(db.exists())
                 db.remove();
-            /////////////////////////////
 
             if(!db.exists()) {
                 if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
