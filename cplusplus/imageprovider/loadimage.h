@@ -300,7 +300,7 @@ public:
             err = "";
 
         // cache image (if not scaled)
-        if(!img.isNull() && img.size() == *origSize && requestedSize != QSize(-1,-1) && *origSize != QSize(-1,-1))
+        if(!img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
             load_helper->saveImageToCache(filename, &img);
 
         return err;

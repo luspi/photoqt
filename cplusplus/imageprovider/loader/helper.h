@@ -27,12 +27,14 @@
 #include <QCryptographicHash>
 #include <QFileInfo>
 #include "../../settings/imageformats.h"
+#include "../../settings/settings.h"
 
 class PQLoadImageHelper {
 
 public:
     PQLoadImageHelper() {
         cache =  new QCache<QString,QImage>;
+        cache->setMaxCost(PQSettings::get().getPixmapCache());
     }
 
     QString getUniqueCacheKey(QString filename) {
@@ -54,7 +56,7 @@ public:
 
         // we need to use a copy of the image here as otherwise img will have two owners (BAD idea!)
         QImage *n = new QImage(*img);
-        return cache->insert(getUniqueCacheKey(filename), n, 1);
+        return cache->insert(getUniqueCacheKey(filename), n, qMax(1,static_cast<int>(n->sizeInBytes()/(1024.0*1024.0))));
 
     }
 
