@@ -307,6 +307,36 @@ Item {
                     height: childrenRect.height
 
                     Text {
+                        id: subfolders_txt
+                        color: "white"
+                        font.pointSize: 15
+                        font.bold: true
+                        //: also include images in subfolders during slideshows
+                        text: em.pty+qsTranslate("slideshow", "subfolders") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
+                    }
+
+                    PQCheckbox {
+                        id: subfolders_check
+                        y: (shuffle_txt.height-height)/2
+                        //: also include images in subfolders during slideshows
+                        text: em.pty+qsTranslate("slideshow", "include images in subfolders")
+                    }
+
+                }
+
+                Row {
+
+                    spacing: 15
+
+                    height: childrenRect.height
+
+                    Text {
                         id: quick_txt
                         y: (loop_txt-height)/2
                         verticalAlignment: Text.AlignTop
@@ -429,6 +459,7 @@ Item {
                     PQSettings.slideShowShuffle = shuffle_check.checked
                     PQSettings.slideShowHideQuickInfo = quick_check.checked
                     PQSettings.slideShowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
+                    PQSettings.slideShowIncludeSubFolders = subfolders_check.checked
 
                     if(PQSettings.slideShowSettingsPopoutElement) {
                         slideshow_window.visible = false
@@ -477,6 +508,7 @@ Item {
                     quick_check.checked = PQSettings.slideShowHideQuickInfo
                     music_check.checked = (PQSettings.slideShowMusicFile!="")
                     music_button.musicfile = PQSettings.slideShowMusicFile
+                    subfolders_check.checked = PQSettings.slideShowIncludeSubFolders
 
                 } else if(what == "hide") {
                     button_cancel.clicked()

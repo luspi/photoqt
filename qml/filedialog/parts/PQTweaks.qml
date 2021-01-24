@@ -103,15 +103,28 @@ Rectangle {
         tooltipFollowsMouse: false
 
         property int prevCurIndex: -1
+        property bool startUpDelay: false
+
+        currentIndex: PQSettings.sortby=="name" ? 0 : (PQSettings.sortby=="time" ? 2 : (PQSettings.sortby=="size" ? 3 : (PQSettings.sortby=="type" ? 4 : 1)))
 
         onCurrentIndexChanged: {
             if(currentIndex == 5) {
                 PQSettings.sortbyAscending = !PQSettings.sortbyAscending
                 currentIndex = prevCurIndex
             } else {
-                PQSettings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                if(startUpDelay)
+                    PQSettings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
+        }
+
+        Timer {
+            id: startupdelay
+            interval: 100
+            repeat: false
+            running: true
+            onTriggered:
+                startUpDelay = true
         }
 
     }

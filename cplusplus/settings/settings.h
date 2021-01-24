@@ -594,6 +594,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool slideShowIncludeSubFolders READ getSlideShowIncludeSubFolders WRITE setSlideShowIncludeSubFolders NOTIFY slideShowIncludeSubFoldersChanged)
+        bool getSlideShowIncludeSubFolders() { return m_slideShowIncludeSubFolders; }
+        void setSlideShowIncludeSubFolders(bool val) {
+            if(m_slideShowIncludeSubFolders != val) {
+                m_slideShowIncludeSubFolders = val;
+                emit slideShowIncludeSubFoldersChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
         Q_PROPERTY(int thumbnailSize READ getThumbnailSize WRITE setThumbnailSize NOTIFY thumbnailSizeChanged)
@@ -1527,6 +1537,7 @@ private:
         bool    m_slideShowLoop;
         bool    m_slideShowHideQuickInfo;
         QString m_slideShowTypeAnimation;
+        bool    m_slideShowIncludeSubFolders;
 
         int     m_thumbnailSize;
         QString m_thumbnailPosition;
@@ -1681,6 +1692,7 @@ signals:
         void slideShowLoopChanged();
         void slideShowHideQuickInfoChanged();
         void slideShowTypeAnimationChanged();
+        void slideShowIncludeSubFoldersChanged();
         void thumbnailSizeChanged();
         void thumbnailPositionChanged();
         void thumbnailCacheChanged();

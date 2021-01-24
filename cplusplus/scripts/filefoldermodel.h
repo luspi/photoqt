@@ -174,9 +174,13 @@ public:
         allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
         return getCopyOfAllFiles();
     }
+    Q_INVOKABLE QStringList loadFilesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortField, bool sortReversed) {
+        return getAllImagesInSubFolders(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
+    }
 
     static QFileInfoList getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed);
     static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
+    static QStringList getAllImagesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
 
 protected:
     QHash<int, QByteArray> roleNames() const {
