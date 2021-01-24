@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
     // check for update or new install
     bool performStartupChecks = false;
     QFile txt(ConfigFiles::SETTINGS_FILE());
-    if(!txt.exists()) {
+    if(!txt.exists() || PQSettings::get().getVersion().split(".")[0] == "1" || PQSettings::get().getVersion().split(".")[0] == "0") {
         performStartupChecks = true;
         PQVariables::get().setFreshInstall(true);
     } else
