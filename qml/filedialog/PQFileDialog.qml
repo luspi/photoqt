@@ -244,6 +244,10 @@ Rectangle {
             variables.visibleItem = "filedialog"
         tweaks.readFileTypeSettings()
         fileview.loadFolder(variables.openCurrentDirectory)
+
+        // this is necessary in order to catch shortcuts when element is popped out
+        filedialog_top.forceActiveFocus()
+
     }
 
     function hideFileDialog() {
@@ -269,6 +273,12 @@ Rectangle {
 
     function leftPanelPopupGenericRightClickMenu(pos) {
         rightclickmenu.popup(pos)
+    }
+
+    // this is necessary in order to catch shortcuts when element is popped out
+    Keys.onPressed: {
+        if(PQSettings.openPopoutElement)
+            fileview.keyEvent(event.key, event.modifiers)
     }
 
 }

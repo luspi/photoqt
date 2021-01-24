@@ -41,7 +41,7 @@ PQSetting {
                            ["","",false],
                            ["","",false]]
 
-    property int focusIndex: 0
+    property int focusIndex: -1
     property int focusField: 0
 
     signal focusOnIndex(var newindex)

@@ -94,6 +94,12 @@ Item {
             property int currentIndex: 0
             property int count: tabs.length
 
+            // this is necessary in order to catch shortcuts when element is popped out
+            onCurrentIndexChanged: {
+                if(PQSettings.settingsManagerPopoutElement)
+                    settingsmanager_top.forceActiveFocus()
+            }
+
                                 //: settings manager tab title
             property var tabs: [[em.pty+qsTranslate("settingsmanager", "interface"),
                                  em.pty+qsTranslate("settingsmanager", "Tab to control interface settings")],
@@ -347,35 +353,51 @@ Item {
                     resetSettings()
                     opacity = 1
                     variables.visibleItem = "settingsmanager"
+
+                    // this is necessary in order to catch shortcuts when element is popped out
+                    if(PQSettings.settingsManagerPopoutElement)
+                        settingsmanager_top.forceActiveFocus()
+
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {
-                    if(detectingShortcutCombo)
-                        newModsKeysCombo(param[1], param[0])
-                    else if(param[0] == Qt.Key_Escape)
-                        button_cancel.clicked()
-                    else if(param[0] == Qt.Key_S && param[1] == Qt.ControlModifier)
-                        button_ok.clicked()
-                    else if(param[0] == Qt.Key_Tab && (param[1] & Qt.ControlModifier))
-                        bar.currentIndex = (bar.currentIndex+1)%bar.count
-                    else if(param[0] == Qt.Key_Backtab && (param[1] & Qt.ControlModifier))
-                        bar.currentIndex = (bar.count + bar.currentIndex-1)%bar.count
-                    else if(param[0] == Qt.Key_1 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
-                        bar.currentIndex = 0
-                    else if(param[0] == Qt.Key_2 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
-                        bar.currentIndex = 1
-                    else if(param[0] == Qt.Key_3 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
-                        bar.currentIndex = 2
-                    else if(param[0] == Qt.Key_4 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
-                        bar.currentIndex = 3
-                    else if(param[0] == Qt.Key_5 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
-                        bar.currentIndex = 4
-                    else if(param[0] == Qt.Key_6 && ((param[1] & Qt.AltModifier) || (param[1] & Qt.ControlModifier)))
-                        bar.currentIndex = 5
-
+                    processKeyPress(param[0], param[1])
                 }
             }
         }
+
+    }
+
+    // this is necessary in order to catch shortcuts when element is popped out
+    Keys.onPressed: {
+        if(PQSettings.settingsManagerPopoutElement)
+            processKeyPress(event.key, event.modifiers)
+    }
+
+    function processKeyPress(key, mods) {
+
+        if(detectingShortcutCombo)
+            newModsKeysCombo(mods, key)
+        else if(key == Qt.Key_Escape)
+            button_cancel.clicked()
+        else if(key == Qt.Key_S && mods == Qt.ControlModifier)
+            button_ok.clicked()
+        else if(key == Qt.Key_Tab && (mods & Qt.ControlModifier))
+            bar.currentIndex = (bar.currentIndex+1)%bar.count
+        else if(key == Qt.Key_Backtab && (mods & Qt.ControlModifier))
+            bar.currentIndex = (bar.count + bar.currentIndex-1)%bar.count
+        else if(key == Qt.Key_1 && ((mods & Qt.AltModifier) || (mods & Qt.ControlModifier)))
+            bar.currentIndex = 0
+        else if(key == Qt.Key_2 && ((mods & Qt.AltModifier) || (mods & Qt.ControlModifier)))
+            bar.currentIndex = 1
+        else if(key == Qt.Key_3 && ((mods & Qt.AltModifier) || (mods & Qt.ControlModifier)))
+            bar.currentIndex = 2
+        else if(key == Qt.Key_4 && ((mods & Qt.AltModifier) || (mods & Qt.ControlModifier)))
+            bar.currentIndex = 3
+        else if(key == Qt.Key_5 && ((mods & Qt.AltModifier) || (mods & Qt.ControlModifier)))
+            bar.currentIndex = 4
+        else if(key == Qt.Key_6 && ((mods & Qt.AltModifier) || (mods & Qt.ControlModifier)))
+            bar.currentIndex = 5
 
     }
 
