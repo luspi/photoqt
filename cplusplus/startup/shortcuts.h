@@ -55,10 +55,12 @@ namespace PQStartup {
                 cont += "0::Right Button+SES::__quit\n";
                 cont += "0::+::__zoomIn\n";
                 cont += "0::=::__zoomIn\n";
+                cont += "0::Keypad++::__zoomIn\n";
                 cont += "0::Ctrl++::__zoomIn\n";
                 cont += "0::Ctrl+=::__zoomIn\n";
                 cont += "0::Ctrl+Wheel Up::__zoomIn\n";
                 cont += "0::-::__zoomOut\n";
+                cont += "0::Keypad+-::__zoomOut\n";
                 cont += "0::Ctrl+-::__zoomOut\n";
                 cont += "0::Ctrl+Wheel Down::__zoomOut\n";
                 cont += "0::1::__zoomActual\n";
