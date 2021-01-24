@@ -87,12 +87,13 @@ int main(int argc, char **argv) {
 
     // check for update or new install
     bool performStartupChecks = false;
-    QFile txt(ConfigFiles::SETTINGS_FILE());
-    if(!txt.exists() || PQSettings::get().getVersion().split(".")[0] == "1" || PQSettings::get().getVersion().split(".")[0] == "0") {
+    QFile set(ConfigFiles::SETTINGS_FILE());
+    QFile img(ConfigFiles::IMAGEFORMATS_DB());
+    QFile sht(ConfigFiles::SHORTCUTS_FILE());
+    if(!set.exists() || !img.exists() || !sht.exists() || PQSettings::get().getVersion().split(".")[0] == "1" || PQSettings::get().getVersion().split(".")[0] == "0") {
         performStartupChecks = true;
         PQVariables::get().setFreshInstall(true);
-    } else
-        PQVariables::get().setFreshInstall(false);
+    }
 
     if(!performStartupChecks && PQSettings::get().getVersion() != QString::fromStdString(VERSION))
         performStartupChecks = true;
