@@ -55,7 +55,7 @@ Window {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: em.pty+qsTranslate("firststart", "Welcome to PhotoQt")
+                text: em.pty+qsTranslate("welcome", "Welcome to PhotoQt")
                 font.pointSize: 20
                 font.bold: true
             }
@@ -68,7 +68,7 @@ Window {
             Text {
                 width: parent.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: em.pty+qsTranslate("firststart", "PhotoQt is an image viewer that wants to adapt to your needs, thus it is highly customizable. Below you can choose one of three sets of default settings to start out with.")
+                text: em.pty+qsTranslate("welcome", "PhotoQt is an image viewer that wants to adapt to your needs, thus it is highly customizable. Below you can choose one of three sets of default settings to start out with.")
             }
 
             Text {
@@ -77,13 +77,13 @@ Window {
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 //: The 'here' refers to the welcome window new users see where they can choose one of three sets of default settings
-                text: em.pty+qsTranslate("firststart", "If you don't know what to do here, don't worry, just click continue.")
+                text: em.pty+qsTranslate("welcome", "If you don't know what to do here, don't worry, just click continue.")
             }
 
             Text {
                 width: parent.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: em.pty+qsTranslate("firststart", "Note that you can change any and all of these settings (and many more) at any time from the settings manager.")
+                text: em.pty+qsTranslate("welcome", "Note that you can change any and all of these settings (and many more) at any time from the settings manager.")
             }
 
             Row {
@@ -102,7 +102,7 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/firststart/single.png"
+                        source: "/welcome/single.png"
                         opacity: radio_single.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -129,7 +129,7 @@ Window {
                         width: 150
                         horizontalAlignment: Text.AlignHCenter
                         //: one of three sets of default settings in the welcome screen
-                        text: em.pty+qsTranslate("firststart", "show everything integrated into main window")
+                        text: em.pty+qsTranslate("welcome", "show everything integrated into main window")
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: radio_single.checked ? "#000000" : "#888888"
                         MouseArea {
@@ -148,7 +148,7 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/firststart/mixed.png"
+                        source: "/welcome/mixed.png"
                         opacity: radio_mixed.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -176,7 +176,7 @@ Window {
                         width: 150
                         horizontalAlignment: Text.AlignHCenter
                         //: one of three sets of default settings in the welcome screen
-                        text: em.pty+qsTranslate("firststart", "show some things integrated into the main window and some on their own")
+                        text: em.pty+qsTranslate("welcome", "show some things integrated into the main window and some on their own")
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: radio_mixed.checked ? "#000000" : "#888888"
                         MouseArea {
@@ -196,7 +196,7 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/firststart/individual.png"
+                        source: "/welcome/individual.png"
                         opacity: radio_individual.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -223,7 +223,7 @@ Window {
                         width: 150
                         horizontalAlignment: Text.AlignHCenter
                         //: one of three sets of default settings in the welcome screen
-                        text: em.pty+qsTranslate("firststart", "show everything in its own window")
+                        text: em.pty+qsTranslate("welcome", "show everything in its own window")
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: radio_individual.checked ? "#000000" : "#888888"
                         MouseArea {
@@ -248,7 +248,7 @@ Window {
             Button {
                 x: (parent.width-width)/2
                 //: written on a clickable button
-                text: em.pty+qsTranslate("firststart", "Continue")
+                text: em.pty+qsTranslate("welcome", "Continue")
                 focus: true
                 onClicked:
                     top_first.close()
