@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.NonModal
 
+    objectName: "mainmenupopout"
+
     onClosing: {
         toplevel.close()
     }
@@ -65,6 +67,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return mainmenu_window.width })
                 item.parentHeight = Qt.binding(function() { return mainmenu_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(mainmenu_window.objectName)
     }
 
 }

@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.NonModal
 
+    objectName: "slideshowcontrolspopout"
+
     onClosing: {
 
         windowgeometry.slideshowControlsWindowGeometry = Qt.rect(slideshowcontrols_window.x, slideshowcontrols_window.y, slideshowcontrols_window.width, slideshowcontrols_window.height)
@@ -67,6 +69,16 @@ Window {
                 slideshowcontrols_window.minimumHeight  = item.childrenRect.height
                 slideshowcontrols_window.minimumWidth  = item.childrenRect.width
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(slideshowcontrols_window.objectName)
     }
 
 }

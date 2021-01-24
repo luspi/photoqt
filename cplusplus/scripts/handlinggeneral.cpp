@@ -310,3 +310,9 @@ void PQHandlingGeneral::setOverrideCursor(bool enabled) {
         qApp->restoreOverrideCursor();
 
 }
+
+void PQHandlingGeneral::storeQmlWindowMemoryAddress(QString objName) {
+    PQSingleInstance *inst = reinterpret_cast<PQSingleInstance*>(PQSingleInstance::instance());
+    inst->qmlWindowAddresses.push_back(inst->qmlEngine->rootObjects().at(0)->findChild<QObject*>(objName));
+    qDebug() << objName << "::" << inst->qmlEngine->rootObjects().at(0)->findChild<QObject*>(objName);
+}

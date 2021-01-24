@@ -33,6 +33,7 @@
 #include <QMessageBox>
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
+#include "../singleinstance/singleinstance.h"
 
 class PQHandlingGeneral : public QObject {
 
@@ -61,7 +62,7 @@ public:
     Q_INVOKABLE bool isVideoSupportEnabled();
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE void setOverrideCursor(bool enabled);
-
+    Q_INVOKABLE void storeQmlWindowMemoryAddress(QString objName);
 
 
 private:

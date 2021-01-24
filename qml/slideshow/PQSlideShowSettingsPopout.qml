@@ -41,6 +41,7 @@ Window {
     minimumHeight: 300
 
     modality: Qt.ApplicationModal
+    objectName: "slideshowsettingspopout"
 
     onClosing: {
 
@@ -71,6 +72,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return slideshow_window.width })
                 item.parentHeight = Qt.binding(function() { return slideshow_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(slideshow_window.objectName)
     }
 
 }

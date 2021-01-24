@@ -112,6 +112,8 @@ int main(int argc, char **argv) {
 #endif
 
     QQmlApplicationEngine engine;
+    app.qmlEngine = &engine;
+
     const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -153,7 +155,7 @@ int main(int argc, char **argv) {
 
     engine.load(url);
 
-    app.rootQmlAddress = engine.rootObjects().at(0);
+    app.qmlWindowAddresses.push_back(engine.rootObjects().at(0));
 
     int ret = app.exec();
 

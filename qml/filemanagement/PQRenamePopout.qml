@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "renamepopout"
+
     onClosing: {
 
         windowgeometry.fileRenameWindowGeometry = Qt.rect(rename_window.x, rename_window.y, rename_window.width, rename_window.height)
@@ -71,6 +73,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return rename_window.width })
                 item.parentHeight = Qt.binding(function() { return rename_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(rename_window.objectName)
     }
 
 }

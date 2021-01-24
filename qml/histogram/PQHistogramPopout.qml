@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.NonModal
 
+    objectName: "histogrampopout"
+
     onClosing: {
 
         windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
@@ -68,6 +70,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return histogram_window.width })
                 item.parentHeight = Qt.binding(function() { return histogram_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(histogram_window.objectName)
     }
 
 }

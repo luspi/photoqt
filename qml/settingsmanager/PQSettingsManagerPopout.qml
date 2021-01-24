@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "settingsmanagerpopout"
+
     onClosing: {
 
         windowgeometry.settingsManagerWindowGeometry = Qt.rect(settingsmanager_window.x, settingsmanager_window.y, settingsmanager_window.width, settingsmanager_window.height)
@@ -71,6 +73,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return settingsmanager_window.width })
                 item.parentHeight = Qt.binding(function() { return settingsmanager_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(settingsmanager_window.objectName)
     }
 
 }

@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "saveaspopout"
+
     onClosing: {
 
         windowgeometry.fileSaveAsWindowGeometry = Qt.rect(saveas_window.x, saveas_window.y, saveas_window.width, saveas_window.height)
@@ -71,6 +73,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return saveas_window.width })
                 item.parentHeight = Qt.binding(function() { return saveas_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(saveas_window.objectName)
     }
 
 }

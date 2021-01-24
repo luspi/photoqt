@@ -40,6 +40,8 @@ Window {
 
     color: "#88000000"
 
+    objectName: "filedialogpopout"
+
     Loader {
         source: "PQFileDialog.qml"
         onStatusChanged:
@@ -51,7 +53,6 @@ Window {
 
     onClosing: {
 
-//        filedialog_window.
         windowgeometry.fileDialogWindowMaximized = (filedialog_window.visibility==Window.Maximized)
         windowgeometry.fileDialogWindowGeometry = Qt.rect(filedialog_window.x, filedialog_window.y, filedialog_window.width, filedialog_window.height)
 
@@ -74,6 +75,16 @@ Window {
 
         }
 
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(filedialog_window.objectName)
     }
 
 }

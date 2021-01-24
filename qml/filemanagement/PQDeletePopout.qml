@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "deletepopout"
+
     onClosing: {
 
         windowgeometry.fileDeleteWindowGeometry = Qt.rect(delete_window.x, delete_window.y, delete_window.width, delete_window.height)
@@ -71,6 +73,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return delete_window.width })
                 item.parentHeight = Qt.binding(function() { return delete_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(delete_window.objectName)
     }
 
 }

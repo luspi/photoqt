@@ -275,10 +275,4 @@ Rectangle {
         rightclickmenu.popup(pos)
     }
 
-    // this is necessary in order to catch shortcuts when element is popped out
-    Keys.onPressed: {
-        if(PQSettings.openPopoutElement)
-            fileview.keyEvent(event.key, event.modifiers)
-    }
-
 }

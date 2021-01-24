@@ -42,6 +42,8 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "imgurpopout"
+
     onClosing: {
 
         windowgeometry.imgurWindowGeometry = Qt.rect(imgur_window.x, imgur_window.y, imgur_window.width, imgur_window.height)
@@ -71,6 +73,16 @@ Window {
                 item.parentWidth = Qt.binding(function() { return imgur_window.width })
                 item.parentHeight = Qt.binding(function() { return imgur_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(imgur_window.objectName)
     }
 
 }

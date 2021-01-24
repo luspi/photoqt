@@ -195,7 +195,7 @@ bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
 
     if(e->type() == QEvent::KeyPress) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-        if(rootQmlAddress == receiver)
+        if(qmlWindowAddresses.contains(receiver))
             emit PQKeyPressChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
     }
 
