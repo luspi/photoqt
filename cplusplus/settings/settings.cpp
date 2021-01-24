@@ -91,7 +91,7 @@ void PQSettings::setDefault() {
     setFitInWindow(false);
     setInterpolationThreshold(100);
     setInterpolationDisableForSmallImages(true);
-    setPixmapCache(256);
+    setPixmapCache(512);
     setLeftButtonMouseClickAndMove(true);
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);

@@ -85,7 +85,7 @@ public:
         QFileInfo info(filename);
 
         // check image cache, we might be done right here
-        if(load_helper->getCachedImage(filename, img)) {
+        if(PQSettings::get().getPixmapCache() > 0 && load_helper->getCachedImage(filename, img)) {
             load_helper->ensureImageFitsMaxSize(img, requestedSize);
             return "";
         }
@@ -300,7 +300,7 @@ public:
             err = "";
 
         // cache image (if not scaled)
-        if(!img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
+        if(PQSettings::get().getPixmapCache() > 0 && !img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
             load_helper->saveImageToCache(filename, &img);
 
         return err;
