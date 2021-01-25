@@ -283,6 +283,9 @@ Window {
             PQSettings.settingsManagerPopoutElement = 0
             PQSettings.fileSaveAsPopoutElement = 0
 
+            PQSettings.windowMode = 0
+            PQSettings.windowDecoration = 0
+
         // everything in its own window
         } else if(radio_individual.checked) {
 
@@ -302,6 +305,9 @@ Window {
             PQSettings.settingsManagerPopoutElement = 1
             PQSettings.fileSaveAsPopoutElement = 1
 
+            PQSettings.windowMode = 1
+            PQSettings.windowDecoration = 1
+
         // small elements integrated, large ones in their own window
         } else {
 
@@ -320,6 +326,9 @@ Window {
             PQSettings.filterPopoutElement = 0
             PQSettings.settingsManagerPopoutElement = 1
             PQSettings.fileSaveAsPopoutElement = 0
+
+            PQSettings.windowMode = 1
+            PQSettings.windowDecoration = 1
 
         }
 
