@@ -28,7 +28,7 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager_filetypes", "Video settings")
+    title: "Video"
     helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for playing videos.")
     expertmodeonly: true
     available: handlingGeneral.isVideoSupportEnabled()

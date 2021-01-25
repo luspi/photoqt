@@ -28,7 +28,7 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager_filetypes", "Poppler settings")
+    title: "Poppler"
     helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for showing PDFs.")
     expertmodeonly: true
     available: handlingGeneral.isPopplerSupportEnabled()

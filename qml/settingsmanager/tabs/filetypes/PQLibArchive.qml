@@ -28,7 +28,7 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager_filetypes", "LibArchive settings")
+    title: "LibArchive"
     helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for opening archives.")
     expertmodeonly: true
     available: handlingGeneral.isLibArchiveSupportEnabled()
