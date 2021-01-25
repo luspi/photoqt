@@ -562,7 +562,7 @@ GridView {
         loc = handlingFileDir.cleanPath(loc)
 
         files_model.folder = loc
-        currentIndex = 0
+        currentIndex = (files_model.count > 0 ? 0 : -1)
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]
