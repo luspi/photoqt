@@ -30,6 +30,9 @@ Window {
 
     id: mainmenu_window
 
+    //: Window title
+    title: em.pty+qsTranslate("MainMenu", "Main Menu")
+
     Component.onCompleted: {
         mainmenu_window.x = windowgeometry.mainMenuWindowGeometry.x
         mainmenu_window.y = windowgeometry.mainMenuWindowGeometry.y

@@ -30,6 +30,9 @@ Window {
 
     id: saveas_window
 
+    //: Window title
+    title: em.pty+qsTranslate("filemanagement", "Save file as")
+
     Component.onCompleted: {
         saveas_window.setX(windowgeometry.fileSaveAsWindowGeometry.x)
         saveas_window.setY(windowgeometry.fileSaveAsWindowGeometry.y)

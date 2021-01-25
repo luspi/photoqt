@@ -30,6 +30,9 @@ Window {
 
     id: metadata_window
 
+    //: Window title
+    title: em.pty+qsTranslate("metadata", "Metadata")
+
     Component.onCompleted: {
         metadata_window.x = windowgeometry.metaDataWindowGeometry.x
         metadata_window.y = windowgeometry.metaDataWindowGeometry.y

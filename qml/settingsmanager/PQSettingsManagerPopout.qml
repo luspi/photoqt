@@ -30,6 +30,9 @@ Window {
 
     id: settingsmanager_window
 
+    //: Window title
+    title: em.pty+qsTranslate("settingsmanager", "Settings Manager")
+
     Component.onCompleted: {
         settingsmanager_window.setX(windowgeometry.settingsManagerWindowGeometry.x)
         settingsmanager_window.setY(windowgeometry.settingsManagerWindowGeometry.y)

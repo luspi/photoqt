@@ -30,6 +30,9 @@ Window {
 
     id: about_window
 
+    //: Window title
+    title: em.pty+qsTranslate("about", "About")
+
     Component.onCompleted: {
         about_window.setX(windowgeometry.aboutWindowGeometry.x)
         about_window.setY(windowgeometry.aboutWindowGeometry.y)

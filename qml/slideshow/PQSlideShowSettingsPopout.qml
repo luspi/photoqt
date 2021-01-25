@@ -30,6 +30,9 @@ Window {
 
     id: slideshow_window
 
+    //: Window title
+    title: em.pty+qsTranslate("slideshow", "Slideshow settings")
+
     Component.onCompleted: {
         slideshow_window.setX(windowgeometry.slideshowWindowGeometry.x)
         slideshow_window.setY(windowgeometry.slideshowWindowGeometry.y)

@@ -30,6 +30,9 @@ Window {
 
     id: histogram_window
 
+    //: Window title
+    title: em.pty+qsTranslate("histogram", "Histogram")
+
     Component.onCompleted: {
         histogram_window.x = windowgeometry.histogramWindowGeometry.x
         histogram_window.y = windowgeometry.histogramWindowGeometry.y

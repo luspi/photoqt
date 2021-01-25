@@ -30,6 +30,9 @@ Window {
 
     id: scale_window
 
+    //: Window title
+    title: em.pty+qsTranslate("scale", "Scale file")
+
     Component.onCompleted: {
         scale_window.setX(windowgeometry.scaleWindowGeometry.x)
         scale_window.setY(windowgeometry.scaleWindowGeometry.y)

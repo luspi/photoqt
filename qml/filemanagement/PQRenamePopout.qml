@@ -30,6 +30,9 @@ Window {
 
     id: rename_window
 
+    //: Window title
+    title: em.pty+qsTranslate("filemanagement", "Rename file")
+
     Component.onCompleted: {
         rename_window.setX(windowgeometry.fileRenameWindowGeometry.x)
         rename_window.setY(windowgeometry.fileRenameWindowGeometry.y)

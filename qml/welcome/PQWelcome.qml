@@ -28,6 +28,9 @@ Window {
 
     id: top_first
 
+    //: Window title
+    title: em.pty+qsTranslate("welcome", "Welcome to PhotoQt")
+
     minimumWidth: 600
     minimumHeight: 500
 

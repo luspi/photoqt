@@ -30,6 +30,9 @@ Window {
 
     id: wallpaper_window
 
+    //: Window title
+    title: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
+
     Component.onCompleted: {
         wallpaper_window.setX(windowgeometry.wallpaperWindowGeometry.x)
         wallpaper_window.setY(windowgeometry.wallpaperWindowGeometry.y)

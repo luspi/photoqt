@@ -30,6 +30,9 @@ Window {
 
     id: slideshowcontrols_window
 
+    //: Window title
+    title: em.pty+qsTranslate("slideshow", "Slideshow controls")
+
     Component.onCompleted: {
         slideshowcontrols_window.x = windowgeometry.slideshowControlsWindowGeometry.x
         slideshowcontrols_window.y = windowgeometry.slideshowControlsWindowGeometry.y

@@ -30,6 +30,9 @@ Window {
 
     id: imgur_window
 
+    //: Window title
+    title: em.pty+qsTranslate("imgur", "Upload to imgur.com")
+
     Component.onCompleted: {
         imgur_window.setX(windowgeometry.imgurWindowGeometry.x)
         imgur_window.setY(windowgeometry.imgurWindowGeometry.y)

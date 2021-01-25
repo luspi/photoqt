@@ -30,6 +30,9 @@ Window {
 
     id: filedialog_window
 
+    //: Window title
+    title: em.pty+qsTranslate("filedialog", "File dialog")
+
     minimumWidth: 800
     minimumHeight: 600
 

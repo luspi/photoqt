@@ -30,6 +30,9 @@ Window {
 
     id: delete_window
 
+    //: Window title
+    title: em.pty+qsTranslate("filemanagement", "Delete file?")
+
     Component.onCompleted: {
         delete_window.setX(windowgeometry.fileDeleteWindowGeometry.x)
         delete_window.setY(windowgeometry.fileDeleteWindowGeometry.y)

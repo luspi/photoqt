@@ -30,6 +30,9 @@ Window {
 
     id: filter_window
 
+    //: Window title
+    title: em.pty+qsTranslate("filter", "Filter")
+
     Component.onCompleted: {
         filter_window.setX(windowgeometry.filterWindowGeometry.x)
         filter_window.setY(windowgeometry.filterWindowGeometry.y)
