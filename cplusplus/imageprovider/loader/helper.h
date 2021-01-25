@@ -56,7 +56,11 @@ public:
 
         // we need to use a copy of the image here as otherwise img will have two owners (BAD idea!)
         QImage *n = new QImage(*img);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
         return cache->insert(getUniqueCacheKey(filename), n, qMax(1,static_cast<int>(n->sizeInBytes()/(1024.0*1024.0))));
+#else
+        return cache->insert(getUniqueCacheKey(filename), n, qMax(1,static_cast<int>(n->byteCount()/(1024.0*1024.0))));
+#endif
 
     }
 
