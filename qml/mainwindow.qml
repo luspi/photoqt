@@ -62,8 +62,10 @@ Window {
     minimumWidth: 600
     minimumHeight: 400
 
-    width: 1024
-    height: 768
+    x: (handlingExternal.getScreenSize().width-width)/2
+    y: (handlingExternal.getScreenSize().height-height)/2
+    width: 1280
+    height: 960
 
     color: "#00000000"
 
@@ -245,7 +247,34 @@ Window {
 
     function start() {
 
-        toplevel.visibility = (PQSettings.windowMode ? (PQSettings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen)
+        if(PQSettings.windowMode) {
+
+            if(PQSettings.saveWindowGeometry)
+                visibility = Window.Windowed
+
+            else if(PQSettings.mainMenuPopoutElement == 1 &&
+               PQSettings.metadataPopoutElement == 1 &&
+               PQSettings.histogramPopoutElement == 1 &&
+               PQSettings.scalePopoutElement == 1 &&
+               PQSettings.openPopoutElement == 1 &&
+               PQSettings.slideShowSettingsPopoutElement == 1 &&
+               PQSettings.slideShowControlsPopoutElement == 1 &&
+               PQSettings.fileRenamePopoutElement == 1 &&
+               PQSettings.fileDeletePopoutElement == 1 &&
+               PQSettings.aboutPopoutElement == 1 &&
+               PQSettings.imgurPopoutElement == 1 &&
+               PQSettings.wallpaperPopoutElement == 1 &&
+               PQSettings.filterPopoutElement == 1 &&
+               PQSettings.settingsManagerPopoutElement == 1 &&
+               PQSettings.fileSaveAsPopoutElement == 1)
+
+                visibility = Window.Windowed
+
+            else
+                visibility = Window.Maximized
+
+        } else
+            visibility = Window.FullScreen
 
         if(PQSettings.saveWindowGeometry) {
 

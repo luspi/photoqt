@@ -54,6 +54,7 @@ Window {
     }
 
     visible: PQSettings.fileSaveAsPopoutElement&&curloader.item.opacity==1
+    flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings

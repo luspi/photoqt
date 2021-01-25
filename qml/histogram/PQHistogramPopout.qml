@@ -60,6 +60,7 @@ Window {
     }
 
     visible: (PQSettings.histogramPopoutElement&&PQSettings.histogram)
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 

@@ -57,6 +57,7 @@ Window {
     }
 
     visible: PQSettings.mainMenuPopoutElement
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 

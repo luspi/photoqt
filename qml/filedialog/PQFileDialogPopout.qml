@@ -30,13 +30,11 @@ Window {
 
     id: filedialog_window
 
-    width: 1024
-    height: 768
-
     minimumWidth: 800
     minimumHeight: 600
 
     modality: PQSettings.openPopoutElementKeepOpen ? Qt.NonModal : Qt.ApplicationModal
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 

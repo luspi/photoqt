@@ -24,15 +24,21 @@
 
 PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
 
-    m_mainWindowMaximized = true;
-    m_mainWindowGeometry = QRect(0,0,1024,768);
+    int sw = handlingExternal.getScreenSize().width();
+    int sh = handlingExternal.getScreenSize().height();
 
-    m_fileDialogWindowMaximized = true;
-    m_fileDialogWindowGeometry = QRect(0,0,800,600);
+    int w, h;
+
+    m_mainWindowMaximized = false;
+    w = 1280; h = 960;
+    m_mainWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
+
+    m_fileDialogWindowMaximized = false;
+    w = 1280; h = 768;
+    m_fileDialogWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     m_mainMenuWindowMaximized = false;
-    QRect ref = QGuiApplication::screens().at(0)->geometry();
-    m_mainMenuWindowGeometry = QRect(ref.width()-400, 0, 400, 700);
+    m_mainMenuWindowGeometry = QRect(sw-400, 0, 400, 700);
 
     m_metaDataWindowMaximized = false;
     m_metaDataWindowGeometry = QRect(0, 0, 400, 700);
@@ -40,38 +46,48 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_histogramWindowMaximized = false;
     m_histogramWindowGeometry = QRect(100, 100, 300, 200);
 
-    m_slideshowWindowMaximized = true;
-    m_slideshowWindowGeometry = QRect(0, 0, 800, 600);
+    m_slideshowWindowMaximized = false;
+    w = 1024; h = 768;
+    m_slideshowWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_slideshowControlsWindowMaximized = true;
+    m_slideshowControlsWindowMaximized = false;
     m_slideshowControlsWindowGeometry = QRect(0, 0, 200, 200);
 
-    m_fileRenameWindowMaximized = true;
-    m_fileRenameWindowGeometry = QRect(0, 0, 400, 300);
+    m_fileRenameWindowMaximized = false;
+    w = 400; h = 300;
+    m_fileRenameWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_fileDeleteWindowMaximized = true;
-    m_fileDeleteWindowGeometry = QRect(0, 0, 400, 300);
+    m_fileDeleteWindowMaximized = false;
+    w = 400; h = 300;
+    m_fileDeleteWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_scaleWindowMaximized = true;
-    m_scaleWindowGeometry = QRect(0, 0, 400, 500);
+    m_scaleWindowMaximized = false;
+    w = 800; h = 600;
+    m_scaleWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_aboutWindowMaximized = true;
-    m_aboutWindowGeometry = QRect(0, 0, 450, 350);
+    m_aboutWindowMaximized = false;
+    w = 600; h = 480;
+    m_aboutWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_imgurWindowMaximized = true;
-    m_imgurWindowGeometry = QRect(0, 0, 800, 600);
+    m_imgurWindowMaximized = false;
+    w = 800; h = 600;
+    m_imgurWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_wallpaperWindowMaximized = true;
-    m_wallpaperWindowGeometry = QRect(0, 0, 800, 600);
+    m_wallpaperWindowMaximized = false;
+    w = 800; h = 600;
+    m_wallpaperWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_filterWindowMaximized = true;
-    m_filterWindowGeometry = QRect(0, 0, 600, 300);
+    m_filterWindowMaximized = false;
+    w = 600; h = 480;
+    m_filterWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_settingsManagerWindowMaximized = true;
-    m_settingsManagerWindowGeometry = QRect(0, 0, 800, 600);
+    m_settingsManagerWindowMaximized = false;
+    w = 1024; h = 768;
+    m_settingsManagerWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_fileSaveAsWindowMaximized = true;
-    m_fileSaveAsWindowGeometry = QRect(0, 0, 1024, 768);
+    m_fileSaveAsWindowMaximized = false;
+    w = 800; h = 600;
+    m_fileSaveAsWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 

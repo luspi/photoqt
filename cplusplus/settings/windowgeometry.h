@@ -29,6 +29,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include "../logger.h"
+#include "../scripts/handlingexternal.h"
 
 class PQWindowGeometry : public QObject {
 
@@ -375,6 +376,7 @@ private:
     bool  m_fileSaveAsWindowMaximized;
 
     QSettings *settings;
+    PQHandlingExternal handlingExternal;
 
     void saveGeometries();
 

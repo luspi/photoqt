@@ -57,6 +57,7 @@ Window {
     }
 
     visible: PQSettings.slideShowControlsPopoutElement
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 
