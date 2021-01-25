@@ -124,7 +124,7 @@ Rectangle {
             repeat: false
             running: true
             onTriggered:
-                startUpDelay = true
+                sortby.startUpDelay = true
         }
 
     }
