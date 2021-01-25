@@ -134,19 +134,19 @@ public:
     int getCount() { return m_count; }
 
     Q_INVOKABLE QString getFilePath(int index) {
-        if(index >= 0 && index < m_count)
+        if(index >= 0 && index < entries.length())
             return entries[index]->filePath;
         return "";
     }
 
     Q_INVOKABLE QString getFileName(int index) {
-        if(index >= 0 && index < m_count)
+        if(index >= 0 && index < entries.length())
             return entries[index]->fileName;
         return "";
     }
 
     Q_INVOKABLE bool getFileIsDir(int index) {
-        if(index >= 0 && index < m_count)
+        if(index >= 0 && index < entries.length())
             return entries[index]->fileIsDir;
         return false;
     }
