@@ -305,54 +305,6 @@ Rectangle {
         }
     }
 
-    // The below shortcuts are needed for the popout version only
-
-    Shortcut {
-        sequences: ["Esc", "q"]
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: quitSlideShow()
-    }
-
-    Shortcut {
-        sequences: ["Enter", "Return", "Space"]
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: controls_top.running = !controls_top.running
-    }
-
-    Shortcut {
-        sequence: "Right"
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: {
-            loadNextImage()
-            if(controls_top.running)
-                switcher.restart()
-        }
-    }
-
-    Shortcut {
-        sequence: "Left"
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: {
-            loadPrevImage()
-            if(controls_top.running)
-                switcher.restart()
-        }
-    }
-
-    Shortcut {
-        sequence: "-"
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated:
-            volumeslider.value = Math.max(0, volumeslider.value-1)
-    }
-
-    Shortcut {
-        sequences: ["+", "="]
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated:
-            volumeslider.value = Math.min(100, volumeslider.value+1)
-    }
-
     Timer {
         id: hideBarAfterTimeout
         interval: 1000

@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFile
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -338,6 +339,25 @@ Item {
 
         }
 
+        Image {
+            x: parent.width-width-5
+            y: 5
+            width: 25
+            height: 25
+            source: "/popin.png"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.scalePopoutElement ? "Move back into main interface" : "Move to itws own window"
+                onClicked: {
+                    button_cancel.clicked()
+                    PQSettings.scalePopoutElement = (PQSettings.scalePopoutElement+1)%2
+                    HandleShortcuts.executeInternalFunction("__scale")
+                }
+            }
+        }
+
         Connections {
             target: loader
             onScalePassOn: {
@@ -383,58 +403,6 @@ Item {
                         quality.value -= 5
                 }
             }
-        }
-
-
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.scalePopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: button_scalenew.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Shift+Enter", "Shift+Return"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: button_scaleinplace.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Left", "Down"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: {
-                newwidth.value -= newwidth.origVal*0.1
-                newheight.value -= newheight.origVal*0.1
-            }
-        }
-
-        Shortcut {
-            sequences: ["Right", "Up"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: {
-                newwidth.value += newwidth.origVal*0.1
-                newheight.value += newheight.origVal*0.1
-            }
-        }
-
-        Shortcut {
-            sequences: ["+", "="]
-            enabled: PQSettings.scalePopoutElement
-            onActivated:
-                quality.value += 5
-        }
-
-        Shortcut {
-            sequence: "-"
-            enabled: PQSettings.scalePopoutElement
-            onActivated:
-                quality.value -= 5
         }
 
     }

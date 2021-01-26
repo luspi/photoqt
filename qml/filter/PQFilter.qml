@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFiles
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -215,6 +216,25 @@ Item {
             }
         }
 
+    }
+
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.filterPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked: {
+                button_cancel.clicked()
+                PQSettings.filterPopoutElement = (PQSettings.filterPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__filterImages")
+            }
+        }
     }
 
     function setFilter(term) {

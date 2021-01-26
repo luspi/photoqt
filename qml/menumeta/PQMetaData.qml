@@ -324,6 +324,22 @@ Rectangle {
 
     }
 
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.metadataPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked:
+                PQSettings.metadataPopoutElement = (PQSettings.metadataPopoutElement+1)%2
+        }
+    }
+
     Connections {
         target: loader
         onMetadataPassOn: {

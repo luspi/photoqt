@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFiles
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -231,26 +232,25 @@ Item {
             }
         }
 
+    }
 
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.fileDeletePopoutElement
-            onActivated: button_cancel.clicked()
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.fileDeletePopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked: {
+                button_cancel.clicked()
+                PQSettings.fileDeletePopoutElement = (PQSettings.fileDeletePopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__delete")
+            }
         }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.fileDeletePopoutElement
-            onActivated: button_trash.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Shift+Enter", "Shift+Return"]
-            enabled: PQSettings.fileDeletePopoutElement
-            onActivated: button_permanent.clicked()
-        }
-
     }
 
 }

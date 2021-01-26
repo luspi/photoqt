@@ -372,14 +372,6 @@ Item {
             }
         }
 
-
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.imgurPopoutElement
-            onActivated: abortUpload()
-        }
-
     }
 
     function abortUpload() {

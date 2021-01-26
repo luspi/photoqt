@@ -25,6 +25,7 @@ import Qt.labs.platform 1.0
 import QtGraphicalEffects 1.0
 
 import "../elements"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -487,6 +488,25 @@ Item {
 
         }
 
+        Image {
+            x: parent.width-width-5
+            y: 5
+            width: 25
+            height: 25
+            source: "/popin.png"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.slideShowSettingsPopoutElement ? "Move back into main interface" : "Move to itws own window"
+                onClicked: {
+                    button_cancel.clicked()
+                    PQSettings.slideShowSettingsPopoutElement = (PQSettings.slideShowSettingsPopoutElement+1)%2
+                    HandleShortcuts.executeInternalFunction("__slideshow")
+                }
+            }
+        }
+
         Connections {
             target: loader
             onSlideshowPassOn: {
@@ -519,18 +539,6 @@ Item {
                         button_start.clicked()
                 }
             }
-        }
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.slideShowSettingsPopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.slideShowSettingsPopoutElement
-            onActivated: button_start.clicked()
         }
 
     }

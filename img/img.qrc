@@ -75,5 +75,6 @@
         <file>welcome/single.png</file>
         <file>welcome/individual.png</file>
         <file>welcome/mixed.png</file>
+        <file>popin.png</file>
     </qresource>
 </RCC>

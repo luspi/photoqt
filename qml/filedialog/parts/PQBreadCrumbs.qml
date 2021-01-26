@@ -24,6 +24,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import "../../elements"
+import "../../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -219,6 +220,27 @@ Item {
         }
         height: 1
         color: "#aaaaaa"
+    }
+
+
+
+    Image {
+        x: sep2.x-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.openPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked: {
+                hideFileDialog()
+                PQSettings.openPopoutElement = (PQSettings.openPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__open")
+            }
+        }
     }
 
 }

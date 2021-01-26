@@ -280,6 +280,24 @@ Rectangle {
 
     }
 
+    Image {
+        x: 5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.histogramPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked: {
+                PQSettings.histogramPopoutElement = (PQSettings.histogramPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__histogram")
+            }
+        }
+    }
+
     function updateHistogram() {
 
         // Don't calculate histogram if disabled

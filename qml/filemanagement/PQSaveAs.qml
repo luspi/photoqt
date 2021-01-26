@@ -24,6 +24,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 import "../elements"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -326,18 +327,6 @@ Item {
             }
         }
 
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.fileSaveAsPopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.fileSaveAsPopoutElement
-            onActivated: button_ok.clicked()
-        }
-
     }
 
     Timer {
@@ -348,6 +337,25 @@ Item {
         onTriggered: {
             error.visible = false
             abort.visible = false
+        }
+    }
+
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.fileSaveAsPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked: {
+                button_cancel.clicked()
+                PQSettings.fileSaveAsPopoutElement = (PQSettings.fileSaveAsPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__saveAs")
+            }
         }
     }
 

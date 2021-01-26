@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "ele"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -368,37 +369,25 @@ Item {
         Component.onCompleted:
             curCat = handlingWallpaper.detectWM()
 
+    }
 
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequence: "Tab"
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: {
-                var avail = ["plasma", "gnome", "xfce", "enlightenment", "other"]
-                var cur = avail.indexOf(curCat)+1
-                if(cur == avail.length)
-                    cur = 0
-                curCat = avail[cur]
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.wallpaperPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            onClicked: {
+                button_cancel.clicked()
+                PQSettings.wallpaperPopoutElement = (PQSettings.wallpaperPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__wallpaper")
             }
         }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: button_ok.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Left", "Right"]
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: if(curCat == "other") other.changeTool()
-        }
-
     }
 
 }
