@@ -209,11 +209,12 @@ QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHid
 
     QFileInfoList allfiles;
     if(nameFilters.size() == 0 && mimeTypeFilters.size() == 0)
-        allfiles =dir.entryInfoList();
+        allfiles = dir.entryInfoList();
     else {
-        QFileInfoList tmpallfiles = dir.entryInfoList();
-        for(QFileInfo f : tmpallfiles) {
-            // check file ending
+        QDirIterator iter(dir);
+        while(iter.hasNext()) {
+            iter.next();
+            const QFileInfo f = iter.fileInfo();
             if(nameFilters.size() == 0 || nameFilters.contains(f.suffix().toLower()))
                 allfiles << f;
             // if not the ending, then check the mime type
