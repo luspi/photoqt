@@ -121,6 +121,7 @@ Window {
                         x: (150-width)/2
                         text: ""
                         ButtonGroup.group: radiogroup
+                        checked: true
                     }
 
                     Item {
@@ -167,7 +168,6 @@ Window {
                         x: (150-width)/2
                         text: ""
                         ButtonGroup.group: radiogroup
-                        checked: true
                     }
 
                     Item {
@@ -286,7 +286,7 @@ Window {
             PQSettings.settingsManagerPopoutElement = 0
             PQSettings.fileSaveAsPopoutElement = 0
 
-            PQSettings.windowMode = 0
+            PQSettings.windowMode = 1
             PQSettings.windowDecoration = 0
 
         // everything in its own window
@@ -339,7 +339,7 @@ Window {
     }
 
     Shortcut {
-        sequence: "Escape"
+        sequences: ["Escape", "Enter", "Return"]
         onActivated:
             top_first.close()
     }
