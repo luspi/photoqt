@@ -83,7 +83,7 @@ Item {
     Rectangle {
 
         anchors.fill: parent
-        color: "#cc000000"
+        color: "#ee000000"
 
         Column {
 
@@ -295,7 +295,7 @@ Item {
             x: bar.width
             y: parent.height-height
             width: parent.width-bar.width
-            height: 50
+            height: 75
 
             color: "#111111"
 
