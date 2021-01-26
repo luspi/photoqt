@@ -1,7 +1,7 @@
-# PhotoQt v2.0
-__Copyright (C) 2011-2020, Lukas Spies (Lukas@photoqt.org)
-License: GPLv2 (or later)
-Website: http://photoqt.org__
+# PhotoQt v2.1b
+__Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
+__License:__ GPLv2 (or later)  
+__Website:__ http://photoqt.org  
 
 PhotoQt is a fast and highly configurable image viewer with a simple and nice interface.
 
@@ -11,20 +11,23 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 
 - Qt >= 5.9
 - CMake (needed for building PhotoQt)
-- libarchive
 - Qt5 ImageFormats
 
-Make sure that you have the required QML modules installed:  
+Make sure that you have all the required QML modules installed:  
 QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.  
-Dependencies, that are needed by default, but can be disabled via CMake
 
+Dependencies, that are needed by default, but can be disabled via CMake:
+
+- LibArchive
 - Exiv2
-- GraphicsMagick
+- ImageMagick _or_ GraphicsMagick 
 - LibRaw
 - Poppler
 - FreeImage
 - DevIL
 - pugixml
+
+Please note that some of these should remain enabled if at all possible as they greatly enhance the experience of PhotoQt (e.g., LibArchive, pugixml). Others can be disabled quite safely with the only effect being the number of supported image formats.
 
 #### NOTE
 
@@ -32,16 +35,16 @@ On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - 
 
 #### NOTE
 
-Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2002), trying to build PhotoQt with ImageMagick wont currently work!
+PhotoQt can work with either ImageMagick and GraphicsMagick, but due to conflicting naming schemes it is not possible to use both at the same time. By default ImageMagick will be enabled in CMake.
 
-## OPTIONAL DEPENDENCIES
+## ADDITIONAL IMAGE FORMATS
+
+These are some libraries and tools that can add additional formats to PhotoQt if installed. None of them are needed at compile time, but they can be picked up at runtime if available.
 
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar
-
-These dependencies are not needed for compiling PhotoQt. However, if they are installed then PhotoQt is able to support a wider range of image formats.
 
 ## INSTALL
 
@@ -54,16 +57,8 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
 
-    \# PhotoQt makes use of various libraries (Exiv2, GraphicsMagick, etc.).
-    \# You can en-/disable them with the following options:  
-    \# (if you don't specify anything, it asumes a value of ON)
-
-    _-DEXIV2=OFF_  
-    _-DGRAPHICSMAGICK=OFF_  
-    _-DRAW=OFF_  
-    _-DPOPPLER=OFF_  
-    _-DFREEIMAGE=OFF_  
-    _-DDEVIL=OFF_
+    \# PhotoQt makes use of various libraries (Exiv2, ImageMagick/GraphicsMagick, etc.).
+    \# Many of them are enabled by default but can be disabled using CMake options.
 
     \# If CMake aborts with the error that it can't find one of the libraries but they are in fact installed and available, then you can specify the location of some of them as:
 
