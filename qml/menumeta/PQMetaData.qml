@@ -335,8 +335,13 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.metadataPopoutElement ? "Move back into main interface" : "Move to itws own window"
-            onClicked:
+            onClicked: {
+                if(PQSettings.metadataPopoutElement==0) {
+                    keepopen.checked = false
+                    variables.metaDataWidthWhenKeptOpen = 0
+                }
                 PQSettings.metadataPopoutElement = (PQSettings.metadataPopoutElement+1)%2
+            }
         }
     }
 
