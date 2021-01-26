@@ -34,7 +34,7 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_mainWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     m_fileDialogWindowMaximized = false;
-    w = 1280; h = 768;
+    w = 1200; h = 800;
     m_fileDialogWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     m_mainMenuWindowMaximized = false;
@@ -82,7 +82,7 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_filterWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     m_settingsManagerWindowMaximized = false;
-    w = 1024; h = 768;
+    w = 1100; h = 768;
     m_settingsManagerWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     m_fileSaveAsWindowMaximized = false;
