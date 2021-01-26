@@ -85,10 +85,9 @@ Item {
             width: childrenRect.width
             height: childrenRect.height
 
-            clip: true
-
             PQMouseArea {
                 anchors.fill: parent
+                anchors.margins: -50
                 hoverEnabled: true
             }
 
