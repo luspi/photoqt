@@ -48,7 +48,10 @@ Window {
     objectName: "mainmenupopout"
 
     onClosing: {
-        toplevel.close()
+        windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
+        windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
+
+        PQSettings.mainMenuPopoutElement = 0
     }
 
     Connections {

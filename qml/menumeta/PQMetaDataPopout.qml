@@ -48,7 +48,10 @@ Window {
     objectName: "metadatapopout"
 
     onClosing: {
-        toplevel.close()
+        windowgeometry.metaDataWindowGeometry = Qt.rect(metadata_window.x, metadata_window.y, metadata_window.width, metadata_window.height)
+        windowgeometry.metaDataWindowMaximized = (metadata_window.visibility==Window.Maximized)
+
+        PQSettings.metadataPopoutElement = 0
     }
 
     Connections {
