@@ -62,11 +62,6 @@ Window {
     minimumWidth: 600
     minimumHeight: 400
 
-    x: (handlingExternal.getScreenSize().width-width)/2
-    y: (handlingExternal.getScreenSize().height-height)/2
-    width: 1280
-    height: 960
-
     color: "#00000000"
 
     Image {
