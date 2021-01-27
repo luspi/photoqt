@@ -33,6 +33,10 @@ Item {
         id: cont
 
         contentHeight: col.height
+        onContentHeightChanged: {
+            if(visible)
+                settingsmanager_top.scrollBarVisible = scroll.visible
+        }
 
         width: stack.width
         height: stack.height
@@ -110,6 +114,14 @@ Item {
             // add some spacing at the bottom
             Item { width: 1; height: 25 }
 
+        }
+
+        Connections {
+            target: settingsmanager_top
+            onIsScrollBarVisible: {
+                if(visible)
+                    settingsmanager_top.scrollBarVisible = scroll.visible
+            }
         }
 
     }

@@ -38,6 +38,11 @@ Item {
     width: parentWidth
     height: parentHeight
 
+    onWidthChanged:
+        isScrollBarVisible()
+    onHeightChanged:
+        isScrollBarVisible()
+
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
@@ -54,6 +59,9 @@ Item {
 
     property bool detectingShortcutCombo: false
     signal newModsKeysCombo(var mods, var keys)
+
+    property bool scrollBarVisible: false
+    signal isScrollBarVisible()
 
     Item {
         id: dummyitem
@@ -95,10 +103,18 @@ Item {
             property int currentIndex: 0
             property int count: tabs.length
 
-            // this is necessary in order to catch shortcuts when element is popped out
-            onCurrentIndexChanged: {
-                if(PQSettings.settingsManagerPopoutElement)
-                    settingsmanager_top.forceActiveFocus()
+            // we check for the scroll bar to know whether one is shown or not for each tab
+            onCurrentIndexChanged:
+                scollBarCheck.restart()
+            // the timeout is needed as we check the 'visible' property for identifying the active tab
+            // that property is still false right when currentIndex changes
+            Timer {
+                id: scollBarCheck
+                interval: 100
+                repeat: false
+                running: false
+                onTriggered:
+                    settingsmanager_top.isScrollBarVisible()
             }
 
                                 //: settings manager tab title
@@ -348,7 +364,7 @@ Item {
         }
 
         Image {
-            x: parent.width-width-5
+            x: parent.width-width-(scrollBarVisible ? 12 : 5)
             y: 5
             width: 25
             height: 25
@@ -376,11 +392,7 @@ Item {
                     resetSettings()
                     opacity = 1
                     variables.visibleItem = "settingsmanager"
-
-                    // this is necessary in order to catch shortcuts when element is popped out
-                    if(PQSettings.settingsManagerPopoutElement)
-                        settingsmanager_top.forceActiveFocus()
-
+                    isScrollBarVisible()
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {
