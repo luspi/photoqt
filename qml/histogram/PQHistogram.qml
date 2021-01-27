@@ -36,17 +36,20 @@ Rectangle {
     property int parentWidth: 0
     property int parentHeight: 0
 
+    // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+    property bool startupDelay: true
+
     onXChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
     onYChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
     onWidthChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramSize = Qt.size(width, height)
     onHeightChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramSize = Qt.size(width, height)
 
     radius: 5
@@ -65,6 +68,15 @@ Rectangle {
     Component.onCompleted:
         if(variables.indexOfCurrentImage != -1)
             updateHistogram()
+
+    Timer {
+        // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+        running: true
+        repeat: false
+        interval: 1000
+        onTriggered:
+            startupDelay = false
+    }
 
     // This will hold the histogram image
     Image {
