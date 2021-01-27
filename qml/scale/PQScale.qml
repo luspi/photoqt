@@ -352,7 +352,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.scalePopoutElement ? "Move back into main interface" : "Move to itws own window"
+                tooltip: PQSettings.scalePopoutElement ? "Merge back into main interface" : "Move to itws own window"
                 onClicked: {
                     button_cancel.clicked()
                     PQSettings.scalePopoutElement = (PQSettings.scalePopoutElement+1)%2

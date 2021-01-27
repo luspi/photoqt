@@ -384,7 +384,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.wallpaperPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.wallpaperPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
                 button_cancel.clicked()
                 PQSettings.wallpaperPopoutElement = (PQSettings.wallpaperPopoutElement+1)%2

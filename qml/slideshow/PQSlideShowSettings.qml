@@ -501,7 +501,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.slideShowSettingsPopoutElement ? "Move back into main interface" : "Move to itws own window"
+                tooltip: PQSettings.slideShowSettingsPopoutElement ? "Merge back into main interface" : "Move to itws own window"
                 onClicked: {
                     button_cancel.clicked()
                     PQSettings.slideShowSettingsPopoutElement = (PQSettings.slideShowSettingsPopoutElement+1)%2

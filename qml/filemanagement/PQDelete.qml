@@ -247,7 +247,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.fileDeletePopoutElement ? "Move back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.fileDeletePopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
                 button_cancel.clicked()
                 PQSettings.fileDeletePopoutElement = (PQSettings.fileDeletePopoutElement+1)%2

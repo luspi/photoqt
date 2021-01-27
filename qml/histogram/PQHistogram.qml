@@ -307,7 +307,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.histogramPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.histogramPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
                 PQSettings.histogramPopoutElement = (PQSettings.histogramPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__histogram")

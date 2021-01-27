@@ -237,7 +237,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.openPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.openPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
                 hideFileDialog()
                 PQSettings.openPopoutElement = (PQSettings.openPopoutElement+1)%2

@@ -399,7 +399,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.mainMenuPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.mainMenuPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked:
                 PQSettings.mainMenuPopoutElement = (PQSettings.mainMenuPopoutElement+1)%2
         }

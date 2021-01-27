@@ -231,7 +231,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.filterPopoutElement ? "Move back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.filterPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
                 button_cancel.clicked()
                 PQSettings.filterPopoutElement = (PQSettings.filterPopoutElement+1)%2
