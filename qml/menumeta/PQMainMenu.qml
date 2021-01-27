@@ -386,22 +386,28 @@ Rectangle {
 
     }
 
-    Image {
-        x: parent.width-width-5
-        y: 5
-        width: 25
-        height: 25
-        source: "/popin.png"
-        opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
-            id: popinmouse
+    // we put a black rectangle behind that icon as it can look odd with the closing x behind it
+    Rectangle {
+        x: parent.width-width
+        y:0
+        width: 35
+        height: 35
+        color: PQSettings.mainMenuPopoutElement ? "transparent" : "black"
+        Image {
             anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.mainMenuPopoutElement ? "Merge back into main interface" : "Move to itws own window"
-            onClicked:
-                PQSettings.mainMenuPopoutElement = (PQSettings.mainMenuPopoutElement+1)%2
+            anchors.margins: 5
+            source: "/popin.png"
+            opacity: popinmouse.containsMouse ? 1 : 0.4
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                id: popinmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.mainMenuPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+                onClicked:
+                    PQSettings.mainMenuPopoutElement = (PQSettings.mainMenuPopoutElement+1)%2
+            }
         }
     }
 
