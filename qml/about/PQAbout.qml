@@ -76,6 +76,12 @@ Item {
                 button_close.clicked()
         }
 
+        PQMouseArea {
+            anchors.fill: insidecont
+            anchors.margins: -50
+            hoverEnabled: true
+        }
+
         Item {
 
             id: insidecont
@@ -84,12 +90,6 @@ Item {
             y: ((parent.height-height)/2)
             width: childrenRect.width
             height: childrenRect.height
-
-            PQMouseArea {
-                anchors.fill: parent
-                anchors.margins: -50
-                hoverEnabled: true
-            }
 
             Column {
 
