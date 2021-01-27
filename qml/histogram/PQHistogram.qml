@@ -194,6 +194,8 @@ Rectangle {
 
     Image {
 
+        id: histclose
+
         x: parent.width-width+5
         y: -5
         width: 25
@@ -281,12 +283,15 @@ Rectangle {
     }
 
     Image {
-        x: 5
-        y: 5
+        x: parent.width-width-(PQSettings.histogramPopoutElement ? 5 : histclose.width)
+        y: PQSettings.histogramPopoutElement ? 5 : -5
         width: 25
         height: 25
         source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.2
+        Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
+            id: popinmouse
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

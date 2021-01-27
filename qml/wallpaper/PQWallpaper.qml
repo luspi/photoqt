@@ -377,7 +377,10 @@ Item {
         width: 25
         height: 25
         source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
+            id: popinmouse
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
