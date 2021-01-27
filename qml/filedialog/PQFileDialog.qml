@@ -266,7 +266,7 @@ Rectangle {
             // fade out item
             filedialog_top.opacity = 0
         } else
-            filedialog_window.visible = false
+            filedialog_window.close()
 
         variables.visibleItem = ""
     }
