@@ -52,7 +52,7 @@ Window {
         windowgeometry.fileDeleteWindowGeometry = Qt.rect(delete_window.x, delete_window.y, delete_window.width, delete_window.height)
         windowgeometry.fileDeleteWindowMaximized = (delete_window.visibility==Window.Maximized)
 
-        if(variables.visibleItem == "filerename")
+        if(variables.visibleItem == "filedelete")
             variables.visibleItem = ""
     }
 
