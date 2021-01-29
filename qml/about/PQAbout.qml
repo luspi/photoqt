@@ -69,7 +69,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
+            cursorShape: PQSettings.aboutPopoutElement ? Qt.ArrowCursor : Qt.PointingHandCursor
             tooltip: em.pty+qsTranslate("about", "Close")
             enabled: !PQSettings.aboutPopoutElement
             onClicked:

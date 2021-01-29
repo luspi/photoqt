@@ -72,6 +72,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: !PQSettings.filterPopoutElement
             onClicked:
                 button_cancel.clicked()
         }

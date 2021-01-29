@@ -70,6 +70,9 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: !PQSettings.slideShowSettingsPopoutElement
+            onClicked:
+                button_cancel.clicked()
         }
 
         Text {
@@ -83,6 +86,12 @@ Item {
             horizontalAlignment: Text.AlignHCenter
         }
 
+        PQMouseArea {
+            anchors.fill: insidecont
+            anchors.margins: -50
+            hoverEnabled: true
+        }
+
         Item {
 
             id: insidecont
@@ -93,11 +102,6 @@ Item {
             height: childrenRect.height
 
             clip: true
-
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-            }
 
             Column {
 

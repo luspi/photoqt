@@ -75,6 +75,15 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: !PQSettings.slideShowSettingsPopoutElement
+            onClicked:
+                button_cancel.clicked()
+        }
+
+        PQMouseArea {
+            anchors.fill: insidecont
+            anchors.margins: -50
+            hoverEnabled: true
         }
 
         Item {
