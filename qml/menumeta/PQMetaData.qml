@@ -342,7 +342,8 @@ Rectangle {
                 if(PQSettings.metadataPopoutElement==0) {
                     keepopen.checked = false
                     variables.metaDataWidthWhenKeptOpen = 0
-                }
+                } else
+                    metadata_window.storeGeometry()
                 PQSettings.metadataPopoutElement = (PQSettings.metadataPopoutElement+1)%2
             }
         }

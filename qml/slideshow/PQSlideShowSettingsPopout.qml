@@ -47,10 +47,7 @@ Window {
     objectName: "slideshowsettingspopout"
 
     onClosing: {
-
-        windowgeometry.slideshowWindowGeometry = Qt.rect(slideshow_window.x, slideshow_window.y, slideshow_window.width, slideshow_window.height)
-        windowgeometry.slideshowWindowMaximized = (slideshow_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "slideshowsettings")
             variables.visibleItem = ""
     }
@@ -86,6 +83,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(slideshow_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.slideshowWindowGeometry = Qt.rect(slideshow_window.x, slideshow_window.y, slideshow_window.width, slideshow_window.height)
+        windowgeometry.slideshowWindowMaximized = (slideshow_window.visibility==Window.Maximized)
     }
 
 }

@@ -354,6 +354,8 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 tooltip: PQSettings.scalePopoutElement ? "Merge back into main interface" : "Move to itws own window"
                 onClicked: {
+                    if(PQSettings.scalePopoutElement)
+                        scale_window.storeGeometry()
                     button_cancel.clicked()
                     PQSettings.scalePopoutElement = (PQSettings.scalePopoutElement+1)%2
                     HandleShortcuts.executeInternalFunction("__scale")

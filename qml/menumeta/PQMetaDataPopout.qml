@@ -48,17 +48,14 @@ Window {
     objectName: "metadatapopout"
 
     onClosing: {
-        windowgeometry.metaDataWindowGeometry = Qt.rect(metadata_window.x, metadata_window.y, metadata_window.width, metadata_window.height)
-        windowgeometry.metaDataWindowMaximized = (metadata_window.visibility==Window.Maximized)
-
+        storeGeometry()
         PQSettings.metadataPopoutElement = 0
     }
 
     Connections {
         target: toplevel
         onClosing: {
-            windowgeometry.metaDataWindowGeometry = Qt.rect(metadata_window.x, metadata_window.y, metadata_window.width, metadata_window.height)
-            windowgeometry.metaDataWindowMaximized = (metadata_window.visibility==Window.Maximized)
+            storeGeometry()
         }
     }
 
@@ -84,6 +81,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(metadata_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.metaDataWindowGeometry = Qt.rect(metadata_window.x, metadata_window.y, metadata_window.width, metadata_window.height)
+        windowgeometry.metaDataWindowMaximized = (metadata_window.visibility==Window.Maximized)
     }
 
 }

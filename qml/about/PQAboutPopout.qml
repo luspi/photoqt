@@ -48,10 +48,7 @@ Window {
     objectName: "aboutpopout"
 
     onClosing: {
-
-        windowgeometry.aboutWindowGeometry = Qt.rect(about_window.x, about_window.y, about_window.width, about_window.height)
-        windowgeometry.aboutWindowMaximized = (about_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "about")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(about_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.aboutWindowGeometry = Qt.rect(about_window.x, about_window.y, about_window.width, about_window.height)
+        windowgeometry.aboutWindowMaximized = (about_window.visibility==Window.Maximized)
     }
 
 }

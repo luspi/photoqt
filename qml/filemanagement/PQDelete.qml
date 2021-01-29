@@ -249,6 +249,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.fileDeletePopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.fileDeletePopoutElement)
+                    delete_window.storeGeometry()
                 button_cancel.clicked()
                 PQSettings.fileDeletePopoutElement = (PQSettings.fileDeletePopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__delete")

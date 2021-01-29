@@ -48,10 +48,7 @@ Window {
     objectName: "saveaspopout"
 
     onClosing: {
-
-        windowgeometry.fileSaveAsWindowGeometry = Qt.rect(saveas_window.x, saveas_window.y, saveas_window.width, saveas_window.height)
-        windowgeometry.fileSaveAsWindowMaximized = (saveas_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "filesaveas")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(saveas_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.fileSaveAsWindowGeometry = Qt.rect(saveas_window.x, saveas_window.y, saveas_window.width, saveas_window.height)
+        windowgeometry.fileSaveAsWindowMaximized = (saveas_window.visibility==Window.Maximized)
     }
 
 }

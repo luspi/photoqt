@@ -228,6 +228,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.aboutPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.aboutPopoutElement)
+                    about_window.storeGeometry()
                 button_close.clicked()
                 PQSettings.aboutPopoutElement = (PQSettings.aboutPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__about")

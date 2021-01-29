@@ -355,6 +355,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.fileSaveAsPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.fileSaveAsPopoutElement)
+                    saveas_window.storeGeometry()
                 button_cancel.clicked()
                 PQSettings.fileSaveAsPopoutElement = (PQSettings.fileSaveAsPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__saveAs")

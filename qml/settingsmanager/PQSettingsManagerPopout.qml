@@ -48,10 +48,7 @@ Window {
     objectName: "settingsmanagerpopout"
 
     onClosing: {
-
-        windowgeometry.settingsManagerWindowGeometry = Qt.rect(settingsmanager_window.x, settingsmanager_window.y, settingsmanager_window.width, settingsmanager_window.height)
-        windowgeometry.settingsManagerWindowMaximized = (settingsmanager_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "settingsmanager")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(settingsmanager_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.settingsManagerWindowGeometry = Qt.rect(settingsmanager_window.x, settingsmanager_window.y, settingsmanager_window.width, settingsmanager_window.height)
+        windowgeometry.settingsManagerWindowMaximized = (settingsmanager_window.visibility==Window.Maximized)
     }
 
 }

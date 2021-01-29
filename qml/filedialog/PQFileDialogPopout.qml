@@ -53,10 +53,7 @@ Window {
     }
 
     onClosing: {
-
-        windowgeometry.fileDialogWindowMaximized = (filedialog_window.visibility==Window.Maximized)
-        windowgeometry.fileDialogWindowGeometry = Qt.rect(filedialog_window.x, filedialog_window.y, filedialog_window.width, filedialog_window.height)
-
+        storeGeometry()
         if(variables.visibleItem == "filedialog")
             variables.visibleItem = ""
     }
@@ -86,6 +83,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(filedialog_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.fileDialogWindowMaximized = (filedialog_window.visibility==Window.Maximized)
+        windowgeometry.fileDialogWindowGeometry = Qt.rect(filedialog_window.x, filedialog_window.y, filedialog_window.width, filedialog_window.height)
     }
 
 }

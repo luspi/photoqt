@@ -503,6 +503,8 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 tooltip: PQSettings.slideShowSettingsPopoutElement ? "Merge back into main interface" : "Move to itws own window"
                 onClicked: {
+                    if(PQSettings.slideShowSettingsPopoutElement)
+                        slideshow_window.storeGeometry()
                     button_cancel.clicked()
                     PQSettings.slideShowSettingsPopoutElement = (PQSettings.slideShowSettingsPopoutElement+1)%2
                     HandleShortcuts.executeInternalFunction("__slideshow")

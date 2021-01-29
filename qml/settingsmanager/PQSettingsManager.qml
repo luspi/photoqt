@@ -378,6 +378,8 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 tooltip: PQSettings.settingsManagerPopoutElement ? "Merge back into main interface" : "Move to itws own window"
                 onClicked: {
+                    if(PQSettings.settingsManagerPopoutElement)
+                        settingsmanager_window.storeGeometry()
                     button_cancel.clicked()
                     PQSettings.settingsManagerPopoutElement = (PQSettings.settingsManagerPopoutElement+1)%2
                     HandleShortcuts.executeInternalFunction("__settings")

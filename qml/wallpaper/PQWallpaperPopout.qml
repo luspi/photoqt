@@ -48,10 +48,7 @@ Window {
     objectName: "wallpaperpopout"
 
     onClosing: {
-
-        windowgeometry.wallpaperWindowGeometry = Qt.rect(wallpaper_window.x, wallpaper_window.y, wallpaper_window.width, wallpaper_window.height)
-        windowgeometry.wallpaperWindowMaximized = (wallpaper_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "wallpaper")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(wallpaper_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.wallpaperWindowGeometry = Qt.rect(wallpaper_window.x, wallpaper_window.y, wallpaper_window.width, wallpaper_window.height)
+        windowgeometry.wallpaperWindowMaximized = (wallpaper_window.visibility==Window.Maximized)
     }
 
 }

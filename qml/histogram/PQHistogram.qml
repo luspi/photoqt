@@ -309,6 +309,8 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.histogramPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.histogramPopoutElement)
+                    histogram_window.storeGeometry()
                 PQSettings.histogramPopoutElement = (PQSettings.histogramPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__histogram")
             }

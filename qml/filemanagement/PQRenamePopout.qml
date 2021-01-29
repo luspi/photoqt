@@ -48,10 +48,7 @@ Window {
     objectName: "renamepopout"
 
     onClosing: {
-
-        windowgeometry.fileRenameWindowGeometry = Qt.rect(rename_window.x, rename_window.y, rename_window.width, rename_window.height)
-        windowgeometry.fileRenameWindowMaximized = (rename_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "filerename")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(rename_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.fileRenameWindowGeometry = Qt.rect(rename_window.x, rename_window.y, rename_window.width, rename_window.height)
+        windowgeometry.fileRenameWindowMaximized = (rename_window.visibility==Window.Maximized)
     }
 
 }

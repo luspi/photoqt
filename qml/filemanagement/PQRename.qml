@@ -232,6 +232,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.fileRenamePopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.fileRenamePopoutElement)
+                    rename_window.storeGeometry()
                 button_cancel.clicked()
                 PQSettings.fileRenamePopoutElement = (PQSettings.fileRenamePopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__rename")

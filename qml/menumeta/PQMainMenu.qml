@@ -405,8 +405,11 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: PQSettings.mainMenuPopoutElement ? "Merge back into main interface" : "Move to itws own window"
-                onClicked:
+                onClicked: {
+                    if(PQSettings.mainMenuPopoutElement)
+                        mainmenu_window.storeGeometry()
                     PQSettings.mainMenuPopoutElement = (PQSettings.mainMenuPopoutElement+1)%2
+                }
             }
         }
     }

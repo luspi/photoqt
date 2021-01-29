@@ -239,6 +239,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.openPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.openPopoutElement)
+                    filedialog_window.storeGeometry()
                 hideFileDialog()
                 PQSettings.openPopoutElement = (PQSettings.openPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__open")

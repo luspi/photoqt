@@ -48,10 +48,7 @@ Window {
     objectName: "filterpopout"
 
     onClosing: {
-
-        windowgeometry.filterWindowGeometry = Qt.rect(filter_window.x, filter_window.y, filter_window.width, filter_window.height)
-        windowgeometry.filterWindowMaximized = (filter_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "filter")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(filter_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.filterWindowGeometry = Qt.rect(filter_window.x, filter_window.y, filter_window.width, filter_window.height)
+        windowgeometry.filterWindowMaximized = (filter_window.visibility==Window.Maximized)
     }
 
 }

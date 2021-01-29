@@ -233,6 +233,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.filterPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.filterPopoutElement)
+                    filter_window.storeGeometry()
                 button_cancel.clicked()
                 PQSettings.filterPopoutElement = (PQSettings.filterPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__filterImages")

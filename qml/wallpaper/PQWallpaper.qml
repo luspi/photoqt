@@ -386,6 +386,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: PQSettings.wallpaperPopoutElement ? "Merge back into main interface" : "Move to itws own window"
             onClicked: {
+                if(PQSettings.wallpaperPopoutElement)
+                    wallpaper_window.storeGeometry()
                 button_cancel.clicked()
                 PQSettings.wallpaperPopoutElement = (PQSettings.wallpaperPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__wallpaper")

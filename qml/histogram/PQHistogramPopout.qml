@@ -48,17 +48,14 @@ Window {
     objectName: "histogrampopout"
 
     onClosing: {
-
-        windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
-
+        storeGeometry()
         PQSettings.histogram = 0
     }
 
     Connections {
         target: toplevel
         onClosing: {
-            windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
-            windowgeometry.histogramWindowMaximized = (histogram_window.visibility==Window.Maximized)
+            storeGeometry()
         }
     }
 
@@ -84,6 +81,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(histogram_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
+        windowgeometry.histogramWindowMaximized = (histogram_window.visibility==Window.Maximized)
     }
 
 }

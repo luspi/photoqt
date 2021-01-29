@@ -48,10 +48,7 @@ Window {
     objectName: "scalepopout"
 
     onClosing: {
-
-        windowgeometry.scaleWindowGeometry = Qt.rect(scale_window.x, scale_window.y, scale_window.width, scale_window.height)
-        windowgeometry.scaleWindowMaximized = (scale_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "filerename")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(scale_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.scaleWindowGeometry = Qt.rect(scale_window.x, scale_window.y, scale_window.width, scale_window.height)
+        windowgeometry.scaleWindowMaximized = (scale_window.visibility==Window.Maximized)
     }
 
 }

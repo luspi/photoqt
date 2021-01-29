@@ -48,10 +48,7 @@ Window {
     objectName: "deletepopout"
 
     onClosing: {
-
-        windowgeometry.fileDeleteWindowGeometry = Qt.rect(delete_window.x, delete_window.y, delete_window.width, delete_window.height)
-        windowgeometry.fileDeleteWindowMaximized = (delete_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "filedelete")
             variables.visibleItem = ""
     }
@@ -87,6 +84,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(delete_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.fileDeleteWindowGeometry = Qt.rect(delete_window.x, delete_window.y, delete_window.width, delete_window.height)
+        windowgeometry.fileDeleteWindowMaximized = (delete_window.visibility==Window.Maximized)
     }
 
 }

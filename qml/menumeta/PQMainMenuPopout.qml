@@ -48,17 +48,14 @@ Window {
     objectName: "mainmenupopout"
 
     onClosing: {
-        windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
-        windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
-
+        storeGeometry()
         PQSettings.mainMenuPopoutElement = 0
     }
 
     Connections {
         target: toplevel
         onClosing: {
-            windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
-            windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
+            storeGeometry()
         }
     }
 
@@ -84,6 +81,11 @@ Window {
         running: true
         onTriggered:
             handlingGeneral.storeQmlWindowMemoryAddress(mainmenu_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
+        windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
     }
 
 }
