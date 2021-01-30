@@ -1,5 +1,28 @@
-Changelog PhotoQt - Copyright (C) 2011-2020, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+Release 2.1 - 2021-01-30
+----------------------------
+- improve: image format handling (sqlite based)
+- improve: loading of image files
+- improve: startup speed when PhotoQt has not been either updated or freshly installed
+- improve: handling of popout states
+- improve: shortcut handling when popout window activated
+- improve: make it easier to hit 'close' button top right of main interface without triggering menu
+- improve: files in a folder are filtered more efficiently
+- improve: detection of previously chosen languages
+- improve: reorganizing of handling methods
+- add: welcome screen
+- add: ImageMagick support (choice between GraphicsMagick and ImageMagick possible)
+- add: small buttons to quickly toggle popout status of elements
+- add: proper window titles for popout windows
+- add: slideshow can include images in subfolders
+- add: element to convert images into different format
+- fix: memory leak when loading images with Qt
+- fix: caching images
+- fix: sometimes thumbnail would be loaded instead of full image
+- fix: image are loaded asynchronously, without blocking main interface
+
 
 Release 2.0 - 2020-12-16
 ----------------------------
@@ -17,6 +40,7 @@ Release 2.0 - 2020-12-16
 - improve: new settings manager with cleaner interface
 - improve: new 'loading' indicator
 - improve: fewer/no workarounds necessary due to re-write
+
 
 Release 1.7.1 - 2018-06-03
 ----------------------------
