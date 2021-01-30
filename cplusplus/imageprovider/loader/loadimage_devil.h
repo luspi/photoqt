@@ -162,6 +162,7 @@ public:
 
 private:
 
+#ifdef DEVIL
     bool checkForError() {
         ILenum err_enum = ilGetError();
         while(err_enum != IL_NO_ERROR) {
@@ -176,6 +177,7 @@ private:
         }
         return false;
     }
+#endif
 
 };
 
