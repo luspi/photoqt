@@ -88,7 +88,7 @@ function(composeDesktopFile)
 
     ##########################
     # DEVIL mime types (not covered by Qt)
-    set(DEVILMIME "application/dicom,image/dicom-rle;image/fits")
+    set(DEVILMIME "application/dicom;image/dicom-rle;image/fits")
     if(DEVIL)
         foreach(MIME ${DEVILMIME})
             list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
