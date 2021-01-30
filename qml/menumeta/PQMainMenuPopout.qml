@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: mainmenu_window
+
+    //: Window title
+    title: em.pty+qsTranslate("MainMenu", "Main Menu")
 
     Component.onCompleted: {
         mainmenu_window.x = windowgeometry.mainMenuWindowGeometry.x
@@ -42,19 +45,22 @@ Window {
 
     modality: Qt.NonModal
 
+    objectName: "mainmenupopout"
+
     onClosing: {
-        toplevel.close()
+        storeGeometry()
+        PQSettings.mainMenuPopoutElement = 0
     }
 
     Connections {
         target: toplevel
         onClosing: {
-            windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
-            windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
+            storeGeometry()
         }
     }
 
     visible: PQSettings.mainMenuPopoutElement
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 
@@ -65,6 +71,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return mainmenu_window.width })
                 item.parentHeight = Qt.binding(function() { return mainmenu_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(mainmenu_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
+        windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
     }
 
 }

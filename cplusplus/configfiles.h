@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -53,6 +53,10 @@ public:
 
     static const QString IMAGEFORMATS_FILE() {
         return QString("%1/imageformats_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString IMAGEFORMATS_DB() {
+        return QString("%1/imageformats.db").arg(CONFIG_DIR());
     }
 
     static const QString MIMEFORMATS_FILE() {

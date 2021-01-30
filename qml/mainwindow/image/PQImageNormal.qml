@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -49,6 +49,7 @@ Item {
         fillMode: Image.Pad
         clip: true
         cache: false
+        asynchronous: true
 
         source: "image://full/" + src
 
@@ -69,6 +70,7 @@ Item {
                 anchors.fill: source == "" ? undefined : theimage
                 cache: false
                 antialiasing: false
+                asynchronous: true
                 smooth: theimage.smooth
                 mipmap: theimage.scale < defaultScale*threshold
                 source: ""

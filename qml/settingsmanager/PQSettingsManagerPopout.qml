@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: settingsmanager_window
+
+    //: Window title
+    title: em.pty+qsTranslate("settingsmanager", "Settings Manager")
 
     Component.onCompleted: {
         settingsmanager_window.setX(windowgeometry.settingsManagerWindowGeometry.x)
@@ -42,16 +45,16 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "settingsmanagerpopout"
+
     onClosing: {
-
-        windowgeometry.settingsManagerWindowGeometry = Qt.rect(settingsmanager_window.x, settingsmanager_window.y, settingsmanager_window.width, settingsmanager_window.height)
-        windowgeometry.settingsManagerWindowMaximized = (settingsmanager_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "settingsmanager")
             variables.visibleItem = ""
     }
 
     visible: PQSettings.settingsManagerPopoutElement&&curloader.item.opacity==1
+    flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
@@ -71,6 +74,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return settingsmanager_window.width })
                 item.parentHeight = Qt.binding(function() { return settingsmanager_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(settingsmanager_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.settingsManagerWindowGeometry = Qt.rect(settingsmanager_window.x, settingsmanager_window.y, settingsmanager_window.width, settingsmanager_window.height)
+        windowgeometry.settingsManagerWindowMaximized = (settingsmanager_window.visibility==Window.Maximized)
     }
 
 }

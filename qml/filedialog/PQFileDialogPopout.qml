@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,24 +21,27 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: filedialog_window
 
-    width: 1024
-    height: 768
+    //: Window title
+    title: em.pty+qsTranslate("filedialog", "File dialog")
 
     minimumWidth: 800
     minimumHeight: 600
 
     modality: PQSettings.openPopoutElementKeepOpen ? Qt.NonModal : Qt.ApplicationModal
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
+
+    objectName: "filedialogpopout"
 
     Loader {
         source: "PQFileDialog.qml"
@@ -50,11 +53,7 @@ Window {
     }
 
     onClosing: {
-
-//        filedialog_window.
-        windowgeometry.fileDialogWindowMaximized = (filedialog_window.visibility==Window.Maximized)
-        windowgeometry.fileDialogWindowGeometry = Qt.rect(filedialog_window.x, filedialog_window.y, filedialog_window.width, filedialog_window.height)
-
+        storeGeometry()
         if(variables.visibleItem == "filedialog")
             variables.visibleItem = ""
     }
@@ -74,6 +73,21 @@ Window {
 
         }
 
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(filedialog_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.fileDialogWindowMaximized = (filedialog_window.visibility==Window.Maximized)
+        windowgeometry.fileDialogWindowGeometry = Qt.rect(filedialog_window.x, filedialog_window.y, filedialog_window.width, filedialog_window.height)
     }
 
 }

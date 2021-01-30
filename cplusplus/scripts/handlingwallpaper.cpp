@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,7 +22,116 @@
 
 #include "handlingwallpaper.h"
 
-PQHandlingWallpaper::PQHandlingWallpaper(QObject *parent) : QObject(parent) {}
+bool PQHandlingWallpaper::checkEnlightenmentMsgbus() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentMsgbus()" << NL;
+    QString out;
+    checkIfCommandExists("enlightenment_remote", QStringList() << "-module-list", out);
+    return (out.contains("msgbus -- Enabled") ? 0 : 1);
+}
+
+bool PQHandlingWallpaper::checkEnlightenmentRemote() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentRemote()" << NL;
+    QString out;
+    checkIfCommandExists("enlightenment_remote", QStringList() << "-h", out);
+    return (out=="");
+}
+
+bool PQHandlingWallpaper::checkFeh() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkFeh()" << NL;
+    QString out;
+    checkIfCommandExists("feh", QStringList() << "--version", out);
+    return (out=="");
+}
+
+bool PQHandlingWallpaper::checkGSettings() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkGSettings()" << NL;
+    QString out;
+    checkIfCommandExists("gsettings", QStringList() << "--version", out);
+    return (out=="");
+}
+
+bool PQHandlingWallpaper::checkNitrogen() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkNitrogen()" << NL;
+    QString out;
+    checkIfCommandExists("nitrogen", QStringList() << "--version", out);
+    return (out=="");
+}
+
+bool PQHandlingWallpaper::checkXfce() {
+    DBG << CURDATE << "PQHandlingWallpaper::checkXfce()" << NL;
+    QString out;
+    checkIfCommandExists("xfconf-query", QStringList() << "--version", out);
+    return (out=="");
+}
+
+bool PQHandlingWallpaper::checkIfCommandExists(QString cmd, QStringList args, QString &out) {
+
+    DBG << CURDATE << "PQHandlingWallpaper::checkIfCommandExists()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** args = " << args.join(",").toStdString() << NL;
+
+    QProcess proc;
+    proc.setProcessChannelMode(QProcess::MergedChannels);
+    proc.start(cmd, args);
+    proc.waitForFinished(1000);
+    out = proc.readAll();
+    int ret = proc.exitCode();
+    return (ret == 0);
+
+}
+
+QString PQHandlingWallpaper::detectWM() {
+
+    DBG << CURDATE << "PQHandlingWallpaper::detectWM()" << NL;
+
+    if(QString(getenv("KDE_FULL_SESSION")).toLower() == "true" && QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
+        return "plasma";
+    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("DESKTOP_SESSION")).toLower() == "unity" ||
+              QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu" || QString(getenv("DESKTOP_SESSION")).toLower() == "cinnamon")
+        return "gnome";
+    else if(QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce4" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce")
+        return "xfce";
+    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "enlightenment")
+        return "enlightenment";
+    else
+        return "other";
+
+}
+
+QList<int> PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
+
+    DBG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount()" << NL;
+
+    QProcess proc;
+    proc.setProcessChannelMode(QProcess::MergedChannels);
+
+    proc.start("enlightenment_remote", QStringList() << "-desktops-get");
+    while(proc.waitForFinished()) {}
+
+    QString out = proc.readAll();
+    int ret= proc.exitCode();
+
+    if(ret != 0) {
+        LOG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount: ERROR: enlightenment_remote failed with return code " << ret
+            << " - is Enlightenment installed and the DBUS module activated?" << NL;
+        return {1,1};
+    }
+
+    QStringList parts = out.trimmed().split(" ");
+    if(parts.length() != 2) {
+        LOG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount: ERROR: Failed to get proper workspace count! "
+                       << "Falling back to default (1x1)" << NL;
+        return {1,1};
+    }
+
+    return {parts.at(0).toInt(), parts.at(1).toInt()};
+
+}
+
+int PQHandlingWallpaper::getScreenCount() {
+    DBG << CURDATE << "PQHandlingWallpaper::getScreenCount()" << NL;
+    return QGuiApplication::screens().count();
+}
 
 void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVariantMap options) {
 
@@ -181,116 +290,5 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
 
     } else
         LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: Unknown window manager: " << category.toStdString() << NL;
-
-}
-
-int PQHandlingWallpaper::getScreenCount() {
-    DBG << CURDATE << "PQHandlingWallpaper::getScreenCount()" << NL;
-    return QGuiApplication::screens().count();
-}
-
-bool PQHandlingWallpaper::checkXfce() {
-    DBG << CURDATE << "PQHandlingWallpaper::checkXfce()" << NL;
-    QString out;
-    checkIfCommandExists("xfconf-query", QStringList() << "--version", out);
-    return (out=="");
-}
-
-bool PQHandlingWallpaper::checkFeh() {
-    DBG << CURDATE << "PQHandlingWallpaper::checkFeh()" << NL;
-    QString out;
-    checkIfCommandExists("feh", QStringList() << "--version", out);
-    return (out=="");
-}
-
-bool PQHandlingWallpaper::checkNitrogen() {
-    DBG << CURDATE << "PQHandlingWallpaper::checkNitrogen()" << NL;
-    QString out;
-    checkIfCommandExists("nitrogen", QStringList() << "--version", out);
-    return (out=="");
-}
-
-bool PQHandlingWallpaper::checkGSettings() {
-    DBG << CURDATE << "PQHandlingWallpaper::checkGSettings()" << NL;
-    QString out;
-    checkIfCommandExists("gsettings", QStringList() << "--version", out);
-    return (out=="");
-}
-
-bool PQHandlingWallpaper::checkEnlightenmentRemote() {
-    DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentRemote()" << NL;
-    QString out;
-    checkIfCommandExists("enlightenment_remote", QStringList() << "-h", out);
-    return (out=="");
-}
-
-bool PQHandlingWallpaper::checkEnlightenmentMsgbus() {
-    DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentMsgbus()" << NL;
-    QString out;
-    checkIfCommandExists("enlightenment_remote", QStringList() << "-module-list", out);
-    return (out.contains("msgbus -- Enabled") ? 0 : 1);
-}
-
-bool PQHandlingWallpaper::checkIfCommandExists(QString cmd, QStringList args, QString &out) {
-
-    DBG << CURDATE << "PQHandlingWallpaper::checkIfCommandExists()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL
-        << CURDATE << "** args = " << args.join(",").toStdString() << NL;
-
-    QProcess proc;
-    proc.setProcessChannelMode(QProcess::MergedChannels);
-    proc.start(cmd, args);
-    proc.waitForFinished(1000);
-    out = proc.readAll();
-    int ret = proc.exitCode();
-    return (ret == 0);
-
-}
-
-QString PQHandlingWallpaper::detectWM() {
-
-    DBG << CURDATE << "PQHandlingWallpaper::detectWM()" << NL;
-
-    if(QString(getenv("KDE_FULL_SESSION")).toLower() == "true" && QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
-        return "plasma";
-    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("DESKTOP_SESSION")).toLower() == "unity" ||
-              QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu" || QString(getenv("DESKTOP_SESSION")).toLower() == "cinnamon")
-        return "gnome";
-    else if(QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce4" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce")
-        return "xfce";
-    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "enlightenment")
-        return "enlightenment";
-    else
-        return "other";
-
-}
-
-QList<int> PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
-
-    DBG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount()" << NL;
-
-    QProcess proc;
-    proc.setProcessChannelMode(QProcess::MergedChannels);
-
-    proc.start("enlightenment_remote", QStringList() << "-desktops-get");
-    while(proc.waitForFinished()) {}
-
-    QString out = proc.readAll();
-    int ret= proc.exitCode();
-
-    if(ret != 0) {
-        LOG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount: ERROR: enlightenment_remote failed with return code " << ret
-            << " - is Enlightenment installed and the DBUS module activated?" << NL;
-        return {1,1};
-    }
-
-    QStringList parts = out.trimmed().split(" ");
-    if(parts.length() != 2) {
-        LOG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount: ERROR: Failed to get proper workspace count! "
-                       << "Falling back to default (1x1)" << NL;
-        return {1,1};
-    }
-
-    return {parts.at(0).toInt(), parts.at(1).toInt()};
 
 }

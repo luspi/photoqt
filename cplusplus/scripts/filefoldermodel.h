@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -114,6 +114,10 @@ public:
     QStringList getNameFilters() { return m_nameFilters; }
     void setNameFilters(QStringList val) { m_nameFilters = val; loadDelay->start(); }
 
+    Q_PROPERTY(QStringList mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters)
+    QStringList getMimeTypeFilters() { return m_mimeTypeFilters; }
+    void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; loadDelay->start(); }
+
     Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden)
     bool getShowHidden() { return m_showHidden; }
     void setShowHidden(bool val) { m_showHidden = val; loadDelay->start(); }
@@ -130,19 +134,19 @@ public:
     int getCount() { return m_count; }
 
     Q_INVOKABLE QString getFilePath(int index) {
-        if(index >= 0 && index < m_count)
+        if(index >= 0 && index < entries.length())
             return entries[index]->filePath;
         return "";
     }
 
     Q_INVOKABLE QString getFileName(int index) {
-        if(index >= 0 && index < m_count)
+        if(index >= 0 && index < entries.length())
             return entries[index]->fileName;
         return "";
     }
 
     Q_INVOKABLE bool getFileIsDir(int index) {
-        if(index >= 0 && index < m_count)
+        if(index >= 0 && index < entries.length())
             return entries[index]->fileIsDir;
         return false;
     }
@@ -155,24 +159,28 @@ public:
             if(!PQSettings::get().getPdfSingleDocument() && (info.suffix().toLower() == "pdf" || info.suffix().toLower() == "epdf"))
                 ret += handlingFileDialog.listPDFPages(info.absoluteFilePath());
             else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf") {
-                if(!PQSettings::get().getArchiveSingleFile() && PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                if(!PQSettings::get().getArchiveSingleFile() && PQImageFormats::get().getEnabledFormatsLibArchive().contains(info.suffix().toLower()))
                     ret += handlingFileDialog.listArchiveContent(info.absoluteFilePath());
-                else if(!PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                else if(!PQImageFormats::get().getEnabledFormatsLibArchive().contains(info.suffix().toLower()))
                     ret.push_back(info.absoluteFilePath());
-            } else if(!PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+            } else if(!PQImageFormats::get().getEnabledFormatsLibArchive().contains(info.suffix().toLower()))
 #endif
                 ret.push_back(info.absoluteFilePath());
         }
         return ret;
     }
 
-    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortField, bool sortReversed) {
-        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, sortField, sortReversed);
+    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortField, bool sortReversed) {
+        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
         return getCopyOfAllFiles();
+    }
+    Q_INVOKABLE QStringList loadFilesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortField, bool sortReversed) {
+        return getAllImagesInSubFolders(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
     }
 
     static QFileInfoList getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed);
-    static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortfield, bool sortReversed);
+    static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
+    static QStringList getAllImagesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
 
 protected:
     QHash<int, QByteArray> roleNames() const {
@@ -192,6 +200,7 @@ private:
     QString m_folder;
     bool m_naturalOrdering;
     QStringList m_nameFilters;
+    QStringList m_mimeTypeFilters;
     bool m_showHidden;
     SortBy m_sortField;
     bool m_sortReversed;

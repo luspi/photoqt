@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFiles
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -141,7 +142,7 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Move to trash")
                             onClicked: {
 
-                                if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
+                                if(!handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
                                     error.visible = true
                                     return
                                 }
@@ -159,7 +160,7 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Delete permanently")
                             onClicked: {
 
-                                if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
+                                if(!handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
                                     error.visible = true
                                     return
                                 }
@@ -215,7 +216,7 @@ Item {
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filedelete"
-                    filename.text = handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {
@@ -231,26 +232,30 @@ Item {
             }
         }
 
+    }
 
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.fileDeletePopoutElement
-            onActivated: button_cancel.clicked()
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.fileDeletePopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.fileDeletePopoutElement)
+                    delete_window.storeGeometry()
+                button_cancel.clicked()
+                PQSettings.fileDeletePopoutElement = (PQSettings.fileDeletePopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__delete")
+            }
         }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.fileDeletePopoutElement
-            onActivated: button_trash.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Shift+Enter", "Shift+Return"]
-            enabled: PQSettings.fileDeletePopoutElement
-            onActivated: button_permanent.clicked()
-        }
-
     }
 
 }

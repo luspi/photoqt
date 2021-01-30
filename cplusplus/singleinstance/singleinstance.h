@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,6 +27,8 @@
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <thread>
+#include <QQmlApplicationEngine>
+#include <QVector>
 #include "commandlineparser.h"
 #include "../logger.h"
 #include "../variables.h"
@@ -44,7 +46,8 @@ public:
     QString exportAndQuit;
     QString importAndQuit;
 
-    void *rootQmlAddress;
+    QQmlApplicationEngine *qmlEngine;
+    QVector<void*> qmlWindowAddresses;
 
 protected:
     virtual bool notify(QObject * receiver, QEvent * event) override;

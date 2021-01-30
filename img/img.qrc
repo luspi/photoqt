@@ -71,5 +71,10 @@
         <file>image/genericvideothumb.png</file>
         <file>other/logo.png</file>
         <file>image/checkerboard.png</file>
+        <file>settingsmanager/filetypes/im.png</file>
+        <file>welcome/single.png</file>
+        <file>welcome/individual.png</file>
+        <file>welcome/mixed.png</file>
+        <file>popin.png</file>
     </qresource>
 </RCC>

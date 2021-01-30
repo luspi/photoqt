@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -28,7 +28,7 @@ Item {
     id: set_top
 
     width: stack.width-20
-    height: ((expertmodeonly && variables.settingsManagerExpertMode) || (!normalmodeonly && variables.settingsManagerExpertMode) || (!expertmodeonly && !variables.settingsManagerExpertMode)) ? cont.height+20 : 0
+    height: (available && ((expertmodeonly && variables.settingsManagerExpertMode) || (!normalmodeonly && variables.settingsManagerExpertMode) || (!expertmodeonly && !variables.settingsManagerExpertMode))) ? cont.height+20 : 0
     Behavior on height { NumberAnimation { duration: 200 } }
     visible: height>0
     clip: true
@@ -41,6 +41,8 @@ Item {
 
     property bool expertmodeonly: false
     property bool normalmodeonly: false
+
+    property bool available: true
 
     Row {
 

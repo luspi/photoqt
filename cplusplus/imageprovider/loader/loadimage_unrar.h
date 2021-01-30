@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -51,16 +51,16 @@ public:
             PQHandlingFileDialog handling;
             QStringList cont = handling.listArchiveContent(archivefile);
             if(cont.length() == 0) {
-                errormsg = "Error: unable to list contents of archive file...";
-                LOG << CURDATE << "PQLoadImage::UNRAR::load(): " << errormsg.toStdString() << NL;
+                errormsg = "Unable to list contents of archive file...";
+                LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
             compressedFilename = cont.at(0).split("::ARC::").at(0);
         }
 
         if(!QFileInfo(archivefile).exists()) {
-            errormsg = "ERROR loading RAR archive, file doesn't seem to exist...";
-            LOG << CURDATE << "PQLoadImage::UNRAR::load(): " << errormsg.toStdString() << NL;
+            errormsg = "Unable to load RAR archive, file doesn't seem to exist...";
+            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -71,8 +71,8 @@ public:
         which.waitForFinished();
         // If it isn't -> display error
         if(which.exitCode()) {
-            errormsg = "PQLoadImage::UNRAR::load(): Error: unrar not found";
-            LOG << CURDATE << errormsg.toStdString() << NL;
+            errormsg = "'unrar' not found";
+            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -82,8 +82,8 @@ public:
 
         // Make sure everything starts off well
         if(!p.waitForStarted()) {
-            errormsg = "PQLoadImage::UNRAR::load(): ERROR starting unrar to extract file, unable to start process...";
-            LOG << CURDATE << errormsg.toStdString() << NL;
+            errormsg = "Unable to start 'unrar' process...";
+            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -101,8 +101,8 @@ public:
 
         // If image data is invalid or something went wrong, show error image
         if(img.isNull()) {
-            errormsg = "PQLoadImage::UNRAR::load(): Error! Extracted file is not valid image file...";
-            LOG << CURDATE << errormsg.toStdString() << NL;
+            errormsg = "Extracted file is not valid image file...";
+            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -82,7 +82,8 @@ public:
 
         }
 
-        LOG << CURDATE << "LoadImageVideo: unknown video thumbnailer used: " << PQSettings::get().getVideoThumbnailer().toStdString() << NL;
+        errormsg = "Unknown video thumbnailer used: " + PQSettings::get().getVideoThumbnailer();
+        LOG << CURDATE << "PQLoadImageVideo::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }

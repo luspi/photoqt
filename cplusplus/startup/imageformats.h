@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,40 +20,38 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
+#ifndef PQSTARTUP_IMAGEFORMATS_H
+#define PQSTARTUP_IMAGEFORMATS_H
 
-PQFileTypeTile {
+#include "../logger.h"
 
-    title: "GraphicsMagick"
+namespace PQStartup {
 
-    available: PQImageFormats.getAvailableEndingsWithDescriptionGraphicsMagick()
-    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsGraphicsMagick()
-    currentlyEnabled: PQImageFormats.enabledFileformatsGraphicsMagick
-    projectWebpage: ["graphicsmagick.org", "http://www.graphicsmagick.org"]
-    description: em.pty+qsTranslate("settingsmanager_filetypes", "GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.")
+    namespace ImageFormats {
 
-    iconsource: "/settingsmanager/filetypes/gm.jpg"
+        static void ensureImageFormatsDatabaseExists() {
 
-    Connections {
+            QFile db(ConfigFiles::IMAGEFORMATS_DB());
 
-        target: settingsmanager_top
+            if(QString(VERSION).remove(3,999) != "2.1")
+                LOG << "WARNING:" << "resetting image formats database!" << NL;
 
-        onLoadAllSettings: {
-            resetChecked()
-        }
+            if(db.exists())
+                db.remove();
 
-        onSaveAllSettings: {
-            var c = []
-            for(var key in checkedItems) {
-                if(checkedItems[key])
-                    c.push(key)
+            if(!db.exists()) {
+                if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
+                    LOG << CURDATE << "PQStartup::ImageFormats: unable to create default imageformats database" << NL;
+                else {
+                    QFile file(ConfigFiles::IMAGEFORMATS_DB());
+                    file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+                }
             }
-            PQImageFormats.enabledFileformatsGraphicsMagick = c
+
         }
 
     }
 
-    Component.onCompleted: {
-        resetChecked()
-    }
 }
+
+#endif // PQSTARTUP_IMAGEFORMATS_H

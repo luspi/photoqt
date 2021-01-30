@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: slideshow_window
+
+    //: Window title
+    title: em.pty+qsTranslate("slideshow", "Slideshow settings")
 
     Component.onCompleted: {
         slideshow_window.setX(windowgeometry.slideshowWindowGeometry.x)
@@ -41,17 +44,16 @@ Window {
     minimumHeight: 300
 
     modality: Qt.ApplicationModal
+    objectName: "slideshowsettingspopout"
 
     onClosing: {
-
-        windowgeometry.slideshowWindowGeometry = Qt.rect(slideshow_window.x, slideshow_window.y, slideshow_window.width, slideshow_window.height)
-        windowgeometry.slideshowWindowMaximized = (slideshow_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "slideshowsettings")
             variables.visibleItem = ""
     }
 
     visible: PQSettings.slideShowSettingsPopoutElement&&curloader.item.opacity==1
+    flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
@@ -71,6 +73,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return slideshow_window.width })
                 item.parentHeight = Qt.binding(function() { return slideshow_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(slideshow_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.slideshowWindowGeometry = Qt.rect(slideshow_window.x, slideshow_window.y, slideshow_window.width, slideshow_window.height)
+        windowgeometry.slideshowWindowMaximized = (slideshow_window.visibility==Window.Maximized)
     }
 
 }

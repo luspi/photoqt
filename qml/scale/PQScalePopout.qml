@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: scale_window
+
+    //: Window title
+    title: em.pty+qsTranslate("scale", "Scale file")
 
     Component.onCompleted: {
         scale_window.setX(windowgeometry.scaleWindowGeometry.x)
@@ -42,16 +45,16 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "scalepopout"
+
     onClosing: {
-
-        windowgeometry.scaleWindowGeometry = Qt.rect(scale_window.x, scale_window.y, scale_window.width, scale_window.height)
-        windowgeometry.scaleWindowMaximized = (scale_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "filerename")
             variables.visibleItem = ""
     }
 
     visible: PQSettings.scalePopoutElement&&curloader.item.opacity==1
+    flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
@@ -71,6 +74,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return scale_window.width })
                 item.parentHeight = Qt.binding(function() { return scale_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(scale_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.scaleWindowGeometry = Qt.rect(scale_window.x, scale_window.y, scale_window.width, scale_window.height)
+        windowgeometry.scaleWindowMaximized = (scale_window.visibility==Window.Maximized)
     }
 
 }

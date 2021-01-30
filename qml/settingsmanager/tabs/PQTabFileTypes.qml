@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -33,6 +33,10 @@ Item {
         id: cont
 
         contentHeight: col.height
+        onContentHeightChanged: {
+            if(visible)
+                settingsmanager_top.scrollBarVisible = scroll.visible
+        }
 
         width: stack.width
         height: stack.height
@@ -74,29 +78,25 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + "\n" + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
+                text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + " " + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
             }
 
-            Flow {
+            PQPoppler { id: pop }
+                PQHorizontalLine { expertModeOnly: pop.expertmodeonly; available: pop.available }
+            PQLibArchive { id: arc }
+                PQHorizontalLine { expertModeOnly: arc.expertmodeonly; available: arc.available }
+            PQVideo { id: vid }
+                PQHorizontalLine { expertModeOnly: vid.expertmodeonly; available: vid.available }
+            PQFileTypes { id: fty }
 
-                width: cont.width-25
-                spacing: 10
+        }
 
-                PQFileTypeTileQt {}
-                PQFileTypeTileGraphicsMagick {}
-                PQFileTypeTileLibRaw {}
-                PQFileTypeTileLibArchive {}
-                PQFileTypeTileDevil {}
-                PQFileTypeTileFreeImage {}
-                PQFileTypeTilePoppler {}
-                PQFileTypeTileXCF {}
-                PQFileTypeTileVideo {}
-
-                // add some spacing at the bottom
-                Item { width: 1; height: 25 }
-
+        Connections {
+            target: settingsmanager_top
+            onIsScrollBarVisible: {
+                if(visible)
+                    settingsmanager_top.scrollBarVisible = scroll.visible
             }
-
         }
 
     }

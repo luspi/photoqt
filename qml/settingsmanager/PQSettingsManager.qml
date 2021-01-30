@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -29,6 +29,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "./tabs"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -36,6 +37,11 @@ Item {
 
     width: parentWidth
     height: parentHeight
+
+    onWidthChanged:
+        isScrollBarVisible()
+    onHeightChanged:
+        isScrollBarVisible()
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
@@ -53,6 +59,9 @@ Item {
 
     property bool detectingShortcutCombo: false
     signal newModsKeysCombo(var mods, var keys)
+
+    property bool scrollBarVisible: false
+    signal isScrollBarVisible()
 
     Item {
         id: dummyitem
@@ -82,7 +91,7 @@ Item {
     Rectangle {
 
         anchors.fill: parent
-        color: "#cc000000"
+        color: "#ee000000"
 
         Column {
 
@@ -93,6 +102,20 @@ Item {
 
             property int currentIndex: 0
             property int count: tabs.length
+
+            // we check for the scroll bar to know whether one is shown or not for each tab
+            onCurrentIndexChanged:
+                scollBarCheck.restart()
+            // the timeout is needed as we check the 'visible' property for identifying the active tab
+            // that property is still false right when currentIndex changes
+            Timer {
+                id: scollBarCheck
+                interval: 100
+                repeat: false
+                running: false
+                onTriggered:
+                    settingsmanager_top.isScrollBarVisible()
+            }
 
                                 //: settings manager tab title
             property var tabs: [[em.pty+qsTranslate("settingsmanager", "interface"),
@@ -147,6 +170,8 @@ Item {
 
                     Text {
                         anchors.fill: parent
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 10
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         color: "#ffffff"
@@ -239,23 +264,23 @@ Item {
 
         FileDialog {
             id: saveFileDialog
-            folder: "file://"+handlingFileDialog.getHomeDir()
+            folder: "file://"+handlingFileDir.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.SaveFile
             nameFilters: ["PhotoQt (*.pqt)"]
             onAccepted: {
                 if(saveFileDialog.file != "")
-                    handlingExternal.exportConfigTo(handlingFileDialog.cleanPath(saveFileDialog.file))
+                    handlingExternal.exportConfigTo(handlingFileDir.cleanPath(saveFileDialog.file))
             }
             onVisibleChanged: {
                 if(visible)
-                    currentFile = "file://" + handlingFileDialog.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
+                    currentFile = "file://" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
             }
         }
 
         FileDialog {
             id: openFileDialog
-            folder: "file://"+handlingFileDialog.getHomeDir()
+            folder: "file://"+handlingFileDir.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.OpenFile
             nameFilters: ["PhotoQt (*.pqt)"]
@@ -264,7 +289,7 @@ Item {
                     var yes = handlingGeneral.askForConfirmation(em.pty+qsTranslate("settingsmanager", "Import of %1. This will replace your current settings with the ones stored in the backup.").arg("'" + handlingGeneral.getFileNameFromFullPath(openFileDialog.file) + "'"),
                                                                  em.pty+qsTranslate("settingsmanager", "Do you want to continue?"))
                     if(yes) {
-                        handlingExternal.importConfigFrom(handlingFileDialog.cleanPath(openFileDialog.file) )
+                        handlingExternal.importConfigFrom(handlingFileDir.cleanPath(openFileDialog.file) )
                         rst.start()
                     }
                 }
@@ -286,7 +311,7 @@ Item {
             x: bar.width
             y: parent.height-height
             width: parent.width-bar.width
-            height: 50
+            height: 75
 
             color: "#111111"
 
@@ -338,6 +363,30 @@ Item {
 
         }
 
+        Image {
+            x: parent.width-width-(scrollBarVisible ? 12 : 5)
+            y: 5
+            width: 25
+            height: 25
+            source: "/popin.png"
+            opacity: popinmouse.containsMouse ? 1 : 0.4
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                id: popinmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.settingsManagerPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+                onClicked: {
+                    if(PQSettings.settingsManagerPopoutElement)
+                        settingsmanager_window.storeGeometry()
+                    button_cancel.clicked()
+                    PQSettings.settingsManagerPopoutElement = (PQSettings.settingsManagerPopoutElement+1)%2
+                    HandleShortcuts.executeInternalFunction("__settings")
+                }
+            }
+        }
+
         Connections {
             target: loader
             onSettingsManagerPassOn: {
@@ -345,9 +394,11 @@ Item {
                     resetSettings()
                     opacity = 1
                     variables.visibleItem = "settingsmanager"
+                    isScrollBarVisible()
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {
+
                     if(detectingShortcutCombo)
                         newModsKeysCombo(param[1], param[0])
                     else if(param[0] == Qt.Key_Escape)

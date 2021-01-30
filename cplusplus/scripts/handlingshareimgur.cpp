@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -55,6 +55,56 @@ PQHandlingShareImgur::PQHandlingShareImgur(QObject *parent) : QObject(parent) {
 
 PQHandlingShareImgur::~PQHandlingShareImgur() {
     delete networkManager;
+}
+
+bool PQHandlingShareImgur::checkIfConnectedToInternet() {
+
+    DBG << CURDATE << "PQHandlingShareImgur::checkIfConnectedToInternet()" << NL;
+
+    // will store the return value
+    bool internetConnected = false;
+
+    // Get a list of all network interfaces
+    QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
+
+    // a reg exp to validate an ip address
+    QRegExp ipRegExp( "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" );
+    QRegExpValidator ipRegExpValidator(ipRegExp, 0);
+
+    // loop over all network interfaces
+    for(int i = 0; i < ifaces.count(); i++) {
+
+        // get the current network interface
+        QNetworkInterface iface = ifaces.at(i);
+
+        // if the interface is up and not a loop back interface
+        if(iface.flags().testFlag(QNetworkInterface::IsUp)
+             && !iface.flags().testFlag(QNetworkInterface::IsLoopBack)) {
+
+            // loop over all possible ip addresses
+            for (int j=0; j<iface.allAddresses().count(); j++) {
+
+                // get the ip address
+                QString ip = iface.allAddresses().at(j).toString();
+
+                // validate the ip. We have to double check 127.0.0.1 as isLoopBack above does not always work reliably
+                int pos = 0;
+                if(ipRegExpValidator.validate(ip, pos) == QRegExpValidator::Acceptable && ip != "127.0.0.1") {
+                    internetConnected = true;
+                    break;
+                }
+            }
+
+        }
+
+        // done
+        if(internetConnected) break;
+
+    }
+
+    // return whether we're connected or not
+    return internetConnected;
+
 }
 
 // Return the web address to obtain a new pin

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -41,7 +41,7 @@ PQSetting {
                            ["","",false],
                            ["","",false]]
 
-    property int focusIndex: 0
+    property int focusIndex: -1
     property int focusField: 0
 
     signal focusOnIndex(var newindex)

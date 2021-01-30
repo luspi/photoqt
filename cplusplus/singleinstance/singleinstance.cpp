@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -195,7 +195,7 @@ bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
 
     if(e->type() == QEvent::KeyPress) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-        if(rootQmlAddress == receiver)
+        if(qmlWindowAddresses.contains(receiver))
             emit PQKeyPressChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
     }
 

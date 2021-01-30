@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -28,7 +28,7 @@
 #include <QMutexLocker>
 
 #ifdef DEVIL
-#include <IL/il.h>
+#include <il.h>
 #endif
 
 #include "../../logger.h"
@@ -60,13 +60,45 @@ public:
         ilGenImages(1, &imageID);
         ilBindImage(imageID);
 
+        if(checkForError()) return QImage();
+
         // load the passed on image file
         ilLoadImage(filename.toStdString().c_str());
+
+        if(checkForError()) return QImage();
 
         // get the width/height
         const int width  = ilGetInteger(IL_IMAGE_WIDTH);
         const int height = ilGetInteger(IL_IMAGE_HEIGHT);
         *origSize = QSize(width, height);
+
+        if(checkForError()) return QImage();
+
+/*
+        // this would be the way to load images directly from DevIL into QImage,
+        // but DevIL seems has some issues with being used simultaneously from different threads
+        // this *will* make PhotoQt crash often (possibly not always)
+        ILubyte *bt = ilGetData();
+        if(bt == NULL) LOG << "bt is NULL!!" << NL;
+        QImage tmpimg(bt, width, height, QImage::Format_ARGB32);
+        if(tmpimg.isNull()) LOG << "QImage is NULL!!" << NL;
+
+        QImage img;
+
+        // If image needs to be scaled down, do so now
+        if(maxSize.width() > 5 && maxSize.height() > 5) {
+            double q = 1;
+            if(width > maxSize.width())
+                q = (double)maxSize.width()/(double)width;
+            if(height*q > maxSize.height())
+                q = (double)maxSize.height()/(double)height;
+            img = tmpimg.scaled(width*q, height*q);
+        } else
+            img = tmpimg.copy();
+
+        ilBindImage(0);
+        ilDeleteImages(1, &imageID);
+*/
 
         // This is the temporary file we will load the image into
         QString tempimage = QDir::tempPath() + "/photoqtdevil.bmp";
@@ -79,9 +111,15 @@ public:
             // If it fails, return error image
             ilBindImage(0);
             ilDeleteImages(1, &imageID);
-            errormsg = "Failed to save image decoded with DevIL!";
+            checkForError();
+            if(errormsg == "") {
+                errormsg = "Failed to save image decoded with DevIL!";
+                LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
+            }
             return QImage();
         }
+
+        if(checkForError()) return QImage();
 
         // Create reader for temporary image
         QImageReader reader(tempimage);
@@ -105,7 +143,8 @@ public:
         QFile(tempimage).remove();
 
         if(img.isNull() || img.size() == QSize(1,1)) {
-            errormsg = "Failed to load image with DevIL!";
+            errormsg = "Failed to load image with DevIL (unknown error)!";
+            LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -113,12 +152,30 @@ public:
 
 #endif
 
-        errormsg = "Failed to load image with DevIL!";
+        errormsg = "Failed to load image, DevIL not supported by this build of PhotoQt!";
+        LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
     }
 
     QString errormsg;
+
+private:
+
+    bool checkForError() {
+        ILenum err_enum = ilGetError();
+        while(err_enum != IL_NO_ERROR) {
+            if(errormsg == "") errormsg = "Error: ";
+            else errormsg += ", ";
+            errormsg += QString::number(err_enum);
+            err_enum = ilGetError();
+        }
+        if(errormsg != "") {
+            LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
+            return true;
+        }
+        return false;
+    }
 
 };
 

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -47,6 +47,7 @@ Rectangle {
     enabled: visible
 
     property string backupAnimType: ""
+    property var backupAllImagesInFolder: []
 
     MouseArea {
         id: controlsbgmousearea
@@ -304,54 +305,6 @@ Rectangle {
         }
     }
 
-    // The below shortcuts are needed for the popout version only
-
-    Shortcut {
-        sequences: ["Esc", "q"]
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: quitSlideShow()
-    }
-
-    Shortcut {
-        sequences: ["Enter", "Return", "Space"]
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: controls_top.running = !controls_top.running
-    }
-
-    Shortcut {
-        sequence: "Right"
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: {
-            loadNextImage()
-            if(controls_top.running)
-                switcher.restart()
-        }
-    }
-
-    Shortcut {
-        sequence: "Left"
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: {
-            loadPrevImage()
-            if(controls_top.running)
-                switcher.restart()
-        }
-    }
-
-    Shortcut {
-        sequence: "-"
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated:
-            volumeslider.value = Math.max(0, volumeslider.value-1)
-    }
-
-    Shortcut {
-        sequences: ["+", "="]
-        enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated:
-            volumeslider.value = Math.min(100, volumeslider.value+1)
-    }
-
     Timer {
         id: hideBarAfterTimeout
         interval: 1000
@@ -371,6 +324,11 @@ Rectangle {
         onTriggered: loadNextImage()
     }
 
+    Component.onDestruction: {
+        if(variables.slideShowActive = true)
+            quitSlideShow()
+    }
+
     function startSlideShow() {
 
         variables.visibleItem = "slideshowcontrols"
@@ -381,6 +339,25 @@ Rectangle {
 
         backupAnimType = PQSettings.animationType
         PQSettings.animationType = PQSettings.slideShowTypeAnimation
+
+        var sortby = 1
+        if(PQSettings.sortby == "name")
+            sortby = 0
+        else if(PQSettings.sortby == "time")
+            sortby = 2
+        else if(PQSettings.sortby == "size")
+            sortby = 3
+        else if(PQSettings.sortby == "type")
+            sortby = 4
+
+        if(PQSettings.slideShowIncludeSubFolders) {
+            backupAllImagesInFolder = variables.allImageFilesInOrder
+            var sub = filefoldermodel.loadFilesInSubFolders(variables.allImageFilesInOrder[variables.indexOfCurrentImage],
+                                                            PQSettings.openShowHiddenFilesFolders,
+                                                            [], [],
+                                                            sortby, !PQSettings.sortbyAscending)
+            variables.allImageFilesInOrder = variables.allImageFilesInOrder.concat(sub)
+        }
 
         if(PQSettings.slideShowShuffle) {
 
@@ -417,6 +394,14 @@ Rectangle {
         slideshowmusic.stop()
 
         PQSettings.animationType = backupAnimType
+
+        if(PQSettings.slideShowIncludeSubFolders) {
+            variables.allImageFilesInOrder = backupAllImagesInFolder
+            if(variables.indexOfCurrentImage >= variables.allImageFilesInOrder.length) {
+                variables.indexOfCurrentImage = 0
+                variables.newFileLoaded()
+            }
+        }
 
         variables.visibleItem = ""
         variables.slideShowActive = false

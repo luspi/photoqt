@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -32,7 +32,7 @@ Item {
     property int indexOfCurrentImage: -1
     property real currentZoomLevel: 1
     property real currentPaintedZoomLevel: 1
-    property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDialog.getHomeDir()
+    property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
     property point mousePos: Qt.point(-1, -1)
     property int metaDataWidthWhenKeptOpen: 0
 
@@ -73,11 +73,11 @@ Item {
 
             if(PQCppVariables.cmdFilePath != "") {
 
-                var folderOld = (variables.allImageFilesInOrder.length == 0 ? "" : handlingGeneral.getFilePathFromFullPath(variables.allImageFilesInOrder[0]))
-                var folderNew = handlingGeneral.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
+                var folderOld = (variables.allImageFilesInOrder.length == 0 ? "" : handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[0]))
+                var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
                 if(folderNew == folderOld) {
-                    var newindex = variables.allImageFilesInOrder.indexOf(handlingFileDialog.cleanPath(PQCppVariables.cmdFilePath))
+                    var newindex = variables.allImageFilesInOrder.indexOf(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
                     if(newindex > -1) {
                         variables.indexOfCurrentImage = newindex
                         return
@@ -94,7 +94,7 @@ Item {
                                                 PQFileFolderModel.Size :
                                                 PQFileFolderModel.Type)))
 
-                variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderNew, PQSettings.openShowHiddenFilesFolders, PQImageFormats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
+                variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderNew, PQSettings.openShowHiddenFilesFolders, PQImageFormats.getEnabledFormats(), PQImageFormats.getEnabledMimeTypes(), sortField, !PQSettings.sortbyAscending)
                 variables.indexOfCurrentImage = Math.max(0, variables.allImageFilesInOrder.indexOf(PQCppVariables.cmdFilePath))
 
                 // reset variable

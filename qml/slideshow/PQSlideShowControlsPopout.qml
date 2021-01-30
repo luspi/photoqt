@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: slideshowcontrols_window
+
+    //: Window title
+    title: em.pty+qsTranslate("slideshow", "Slideshow controls")
 
     Component.onCompleted: {
         slideshowcontrols_window.x = windowgeometry.slideshowControlsWindowGeometry.x
@@ -41,6 +44,8 @@ Window {
     minimumHeight: 200
 
     modality: Qt.NonModal
+
+    objectName: "slideshowcontrolspopout"
 
     onClosing: {
 
@@ -55,6 +60,7 @@ Window {
     }
 
     visible: PQSettings.slideShowControlsPopoutElement
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 
@@ -67,6 +73,16 @@ Window {
                 slideshowcontrols_window.minimumHeight  = item.childrenRect.height
                 slideshowcontrols_window.minimumWidth  = item.childrenRect.width
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(slideshowcontrols_window.objectName)
     }
 
 }

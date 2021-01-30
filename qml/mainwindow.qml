@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -26,7 +26,7 @@ import QtQuick.Window 2.2
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
-import PQHandlingFileManagement 1.0
+import PQHandlingFileDir 1.0
 import PQHandlingManipulation 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
@@ -46,6 +46,7 @@ import "./menumeta"
 import "./histogram"
 import "./slideshow"
 import "./settingsmanager"
+import "./welcome"
 
 import "./loadfiles.js" as LoadFiles
 
@@ -53,18 +54,13 @@ Window {
 
     id: toplevel
 
-    visible: true
-
-    visibility: PQSettings.windowMode ? (PQSettings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen
+    visibility: Window.Hidden
     flags: PQSettings.windowDecoration ?
                (PQSettings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (PQSettings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
 
     minimumWidth: 600
     minimumHeight: 400
-
-    width: 1024
-    height: 768
 
     color: "#00000000"
 
@@ -75,7 +71,7 @@ Window {
         anchors.fill: parent
 
         source: PQSettings.backgroundImageScreenshot ?
-                    ("file://" + handlingGeneral.getTempDir() + "/photoqt_screenshot_0.jpg") :
+                    ("file://" + handlingFileDir.getTempDir() + "/photoqt_screenshot_0.jpg") :
                     (PQSettings.backgroundImageUse ? ("file://"+PQSettings.backgroundImagePath) : "")
 
         fillMode: PQSettings.backgroundImageScale ?
@@ -151,6 +147,130 @@ Window {
 
     Component.onCompleted:  {
 
+        if(PQCppVariables.freshInstall)
+
+            welcome.source = "welcome/PQWelcome.qml"
+
+        else
+
+            start()
+
+    }
+
+    PQSystemTrayIcon {
+        id: trayicon
+        visible: PQSettings.trayIcon>0
+        trayIconSetting: PQSettings.trayIcon
+        onToggleAction: {
+            if(PQSettings.trayIcon == 1)
+                toplevel.visible = !toplevel.visible
+        }
+        onQuitAction: {
+            Qt.quit();
+        }
+    }
+
+    Loader { id: welcome }
+
+    // needed to load folders without PQFileDialog
+    PQFileFolderModel { id: filefoldermodel }
+
+    PQVariables { id: variables }
+    PQLoader { id: loader }
+
+    PQMouseShortcuts { id: mouseshortcuts }
+
+    PQImage { id: imageitem }
+    PQQuickInfo { id: quickinfo }
+    PQMessage { id: message }
+    PQCloseButton { id: closebutton }
+
+    PQThumbnailBar { id: thumbnails }
+
+    Loader { id: histogram }
+
+    Loader { id: mainmenu }
+    Loader { id: metadata }
+
+    Loader { id: slideshowsettings }
+    Loader { id: slideshowcontrols }
+    Loader { id: filedialog }
+
+    Loader { id: filerename }
+    Loader { id: filedelete }
+    Loader { id: copymove }
+    Loader { id: filesaveas }
+
+    Loader { id: scaleimage }
+    Loader { id: about }
+    Loader { id: imgur }
+    Loader { id: wallpaper }
+    Loader { id: filter }
+    Loader { id: settingsmanager }
+
+    PQImageProperties { id: imageproperties }
+    PQFileWatcher { id: filewatcher }
+
+    PQHandlingFileDialog { id: handlingFileDialog }
+    PQHandlingGeneral { id: handlingGeneral }
+    PQHandlingShortcuts { id: handlingShortcuts }
+    PQHandlingFileDir { id: handlingFileDir }
+    PQHandlingManipulation { id: handlingManipulation }
+    PQHandlingShareImgur { id: handlingShareImgur }
+    PQHandlingWallpaper { id: handlingWallpaper }
+    PQHandlingFaceTags { id: handlingFaceTags }
+    PQHandlingExternal { id: handlingExternal }
+
+    PQWindowGeometry { id: windowgeometry }
+    PQCppMetaData { id: cppmetadata }
+
+    PQKeyShortcuts { id: shortcuts }
+    PQKeyMouseStrings { id: keymousestrings }
+
+    // Localisation handler, allows for runtime switches of languages
+    PQLocalisation {
+        id : em
+        Component.onCompleted:
+            em.setLanguage(PQSettings.language)
+    }
+
+    Connections {
+        target: PQSettings
+        onLanguageChanged:
+            em.setLanguage(PQSettings.language)
+    }
+
+    function start() {
+
+        if(PQSettings.windowMode) {
+
+            if(PQSettings.saveWindowGeometry)
+                visibility = Window.Windowed
+
+            else if(PQSettings.mainMenuPopoutElement == 1 &&
+               PQSettings.metadataPopoutElement == 1 &&
+               PQSettings.histogramPopoutElement == 1 &&
+               PQSettings.scalePopoutElement == 1 &&
+               PQSettings.openPopoutElement == 1 &&
+               PQSettings.slideShowSettingsPopoutElement == 1 &&
+               PQSettings.slideShowControlsPopoutElement == 1 &&
+               PQSettings.fileRenamePopoutElement == 1 &&
+               PQSettings.fileDeletePopoutElement == 1 &&
+               PQSettings.aboutPopoutElement == 1 &&
+               PQSettings.imgurPopoutElement == 1 &&
+               PQSettings.wallpaperPopoutElement == 1 &&
+               PQSettings.filterPopoutElement == 1 &&
+               PQSettings.settingsManagerPopoutElement == 1 &&
+               PQSettings.fileSaveAsPopoutElement == 1)
+
+                visibility = Window.Windowed
+
+            else
+                visibility = Window.Maximized
+
+        } else
+            visibility = Window.FullScreen
+
         if(PQSettings.saveWindowGeometry) {
 
             if(windowgeometry.mainWindowMaximized)
@@ -181,13 +301,13 @@ Window {
             if(PQCppVariables.cmdFilePath != "")
                 filenameToLoad = PQCppVariables.cmdFilePath
 
-            var folderToLoad = handlingGeneral.getFilePathFromFullPath(filenameToLoad)
+            var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
             LoadFiles.loadFile(folderToLoad)
 
             variables.openCurrentDirectory = folderToLoad
 
-            if(handlingGeneral.isDir(filenameToLoad)) {
+            if(handlingFileDir.isDir(filenameToLoad)) {
                 if(variables.allImageFilesInOrder.length == 0) {
                     loader.show("filedialog")
                     variables.openCurrentDirectory = filenameToLoad
@@ -201,86 +321,6 @@ Window {
         } else
             loader.show("filedialog")
 
-    }
-
-    PQSystemTrayIcon {
-        id: trayicon
-        visible: PQSettings.trayIcon>0
-        trayIconSetting: PQSettings.trayIcon
-        onToggleAction: {
-            if(PQSettings.trayIcon == 1)
-                toplevel.visible = !toplevel.visible
-        }
-        onQuitAction: {
-            Qt.quit();
-        }
-    }
-
-    // needed to load folders without PQFileDialog
-    PQFileFolderModel { id: filefoldermodel }
-
-    PQVariables { id: variables }
-    PQLoader { id: loader }
-
-    PQMouseShortcuts { id: mouseshortcuts }
-
-    PQImage { id: imageitem }
-    PQQuickInfo { id: quickinfo }
-    PQMessage { id: message }
-    PQCloseButton { id: closebutton }
-
-    PQThumbnailBar { id: thumbnails }
-
-    Loader { id: histogram }
-
-    Loader { id: mainmenu }
-    Loader { id: metadata }
-
-    Loader { id: slideshowsettings }
-    Loader { id: slideshowcontrols }
-    Loader { id: filedialog }
-
-    Loader { id: filerename }
-    Loader { id: filedelete }
-    Loader { id: copymove }
-
-    Loader { id: scaleimage }
-    Loader { id: about }
-    Loader { id: imgur }
-    Loader { id: wallpaper }
-    Loader { id: filter }
-    Loader { id: settingsmanager }
-
-    PQImageProperties { id: imageproperties }
-    PQFileWatcher { id: filewatcher }
-
-    PQHandlingFileDialog { id: handlingFileDialog }
-    PQHandlingGeneral { id: handlingGeneral }
-    PQHandlingShortcuts { id: handlingShortcuts }
-    PQHandlingFileManagement { id: handlingFileManagement }
-    PQHandlingManipulation { id: handlingManipulation }
-    PQHandlingShareImgur { id: handlingShareImgur }
-    PQHandlingWallpaper { id: handlingWallpaper }
-    PQHandlingFaceTags { id: handlingFaceTags }
-    PQHandlingExternal { id: handlingExternal }
-
-    PQWindowGeometry { id: windowgeometry }
-    PQCppMetaData { id: cppmetadata }
-
-    PQKeyShortcuts { id: shortcuts }
-    PQKeyMouseStrings { id: keymousestrings }
-
-    // Localisation handler, allows for runtime switches of languages
-    PQLocalisation {
-        id : em
-        Component.onCompleted:
-            em.setLanguage(PQSettings.language)
-    }
-
-    Connections {
-        target: PQSettings
-        onLanguageChanged:
-            em.setLanguage(PQSettings.language)
     }
 
     function quitPhotoQt() {

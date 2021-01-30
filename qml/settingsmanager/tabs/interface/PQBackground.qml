@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -154,7 +154,7 @@ PQSetting {
             }
 
             if(bg_type.currentIndex == 2)
-                PQSettings.backgroundImagePath = handlingFileDialog.cleanPath(bg_image_img.source)
+                PQSettings.backgroundImagePath = handlingFileDir.cleanPath(bg_image_img.source)
             else
                 PQSettings.backgroundImagePath = ""
 
@@ -197,24 +197,26 @@ PQSetting {
     FileDialog {
         id: fileDialog
         currentFile: (PQSettings.backgroundImagePath == "" ? "" : "file://"+PQSettings.backgroundImagePath)
-        folder: (PQSettings.backgroundImagePath == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(PQSettings.backgroundImagePath))
+        folder: (PQSettings.backgroundImagePath == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(PQSettings.backgroundImagePath))
         modality: Qt.ApplicationModal
         Component.onCompleted: {
             //: This is a category in a file dialog for selecting images used as in: All images supported by PhotoQt.
-            var str = [em.pty+qsTranslate("settingsmanager_interface", "All Images") + " (" + PQImageFormats.getAllEnabledFileFormats().join(" ") + ")"]
-            str.push("Qt (" + PQImageFormats.getAvailableEndingsQt().join(" ") + ")")
+            var str = [em.pty+qsTranslate("settingsmanager_interface", "All Images") + " (*." + PQImageFormats.getEnabledFormats().join(" *.") + ")"]
+            str.push("Qt (*." + PQImageFormats.getEnabledFormatsQt().join(" *.") + ")")
+            if(handlingGeneral.isImageMagickSupportEnabled())
+                str.push("ImageMagick (*." + PQImageFormats.getEnabledFormatsMagick().join(" *.") + ")")
             if(handlingGeneral.isGraphicsMagickSupportEnabled())
-                str.push("GraphicsMagick (" + PQImageFormats.getAvailableEndingsGraphicsMagick().join(" ") + ")")
+                str.push("GraphicsMagick (*." + PQImageFormats.getEnabledFormatsMagick().join(" *.") + ")")
             if(handlingGeneral.isLibRawSupportEnabled())
-                str.push("LibRaw (" + PQImageFormats.getAvailableEndingsRAW().join(" ") + ")")
+                str.push("LibRaw (*." + PQImageFormats.getEnabledFormatsLibRaw().join(" *.") + ")")
             if(handlingGeneral.isDevILSupportEnabled())
-                str.push("DevIL (" + PQImageFormats.getAvailableEndingsDevIL().join(" ") + ")")
+                str.push("DevIL (*." + PQImageFormats.getEnabledFormatsDevIL().join(" *.") + ")")
             if(handlingGeneral.isFreeImageSupportEnabled())
-                str.push("FreeImage (" + PQImageFormats.getAvailableEndingsFreeImage().join(" ") + ")")
+                str.push("FreeImage (*." + PQImageFormats.getEnabledFormatsFreeImage().join(" *.") + ")")
             if(handlingGeneral.isPopplerSupportEnabled())
-                str.push("Poppler (" + PQImageFormats.getAvailableEndingsPoppler().join(" ") + ")")
+                str.push("Poppler (*." + PQImageFormats.getEnabledFormatsPoppler().join(" *.") + ")")
             //: This is a category in a file dialog for selecting images used as in: Video files supported by PhotoQt.
-            str.push(em.pty+qsTranslate("settingsmanager_interface", "Video") + " (" + PQImageFormats.getAvailableEndingsVideo().join(" ") + ")")
+            str.push(em.pty+qsTranslate("settingsmanager_interface", "Video") + " (*." + PQImageFormats.getEnabledFormatsVideo().join(" *.") + ")")
             fileDialog.nameFilters = str
         }
         onAccepted: {

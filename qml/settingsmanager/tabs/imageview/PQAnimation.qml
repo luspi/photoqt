@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -71,7 +71,7 @@ PQSetting {
                 PQSlider {
                     id: anim_dur
                     height: anim_type.height
-                    from: 1
+                    from: 0
                     to: 10
                 }
 

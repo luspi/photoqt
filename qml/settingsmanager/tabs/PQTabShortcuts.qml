@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -38,6 +38,10 @@ Item {
         id: cont
 
         contentHeight: col.height
+        onContentHeightChanged: {
+            if(visible)
+                settingsmanager_top.scrollBarVisible = scroll.visible
+        }
 
         width: stack.width
         height: stack.height
@@ -148,7 +152,8 @@ Item {
                             //: Name of shortcut action
                             ["__move", em.pty+qsTranslate("settingsmanager", "Move File to a New Location")],
                             //: Name of shortcut action
-                            ["__clipboard", em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")]]
+                            ["__clipboard", em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")],
+                            ["__saveAs", "Save image in another format"]]
             }
 
             PQContainer {
@@ -186,6 +191,14 @@ Item {
 
             Item { width: 1; height: 50 }
 
+        }
+
+        Connections {
+            target: settingsmanager_top
+            onIsScrollBarVisible: {
+                if(visible)
+                    settingsmanager_top.scrollBarVisible = scroll.visible
+            }
         }
 
     }

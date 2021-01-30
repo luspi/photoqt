@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "ele"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -73,6 +74,15 @@ Item {
 
         PQMouseArea {
             anchors.fill: parent
+            hoverEnabled: true
+            enabled: !PQSettings.slideShowSettingsPopoutElement
+            onClicked:
+                button_cancel.clicked()
+        }
+
+        PQMouseArea {
+            anchors.fill: insidecont
+            anchors.margins: -50
             hoverEnabled: true
         }
 
@@ -368,37 +378,30 @@ Item {
         Component.onCompleted:
             curCat = handlingWallpaper.detectWM()
 
+    }
 
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequence: "Tab"
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: {
-                var avail = ["plasma", "gnome", "xfce", "enlightenment", "other"]
-                var cur = avail.indexOf(curCat)+1
-                if(cur == avail.length)
-                    cur = 0
-                curCat = avail[cur]
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.wallpaperPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.wallpaperPopoutElement)
+                    wallpaper_window.storeGeometry()
+                button_cancel.clicked()
+                PQSettings.wallpaperPopoutElement = (PQSettings.wallpaperPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__wallpaper")
             }
         }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: button_ok.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Left", "Right"]
-            enabled: PQSettings.wallpaperPopoutElement
-            onActivated: if(curCat == "other") other.changeTool()
-        }
-
     }
 
 }

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -59,18 +59,18 @@ PQSetting {
         var languages = {"en" : "English",
                          "ar" : "عربي ,عربى",
                          "cs" : "Čeština",
-                         "de" : "Deutsch",
+                         "de" : "Deutsch", "de_DE" : "Deutsch",
                          "el" : "Ελληνικά",
-                         "es" : "Español (España)",
+                         "es" : "Español", "es_ES" : "Español",
                          "es_CR" : "Español (Costa Rica)",
                          "fi" : "Suomen kieli",
                          "fr" : "Français",
                          "he" : "עברית",
                          "it" : "Italiano",
                          "ja" : "日本語",
-                         "lt" : "lietuvių kalba",
-                         "pl" : "Polski",
-                         "pt" : "Português (Portugal)",
+                         "lt" : "lietuvių kalba", "lt_LT" : "lietuvių kalba",
+                         "pl" : "Polski", "pl_PL" : "Polski",
+                         "pt" : "Português (Portugal)", "pt_PT" : "Português (Portugal)",
                          "pt_BR" : "Português (Brasil)",
                          "ru" : "русский язык",
                          "sk" : "Slovenčina",
@@ -119,6 +119,14 @@ PQSetting {
             l = l.split("_")[0]
             if(languageitems.indexOf(l) != -1)
                 foundIndex = languageitems.indexOf(l)
+        }
+
+        if(foundIndex == 0) {
+            var langtmp = []
+            for(var i in languageitems)
+                langtmp.push(languageitems[i].split("_")[0])
+            if(langtmp.indexOf(l) != -1)
+                foundIndex = langtmp.indexOf(l)
         }
 
         lang.currentIndex = foundIndex

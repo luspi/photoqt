@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -55,10 +55,12 @@ namespace PQStartup {
                 cont += "0::Right Button+SES::__quit\n";
                 cont += "0::+::__zoomIn\n";
                 cont += "0::=::__zoomIn\n";
+                cont += "0::Keypad++::__zoomIn\n";
                 cont += "0::Ctrl++::__zoomIn\n";
                 cont += "0::Ctrl+=::__zoomIn\n";
                 cont += "0::Ctrl+Wheel Up::__zoomIn\n";
                 cont += "0::-::__zoomOut\n";
+                cont += "0::Keypad+-::__zoomOut\n";
                 cont += "0::Ctrl+-::__zoomOut\n";
                 cont += "0::Ctrl+Wheel Down::__zoomOut\n";
                 cont += "0::1::__zoomActual\n";
@@ -84,6 +86,8 @@ namespace PQStartup {
                 cont += "0::Shift+P::__playPauseAni\n";
                 cont += "0::F::__tagFaces\n";
                 cont += "0::Ctrl+Shift+I::__imgurAnonym\n";
+                cont += "0::Ctrl+Shift+S::__saveAs\n";
+                cont += "0::Ctrl+S::__saveAs\n";
 
                 if(shortcutsfile.open(QIODevice::WriteOnly)) {
                     QTextStream out(&shortcutsfile);

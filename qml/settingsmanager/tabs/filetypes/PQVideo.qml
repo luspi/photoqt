@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,47 +21,45 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
+
 import "../../../elements"
 
-PQFileTypeTile {
-
+PQSetting {
+    id: set
+    //: A settings title
     title: "Video"
+    helptext: em.pty+qsTranslate("settingsmanager_filetypes", "These are some additional settings for playing videos.")
+    expertmodeonly: true
+    available: handlingGeneral.isVideoSupportEnabled()
+    content: [
 
-    visible: handlingGeneral.isVideoSupportEnabled()
-
-    available: PQImageFormats.getAvailableEndingsWithDescriptionVideo()
-    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsVideo()
-    currentlyEnabled: PQImageFormats.enabledFileformatsVideo
-
-    description: em.pty+qsTranslate("settingsmanager_filetypes", "Here are some of the common video formats listed. Which ones are supported depend entirely on what codecs you have available on your system. Thus the list of enabled video formats might have to be adjusted to the proper set of supported formats.")
-
-    additionalSetting: [
         Row {
-            spacing: 15
-            x: (parent.width-width)/2
+
+            spacing: 10
+
             PQCheckbox {
                 id: autoplay
-                y: (combo.height-height)/2+10
+                y: (combo.height-height)/2
                 //: Used as setting for video files (i.e., autoplay videos)
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "Autoplay")
             }
             PQCheckbox {
                 id: loop
-                y: (combo.height-height)/2+10
+                y: (combo.height-height)/2
                 //: Used as setting for video files (i.e., loop videos)
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "Loop")
             }
             PQComboBox {
                 id: combo
-                y: 10
+                //: Tooltip shown for combobox for selectiong video thumbnailer
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "Select tool for creating video thumbnails")
                 model: ["------",
                         "ffmpegthumbnailer"]
             }
         }
 
     ]
-
-    additionalSettingShow: true
 
     Connections {
 
@@ -72,12 +70,6 @@ PQFileTypeTile {
         }
 
         onSaveAllSettings: {
-            var c = []
-            for(var key in checkedItems) {
-                if(checkedItems[key])
-                    c.push(key)
-            }
-            PQImageFormats.enabledFileformatsVideo = c
             PQSettings.videoAutoplay = autoplay.checked
             PQSettings.videoLoop = loop.checked
             PQSettings.videoThumbnailer = (combo.currentIndex == 0 ? "" : combo.currentText)
@@ -90,10 +82,12 @@ PQFileTypeTile {
     }
 
     function load() {
-        resetChecked()
+
         autoplay.checked = PQSettings.videoAutoplay
         loop.checked = PQSettings.videoLoop
         combo.currentIndex = (PQSettings.videoThumbnailer == "" ? 0 : 1)
+
     }
+
 
 }

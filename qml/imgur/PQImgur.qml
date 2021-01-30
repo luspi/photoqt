@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -228,7 +228,7 @@ Item {
                             PQButton {
                                 text: em.pty+qsTranslate("imgur", "Copy to clipboard")
                                 onClicked:
-                                    handlingGeneral.copyTextToClipboard(report.accessurl)
+                                    handlingExternal.copyTextToClipboard(report.accessurl)
                             }
 
                             Item {
@@ -260,7 +260,7 @@ Item {
                             PQButton {
                                 text: em.pty+qsTranslate("imgur", "Copy to clipboard")
                                 onClicked:
-                                    handlingGeneral.copyTextToClipboard(report.deleteurl)
+                                    handlingExternal.copyTextToClipboard(report.deleteurl)
                             }
 
                         }
@@ -352,7 +352,7 @@ Item {
             repeat: false
             running: false
             onTriggered: {
-                if(!handlingGeneral.checkIfConnectedToInternet())
+                if(!handlingShareImgur.checkIfConnectedToInternet())
                     nointernet.visible = true
 
                 handlingShareImgur.authorizeHandlePin("68713a8441")
@@ -370,14 +370,6 @@ Item {
                     handlingShareImgur.anonymousUpload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                 }
             }
-        }
-
-
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.imgurPopoutElement
-            onActivated: abortUpload()
         }
 
     }

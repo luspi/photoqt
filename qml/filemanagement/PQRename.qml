@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFiles
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -158,9 +159,9 @@ Item {
                                     return
 
                                 var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
-                                var dir = handlingGeneral.getFilePathFromFullPath(cur)
-                                var suf = handlingFileDialog.getSuffix(cur)
-                                if(!handlingFileManagement.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
+                                var dir = handlingFileDir.getFilePathFromFullPath(cur)
+                                var suf = handlingFileDir.getSuffix(cur)
+                                if(!handlingFileDir.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
                                     error.visible = true
                                     return
                                 }
@@ -200,8 +201,8 @@ Item {
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filerename"
-                    filename.text = handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    filenameedit.text =  handlingFileDialog.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filenameedit.text =  handlingFileDir.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
                     filenameedit.setFocus()
                 } else if(what == "hide") {
                     button_cancel.clicked()
@@ -214,6 +215,30 @@ Item {
             }
         }
 
+    }
+
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.fileRenamePopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.fileRenamePopoutElement)
+                    rename_window.storeGeometry()
+                button_cancel.clicked()
+                PQSettings.fileRenamePopoutElement = (PQSettings.fileRenamePopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__rename")
+            }
+        }
     }
 
 }

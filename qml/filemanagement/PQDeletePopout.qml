@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: delete_window
+
+    //: Window title
+    title: em.pty+qsTranslate("filemanagement", "Delete file?")
 
     Component.onCompleted: {
         delete_window.setX(windowgeometry.fileDeleteWindowGeometry.x)
@@ -42,16 +45,16 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "deletepopout"
+
     onClosing: {
-
-        windowgeometry.fileDeleteWindowGeometry = Qt.rect(delete_window.x, delete_window.y, delete_window.width, delete_window.height)
-        windowgeometry.fileDeleteWindowMaximized = (delete_window.visibility==Window.Maximized)
-
-        if(variables.visibleItem == "filerename")
+        storeGeometry()
+        if(variables.visibleItem == "filedelete")
             variables.visibleItem = ""
     }
 
     visible: PQSettings.fileDeletePopoutElement&&curloader.item.opacity==1
+    flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
@@ -71,6 +74,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return delete_window.width })
                 item.parentHeight = Qt.binding(function() { return delete_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(delete_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.fileDeleteWindowGeometry = Qt.rect(delete_window.x, delete_window.y, delete_window.width, delete_window.height)
+        windowgeometry.fileDeleteWindowMaximized = (delete_window.visibility==Window.Maximized)
     }
 
 }

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFile
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -71,6 +72,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: !PQSettings.scalePopoutElement
             onClicked:
                 button_cancel.clicked()
         }
@@ -262,9 +264,9 @@ Item {
                                 }
 
                                 var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
-                                var dir = handlingGeneral.getFilePathFromFullPath(cur)
-                                var bas = handlingFileDialog.getBaseName(cur, false)
-                                var suf = handlingFileDialog.getSuffix(cur, false)
+                                var dir = handlingFileDir.getFilePathFromFullPath(cur)
+                                var bas = handlingFileDir.getBaseName(cur, false)
+                                var suf = handlingFileDir.getSuffix(cur, false)
 
                                 LoadFile.addFilenameToList(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf, variables.indexOfCurrentImage+1)
                                 ++variables.indexOfCurrentImage
@@ -338,6 +340,30 @@ Item {
 
         }
 
+        Image {
+            x: parent.width-width-5
+            y: 5
+            width: 25
+            height: 25
+            source: "/popin.png"
+            opacity: popinmouse.containsMouse ? 1 : 0.4
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                id: popinmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.scalePopoutElement ? "Merge back into main interface" : "Move to itws own window"
+                onClicked: {
+                    if(PQSettings.scalePopoutElement)
+                        scale_window.storeGeometry()
+                    button_cancel.clicked()
+                    PQSettings.scalePopoutElement = (PQSettings.scalePopoutElement+1)%2
+                    HandleShortcuts.executeInternalFunction("__scale")
+                }
+            }
+        }
+
         Connections {
             target: loader
             onScalePassOn: {
@@ -383,58 +409,6 @@ Item {
                         quality.value -= 5
                 }
             }
-        }
-
-
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.scalePopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: button_scalenew.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Shift+Enter", "Shift+Return"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: button_scaleinplace.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Left", "Down"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: {
-                newwidth.value -= newwidth.origVal*0.1
-                newheight.value -= newheight.origVal*0.1
-            }
-        }
-
-        Shortcut {
-            sequences: ["Right", "Up"]
-            enabled: PQSettings.scalePopoutElement
-            onActivated: {
-                newwidth.value += newwidth.origVal*0.1
-                newheight.value += newheight.origVal*0.1
-            }
-        }
-
-        Shortcut {
-            sequences: ["+", "="]
-            enabled: PQSettings.scalePopoutElement
-            onActivated:
-                quality.value += 5
-        }
-
-        Shortcut {
-            sequence: "-"
-            enabled: PQSettings.scalePopoutElement
-            onActivated:
-                quality.value -= 5
         }
 
     }

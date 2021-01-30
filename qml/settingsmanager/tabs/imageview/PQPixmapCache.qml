@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -47,14 +47,14 @@ PQSetting {
                 id: pixcache
                 y: (parent.height-height)/2
                 from: 0
-                to: 1024
+                to: 2048
                 toolTipSuffix: " MB"
             }
 
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "1 GB"
+                text: "2 GB"
             }
 
         }

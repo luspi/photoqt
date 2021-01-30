@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -24,11 +24,13 @@
 #define PQIMAGEFORMATS_H
 
 #include <QObject>
-#include <QFileSystemWatcher>
-#include <QTimer>
-#include <QMap>
-#include <QImageReader>
-#include <QFileInfo>
+#include <QtSql>
+#include <QMessageBox>
+#include <QImageWriter>
+
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include <Magick++.h>
+#endif
 
 #include "../logger.h"
 #include "../configfiles.h"
@@ -46,343 +48,146 @@ public:
     PQImageFormats(PQImageFormats const&)     = delete;
     void operator=(PQImageFormats const&) = delete;
 
-    void setEnabledFileformats(QString cat, QStringList val, bool withSaving = true);
-
-    // All possibly available file formats for the various categories
-    Q_INVOKABLE QVariantList getAvailableEndingsQt() {
-        return availableFileformats[categories.indexOf("qt")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsXCF() {
-        return availableFileformats[categories.indexOf("xcftools")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsPoppler() {
-        return availableFileformats[categories.indexOf("poppler")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsGraphicsMagick() {
-        return availableFileformats[categories.indexOf("graphicsmagick")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsRAW() {
-        return availableFileformats[categories.indexOf("raw")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsDevIL() {
-        return availableFileformats[categories.indexOf("devil")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsFreeImage() {
-        return availableFileformats[categories.indexOf("freeimage")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsArchive() {
-        return availableFileformats[categories.indexOf("archive")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsVideo() {
-        return availableFileformats[categories.indexOf("video")];
+    Q_INVOKABLE void readDatabase() {
+        readFromDatabase();
     }
 
-    // All possibly available file formats INCLUDING a description of the image type for the various categories
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() {
-        return availableFileformatsWithDescription[categories.indexOf("qt")];
+    Q_INVOKABLE QVariantList getAllFormats() {
+        return formats;
     }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionXCF() {
-        return availableFileformatsWithDescription[categories.indexOf("xcftools")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionPoppler() {
-        return availableFileformatsWithDescription[categories.indexOf("poppler")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGraphicsMagick() {
-        return availableFileformatsWithDescription[categories.indexOf("graphicsmagick")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() {
-        return availableFileformatsWithDescription[categories.indexOf("raw")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() {
-        return availableFileformatsWithDescription[categories.indexOf("devil")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() {
-        return availableFileformatsWithDescription[categories.indexOf("freeimage")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionArchive() {
-        return availableFileformatsWithDescription[categories.indexOf("archive")];
-    }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionVideo() {
-        return availableFileformatsWithDescription[categories.indexOf("video")];
+    Q_INVOKABLE void setAllFormats(QVariantList f) {
+        writeToDatabase(f);
     }
 
-    // All possibly available file formats for the various categories
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() {
-        return defaultEnabledFileformats[categories.indexOf("qt")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsXCF() {
-        return defaultEnabledFileformats[categories.indexOf("xcftools")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsPoppler() {
-        return defaultEnabledFileformats[categories.indexOf("poppler")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsGraphicsMagick() {
-        return defaultEnabledFileformats[categories.indexOf("graphicsmagick")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsRAW() {
-        return defaultEnabledFileformats[categories.indexOf("raw")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsDevIL() {
-        return defaultEnabledFileformats[categories.indexOf("devil")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsFreeImage() {
-        return defaultEnabledFileformats[categories.indexOf("freeimage")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsArchive() {
-        return defaultEnabledFileformats[categories.indexOf("archive")];
-    }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsVideo() {
-        return defaultEnabledFileformats[categories.indexOf("video")];
+    Q_INVOKABLE QStringList getEnabledFormats() {
+        return formats_enabled;
     }
 
-
-    // All currently enabled file formats for ...
-    // ... Qt
-    Q_PROPERTY(QStringList enabledFileformatsQt
-               READ getEnabledFileformatsQt
-               WRITE setEnabledFileformatsQt
-               NOTIFY enabledFileformatsQtChanged)
-    QStringList getEnabledFileformatsQt() { return enabledFileformats[categories.indexOf("qt")]; }
-    void setEnabledFileformatsQt(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val;
-                                                    emit enabledFileformatsQtChanged(val); }
-    void setEnabledFileformatsQtWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; }
-
-    // ... XCF
-    Q_PROPERTY(QStringList enabledFileformatsXCF
-               READ getEnabledFileformatsXCF
-               WRITE setEnabledFileformatsXCF
-               NOTIFY enabledFileformatsXCFChanged)
-    QStringList getEnabledFileformatsXCF() { return enabledFileformats[categories.indexOf("xcftools")]; }
-    void setEnabledFileformatsXCF(QStringList val) { enabledFileformats[categories.indexOf("xcftools")] = val;
-                                                    emit enabledFileformatsXCFChanged(val); }
-    void setEnabledFileformatsXCFWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("xcftools")] = val; }
-
-    // ... Poppler
-    Q_PROPERTY(QStringList enabledFileformatsPoppler
-               READ getEnabledFileformatsPoppler
-               WRITE setEnabledFileformatsPoppler
-               NOTIFY enabledFileformatsPopplerChanged)
-    QStringList getEnabledFileformatsPoppler() { return enabledFileformats[categories.indexOf("poppler")]; }
-    void setEnabledFileformatsPoppler(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val;
-                                                    emit enabledFileformatsPopplerChanged(val); }
-    void setEnabledFileformatsPopplerWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val; }
-
-    // ... GraphicsMagick
-    Q_PROPERTY(QStringList enabledFileformatsGraphicsMagick
-               READ getEnabledFileformatsGraphicsMagick
-               WRITE setEnabledFileformatsGraphicsMagick
-               NOTIFY enabledFileformatsGraphicsMagickChanged)
-    QStringList getEnabledFileformatsGraphicsMagick() { return enabledFileformats[categories.indexOf("graphicsmagick")]; }
-    void setEnabledFileformatsGraphicsMagick(QStringList val) { enabledFileformats[categories.indexOf("graphicsmagick")] = val;
-                                                    emit enabledFileformatsGraphicsMagickChanged(val); }
-    void setEnabledFileformatsGraphicsMagickWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("graphicsmagick")] = val; }
-
-    // ... RAW
-    Q_PROPERTY(QStringList enabledFileformatsRAW
-               READ getEnabledFileformatsRAW
-               WRITE setEnabledFileformatsRAW
-               NOTIFY enabledFileformatsRAWChanged)
-    QStringList getEnabledFileformatsRAW() { return enabledFileformats[categories.indexOf("raw")]; }
-    void setEnabledFileformatsRAW(QStringList val) { enabledFileformats[categories.indexOf("raw")] = val;
-                                                    emit enabledFileformatsRAWChanged(val); }
-    void setEnabledFileformatsRAWWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("raw")] = val; }
-
-    // ... DevIL
-    Q_PROPERTY(QStringList enabledFileformatsDevIL
-               READ getEnabledFileformatsDevIL
-               WRITE setEnabledFileformatsDevIL
-               NOTIFY enabledFileformatsDevILChanged)
-    QStringList getEnabledFileformatsDevIL() { return enabledFileformats[categories.indexOf("devil")]; }
-    void setEnabledFileformatsDevIL(QStringList val) { enabledFileformats[categories.indexOf("devil")] = val;
-                                                    emit enabledFileformatsDevILChanged(val); }
-    void setEnabledFileformatsDevILWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("devil")] = val; }
-
-    // ... FreeImage
-    Q_PROPERTY(QStringList enabledFileformatsFreeImage
-               READ getEnabledFileformatsFreeImage
-               WRITE setEnabledFileformatsFreeImage
-               NOTIFY enabledFileformatsFreeImageChanged)
-    QStringList getEnabledFileformatsFreeImage() { return enabledFileformats[categories.indexOf("freeimage")]; }
-    void setEnabledFileformatsFreeImage(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val;
-                                                    emit enabledFileformatsFreeImageChanged(val); }
-    void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
-
-    // ... Archive
-    Q_PROPERTY(QStringList enabledFileformatsArchive
-               READ getEnabledFileformatsArchive
-               WRITE setEnabledFileformatsArchive
-               NOTIFY enabledFileformatsArchiveChanged)
-    QStringList getEnabledFileformatsArchive() { return enabledFileformats[categories.indexOf("archive")]; }
-    void setEnabledFileformatsArchive(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val;
-                                                    emit enabledFileformatsArchiveChanged(val); }
-    void setEnabledFileformatsArchiveWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val; }
-
-    // ... Video
-    Q_PROPERTY(QStringList enabledFileformatsVideo
-               READ getEnabledFileformatsVideo
-               WRITE setEnabledFileformatsVideo
-               NOTIFY enabledFileformatsVideoChanged)
-    QStringList getEnabledFileformatsVideo() { return enabledFileformats[categories.indexOf("video")]; }
-    void setEnabledFileformatsVideo(QStringList val) { enabledFileformats[categories.indexOf("video")] = val;
-                                                    emit enabledFileformatsVideoChanged(val); }
-    void setEnabledFileformatsVideoWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("video")] = val; }
-
-
-
-    // Can be called from QML when resetting the settings
-    Q_INVOKABLE void setDefaultFileformats(QString category = "") {
-        if(category == "" || category == "qt")
-            setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
-        if(category == "" || category == "xcftools")
-            setEnabledFileformatsXCF(defaultEnabledFileformats[categories.indexOf("xcftools")]);
-        if(category == "" || category == "poppler")
-            setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]);
-        if(category == "" || category == "graphicsmagick")
-            setEnabledFileformatsGraphicsMagick(defaultEnabledFileformats[categories.indexOf("graphicsmagick")]);
-        if(category == "" || category == "raw")
-            setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
-        if(category == "" || category == "devil")
-            setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
-        if(category == "" || category == "freeimage")
-            setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
-        if(category == "" || category == "archive")
-            setEnabledFileformatsArchive(defaultEnabledFileformats[categories.indexOf("archive")]);
-        if(category == "" || category == "video")
-            setEnabledFileformatsVideo(defaultEnabledFileformats[categories.indexOf("video")]);
+    Q_INVOKABLE QStringList getEnabledMimeTypes() {
+        return mimetypes_enabled;
     }
 
-
-    Q_INVOKABLE QStringList getEnabledFileFormats(QString category) {
-        if(category == "qt")
-            return getEnabledFileformatsQt();
-        if(category == "xcftools")
-            return getEnabledFileformatsXCF();
-        if(category == "poppler")
-            return getEnabledFileformatsPoppler();
-        if(category == "graphicsmagick")
-            return getEnabledFileformatsGraphicsMagick();
-        if(category == "raw")
-            return getEnabledFileformatsRAW();
-        if(category == "devil")
-            return getEnabledFileformatsDevIL();
-        if(category == "freeimage")
-            return getEnabledFileformatsFreeImage();
-        if(category == "archive")
-            return getEnabledFileformatsArchive();
-        if(category == "video")
-            return getEnabledFileformatsVideo();
-        if(category == "all")
-            return getAllEnabledFileFormats();
-        return QStringList();
+    Q_INVOKABLE QStringList getEnabledFormatsQt() {
+        return formats_qt;
     }
 
-
-    Q_INVOKABLE QStringList getAllEnabledFileFormats() {
-
-        QStringList allFormats;
-
-        // Qt
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("qt")])
-            allFormats.append(entry.toString());
-
-        // XCF
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("xcftools")])
-            allFormats.append(entry.toString());
-
-#ifdef POPPLER
-        // Poppler
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("poppler")])
-            allFormats.append(entry.toString());
-#endif
-
-#ifdef GRAPHICSMAGICK
-        // GraphicsMagick
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("graphicsmagick")])
-            allFormats.append(entry.toString());
-#endif
-
-#ifdef RAW
-        // RAW
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("raw")])
-            allFormats.append(entry.toString());
-#endif
-
-#ifdef DEVIL
-        // DEVIL
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("devil")])
-            allFormats.append(entry.toString());
-#endif
-
-#ifdef FREEIMAGE
-        // FREEIMAGE
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
-            allFormats.append(entry.toString());
-#endif
-
-        // ARCHIVE
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("archive")])
-            allFormats.append(entry.toString());
-
-        // VIDEO
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("video")])
-            allFormats.append(entry.toString());
-
-        return allFormats;
-
+    Q_INVOKABLE QStringList getEnabledMimeTypesQt() {
+        return mimetypes_qt;
     }
 
-signals:
-    void enabledFileformatsQtChanged(QStringList val);
-    void enabledFileformatsGraphicsMagickChanged(QStringList val);
-    void enabledFileformatsXCFChanged(QStringList val);
-    void enabledFileformatsPopplerChanged(QStringList val);
-    void enabledFileformatsRAWChanged(QStringList val);
-    void enabledFileformatsDevILChanged(QStringList val);
-    void enabledFileformatsFreeImageChanged(QStringList val);
-    void enabledFileformatsArchiveChanged(QStringList val);
-    void enabledFileformatsVideoChanged(QStringList val);
-    void enabledFileformatsChanged();
-    void enabledFileformatsSaved();
+    Q_INVOKABLE QStringList getEnabledFormatsMagick() {
+        return formats_magick;
+    }
 
-    /****************************************************************************************/
-    /****************************************************************************************/
-    /****** Anything below here is agnostic to how many and what categories there are *******/
-    /*********** As long as everything above is adjusted properly, that is enough ***********/
-    /****************************************************************************************/
-    /****************************************************************************************/
+    Q_INVOKABLE QStringList getEnabledMimeTypesMagick() {
+        return mimetypes_magick;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsLibRaw() {
+        return formats_libraw;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibRaw() {
+        return mimetypes_libraw;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsPoppler() {
+        return formats_poppler;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesPoppler() {
+        return mimetypes_poppler;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsXCFTools() {
+        return formats_xcftools;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesXCFTools() {
+        return mimetypes_xcftools;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsDevIL() {
+        return formats_devil;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesDevIL() {
+        return mimetypes_devil;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsFreeImage() {
+        return formats_freeimage;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesFreeImage() {
+        return mimetypes_freeimage;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsLibArchive() {
+        return formats_archive;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibArchive() {
+        return mimetypes_archive;
+    }
+
+    Q_INVOKABLE QStringList getEnabledFormatsVideo() {
+        return formats_video;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesVideo() {
+        return mimetypes_video;
+    }
+
+    Q_INVOKABLE QVariantMap getMagick() {
+        return magick;
+    }
+
+    Q_INVOKABLE QVariantMap getMagickMimeType() {
+        return magick_mimetype;
+    }
+
+    Q_INVOKABLE QVariantList getWriteableFormats();
+    QVariantMap getFormatsInfo(QString endings);
 
 private:
     PQImageFormats();
 
-    // Watch for changes to the imageformats file
-    QFileSystemWatcher *watcher;
-    QTimer *watcherTimer;
+    void readFromDatabase();
+    void writeToDatabase(QVariantList f);
 
-    // This is only used for entering which file endings are available, the name of the image and whether it is enabled by default
-    QMap<QString, QStringList> *setupAvailable;
+    QSqlDatabase db;
 
-    QStringList categories;
+    QVariantList formats;
 
-    // These are accessible from QML and hold the set info about the file endings
-    QVariantList *availableFileformats;
-    QVariantList *availableFileformatsWithDescription;
-    QStringList *enabledFileformats;
+    QStringList formats_enabled;
+    QStringList mimetypes_enabled;
 
-    // Not publicly accessible. They are used when, e.g., the respective disabled fileformats file doesn't exist or when the settings are reset.
-    QStringList *defaultEnabledFileformats;
+    QStringList formats_qt;
+    QStringList mimetypes_qt;
+    QStringList formats_magick;
+    QStringList mimetypes_magick;
+    QStringList formats_libraw;
+    QStringList mimetypes_libraw;
+    QStringList formats_poppler;
+    QStringList mimetypes_poppler;
+    QStringList formats_xcftools;
+    QStringList mimetypes_xcftools;
+    QStringList formats_devil;
+    QStringList mimetypes_devil;
+    QStringList formats_freeimage;
+    QStringList mimetypes_freeimage;
+    QStringList formats_archive;
+    QStringList mimetypes_archive;
+    QStringList formats_video;
+    QStringList mimetypes_video;
 
-    QTimer *saveTimer;
+    QVariantMap magick;
+    QVariantMap magick_mimetype;
 
-    // Called at setup, these do not change during runtime
-    void composeAvailableFormats();
-
-private slots:
-
-    // Save Qt file formats
-    void saveEnabledFormats();
-
-    // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
-    void composeEnabledFormats(bool withSaving = true);
+    // this is true if reading from the permanent database failed
+    // in that case we load the built-in default database but read-only
+    bool readonly;
 
 };
 

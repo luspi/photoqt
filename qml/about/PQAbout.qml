@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -24,6 +24,7 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 
 import "../elements"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -68,11 +69,17 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
+            cursorShape: PQSettings.aboutPopoutElement ? Qt.ArrowCursor : Qt.PointingHandCursor
             tooltip: em.pty+qsTranslate("about", "Close")
             enabled: !PQSettings.aboutPopoutElement
             onClicked:
                 button_close.clicked()
+        }
+
+        PQMouseArea {
+            anchors.fill: insidecont
+            anchors.margins: -50
+            hoverEnabled: true
         }
 
         Item {
@@ -83,13 +90,6 @@ Item {
             y: ((parent.height-height)/2)
             width: childrenRect.width
             height: childrenRect.height
-
-            clip: true
-
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-            }
 
             Column {
 
@@ -211,14 +211,30 @@ Item {
             }
         }
 
+    }
 
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.aboutPopoutElement
-            onActivated: button_close.clicked()
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.aboutPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.aboutPopoutElement)
+                    about_window.storeGeometry()
+                button_close.clicked()
+                PQSettings.aboutPopoutElement = (PQSettings.aboutPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__about")
+            }
         }
-
     }
 
 }

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -104,7 +104,7 @@ Item {
                 visible: PQSettings.thumbnailFilenameInstead
                 color: "white"
 
-                text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
+                text: handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
                 font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
@@ -137,7 +137,7 @@ Item {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
-                        text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true)
+                        text: handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true)
                     }
                 }
             }
@@ -146,9 +146,9 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                tooltip: "<b><span style=\"font-size: x-large\">" + handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true) + "</span></b><br><br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingFileDialog.convertBytesToHumanReadable(1024*handlingGeneral.getFileSize(variables.allImageFilesInOrder[index]).split(" ")[0]) + "<br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDialog.getFileType(variables.allImageFilesInOrder[index])
+                tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true) + "</span></b><br><br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(1024*handlingFileDir.getFileSize(variables.allImageFilesInOrder[index]).split(" ")[0]) + "<br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(variables.allImageFilesInOrder[index])
                 onEntered:
                     view.mouseOverItem = index
                 onClicked: {

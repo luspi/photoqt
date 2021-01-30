@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: histogram_window
+
+    //: Window title
+    title: em.pty+qsTranslate("histogram", "Histogram")
 
     Component.onCompleted: {
         histogram_window.x = windowgeometry.histogramWindowGeometry.x
@@ -42,22 +45,22 @@ Window {
 
     modality: Qt.NonModal
 
+    objectName: "histogrampopout"
+
     onClosing: {
-
-        windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
-
+        storeGeometry()
         PQSettings.histogram = 0
     }
 
     Connections {
         target: toplevel
         onClosing: {
-            windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
-            windowgeometry.histogramWindowMaximized = (histogram_window.visibility==Window.Maximized)
+            storeGeometry()
         }
     }
 
     visible: (PQSettings.histogramPopoutElement&&PQSettings.histogram)
+    flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
 
@@ -68,6 +71,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return histogram_window.width })
                 item.parentHeight = Qt.binding(function() { return histogram_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(histogram_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
+        windowgeometry.histogramWindowMaximized = (histogram_window.visibility==Window.Maximized)
     }
 
 }

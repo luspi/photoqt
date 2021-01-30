@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -23,14 +23,14 @@
 function loadFile(path, copyOfAllFiles) {
 
 
-    if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
+    if(PQImageFormats.getEnabledFormatsPoppler().indexOf(handlingFileDir.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(path)
         variables.indexOfCurrentImage = 0
 
         variables.newFileLoaded()
 
-    } else if(PQImageFormats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
+    } else if(PQImageFormats.getEnabledFormatsLibArchive().indexOf(handlingFileDir.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(path)
         variables.indexOfCurrentImage = 0
@@ -57,14 +57,18 @@ function loadFile(path, copyOfAllFiles) {
 
             variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(path,
                                                                                PQSettings.openShowHiddenFilesFolders,
-                                                                               PQImageFormats.getEnabledFileFormats("all"),
+                                                                               PQImageFormats.getEnabledFormats(),
+                                                                               PQImageFormats.getEnabledMimeTypes(),
                                                                                sortField,
                                                                                !PQSettings.sortbyAscending)
+
+            if(variables.allImageFilesInOrder.indexOf(path) == -1)
+                variables.allImageFilesInOrder.push(path)
 
         }
 
         var fp = path
-        if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
+        if(PQImageFormats.getEnabledFormatsPoppler().indexOf("*." + handlingFileDir.getSuffix(fp)) > -1)
             fp = "0::PQT::" + fp
 
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)

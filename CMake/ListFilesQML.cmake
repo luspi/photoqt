@@ -33,7 +33,7 @@ SET(d "qml/slideshow")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideShowSettings.qml ${d}/PQSlideShowSettingsPopout.qml ${d}/PQSlideShowControls.qml ${d}/PQSlideShowControlsPopout.qml)
 
 SET(d "qml/filemanagement")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQRename.qml ${d}/PQRenamePopout.qml ${d}/PQDelete.qml ${d}/PQDeletePopout.qml ${d}/PQCopyMove.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQRename.qml ${d}/PQRenamePopout.qml ${d}/PQDelete.qml ${d}/PQDeletePopout.qml ${d}/PQCopyMove.qml ${d}/PQSaveAs.qml ${d}/PQSaveAsPopout.qml)
 
 SET(d "qml/scale")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQScale.qml ${d}/PQScalePopout.qml)
@@ -72,7 +72,10 @@ SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdge.qml ${d}/PQOpacity.qml ${d}/PQRotation.qml ${d}/PQGPSMap.qml ${d}/PQMetaData.qml ${d}/PQFaceTags.qml ${d}/PQFaceTagsFontSize.qml ${d}/PQFaceTagsBorder.qml ${d}/PQFaceTagsVisibility.qml)
 
 SET(d "qml/settingsmanager/tabs/filetypes")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypeTile.qml ${d}/PQAdvancedTuning.qml ${d}/PQFileTypeTileQt.qml ${d}/PQFileTypeTileLibArchive.qml ${d}/PQFileTypeTileLibRaw.qml ${d}/PQFileTypeTileGraphicsMagick.qml ${d}/PQFileTypeTileDevil.qml ${d}/PQFileTypeTileFreeImage.qml ${d}/PQFileTypeTilePoppler.qml ${d}/PQFileTypeTileXCF.qml ${d}/PQFileTypeTileVideo.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQVideo.qml ${d}/PQPoppler.qml ${d}/PQLibArchive.qml ${d}/PQFileTypes.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcuts.qml ${d}/PQContainer.qml ${d}/PQDetectCombo.qml)
+
+SET(d "qml/welcome")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQWelcome.qml)

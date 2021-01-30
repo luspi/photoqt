@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -79,9 +79,9 @@ Item {
             text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || variables.indexOfCurrentImage==-1) ?
                       "" :
                       (PQSettings.quickInfoHideFilepath ?
-                           handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
+                           handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
                            (PQSettings.quickInfoHideFilename ?
-                                handlingGeneral.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
+                                handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
                                 variables.allImageFilesInOrder[variables.indexOfCurrentImage]))
         }
 

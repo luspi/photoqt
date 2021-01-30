@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -20,38 +20,43 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
+#ifndef PQHANDLINGFILEDIR_H
+#define PQHANDLINGFILEDIR_H
 
-PQFileTypeTile {
+#include <QObject>
+#include <QFile>
+#include <QUrl>
+#include <QStorageInfo>
+#include <QFileDialog>
+#include <QMimeDatabase>
+#ifndef Q_OS_WIN
+#include <unistd.h>
+#endif
 
-    title: "libraw"
+#include "../logger.h"
 
-    available: PQImageFormats.getAvailableEndingsWithDescriptionRAW()
-    defaultEnabled: PQImageFormats.getDefaultEnabledEndingsRAW()
-    currentlyEnabled: PQImageFormats.enabledFileformatsRAW
-    projectWebpage: ["libraw.org", "https://www.libraw.org"]
-    description: em.pty+qsTranslate("settingsmanager_filetypes", "With the help of libraw PhotoQt can display almost any raw image that exists.")
+class PQHandlingFileDir : public QObject {
 
-    Connections {
+    Q_OBJECT
 
-        target: settingsmanager_top
+public:
+    Q_INVOKABLE QString cleanPath(QString path);
+    Q_INVOKABLE QString copyFile(QString filename);
+    Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
+    Q_INVOKABLE bool doesItExist(QString path);
+    Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
+    Q_INVOKABLE QString getFilePathFromFullPath(QString path);
+    Q_INVOKABLE QString getFileSize(QString path);
+    Q_INVOKABLE QString getFileType(QString path);
+    Q_INVOKABLE QString getHomeDir();
+    Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getTempDir();
+    Q_INVOKABLE bool isDir(QString path);
+    Q_INVOKABLE QString moveFile(QString filename);
+    Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
+    Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);
+};
 
-        onLoadAllSettings: {
-            resetChecked()
-        }
-
-        onSaveAllSettings: {
-            var c = []
-            for(var key in checkedItems) {
-                if(checkedItems[key])
-                    c.push(key)
-            }
-            PQImageFormats.enabledFileformatsRAW = c
-        }
-
-    }
-
-    Component.onCompleted: {
-        resetChecked()
-    }
-}
+#endif // PQHANDLINGFILEDIR_H

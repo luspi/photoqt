@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -62,6 +62,8 @@ public:
 
     explicit PQHandlingShareImgur(QObject *parent = 0);
     ~PQHandlingShareImgur();
+
+    Q_INVOKABLE bool checkIfConnectedToInternet();
 
     // three public upload function
     Q_INVOKABLE int upload(QString filename);

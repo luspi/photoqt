@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -27,6 +27,7 @@ import QtGraphicalEffects 1.0
 
 import "../elements"
 import "../loadfiles.js" as LoadFiles
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -71,6 +72,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: !PQSettings.filterPopoutElement
             onClicked:
                 button_cancel.clicked()
         }
@@ -217,6 +219,30 @@ Item {
 
     }
 
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.filterPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.filterPopoutElement)
+                    filter_window.storeGeometry()
+                button_cancel.clicked()
+                PQSettings.filterPopoutElement = (PQSettings.filterPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__filterImages")
+            }
+        }
+    }
+
     function setFilter(term) {
 
         variables.filterStrings = []
@@ -252,8 +278,8 @@ Item {
 
         for(var j = 0; j < variables.allImageFilesInOrderFilterBackup.length; ++j) {
 
-            var suf = handlingFileDialog.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
-            var bas = handlingFileDialog.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
+            var suf = handlingFileDir.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
+            var bas = handlingFileDir.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
 
             var allgood = true
 

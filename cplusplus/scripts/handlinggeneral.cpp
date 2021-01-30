@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,140 +22,22 @@
 
 #include "handlinggeneral.h"
 
-bool PQHandlingGeneral::isGraphicsMagickSupportEnabled() {
-#ifdef GRAPHICSMAGICK
-    return true;
-#endif
-    return false;
-}
+bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText) {
 
-bool PQHandlingGeneral::isLibRawSupportEnabled() {
-#ifdef RAW
-    return true;
-#endif
-    return false;
-}
+    DBG << CURDATE << "PQHandlingGeneral::askForConfirmation()" << NL
+        << CURDATE << "** text = " << text.toStdString() << NL
+        << CURDATE << "** informativeText = " << informativeText.toStdString() << NL;
 
-bool PQHandlingGeneral::isDevILSupportEnabled() {
-#ifdef DEVIL
-    return true;
-#endif
-    return false;
-}
+    QMessageBox msg;
 
-bool PQHandlingGeneral::isFreeImageSupportEnabled() {
-#ifdef FREEIMAGE
-    return true;
-#endif
-    return false;
-}
+    msg.setText(text);
+    msg.setInformativeText(informativeText);
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setDefaultButton(QMessageBox::Yes);
 
-bool PQHandlingGeneral::isPopplerSupportEnabled() {
-#ifdef POPPLER
-    return true;
-#endif
-    return false;
-}
+    int ret = msg.exec();
 
-bool PQHandlingGeneral::isVideoSupportEnabled() {
-#ifdef VIDEO
-    return true;
-#endif
-    return false;
-}
-
-QString PQHandlingGeneral::getFileNameFromFullPath(QString path, bool onlyExtraInfo) {
-
-    DBG << CURDATE << "PQHandlingGeneral::getFileNameFromFullPath()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL
-        << CURDATE << "** onlyExtraInfo = " << onlyExtraInfo << NL;
-
-    QString ret = QFileInfo(path).fileName();
-    if(onlyExtraInfo) {
-        if(path.contains("::PQT::"))
-            ret = QString("Page %1").arg(path.split("::PQT::").at(0).toInt()+1);
-        if(path.contains("::ARC::"))
-            ret = path.split("::ARC::").at(0);
-    }
-    return ret;
-}
-
-QString PQHandlingGeneral::getFilePathFromFullPath(QString path) {
-
-    DBG << CURDATE << "PQHandlingGeneral::getFilePathFromFullPath()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL;
-
-    return QFileInfo(path).absolutePath();
-
-}
-
-void PQHandlingGeneral::setLastLoadedImage(QString path) {
-
-    DBG << CURDATE << "PQHandlingGeneral::setLastLoadedImage()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL;
-
-    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
-    if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
-        QTextStream out(&file);
-        out << path;
-        out.flush();
-        file.close();
-    }
-
-}
-
-QString PQHandlingGeneral::getLastLoadedImage() {
-
-    DBG << CURDATE << "PQHandlingGeneral::getLastLoadedImage()" << NL;
-
-    QString ret = "";
-
-    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
-    if(file.open(QIODevice::ReadOnly)) {
-        QTextStream in(&file);
-        ret = in.readAll();
-        file.close();
-    }
-
-    return ret;
-
-}
-
-void PQHandlingGeneral::deleteLastLoadedImage() {
-
-    DBG << CURDATE << "PQHandlingGeneral::deleteLastLoadedImage()" << NL;
-
-    // attempts to remove stored last loaded image
-    // not a big deal if this fails thus no need to error check
-    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
-    if(file.exists())
-        file.remove();
-
-}
-
-bool PQHandlingGeneral::isDir(QString path) {
-
-    DBG << CURDATE << "PQHandlingGeneral::isDir()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL;
-
-    return QFileInfo(path).isDir();
-
-}
-
-QString PQHandlingGeneral::getFileSize(QString path) {
-
-    DBG << CURDATE << "PQHandlingGeneral::getFileSize()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL;
-
-    return QString::number(QFileInfo(path).size()/1024) + " KB";
-
-}
-
-QString PQHandlingGeneral::getTempDir() {
-
-    DBG << CURDATE << "PQHandlingGeneral::getTempDir()" << NL;
-
-    return QDir::tempPath();
+    return (ret==QMessageBox::Yes);
 
 }
 
@@ -174,11 +56,42 @@ void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
 
 }
 
-QString PQHandlingGeneral::getUniqueId() {
+QString PQHandlingGeneral::convertBytesToHumanReadable(qint64 bytes) {
 
-    DBG << CURDATE << "PQHandlingGeneral::getUniqueId()" << NL;
+    DBG << CURDATE << "PQHandlingGeneral::convertBytesToHumanReadable()" << NL
+        << CURDATE << "** bytes = " << bytes << NL;
 
-    return QString::number(QDateTime::currentMSecsSinceEpoch());
+    if(bytes <= 1024)
+        return (QString::number(bytes) + " B");
+    else if(bytes <= 1024*1024)
+        return (QString::number(qRound(10.0*(bytes/1024.0))/10.0) + " KB");
+
+    return (QString::number(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0) + " MB");
+
+}
+
+QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
+
+    DBG << CURDATE << "PQHandlingGeneral::convertHexToRgba()" << NL
+        << CURDATE << "** hex = " << hex.toStdString() << NL;
+
+    int a = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
+    int r = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
+    int g = QStringRef(&hex, 5, 2).toUInt(nullptr, 16);
+    int b = QStringRef(&hex, 7, 2).toUInt(nullptr, 16);
+
+    return QVariantList() << r << g << b << a;
+
+}
+
+QString PQHandlingGeneral::convertRgbaToHex(QVariantList rgba) {
+
+    DBG << CURDATE << "PQHandlingGeneral::convertRgbaToHex()" << NL;
+
+    std::stringstream ss;
+    ss << "#";
+    ss << std::hex << (rgba[3].toInt() << 24 | rgba[0].toInt() << 16 | rgba[1].toInt() << 8 | rgba[2].toInt());
+    return QString::fromStdString(ss.str());
 
 }
 
@@ -217,176 +130,15 @@ QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVa
 
 }
 
-void PQHandlingGeneral::openInDefaultFileManager(QString filename) {
+void PQHandlingGeneral::deleteLastLoadedImage() {
 
-    DBG << CURDATE << "PQHandlingGeneral::openInDefaultFileManager()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
+    DBG << CURDATE << "PQHandlingGeneral::deleteLastLoadedImage()" << NL;
 
-    QDesktopServices::openUrl(QUrl("file://" + QFileInfo(filename).absolutePath()));
-
-}
-
-void PQHandlingGeneral::copyToClipboard(QString filename) {
-
-    DBG << CURDATE << "PQHandlingGeneral::copyToClipboard()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    // Make sure image provider exists
-    if(imageprovider == nullptr)
-         imageprovider = new PQImageProviderFull;
-
-    // request image
-    QImage img = imageprovider->requestImage(filename, new QSize, QSize());
-
-    // create mime data object with url and image data
-    QMimeData *data = new QMimeData;
-    data->setUrls(QList<QUrl>() << "file://" + filename);
-    data->setImageData(img);
-
-    // set mime data to clipboard
-    qApp->clipboard()->setMimeData(data);
-
-}
-
-void PQHandlingGeneral::copyTextToClipboard(QString txt) {
-
-    DBG << CURDATE << "PQHandlingGeneral::copyTextToClipboard()" << NL
-        << CURDATE << "** txt = " << txt.toStdString() << NL;
-
-    QGuiApplication::clipboard()->setText(txt, QClipboard::Clipboard);
-
-}
-
-bool PQHandlingGeneral::checkIfConnectedToInternet() {
-
-    DBG << CURDATE << "PQHandlingGeneral::checkIfConnectedToInternet()" << NL;
-
-    // will store the return value
-    bool internetConnected = false;
-
-    // Get a list of all network interfaces
-    QList<QNetworkInterface> ifaces = QNetworkInterface::allInterfaces();
-
-    // a reg exp to validate an ip address
-    QRegExp ipRegExp( "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" );
-    QRegExpValidator ipRegExpValidator(ipRegExp, 0);
-
-    // loop over all network interfaces
-    for(int i = 0; i < ifaces.count(); i++) {
-
-        // get the current network interface
-        QNetworkInterface iface = ifaces.at(i);
-
-        // if the interface is up and not a loop back interface
-        if(iface.flags().testFlag(QNetworkInterface::IsUp)
-             && !iface.flags().testFlag(QNetworkInterface::IsLoopBack)) {
-
-            // loop over all possible ip addresses
-            for (int j=0; j<iface.allAddresses().count(); j++) {
-
-                // get the ip address
-                QString ip = iface.allAddresses().at(j).toString();
-
-                // validate the ip. We have to double check 127.0.0.1 as isLoopBack above does not always work reliably
-                int pos = 0;
-                if(ipRegExpValidator.validate(ip, pos) == QRegExpValidator::Acceptable && ip != "127.0.0.1") {
-                    internetConnected = true;
-                    break;
-                }
-            }
-
-        }
-
-        // done
-        if(internetConnected) break;
-
-    }
-
-    // return whether we're connected or not
-    return internetConnected;
-
-}
-
-QString PQHandlingGeneral::getFileType(QString filename) {
-
-    DBG << CURDATE << "PQHandlingGeneral::getFileType()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    if(filename.trimmed().isEmpty() || !QFile(filename).exists())
-        return "";
-    return mimedb.mimeTypeForFile(filename).name();
-
-}
-
-QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
-
-    DBG << CURDATE << "PQHandlingGeneral::convertHexToRgba()" << NL
-        << CURDATE << "** hex = " << hex.toStdString() << NL;
-
-    int a = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
-    int r = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
-    int g = QStringRef(&hex, 5, 2).toUInt(nullptr, 16);
-    int b = QStringRef(&hex, 7, 2).toUInt(nullptr, 16);
-
-    return QVariantList() << r << g << b << a;
-
-}
-
-QString PQHandlingGeneral::convertRgbaToHex(QVariantList rgba) {
-
-    DBG << CURDATE << "PQHandlingGeneral::convertRgbaToHex()" << NL;
-
-    std::stringstream ss;
-    ss << "#";
-    ss << std::hex << (rgba[3].toInt() << 24 | rgba[0].toInt() << 16 | rgba[1].toInt() << 8 | rgba[2].toInt());
-    return QString::fromStdString(ss.str());
-
-}
-
-bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText) {
-
-    DBG << CURDATE << "PQHandlingGeneral::askForConfirmation()" << NL
-        << CURDATE << "** text = " << text.toStdString() << NL
-        << CURDATE << "** informativeText = " << informativeText.toStdString() << NL;
-
-    QMessageBox msg;
-
-    msg.setText(text);
-    msg.setInformativeText(informativeText);
-    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msg.setDefaultButton(QMessageBox::Yes);
-
-    int ret = msg.exec();
-
-    return (ret==QMessageBox::Yes);
-
-}
-
-void PQHandlingGeneral::setOverrideCursor(bool enabled) {
-
-    DBG << CURDATE << "PQHandlingGeneral::setOverrideCursor()" << NL
-        << CURDATE << "** enabled = " << enabled << NL;
-
-    if(enabled)
-        qApp->setOverrideCursor(Qt::BusyCursor);
-    else
-        qApp->restoreOverrideCursor();
-
-}
-
-QString PQHandlingGeneral::getVersion() {
-
-    DBG << CURDATE << "PQHandlingGeneral::getVersion()" << NL;
-
-    return QString::fromStdString(VERSION);
-
-}
-
-QString PQHandlingGeneral::getQtVersion() {
-
-    DBG << CURDATE << "PQHandlingGeneral::getQtVersion()" << NL;
-
-    return QString::fromStdString(QT_VERSION_STR);
+    // attempts to remove stored last loaded image
+    // not a big deal if this fails thus no need to error check
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.exists())
+        file.remove();
 
 }
 
@@ -401,9 +153,10 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
     // this list will be updated before release
     // the other ones are shown afterwards sorted alphabetically
     ret << "en";
-    ret << "de";
-    ret << "lt";
-    ret << "pl";
+    ret << "de_DE";
+    ret << "es_ES";
+    ret << "lt_LT";
+    ret << "pl_PL";
     ret << "pt_PT";
 
     QStringList tmp;
@@ -426,49 +179,144 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
 
 }
 
-QString PQHandlingGeneral::getIconPathFromTheme(QString binary) {
+QString PQHandlingGeneral::getLastLoadedImage() {
 
-    DBG << CURDATE << "PQHandlingGeneral::getIconPathFromTheme()" << NL
-        << CURDATE << "** binary = " << binary.toStdString() << NL;
+    DBG << CURDATE << "PQHandlingGeneral::getLastLoadedImage()" << NL;
 
-    // We go through all the themeSearchPath elements
-    for(int i = 0; i < QIcon::themeSearchPaths().length(); ++i) {
+    QString ret = "";
 
-        // Setup path (this is the most likely directory) and format (PNG)
-        QString path = QIcon::themeSearchPaths().at(i) + "/hicolor/32x32/apps/" + binary.trimmed() + ".png";
-        if(QFile(path).exists())
-            return "file:" + path;
-        else {
-            // Also check a smaller version
-            path = path.replace("32x32","22x22");
-            if(QFile(path).exists())
-                return "file:" + path;
-            else {
-                // And check 24x24, if not in the two before, it most likely is in here (e.g., shotwell on my system)
-                path = path.replace("22x22","24x24");
-                if(QFile(path).exists())
-                    return "file:" + path;
-            }
-        }
-
-        // Do the same checks as above for SVG
-
-        path = path.replace("22x22","32x32").replace(".png",".svg");
-        if(QFile(path).exists())
-            return "file:" + path;
-        else {
-            path = path.replace("32x32","22x22");
-            if(QFile(path).exists())
-                return "file:" + path;
-            else {
-                path = path.replace("22x22","24x24");
-                if(QFile(path).exists())
-                    return "file:" + path;
-            }
-        }
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        ret = in.readAll();
+        file.close();
     }
 
-    // Nothing found
-    return "";
+    return ret;
+
+}
+
+QString PQHandlingGeneral::getQtVersion() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getQtVersion()" << NL;
+
+    return QString::fromStdString(QT_VERSION_STR);
+
+}
+
+QString PQHandlingGeneral::getUniqueId() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getUniqueId()" << NL;
+
+    return QString::number(QDateTime::currentMSecsSinceEpoch());
+
+}
+
+QString PQHandlingGeneral::getVersion() {
+
+    DBG << CURDATE << "PQHandlingGeneral::getVersion()" << NL;
+
+    return QString::fromStdString(VERSION);
+
+}
+
+bool PQHandlingGeneral::isDevILSupportEnabled() {
+#ifdef DEVIL
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isFreeImageSupportEnabled() {
+#ifdef FREEIMAGE
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isGraphicsMagickSupportEnabled() {
+#ifdef GRAPHICSMAGICK
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isImageMagickSupportEnabled() {
+#ifdef IMAGEMAGICK
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isLibRawSupportEnabled() {
+#ifdef RAW
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isLibArchiveSupportEnabled() {
+#ifdef LIBARCHIVE
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isPopplerSupportEnabled() {
+#ifdef POPPLER
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isVideoSupportEnabled() {
+#ifdef VIDEO
+    return true;
+#else
+    return false;
+#endif
+}
+
+void PQHandlingGeneral::setLastLoadedImage(QString path) {
+
+    DBG << CURDATE << "PQHandlingGeneral::setLastLoadedImage()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        out.flush();
+        file.close();
+    }
+
+}
+
+void PQHandlingGeneral::setOverrideCursor(bool enabled) {
+
+    DBG << CURDATE << "PQHandlingGeneral::setOverrideCursor()" << NL
+        << CURDATE << "** enabled = " << enabled << NL;
+
+    if(enabled)
+        qApp->setOverrideCursor(Qt::BusyCursor);
+    else
+        qApp->restoreOverrideCursor();
+
+}
+
+void PQHandlingGeneral::storeQmlWindowMemoryAddress(QString objName) {
+
+    DBG << CURDATE << "PQHandlingGeneral::storeQmlWindowMemoryAddress()" << NL
+        << CURDATE << "** objName = " << objName.toStdString() << NL;
+
+    PQSingleInstance *inst = reinterpret_cast<PQSingleInstance*>(PQSingleInstance::instance());
+    inst->qmlWindowAddresses.push_back(inst->qmlEngine->rootObjects().at(0)->findChild<QObject*>(objName));
 
 }

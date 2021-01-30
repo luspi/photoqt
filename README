@@ -1,4 +1,4 @@
- PhotoQt v2.0 - Copyright (C) 2011-2020, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v2.1b - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -10,22 +10,26 @@
 --------------
 - Qt >= 5.9
 - CMake (needed for building PhotoQt)
-- libarchive
 - Qt5 ImageFormats
 
 > Make sure that you have the required QML modules installed:
   QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
   QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window
 
-> Dependencies, that are needed by default, but can be disabled via CMake
-   (see INSTALL section):
+> Dependencies, that are needed by default, but can be disabled via CMake:
+- LibArchive
 - Exiv2
-- GraphicsMagick
+- ImageMagick or GraphicsMagick
 - LibRaw
 - Poppler
 - FreeImage
 - DevIL
 - pugixml
+
+> Please note that some of these should remain enabled if at all possible as
+  they greatly enhance the experience of PhotoQt (e.g., LibArchive, pugixml).
+  Others can be disabled quite safely with the only effect being the number of
+  supported image formats.
 
 > NOTE
   On some systems you also need the *-dev package for compiling (e.g.
@@ -39,13 +43,15 @@
 
  OPTIONAL DEPENDENCIES
 -----------------------
+
+> These are some libraries and tools that can add additional formats to PhotoQt
+  if installed. None of them are needed at compile time, but they can be picked
+  up at runtime if available.
+
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar
-
-> These dependencies are not needed for compiling PhotoQt. However, if they are
-  installed then PhotoQt is able to support a wider range of image formats.
 
 
  INSTALL
@@ -60,17 +66,8 @@
 
      cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 
-     # PhotoQt makes use of various libraries (Exiv2, GraphicsMagick, etc.).
-     # You can en-/disable them with the following options:
-     # (if you don't specify anything, it asumes a default value of ON)
-
-     -DEXIV2=OFF
-     -DGRAPHICSMAGICK=OFF
-     -DRAW=OFF
-     -DPOPPLER=OFF
-     -DFREEIMAGE=OFF
-     -DDEVIL=OFF
-     -DPUGIXML=OFF
+     # PhotoQt makes use of various libraries (Exiv2, ImageMagick/GraphicsMagick, etc.).
+     # Many of them are enabled by default but can be disabled using CMake options.
 
      # If CMake aborts with the error that it can't find one of the libraries,
      # but they are in fact installed and available, then you can specify the
@@ -84,10 +81,10 @@
 3) make  # This creates an executeable photoqt binary located in the ./build/ folder
 
 4) (as root or sudo) make install
-     # This (i) installs the desktop file to share/applications/
-     #      (ii) installs some icons to icons/hicolor/
+     # This (  i) installs the desktop file to share/applications/
+     #      ( ii) installs some icons to icons/hicolor/
      #      (iii) installs the binary to bin/
-     #      (iv) installs the appdata file to share/appdata/
+     #      ( iv) installs the appdata file to share/appdata/
 
 
  UNINSTALL

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -56,16 +56,16 @@ public:
             PQHandlingFileDialog handling;
             QStringList cont = handling.listArchiveContent(archivefile);
             if(cont.length() == 0) {
-                errormsg = "Error: unable to list contents of archive file...";
-                LOG << CURDATE << "PQLoadImage::Archive::load(): " << errormsg.toStdString() << NL;
+                errormsg = "Unable to list contents of archive file...";
+                LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
             compressedFilename = cont.at(0).split("::ARC::").at(0);
         }
 
         if(!QFileInfo(archivefile).exists()) {
-            errormsg = "ERROR loading archive, file doesn't seem to exist...";
-            LOG << CURDATE << errormsg.toStdString() << NL;
+            errormsg = "File doesn't seem to exist...";
+            LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -83,8 +83,8 @@ public:
 
         // If something went wrong, output error message and stop here
         if(r != ARCHIVE_OK) {
-            errormsg = QString("PQLoadImage::Archive::load(): ERROR: archive_read_open_filename() returned code of %1").arg(r);
-            LOG << CURDATE << errormsg.toStdString() << NL;
+            errormsg = QString("archive_read_open_filename() returned code of %1").arg(r);
+            LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -108,8 +108,8 @@ public:
                 // And finally read the file into the buffer
                 ssize_t r = archive_read_data(a, (void*)buff, size);
                 if(r != size) {
-                    errormsg = QString("LoadImage::Archive::load(): ERROR: Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
-                    LOG << CURDATE << errormsg.toStdString() << NL;
+                    errormsg = QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
+                    LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
                     return QImage();
                 }
 
@@ -140,8 +140,8 @@ public:
 
 #else
 
-        errormsg = "LoadImage::Archive::load(): ERROR: LibArchive support disabled at compile time...";
-        LOG << CURDATE << errormsg.toStdString() << NL;
+        errormsg = "Failed to load archive, LibArchive not supported by this build of PhotoQt!";
+        LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
         return QImage();
 
 #endif

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -85,21 +85,40 @@ public:
 
             reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
 
-            // Store the width/height for later use
-            *origSize = reader.size();
+            // we need to consider two possibilities below:
+            // the FIRST possibility is if autoTransform() is DISabled:
+            // then reader->size() and img->size() will always agree and we can do scaling/ec. before reading the image
+            // the SECOND possibility is if autoTransform is ENabled:
+            // then reader->size() and img->size() might not match if a transformation has been applied
 
             // return image
-            QImage *img = new QImage;
+            QImage img;
 
             bool readImageEarly = false;
-            if(origSize->width() == -1 || origSize->height() == -1)
-                readImageEarly = true;
 
-            if(readImageEarly) {
-                reader.read(img);
-                *origSize = img->size();
+            // Possibility 1
+            if(!reader.autoTransform()) {
+
+                // Store the width/height for later use
+                *origSize = reader.size();
+
+                // check if we need to read the image in full to get the original size
+                if(origSize->width() == -1 || origSize->height() == -1) {
+                    readImageEarly = true;
+                    reader.read(&img);
+                    *origSize = img.size();
+                }
+
+            // Possibility 2
+            } else {
+
+                reader.read(&img);
+                *origSize = img.size();
+
             }
 
+
+            // check if we need to scale the image
             if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
 
                 int dispWidth = origSize->width();
@@ -120,23 +139,29 @@ public:
                     dispHeight = static_cast<int>(dispHeight*q);
                 }
 
-                reader.setScaledSize(QSize(dispWidth,dispHeight));
+                // scaling
+                if(!reader.autoTransform())
+                    reader.setScaledSize(QSize(dispWidth,dispHeight));
+                else
+                    img = img.scaled(dispWidth, dispHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
             }
 
-            if(!readImageEarly) {
-                // Eventually load the image
-                reader.read(img);
+
+            if(!reader.autoTransform() && !readImageEarly) {
+                // Eventually load the image (if autoTransform() == false)
+                reader.read(&img);
             }
+
 
             // If an error occured
-            if(img->isNull()) {
+            if(img.isNull()) {
                 errormsg = reader.errorString();
-                LOG << CURDATE << "LoadImageQt: reader qt - Error: '" << QFileInfo(filename).fileName().toStdString() << "' failed to load: " << errormsg.toStdString() << NL;
+                LOG << CURDATE << "PQLoadImageQt::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 
-            return *img;
+            return img;
 
         }
 

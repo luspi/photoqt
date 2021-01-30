@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -36,17 +36,20 @@ Rectangle {
     property int parentWidth: 0
     property int parentHeight: 0
 
+    // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+    property bool startupDelay: true
+
     onXChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
     onYChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
     onWidthChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramSize = Qt.size(width, height)
     onHeightChanged:
-        if(!PQSettings.histogramPopoutElement)
+        if(!PQSettings.histogramPopoutElement && !startupDelay)
             PQSettings.histogramSize = Qt.size(width, height)
 
     radius: 5
@@ -65,6 +68,15 @@ Rectangle {
     Component.onCompleted:
         if(variables.indexOfCurrentImage != -1)
             updateHistogram()
+
+    Timer {
+        // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+        running: true
+        repeat: false
+        interval: 1000
+        onTriggered:
+            startupDelay = false
+    }
 
     // This will hold the histogram image
     Image {
@@ -194,6 +206,8 @@ Rectangle {
 
     Image {
 
+        id: histclose
+
         x: parent.width-width+5
         y: -5
         width: 25
@@ -278,6 +292,29 @@ Rectangle {
 
         }
 
+    }
+
+    Image {
+        x: parent.width-width-(PQSettings.histogramPopoutElement ? 5 : histclose.width)
+        y: PQSettings.histogramPopoutElement ? 5 : -5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.2
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.histogramPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.histogramPopoutElement)
+                    histogram_window.storeGeometry()
+                PQSettings.histogramPopoutElement = (PQSettings.histogramPopoutElement+1)%2
+                HandleShortcuts.executeInternalFunction("__histogram")
+            }
+        }
     }
 
     function updateHistogram() {

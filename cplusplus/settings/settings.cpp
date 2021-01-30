@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -29,7 +29,6 @@ PQSettings::PQSettings() {
     saveSettingsTimer = new QTimer;
     saveSettingsTimer->setInterval(400);
     saveSettingsTimer->setSingleShot(true);
-    connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
 
     watcher = new QFileSystemWatcher;
     connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
@@ -42,6 +41,9 @@ PQSettings::PQSettings() {
     setDefault();
     readSettings();
 
+    // we only connect it here so that setting the defaults doesn't accidentally trigger overwriting existing settings
+    connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
+
 }
 
 void PQSettings::setDefault() {
@@ -49,7 +51,6 @@ void PQSettings::setDefault() {
     DBG << CURDATE << "PQSettings::setDefault()" << NL;
 
     setVersion(QString::fromStdString(VERSION));
-    m_versionInTextFile = "";
 
     setSortby("naturalname");
     setSortbyAscending(true);
@@ -90,7 +91,7 @@ void PQSettings::setDefault() {
     setFitInWindow(false);
     setInterpolationThreshold(100);
     setInterpolationDisableForSmallImages(true);
-    setPixmapCache(256);
+    setPixmapCache(512);
     setLeftButtonMouseClickAndMove(true);
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
@@ -144,6 +145,7 @@ void PQSettings::setDefault() {
     setSlideShowLoop(true);
     setSlideShowHideQuickInfo(true);
     setSlideShowTypeAnimation("opacity");
+    setSlideShowIncludeSubFolders(false);
 
     setMetaFilename(true);
     setMetaFileType(true);
@@ -217,6 +219,7 @@ void PQSettings::setDefault() {
     setWallpaperPopoutElement(false);
     setFilterPopoutElement(false);
     setSettingsManagerPopoutElement(false);
+    setFileSaveAsPopoutElement(false);
 
 }
 
@@ -258,7 +261,7 @@ void PQSettings::readSettings() {
                 setLanguage(line.split("=").at(1).trimmed());
 
             else if(line.startsWith("Version="))
-                m_versionInTextFile = line.split("=").at(1).trimmed();
+                setVersion(line.split("=").at(1).trimmed());
 
 
             else if(line.startsWith("SortImagesBy="))
@@ -457,6 +460,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("SlideShowTypeAnimation="))
                 setSlideShowTypeAnimation(line.split("=").at(1).trimmed());
+
+            else if(line.startsWith("SlideShowIncludeSubFolders="))
+                setSlideShowIncludeSubFolders(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("MetaFilename="))
@@ -669,6 +675,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("SettingsManagerPopoutElement="))
                 setSettingsManagerPopoutElement(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("FileSaveAsPopoutElement="))
+                setFileSaveAsPopoutElement(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -696,7 +705,7 @@ void PQSettings::saveSettings() {
 
         QTextStream out(&file);
 
-        QString cont = "Version=" + m_version + "\n";
+        QString cont = "Version=" + QString::fromStdString(VERSION) + "\n";
 
         cont += QString("Language=%1\n").arg(m_language);
         cont += QString("WindowMode=%1\n").arg(int(m_windowMode));
@@ -781,6 +790,7 @@ void PQSettings::saveSettings() {
         cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
         cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
         cont += QString("SlideShowTypeAnimation=%1\n").arg(m_slideShowTypeAnimation);
+        cont += QString("SlideShowIncludeSubFolders=%1\n").arg(int(m_slideShowIncludeSubFolders));
 
         cont += "\n[Metadata]\n";
 
@@ -871,6 +881,7 @@ void PQSettings::saveSettings() {
         cont += QString("WallpaperPopoutElement=%1\n").arg(int(m_wallpaperPopoutElement));
         cont += QString("FilterPopoutElement=%1\n").arg(int(m_filterPopoutElement));
         cont += QString("SettingsManagerPopoutElement=%1\n").arg(int(m_settingsManagerPopoutElement));
+        cont += QString("FileSaveAsPopoutElement=%1\n").arg(int(m_fileSaveAsPopoutElement));
 
 
         out << cont;

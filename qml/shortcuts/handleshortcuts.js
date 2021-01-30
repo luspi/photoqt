@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -95,18 +95,20 @@ function whatToDoWithFoundShortcut(sh) {
         loader.ensureItIsReady("copymove")
         loader.passOn("copymove", "move", undefined)
     } else if(cmd === "__deletePermanent") {
-        if(variables.indexOfCurrentImage != -1 && handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
+        if(variables.indexOfCurrentImage != -1 && handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
             removeCurrentFilenameFromList()
             thumbnails.reloadThumbnails()
             variables.newFileLoaded()
         }
     } else if(cmd === "__deleteTrash") {
-        if(variables.indexOfCurrentImage != -1 && handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
+        if(variables.indexOfCurrentImage != -1 && handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
             removeCurrentFilenameFromList()
             thumbnails.reloadThumbnails()
             variables.newFileLoaded()
         }
-    } else if(cmd === "__hideMeta")
+    } else if(cmd === "__saveAs")
+        loader.show("filesaveas")
+    else if(cmd === "__hideMeta")
         loader.passOn("metadata", "toggle", undefined)
     else if(cmd === "__goToFirst")
         imageitem.loadFirstImage()
@@ -123,13 +125,13 @@ function whatToDoWithFoundShortcut(sh) {
     else if(cmd === "__imgurAnonym")
         loader.show("imguranonym")
     else if(cmd === "__defaultFileManager")
-        handlingGeneral.openInDefaultFileManager(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        handlingExternal.openInDefaultFileManager(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
     else if(cmd === "__histogram") {
         loader.ensureItIsReady("histogram")
         PQSettings.histogram = !PQSettings.histogram
     }
     else if(cmd === "__clipboard")
-        handlingGeneral.copyToClipboard(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        handlingExternal.copyToClipboard(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
     else if(cmd === "__tagFaces")
         loader.passOn("facetagger", "start", undefined)
     else {

@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -31,6 +31,7 @@
 #include <archive.h>
 #include <archive_entry.h>
 #endif
+#include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 
 class PQHandlingExternal : public QObject {
@@ -38,11 +39,20 @@ class PQHandlingExternal : public QObject {
     Q_OBJECT
 
 public:
-    Q_INVOKABLE bool exportConfigTo(QString path);
-    Q_INVOKABLE bool importConfigFrom(QString path);
-    Q_INVOKABLE QVariantList getContextMenuEntries();
-    Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
+    Q_INVOKABLE void copyToClipboard(QString filename);
+    Q_INVOKABLE void copyTextToClipboard(QString txt);
     Q_INVOKABLE void executeExternal(QString cmd, QString currentfile);
+    Q_INVOKABLE bool exportConfigTo(QString path);
+    Q_INVOKABLE QVariantList getContextMenuEntries();
+    Q_INVOKABLE QString getIconPathFromTheme(QString binary);
+    Q_INVOKABLE bool importConfigFrom(QString path);
+    Q_INVOKABLE void openInDefaultFileManager(QString filename);
+    Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
+    Q_INVOKABLE QSize getScreenSize();
+
+private:
+    PQImageProviderFull *imageprovider;
+
 };
 
 #endif // PQHANDLINGEXTERNAL_H

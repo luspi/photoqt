@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -50,7 +50,7 @@ Rectangle {
         onMousePosChanged: {
             if(PQSettings.mainMenuPopoutElement)
                 return
-            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && !variables.slideShowActive && !variables.faceTaggingActive)
+            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && variables.mousePos.y > closebutton.height*2 && !variables.slideShowActive && !variables.faceTaggingActive)
                 mainmenu_top.opacity = 1
             else
                 mainmenu_top.opacity = 0
@@ -273,7 +273,7 @@ Rectangle {
                     sourceSize.height: height
                     source: allitems[subview.mainindex][index][1]===""
                             ? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
-                                    ? handlingGeneral.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
+                                    ? handlingExternal.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
                                       "/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
                     opacity: allitems[subview.mainindex][index][0] !== "hide" ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
@@ -384,6 +384,34 @@ Rectangle {
             onClicked: Qt.openUrlExternally("http://photoqt.org/man")
         }
 
+    }
+
+    // we put a black rectangle behind that icon as it can look odd with the closing x behind it
+    Rectangle {
+        x: parent.width-width
+        y:0
+        width: 35
+        height: 35
+        color: PQSettings.mainMenuPopoutElement ? "transparent" : "black"
+        Image {
+            anchors.fill: parent
+            anchors.margins: 5
+            source: "/popin.png"
+            opacity: popinmouse.containsMouse ? 1 : 0.4
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                id: popinmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.mainMenuPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+                onClicked: {
+                    if(PQSettings.mainMenuPopoutElement)
+                        mainmenu_window.storeGeometry()
+                    PQSettings.mainMenuPopoutElement = (PQSettings.mainMenuPopoutElement+1)%2
+                }
+            }
+        }
     }
 
     Connections {

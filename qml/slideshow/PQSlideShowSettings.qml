@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -25,6 +25,7 @@ import Qt.labs.platform 1.0
 import QtGraphicalEffects 1.0
 
 import "../elements"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -69,6 +70,9 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            enabled: !PQSettings.slideShowSettingsPopoutElement
+            onClicked:
+                button_cancel.clicked()
         }
 
         Text {
@@ -82,6 +86,12 @@ Item {
             horizontalAlignment: Text.AlignHCenter
         }
 
+        PQMouseArea {
+            anchors.fill: insidecont
+            anchors.margins: -50
+            hoverEnabled: true
+        }
+
         Item {
 
             id: insidecont
@@ -92,11 +102,6 @@ Item {
             height: childrenRect.height
 
             clip: true
-
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-            }
 
             Column {
 
@@ -307,6 +312,36 @@ Item {
                     height: childrenRect.height
 
                     Text {
+                        id: subfolders_txt
+                        color: "white"
+                        font.pointSize: 15
+                        font.bold: true
+                        //: also include images in subfolders during slideshows
+                        text: em.pty+qsTranslate("slideshow", "subfolders") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
+                    }
+
+                    PQCheckbox {
+                        id: subfolders_check
+                        y: (shuffle_txt.height-height)/2
+                        //: also include images in subfolders during slideshows
+                        text: em.pty+qsTranslate("slideshow", "include images in subfolders")
+                    }
+
+                }
+
+                Row {
+
+                    spacing: 15
+
+                    height: childrenRect.height
+
+                    Text {
                         id: quick_txt
                         y: (loop_txt-height)/2
                         verticalAlignment: Text.AlignTop
@@ -369,7 +404,7 @@ Item {
                             id: music_button
                             enabled: music_check.checked
                             property string musicfile: ""
-                            text: musicfile=="" ? "[" + em.pty+qsTranslate("slideshow", "no file selected") + "]" : handlingGeneral.getFileNameFromFullPath(musicfile)
+                            text: musicfile=="" ? "[" + em.pty+qsTranslate("slideshow", "no file selected") + "]" : handlingFileDir.getFileNameFromFullPath(musicfile)
                             tooltip: (musicfile==""
                                         ? em.pty+qsTranslate("slideshow", "Click to select music file")
                                         : ("<b>"+musicfile+"</b><br><br>" + em.pty+qsTranslate("slideshow", "Click to change music file")))
@@ -381,13 +416,13 @@ Item {
                         FileDialog {
                             id: fileDialog
                             currentFile: music_button.musicfile=="" ? "" : music_button.musicfile
-                            folder: (music_button.musicfile == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(music_button.musicfile))
+                            folder: (music_button.musicfile == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(music_button.musicfile))
                             modality: Qt.ApplicationModal
                             nameFilters: [em.pty+qsTranslate("slideshow", "Common music file formats") + " (aac *.flac *.mp3 *.ogg *.oga *.wav *.wma)",
                                           em.pty+qsTranslate("slideshow", "All Files") + " (*.*)"]
                             onAccepted: {
                                 if(fileDialog.file != "")
-                                    music_button.musicfile = handlingFileDialog.cleanPath(fileDialog.file)
+                                    music_button.musicfile = handlingFileDir.cleanPath(fileDialog.file)
                             }
                         }
 
@@ -429,6 +464,7 @@ Item {
                     PQSettings.slideShowShuffle = shuffle_check.checked
                     PQSettings.slideShowHideQuickInfo = quick_check.checked
                     PQSettings.slideShowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
+                    PQSettings.slideShowIncludeSubFolders = subfolders_check.checked
 
                     if(PQSettings.slideShowSettingsPopoutElement) {
                         slideshow_window.visible = false
@@ -456,6 +492,30 @@ Item {
 
         }
 
+        Image {
+            x: parent.width-width-5
+            y: 5
+            width: 25
+            height: 25
+            source: "/popin.png"
+            opacity: popinmouse.containsMouse ? 1 : 0.4
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQMouseArea {
+                id: popinmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.slideShowSettingsPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+                onClicked: {
+                    if(PQSettings.slideShowSettingsPopoutElement)
+                        slideshow_window.storeGeometry()
+                    button_cancel.clicked()
+                    PQSettings.slideShowSettingsPopoutElement = (PQSettings.slideShowSettingsPopoutElement+1)%2
+                    HandleShortcuts.executeInternalFunction("__slideshow")
+                }
+            }
+        }
+
         Connections {
             target: loader
             onSlideshowPassOn: {
@@ -477,6 +537,7 @@ Item {
                     quick_check.checked = PQSettings.slideShowHideQuickInfo
                     music_check.checked = (PQSettings.slideShowMusicFile!="")
                     music_button.musicfile = PQSettings.slideShowMusicFile
+                    subfolders_check.checked = PQSettings.slideShowIncludeSubFolders
 
                 } else if(what == "hide") {
                     button_cancel.clicked()
@@ -487,18 +548,6 @@ Item {
                         button_start.clicked()
                 }
             }
-        }
-
-        Shortcut {
-            sequence: "Esc"
-            enabled: PQSettings.slideShowSettingsPopoutElement
-            onActivated: button_cancel.clicked()
-        }
-
-        Shortcut {
-            sequences: ["Enter", "Return"]
-            enabled: PQSettings.slideShowSettingsPopoutElement
-            onActivated: button_start.clicked()
         }
 
     }

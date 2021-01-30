@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -45,7 +45,7 @@ Rectangle {
 
     color: "#333333"
 
-    property var historyListDirectory: [handlingFileDialog.getHomeDir()]
+    property var historyListDirectory: [handlingFileDir.getHomeDir()]
     property int historyListIndex: 0
 
     PQMouseArea {
@@ -244,6 +244,10 @@ Rectangle {
             variables.visibleItem = "filedialog"
         tweaks.readFileTypeSettings()
         fileview.loadFolder(variables.openCurrentDirectory)
+
+        // this is necessary in order to catch shortcuts when element is popped out
+        filedialog_top.forceActiveFocus()
+
     }
 
     function hideFileDialog() {
@@ -262,7 +266,7 @@ Rectangle {
             // fade out item
             filedialog_top.opacity = 0
         } else
-            filedialog_window.visible = false
+            filedialog_window.close()
 
         variables.visibleItem = ""
     }

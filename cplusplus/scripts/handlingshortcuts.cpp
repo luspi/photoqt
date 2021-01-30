@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,102 +22,33 @@
 
 #include "handlingshortcuts.h"
 
-PQHandlingShortcuts::PQHandlingShortcuts(QObject *parent) : QObject(parent) {}
+QString PQHandlingShortcuts::composeDisplayString(QString combo) {
 
-QVariantList PQHandlingShortcuts::loadFromFile() {
+    DBG << CURDATE << "PQHandlingShortcuts::composeDisplayString()" << NL
+        << CURDATE << "** combo = " << combo.toStdString() << NL;
 
-    DBG << CURDATE << "PQHandlingShortcuts::loadFromFile()" << NL;
+    QString ret;
 
-    QVariantList ret;
+    if(combo.startsWith("Left Button+") || combo.startsWith("Middle Button+") || combo.startsWith("Right Button+")) {
 
-    QFile file(ConfigFiles::SHORTCUTS_FILE());
+        QStringList p = combo.split("+");
+        ret = p[0] + " + ";
 
-    if(!file.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << "PQHandlingShortcuts::load() - ERROR: Unable to open key shortcuts file for reading" << NL;
-        return QVariantList();
-    }
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+        QStringList dir = p[1].split("", Qt::SkipEmptyParts);
+#else
+        QStringList dir = p[1].split("", QString::SkipEmptyParts);
+#endif
+        ret += dir.join("-");
 
-    QTextStream in(&file);
-    QStringList cont = in.readAll().split("\n");
+    } else if(combo.contains("+"))
+        ret = combo.split("+").join(" + ");
+    else
+        ret = combo;
 
-    for(QString line : cont) {
-
-        if(line.startsWith("Version=") || line.trimmed() == "")
-            continue;
-
-        QStringList parts = line.split("::");
-        if(parts.length() != 3) {
-            LOG << CURDATE << "PQHandlingShortcuts::load() - ERROR: Invalid shortcuts format: " << line.toStdString() << NL;
-            continue;
-        }
-
-        // these shortcuts have changed names from 1.7.1 to 2.0
-        // this can be removed in a later version
-        if(parts[2] == "__gotoLastThb")
-            parts[2] = "__goToLast";
-        if(parts[2] == "__gotoFirstThb")
-            parts[2] = "__goToFirst";
-
-        // close, sh, cmd
-        ret << parts;
-
-    }
-
-    file.close();
-
+    if(ret == "")
+        return "...";
     return ret;
-
-}
-
-void PQHandlingShortcuts::saveToFile(QVariantList lst) {
-
-    DBG << CURDATE << "PQHandlingShortcuts::saveToFile()" << NL;
-
-    QString cont = QString("Version=%1\n").arg(VERSION);
-    for(auto l : lst)
-        cont += QString("%1::%2::%3\n").arg(l.toList()[0].toString()).arg(l.toList()[1].toString()).arg(l.toList()[2].toString());
-
-    QFile file(ConfigFiles::SHORTCUTS_FILE());
-
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        LOG << CURDATE << "PQHandlingShortcuts::saveToFile() - ERROR: Unable to open key shortcuts file for writing" << NL;
-        return;
-    }
-    QTextStream out(&file);
-    out << cont;
-    file.close();
-}
-
-QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
-
-    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
-        << CURDATE << "** id = " << id << NL;
-
-    QString ret = QKeySequence(id).toString();
-    if(ret == "Esc") ret = "Escape";    // Up to v1.7.1 'Escape' was used so we should stick to that
-    if(ret == "Del") ret = "Delete";
-    return ret;
-
-}
-
-void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
-
-    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    QByteArray fn = QByteArray::fromPercentEncoding(filename.toUtf8());
-
-    QProcess *p = new QProcess;
-    cmd = cmd.replace("%f", "\"" + fn + "\"");
-    cmd = cmd.replace("%u", "\"" + QFileInfo(fn).fileName() + "\"");
-    cmd = cmd.replace("%d", "\"" + QFileInfo(fn).absolutePath() + "\"");
-
-    p->startDetached(cmd, QStringList());
-    if(p->error() == QProcess::UnknownError)
-        p->waitForStarted(2000);
-
-    delete p;
 
 }
 
@@ -353,32 +284,108 @@ QString PQHandlingShortcuts::composeString(Qt::KeyboardModifiers mods, Qt::Key k
 
 }
 
-QString PQHandlingShortcuts::composeDisplayString(QString combo) {
+int PQHandlingShortcuts::convertCharacterToKeyCode(QString key) {
 
-    DBG << CURDATE << "PQHandlingShortcuts::composeDisplayString()" << NL
-        << CURDATE << "** combo = " << combo.toStdString() << NL;
+    DBG << CURDATE << "PQHandlingShortcuts::convertCharacterToKeyCode()" << NL
+        << CURDATE << "** key = " << key.toStdString() << NL;
 
-    QString ret;
+    return QKeySequence(key)[0];
 
-    if(combo.startsWith("Left Button+") || combo.startsWith("Middle Button+") || combo.startsWith("Right Button+")) {
+}
 
-        QStringList p = combo.split("+");
-        ret = p[0] + " + ";
+QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-        QStringList dir = p[1].split("", Qt::SkipEmptyParts);
-#else
-        QStringList dir = p[1].split("", QString::SkipEmptyParts);
-#endif
-        ret += dir.join("-");
+    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
+        << CURDATE << "** id = " << id << NL;
 
-    } else if(combo.contains("+"))
-        ret = combo.split("+").join(" + ");
-    else
-        ret = combo;
-
-    if(ret == "")
-        return "...";
+    QString ret = QKeySequence(id).toString();
+    if(ret == "Esc") ret = "Escape";    // Up to v1.7.1 'Escape' was used so we should stick to that
+    if(ret == "Del") ret = "Delete";
     return ret;
 
+}
+
+void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
+
+    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QByteArray fn = QByteArray::fromPercentEncoding(filename.toUtf8());
+
+    QProcess *p = new QProcess;
+    cmd = cmd.replace("%f", "\"" + fn + "\"");
+    cmd = cmd.replace("%u", "\"" + QFileInfo(fn).fileName() + "\"");
+    cmd = cmd.replace("%d", "\"" + QFileInfo(fn).absolutePath() + "\"");
+
+    p->startDetached(cmd, QStringList());
+    if(p->error() == QProcess::UnknownError)
+        p->waitForStarted(2000);
+
+    delete p;
+
+}
+
+QVariantList PQHandlingShortcuts::loadFromFile() {
+
+    DBG << CURDATE << "PQHandlingShortcuts::loadFromFile()" << NL;
+
+    QVariantList ret;
+
+    QFile file(ConfigFiles::SHORTCUTS_FILE());
+
+    if(!file.open(QIODevice::ReadOnly)) {
+        LOG << CURDATE << "PQHandlingShortcuts::load() - ERROR: Unable to open key shortcuts file for reading" << NL;
+        return QVariantList();
+    }
+
+    QTextStream in(&file);
+    QStringList cont = in.readAll().split("\n");
+
+    for(QString line : cont) {
+
+        if(line.startsWith("Version=") || line.trimmed() == "")
+            continue;
+
+        QStringList parts = line.split("::");
+        if(parts.length() != 3) {
+            LOG << CURDATE << "PQHandlingShortcuts::load() - ERROR: Invalid shortcuts format: " << line.toStdString() << NL;
+            continue;
+        }
+
+        // these shortcuts have changed names from 1.7.1 to 2.0
+        // this can be removed in a later version
+        if(parts[2] == "__gotoLastThb")
+            parts[2] = "__goToLast";
+        if(parts[2] == "__gotoFirstThb")
+            parts[2] = "__goToFirst";
+
+        // close, sh, cmd
+        ret << parts;
+
+    }
+
+    file.close();
+
+    return ret;
+
+}
+
+void PQHandlingShortcuts::saveToFile(QVariantList lst) {
+
+    DBG << CURDATE << "PQHandlingShortcuts::saveToFile()" << NL;
+
+    QString cont = QString("Version=%1\n").arg(VERSION);
+    for(auto l : lst)
+        cont += QString("%1::%2::%3\n").arg(l.toList()[0].toString()).arg(l.toList()[1].toString()).arg(l.toList()[2].toString());
+
+    QFile file(ConfigFiles::SHORTCUTS_FILE());
+
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        LOG << CURDATE << "PQHandlingShortcuts::saveToFile() - ERROR: Unable to open key shortcuts file for writing" << NL;
+        return;
+    }
+    QTextStream out(&file);
+    out << cont;
+    file.close();
 }

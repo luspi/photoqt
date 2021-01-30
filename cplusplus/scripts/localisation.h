@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -64,13 +64,20 @@ public:
                     emit languageChanged();
                     return;
                 }
+            } else {
+                c = QString("%1_%2").arg(c).arg(c.toUpper());
+                if(QFile(":/photoqt_" + c + ".qm").exists()) {
+                    trans->load(":/photoqt_" + c);
+                    qApp->installTranslator(trans);
+                    emit languageChanged();
+                    return;
+                }
             }
 
         }
 
-        // Store translation in settings file
-        trans->load(":/photoqt_en.qm");
-        qApp->installTranslator(trans);
+        // no translator to be added
+        // signal change (to English)
         emit languageChanged();
 
     }

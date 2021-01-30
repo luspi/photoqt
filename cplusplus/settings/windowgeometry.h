@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -29,6 +29,7 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include "../logger.h"
+#include "../scripts/handlingexternal.h"
 
 class PQWindowGeometry : public QObject {
 
@@ -307,6 +308,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect fileSaveAsWindowGeometry READ getFileSaveAsWindowGeometry WRITE setFileSaveAsWindowGeometry)
+    QRect getFileSaveAsWindowGeometry() { return m_fileSaveAsWindowGeometry; }
+    void setFileSaveAsWindowGeometry(QRect rect) {
+        if(rect != m_fileSaveAsWindowGeometry) {
+            m_fileSaveAsWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool fileSaveAsWindowMaximized READ getFileSaveAsWindowMaximized WRITE setFileSaveAsWindowMaximized)
+    bool getFileSaveAsWindowMaximized() { return m_fileSaveAsWindowMaximized; }
+    void setFileSaveAsWindowMaximized(bool maximized) {
+        if(maximized != m_fileSaveAsWindowMaximized) {
+            m_fileSaveAsWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -353,7 +372,11 @@ private:
     QRect m_settingsManagerWindowGeometry;
     bool  m_settingsManagerWindowMaximized;
 
+    QRect m_fileSaveAsWindowGeometry;
+    bool  m_fileSaveAsWindowMaximized;
+
     QSettings *settings;
+    PQHandlingExternal handlingExternal;
 
     void saveGeometries();
 

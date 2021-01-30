@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -115,7 +115,7 @@ void PQAsyncImageResponseThumb::run() {
 
     /**********************************************************/
 
-    if(p.isNull()) {
+    if(p.isNull() || msg != "") {
 
         m_image = QIcon(":/filedialog/unknownfile.svg").pixmap(m_requestedSize).toImage();
         emit finished();

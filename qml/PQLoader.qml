@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -40,113 +40,120 @@ Item {
     signal filterPassOn(var what, var param)
     signal faceTaggerPassOn(var what, var param)
     signal settingsManagerPassOn(var what, var param)
+    signal fileSaveAsPassOn(var what, var param);
 
-    function show(component) {
+    function show(ele) {
 
-        ensureItIsReady(component)
+        ensureItIsReady(ele)
 
-        if(component == "filedialog")
+        if(ele == "filedialog")
             filedialogPassOn("show", undefined)
 
-        else if(component == "slideshowsettings")
+        else if(ele == "slideshowsettings")
             slideshowPassOn("show", undefined)
 
-        else if(component == "slideshowcontrols")
+        else if(ele == "slideshowcontrols")
             slideshowControlsPassOn("show", undefined)
 
-        else if(component == "filerename")
+        else if(ele == "filerename")
             fileRenamePassOn("show", undefined)
 
-        else if(component == "filedelete")
+        else if(ele == "filedelete")
             fileDeletePassOn("show", undefined)
 
-        else if(component == "scale")
+        else if(ele == "scale")
             scalePassOn("show", undefined)
 
-        else if(component == "about")
+        else if(ele == "about")
             aboutPassOn("show", undefined)
 
-        else if(component == "imgur")
+        else if(ele == "imgur")
             imgurPassOn("show", undefined)
 
-        else if(component == "imguranonym")
+        else if(ele == "imguranonym")
             imgurPassOn("show_anonym", undefined)
 
-        else if(component == "wallpaper")
+        else if(ele == "wallpaper")
             wallpaperPassOn("show", undefined)
 
-        else if(component == "filter")
+        else if(ele == "filter")
             filterPassOn("show", undefined)
 
-        else if(component == "settingsmanager")
+        else if(ele == "settingsmanager")
             settingsManagerPassOn("show", undefined)
+
+        else if(ele == "filesaveas")
+            fileSaveAsPassOn("show", undefined)
 
     }
 
-    function passOn(component, what, param) {
+    function passOn(ele, what, param) {
 
-        if(component == "metadata")
+        if(ele == "metadata")
             metadataPassOn(what, param)
 
-        else if(component == "slideshowcontrols")
+        else if(ele == "slideshowcontrols")
             slideshowControlsPassOn(what, param)
 
-        else if(component == "filter")
+        else if(ele == "filter")
             filterPassOn(what, param)
 
-        else if(component == "facetagger")
+        else if(ele == "facetagger")
             faceTaggerPassOn(what, param)
 
-        else if(component == "copymove")
+        else if(ele == "copymove")
             copyMoveFilePassOn(what, param)
 
     }
 
-    function passKeyEvent(component, key, mod) {
+    function passKeyEvent(ele, key, mod) {
 
-        ensureItIsReady(component)
+        ensureItIsReady(ele)
 
-        if(component == "filedialog")
+        if(ele == "filedialog")
             filedialogPassOn("keyevent", [key, mod])
 
-        else if(component == "slideshowsettings")
+        else if(ele == "slideshowsettings")
             slideshowPassOn("keyevent", [key, mod])
 
-        else if(component == "slideshowcontrols")
+        else if(ele == "slideshowcontrols")
             slideshowControlsPassOn("keyevent", [key, mod])
 
-        else if(component == "filedelete")
+        else if(ele == "filedelete")
             fileDeletePassOn("keyevent", [key, mod])
 
-        else if(component == "filerename")
+        else if(ele == "filerename")
             fileRenamePassOn("keyevent", [key, mod])
 
-        else if(component == "scale")
+        else if(ele == "scale")
             scalePassOn("keyevent", [key, mod])
 
-        else if(component == "about")
+        else if(ele == "about")
             aboutPassOn("keyevent", [key, mod])
 
-        else if(component == "imgur" || component == "imguranonym")
+        else if(ele == "imgur" || ele == "imguranonym")
             imgurPassOn("keyevent", [key, mod])
 
-        else if(component == "wallpaper")
+        else if(ele == "wallpaper")
             wallpaperPassOn("keyevent", [key, mod])
 
-        else if(component == "filter")
+        else if(ele == "filter")
             filterPassOn("keyevent", [key, mod])
 
-        else if(component == "facetagger")
+        else if(ele == "facetagger")
             faceTaggerPassOn("keyevent", [key, mod])
 
-        else if(component == "settingsmanager")
+        else if(ele == "settingsmanager")
             settingsManagerPassOn("keyevent", [key, mod])
+
+        else if(ele == "filesaveas")
+            fileSaveAsPassOn("keyevent", [key, mod])
 
     }
 
-    function ensureItIsReady(component) {
+    function ensureItIsReady(ele) {
 
-        if(component == "filedialog") {
+        if(ele == "filedialog") {
 
             if(PQSettings.openPopoutElement && filedialog.source != "filedialog/PQFileDialogPopout.qml")
                 filedialog.source = "filedialog/PQFileDialogPopout.qml"
@@ -154,7 +161,7 @@ Item {
             else if(!PQSettings.openPopoutElement && filedialog.source != "filedialog/PQFileDialog.qml")
                 filedialog.source = "filedialog/PQFileDialog.qml"
 
-        } else if(component == "mainmenu") {
+        } else if(ele == "mainmenu") {
 
             if(PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenuPopout.qml")
                 mainmenu.source = "menumeta/PQMainMenuPopout.qml"
@@ -162,7 +169,7 @@ Item {
             else if(!PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenu.qml")
                 mainmenu.source = "menumeta/PQMainMenu.qml"
 
-        } else if(component == "metadata") {
+        } else if(ele == "metadata") {
 
             if(PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaDataPopout.qml")
                 metadata.source = "menumeta/PQMetaDataPopout.qml"
@@ -170,7 +177,7 @@ Item {
             else if(!PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaData.qml")
                 metadata.source = "menumeta/PQMetaData.qml"
 
-        } else if(component == "histogram") {
+        } else if(ele == "histogram") {
 
             if(PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogramPopout.qml")
                 histogram.source = "histogram/PQHistogramPopout.qml"
@@ -178,7 +185,7 @@ Item {
             else if(!PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogram.qml")
                 histogram.source = "histogram/PQHistogram.qml"
 
-        } else if(component == "slideshowsettings") {
+        } else if(ele == "slideshowsettings") {
 
             if(PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettingsPopout.qml"
@@ -186,7 +193,7 @@ Item {
             else if(!PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettings.qml"
 
-        } else if(component == "slideshowcontrols") {
+        } else if(ele == "slideshowcontrols") {
 
             if(PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControlsPopout.qml")
                 slideshowcontrols.source = "slideshow/PQSlideShowControlsPopout.qml"
@@ -194,7 +201,7 @@ Item {
             else if(!PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControls.qml")
                 slideshowcontrols.source = "slideshow/PQSlideShowControls.qml"
 
-        } else if(component == "filerename") {
+        } else if(ele == "filerename") {
 
             if(PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRenamePopout.qml")
                 filerename.source = "filemanagement/PQRenamePopout.qml"
@@ -202,7 +209,7 @@ Item {
             else if(!PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRename.qml")
                 filerename.source = "filemanagement/PQRename.qml"
 
-        } else if(component == "filedelete") {
+        } else if(ele == "filedelete") {
 
             if(PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDeletePopout.qml")
                 filedelete.source = "filemanagement/PQDeletePopout.qml"
@@ -210,7 +217,7 @@ Item {
             else if(!PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDelete.qml")
                 filedelete.source = "filemanagement/PQDelete.qml"
 
-        } else if(component == "scale") {
+        } else if(ele == "scale") {
 
             if(PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScalePopout.qml")
                 scaleimage.source = "scale/PQScalePopout.qml"
@@ -218,7 +225,7 @@ Item {
             else if(!PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScale.qml")
                 scaleimage.source = "scale/PQScale.qml"
 
-        } else if(component == "about") {
+        } else if(ele == "about") {
 
             if(PQSettings.aboutPopoutElement && about.source != "about/PQAboutPopout.qml")
                 about.source = "about/PQAboutPopout.qml"
@@ -226,7 +233,7 @@ Item {
             else if(!PQSettings.aboutPopoutElement && about.source != "about/PQAbout.qml")
                 about.source = "about/PQAbout.qml"
 
-        } else if(component == "imgur" || component == "imguranonym") {
+        } else if(ele == "imgur" || ele == "imguranonym") {
 
             if(PQSettings.imgurPopoutElement && imgur.source != "imgur/PQImgurPopout.qml")
                 imgur.source = "imgur/PQImgurPopout.qml"
@@ -234,7 +241,7 @@ Item {
             else if(!PQSettings.imgurPopoutElement && imgur.source != "imgur/PQImgur.qml")
                 imgur.source = "imgur/PQImgur.qml"
 
-        } else if(component == "wallpaper") {
+        } else if(ele == "wallpaper") {
 
             if(PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaperPopout.qml")
                 wallpaper.source = "wallpaper/PQWallpaperPopout.qml"
@@ -242,7 +249,7 @@ Item {
             else if(!PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaper.qml")
                 wallpaper.source = "wallpaper/PQWallpaper.qml"
 
-        } else if(component == "filter") {
+        } else if(ele == "filter") {
 
             if(PQSettings.filterPopoutElement && filter.source != "filter/PQFilterPopout.qml")
                 filter.source = "filter/PQFilterPopout.qml"
@@ -250,7 +257,7 @@ Item {
             else if(!PQSettings.filterPopoutElement && filter.source != "filter/PQFilter.qml")
                 filter.source = "filter/PQFilter.qml"
 
-        } else if(component == "settingsmanager") {
+        } else if(ele == "settingsmanager") {
 
             if(PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManagerPopout.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManagerPopout.qml"
@@ -258,10 +265,18 @@ Item {
             else if(!PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManager.qml"
 
-        } else if(component == "copymove") {
+        } else if(ele == "copymove") {
 
             if(copymove.source != "filemanagement/PQCopyMove.qml")
                 copymove.source = "filemanagement/PQCopyMove.qml"
+
+        } else if(ele == "filesaveas") {
+
+            if(PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
+                filesaveas.source = "filemanagement/PQSaveAsPopout.qml"
+
+            else if(!PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAs.qml")
+                filesaveas.source = "filemanagement/PQSaveAs.qml"
 
         }
 

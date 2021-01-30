@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -60,16 +60,6 @@ public:
             if(m_version != val) {
                 m_version = val;
                 emit versionChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(QString versionInTextFile READ getVersionInTextFile WRITE setVersionInTextFile NOTIFY versionInTextFileChanged)
-        QString getVersionInTextFile() { return m_versionInTextFile; }
-        void setVersionInTextFile(QString val) {
-            if(m_versionInTextFile != val) {
-                m_versionInTextFile = val;
-                emit versionInTextFileChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -419,6 +409,7 @@ public:
         }
 
 
+
         Q_PROPERTY(bool pdfSingleDocument READ getPdfSingleDocument WRITE setPdfSingleDocument NOTIFY pdfSingleDocumentChanged)
         bool getPdfSingleDocument() { return m_pdfSingleDocument; }
         void setPdfSingleDocument(bool val) {
@@ -599,6 +590,16 @@ public:
             if(m_slideShowTypeAnimation != val) {
                 m_slideShowTypeAnimation = val;
                 emit slideShowTypeAnimationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowIncludeSubFolders READ getSlideShowIncludeSubFolders WRITE setSlideShowIncludeSubFolders NOTIFY slideShowIncludeSubFoldersChanged)
+        bool getSlideShowIncludeSubFolders() { return m_slideShowIncludeSubFolders; }
+        void setSlideShowIncludeSubFolders(bool val) {
+            if(m_slideShowIncludeSubFolders != val) {
+                m_slideShowIncludeSubFolders = val;
+                emit slideShowIncludeSubFoldersChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1461,6 +1462,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool fileSaveAsPopoutElement READ getFileSaveAsPopoutElement WRITE setFileSaveAsPopoutElement NOTIFY fileSaveAsPopoutElementChanged)
+        bool getFileSaveAsPopoutElement() { return m_fileSaveAsPopoutElement; }
+        void setFileSaveAsPopoutElement(bool val) {
+            if(m_fileSaveAsPopoutElement != val) {
+                m_fileSaveAsPopoutElement = val;
+                emit fileSaveAsPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1469,7 +1480,6 @@ private:
         QTimer *watcherAddFileTimer;
 
         QString m_version;
-        QString m_versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
         QString m_language;
         bool    m_saveWindowGeometry;
         bool    m_keepOnTop;
@@ -1527,6 +1537,7 @@ private:
         bool    m_slideShowLoop;
         bool    m_slideShowHideQuickInfo;
         QString m_slideShowTypeAnimation;
+        bool    m_slideShowIncludeSubFolders;
 
         int     m_thumbnailSize;
         QString m_thumbnailPosition;
@@ -1620,6 +1631,7 @@ private:
         bool    m_wallpaperPopoutElement;
         bool    m_filterPopoutElement;
         bool    m_settingsManagerPopoutElement;
+        bool    m_fileSaveAsPopoutElement;
 
 private slots:
         void readSettings();
@@ -1628,7 +1640,6 @@ private slots:
 
 signals:
         void versionChanged();
-        void versionInTextFileChanged();
         void languageChanged();
         void saveWindowGeometryChanged();
         void keepOnTopChanged();
@@ -1681,6 +1692,7 @@ signals:
         void slideShowLoopChanged();
         void slideShowHideQuickInfoChanged();
         void slideShowTypeAnimationChanged();
+        void slideShowIncludeSubFoldersChanged();
         void thumbnailSizeChanged();
         void thumbnailPositionChanged();
         void thumbnailCacheChanged();
@@ -1765,6 +1777,7 @@ signals:
         void wallpaperPopoutElementChanged();
         void filterPopoutElementChanged();
         void settingsManagerPopoutElementChanged();
+        void fileSaveAsPopoutElementChanged();
 
 
 };

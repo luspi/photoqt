@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,18 +21,6 @@
  **************************************************************************/
 
 #include "handlingmanipulation.h"
-
-PQHandlingManipulation::PQHandlingManipulation(QObject *parent) : QObject(parent) { }
-
-QSize PQHandlingManipulation::getCurrentImageResolution(QString filename) {
-
-    DBG << CURDATE << "PQHandlingManipulation::getCurrentImageResolution()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    QImageReader reader(filename);
-    return reader.size();
-
-}
 
 bool PQHandlingManipulation::canThisBeScaled(QString filename) {
 
@@ -64,6 +52,112 @@ bool PQHandlingManipulation::canThisBeScaled(QString filename) {
 
 }
 
+int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings) {
+
+    DBG << CURDATE << "PQHandlingManipulation::chooseLocationAndConvertImage()" << NL
+        << CURDATE << "** sourceFilename = " << sourceFilename.toStdString() << NL
+        << CURDATE << "** targetFilename = " << targetFilename.toStdString() << NL
+        << CURDATE << "** targetEndings = " << targetEndings.toStdString() << NL;
+
+    // get info about new file format and source file
+    QVariantMap databaseinfo = PQImageFormats::get().getFormatsInfo(targetEndings);
+    QFileInfo fileinfo(sourceFilename);
+
+    // request user to select target directory
+    QString targetdir = QFileDialog::getExistingDirectory(nullptr, "Choose new location", fileinfo.absolutePath());
+    if(targetdir == "")
+        return -1;  // -1 means cancelled
+
+    // if we succeeded converting the image
+    bool success = false;
+
+    // qt might support it
+    if(databaseinfo.value("qt").toInt() == 1) {
+
+        QImageWriter writer;
+
+        // if the QImageWriter supports the format then we're good to go
+        if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString().toUtf8())) {
+
+
+            // First we load the image...
+            PQLoadImageQt loader;
+            QSize tmp;
+            QImage img = loader.load(sourceFilename, QSize(-1,-1), &tmp);
+
+            // ... and then we write it into the new format
+            writer.setFileName(QString("%1/%2").arg(targetdir, targetFilename));
+            writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
+
+            // if the actual writing suceeds we're done now
+            if(!writer.write(img))
+                LOG << "ERR: " << writer.errorString().toStdString() << NL;
+            else
+                success = true;
+
+        }
+
+    }
+
+    // imagemagick/graphicsmagick might support it
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#ifdef IMAGEMAGICK
+    if(!success && databaseinfo.value("imagemagick").toInt() == 1) {
+#else
+    if(!success && databaseinfo.value("graphicsmagick").toInt() == 1) {
+#endif
+
+        // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+        bool canproceed = false;
+        try {
+            QString magick = databaseinfo.value("im_gm_magick").toString();
+            Magick::CoderInfo magickCoderInfo(magick.toStdString());
+            if(magickCoderInfo.isWritable())
+                canproceed = true;
+        } catch(Magick::Exception &) { }
+
+        // yes, it's supported
+        if(canproceed) {
+
+            try {
+                // first load the image but skip the conversion into QImage type
+                PQLoadImageMagick loader;
+                QSize tmp;
+                loader.load(sourceFilename, QSize(-1,-1), &tmp, true);
+
+                // get raw Magick image from loader
+                Magick::Image img = loader.image;
+
+                // and write new output file
+                img.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                img.write(QString("%1/%2").arg(targetdir, targetFilename).toStdString());
+
+                // success!
+                success = true;
+
+            } catch(Magick::Exception &) { }
+
+        }
+
+    }
+
+#endif
+
+    // 0 = error, 1 = success
+    return (success ? 1 : 0);
+
+}
+
+QSize PQHandlingManipulation::getCurrentImageResolution(QString filename) {
+
+    DBG << CURDATE << "PQHandlingManipulation::getCurrentImageResolution()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QImageReader reader(filename);
+    return reader.size();
+
+}
+
 bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlace, QSize targetSize, int targetQuality) {
 
     DBG << CURDATE << "PQHandlingManipulation::scaleImage()" << NL
@@ -88,7 +182,11 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
     try {
 
         // Open image for exif reading
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        Exiv2::Image::UniquePtr image_read = Exiv2::ImageFactory::open(sourceFilename.toStdString());
+#else
         Exiv2::Image::AutoPtr image_read = Exiv2::ImageFactory::open(sourceFilename.toStdString());
+#endif
 
         if(image_read.get() != 0) {
 
@@ -153,7 +251,11 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
         try {
 
             // And write exif data to new image file
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            Exiv2::Image::UniquePtr image_write = Exiv2::ImageFactory::open(targetFilename.toStdString());
+#else
             Exiv2::Image::AutoPtr image_write = Exiv2::ImageFactory::open(targetFilename.toStdString());
+#endif
             image_write->setExifData(exifData);
             image_write->setIptcData(iptcData);
             image_write->setXmpData(xmpData);

@@ -46,9 +46,11 @@ function(composeDesktopFile)
 
     ##########################
     # QT mime types
-    set(QTMIME "image/bmp;image/gif;image/jp2;video/x-mng;image/vnd.microsoft.icon;image/x-win-bitmap;image/x-icns;image/jpeg;image/png;")
-    set(QTMIME "${QTMIME};image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-portable-anymap;image/svg+xml;image/tiff;")
-    set(QTMIME "${QTMIME};image/vnd.wap.wbmp;image/x-xbitmap;image/x-xpixmap;image/x-sgi;image/webp;image/bmp")
+    set(QTMIME "image/x-ms-bmp;image/bmp;image/x-win-bitmap;image/x-exr;image/gif;image/jp2;image/jpx;image/jpm;image/jpeg;video/x-mng")
+    set(QTMIME "${QTMIME};image/openraster;image/x-portable-anymap;image/vnd.zbrush.pcx;image/x-pcx;image/x-portable-anymap;image/x-portable-greymap")
+    set(QTMIME "${QTMIME};image/png;image/x-portable-anymap;image/x-portable-pixmap;image/vnd.adobe.photoshop;image/sgi;image/x-targa;image/x-tga")
+    set(QTMIME "${QTMIME};image/tiff;image/tiff-fx;image/vnd.wap.wbmp;image/x-xbitmap;image/x-xbm;image/webp;image/vnd.microsoft.icon;image/x-icon")
+    set(QTMIME "${QTMIME};image/x-xpixmap;image/x-xpmi;image/avif;image/avif-sequence")
     foreach(MIME ${QTMIME})
         list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
         if(${FOUNDPOS} MATCHES -1)
@@ -57,32 +59,10 @@ function(composeDesktopFile)
     endforeach()
 
     ##########################
-    # KDE mime types
-    set(KDEMIME "image/x-eps;image/x-exr;image/openraster;image/vnd.zbrush.pcx;image/vnd.adobe.photoshop;image/x-tga;image/x-xcf;")
-    foreach(MIME ${KDEMIME})
-        list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
-        if(${FOUNDPOS} MATCHES -1)
-            list(APPEND COMBINEDMIMETYPE ${MIME})
-        endif(${FOUNDPOS} MATCHES -1)
-    endforeach()
-
-    ##########################
-    # POPPLER mime types
-    set(POPPLERMIME "application/pdf")
-    if(POPPLER)
-        list(FIND COMBINEDMIMETYPE "${POPPLERMIME}" FOUNDPOS)
-        if(${FOUNDPOS} MATCHES -1)
-            list(APPEND COMBINEDMIMETYPE ${POPPLERMIME})
-        endif(${FOUNDPOS} MATCHES -1)
-    endif(POPPLER)
-
-    ##########################
-    # GRAPHICSMAGICK mime types
-    set(GMMIME "image/bmp;image/rle;image/x-cmu-raster;application/dicom;image/dpx;image/fax-g3;image/fits;image/gif;image/x-jng;image/jp2;")
-    set(GMMIME "${GMMIME};image/jpeg;application/x-mif;video/x-mng;image/x-portable-bitmap;image/x-photo-cd;image/vnd.zbrush.pcx;")
-    set(GMMIME "${GMMIME};image/x-portable-graymap;image/x-xpixmap;image/x-portable-pixmap;image/x-portable-anymap;image/x-pict;")
-    set(GMMIME "${GMMIME};image/png;audio/vnd.dts.hd;text/x-mpsub;image/rle;image/x-sgi;image/x-sun-raster;image/x-tga;image/tiff;")
-    set(GMMIME "${GMMIME};image/vnd.wap.wbmp;image/webp;application/x-wpg;image/x-xbitmap;image/x-xpixmap;image/x-xwindowdump")
+    # GRAPHICSMAGICK mime types (not covered by Qt)
+    set(GMMIME "application/x-fpt;image/x-ms-bmp;image/bmp;application/dicom;image/dicom-rle;image/x-dpx;image/fits;application/vnd.ms-office")
+    set(GMMIME "${GMMIME};application/x-pnf;video/x-jng;image/x-miff;image/x-portable-arbitrarymap;image/x-portable-pixmap;image/x-xpmi;image/tiff")
+    set(GMMIME "${GMMIME};image/bpg;image/x-canon-cr2;image/x-canon-crw;image/vnd.djvu;image/heic;image/heif;image/x-olympus-orf;image/x-pentax-pef;image/x-mvg")
     if(GM)
         foreach(MIME ${GMMIME})
             list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
@@ -107,11 +87,8 @@ function(composeDesktopFile)
     endif(RAW)
 
     ##########################
-    # DEVIL mime types
-    set(DEVILMIME "image/bmp;image/x-dds;image/x-exr;image/fits;image/x-hdr;image/x-icns;image/vnd.microsoft.icon;image/x-win-bitmap;image/x-ilbm;")
-    set(DEVILMIME "${DEVILMIME};image/gif;image/jpeg;image/x-photo-cd;image/png;image/x-portable-bitmap;image/x-portable-graymap;")
-    set(DEVILMIME "${DEVILMIME};image/x-portable-pixmap;image/x-portable-anymap;image/vnd.adobe.photoshop;image/x-panasonic-rw;image/x-sgi;")
-    set(DEVILMIME "${DEVILMIME};image/x-tga;image/tiff")
+    # DEVIL mime types (not covered by Qt)
+    set(DEVILMIME "application/dicom;image/dicom-rle;image/fits")
     if(DEVIL)
         foreach(MIME ${DEVILMIME})
             list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
@@ -122,11 +99,8 @@ function(composeDesktopFile)
     endif(DEVIL)
 
     ##########################
-    # FREEIMAGE mime types
-    set(FREEMIME "image/bmp;image/x-dds;image/fax-g3;image/gif;image/vnd.microsoft.icon;image/x-ilbm;image/x-jng;image/jpeg;image/jp2;")
-    set(FREEMIME "${FREEMIME};image/x-photo-cd;video/x-mng;image/vnd.zbrush.pcx;image/x-portable-bitmap;image/x-portable-graymap;")
-    set(FREEMIME "${FREEMIME};image/x-portable-pixmap;image/x-portable-anymap;image/png;image/x-pict;image/vnd.adobe.photoshop;image/x-sun-raster;")
-    set(FREEMIME "${FREEMIME};image/x-sgi;image/x-tga;image/tiff;image/vnd.wap.wbmp;image/webp;image/x-xbitmap;image/x-xpixmap")
+    # FREEIMAGE mime types (not covered by Qt)
+    set(FREEMIME "application/x-pnf;video/x-jng")
     if(FREEIMAGE)
         foreach(MIME ${FREEMIME})
             list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)

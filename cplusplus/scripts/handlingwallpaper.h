@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -34,19 +34,16 @@ class PQHandlingWallpaper : public QObject {
     Q_OBJECT
 
 public:
-    PQHandlingWallpaper(QObject *parent = nullptr);
-
-    Q_INVOKABLE void setWallpaper(QString category, QString filename, QVariantMap options);
-    Q_INVOKABLE int getScreenCount();
-    Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount();
-    Q_INVOKABLE bool checkXfce();
-    Q_INVOKABLE bool checkFeh();
-    Q_INVOKABLE bool checkNitrogen();
-    Q_INVOKABLE bool checkGSettings();
-    Q_INVOKABLE bool checkEnlightenmentRemote();
     Q_INVOKABLE bool checkEnlightenmentMsgbus();
-
+    Q_INVOKABLE bool checkEnlightenmentRemote();
+    Q_INVOKABLE bool checkFeh();
+    Q_INVOKABLE bool checkGSettings();
+    Q_INVOKABLE bool checkNitrogen();
+    Q_INVOKABLE bool checkXfce();
     Q_INVOKABLE QString detectWM();
+    Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount();
+    Q_INVOKABLE int getScreenCount();
+    Q_INVOKABLE void setWallpaper(QString category, QString filename, QVariantMap options);
 
 private:
     bool checkIfCommandExists(QString cmd, QStringList args, QString &out);

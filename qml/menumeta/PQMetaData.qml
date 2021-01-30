@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -105,7 +105,7 @@ Rectangle {
 
     property var allMetaData: [
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
+        em.pty+qsTranslate("metadata", "File name"), handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
         //: The dimensions of the loaded image. Please keep string short!
         em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
@@ -113,7 +113,7 @@ Rectangle {
         //: Please keep string short!
         em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File type"), handlingGeneral.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
+        em.pty+qsTranslate("metadata", "File type"), handlingFileDir.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
         "", "", true,
         //: Exif image metadata: the make of the camera used to take the photo. Please keep string short!
         em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,
@@ -322,6 +322,31 @@ Rectangle {
         //: Used as in: Keep the metadata element open even if the cursor leaves it
         text: PQSettings.metadataPopoutElement ? "" : (em.pty+qsTranslate("metadata", "Keep Open"))
 
+    }
+
+    Image {
+        x: parent.width-width-5
+        y: 5
+        width: 25
+        height: 25
+        source: "/popin.png"
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.metadataPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            onClicked: {
+                if(PQSettings.metadataPopoutElement==0) {
+                    keepopen.checked = false
+                    variables.metaDataWidthWhenKeptOpen = 0
+                } else
+                    metadata_window.storeGeometry()
+                PQSettings.metadataPopoutElement = (PQSettings.metadataPopoutElement+1)%2
+            }
+        }
     }
 
     Connections {

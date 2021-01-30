@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -103,15 +103,28 @@ Rectangle {
         tooltipFollowsMouse: false
 
         property int prevCurIndex: -1
+        property bool startUpDelay: false
+
+        currentIndex: PQSettings.sortby=="name" ? 0 : (PQSettings.sortby=="time" ? 2 : (PQSettings.sortby=="size" ? 3 : (PQSettings.sortby=="type" ? 4 : 1)))
 
         onCurrentIndexChanged: {
             if(currentIndex == 5) {
                 PQSettings.sortbyAscending = !PQSettings.sortbyAscending
                 currentIndex = prevCurIndex
             } else {
-                PQSettings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                if(startUpDelay)
+                    PQSettings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
+        }
+
+        Timer {
+            id: startupdelay
+            interval: 100
+            repeat: false
+            running: true
+            onTriggered:
+                sortby.startUpDelay = true
         }
 
     }
@@ -120,10 +133,12 @@ Rectangle {
 
         id: allfiles
 
-        property var allfiletypes: ["all", "qt", "graphicsmagick", "raw", "devil", "freeimage", "poppler", "video", "allfiles"]
+        property var allfiletypes: ["all", "qt", "magick", "libraw", "devil", "freeimage", "poppler", "video", "allfiles"]
 
         model: [em.pty+qsTranslate("filedialog", "All supported images"),
-                "Qt", "GraphicsMagick", "LibRaw", "DevIL",
+                "Qt",
+                (handlingGeneral.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick"),
+                "LibRaw", "DevIL",
                 "FreeImage", "PDF (Poppler)",
                 em.pty+qsTranslate("filedialog", "Video files"),
                 em.pty+qsTranslate("filedialog", "All files")]
@@ -190,16 +205,20 @@ Rectangle {
 
     function readFileTypeSettings() {
         allfiles.hideItems = []
-        if(!handlingGeneral.isGraphicsMagickSupportEnabled())
+        if(!handlingGeneral.isImageMagickSupportEnabled())
             allfiles.hideItems.push(2)
-        if(!handlingGeneral.isLibRawSupportEnabled())
+        if(!handlingGeneral.isGraphicsMagickSupportEnabled())
             allfiles.hideItems.push(3)
-        if(!handlingGeneral.isDevILSupportEnabled())
+        if(!handlingGeneral.isLibRawSupportEnabled())
             allfiles.hideItems.push(4)
-        if(!handlingGeneral.isFreeImageSupportEnabled())
+        if(!handlingGeneral.isDevILSupportEnabled())
             allfiles.hideItems.push(5)
-        if(!handlingGeneral.isPopplerSupportEnabled())
+        if(!handlingGeneral.isFreeImageSupportEnabled())
             allfiles.hideItems.push(6)
+        if(!handlingGeneral.isPopplerSupportEnabled())
+            allfiles.hideItems.push(7)
+        if(!handlingGeneral.isVideoSupportEnabled())
+            allfiles.hideItems.push(7)
 
         var neg = 2
         while(neg < allfiles.model.length) {

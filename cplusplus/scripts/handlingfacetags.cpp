@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -22,7 +22,16 @@
 
 #include "handlingfacetags.h"
 
-PQHandlingFaceTags::PQHandlingFaceTags(QObject *parent) : QObject(parent) {
+bool PQHandlingFaceTags::canWriteXmpTags(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFaceTags::canWriteXmpTags()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QStringList supportedEndings;
+    supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "tif" << "tiff" << "webp" << "dng" << "net"
+                     << "pef" << "srw" << "orf" << "png" << "pgf" << "eps" << "xmp" << "psd" << "jp2";
+
+    return supportedEndings.contains(QFileInfo(filename).suffix().toLower());
 
 }
 
@@ -38,7 +47,11 @@ QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
     if(filename.contains("::PQT::") || filename.contains("::ARC::"))
         return ret;
 
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
     Exiv2::Image::AutoPtr image;
+#endif
     try {
         image  = Exiv2::ImageFactory::open(filename.toStdString());
         image->readMetadata();
@@ -151,7 +164,11 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
     try {
 
         // Open image for exif reading
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        Exiv2::Image::UniquePtr xmpImage = Exiv2::ImageFactory::open(filename.toStdString());
+#else
         Exiv2::Image::AutoPtr xmpImage = Exiv2::ImageFactory::open(filename.toStdString());
+#endif
 
         if(xmpImage.get() != 0) {
 
@@ -170,12 +187,20 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
             }
 
             // The intro node
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            Exiv2::Value::UniquePtr regioninfo = Exiv2::Value::create(Exiv2::xmpText);
+#else
             Exiv2::Value::AutoPtr regioninfo = Exiv2::Value::create(Exiv2::xmpText);
+#endif
             regioninfo->read("type=\"Struct\"");
             xmpDataNew.add(Exiv2::XmpKey("Xmp.MP.RegionInfo"), regioninfo.get());
 
             // Start of 'Bag'
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            Exiv2::Value::UniquePtr arrayStart = Exiv2::Value::create(Exiv2::xmpText);
+#else
             Exiv2::Value::AutoPtr arrayStart = Exiv2::Value::create(Exiv2::xmpText);
+#endif
             arrayStart->read("type=\"Bag\"");
             xmpDataNew.add(Exiv2::XmpKey("Xmp.MP.RegionInfo/MPRI:Regions"), arrayStart.get());
 
@@ -183,18 +208,32 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
             for(int i = 0; i < tags.length()/6; ++i) {
 
                 // First: This is a struct
+#if EXIV2_TEST_VERSION(0, 28, 0)
+                Exiv2::XmpTextValue::UniquePtr arrayOne(new Exiv2::XmpTextValue);
+#else
                 Exiv2::XmpTextValue::AutoPtr arrayOne(new Exiv2::XmpTextValue);
+#endif
                 arrayOne->read("type=\"Struct\"");
                 xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]").arg(i+1).toStdString()), arrayOne.get());
 
                 // Second: This is the rectangle where the face is located
+#if EXIV2_TEST_VERSION(0, 28, 0)
+                Exiv2::XmpTextValue::UniquePtr arrayTwo(new Exiv2::XmpTextValue);
+#else
                 Exiv2::XmpTextValue::AutoPtr arrayTwo(new Exiv2::XmpTextValue);
-                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString()).arg(tags[6*i+2].toString())
-                                                        .arg(tags[6*i+3].toString()).arg(tags[6*i+4].toString()).toStdString());
+#endif
+                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString(),
+                                                             tags[6*i+2].toString(),
+                                                             tags[6*i+3].toString(),
+                                                             tags[6*i+4].toString()).toStdString());
                 xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:Rectangle").arg(i+1).toStdString()), arrayTwo.get());
 
                 // Third: This is the name of the person
+#if EXIV2_TEST_VERSION(0, 28, 0)
+                Exiv2::XmpTextValue::UniquePtr arrayThree(new Exiv2::XmpTextValue);
+#else
                 Exiv2::XmpTextValue::AutoPtr arrayThree(new Exiv2::XmpTextValue);
+#endif
                 arrayThree->read(tags[6*i+5].toString().toStdString());
                 xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:PersonDisplayName").arg(i+1).toStdString()),
                                arrayThree.get());
@@ -214,18 +253,5 @@ void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
     }
 
 #endif
-
-}
-
-bool PQHandlingFaceTags::canWriteXmpTags(QString filename) {
-
-    DBG << CURDATE << "PQHandlingFaceTags::canWriteXmpTags()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    QStringList supportedEndings;
-    supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "tif" << "tiff" << "webp" << "dng" << "net"
-                     << "pef" << "srw" << "orf" << "png" << "pgf" << "eps" << "xmp" << "psd" << "jp2";
-
-    return supportedEndings.contains(QFileInfo(filename).suffix().toLower());
 
 }

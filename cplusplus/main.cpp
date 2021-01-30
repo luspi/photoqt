@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -30,7 +30,7 @@
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
 #include "scripts/handlingshortcuts.h"
-#include "scripts/handlingfilemanagement.h"
+#include "scripts/handlingfiledir.h"
 #include "scripts/handlingmanipulation.h"
 #include "scripts/handlingshareimgur.h"
 #include "scripts/handlingwallpaper.h"
@@ -55,6 +55,10 @@
 #include <GraphicsMagick/Magick++.h>
 #endif
 
+#ifdef IMAGEMAGICK
+#include <Magick++.h>
+#endif
+
 #ifdef DEVIL
 #include <IL/il.h>
 #endif
@@ -65,14 +69,11 @@ int main(int argc, char **argv) {
 
     PQSingleInstance app(argc, argv);
 
-    // We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
-    QString version = VERSION;
-
     // Set app name and version
     QGuiApplication::setApplicationName("PhotoQt");
     QGuiApplication::setOrganizationName("");
     QGuiApplication::setOrganizationDomain("photoqt.org");
-    QGuiApplication::setApplicationVersion(version);
+    QGuiApplication::setApplicationVersion(VERSION);
 
     QGuiApplication::setQuitOnLastWindowClosed(true);
 
@@ -84,7 +85,21 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
-#ifdef GRAPHICSMAGICK
+    // check for update or new install
+    bool performStartupChecks = false;
+    QFile set(ConfigFiles::SETTINGS_FILE());
+    QFile img(ConfigFiles::IMAGEFORMATS_DB());
+    QFile sht(ConfigFiles::SHORTCUTS_FILE());
+    if(!set.exists() || !img.exists() || !sht.exists() || PQSettings::get().getVersion().split(".")[0] == "1" || PQSettings::get().getVersion().split(".")[0] == "0") {
+        performStartupChecks = true;
+        PQVariables::get().setFreshInstall(true);
+    }
+
+    if(!performStartupChecks && PQSettings::get().getVersion() != QString::fromStdString(VERSION))
+        performStartupChecks = true;
+
+// only one of them will be defined at a time
+#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);
 #endif
@@ -93,7 +108,13 @@ int main(int argc, char **argv) {
     ilInit();
 #endif
 
+#ifdef FREEIMAGE
+    FreeImage_Initialise();
+#endif
+
     QQmlApplicationEngine engine;
+    app.qmlEngine = &engine;
+
     const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -101,12 +122,14 @@ int main(int argc, char **argv) {
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    PQStartup::PQStartup();
+    // we only do startup checks on updates and new installs
+    if(performStartupChecks)
+        PQStartup::PQStartup();
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
     qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
-    qmlRegisterType<PQHandlingFileManagement>("PQHandlingFileManagement", 1, 0, "PQHandlingFileManagement");
+    qmlRegisterType<PQHandlingFileDir>("PQHandlingFileDir", 1, 0, "PQHandlingFileDir");
     qmlRegisterType<PQHandlingManipulation>("PQHandlingManipulation", 1, 0, "PQHandlingManipulation");
     qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
@@ -133,8 +156,14 @@ int main(int argc, char **argv) {
 
     engine.load(url);
 
-    app.rootQmlAddress = engine.rootObjects().at(0);
+    app.qmlWindowAddresses.push_back(engine.rootObjects().at(0));
 
-    return app.exec();
+    int ret = app.exec();
+
+#ifdef FREEIMAGE
+    FreeImage_DeInitialise();
+#endif
+
+    return ret;
 
 }

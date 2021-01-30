@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -55,8 +55,6 @@ GridView {
 
     PQFileFolderModel {
         id: files_model
-
-        property var validcategories: ["qt", "graphicsmagick", "raw", "devil", "freeimage", "poppler", "video"]
 
         showHidden: PQSettings.openShowHiddenFilesFolders
         sortField: PQSettings.sortby=="name" ?
@@ -278,7 +276,7 @@ GridView {
                 visible: PQSettings.openDefaultView=="list"
                 color: "white"
                 font.bold: true
-                text: fileIsDir ? "" : handlingFileDialog.convertBytesToHumanReadable(fileSize)
+                text: fileIsDir ? "" : handlingGeneral.convertBytesToHumanReadable(fileSize)
 
             }
 
@@ -302,7 +300,7 @@ GridView {
                           ("<img src=\"image://thumb/" + filePath + "\"><br><br>" +
                            "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
                            em.pty+qsTranslate("filedialog", "File size:")+" <b>" + filesizenum.text + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDialog.getFileType(filePath) + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDir.getFileType(filePath) + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString()+ "</b>"))
 
@@ -412,7 +410,7 @@ GridView {
                     currentIndex -= 1
             } else if(modifiers == Qt.ControlModifier)
                 currentIndex = 0
-            else if(modifiers == Qt.AltModifier && handlingFileDialog.cleanPath(variables.openCurrentDirectory) != "/")
+            else if(modifiers == Qt.AltModifier && handlingFileDir.cleanPath(variables.openCurrentDirectory) != "/")
                 filedialog_top.setCurrentDirectory(variables.openCurrentDirectory+"/..")
 
         } else if(key == Qt.Key_Left) {
@@ -489,7 +487,7 @@ GridView {
 
             for(var i = tmp; i < files_model.count; ++i) {
 
-                if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                if(handlingShortcuts.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
                     currentIndex = i
                     foundSomething = true
                     break;
@@ -501,7 +499,7 @@ GridView {
 
                 for(var i = 0; i < tmp; ++i) {
 
-                    if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                    if(handlingShortcuts.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
                         currentIndex = i
                         foundSomething = true
                         break;
@@ -531,16 +529,40 @@ GridView {
     function loadFolder(loc) {
 
         // set right name filter
-        files_model.nameFilters = tweaks.showWhichFileTypeIndex==="all" ?
-                                    PQImageFormats.getAllEnabledFileFormats() :
-                                      (validcategories.indexOf(tweaks.showWhichFileTypeIndex) > -1 ?
-                                        PQImageFormats.getEnabledFileFormats(tweaks.showWhichFileTypeIndex) :
-                                          [])
+        if(tweaks.showWhichFileTypeIndex == "all") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormats()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypes()
+        } else if(tweaks.showWhichFileTypeIndex == "qt") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsQt()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesQt()
+        } else if(tweaks.showWhichFileTypeIndex == "magick") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsMagick()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesMagick()
+        } else if(tweaks.showWhichFileTypeIndex == "libraw") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsLibRaw()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesLibRaw()
+        } else if(tweaks.showWhichFileTypeIndex == "devil") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsDevIL()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesDevIL()
+        } else if(tweaks.showWhichFileTypeIndex == "freeimage") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsFreeImage()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesFreeImage()
+        } else if(tweaks.showWhichFileTypeIndex == "poppler") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsPoppler()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesPoppler()
+        } else if(tweaks.showWhichFileTypeIndex == "video") {
+            files_model.nameFilters = PQImageFormats.getEnabledFormatsVideo()
+            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesVideo()
+        } else if(tweaks.showWhichFileTypeIndex == "allfiles") {
+            files_model.nameFilters = []
+            files_model.mimeTypeFilter = []
+        } else
+            console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
 
-        loc = handlingFileDialog.cleanPath(loc)
+        loc = handlingFileDir.cleanPath(loc)
 
         files_model.folder = loc
-        currentIndex = -1
+        currentIndex = (files_model.count > 0 ? 0 : -1)
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]

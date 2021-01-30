@@ -1,6 +1,6 @@
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2020 Lukas Spies                                  **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
  ** Contact: http://photoqt.org                                          **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -21,14 +21,17 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.9
+import QtQuick.Layouts 1.3
 import "../elements"
 
 Window {
 
     id: wallpaper_window
+
+    //: Window title
+    title: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
 
     Component.onCompleted: {
         wallpaper_window.setX(windowgeometry.wallpaperWindowGeometry.x)
@@ -42,16 +45,16 @@ Window {
 
     modality: Qt.ApplicationModal
 
+    objectName: "wallpaperpopout"
+
     onClosing: {
-
-        windowgeometry.wallpaperWindowGeometry = Qt.rect(wallpaper_window.x, wallpaper_window.y, wallpaper_window.width, wallpaper_window.height)
-        windowgeometry.wallpaperWindowMaximized = (wallpaper_window.visibility==Window.Maximized)
-
+        storeGeometry()
         if(variables.visibleItem == "wallpaper")
             variables.visibleItem = ""
     }
 
     visible: PQSettings.wallpaperPopoutElement&&curloader.item.opacity==1
+    flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
@@ -71,6 +74,21 @@ Window {
                 item.parentWidth = Qt.binding(function() { return wallpaper_window.width })
                 item.parentHeight = Qt.binding(function() { return wallpaper_window.height })
             }
+    }
+
+    // get the memory address of this window for shortcut processing
+    // this info is used in PQSingleInstance::notify()
+    Timer {
+        interval: 100
+        repeat: false
+        running: true
+        onTriggered:
+            handlingGeneral.storeQmlWindowMemoryAddress(wallpaper_window.objectName)
+    }
+
+    function storeGeometry() {
+        windowgeometry.wallpaperWindowGeometry = Qt.rect(wallpaper_window.x, wallpaper_window.y, wallpaper_window.width, wallpaper_window.height)
+        windowgeometry.wallpaperWindowMaximized = (wallpaper_window.visibility==Window.Maximized)
     }
 
 }
