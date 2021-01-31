@@ -62,7 +62,7 @@ function loadFile(path, copyOfAllFiles) {
                                                                                sortField,
                                                                                !PQSettings.sortbyAscending)
 
-            if(variables.allImageFilesInOrder.indexOf(path) == -1)
+            if(!handlingFileDir.isDir(path) && variables.allImageFilesInOrder.indexOf(path) == -1)
                 variables.allImageFilesInOrder.push(path)
 
         }
