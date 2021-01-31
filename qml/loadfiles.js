@@ -46,14 +46,14 @@ function loadFile(path, copyOfAllFiles) {
         else {
 
             var sortField = PQSettings.sortby=="name" ?
-                                filefoldermodel.Name :
+                                PQFileFolderModel.Name :
                                 (PQSettings.sortby == "naturalname" ?
-                                    filefoldermodel.NaturalName :
+                                    PQFileFolderModel.NaturalName :
                                     (PQSettings.sortby == "time" ?
-                                        filefoldermodel.Time :
+                                        PQFileFolderModel.Time :
                                         (PQSettings.sortby == "size" ?
-                                            filefoldermodel.Size :
-                                            filefoldermodel.Type)))
+                                            PQFileFolderModel.Size :
+                                            PQFileFolderModel.Type)))
 
             variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(path,
                                                                                PQSettings.openShowHiddenFilesFolders,
