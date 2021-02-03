@@ -38,7 +38,9 @@ class PQLoadImageMagick {
 public:
     PQLoadImageMagick() {
         errormsg = "";
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
         image = Magick::Image();
+#endif
     }
 
     QImage load(QString filename, QSize maxSize, QSize *origSize, bool onlyLoadMagickImage = false) {
@@ -183,7 +185,9 @@ public:
     }
 
     QString errormsg;
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
     Magick::Image image;
+#endif
 
 
 };
