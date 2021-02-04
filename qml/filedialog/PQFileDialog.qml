@@ -45,8 +45,8 @@ Rectangle {
 
     color: "#333333"
 
-    property var historyListDirectory: [handlingFileDir.getHomeDir()]
-    property int historyListIndex: 0
+    property var historyListDirectory: []
+    property int historyListIndex: -1
 
     PQMouseArea {
         anchors.fill: parent

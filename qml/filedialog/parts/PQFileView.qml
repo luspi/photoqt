@@ -68,8 +68,11 @@ GridView {
                                      PQFileFolderModel.Type)))
         sortReversed: !PQSettings.sortbyAscending
 
-        Component.onCompleted:
+        Component.onCompleted: {
             loadFolder(variables.openCurrentDirectory)
+            filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
+            filedialog_top.historyListIndex = 0
+        }
 
     }
 
