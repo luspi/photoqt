@@ -154,8 +154,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     add_definitions(-DPHOTOQTDEBUG)
     target_compile_definitions(${PROJECT_NAME} PRIVATE QT_QML_DEBUG)
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -pedantic -Wextra -O0 -g)
-else()
-    target_compile_options(${PROJECT_NAME} PRIVATE -O3)
 endif()
 
 
