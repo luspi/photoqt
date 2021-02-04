@@ -33,6 +33,7 @@
 #include <iostream>
 #include <QNetworkInterface>
 #include <QRegExpValidator>
+#include <QSysInfo>
 
 #include "../logger.h"
 #include "../configfiles.h"

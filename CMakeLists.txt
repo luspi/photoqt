@@ -129,18 +129,6 @@ add_custom_target(translations ALL DEPENDS ${qm_files})
 include("CMake/ComposeLangResourceFile.cmake")
 composeLangResourceFile()
 
-##################################################################
-#### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
-#### THIS IS ONLY SET THE FIRST CMAKE RUN AND KEPT AFTERWARDS ####
-##################################################################
-
-if(NOT DEFINED CRYPTKEY)
-    string(RANDOM LENGTH 5 ALPHABET "0123456789" tmp_CRYPTKEY)
-    set(CRYPTKEY ${tmp_CRYPTKEY} CACHE STRING "Seed for SimpleCrypt" FORCE)
-endif()
-add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
-
-
 #############################
 #### Add the executeable ####
 #############################
