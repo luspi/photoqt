@@ -1,6 +1,16 @@
 Changelog PhotoQt - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 2.1.1 - 2021-02-06
+----------------------------
+- fix: revert default from ImageMagick back to GraphicsMagick (as it was before 2.1)
+- fix: sort images in folder when path passed on to PhotoQt via command line
+- fix: under certain circumstances the directory itself would be added as final 'image'
+- fix: first entry in history of file dialog was always set to home directory
+- fix: crypt key (used e.g. for handling Imgur authentication) now based off hostname
+- fix: back button for history in file dialog barely clickable
+
+
 Release 2.1 - 2021-01-30
 ----------------------------
 - improve: image format handling (sqlite based)

@@ -1,4 +1,4 @@
-# PhotoQt v2.1b
+# PhotoQt v2.1.1
 __Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ http://photoqt.org  
@@ -31,7 +31,7 @@ Please note that some of these should remain enabled if at all possible as they 
 
 #### NOTE
 
-On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - names can vary slightly depending on your distribution). These files usually can be uninstalled again after compilation is done.
+On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - names can vary slightly depending on your distribution). These packages usually can be uninstalled again after compilation is done.
 
 #### NOTE
 

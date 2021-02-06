@@ -1,4 +1,4 @@
- PhotoQt v2.1b - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v2.1.1 - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -34,11 +34,12 @@
 > NOTE
   On some systems you also need the *-dev package for compiling (e.g.
   exiv2-dev - names can vary slightly depending on your distribution). These
-  files usually can be uninstalled again after compilation is done.
+  packages usually can be uninstalled again after compilation is done.
 
 > NOTE
-  Even though GraphicsMagick initially started as a fork of ImageMagick (back in
-  2002), trying to build PhotoQt with ImageMagick wont currently work!
+  PhotoQt can work with either ImageMagick and GraphicsMagick, but due to 
+  conflicting naming schemes it is not possible to use both at the same time.
+  By default GraphicsMagick will be enabled in CMake.
 
 
  OPTIONAL DEPENDENCIES
