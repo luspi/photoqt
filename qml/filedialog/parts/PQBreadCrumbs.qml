@@ -58,7 +58,7 @@ Item {
         enabled: filedialog_top.historyListIndex>0
 
         font.pointSize: 20
-        width: 2*height/3
+        width: height
 
         x: 0
         y: (bread_top.height-height)/2
@@ -85,7 +85,7 @@ Item {
         enabled: filedialog_top.historyListIndex<filedialog_top.historyListDirectory.length-1
 
         font.pointSize: 20
-        width: 2*height/3
+        width: height
 
         anchors.left: backwards.right
         anchors.leftMargin: 5
