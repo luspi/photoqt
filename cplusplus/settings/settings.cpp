@@ -68,11 +68,7 @@ void PQSettings::setDefault() {
     setBackgroundColorBlue(0);
     setBackgroundColorAlpha(190);
 
-#ifdef Q_OS_WIN
-    setBackgroundImageScreenshot(QtWin::isCompositionEnabled() ? false : true);
-#else
     setBackgroundImageScreenshot(false);
-#endif
     setBackgroundImageUse(false);
     setBackgroundImagePath("");
     setBackgroundImageScale(true);
