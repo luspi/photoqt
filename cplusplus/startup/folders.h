@@ -43,6 +43,10 @@ namespace PQStartup {
             if(!dir.exists())
                 dir.mkpath(ConfigFiles::GENERIC_CACHE_DIR());
 
+            dir.setCurrent(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/");
+            if(!dir.exists())
+                dir.mkpath(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/");
+
         }
 
     }
