@@ -27,10 +27,19 @@ QString PQHandlingFileDir::cleanPath(QString path) {
     DBG << CURDATE << "PQHandlingFileDir::cleanPath()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
+#ifdef Q_OS_WIN
+    if(path.startsWith("file:///"))
+        path = path.remove(0, 8);
+    if(path.startsWith("file://"))
+        path = path.remove(0, 7);
+    if(path.startsWith("file:/"))
+        path = path.remove(0, 6);
+#else
     if(path.startsWith("file:///"))
         path = path.remove(0, 7);
     if(path.startsWith("file://"))
         path = path.remove(0, 6);
+#endif
 
     return QDir::cleanPath(path);
 
