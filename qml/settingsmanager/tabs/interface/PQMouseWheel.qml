@@ -32,12 +32,14 @@ PQSetting {
     expertmodeonly: true
     content: [
         Row {
+
             spacing: 10
+
             Text {
                 y: (parent.height-height)/2
                 color: "white"
                 //: The sensitivity here refers to the sensitivity of the mouse wheel
-                text: em.pty+qsTranslate("settingsmanager_interface", "not sensitive")
+                text: em.pty+qsTranslate("settingsmanager_interface", "very sensitive")
             }
 
             PQSlider {
@@ -53,8 +55,9 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 //: The sensitivity here refers to the sensitivity of the mouse wheel
-                text: em.pty+qsTranslate("settingsmanager_interface", "very sensitive")
+                text: em.pty+qsTranslate("settingsmanager_interface", "not sensitive")
             }
+
         }
     ]
 
