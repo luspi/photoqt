@@ -64,11 +64,7 @@ endif()
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-if(WIN32)
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql WinExtras REQUIRED)
-else()
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql REQUIRED)
-endif()
+find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql REQUIRED)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 if(IMAGEMAGICK)
@@ -136,11 +132,10 @@ composeLangResourceFile()
 # on windows we add application icons
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
-    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql Qt5::WinExtras)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files})
-    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql)
 endif()
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql)
 
 ######################################################
 #### CMAKE BUILD TYPE (DETERMINES COMPILER FLAGS) ####
@@ -163,6 +158,15 @@ endif()
 
 include("CMake/ComposeDesktopFile.cmake")
 composeDesktopFile()
+
+
+###############################
+#### SPECIAL WINDOWS FLAGS ####
+###############################
+
+if(WIN32)
+    add_definitions(-DWIN32_LEAN_AND_MEAN)
+endif()
 
 
 ########################
