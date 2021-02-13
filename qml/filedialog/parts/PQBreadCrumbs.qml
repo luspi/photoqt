@@ -136,7 +136,7 @@ Item {
         delegate: PQButton {
 
             id: modelentry
-            text: index==0||index%2==0 ? "/" : pathParts[(index+1)/2]
+            text: (index==0 ? pathParts[0]+"/" : (index%2==0 ? "/" : pathParts[(index+1)/2]))
 
             leftRightTextSpacing: text=="/" ? "" : "  "
 
@@ -157,6 +157,8 @@ Item {
 
             Component.onCompleted: {
                 completePath = "/"
+                if(handlingGeneral.amIOnWindow())
+                    completePath = pathParts[0]+"/"
                 for(var i = 1; i <= (index+1)/2; ++i)
                     completePath += pathParts[i] + "/"
                 listMenuItems = handlingFileDialog.getFoldersIn(completePath)
@@ -164,6 +166,8 @@ Item {
 
             onMenuItemClicked:  {
                 var newpath = "/"
+                if(handlingGeneral.amIOnWindow())
+                    newpath = pathParts[0]+"/"
                 for(var i = 1; i < (index+1)/2; ++i)
                     newpath += pathParts[i] + "/"
                 filedialog_top.setCurrentDirectory(newpath+"/"+listMenuItems[pos])
