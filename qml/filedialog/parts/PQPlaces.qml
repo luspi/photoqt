@@ -40,6 +40,21 @@ ListView {
     visible: PQSettings.openUserPlacesUser
     height: childrenRect.height
 
+    Text {
+        anchors.fill: parent
+        anchors.margins: 15
+        visible: parent.model.count==1
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        //: 'favorites' here refers to the list of favorite folders a user can set in the file dialog
+        text: em.pty+qsTranslate("filedialog", "no folder added to favorites yet")
+        color: "grey"
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        font.pointSize: 15
+        font.bold: true
+        lineHeight: 1.5
+    }
+
     delegate: Item {
 
         id: deleg
