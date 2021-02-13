@@ -23,15 +23,25 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
-Button {
+Rectangle {
+
     id: control
 
-    text: ""
+    height: 40
+    width: buttonSameWidthAsMenu ? menu.width : ((forceWidth==0) ? (txt.width+iconview.width)+2*leftRightTextSpacing : forceWidth)
+    property int forceWidth: 0
 
-    implicitHeight: 40
-    width: buttonSameWidthAsMenu ? menu.width : ((forceWidth==0) ? undefined : forceWidth)
+    opacity: enabled ? 1 : 0.3
+    border.width: 0
+    border.color: "#00000000"
+    radius: 2
 
-    padding: 0
+    property alias font: txt.font
+
+    color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
+    clip: true
+
+    property string text: ""
 
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
@@ -40,9 +50,6 @@ Button {
     property string textColor: "#ffffff"
     property string textColorHover: "#ffffff"
     property string textColorActive: "#ffffff"
-
-    property string borderColor: "#00000000"
-    property int borderWidth: 0
 
     property bool clickOpensMenu: false
     property bool menuOpenDownward: true
@@ -54,15 +61,15 @@ Button {
     property real imageOpacity: 1
 
     property bool mouseOver: false
+    property bool down: false
 
     property alias tooltip: mousearea.tooltip
     property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
 
-    property int forceWidth: 0
-
     signal menuItemClicked(var pos)
+    signal clicked()
 
-    property string leftRightTextSpacing: "   "
+    property int leftRightTextSpacing: 10
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
@@ -73,46 +80,31 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: em.pty+qsTranslate("buttongeneric", "Close")
 
-    contentItem: Text {
+    Text {
         id: txt
-        text: control.text=="" ? "" : (leftRightTextSpacing+control.text+leftRightTextSpacing)
-        font: control.font
-        y: (parent.height-height)/2
         x: (parent.width-width)/2
-        width: buttonSameWidthAsMenu ? menu.width-20 : ((forceWidth==0) ? undefined : forceWidth-20)
+        text: parent.text
+        height: parent.height
+        verticalAlignment: Text.AlignVCenter
         opacity: enabled ? 1.0 : 0.3
         color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
         Behavior on color { ColorAnimation { duration: 100 } }
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
 
-    background: Rectangle {
-        implicitWidth: (iconview.visible ? iconview.width : txt.width)
-        color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
-        Behavior on color { ColorAnimation { duration: 100 } }
-        implicitHeight: contentItem.height
-        opacity: enabled ? 1 : 0.3
-        border.width: control.borderWidth
-        border.color: control.borderColor
-        radius: 2
+    Image {
 
-        Image {
+        id: iconview
 
-            id: iconview
+        source: imageButtonSource
 
-            source: imageButtonSource
+        opacity: imageOpacity
+        visible: imageButtonSource!=undefined&&imageButtonSource!=""
 
-            opacity: imageOpacity
-            visible: imageButtonSource!=undefined&&imageButtonSource!=""
+        sourceSize: Qt.size(30,30)
 
-            sourceSize: Qt.size(30,30)
-
-            x: (parent.width-width)/2
-            y: (parent.height-height)/2
-
-        }
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
 
     }
 
@@ -132,11 +124,15 @@ Button {
             control.down = false
         onClicked: {
             if(clickOpensMenu) {
-                var pos = parent.mapFromItem(parent.parent, parent.x, parent.y)
-                if(menuOpenDownward)
-                    menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
-                else
-                    menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
+                if(menu.visible)
+                    menu.close()
+                else {
+                    var pos = parent.mapFromItem(parent.parent, parent.x, parent.y)
+                    if(menuOpenDownward)
+                        menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
+                    else
+                        menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
+                }
             } else
                 control.clicked()
         }

@@ -264,8 +264,8 @@ Item {
                         PQButton {
                             id: button_ok
                             text: em.pty+qsTranslate("filemanagement", "Choose location and save file")
-                            borderWidth: 1
-                            borderColor: "black"
+                            border.width: 1
+                            border.color: "black"
                             enabled: formatsview.currentIndex != -1
                             onClicked: {
                                 var stat = handlingManipulation.chooseLocationAndConvertImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage], newfilename.text, formatsview.data[formatsview.currentIndex][1])
@@ -286,8 +286,8 @@ Item {
                             scale: 0.8
                             id: button_cancel
                             text: genericStringCancel
-                            borderWidth: 1
-                            borderColor: "black"
+                            border.width: 1
+                            border.color: "black"
                             onClicked: {
                                 saveas_top.opacity = 0
                                 variables.visibleItem = ""

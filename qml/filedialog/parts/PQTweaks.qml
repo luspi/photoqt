@@ -169,7 +169,7 @@ Rectangle {
         anchors.rightMargin: 10
         y: (parent.height-height)/2
 
-        leftRightTextSpacing: ""
+        leftRightTextSpacing: 0
 
         tooltip: em.pty+qsTranslate("filedialog", "Remember loaded folder between sessions.")
         tooltipFollowsMouse: false
@@ -191,7 +191,7 @@ Rectangle {
         anchors.rightMargin: 10
         y: (parent.height-height)/2
 
-        leftRightTextSpacing: ""
+        leftRightTextSpacing: 0
 
         tooltip: em.pty+qsTranslate("filedialog", "Switch between list and icon view")
         tooltipFollowsMouse: false
