@@ -77,7 +77,7 @@ void PQFileFolderModel::loadData() {
 
         PQFileFolderEntry *entry = new PQFileFolderEntry;
         entry->fileName = alldirs.at(i).fileName();
-        entry->filePath = alldirs.at(i).filePath();
+        entry->filePath = alldirs.at(i).absoluteFilePath();
         entry->fileSize = alldirs.at(i).size();
         entry->fileModified = alldirs.at(i).lastModified();
         entry->fileIsDir = alldirs.at(i).isDir();
@@ -89,7 +89,7 @@ void PQFileFolderModel::loadData() {
 
         PQFileFolderEntry *entry = new PQFileFolderEntry;
         entry->fileName = allImageFilesInOrder.at(i).fileName();
-        entry->filePath = allImageFilesInOrder.at(i).filePath();
+        entry->filePath = allImageFilesInOrder.at(i).absoluteFilePath();
         entry->fileSize = allImageFilesInOrder.at(i).size();
         entry->fileModified = allImageFilesInOrder.at(i).lastModified();
         entry->fileIsDir = allImageFilesInOrder.at(i).isDir();
