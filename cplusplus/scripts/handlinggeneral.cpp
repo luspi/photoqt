@@ -22,6 +22,13 @@
 
 #include "handlinggeneral.h"
 
+bool PQHandlingGeneral::amIOnWindow() {
+#ifdef Q_OS_WIN
+    return true;
+#endif
+    return false;
+}
+
 bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText) {
 
     DBG << CURDATE << "PQHandlingGeneral::askForConfirmation()" << NL

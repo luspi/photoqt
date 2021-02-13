@@ -40,6 +40,7 @@ class PQHandlingGeneral : public QObject {
     Q_OBJECT
 
 public:
+    Q_INVOKABLE bool amIOnWindow();
     Q_INVOKABLE bool askForConfirmation(QString text, QString informativeText);
     Q_INVOKABLE void cleanUpScreenshotsTakenAtStartup();
     Q_INVOKABLE QString convertBytesToHumanReadable(qint64 bytes);
