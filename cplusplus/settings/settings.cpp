@@ -86,7 +86,7 @@ void PQSettings::setDefault() {
     setHotEdgeWidth(4);
     setCloseOnEmptyBackground(false);
     setMarginAroundImage(5);
-    setMouseWheelSensitivity(1);
+    setMouseWheelSensitivity(0);
     setKeepZoomRotationMirror(false);
     setFitInWindow(false);
     setInterpolationThreshold(100);
