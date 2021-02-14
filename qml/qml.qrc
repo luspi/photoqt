@@ -139,5 +139,7 @@
         <file>filemanagement/PQSaveAs.qml</file>
         <file>filemanagement/PQSaveAsPopout.qml</file>
         <file>welcome/PQWelcome.qml</file>
+        <file>unavailable/PQUnavailable.qml</file>
+        <file>unavailable/PQUnavailablePopout.qml</file>
     </qresource>
 </RCC>

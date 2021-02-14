@@ -41,8 +41,20 @@ Item {
     signal faceTaggerPassOn(var what, var param)
     signal settingsManagerPassOn(var what, var param)
     signal fileSaveAsPassOn(var what, var param);
+    signal unavailablePassOn(var what, var param)
+    signal unavailablePopoutPassOn(var what, var param)
 
     function show(ele) {
+
+        // This is used to mask features that are not (yet) available on Windows
+        if(handlingGeneral.amIOnWindows()) {
+            if(ele == "wallpaper") {
+                if(PQSettings.wallpaperPopoutElement)
+                    ele = "unavailablepopout"
+                else
+                    ele = "unavailable"
+            }
+        }
 
         ensureItIsReady(ele)
 
@@ -84,6 +96,12 @@ Item {
 
         else if(ele == "filesaveas")
             fileSaveAsPassOn("show", undefined)
+
+        else if(ele == "unavailable")
+            unavailablePassOn("show", undefined)
+
+        else if(ele == "unavailablepopout")
+            unavailablePopoutPassOn("show", undefined)
 
     }
 
@@ -148,6 +166,12 @@ Item {
 
         else if(ele == "filesaveas")
             fileSaveAsPassOn("keyevent", [key, mod])
+
+        else if(ele == "unavailable")
+            unavailablePassOn("keyevent", [key, mod])
+
+        else if(ele == "unavailablepopout")
+            unavailablePopoutPassOn("keyevent", [key, mod])
 
     }
 
@@ -277,6 +301,14 @@ Item {
 
             else if(!PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAs.qml")
                 filesaveas.source = "filemanagement/PQSaveAs.qml"
+
+        } else if(ele == "unavailable") {
+
+            unavailable.source = "unavailable/PQUnavailable.qml"
+
+        } else if(ele == "unavailablepopout") {
+
+            unavailablepopout.source = "unavailable/PQUnavailablePopout.qml"
 
         }
 

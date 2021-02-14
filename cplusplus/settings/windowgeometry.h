@@ -326,6 +326,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect unavailableWindowGeometry READ getUnavailableWindowGeometry WRITE setUnavailableWindowGeometry)
+    QRect getUnavailableWindowGeometry() { return m_unavailableWindowGeometry; }
+    void setUnavailableWindowGeometry(QRect rect) {
+        if(rect != m_unavailableWindowGeometry) {
+            m_unavailableWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool unavailableWindowMaximized READ getUnavailableWindowMaximized WRITE setUnavailableWindowMaximized)
+    bool getUnavailableWindowMaximized() { return m_unavailableWindowMaximized; }
+    void setUnavailableWindowMaximized(bool maximized) {
+        if(maximized != m_unavailableWindowMaximized) {
+            m_unavailableWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -374,6 +392,9 @@ private:
 
     QRect m_fileSaveAsWindowGeometry;
     bool  m_fileSaveAsWindowMaximized;
+
+    QRect m_unavailableWindowGeometry;
+    bool  m_unavailableWindowMaximized;
 
     QSettings *settings;
     PQHandlingExternal handlingExternal;

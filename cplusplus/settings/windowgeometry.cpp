@@ -89,6 +89,10 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     w = 800; h = 600;
     m_fileSaveAsWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
+    m_unavailableWindowMaximized = false;
+    w = 400; h = 300;
+    m_unavailableWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -179,6 +183,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("fileSaveAsWindowMaximized"))
         m_fileSaveAsWindowMaximized = settings->value("fileSaveAsWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("unavailableWindowGeometry"))
+        m_unavailableWindowGeometry = settings->value("unavailableWindowGeometry").toRect();
+    if(settings->allKeys().contains("unavailableWindowMaximized"))
+        m_unavailableWindowMaximized = settings->value("unavailableWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -232,5 +241,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("fileSaveAsWindowGeometry", m_fileSaveAsWindowGeometry);
     settings->setValue("fileSaveAsWindowMaximized", m_fileSaveAsWindowMaximized);
+
+    settings->setValue("unavailableWindowGeometry", m_unavailableWindowGeometry);
+    settings->setValue("unavailableWindowMaximized", m_unavailableWindowMaximized);
 
 }

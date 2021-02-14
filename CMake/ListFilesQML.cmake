@@ -79,3 +79,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcu
 
 SET(d "qml/welcome")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQWelcome.qml)
+
+SET(d "qml/unavailable")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQUnavailable.qml ${d}/PQUnavailablePopout.qml)

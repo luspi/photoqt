@@ -208,6 +208,9 @@ Window {
     Loader { id: filter }
     Loader { id: settingsmanager }
 
+    Loader { id: unavailable }
+    Loader { id: unavailablepopout }
+
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
 
