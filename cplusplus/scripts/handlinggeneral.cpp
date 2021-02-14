@@ -22,7 +22,7 @@
 
 #include "handlinggeneral.h"
 
-bool PQHandlingGeneral::amIOnWindow() {
+bool PQHandlingGeneral::amIOnWindows() {
 #ifdef Q_OS_WIN
     return true;
 #endif

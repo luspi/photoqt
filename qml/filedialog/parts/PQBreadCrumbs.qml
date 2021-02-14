@@ -156,7 +156,7 @@ Item {
 
             Component.onCompleted: {
                 completePath = "/"
-                if(handlingGeneral.amIOnWindow())
+                if(handlingGeneral.amIOnWindows())
                     completePath = pathParts[0]+"/"
                 for(var i = 1; i <= (index+1)/2; ++i)
                     completePath += pathParts[i] + "/"
@@ -165,7 +165,7 @@ Item {
 
             onMenuItemClicked:  {
                 var newpath = "/"
-                if(handlingGeneral.amIOnWindow())
+                if(handlingGeneral.amIOnWindows())
                     newpath = pathParts[0]+"/"
                 for(var i = 1; i < (index+1)/2; ++i)
                     newpath += pathParts[i] + "/"
