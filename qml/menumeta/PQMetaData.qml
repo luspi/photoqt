@@ -337,7 +337,11 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.metadataPopoutElement ? "Merge back into main interface" : "Move to itws own window"
+            tooltip: PQSettings.aboutPopoutElement ?
+                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
+                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                         em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
                 if(PQSettings.metadataPopoutElement==0) {
                     keepopen.checked = false
