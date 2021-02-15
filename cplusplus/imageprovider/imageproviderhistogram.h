@@ -38,7 +38,9 @@ public:
     explicit PQImageProviderHistogram() : QQuickImageProvider(QQuickImageProvider::Pixmap) {
         loader = new PQLoadImage;
     }
-    ~PQImageProviderHistogram() { }
+    ~PQImageProviderHistogram() {
+        delete loader;
+    }
 
     QPixmap requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize);
 

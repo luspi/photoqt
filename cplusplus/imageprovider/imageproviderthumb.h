@@ -43,6 +43,7 @@ class PQAsyncImageResponseThumb : public QQuickImageResponse, public QRunnable {
 
 public:
     PQAsyncImageResponseThumb(const QString &url, const QSize &requestedSize);
+    ~PQAsyncImageResponseThumb();
 
     QQuickTextureFactory *textureFactory() const override;
 

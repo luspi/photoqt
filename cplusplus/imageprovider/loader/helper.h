@@ -37,6 +37,10 @@ public:
         cache->setMaxCost(PQSettings::get().getPixmapCache());
     }
 
+    ~PQLoadImageHelper() {
+        delete cache;
+    }
+
     QString getUniqueCacheKey(QString filename) {
         return QCryptographicHash::hash(QString("%1%2").arg(filename).arg(QFileInfo(filename).lastModified().toMSecsSinceEpoch()).toUtf8(),QCryptographicHash::Md5).toHex();
     }

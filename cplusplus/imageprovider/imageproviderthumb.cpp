@@ -42,6 +42,11 @@ PQAsyncImageResponseThumb::PQAsyncImageResponseThumb(const QString &url, const Q
     load_err = new PQLoadImageErrorImage;
 }
 
+PQAsyncImageResponseThumb::~PQAsyncImageResponseThumb() {
+    delete loader;
+    delete load_err;
+}
+
 QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
     return QQuickTextureFactory::textureFactoryForImage(m_image);
 }

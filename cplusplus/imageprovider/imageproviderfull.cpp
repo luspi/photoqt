@@ -32,7 +32,10 @@ PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProv
 
 }
 
-PQImageProviderFull::~PQImageProviderFull() { }
+PQImageProviderFull::~PQImageProviderFull() {
+    delete loader;
+    delete load_err;
+}
 
 QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize) {
 

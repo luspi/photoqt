@@ -37,6 +37,13 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QAbstractListModel(paren
 
 }
 
+PQFileFolderModel::~PQFileFolderModel() {
+    delete loadDelay;
+    delete watcher;
+    for(int i = 0; i < entries.length(); ++i)
+        delete entries[i];
+}
+
 void PQFileFolderModel::loadData() {
 
     DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;

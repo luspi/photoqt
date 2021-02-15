@@ -99,6 +99,10 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
 
 }
 
+PQWindowGeometry::~PQWindowGeometry() {
+    delete settings;
+}
+
 void PQWindowGeometry::readGeometries() {
 
     DBG << CURDATE << "PQWindowGeometry::readGeometries()" << NL;

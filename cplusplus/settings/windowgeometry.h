@@ -37,6 +37,7 @@ class PQWindowGeometry : public QObject {
 
 public:
     explicit PQWindowGeometry(QObject *parent = 0);
+    ~PQWindowGeometry();
 
     Q_PROPERTY(QRect mainWindowGeometry READ getMainWindowGeometry WRITE setMainWindowGeometry)
     const QRect getMainWindowGeometry() { return m_mainWindowGeometry; }

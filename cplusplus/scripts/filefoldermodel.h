@@ -73,6 +73,7 @@ public:
     Q_ENUMS(SortBy)
 
     PQFileFolderModel(QObject *parent = nullptr);
+    ~PQFileFolderModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const {
         if(parent.isValid())
