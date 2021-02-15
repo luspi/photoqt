@@ -67,7 +67,7 @@ Item {
             angleDeltaX += wheel.angleDelta.x
             angleDeltaY += wheel.angleDelta.y
 
-            var threshold = Math.max(10, PQSettings.mouseWheelSensitivity*120)
+            var threshold = Math.max(10, (PQSettings.mouseWheelSensitivity-1)*120)
 
             if(Math.abs(angleDeltaX) <= threshold && Math.abs(angleDeltaY) <= threshold)
                 return;

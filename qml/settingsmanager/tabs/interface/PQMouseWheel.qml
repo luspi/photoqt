@@ -45,7 +45,7 @@ PQSetting {
             PQSlider {
                 id: wheelsensitivity
                 y: (parent.height-height)/2
-                from: 0
+                from: 1
                 to: 10
                 stepSize: 1
                 wheelStepSize: 1
