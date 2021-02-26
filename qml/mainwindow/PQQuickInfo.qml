@@ -186,9 +186,9 @@ Item {
                 (PQSettings.quickInfoHideZoomLevel ?
                      em.pty+qsTranslate("quickinfo", "Show zoom level") :
                      em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-                (PQSettings.quickInfoHideX ?
-                     em.pty+qsTranslate("quickinfo", "Show button for closing PhotoQt") :
-                     em.pty+qsTranslate("quickinfo", "Hide button for closing PhotoQt"))
+                (PQSettings.quickInfoHideWindowButtons ?
+                     em.pty+qsTranslate("quickinfo", "Show window buttons") :
+                     em.pty+qsTranslate("quickinfo", "Hide window buttons"))
             ]
 
             onTriggered: {
@@ -201,7 +201,7 @@ Item {
                  else if(index == 3)
                     PQSettings.quickInfoHideZoomLevel = !PQSettings.quickInfoHideZoomLevel
                 else if(index == 4)
-                    PQSettings.quickInfoHideX = !PQSettings.quickInfoHideX
+                    PQSettings.quickInfoHideWindowButtons = !PQSettings.quickInfoHideWindowButtons
             }
 
         }

@@ -122,9 +122,9 @@ PQSetting {
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_exit
-                    //: the exit button is the x shown in the top right corner of the window
-                    text: em.pty+qsTranslate("settingsmanager_interface", "exit button")
+                    id: quick_windowbuttons
+                    //: the window buttons are some window management buttons like: close window, maximize, fullscreen
+                    text: em.pty+qsTranslate("settingsmanager_interface", "window buttons")
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -143,11 +143,11 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: "white"
-                    //: the size of the exit button (the x shown in the top right corner of the window)
-                    text: em.pty+qsTranslate("settingsmanager_interface", "size of exit button") + ":"
+                    //: the size of the window buttons (the buttons shown in the top right corner of the window)
+                    text: em.pty+qsTranslate("settingsmanager_interface", "size of window buttons") + ":"
                 }
                 PQSlider {
-                    id: quick_exitsize
+                    id: quick_windowbuttonssize
                     y: (parent.height-height)/2
                     from: 5
                     to: 25
@@ -164,7 +164,7 @@ PQSetting {
         if(quick_filepath.checked) howmany += 1
         if(quick_filename.checked) howmany += 1
         if(quick_zoom.checked) howmany += 1
-        if(quick_exit.checked) howmany += 1
+        if(quick_windowbuttons.checked) howmany += 1
         return howmany
     }
 
@@ -177,9 +177,9 @@ PQSetting {
             quick_filepath.checked = !PQSettings.quickInfoHideFilepath
             quick_filename.checked = !PQSettings.quickInfoHideFilename
             quick_zoom.checked = !PQSettings.quickInfoHideZoomLevel
-            quick_exit.checked = !PQSettings.quickInfoHideX
+            quick_windowbuttons.checked = !PQSettings.quickInfoHideWindowButtons
 
-            quick_exitsize.value = PQSettings.quickInfoCloseXSize
+            quick_windowbuttonssize.value = PQSettings.quickInfoWindowButtonsSize
 
             if(howManyChecked() == 0)
                 quick_show.checked = false
@@ -193,9 +193,9 @@ PQSetting {
             PQSettings.quickInfoHideFilepath = !quick_filepath.checked
             PQSettings.quickInfoHideFilename = !quick_filename.checked
             PQSettings.quickInfoHideZoomLevel = !quick_zoom.checked
-            PQSettings.quickInfoHideX = !quick_exit.checked
+            PQSettings.quickInfoHideWindowButtons = !quick_windowbuttons.checked
 
-            PQSettings.quickInfoCloseXSize = quick_exitsize.value
+            PQSettings.quickInfoWindowButtonsSize = quick_windowbuttonssize.value
 
         }
 

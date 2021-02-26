@@ -25,36 +25,85 @@ import "../elements"
 
 Item {
 
-    x: parent.width-width
-    y: 0
+    x: parent.width-width-5
+    y: 5
 
-    width: 3*PQSettings.quickInfoCloseXSize
-    height: 3*PQSettings.quickInfoCloseXSize
+    width: row.width
+    height: row.height
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && !PQSettings.quickInfoHideX
+    // these are always visible on top of everything, according to the conditions below
+    z: 999
 
-    Image {
-        anchors.fill: parent
-        anchors.margins: 5
-        source: "/mainwindow/close.png"
-    }
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && !PQSettings.quickInfoHideWindowButtons && opacity==1
 
+    opacity: variables.visibleItem=="filedialog" ? 0 : 1
+    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+
+    // clicks between buttons has no effect anywhere
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
-        acceptedButtons: Qt.LeftButton|Qt.RightButton
-        onClicked: {
-            if(mouse.button == Qt.LeftButton)
-                toplevel.close()
-            else {
-                var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                console.log("opoup")
-                rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+    }
+
+    Row {
+
+        id: row
+
+        spacing: 10
+
+        Image {
+            width: 3*PQSettings.quickInfoWindowButtonsSize
+            height: 3*PQSettings.quickInfoWindowButtonsSize
+            source: PQSettings.windowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+
+            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.2
+            Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+
+            PQMouseArea {
+                id: fullscreen_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: (PQSettings.windowMode ? em.pty+qsTranslate("quickinfo", "Click here to enter fullscreen mode")
+                                                : em.pty+qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: {
+                    if(mouse.button == Qt.LeftButton)
+                        PQSettings.windowMode = !PQSettings.windowMode
+                    else {
+                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    }
+                }
             }
         }
+
+        Image {
+            width: 3*PQSettings.quickInfoWindowButtonsSize
+            height: 3*PQSettings.quickInfoWindowButtonsSize
+            source: "/mainwindow/close.png"
+
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: {
+                    if(mouse.button == Qt.LeftButton)
+                        toplevel.close()
+                    else {
+                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    }
+                }
+            }
+
+        }
+
     }
+
+
 
     PQMenu {
 
@@ -72,9 +121,9 @@ Item {
             (PQSettings.quickInfoHideZoomLevel ?
                  em.pty+qsTranslate("quickinfo", "Show zoom level") :
                  em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-            (PQSettings.quickInfoHideX ?
-                 em.pty+qsTranslate("quickinfo", "Show button for closing PhotoQt") :
-                 em.pty+qsTranslate("quickinfo", "Hide button for closing PhotoQt"))
+            (PQSettings.quickInfoHideWindowButtons ?
+                 em.pty+qsTranslate("quickinfo", "Show window buttons") :
+                 em.pty+qsTranslate("quickinfo", "Hide window buttons"))
         ]
 
         onTriggered: {
@@ -87,7 +136,7 @@ Item {
              else if(index == 3)
                 PQSettings.quickInfoHideZoomLevel = !PQSettings.quickInfoHideZoomLevel
             else if(index == 4)
-                PQSettings.quickInfoHideX = !PQSettings.quickInfoHideX
+                PQSettings.quickInfoHideWindowButtons = !PQSettings.quickInfoHideWindowButtons
         }
 
     }

@@ -15,7 +15,6 @@
         <file>PQLoader.qml</file>
         <file>PQVariables.qml</file>
         <file>mainwindow/PQQuickInfo.qml</file>
-        <file>mainwindow/PQCloseButton.qml</file>
         <file>shortcuts/PQMouseShortcuts.qml</file>
         <file>shortcuts/handleshortcuts.js</file>
         <file>shortcuts/PQKeyShortcuts.qml</file>
@@ -141,5 +140,6 @@
         <file>welcome/PQWelcome.qml</file>
         <file>unavailable/PQUnavailable.qml</file>
         <file>unavailable/PQUnavailablePopout.qml</file>
+        <file>mainwindow/PQWindowButtons.qml</file>
     </qresource>
 </RCC>

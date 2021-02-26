@@ -183,7 +183,7 @@ Window {
     PQImage { id: imageitem }
     PQQuickInfo { id: quickinfo }
     PQMessage { id: message }
-    PQCloseButton { id: closebutton }
+    PQWindowButtons { id: windowbuttons }
 
     PQThumbnailBar { id: thumbnails }
 
@@ -241,6 +241,12 @@ Window {
         target: PQSettings
         onLanguageChanged:
             em.setLanguage(PQSettings.language)
+        onWindowModeChanged: {
+            if(PQSettings.windowMode)
+                toplevel.visibility = Window.Maximized
+            else
+                toplevel.visibility = Window.FullScreen
+        }
     }
 
     function start() {

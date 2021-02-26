@@ -110,9 +110,9 @@ void PQSettings::setDefault() {
     setQuickInfoHideCounter(false);
     setQuickInfoHideFilepath(true);
     setQuickInfoHideFilename(false);
-    setQuickInfoHideX(false);
+    setQuickInfoHideWindowButtons(false);
     setQuickInfoHideZoomLevel(false);
-    setQuickInfoCloseXSize(10);
+    setQuickInfoWindowButtonsSize(10);
 #ifdef Q_OS_WIN
     setQuickInfoManageWindow(true);
 #else
@@ -380,14 +380,14 @@ void PQSettings::readSettings() {
             else if(line.startsWith("QuickInfoHideFilename="))
                 setQuickInfoHideFilename(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoHideX="))
-                setQuickInfoHideX(line.split("=").at(1).toInt());
+            else if(line.startsWith("QuickInfoHideWindowButtons="))
+                setQuickInfoHideWindowButtons(line.split("=").at(1).toInt());
 
             else if(line.startsWith("QuickInfoHideZoomLevel="))
                 setQuickInfoHideZoomLevel(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoCloseXSize="))
-                setQuickInfoCloseXSize(line.split("=").at(1).toInt());
+            else if(line.startsWith("QuickInfoWindowButtonsSize="))
+                setQuickInfoWindowButtonsSize(line.split("=").at(1).toInt());
 
             else if(line.startsWith("QuickInfoManageWindow="))
                 setQuickInfoManageWindow(line.split("=").at(1).toInt());
@@ -752,11 +752,11 @@ void PQSettings::saveSettings() {
 
         cont += "\n[QuickInfo]\n";
 
-        cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
+        cont += QString("QuickInfoWindowButtonsSize=%1\n").arg(m_quickInfoWindowButtonsSize);
         cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
         cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
         cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
-        cont += QString("QuickInfoHideX=%1\n").arg(int(m_quickInfoHideX));
+        cont += QString("QuickInfoWindowButtons=%1\n").arg(int(m_quickInfoHideWindowButtons));
         cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
         cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
 

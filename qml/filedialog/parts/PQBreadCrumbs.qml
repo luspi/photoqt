@@ -178,11 +178,40 @@ Item {
 
     Rectangle {
         id: sep2
-        anchors.right: closefileview.left
+        anchors.right: fullscreenwindow.left
         anchors.rightMargin: 5
         width: 1
         height: bread_top.height
         color: "#444444"
+    }
+
+    Item {
+        id: fullscreenwindow
+        anchors.right: closefileview.left
+        height: parent.height
+        width: height
+
+        Image {
+
+            anchors.fill: parent
+            anchors.margins: 10
+
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            source: PQSettings.windowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+
+        }
+
+        PQMouseArea {
+            anchors.fill: parent
+            tooltip: PQSettings.windowMode ? em.pty+qsTranslate("filedialog", "Enter fullscreen")
+                                           : em.pty+qsTranslate("filedialog", "Exit fullscreen")
+            tooltipFollowsMouse: false
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: PQSettings.windowMode = !PQSettings.windowMode
+        }
+
     }
 
     Item {

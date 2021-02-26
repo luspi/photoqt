@@ -478,12 +478,12 @@ public:
             }
         }
 
-        Q_PROPERTY(bool quickInfoHideX READ getQuickInfoHideX WRITE setQuickInfoHideX NOTIFY quickInfoHideXChanged)
-        bool getQuickInfoHideX() { return m_quickInfoHideX; }
-        void setQuickInfoHideX(bool val) {
-            if(m_quickInfoHideX != val) {
-                m_quickInfoHideX = val;
-                emit quickInfoHideXChanged();
+        Q_PROPERTY(bool quickInfoHideWindowButtons READ getQuickInfoHideWindowButtons WRITE setQuickInfoHideWindowButtons NOTIFY quickInfoHideWindowButtonsChanged)
+        bool getQuickInfoHideWindowButtons() { return m_quickInfoHideWindowButtons; }
+        void setQuickInfoHideWindowButtons(bool val) {
+            if(m_quickInfoHideWindowButtons != val) {
+                m_quickInfoHideWindowButtons = val;
+                emit quickInfoHideWindowButtonsChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -498,12 +498,12 @@ public:
             }
         }
 
-        Q_PROPERTY(int quickInfoCloseXSize READ getQuickInfoCloseXSize WRITE setQuickInfoCloseXSize NOTIFY quickInfoCloseXSizeChanged)
-        int getQuickInfoCloseXSize() { return m_quickInfoCloseXSize; }
-        void setQuickInfoCloseXSize(int val) {
-            if(m_quickInfoCloseXSize != val) {
-                m_quickInfoCloseXSize = val;
-                emit quickInfoCloseXSizeChanged();
+        Q_PROPERTY(int quickInfoWindowButtonsSize READ getQuickInfoWindowButtonsSize WRITE setQuickInfoWindowButtonsSize NOTIFY quickInfoWindowButtonsSizeChanged)
+        int getQuickInfoWindowButtonsSize() { return m_quickInfoWindowButtonsSize; }
+        void setQuickInfoWindowButtonsSize(int val) {
+            if(m_quickInfoWindowButtonsSize != val) {
+                m_quickInfoWindowButtonsSize = val;
+                emit quickInfoWindowButtonsSizeChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1521,9 +1521,9 @@ private:
         bool    m_quickInfoHideCounter;
         bool    m_quickInfoHideFilepath;
         bool    m_quickInfoHideFilename;
-        bool    m_quickInfoHideX;
+        bool    m_quickInfoHideWindowButtons;
         bool    m_quickInfoHideZoomLevel;
-        int     m_quickInfoCloseXSize;
+        int     m_quickInfoWindowButtonsSize;
         bool    m_quickInfoManageWindow;
 
         int     m_slideShowTime;
@@ -1677,9 +1677,9 @@ signals:
         void quickInfoHideCounterChanged();
         void quickInfoHideFilepathChanged();
         void quickInfoHideFilenameChanged();
-        void quickInfoHideXChanged();
+        void quickInfoHideWindowButtonsChanged();
         void quickInfoHideZoomLevelChanged();
-        void quickInfoCloseXSizeChanged();
+        void quickInfoWindowButtonsSizeChanged();
         void quickInfoManageWindowChanged();
         void slideShowTimeChanged();
         void slideShowImageTransitionChanged();

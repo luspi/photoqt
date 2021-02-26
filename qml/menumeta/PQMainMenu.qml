@@ -50,7 +50,7 @@ Rectangle {
         onMousePosChanged: {
             if(PQSettings.mainMenuPopoutElement)
                 return
-            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && variables.mousePos.y > closebutton.height*2 && !variables.slideShowActive && !variables.faceTaggingActive)
+            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && !variables.slideShowActive && !variables.faceTaggingActive)
                 mainmenu_top.opacity = 1
             else
                 mainmenu_top.opacity = 0
@@ -216,6 +216,27 @@ Rectangle {
     }
 
     ListView {
+
+        Image {
+            x: parent.width-width-10
+            y: 0
+            width: 25
+            height: 25
+            source: "/popin.png"
+            opacity: popinmouse1.containsMouse ? 1 : 0.4
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: !PQSettings.mainMenuPopoutElement
+            PQMouseArea {
+                id: popinmouse1
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                tooltip: em.pty+qsTranslate("popinpopout", "Move to its own window")
+                onClicked:
+                    PQSettings.mainMenuPopoutElement = true
+            }
+        }
 
         id: mainlistview
         x: 10
@@ -386,33 +407,29 @@ Rectangle {
 
     }
 
-    // we put a black rectangle behind that icon as it can look odd with the closing x behind it
-    Rectangle {
+    // visible when popped out
+    Item {
         x: parent.width-width
-        y:0
+        y: 0
         width: 35
         height: 35
-        color: PQSettings.mainMenuPopoutElement ? "transparent" : "black"
+        visible: PQSettings.mainMenuPopoutElement
         Image {
             anchors.fill: parent
             anchors.margins: 5
             source: "/popin.png"
-            opacity: popinmouse.containsMouse ? 1 : 0.4
+            opacity: popinmouse2.containsMouse ? 1 : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
             PQMouseArea {
-                id: popinmouse
+                id: popinmouse2
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.aboutPopoutElement ?
-                             //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                             em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                             //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                             em.pty+qsTranslate("popinpopout", "Move to its own window")
+                //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                tooltip: em.pty+qsTranslate("popinpopout", "Merge into main interface")
                 onClicked: {
-                    if(PQSettings.mainMenuPopoutElement)
-                        mainmenu_window.storeGeometry()
-                    PQSettings.mainMenuPopoutElement = (PQSettings.mainMenuPopoutElement+1)%2
+                    mainmenu_window.storeGeometry()
+                    PQSettings.mainMenuPopoutElement = false
                 }
             }
         }

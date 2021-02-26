@@ -76,5 +76,7 @@
         <file>welcome/individual.png</file>
         <file>welcome/mixed.png</file>
         <file>popin.png</file>
+        <file>mainwindow/fullscreen_off.png</file>
+        <file>mainwindow/fullscreen_on.png</file>
     </qresource>
 </RCC>
