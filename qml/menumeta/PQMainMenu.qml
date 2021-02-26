@@ -217,27 +217,6 @@ Rectangle {
 
     ListView {
 
-        Image {
-            x: parent.width-width-10
-            y: 0
-            width: 25
-            height: 25
-            source: "/popin.png"
-            opacity: popinmouse1.containsMouse ? 1 : 0.4
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: !PQSettings.mainMenuPopoutElement
-            PQMouseArea {
-                id: popinmouse1
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                tooltip: em.pty+qsTranslate("popinpopout", "Move to its own window")
-                onClicked:
-                    PQSettings.mainMenuPopoutElement = true
-            }
-        }
-
         id: mainlistview
         x: 10
         y: spacingbelowheader.y + spacingbelowheader.height+10
@@ -409,27 +388,30 @@ Rectangle {
 
     // visible when popped out
     Item {
-        x: parent.width-width
-        y: 0
-        width: 35
-        height: 35
-        visible: PQSettings.mainMenuPopoutElement
+        x: 5
+        y: 5
+        width: 25
+        height: 25
         Image {
             anchors.fill: parent
             anchors.margins: 5
             source: "/popin.png"
-            opacity: popinmouse2.containsMouse ? 1 : 0.4
+            opacity: popinmouse.containsMouse ? 1 : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
             PQMouseArea {
-                id: popinmouse2
+                id: popinmouse
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                tooltip: em.pty+qsTranslate("popinpopout", "Merge into main interface")
+                tooltip: PQSettings.mainMenuPopoutElement
+                                //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                                ? em.pty+qsTranslate("popinpopout", "Merge into main interface")
+                                //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                                : em.pty+qsTranslate("popinpopout", "Move to its own window")
                 onClicked: {
-                    mainmenu_window.storeGeometry()
-                    PQSettings.mainMenuPopoutElement = false
+                    if(PQSettings.mainMenuPopoutElement)
+                        mainmenu_window.storeGeometry()
+                    PQSettings.mainMenuPopoutElement = !PQSettings.mainMenuPopoutElement
                 }
             }
         }

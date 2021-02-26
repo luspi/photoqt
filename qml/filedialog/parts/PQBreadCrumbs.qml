@@ -254,34 +254,4 @@ Item {
         color: "#aaaaaa"
     }
 
-
-
-    Image {
-        x: sep2.x-width-5
-        y: 5
-        width: 25
-        height: 25
-        opacity: popinmouse.containsMouse ? 1 : 0.2
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "/popin.png"
-        PQMouseArea {
-            id: popinmouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.aboutPopoutElement ?
-                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                         em.pty+qsTranslate("popinpopout", "Move to its own window")
-            onClicked: {
-                if(PQSettings.openPopoutElement)
-                    filedialog_window.storeGeometry()
-                hideFileDialog()
-                PQSettings.openPopoutElement = (PQSettings.openPopoutElement+1)%2
-                HandleShortcuts.executeInternalFunction("__open")
-            }
-        }
-    }
-
 }

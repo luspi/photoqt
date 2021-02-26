@@ -218,10 +218,10 @@ Item {
     }
 
     Image {
-        x: parent.width-width-5
+        x: 5
         y: 5
-        width: 25
-        height: 25
+        width: 15
+        height: 15
         source: "/popin.png"
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }

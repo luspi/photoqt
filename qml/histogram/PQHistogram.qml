@@ -182,6 +182,8 @@ Rectangle {
 
     Image {
 
+        id: histswitch
+
         source: "/other/histogramswitch.png"
 
         x: PQSettings.histogramPopoutElement ? 5 : -5
@@ -295,10 +297,10 @@ Rectangle {
     }
 
     Image {
-        x: parent.width-width-(PQSettings.histogramPopoutElement ? 5 : histclose.width)
+        x: (PQSettings.histogramPopoutElement ? 5 : histswitch.width)
         y: PQSettings.histogramPopoutElement ? 5 : -5
-        width: 25
-        height: 25
+        width: 15
+        height: 15
         source: "/popin.png"
         opacity: popinmouse.containsMouse ? 1 : 0.2
         Behavior on opacity { NumberAnimation { duration: 200 } }
