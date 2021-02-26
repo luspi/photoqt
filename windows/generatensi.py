@@ -27,11 +27,14 @@ if not architecture=="32" and not architecture == "64":
     exit();
 
 
+
+cont = "Unicode True\n\n";
+
 #--------------------------------
 # INCLUDES
 
 # Include Modern UI
-cont = "!include MUI2.nsh\n\n";
+cont += "!include MUI2.nsh\n\n";
 
 # Include stuff for nsdialog
 cont += "!include LogicLib.nsh\n";
