@@ -287,7 +287,7 @@ Window {
             PQSettings.fileSaveAsPopoutElement = 0
 
             PQSettings.windowMode = 1
-            PQSettings.windowDecoration = 0
+            PQSettings.windowDecoration = 1
 
         // everything in its own window
         } else if(radio_individual.checked) {

@@ -56,7 +56,7 @@ void PQSettings::setDefault() {
     setSortbyAscending(true);
 
     setWindowMode(true);
-    setWindowDecoration(false);
+    setWindowDecoration(true);
 
     setSaveWindowGeometry(false);
     setKeepOnTop(false);
