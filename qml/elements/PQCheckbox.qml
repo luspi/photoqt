@@ -48,16 +48,52 @@ CheckBox {
         color: control.checked ? (control.enabled ? "#ffffff" : "#dddddd" ) : "#aaaaaa"
         Behavior on color { ColorAnimation { duration: 50 } }
         border.color: "#333333"
-        Rectangle {
-            width: 12
-            height: 12
-            x: 4
-            y: 4
-            radius: 2
-            color: control.enabled ? "#333333" : "#666666"
+
+        // indicator checkmark
+        Canvas {
+            id: canvas
+            anchors.fill: parent
+            anchors.margins: 4
+            contextType: "2d"
             opacity: control.checked ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 50 } }
+
+            Connections {
+                target: control
+                onEnabledChanged:
+                    canvas.requestPaint();
+            }
+
+            onPaint: {
+                // thickness of checkmark
+                var w = 2;
+
+                // diagonal line, top left to bottom right
+                context.reset()
+                context.moveTo(0, 0);
+                context.lineTo(0,w);
+                context.lineTo(width-w,height);
+                context.lineTo(width,height);
+                context.lineTo(width,height-w);
+                context.lineTo(w,0);
+                context.lineTo(0,0);
+                context.closePath();
+
+                // diagonal line, top right to bottom left
+                context.moveTo(width, 0);
+                context.lineTo(width-w,0);
+                context.lineTo(0,height-w);
+                context.lineTo(0,height);
+                context.lineTo(w,height);
+                context.lineTo(width,w);
+                context.lineTo(width,0);
+                context.closePath();
+
+                context.fillStyle = control.enabled ? "#333333" : "#aaaaaa";
+                context.fill();
+            }
         }
+
     }
 
     contentItem: Text {
