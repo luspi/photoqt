@@ -221,8 +221,10 @@ GridView {
             Rectangle {
 
                 width: parent.width
-                height: fileName==".." ? parent.height : parent.height/2
+                height: fileName==".." ? parent.height : (files_grid.currentIndex == index ? parent.height/2 : parent.height/3.5)
                 y: parent.height-height
+
+                Behavior on height { NumberAnimation { duration: 100 } }
 
                 opacity: PQSettings.openDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -242,7 +244,8 @@ GridView {
                     elide: Text.ElideMiddle
                     wrapMode: Text.Wrap
 
-                    font.pointSize: fileName==".." ? 20 : 10
+                    font.pointSize: fileName==".." ? 20 : (files_grid.currentIndex == index ? 10 : 8)
+                    Behavior on font.pointSize { NumberAnimation { duration: 100 } }
 
 
                 }
