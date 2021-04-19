@@ -52,8 +52,13 @@ CheckBox {
         // indicator checkmark
         Canvas {
             id: canvas
-            anchors.fill: parent
-            anchors.margins: 4
+            anchors {
+                fill: parent
+                topMargin: 3
+                rightMargin: 4
+                bottomMargin: 3
+                leftMargin: 4
+            }
             contextType: "2d"
             opacity: control.checked ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 50 } }
@@ -65,32 +70,16 @@ CheckBox {
             }
 
             onPaint: {
-                // thickness of checkmark
-                var w = 2;
-
-                // diagonal line, top left to bottom right
+                var w = 3;
                 context.reset()
-                context.moveTo(0, 0);
-                context.lineTo(0,w);
-                context.lineTo(width-w,height);
-                context.lineTo(width,height);
-                context.lineTo(width,height-w);
-                context.lineTo(w,0);
-                context.lineTo(0,0);
-                context.closePath();
+                context.moveTo(0, height/2);
+                context.lineTo(width/2, height-w)
+                context.lineTo(width, 0)
+                context.lineWidth = w
+                context.lineJoint = "round"
+                context.strokeStyle = control.enabled ? "#333333" : "#aaaaaa";
+                context.stroke()
 
-                // diagonal line, top right to bottom left
-                context.moveTo(width, 0);
-                context.lineTo(width-w,0);
-                context.lineTo(0,height-w);
-                context.lineTo(0,height);
-                context.lineTo(w,height);
-                context.lineTo(width,w);
-                context.lineTo(width,0);
-                context.closePath();
-
-                context.fillStyle = control.enabled ? "#333333" : "#aaaaaa";
-                context.fill();
             }
         }
 
