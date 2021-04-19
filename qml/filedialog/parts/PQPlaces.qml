@@ -99,7 +99,7 @@ ListView {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            color: (userplaces_top.hoverIndex==index||mouseArea.drag.active) ? "#555555" : "#00555555"
+            color: (userplaces_top.hoverIndex==index||mouseArea.drag.active) ? "#555555" : (path!=""&&(variables.openCurrentDirectory == path||variables.openCurrentDirectory == path+"/") ? "#88555555" :"#00555555")
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // the icon for this entry (e.g., folder, ...)

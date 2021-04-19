@@ -50,7 +50,7 @@ ListView {
         width: parent.width
         height: 30
 
-        color: standard_top.hoverIndex==index ? "#555555" : "#00555555"
+        color: standard_top.hoverIndex==index ? "#555555" : (locs[(index-1)*3 + 1]!=""&&(variables.openCurrentDirectory == locs[(index-1)*3 + 1]||variables.openCurrentDirectory == locs[(index-1)*3 + 1]+"/") ? "#88555555" : "#00555555")
         Behavior on color { ColorAnimation { duration: 200 } }
 
         // the icon for this entry (e.g., folder, ...)

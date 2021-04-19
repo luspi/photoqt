@@ -55,7 +55,7 @@ ListView {
             width: parent.width
             height: 30
 
-            color: hoverIndex==index ? "#555555" : "#00555555"
+            color: hoverIndex==index ? "#555555" : (location!=""&&(variables.openCurrentDirectory == location||variables.openCurrentDirectory == location+"/") ? "#88555555" : "#00555555")
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // This item holds the icon for the folders
