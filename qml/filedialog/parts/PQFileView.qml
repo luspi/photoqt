@@ -303,7 +303,7 @@ GridView {
                            em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString() + "</b>") :
 
-                          ("<img src=\"image://thumb/" + filePath + "\"><br><br>" +
+                          ("<img src=\"image://thumb/" + filePath.replace("'","&#39;") + "\"><br><br>" +
                            "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
                            em.pty+qsTranslate("filedialog", "File size:")+" <b>" + filesizenum.text + "</b><br>" +
                            em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDir.getFileType(filePath) + "</b><br>" +

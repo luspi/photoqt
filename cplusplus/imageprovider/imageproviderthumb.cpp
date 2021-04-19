@@ -54,6 +54,7 @@ QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
 void PQAsyncImageResponseThumb::run() {
 
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
+    filename = filename.replace("&#39;","'");
 
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
