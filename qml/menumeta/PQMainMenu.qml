@@ -29,7 +29,7 @@ Rectangle {
 
     id: mainmenu_top
 
-    color: "#cc000000"
+    color: "#ee000000"
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height

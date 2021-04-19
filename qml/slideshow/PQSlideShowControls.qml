@@ -28,7 +28,7 @@ Rectangle {
 
     id: controls_top
 
-    color: "#aa000000"
+    color: "#cc000000"
 
     border.width: 1
     border.color: "#88aaaaaa"
