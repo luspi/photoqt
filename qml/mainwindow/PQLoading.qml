@@ -63,4 +63,11 @@ Rectangle {
 
     }
 
+    function forceStart() {
+        visible = true
+    }
+    function forceStop() {
+        visible = false
+    }
+
 }
