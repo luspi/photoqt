@@ -41,7 +41,6 @@ Item {
     // this is set to true *after* proper scale has been set
     visible: false
 
-
     property bool reloadingImage: false
 
     Image {

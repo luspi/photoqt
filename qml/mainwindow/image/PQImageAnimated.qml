@@ -21,6 +21,8 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import PQImageWatcher 1.0
+import "../../loadfiles.js" as LoadFiles
 
 Item {
 
@@ -38,6 +40,8 @@ Item {
     // this makes that invisible
     // this is set to true *after* proper scale has been set
     visible: false
+
+    property bool reloadingImage: false
 
     AnimatedImage {
 
@@ -81,9 +85,14 @@ Item {
         }
 
         onStatusChanged: {
+            if(source == "") return
             cont.parent.imageStatus = status
             if(status == Image.Ready) {
-                theimage_load.restart()
+                if(reloadingImage) {
+                    loadingindicator.forceStop()
+                    reloadingImage = false
+                } else
+                    theimage_load.restart()
             }
         }
 
@@ -201,6 +210,23 @@ Item {
         scale: theimage.scale
         rotation: theimage.rotation
         filename: src
+    }
+
+    PQImageWatcher {
+        id: imagewatcher
+        imagePath: src
+        onImageChanged: {
+            var tmp = theimage.source
+            reloadingImage = true
+            loadingindicator.forceStart()
+            theimage.source = ""
+            theimage.source = tmp
+        }
+        onImageDeleted: {
+            LoadFiles.removeCurrentFilenameFromList()
+            thumbnails.reloadThumbnails()
+            variables.newFileLoaded()
+        }
     }
 
     Connections {
