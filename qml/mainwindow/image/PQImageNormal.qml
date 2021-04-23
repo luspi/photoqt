@@ -70,6 +70,7 @@ Item {
         Repeater {
             model: defaultScale < 0.8 ? 5 : 0
             delegate: Image {
+                id: subimg
                 property real threshold: 1.0-index*0.2
                 anchors.fill: source == "" ? undefined : theimage
                 cache: false
@@ -84,6 +85,18 @@ Item {
                 onVisibleChanged: {
                     if(visible && source == "" && PQSettings.pixmapCache > 0 && !rotani.running)
                         source = parent.source
+                }
+                // when the image has changed, we also need to make sure to reload these images
+                property string tmpsrc: ""
+                Connections {
+                    target: cont
+                    onReloadingImageChanged: {
+                        if(reloadingImage) {
+                            tmpsrc = subimg.source
+                            subimg.source = ""
+                        } else
+                            subimg.source = tmpsrc
+                    }
                 }
             }
         }
