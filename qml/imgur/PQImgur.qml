@@ -26,7 +26,6 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 
 import "../elements"
-import "../loadfiles.js" as LoadFile
 
 Item {
 
@@ -320,7 +319,7 @@ Item {
             onImgurPassOn: {
                 if(what == "show" || what == "show_anonym") {
 
-                    if(variables.indexOfCurrentImage == -1)
+                    if(foldermodel.current == -1)
                         return
 
                     anonymous = (what == "show_anonym")
@@ -364,10 +363,10 @@ Item {
                         return
                     }
                     accountname = handlingShareImgur.getAccountUsername()
-                    handlingShareImgur.upload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    handlingShareImgur.upload(foldermodel.currentFilePath)
                 } else {
                     accountname = ""
-                    handlingShareImgur.anonymousUpload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    handlingShareImgur.anonymousUpload(foldermodel.currentFilePath)
                 }
             }
         }

@@ -21,15 +21,12 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import PQFileFolderModel 1.0
 import "shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
     property var shortcuts: []
     property string visibleItem: ""
-    property var allImageFilesInOrder: []
-    property int indexOfCurrentImage: -1
     property real currentZoomLevel: 1
     property real currentPaintedZoomLevel: 1
     property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
@@ -57,13 +54,8 @@ Item {
         openCurrentDirectory = openCurrentDirectory
     }
 
-    onIndexOfCurrentImageChanged:
-        cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
-
     onOpenCurrentDirectoryChanged:
         handlingFileDialog.setLastLocation(openCurrentDirectory)
-
-    signal newFileLoaded()
 
 
     Connections {
@@ -73,29 +65,12 @@ Item {
 
             if(PQCppVariables.cmdFilePath != "") {
 
-                var folderOld = (variables.allImageFilesInOrder.length == 0 ? "" : handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[0]))
+                var folderOld = (foldermodel.count == 0 ? "" : handlingFileDir.getFilePathFromFullPath(foldermodel.getFilePath(0)))
                 var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
-                if(folderNew == folderOld) {
-                    var newindex = variables.allImageFilesInOrder.indexOf(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
-                    if(newindex > -1) {
-                        variables.indexOfCurrentImage = newindex
-                        return
-                    }
-                }
-
-                var sortField = PQSettings.sortby=="name" ?
-                                    PQFileFolderModel.Name :
-                                    (PQSettings.sortby == "naturalname" ?
-                                        PQFileFolderModel.NaturalName :
-                                        (PQSettings.sortby == "time" ?
-                                            PQFileFolderModel.Time :
-                                            (PQSettings.sortby == "size" ?
-                                                PQFileFolderModel.Size :
-                                                PQFileFolderModel.Type)))
-
-                variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderNew, PQSettings.openShowHiddenFilesFolders, PQImageFormats.getEnabledFormats(), PQImageFormats.getEnabledMimeTypes(), sortField, !PQSettings.sortbyAscending)
-                variables.indexOfCurrentImage = Math.max(0, variables.allImageFilesInOrder.indexOf(PQCppVariables.cmdFilePath))
+                if(folderNew != folderOld)
+                    foldermodel.folder = folderNew
+                foldermodel.setAsCurrent(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
 
                 // reset variable
                 PQCppVariables.cmdFilePath = ""

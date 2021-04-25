@@ -66,7 +66,7 @@ Rectangle {
     color: "#dd000000"
 
     Component.onCompleted:
-        if(variables.indexOfCurrentImage != -1)
+        if(foldermodel.current != -1)
             updateHistogram()
 
     Timer {
@@ -121,7 +121,7 @@ Rectangle {
 
     Rectangle {
 
-        opacity: ((imghist.status==Image.Ready || variables.indexOfCurrentImage==-1) ? 0 : 1) || variables.indexOfCurrentImage==-1
+        opacity: ((imghist.status==Image.Ready || foldermodel.current==-1) ? 0 : 1) || foldermodel.current==-1
         Behavior on opacity { NumberAnimation { duration: 150 } }
         visible: opacity!=0
 
@@ -135,7 +135,7 @@ Rectangle {
         Text {
             x: 25
             y: 15
-            text: variables.indexOfCurrentImage==-1 ?
+            text: foldermodel.current==-1 ?
                       em.pty+qsTranslate("histogram", "Histogram")+"..." :
                       //: As in: Loading the histogram for the current image
                       em.pty+qsTranslate("histogram", "Loading...")
@@ -326,12 +326,12 @@ Rectangle {
     function updateHistogram() {
 
         // Don't calculate histogram if disabled
-        if(!PQSettings.histogram || variables.indexOfCurrentImage == -1) return;
+        if(!PQSettings.histogram || foldermodel.current == -1) return;
 
         if(PQSettings.histogramVersion !== "grey")
-            imghist.source = "image://hist/color" + variables.allImageFilesInOrder[variables.indexOfCurrentImage]
+            imghist.source = "image://hist/color" + foldermodel.currentFilePath
         else if(PQSettings.histogramVersion === "grey")
-            imghist.source = "image://hist/grey" + variables.allImageFilesInOrder[variables.indexOfCurrentImage]
+            imghist.source = "image://hist/grey" + foldermodel.currentFilePath
 
     }
 

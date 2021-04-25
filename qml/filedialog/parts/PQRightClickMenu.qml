@@ -22,7 +22,6 @@
 
 import QtQuick 2.9
 import "../../elements"
-import "../../loadfiles.js" as LoadFiles
 
 PQMenu {
 
@@ -54,7 +53,7 @@ PQMenu {
                 filedialog_top.setCurrentDirectory(filePath)
             else {
                 hideFileDialog()
-                LoadFiles.loadFile(filePath,  files_model.getCopyOfAllFiles())
+                foldermodel.setFolderAndImages(ffilePath, files_model.getCopyOfAllFiles())
             }
         } else if(index == 1)
             handlingFileDialog.addNewUserPlacesEntry(filePath, upl.model.count)

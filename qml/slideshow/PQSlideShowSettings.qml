@@ -527,7 +527,7 @@ Item {
                     if(PQSettings.slideShowSettingsPopoutElement) {
                         slideshow_window.visible = true
                     } else {
-                        if(variables.indexOfCurrentImage == -1)
+                        if(foldermodel.current == -1)
                             return
                         opacity = 1
                         variables.visibleItem = "slideshowsettings"

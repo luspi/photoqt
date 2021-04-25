@@ -32,7 +32,6 @@ import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQFileWatcher 1.0
 import PQWindowGeometry 1.0
-import PQFileFolderModel 1.0
 import PQCppMetaData 1.0
 import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
@@ -47,8 +46,6 @@ import "./histogram"
 import "./slideshow"
 import "./settingsmanager"
 import "./welcome"
-
-import "./loadfiles.js" as LoadFiles
 
 Window {
 
@@ -97,7 +94,7 @@ Window {
                 id: emptymessage
                 anchors.centerIn: parent
                 text: em.pty+qsTranslate("other", "Open a file to begin")
-                visible: !variables.filterSet&&variables.indexOfCurrentImage==-1
+                visible: !variables.filterSet&&foldermodel.current==-1
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
@@ -108,7 +105,7 @@ Window {
                 anchors.centerIn: parent
                 //: Used as in: No matches found for the currently set filter
                 text: em.pty+qsTranslate("other", "No matches found")
-                visible: variables.filterSet&&variables.indexOfCurrentImage==-1
+                visible: variables.filterSet&&foldermodel.current==-1
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
@@ -130,8 +127,8 @@ Window {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
             windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
         }
-        if(variables.indexOfCurrentImage > -1 && PQSettings.startupLoadLastLoadedImage)
-            handlingGeneral.setLastLoadedImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        if(foldermodel.current > -1 && PQSettings.startupLoadLastLoadedImage)
+            handlingGeneral.setLastLoadedImage(foldermodel.currentFilePath)
         else
             handlingGeneral.deleteLastLoadedImage()
         handlingGeneral.cleanUpScreenshotsTakenAtStartup()
@@ -172,9 +169,6 @@ Window {
 
     Loader { id: welcome }
 
-    // needed to load folders without PQFileDialog
-    PQFileFolderModel { id: filefoldermodel }
-
     PQVariables { id: variables }
     PQLoader { id: loader }
 
@@ -186,6 +180,8 @@ Window {
     PQWindowButtons { id: windowbuttons }
 
     PQThumbnailBar { id: thumbnails }
+
+    PQFolderModel { id: foldermodel }
 
     Loader { id: histogram }
 
@@ -312,20 +308,19 @@ Window {
 
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
-            LoadFiles.loadFile(folderToLoad)
+            foldermodel.folder = folderToLoad
 
             variables.openCurrentDirectory = folderToLoad
 
             if(handlingFileDir.isDir(filenameToLoad)) {
-                if(variables.allImageFilesInOrder.length == 0) {
+                if(foldermodel.count == 0) {
                     loader.show("filedialog")
                     variables.openCurrentDirectory = filenameToLoad
                     return
                 } else
-                    filenameToLoad = variables.allImageFilesInOrder[0]
+                    filenameToLoad = foldermodel.getFilePath(0)
             }
-            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
-            variables.newFileLoaded()
+            foldermodel.setAsCurrent(filenameToLoad)
 
         } else
             loader.show("filedialog")

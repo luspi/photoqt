@@ -350,24 +350,24 @@ Rectangle {
         else if(PQSettings.sortby == "type")
             sortby = 4
 
-        if(PQSettings.slideShowIncludeSubFolders) {
-            backupAllImagesInFolder = variables.allImageFilesInOrder
-            var sub = filefoldermodel.loadFilesInSubFolders(variables.allImageFilesInOrder[variables.indexOfCurrentImage],
-                                                            PQSettings.openShowHiddenFilesFolders,
-                                                            [], [],
-                                                            sortby, !PQSettings.sortbyAscending)
-            variables.allImageFilesInOrder = variables.allImageFilesInOrder.concat(sub)
-        }
+//        if(PQSettings.slideShowIncludeSubFolders) {
+//            backupAllImagesInFolder = variables.allImageFilesInOrder
+//            var sub = filefoldermodel.loadFilesInSubFolders(variables.allImageFilesInOrder[foldermodel.current],
+//                                                            PQSettings.openShowHiddenFilesFolders,
+//                                                            [], [],
+//                                                            sortby, !PQSettings.sortbyAscending)
+//            variables.allImageFilesInOrder = variables.allImageFilesInOrder.concat(sub)
+//        }
 
         if(PQSettings.slideShowShuffle) {
 
             controls_top.shuffledIndices = []
-            for(var k = 0; k < variables.allImageFilesInOrder.length; ++k)
-                if(k !== variables.indexOfCurrentImage) {
+            for(var k = 0; k < foldermodel.count; ++k)
+                if(k !== foldermodel.current) {
                     controls_top.shuffledIndices.push(k)
                 }
             shuffle(controls_top.shuffledIndices)
-            controls_top.shuffledIndices.push(variables.indexOfCurrentImage)
+            controls_top.shuffledIndices.push(foldermodel.current)
             controls_top.shuffledCurrentIndex = -1
 
         }
@@ -395,13 +395,13 @@ Rectangle {
 
         PQSettings.animationType = backupAnimType
 
-        if(PQSettings.slideShowIncludeSubFolders) {
-            variables.allImageFilesInOrder = backupAllImagesInFolder
-            if(variables.indexOfCurrentImage >= variables.allImageFilesInOrder.length) {
-                variables.indexOfCurrentImage = 0
-                variables.newFileLoaded()
-            }
-        }
+//        if(PQSettings.slideShowIncludeSubFolders) {
+//            variables.allImageFilesInOrder = backupAllImagesInFolder
+//            if(foldermodel.current >= variables.allImageFilesInOrder.length) {
+//                foldermodel.current = 0
+//                variables.newFileLoaded()
+//            }
+//        }
 
         variables.visibleItem = ""
         variables.slideShowActive = false
@@ -415,23 +415,19 @@ Rectangle {
     function loadNextImage() {
 
         if(!PQSettings.slideShowShuffle) {
-            if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1) {
-                ++variables.indexOfCurrentImage
-                variables.newFileLoaded()
-            } else if(PQSettings.slideShowLoop) {
-                variables.indexOfCurrentImage = 0
-                variables.newFileLoaded()
-            } else
+            if(vfoldermodel.current < foldermodel.count-1)
+                ++foldermodel.current
+            else if(PQSettings.slideShowLoop)
+                foldermodel.current = 0
+            else
                 quitSlideShow()
         } else {
             if(controls_top.shuffledCurrentIndex < controls_top.shuffledIndices.length-1) {
                 ++controls_top.shuffledCurrentIndex
-                variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
-                variables.newFileLoaded()
+                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else if(PQSettings.slideShowLoop) {
                 controls_top.shuffledCurrentIndex = 0
-                variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
-                variables.newFileLoaded()
+                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else
                 quitSlideShow()
 
@@ -442,22 +438,18 @@ Rectangle {
     function loadPrevImage() {
 
         if(!PQSettings.slideShowShuffle) {
-            if(variables.indexOfCurrentImage > 0) {
-                --variables.indexOfCurrentImage
-                variables.newFileLoaded()
+            if(foldermodel.current > 0) {
+                --foldermodel.current
             } else if(PQSettings.slideShowLoop) {
-                variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
-                variables.newFileLoaded()
+                foldermodel.current = foldermodel.count-1
             }
         } else {
             if(controls_top.shuffledCurrentIndex > 0) {
                 --controls_top.shuffledCurrentIndex
-                variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
-                variables.newFileLoaded()
+                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else if(PQSettings.slideShowLoop) {
                 controls_top.shuffledCurrentIndex = controls_top.shuffledIndices.length-1
-                variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
-                variables.newFileLoaded()
+                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             }
         }
 

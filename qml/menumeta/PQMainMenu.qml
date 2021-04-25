@@ -325,8 +325,8 @@ Rectangle {
                                 var cmd = allitems[subview.mainindex][index][0]
                                 var close = 0
                                 if(cmd.slice(0,8) === "_:_EX_:_") {
-                                    if(variables.indexOfCurrentImage != -1 && variables.allImageFilesInOrder.length > 0) {
-                                        handlingExternal.executeExternal(cmd.substring(8), variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                                    if(foldermodel.current != -1 && foldermodel.count > 0) {
+                                        handlingExternal.executeExternal(cmd.substring(8), foldermodel.currentFilePath)
                                         if(allitems[subview.mainindex][index][3] === "close")
                                             toplevel.closePhotoQt()
                                     }

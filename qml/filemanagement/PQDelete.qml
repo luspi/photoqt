@@ -26,7 +26,6 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 
 import "../elements"
-import "../loadfiles.js" as LoadFiles
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
@@ -142,14 +141,10 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Move to trash")
                             onClicked: {
 
-                                if(!handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
+                                if(!handlingFileDir.deleteFile(foldermodel.currentFilePath, false)) {
                                     error.visible = true
                                     return
                                 }
-
-                                LoadFiles.removeCurrentFilenameFromList()
-                                thumbnails.reloadThumbnails()
-                                variables.newFileLoaded()
 
                                 delete_top.opacity = 0
                                 variables.visibleItem = ""
@@ -160,14 +155,10 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Delete permanently")
                             onClicked: {
 
-                                if(!handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
+                                if(!handlingFileDir.deleteFile(foldermodel.currentFilePath, true)) {
                                     error.visible = true
                                     return
                                 }
-
-                                LoadFiles.removeCurrentFilenameFromList()
-                                thumbnails.reloadThumbnails()
-                                variables.newFileLoaded()
 
                                 delete_top.opacity = 0
                                 variables.visibleItem = ""
@@ -211,12 +202,12 @@ Item {
             target: loader
             onFileDeletePassOn: {
                 if(what == "show") {
-                    if(variables.indexOfCurrentImage == -1)
+                    if(foldermodel.current == -1)
                         return
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filedelete"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filename.text = handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath)
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {

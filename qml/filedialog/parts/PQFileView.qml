@@ -24,7 +24,6 @@ import QtQuick 2.9
 import PQFileFolderModel 1.0
 import QtQuick.Controls 2.2
 import "../../elements"
-import "../../loadfiles.js" as LoadFiles
 
 GridView {
 
@@ -326,7 +325,7 @@ GridView {
                             if(fileIsDir)
                                 filedialog_top.setCurrentDirectory(filePath)
                             else {
-                                LoadFiles.loadFile(filePath, files_model.getCopyOfAllFiles())
+                                foldermodel.setFolderAndImages(filePath, files_model.getCopyOfAllFiles())
                                 filedialog_top.hideFileDialog()
                             }
                         }
@@ -463,7 +462,7 @@ GridView {
             if(files_model.getFileIsDir(currentIndex)) {
                 filedialog_top.setCurrentDirectory(files_model.getFilePath(currentIndex))
             } else {
-                LoadFiles.loadFile(files_model.getFilePath(currentIndex), files_model.getCopyOfAllFiles())
+                foldermodel.setFolderAndImages(files_model.getFilePath(currentIndex), files_model.getCopyOfAllFiles())
                 filedialog_top.hideFileDialog()
             }
 

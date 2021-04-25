@@ -28,7 +28,7 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QAbstractListModel(paren
     loadDelay = new QTimer;
     loadDelay->setInterval(10);
     loadDelay->setSingleShot(true);
-    connect(loadDelay, &QTimer::timeout, this, &PQFileFolderModel::loadData);
+    connect(loadDelay, &QTimer::timeout, this, &PQFileFolderModel::loadDataSlot);
 
     // this is needed so that the delete in loadData() is valid. Checking there for nullptr has led to crashes in the past
     watcher = new QFileSystemWatcher;
@@ -44,7 +44,11 @@ PQFileFolderModel::~PQFileFolderModel() {
         delete entries[i];
 }
 
-void PQFileFolderModel::loadData() {
+void PQFileFolderModel::loadDataSlot() {
+    loadData(false, QStringList(), QStringList());
+}
+
+void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStringList allDirs) {
 
     DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;
 
@@ -63,35 +67,64 @@ void PQFileFolderModel::loadData() {
     delete watcher;
     watcher = new QFileSystemWatcher;
     watcher->addPath(m_folder);
-    connect(watcher, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadData);
+    connect(watcher, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadDataSlot);
 
-    // Folders
-    QFileInfoList alldirs = getAllFoldersInFolder(m_folder, m_showHidden, m_sortField, m_sortReversed);
+    if(!m_ignoreDirs) {
 
-    // Files
-    allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed);
+        // Folders
+        QFileInfoList alldirs;
+        if(setCopyOfData) {
+            foreach(QString d, allDirs)
+                alldirs.push_back(QFileInfo(d));
+        } else
+            alldirs = getAllFoldersInFolder(m_folder, m_showHidden, m_sortField, m_sortReversed);
 
-    m_count = alldirs.length()+allImageFilesInOrder.length();
+        // Files
+        if(setCopyOfData) {
+            allImageFilesInOrder.clear();
+            foreach(QString i, allImages)
+                allImageFilesInOrder.push_back(QFileInfo(i));
+        } else
+            allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed);
 
-    if(m_count == 0)
-        return;
+        setCount(alldirs.length()+allImageFilesInOrder.length());
 
-    entries.reserve(m_count);
+        if(getCount() == 0)
+            return;
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount()+m_count-1);
+        entries.reserve(m_count);
 
-    for(int i = 0; i < alldirs.length(); ++i) {
+        beginInsertRows(QModelIndex(), rowCount(), rowCount()+m_count-1);
 
-        PQFileFolderEntry *entry = new PQFileFolderEntry;
-        entry->fileName = alldirs.at(i).fileName();
-        entry->filePath = alldirs.at(i).absoluteFilePath();
-        entry->fileSize = alldirs.at(i).size();
-        entry->fileModified = alldirs.at(i).lastModified();
-        entry->fileIsDir = alldirs.at(i).isDir();
+        for(int i = 0; i < alldirs.length(); ++i) {
 
-        entries.push_back(entry);
+            PQFileFolderEntry *entry = new PQFileFolderEntry;
+            entry->fileName = alldirs.at(i).fileName();
+            entry->filePath = alldirs.at(i).absoluteFilePath();
+            entry->fileSize = alldirs.at(i).size();
+            entry->fileModified = alldirs.at(i).lastModified();
+            entry->fileIsDir = alldirs.at(i).isDir();
+
+            entries.push_back(entry);
+
+        }
+
+    } else {
+
+        // Files
+        allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed);
+
+        setCount(allImageFilesInOrder.length());
+
+        if(getCount() == 0)
+            return;
+
+        entries.reserve(getCount());
+
+        beginInsertRows(QModelIndex(), rowCount(), rowCount()+getCount()-1);
 
     }
+
     for(int i = 0; i < allImageFilesInOrder.length(); ++i) {
 
         PQFileFolderEntry *entry = new PQFileFolderEntry;
@@ -108,6 +141,19 @@ void PQFileFolderModel::loadData() {
     endInsertRows();
 
     emit dataChanged(createIndex(0, 0, entries.first()), createIndex(entries.length()-1, 0, entries.last()));
+    emit newDataLoaded();
+
+}
+
+int PQFileFolderModel::setFolderAndImages(QString path, QStringList allImages) {
+
+    DBG << CURDATE << "PQFileFolderModel::setFolderAndData()" << NL;
+
+    setFolder(QFileInfo(path).absolutePath());
+
+    loadData(true, allImages, QStringList());
+
+    return allImages.indexOf(path);
 
 }
 

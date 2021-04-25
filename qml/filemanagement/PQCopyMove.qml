@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import "../loadfiles.js" as LoadFiles
 
 Item {
 
@@ -29,37 +28,12 @@ Item {
     Connections {
         target: loader
         onCopyMoveFilePassOn: {
-            if(variables.indexOfCurrentImage == -1)
+            if(foldermodel.current == -1)
                 return
-            if(what == "move") {
-                var movedfile = handlingFileDir.moveFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                if(movedfile !== "") {
-                    var movedpath = handlingFileDir.getFilePathFromFullPath(movedfile)
-                    var oldpath = handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    if(movedpath == oldpath) {
-                        LoadFiles.changeCurrentFilename(movedfile)
-                        thumbnails.reloadThumbnails()
-                    } else {
-                        LoadFiles.removeCurrentFilenameFromList()
-                        thumbnails.reloadThumbnails()
-                        variables.newFileLoaded()
-                    }
-                }
-            } else if(what == "copy") {
-                var copiedfile = handlingFileDir.copyFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                if(copiedfile !== "") {
-                    var copieddpath = handlingFileDir.getFilePathFromFullPath(copiedfile)
-                    var oldpath = handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    if(copieddpath == oldpath) {
-                        variables.allImageFilesInOrder.push(copiedfile)
-                        var tmp = variables.indexOfCurrentImage
-                        variables.indexOfCurrentImage = -1
-                        variables.indexOfCurrentImage = tmp
-                        thumbnails.reloadThumbnails()
-                    }
-                }
-
-            }
+            if(what == "move")
+                handlingFileDir.moveFile(foldermodel.currentFilePath)
+            else if(what == "copy")
+                handlingFileDir.copyFile(foldermodel.currentFilePath)
         }
     }
 

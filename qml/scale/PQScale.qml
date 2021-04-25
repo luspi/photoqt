@@ -26,7 +26,6 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 
 import "../elements"
-import "../loadfiles.js" as LoadFile
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
@@ -258,19 +257,17 @@ Item {
                                 if(newwidth.value == 0 || newheight.value == 0 || unsupported.visible)
                                     return
 
-                                if(!handlingManipulation.scaleImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false, Qt.size(newwidth.value, newheight.value), quality.value)) {
+                                if(!handlingManipulation.scaleImage(foldermodel.currentFilePath, false, Qt.size(newwidth.value, newheight.value), quality.value)) {
                                     error.visible = true
                                     return
                                 }
 
-                                var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
+                                var cur = foldermodel.currentFilePath
                                 var dir = handlingFileDir.getFilePathFromFullPath(cur)
                                 var bas = handlingFileDir.getBaseName(cur, false)
                                 var suf = handlingFileDir.getSuffix(cur, false)
 
-                                LoadFile.addFilenameToList(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf, variables.indexOfCurrentImage+1)
-                                ++variables.indexOfCurrentImage
-                                thumbnails.reloadThumbnails()
+                                foldermodel.setAsCurrent(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf)
 
                                 scale_top.opacity = 0
                                 variables.visibleItem = ""
@@ -288,16 +285,10 @@ Item {
                                 if(newwidth.value == 0 || newheight.value == 0 || unsupported.visible)
                                     return
 
-                                if(!handlingManipulation.scaleImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true, Qt.size(newwidth.value, newheight.value), quality.value)) {
+                                if(!handlingManipulation.scaleImage(foldermodel.currentFilePath, true, Qt.size(newwidth.value, newheight.value), quality.value)) {
                                     error.visible = true
                                     return
                                 }
-
-                                var tmp = variables.indexOfCurrentImage
-                                variables.indexOfCurrentImage = -1
-                                variables.indexOfCurrentImage = tmp
-                                thumbnails.reloadThumbnails()
-                                variables.newFileLoaded()
 
                                 scale_top.opacity = 0
                                 variables.visibleItem = ""
@@ -372,12 +363,12 @@ Item {
             target: loader
             onScalePassOn: {
                 if(what == "show") {
-                    if(variables.indexOfCurrentImage == -1)
+                    if(foldermodel.current == -1)
                         return
 
-                    unsupported.visible = !handlingManipulation.canThisBeScaled(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    unsupported.visible = !handlingManipulation.canThisBeScaled(foldermodel.currentFilePath)
 
-                    var s = handlingManipulation.getCurrentImageResolution(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    var s = handlingManipulation.getCurrentImageResolution(foldermodel.currentFilePath)
 
                     newwidth.to = s.width*1.5
                     newheight.to = s.height*1.5

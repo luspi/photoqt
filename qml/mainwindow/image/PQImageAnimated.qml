@@ -22,7 +22,6 @@
 
 import QtQuick 2.9
 import PQImageWatcher 1.0
-import "../../loadfiles.js" as LoadFiles
 
 Item {
 
@@ -221,11 +220,6 @@ Item {
             loadingindicator.forceStart()
             theimage.source = ""
             theimage.source = tmp
-        }
-        onImageDeleted: {
-            LoadFiles.removeCurrentFilenameFromList()
-            thumbnails.reloadThumbnails()
-            variables.newFileLoaded()
         }
     }
 

@@ -44,7 +44,6 @@
         <file>filemanagement/PQRename.qml</file>
         <file>filemanagement/PQRenamePopout.qml</file>
         <file>elements/PQLineEdit.qml</file>
-        <file>loadfiles.js</file>
         <file>filemanagement/PQDelete.qml</file>
         <file>filemanagement/PQDeletePopout.qml</file>
         <file>scale/PQScale.qml</file>
@@ -141,5 +140,6 @@
         <file>unavailable/PQUnavailable.qml</file>
         <file>unavailable/PQUnavailablePopout.qml</file>
         <file>mainwindow/PQWindowButtons.qml</file>
+        <file>PQFolderModel.qml</file>
     </qresource>
 </RCC>

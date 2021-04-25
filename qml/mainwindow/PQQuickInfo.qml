@@ -34,8 +34,8 @@ Item {
     height: cont.height
 
     visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) &&
-             (variables.indexOfCurrentImage>-1 || variables.filterSet) &&
-             (variables.allImageFilesInOrder.length>0 || variables.filterSet) &&
+             (foldermodel.current>-1 || variables.filterSet) &&
+             (foldermodel.count>0 || variables.filterSet) &&
              !variables.faceTaggingActive
 
     Rectangle {
@@ -59,9 +59,9 @@ Item {
             y: 5
             color: "white"
 
-            visible: !PQSettings.quickInfoHideCounter && (variables.indexOfCurrentImage > -1)
+            visible: !PQSettings.quickInfoHideCounter && (foldermodel.current > -1)
 
-            text: PQSettings.quickInfoHideCounter ? "" : ((variables.indexOfCurrentImage+1) + "/" + variables.allImageFilesInOrder.length)
+            text: PQSettings.quickInfoHideCounter ? "" : ((foldermodel.current+1) + "/" + foldermodel.count)
 
         }
 
@@ -72,17 +72,17 @@ Item {
 
             x: counter.x+counter.width + (text=="" ? 0 : 10)
 
-            visible: text!="" && (variables.indexOfCurrentImage > -1)
+            visible: text!="" && (foldermodel.current > -1)
 
             y: 5
             color: "white"
-            text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || variables.indexOfCurrentImage==-1) ?
+            text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || foldermodel.current==-1) ?
                       "" :
                       (PQSettings.quickInfoHideFilepath ?
-                           handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
+                           handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath) :
                            (PQSettings.quickInfoHideFilename ?
-                                handlingFileDir.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
-                                variables.allImageFilesInOrder[variables.indexOfCurrentImage]))
+                                handlingFileDir.getFilePathFromFullPath(foldermodel.currentFilePath) :
+                                foldermodel.currentFilePath))
         }
 
         Rectangle {
@@ -94,7 +94,7 @@ Item {
             x: filename.x+filename.width+(visible ? 10 : 0)
             y: 5
 
-            visible: (filename.visible||counter.visible) && (pageInfo.visible) && (variables.indexOfCurrentImage > -1)
+            visible: (filename.visible||counter.visible) && (pageInfo.visible) && (foldermodel.current > -1)
 
             width: 1
             height: filename.height
@@ -109,11 +109,11 @@ Item {
             anchors.leftMargin: visible ? 10 : 0
             y: 5
 
-            text: (variables.indexOfCurrentImage>-1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length && variables.allImageFilesInOrder[variables.indexOfCurrentImage].indexOf("::PQT::")>-1) ?
+            text: (foldermodel.current>-1 && foldermodel.current < foldermodel.count && foldermodel.currentFilePath.indexOf("::PQT::")>-1) ?
                       //: Used as in: Page 12/34 - please keep as short as possible
-                      (em.pty+qsTranslate("quickinfo", "Page") + " " + (variables.allImageFilesInOrder[variables.indexOfCurrentImage].split("::PQT::")[0]*1+1) + " of " + variables.allImageFilesInOrder.length) :
+                      (em.pty+qsTranslate("quickinfo", "Page") + " " + (foldermodel.currentFilePath.split("::PQT::")[0]*1+1) + " of " + foldermodel.count) :
                       ""
-            visible: text != "" && (variables.indexOfCurrentImage > -1)
+            visible: text != "" && (foldermodel.current > -1)
 
             color: "white"
 
@@ -128,7 +128,7 @@ Item {
             x: pageInfo.x+pageInfo.width+10
             y: 5
 
-            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible && (variables.indexOfCurrentImage > -1)
+            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible && (foldermodel.current > -1)
 
             width: 1
             height: filename.height
@@ -141,7 +141,7 @@ Item {
             x: PQSettings.quickInfoHideZoomLevel ? 0 : seperator2.x+seperator2.width+10
             y: 5
             color: "white"
-            visible: !PQSettings.quickInfoHideZoomLevel && (variables.indexOfCurrentImage > -1)
+            visible: !PQSettings.quickInfoHideZoomLevel && (foldermodel.current > -1)
             text: PQSettings.quickInfoHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
         }
 
@@ -149,7 +149,7 @@ Item {
         Item {
             id: filterremove_cont
             x: counter.x
-            y: (variables.filterSet&&variables.indexOfCurrentImage==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
+            y: (variables.filterSet&&foldermodel.current==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
             visible: variables.filterSet
             width: visible ? filtertext.width : 0
             height: visible ? filtertext.height : 0

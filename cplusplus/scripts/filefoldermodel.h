@@ -103,9 +103,13 @@ public:
 
     }
 
-    Q_PROPERTY(QString folder READ getFolder WRITE setFolder)
+    Q_PROPERTY(QString folder READ getFolder WRITE setFolder NOTIFY folderChanged)
     QString getFolder() { return m_folder; }
     void setFolder(QString val) { m_folder = val; loadDelay->start(); }
+
+    Q_PROPERTY(bool ignoreDirs READ getIgnoreDirs WRITE setIgnoreDirs)
+    bool getIgnoreDirs() { return m_ignoreDirs; }
+    void setIgnoreDirs(bool val) { m_ignoreDirs = val; }
 
     Q_PROPERTY(bool naturalOrdering READ getNaturalOrdering WRITE setNaturalOrdering)
     bool getNaturalOrdering() { return m_naturalOrdering; }
@@ -131,8 +135,9 @@ public:
     bool getSortReversed() { return m_sortReversed; }
     void setSortReversed(bool val) { m_sortReversed = val; loadDelay->start(); }
 
-    Q_PROPERTY(int count READ getCount)
+    Q_PROPERTY(int count READ getCount WRITE setCount NOTIFY countChanged)
     int getCount() { return m_count; }
+    void setCount(int c) { m_count = c; countChanged(); }
 
     Q_INVOKABLE QString getFilePath(int index) {
         if(index >= 0 && index < entries.length())
@@ -150,6 +155,14 @@ public:
         if(index >= 0 && index < entries.length())
             return entries[index]->fileIsDir;
         return false;
+    }
+
+    Q_INVOKABLE int getIndexOfFile(QString filepath) {
+        for(int i = 0; i < entries.length(); ++i) {
+            if(entries[i]->filePath == filepath)
+                return i;
+        }
+        return -1;
     }
 
     Q_INVOKABLE QStringList getCopyOfAllFiles() {
@@ -179,6 +192,8 @@ public:
         return getAllImagesInSubFolders(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
     }
 
+    Q_INVOKABLE int setFolderAndImages(QString folder, QStringList allImages);
+
     static QFileInfoList getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed);
     static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
     static QStringList getAllImagesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
@@ -199,6 +214,7 @@ private:
     QList<PQFileFolderEntry*> entries;
 
     QString m_folder;
+    bool m_ignoreDirs;
     bool m_naturalOrdering;
     QStringList m_nameFilters;
     QStringList m_mimeTypeFilters;
@@ -215,8 +231,15 @@ private:
 
     PQHandlingFileDialog handlingFileDialog;
 
+    void loadData(bool setCopyOfData, QStringList allImages, QStringList allDirs);
+
 private slots:
-    void loadData();
+    void loadDataSlot();
+
+signals:
+    void newDataLoaded();
+    void countChanged();
+    void folderChanged();
 
 };
 

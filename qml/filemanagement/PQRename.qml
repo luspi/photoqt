@@ -26,7 +26,6 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 
 import "../elements"
-import "../loadfiles.js" as LoadFiles
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
@@ -158,7 +157,7 @@ Item {
                                 if(filenameedit.text == "")
                                     return
 
-                                var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
+                                var cur = foldermodel.currentFilePath
                                 var dir = handlingFileDir.getFilePathFromFullPath(cur)
                                 var suf = handlingFileDir.getSuffix(cur)
                                 if(!handlingFileDir.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
@@ -167,8 +166,7 @@ Item {
                                 }
                                 error.visible = false
 
-                                LoadFiles.changeCurrentFilename(dir + "/" + filenameedit.text + "." + suf)
-                                thumbnails.reloadThumbnails()
+                                foldermodel.setFileNameOnceReloaded = dir + "/" + filenameedit.text+"."+suf
 
                                 rename_top.opacity = 0
                                 variables.visibleItem = ""
@@ -196,13 +194,13 @@ Item {
             target: loader
             onFileRenamePassOn: {
                 if(what == "show") {
-                    if(variables.indexOfCurrentImage == -1)
+                    if(foldermodel.current == -1)
                         return
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filerename"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                    filenameedit.text =  handlingFileDir.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                    filename.text = handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath)
+                    filenameedit.text =  handlingFileDir.getBaseName(foldermodel.currentFilePath)
                     filenameedit.setFocus()
                 } else if(what == "hide") {
                     button_cancel.clicked()

@@ -26,7 +26,7 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 
 import "../elements"
-import "../loadfiles.js" as LoadFiles
+//import "../loadfiles.js" as LoadFiles
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
@@ -199,7 +199,7 @@ Item {
             target: loader
             onFilterPassOn: {
                 if(what == "show") {
-                    if(variables.indexOfCurrentImage == -1 && !variables.filterSet)
+                    if(foldermodel.current == -1 && !variables.filterSet)
                         return
                     opacity = 1
                     variables.visibleItem = "filter"
@@ -248,7 +248,7 @@ Item {
     }
 
     function setFilter(term) {
-
+/*
         variables.filterStrings = []
         variables.filterSuffixes = []
 
@@ -318,11 +318,11 @@ Item {
         variables.indexOfCurrentImage = newindex
         variables.newFileLoaded()
         thumbnails.reloadThumbnails()
-
+*/
     }
 
     function removeFilter() {
-
+/*
         var newindex = variables.allImageFilesInOrderFilterBackup.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
 
         variables.allImageFilesInOrder = []
@@ -338,7 +338,7 @@ Item {
         variables.indexOfCurrentImage = (newindex==-1 ? 0 : newindex)
 
         thumbnails.reloadThumbnails()
-
+*/
     }
 
 }

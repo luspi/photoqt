@@ -275,45 +275,40 @@ Item {
     PQLoading { id: loadingindicator }
 
     Connections {
-        target: variables
-        // The signal to hide old images is emitted whenever the new image has loaded (its status)
-        onNewFileLoaded: {
-            if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length) {
-                var src = handlingFileDir.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                image_model.append({"src" : src, "imageIndex" : variables.indexOfCurrentImage})
-            } else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
-                hideAllImages()
-        }
+        target: foldermodel
+        onCurrentFilePathChanged:
+            loadNewFile()
+    }
+
+    function loadNewFile() {
+        if(foldermodel.current > -1 && foldermodel.current < foldermodel.count) {
+            console.log("loadNewFile")
+            var src = handlingFileDir.cleanPath(foldermodel.currentFilePath)
+            image_model.append({"src" : src, "imageIndex" : foldermodel.current})
+        } else if(foldermodel.current == -1 || foldermodel.count == 0)
+            hideAllImages()
     }
 
     function loadNextImage() {
-        if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
-            ++variables.indexOfCurrentImage
-        else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && PQSettings.loopThroughFolder)
-            variables.indexOfCurrentImage = 0
-        if(variables.allImageFilesInOrder.length > 1)
-            variables.newFileLoaded()
+        if(foldermodel.current < foldermodel.count-1)
+            ++foldermodel.current
+        else if(foldermodel.current == foldermodel.count-1 && PQSettings.loopThroughFolder)
+            foldermodel.current = 0
     }
 
     function loadPrevImage() {
-        if(variables.indexOfCurrentImage > 0)
-            --variables.indexOfCurrentImage
-        else if(variables.indexOfCurrentImage == 0 && PQSettings.loopThroughFolder)
-            variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
-        if(variables.allImageFilesInOrder.length > 1)
-            variables.newFileLoaded()
+        if(foldermodel.current > 0)
+            --foldermodel.current
+        else if(foldermodel.current == 0 && PQSettings.loopThroughFolder)
+            foldermodel.current = foldermodel.count-1
     }
 
     function loadFirstImage() {
-        variables.indexOfCurrentImage = 0
-        if(variables.allImageFilesInOrder.length > 1)
-            variables.newFileLoaded()
+        foldermodel.current = 0
     }
 
     function loadLastImage() {
-        variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
-        if(variables.allImageFilesInOrder.length > 1)
-            variables.newFileLoaded()
+        foldermodel.current = foldermodel.count-1
     }
 
     function playPauseAnimation() {

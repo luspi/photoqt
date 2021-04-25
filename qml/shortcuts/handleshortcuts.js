@@ -20,8 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-Qt.include("../loadfiles.js")
-
 function checkComboForShortcut(combo) {
 
     for(var i = 0; i < variables.shortcuts.length; ++i) {
@@ -95,17 +93,11 @@ function whatToDoWithFoundShortcut(sh) {
         loader.ensureItIsReady("copymove")
         loader.passOn("copymove", "move", undefined)
     } else if(cmd === "__deletePermanent") {
-        if(variables.indexOfCurrentImage != -1 && handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
-            removeCurrentFilenameFromList()
-            thumbnails.reloadThumbnails()
-            variables.newFileLoaded()
-        }
+        if(foldermodel.current != -1)
+            handlingFileDir.deleteFile(foldermodel.currentFilePath, true)
     } else if(cmd === "__deleteTrash") {
-        if(variables.indexOfCurrentImage != -1 && handlingFileDir.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
-            removeCurrentFilenameFromList()
-            thumbnails.reloadThumbnails()
-            variables.newFileLoaded()
-        }
+        if(foldermodel.current != -1)
+            handlingFileDir.deleteFile(foldermodel.currentFilePath, false)
     } else if(cmd === "__saveAs")
         loader.show("filesaveas")
     else if(cmd === "__hideMeta")
@@ -125,17 +117,17 @@ function whatToDoWithFoundShortcut(sh) {
     else if(cmd === "__imgurAnonym")
         loader.show("imguranonym")
     else if(cmd === "__defaultFileManager")
-        handlingExternal.openInDefaultFileManager(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        handlingExternal.openInDefaultFileManager(foldermodel.currentFilePath)
     else if(cmd === "__histogram") {
         loader.ensureItIsReady("histogram")
         PQSettings.histogram = !PQSettings.histogram
     }
     else if(cmd === "__clipboard")
-        handlingExternal.copyToClipboard(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        handlingExternal.copyToClipboard(foldermodel.currentFilePath)
     else if(cmd === "__tagFaces")
         loader.passOn("facetagger", "start", undefined)
     else {
-        handlingShortcuts.executeExternalApp(cmd, variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        handlingShortcuts.executeExternalApp(cmd, foldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()
     }

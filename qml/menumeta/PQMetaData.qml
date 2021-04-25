@@ -105,15 +105,15 @@ Rectangle {
 
     property var allMetaData: [
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File name"), handlingFileDir.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
+        em.pty+qsTranslate("metadata", "File name"), handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath), PQSettings.metaFilename,
         //: The dimensions of the loaded image. Please keep string short!
         em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
-        em.pty+qsTranslate("metadata", "Image #/#"), ((variables.indexOfCurrentImage+1)+"/"+variables.allImageFilesInOrder.length), PQSettings.metaImageNumber,
+        em.pty+qsTranslate("metadata", "Image #/#"), ((foldermodel.current+1)+"/"+foldermodel.count), PQSettings.metaImageNumber,
         //: Please keep string short!
         em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File type"), handlingFileDir.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
+        em.pty+qsTranslate("metadata", "File type"), handlingFileDir.getFileType(foldermodel.currentFilePath), PQSettings.metaFileType,
         "", "", true,
         //: Exif image metadata: the make of the camera used to take the photo. Please keep string short!
         em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,
@@ -199,7 +199,7 @@ Rectangle {
             margins: 10
         }
 
-        visible: variables.indexOfCurrentImage==-1
+        visible: foldermodel.current==-1
 
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
@@ -224,7 +224,7 @@ Rectangle {
             margins: 10
         }
 
-        visible: variables.indexOfCurrentImage!==-1
+        visible: foldermodel.current!==-1
 
         ScrollBar.vertical: PQScrollBar { id: scroll }
 
