@@ -104,6 +104,7 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
             entry->fileSize = alldirs.at(i).size();
             entry->fileModified = alldirs.at(i).lastModified();
             entry->fileIsDir = alldirs.at(i).isDir();
+            entry->fileType = "";
 
             entries.push_back(entry);
 
@@ -125,6 +126,8 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
 
     }
 
+    QMimeDatabase db;
+
     for(int i = 0; i < allImageFilesInOrder.length(); ++i) {
 
         PQFileFolderEntry *entry = new PQFileFolderEntry;
@@ -133,6 +136,7 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
         entry->fileSize = allImageFilesInOrder.at(i).size();
         entry->fileModified = allImageFilesInOrder.at(i).lastModified();
         entry->fileIsDir = allImageFilesInOrder.at(i).isDir();
+        entry->fileType = db.mimeTypeForFile(allImageFilesInOrder.at(i)).name();
 
         entries.push_back(entry);
 
@@ -149,7 +153,7 @@ int PQFileFolderModel::setFolderAndImages(QString path, QStringList allImages) {
 
     DBG << CURDATE << "PQFileFolderModel::setFolderAndData()" << NL;
 
-    setFolder(QFileInfo(path).absolutePath());
+    m_folder = QFileInfo(path).absolutePath();
 
     loadData(true, allImages, QStringList());
 

@@ -147,8 +147,8 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
                 tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index), true) + "</span></b><br><br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(1024*handlingFileDir.getFileSize(foldermodel.getFilePath(index)).split(" ")[0]) + "<br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(foldermodel.getFilePath(index))
+                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(foldermodel.getFileSize(index)) + "<br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + foldermodel.getFileType(index)
                 onEntered:
                     view.mouseOverItem = index
                 onClicked:

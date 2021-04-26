@@ -46,7 +46,7 @@ public:
     qint64 fileSize;
     QDateTime fileModified;
     bool fileIsDir;
-
+    QString fileType;
 };
 
 class PQFileFolderModel : public QAbstractListModel {
@@ -60,7 +60,8 @@ public:
         PathRole,
         FileSizeRole,
         FileModifiedRole,
-        FileIsDirRole
+        FileIsDirRole,
+        FileTypeRole
     };
 
     enum SortBy {
@@ -97,6 +98,8 @@ public:
             return QVariant::fromValue(entry->fileModified);
         else if (role == FileIsDirRole)
             return QVariant::fromValue(entry->fileIsDir);
+        else if (role == FileTypeRole)
+            return QVariant::fromValue(entry->fileType);
 
         // should be unreachable code
         return QVariant();
@@ -155,6 +158,18 @@ public:
         return "";
     }
 
+    Q_INVOKABLE qint64 getFileSize(int index) {
+        if(index >= 0 && index < entries.length())
+            return entries[index]->fileSize;
+        return 0;
+    }
+
+    Q_INVOKABLE QString getFileType(int index) {
+        if(index >= 0 && index < entries.length())
+            return entries[index]->fileType;
+        return "";
+    }
+
     Q_INVOKABLE bool getFileIsDir(int index) {
         if(index >= 0 && index < entries.length())
             return entries[index]->fileIsDir;
@@ -203,6 +218,7 @@ protected:
         roles[FileSizeRole] = "fileSize";
         roles[FileModifiedRole] = "fileModified";
         roles[FileIsDirRole] = "fileIsDir";
+        roles[FileTypeRole] = "fileType";
         return roles;
     }
 

@@ -48,8 +48,6 @@ public:
     Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);
-    Q_INVOKABLE QString getFileSize(QString path);
-    Q_INVOKABLE QString getFileType(QString path);
     Q_INVOKABLE QString getHomeDir();
     Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getTempDir();

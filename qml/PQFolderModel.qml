@@ -97,6 +97,16 @@ Item {
         return model.getFilePath(index)
     }
 
+    // get the file size at at the given index
+    function getFileSize(index) {
+        return model.getFileSize(index)
+    }
+
+    // get the file type at at the given index
+    function getFileType(index) {
+        return model.getFileType(index)
+    }
+
     // set a specific file as current file
     function setAsCurrent(filepath) {
         var ind = model.getIndexOfFile(filepath)

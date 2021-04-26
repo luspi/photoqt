@@ -270,26 +270,6 @@ QString PQHandlingFileDir::getFilePathFromFullPath(QString path) {
 
 }
 
-QString PQHandlingFileDir::getFileSize(QString path) {
-
-    DBG << CURDATE << "PQHandlingFileDir::getFileSize()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL;
-
-    return QString::number(QFileInfo(path).size()/1024) + " KB";
-
-}
-
-QString PQHandlingFileDir::getFileType(QString path) {
-
-    DBG << CURDATE << "PQHandlingFileDir::getFileType()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL;
-
-    if(path.trimmed() == "")
-        return "";
-    QMimeDatabase db;
-    return db.mimeTypeForFile(path).name();
-}
-
 QString PQHandlingFileDir::getHomeDir() {
 
     DBG << CURDATE << "PQHandlingFileDir::getHomeDir()" << NL;
