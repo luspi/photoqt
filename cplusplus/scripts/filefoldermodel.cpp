@@ -77,7 +77,7 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
             foreach(QString d, allDirs)
                 alldirs.push_back(QFileInfo(d));
         } else
-            alldirs = getAllFoldersInFolder(m_folder, m_showHidden, m_sortField, m_sortReversed);
+            alldirs = getAllFoldersInFolder();
 
         // Files
         if(setCopyOfData) {
@@ -85,7 +85,7 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
             foreach(QString i, allImages)
                 allImageFilesInOrder.push_back(QFileInfo(i));
         } else
-            allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed);
+            allImageFilesInOrder = getAllImagesInFolder();
 
         setCount(alldirs.length()+allImageFilesInOrder.length());
 
@@ -112,7 +112,7 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
     } else {
 
         // Files
-        allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed);
+        allImageFilesInOrder = getAllImagesInFolder();
 
         setCount(allImageFilesInOrder.length());
 
@@ -157,39 +157,35 @@ int PQFileFolderModel::setFolderAndImages(QString path, QStringList allImages) {
 
 }
 
-QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed) {
+QFileInfoList PQFileFolderModel::getAllFoldersInFolder() {
 
-    DBG << CURDATE << "PQFileFolderModel::getAllFoldersInFolder()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL
-        << CURDATE << "** showHidden = " << showHidden << NL
-        << CURDATE << "** sortfield = " << sortfield << NL
-        << CURDATE << "** sortReversed = " << sortReversed << NL;
+    DBG << CURDATE << "PQFileFolderModel::getAllFoldersInFolder()" << NL;
 
     QDir dir;
-    dir.setPath(path);
+    dir.setPath(m_folder);
 
     if(!dir.exists()) {
-        LOG << CURDATE << "ERROR: Folder location does not exist: " << path.toStdString() << NL;
+        LOG << CURDATE << "ERROR: Folder location does not exist: " << m_folder.toStdString() << NL;
         return QFileInfoList();
     }
 
-    if(showHidden)
+    if(m_showHidden)
         dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot|QDir::Hidden);
     else
         dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 
-    if(sortfield != SortBy::NaturalName) {
+    if(m_sortField != SortBy::NaturalName) {
 
         QDir::SortFlags flags = QDir::IgnoreCase;
-        if(sortReversed)
+        if(m_sortReversed)
             flags |= QDir::Reversed;
-        if(sortfield == SortBy::Name)
+        if(m_sortField == SortBy::Name)
             flags |= QDir::Name;
-        else if(sortfield == SortBy::Time)
+        else if(m_sortField == SortBy::Time)
             flags |= QDir::Time;
-        else if(sortfield == SortBy::Size)
+        else if(m_sortField == SortBy::Size)
             flags |= QDir::Size;
-        else if(sortfield == SortBy::Type)
+        else if(m_sortField == SortBy::Type)
             flags |= QDir::Type;
 
         dir.setSorting(flags);
@@ -198,10 +194,10 @@ QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHi
 
     QFileInfoList alldirs = dir.entryInfoList();
 
-    if(sortfield == SortBy::NaturalName) {
+    if(m_sortField == SortBy::NaturalName) {
         QCollator collator;
         collator.setNumericMode(true);
-        if(sortReversed)
+        if(m_sortReversed)
             std::sort(alldirs.begin(), alldirs.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file2.fileName(), file1.fileName()) < 0; });
         else
             std::sort(alldirs.begin(), alldirs.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
@@ -211,47 +207,42 @@ QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHi
 
 }
 
-QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed) {
+QFileInfoList PQFileFolderModel::getAllImagesInFolder() {
 
-    DBG << CURDATE << "PQFileFolderModel::getAllImagesInFolder()" << NL
-        << CURDATE << "** path = " << path.toStdString() << NL
-        << CURDATE << "** showHidden = " << showHidden << NL
-        << CURDATE << "** nameFilters = " << nameFilters.join(",").toStdString() << NL
-        << CURDATE << "** sortfield = " << sortfield << NL
-        << CURDATE << "** sortReversed = " << sortReversed << NL;
+    DBG << CURDATE << "PQFileFolderModel::getAllImagesInFolder()" << NL;
 
     QDir dir;
 
-    QFileInfo info(path);
+    QFileInfo info(m_folder);
     if(info.isDir())
-        dir.setPath(path);
+        dir.setPath(m_folder);
     else
         dir.setPath(info.absolutePath());
 
     if(!dir.exists()) {
-        LOG << CURDATE << "ERROR: Folder location does not exist: " << path.toStdString() << NL;
+        LOG << CURDATE << "ERROR: Folder location does not exist: " << m_folder.toStdString() << NL;
         return QFileInfoList();
     }
 
-    if(showHidden)
+    if(m_showHidden)
         dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot|QDir::Hidden);
     else
         dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 
     dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
 
-    if(sortfield != SortBy::NaturalName) {
+    if(m_sortField != SortBy::NaturalName) {
 
         QDir::SortFlags flags = QDir::IgnoreCase;
-        if(sortReversed)
+        if(m_sortReversed)
             flags |= QDir::Reversed;
-        if(sortfield == SortBy::Name)
+        if(m_sortField == SortBy::Name)
             flags |= QDir::Name;
-        else if(sortfield == SortBy::Time)
+        else if(m_sortField == SortBy::Time)
             flags |= QDir::Time;
-        else if(sortfield == SortBy::Size)
+        else if(m_sortField == SortBy::Size)
             flags |= QDir::Size;
-        else if(sortfield == SortBy::Type)
+        else if(m_sortField == SortBy::Type)
             flags |= QDir::Type;
 
         dir.setSorting(flags);
@@ -261,26 +252,35 @@ QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHid
     QMimeDatabase db;
 
     QFileInfoList allfiles;
-    if(nameFilters.size() == 0 && mimeTypeFilters.size() == 0)
+    if(m_nameFilters.size() == 0 && m_mimeTypeFilters.size() == 0)
         allfiles = dir.entryInfoList();
     else {
         QDirIterator iter(dir);
         while(iter.hasNext()) {
             iter.next();
             const QFileInfo f = iter.fileInfo();
-            if(nameFilters.size() == 0 || nameFilters.contains(f.suffix().toLower()))
-                allfiles << f;
+            if(m_nameFilters.size() == 0 || m_nameFilters.contains(f.suffix().toLower())) {
+                if(m_filenameFilters.length() == 0)
+                    allfiles << f;
+                else {
+                    foreach(QString fil, m_filenameFilters)
+                        if(f.baseName().contains(fil)) {
+                            allfiles << f;
+                            break;
+                        }
+                }
+            }
             // if not the ending, then check the mime type
-            else if(mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
+            else if(m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
                 allfiles << f;
         }
     }
 
 
-    if(sortfield == SortBy::NaturalName) {
+    if(m_sortField == SortBy::NaturalName) {
         QCollator collator;
         collator.setNumericMode(true);
-        if(sortReversed)
+        if(m_sortReversed)
             std::sort(allfiles.begin(), allfiles.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file2.fileName(), file1.fileName()) < 0; });
         else
             std::sort(allfiles.begin(), allfiles.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });

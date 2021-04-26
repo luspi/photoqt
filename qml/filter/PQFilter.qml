@@ -248,97 +248,32 @@ Item {
     }
 
     function setFilter(term) {
-/*
-        variables.filterStrings = []
-        variables.filterSuffixes = []
 
-        var filterStr = ""
+        var fileNameFilter = []
+        var fileEndingFilter = []
 
         // filter out search terms and search suffixes
         var spl = filteredit.text.split(" ")
         for(var iSpl = 0; iSpl < spl.length; ++iSpl) {
-            if(spl[iSpl][0] == ".") {
-                variables.filterSuffixes.push(spl[iSpl].slice(1))
-                filterStr += ", ." + spl[iSpl].slice(1)
-            } else {
-                variables.filterStrings.push(spl[iSpl])
-                filterStr += ", " + spl[iSpl]
+            if(spl[iSpl][0] == ".")
+                fileEndingFilter.push(spl[iSpl].slice(1))
+            else {
+                fileNameFilter.push(spl[iSpl])
             }
         }
-        variables.filterStringConcat = filterStr.slice(2)
+        console.log("e", fileEndingFilter)
+        console.log("n", fileNameFilter)
+        console.log("o", foldermodel.nameFilters)
+        foldermodel.nameFilters = fileEndingFilter
+        foldermodel.filenameFilters = fileNameFilter
 
-        var filteredlist = []
-
-        // deep copy image list
-        if(!variables.filterSet) {
-            variables.allImageFilesInOrderFilterBackup = []
-            for(var i = 0; i < variables.allImageFilesInOrder.length; ++i)
-                variables.allImageFilesInOrderFilterBackup.push(variables.allImageFilesInOrder[i])
-            variables.filterSet = true
-        }
-
-
-        // we check for filenames that satisfies all filter terms
-
-        for(var j = 0; j < variables.allImageFilesInOrderFilterBackup.length; ++j) {
-
-            var suf = handlingFileDir.getSuffix(variables.allImageFilesInOrderFilterBackup[j], false)
-            var bas = handlingFileDir.getBaseName(variables.allImageFilesInOrderFilterBackup[j])
-
-            var allgood = true
-
-            // check search term
-            for(var k = 0; k < variables.filterStrings.length; ++k) {
-                if(bas.indexOf(variables.filterStrings[k]) == -1) {
-                    allgood = false
-                    break
-                }
-            }
-
-            if(allgood) {
-                for(var l = 0; l < variables.filterSuffixes.length; ++l) {
-                    if(suf != variables.filterSuffixes[l]) {
-                        allgood = false
-                        break;
-                    }
-                }
-            }
-
-            if(allgood)
-                filteredlist.push(variables.allImageFilesInOrderFilterBackup[j])
-
-        }
-
-        var newindex = filteredlist.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-        if(filteredlist.length > 0 && newindex == -1)
-            newindex = 0
-
-        variables.filterSet = true
-        variables.allImageFilesInOrder = filteredlist
-        variables.indexOfCurrentImage = newindex
-        variables.newFileLoaded()
-        thumbnails.reloadThumbnails()
-*/
     }
 
     function removeFilter() {
-/*
-        var newindex = variables.allImageFilesInOrderFilterBackup.indexOf(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
 
-        variables.allImageFilesInOrder = []
-        for(var i = 0; i < variables.allImageFilesInOrderFilterBackup.length; ++i)
-            variables.allImageFilesInOrder.push(variables.allImageFilesInOrderFilterBackup[i]);
+        foldermodel.nameFilters = []
+        foldermodel.filenameFilters = []
 
-        variables.filterSet = false
-        variables.filterStrings = []
-        variables.filterSuffixes = []
-        filteredit.text = ""
-
-        variables.indexOfCurrentImage = -1
-        variables.indexOfCurrentImage = (newindex==-1 ? 0 : newindex)
-
-        thumbnails.reloadThumbnails()
-*/
     }
 
 }

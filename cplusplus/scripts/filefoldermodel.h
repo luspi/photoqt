@@ -119,6 +119,10 @@ public:
     QStringList getNameFilters() { return m_nameFilters; }
     void setNameFilters(QStringList val) { m_nameFilters = val; loadDelay->start(); }
 
+    Q_PROPERTY(QStringList filenameFilters READ getFilenameFilters WRITE setFilenameFilters)
+    QStringList getFilenameFilters() { return m_filenameFilters; }
+    void setFilenameFilters(QStringList val) { m_filenameFilters = val; loadDelay->start(); }
+
     Q_PROPERTY(QStringList mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters)
     QStringList getMimeTypeFilters() { return m_mimeTypeFilters; }
     void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; loadDelay->start(); }
@@ -184,18 +188,10 @@ public:
         return ret;
     }
 
-    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortField, bool sortReversed) {
-        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
-        return getCopyOfAllFiles();
-    }
-    Q_INVOKABLE QStringList loadFilesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortField, bool sortReversed) {
-        return getAllImagesInSubFolders(path, showHidden, nameFilters, mimeTypeFilters, sortField, sortReversed);
-    }
-
     Q_INVOKABLE int setFolderAndImages(QString folder, QStringList allImages);
 
-    static QFileInfoList getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed);
-    static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
+    QFileInfoList getAllFoldersInFolder();
+    QFileInfoList getAllImagesInFolder();
     static QStringList getAllImagesInSubFolders(QString path, bool showHidden, QStringList nameFilters, QStringList mimeTypeFilters, SortBy sortfield, bool sortReversed);
 
 protected:
@@ -217,6 +213,7 @@ private:
     bool m_ignoreDirs;
     bool m_naturalOrdering;
     QStringList m_nameFilters;
+    QStringList m_filenameFilters;
     QStringList m_mimeTypeFilters;
     bool m_showHidden;
     SortBy m_sortField;

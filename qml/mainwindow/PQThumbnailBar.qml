@@ -104,7 +104,7 @@ Item {
                 visible: PQSettings.thumbnailFilenameInstead
                 color: "white"
 
-                text: handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath)
+                text: handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index))
                 font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
@@ -116,7 +116,7 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + foldermodel.currentFilePath
+                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + foldermodel.getFilePath(index)
 
                 visible: !PQSettings.thumbnailFilenameInstead
 
@@ -137,7 +137,7 @@ Item {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
-                        text: handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath, true)
+                        text: handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index), true)
                     }
                 }
             }
@@ -146,9 +146,9 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath, true) + "</span></b><br><br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(1024*handlingFileDir.getFileSize(foldermodel.currentFilePath).split(" ")[0]) + "<br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(foldermodel.currentFilePath)
+                tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index), true) + "</span></b><br><br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(1024*handlingFileDir.getFileSize(foldermodel.getFilePath(index)).split(" ")[0]) + "<br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(foldermodel.getFilePath(index))
                 onEntered:
                     view.mouseOverItem = index
                 onClicked:
