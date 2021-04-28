@@ -108,39 +108,39 @@ public:
 
     Q_PROPERTY(QString folder READ getFolder WRITE setFolder NOTIFY folderChanged)
     QString getFolder() { return m_folder; }
-    void setFolder(QString val) { m_folder = val; loadDelay->start(); }
+    void setFolder(QString val) { m_folder = val; emit folderChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(bool ignoreDirs READ getIgnoreDirs WRITE setIgnoreDirs)
+    Q_PROPERTY(bool ignoreDirs READ getIgnoreDirs WRITE setIgnoreDirs NOTIFY ignoreDirsChanged)
     bool getIgnoreDirs() { return m_ignoreDirs; }
-    void setIgnoreDirs(bool val) { m_ignoreDirs = val; }
+    void setIgnoreDirs(bool val) { m_ignoreDirs = val; emit ignoreDirsChanged(); }
 
-    Q_PROPERTY(bool naturalOrdering READ getNaturalOrdering WRITE setNaturalOrdering)
+    Q_PROPERTY(bool naturalOrdering READ getNaturalOrdering WRITE setNaturalOrdering NOTIFY naturalOrderingChanged)
     bool getNaturalOrdering() { return m_naturalOrdering; }
-    void setNaturalOrdering(bool val) { m_naturalOrdering = val; loadDelay->start(); }
+    void setNaturalOrdering(bool val) { m_naturalOrdering = val; emit naturalOrderingChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters)
+    Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters NOTIFY nameFiltersChanged)
     QStringList getNameFilters() { return m_nameFilters; }
-    void setNameFilters(QStringList val) { m_nameFilters = val; loadDelay->start(); }
+    void setNameFilters(QStringList val) { m_nameFilters = val; emit nameFiltersChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(QStringList filenameFilters READ getFilenameFilters WRITE setFilenameFilters)
+    Q_PROPERTY(QStringList filenameFilters READ getFilenameFilters WRITE setFilenameFilters NOTIFY filenameFiltersChanged)
     QStringList getFilenameFilters() { return m_filenameFilters; }
-    void setFilenameFilters(QStringList val) { m_filenameFilters = val; loadDelay->start(); }
+    void setFilenameFilters(QStringList val) { m_filenameFilters = val; emit filenameFiltersChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(QStringList mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters)
+    Q_PROPERTY(QStringList mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters NOTIFY mimeTypeFiltersChanged)
     QStringList getMimeTypeFilters() { return m_mimeTypeFilters; }
-    void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; loadDelay->start(); }
+    void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; emit mimeTypeFiltersChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden)
+    Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden NOTIFY showHiddenChanged)
     bool getShowHidden() { return m_showHidden; }
-    void setShowHidden(bool val) { m_showHidden = val; loadDelay->start(); }
+    void setShowHidden(bool val) { m_showHidden = val; emit showHiddenChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(SortBy sortField READ getSortField WRITE setSortField)
+    Q_PROPERTY(SortBy sortField READ getSortField WRITE setSortField NOTIFY sortFieldChanged)
     SortBy getSortField() { return m_sortField; }
-    void setSortField(SortBy val) { m_sortField = val; loadDelay->start(); }
+    void setSortField(SortBy val) { m_sortField = val; emit sortFieldChanged(); loadDelay->start(); }
 
-    Q_PROPERTY(bool sortReversed READ getSortReversed WRITE setSortReversed)
+    Q_PROPERTY(bool sortReversed READ getSortReversed WRITE setSortReversed NOTIFY sortReversedChanged)
     bool getSortReversed() { return m_sortReversed; }
-    void setSortReversed(bool val) { m_sortReversed = val; loadDelay->start(); }
+    void setSortReversed(bool val) { m_sortReversed = val; emit sortReversedChanged(); loadDelay->start(); }
 
     Q_PROPERTY(int count READ getCount WRITE setCount NOTIFY countChanged)
     int getCount() { return m_count; }
@@ -253,6 +253,14 @@ signals:
     void newDataLoaded();
     void countChanged();
     void folderChanged();
+    void nameFiltersChanged();
+    void filenameFiltersChanged();
+    void ignoreDirsChanged();
+    void naturalOrderingChanged();
+    void mimeTypeFiltersChanged();
+    void showHiddenChanged();
+    void sortFieldChanged();
+    void sortReversedChanged();
 
 };
 

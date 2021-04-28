@@ -61,8 +61,10 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
 
     endRemoveRows();
 
-    if(m_folder.trimmed().isEmpty() || !QDir(m_folder).exists())
+    if(m_folder.trimmed().isEmpty() || !QDir(m_folder).exists()) {
+        emit newDataLoaded();
         return;
+    }
 
     delete watcher;
     watcher = new QFileSystemWatcher;
@@ -89,8 +91,10 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
 
         setCount(alldirs.length()+allImageFilesInOrder.length());
 
-        if(getCount() == 0)
+        if(getCount() == 0) {
+            emit newDataLoaded();
             return;
+        }
 
         entries.reserve(m_count);
 
@@ -117,8 +121,10 @@ void PQFileFolderModel::loadData(bool setCopyOfData, QStringList allImages, QStr
 
         setCount(allImageFilesInOrder.length());
 
-        if(getCount() == 0)
+        if(getCount() == 0) {
+            emit newDataLoaded();
             return;
+        }
 
         entries.reserve(getCount());
 
