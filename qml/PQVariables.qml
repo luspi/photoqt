@@ -36,11 +36,6 @@ Item {
     property bool slideShowActive: false
     property bool faceTaggingActive: false
 
-    property var filterStrings: []
-    property var filterSuffixes: []
-    property string filterStringConcat: ""
-    property var allImageFilesInOrderFilterBackup: []
-
     property var zoomRotationMirror: ({})
 
     property bool settingsManagerExpertMode: false

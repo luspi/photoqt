@@ -11,6 +11,7 @@ Item {
     property alias nameFilters: model.overWriteNameFilters
     property alias filenameFilters: model.filenameFilters
 
+    // shortcut to detect whether filter is currently set
     property bool filterCurrentlyActive: nameFilters.length!=0||filenameFilters.length!=0
 
     // the current index and filename
