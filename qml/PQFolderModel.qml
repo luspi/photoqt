@@ -57,6 +57,8 @@ Item {
                 // make sure the index is valid
                 if(folder_top.current >= model.count)
                     folder_top.current = model.count-1
+                else if(folder_top.current == -1)
+                    folder_top.current = 0
 
                 // update the current file path
                 folder_top.currentFilePath = model.getFilePath(current)

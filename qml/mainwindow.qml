@@ -308,6 +308,7 @@ Window {
 
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
+            foldermodel.setFileNameOnceReloaded = filenameToLoad
             foldermodel.folder = folderToLoad
 
             variables.openCurrentDirectory = folderToLoad
@@ -317,10 +318,8 @@ Window {
                     loader.show("filedialog")
                     variables.openCurrentDirectory = filenameToLoad
                     return
-                } else
-                    filenameToLoad = foldermodel.getFilePath(0)
+                }
             }
-            foldermodel.setAsCurrent(filenameToLoad)
 
         } else
             loader.show("filedialog")
