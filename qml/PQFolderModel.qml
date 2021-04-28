@@ -11,6 +11,8 @@ Item {
     property alias nameFilters: model.overWriteNameFilters
     property alias filenameFilters: model.filenameFilters
 
+    property bool filterCurrentlyActive: nameFilters.length!=0||filenameFilters.length!=0
+
     // the current index and filename
     // a change in the current filename triggers a (re-)load of the image even if the index remained unchanged
     property int current: -1
@@ -57,11 +59,13 @@ Item {
                 // make sure the index is valid
                 if(folder_top.current >= model.count)
                     folder_top.current = model.count-1
-                else if(folder_top.current == -1)
+                else if(folder_top.current == -1 && model.count > 0)
                     folder_top.current = 0
+                else if(model.count == 0)
+                    folder_top.current = -1
 
                 // update the current file path
-                folder_top.currentFilePath = model.getFilePath(current)
+                folder_top.currentFilePath = (current!=-1 ? model.getFilePath(current) : "")
 
             }
 

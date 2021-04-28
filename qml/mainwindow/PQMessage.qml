@@ -32,7 +32,7 @@ Item {
     width: cont.width
     height: cont.height
 
-    visible: (foldermodel.count==0&&!variables.filterSet) ||
+    visible: (foldermodel.count==0&&!foldermodel.filterCurrentlyActive) ||
              variables.faceTaggingActive
 
     Rectangle {

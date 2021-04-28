@@ -199,7 +199,7 @@ Item {
             target: loader
             onFilterPassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1 && !variables.filterSet)
+                    if(foldermodel.current == -1 && !foldermodel.filterCurrentlyActive)
                         return
                     opacity = 1
                     variables.visibleItem = "filter"
@@ -271,6 +271,7 @@ Item {
 
     function removeFilter() {
 
+        filteredit.text = ""
         foldermodel.nameFilters = []
         foldermodel.filenameFilters = []
 

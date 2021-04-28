@@ -94,7 +94,7 @@ Window {
                 id: emptymessage
                 anchors.centerIn: parent
                 text: em.pty+qsTranslate("other", "Open a file to begin")
-                visible: !variables.filterSet&&foldermodel.current==-1
+                visible: foldermodel.current==-1&&!foldermodel.filterCurrentlyActive
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
@@ -105,7 +105,7 @@ Window {
                 anchors.centerIn: parent
                 //: Used as in: No matches found for the currently set filter
                 text: em.pty+qsTranslate("other", "No matches found")
-                visible: variables.filterSet&&foldermodel.current==-1
+                visible: foldermodel.current==-1&&foldermodel.filterCurrentlyActive
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"

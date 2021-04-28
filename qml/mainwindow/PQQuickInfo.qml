@@ -34,8 +34,8 @@ Item {
     height: cont.height
 
     visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) &&
-             (foldermodel.current>-1 || variables.filterSet) &&
-             (foldermodel.count>0 || variables.filterSet) &&
+             (foldermodel.current>-1 || foldermodel.filterCurrentlyActive) &&
+             (foldermodel.count>0 || foldermodel.filterCurrentlyActive) &&
              !variables.faceTaggingActive
 
     Rectangle {
@@ -149,8 +149,8 @@ Item {
         Item {
             id: filterremove_cont
             x: counter.x
-            y: (variables.filterSet&&foldermodel.current==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
-            visible: variables.filterSet
+            y: (foldermodel.filterCurrentlyActive&&foldermodel.current==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
+            visible: foldermodel.filterCurrentlyActive
             width: visible ? filtertext.width : 0
             height: visible ? filtertext.height : 0
             Row {
@@ -164,7 +164,7 @@ Item {
                 Text {
                     id: filtertext
                     color: "white"
-                    text: em.pty+qsTranslate("quickinfo", "Filter:") + " " + variables.filterStringConcat
+                    text: em.pty+qsTranslate("quickinfo", "Filter:") + " " + foldermodel.filenameFilters.join(" ") + " ." + foldermodel.nameFilters.join(" .")
                 }
             }
 

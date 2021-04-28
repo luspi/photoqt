@@ -36,7 +36,6 @@ Item {
     property bool slideShowActive: false
     property bool faceTaggingActive: false
 
-    property bool filterSet: false
     property var filterStrings: []
     property var filterSuffixes: []
     property string filterStringConcat: ""
