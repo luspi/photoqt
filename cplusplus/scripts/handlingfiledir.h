@@ -29,8 +29,17 @@
 #include <QStorageInfo>
 #include <QFileDialog>
 #include <QMimeDatabase>
+#include <QProcess>
+#include "../settings/imageformats.h"
+#include "../settings/settings.h"
+
 #ifndef Q_OS_WIN
 #include <unistd.h>
+#endif
+
+#ifdef LIBARCHIVE
+#include <archive.h>
+#include <archive_entry.h>
 #endif
 
 #include "../logger.h"
@@ -52,6 +61,7 @@ public:
     Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getTempDir();
     Q_INVOKABLE bool isDir(QString path);
+    Q_INVOKABLE QStringList listArchiveContent(QString path);
     Q_INVOKABLE QString moveFile(QString filename);
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
     Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);

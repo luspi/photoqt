@@ -352,7 +352,7 @@ Rectangle {
 
 //        if(PQSettings.slideShowIncludeSubFolders) {
 //            backupAllImagesInFolder = variables.allImageFilesInOrder
-//            var sub = filefoldermodel.loadFilesInSubFolders(variables.allImageFilesInOrder[foldermodel.current],
+//            var sub = filefoldermodel.loadFilesInSubFolders(variables.allImageFilesInOrder[filefoldermodel.current],
 //                                                            PQSettings.openShowHiddenFilesFolders,
 //                                                            [], [],
 //                                                            sortby, !PQSettings.sortbyAscending)
@@ -362,12 +362,12 @@ Rectangle {
         if(PQSettings.slideShowShuffle) {
 
             controls_top.shuffledIndices = []
-            for(var k = 0; k < foldermodel.count; ++k)
-                if(k !== foldermodel.current) {
+            for(var k = 0; k < filefoldermodel.countMainView; ++k)
+                if(k !== filefoldermodel.current) {
                     controls_top.shuffledIndices.push(k)
                 }
             shuffle(controls_top.shuffledIndices)
-            controls_top.shuffledIndices.push(foldermodel.current)
+            controls_top.shuffledIndices.push(filefoldermodel.current)
             controls_top.shuffledCurrentIndex = -1
 
         }
@@ -397,8 +397,8 @@ Rectangle {
 
 //        if(PQSettings.slideShowIncludeSubFolders) {
 //            variables.allImageFilesInOrder = backupAllImagesInFolder
-//            if(foldermodel.current >= variables.allImageFilesInOrder.length) {
-//                foldermodel.current = 0
+//            if(filefoldermodel.current >= variables.allImageFilesInOrder.length) {
+//                filefoldermodel.current = 0
 //                variables.newFileLoaded()
 //            }
 //        }
@@ -415,19 +415,19 @@ Rectangle {
     function loadNextImage() {
 
         if(!PQSettings.slideShowShuffle) {
-            if(vfoldermodel.current < foldermodel.count-1)
-                ++foldermodel.current
+            if(filefoldermodel.current < filefoldermodel.countMainView-1)
+                ++filefoldermodel.current
             else if(PQSettings.slideShowLoop)
-                foldermodel.current = 0
+                filefoldermodel.current = 0
             else
                 quitSlideShow()
         } else {
             if(controls_top.shuffledCurrentIndex < controls_top.shuffledIndices.length-1) {
                 ++controls_top.shuffledCurrentIndex
-                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else if(PQSettings.slideShowLoop) {
                 controls_top.shuffledCurrentIndex = 0
-                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else
                 quitSlideShow()
 
@@ -438,18 +438,18 @@ Rectangle {
     function loadPrevImage() {
 
         if(!PQSettings.slideShowShuffle) {
-            if(foldermodel.current > 0) {
-                --foldermodel.current
+            if(filefoldermodel.current > 0) {
+                --filefoldermodel.current
             } else if(PQSettings.slideShowLoop) {
-                foldermodel.current = foldermodel.count-1
+                filefoldermodel.current = filefoldermodel.countMainView-1
             }
         } else {
             if(controls_top.shuffledCurrentIndex > 0) {
                 --controls_top.shuffledCurrentIndex
-                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else if(PQSettings.slideShowLoop) {
                 controls_top.shuffledCurrentIndex = controls_top.shuffledIndices.length-1
-                foldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             }
         }
 

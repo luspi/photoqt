@@ -28,12 +28,12 @@ Item {
     Connections {
         target: loader
         onCopyMoveFilePassOn: {
-            if(foldermodel.current == -1)
+            if(filefoldermodel.current == -1)
                 return
             if(what == "move")
-                handlingFileDir.moveFile(foldermodel.currentFilePath)
+                handlingFileDir.moveFile(filefoldermodel.currentFilePath)
             else if(what == "copy")
-                handlingFileDir.copyFile(foldermodel.currentFilePath)
+                handlingFileDir.copyFile(filefoldermodel.currentFilePath)
         }
     }
 

@@ -32,7 +32,7 @@
 
 #include "../../logger.h"
 #include "../../variables.h"
-#include "../../scripts/handlingfiledialog.h"
+#include "../../scripts/handlingfiledir.h"
 
 class PQLoadImageArchive {
 
@@ -53,7 +53,7 @@ public:
             archivefile = parts.at(1);
             compressedFilename = parts.at(0);
         } else {
-            PQHandlingFileDialog handling;
+            PQHandlingFileDir handling;
             QStringList cont = handling.listArchiveContent(archivefile);
             if(cont.length() == 0) {
                 errormsg = "Unable to list contents of archive file...";

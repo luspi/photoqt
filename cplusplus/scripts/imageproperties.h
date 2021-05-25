@@ -27,6 +27,7 @@
 #include <QImageReader>
 #include <QUrl>
 #include "../logger.h"
+#include "../settings/imageformats.h"
 
 class PQImageProperties : public QObject {
 
@@ -36,6 +37,8 @@ public:
     explicit PQImageProperties(QObject *parent = nullptr);
 
     Q_INVOKABLE bool isAnimated(QString path);
+    Q_INVOKABLE bool isPopplerDocument(QString path);
+    Q_INVOKABLE bool isArchive(QString path);
 
 };
 

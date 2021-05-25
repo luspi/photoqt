@@ -92,9 +92,7 @@ void PQSettings::setDefault() {
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
     setMainMenuWindowWidth(450);
-    setPdfSingleDocument(true);
     setPdfQuality(150);
-    setArchiveSingleFile(true);
     setZoomSpeed(20);
     setAnimationType("opacity");
     setAnimationDuration(3);
@@ -352,14 +350,8 @@ void PQSettings::readSettings() {
             else if(line.startsWith("LeftButtonMouseClickAndMove="))
                 setLeftButtonMouseClickAndMove(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("PdfSingleDocument="))
-                setPdfSingleDocument(line.split("=").at(1).toInt());
-
             else if(line.startsWith("PdfQuality="))
                 setPdfQuality(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("ArchiveSingleFile="))
-                setArchiveSingleFile(line.split("=").at(1).toInt());
 
             else if(line.startsWith("ArchiveUseExternalUnrar="))
                 setArchiveUseExternalUnrar(line.split("=").at(1).toInt());
@@ -729,7 +721,6 @@ void PQSettings::saveSettings() {
 
         cont += QString("AnimationDuration=%1\n").arg(m_animationDuration);
         cont += QString("AnimationType=%1\n").arg(m_animationType);
-        cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
         cont += QString("ArchiveUseExternalUnrar=%1\n").arg(int(m_archiveUseExternalUnrar));
         cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
         cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
@@ -742,7 +733,6 @@ void PQSettings::saveSettings() {
         cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
         cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
-        cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("SortImagesBy=%1\n").arg(m_sortby);

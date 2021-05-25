@@ -157,7 +157,7 @@ Item {
                                 if(filenameedit.text == "")
                                     return
 
-                                var cur = foldermodel.currentFilePath
+                                var cur = filefoldermodel.currentFilePath
                                 var dir = handlingFileDir.getFilePathFromFullPath(cur)
                                 var suf = handlingFileDir.getSuffix(cur)
                                 if(!handlingFileDir.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
@@ -166,7 +166,7 @@ Item {
                                 }
                                 error.visible = false
 
-                                foldermodel.setFileNameOnceReloaded = dir + "/" + filenameedit.text+"."+suf
+                                filefoldermodel.setFileNameOnceReloaded = dir + "/" + filenameedit.text+"."+suf
 
                                 rename_top.opacity = 0
                                 variables.visibleItem = ""
@@ -194,13 +194,13 @@ Item {
             target: loader
             onFileRenamePassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1)
+                    if(filefoldermodel.current == -1)
                         return
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filerename"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath)
-                    filenameedit.text =  handlingFileDir.getBaseName(foldermodel.currentFilePath)
+                    filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
+                    filenameedit.text =  handlingFileDir.getBaseName(filefoldermodel.currentFilePath)
                     filenameedit.setFocus()
                 } else if(what == "hide") {
                     button_cancel.clicked()

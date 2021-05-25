@@ -141,7 +141,7 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Move to trash")
                             onClicked: {
 
-                                if(!handlingFileDir.deleteFile(foldermodel.currentFilePath, false)) {
+                                if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)) {
                                     error.visible = true
                                     return
                                 }
@@ -155,7 +155,7 @@ Item {
                             text: em.pty+qsTranslate("filemanagement", "Delete permanently")
                             onClicked: {
 
-                                if(!handlingFileDir.deleteFile(foldermodel.currentFilePath, true)) {
+                                if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)) {
                                     error.visible = true
                                     return
                                 }
@@ -202,12 +202,12 @@ Item {
             target: loader
             onFileDeletePassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1)
+                    if(filefoldermodel.current == -1)
                         return
                     opacity = 1
                     error.visible = false
                     variables.visibleItem = "filedelete"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath)
+                    filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {

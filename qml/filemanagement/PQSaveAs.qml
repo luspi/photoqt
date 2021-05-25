@@ -268,7 +268,7 @@ Item {
                             border.color: "black"
                             enabled: formatsview.currentIndex != -1
                             onClicked: {
-                                var stat = handlingManipulation.chooseLocationAndConvertImage(foldermodel.currentFilePath, newfilename.text, formatsview.data[formatsview.currentIndex][1])
+                                var stat = handlingManipulation.chooseLocationAndConvertImage(filefoldermodel.currentFilePath, newfilename.text, formatsview.data[formatsview.currentIndex][1])
                                 if(stat == -1) {
                                     abort.visible = true
                                     hideErrorAbort.restart()
@@ -306,13 +306,13 @@ Item {
             target: loader
             onFileSaveAsPassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1)
+                    if(filefoldermodel.current == -1)
                         return
                     opacity = 1
                     error.visible = false
                     abort.visible = false
                     variables.visibleItem = "filesaveas"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath)
+                    filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
                     newfilename.text = filename.text
                     formatsfilter.forceActiveFocus()
                     formatsview.currentIndex = -1

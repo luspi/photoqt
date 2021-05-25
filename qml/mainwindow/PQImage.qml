@@ -275,40 +275,39 @@ Item {
     PQLoading { id: loadingindicator }
 
     Connections {
-        target: foldermodel
+        target: filefoldermodel
         onCurrentFilePathChanged:
             loadNewFile()
     }
 
     function loadNewFile() {
-        if(foldermodel.current > -1 && foldermodel.current < foldermodel.count) {
-            console.log("loadNewFile")
-            var src = handlingFileDir.cleanPath(foldermodel.currentFilePath)
-            image_model.append({"src" : src, "imageIndex" : foldermodel.current})
-        } else if(foldermodel.current == -1 || foldermodel.count == 0)
+        if(filefoldermodel.current > -1 && filefoldermodel.current < filefoldermodel.countMainView) {
+            var src = handlingFileDir.cleanPath(filefoldermodel.currentFilePath)
+            image_model.append({"src" : src, "imageIndex" : filefoldermodel.current})
+        } else if(filefoldermodel.current == -1 || filefoldermodel.countMainView == 0)
             hideAllImages()
     }
 
     function loadNextImage() {
-        if(foldermodel.current < foldermodel.count-1)
-            ++foldermodel.current
-        else if(foldermodel.current == foldermodel.count-1 && PQSettings.loopThroughFolder)
-            foldermodel.current = 0
+        if(filefoldermodel.current < filefoldermodel.countMainView-1)
+            ++filefoldermodel.current
+        else if(filefoldermodel.current == filefoldermodel.countMainView-1 && PQSettings.loopThroughFolder)
+            filefoldermodel.current = 0
     }
 
     function loadPrevImage() {
-        if(foldermodel.current > 0)
-            --foldermodel.current
-        else if(foldermodel.current == 0 && PQSettings.loopThroughFolder)
-            foldermodel.current = foldermodel.count-1
+        if(filefoldermodel.current > 0)
+            --filefoldermodel.current
+        else if(filefoldermodel.current == 0 && PQSettings.loopThroughFolder)
+            filefoldermodel.current = filefoldermodel.countMainView-1
     }
 
     function loadFirstImage() {
-        foldermodel.current = 0
+        filefoldermodel.current = 0
     }
 
     function loadLastImage() {
-        foldermodel.current = foldermodel.count-1
+        filefoldermodel.current = filefoldermodel.countMainView-1
     }
 
     function playPauseAnimation() {

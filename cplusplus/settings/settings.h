@@ -406,32 +406,12 @@ public:
 
 
 
-        Q_PROPERTY(bool pdfSingleDocument READ getPdfSingleDocument WRITE setPdfSingleDocument NOTIFY pdfSingleDocumentChanged)
-        bool getPdfSingleDocument() { return m_pdfSingleDocument; }
-        void setPdfSingleDocument(bool val) {
-            if(m_pdfSingleDocument != val) {
-                m_pdfSingleDocument = val;
-                emit pdfSingleDocumentChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(int pdfQuality READ getPdfQuality WRITE setPdfQuality NOTIFY pdfQualityChanged)
         int getPdfQuality() { return m_pdfQuality; }
         void setPdfQuality(int val) {
             if(m_pdfQuality != val) {
                 m_pdfQuality = val;
                 emit pdfQualityChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(bool archiveSingleFile READ getArchiveSingleFile WRITE setArchiveSingleFile NOTIFY archiveSingleFileChanged)
-        bool getArchiveSingleFile() { return m_archiveSingleFile; }
-        void setArchiveSingleFile(bool val) {
-            if(m_archiveSingleFile != val) {
-                m_archiveSingleFile = val;
-                emit archiveSingleFileChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1513,9 +1493,7 @@ private:
         QString m_animationType;
         int     m_animationDuration;
 
-        bool    m_pdfSingleDocument;
         int     m_pdfQuality;
-        bool    m_archiveSingleFile;
         bool    m_archiveUseExternalUnrar;
 
         bool    m_quickInfoHideCounter;
@@ -1670,9 +1648,7 @@ signals:
         void zoomSpeedChanged();
         void animationTypeChanged();
         void animationDurationChanged();
-        void pdfSingleDocumentChanged();
         void pdfQualityChanged();
-        void archiveSingleFileChanged();
         void archiveUseExternalUnrarChanged();
         void quickInfoHideCounterChanged();
         void quickInfoHideFilepathChanged();

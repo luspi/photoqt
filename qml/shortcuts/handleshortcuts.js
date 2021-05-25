@@ -93,11 +93,11 @@ function whatToDoWithFoundShortcut(sh) {
         loader.ensureItIsReady("copymove")
         loader.passOn("copymove", "move", undefined)
     } else if(cmd === "__deletePermanent") {
-        if(foldermodel.current != -1)
-            handlingFileDir.deleteFile(foldermodel.currentFilePath, true)
+        if(filefoldermodel.current != -1)
+            handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)
     } else if(cmd === "__deleteTrash") {
-        if(foldermodel.current != -1)
-            handlingFileDir.deleteFile(foldermodel.currentFilePath, false)
+        if(filefoldermodel.current != -1)
+            handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)
     } else if(cmd === "__saveAs")
         loader.show("filesaveas")
     else if(cmd === "__hideMeta")
@@ -117,17 +117,17 @@ function whatToDoWithFoundShortcut(sh) {
     else if(cmd === "__imgurAnonym")
         loader.show("imguranonym")
     else if(cmd === "__defaultFileManager")
-        handlingExternal.openInDefaultFileManager(foldermodel.currentFilePath)
+        handlingExternal.openInDefaultFileManager(filefoldermodel.currentFilePath)
     else if(cmd === "__histogram") {
         loader.ensureItIsReady("histogram")
         PQSettings.histogram = !PQSettings.histogram
     }
     else if(cmd === "__clipboard")
-        handlingExternal.copyToClipboard(foldermodel.currentFilePath)
+        handlingExternal.copyToClipboard(filefoldermodel.currentFilePath)
     else if(cmd === "__tagFaces")
         loader.passOn("facetagger", "start", undefined)
     else {
-        handlingShortcuts.executeExternalApp(cmd, foldermodel.currentFilePath)
+        handlingShortcuts.executeExternalApp(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()
     }

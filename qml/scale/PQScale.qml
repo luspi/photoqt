@@ -257,17 +257,17 @@ Item {
                                 if(newwidth.value == 0 || newheight.value == 0 || unsupported.visible)
                                     return
 
-                                if(!handlingManipulation.scaleImage(foldermodel.currentFilePath, false, Qt.size(newwidth.value, newheight.value), quality.value)) {
+                                if(!handlingManipulation.scaleImage(filefoldermodel.currentFilePath, false, Qt.size(newwidth.value, newheight.value), quality.value)) {
                                     error.visible = true
                                     return
                                 }
 
-                                var cur = foldermodel.currentFilePath
+                                var cur = filefoldermodel.currentFilePath
                                 var dir = handlingFileDir.getFilePathFromFullPath(cur)
                                 var bas = handlingFileDir.getBaseName(cur, false)
                                 var suf = handlingFileDir.getSuffix(cur, false)
 
-                                foldermodel.setAsCurrent(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf)
+                                filefoldermodel.setAsCurrent(dir + "/" + bas + "_" + Math.round(newwidth.value)+"x"+Math.round(newheight.value)+"."+suf)
 
                                 scale_top.opacity = 0
                                 variables.visibleItem = ""
@@ -285,7 +285,7 @@ Item {
                                 if(newwidth.value == 0 || newheight.value == 0 || unsupported.visible)
                                     return
 
-                                if(!handlingManipulation.scaleImage(foldermodel.currentFilePath, true, Qt.size(newwidth.value, newheight.value), quality.value)) {
+                                if(!handlingManipulation.scaleImage(filefoldermodel.currentFilePath, true, Qt.size(newwidth.value, newheight.value), quality.value)) {
                                     error.visible = true
                                     return
                                 }
@@ -363,12 +363,12 @@ Item {
             target: loader
             onScalePassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1)
+                    if(filefoldermodel.current == -1)
                         return
 
-                    unsupported.visible = !handlingManipulation.canThisBeScaled(foldermodel.currentFilePath)
+                    unsupported.visible = !handlingManipulation.canThisBeScaled(filefoldermodel.currentFilePath)
 
-                    var s = handlingManipulation.getCurrentImageResolution(foldermodel.currentFilePath)
+                    var s = handlingManipulation.getCurrentImageResolution(filefoldermodel.currentFilePath)
 
                     newwidth.to = s.width*1.5
                     newheight.to = s.height*1.5

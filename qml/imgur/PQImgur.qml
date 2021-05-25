@@ -319,7 +319,7 @@ Item {
             onImgurPassOn: {
                 if(what == "show" || what == "show_anonym") {
 
-                    if(foldermodel.current == -1)
+                    if(filefoldermodel.current == -1)
                         return
 
                     anonymous = (what == "show_anonym")
@@ -363,10 +363,10 @@ Item {
                         return
                     }
                     accountname = handlingShareImgur.getAccountUsername()
-                    handlingShareImgur.upload(foldermodel.currentFilePath)
+                    handlingShareImgur.upload(filefoldermodel.currentFilePath)
                 } else {
                     accountname = ""
-                    handlingShareImgur.anonymousUpload(foldermodel.currentFilePath)
+                    handlingShareImgur.anonymousUpload(filefoldermodel.currentFilePath)
                 }
             }
         }

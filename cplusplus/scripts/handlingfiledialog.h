@@ -43,14 +43,14 @@
 #include "../settings/settings.h"
 #include "../variables.h"
 
-#ifdef POPPLER
-#include <poppler/qt5/poppler-qt5.h>
-#endif
+//#ifdef POPPLER
+//#include <poppler/qt5/poppler-qt5.h>
+//#endif
 
-#ifdef LIBARCHIVE
-#include <archive.h>
-#include <archive_entry.h>
-#endif
+//#ifdef LIBARCHIVE
+//#include <archive.h>
+//#include <archive_entry.h>
+//#endif
 
 class PQHandlingFileDialog : public QObject {
 
@@ -66,8 +66,6 @@ public:
     QString getNewUniqueId();
     Q_INVOKABLE QVariantList getUserPlaces();
     Q_INVOKABLE void hideUserPlacesEntry(QString id, bool hidden);
-    Q_INVOKABLE QStringList listArchiveContent(QString path);
-    Q_INVOKABLE QStringList listPDFPages(QString path);
     Q_INVOKABLE void moveUserPlacesEntry(QString id, bool moveDown, int howmany);
     Q_INVOKABLE void removeUserPlacesEntry(QString id);
     Q_INVOKABLE void setLastLocation(QString path);

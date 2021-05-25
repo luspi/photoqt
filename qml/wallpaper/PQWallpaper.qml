@@ -279,7 +279,7 @@ Item {
 
                         }
 
-                        handlingWallpaper.setWallpaper(curCat, foldermodel.currentFilePath, args)
+                        handlingWallpaper.setWallpaper(curCat, filefoldermodel.currentFilePath, args)
 
                         wallpaper_top.opacity = 0
                         variables.visibleItem = ""
@@ -350,7 +350,7 @@ Item {
             target: loader
             onWallpaperPassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1)
+                    if(filefoldermodel.current == -1)
                         return
                     opacity = 1
                     variables.visibleItem = "wallpaper"

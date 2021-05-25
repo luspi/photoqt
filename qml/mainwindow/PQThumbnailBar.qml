@@ -71,7 +71,7 @@ Item {
 
         orientation: ListView.Horizontal
 
-        model: PQSettings.thumbnailDisable ? 0 : foldermodel.count
+        model: PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView
 
         ScrollBar.horizontal: PQScrollBar { id: scroll }
 
@@ -104,7 +104,7 @@ Item {
                 visible: PQSettings.thumbnailFilenameInstead
                 color: "white"
 
-                text: handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index))
+                text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.getFilePathMainView(index))
                 font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
@@ -116,7 +116,7 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + foldermodel.getFilePath(index)
+                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.getFilePathMainView(index)
 
                 visible: !PQSettings.thumbnailFilenameInstead
 
@@ -137,7 +137,7 @@ Item {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
-                        text: handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index), true)
+                        text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.getFilePathMainView(index), true)
                     }
                 }
             }
@@ -146,13 +146,13 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(foldermodel.getFilePath(index), true) + "</span></b><br><br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(foldermodel.getFileSize(index)) + "<br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + foldermodel.getFileType(index)
+                tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(filefoldermodel.getFilePathMainView(index), true) + "</span></b><br><br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(filefoldermodel.getFileSizeMainView(index)) + "<br>" +
+                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + filefoldermodel.getFileTypeMainView(index)
                 onEntered:
                     view.mouseOverItem = index
                 onClicked:
-                    foldermodel.current = index
+                    filefoldermodel.current = index
                 onExited:
                     view.mouseOverItem = -1
                 onWheel: {
@@ -171,15 +171,15 @@ Item {
     }
 
     Connections {
-        target: foldermodel
+        target: filefoldermodel
         onCurrentChanged:
-            view.currentIndex = foldermodel.current
-        onFolderContentChanged: {
+            view.currentIndex = filefoldermodel.current
+        onNewDataLoadedMainView: {
             view.model = 0
-            if(foldermodel.count == 0)
+            if(filefoldermodel.countMainView == 0)
                 return
-            view.model = Qt.binding(function() { return (PQSettings.thumbnailDisable ? 0 : foldermodel.count) })
-            view.currentIndex = foldermodel.current
+            view.model = Qt.binding(function() { return (PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView) })
+            view.currentIndex = filefoldermodel.current
         }
     }
 

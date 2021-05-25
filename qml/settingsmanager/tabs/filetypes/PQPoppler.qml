@@ -38,11 +38,10 @@ PQSetting {
 
             spacing: 10
 
-            PQCheckbox {
+            Text {
                 id: docviewer
-                tooltip: "PhotoQt can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer)."
-                //: this is a display mode for PDF files
-                text: em.pty+qsTranslate("settingsmanager_filetypes", "document viewer")
+                color: "white"
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "Quality:")
             }
             PQSlider {
                 id: qual_slider
@@ -70,7 +69,6 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.pdfSingleDocument = docviewer.checked
             PQSettings.pdfQuality = qual_slider.value
         }
 
@@ -81,8 +79,6 @@ PQSetting {
     }
 
     function load() {
-
-        docviewer.checked = PQSettings.pdfSingleDocument
 
         // We always take the PDF quality in steps of 5!
         var q = PQSettings.pdfQuality

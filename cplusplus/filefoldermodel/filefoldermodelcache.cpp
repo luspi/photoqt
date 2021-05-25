@@ -20,63 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import "../elements"
+#include "filefoldermodelcache.h"
 
-Item {
+PQFileFolderModelCache::PQFileFolderModelCache() {
 
-    x: variables.metaDataWidthWhenKeptOpen + 10
-    Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
-    y: 10
-
-    width: cont.width
-    height: cont.height
-
-    visible: (filefoldermodel.countMainView==0&&!filefoldermodel.filterCurrentlyActive) ||
-             variables.faceTaggingActive
-
-    Rectangle {
-
-        id: cont
-        width: childrenRect.width+20
-        height: childrenRect.height+10
-
-        clip: true
-
-        Behavior on width { NumberAnimation { duration: 200 } }
-
-        color: "#88000000"
-        radius: 5
-
-        Text {
-            id: thex
-            x: 10
-            y: 5
-            color: "white"
-            text: "x"
-            visible: variables.faceTaggingActive
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: em.pty+qsTranslate("facetagging", "Click to exit face tagging mode")
-                onClicked:
-                    loader.passOn("facetagger", "stop", undefined)
-            }
-        }
-
-        Text {
-
-            x: variables.faceTaggingActive ? (thex.x+thex.width+5) : 10
-            y: 5
-            color: "white"
-
-            text: variables.faceTaggingActive ?
-                      em.pty+qsTranslate("facetagging", "Click to tag faces, changes are saved automatically") :
-                      em.pty+qsTranslate("other", "Open a file to start")
-
-        }
-
-    }
+    cacheFiles.clear();
+    cacheFolders.clear();
 
 }

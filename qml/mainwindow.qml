@@ -94,7 +94,7 @@ Window {
                 id: emptymessage
                 anchors.centerIn: parent
                 text: em.pty+qsTranslate("other", "Open a file to begin")
-                visible: foldermodel.current==-1&&!foldermodel.filterCurrentlyActive
+                visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
@@ -105,7 +105,7 @@ Window {
                 anchors.centerIn: parent
                 //: Used as in: No matches found for the currently set filter
                 text: em.pty+qsTranslate("other", "No matches found")
-                visible: foldermodel.current==-1&&foldermodel.filterCurrentlyActive
+                visible: filefoldermodel.current==-1&&filefoldermodel.filterCurrentlyActive
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
@@ -127,8 +127,8 @@ Window {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
             windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
         }
-        if(foldermodel.current > -1 && PQSettings.startupLoadLastLoadedImage)
-            handlingGeneral.setLastLoadedImage(foldermodel.currentFilePath)
+        if(filefoldermodel.current > -1 && PQSettings.startupLoadLastLoadedImage)
+            handlingGeneral.setLastLoadedImage(filefoldermodel.currentFilePath)
         else
             handlingGeneral.deleteLastLoadedImage()
         handlingGeneral.cleanUpScreenshotsTakenAtStartup()
@@ -182,6 +182,7 @@ Window {
     PQThumbnailBar { id: thumbnails }
 
     PQFolderModel { id: foldermodel }
+    PQModel { id: filefoldermodel }
 
     Loader { id: histogram }
 
@@ -308,13 +309,14 @@ Window {
 
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
-            foldermodel.setFileNameOnceReloaded = filenameToLoad
-            foldermodel.folder = folderToLoad
+            filefoldermodel.setFileNameOnceReloaded = filenameToLoad
+            filefoldermodel.folderMainView = folderToLoad
+            filefoldermodel.folderFileDialog = folderToLoad
 
             variables.openCurrentDirectory = folderToLoad
 
             if(handlingFileDir.isDir(filenameToLoad)) {
-                if(foldermodel.count == 0) {
+                if(filefoldermodel.countMainView == 0) {
                     loader.show("filedialog")
                     variables.openCurrentDirectory = filenameToLoad
                     return

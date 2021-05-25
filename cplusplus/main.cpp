@@ -40,12 +40,12 @@
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
 #include "scripts/filewatcher.h"
-#include "scripts/filefoldermodel.h"
 #include "singleinstance/singleinstance.h"
 #include "settings/windowgeometry.h"
 #include "scripts/metadata.h"
 #include "scripts/systemtrayicon.h"
 #include "scripts/imagewatcher.h"
+#include "filefoldermodel/filefoldermodel.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
@@ -143,13 +143,14 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQSystemTrayIcon>("PQSystemTrayIcon", 1, 0, "PQSystemTrayIcon");
     qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
     qmlRegisterType<PQImageWatcher>("PQImageWatcher", 1, 0, "PQImageWatcher");
+    qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
+
+    qRegisterMetaType<QList<PQFileFolderEntry*> >("QList<PQFileFolderEntry*>");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
     engine.rootContext()->setContextProperty("PQKeyPressChecker", &PQKeyPressChecker::get());
-
-    qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);

@@ -53,7 +53,8 @@ PQMenu {
                 filedialog_top.setCurrentDirectory(filePath)
             else {
                 hideFileDialog()
-                foldermodel.setFolderAndImages(ffilePath, files_model.getCopyOfAllFiles())
+                // FIXME
+//                foldermodel.setFolderAndImages(ffilePath, files_model.getCopyOfAllFiles())
             }
         } else if(index == 1)
             handlingFileDialog.addNewUserPlacesEntry(filePath, upl.model.count)

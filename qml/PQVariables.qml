@@ -59,12 +59,12 @@ Item {
 
             if(PQCppVariables.cmdFilePath != "") {
 
-                var folderOld = (foldermodel.count == 0 ? "" : handlingFileDir.getFilePathFromFullPath(foldermodel.getFilePath(0)))
+                var folderOld = (filefoldermodel.countMainView == 0 ? "" : handlingFileDir.getFilePathFromFullPath(filefoldermodel.getFilePathMainView(0)))
                 var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
                 if(folderNew != folderOld)
-                    foldermodel.folder = folderNew
-                foldermodel.setAsCurrent(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
+                    filefoldermodel.folderMainView = folderNew
+                filefoldermodel.setAsCurrent(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
 
                 // reset variable
                 PQCppVariables.cmdFilePath = ""

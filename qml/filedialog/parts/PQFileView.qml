@@ -37,7 +37,7 @@ GridView {
 
     property bool rightclickopen: false
 
-    property var currentIndexChangedUsingKeyIgnoreMouse: false
+    property bool currentIndexChangedUsingKeyIgnoreMouse: false
     onCurrentIndexChangedUsingKeyIgnoreMouseChanged:
         resetCurrentIndexChangedUsingKeyIgnoreMouse.restart()
 
@@ -52,30 +52,38 @@ GridView {
 
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
-    PQFileFolderModel {
-        id: files_model
+//    PQFileFolderModel {
+//        id: files_model
 
-        showHidden: PQSettings.openShowHiddenFilesFolders
-        sortField: PQSettings.sortby=="name" ?
-                       PQFileFolderModel.Name :
-                       (PQSettings.sortby == "naturalname" ?
-                            PQFileFolderModel.NaturalName :
-                            (PQSettings.sortby == "time" ?
-                                 PQFileFolderModel.Time :
-                                 (PQSettings.sortby == "size" ?
-                                     PQFileFolderModel.Size :
-                                     PQFileFolderModel.Type)))
-        sortReversed: !PQSettings.sortbyAscending
+//        showHidden: PQSettings.openShowHiddenFilesFolders
+//        sortField: PQSettings.sortby=="name" ?
+//                       PQFileFolderModel.Name :
+//                       (PQSettings.sortby == "naturalname" ?
+//                            PQFileFolderModel.NaturalName :
+//                            (PQSettings.sortby == "time" ?
+//                                 PQFileFolderModel.Time :
+//                                 (PQSettings.sortby == "size" ?
+//                                     PQFileFolderModel.Size :
+//                                     PQFileFolderModel.Type)))
+//        sortReversed: !PQSettings.sortbyAscending
 
-        Component.onCompleted: {
-            loadFolder(variables.openCurrentDirectory)
-            filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
-            filedialog_top.historyListIndex = 0
-        }
+//        Component.onCompleted: {
+//            loadFolder(variables.openCurrentDirectory)
+//            filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
+//            filedialog_top.historyListIndex = 0
+//        }
 
+//    }
+
+//    model: files_model
+
+    Component.onCompleted: {
+        loadFolder(variables.openCurrentDirectory)
+        filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
+        filedialog_top.historyListIndex = 0
     }
 
-    model: files_model
+    model: filefoldermodel.countFileDialog
 
     cellWidth: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : width-scroll.width
     cellHeight: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : PQSettings.openZoomLevel*2
@@ -108,6 +116,16 @@ GridView {
         width: files_grid.cellWidth
         height: files_grid.cellHeight
 
+        // 0 = fileName
+        // 1 = filePath
+        // 2 = fileSize
+        // 3 = fileModified
+        // 4 = fileIsDir
+        // 5 = fileType
+        property var entry: ["","",0,0,true,""]
+        Component.onCompleted:
+            entry = filefoldermodel.getValuesFileDialog(index)
+
         Rectangle {
 
             id: deleg_container
@@ -120,7 +138,7 @@ GridView {
             anchors.verticalCenter: parent.verticalCenter
 
             property bool mouseInside: false
-            color: fileIsDir
+            color: entry[4]
                        ? (files_grid.currentIndex==index ? "#44888899" : "#44222233")
                        : (files_grid.currentIndex==index ? "#44aaaaaa" : "#44444444")
 
@@ -143,7 +161,7 @@ GridView {
                 opacity: files_grid.currentIndex==index ? 1 : 0.6
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                source: fileName==".."||filethumb.status==Image.Ready ? "" : "image://icon/" + (fileIsDir ? "folder" : "image")
+                source: entry[0]==".."||filethumb.status==Image.Ready ? "" : "image://icon/" + (entry[4] ? "folder" : "image")
 
                 Text {
                     id: numberOfFilesInsideFolder
@@ -162,7 +180,7 @@ GridView {
 
                     id: filethumb
                     anchors.fill: parent
-                    visible: !fileIsDir
+                    visible: !entry[4]
 
                     cache: false
 
@@ -174,7 +192,7 @@ GridView {
                     smooth: true
                     asynchronous: true
 
-                    source: (fileIsDir||!PQSettings.openThumbnails) ? "" : ("image://thumb/" + filePath)
+                    source: (entry[4]||!PQSettings.openThumbnails) ? "" : ("image://thumb/" + entry[1])
 
                 }
 
@@ -220,7 +238,7 @@ GridView {
             Rectangle {
 
                 width: parent.width
-                height: fileName==".." ? parent.height : (files_grid.currentIndex == index ? parent.height/2 : parent.height/3.5)
+                height: entry[0]==".." ? parent.height : (files_grid.currentIndex == index ? parent.height/2 : parent.height/3.5)
                 y: parent.height-height
 
                 Behavior on height { NumberAnimation { duration: 100 } }
@@ -233,17 +251,17 @@ GridView {
                 Text {
 
                     width: parent.width-20
-                    height: fileName==".." ? parent.height-20 : parent.height
+                    height: entry[0]==".." ? parent.height-20 : parent.height
                     x: 10
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     color: "white"
-                    text: decodeURIComponent(fileName)
+                    text: decodeURIComponent(entry[0])
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     wrapMode: Text.Wrap
 
-                    font.pointSize: fileName==".." ? 20 : (files_grid.currentIndex == index ? 10 : 8)
+                    font.pointSize: entry[0]==".." ? 20 : (files_grid.currentIndex == index ? 10 : 8)
                     Behavior on font.pointSize { NumberAnimation { duration: 100 } }
 
 
@@ -253,7 +271,7 @@ GridView {
 
             Text {
                 anchors.fill: parent
-                anchors.leftMargin: fileName == ".." ? fileicon.width/2 : fileicon.width+10
+                anchors.leftMargin: entry[0] == ".." ? fileicon.width/2 : fileicon.width+10
 
                 opacity: PQSettings.openDefaultView=="list" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -263,7 +281,7 @@ GridView {
                 font.bold: true //fileName == ".."
 
                 color: "white"
-                text: decodeURIComponent(fileName)
+                text: decodeURIComponent(entry[0])
                 maximumLineCount: 2
                 elide: Text.ElideMiddle
                 wrapMode: Text.Wrap
@@ -281,8 +299,7 @@ GridView {
                 visible: PQSettings.openDefaultView=="list"
                 color: "white"
                 font.bold: true
-                text: fileIsDir ? "" : handlingGeneral.convertBytesToHumanReadable(fileSize)
-
+                text: entry[4] ? "" : handlingGeneral.convertBytesToHumanReadable(1*entry[2])
             }
 
             PQMouseArea {
@@ -295,19 +312,19 @@ GridView {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltip: (fileIsDir ?
+                tooltip: (entry[4] ?
 
-                          ("<b><span style=\"font-size: x-large\">" + fileName + "</span></b><br><br>" +
+                          ("<b><span style=\"font-size: x-large\">" + entry[0] + "</span></b><br><br>" +
                            (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
-                           em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString() + "</b>") :
+                           em.pty+qsTranslate("filedialog", "Date:")+" <b>" + entry[3].toLocaleDateString() + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + entry[3].toLocaleTimeString() + "</b>") :
 
-                          ("<img src=\"image://thumb/" + filePath.replace("'","&#39;") + "\"><br><br>" +
-                           "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
-                           em.pty+qsTranslate("filedialog", "File size:")+" <b>" + filesizenum.text + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + fileType + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString()+ "</b>"))
+                         ("<img src=\"image://thumb/" + entry[1].replace("'","&#39;") + "\"><br><br>" +
+                          "<b><span style=\"font-size: x-large\">" + entry[0] + "</span></b>" + "<br><br>" +
+                          em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(1*entry[2]) + "</b><br>" +
+                          em.pty+qsTranslate("filedialog", "File type:")+" <b>" + entry[5] + "</b><br>" +
+                          em.pty+qsTranslate("filedialog", "Date:")+" <b>" + entry[3].toLocaleDateString() + "</b><br>" +
+                          em.pty+qsTranslate("filedialog", "Time:")+" <b>" + entry[3].toLocaleTimeString()+ "</b>"))
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
@@ -322,10 +339,11 @@ GridView {
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(!files_grid.rightclickopen) {
-                            if(fileIsDir)
-                                filedialog_top.setCurrentDirectory(filePath)
+                            if(entry[4])
+                                filedialog_top.setCurrentDirectory(entry[1])
                             else {
-                                foldermodel.setFolderAndImages(filePath, files_model.getCopyOfAllFiles())
+                                filefoldermodel.setFileNameOnceReloaded = filefoldermodel.folderFileDialog + "/" + entry[0]
+                                filefoldermodel.fileInFolderMainView = filefoldermodel.folderFileDialog + "/" + entry[0]
                                 filedialog_top.hideFileDialog()
                             }
                         }
@@ -338,9 +356,9 @@ GridView {
 
             PQRightClickMenu {
                 id: rightclickmenu
-                isFolder: fileIsDir
-                isFile: !fileIsDir
-                path: filePath
+                isFolder: entry[4]
+                isFile: !entry[4]
+                path: entry[1]
                 onVisibleChanged: {
                     if(visible) {
                         rightclickmenu_timer.stop()
@@ -373,8 +391,8 @@ GridView {
             ]
 
             Component.onCompleted: {
-                if(fileIsDir && fileName != "..") {
-                    handlingFileDialog.getNumberOfFilesInFolder(filePath, function(count) {
+                if(entry[4] && entry[0] != "..") {
+                    handlingFileDialog.getNumberOfFilesInFolder(entry[1], function(count) {
                         if(count > 0) {
                             numberOfFilesInsideFolder.text = count
                             if(count == 1)
@@ -455,14 +473,14 @@ GridView {
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
-            currentIndex = Math.min(currentIndex+5, files_model.count-1)
+            currentIndex = Math.min(currentIndex+5, filefoldermodel.countFileDialog-1)
 
         } else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
-            if(files_model.getFileIsDir(currentIndex)) {
-                filedialog_top.setCurrentDirectory(files_model.getFilePath(currentIndex))
+            if(filefoldermodel.entriesFileDialog[currentIndex].fileIsDir) {
+                filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[currentIndex].filePath)
             } else {
-                foldermodel.setFolderAndImages(files_model.getFilePath(currentIndex), files_model.getCopyOfAllFiles())
+//                foldermodel.setFolderAndImages(files_model.getFilePath(currentIndex), files_model.getCopyOfAllFiles())
                 filedialog_top.hideFileDialog()
             }
 
@@ -490,9 +508,9 @@ GridView {
             var tmp = (currentIndex==-1 ? 0 : currentIndex+1)
             var foundSomething = false
 
-            for(var i = tmp; i < files_model.count; ++i) {
+            for(var i = tmp; i < filefoldermodel.countFileDialog; ++i) {
 
-                if(handlingShortcuts.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                if(handlingShortcuts.convertCharacterToKeyCode(filefoldermodel.getFileNameFileDialog(currentIndex)[0]) == key) {
                     currentIndex = i
                     foundSomething = true
                     break;
@@ -504,7 +522,7 @@ GridView {
 
                 for(var i = 0; i < tmp; ++i) {
 
-                    if(handlingShortcuts.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                    if(handlingShortcuts.convertCharacterToKeyCode(filefoldermodel.getFileNameFileDialog(currentIndex)[0]) == key) {
                         currentIndex = i
                         foundSomething = true
                         break;
@@ -534,40 +552,41 @@ GridView {
     function loadFolder(loc) {
 
         // set right name filter
-        if(tweaks.showWhichFileTypeIndex == "all") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormats()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypes()
-        } else if(tweaks.showWhichFileTypeIndex == "qt") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsQt()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesQt()
-        } else if(tweaks.showWhichFileTypeIndex == "magick") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsMagick()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesMagick()
-        } else if(tweaks.showWhichFileTypeIndex == "libraw") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsLibRaw()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesLibRaw()
-        } else if(tweaks.showWhichFileTypeIndex == "devil") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsDevIL()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesDevIL()
-        } else if(tweaks.showWhichFileTypeIndex == "freeimage") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsFreeImage()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesFreeImage()
-        } else if(tweaks.showWhichFileTypeIndex == "poppler") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsPoppler()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesPoppler()
-        } else if(tweaks.showWhichFileTypeIndex == "video") {
-            files_model.nameFilters = PQImageFormats.getEnabledFormatsVideo()
-            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesVideo()
-        } else if(tweaks.showWhichFileTypeIndex == "allfiles") {
-            files_model.nameFilters = []
-            files_model.mimeTypeFilter = []
-        } else
-            console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
+//        if(tweaks.showWhichFileTypeIndex == "all") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormats()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypes()
+//        } else if(tweaks.showWhichFileTypeIndex == "qt") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsQt()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesQt()
+//        } else if(tweaks.showWhichFileTypeIndex == "magick") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsMagick()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesMagick()
+//        } else if(tweaks.showWhichFileTypeIndex == "libraw") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsLibRaw()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesLibRaw()
+//        } else if(tweaks.showWhichFileTypeIndex == "devil") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsDevIL()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesDevIL()
+//        } else if(tweaks.showWhichFileTypeIndex == "freeimage") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsFreeImage()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesFreeImage()
+//        } else if(tweaks.showWhichFileTypeIndex == "poppler") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsPoppler()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesPoppler()
+//        } else if(tweaks.showWhichFileTypeIndex == "video") {
+//            files_model.nameFilters = PQImageFormats.getEnabledFormatsVideo()
+//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesVideo()
+//        } else if(tweaks.showWhichFileTypeIndex == "allfiles") {
+//            files_model.nameFilters = []
+//            files_model.mimeTypeFilter = []
+//        } else
+//            console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
 
         loc = handlingFileDir.cleanPath(loc)
 
-        files_model.folder = loc
-        currentIndex = (files_model.count > 0 ? 0 : -1)
+        filefoldermodel.folderFileDialog = loc
+//        currentIndex = (filefoldermodel.countFileDialog > 0 ? 0 : -1)
+        currentIndex = 0
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]

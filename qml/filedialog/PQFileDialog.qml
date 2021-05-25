@@ -59,6 +59,7 @@ Rectangle {
             return
 
         variables.openCurrentDirectory = dir
+        filefoldermodel.folderFileDialog = dir
         if(addToHistory === true || addToHistory === undefined) {
 
             // purge old history beyond current point (if not at end already)
@@ -189,7 +190,7 @@ Rectangle {
                     z: -1
 
                     anchors.fill: parent
-                    filePath: fileview.model.getFileIsDir(fileview.currentIndex) ? "" : fileview.model.getFilePath(fileview.currentIndex)
+                    filePath: (filefoldermodel.countFileDialog>fileview.currentIndex&&fileview.currentIndex!=-1) ? (filefoldermodel.getFileIsDirFileDialog(fileview.currentIndex) ? "" : filefoldermodel.getFilePathFileDialog(fileview.currentIndex)) : ""
 
                 }
 

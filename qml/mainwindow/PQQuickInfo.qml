@@ -34,8 +34,8 @@ Item {
     height: cont.height
 
     visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) &&
-             (foldermodel.current>-1 || foldermodel.filterCurrentlyActive) &&
-             (foldermodel.count>0 || foldermodel.filterCurrentlyActive) &&
+             (filefoldermodel.current>-1 || filefoldermodel.filterCurrentlyActive) &&
+             (filefoldermodel.countMainView>0 || filefoldermodel.filterCurrentlyActive) &&
              !variables.faceTaggingActive
 
     Rectangle {
@@ -59,9 +59,11 @@ Item {
             y: 5
             color: "white"
 
-            visible: !PQSettings.quickInfoHideCounter && (foldermodel.current > -1)
+            visible: !PQSettings.quickInfoHideCounter && (filefoldermodel.current > -1) && pageInfo.text==""
 
-            text: PQSettings.quickInfoHideCounter ? "" : ((foldermodel.current+1) + "/" + foldermodel.count)
+            width: visible ? children.width : 0
+
+            text: PQSettings.quickInfoHideCounter ? "" : ((filefoldermodel.current+1) + "/" + filefoldermodel.countMainView)
 
         }
 
@@ -70,19 +72,19 @@ Item {
 
             id: filename
 
-            x: counter.x+counter.width + (text=="" ? 0 : 10)
+            x: counter.x+counter.width + (text==""||!counter.visible ? 0 : 10)
 
-            visible: text!="" && (foldermodel.current > -1)
+            visible: text!="" && (filefoldermodel.current > -1)
 
             y: 5
             color: "white"
-            text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || foldermodel.current==-1) ?
+            text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || filefoldermodel.current==-1) ?
                       "" :
                       (PQSettings.quickInfoHideFilepath ?
-                           handlingFileDir.getFileNameFromFullPath(foldermodel.currentFilePath) :
+                           handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath) :
                            (PQSettings.quickInfoHideFilename ?
-                                handlingFileDir.getFilePathFromFullPath(foldermodel.currentFilePath) :
-                                foldermodel.currentFilePath))
+                                handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath) :
+                                filefoldermodel.currentFilePath))
         }
 
         Rectangle {
@@ -94,7 +96,7 @@ Item {
             x: filename.x+filename.width+(visible ? 10 : 0)
             y: 5
 
-            visible: (filename.visible||counter.visible) && (pageInfo.visible) && (foldermodel.current > -1)
+            visible: (filename.visible||counter.visible) && (pageInfo.visible) && (filefoldermodel.current > -1)
 
             width: 1
             height: filename.height
@@ -109,11 +111,14 @@ Item {
             anchors.leftMargin: visible ? 10 : 0
             y: 5
 
-            text: (foldermodel.current>-1 && foldermodel.current < foldermodel.count && foldermodel.currentFilePath.indexOf("::PQT::")>-1) ?
+            text: (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.currentFilePath.indexOf("::PQT::")>-1) ?
                       //: Used as in: Page 12/34 - please keep as short as possible
-                      (em.pty+qsTranslate("quickinfo", "Page") + " " + (foldermodel.currentFilePath.split("::PQT::")[0]*1+1) + " of " + foldermodel.count) :
-                      ""
-            visible: text != "" && (foldermodel.current > -1)
+                      (em.pty+qsTranslate("quickinfo", "Page") + " " + (filefoldermodel.currentFilePath.split("::PQT::")[0]*1+1) + " of " + filefoldermodel.countMainView) :
+                                (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.currentFilePath.indexOf("::ARC::")>-1) ?
+                                            //: Used as in: File 12/34 - please keep as short as possible
+                                            (em.pty+qsTranslate("quickinfo", "File") + " " + (filefoldermodel.current+1) + " of " + filefoldermodel.countMainView) :
+                        ""
+            visible: text != "" && (filefoldermodel.current > -1)
 
             color: "white"
 
@@ -125,10 +130,10 @@ Item {
 
             color: "#cccccc"
 
-            x: pageInfo.x+pageInfo.width+10
+            x: pageInfo.x+pageInfo.width+(visible ? 10 : 0)
             y: 5
 
-            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible && (foldermodel.current > -1)
+            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible && (filefoldermodel.current > -1)
 
             width: 1
             height: filename.height
@@ -138,19 +143,70 @@ Item {
         // zoom level
         Text {
             id: zoomlevel
-            x: PQSettings.quickInfoHideZoomLevel ? 0 : seperator2.x+seperator2.width+10
+            x: seperator2.x+seperator2.width + (visible ? 10 : 0)
             y: 5
             color: "white"
-            visible: !PQSettings.quickInfoHideZoomLevel && (foldermodel.current > -1)
+            visible: !PQSettings.quickInfoHideZoomLevel && (filefoldermodel.current > -1) && pageInfo.text==""
+            width: visible ? children.width : 0
             text: PQSettings.quickInfoHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
+        }
+
+        Rectangle {
+
+            id: seperator3
+
+            color: "white"
+
+            x: zoomlevel.x+zoomlevel.width+(visible ? 10 : 0)
+            y: 5
+
+            visible: enterpdf_cont.visible||enterarchive_cont.visible
+
+            width: 1
+            height: filename.height
+
+        }
+
+        // enter Document Viewer
+        Item {
+            id: enterpdf_cont
+            x: seperator3.x+10
+            y: 5
+            visible: imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)
+            width: visible ? enterpdf.width : 0
+            height: visible ? enterpdf.height : 0
+            Text {
+                id: enterpdf
+                color: "white"
+                font.italic: true
+                text: pageInfo.text=="" ? "Enter Document Viewer" : "Exit Document Viewer"
+            }
+
+        }
+
+        // enter Archive Viewer
+        Item {
+            id: enterarchive_cont
+            x: seperator3.x+10
+            y: 5
+            visible: imageproperties.isArchive(filefoldermodel.currentFilePath)
+            width: visible ? enterarchive.width : 0
+            height: visible ? enterarchive.height : 0
+            Text {
+                id: enterarchive
+                color: "white"
+                font.italic: true
+                text: pageInfo.text=="" ? "Enter Archive Viewer" : "Exit Archive Viewer"
+            }
+
         }
 
         // filter string
         Item {
             id: filterremove_cont
             x: counter.x
-            y: (foldermodel.filterCurrentlyActive&&foldermodel.current==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
-            visible: foldermodel.filterCurrentlyActive
+            y: (filefoldermodel.filterCurrentlyActive&&filefoldermodel.current==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
+            visible: filefoldermodel.filterCurrentlyActive
             width: visible ? filtertext.width : 0
             height: visible ? filtertext.height : 0
             Row {
@@ -164,7 +220,7 @@ Item {
                 Text {
                     id: filtertext
                     color: "white"
-                    text: em.pty+qsTranslate("quickinfo", "Filter:") + " " + foldermodel.filenameFilters.join(" ") + " ." + foldermodel.nameFilters.join(" .")
+                    text: em.pty+qsTranslate("quickinfo", "Filter:") + " " + filefoldermodel.filenameFilters.join(" ") + " ." + filefoldermodel.nameFilters.join(" .")
                 }
             }
 
@@ -251,6 +307,46 @@ Item {
     }
 
 
+
+    PQMouseArea {
+        x: enterpdf_cont.x
+        y: enterpdf_cont.y
+        width: enterpdf_cont.width+5
+        height: enterpdf_cont.height
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter Document Viewer") : em.pty+qsTranslate("quickinfo", "Click here to exit Document Viewer")
+        onClicked: {
+            if(pageInfo.text == "") {
+                filefoldermodel.readDocumentOnly = true
+                filefoldermodel.setFileNameOnceReloaded = "0::PQT::" + filefoldermodel.currentFilePath
+                filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
+            } else {
+                filefoldermodel.setFileNameOnceReloaded = filefoldermodel.currentFilePath.split("::PQT::")[1]
+                filefoldermodel.fileInFolderMainView = filefoldermodel.setFileNameOnceReloaded
+            }
+        }
+    }
+
+    PQMouseArea {
+        x: enterarchive_cont.x
+        y: enterarchive_cont.y
+        width: enterarchive_cont.width+5
+        height: enterarchive_cont.height
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter Archive Viewer") : em.pty+qsTranslate("quickinfo", "Click here to exit Archive Viewer")
+        onClicked: {
+            if(pageInfo.text=="") {
+                filefoldermodel.readArchiveOnly = true
+                filefoldermodel.setFileNameOnceReloaded = "---"
+                filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
+            } else {
+                filefoldermodel.setFileNameOnceReloaded = filefoldermodel.currentFilePath.split("::ARC::")[1]
+                filefoldermodel.fileInFolderMainView = filefoldermodel.setFileNameOnceReloaded
+            }
+        }
+    }
 
     PQMouseArea {
         x: filterremove_cont.x

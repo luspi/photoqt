@@ -44,12 +44,6 @@ PQSetting {
                 //: used as label for checkbox
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "use external tool: unrar")
             }
-            PQCheckbox {
-                id: isolate
-                tooltip: "PhotoQt uses LibArchive to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file inside the archive file as one image) or it can ignore them completely except when asked to open an archive. In that case it then wont load any other images (like a document viewer)."
-                //: used as label for checkbox, used as in: when an archive is loaded all other files in the folder are ignored
-                text: em.pty+qsTranslate("settingsmanager_filetypes", "isolate archives")
-            }
 
         }
 
@@ -65,7 +59,6 @@ PQSetting {
 
         onSaveAllSettings: {
             PQSettings.archiveUseExternalUnrar = ext_unrar.checked
-            PQSettings.archiveSingleFile = isolate.checked
         }
 
     }
@@ -77,7 +70,6 @@ PQSetting {
     function load() {
 
         ext_unrar.checked = PQSettings.archiveUseExternalUnrar
-        isolate.checked = PQSettings.archiveSingleFile
 
     }
 

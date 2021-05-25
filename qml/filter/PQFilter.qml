@@ -199,7 +199,7 @@ Item {
             target: loader
             onFilterPassOn: {
                 if(what == "show") {
-                    if(foldermodel.current == -1 && !foldermodel.filterCurrentlyActive)
+                    if(filefoldermodel.current == -1 && !filefoldermodel.filterCurrentlyActive)
                         return
                     opacity = 1
                     variables.visibleItem = "filter"
@@ -263,17 +263,17 @@ Item {
         }
         console.log("e", fileEndingFilter)
         console.log("n", fileNameFilter)
-        console.log("o", foldermodel.nameFilters)
-        foldermodel.nameFilters = fileEndingFilter
-        foldermodel.filenameFilters = fileNameFilter
+        console.log("o", filefoldermodel.nameFilters)
+        filefoldermodel.nameFilters = fileEndingFilter
+        filefoldermodel.filenameFilters = fileNameFilter
 
     }
 
     function removeFilter() {
 
         filteredit.text = ""
-        foldermodel.nameFilters = []
-        foldermodel.filenameFilters = []
+        filefoldermodel.nameFilters = []
+        filefoldermodel.filenameFilters = []
 
     }
 
