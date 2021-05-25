@@ -181,7 +181,6 @@ Window {
 
     PQThumbnailBar { id: thumbnails }
 
-    PQFolderModel { id: foldermodel }
     PQModel { id: filefoldermodel }
 
     Loader { id: histogram }
