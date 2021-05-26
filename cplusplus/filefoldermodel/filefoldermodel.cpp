@@ -92,12 +92,12 @@ void PQFileFolderModel::loadDataFileDialog() {
     // load folders
 
     m_entriesFileDialog = getAllFolders(m_folderFileDialog);
-    m_countFileDialog += m_entriesFileDialog.length();
 
     ////////////////////////
     // load files
 
     m_entriesFileDialog.append(getAllFiles(m_folderFileDialog));
+
     m_countFileDialog += m_entriesFileDialog.length();
 
     emit newDataLoadedFileDialog();
