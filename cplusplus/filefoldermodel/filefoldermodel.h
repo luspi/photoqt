@@ -39,17 +39,6 @@
 #include <poppler/qt5/poppler-qt5.h>
 #endif
 
-class PQFileFolderEntry {
-
-public:
-    QString fileName;
-    QString filePath;
-    qint64 fileSize;
-    QDateTime fileModified;
-    bool fileIsDir;
-    QString fileType;
-};
-
 class PQFileFolderModel : public QObject {
 
     Q_OBJECT
@@ -132,24 +121,24 @@ public:
     void setSortReversed(bool val) { m_sortReversed = val; emit sortReversedChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_INVOKABLE QVariantList getValuesFileDialog(int index);
-    Q_INVOKABLE QString getFileNameFileDialog(int index) { return m_entriesFileDialog[index]->fileName; }
-    Q_INVOKABLE QString getFilePathFileDialog(int index) { return m_entriesFileDialog[index]->filePath; }
-    Q_INVOKABLE qint64 getFileSizeFileDialog(int index) { return m_entriesFileDialog[index]->fileSize; }
-    Q_INVOKABLE QDateTime getFileModifiedFileDialog(int index) { return m_entriesFileDialog[index]->fileModified; }
-    Q_INVOKABLE bool getFileIsDirFileDialog(int index) { return m_entriesFileDialog[index]->fileIsDir; }
-    Q_INVOKABLE QString getFileTypeFileDialog(int index) { return m_entriesFileDialog[index]->fileType; }
+    Q_INVOKABLE QString getFileNameFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).fileName(); }
+    Q_INVOKABLE QString getFilePathFileDialog(int index) { return m_entriesFileDialog[index]; }
+    Q_INVOKABLE qint64 getFileSizeFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).size(); }
+    Q_INVOKABLE QDateTime getFileModifiedFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).lastModified(); }
+    Q_INVOKABLE bool getFileIsDirFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).isDir(); }
+    Q_INVOKABLE QString getFileTypeFileDialog(int index) { return db.mimeTypeForFile(m_entriesFileDialog[index]).name(); }
 
     Q_INVOKABLE QVariantList getValuesMainView(int index);
-    Q_INVOKABLE QString getFileNameMainView(int index) { return m_entriesMainView[index]->fileName; }
-    Q_INVOKABLE QString getFilePathMainView(int index) { return m_entriesMainView[index]->filePath; }
-    Q_INVOKABLE qint64 getFileSizeMainView(int index) { return m_entriesMainView[index]->fileSize; }
-    Q_INVOKABLE QDateTime getFileModifiedMainView(int index) { return m_entriesMainView[index]->fileModified; }
-    Q_INVOKABLE bool getFileIsDirMainView(int index) { return m_entriesMainView[index]->fileIsDir; }
-    Q_INVOKABLE QString getFileTypeMainView(int index) { return m_entriesMainView[index]->fileType; }
+    Q_INVOKABLE QString getFileNameMainView(int index) { return QFileInfo(m_entriesMainView[index]).fileName(); }
+    Q_INVOKABLE QString getFilePathMainView(int index) { return m_entriesMainView[index]; }
+    Q_INVOKABLE qint64 getFileSizeMainView(int index) { return QFileInfo(m_entriesMainView[index]).size(); }
+    Q_INVOKABLE QDateTime getFileModifiedMainView(int index) { return QFileInfo(m_entriesMainView[index]).lastModified(); }
+    Q_INVOKABLE bool getFileIsDirMainView(int index) { return QFileInfo(m_entriesMainView[index]).isDir(); }
+    Q_INVOKABLE QString getFileTypeMainView(int index) { return db.mimeTypeForFile(m_entriesMainView[index]).name(); }
 
     Q_INVOKABLE int getIndexOfMainView(QString filepath) {
         for(int i = 0; i < m_entriesMainView.length(); ++i) {
-            if(m_entriesMainView[i]->filePath == filepath)
+            if(m_entriesMainView[i] == filepath)
                 return i;
         }
         return -1;
@@ -166,9 +155,8 @@ private:
     bool m_readDocumentOnly;
     bool m_readArchiveOnly;
 
-    QList<PQFileFolderEntry*> m_entriesMainView;
-    QList<PQFileFolderEntry*> m_entriesFileDialog;
-    PQFileFolderEntry *m_emptyEntry;
+    QStringList m_entriesMainView;
+    QStringList m_entriesFileDialog;
 
     QStringList m_nameFilters;
     QStringList m_defaultNameFilters;
@@ -181,8 +169,8 @@ private:
     QTimer *loadDelayMainView;
     QTimer *loadDelayFileDialog;
 
-    QFileInfoList getAllFolders(QString folder);
-    QFileInfoList getAllFiles(QString folder);
+    QStringList getAllFolders(QString folder);
+    QStringList getAllFiles(QString folder);
 
     QMimeDatabase db;
 

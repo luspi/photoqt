@@ -417,10 +417,10 @@ GridView {
             if(modifiers == Qt.NoModifier) {
                 if(currentIndex == -1)
                     currentIndex = 0
-                else if(currentIndex < model.count-1)
+                else if(currentIndex < filefoldermodel.countFileDialog-1)
                     currentIndex += 1
             } else if(modifiers == Qt.ControlModifier)
-                currentIndex = model.count-1
+                currentIndex = filefoldermodel.countFileDialog-1
 
         } else if(key == Qt.Key_Up) {
 
@@ -428,7 +428,7 @@ GridView {
 
             if(modifiers == Qt.NoModifier) {
                 if(currentIndex == -1)
-                    currentIndex = model.count-1
+                    currentIndex = filefoldermodel.countFileDialog-1
                 else if(currentIndex > 0)
                     currentIndex -= 1
             } else if(modifiers == Qt.ControlModifier)
@@ -444,7 +444,7 @@ GridView {
                 breadcrumbs.goBackwards()
             else if(modifiers == Qt.NoModifier) {
                 if(currentIndex == -1)
-                    currentIndex = model.count-1
+                    currentIndex = filefoldermodel.countFileDialog-1
                 else if(currentIndex > 0)
                     currentIndex -= 1
             }
@@ -459,7 +459,7 @@ GridView {
             else if(modifiers == Qt.NoModifier) {
                 if(currentIndex == -1)
                     currentIndex = 0
-                else if(currentIndex < model.count-1)
+                else if(currentIndex < filefoldermodel.countFileDialog-1)
                     currentIndex += 1
             }
 
@@ -477,10 +477,11 @@ GridView {
 
         } else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
-            if(filefoldermodel.entriesFileDialog[currentIndex].fileIsDir) {
-                filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[currentIndex].filePath)
+            if(filefoldermodel.getFileIsDirFileDialog(currentIndex)) {
+                filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[currentIndex])
             } else {
-//                foldermodel.setFolderAndImages(files_model.getFilePath(currentIndex), files_model.getCopyOfAllFiles())
+                filefoldermodel.setFileNameOnceReloaded = filefoldermodel.getFilePathFileDialog(currentIndex)
+                filefoldermodel.fileInFolderMainView = filefoldermodel.getFilePathFileDialog(currentIndex)
                 filedialog_top.hideFileDialog()
             }
 

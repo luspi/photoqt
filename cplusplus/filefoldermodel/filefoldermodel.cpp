@@ -13,14 +13,6 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
     m_entriesMainView.clear();
     m_entriesFileDialog.clear();
 
-    m_emptyEntry = new PQFileFolderEntry;
-    m_emptyEntry->fileName = "";
-    m_emptyEntry->filePath = "";
-    m_emptyEntry->fileSize = 0;
-    m_emptyEntry->fileModified = QDateTime::currentDateTime();
-    m_emptyEntry->fileIsDir = false;
-    m_emptyEntry->fileType = "";
-
     m_nameFilters = QStringList();
     m_defaultNameFilters = QStringList();
     m_filenameFilters = QStringList();
@@ -45,12 +37,6 @@ PQFileFolderModel::~PQFileFolderModel() {
 
     delete loadDelayMainView;
     delete loadDelayFileDialog;
-    delete m_emptyEntry;
-
-    for(int i = 0; i < m_entriesMainView.length(); ++i)
-        delete m_entriesMainView[i];
-    for(int i = 0; i < m_entriesFileDialog.length(); ++i)
-        delete m_entriesFileDialog[i];
 
 }
 
@@ -61,10 +47,7 @@ void PQFileFolderModel::loadDataMainView() {
     ////////////////////////
     // clear old entries
 
-    for(int i = 0; i < m_entriesMainView.length(); ++i)
-        delete m_entriesMainView[i];
     m_entriesMainView.clear();
-
     m_countMainView = 0;
 
     ////////////////////////
@@ -72,59 +55,21 @@ void PQFileFolderModel::loadDataMainView() {
 
     if(m_readDocumentOnly && PQImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
-        QStringList pdfpages = listPDFPages(m_fileInFolderMainView);
-        QFileInfo info(m_fileInFolderMainView);
-
-        foreach(QString page, pdfpages) {
-            PQFileFolderEntry *entry = new PQFileFolderEntry;
-            entry->fileName = page;
-            entry->filePath = page;
-            entry->fileSize = info.size();
-            entry->fileModified = info.lastModified();
-            entry->fileIsDir = false;
-            entry->fileType = "";
-            m_entriesMainView.append(entry);
-        }
-
-        m_countMainView = pdfpages.length();
+        m_entriesMainView = listPDFPages(m_fileInFolderMainView);
+        m_countMainView = m_entriesMainView.length();
         m_readDocumentOnly = false;
 
     } else if(m_readArchiveOnly && PQImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         PQHandlingFileDir handling;
-        QStringList archivecontent = handling.listArchiveContent(m_fileInFolderMainView);
-        QFileInfo info(m_fileInFolderMainView);
-
-        foreach(QString arc, archivecontent) {
-            PQFileFolderEntry *entry = new PQFileFolderEntry;
-            entry->fileName = arc;
-            entry->filePath = arc;
-            entry->fileSize = info.size();
-            entry->fileModified = info.lastModified();
-            entry->fileIsDir = false;
-            entry->fileType = "";
-            m_entriesMainView.append(entry);
-        }
-
-        m_countMainView = archivecontent.length();
+        m_entriesMainView = handling.listArchiveContent(m_fileInFolderMainView);
+        m_countMainView = m_entriesMainView.length();
         m_readArchiveOnly = false;
 
     } else {
 
-        QFileInfoList infos = getAllFiles(QFileInfo(m_fileInFolderMainView).absolutePath());
-
-        foreach(QFileInfo info, infos) {
-            PQFileFolderEntry *entry = new PQFileFolderEntry;
-            entry->fileName = info.fileName();
-            entry->filePath = info.absoluteFilePath();
-            entry->fileSize = info.size();
-            entry->fileModified = info.lastModified();
-            entry->fileIsDir = true;
-            entry->fileType = db.mimeTypeForFile(info).name();
-            m_entriesMainView.append(entry);
-        }
-
-        m_countMainView = infos.length();
+        m_entriesMainView = getAllFiles(QFileInfo(m_fileInFolderMainView).absolutePath());
+        m_countMainView = m_entriesMainView.length();
 
     }
 
@@ -140,56 +85,29 @@ void PQFileFolderModel::loadDataFileDialog() {
     ////////////////////////
     // clear old entries
 
-    for(int i = 0; i < m_entriesFileDialog.length(); ++i)
-        delete m_entriesFileDialog[i];
     m_entriesFileDialog.clear();
-
     m_countFileDialog = 0;
 
     ////////////////////////
     // load folders
 
-    QFileInfoList infosFolders = getAllFolders(m_folderFileDialog);
-
-    foreach(QFileInfo info, infosFolders) {
-        PQFileFolderEntry *entry = new PQFileFolderEntry;
-        entry->fileName = info.fileName();
-        entry->filePath = info.absoluteFilePath();
-        entry->fileSize = info.size();
-        entry->fileModified = info.lastModified();
-        entry->fileIsDir = true;
-        entry->fileType = db.mimeTypeForFile(info).name();
-        m_entriesFileDialog.append(entry);
-    }
-
-    m_countFileDialog += infosFolders.length();
+    m_entriesFileDialog = getAllFolders(m_folderFileDialog);
+    m_countFileDialog += m_entriesFileDialog.length();
 
     ////////////////////////
     // load files
 
-    QFileInfoList infosFiles = getAllFiles(m_folderFileDialog);
-
-    foreach(QFileInfo info, infosFiles) {
-        PQFileFolderEntry *entry = new PQFileFolderEntry;
-        entry->fileName = info.fileName();
-        entry->filePath = info.absoluteFilePath();
-        entry->fileSize = info.size();
-        entry->fileModified = info.lastModified();
-        entry->fileIsDir = false;
-        entry->fileType = db.mimeTypeForFile(info).name();
-        m_entriesFileDialog.append(entry);
-    }
-
-    m_countFileDialog += infosFiles.length();
+    m_entriesFileDialog.append(getAllFiles(m_folderFileDialog));
+    m_countFileDialog += m_entriesFileDialog.length();
 
     emit newDataLoadedFileDialog();
     emit countFileDialogChanged();
 
 }
 
-QFileInfoList PQFileFolderModel::getAllFolders(QString folder) {
+QStringList PQFileFolderModel::getAllFolders(QString folder) {
 
-    QFileInfoList ret;
+    QStringList ret;
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(m_sortReversed)
@@ -220,15 +138,19 @@ QFileInfoList PQFileFolderModel::getAllFolders(QString folder) {
         if(m_sortField != SortBy::NaturalName)
             dir.setSorting(sortFlags);
 
-        ret = dir.entryInfoList();
+        QDirIterator iter(dir);
+        while(iter.hasNext()) {
+            iter.next();
+            ret << iter.filePath();
+        }
 
         if(m_sortField == SortBy::NaturalName) {
             QCollator collator;
             collator.setNumericMode(true);
             if(m_sortReversed)
-                std::sort(ret.begin(), ret.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file2.fileName(), file1.fileName()) < 0; });
+                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
             else
-                std::sort(ret.begin(), ret.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
+                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
         cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret);
@@ -239,9 +161,9 @@ QFileInfoList PQFileFolderModel::getAllFolders(QString folder) {
 
 }
 
-QFileInfoList PQFileFolderModel::getAllFiles(QString folder) {
+QStringList PQFileFolderModel::getAllFiles(QString folder) {
 
-    QFileInfoList ret;
+    QStringList ret;
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(m_sortReversed)
@@ -272,27 +194,31 @@ QFileInfoList PQFileFolderModel::getAllFiles(QString folder) {
         if(m_sortField != SortBy::NaturalName)
             dir.setSorting(sortFlags);
 
-        if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0)
-            ret = dir.entryInfoList();
-        else {
+        if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0) {
+            QDirIterator iter(dir);
+            while(iter.hasNext()) {
+                iter.next();
+                ret << iter.filePath();
+            }
+        } else {
             QDirIterator iter(dir);
             while(iter.hasNext()) {
                 iter.next();
                 const QFileInfo f = iter.fileInfo();
                 if((m_nameFilters.size() == 0 || m_nameFilters.contains(f.suffix().toLower())) && (m_defaultNameFilters.size() == 0 || m_defaultNameFilters.contains(f.suffix().toLower()))) {
                     if(m_filenameFilters.length() == 0)
-                        ret << f;
+                        ret << f.absoluteFilePath();
                     else {
                         foreach(QString fil, m_filenameFilters)
                             if(f.baseName().contains(fil)) {
-                                ret << f;
+                                ret << f.absoluteFilePath();
                                 break;
                             }
                     }
                 }
                 // if not the ending, then check the mime type
                 else if(m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
-                    ret << f;
+                    ret << f.absoluteFilePath();
             }
         }
 
@@ -300,9 +226,9 @@ QFileInfoList PQFileFolderModel::getAllFiles(QString folder) {
             QCollator collator;
             collator.setNumericMode(true);
             if(m_sortReversed)
-                std::sort(ret.begin(), ret.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file2.fileName(), file1.fileName()) < 0; });
+                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
             else
-                std::sort(ret.begin(), ret.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
+                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
         cache.saveFilesToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret);
@@ -340,13 +266,13 @@ QVariantList PQFileFolderModel::getValuesFileDialog(int index) {
 
     QVariantList ret;
 
-    PQFileFolderEntry *entry = m_entriesFileDialog[index];
-    ret << entry->fileName;
-    ret << entry->filePath;
-    ret << entry->fileSize;
-    ret << entry->fileModified;
-    ret << entry->fileIsDir;
-    ret << entry->fileType;
+    QFileInfo info(m_entriesFileDialog[index]);
+    ret << info.fileName();
+    ret << info.filePath();
+    ret << info.size();
+    ret << info.lastModified();
+    ret << info.isDir();
+    ret << db.mimeTypeForFile(info).name();
 
     return ret;
 
@@ -356,13 +282,13 @@ QVariantList PQFileFolderModel::getValuesMainView(int index) {
 
     QVariantList ret;
 
-    PQFileFolderEntry *entry = m_entriesMainView[index];
-    ret << entry->fileName;
-    ret << entry->filePath;
-    ret << entry->fileSize;
-    ret << entry->fileModified;
-    ret << entry->fileIsDir;
-    ret << entry->fileType;
+    QFileInfo info(m_entriesMainView[index]);
+    ret << info.fileName();
+    ret << info.filePath();
+    ret << info.size();
+    ret << info.lastModified();
+    ret << info.isDir();
+    ret << db.mimeTypeForFile(info).name();
 
     return ret;
 

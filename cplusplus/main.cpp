@@ -145,8 +145,6 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQImageWatcher>("PQImageWatcher", 1, 0, "PQImageWatcher");
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
-    qRegisterMetaType<QList<PQFileFolderEntry*> >("QList<PQFileFolderEntry*>");
-
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
