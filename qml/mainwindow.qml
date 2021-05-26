@@ -175,7 +175,7 @@ Window {
     PQMouseShortcuts { id: mouseshortcuts }
 
     PQImage { id: imageitem }
-    PQQuickInfo { id: quickinfo }
+    PQLabels { id: labels }
     PQMessage { id: message }
     PQWindowButtons { id: windowbuttons }
 

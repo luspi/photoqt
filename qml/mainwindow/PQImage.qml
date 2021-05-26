@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtGraphicalEffects 1.0
 import "./image/"
 import "../elements"
 
@@ -261,6 +262,18 @@ Item {
 
         }
 
+    }
+
+    RectangularGlow {
+        id: effect
+        anchors.fill: enterdoc
+        opacity: enterdoc.opacity
+        visible: opacity>0
+        glowRadius: 10
+        spread: 0.2
+        cached: true
+        color: "black"
+        cornerRadius: enterdoc.radius + glowRadius
     }
 
     Timer {

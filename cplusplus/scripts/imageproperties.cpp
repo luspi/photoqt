@@ -60,3 +60,14 @@ bool PQImageProperties::isArchive(QString path) {
     return false;
 
 }
+
+int PQImageProperties::getDocumentPages(QString path) {
+
+#ifdef POPPLER
+    Poppler::Document* document = Poppler::Document::load(path);
+    if(document && !document->isLocked())
+        return document->numPages();
+#endif
+    return 0;
+
+}

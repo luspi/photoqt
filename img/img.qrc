@@ -78,5 +78,8 @@
         <file>popin.png</file>
         <file>mainwindow/fullscreen_off.png</file>
         <file>mainwindow/fullscreen_on.png</file>
+        <file>image/enterdocument.png</file>
+        <file>image/viewermode.png</file>
+        <file>image/noviewermode.png</file>
     </qresource>
 </RCC>

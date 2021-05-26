@@ -29,6 +29,10 @@
 #include "../logger.h"
 #include "../settings/imageformats.h"
 
+#ifdef POPPLER
+#include <poppler/qt5/poppler-qt5.h>
+#endif
+
 class PQImageProperties : public QObject {
 
     Q_OBJECT
@@ -39,6 +43,7 @@ public:
     Q_INVOKABLE bool isAnimated(QString path);
     Q_INVOKABLE bool isPopplerDocument(QString path);
     Q_INVOKABLE bool isArchive(QString path);
+    Q_INVOKABLE int getDocumentPages(QString path);
 
 };
 
