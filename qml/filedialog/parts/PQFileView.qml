@@ -550,50 +550,61 @@ GridView {
         }
     }
 
-    function loadFolder(loc) {
+    function setNameMimeTypeFilters() {
 
         // set right name filter
-//        if(tweaks.showWhichFileTypeIndex == "all") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormats()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypes()
-//        } else if(tweaks.showWhichFileTypeIndex == "qt") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsQt()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesQt()
-//        } else if(tweaks.showWhichFileTypeIndex == "magick") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsMagick()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesMagick()
-//        } else if(tweaks.showWhichFileTypeIndex == "libraw") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsLibRaw()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesLibRaw()
-//        } else if(tweaks.showWhichFileTypeIndex == "devil") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsDevIL()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesDevIL()
-//        } else if(tweaks.showWhichFileTypeIndex == "freeimage") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsFreeImage()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesFreeImage()
-//        } else if(tweaks.showWhichFileTypeIndex == "poppler") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsPoppler()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesPoppler()
-//        } else if(tweaks.showWhichFileTypeIndex == "video") {
-//            files_model.nameFilters = PQImageFormats.getEnabledFormatsVideo()
-//            files_model.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesVideo()
-//        } else if(tweaks.showWhichFileTypeIndex == "allfiles") {
-//            files_model.nameFilters = []
-//            files_model.mimeTypeFilter = []
-//        } else
-//            console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
+        if(tweaks.showWhichFileTypeIndex == "all") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormats()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypes()
+        } else if(tweaks.showWhichFileTypeIndex == "qt") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsQt()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesQt()
+        } else if(tweaks.showWhichFileTypeIndex == "magick") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsMagick()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesMagick()
+        } else if(tweaks.showWhichFileTypeIndex == "libraw") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsLibRaw()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesLibRaw()
+        } else if(tweaks.showWhichFileTypeIndex == "devil") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsDevIL()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesDevIL()
+        } else if(tweaks.showWhichFileTypeIndex == "freeimage") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsFreeImage()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesFreeImage()
+        } else if(tweaks.showWhichFileTypeIndex == "poppler") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsPoppler()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesPoppler()
+        } else if(tweaks.showWhichFileTypeIndex == "video") {
+            filefoldermodel.defaultNameFilters = PQImageFormats.getEnabledFormatsVideo()
+            filefoldermodel.mimeTypeFilters = PQImageFormats.getEnabledMimeTypesVideo()
+        } else if(tweaks.showWhichFileTypeIndex == "allfiles") {
+            filefoldermodel.defaultNameFilters = []
+            filefoldermodel.mimeTypeFilter = []
+        } else
+            console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
+
+    }
+
+    function loadFolder(loc) {
+
+        setNameMimeTypeFilters()
 
         loc = handlingFileDir.cleanPath(loc)
 
         filefoldermodel.folderFileDialog = loc
-//        currentIndex = (filefoldermodel.countFileDialog > 0 ? 0 : -1)
-        currentIndex = 0
+        currentIndex = (filefoldermodel.countFileDialog > 0 ? 0 : -1)
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]
         else
             breadcrumbs.pathParts = loc.split("/")
 
+    }
+
+    Connections {
+        target: tweaks
+        onShowWhichFileTypeIndexChanged:
+            setNameMimeTypeFilters()
     }
 
     Connections {
