@@ -121,20 +121,20 @@ public:
     void setSortReversed(bool val) { m_sortReversed = val; emit sortReversedChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_INVOKABLE QVariantList getValuesFileDialog(int index);
-    Q_INVOKABLE QString getFileNameFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).fileName(); }
-    Q_INVOKABLE QString getFilePathFileDialog(int index) { return m_entriesFileDialog[index]; }
-    Q_INVOKABLE qint64 getFileSizeFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).size(); }
-    Q_INVOKABLE QDateTime getFileModifiedFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).lastModified(); }
-    Q_INVOKABLE bool getFileIsDirFileDialog(int index) { return QFileInfo(m_entriesFileDialog[index]).isDir(); }
-    Q_INVOKABLE QString getFileTypeFileDialog(int index) { return db.mimeTypeForFile(m_entriesFileDialog[index]).name(); }
+    Q_INVOKABLE QString getFileNameFileDialog(int index) { if(index >= m_entriesFileDialog.length()) return ""; return QFileInfo(m_entriesFileDialog[index]).fileName(); }
+    Q_INVOKABLE QString getFilePathFileDialog(int index) { if(index >= m_entriesFileDialog.length()) return ""; return m_entriesFileDialog[index]; }
+    Q_INVOKABLE qint64 getFileSizeFileDialog(int index) { if(index >= m_entriesFileDialog.length()) return 0; return QFileInfo(m_entriesFileDialog[index]).size(); }
+    Q_INVOKABLE QDateTime getFileModifiedFileDialog(int index) { if(index >= m_entriesFileDialog.length()) return QDateTime::currentDateTime(); return QFileInfo(m_entriesFileDialog[index]).lastModified(); }
+    Q_INVOKABLE bool getFileIsDirFileDialog(int index) { if(index >= m_entriesFileDialog.length()) return false; return QFileInfo(m_entriesFileDialog[index]).isDir(); }
+    Q_INVOKABLE QString getFileTypeFileDialog(int index) { if(index >= m_entriesFileDialog.length()) return ""; return db.mimeTypeForFile(m_entriesFileDialog[index]).name(); }
 
     Q_INVOKABLE QVariantList getValuesMainView(int index);
-    Q_INVOKABLE QString getFileNameMainView(int index) { return QFileInfo(m_entriesMainView[index]).fileName(); }
-    Q_INVOKABLE QString getFilePathMainView(int index) { return m_entriesMainView[index]; }
-    Q_INVOKABLE qint64 getFileSizeMainView(int index) { return QFileInfo(m_entriesMainView[index]).size(); }
-    Q_INVOKABLE QDateTime getFileModifiedMainView(int index) { return QFileInfo(m_entriesMainView[index]).lastModified(); }
-    Q_INVOKABLE bool getFileIsDirMainView(int index) { return QFileInfo(m_entriesMainView[index]).isDir(); }
-    Q_INVOKABLE QString getFileTypeMainView(int index) { return db.mimeTypeForFile(m_entriesMainView[index]).name(); }
+    Q_INVOKABLE QString getFileNameMainView(int index) { if(index >= m_entriesMainView.length()) return ""; return QFileInfo(m_entriesMainView[index]).fileName(); }
+    Q_INVOKABLE QString getFilePathMainView(int index) { if(index >= m_entriesMainView.length()) return ""; return m_entriesMainView[index]; }
+    Q_INVOKABLE qint64 getFileSizeMainView(int index) { if(index >= m_entriesMainView.length()) return 0; return QFileInfo(m_entriesMainView[index]).size(); }
+    Q_INVOKABLE QDateTime getFileModifiedMainView(int index) { if(index >= m_entriesMainView.length()) return QDateTime::currentDateTime(); return QFileInfo(m_entriesMainView[index]).lastModified(); }
+    Q_INVOKABLE bool getFileIsDirMainView(int index) { if(index >= m_entriesMainView.length()) return false; return QFileInfo(m_entriesMainView[index]).isDir(); }
+    Q_INVOKABLE QString getFileTypeMainView(int index) { if(index >= m_entriesMainView.length()) return ""; return db.mimeTypeForFile(m_entriesMainView[index]).name(); }
 
     Q_INVOKABLE int getIndexOfMainView(QString filepath) {
         for(int i = 0; i < m_entriesMainView.length(); ++i) {
