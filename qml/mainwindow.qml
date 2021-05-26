@@ -100,6 +100,28 @@ Window {
                 color: "#bb808080"
             }
 
+            Image {
+                visible: emptymessage.visible
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                opacity: 0.5
+                y: (parent.height-height)/2
+                width: 50
+                height: 50
+                source: "/mainwindow/rightarrow.png"
+            }
+
+            Image {
+                visible: emptymessage.visible
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                opacity: 0.5
+                y: (parent.height-height)/2
+                width: 50
+                height: 50
+                source: "/mainwindow/leftarrow.png"
+            }
+
             Text {
                 id: filtermessage
                 anchors.centerIn: parent

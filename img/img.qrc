@@ -80,5 +80,7 @@
         <file>mainwindow/fullscreen_on.png</file>
         <file>image/viewermode.png</file>
         <file>image/noviewermode.png</file>
+        <file>mainwindow/rightarrow.png</file>
+        <file>mainwindow/leftarrow.png</file>
     </qresource>
 </RCC>
