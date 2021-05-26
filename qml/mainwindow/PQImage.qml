@@ -264,18 +264,6 @@ Item {
 
     }
 
-    RectangularGlow {
-        id: effect
-        anchors.fill: enterdoc
-        opacity: enterdoc.opacity
-        visible: opacity>0
-        glowRadius: 10
-        spread: 0.2
-        cached: true
-        color: "black"
-        cornerRadius: enterdoc.radius + glowRadius
-    }
-
     Timer {
         id: loadingtimer
         interval: 1000
