@@ -121,10 +121,10 @@ Rectangle {
 
         id: viewermode
 
-        x: row.x+row.width+10
-        y: row.y-5
+        x: row.x+10
+        y: row.y+row.height+20 + (filterremove_cont.visible ? filterremove_cont.height+10 : 0)
 
-        width: row.height+10
+        width: 2*row.height+10
         height: width
         color: "#000000"
         radius: 5
