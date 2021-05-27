@@ -52,38 +52,21 @@ GridView {
 
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
-//    PQFileFolderModel {
-//        id: files_model
-
-//        showHidden: PQSettings.openShowHiddenFilesFolders
-//        sortField: PQSettings.sortby=="name" ?
-//                       PQFileFolderModel.Name :
-//                       (PQSettings.sortby == "naturalname" ?
-//                            PQFileFolderModel.NaturalName :
-//                            (PQSettings.sortby == "time" ?
-//                                 PQFileFolderModel.Time :
-//                                 (PQSettings.sortby == "size" ?
-//                                     PQFileFolderModel.Size :
-//                                     PQFileFolderModel.Type)))
-//        sortReversed: !PQSettings.sortbyAscending
-
-//        Component.onCompleted: {
-//            loadFolder(variables.openCurrentDirectory)
-//            filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
-//            filedialog_top.historyListIndex = 0
-//        }
-
-//    }
-
-//    model: files_model
-
     Component.onCompleted: {
         loadFolder(variables.openCurrentDirectory)
         filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
         filedialog_top.historyListIndex = 0
     }
 
-    model: filefoldermodel.countFileDialog
+    // we connect to this model instead of a property binding of model to countFileDialog
+    // this way we also rebuild the model if the count has remained the same
+    Connections {
+        target: filefoldermodel
+        onNewDataLoadedFileDialog: {
+            files_grid.model = 0
+            files_grid.model = filefoldermodel.countFileDialog
+        }
+    }
 
     cellWidth: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : width-scroll.width
     cellHeight: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : PQSettings.openZoomLevel*2
