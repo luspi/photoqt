@@ -342,8 +342,8 @@ GridView {
                             if(entry[4])
                                 filedialog_top.setCurrentDirectory(entry[1])
                             else {
-                                filefoldermodel.setFileNameOnceReloaded = filefoldermodel.folderFileDialog + "/" + entry[0]
-                                filefoldermodel.fileInFolderMainView = filefoldermodel.folderFileDialog + "/" + entry[0]
+                                filefoldermodel.setFileNameOnceReloaded = entry[1]
+                                filefoldermodel.fileInFolderMainView = entry[1]
                                 filedialog_top.hideFileDialog()
                             }
                         }
