@@ -75,6 +75,7 @@ Item {
         onRotationChanged: {
             if(!rotani.running)
                 rotateTo = rotation
+            variables.currentRotationAngle = rotation
         }
 
         scale: useStoredData ? variables.zoomRotationMirror[src][2] : 1

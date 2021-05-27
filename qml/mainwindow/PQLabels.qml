@@ -94,6 +94,22 @@ Rectangle {
             color: "#cccccc"
             width: 1
             height: filename.height
+            visible: rotationangle.visible
+        }
+
+        // rotation angle
+        Text {
+            id: rotationangle
+            color: "white"
+            visible: !PQSettings.quickInfoHideRotationAngle && (filefoldermodel.current > -1)
+            width: visible ? children.width : 0
+            text: (Math.round(variables.currentRotationAngle)%360+360)%360 + "°"
+        }
+
+        Rectangle {
+            color: "#cccccc"
+            width: 1
+            height: filename.height
             visible: pageInfo.visible
         }
 

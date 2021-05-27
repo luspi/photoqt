@@ -110,6 +110,7 @@ void PQSettings::setDefault() {
     setQuickInfoHideFilename(false);
     setQuickInfoHideWindowButtons(false);
     setQuickInfoHideZoomLevel(false);
+    setQuickInfoHideRotationAngle(false);
     setQuickInfoWindowButtonsSize(10);
 #ifdef Q_OS_WIN
     setQuickInfoManageWindow(true);
@@ -377,6 +378,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("QuickInfoHideZoomLevel="))
                 setQuickInfoHideZoomLevel(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("QuickInfoHideRotationAngle="))
+                setQuickInfoHideRotationAngle(line.split("=").at(1).toInt());
 
             else if(line.startsWith("QuickInfoWindowButtonsSize="))
                 setQuickInfoWindowButtonsSize(line.split("=").at(1).toInt());
@@ -748,6 +752,7 @@ void PQSettings::saveSettings() {
         cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
         cont += QString("QuickInfoWindowButtons=%1\n").arg(int(m_quickInfoHideWindowButtons));
         cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
+        cont += QString("QuickInfoHideRotationAngle=%1\n").arg(int(m_quickInfoHideRotationAngle));
         cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
 
         cont += "\n[Thumbnail]\n";

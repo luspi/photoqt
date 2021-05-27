@@ -478,6 +478,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool quickInfoHideRotationAngle READ getQuickInfoHideRotationAngle WRITE setQuickInfoHideRotationAngle NOTIFY quickInfoHideRotationAngleChanged)
+        bool getQuickInfoHideRotationAngle() { return m_quickInfoHideRotationAngle; }
+        void setQuickInfoHideRotationAngle(bool val) {
+            if(m_quickInfoHideRotationAngle != val) {
+                m_quickInfoHideRotationAngle = val;
+                emit quickInfoHideRotationAngleChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
         Q_PROPERTY(int quickInfoWindowButtonsSize READ getQuickInfoWindowButtonsSize WRITE setQuickInfoWindowButtonsSize NOTIFY quickInfoWindowButtonsSizeChanged)
         int getQuickInfoWindowButtonsSize() { return m_quickInfoWindowButtonsSize; }
         void setQuickInfoWindowButtonsSize(int val) {
@@ -1501,6 +1511,7 @@ private:
         bool    m_quickInfoHideFilename;
         bool    m_quickInfoHideWindowButtons;
         bool    m_quickInfoHideZoomLevel;
+        bool    m_quickInfoHideRotationAngle;
         int     m_quickInfoWindowButtonsSize;
         bool    m_quickInfoManageWindow;
 
@@ -1655,6 +1666,7 @@ signals:
         void quickInfoHideFilenameChanged();
         void quickInfoHideWindowButtonsChanged();
         void quickInfoHideZoomLevelChanged();
+        void quickInfoHideRotationAngleChanged();
         void quickInfoWindowButtonsSizeChanged();
         void quickInfoManageWindowChanged();
         void slideShowTimeChanged();

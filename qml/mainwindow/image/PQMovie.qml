@@ -122,6 +122,12 @@ Item {
                 scaleAdjustedFromRotation = false
             }
         }
+        onRotationChanged:
+            variables.currentRotationAngle = videoelem.rotation
+
+        Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
+        onScaleChanged:
+            variables.currentZoomLevel = (videoelem.width/videoelem.metaData.resolution.width)*videoelem.scale*100
 
         PinchArea {
 
@@ -137,7 +143,7 @@ Item {
             pinch.dragAxis: Pinch.XAndYAxis
 
             onPinchUpdated:
-                elem.rotateTo = elem.rotation
+                videoelem.rotateTo = videoelem.rotation
 
             MouseArea {
                 id: videomouse
@@ -334,31 +340,27 @@ Item {
 
     }
 
-    Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
-    onScaleChanged:
-        variables.currentZoomLevel = (videoelem.width/videoelem.metaData.resolution.width)*elem.scale*100
-
     Connections {
         target: container
         onZoomIn: {
-            elem.scale *= (1+PQSettings.zoomSpeed/100)
+            videoelem.scale *= (1+PQSettings.zoomSpeed/100)
             videoelem.scaleAdjustedFromRotation = false
         }
         onZoomOut: {
-            elem.scale /= (1+PQSettings.zoomSpeed/100)
+            videoelem.scale /= (1+PQSettings.zoomSpeed/100)
             videoelem.scaleAdjustedFromRotation = false
         }
         onZoomReset: {
             xAni.duration = PQSettings.animationDuration*100
             yAni.duration = PQSettings.animationDuration*100
             if(!videoelem.scaleAdjustedFromRotation)
-                elem.scale = 1
+                videoelem.scale = 1
             videoelem.x = (elem.width-videoelem.width)/2
             videoelem.y = (elem.height-videoelem.height)/2
         }
         onZoomActual: {
             if(variables.currentZoomLevel != 100)
-                elem.scale = 100/variables.currentZoomLevel
+                videoelem.scale = 100/variables.currentZoomLevel
         }
         onRotate: {
             videoelem.rotateTo += deg

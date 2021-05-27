@@ -47,12 +47,14 @@ PQSetting {
                         quick_filepath.checked = false
                         quick_filename.checked = true
                         quick_zoom.checked = true
+                        quick_rotation.checked = true
                         quick_exit.checked = true
                     } else {
                         quick_counter.checked = false
                         quick_filepath.checked = false
                         quick_filename.checked = false
                         quick_zoom.checked = false
+                        quick_rotation.checked = false
                         quick_exit.checked = false
                     }
                 }
@@ -122,6 +124,17 @@ PQSetting {
 
                 PQCheckbox {
                     y: (parent.height-height)/2
+                    id: quick_rotation
+                    text: em.pty+qsTranslate("settingsmanager_interface", "current rotation angle")
+                    onCheckedChanged: {
+                        quick_rotation.skipCheckedCheck = true
+                        quick_rotation.checked = (howManyChecked() > 0)
+                        quick_rotation.skipCheckedCheck = false
+                    }
+                }
+
+                PQCheckbox {
+                    y: (parent.height-height)/2
                     id: quick_windowbuttons
                     //: the window buttons are some window management buttons like: close window, maximize, fullscreen
                     text: em.pty+qsTranslate("settingsmanager_interface", "window buttons")
@@ -164,6 +177,7 @@ PQSetting {
         if(quick_filepath.checked) howmany += 1
         if(quick_filename.checked) howmany += 1
         if(quick_zoom.checked) howmany += 1
+        if(quick_rotation.checked) howmany += 1
         if(quick_windowbuttons.checked) howmany += 1
         return howmany
     }
@@ -177,6 +191,7 @@ PQSetting {
             quick_filepath.checked = !PQSettings.quickInfoHideFilepath
             quick_filename.checked = !PQSettings.quickInfoHideFilename
             quick_zoom.checked = !PQSettings.quickInfoHideZoomLevel
+            quick_rotation.checked = !PQSettings.quickInfoHideRotationAngle
             quick_windowbuttons.checked = !PQSettings.quickInfoHideWindowButtons
 
             quick_windowbuttonssize.value = PQSettings.quickInfoWindowButtonsSize
@@ -193,6 +208,7 @@ PQSetting {
             PQSettings.quickInfoHideFilepath = !quick_filepath.checked
             PQSettings.quickInfoHideFilename = !quick_filename.checked
             PQSettings.quickInfoHideZoomLevel = !quick_zoom.checked
+            PQSettings.quickInfoHideRotationAngle = !quick_rotation.checked
             PQSettings.quickInfoHideWindowButtons = !quick_windowbuttons.checked
 
             PQSettings.quickInfoWindowButtonsSize = quick_windowbuttonssize.value

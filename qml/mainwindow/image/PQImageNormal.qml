@@ -111,6 +111,7 @@ Item {
         onRotationChanged: {
             if(!rotani.running)
                 rotateTo = rotation
+            variables.currentRotationAngle = rotation
         }
 
         scale: useStoredData ? variables.zoomRotationMirror[src][2] : 1
@@ -195,6 +196,7 @@ Item {
             anchors.fill: parent
             drag.target: theimage
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
+
             Connections {
                 target: variables
                 onMousePosChanged: {

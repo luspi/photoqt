@@ -28,6 +28,7 @@ Item {
     property var shortcuts: []
     property string visibleItem: ""
     property real currentZoomLevel: 1
+    property real currentRotationAngle: 0
     property real currentPaintedZoomLevel: 1
     property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
     property point mousePos: Qt.point(-1, -1)
