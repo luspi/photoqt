@@ -49,12 +49,12 @@ PQMenu {
 
     onTriggered: {
         if(index == 0) {
-            if(fileIsDir)
-                filedialog_top.setCurrentDirectory(filePath)
+            if(entry[4])
+                filedialog_top.setCurrentDirectory(entry[1])
             else {
-                hideFileDialog()
-                // FIXME
-//                foldermodel.setFolderAndImages(ffilePath, files_model.getCopyOfAllFiles())
+                filefoldermodel.setFileNameOnceReloaded = entry[1]
+                filefoldermodel.fileInFolderMainView = entry[1]
+                filedialog_top.hideFileDialog()
             }
         } else if(index == 1)
             handlingFileDialog.addNewUserPlacesEntry(entry[1], upl.model.count)
