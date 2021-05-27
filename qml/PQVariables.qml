@@ -63,7 +63,7 @@ Item {
                 var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
                 if(folderNew != folderOld)
-                    filefoldermodel.folderMainView = folderNew
+                    filefoldermodel.fileInFolderMainView = folderNew
                 filefoldermodel.setAsCurrent(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
 
                 // reset variable
