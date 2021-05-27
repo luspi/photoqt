@@ -308,23 +308,31 @@ GridView {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltip: (entry[4] ?
-
-                          ("<b><span style=\"font-size: x-large\">" + entry[0] + "</span></b><br><br>" +
-                           (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
-                           em.pty+qsTranslate("filedialog", "Date:")+" <b>" + entry[3].toLocaleDateString() + "</b><br>" +
-                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + entry[3].toLocaleTimeString() + "</b>") :
-
-                         ("<img src=\"image://thumb/" + entry[1].replace("'","&#39;") + "\"><br><br>" +
-                          "<b><span style=\"font-size: x-large\">" + entry[0] + "</span></b>" + "<br><br>" +
-                          em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(1*entry[2]) + "</b><br>" +
-                          em.pty+qsTranslate("filedialog", "File type:")+" <b>" + entry[5] + "</b><br>" +
-                          em.pty+qsTranslate("filedialog", "Date:")+" <b>" + entry[3].toLocaleDateString() + "</b><br>" +
-                          em.pty+qsTranslate("filedialog", "Time:")+" <b>" + entry[3].toLocaleTimeString()+ "</b>"))
-
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
+                property bool tooltipSetup: false
+
                 onEntered: {
+
+                    if(!tooltipSetup) {
+
+                        if(entry[4]) {
+                            tooltip = "<b><span style=\"font-size: x-large\">" + entry[0] + "</span></b><br><br>" +
+                                      (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
+                                      em.pty+qsTranslate("filedialog", "Date:")+" <b>" + entry[3].toLocaleDateString() + "</b><br>" +
+                                      em.pty+qsTranslate("filedialog", "Time:")+" <b>" + entry[3].toLocaleTimeString() + "</b>"
+                        } else {
+                            tooltip = "<img src=\"image://thumb/" + entry[1].replace("'","&#39;") + "\"><br><br>" +
+                                      "<b><span style=\"font-size: x-large\">" + entry[0] + "</span></b>" + "<br><br>" +
+                                      em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(1*entry[2]) + "</b><br>" +
+                                      em.pty+qsTranslate("filedialog", "File type:")+" <b>" + entry[5] + "</b><br>" +
+                                      em.pty+qsTranslate("filedialog", "Date:")+" <b>" + entry[3].toLocaleDateString() + "</b><br>" +
+                                      em.pty+qsTranslate("filedialog", "Time:")+" <b>" + entry[3].toLocaleTimeString()+ "</b>"
+                        }
+
+                        tooltipSetup = true
+                    }
+
                     if(!currentIndexChangedUsingKeyIgnoreMouse)
                         files_grid.currentIndex = index
                 }
