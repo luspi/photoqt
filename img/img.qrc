@@ -82,5 +82,8 @@
         <file>image/noviewermode.png</file>
         <file>mainwindow/rightarrow.png</file>
         <file>mainwindow/leftarrow.png</file>
+        <file>filedialog/backwards.png</file>
+        <file>filedialog/upwards.png</file>
+        <file>filedialog/forwards.png</file>
     </qresource>
 </RCC>

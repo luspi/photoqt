@@ -307,6 +307,17 @@ bool PQHandlingFileDir::isDir(QString path) {
 
 }
 
+bool PQHandlingFileDir::isRoot(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::isRoot()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    QDir dir(path);
+    dir.setPath(dir.canonicalPath());
+    return dir.isRoot();
+
+}
+
 QStringList PQHandlingFileDir::listArchiveContent(QString path) {
 
     DBG << CURDATE << "PQHandlingFileDialog::listArchiveContent()" << NL

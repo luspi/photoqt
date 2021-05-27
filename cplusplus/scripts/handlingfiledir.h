@@ -61,6 +61,7 @@ public:
     Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getTempDir();
     Q_INVOKABLE bool isDir(QString path);
+    Q_INVOKABLE bool isRoot(QString path);
     Q_INVOKABLE QStringList listArchiveContent(QString path);
     Q_INVOKABLE QString moveFile(QString filename);
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);

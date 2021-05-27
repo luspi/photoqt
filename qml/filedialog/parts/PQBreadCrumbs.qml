@@ -52,16 +52,14 @@ Item {
 
         id: backwards
 
-        text: "<"
-        leftRightTextSpacing: 0
+        x: 0
+        y: (bread_top.height-height)/2
+        width: height
 
         enabled: filedialog_top.historyListIndex>0
 
-        font.pointSize: 20
-        width: height
-
-        x: 0
-        y: (bread_top.height-height)/2
+        leftRightTextSpacing: 0
+        imageButtonSource: "/filedialog/backwards.png"
 
         onClicked: {
             if(filedialog_top.historyListIndex > 0) {
@@ -77,20 +75,39 @@ Item {
 
     PQButton {
 
-        id: forwards
-
-        text: ">"
-        leftRightTextSpacing: 0
-
-        enabled: filedialog_top.historyListIndex<filedialog_top.historyListDirectory.length-1
-
-        font.pointSize: 20
-        width: height
+        id: upwards
 
         anchors.left: backwards.right
         anchors.leftMargin: 5
-
         y: (bread_top.height-height)/2
+        width: height
+
+        enabled: !handlingFileDir.isRoot(filefoldermodel.folderFileDialog)
+
+        leftRightTextSpacing: 0
+        imageButtonSource: "/filedialog/upwards.png"
+
+        onClicked:
+            filedialog_top.setCurrentDirectory(filefoldermodel.folderFileDialog + "/../", false)
+
+        tooltip: em.pty+qsTranslate("filedialog", "Up a level")
+        tooltipFollowsMouse: false
+
+    }
+
+    PQButton {
+
+        id: forwards
+
+        anchors.left: upwards.right
+        anchors.leftMargin: 5
+        y: (bread_top.height-height)/2
+        width: height
+
+        enabled: filedialog_top.historyListIndex<filedialog_top.historyListDirectory.length-1
+
+        leftRightTextSpacing: 0
+        imageButtonSource: "/filedialog/forwards.png"
 
         onClicked: {
             if(filedialog_top.historyListIndex < filedialog_top.historyListDirectory.length-1) {
