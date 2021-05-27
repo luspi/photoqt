@@ -220,7 +220,7 @@ GridView {
                             // store which index is being dragged and that the entry comes from the userplaces (reordering only)
                             files_grid.dragItemIndex = index
                             splitview.dragSource = "folders"
-                            splitview.dragItemPath = filePath
+                            splitview.dragItemPath = entry[1]
                         }
                         deleg_container.Drag.drop();
                         if(!dragArea.drag.active) {

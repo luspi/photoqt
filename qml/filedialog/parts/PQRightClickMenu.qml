@@ -57,7 +57,7 @@ PQMenu {
 //                foldermodel.setFolderAndImages(ffilePath, files_model.getCopyOfAllFiles())
             }
         } else if(index == 1)
-            handlingFileDialog.addNewUserPlacesEntry(filePath, upl.model.count)
+            handlingFileDialog.addNewUserPlacesEntry(entry[1], upl.model.count)
         else if(index == 2)
             PQSettings.openShowHiddenFilesFolders = !PQSettings.openShowHiddenFilesFolders
         else if(index == 3)
