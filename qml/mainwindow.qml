@@ -138,7 +138,7 @@ Window {
     }
 
     //: The window title of PhotoQt
-    title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
+    title: (filefoldermodel.currentFilePath=="" ? "" : (handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath) + " | "))+ em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
     onClosing: {
 
