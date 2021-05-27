@@ -94,6 +94,19 @@ GridView {
         }
     }
 
+    Text {
+        visible: filefoldermodel.countFileDialog==0
+        anchors.fill: parent
+        anchors.margins: 20
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pointSize: 15
+        color: "#888888"
+        font.bold: true
+        wrapMode: Text.WordWrap
+        text: em.pty+qsTranslate("filedialog", "no supported files/folders found")
+    }
+
     delegate: Item {
 
         width: files_grid.cellWidth
