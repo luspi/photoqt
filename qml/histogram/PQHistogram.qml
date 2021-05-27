@@ -98,8 +98,8 @@ Rectangle {
     }
 
     Connections {
-        target: variables
-        onIndexOfCurrentImageChanged:
+        target: filefoldermodel
+        onCurrentFilePathChanged:
             hist_timer.restart()
     }
 
