@@ -351,4 +351,12 @@ Rectangle {
         }
     }
 
+    function toggleKeepOpen() {
+        keepopen.checked = !keepopen.checked
+        if(metadata_top.opacity == 1)
+            metadata_top.opacity = 0
+        else
+            metadata_top.opacity = 1
+    }
+
 }
