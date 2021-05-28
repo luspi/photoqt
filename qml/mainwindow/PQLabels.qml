@@ -279,6 +279,7 @@ Rectangle {
         height: viewermode.height
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        drag.target: PQSettings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode") : em.pty+qsTranslate("quickinfo", "Click here to exit viewer mode")
         onClicked: {
             if(pageInfo.text == "") {
