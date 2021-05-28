@@ -330,22 +330,21 @@ Window {
 
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
-            filefoldermodel.setFileNameOnceReloaded = filenameToLoad
-            filefoldermodel.fileInFolderMainView = filenameToLoad
-            filefoldermodel.folderFileDialog = folderToLoad
-
-            variables.openCurrentDirectory = folderToLoad
-
             if(handlingFileDir.isDir(filenameToLoad)) {
                 if(filefoldermodel.countMainView == 0) {
                     loader.show("filedialog")
-                    variables.openCurrentDirectory = filenameToLoad
-                    return
+                    filefoldermodel.folderFileDialog = filenameToLoad
                 }
+            } else {
+                filefoldermodel.setFileNameOnceReloaded = filenameToLoad
+                filefoldermodel.fileInFolderMainView = filenameToLoad
+                filefoldermodel.folderFileDialog = folderToLoad
             }
 
-        } else
+        } else {
+            filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
             loader.show("filedialog")
+        }
 
     }
 

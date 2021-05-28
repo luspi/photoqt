@@ -55,10 +55,9 @@ Rectangle {
 
     function setCurrentDirectory(dir, addToHistory) {
 
-        if(dir == variables.openCurrentDirectory)
+        if(dir == filefoldermodel.folderFileDialog)
             return
 
-        variables.openCurrentDirectory = dir
         filefoldermodel.folderFileDialog = dir
         if(addToHistory === true || addToHistory === undefined) {
 
@@ -272,7 +271,6 @@ Rectangle {
         if(!PQSettings.openPopoutElementKeepOpen)
             variables.visibleItem = "filedialog"
         tweaks.readFileTypeSettings()
-        fileview.loadFolder(variables.openCurrentDirectory)
 
         // this is necessary in order to catch shortcuts when element is popped out
         filedialog_top.forceActiveFocus()

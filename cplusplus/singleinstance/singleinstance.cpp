@@ -37,8 +37,12 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     socket = nullptr;
     server = nullptr;
 
-    if(result & PQCommandLineFile)
-        message += ":://::_F_I_L_E_" + QFileInfo(parser.filename).absoluteFilePath().toUtf8();
+    if(result & PQCommandLineFile) {
+        QString fullfilename = parser.filename;
+        if(!QFileInfo(fullfilename).isAbsolute())
+            fullfilename = QDir::currentPath() + "/" + parser.filename;
+        message += ":://::_F_I_L_E_" + QFileInfo(fullfilename).canonicalFilePath().toUtf8();
+    }
 
     if(result & PQCommandLineOpen)
         message += ":://::_O_P_E_N_";

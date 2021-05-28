@@ -53,9 +53,9 @@ GridView {
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
     Component.onCompleted: {
-        loadFolder(variables.openCurrentDirectory)
-        filedialog_top.historyListDirectory = [variables.openCurrentDirectory]
+        filedialog_top.historyListDirectory = [filefoldermodel.folderFileDialog]
         filedialog_top.historyListIndex = 0
+        loadFolder()
     }
 
     // we connect to this model instead of a property binding of model to countFileDialog
@@ -437,8 +437,8 @@ GridView {
                     currentIndex -= 1
             } else if(modifiers == Qt.ControlModifier)
                 currentIndex = 0
-            else if(modifiers == Qt.AltModifier && handlingFileDir.cleanPath(variables.openCurrentDirectory) != "/")
-                filedialog_top.setCurrentDirectory(variables.openCurrentDirectory+"/..")
+            else if(modifiers == Qt.AltModifier && handlingFileDir.cleanPath(filefoldermodel.folderFileDialog) != "/")
+                filedialog_top.setCurrentDirectory(filefoldermodel.folderFileDialog+"/..")
 
         } else if(key == Qt.Key_Left) {
 
@@ -589,32 +589,29 @@ GridView {
 
     }
 
-    function loadFolder(loc) {
+    function loadFolder() {
 
         setNameMimeTypeFilters()
 
-        loc = handlingFileDir.cleanPath(loc)
-
-        filefoldermodel.folderFileDialog = loc
         currentIndex = (filefoldermodel.countFileDialog > 0 ? 0 : -1)
 
-        if(loc == "/")
+        if(filefoldermodel.folderFileDialog == "/")
             breadcrumbs.pathParts = [""]
         else
-            breadcrumbs.pathParts = loc.split("/")
+            breadcrumbs.pathParts = filefoldermodel.folderFileDialog.split("/")
 
+    }
+
+    Connections {
+        target: filefoldermodel
+        onFolderFileDialogChanged:
+            loadFolder()
     }
 
     Connections {
         target: tweaks
         onShowWhichFileTypeIndexChanged:
             setNameMimeTypeFilters()
-    }
-
-    Connections {
-        target: variables
-        onOpenCurrentDirectoryChanged:
-            loadFolder(variables.openCurrentDirectory)
     }
 
 }
