@@ -415,7 +415,7 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
     collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
 
-    if(PQSettings::get().getSortbyAscending())
+    if(PQSettings::get().getSortImagesAscending())
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
     else
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });

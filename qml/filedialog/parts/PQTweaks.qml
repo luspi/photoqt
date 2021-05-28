@@ -105,15 +105,15 @@ Rectangle {
         property int prevCurIndex: -1
         property bool startUpDelay: false
 
-        currentIndex: PQSettings.sortby=="name" ? 0 : (PQSettings.sortby=="time" ? 2 : (PQSettings.sortby=="size" ? 3 : (PQSettings.sortby=="type" ? 4 : 1)))
+        currentIndex: PQSettings.SortImagesBy=="name" ? 0 : (PQSettings.SortImagesBy=="time" ? 2 : (PQSettings.SortImagesBy=="size" ? 3 : (PQSettings.SortImagesBy=="type" ? 4 : 1)))
 
         onCurrentIndexChanged: {
             if(currentIndex == 5) {
-                PQSettings.sortbyAscending = !PQSettings.sortbyAscending
+                PQSettings.sortImagesAscending = !PQSettings.sortImagesAscending
                 currentIndex = prevCurIndex
             } else {
                 if(startUpDelay)
-                    PQSettings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                    PQSettings.SortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
         }

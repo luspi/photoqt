@@ -79,17 +79,17 @@ PQSetting {
 
         onSaveAllSettings: {
             if(sort_combo.currentIndex == 0)
-                PQSettings.sortby = "naturalname"
+                PQSettings.SortImagesBy = "naturalname"
             else if(sort_combo.currentIndex == 1)
-                PQSettings.sortby = "name"
+                PQSettings.SortImagesBy = "name"
             else if(sort_combo.currentIndex == 2)
-                PQSettings.sortby = "time"
+                PQSettings.SortImagesBy = "time"
             else if(sort_combo.currentIndex == 3)
-                PQSettings.sortby = "size"
+                PQSettings.SortImagesBy = "size"
             else
-                PQSettings.sortby = "type"
+                PQSettings.SortImagesBy = "type"
 
-            PQSettings.sortbyAscending = sort_asc.checked
+            PQSettings.SortImagesAscending = sort_asc.checked
         }
 
     }
@@ -99,19 +99,19 @@ PQSetting {
     }
 
     function load() {
-        if(PQSettings.sortby == "name")
+        if(PQSettings.SortImagesBy == "name")
             sort_combo.currentIndex = 1
-        else if(PQSettings.sortby == "time")
+        else if(PQSettings.SortImagesBy == "time")
             sort_combo.currentIndex = 2
-        else if(PQSettings.sortby == "size")
+        else if(PQSettings.SortImagesBy == "size")
             sort_combo.currentIndex = 3
-        else if(PQSettings.sortby == "type")
+        else if(PQSettings.SortImagesBy == "type")
             sort_combo.currentIndex = 4
         else
             sort_combo.currentIndex = 0
 
-        sort_asc.checked = PQSettings.sortbyAscending
-        sort_desc.checked = !PQSettings.sortbyAscending
+        sort_asc.checked = PQSettings.SortImagesAscending
+        sort_desc.checked = !PQSettings.SortImagesAscending
     }
 
 }
