@@ -331,7 +331,7 @@ Window {
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
             filefoldermodel.setFileNameOnceReloaded = filenameToLoad
-            filefoldermodel.fileInFolderMainView = folderToLoad
+            filefoldermodel.fileInFolderMainView = filenameToLoad
             filefoldermodel.folderFileDialog = folderToLoad
 
             variables.openCurrentDirectory = folderToLoad
