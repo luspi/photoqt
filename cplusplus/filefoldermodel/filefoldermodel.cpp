@@ -9,6 +9,7 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
 
     m_readDocumentOnly = false;
     m_readArchiveOnly = false;
+    m_includeFilesInSubFolders = false;
 
     m_entriesMainView.clear();
     m_entriesFileDialog.clear();
@@ -121,7 +122,7 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
     else if(m_sortField == SortBy::Type)
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
+    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, false, ret)) {
 
         QDir dir(folder);
 
@@ -153,7 +154,7 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
-        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret);
+        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, false, ret);
 
     }
 
@@ -177,7 +178,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
     else if(m_sortField == SortBy::Type)
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFilesFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
+    if(!cache.loadFilesFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, m_includeFilesInSubFolders, ret)) {
 
         QDir dir(folder);
 
@@ -195,13 +196,13 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
             dir.setSorting(sortFlags);
 
         if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0) {
-            QDirIterator iter(dir);
+            QDirIterator iter(dir, (m_includeFilesInSubFolders ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags));
             while(iter.hasNext()) {
                 iter.next();
                 ret << iter.filePath();
             }
         } else {
-            QDirIterator iter(dir);
+            QDirIterator iter(dir, (m_includeFilesInSubFolders ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags));
             while(iter.hasNext()) {
                 iter.next();
                 const QFileInfo f = iter.fileInfo();
@@ -231,7 +232,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
-        cache.saveFilesToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret);
+        cache.saveFilesToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, m_includeFilesInSubFolders, ret);
 
     }
 

@@ -91,6 +91,10 @@ public:
     int getReadArchiveOnly() { return m_readArchiveOnly; }
     void setReadArchiveOnly(int c) { m_readArchiveOnly = c; }
 
+    Q_PROPERTY(int includeFilesInSubFolders READ getIncludeFilesInSubFolders WRITE setIncludeFilesInSubFolders)
+    int getIncludeFilesInSubFolders() { return m_includeFilesInSubFolders; }
+    void setIncludeFilesInSubFolders(int c) { m_includeFilesInSubFolders = c; loadDelayMainView->start(); }
+
 
     Q_PROPERTY(QStringList defaultNameFilters READ getDefaultNameFilters WRITE setDefaultNameFilters NOTIFY defaultNameFiltersChanged)
     QStringList getDefaultNameFilters() { return m_defaultNameFilters; }
@@ -154,6 +158,7 @@ private:
 
     bool m_readDocumentOnly;
     bool m_readArchiveOnly;
+    bool m_includeFilesInSubFolders;
 
     QStringList m_entriesMainView;
     QStringList m_entriesFileDialog;

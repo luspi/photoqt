@@ -350,14 +350,8 @@ Rectangle {
         else if(PQSettings.SortImagesBy == "type")
             sortby = 4
 
-//        if(PQSettings.slideShowIncludeSubFolders) {
-//            backupAllImagesInFolder = variables.allImageFilesInOrder
-//            var sub = filefoldermodel.loadFilesInSubFolders(variables.allImageFilesInOrder[filefoldermodel.current],
-//                                                            PQSettings.openShowHiddenFilesFolders,
-//                                                            [], [],
-//                                                            sortby, !PQSettings.sortbyAscending)
-//            variables.allImageFilesInOrder = variables.allImageFilesInOrder.concat(sub)
-//        }
+        if(PQSettings.slideShowIncludeSubFolders)
+            filefoldermodel.includeFilesInSubFolders = true
 
         if(PQSettings.slideShowShuffle) {
 
@@ -395,13 +389,8 @@ Rectangle {
 
         PQSettings.animationType = backupAnimType
 
-//        if(PQSettings.slideShowIncludeSubFolders) {
-//            variables.allImageFilesInOrder = backupAllImagesInFolder
-//            if(filefoldermodel.current >= variables.allImageFilesInOrder.length) {
-//                filefoldermodel.current = 0
-//                variables.newFileLoaded()
-//            }
-//        }
+        if(PQSettings.slideShowIncludeSubFolders)
+            filefoldermodel.includeFilesInSubFolders = false
 
         variables.visibleItem = ""
         variables.slideShowActive = false
