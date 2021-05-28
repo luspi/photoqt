@@ -27,8 +27,10 @@ Rectangle {
 
     id: nav_top
 
-    x: (parent.width-width)/2
-    y: 10
+    x: variables.metaDataWidthWhenKeptOpen + 100
+    y: 75
+
+    Behavior on x { NumberAnimation { duration: 200 } }
 
     width: row.width
     height: row.height
@@ -48,7 +50,7 @@ Rectangle {
     Row {
 
         id: row
-        spacing: 5
+        spacing: 10
 
         Item {
             width: 1
