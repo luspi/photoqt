@@ -53,6 +53,7 @@ values = {
          ["MouseWheelSensitivity",              "int",     "0"],
          ["PdfQuality",                         "int",     "150"],
          ["PixmapCache",                        "bool",    "512"],
+         ["QuickNavigation",                    "bool",    "false"],
          ["ShowTransparencyMarkerBackground",   "bool",    "false"],
          ["SortImagesBy",                       "QString", "\"naturalname\""],
          ["SortImagesAscending",                "bool",    "true"],

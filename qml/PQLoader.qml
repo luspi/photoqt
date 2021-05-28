@@ -27,7 +27,6 @@ Item {
     id: load_top
 
     signal filedialogPassOn(var what, var param)
-    signal metadataPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
@@ -107,10 +106,7 @@ Item {
 
     function passOn(ele, what, param) {
 
-        if(ele == "metadata")
-            metadataPassOn(what, param)
-
-        else if(ele == "slideshowcontrols")
+        if(ele == "slideshowcontrols")
             slideshowControlsPassOn(what, param)
 
         else if(ele == "filter")
@@ -184,22 +180,6 @@ Item {
 
             else if(!PQSettings.openPopoutElement && filedialog.source != "filedialog/PQFileDialog.qml")
                 filedialog.source = "filedialog/PQFileDialog.qml"
-
-        } else if(ele == "mainmenu") {
-
-            if(PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenuPopout.qml")
-                mainmenu.source = "menumeta/PQMainMenuPopout.qml"
-
-            else if(!PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenu.qml")
-                mainmenu.source = "menumeta/PQMainMenu.qml"
-
-        } else if(ele == "metadata") {
-
-            if(PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaDataPopout.qml")
-                metadata.source = "menumeta/PQMetaDataPopout.qml"
-
-            else if(!PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaData.qml")
-                metadata.source = "menumeta/PQMetaData.qml"
 
         } else if(ele == "histogram") {
 

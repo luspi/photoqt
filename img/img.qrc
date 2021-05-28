@@ -85,5 +85,6 @@
         <file>filedialog/backwards.png</file>
         <file>filedialog/upwards.png</file>
         <file>filedialog/forwards.png</file>
+        <file>mainwindow/menu.png</file>
     </qresource>
 </RCC>

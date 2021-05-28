@@ -141,5 +141,7 @@
         <file>mainwindow/PQWindowButtons.qml</file>
         <file>PQModel.qml</file>
         <file>mainwindow/PQLabels.qml</file>
+        <file>mainwindow/PQNavigation.qml</file>
+        <file>settingsmanager/tabs/interface/PQNavigation.qml</file>
     </qresource>
 </RCC>

@@ -434,4 +434,11 @@ Rectangle {
 
     }
 
+    function toggle() {
+        if(mainmenu_top.opacity == 1)
+            mainmenu_top.opacity = 0
+        else
+            mainmenu_top.opacity = 1
+    }
+
 }

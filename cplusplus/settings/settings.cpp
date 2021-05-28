@@ -102,6 +102,7 @@ void PQSettings::setDefault() {
     setMouseWheelSensitivity(0);
     setPdfQuality(150);
     setPixmapCache(512);
+    setQuickNavigation(false);
     setShowTransparencyMarkerBackground(false);
     setSortImagesBy("naturalname");
     setSortImagesAscending(true);
@@ -343,6 +344,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("PixmapCache="))
                 setPixmapCache(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("QuickNavigation="))
+                setQuickNavigation(line.split("=").at(1).toInt());
 
             else if(line.startsWith("ShowTransparencyMarkerBackground="))
                 setShowTransparencyMarkerBackground(line.split("=").at(1).toInt());
@@ -737,6 +741,7 @@ void PQSettings::saveSettings() {
         cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("PixmapCache=%1\n").arg(int(m_pixmapCache));
+        cont += QString("QuickNavigation=%1\n").arg(int(m_quickNavigation));
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("SortImagesBy=%1\n").arg(m_sortImagesBy);
         cont += QString("SortImagesAscending=%1\n").arg(int(m_sortImagesAscending));

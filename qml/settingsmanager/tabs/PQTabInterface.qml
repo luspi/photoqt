@@ -97,6 +97,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: qck.expertmodeonly }
             PQWindowMode { id: wmo }
                 PQHorizontalLine { expertModeOnly: wmo.expertmodeonly }
+            PQNavigation { id: nav }
+                PQHorizontalLine { expertModeOnly: nav.expertmodeonly }
             PQTrayIcon { id: tic }
                 PQHorizontalLine { expertModeOnly: tic.expertmodeonly }
             PQBackground { id: bck }

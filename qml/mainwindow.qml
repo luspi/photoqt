@@ -207,8 +207,9 @@ Window {
 
     Loader { id: histogram }
 
-    Loader { id: mainmenu }
-    Loader { id: metadata }
+    PQMainMenu { id: mainmenu }
+    PQMetaData { id: metadata }
+    PQNavigation { id: navigation }
 
     Loader { id: slideshowsettings }
     Loader { id: slideshowcontrols }
@@ -314,9 +315,6 @@ Window {
             }
 
         }
-
-        loader.ensureItIsReady("mainmenu")
-        loader.ensureItIsReady("metadata")
 
         if(PQSettings.histogram)
             loader.ensureItIsReady("histogram")

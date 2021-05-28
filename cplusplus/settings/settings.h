@@ -392,6 +392,16 @@ public:
         }
     }
     
+    Q_PROPERTY(bool quickNavigation READ getQuickNavigation WRITE setQuickNavigation NOTIFY quickNavigationChanged)
+    bool getQuickNavigation() { return m_quickNavigation; }
+    void setQuickNavigation(bool val) {
+        if(m_quickNavigation != val) {
+            m_quickNavigation = val;
+            emit quickNavigationChanged();
+            saveSettingsTimer->start();
+        }
+    }
+    
     Q_PROPERTY(bool showTransparencyMarkerBackground READ getShowTransparencyMarkerBackground WRITE setShowTransparencyMarkerBackground NOTIFY showTransparencyMarkerBackgroundChanged)
     bool getShowTransparencyMarkerBackground() { return m_showTransparencyMarkerBackground; }
     void setShowTransparencyMarkerBackground(bool val) {
@@ -1464,6 +1474,7 @@ private:
     int     m_mouseWheelSensitivity;
     int     m_pdfQuality;
     bool    m_pixmapCache;
+    bool    m_quickNavigation;
     bool    m_showTransparencyMarkerBackground;
     QString m_sortImagesBy;
     bool    m_sortImagesAscending;
@@ -1608,6 +1619,7 @@ signals:
     void mouseWheelSensitivityChanged();
     void pdfQualityChanged();
     void pixmapCacheChanged();
+    void quickNavigationChanged();
     void showTransparencyMarkerBackgroundChanged();
     void sortImagesByChanged();
     void sortImagesAscendingChanged();

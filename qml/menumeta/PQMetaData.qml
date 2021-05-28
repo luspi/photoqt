@@ -351,21 +351,4 @@ Rectangle {
         }
     }
 
-    Connections {
-        target: loader
-        onMetadataPassOn: {
-            if(what == "toggle") {
-                if(keepopen.checked) {
-                    keepopen.checked = false
-                    opacity = 0
-                    variables.metaDataWidthWhenKeptOpen = 0
-                } else {
-                    keepopen.checked = true
-                    opacity = 1
-                    variables.metaDataWidthWhenKeptOpen = metadata_top.width
-                }
-            }
-        }
-    }
-
 }
