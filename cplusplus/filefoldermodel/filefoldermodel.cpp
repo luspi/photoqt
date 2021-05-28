@@ -122,7 +122,7 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
     else if(m_sortField == SortBy::Type)
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, false, ret)) {
+    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
 
         QDir dir(folder);
 
@@ -154,7 +154,7 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
-        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, false, ret);
+        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret);
 
     }
 
@@ -178,61 +178,84 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
     else if(m_sortField == SortBy::Type)
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFilesFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, m_includeFilesInSubFolders, ret)) {
+    // In order to properly sort the resulting list (sorting by directory first and by chosen sorting criteria second (on a per-directory basis)
+    // we need to consider each directory on its own before adding it to the resulting list at the end
 
-        QDir dir(folder);
+    QStringList foldersToScan;
+    foldersToScan << folder;
 
-        if(!dir.exists()) {
-            LOG << CURDATE << "ERROR: Folder location does not exist: " << folder.toStdString() << NL;
-            return ret;
+    if(m_includeFilesInSubFolders) {
+        QDirIterator iter(folder, QDir::Dirs|QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+        while(iter.hasNext()) {
+            iter.next();
+            foldersToScan << iter.filePath();
         }
+    }
 
-        if(m_showHidden)
-            dir.setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::Hidden);
-        else
-            dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
+    foreach(QString f, foldersToScan) {
 
-        if(m_sortField != SortBy::NaturalName)
-            dir.setSorting(sortFlags);
+        if(!cache.loadFilesFromCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
 
-        if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0) {
-            QDirIterator iter(dir, (m_includeFilesInSubFolders ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags));
-            while(iter.hasNext()) {
-                iter.next();
-                ret << iter.filePath();
+            QStringList ret_cur;
+
+            QDir dir(f);
+
+            if(!dir.exists()) {
+                LOG << CURDATE << "ERROR: Folder location does not exist: " << f.toStdString() << NL;
+                continue;
             }
-        } else {
-            QDirIterator iter(dir, (m_includeFilesInSubFolders ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags));
-            while(iter.hasNext()) {
-                iter.next();
-                const QFileInfo f = iter.fileInfo();
-                if((m_nameFilters.size() == 0 || m_nameFilters.contains(f.suffix().toLower())) && (m_defaultNameFilters.size() == 0 || m_defaultNameFilters.contains(f.suffix().toLower()))) {
-                    if(m_filenameFilters.length() == 0)
-                        ret << f.absoluteFilePath();
-                    else {
-                        foreach(QString fil, m_filenameFilters)
-                            if(f.baseName().contains(fil)) {
-                                ret << f.absoluteFilePath();
-                                break;
-                            }
-                    }
-                }
-                // if not the ending, then check the mime type
-                else if(m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
-                    ret << f.absoluteFilePath();
-            }
-        }
 
-        if(m_sortField == SortBy::NaturalName) {
-            QCollator collator;
-            collator.setNumericMode(true);
-            if(m_sortReversed)
-                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+            if(m_showHidden)
+                dir.setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::Hidden);
             else
-                std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
-        }
+                dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
 
-        cache.saveFilesToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, m_includeFilesInSubFolders, ret);
+            if(m_sortField != SortBy::NaturalName)
+                dir.setSorting(sortFlags);
+
+            if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0) {
+                QDirIterator iter(dir);
+                while(iter.hasNext()) {
+                    iter.next();
+                    ret_cur << iter.filePath();
+                }
+            } else {
+                QDirIterator iter(dir);
+                while(iter.hasNext()) {
+                    iter.next();
+                    const QFileInfo f = iter.fileInfo();
+                    if((m_nameFilters.size() == 0 || m_nameFilters.contains(f.suffix().toLower())) && (m_defaultNameFilters.size() == 0 || m_defaultNameFilters.contains(f.suffix().toLower()))) {
+                        if(m_filenameFilters.length() == 0)
+                            ret_cur << f.absoluteFilePath();
+                        else {
+                            foreach(QString fil, m_filenameFilters)
+                                if(f.baseName().contains(fil)) {
+                                    ret_cur << f.absoluteFilePath();
+                                    break;
+                                }
+                        }
+                    }
+                    // if not the ending, then check the mime type
+                    else if(m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
+                        ret_cur << f.absoluteFilePath();
+                }
+            }
+
+            if(m_sortField == SortBy::NaturalName) {
+                QCollator collator;
+                collator.setNumericMode(true);
+                if(m_sortReversed)
+                    std::sort(ret_cur.begin(), ret_cur.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+                else
+                    std::sort(ret_cur.begin(), ret_cur.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+            }
+
+            // add current list, sorted, to global result list
+            ret << ret_cur;
+
+            cache.saveFilesToCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret_cur);
+
+        }
 
     }
 

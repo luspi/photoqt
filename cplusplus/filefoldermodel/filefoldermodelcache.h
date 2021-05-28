@@ -38,8 +38,8 @@ public:
         cacheFolders.clear();
     }
 
-    bool loadFilesFromCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, bool includeFilesInSubFolders, QStringList &entriesFiles) {
-        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed, includeFilesInSubFolders);
+    bool loadFilesFromCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, QStringList &entriesFiles) {
+        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed);
         if(cacheFiles.contains(key)) {
             entriesFiles = cacheFiles.value(key);
             return true;
@@ -47,8 +47,8 @@ public:
         return false;
     }
 
-    bool loadFoldersFromCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, bool includeFilesInSubFolders, QStringList &entriesFolders) {
-        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed, includeFilesInSubFolders);
+    bool loadFoldersFromCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, QStringList &entriesFolders) {
+        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed);
         if(cacheFiles.contains(key)) {
             entriesFolders = cacheFolders.value(key);
             return true;
@@ -56,18 +56,18 @@ public:
         return false;
     }
 
-    void saveFilesToCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, bool includeFilesInSubFolders, QStringList &entriesFiles) {
-        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed, includeFilesInSubFolders);
+    void saveFilesToCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, QStringList &entriesFiles) {
+        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed);
         cacheFiles.insert(key, entriesFiles);
     }
 
-    void saveFoldersToCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, bool includeFilesInSubFolders, QStringList &entriesFolders) {
-        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed, includeFilesInSubFolders);
+    void saveFoldersToCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, QStringList &entriesFolders) {
+        const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, sortField, sortReversed);
         cacheFolders.insert(key, entriesFolders);
     }
 
 private:
-    QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed, bool includeFilesInSubFolders) {
+    QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed) {
         return QCryptographicHash::hash(QString("%1%2%3%4%5%6%7%8%9%10%11")
                                         .arg(foldername)
                                         .arg(showHidden)
@@ -78,8 +78,7 @@ private:
                                         .arg(filenameFileters.join(""))
                                         .arg(mimeTypeFilters.join(""))
                                         .arg(sortField)
-                                        .arg(sortReversed)
-                                        .arg(includeFilesInSubFolders).toUtf8(),QCryptographicHash::Md5).toHex();
+                                        .arg(sortReversed).toUtf8(),QCryptographicHash::Md5).toHex();
     }
 
     QHash<QString, QStringList> cacheFiles;
