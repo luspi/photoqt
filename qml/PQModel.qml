@@ -26,6 +26,9 @@ PQFileFolderModel {
         currentFilePath = model.getFilePathMainView(current)
     }
 
+    onFolderFileDialogChanged:
+        handlingFileDialog.setLastLocation(folderFileDialog)
+
     onNewDataLoadedMainView: {
 
         var curset = false

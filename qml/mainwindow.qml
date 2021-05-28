@@ -340,7 +340,10 @@ Window {
             }
 
         } else {
-            filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
+            if(PQSettings.openKeepLastLocation)
+                filefoldermodel.folderFileDialog = handlingFileDialog.getLastLocation()
+            else
+                filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
             loader.show("filedialog")
         }
 
