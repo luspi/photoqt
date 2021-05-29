@@ -317,3 +317,11 @@ QVariantList PQFileFolderModel::getValuesMainView(int index) {
     return ret;
 
 }
+
+void PQFileFolderModel::removeEntryMainView(int index) {
+    loadDelayFileDialog->start();
+    m_entriesMainView.removeAt(index);
+    setCountMainView(m_countMainView-1);
+    emit newDataLoadedMainView();
+    emit newDataLoadedFileDialog();
+}

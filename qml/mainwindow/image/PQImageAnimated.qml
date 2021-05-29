@@ -222,6 +222,8 @@ Item {
             theimage.source = ""
             theimage.source = tmp
         }
+        onImageDeleted:
+            filefoldermodel.removeEntryMainView(filefoldermodel.current)
     }
 
     Connections {

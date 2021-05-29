@@ -140,6 +140,8 @@ public:
     Q_INVOKABLE bool getFileIsDirMainView(int index) { if(index < 0 || index >= m_entriesMainView.length()) return false; return QFileInfo(m_entriesMainView[index]).isDir(); }
     Q_INVOKABLE QString getFileTypeMainView(int index) { if(index < 0 || index >= m_entriesMainView.length()) return ""; return db.mimeTypeForFile(m_entriesMainView[index]).name(); }
 
+    Q_INVOKABLE void removeEntryMainView(int index);
+
     Q_INVOKABLE int getIndexOfMainView(QString filepath) {
         for(int i = 0; i < m_entriesMainView.length(); ++i) {
             if(m_entriesMainView[i] == filepath)
