@@ -127,9 +127,9 @@ PQSetting {
                     id: quick_rotation
                     text: em.pty+qsTranslate("settingsmanager_interface", "current rotation angle")
                     onCheckedChanged: {
-                        quick_rotation.skipCheckedCheck = true
-                        quick_rotation.checked = (howManyChecked() > 0)
-                        quick_rotation.skipCheckedCheck = false
+                        quick_show.skipCheckedCheck = true
+                        quick_show.checked = (howManyChecked() > 0)
+                        quick_show.skipCheckedCheck = false
                     }
                 }
 
