@@ -54,18 +54,38 @@ void PQFileFolderModel::loadDataMainView() {
 
     DBG << CURDATE << "PQFileFolderModel::loadDataMainView()" << NL;
 
-    delete watcherMainView;
-    watcherMainView = new QFileSystemWatcher;
-    watcherMainView->addPath(QFileInfo(m_fileInFolderMainView).absolutePath());
-
     ////////////////////////
     // clear old entries
 
     m_entriesMainView.clear();
     m_countMainView = 0;
+    delete watcherMainView;
+    watcherMainView = new QFileSystemWatcher;
+
+    ////////////////////////
+    // no new directory
+
+    if(m_fileInFolderMainView.isEmpty()) {
+        emit newDataLoadedMainView();
+        emit countMainViewChanged();
+        return;
+    }
+
+    ////////////////////////
+    // watch directory for changes
+
+    watcherMainView->addPath(QFileInfo(m_fileInFolderMainView).absolutePath());
 
     ////////////////////////
     // load files
+
+    if(m_fileInFolderMainView.contains("::PQT::")) {
+        m_readDocumentOnly = true;
+        m_fileInFolderMainView = m_fileInFolderMainView.split("::PQT::").at(1);
+    } else if(m_fileInFolderMainView.contains("::ARC::")) {
+        m_readArchiveOnly = true;
+        m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
+    }
 
     if(m_readDocumentOnly && PQImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
@@ -96,15 +116,27 @@ void PQFileFolderModel::loadDataFileDialog() {
 
     DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;
 
-    delete watcherFileDialog;
-    watcherFileDialog = new QFileSystemWatcher;
-    watcherFileDialog->addPath(m_folderFileDialog);
-
     ////////////////////////
     // clear old entries
 
     m_entriesFileDialog.clear();
     m_countFileDialog = 0;
+    delete watcherFileDialog;
+    watcherFileDialog = new QFileSystemWatcher;
+
+    ////////////////////////
+    // no new directory
+
+    if(m_folderFileDialog.isEmpty()) {
+        emit newDataLoadedFileDialog();
+        emit countFileDialogChanged();
+        return;
+    }
+
+    ////////////////////////
+    // watch directory for changes
+
+    watcherFileDialog->addPath(m_folderFileDialog);
 
     ////////////////////////
     // load folders

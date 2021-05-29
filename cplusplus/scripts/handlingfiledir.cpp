@@ -266,6 +266,12 @@ QString PQHandlingFileDir::getFilePathFromFullPath(QString path) {
     DBG << CURDATE << "PQHandlingFileDir::getFilePathFromFullPath()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
+    QString ret = QFileInfo(path).fileName();
+    if(path.contains("::PQT::"))
+        path = path.split("::PQT::").at(1);
+    if(path.contains("::ARC::"))
+        path = path.split("::ARC::").at(1);
+
     return QFileInfo(path).absolutePath();
 
 }
