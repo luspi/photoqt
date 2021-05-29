@@ -29,6 +29,7 @@
 #include <QCollator>
 #include <QMimeDatabase>
 #include <QDirIterator>
+#include <QFileSystemWatcher>
 #include "../settings/settings.h"
 #include "../logger.h"
 #include "../settings/imageformats.h"
@@ -152,6 +153,9 @@ public:
 
 private:
     PQFileFolderModelCache cache;
+
+    QFileSystemWatcher *watcherMainView;
+    QFileSystemWatcher *watcherFileDialog;
 
     QString m_fileInFolderMainView;
     QString m_folderFileDialog;

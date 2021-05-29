@@ -22,6 +22,12 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
     m_sortField = SortBy::NaturalName;
     m_sortReversed = false;
 
+    watcherMainView = new QFileSystemWatcher;
+    watcherFileDialog = new QFileSystemWatcher;
+
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadDataMainView);
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadDataFileDialog);
+
     loadDelayMainView = new QTimer;
     loadDelayMainView->setInterval(10);
     loadDelayMainView->setSingleShot(true);
@@ -39,11 +45,18 @@ PQFileFolderModel::~PQFileFolderModel() {
     delete loadDelayMainView;
     delete loadDelayFileDialog;
 
+    delete watcherMainView;
+    delete watcherFileDialog;
+
 }
 
 void PQFileFolderModel::loadDataMainView() {
 
     DBG << CURDATE << "PQFileFolderModel::loadDataMainView()" << NL;
+
+    delete watcherMainView;
+    watcherMainView = new QFileSystemWatcher;
+    watcherMainView->addPath(QFileInfo(m_fileInFolderMainView).absolutePath());
 
     ////////////////////////
     // clear old entries
@@ -82,6 +95,10 @@ void PQFileFolderModel::loadDataMainView() {
 void PQFileFolderModel::loadDataFileDialog() {
 
     DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;
+
+    delete watcherFileDialog;
+    watcherFileDialog = new QFileSystemWatcher;
+    watcherFileDialog->addPath(m_folderFileDialog);
 
     ////////////////////////
     // clear old entries

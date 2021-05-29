@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import PQImageWatcher 1.0
 import "../../elements"
 
 Item {
@@ -247,20 +246,6 @@ Item {
         scale: theimage.scale
         rotation: theimage.rotation
         filename: src
-    }
-
-    PQImageWatcher {
-        id: imagewatcher
-        imagePath: src
-        onImageChanged: {
-            var tmp = theimage.source
-            reloadingImage = true
-            loadingindicator.forceStart()
-            theimage.source = ""
-            theimage.source = tmp
-        }
-        onImageDeleted:
-            filefoldermodel.removeEntryMainView(filefoldermodel.current)
     }
 
     Connections {

@@ -9,7 +9,7 @@ SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.cpp ${d}/imageformats.cpp ${d}/windowgeometry.cpp)
 
 SET(d "cplusplus/scripts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfiledialog.cpp ${d}/localisation.h ${d}/imageproperties.cpp ${d}/imagewatcher.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfiledialog.cpp ${d}/localisation.h ${d}/imageproperties.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filewatcher.cpp ${d}/handlinggeneral.cpp ${d}/handlingshortcuts.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingexternal.cpp ${d}/metadata.cpp ${d}/handlingfiledir.cpp ${d}/handlingmanipulation.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingshareimgur.cpp ${d}/replytimeout.h ${d}/simplecrypt.cpp ${d}/handlingwallpaper.cpp)
