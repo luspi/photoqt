@@ -23,7 +23,7 @@ PQFileFolderModel {
         console.log(nameFilters)
 
     onCurrentChanged: {
-        currentFilePath = model.getFilePathMainView(current)
+        currentFilePath = model.entriesMainview[current]
     }
 
     onFolderFileDialogChanged:
@@ -36,7 +36,7 @@ PQFileFolderModel {
         // if a specific filename is to be loaded
         if(setFileNameOnceReloaded == "---") {
             current = 0
-            currentFilePath = model.getFilePathMainView(0)
+            currentFilePath = model.entriesMainview[0]
             console.log("currentfile:", currentFilePath)
         } else if(setFileNameOnceReloaded != "") {
             if(setAsCurrent(setFileNameOnceReloaded)) {
@@ -60,7 +60,7 @@ PQFileFolderModel {
                 model.current = -1
 
             // update the current file path
-            model.currentFilePath = (model.current!=-1 ? model.getFilePathMainView(model.current) : "")
+            model.currentFilePath = (model.current!=-1 ? model.entriesMainview[model.current] : "")
 
         }
 

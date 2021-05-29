@@ -50,7 +50,7 @@ Item {
 
             if(PQCppVariables.cmdFilePath != "") {
 
-                var folderOld = (filefoldermodel.countMainView == 0 ? "" : handlingFileDir.getFilePathFromFullPath(filefoldermodel.getFilePathMainView(0)))
+                var folderOld = (filefoldermodel.countMainView == 0 ? "" : handlingFileDir.getFilePathFromFullPath(filefoldermodel.entriesMainview[0]))
                 var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
                 if(folderNew != folderOld)

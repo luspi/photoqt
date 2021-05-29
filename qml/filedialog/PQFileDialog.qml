@@ -189,7 +189,7 @@ Rectangle {
                     z: -1
 
                     anchors.fill: parent
-                    filePath: (filefoldermodel.countFileDialog>fileview.currentIndex&&fileview.currentIndex!=-1) ? (filefoldermodel.getFileIsDirFileDialog(fileview.currentIndex) ? "" : filefoldermodel.getFilePathFileDialog(fileview.currentIndex)) : ""
+                    filePath: ((filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog)>fileview.currentIndex&&fileview.currentIndex!=-1) ? (fileview.currentIndex<filefoldermodel.countFoldersFileDialog ? "" : filefoldermodel.entriesFileDialog[fileview.currentIndex]) : ""
 
                 }
 

@@ -104,7 +104,7 @@ Item {
                 visible: PQSettings.thumbnailFilenameInstead
                 color: "white"
 
-                text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.getFilePathMainView(index))
+                text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainview[index])
                 font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
@@ -116,7 +116,7 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.getFilePathMainView(index)
+                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainview[index]
 
                 visible: !PQSettings.thumbnailFilenameInstead
 
@@ -137,7 +137,7 @@ Item {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
-                        text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.getFilePathMainView(index), true)
+                        text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainview[index], true)
                     }
                 }
             }
@@ -146,11 +146,23 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                tooltip: "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(filefoldermodel.getFilePathMainView(index), true) + "</span></b><br><br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(filefoldermodel.getFileSizeMainView(index)) + "<br>" +
-                         em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + filefoldermodel.getFileTypeMainView(index)
-                onEntered:
+                property bool tooltipSetup: false
+                onEntered: {
+
+                    if(!tooltipSetup) {
+
+                        var fpath = filefoldermodel.entriesMainview[index]
+
+                        tooltip = "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(fpath, true) + "</span></b><br><br>" +
+                                 em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(fpath)) + "<br>" +
+                                 em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(fpath)
+
+                        tooltipSetup = true
+
+                    }
+
                     view.mouseOverItem = index
+                }
                 onClicked:
                     filefoldermodel.current = index
                 onExited:

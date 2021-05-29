@@ -1,11 +1,13 @@
 #include "filefoldermodel.h"
+#include <chrono>
 
 PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
 
     m_fileInFolderMainView = "";
     m_folderFileDialog = "";
     m_countMainView = 0;
-    m_countFileDialog = 0;
+    m_countFoldersFileDialog = 0;
+    m_countFilesFileDialog = 0;
 
     m_readDocumentOnly = false;
     m_readArchiveOnly = false;
@@ -114,13 +116,16 @@ void PQFileFolderModel::loadDataMainView() {
 
 void PQFileFolderModel::loadDataFileDialog() {
 
+    auto t1 = std::chrono::steady_clock::now();
+
     DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;
 
     ////////////////////////
     // clear old entries
 
     m_entriesFileDialog.clear();
-    m_countFileDialog = 0;
+    m_countFoldersFileDialog = 0;
+    m_countFilesFileDialog = 0;
     delete watcherFileDialog;
     watcherFileDialog = new QFileSystemWatcher;
 
@@ -142,16 +147,20 @@ void PQFileFolderModel::loadDataFileDialog() {
     // load folders
 
     m_entriesFileDialog = getAllFolders(m_folderFileDialog);
+    m_countFoldersFileDialog = m_entriesFileDialog.length();
 
     ////////////////////////
     // load files
 
     m_entriesFileDialog.append(getAllFiles(m_folderFileDialog));
 
-    m_countFileDialog += m_entriesFileDialog.length();
+    m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
 
     emit newDataLoadedFileDialog();
     emit countFileDialogChanged();
+
+    auto t2 = std::chrono::steady_clock::now();
+    qDebug() << "loadDataFileDialog():" << std::chrono::duration<double, std::milli>(t2-t1).count();
 
 }
 
@@ -330,38 +339,6 @@ QStringList PQFileFolderModel::listPDFPages(QString path) {
     delete document;
 
 #endif
-
-    return ret;
-
-}
-
-QVariantList PQFileFolderModel::getValuesFileDialog(int index) {
-
-    QVariantList ret;
-
-    QFileInfo info(m_entriesFileDialog[index]);
-    ret << info.fileName();
-    ret << info.filePath();
-    ret << info.size();
-    ret << info.lastModified();
-    ret << info.isDir();
-    ret << db.mimeTypeForFile(info).name();
-
-    return ret;
-
-}
-
-QVariantList PQFileFolderModel::getValuesMainView(int index) {
-
-    QVariantList ret;
-
-    QFileInfo info(m_entriesMainView[index]);
-    ret << info.fileName();
-    ret << info.filePath();
-    ret << info.size();
-    ret << info.lastModified();
-    ret << info.isDir();
-    ret << db.mimeTypeForFile(info).name();
 
     return ret;
 

@@ -113,7 +113,7 @@ Rectangle {
         //: Please keep string short!
         em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File type"), (filefoldermodel.current==-1 ? "" : filefoldermodel.getFileTypeMainView(filefoldermodel.current)), PQSettings.metaFileType,
+        em.pty+qsTranslate("metadata", "File type"), (filefoldermodel.current==-1 ? "" : handlingFileDir.getFileType(filefoldermodel.entriesMainView[filefoldermodel.current])), PQSettings.metaFileType,
         "", "", true,
         //: Exif image metadata: the make of the camera used to take the photo. Please keep string short!
         em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,

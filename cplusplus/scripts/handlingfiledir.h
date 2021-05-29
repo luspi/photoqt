@@ -57,6 +57,9 @@ public:
     Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);
+    Q_INVOKABLE qint64 getFileSize(QString path);
+    Q_INVOKABLE QString getFileType(QString path);
+    Q_INVOKABLE QDateTime getFileModified(QString path);
     Q_INVOKABLE QString getHomeDir();
     Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getTempDir();
@@ -66,6 +69,10 @@ public:
     Q_INVOKABLE QString moveFile(QString filename);
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
     Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);
+
+private:
+    QMimeDatabase db;
+
 };
 
 #endif // PQHANDLINGFILEDIR_H
