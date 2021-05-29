@@ -282,6 +282,7 @@ Item {
     }
 
     function loadNewFile() {
+        variables.currentRotationAngle = 0
         if(filefoldermodel.current > -1 && filefoldermodel.current < filefoldermodel.countMainView) {
             var src = handlingFileDir.cleanPath(filefoldermodel.currentFilePath)
             image_model.append({"src" : src, "imageIndex" : filefoldermodel.current})
