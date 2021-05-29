@@ -63,6 +63,12 @@ bool PQImageProperties::isArchive(QString path) {
 
 int PQImageProperties::getDocumentPages(QString path) {
 
+    if(path.trimmed().isEmpty())
+        return 0;
+
+    if(path.contains("::PQT::"))
+        path = path.split("::PQT::").at(1);
+
 #ifdef POPPLER
     Poppler::Document* document = Poppler::Document::load(path);
     if(document && !document->isLocked())

@@ -199,7 +199,7 @@ QString PQHandlingGeneral::getLastLoadedImage() {
         file.close();
     }
 
-    return ret;
+    return ret.trimmed();
 
 }
 
