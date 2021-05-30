@@ -170,7 +170,7 @@ GridView {
 
                     id: filethumb
                     anchors.fill: parent
-                    visible: !index >= filefoldermodel.countFoldersFileDialog
+                    visible: index >= filefoldermodel.countFoldersFileDialog
 
                     cache: false
 

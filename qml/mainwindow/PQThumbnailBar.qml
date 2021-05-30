@@ -104,7 +104,7 @@ Item {
                 visible: PQSettings.thumbnailFilenameInstead
                 color: "white"
 
-                text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainview[index])
+                text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index])
                 font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
@@ -116,7 +116,7 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainview[index]
+                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index]
 
                 visible: !PQSettings.thumbnailFilenameInstead
 
@@ -137,7 +137,7 @@ Item {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
-                        text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainview[index], true)
+                        text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index], true)
                     }
                 }
             }
@@ -151,7 +151,7 @@ Item {
 
                     if(!tooltipSetup) {
 
-                        var fpath = filefoldermodel.entriesMainview[index]
+                        var fpath = filefoldermodel.entriesMainView[index]
 
                         tooltip = "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(fpath, true) + "</span></b><br><br>" +
                                  em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(fpath)) + "<br>" +

@@ -23,7 +23,7 @@ PQFileFolderModel {
         console.log(nameFilters)
 
     onCurrentChanged: {
-        currentFilePath = model.entriesMainview[current]
+        currentFilePath = model.entriesMainView[current]
     }
 
     onFolderFileDialogChanged:
