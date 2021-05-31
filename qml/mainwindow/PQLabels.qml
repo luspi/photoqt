@@ -115,10 +115,10 @@ Rectangle {
 
         Text {
             id: pageInfo
-            text: (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.currentFilePath.indexOf("::PQT::")>-1) ?
+            text: (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.isPQT) ?
                       //: Used as in: Page 12/34 - please keep as short as possible
-                      (em.pty+qsTranslate("quickinfo", "Page %1 of %2").arg(filefoldermodel.currentFilePath.split("::PQT::")[0]*1+1).arg(filefoldermodel.countMainView)) :
-                                (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.currentFilePath.indexOf("::ARC::")>-1) ?
+                      (em.pty+qsTranslate("quickinfo", "Page %1 of %2").arg(filefoldermodel.pqtNum+1).arg(filefoldermodel.countMainView)) :
+                                (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.isARC) ?
                                             //: Used as in: File 12/34 - please keep as short as possible
                                             (em.pty+qsTranslate("quickinfo", "File %1 of %2").arg(filefoldermodel.current+1).arg(filefoldermodel.countMainView)) :
                         ""
@@ -146,7 +146,7 @@ Rectangle {
         radius: 5
 
         visible: (imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)
-                        &&(imageproperties.getDocumentPages(filefoldermodel.currentFilePath)>1 || filefoldermodel.currentFilePath.indexOf("::PQT::") != -1))
+                        &&(imageproperties.getDocumentPages(filefoldermodel.currentFilePath)>1 || filefoldermodel.isPQT))
                     || (imageproperties.isArchive(filefoldermodel.currentFilePath))
 
         Image {
@@ -293,10 +293,10 @@ Rectangle {
                     filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
                 }
             } else {
-                if(filefoldermodel.currentFilePath.indexOf("::PQT::") != -1)
-                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.currentFilePath.split("::PQT::")[1]
+                if(filefoldermodel.isPQT)
+                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.pqtName
                 else
-                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.currentFilePath.split("::ARC::")[1]
+                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.arcName
                 filefoldermodel.fileInFolderMainView = filefoldermodel.setFileNameOnceReloaded
             }
         }

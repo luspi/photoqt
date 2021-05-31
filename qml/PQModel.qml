@@ -18,13 +18,18 @@ PQFileFolderModel {
     // once the model has finished reloading
     property string setFileNameOnceReloaded: ""
 
-    defaultNameFilters: PQImageFormats.getEnabledFormats()
-    Component.onCompleted:
-        console.log(nameFilters)
+    // is this a document or archive? if so, save some extra details
+    property bool isPQT: currentFilePath.indexOf("::PQT::")>-1
+    property bool isARC: currentFilePath.indexOf("::ARC::")>-1
+    property string pqtName: isPQT ? currentFilePath.split("::PQT::")[1] : ""
+    property int pqtNum: isPQT ? currentFilePath.split("::PQT::")[0]*1 : ""
+    property string arcName: isPQT ? currentFilePath.split("::ARC::")[1] : ""
+    property string arcFile: isPQT ? currentFilePath.split("::ARC::")[0] : ""
 
-    onCurrentChanged: {
+    defaultNameFilters: PQImageFormats.getEnabledFormats()
+
+    onCurrentChanged:
         currentFilePath = model.entriesMainView[current]
-    }
 
     onFolderFileDialogChanged:
         handlingFileDialog.setLastLocation(folderFileDialog)
