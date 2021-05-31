@@ -117,10 +117,10 @@ Rectangle {
             id: pageInfo
             text: (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.currentFilePath.indexOf("::PQT::")>-1) ?
                       //: Used as in: Page 12/34 - please keep as short as possible
-                      (em.pty+qsTranslate("quickinfo", "Page") + " " + (filefoldermodel.currentFilePath.split("::PQT::")[0]*1+1) + " of " + filefoldermodel.countMainView) :
+                      (em.pty+qsTranslate("quickinfo", "Page %1 of %2").arg(filefoldermodel.currentFilePath.split("::PQT::")[0]*1+1).arg(filefoldermodel.countMainView)) :
                                 (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.currentFilePath.indexOf("::ARC::")>-1) ?
                                             //: Used as in: File 12/34 - please keep as short as possible
-                                            (em.pty+qsTranslate("quickinfo", "File") + " " + (filefoldermodel.current+1) + " of " + filefoldermodel.countMainView) :
+                                            (em.pty+qsTranslate("quickinfo", "File %1 of %2").arg(filefoldermodel.current+1).arg(filefoldermodel.countMainView)) :
                         ""
             visible: text != "" && (filefoldermodel.current > -1)
             color: "white"

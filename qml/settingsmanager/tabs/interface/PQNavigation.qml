@@ -33,7 +33,7 @@ PQSetting {
     content: [
         PQCheckbox {
             id: navcheck
-            text: "Show quick navigation buttons"
+            text: em.pty+qsTranslate("settingsmanager_interface", "Show quick navigation buttons")
         }
 
     ]

@@ -45,6 +45,8 @@ Rectangle {
     PQMouseArea {
         anchors.fill: parent
         drag.target: parent
+        hoverEnabled: true
+        tooltip: em.pty+qsTranslate("navigate", "Click and drag to move")
     }
 
     Row {
