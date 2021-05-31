@@ -329,10 +329,8 @@ Window {
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 
             if(handlingFileDir.isDir(filenameToLoad)) {
-                if(filefoldermodel.countMainView == 0) {
-                    loader.show("filedialog")
-                    filefoldermodel.folderFileDialog = filenameToLoad
-                }
+                loader.show("filedialog")
+                filefoldermodel.folderFileDialog = filenameToLoad
             } else {
                 filefoldermodel.setFileNameOnceReloaded = filenameToLoad
                 filefoldermodel.fileInFolderMainView = filenameToLoad
