@@ -37,7 +37,6 @@ PQFileFolderModel {
         if(setFileNameOnceReloaded == "---") {
             current = 0
             currentFilePath = model.entriesMainview[0]
-            console.log("currentfile:", currentFilePath)
         } else if(setFileNameOnceReloaded != "") {
             if(setAsCurrent(setFileNameOnceReloaded)) {
                 curset = true
@@ -63,8 +62,6 @@ PQFileFolderModel {
             model.currentFilePath = (model.current!=-1 ? model.entriesMainview[model.current] : "")
 
         }
-
-        currentFilePathChanged()
 
     }
 
