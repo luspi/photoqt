@@ -46,7 +46,6 @@ PQSetting {
             PQSlider {
                 id: qual_slider
                 y: (docviewer.height-height)/2
-                enabled: docviewer.checked
                 from: 75
                 to: 350
                 stepSize: 5
