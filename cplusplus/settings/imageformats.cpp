@@ -82,6 +82,8 @@ PQImageFormats::PQImageFormats() {
 
 void PQImageFormats::readFromDatabase() {
 
+    DBG << CURDATE << "PQImageFormats::readFromDatabase()" << NL;
+
     formats.clear();
     formats_enabled.clear();
     formats_qt.clear();
@@ -278,6 +280,8 @@ void PQImageFormats::readFromDatabase() {
 
 void PQImageFormats::writeToDatabase(QVariantList f) {
 
+    DBG << CURDATE << "PQImageFormats::writeToDatabase()" << NL;
+
     if(readonly) return;
 
     db.transaction();
@@ -294,12 +298,16 @@ void PQImageFormats::writeToDatabase(QVariantList f) {
     }
 
     db.commit();
+    if(!db.lastError().text().trimmed().isEmpty())
+        LOG << CURDATE << "PQImageFormats::writeToDatabase(): SQL Query error: " << db.lastError().text().trimmed().toStdString() << NL;
 
     readFromDatabase();
 
 }
 
 QVariantList PQImageFormats::getWriteableFormats() {
+
+    DBG << CURDATE << "PQImageFormats::getWriteableFormats()" << NL;
 
     QVariantList ret;
 
@@ -341,6 +349,8 @@ QVariantList PQImageFormats::getWriteableFormats() {
 }
 
 QVariantMap PQImageFormats::getFormatsInfo(QString endings) {
+
+    DBG << CURDATE << "PQImageFormats::getFormatsInfo()" << NL;
 
     QVariantMap ret;
 
