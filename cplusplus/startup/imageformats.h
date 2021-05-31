@@ -33,12 +33,6 @@ namespace PQStartup {
 
             QFile db(ConfigFiles::IMAGEFORMATS_DB());
 
-            if(QString(VERSION).remove(3,999) == "dev") {
-                LOG << "WARNING:" << "resetting image formats database!" << NL;
-                if(db.exists())
-                    db.remove();
-            }
-
             if(!db.exists()) {
                 if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
                     LOG << CURDATE << "PQStartup::ImageFormats: unable to create default imageformats database" << NL;
