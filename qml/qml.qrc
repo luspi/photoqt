@@ -81,7 +81,6 @@
         <file>settingsmanager/tabs/interface/PQMouseWheel.qml</file>
         <file>settingsmanager/tabs/interface/PQOverlayColor.qml</file>
         <file>settingsmanager/tabs/interface/PQPopout.qml</file>
-        <file>settingsmanager/tabs/interface/PQQuickInfo.qml</file>
         <file>settingsmanager/tabs/interface/PQStartupLoadLast.qml</file>
         <file>settingsmanager/tabs/interface/PQTrayIcon.qml</file>
         <file>settingsmanager/tabs/interface/PQWindowManagement.qml</file>
@@ -143,5 +142,6 @@
         <file>mainwindow/PQLabels.qml</file>
         <file>mainwindow/PQNavigation.qml</file>
         <file>settingsmanager/tabs/interface/PQNavigation.qml</file>
+        <file>settingsmanager/tabs/interface/PQLabels.qml</file>
     </qresource>
 </RCC>

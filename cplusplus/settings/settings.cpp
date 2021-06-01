@@ -109,14 +109,14 @@ void PQSettings::setDefault() {
     setTrayIcon(0);
     setZoomSpeed(20);
 
-    setQuickInfoWindowButtonsSize(10);
-    setQuickInfoHideCounter(false);
-    setQuickInfoHideFilepath(true);
-    setQuickInfoHideFilename(false);
-    setQuickInfoWindowButtons(false);
-    setQuickInfoHideZoomLevel(false);
-    setQuickInfoHideRotationAngle(false);
-    setQuickInfoManageWindow(false);
+    setLabelsWindowButtonsSize(10);
+    setLabelsHideCounter(false);
+    setLabelsHideFilepath(true);
+    setLabelsHideFilename(false);
+    setLabelsWindowButtons(false);
+    setLabelsHideZoomLevel(false);
+    setLabelsHideRotationAngle(false);
+    setLabelsManageWindow(false);
 
     setThumbnailCache(true);
     setThumbnailCenterActive(false);
@@ -133,7 +133,7 @@ void PQSettings::setDefault() {
     setThumbnailSpacingBetween(0);
     setThumbnailWriteFilename(true);
 
-    setSlideShowHideQuickInfo(true);
+    setSlideShowHideLabels(true);
     setSlideShowImageTransition(4);
     setSlideShowLoop(true);
     setSlideShowMusicFile("");
@@ -364,29 +364,29 @@ void PQSettings::readSettings() {
                 setZoomSpeed(line.split("=").at(1).toInt());
 
 
-            else if(line.startsWith("QuickInfoWindowButtonsSize="))
-                setQuickInfoWindowButtonsSize(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsWindowButtonsSize="))
+                setLabelsWindowButtonsSize(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoHideCounter="))
-                setQuickInfoHideCounter(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsHideCounter="))
+                setLabelsHideCounter(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoHideFilepath="))
-                setQuickInfoHideFilepath(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsHideFilepath="))
+                setLabelsHideFilepath(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoHideFilename="))
-                setQuickInfoHideFilename(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsHideFilename="))
+                setLabelsHideFilename(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoWindowButtons="))
-                setQuickInfoWindowButtons(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsWindowButtons="))
+                setLabelsWindowButtons(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoHideZoomLevel="))
-                setQuickInfoHideZoomLevel(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsHideZoomLevel="))
+                setLabelsHideZoomLevel(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoHideRotationAngle="))
-                setQuickInfoHideRotationAngle(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsHideRotationAngle="))
+                setLabelsHideRotationAngle(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("QuickInfoManageWindow="))
-                setQuickInfoManageWindow(line.split("=").at(1).toInt());
+            else if(line.startsWith("LabelsManageWindow="))
+                setLabelsManageWindow(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("ThumbnailCache="))
@@ -432,8 +432,8 @@ void PQSettings::readSettings() {
                 setThumbnailWriteFilename(line.split("=").at(1).toInt());
 
 
-            else if(line.startsWith("SlideShowHideQuickInfo="))
-                setSlideShowHideQuickInfo(line.split("=").at(1).toInt());
+            else if(line.startsWith("SlideShowHideLabels="))
+                setSlideShowHideLabels(line.split("=").at(1).toInt());
 
             else if(line.startsWith("SlideShowImageTransition="))
                 setSlideShowImageTransition(line.split("=").at(1).toInt());
@@ -748,16 +748,16 @@ void PQSettings::saveSettings() {
         cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
 
-        cont += "\n[QuickInfo]\n";
+        cont += "\n[Labels]\n";
 
-        cont += QString("QuickInfoWindowButtonsSize=%1\n").arg(m_quickInfoWindowButtonsSize);
-        cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
-        cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
-        cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
-        cont += QString("QuickInfoWindowButtons=%1\n").arg(int(m_quickInfoWindowButtons));
-        cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
-        cont += QString("QuickInfoHideRotationAngle=%1\n").arg(int(m_quickInfoHideRotationAngle));
-        cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
+        cont += QString("LabelsWindowButtonsSize=%1\n").arg(m_labelsWindowButtonsSize);
+        cont += QString("LabelsHideCounter=%1\n").arg(int(m_labelsHideCounter));
+        cont += QString("LabelsHideFilepath=%1\n").arg(int(m_labelsHideFilepath));
+        cont += QString("LabelsHideFilename=%1\n").arg(int(m_labelsHideFilename));
+        cont += QString("LabelsWindowButtons=%1\n").arg(int(m_labelsWindowButtons));
+        cont += QString("LabelsHideZoomLevel=%1\n").arg(int(m_labelsHideZoomLevel));
+        cont += QString("LabelsHideRotationAngle=%1\n").arg(int(m_labelsHideRotationAngle));
+        cont += QString("LabelsManageWindow=%1\n").arg(int(m_labelsManageWindow));
 
         cont += "\n[Thumbnail]\n";
 
@@ -778,7 +778,7 @@ void PQSettings::saveSettings() {
 
         cont += "\n[Slideshow]\n";
 
-        cont += QString("SlideShowHideQuickInfo=%1\n").arg(int(m_slideShowHideQuickInfo));
+        cont += QString("SlideShowHideLabels=%1\n").arg(int(m_slideShowHideLabels));
         cont += QString("SlideShowImageTransition=%1\n").arg(m_slideShowImageTransition);
         cont += QString("SlideShowLoop=%1\n").arg(int(m_slideShowLoop));
         cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);

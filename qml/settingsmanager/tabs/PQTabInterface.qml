@@ -93,8 +93,8 @@ Item {
 
             PQLanguage { id: lng }
                 PQHorizontalLine { expertModeOnly: lng.expertmodeonly }
-            PQQuickInfo { id: qck }
-                PQHorizontalLine { expertModeOnly: qck.expertmodeonly }
+            PQLabels { id: lab }
+                PQHorizontalLine { expertModeOnly: lab.expertmodeonly }
             PQWindowMode { id: wmo }
                 PQHorizontalLine { expertModeOnly: wmo.expertmodeonly }
             PQNavigation { id: nav }

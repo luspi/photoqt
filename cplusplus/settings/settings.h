@@ -452,82 +452,82 @@ public:
         }
     }
     
-    Q_PROPERTY(int quickInfoWindowButtonsSize READ getQuickInfoWindowButtonsSize WRITE setQuickInfoWindowButtonsSize NOTIFY quickInfoWindowButtonsSizeChanged)
-    int getQuickInfoWindowButtonsSize() { return m_quickInfoWindowButtonsSize; }
-    void setQuickInfoWindowButtonsSize(int val) {
-        if(m_quickInfoWindowButtonsSize != val) {
-            m_quickInfoWindowButtonsSize = val;
-            emit quickInfoWindowButtonsSizeChanged();
+    Q_PROPERTY(int labelsWindowButtonsSize READ getLabelsWindowButtonsSize WRITE setLabelsWindowButtonsSize NOTIFY labelsWindowButtonsSizeChanged)
+    int getLabelsWindowButtonsSize() { return m_labelsWindowButtonsSize; }
+    void setLabelsWindowButtonsSize(int val) {
+        if(m_labelsWindowButtonsSize != val) {
+            m_labelsWindowButtonsSize = val;
+            emit labelsWindowButtonsSizeChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoHideCounter READ getQuickInfoHideCounter WRITE setQuickInfoHideCounter NOTIFY quickInfoHideCounterChanged)
-    bool getQuickInfoHideCounter() { return m_quickInfoHideCounter; }
-    void setQuickInfoHideCounter(bool val) {
-        if(m_quickInfoHideCounter != val) {
-            m_quickInfoHideCounter = val;
-            emit quickInfoHideCounterChanged();
+    Q_PROPERTY(bool labelsHideCounter READ getLabelsHideCounter WRITE setLabelsHideCounter NOTIFY labelsHideCounterChanged)
+    bool getLabelsHideCounter() { return m_labelsHideCounter; }
+    void setLabelsHideCounter(bool val) {
+        if(m_labelsHideCounter != val) {
+            m_labelsHideCounter = val;
+            emit labelsHideCounterChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoHideFilepath READ getQuickInfoHideFilepath WRITE setQuickInfoHideFilepath NOTIFY quickInfoHideFilepathChanged)
-    bool getQuickInfoHideFilepath() { return m_quickInfoHideFilepath; }
-    void setQuickInfoHideFilepath(bool val) {
-        if(m_quickInfoHideFilepath != val) {
-            m_quickInfoHideFilepath = val;
-            emit quickInfoHideFilepathChanged();
+    Q_PROPERTY(bool labelsHideFilepath READ getLabelsHideFilepath WRITE setLabelsHideFilepath NOTIFY labelsHideFilepathChanged)
+    bool getLabelsHideFilepath() { return m_labelsHideFilepath; }
+    void setLabelsHideFilepath(bool val) {
+        if(m_labelsHideFilepath != val) {
+            m_labelsHideFilepath = val;
+            emit labelsHideFilepathChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoHideFilename READ getQuickInfoHideFilename WRITE setQuickInfoHideFilename NOTIFY quickInfoHideFilenameChanged)
-    bool getQuickInfoHideFilename() { return m_quickInfoHideFilename; }
-    void setQuickInfoHideFilename(bool val) {
-        if(m_quickInfoHideFilename != val) {
-            m_quickInfoHideFilename = val;
-            emit quickInfoHideFilenameChanged();
+    Q_PROPERTY(bool labelsHideFilename READ getLabelsHideFilename WRITE setLabelsHideFilename NOTIFY labelsHideFilenameChanged)
+    bool getLabelsHideFilename() { return m_labelsHideFilename; }
+    void setLabelsHideFilename(bool val) {
+        if(m_labelsHideFilename != val) {
+            m_labelsHideFilename = val;
+            emit labelsHideFilenameChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoWindowButtons READ getQuickInfoWindowButtons WRITE setQuickInfoWindowButtons NOTIFY quickInfoWindowButtonsChanged)
-    bool getQuickInfoWindowButtons() { return m_quickInfoWindowButtons; }
-    void setQuickInfoWindowButtons(bool val) {
-        if(m_quickInfoWindowButtons != val) {
-            m_quickInfoWindowButtons = val;
-            emit quickInfoWindowButtonsChanged();
+    Q_PROPERTY(bool labelsWindowButtons READ getLabelsWindowButtons WRITE setLabelsWindowButtons NOTIFY labelsWindowButtonsChanged)
+    bool getLabelsWindowButtons() { return m_labelsWindowButtons; }
+    void setLabelsWindowButtons(bool val) {
+        if(m_labelsWindowButtons != val) {
+            m_labelsWindowButtons = val;
+            emit labelsWindowButtonsChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoHideZoomLevel READ getQuickInfoHideZoomLevel WRITE setQuickInfoHideZoomLevel NOTIFY quickInfoHideZoomLevelChanged)
-    bool getQuickInfoHideZoomLevel() { return m_quickInfoHideZoomLevel; }
-    void setQuickInfoHideZoomLevel(bool val) {
-        if(m_quickInfoHideZoomLevel != val) {
-            m_quickInfoHideZoomLevel = val;
-            emit quickInfoHideZoomLevelChanged();
+    Q_PROPERTY(bool labelsHideZoomLevel READ getLabelsHideZoomLevel WRITE setLabelsHideZoomLevel NOTIFY labelsHideZoomLevelChanged)
+    bool getLabelsHideZoomLevel() { return m_labelsHideZoomLevel; }
+    void setLabelsHideZoomLevel(bool val) {
+        if(m_labelsHideZoomLevel != val) {
+            m_labelsHideZoomLevel = val;
+            emit labelsHideZoomLevelChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoHideRotationAngle READ getQuickInfoHideRotationAngle WRITE setQuickInfoHideRotationAngle NOTIFY quickInfoHideRotationAngleChanged)
-    bool getQuickInfoHideRotationAngle() { return m_quickInfoHideRotationAngle; }
-    void setQuickInfoHideRotationAngle(bool val) {
-        if(m_quickInfoHideRotationAngle != val) {
-            m_quickInfoHideRotationAngle = val;
-            emit quickInfoHideRotationAngleChanged();
+    Q_PROPERTY(bool labelsHideRotationAngle READ getLabelsHideRotationAngle WRITE setLabelsHideRotationAngle NOTIFY labelsHideRotationAngleChanged)
+    bool getLabelsHideRotationAngle() { return m_labelsHideRotationAngle; }
+    void setLabelsHideRotationAngle(bool val) {
+        if(m_labelsHideRotationAngle != val) {
+            m_labelsHideRotationAngle = val;
+            emit labelsHideRotationAngleChanged();
             saveSettingsTimer->start();
         }
     }
     
-    Q_PROPERTY(bool quickInfoManageWindow READ getQuickInfoManageWindow WRITE setQuickInfoManageWindow NOTIFY quickInfoManageWindowChanged)
-    bool getQuickInfoManageWindow() { return m_quickInfoManageWindow; }
-    void setQuickInfoManageWindow(bool val) {
-        if(m_quickInfoManageWindow != val) {
-            m_quickInfoManageWindow = val;
-            emit quickInfoManageWindowChanged();
+    Q_PROPERTY(bool labelsManageWindow READ getLabelsManageWindow WRITE setLabelsManageWindow NOTIFY labelsManageWindowChanged)
+    bool getLabelsManageWindow() { return m_labelsManageWindow; }
+    void setLabelsManageWindow(bool val) {
+        if(m_labelsManageWindow != val) {
+            m_labelsManageWindow = val;
+            emit labelsManageWindowChanged();
             saveSettingsTimer->start();
         }
     }
@@ -672,12 +672,12 @@ public:
         }
     }
     
-    Q_PROPERTY(bool slideShowHideQuickInfo READ getSlideShowHideQuickInfo WRITE setSlideShowHideQuickInfo NOTIFY slideShowHideQuickInfoChanged)
-    bool getSlideShowHideQuickInfo() { return m_slideShowHideQuickInfo; }
-    void setSlideShowHideQuickInfo(bool val) {
-        if(m_slideShowHideQuickInfo != val) {
-            m_slideShowHideQuickInfo = val;
-            emit slideShowHideQuickInfoChanged();
+    Q_PROPERTY(bool slideShowHideLabels READ getSlideShowHideLabels WRITE setSlideShowHideLabels NOTIFY slideShowHideLabelsChanged)
+    bool getSlideShowHideLabels() { return m_slideShowHideLabels; }
+    void setSlideShowHideLabels(bool val) {
+        if(m_slideShowHideLabels != val) {
+            m_slideShowHideLabels = val;
+            emit slideShowHideLabelsChanged();
             saveSettingsTimer->start();
         }
     }
@@ -1480,14 +1480,14 @@ private:
     bool    m_sortImagesAscending;
     int     m_trayIcon;
     int     m_zoomSpeed;
-    int     m_quickInfoWindowButtonsSize;
-    bool    m_quickInfoHideCounter;
-    bool    m_quickInfoHideFilepath;
-    bool    m_quickInfoHideFilename;
-    bool    m_quickInfoWindowButtons;
-    bool    m_quickInfoHideZoomLevel;
-    bool    m_quickInfoHideRotationAngle;
-    bool    m_quickInfoManageWindow;
+    int     m_labelsWindowButtonsSize;
+    bool    m_labelsHideCounter;
+    bool    m_labelsHideFilepath;
+    bool    m_labelsHideFilename;
+    bool    m_labelsWindowButtons;
+    bool    m_labelsHideZoomLevel;
+    bool    m_labelsHideRotationAngle;
+    bool    m_labelsManageWindow;
     bool    m_thumbnailCache;
     bool    m_thumbnailCenterActive;
     bool    m_thumbnailDisable;
@@ -1502,7 +1502,7 @@ private:
     int     m_thumbnailSize;
     int     m_thumbnailSpacingBetween;
     bool    m_thumbnailWriteFilename;
-    bool    m_slideShowHideQuickInfo;
+    bool    m_slideShowHideLabels;
     int     m_slideShowImageTransition;
     bool    m_slideShowLoop;
     QString m_slideShowMusicFile;
@@ -1625,14 +1625,14 @@ signals:
     void sortImagesAscendingChanged();
     void trayIconChanged();
     void zoomSpeedChanged();
-    void quickInfoWindowButtonsSizeChanged();
-    void quickInfoHideCounterChanged();
-    void quickInfoHideFilepathChanged();
-    void quickInfoHideFilenameChanged();
-    void quickInfoWindowButtonsChanged();
-    void quickInfoHideZoomLevelChanged();
-    void quickInfoHideRotationAngleChanged();
-    void quickInfoManageWindowChanged();
+    void labelsWindowButtonsSizeChanged();
+    void labelsHideCounterChanged();
+    void labelsHideFilepathChanged();
+    void labelsHideFilenameChanged();
+    void labelsWindowButtonsChanged();
+    void labelsHideZoomLevelChanged();
+    void labelsHideRotationAngleChanged();
+    void labelsManageWindowChanged();
     void thumbnailCacheChanged();
     void thumbnailCenterActiveChanged();
     void thumbnailDisableChanged();
@@ -1647,7 +1647,7 @@ signals:
     void thumbnailSizeChanged();
     void thumbnailSpacingBetweenChanged();
     void thumbnailWriteFilenameChanged();
-    void slideShowHideQuickInfoChanged();
+    void slideShowHideLabelsChanged();
     void slideShowImageTransitionChanged();
     void slideShowLoopChanged();
     void slideShowMusicFileChanged();

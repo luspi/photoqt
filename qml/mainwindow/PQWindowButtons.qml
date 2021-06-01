@@ -34,7 +34,7 @@ Item {
     // these are always visible on top of everything, according to the conditions below
     z: 999
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && !PQSettings.quickInfoHideWindowButtons && opacity==1
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideLabels) && !PQSettings.labelsHideWindowButtons && opacity==1
 
     opacity: variables.visibleItem=="filedialog" ? 0 : 1
     Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
@@ -52,8 +52,8 @@ Item {
         spacing: 10
 
         Image {
-            width: 3*PQSettings.quickInfoWindowButtonsSize
-            height: 3*PQSettings.quickInfoWindowButtonsSize
+            width: 3*PQSettings.labelsWindowButtonsSize
+            height: 3*PQSettings.labelsWindowButtonsSize
             source: PQSettings.windowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
 
             opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.2
@@ -79,8 +79,8 @@ Item {
         }
 
         Image {
-            width: 3*PQSettings.quickInfoWindowButtonsSize
-            height: 3*PQSettings.quickInfoWindowButtonsSize
+            width: 3*PQSettings.labelsWindowButtonsSize
+            height: 3*PQSettings.labelsWindowButtonsSize
             source: "/mainwindow/close.png"
 
             PQMouseArea {
@@ -109,34 +109,34 @@ Item {
 
         id: rightclickmenu
 
-        model: [(PQSettings.quickInfoHideCounter ?
+        model: [(PQSettings.labelsHideCounter ?
                      em.pty+qsTranslate("quickinfo", "Show counter") :
                      em.pty+qsTranslate("quickinfo", "Hide counter")),
-            (PQSettings.quickInfoHideFilepath ?
+            (PQSettings.labelsHideFilepath ?
                  em.pty+qsTranslate("quickinfo", "Show file path") :
                  em.pty+qsTranslate("quickinfo", "Hide file path")),
-            (PQSettings.quickInfoHideFilename ?
+            (PQSettings.labelsHideFilename ?
                  em.pty+qsTranslate("quickinfo", "Show file name") :
                  em.pty+qsTranslate("quickinfo", "Hide file name")),
-            (PQSettings.quickInfoHideZoomLevel ?
+            (PQSettings.labelsHideZoomLevel ?
                  em.pty+qsTranslate("quickinfo", "Show zoom level") :
                  em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-            (PQSettings.quickInfoHideWindowButtons ?
+            (PQSettings.labelsHideWindowButtons ?
                  em.pty+qsTranslate("quickinfo", "Show window buttons") :
                  em.pty+qsTranslate("quickinfo", "Hide window buttons"))
         ]
 
         onTriggered: {
             if(index == 0)
-                PQSettings.quickInfoHideCounter = !PQSettings.quickInfoHideCounter
+                PQSettings.labelsHideCounter = !PQSettings.labelsHideCounter
             else if(index == 1)
-                PQSettings.quickInfoHideFilepath = !PQSettings.quickInfoHideFilepath
+                PQSettings.labelsHideFilepath = !PQSettings.labelsHideFilepath
             else if(index == 2)
-                PQSettings.quickInfoHideFilename = !PQSettings.quickInfoHideFilename
+                PQSettings.labelsHideFilename = !PQSettings.labelsHideFilename
              else if(index == 3)
-                PQSettings.quickInfoHideZoomLevel = !PQSettings.quickInfoHideZoomLevel
+                PQSettings.labelsHideZoomLevel = !PQSettings.labelsHideZoomLevel
             else if(index == 4)
-                PQSettings.quickInfoHideWindowButtons = !PQSettings.quickInfoHideWindowButtons
+                PQSettings.labelsHideWindowButtons = !PQSettings.labelsHideWindowButtons
         }
 
     }

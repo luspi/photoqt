@@ -28,14 +28,14 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager_interface", "quick info")
-    helptext: em.pty+qsTranslate("settingsmanager_interface", "The quick info refers to the labels along the top edge of the main view.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "labels")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "The labels are shown along the top edge of the main view.")
     content: [
 
         PQCheckbox {
-            id: quick_show
+            id: labels_show
             //: checkbox in settings manager
-            text: em.pty+qsTranslate("settingsmanager_interface", "show quick info")
+            text: em.pty+qsTranslate("settingsmanager_interface", "show labels")
             opacity: variables.settingsManagerExpertMode ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
@@ -43,19 +43,19 @@ PQSetting {
             onCheckedChanged: {
                 if(!skipCheckedCheck) {
                     if(checked) {
-                        quick_counter.checked = true
-                        quick_filepath.checked = false
-                        quick_filename.checked = true
-                        quick_zoom.checked = true
-                        quick_rotation.checked = true
-                        quick_exit.checked = true
+                        labels_counter.checked = true
+                        labels_filepath.checked = false
+                        labels_filename.checked = true
+                        labels_zoom.checked = true
+                        labels_rotation.checked = true
+                        labels_windowbuttons.checked = true
                     } else {
-                        quick_counter.checked = false
-                        quick_filepath.checked = false
-                        quick_filename.checked = false
-                        quick_zoom.checked = false
-                        quick_rotation.checked = false
-                        quick_exit.checked = false
+                        labels_counter.checked = false
+                        labels_filepath.checked = false
+                        labels_filename.checked = false
+                        labels_zoom.checked = false
+                        labels_rotation.checked = false
+                        labels_windowbuttons.checked = false
                     }
                 }
             }
@@ -67,7 +67,7 @@ PQSetting {
             height: variables.settingsManagerExpertMode ? undefined : 0
 
             Flow {
-                id: quick_flow
+                id: labels_flow
                 width: set.contwidth
                 spacing: 10
                 opacity: variables.settingsManagerExpertMode ? 1 : 0
@@ -76,72 +76,72 @@ PQSetting {
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_counter
+                    id: labels_counter
                     //: refers to the image counter (i.e., image #/# in current folder)
                     text: em.pty+qsTranslate("settingsmanager_interface", "counter")
                     onCheckedChanged: {
-                        quick_show.skipCheckedCheck = true
-                        quick_show.checked = (howManyChecked() > 0)
-                        quick_show.skipCheckedCheck = false
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
                     }
 
                 }
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_filepath
-                    //: show filepath in the quickinfo. This is specifically the filePATH and not the filename.
+                    id: labels_filepath
+                    //: show filepath in the labels. This is specifically the filePATH and not the filename.
                     text: em.pty+qsTranslate("settingsmanager_interface", "filepath")
                     onCheckedChanged: {
-                        quick_show.skipCheckedCheck = true
-                        quick_show.checked = (howManyChecked() > 0)
-                        quick_show.skipCheckedCheck = false
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
                     }
                 }
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_filename
-                    //: show filename in the quickinfo. This is specifically the fileNAME and not the filepath.
+                    id: labels_filename
+                    //: show filename in the labels. This is specifically the fileNAME and not the filepath.
                     text: em.pty+qsTranslate("settingsmanager_interface", "filename")
                     onCheckedChanged: {
-                        quick_show.skipCheckedCheck = true
-                        quick_show.checked = (howManyChecked() > 0)
-                        quick_show.skipCheckedCheck = false
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
                     }
                 }
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_zoom
+                    id: labels_zoom
                     text: em.pty+qsTranslate("settingsmanager_interface", "current zoom level")
                     onCheckedChanged: {
-                        quick_show.skipCheckedCheck = true
-                        quick_show.checked = (howManyChecked() > 0)
-                        quick_show.skipCheckedCheck = false
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
                     }
                 }
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_rotation
+                    id: labels_rotation
                     text: em.pty+qsTranslate("settingsmanager_interface", "current rotation angle")
                     onCheckedChanged: {
-                        quick_show.skipCheckedCheck = true
-                        quick_show.checked = (howManyChecked() > 0)
-                        quick_show.skipCheckedCheck = false
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
                     }
                 }
 
                 PQCheckbox {
                     y: (parent.height-height)/2
-                    id: quick_windowbuttons
+                    id: labels_windowbuttons
                     //: the window buttons are some window management buttons like: close window, maximize, fullscreen
                     text: em.pty+qsTranslate("settingsmanager_interface", "window buttons")
                     onCheckedChanged: {
-                        quick_show.skipCheckedCheck = true
-                        quick_show.checked = (howManyChecked() > 0)
-                        quick_show.skipCheckedCheck = false
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
                     }
                 }
 
@@ -160,7 +160,7 @@ PQSetting {
                     text: em.pty+qsTranslate("settingsmanager_interface", "size of window buttons") + ":"
                 }
                 PQSlider {
-                    id: quick_windowbuttonssize
+                    id: labels_windowbuttonssize
                     y: (parent.height-height)/2
                     from: 5
                     to: 25
@@ -173,12 +173,12 @@ PQSetting {
 
     function howManyChecked() {
         var howmany = 0
-        if(quick_counter.checked) howmany += 1
-        if(quick_filepath.checked) howmany += 1
-        if(quick_filename.checked) howmany += 1
-        if(quick_zoom.checked) howmany += 1
-        if(quick_rotation.checked) howmany += 1
-        if(quick_windowbuttons.checked) howmany += 1
+        if(labels_counter.checked) howmany += 1
+        if(labels_filepath.checked) howmany += 1
+        if(labels_filename.checked) howmany += 1
+        if(labels_zoom.checked) howmany += 1
+        if(labels_rotation.checked) howmany += 1
+        if(labels_windowbuttons.checked) howmany += 1
         return howmany
     }
 
@@ -187,31 +187,31 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            quick_counter.checked = !PQSettings.quickInfoHideCounter
-            quick_filepath.checked = !PQSettings.quickInfoHideFilepath
-            quick_filename.checked = !PQSettings.quickInfoHideFilename
-            quick_zoom.checked = !PQSettings.quickInfoHideZoomLevel
-            quick_rotation.checked = !PQSettings.quickInfoHideRotationAngle
-            quick_windowbuttons.checked = !PQSettings.quickInfoHideWindowButtons
+            labels_counter.checked = !PQSettings.labelsHideCounter
+            labels_filepath.checked = !PQSettings.labelsHideFilepath
+            labels_filename.checked = !PQSettings.labelsHideFilename
+            labels_zoom.checked = !PQSettings.labelsHideZoomLevel
+            labels_rotation.checked = !PQSettings.labelsHideRotationAngle
+            labels_windowbuttons.checked = !PQSettings.labelsHideWindowButtons
 
-            quick_windowbuttonssize.value = PQSettings.quickInfoWindowButtonsSize
+            labels_windowbuttonssize.value = PQSettings.labelsWindowButtonsSize
 
             if(howManyChecked() == 0)
-                quick_show.checked = false
+                labels_show.checked = false
             else
-                quick_show.checked = true
+                labels_show.checked = true
         }
 
         onSaveAllSettings: {
 
-            PQSettings.quickInfoHideCounter = !quick_counter.checked
-            PQSettings.quickInfoHideFilepath = !quick_filepath.checked
-            PQSettings.quickInfoHideFilename = !quick_filename.checked
-            PQSettings.quickInfoHideZoomLevel = !quick_zoom.checked
-            PQSettings.quickInfoHideRotationAngle = !quick_rotation.checked
-            PQSettings.quickInfoHideWindowButtons = !quick_windowbuttons.checked
+            PQSettings.labelsHideCounter = !labels_counter.checked
+            PQSettings.labelsHideFilepath = !labels_filepath.checked
+            PQSettings.labelsHideFilename = !labels_filename.checked
+            PQSettings.labelsHideZoomLevel = !labels_zoom.checked
+            PQSettings.labelsHideRotationAngle = !labels_rotation.checked
+            PQSettings.labelsHideWindowButtons = !labels_windowbuttons.checked
 
-            PQSettings.quickInfoWindowButtonsSize = quick_windowbuttonssize.value
+            PQSettings.labelsWindowButtonsSize = labels_windowbuttonssize.value
 
         }
 

@@ -60,16 +60,16 @@ values = {
          ["TrayIcon",                           "int",     "0"],
          ["ZoomSpeed",                          "int",     "20"]],
         
-    "QuickInfo" :
+    "Labels" :
         
-        [["QuickInfoWindowButtonsSize", "int",  "10"],
-         ["QuickInfoHideCounter",       "bool", "false"],
-         ["QuickInfoHideFilepath",      "bool", "true"],
-         ["QuickInfoHideFilename",      "bool", "false"],
-         ["QuickInfoWindowButtons",     "bool", "false"],
-         ["QuickInfoHideZoomLevel",     "bool", "false"],
-         ["QuickInfoHideRotationAngle", "bool", "false"],
-         ["QuickInfoManageWindow",      "bool", "false"]],
+        [["LabelsWindowButtonsSize", "int",  "10"],
+         ["LabelsHideCounter",       "bool", "false"],
+         ["LabelsHideFilepath",      "bool", "true"],
+         ["LabelsHideFilename",      "bool", "false"],
+         ["LabelsWindowButtons",     "bool", "false"],
+         ["LabelsHideZoomLevel",     "bool", "false"],
+         ["LabelsHideRotationAngle", "bool", "false"],
+         ["LabelsManageWindow",      "bool", "false"]],
         
     "Thumbnail" :
         
@@ -90,7 +90,7 @@ values = {
         
     "Slideshow" :
         
-        [["SlideShowHideQuickInfo",     "bool",    "true"],
+        [["SlideShowHideLabels",     "bool",    "true"],
          ["SlideShowImageTransition",   "int",     "4"],
          ["SlideShowLoop",              "bool",    "true"],
          ["SlideShowMusicFile",         "QString", "\"\""],

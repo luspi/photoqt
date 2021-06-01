@@ -462,7 +462,7 @@ Item {
                     PQSettings.slideShowImageTransition = transition_slider.value
                     PQSettings.slideShowLoop = loop_check.checked
                     PQSettings.slideShowShuffle = shuffle_check.checked
-                    PQSettings.slideShowHideQuickInfo = quick_check.checked
+                    PQSettings.slideShowHideLabels = quick_check.checked
                     PQSettings.slideShowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
                     PQSettings.slideShowIncludeSubFolders = subfolders_check.checked
 
@@ -538,7 +538,7 @@ Item {
                     transition_slider.value = PQSettings.slideShowImageTransition
                     loop_check.checked = PQSettings.slideShowLoop
                     shuffle_check.checked = PQSettings.slideShowShuffle
-                    quick_check.checked = PQSettings.slideShowHideQuickInfo
+                    quick_check.checked = PQSettings.slideShowHideLabels
                     music_check.checked = (PQSettings.slideShowMusicFile!="")
                     music_button.musicfile = PQSettings.slideShowMusicFile
                     subfolders_check.checked = PQSettings.slideShowIncludeSubFolders

@@ -36,7 +36,7 @@ Rectangle {
     color: "#000000"
     radius: 5
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) &&
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideLabels) &&
              (filefoldermodel.current>-1 || filefoldermodel.filterCurrentlyActive) &&
              (filefoldermodel.countMainView>0 || filefoldermodel.filterCurrentlyActive) &&
              !variables.faceTaggingActive
@@ -55,9 +55,9 @@ Rectangle {
         Text {
             id: counter
             color: "white"
-            visible: !PQSettings.quickInfoHideCounter && (filefoldermodel.current > -1) && pageInfo.text==""
+            visible: !PQSettings.labelsHideCounter && (filefoldermodel.current > -1) && pageInfo.text==""
             width: visible ? children.width : 0
-            text: PQSettings.quickInfoHideCounter ? "" : ((filefoldermodel.current+1) + "/" + filefoldermodel.countMainView)
+            text: PQSettings.labelsHideCounter ? "" : ((filefoldermodel.current+1) + "/" + filefoldermodel.countMainView)
         }
 
         // filename
@@ -65,11 +65,11 @@ Rectangle {
             id: filename
             visible: text!="" && (filefoldermodel.current > -1)
             color: "white"
-            text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || filefoldermodel.current==-1) ?
+            text: ((PQSettings.labelsHideFilename&&PQSettings.labelsHideFilepath) || filefoldermodel.current==-1) ?
                       "" :
-                      (PQSettings.quickInfoHideFilepath ?
+                      (PQSettings.labelsHideFilepath ?
                            handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath) :
-                           (PQSettings.quickInfoHideFilename ?
+                           (PQSettings.labelsHideFilename ?
                                 handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath) :
                                 filefoldermodel.currentFilePath))
         }
@@ -85,9 +85,9 @@ Rectangle {
         Text {
             id: zoomlevel
             color: "white"
-            visible: !PQSettings.quickInfoHideZoomLevel && (filefoldermodel.current > -1)
+            visible: !PQSettings.labelsHideZoomLevel && (filefoldermodel.current > -1)
             width: visible ? children.width : 0
-            text: PQSettings.quickInfoHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
+            text: PQSettings.labelsHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
         }
 
         Rectangle {
@@ -101,7 +101,7 @@ Rectangle {
         Text {
             id: rotationangle
             color: "white"
-            visible: !PQSettings.quickInfoHideRotationAngle && (filefoldermodel.current > -1)
+            visible: !PQSettings.labelsHideRotationAngle && (filefoldermodel.current > -1)
             width: visible ? children.width : 0
             text: (Math.round(variables.currentRotationAngle)%360+360)%360 + "°"
         }
@@ -197,34 +197,34 @@ Rectangle {
 
         id: rightclickmenu
 
-        model: [(PQSettings.quickInfoHideCounter ?
+        model: [(PQSettings.labelsHideCounter ?
                      em.pty+qsTranslate("quickinfo", "Show counter") :
                      em.pty+qsTranslate("quickinfo", "Hide counter")),
-            (PQSettings.quickInfoHideFilepath ?
+            (PQSettings.labelsHideFilepath ?
                  em.pty+qsTranslate("quickinfo", "Show file path") :
                  em.pty+qsTranslate("quickinfo", "Hide file path")),
-            (PQSettings.quickInfoHideFilename ?
+            (PQSettings.labelsHideFilename ?
                  em.pty+qsTranslate("quickinfo", "Show file name") :
                  em.pty+qsTranslate("quickinfo", "Hide file name")),
-            (PQSettings.quickInfoHideZoomLevel ?
+            (PQSettings.labelsHideZoomLevel ?
                  em.pty+qsTranslate("quickinfo", "Show zoom level") :
                  em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-            (PQSettings.quickInfoHideWindowButtons ?
+            (PQSettings.labelsHideWindowButtons ?
                  em.pty+qsTranslate("quickinfo", "Show window buttons") :
                  em.pty+qsTranslate("quickinfo", "Hide window buttons"))
         ]
 
         onTriggered: {
             if(index == 0)
-                PQSettings.quickInfoHideCounter = !PQSettings.quickInfoHideCounter
+                PQSettings.labelsHideCounter = !PQSettings.labelsHideCounter
             else if(index == 1)
-                PQSettings.quickInfoHideFilepath = !PQSettings.quickInfoHideFilepath
+                PQSettings.labelsHideFilepath = !PQSettings.labelsHideFilepath
             else if(index == 2)
-                PQSettings.quickInfoHideFilename = !PQSettings.quickInfoHideFilename
+                PQSettings.labelsHideFilename = !PQSettings.labelsHideFilename
              else if(index == 3)
-                PQSettings.quickInfoHideZoomLevel = !PQSettings.quickInfoHideZoomLevel
+                PQSettings.labelsHideZoomLevel = !PQSettings.labelsHideZoomLevel
             else if(index == 4)
-                PQSettings.quickInfoHideWindowButtons = !PQSettings.quickInfoHideWindowButtons
+                PQSettings.labelsHideWindowButtons = !PQSettings.labelsHideWindowButtons
         }
 
     }
@@ -233,7 +233,7 @@ Rectangle {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        drag.target: PQSettings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.target: PQSettings.labelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         tooltip: em.pty+qsTranslate("quickinfo", "Some info about the current image and directory")
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onClicked: {
@@ -251,7 +251,7 @@ Rectangle {
             }
         }
         onPositionChanged: {
-            if(PQSettings.quickInfoManageWindow && isPressed) {
+            if(PQSettings.labelsManageWindow && isPressed) {
                 if(toplevel.visibility == Window.Maximized)
                     toplevel.visibility = Window.Windowed
                 var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
@@ -279,7 +279,7 @@ Rectangle {
         height: viewermode.height
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        drag.target: PQSettings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.target: PQSettings.labelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode") : em.pty+qsTranslate("quickinfo", "Click here to exit viewer mode")
         onClicked: {
             if(filefoldermodel.isPQT || filefoldermodel.isARC)

@@ -26,7 +26,7 @@ SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/startup")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/screenshots.h ${d}/exportimport.h ${d}/shortcuts.h ${d}/folders.h ${d}/contextmenu.h ${d}/imageformats.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/screenshots.h ${d}/exportimport.h ${d}/shortcuts.h ${d}/folders.h ${d}/contextmenu.h ${d}/imageformats.h ${d}/settings.h)
 
 SET(d "cplusplus/filefoldermodel")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filefoldermodel.cpp ${d}/filefoldermodelcache.h)

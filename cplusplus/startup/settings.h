@@ -20,56 +20,37 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+#ifndef PQSTARTUP_SETTINGS_H
+#define PQSTARTUP_SETTINGS_H
 
-import "../../../elements"
+#include <QFile>
+#include "../configfiles.h"
+#include "../logger.h"
 
-PQSetting {
-    id: set
-    //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager_interface", "window management")
-    helptext: em.pty+qsTranslate("settingsmanager_interface", "Some basic window management properties.")
-    expertmodeonly: true
-    content: [
-        Flow {
-            spacing: 10
-            width: set.contwidth
-            PQCheckbox {
-                id: wm_manage
-                text: em.pty+qsTranslate("settingsmanager_interface", "manage window through quick info labels")
+namespace PQStartup {
+
+    namespace Settings {
+
+        static void updateNameChanges() {
+
+            QFile settingsfile(ConfigFiles::SETTINGS_FILE());
+            if(settingsfile.exists() && settingsfile.open(QIODevice::ReadWrite)) {
+
+                QTextStream in(&settingsfile);
+                QString txt = in.readAll();
+
+                txt = txt.replace("QuickInfo", "Labels");
+
+                QTextStream out(&settingsfile);
+                out << txt;
+                settingsfile.close();
+
             }
 
-            PQCheckbox {
-                id: wm_save
-                y: (parent.height-height)/2
-                text: em.pty+qsTranslate("settingsmanager_interface", "save and restore window geometry")
-            }
-            PQCheckbox {
-                id: wm_keep
-                y: (parent.height-height)/2
-                text: em.pty+qsTranslate("settingsmanager_interface", "keep above other windows")
-            }
-        }
-
-    ]
-
-    Connections {
-
-        target: settingsmanager_top
-
-        onLoadAllSettings: {
-            wm_manage.checked = PQSettings.labelsManageWindow
-            wm_save.checked = PQSettings.saveWindowGeometry
-            wm_keep.checked = PQSettings.keepOnTop
-        }
-
-        onSaveAllSettings: {
-            PQSettings.labelsManageWindow = wm_manage.checked
-            PQSettings.saveWindowGeometry = wm_save.checked
-            PQSettings.keepOnTop = wm_keep.checked
         }
 
     }
 
 }
+
+#endif // PQSTARTUP_SETTINGS_H
