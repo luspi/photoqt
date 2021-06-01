@@ -27,6 +27,7 @@ PQFileFolderModel {
     property string arcFile: isPQT ? currentFilePath.split("::ARC::")[0] : ""
 
     defaultNameFilters: PQImageFormats.getEnabledFormats()
+    mimeTypeFilters: PQImageFormats.getEnabledMimeTypes()
 
     onCurrentChanged:
         currentFilePath = model.entriesMainView[current]
