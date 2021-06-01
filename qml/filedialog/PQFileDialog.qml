@@ -65,7 +65,7 @@ Rectangle {
             if(historyListIndex < historyListDirectory.length-1)
                 historyListDirectory.splice(historyListIndex+1)
 
-            historyListDirectory.push(dir)
+            historyListDirectory.push(handlingFileDir.cleanPath(dir))
             historyListIndex += 1
 
         }

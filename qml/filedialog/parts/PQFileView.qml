@@ -576,10 +576,11 @@ GridView {
 
         currentIndex = (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog > 0 ? 0 : -1)
 
-        if(filefoldermodel.folderFileDialog == "/")
+        var cleaned = handlingFileDir.cleanPath(filefoldermodel.folderFileDialog)
+        if(cleaned == "/")
             breadcrumbs.pathParts = [""]
         else
-            breadcrumbs.pathParts = filefoldermodel.folderFileDialog.split("/")
+            breadcrumbs.pathParts = cleaned.split("/")
 
     }
 
