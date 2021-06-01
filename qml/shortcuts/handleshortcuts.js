@@ -22,6 +22,12 @@
 
 function checkComboForShortcut(combo) {
 
+    // if in viewer mode, pressing 'Escape' exits viewer mode
+    if(combo == "Escape" && (filefoldermodel.isPQT || filefoldermodel.isARC)) {
+        labels.exitViewerMode()
+        return
+    }
+
     for(var i = 0; i < variables.shortcuts.length; ++i) {
 
         if(variables.shortcuts[i][1] === combo) {

@@ -282,24 +282,31 @@ Rectangle {
         drag.target: PQSettings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode") : em.pty+qsTranslate("quickinfo", "Click here to exit viewer mode")
         onClicked: {
-            if(pageInfo.text == "") {
-                if(imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)) {
-                    filefoldermodel.readDocumentOnly = true
-                    filefoldermodel.setFileNameOnceReloaded = "0::PQT::" + filefoldermodel.currentFilePath
-                    filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
-                } else {
-                    filefoldermodel.readArchiveOnly = true
-                    filefoldermodel.setFileNameOnceReloaded = "---"
-                    filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
-                }
-            } else {
-                if(filefoldermodel.isPQT)
-                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.pqtName
-                else
-                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.arcName
-                filefoldermodel.fileInFolderMainView = filefoldermodel.setFileNameOnceReloaded
-            }
+            if(filefoldermodel.isPQT || filefoldermodel.isARC)
+                exitViewerMode()
+            else
+                enterViewerMode()
         }
+    }
+
+    function enterViewerMode() {
+        if(imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)) {
+            filefoldermodel.readDocumentOnly = true
+            filefoldermodel.setFileNameOnceReloaded = "0::PQT::" + filefoldermodel.currentFilePath
+            filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
+        } else {
+            filefoldermodel.readArchiveOnly = true
+            filefoldermodel.setFileNameOnceReloaded = "---"
+            filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
+        }
+    }
+
+    function exitViewerMode() {
+        if(filefoldermodel.isPQT)
+            filefoldermodel.setFileNameOnceReloaded = filefoldermodel.pqtName
+        else
+            filefoldermodel.setFileNameOnceReloaded = filefoldermodel.arcName
+        filefoldermodel.fileInFolderMainView = filefoldermodel.setFileNameOnceReloaded
     }
 
     PQMouseArea {
