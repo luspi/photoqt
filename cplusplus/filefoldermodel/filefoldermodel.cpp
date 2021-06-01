@@ -244,9 +244,15 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
 
     if(m_includeFilesInSubFolders) {
         QDirIterator iter(folder, QDir::Dirs|QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+        int count = 0;
         while(iter.hasNext()) {
             iter.next();
             foldersToScan << iter.filePath();
+
+            // we limit the number of subfolders to avoid getting stuck
+            ++count;
+            if(count > 100)
+                break;
         }
     }
 
