@@ -61,7 +61,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
-                    text: "5 pt"
+                    text: fname_fsize.from + " pt"
                 }
 
                 PQSlider {
@@ -69,13 +69,13 @@ PQSetting {
                     y: (parent.height-height)/2
                     enabled: fname_chk.checked
                     from: 5
-                    to: 5
+                    to: 40
                 }
 
                 Text {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
-                    text: "20 pt"
+                    text: fname_fsize.to + " pt"
                 }
 
             }
