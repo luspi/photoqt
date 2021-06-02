@@ -99,7 +99,7 @@ void PQSettings::setDefault() {
     setLeftButtonMouseClickAndMove(true);
     setLoopThroughFolder(true);
     setMarginAroundImage(5);
-    setMouseWheelSensitivity(0);
+    setMouseWheelSensitivity(1);
     setPdfQuality(150);
     setPixmapCache(512);
     setQuickNavigation(false);
@@ -122,7 +122,7 @@ void PQSettings::setDefault() {
     setThumbnailCenterActive(false);
     setThumbnailDisable(false);
     setThumbnailFilenameInstead(false);
-    setThumbnailFilenameInsteadFontSize(8);
+    setThumbnailFilenameInsteadFontSize(10);
     setThumbnailFontSize(7);
     setThumbnailKeepVisible(false);
     setThumbnailKeepVisibleWhenNotZoomedIn(false);
