@@ -368,7 +368,8 @@ void PQHandlingExternal::openInDefaultFileManager(QString filename) {
 
 void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
-    DBG << CURDATE << "PQHandlingExternal::saveContextMenuEntries()" << NL;
+    DBG << CURDATE << "PQHandlingExternal::saveContextMenuEntries()" << NL
+        << CURDATE << "** entries.length() = " << entries.length() << NL;
 
     QString cont = "";
 
@@ -399,5 +400,6 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 }
 
 QSize PQHandlingExternal::getScreenSize() {
+    DBG << CURDATE << "PQHandlingExternal::getScreenSize()" << NL;
     return QApplication::primaryScreen()->size();
 }

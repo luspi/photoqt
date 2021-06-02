@@ -39,6 +39,9 @@ bool PQImageProperties::isAnimated(QString path) {
 
 bool PQImageProperties::isPopplerDocument(QString path) {
 
+    DBG << CURDATE << "PQImageProperties::isPopplerDocument()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     QString suf = QFileInfo(path).suffix().toLower();
     const QStringList tmp = PQImageFormats::get().getEnabledFormatsPoppler();
     foreach(QString f, tmp) {
@@ -51,6 +54,9 @@ bool PQImageProperties::isPopplerDocument(QString path) {
 
 bool PQImageProperties::isArchive(QString path) {
 
+    DBG << CURDATE << "PQImageProperties::isArchive()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     QString suf = QFileInfo(path).suffix().toLower();
     const QStringList tmp = PQImageFormats::get().getEnabledFormatsLibArchive();
     foreach(QString f, tmp) {
@@ -62,6 +68,9 @@ bool PQImageProperties::isArchive(QString path) {
 }
 
 int PQImageProperties::getDocumentPages(QString path) {
+
+    DBG << CURDATE << "PQImageProperties::getDocumentPages()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
 
     if(path.trimmed().isEmpty())
         return 0;

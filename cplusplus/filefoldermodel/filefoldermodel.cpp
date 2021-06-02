@@ -1,5 +1,4 @@
 #include "filefoldermodel.h"
-#include <chrono>
 
 PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
 
@@ -116,8 +115,6 @@ void PQFileFolderModel::loadDataMainView() {
 
 void PQFileFolderModel::loadDataFileDialog() {
 
-    auto t1 = std::chrono::steady_clock::now();
-
     DBG << CURDATE << "PQFileFolderModel::loadData()" << NL;
 
     ////////////////////////
@@ -159,12 +156,12 @@ void PQFileFolderModel::loadDataFileDialog() {
     emit newDataLoadedFileDialog();
     emit countFileDialogChanged();
 
-    auto t2 = std::chrono::steady_clock::now();
-    qDebug() << "loadDataFileDialog():" << std::chrono::duration<double, std::milli>(t2-t1).count();
-
 }
 
 QStringList PQFileFolderModel::getAllFolders(QString folder) {
+
+    DBG << CURDATE << "PQFileFolderModel::getAllFolders()" << NL
+        << CURDATE << "** folder = " << folder.toStdString() << NL;
 
     QStringList ret;
 
@@ -221,6 +218,9 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
 }
 
 QStringList PQFileFolderModel::getAllFiles(QString folder) {
+
+    DBG << CURDATE << "PQFileFolderModel::getAllFiles()" << NL
+        << CURDATE << "** folder = " << folder.toStdString() << NL;
 
     QStringList ret;
 
@@ -329,7 +329,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
 
 QStringList PQFileFolderModel::listPDFPages(QString path) {
 
-    DBG << CURDATE << "PQHandlingFileDialog::listPDFPages()" << NL
+    DBG << CURDATE << "PQFileFolderModel::listPDFPages()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
     QStringList ret;
@@ -351,9 +351,15 @@ QStringList PQFileFolderModel::listPDFPages(QString path) {
 }
 
 void PQFileFolderModel::removeEntryMainView(int index) {
+
+    DBG << CURDATE << "PQFileFolderModel::removeEntryMainView()" << NL
+        << CURDATE << "** index = " << index << NL;
+
     loadDelayFileDialog->start();
     m_entriesMainView.removeAt(index);
     setCountMainView(m_countMainView-1);
+
     emit newDataLoadedMainView();
     emit newDataLoadedFileDialog();
+
 }

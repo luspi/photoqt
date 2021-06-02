@@ -277,15 +277,30 @@ QString PQHandlingFileDir::getFilePathFromFullPath(QString path) {
 }
 
 qint64 PQHandlingFileDir::getFileSize(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFileSize()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     return QFileInfo(path).size();
+
 }
 
 QString PQHandlingFileDir::getFileType(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFileType()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     return db.mimeTypeForFile(path).name();
+
 }
 
 QDateTime PQHandlingFileDir::getFileModified(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getFileModified()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
     return QFileInfo(path).lastModified();
+
 }
 
 QString PQHandlingFileDir::getHomeDir() {
