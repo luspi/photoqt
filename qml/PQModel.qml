@@ -23,8 +23,8 @@ PQFileFolderModel {
     property bool isARC: currentFilePath.indexOf("::ARC::")>-1
     property string pqtName: isPQT ? currentFilePath.split("::PQT::")[1] : ""
     property int pqtNum: isPQT ? currentFilePath.split("::PQT::")[0]*1 : ""
-    property string arcName: isPQT ? currentFilePath.split("::ARC::")[1] : ""
-    property string arcFile: isPQT ? currentFilePath.split("::ARC::")[0] : ""
+    property string arcName: isARC ? currentFilePath.split("::ARC::")[1] : ""
+    property string arcFile: isARC ? currentFilePath.split("::ARC::")[0] : ""
 
     defaultNameFilters: PQImageFormats.getEnabledFormats()
     mimeTypeFilters: PQImageFormats.getEnabledMimeTypes()
