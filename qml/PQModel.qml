@@ -41,8 +41,10 @@ PQFileFolderModel {
 
         // if a specific filename is to be loaded
         if(setFileNameOnceReloaded == "---") {
-            current = 0
-            currentFilePath = model.entriesMainview[0]
+            if(model.countMainView > 0) {
+                current = 0
+                currentFilePath = model.entriesMainview[0]
+            }
         } else if(setFileNameOnceReloaded != "") {
             if(setAsCurrent(setFileNameOnceReloaded)) {
                 curset = true
