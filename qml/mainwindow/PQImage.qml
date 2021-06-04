@@ -275,6 +275,12 @@ Item {
 
     PQLoading { id: loadingindicator }
 
+    PQFaceTagsUnsupported {
+        id: facetagsunsupported
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+    }
+
     Connections {
         target: filefoldermodel
         onCurrentFilePathChanged:

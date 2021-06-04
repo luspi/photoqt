@@ -273,7 +273,8 @@ Item {
                     facetagger_top.deletedFaceTagsIds = []
                     facetagger_top.faceTags = handlingFaceTags.getFaceTags(facetagger_top.filename)
                     refreshModel()
-                }
+                } else
+                    facetagsunsupported.show()
 
             } else if(what == "stop") {
 
