@@ -26,6 +26,8 @@ import "../elements"
 
 Rectangle {
 
+    id: labels_top
+
     x: variables.metaDataWidthWhenKeptOpen + (PQSettings.hotEdgeWidth+10)
     Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
     y: PQSettings.thumbnailPosition=="Bottom" ? 10 : parent.height-height-10
@@ -233,7 +235,13 @@ Rectangle {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
+
         drag.target: PQSettings.labelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.minimumX: 0
+        drag.maximumX: toplevel.width-parent.width
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-parent.height
+
         tooltip: em.pty+qsTranslate("quickinfo", "Some info about the current image and directory")
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onClicked: {
@@ -279,7 +287,13 @@ Rectangle {
         height: viewermode.height
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+
         drag.target: PQSettings.labelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.minimumX: 0
+        drag.maximumX: toplevel.width-parent.width
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-parent.height
+
         tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode") : em.pty+qsTranslate("quickinfo", "Click here to exit viewer mode")
         onClicked: {
             if(filefoldermodel.isPQT || filefoldermodel.isARC)
@@ -321,4 +335,21 @@ Rectangle {
             loader.passOn("filter", "removeFilter", undefined)
     }
 
+
+    // this makes sure that a change in the window geometry does not leeds to the element being outside the visible area
+    Connections {
+        target: toplevel
+        onWidthChanged: {
+            if(labels_top.x < 0)
+                labels_top.x = 0
+            else if(labels_top.x > toplevel.width-labels_top.width)
+                labels_top.x = toplevel.width-labels_top.width
+        }
+        onHeightChanged: {
+            if(labels_top.y < 0)
+                labels_top.y = 0
+            else if(labels_top.y > toplevel.height-labels_top.height)
+                labels_top.y = toplevel.height-labels_top.height
+        }
+    }
 }

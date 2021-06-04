@@ -28,7 +28,7 @@ Rectangle {
     id: nav_top
 
     x: variables.metaDataWidthWhenKeptOpen + 100
-    y: 75
+    y: PQSettings.thumbnailPosition=="Bottom" ? 100 : parent.height-height-100
 
     Behavior on x { NumberAnimation { duration: 200 } }
 
@@ -45,6 +45,10 @@ Rectangle {
     PQMouseArea {
         anchors.fill: parent
         drag.target: parent
+        drag.minimumX: 0
+        drag.maximumX: toplevel.width-nav_top.width
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-nav_top.height
         hoverEnabled: true
         tooltip: em.pty+qsTranslate("navigate", "Click and drag to move")
     }
@@ -71,6 +75,10 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
+                drag.minimumX: 0
+                drag.maximumX: toplevel.width-nav_top.width
+                drag.minimumY: 0
+                drag.maximumY: toplevel.height-nav_top.height
                 tooltip: em.pty+qsTranslate("navigate", "Navigate to previous image in folder")
                 onClicked:
                     imageitem.loadPrevImage()
@@ -89,6 +97,10 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
+                drag.minimumX: 0
+                drag.maximumX: toplevel.width-nav_top.width
+                drag.minimumY: 0
+                drag.maximumY: toplevel.height-nav_top.height
                 tooltip: em.pty+qsTranslate("navigate", "Navigate to next image in folder")
                 onClicked:
                     imageitem.loadNextImage()
@@ -109,6 +121,10 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
+                drag.minimumX: 0
+                drag.maximumX: toplevel.width-nav_top.width
+                drag.minimumY: 0
+                drag.maximumY: toplevel.height-nav_top.height
                 tooltip: em.pty+qsTranslate("navigate", "Show main menu")
                 onClicked:
                     mainmenu.toggle()
@@ -120,6 +136,23 @@ Rectangle {
             height: 1
         }
 
+    }
+
+    // this makes sure that a change in the window geometry does not leeds to the element being outside the visible area
+    Connections {
+        target: toplevel
+        onWidthChanged: {
+            if(nav_top.x < 0)
+                nav_top.x = 0
+            else if(nav_top.x > toplevel.width-nav_top.width)
+                nav_top.x = toplevel.width-nav_top.width
+        }
+        onHeightChanged: {
+            if(nav_top.y < 0)
+                nav_top.y = 0
+            else if(nav_top.y > toplevel.height-nav_top.height)
+                nav_top.y = toplevel.height-nav_top.height
+        }
     }
 
 }
