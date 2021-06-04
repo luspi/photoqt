@@ -26,9 +26,9 @@ import "../elements"
 
 Rectangle {
 
-    x: variables.metaDataWidthWhenKeptOpen + 10
+    x: variables.metaDataWidthWhenKeptOpen + (PQSettings.hotEdgeWidth+10)
     Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
-    y: 10
+    y: PQSettings.thumbnailPosition=="Bottom" ? 10 : parent.height-height-10
 
     width: row.width
     height: row.height+10
@@ -138,7 +138,7 @@ Rectangle {
         id: viewermode
 
         x: row.x+10
-        y: row.y+row.height+20 + (filterremove_cont.visible ? filterremove_cont.height+10 : 0)
+        y: PQSettings.thumbnailPosition=="Bottom" ? (row.y+row.height+20 + (filterremove_cont.visible ? filterremove_cont.height+10 : 0)) : -height-filterremove_cont.height-10
 
         width: 2*row.height+10
         height: width
@@ -161,7 +161,7 @@ Rectangle {
     Rectangle {
         id: filterremove_cont
         x: row.x
-        y: row.y+row.height+10
+        y: PQSettings.thumbnailPosition=="Bottom" ? (row.y+row.height+10) : -height-5
         visible: filefoldermodel.filterCurrentlyActive
         width: visible ? filterrow.width : 0
         height: visible ? filterrow.height+10 : 0
