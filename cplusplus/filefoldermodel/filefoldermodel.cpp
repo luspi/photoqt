@@ -292,16 +292,27 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
                         if(m_filenameFilters.length() == 0)
                             ret_cur << f.absoluteFilePath();
                         else {
-                            foreach(QString fil, m_filenameFilters)
+                            foreach(QString fil, m_filenameFilters) {
                                 if(f.baseName().contains(fil)) {
                                     ret_cur << f.absoluteFilePath();
                                     break;
                                 }
+                            }
                         }
                     }
                     // if not the ending, then check the mime type
-                    else if(m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name()))
-                        ret_cur << f.absoluteFilePath();
+                    else if(m_nameFilters.size() == 0 && m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name())) {
+                        if(m_filenameFilters.length() == 0)
+                            ret_cur << f.absoluteFilePath();
+                        else {
+                            foreach(QString fil, m_filenameFilters) {
+                                if(f.baseName().contains(fil)) {
+                                    ret_cur << f.absoluteFilePath();
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
