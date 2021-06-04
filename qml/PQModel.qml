@@ -43,7 +43,7 @@ PQFileFolderModel {
         if(setFileNameOnceReloaded == "---") {
             if(model.countMainView > 0) {
                 current = 0
-                currentFilePath = model.entriesMainview[0]
+                currentFilePath = model.entriesMainView[0]
             }
         } else if(setFileNameOnceReloaded != "") {
             if(setAsCurrent(setFileNameOnceReloaded)) {
@@ -67,7 +67,7 @@ PQFileFolderModel {
                 model.current = -1
 
             // update the current file path
-            model.currentFilePath = (model.current!=-1 ? model.entriesMainview[model.current] : "")
+            model.currentFilePath = (model.current!=-1 ? model.entriesMainView[model.current] : "")
 
         }
 
