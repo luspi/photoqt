@@ -166,7 +166,15 @@ Item {
             }
         }
 
+        // we need to make sure that all variables are reset:
+        // three options might have a startup action that we check (and are thus reset), the others we can reset directly
         Component.onCompleted: {
+            PQCppVariables.cmdFilePath = ""
+            PQCppVariables.cmdOpen = false
+            PQCppVariables.cmdShow = false
+            PQCppVariables.cmdHide = false
+            PQCppVariables.cmdToggle = false
+            PQCppVariables.cmdShortcutSequence = ""
             PQCppVariables.cmdThumbsChanged()
             PQCppVariables.cmdNoThumbsChanged()
             PQCppVariables.cmdTrayChanged()
