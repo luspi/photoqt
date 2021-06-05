@@ -39,10 +39,12 @@ namespace PQStartup {
                 QTextStream in(&settingsfile);
                 QString txt = in.readAll();
 
-                txt = txt.replace("QuickInfo", "Labels");
+                if(!txt.contains("Version=2.2")) {
+                    txt = txt.replace("QuickInfo", "Labels");
+                    QTextStream out(&settingsfile);
+                    out << txt;
+                }
 
-                QTextStream out(&settingsfile);
-                out << txt;
                 settingsfile.close();
 
             }
