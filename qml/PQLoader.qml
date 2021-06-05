@@ -106,8 +106,35 @@ Item {
 
     function passOn(ele, what, param) {
 
-        if(ele == "slideshowcontrols")
+        if(ele == "filedialog")
+            filedialogPassOn(what, param)
+
+        else if(ele == "slideshowsettings")
+            slideshowPassOn(what, param)
+
+        else if(ele == "slideshowcontrols")
             slideshowControlsPassOn(what, param)
+
+        else if(ele == "filedelete")
+            fileDeletePassOn(what, param)
+
+        else if(ele == "filerename")
+            fileRenamePassOn(what, param)
+
+        else if(ele == "scale")
+            scalePassOn(what, param)
+
+        else if(ele == "about")
+            aboutPassOn(what, param)
+
+        else if(ele == "imgur" || ele == "imguranonym")
+            imgurPassOn(what, param)
+
+        else if(ele == "wallpaper")
+            wallpaperPassOn(what, param)
+
+        else if(ele == "settingsmanager")
+            settingsManagerPassOn(what, param)
 
         else if(ele == "filter")
             filterPassOn(what, param)

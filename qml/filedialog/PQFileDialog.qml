@@ -244,6 +244,8 @@ Rectangle {
         onFiledialogPassOn: {
             if(what == "show")
                 filedialog_top.showFileDialog()
+            else if(what == "hide")
+                filedialog_top.hideFileDialog()
             else if(what == "keyevent")
                 fileview.keyEvent(param[0], param[1])
         }

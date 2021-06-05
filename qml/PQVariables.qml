@@ -50,15 +50,58 @@ Item {
 
             if(PQCppVariables.cmdFilePath != "") {
 
+                // first we close any element that might be open to show the new image
+
+                if(variables.visibleItem == "filedialog")
+                    loader.passOn("filedialog", "hide", undefined)
+
+                else if(variables.visibleItem == "slideshowsettings")
+                    loader.passOn("slideshowsettings", "hide", undefined)
+
+                else if(variables.visibleItem == "slideshowcontrols")
+                    loader.passOn("slideshowcontrols", "quit", undefined)
+
+                else if(variables.visibleItem == "filedelete")
+                    loader.passOn("filedelete", "hide", undefined)
+
+                else if(variables.visibleItem == "filerename")
+                    loader.passOn("filerename", "hide", undefined)
+
+                else if(variables.visibleItem == "scale")
+                    loader.passOn("scale", "hide", undefined)
+
+                else if(variables.visibleItem == "about")
+                    loader.passOn("about", "hide", undefined)
+
+                else if(variables.visibleItem == "imgur")
+                    loader.passOn("imgur", "hide", undefined)
+
+                else if(variables.visibleItem == "wallpaper")
+                    loader.passOn("wallpaper", "hide", undefined)
+
+                else if(variables.visibleItem == "settingsmanager")
+                    loader.passOn("settingsmanager", "hide", undefined)
+
+                else if(variables.visibleItem == "filter")
+                    loader.passOn("filter", "hide", undefined)
+
+                else if(variables.visibleItem == "facetagger")
+                    loader.passOn("facetagger", "stop", undefined)
+
+                // compare old and new folder to see if that changed
                 var folderOld = (filefoldermodel.countMainView == 0 ? "" : handlingFileDir.getFilePathFromFullPath(filefoldermodel.entriesMainView[0]))
                 var folderNew = handlingFileDir.getFilePathFromFullPath(PQCppVariables.cmdFilePath)
 
-                if(folderNew != folderOld)
-                    filefoldermodel.fileInFolderMainView = folderNew
-                filefoldermodel.setAsCurrent(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
+                // load new folder and image
+                if(folderNew != folderOld) {
+                    filefoldermodel.setFileNameOnceReloaded = PQCppVariables.cmdFilePath
+                    filefoldermodel.fileInFolderMainView = PQCppVariables.cmdFilePath
+                } else
+                    filefoldermodel.setAsCurrent(handlingFileDir.cleanPath(PQCppVariables.cmdFilePath))
 
                 // reset variable
                 PQCppVariables.cmdFilePath = ""
+
             }
 
         }
@@ -75,21 +118,23 @@ Item {
 
         onCmdShowChanged: {
             if(PQCppVariables.cmdShow) {
-                console.log("show")
+                toplevel.visible = true
                 PQCppVariables.cmdShow = false
             }
         }
 
         onCmdHideChanged: {
             if(PQCppVariables.cmdHide) {
-                console.log("hide")
+                PQSettings.trayIcon = 1
+                toplevel.visible = false
                 PQCppVariables.cmdHide = false
             }
         }
 
         onCmdToggleChanged: {
             if(PQCppVariables.cmdToggle) {
-                console.log("toggle")
+                PQSettings.trayIcon = 1
+                toplevel.visible = !toplevel.visible
                 PQCppVariables.cmdToggle = false
             }
         }
