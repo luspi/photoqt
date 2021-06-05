@@ -104,6 +104,8 @@ Item {
 
             }
 
+            toplevel.raise()
+
         }
 
         onCmdOpenChanged: {
@@ -112,6 +114,7 @@ Item {
                     loader.show("filedialog")
                 PQCppVariables.cmdOpen = false
             }
+            toplevel.raise()
         }
 
         onCmdShowChanged: {
@@ -119,6 +122,7 @@ Item {
                 toplevel.visible = true
                 PQCppVariables.cmdShow = false
             }
+            toplevel.raise()
         }
 
         onCmdHideChanged: {
@@ -134,6 +138,8 @@ Item {
                 PQSettings.trayIcon = 1
                 toplevel.visible = !toplevel.visible
                 PQCppVariables.cmdToggle = false
+                if(toplevel.visible)
+                    toplevel.raise()
             }
         }
 
