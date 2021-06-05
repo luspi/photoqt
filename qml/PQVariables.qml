@@ -108,10 +108,8 @@ Item {
 
         onCmdOpenChanged: {
             if(PQCppVariables.cmdOpen) {
-
                 if(variables.visibleItem != "filedialog")
                     loader.show("filedialog")
-
                 PQCppVariables.cmdOpen = false
             }
         }
@@ -141,7 +139,7 @@ Item {
 
         onCmdThumbsChanged: {
             if(PQCppVariables.cmdThumbs) {
-                console.log("thumbs")
+                PQSettings.thumbnailDisable = false
                 PQCppVariables.cmdThumbs = false
             }
         }
@@ -155,22 +153,24 @@ Item {
 
         onCmdNoThumbsChanged: {
             if(PQCppVariables.cmdNoThumbs) {
-                console.log("nothumbs")
+                PQSettings.thumbnailDisable = true
                 PQCppVariables.cmdNoThumbs = false
             }
         }
 
         onCmdTrayChanged: {
             if(PQCppVariables.cmdTray) {
-                console.log("tray")
+                PQSettings.trayIcon = 1
+                toplevel.visible = false
                 PQCppVariables.cmdTray = false
             }
         }
 
-//        onCmdDebugChanged: {
-            // this we actually do not handle here
-            // if this changes to true, we keep it at true and use it to detect debug modus everywhere
-//        }
+        Component.onCompleted: {
+            PQCppVariables.cmdThumbsChanged()
+            PQCppVariables.cmdNoThumbsChanged()
+            PQCppVariables.cmdTrayChanged()
+        }
 
     }
 

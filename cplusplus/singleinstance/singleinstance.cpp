@@ -175,6 +175,10 @@ void PQSingleInstance::handleMessage(QString msg) {
 
             PQVariables::get().setCmdToggle(true);
 
+        else if(m.startsWith("_T_H_U_M_B_S_"))
+
+            PQVariables::get().setCmdThumbs(true);
+
         else if(m.startsWith("_N_O_T_H_U_M_B_S_"))
 
             PQVariables::get().setCmdNoThumbs(true);
