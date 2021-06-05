@@ -40,17 +40,13 @@ Rectangle {
     property bool startupDelay: true
 
     onXChanged:
-        if(!PQSettings.histogramPopoutElement && !startupDelay)
-            PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
+        saveGeometryTimer.restart()
     onYChanged:
-        if(!PQSettings.histogramPopoutElement && !startupDelay)
-            PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
+        saveGeometryTimer.restart()
     onWidthChanged:
-        if(!PQSettings.histogramPopoutElement && !startupDelay)
-            PQSettings.histogramSize = Qt.size(width, height)
+        saveGeometryTimer.restart()
     onHeightChanged:
-        if(!PQSettings.histogramPopoutElement && !startupDelay)
-            PQSettings.histogramSize = Qt.size(width, height)
+        saveGeometryTimer.restart()
 
     radius: 5
 
@@ -76,6 +72,19 @@ Rectangle {
         interval: 1000
         onTriggered:
             startupDelay = false
+    }
+
+    Timer {
+        id: saveGeometryTimer
+        interval: 500
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!PQSettings.histogramPopoutElement && !startupDelay) {
+                PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(hist_top.x, toplevel.width-hist_top.width)), Math.max(0, Math.min(hist_top.y, toplevel.height-hist_top.height)))
+                PQSettings.histogramSize = Qt.size(hist_top.width, hist_top.height)
+            }
+        }
     }
 
     // This will hold the histogram image
@@ -172,6 +181,10 @@ Rectangle {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
             drag.target: PQSettings.histogramPopoutElement ? undefined : hist_top
+            drag.minimumX: 0
+            drag.minimumY: 0
+            drag.maximumX: toplevel.width-hist_top.width
+            drag.maximumY: toplevel.height-hist_top.height
 
             onPressed:
                 if(mouse.button == Qt.RightButton)
@@ -320,6 +333,23 @@ Rectangle {
                 PQSettings.histogramPopoutElement = (PQSettings.histogramPopoutElement+1)%2
                 HandleShortcuts.executeInternalFunction("__histogram")
             }
+        }
+    }
+
+    // this makes sure that a change in the window geometry does not leeds to the element being outside the visible area
+    Connections {
+        target: toplevel
+        onWidthChanged: {
+            if(hist_top.x < 0)
+                hist_top.x = 0
+            else if(hist_top.x > toplevel.width-hist_top.width)
+                hist_top.x = toplevel.width-hist_top.width
+        }
+        onHeightChanged: {
+            if(hist_top.y < 0)
+                hist_top.y = 0
+            else if(hist_top.y > toplevel.height-hist_top.height)
+                hist_top.y = toplevel.height-hist_top.height
         }
     }
 
