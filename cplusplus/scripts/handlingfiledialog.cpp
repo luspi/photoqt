@@ -241,9 +241,6 @@ QVariantList PQHandlingFileDialog::getStorageInfo() {
 
     DBG << CURDATE << "PQHandlingFileDialog::getStorageInfo()" << NL;
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getStorageInfo()" << NL;
-
     QVariantList ret;
 
     for(QStorageInfo s : QStorageInfo::mountedVolumes()) {

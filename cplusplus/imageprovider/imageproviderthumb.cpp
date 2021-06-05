@@ -73,9 +73,8 @@ void PQAsyncImageResponseThumb::run() {
         // If there exists a thumbnail of the current file already
         if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes")
-                LOG << CURDATE << "ImageProviderThumbnail: Found cached thumbnail (file cache): " <<
-                       QFileInfo(filename).fileName().toStdString() << NL;
+            DBG << CURDATE << "ImageProviderThumbnail: Found cached thumbnail (file cache): "
+                << QFileInfo(filename).fileName().toStdString() << NL;
 
             p.load(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png");
             uint mtime = p.text("Thumb::MTime").trimmed().toInt();
@@ -86,10 +85,9 @@ void PQAsyncImageResponseThumb::run() {
                 m_image = p;
                 emit finished();
                 return;
-            }
-            else if(qgetenv("PHOTOQT_DEBUG") == "yes")
-                LOG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: " <<
-                       QFileInfo(filename).fileName().toStdString() << NL;
+            } else
+                DBG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: "
+                    << QFileInfo(filename).fileName().toStdString() << NL;
 
         }
 
@@ -130,9 +128,8 @@ void PQAsyncImageResponseThumb::run() {
     }
 
     if((p.width() < m_requestedSize.width() && p.height() < m_requestedSize.height())) {
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: " <<
-                   QFileInfo(filename).fileName().toStdString() << NL;
+        DBG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: "
+            << QFileInfo(filename).fileName().toStdString() << NL;
 
         m_image = p;
         emit finished();
@@ -172,9 +169,9 @@ void PQAsyncImageResponseThumb::run() {
             if(!p.save(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png"))
                 LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file: " <<
                        QFileInfo(filename).fileName().toStdString() << NL;
-            else if(qgetenv("PHOTOQT_DEBUG") == "yes")
-                LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (file cache): " <<
-                       QFileInfo(filename).fileName().toStdString() << NL;
+            else
+                DBG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (file cache): "
+                    << QFileInfo(filename).fileName().toStdString() << NL;
 
         }
 

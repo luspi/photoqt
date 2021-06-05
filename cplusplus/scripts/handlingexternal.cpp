@@ -173,7 +173,7 @@ bool PQHandlingExternal::exportConfigTo(QString path) {
                 archive_entry_free(entry);
 
             } else
-                LOG << CURDATE << "GetAndDoStuffExternal::exportConfig(): ERROR: Unable to read config file '" <<
+                LOG << CURDATE << "PQHandlingExternal::exportConfig(): ERROR: Unable to read config file '" <<
                        iter.value().toStdString() << "'... Skipping!" << NL;
         }
         ++iter;
