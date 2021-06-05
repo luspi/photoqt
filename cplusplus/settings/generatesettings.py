@@ -10,9 +10,9 @@
 #
 
 values = {
-    
+
     "" :
-        
+
         [["Version",                    "QString", "QString::fromStdString(VERSION)"],
          ["Language",                   "QString", "QLocale::system().name()"],
          ["WindowMode",                 "bool",    "true"],
@@ -20,9 +20,9 @@ values = {
          ["SaveWindowGeometry",         "bool",    "false"],
          ["KeepOnTop",                  "bool",    "false"],
          ["StartupLoadLastLoadedImage", "bool",    "false"]],
-    
+
     "Look" :
-        
+
         [["BackgroundColorAlpha",      "int",  "190"],
          ["BackgroundColorBlue",       "int",  "0"],
          ["BackgroundColorGreen",      "int",  "0"],
@@ -35,9 +35,9 @@ values = {
          ["BackgroundImageStretch",    "bool", "false"],
          ["BackgroundImageTile",       "bool", "false"],
          ["BackgroundImageUse",        "bool", "false"]],
-        
+
     "Behaviour" :
-        
+
         [["AnimationDuration",                  "int",     "3"],
          ["AnimationType",                      "QString", "\"opacity\""],
          ["ArchiveUseExternalUnrar",            "bool",    "false"],
@@ -50,7 +50,7 @@ values = {
          ["LeftButtonMouseClickAndMove",        "bool",    "true"],
          ["LoopThroughFolder",                  "bool",    "true"],
          ["MarginAroundImage",                  "int",     "5"],
-         ["MouseWheelSensitivity",              "int",     "0"],
+         ["MouseWheelSensitivity",              "int",     "1"],
          ["PdfQuality",                         "int",     "150"],
          ["PixmapCache",                        "bool",    "512"],
          ["QuickNavigation",                    "bool",    "false"],
@@ -59,9 +59,9 @@ values = {
          ["SortImagesAscending",                "bool",    "true"],
          ["TrayIcon",                           "int",     "0"],
          ["ZoomSpeed",                          "int",     "20"]],
-        
+
     "Labels" :
-        
+
         [["LabelsWindowButtonsSize", "int",  "10"],
          ["LabelsHideCounter",       "bool", "false"],
          ["LabelsHideFilepath",      "bool", "true"],
@@ -70,14 +70,14 @@ values = {
          ["LabelsHideZoomLevel",     "bool", "false"],
          ["LabelsHideRotationAngle", "bool", "false"],
          ["LabelsManageWindow",      "bool", "false"]],
-        
+
     "Thumbnail" :
-        
+
         [["ThumbnailCache",                      "bool",    "true"],
          ["ThumbnailCenterActive",               "bool",    "false"],
          ["ThumbnailDisable",                    "bool",    "false"],
          ["ThumbnailFilenameInstead",            "bool",    "false"],
-         ["ThumbnailFilenameInsteadFontSize",    "int",     "8"],
+         ["ThumbnailFilenameInsteadFontSize",    "int",     "10"],
          ["ThumbnailFontSize",                   "int",     "7"],
          ["ThumbnailKeepVisible",                "bool",    "false"],
          ["ThumbnailKeepVisibleWhenNotZoomedIn", "bool",    "false"],
@@ -87,9 +87,9 @@ values = {
          ["ThumbnailSize",                       "int",     "80"],
          ["ThumbnailSpacingBetween",             "int",     "0"],
          ["ThumbnailWriteFilename",              "bool",    "true"]],
-        
+
     "Slideshow" :
-        
+
         [["SlideShowHideLabels",     "bool",    "true"],
          ["SlideShowImageTransition",   "int",     "4"],
          ["SlideShowLoop",              "bool",    "true"],
@@ -98,9 +98,9 @@ values = {
          ["SlideShowTime",              "int",     "5"],
          ["SlideShowTypeAnimation",     "QString", "\"opacity\""],
          ["SlideShowIncludeSubFolders", "bool",    "false"]],
-        
+
     "Metadata" :
-        
+
         [["MetaApplyRotation",  "bool",    "true"],
          ["MetaCopyright",      "bool",    "true"],
          ["MetaDimensions",     "bool",    "true"],
@@ -123,15 +123,15 @@ values = {
          ["MetaSceneType",      "bool",    "true"],
          ["MetaSoftware",       "bool",    "true"],
          ["MetaTimePhotoTaken", "bool",    "true"]],
-        
+
     "Metadata Element" :
-        
+
         [["MetadataEnableHotEdge", "bool", "true"],
          ["MetadataOpacity",       "int",  "220"],
          ["MetadataWindowWidth",   "int",  "450"]],
-        
+
     "People Tags in Metadata" :
-        
+
         [["PeopleTagInMetaAlwaysVisible",         "bool",    "false"],
          ["PeopleTagInMetaBorderAroundFace",      "bool",    "false"],
          ["PeopleTagInMetaBorderAroundFaceColor", "QString", "\"#44ff0000\""],
@@ -140,9 +140,9 @@ values = {
          ["PeopleTagInMetaFontSize",              "int",     "10"],
          ["PeopleTagInMetaHybridMode",            "bool",    "true"],
          ["PeopleTagInMetaIndependentLabels",     "bool",    "false"]],
-        
+
     "Open File" :
-        
+
         [["OpenDefaultView",            "QString", "\"list\""],
          ["OpenKeepLastLocation",       "bool",    "false"],
          ["OpenPreview",                "bool",    "true"],
@@ -153,27 +153,27 @@ values = {
          ["OpenUserPlacesVolumes",      "bool",    "true"],
          ["OpenUserPlacesWidth",        "int",     "300"],
          ["OpenZoomLevel",              "int",     "20"]],
-        
+
     "Histogram" :
-        
+
         [["Histogram",         "bool",    "false"],
          ["HistogramPosition", "QPoint",  "100,100"],
          ["HistogramSize",     "QSize",   "300,200"],
          ["HistogramVersion",  "QString", "\"color\""]],
-        
+
     "Main Menu Element" :
-        
+
         [["MainMenuWindowWidth", "int", "450"]],
-        
+
     "Video" :
-        
+
         [["VideoAutoplay",    "bool",    "true"],
          ["VideoLoop",        "bool",    "false"],
          ["VideoVolume",      "int",     "100"],
          ["VideoThumbnailer", "QString", "\"ffmpegthumbnailer\""]],
-        
+
     "Popout" :
-        
+
         [["MainMenuPopoutElement",          "bool", "false"],
          ["MetadataPopoutElement",          "bool", "false"],
          ["HistogramPopoutElement",         "bool", "false"],
@@ -190,7 +190,7 @@ values = {
          ["FilterPopoutElement",            "bool", "false"],
          ["SettingsManagerPopoutElement",   "bool", "false"],
          ["FileSaveAsPopoutElement",        "bool", "false"]]
-        
+
 }
 
 
@@ -233,7 +233,7 @@ preamble  = """/****************************************************************
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
- 
+
  /* auto-generated using generatesettings.py */
 
 #ifndef PQSETTINGS_H
@@ -265,10 +265,10 @@ public:
     void operator=(PQSettings const&) = delete;
 
     Q_INVOKABLE void setDefault();
-    
+
 """
 
-# preamble of PRIVATE section             
+# preamble of PRIVATE section
 private  = """
 private:
     PQSettings();
@@ -276,7 +276,7 @@ private:
     QTimer *saveSettingsTimer;
     QFileSystemWatcher *watcher;
     QTimer *watcherAddFileTimer;
-    
+
 """
 
 # init Q_PROPERTY section
@@ -326,7 +326,7 @@ private slots:
     void readSettings();
     void saveSettings();
     void addFileToWatcher();
-    
+
 """
 
 #####################################
@@ -375,7 +375,7 @@ preamble  = """/****************************************************************
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
- 
+
  /* auto-generated using generatesettings.py */
 
 #include "settings.h"
@@ -417,7 +417,7 @@ void PQSettings::addFileToWatcher() {
     }
     watcher->removePath(ConfigFiles::SETTINGS_FILE());
     watcher->addPath(ConfigFiles::SETTINGS_FILE());
-    
+
 }
 """
 
@@ -425,7 +425,7 @@ setdefault  = """
 void PQSettings::setDefault() {
 
     DBG << CURDATE << \"PQSettings::setDefault()\" << NL;
-    
+
 """
 
 readsettings  = """
@@ -449,7 +449,7 @@ void PQSettings::readSettings() {
         file.close();
 
         for(QString line : parts) {
-        
+
 """
 
 savesettings  = """
@@ -477,58 +477,64 @@ void PQSettings::saveSettings() {
 """
 
 firstpass = 1
+firstpassread = 1
 
 for key in values:
-    
+
     if key != "":
         savesettings += f"\n        cont += \"\\n[{key}]\\n\";\n\n"
-    
+
     for v in values[key]:
-        
+
         prpCap = v[0]
         prp = f"{v[0][0].lower()}{v[0][1:]}"
         typ = v[1]
         val = v[2]
-        
+
         #####################################
-        
+
         if typ == "QSize":
             setdefault += f"    set{prpCap}(QSize({val}));\n"
         elif typ == "QPoint":
             setdefault += f"    set{prpCap}(QPoint({val}));\n"
         else:
             setdefault += f"    set{prpCap}({val});\n"
-        
-        
+
+
         #####################################
-        
-        if firstpass == 1:
-            readsettings += f"            if(line.startsWith(\"{prpCap}=\"))"
-        else:
-            readsettings += f"            else if(line.startsWith(\"{prpCap}=\"))"
-            
-        if typ == "QString":
-            readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).trimmed());\n"
-        elif typ == "bool" or typ == "int":
-            readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).toInt());\n"
-        elif typ == "QPoint":
-            readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
-            readsettings += f"                set{prpCap}(QPoint(parts.at(0).toInt(), parts.at(1).toInt()));\n"
-            readsettings += "            }\n"
-        elif typ == "QSize":
-            readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
-            readsettings += f"                set{prpCap}(QSize(parts.at(0).toInt(), parts.at(1).toInt()));\n"
-            readsettings += "            }\n"
-        readsettings += "\n"
-        
-        
+
+
+        if prpCap != "Version":
+
+            if firstpassread == 1:
+                readsettings += f"            if(line.startsWith(\"{prpCap}=\"))"
+            else:
+                readsettings += f"            else if(line.startsWith(\"{prpCap}=\"))"
+
+            if typ == "QString":
+                readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).trimmed());\n"
+            elif typ == "bool" or typ == "int":
+                readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).toInt());\n"
+            elif typ == "QPoint":
+                readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
+                readsettings += f"                set{prpCap}(QPoint(parts.at(0).toInt(), parts.at(1).toInt()));\n"
+                readsettings += "            }\n"
+            elif typ == "QSize":
+                readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
+                readsettings += f"                set{prpCap}(QSize(parts.at(0).toInt(), parts.at(1).toInt()));\n"
+                readsettings += "            }\n"
+            readsettings += "\n"
+
+            firstpassread = 0
+
+
         #####################################
-        
+
         if firstpass == 1:
             savesettings += "        QString cont = "
         else:
             savesettings += "        cont += "
-            
+
         if typ == "QString" or typ == "int":
             savesettings += f"QString(\"{prpCap}=%1\\n\").arg(m_{prp});\n";
         elif typ == "bool":
@@ -537,17 +543,17 @@ for key in values:
             savesettings += f"QString(\"{prpCap}=%1,%2\\n\").arg(m_{prp}.x()).arg(m_{prp}.y());\n"
         elif typ == "QSize":
             savesettings += f"QString(\"{prpCap}=%1,%2\\n\").arg(m_{prp}.width()).arg(m_{prp}.height());\n"
-        
-        
+
+
         #####################################
-        
+
         firstpass = 0
-        
+
     #####################################
-    
+
     setdefault += "\n"
     readsettings += "\n"
-    
+
 #####################################
 
 readsettings += "        }\n\n"
