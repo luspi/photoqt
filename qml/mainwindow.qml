@@ -36,7 +36,6 @@ import PQCppMetaData 1.0
 import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
 import PQHandlingFaceTags 1.0
-import PQSystemTrayIcon 1.0
 import PQHandlingExternal 1.0
 
 import "./mainwindow"
@@ -142,18 +141,7 @@ Window {
 
     onClosing: {
 
-        if(variables.slideShowActive)
-            loader.passOn("slideshowcontrols", "quit", undefined)
-
-        if(PQSettings.saveWindowGeometry) {
-            windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
-            windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
-        }
-        if(filefoldermodel.current > -1 && PQSettings.startupLoadLastLoadedImage)
-            handlingGeneral.setLastLoadedImage(filefoldermodel.currentFilePath)
-        else
-            handlingGeneral.deleteLastLoadedImage()
-        handlingGeneral.cleanUpScreenshotsTakenAtStartup()
+        handleBeforeClosing()
 
         if(PQSettings.trayIcon == 1) {
             close.accepted = false
@@ -176,18 +164,7 @@ Window {
 
     }
 
-    PQSystemTrayIcon {
-        id: trayicon
-        visible: PQSettings.trayIcon>0
-        trayIconSetting: PQSettings.trayIcon
-        onToggleAction: {
-            if(PQSettings.trayIcon == 1)
-                toplevel.visible = !toplevel.visible
-        }
-        onQuitAction: {
-            Qt.quit();
-        }
-    }
+    PQTrayIcon { id: trayicon }
 
     Loader { id: welcome }
 
@@ -347,17 +324,30 @@ Window {
 
     }
 
+    function handleBeforeClosing() {
+
+        if(variables.slideShowActive)
+            loader.passOn("slideshowcontrols", "quit", undefined)
+
+        if(PQSettings.saveWindowGeometry) {
+            windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
+            windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
+        }
+        if(filefoldermodel.current > -1 && PQSettings.startupLoadLastLoadedImage)
+            handlingGeneral.setLastLoadedImage(filefoldermodel.currentFilePath)
+        else
+            handlingGeneral.deleteLastLoadedImage()
+        handlingGeneral.cleanUpScreenshotsTakenAtStartup()
+
+    }
+
     function quitPhotoQt() {
+        handleBeforeClosing()
         Qt.quit()
     }
 
     function closePhotoQt() {
-
-        if(PQSettings.trayIcon == 1)
-            close()
-        else
-            Qt.quit()
-
+        close()
     }
 
 }

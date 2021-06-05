@@ -43,7 +43,6 @@
 #include "singleinstance/singleinstance.h"
 #include "settings/windowgeometry.h"
 #include "scripts/metadata.h"
-#include "scripts/systemtrayicon.h"
 #include "filefoldermodel/filefoldermodel.h"
 
 #include "imageprovider/imageprovidericon.h"
@@ -139,7 +138,6 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingShareImgur>("PQHandlingShareImgur", 1, 0, "PQHandlingShareImgur");
     qmlRegisterType<PQHandlingWallpaper>("PQHandlingWallpaper", 1, 0, "PQHandlingWallpaper");
     qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
-    qmlRegisterType<PQSystemTrayIcon>("PQSystemTrayIcon", 1, 0, "PQSystemTrayIcon");
     qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 

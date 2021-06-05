@@ -49,10 +49,10 @@ namespace PQStartup {
                 cont += "0::O::__open\n";
                 cont += "0::Ctrl+O::__open\n";
                 cont += "0::Right Button+WE::__open\n";
-                cont += "0::Escape::__quit\n";
+                cont += "0::Escape::__hide\n";
                 cont += "0::Q::__quit\n";
                 cont += "0::Ctrl+Q::__quit\n";
-                cont += "0::Right Button+SES::__quit\n";
+                cont += "0::Right Button+SES::__hide\n";
                 cont += "0::+::__zoomIn\n";
                 cont += "0::=::__zoomIn\n";
                 cont += "0::Keypad++::__zoomIn\n";
