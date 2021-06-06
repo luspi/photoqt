@@ -207,6 +207,15 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
 
     // no debug statement here, this function is only and always called by the next function with the same name
 
+    // cache key
+    const QString key = QString("%1%2").arg(path).arg(QFileInfo(path).lastModified().toString());
+
+    // if already loaded before, read from cache
+    if(cacheNumberOfFilesInFolder.contains(key))
+        return cacheNumberOfFilesInFolder[key];
+
+    // fresh count of files in folder
+
     QDir dir(path);
 
     QStringList checkForTheseFormats;
@@ -216,7 +225,10 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
     dir.setNameFilters(checkForTheseFormats);
     dir.setFilter(QDir::Files);
 
-    return dir.count();
+    const int count = dir.count();
+    cacheNumberOfFilesInFolder.insert(key, count);
+
+    return count;
 
 }
 
