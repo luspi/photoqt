@@ -91,15 +91,21 @@ Window {
 
             Text {
                 id: emptymessage
-                anchors.centerIn: parent
+                anchors.fill: parent
+                anchors.leftMargin: arrleft.x+arrleft.width+10
+                anchors.rightMargin: parent.width-arrright.x - 20
                 text: em.pty+qsTranslate("other", "Open a file to begin")
                 visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
             }
 
             Image {
+                id: arrright
                 visible: emptymessage.visible
                 anchors.right: parent.right
                 anchors.rightMargin: 10
@@ -111,6 +117,7 @@ Window {
             }
 
             Image {
+                id: arrleft
                 visible: emptymessage.visible
                 anchors.left: parent.left
                 anchors.leftMargin: 10
