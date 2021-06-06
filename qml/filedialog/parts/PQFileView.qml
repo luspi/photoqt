@@ -155,7 +155,7 @@ GridView {
 
                 Text {
                     id: numberOfFilesInsideFolder
-                    visible: PQSettings.openDefaultView=="icons" && fileIsDir
+                    visible: PQSettings.openDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
