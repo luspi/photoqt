@@ -63,7 +63,7 @@ public:
             compressedFilename = cont.at(0).split("::ARC::").at(0);
         }
 
-        if(!QFileInfo(archivefile).exists()) {
+        if(!QFileInfo::exists(archivefile)) {
             errormsg = "File doesn't seem to exist...";
             LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
             return QImage();

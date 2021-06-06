@@ -58,7 +58,7 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     if(filenameForChecking.contains("::ARC::"))
         filenameForChecking = filenameForChecking.split("::ARC::").at(1);
 
-    if(!QFileInfo(filenameForChecking).exists()) {
+    if(!QFileInfo::exists(filenameForChecking)) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it does not exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filenameForChecking.toStdString() << NL;

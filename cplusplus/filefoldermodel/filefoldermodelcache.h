@@ -67,18 +67,19 @@ public:
     }
 
 private:
-    QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, int sortField, bool sortReversed) {
-        return QCryptographicHash::hash(QString("%1%2%3%4%5%6%7%8%9%10%11")
-                                        .arg(foldername)
-                                        .arg(showHidden)
-                                        .arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch())
-                                        .arg(sortFlags)
-                                        .arg(nameFilters.join(""))
-                                        .arg(defaultNameFilters.join(""))
-                                        .arg(filenameFileters.join(""))
-                                        .arg(mimeTypeFilters.join(""))
-                                        .arg(sortField)
-                                        .arg(sortReversed).toUtf8(),QCryptographicHash::Md5).toHex();
+    QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, int sortField, bool sortReversed) {
+        QString key;
+        QTextStream(&key) << foldername
+                          << showHidden
+                          << QFileInfo(foldername).lastModified().toMSecsSinceEpoch()
+                          << sortFlags
+                          << nameFilters.join("")
+                          << defaultNameFilters.join("")
+                          << filenameFilters.join("")
+                          << mimeTypeFilters.join("")
+                          << sortField
+                          << sortReversed;
+        return QCryptographicHash::hash(key.toUtf8(),QCryptographicHash::Md5).toHex();
     }
 
     QHash<QString, QStringList> cacheFiles;

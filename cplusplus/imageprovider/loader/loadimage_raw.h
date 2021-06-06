@@ -88,7 +88,7 @@ public:
 
         if(ret != LIBRAW_SUCCESS) {
             raw.recycle();
-            errormsg = QString("Failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack").arg(libraw_strerror(ret));
+            errormsg = QString("Failed to run %1: %2").arg((thumb ? "unpack_thumb" : "unpack"), libraw_strerror(ret));
             LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
             return QImage();
         }

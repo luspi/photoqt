@@ -200,7 +200,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
             return;
         }
 
-        QStringList output = QString(proc.readAll()).split("\n");
+        const QStringList output = QString(proc.readAll()).split("\n");
 
         // Filter out all the config paths that we need to adjust
         QStringList pathToSetImageTo;

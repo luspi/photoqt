@@ -132,7 +132,7 @@ private:
 
 #define LOG Logger()
 #define DBG DebugLogger()
-const std::string CURDATE = "[[[DATE]]]";
-const std::string NL = "\n";
+#define CURDATE "[[[DATE]]]"
+#define NL "\n"
 
 #endif // LOGGER_H

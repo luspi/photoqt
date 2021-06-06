@@ -44,7 +44,7 @@ bool PQImageProperties::isPopplerDocument(QString path) {
 
     QString suf = QFileInfo(path).suffix().toLower();
     const QStringList tmp = PQImageFormats::get().getEnabledFormatsPoppler();
-    foreach(QString f, tmp) {
+    for(const QString &f : tmp) {
         if(f == suf)
             return true;
     }
@@ -59,7 +59,7 @@ bool PQImageProperties::isArchive(QString path) {
 
     QString suf = QFileInfo(path).suffix().toLower();
     const QStringList tmp = PQImageFormats::get().getEnabledFormatsLibArchive();
-    foreach(QString f, tmp) {
+    for(const QString &f : tmp) {
         if(f == suf)
             return true;
     }

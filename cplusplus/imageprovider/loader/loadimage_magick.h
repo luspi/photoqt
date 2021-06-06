@@ -45,13 +45,6 @@ public:
 
     QImage load(QString filename, QSize maxSize, QSize *origSize, bool onlyLoadMagickImage = false) {
 
-#ifdef GRAPHICSMAGICK
-        QString whichone = "GraphicsMagick";
-#endif
-#ifdef IMAGEMAGICK
-        QString whichone = "ImageMagick";
-#endif
-
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
 
         errormsg = "";
@@ -81,7 +74,8 @@ public:
         }
         if(mimetype != "") {
             if(PQImageFormats::get().getMagickMimeType().keys().contains(mimetype)) {
-                for(QString mt : PQImageFormats::get().getMagickMimeType().value(mimetype).toStringList())
+                const QStringList lst = PQImageFormats::get().getMagickMimeType().value(mimetype).toStringList();
+                for(const QString &mt : lst)
                     if(!mgs.contains(mt))
                         mgs << mt;
             }

@@ -260,13 +260,13 @@ void PQImageFormats::readFromDatabase() {
             }
             if(magickToBeAdded && im_gm_magick != "") {
                 for(QString &e : endings.split(",")) {
-                    if(magick.keys().contains(e))
+                    if(magick.contains(e))
                         magick[e] = QStringList() << magick[e].toStringList() << im_gm_magick;
                     else
                         magick.insert(e, QStringList() << im_gm_magick);
                 }
                 for(QString &mt : mimetypes.split(",")) {
-                    if(magick_mimetype.keys().contains(mt))
+                    if(magick_mimetype.contains(mt))
                         magick_mimetype[mt] = QStringList() << magick_mimetype[mt].toStringList() << im_gm_magick;
                     else
                         magick_mimetype.insert(mt, QStringList() << im_gm_magick);

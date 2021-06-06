@@ -62,7 +62,7 @@ public:
         Size,
         Type
     };
-    Q_ENUMS(SortBy)
+    Q_ENUM(SortBy)
 
     PQFileFolderModel(QObject *parent = nullptr);
     ~PQFileFolderModel();
@@ -77,28 +77,28 @@ public:
 
     Q_PROPERTY(int countMainView READ getCountMainView WRITE setCountMainView NOTIFY countMainViewChanged)
     int getCountMainView() { return m_countMainView; }
-    void setCountMainView(int c) { m_countMainView = c; countMainViewChanged(); }
+    void setCountMainView(int c) { m_countMainView = c; emit countMainViewChanged(); }
 
     Q_PROPERTY(int countFoldersFileDialog READ getCountFoldersFileDialog WRITE setCountFoldersFileDialog NOTIFY countFileDialogChanged)
     int getCountFoldersFileDialog() { return m_countFoldersFileDialog; }
-    void setCountFoldersFileDialog(int c) { m_countFoldersFileDialog = c; countFileDialogChanged(); }
+    void setCountFoldersFileDialog(int c) { m_countFoldersFileDialog = c; emit countFileDialogChanged(); }
 
     Q_PROPERTY(int countFilesFileDialog READ getCountFilesFileDialog WRITE setCountFilesFileDialog NOTIFY countFileDialogChanged)
     int getCountFilesFileDialog() { return m_countFilesFileDialog; }
-    void setCountFilesFileDialog(int c) { m_countFilesFileDialog = c; countFileDialogChanged(); }
+    void setCountFilesFileDialog(int c) { m_countFilesFileDialog = c; emit countFileDialogChanged(); }
 
 
-    Q_PROPERTY(int readDocumentOnly READ getReadDocumentOnly WRITE setReadDocumentOnly)
+    Q_PROPERTY(int readDocumentOnly READ getReadDocumentOnly WRITE setReadDocumentOnly NOTIFY readDocumentOnlyChanged())
     int getReadDocumentOnly() { return m_readDocumentOnly; }
-    void setReadDocumentOnly(int c) { m_readDocumentOnly = c; }
+    void setReadDocumentOnly(int c) { m_readDocumentOnly = c; emit readDocumentOnlyChanged(); }
 
-    Q_PROPERTY(int readArchiveOnly READ getReadArchiveOnly WRITE setReadArchiveOnly)
+    Q_PROPERTY(int readArchiveOnly READ getReadArchiveOnly WRITE setReadArchiveOnly NOTIFY readArchiveOnlyChanged())
     int getReadArchiveOnly() { return m_readArchiveOnly; }
-    void setReadArchiveOnly(int c) { m_readArchiveOnly = c; }
+    void setReadArchiveOnly(int c) { m_readArchiveOnly = c; emit readArchiveOnlyChanged(); }
 
-    Q_PROPERTY(int includeFilesInSubFolders READ getIncludeFilesInSubFolders WRITE setIncludeFilesInSubFolders)
+    Q_PROPERTY(int includeFilesInSubFolders READ getIncludeFilesInSubFolders WRITE setIncludeFilesInSubFolders NOTIFY includeFilesInSubFoldersChanged)
     int getIncludeFilesInSubFolders() { return m_includeFilesInSubFolders; }
-    void setIncludeFilesInSubFolders(int c) { m_includeFilesInSubFolders = c; loadDelayMainView->start(); }
+    void setIncludeFilesInSubFolders(int c) { m_includeFilesInSubFolders = c; emit includeFilesInSubFoldersChanged(); loadDelayMainView->start(); }
 
 
     Q_PROPERTY(QStringList defaultNameFilters READ getDefaultNameFilters WRITE setDefaultNameFilters NOTIFY defaultNameFiltersChanged)
@@ -203,6 +203,9 @@ signals:
     void showHiddenChanged();
     void sortFieldChanged();
     void sortReversedChanged();
+    void readDocumentOnlyChanged();
+    void readArchiveOnlyChanged();
+    void includeFilesInSubFoldersChanged();
 
 };
 

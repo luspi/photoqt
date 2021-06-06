@@ -58,7 +58,7 @@ public:
             compressedFilename = cont.at(0).split("::ARC::").at(0);
         }
 
-        if(!QFileInfo(archivefile).exists()) {
+        if(!QFileInfo::exists(archivefile)) {
             errormsg = "Unable to load RAR archive, file doesn't seem to exist...";
             LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
             return QImage();

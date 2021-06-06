@@ -50,10 +50,10 @@ QString PQHandlingFileDir::copyFile(QString filename) {
     DBG << CURDATE << "PQHandlingFileDir::copyFile()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
-    QString ending = QFileInfo(filename).suffix();
+    const QString ending = QFileInfo(filename).suffix();
 
     //: Title of filedialog to select new filename/location to copy file to.
-    QString newfilename = QFileDialog::getSaveFileName(0, "Where to copy the file to", filename, QString("*.%1 (*.%2)").arg(ending).arg(ending));
+    QString newfilename = QFileDialog::getSaveFileName(0, "Where to copy the file to", filename, QString("*.%1 (*.%2)").arg(ending, ending));
 
     if(newfilename.trimmed() == "")
         return "";
@@ -266,7 +266,6 @@ QString PQHandlingFileDir::getFilePathFromFullPath(QString path) {
     DBG << CURDATE << "PQHandlingFileDir::getFilePathFromFullPath()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
-    QString ret = QFileInfo(path).fileName();
     if(path.contains("::PQT::"))
         path = path.split("::PQT::").at(1);
     if(path.contains("::ARC::"))
@@ -358,7 +357,7 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
 
     QStringList ret;
 
-    QFileInfo info(path);
+    const QFileInfo info(path);
 
 #ifndef Q_OS_WIN
     QProcess which;
@@ -384,9 +383,9 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
             QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
 #endif
             allfiles.sort();
-            foreach(QString f, allfiles) {
+            for(const QString &f : qAsConst(allfiles)) {
                 if(PQImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
-                    ret.append(QString("%1::ARC::%2").arg(f).arg(path));
+                    ret.append(QString("%1::ARC::%2").arg(f, path));
             }
 
         }
@@ -429,8 +428,8 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
 
         // Sort the temporary list and add to global list
         allfiles.sort();
-        foreach(QString f, allfiles)
-            ret.append(QString("%1::ARC::%2").arg(f).arg(path));
+        for(const QString &f : qAsConst(allfiles))
+            ret.append(QString("%1::ARC::%2").arg(f, path));
 
         // Close archive
         r = archive_read_free(a);
@@ -462,10 +461,10 @@ QString PQHandlingFileDir::moveFile(QString filename) {
     DBG << CURDATE << "PQHandlingFileDir::moveFile()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
-    QString ending = QFileInfo(filename).suffix();
+    const QString ending = QFileInfo(filename).suffix();
 
     //: Title of filedialog to select new filename/location to move file to.
-    QString newfilename = QFileDialog::getSaveFileName(0, "Where to move the file to", filename, QString("*.%1 (*.%2)").arg(ending).arg(ending));
+    QString newfilename = QFileDialog::getSaveFileName(0, "Where to move the file to", filename, QString("*.%1 (*.%2)").arg(ending, ending));
 
     if(newfilename.trimmed() == "")
         return "";
@@ -503,7 +502,7 @@ QString PQHandlingFileDir::replaceSuffix(QString filename, QString newSuffix) {
         << CURDATE << "** dir = " << filename.toStdString() << NL
         << CURDATE << "** oldName = " << newSuffix.toStdString() << NL;
 
-    QFileInfo info(filename);
+    const QFileInfo info(filename);
     return QString("%1.%2").arg(info.baseName(), newSuffix);
 
 }

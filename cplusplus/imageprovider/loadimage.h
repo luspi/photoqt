@@ -129,7 +129,7 @@ public:
         //////////////////////////////////////////////
         // first we check for filename suffix matches
 
-        for(QString o : order) {
+        for(const QString &o : qAsConst(order)) {
 
             if(o == "qt" && PQImageFormats::get().getEnabledFormatsQt().contains(suffix))
 
@@ -209,7 +209,7 @@ public:
             // the 'application/octet-stream' mime type simply means 'binary file', not enough info for our purposes
             if(mimetype != "" && mimetype != "application/octet-stream") {
 
-                for(QString o : order) {
+                for(const QString &o : qAsConst(order)) {
 
                     if(o == "qt" && PQImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
 
@@ -327,10 +327,6 @@ private:
 
         DBG << CURDATE << "attempt to load image with qt" << NL;
 
-        QFileInfo info(filename);
-        QString suffix = info.suffix();
-        QString qterr = "";
-
         img = load_qt->load(filename, requestedSize, origSize);
 
         if(load_qt->errormsg != "") {
@@ -371,11 +367,11 @@ private:
         DBG << CURDATE << "attempt to load image with archive" << NL;
 
         QFileInfo info(filename);
-        QString suffix = info.suffix();
+        const QString suffix = info.suffix().toLower();
 
         bool used_unrar = false;
 
-        if(PQSettings::get().getArchiveUseExternalUnrar() && (info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr")) {
+        if(PQSettings::get().getArchiveUseExternalUnrar() && (suffix == "rar" || suffix == "cbr")) {
             if(foundExternalUnrar == -1) {
                 QProcess which;
                 which.setStandardOutputFile(QProcess::nullDevice());

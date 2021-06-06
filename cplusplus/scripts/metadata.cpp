@@ -680,15 +680,6 @@ QString PQMetaData::analyzeGPS(QString latRef, QString lat, QString lonRef, QStr
     else if(split.length() == 1)
         lat = split.at(0) + "°0'0''";
 
-    float secL = 0;
-    if(split.length() == 3)
-        secL = ((split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0);
-    else if(split.length() == 2)
-        secL = ((split.at(1).toFloat()*60)/3600.0);
-
-    float left = split.at(0).toFloat() + secL;
-    if(latRef == "S") left *= -1;
-
 
     // Format the longitude string
     split = lon.split(" ");
@@ -718,15 +709,6 @@ QString PQMetaData::analyzeGPS(QString latRef, QString lat, QString lonRef, QStr
         lon = split.at(0) + "°" + split.at(1) + "'0''";
     else if(split.length() == 1)
         lon = split.at(0) + "°0'0''";
-
-    float secR = 0;
-    if(split.length() == 3)
-        secR = ((split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0);
-    else if(split.length() == 2)
-        secR = ((split.at(1).toFloat()*60)/3600.0);
-
-    float right = split.at(0).toFloat() + secR;
-    if(lonRef == "W") right *= -1;
 
     return lat + " " + latRef + ", " + lon + " " + lonRef;
 

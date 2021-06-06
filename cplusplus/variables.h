@@ -145,7 +145,7 @@ public:
 
 private:
         PQVariables() {
-            QString m_cmdFilePath = "";
+            m_cmdFilePath = "";
             m_cmdOpen = false;
             m_cmdShow = false;
             m_cmdHide = false;

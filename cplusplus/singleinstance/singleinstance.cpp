@@ -156,7 +156,7 @@ void PQSingleInstance::handleMessage(QString msg) {
 
     QStringList parts = msg.split(":://::");
 
-    for(QString m : parts) {
+    for(QString m : qAsConst(parts)) {
 
         if(m.startsWith("_F_I_L_E_"))
 

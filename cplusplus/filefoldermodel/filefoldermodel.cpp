@@ -256,7 +256,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
         }
     }
 
-    foreach(QString f, foldersToScan) {
+    for(const QString &f : qAsConst(foldersToScan)) {
 
         if(!cache.loadFilesFromCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
 
@@ -292,7 +292,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
                         if(m_filenameFilters.length() == 0)
                             ret_cur << f.absoluteFilePath();
                         else {
-                            foreach(QString fil, m_filenameFilters) {
+                            for(const QString &fil : qAsConst(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {
                                     ret_cur << f.absoluteFilePath();
                                     break;
@@ -305,7 +305,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
                         if(m_filenameFilters.length() == 0)
                             ret_cur << f.absoluteFilePath();
                         else {
-                            foreach(QString fil, m_filenameFilters) {
+                            for(const QString &fil : qAsConst(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {
                                     ret_cur << f.absoluteFilePath();
                                     break;

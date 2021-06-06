@@ -202,8 +202,8 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
         QTextStream in(&file);
 
         QString cont = in.readAll();
-        QStringList entries = cont.split("\n\n");
-        for(auto entry : entries) {
+        const QStringList entries = cont.split("\n\n");
+        for(const auto &entry : entries) {
             if(entry.trimmed() == "")
                 continue;
             QStringList parts = entry.split("\n");
@@ -373,7 +373,7 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
     QString cont = "";
 
-    for(auto entry : entries) {
+    for(const auto &entry : qAsConst(entries)) {
         QVariantList entrylist = entry.toList();
 
         bool close = entrylist.at(2).toBool();

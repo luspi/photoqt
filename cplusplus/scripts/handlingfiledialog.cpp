@@ -208,7 +208,7 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
     // no debug statement here, this function is only and always called by the next function with the same name
 
     // cache key
-    const QString key = QString("%1%2").arg(path).arg(QFileInfo(path).lastModified().toString());
+    const QString key = QString("%1%2").arg(path,QFileInfo(path).lastModified().toString());
 
     // if already loaded before, read from cache
     if(cacheNumberOfFilesInFolder.contains(key))
@@ -217,9 +217,9 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
     // fresh count of files in folder
 
     QDir dir(path);
-
     QStringList checkForTheseFormats;
-    for(QString c : PQImageFormats::get().getEnabledFormats())
+    const QStringList lst = PQImageFormats::get().getEnabledFormats();
+    for(const QString &c : lst)
         checkForTheseFormats << QString("*.%1").arg(c);
 
     dir.setNameFilters(checkForTheseFormats);
@@ -255,7 +255,8 @@ QVariantList PQHandlingFileDialog::getStorageInfo() {
 
     QVariantList ret;
 
-    for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
+    const QList<QStorageInfo> info = QStorageInfo::mountedVolumes();
+    for(const QStorageInfo &s : info) {
         if(s.isValid()) {
 
             QString name = s.name();

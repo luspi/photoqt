@@ -45,9 +45,9 @@ public:
         if(!trans->isEmpty())
             qApp->removeTranslator(trans);
 
-        QStringList allcodes = code.split("/");
+        const QStringList allcodes = code.split("/");
 
-        foreach(QString c, allcodes) {
+        for(const QString &c : allcodes) {
 
             if(QFile(":/photoqt_" + c + ".qm").exists()) {
                 trans->load(":/photoqt_" + c);
@@ -57,17 +57,17 @@ public:
             }
 
             if(c.contains("_")) {
-                c = c.split("_").at(0);
-                if(QFile(":/photoqt_" + c + ".qm").exists()) {
-                    trans->load(":/photoqt_" + c);
+                const QString cc = c.split("_").at(0);
+                if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+                    trans->load(":/photoqt_" + cc);
                     qApp->installTranslator(trans);
                     emit languageChanged();
                     return;
                 }
             } else {
-                c = QString("%1_%2").arg(c).arg(c.toUpper());
-                if(QFile(":/photoqt_" + c + ".qm").exists()) {
-                    trans->load(":/photoqt_" + c);
+                const QString cc = QString("%1_%2").arg(c, c.toUpper());
+                if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+                    trans->load(":/photoqt_" + cc);
                     qApp->installTranslator(trans);
                     emit languageChanged();
                     return;

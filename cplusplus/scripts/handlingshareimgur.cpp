@@ -54,7 +54,7 @@ PQHandlingShareImgur::PQHandlingShareImgur(QObject *parent) : QObject(parent) {
     else {
         hostname = hostname.remove(5, hostname.length()+1);
         int p = 1;
-        for(auto character : hostname) {
+        for(const auto &character : qAsConst(hostname)) {
             key += character.unicode()*p;
             p *= 10;
         }
@@ -214,7 +214,7 @@ int PQHandlingShareImgur::saveAccessRefreshTokenUserName(QString filename) {
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
     // Compose text file content
-    QString txt = QString("%1\n%2\n%3\n").arg(access_token).arg(refresh_token).arg(account_name);
+    QString txt = QString("%1\n%2\n%3\n").arg(access_token, refresh_token, account_name);
 
     // Initiate and open file
     QFile file(filename);
@@ -368,7 +368,7 @@ int PQHandlingShareImgur::upload(QString filename) {
         int ret = obtainClientIdSecret();
         if(ret != IMGUR_NOERROR) {
             emit abortAllRequests();
-            emit uploadError(QNetworkReply::UnknownServerError);
+            uploadError(QNetworkReply::UnknownServerError);
             return ret;
         }
     }
@@ -381,7 +381,7 @@ int PQHandlingShareImgur::upload(QString filename) {
     }
 
     // Ensure that filename is not empty and that the file exists
-    if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
+    if(filename.trimmed() == "" || !QFileInfo::exists(filename)) {
         if(debug)
             LOG << CURDATE << QString("ERROR! Filename '%1' for uploading to imgur.com is invalid").arg(filename).toStdString() << NL;
         return IMGUR_FILENAME_ERROR;
@@ -431,13 +431,13 @@ int PQHandlingShareImgur::anonymousUpload(QString filename) {
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
         if(ret != IMGUR_NOERROR) {
-            emit uploadError(QNetworkReply::NetworkSessionFailedError);
+            uploadError(QNetworkReply::NetworkSessionFailedError);
             return ret;
         }
     }
 
     // Ensure that filename is not empty and that the file exists
-    if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
+    if(filename.trimmed() == "" || !QFileInfo::exists(filename)) {
         if(debug)
             LOG << CURDATE << QString("ERROR! Filename '%1' for uploading to imgur.com is invalid").arg(filename).toStdString() << NL;
         return IMGUR_FILENAME_ERROR;

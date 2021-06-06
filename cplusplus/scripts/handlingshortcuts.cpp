@@ -340,9 +340,9 @@ QVariantList PQHandlingShortcuts::loadFromFile() {
     }
 
     QTextStream in(&file);
-    QStringList cont = in.readAll().split("\n");
+    const QStringList cont = in.readAll().split("\n");
 
-    for(QString line : cont) {
+    for(const QString &line : cont) {
 
         if(line.startsWith("Version=") || line.trimmed() == "")
             continue;
@@ -376,8 +376,10 @@ void PQHandlingShortcuts::saveToFile(QVariantList lst) {
     DBG << CURDATE << "PQHandlingShortcuts::saveToFile()" << NL;
 
     QString cont = QString("Version=%1\n").arg(VERSION);
-    for(auto l : lst)
-        cont += QString("%1::%2::%3\n").arg(l.toList()[0].toString()).arg(l.toList()[1].toString()).arg(l.toList()[2].toString());
+    for(const auto &l : qAsConst(lst)) {
+        const QList<QVariant> l_ = l.toList();
+        cont += QString("%1::%2::%3\n").arg(l_[0].toString(), l_[1].toString(), l_[2].toString());
+    }
 
     QFile file(ConfigFiles::SHORTCUTS_FILE());
 

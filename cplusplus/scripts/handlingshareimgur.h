@@ -43,7 +43,6 @@
 class PQHandlingShareImgur : public QObject {
 
     Q_OBJECT
-    Q_ENUMS(Code)
 
 public:
 
@@ -60,6 +59,8 @@ public:
            IMGUR_DELETION_ERROR,
            IMGUR_NOT_CONNECTED_TO_INET,
            IMGUR_OTHER_ERROR};
+
+    Q_ENUM(Code)
 
     explicit PQHandlingShareImgur(QObject *parent = 0);
     ~PQHandlingShareImgur();

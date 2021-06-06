@@ -389,7 +389,7 @@ PQSettings::PQSettings() {
     saveSettingsTimer->setSingleShot(true);
 
     watcher = new QFileSystemWatcher;
-    connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
+    connect(watcher, &QFileSystemWatcher::fileChanged, this, [this](QString){ readSettings(); });
 
     watcherAddFileTimer = new QTimer;
     watcherAddFileTimer->setInterval(500);
@@ -445,10 +445,10 @@ void PQSettings::readSettings() {
 
         // Read file
         QTextStream in(&file);
-        QStringList parts = in.readAll().split("\\n");
+        const QStringList parts = in.readAll().split("\\n");
         file.close();
 
-        for(QString line : parts) {
+        for(const QString &line : parts) {
 
 """
 

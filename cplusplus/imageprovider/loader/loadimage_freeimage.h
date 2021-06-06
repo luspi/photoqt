@@ -31,7 +31,7 @@
 #include "../../logger.h"
 
 #ifdef FREEIMAGE
-static QString freeImageErrorMessage;
+static char freeImageErrorMessage;
 static FREE_IMAGE_FORMAT freeImageErrorFormat;
 #endif
 
@@ -41,7 +41,7 @@ public:
     PQLoadImageFreeImage() {
         errormsg = "";
 #ifdef FREEIMAGE
-        freeImageErrorMessage = "";
+        freeImageErrorMessage = *"\0";
         freeImageErrorFormat = FIF_UNKNOWN;
 #endif
     }
@@ -52,16 +52,16 @@ public:
 
         // Reset variables at start, set handler for log output
         errormsg = "";
-        freeImageErrorMessage = "";
+        freeImageErrorMessage = *"\0";
         freeImageErrorFormat = FIF_UNKNOWN;
-        FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT fif, const char *message) { freeImageErrorMessage = message; freeImageErrorFormat = fif; });
+        FreeImage_SetOutputMessage([](FREE_IMAGE_FORMAT fif, const char *message) { freeImageErrorMessage = *(const_cast<char*>(message)); freeImageErrorFormat = fif; });
 
         // Get image format
         // First we try to get it through file type...
         FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.toStdString().c_str(), 0);
 
         // If an error occured (caught by output handler), return error image
-        if(freeImageErrorMessage != "") {
+        if(freeImageErrorMessage != *"\0") {
             errormsg = QString("FreeImage_GetFileType: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
             LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
@@ -72,7 +72,7 @@ public:
             fif = FreeImage_GetFIFFromFilename(filename.toStdString().c_str());
 
         // If an error occured (caught by output handler), return error image
-        if(freeImageErrorMessage != "") {
+        if(freeImageErrorMessage != *"\0") {
             errormsg = QString("FreeImage_GetFIFFromFilename: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
             LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
@@ -95,7 +95,7 @@ public:
             dib = FreeImage_Load(fif, filename.toStdString().c_str());
 
             // Error check!
-            if(freeImageErrorMessage != "") {
+            if(freeImageErrorMessage != *"\0") {
                 errormsg = QString("FreeImage_FIFSupportsReading: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
                 LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
                 return QImage();
@@ -124,7 +124,7 @@ public:
         FIMEMORY *stream = FreeImage_OpenMemory();
 
         // Error check!
-        if(freeImageErrorMessage != "") {
+        if(freeImageErrorMessage != *"\0") {
             errormsg = QString("FreeImage_OpenMemory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
             LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
@@ -135,7 +135,7 @@ public:
         FreeImage_SaveToMemory(FIF_BMP, dib, stream);
 
         // Error check!
-        if(freeImageErrorMessage != "") {
+        if(freeImageErrorMessage != *"\0") {
             errormsg = QString("FreeImage_SaveToMemory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
             LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
@@ -152,7 +152,7 @@ public:
         FreeImage_AcquireMemory(stream, &mem_buffer, &size_in_bytes);
 
         // Error check!
-        if(freeImageErrorMessage != "") {
+        if(freeImageErrorMessage != *"\0") {
             errormsg = QString("FreeImage_AcquireMemory: %1 (image type: %2)").arg(freeImageErrorMessage).arg(freeImageErrorFormat);
             LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
             return QImage();
