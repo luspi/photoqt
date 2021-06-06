@@ -127,7 +127,7 @@ Rectangle {
                 drag.maximumY: toplevel.height-nav_top.height
                 tooltip: em.pty+qsTranslate("navigate", "Show main menu")
                 onClicked:
-                    mainmenu.toggle()
+                    loader.passOn("mainmenu", "toggle", undefined)
             }
         }
 

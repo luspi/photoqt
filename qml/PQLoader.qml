@@ -26,6 +26,8 @@ Item {
 
     id: load_top
 
+    signal mainmenuPassOn(var what, var param)
+    signal metadataPassOn(var what, var param)
     signal filedialogPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
@@ -59,6 +61,12 @@ Item {
 
         if(ele == "filedialog")
             filedialogPassOn("show", undefined)
+
+        else if(ele == "mainmenu")
+            mainmenuPassOn("show", undefined)
+
+        else if(ele == "metadata")
+            metadataPassOn("show", undefined)
 
         else if(ele == "slideshowsettings")
             slideshowPassOn("show", undefined)
@@ -106,7 +114,13 @@ Item {
 
     function passOn(ele, what, param) {
 
-        if(ele == "filedialog")
+        if(ele == "mainmenu")
+            mainmenuPassOn(what, param)
+
+        else if(ele == "metadata")
+            metadataPassOn(what, param)
+
+        else if(ele == "filedialog")
             filedialogPassOn(what, param)
 
         else if(ele == "slideshowsettings")
@@ -151,7 +165,13 @@ Item {
 
         ensureItIsReady(ele)
 
-        if(ele == "filedialog")
+        if(ele == "mainmenu")
+            mainmenuPassOn("keyevent", [key, mod])
+
+        else if(ele == "metadata")
+            metadataPassOn("keyevent", [key, mod])
+
+        else if(ele == "filedialog")
             filedialogPassOn("keyevent", [key, mod])
 
         else if(ele == "slideshowsettings")
@@ -200,7 +220,23 @@ Item {
 
     function ensureItIsReady(ele) {
 
-        if(ele == "filedialog") {
+        if(ele == "mainmenu") {
+
+            if(PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenuPopout.qml")
+                mainmenu.source = "menumeta/PQMainMenuPopout.qml"
+
+             else if(!PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenu.qml")
+                mainmenu.source = "menumeta/PQMainMenu.qml"
+
+        } else if(ele == "metadata") {
+
+            if(PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaDataPopout.qml")
+                metadata.source = "menumeta/PQMetaDataPopout.qml"
+
+             else if(!PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaData.qml")
+                metadata.source = "menumeta/PQMetaData.qml"
+
+        } else if(ele == "filedialog") {
 
             if(PQSettings.openPopoutElement && filedialog.source != "filedialog/PQFileDialogPopout.qml")
                 filedialog.source = "filedialog/PQFileDialogPopout.qml"

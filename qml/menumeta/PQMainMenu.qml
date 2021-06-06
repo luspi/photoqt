@@ -424,6 +424,14 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: loader
+        onMainmenuPassOn: {
+            if(what == "toggle")
+                toggle()
+        }
+    }
+
     function readExternalContextmenu() {
         var tmpentries = handlingExternal.getContextMenuEntries()
         var entries = [[["heading","",""]]]
@@ -435,6 +443,7 @@ Rectangle {
     }
 
     function toggle() {
+        if(PQSettings.mainMenuPopoutElement) return
         if(mainmenu_top.opacity == 1)
             mainmenu_top.opacity = 0
         else

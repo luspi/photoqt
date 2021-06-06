@@ -107,7 +107,7 @@ function whatToDoWithFoundShortcut(sh) {
     } else if(cmd === "__saveAs")
         loader.show("filesaveas")
     else if(cmd === "__hideMeta")
-        metadata.toggleKeepOpen()
+        loader.metadataPassOn("toggleKeepOpen", undefined)
     else if(cmd === "__goToFirst")
         imageitem.loadFirstImage()
     else if(cmd === "__goToLast")

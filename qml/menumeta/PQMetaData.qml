@@ -351,11 +351,20 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: loader
+        onMetadataPassOn: {
+            if(what == "toggleKeepOpen")
+                toggleKeepOpen()
+        }
+    }
+
     function toggleKeepOpen() {
+        if(PQSettings.metadataPopoutElement) return
         keepopen.checked = !keepopen.checked
-        if(metadata_top.opacity == 1)
+        if(metadata_top.opacity == 1 && !keepopen.checked)
             metadata_top.opacity = 0
-        else
+        else if(keepopen.checked)
             metadata_top.opacity = 1
     }
 
