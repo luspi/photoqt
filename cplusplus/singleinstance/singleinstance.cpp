@@ -71,6 +71,9 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     if(result & PQCommandLineDebug)
         message += ":://::_D_E_B_U_G_";
 
+    if(result & PQCommandLineNoDebug)
+        message += ":://::_N_O_D_E_B_U_G_";
+
     if(result & PQCommandLineStandalone)
         message += ":://::_S_T_A_N_D_A_L_O_N_E_";
 
@@ -194,6 +197,10 @@ void PQSingleInstance::handleMessage(QString msg) {
         else if(m.startsWith("_D_E_B_U_G_"))
 
             PQVariables::get().setCmdDebug(true);
+
+        else if(m.startsWith("_N_O_D_E_B_U_G_"))
+
+            PQVariables::get().setCmdDebug(false);
 
     }
 
