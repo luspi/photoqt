@@ -12,7 +12,8 @@ SET(d "qml/mainwindow/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQMovie.qml ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQFaceTagsUnsupported.qml)
 
 SET(d "qml/elements")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQSlider.qml ${d}/PQCheckbox.qml ${d}/PQButton.qml ${d}/PQMenu.qml ${d}/PQToolTip.qml ${d}/PQMouseArea.qml ${d}/PQComboBox.qml ${d}/PQScrollBar.qml ${d}/PQSpinBox.qml ${d}/PQLineEdit.qml ${d}/PQProgress.qml ${d}/PQRadioButton.qml ${d}/PQTabButton.qml ${d}/PQSetting.qml ${d}/PQTile.qml ${d}/PQHorizontalLine.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSlider.qml ${d}/PQCheckbox.qml ${d}/PQButton.qml ${d}/PQMenu.qml ${d}/PQToolTip.qml ${d}/PQMouseArea.qml ${d}/PQComboBox.qml ${d}/PQScrollBar.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSpinBox.qml ${d}/PQLineEdit.qml ${d}/PQProgress.qml ${d}/PQRadioButton.qml ${d}/PQTabButton.qml ${d}/PQSetting.qml ${d}/PQTile.qml ${d}/PQHorizontalLine.qml)
 
 SET(d "qml/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQKeyShortcuts.qml ${d}/PQMouseShortcuts.qml ${d}/handleshortcuts.js ${d}/PQKeyMouseStrings.qml ${d}/mouseshortcuts.js)
@@ -60,16 +61,20 @@ SET(d "qml/settingsmanager/tabs")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQTabInterface.qml ${d}/PQTabImageView.qml ${d}/PQTabThumbnails.qml ${d}/PQTabMetadata.qml ${d}/PQTabFileTypes.qml ${d}/PQTabShortcuts.qml)
 
 SET(d "qml/settingsmanager/tabs/interface")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdgeWidth.qml ${d}/PQWindowManagement.qml ${d}/PQMouseWheel.qml ${d}/PQOverlayColor.qml ${d}/PQPopout.qml ${d}/PQLabels.qml ${d}/PQBackground.qml ${d}/PQCloseOnEmpty.qml ${d}/PQLanguage.qml ${d}/PQStartupLoadLast.qml ${d}/PQTrayIcon.qml ${d}/PQWindowMode.qml ${d}/PQContextMenu.qml ${d}/PQNavigation.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdgeWidth.qml ${d}/PQWindowManagement.qml ${d}/PQMouseWheel.qml ${d}/PQOverlayColor.qml ${d}/PQPopout.qml ${d}/PQLabels.qml ${d}/PQBackground.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQCloseOnEmpty.qml ${d}/PQLanguage.qml ${d}/PQStartupLoadLast.qml ${d}/PQTrayIcon.qml ${d}/PQWindowMode.qml ${d}/PQContextMenu.qml ${d}/PQNavigation.qml)
 
 SET(d "qml/settingsmanager/tabs/imageview")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQAnimation.qml ${d}/PQFitInWindow.qml ${d}/PQInterpolation.qml ${d}/PQKeep.qml ${d}/PQLeftButton.qml ${d}/PQLoop.qml ${d}/PQMargin.qml ${d}/PQPixmapCache.qml ${d}/PQSort.qml ${d}/PQTransparencyMarker.qml ${d}/PQZoomSpeed.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQAnimation.qml ${d}/PQFitInWindow.qml ${d}/PQInterpolation.qml ${d}/PQKeep.qml ${d}/PQLeftButton.qml ${d}/PQLoop.qml ${d}/PQMargin.qml ${d}/PQPixmapCache.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSort.qml ${d}/PQTransparencyMarker.qml ${d}/PQZoomSpeed.qml)
 
 SET(d "qml/settingsmanager/tabs/thumbnails")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQCache.qml ${d}/PQCenter.qml ${d}/PQDisable.qml ${d}/PQFilenameOnly.qml ${d}/PQFilenameLabel.qml ${d}/PQLiftUp.qml ${d}/PQPosition.qml ${d}/PQSize.qml ${d}/PQSpacing.qml ${d}/PQThreads.qml ${d}/PQVisible.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQCache.qml ${d}/PQCenter.qml ${d}/PQDisable.qml ${d}/PQFilenameOnly.qml ${d}/PQFilenameLabel.qml ${d}/PQLiftUp.qml ${d}/PQPosition.qml ${d}/PQSize.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSpacing.qml ${d}/PQThreads.qml ${d}/PQVisible.qml)
 
 SET(d "qml/settingsmanager/tabs/metadata")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdge.qml ${d}/PQOpacity.qml ${d}/PQRotation.qml ${d}/PQGPSMap.qml ${d}/PQMetaData.qml ${d}/PQFaceTags.qml ${d}/PQFaceTagsFontSize.qml ${d}/PQFaceTagsBorder.qml ${d}/PQFaceTagsVisibility.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdge.qml ${d}/PQOpacity.qml ${d}/PQRotation.qml ${d}/PQGPSMap.qml ${d}/PQMetaData.qml ${d}/PQFaceTags.qml ${d}/PQFaceTagsFontSize.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTagsBorder.qml ${d}/PQFaceTagsVisibility.qml)
 
 SET(d "qml/settingsmanager/tabs/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQVideo.qml ${d}/PQPoppler.qml ${d}/PQLibArchive.qml ${d}/PQFileTypes.qml)
