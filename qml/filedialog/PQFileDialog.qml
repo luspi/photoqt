@@ -26,6 +26,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import "./parts"
 import "../elements"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Rectangle {
 
