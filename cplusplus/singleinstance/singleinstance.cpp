@@ -116,6 +116,9 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     // If this is successfull, then an instance is already running
     if(socket->waitForConnected(100)) {
 
+        if(message == "")
+            message = ":://::_S_H_O_W_";
+
         // Send composed message string
         socket->write(message);
         socket->flush();
