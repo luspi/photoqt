@@ -1,6 +1,31 @@
 Changelog PhotoQt - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 2.2 - 2021-06-07
+----------------------------
+- add: viewer mode for documents/archives, activated through button near top left corner of screen
+- add: quick navigation buttons (added with touchscreens in mind)
+- add: show filename in window title
+- add: show rotation angle in quick info labels
+- add: new button to enter/exit fullscreen mode near top right corner of screen
+- add: show 'unsupported' feedback when trying to tag faces in unsupported file type
+- add: show 'nothing found' message when filter returns nothing
+- add: new PQButton element
+- add/improve: various touch ups and improvements in file dialog, new 'go up a level' button
+- add/improve: Windows build shows 'unsupported' message instead of doing nothing
+- improve: reworked file/folder model, faster and more consistent than before
+- improve: window decoration always visible by default
+- improve: checkbox uses tickmark instead of 'x' for showing checked state
+- improve: limit number of subfolder in slideshows (if enabled) to 100 to avoid getting stuck
+- improve: Windows build no longer depends on QtWinExtras
+- fix: handling of command line options
+- fix: some caching locations pointed to wrong directory
+- fix: handling of single quotation marks in filenames
+- fix: Windows build properly handles drive letters
+- fix: Windows build properly cleans path
+- various smaller bug fixes and improvements all over the place
+
+
 Release 2.1.1 - 2021-02-06
 ----------------------------
 - fix: revert default from ImageMagick back to GraphicsMagick (as it was before 2.1)

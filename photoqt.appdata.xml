@@ -14,8 +14,9 @@
            you want to run.</p>
         <p>The many features provided include: thumbnails, slideshow, zooming, rotating,
            flipping, displaying metadata (selection of Exif and IPTC), set-as-wallpaper, simple
-           file management, scaling, face tags (XMP metadata), integration with many image 
-           libraries for wide support of image formats, and a lot more...</p>
+           file management, scaling, face tags (XMP metadata), integration with many image
+           libraries for wide support of image formats, support of touchscreens,
+           and a lot more...</p>
     </description>
     <screenshots>
         <screenshot type="default">
@@ -46,6 +47,10 @@
         <keyword>thumbnails</keyword>
         <keyword>lightbox</keyword>
         <keyword>picasa</keyword>
+        <keyword>exiv2</keyword>
+        <keyword>libraw</keyword>
+        <keyword>raw</keyword>
+        <keyword>imagemagick</keyword>
     </keywords>
     <content_rating type="oars-1.0">
         <content_attribute id="violence-cartoon">none</content_attribute>
@@ -70,6 +75,7 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="2.2" date="2021-06-07" />
         <release version="2.1.1" date="2021-02-06" />
         <release version="2.1" date="2021-01-30" />
         <release version="2.0" date="2020-12-16" />
