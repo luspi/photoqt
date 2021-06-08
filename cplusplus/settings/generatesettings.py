@@ -503,29 +503,26 @@ for key in values:
 
         #####################################
 
+        if firstpassread == 1:
+            readsettings += f"            if(line.startsWith(\"{prpCap}=\"))"
+        else:
+            readsettings += f"            else if(line.startsWith(\"{prpCap}=\"))"
 
-        if prpCap != "Version":
+        if typ == "QString":
+            readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).trimmed());\n"
+        elif typ == "bool" or typ == "int":
+            readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).toInt());\n"
+        elif typ == "QPoint":
+            readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
+            readsettings += f"                set{prpCap}(QPoint(parts.at(0).toInt(), parts.at(1).toInt()));\n"
+            readsettings += "            }\n"
+        elif typ == "QSize":
+            readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
+            readsettings += f"                set{prpCap}(QSize(parts.at(0).toInt(), parts.at(1).toInt()));\n"
+            readsettings += "            }\n"
+        readsettings += "\n"
 
-            if firstpassread == 1:
-                readsettings += f"            if(line.startsWith(\"{prpCap}=\"))"
-            else:
-                readsettings += f"            else if(line.startsWith(\"{prpCap}=\"))"
-
-            if typ == "QString":
-                readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).trimmed());\n"
-            elif typ == "bool" or typ == "int":
-                readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).toInt());\n"
-            elif typ == "QPoint":
-                readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
-                readsettings += f"                set{prpCap}(QPoint(parts.at(0).toInt(), parts.at(1).toInt()));\n"
-                readsettings += "            }\n"
-            elif typ == "QSize":
-                readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
-                readsettings += f"                set{prpCap}(QSize(parts.at(0).toInt(), parts.at(1).toInt()));\n"
-                readsettings += "            }\n"
-            readsettings += "\n"
-
-            firstpassread = 0
+        firstpassread = 0
 
 
         #####################################

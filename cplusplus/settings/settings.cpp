@@ -241,7 +241,10 @@ void PQSettings::readSettings() {
 
         for(const QString &line : parts) {
 
-            if(line.startsWith("Language="))
+            if(line.startsWith("Version="))
+                setVersion(line.split("=").at(1).trimmed());
+
+            else if(line.startsWith("Language="))
                 setLanguage(line.split("=").at(1).trimmed());
 
             else if(line.startsWith("WindowMode="))
