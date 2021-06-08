@@ -25,7 +25,10 @@
 
 #include <QObject>
 #include <QCommandLineParser>
-#include <QGuiApplication>
+#include <QApplication>
+#include <QTranslator>
+#include <QFile>
+#include <iostream>
 
 enum PQCommandLineResult {
     PQCOmmandLineNothing = 0,
@@ -53,29 +56,54 @@ class PQCommandLineParser : public QObject, public QCommandLineParser {
     Q_OBJECT
 
 public:
-    explicit PQCommandLineParser(QGuiApplication &app, QObject *parent = nullptr) : QObject(parent), QCommandLineParser() {
 
-        setApplicationDescription(QGuiApplication::translate("commandlineparser", "Image Viewer"));
+    explicit PQCommandLineParser(QApplication &app, QObject *parent = nullptr) : QObject(parent), QCommandLineParser() {
 
-        addPositionalArgument("[filename]", QGuiApplication::translate("commandlineparser", "Image file to open."));
+        // install translator if help message is to be displayed
+        // we can't always install the translator as this would overwrite any translator set later (i.e., the settings would be ignored)
+        if(app.arguments().contains("--help") || app.arguments().contains("-h")) {
+            QTranslator *trans = new QTranslator;
+            const QString langCode = QLocale::system().name();
+            if(QFile(":/photoqt_" + langCode + ".qm").exists()) {
+                trans->load(":/photoqt_" + langCode);
+                qApp->installTranslator(trans);
+            }
+            if(langCode.contains("_")) {
+                const QString cc = langCode.split("_").at(0);
+                if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+                    trans->load(":/photoqt_" + cc);
+                    qApp->installTranslator(trans);
+                }
+            } else {
+                const QString cc = QString("%1_%2").arg(langCode, langCode.toUpper());
+                if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+                    trans->load(":/photoqt_" + cc);
+                    qApp->installTranslator(trans);
+                }
+            }
+        }
+
+        setApplicationDescription(QApplication::translate("commandlineparser", "Image Viewer"));
+
+        addPositionalArgument("[filename]", QApplication::translate("commandlineparser", "Image file to open."));
 
         addHelpOption();
         addVersionOption();
 
         addOptions({
-            {{"o", "open"}, QGuiApplication::translate("commandlineparser", "Make PhotoQt ask for a new file.")},
-            {{"s", "show"}, QGuiApplication::translate("commandlineparser", "Shows PhotoQt from system tray.")},
-            {"hide", QGuiApplication::translate("commandlineparser", "Hides PhotoQt to system tray.")},
-            {{"t", "toggle"}, QGuiApplication::translate("commandlineparser", "Show/Hide PhotoQt.")},
-            {"thumbs", QGuiApplication::translate("commandlineparser", "Enable thumbnails.")},
-            {"no-thumbs", QGuiApplication::translate("commandlineparser", "Disable thumbnails.")},
-            {"start-in-tray", QGuiApplication::translate("commandlineparser", "Start PhotoQt hidden to the system tray.")},
-            {"standalone", QGuiApplication::translate("commandlineparser", "Open standalone PhotoQt, allows for multiple instances but without remote interaction.")},
-            {"send-shortcut", QGuiApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
-            {"debug", QGuiApplication::translate("commandlineparser", "Switch on debug messages.")},
-            {"no-debug", QGuiApplication::translate("commandlineparser", "Switch off debug messages.")},
-            {"export", QGuiApplication::translate("commandlineparser", "Export configuration to given filename."), "filename"},
-            {"import", QGuiApplication::translate("commandlineparser", "Import configuration from given filename."), "filename"}
+            {{"o", "open"}, QApplication::translate("commandlineparser", "Make PhotoQt ask for a new file.")},
+            {{"s", "show"}, QApplication::translate("commandlineparser", "Shows PhotoQt from system tray.")},
+            {"hide", QApplication::translate("commandlineparser", "Hides PhotoQt to system tray.")},
+            {{"t", "toggle"}, QApplication::translate("commandlineparser", "Show/Hide PhotoQt.")},
+            {"thumbs", QApplication::translate("commandlineparser", "Enable thumbnails.")},
+            {"no-thumbs", QApplication::translate("commandlineparser", "Disable thumbnails.")},
+            {"start-in-tray", QApplication::translate("commandlineparser", "Start PhotoQt hidden to the system tray.")},
+            {"standalone", QApplication::translate("commandlineparser", "Open standalone PhotoQt, allows for multiple instances but without remote interaction.")},
+            {"send-shortcut", QApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
+            {"debug", QApplication::translate("commandlineparser", "Switch on debug messages.")},
+            {"no-debug", QApplication::translate("commandlineparser", "Switch off debug messages.")},
+            {"export", QApplication::translate("commandlineparser", "Export configuration to given filename."), "filename"},
+            {"import", QApplication::translate("commandlineparser", "Import configuration from given filename."), "filename"}
         });
 
         process(app);
