@@ -42,6 +42,25 @@ public:
     PQKeyPressChecker(PQKeyPressChecker const&)    = delete;
     void operator=(PQKeyPressChecker const&) = delete;
 
+    Q_INVOKABLE void simulateKeyPress(QString seq) {
+        int key = 0;
+        int modifiers = 0;
+        const QStringList parts = seq.split("+");
+        for(const QString &part : parts) {
+            if(part.toLower() == "ctrl")
+                modifiers |= Qt::CTRL;
+            else if(part.toLower() == "shift")
+                modifiers |= Qt::SHIFT;
+            else if(part.toLower() == "alt")
+                modifiers |= Qt::ALT;
+            else if(part.toLower() == "meta")
+                modifiers |= Qt::META;
+            else
+                key |= QKeySequence::fromString(part)[0];
+        }
+        emit receivedKeyPress(key, modifiers);
+    }
+
 private:
     PQKeyPressChecker() { }
 

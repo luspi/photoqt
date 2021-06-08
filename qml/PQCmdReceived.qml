@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import "shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -84,7 +83,7 @@ Item {
         }
 
         onCmdShortcutSequence: {
-            HandleShortcuts.checkComboForShortcut(seq)
+            PQKeyPressChecker.simulateKeyPress(seq)
         }
 
         onCmdTray: {
