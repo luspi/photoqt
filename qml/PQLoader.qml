@@ -41,7 +41,8 @@ Item {
     signal filterPassOn(var what, var param)
     signal faceTaggerPassOn(var what, var param)
     signal settingsManagerPassOn(var what, var param)
-    signal fileSaveAsPassOn(var what, var param);
+    signal fileSaveAsPassOn(var what, var param)
+    signal quickNavigationPassOn(var what, var param)
     signal unavailablePassOn(var what, var param)
     signal unavailablePopoutPassOn(var what, var param)
 
@@ -110,6 +111,9 @@ Item {
         else if(ele == "unavailablepopout")
             unavailablePopoutPassOn("show", undefined)
 
+        else if(ele == "quicknavigation")
+            quickNavigationPassOn("show", undefined)
+
     }
 
     function passOn(ele, what, param) {
@@ -161,6 +165,9 @@ Item {
 
         else if(ele == "unavailable")
             unavailablePassOn(what, param)
+
+        else if(ele == "quicknavigation")
+            quickNavigationPassOn(what, param)
 
     }
 
@@ -218,6 +225,9 @@ Item {
 
         else if(ele == "unavailablepopout")
             unavailablePopoutPassOn("keyevent", [key, mod])
+
+        else if(ele == "quicknavigation")
+            quickNavigationPassOn("keyevent", [key, mod])
 
     }
 
@@ -347,6 +357,10 @@ Item {
 
             else if(!PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAs.qml")
                 filesaveas.source = "filemanagement/PQSaveAs.qml"
+
+        } else if(ele == "quicknavigation") {
+
+            quicknavigation.source = "mainwindow/PQNavigation.qml"
 
         } else if(ele == "unavailable") {
 

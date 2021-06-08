@@ -155,8 +155,12 @@ Rectangle {
         }
     }
 
-    function toggle() {
-        opacity = (opacity == 0 ? 1 : 0)
+    Connections {
+        target: loader
+        onQuickNavigationPassOn: {
+            if(what == "toggle")
+                toggle()
+        }
     }
 
 }

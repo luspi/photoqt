@@ -48,6 +48,8 @@ PQSetting {
 
         onSaveAllSettings: {
             PQSettings.quickNavigation = navcheck.checked
+            if(navcheck.checked)
+                loader.ensureItIsReady("quicknavigation")
         }
 
     }

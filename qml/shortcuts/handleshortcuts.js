@@ -112,9 +112,10 @@ function whatToDoWithFoundShortcut(sh) {
         loader.mainmenuPassOn("toggle", undefined)
     else if(cmd === "__showThumbnails")
         thumbnails.toggle()
-    else if(cmd === "__quickNavigation")
-        navigation.toggle()
-    else if(cmd === "__goToFirst")
+    else if(cmd === "__quickNavigation") {
+        loader.ensureItIsReady("quicknavigation")
+        PQSettings.quickNavigation = !PQSettings.quickNavigation
+    } else if(cmd === "__goToFirst")
         imageitem.loadFirstImage()
     else if(cmd === "__goToLast")
         imageitem.loadLastImage()
