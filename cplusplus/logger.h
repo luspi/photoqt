@@ -20,28 +20,36 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef LOGGER_H
-#define LOGGER_H
+#ifndef PQLOG_H
+#define PQLOG_H
 
 #include <iostream>
 #include <sstream>
-#include <QDateTime>
+#include <QObject>
+#include <QFile>
 #include <QDir>
+#include <QDateTime>
 #include <QTextStream>
 #include "configfiles.h"
-#include "variables.h"
 
-class Logger {
+/***************************************************************/
+// LOGGER
+
+class PQLog : public QObject {
+
+    Q_OBJECT
 
 public:
-    Logger() {
-#ifdef PHOTOQTDEBUG
-        logFile.setFileName(QDir::tempPath() + "/photoqt.log");
-#endif
+    static PQLog& get() {
+        static PQLog instance;
+        return instance;
     }
 
+    PQLog(PQLog const&)          = delete;
+    void operator=(PQLog const&) = delete;
+
     template <class T>
-    Logger &operator<<(const T &v) {
+    PQLog &operator<<(const T &v) {
 
         std::stringstream str;
         str << v;
@@ -51,47 +59,42 @@ public:
         else
             std::clog << v;
 
-#ifdef PHOTOQTDEBUG
-        QTextStream out(&logFile);
-        logFile.open(QIODevice::WriteOnly | QIODevice::Append);
-        if(str.str() == "[[[DATE]]]")
-            out << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz") << "] ";
-        else
-            out << QString::fromStdString(str.str());
-
-        logFile.close();
-#endif
-
         return *this;
 
     }
 
-    Logger &operator<<(std::ostream&(*f)(std::ostream&)) {
+    PQLog &operator<<(std::ostream&(*f)(std::ostream&)) {
+
         std::clog << f;
         return *this;
+
     }
 
 private:
-#ifdef PHOTOQTDEBUG
-    QFile logFile;
-#endif
+    PQLog() { }
 
 };
 
-class DebugLogger {
+/***************************************************************/
+// DEBUG LOGGER
+
+class PQDebugLog : public QObject {
+
+    Q_OBJECT
 
 public:
-    DebugLogger() {
-#ifdef PHOTOQTDEBUG
-        logFile.setFileName(QDir::tempPath() + "/photoqt.debuglog");
-#endif
+    static PQDebugLog& get() {
+        static PQDebugLog instance;
+        return instance;
     }
 
-    template <class T>
-    DebugLogger &operator<<(const T &v) {
+    PQDebugLog(PQDebugLog const&)     = delete;
+    void operator=(PQDebugLog const&) = delete;
 
-        if(!PQVariables::get().getCmdDebug())
-            return *this;
+    template <class T>
+    PQDebugLog &operator<<(const T &v) {
+
+        if(!debug) return *this;
 
         std::stringstream str;
         str << v;
@@ -101,38 +104,34 @@ public:
         else
             std::clog << v;
 
-#ifdef PHOTOQTDEBUG
-        QTextStream out(&logFile);
-        logFile.open(QIODevice::WriteOnly | QIODevice::Append);
-        if(str.str() == "[[[DATE]]]")
-            out << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz") << "] ";
-        else
-            out << QString::fromStdString(str.str());
-
-        logFile.close();
-#endif
-
         return *this;
 
     }
 
-    DebugLogger &operator<<(std::ostream&(*f)(std::ostream&)) {
-        if(!PQVariables::get().getCmdDebug())
-            return *this;
+    PQDebugLog &operator<<(std::ostream&(*f)(std::ostream&)) {
+
+        if(!debug) return *this;
+
         std::clog << f;
         return *this;
+
+    }
+
+    void setDebug(bool dbg) {
+        debug = dbg;
     }
 
 private:
-#ifdef PHOTOQTDEBUG
-    QFile logFile;
-#endif
+    PQDebugLog() {
+        debug = false;
+    }
+    bool debug;
 
 };
 
-#define LOG Logger()
-#define DBG DebugLogger()
+#define LOG PQLog::get()
+#define DBG PQDebugLog::get()
 #define CURDATE "[[[DATE]]]"
 #define NL "\n"
 
-#endif // LOGGER_H
+#endif // PQLOG_H
