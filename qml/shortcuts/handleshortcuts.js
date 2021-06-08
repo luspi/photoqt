@@ -121,6 +121,8 @@ function whatToDoWithFoundShortcut(sh) {
         imageitem.loadLastImage()
     else if(cmd === "__viewerMode")
         labels.toggleViewerMode()
+    else if(cmd === "__showFaceTags")
+        PQSettings.peopleTagInMetaDisplay = !PQSettings.peopleTagInMetaDisplay
     else if(cmd === "__wallpaper")
         loader.show("wallpaper")
     else if(cmd === "__scale")

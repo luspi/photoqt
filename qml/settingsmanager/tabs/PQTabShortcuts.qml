@@ -138,6 +138,8 @@ Item {
                             //: Name of shortcut action
                             ["__playPauseAni", em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video")],
                             //: Name of shortcut action
+                            ["__showFaceTags", em.pty+qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)")],
+                            //: Name of shortcut action
                             ["__tagFaces", em.pty+qsTranslate("settingsmanager", "Tag faces (stored in metadata)")]]
             }
 
