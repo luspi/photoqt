@@ -176,6 +176,7 @@ Window {
     Loader { id: welcome }
 
     PQVariables { id: variables }
+    PQCmdReceived { id: cmdreceived }
     PQLoader { id: loader }
 
     PQMouseShortcuts { id: mouseshortcuts }

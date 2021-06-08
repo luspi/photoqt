@@ -123,6 +123,10 @@ Item {
                 unavailable_top.opacity = 1
                 variables.visibleItem = "unavailable"
 
+            } else if(what == "hide") {
+
+                buttonClose.clicked()
+
             } else if(what == "keyevent") {
 
                 if(param[0] == Qt.Key_Escape)

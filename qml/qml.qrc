@@ -145,5 +145,6 @@
         <file>settingsmanager/tabs/interface/PQLabels.qml</file>
         <file>mainwindow/image/PQFaceTagsUnsupported.qml</file>
         <file>PQTrayIcon.qml</file>
+        <file>PQCmdReceived.qml</file>
     </qresource>
 </RCC>

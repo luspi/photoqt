@@ -20,54 +20,43 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQSINGLEINSTANCE_H
-#define PQSINGLEINSTANCE_H
+#ifndef PQPASSON_H
+#define PQPASSON_H
 
-#include <QApplication>
-#include <QLocalSocket>
-#include <QLocalServer>
-#include <thread>
-#include <QQmlApplicationEngine>
-#include <QVector>
-#include "commandlineparser.h"
-#include "../logger.h"
-#include "../variables.h"
-#include "../passon.h"
-#include "../keypresschecker.h"
+#include <QObject>
 
-// Makes sure only one instance of PhotoQt is running, and enables remote communication
-class PQSingleInstance : public QApplication {
+class PQPassOn : public QObject {
 
     Q_OBJECT
 
 public:
-    explicit PQSingleInstance(int&, char *[]);
-    ~PQSingleInstance();
+    static PQPassOn& get() {
+        static PQPassOn instance;
+        return instance;
+    }
 
-    QString exportAndQuit;
-    QString importAndQuit;
-
-    QQmlApplicationEngine *qmlEngine;
-    QVector<void*> qmlWindowAddresses;
-
-protected:
-    virtual bool notify(QObject * receiver, QEvent * event) override;
-
-signals:
-    // Interact with application
-    void interaction(PQCommandLineResult result, QString value);
-
-private slots:
-    // A new application instance was started (notification to main instance)
-    void newConnection();
+    PQPassOn(PQPassOn const&)     = delete;
+    void operator=(PQPassOn const&) = delete;
 
 private:
-    QLocalSocket *socket;
-    QLocalServer *server;
+    PQPassOn() {}
 
-    // This one is used in main process, handling the message sent by sub-instances
-    void handleMessage(QString msg);
+signals:
+    void cmdFilePath(QString path);
+    void cmdOpen();
+    void cmdShow();
+    void cmdHide();
+    void cmdToggle();
+    void cmdThumbs();
+    void cmdNoThumbs();
+
+    void cmdTray();
+    void cmdShortcutSequence(QString seq);
+
+    void cmdDebug();
+    void cmdNoDebug();
 
 };
 
-#endif // PQSINGLEINSTANCE_H
+
+#endif // PQPASSON_H

@@ -159,6 +159,9 @@ Item {
         else if(ele == "copymove")
             copyMoveFilePassOn(what, param)
 
+        else if(ele == "unavailable")
+            unavailablePassOn(what, param)
+
     }
 
     function passKeyEvent(ele, key, mod) {
