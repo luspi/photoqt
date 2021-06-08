@@ -78,6 +78,7 @@ Item {
                     y: 4
                     font.pointSize: PQSettings.peopleTagInMetaFontSize/facetracker_top.scale
                     color: "white"
+                    renderType: Text.QtRendering
                     text: " "+faceTags[6*index+5]+" "
                 }
 
