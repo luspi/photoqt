@@ -130,7 +130,7 @@ QList<int> PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
 
 int PQHandlingWallpaper::getScreenCount() {
     DBG << CURDATE << "PQHandlingWallpaper::getScreenCount()" << NL;
-    return QGuiApplication::screens().count();
+    return QApplication::screens().count();
 }
 
 void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVariantMap options) {

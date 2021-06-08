@@ -26,7 +26,7 @@
 #include <QObject>
 #include <QProcess>
 #include <QtDBus>
-#include <QGuiApplication>
+#include <QApplication>
 #include "../logger.h"
 
 class PQHandlingWallpaper : public QObject {

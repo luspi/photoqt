@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
 #include "passon.h"
@@ -65,17 +64,17 @@
 
 int main(int argc, char **argv) {
 
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     PQSingleInstance app(argc, argv);
 
     // Set app name and version
-    QGuiApplication::setApplicationName("PhotoQt");
-    QGuiApplication::setOrganizationName("");
-    QGuiApplication::setOrganizationDomain("photoqt.org");
-    QGuiApplication::setApplicationVersion(VERSION);
+    QApplication::setApplicationName("PhotoQt");
+    QApplication::setOrganizationName("");
+    QApplication::setOrganizationDomain("photoqt.org");
+    QApplication::setApplicationVersion(VERSION);
 
-    QGuiApplication::setQuitOnLastWindowClosed(true);
+    QApplication::setQuitOnLastWindowClosed(true);
 
     if(app.exportAndQuit != "") {
         PQStartup::Export::perform(app.exportAndQuit);

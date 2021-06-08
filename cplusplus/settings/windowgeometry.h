@@ -26,7 +26,7 @@
 #include <QObject>
 #include <QRect>
 #include <QSettings>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QScreen>
 #include "../logger.h"
 #include "../scripts/handlingexternal.h"

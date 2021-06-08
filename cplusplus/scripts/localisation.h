@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include <QTranslator>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QFile>
 
 class PQLocalisation : public QObject {

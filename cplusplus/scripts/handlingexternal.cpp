@@ -27,7 +27,7 @@ void PQHandlingExternal::copyTextToClipboard(QString txt) {
     DBG << CURDATE << "PQHandlingExternal::copyTextToClipboard()" << NL
         << CURDATE << "** txt = " << txt.toStdString() << NL;
 
-    QGuiApplication::clipboard()->setText(txt, QClipboard::Clipboard);
+    QApplication::clipboard()->setText(txt, QClipboard::Clipboard);
 
 }
 
