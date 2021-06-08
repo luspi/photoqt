@@ -36,16 +36,16 @@ Item {
            (variables.mousePos.y < PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y < height && visible) ||
            (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
-           forceShow) ? 0 : -height) :
+           forceShow)&&!forceHide ? 0 : -height) :
 
            ((PQSettings.thumbnailKeepVisible ||
            (variables.mousePos.y > toplevel.height-PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
            (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
-           forceShow) ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
+           forceShow)&&!forceHide ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
 
     property bool forceShow: false
-
+    property bool forceHide: false
 
     visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
 
@@ -201,12 +201,20 @@ Item {
 
     Connections {
         target: variables
-        onMousePosChanged:
+        onMousePosChanged: {
             forceShow = false
+            forceHide = false
+        }
     }
 
     function toggle() {
-        forceShow = !forceShow
+        if(forceShow || visible) {
+            forceShow = false
+            forceHide = true
+        } else {
+            forceShow = true
+            forceHide = false
+        }
     }
 
 }

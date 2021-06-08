@@ -72,7 +72,6 @@ Rectangle {
     }
 
     MouseArea {
-        id: globmouse
         anchors.fill: parent;
         hoverEnabled: true
 
@@ -444,7 +443,7 @@ Rectangle {
     }
 
     function toggle() {
-        if(PQSettings.mainMenuPopoutElement || globmouse.containsMouse) return
+        if(PQSettings.mainMenuPopoutElement) return
         if(mainmenu_top.opacity == 1)
             mainmenu_top.opacity = 0
         else

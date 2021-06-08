@@ -65,7 +65,6 @@ Rectangle {
     }
 
     MouseArea {
-        id: globmouse
         anchors.fill: parent
         hoverEnabled: true
 
@@ -358,17 +357,23 @@ Rectangle {
             if(what == "toggleKeepOpen")
                 toggleKeepOpen()
             else if(what == "toggle") {
-                if(metadata_top.opacity == 1 && !keepopen.checked)
-                    metadata_top.opacity = 0
-                else
-                    metadata_top.opacity = 1
+                toggle()
             }
 
         }
     }
 
+    function toggle() {
+        if(PQSettings.metadataPopoutElement) return
+        keepopen.checked = false
+        if(metadata_top.opacity == 1)
+            metadata_top.opacity = 0
+        else
+            metadata_top.opacity = 1
+    }
+
     function toggleKeepOpen() {
-        if(PQSettings.metadataPopoutElement || globmouse.containsMouse) return
+        if(PQSettings.metadataPopoutElement) return
         keepopen.checked = !keepopen.checked
         if(metadata_top.opacity == 1 && !keepopen.checked)
             metadata_top.opacity = 0
