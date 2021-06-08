@@ -35,12 +35,16 @@ Item {
            ((PQSettings.thumbnailKeepVisible ||
            (variables.mousePos.y < PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y < height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? 0 : -height) :
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
+           forceShow) ? 0 : -height) :
 
            ((PQSettings.thumbnailKeepVisible ||
            (variables.mousePos.y > toplevel.height-PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
+           forceShow) ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
+
+    property bool forceShow: false
 
 
     visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
@@ -193,6 +197,16 @@ Item {
             view.model = Qt.binding(function() { return (PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView) })
             view.currentIndex = filefoldermodel.current
         }
+    }
+
+    Connections {
+        target: variables
+        onMousePosChanged:
+            forceShow = false
+    }
+
+    function toggle() {
+        forceShow = !forceShow
     }
 
 }

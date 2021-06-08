@@ -35,6 +35,7 @@ namespace PQStartup {
     static void PQStartup() {
         ::PQStartup::Folders::ensureConfigDataFoldersExist();
         ::PQStartup::Screenshots::getAndStore();
+        ::PQStartup::Shortcuts::updateShortcuts();
         ::PQStartup::Shortcuts::createDefaultShortcuts();
         ::PQStartup::ContextMenu::createDefault();
         ::PQStartup::ImageFormats::ensureImageFormatsDatabaseExists();

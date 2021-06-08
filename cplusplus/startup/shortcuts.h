@@ -30,6 +30,28 @@ namespace PQStartup {
 
     namespace Shortcuts {
 
+        static void updateShortcuts() {
+
+            QFile shortcutsfile(ConfigFiles::SHORTCUTS_FILE());
+
+            if(shortcutsfile.exists() && shortcutsfile.open(QIODevice::ReadWrite)) {
+
+                QTextStream in(&shortcutsfile);
+                QString txt = in.readAll();
+
+                // rename shortcuts
+                if(txt.contains("__hideMeta")) {
+                    txt = txt.replace("__hideMeta", "__showMetaData");
+                    QTextStream out(&shortcutsfile);
+                    out << txt;
+                }
+
+                shortcutsfile.close();
+
+            }
+
+        }
+
         static void createDefaultShortcuts() {
 
             // If the shortcuts file does not exist create it with the set of default shortcuts

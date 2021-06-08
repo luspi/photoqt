@@ -72,6 +72,7 @@ Rectangle {
     }
 
     MouseArea {
+        id: globmouse
         anchors.fill: parent;
         hoverEnabled: true
 
@@ -128,7 +129,7 @@ Rectangle {
         //: This is an entry in the main menu on the right. Please keep short!
         [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter Images in Folder"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__hideMeta", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide Metadata"), "donthide"]],
+        [["__showMetaData", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide Metadata"), "donthide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
         //: This is an entry in the main menu on the right. Please keep short!
@@ -443,7 +444,7 @@ Rectangle {
     }
 
     function toggle() {
-        if(PQSettings.mainMenuPopoutElement) return
+        if(PQSettings.mainMenuPopoutElement || globmouse.containsMouse) return
         if(mainmenu_top.opacity == 1)
             mainmenu_top.opacity = 0
         else

@@ -323,6 +323,13 @@ Rectangle {
         filefoldermodel.fileInFolderMainView = filefoldermodel.setFileNameOnceReloaded
     }
 
+    function toggleViewerMode() {
+        if(filefoldermodel.isPQT || filefoldermodel.isARC)
+            exitViewerMode()
+        else
+            enterViewerMode()
+    }
+
     PQMouseArea {
         x: filterremove_cont.x
         y: filterremove_cont.y

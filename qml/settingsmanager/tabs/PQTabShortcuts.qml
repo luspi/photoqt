@@ -92,19 +92,21 @@ Item {
                             //: Name of shortcut action
                 available: [["__open", em.pty+qsTranslate("settingsmanager", "Open new file")],
                             //: Name of shortcut action
-                            ["__filterImages", em.pty+qsTranslate("settingsmanager", "Filter images in folder"), "__filterImages"],
+                            ["__filterImages", em.pty+qsTranslate("settingsmanager", "Filter images in folder")],
                             //: Name of shortcut action
-                            ["__next", em.pty+qsTranslate("settingsmanager", "Next image"), "__next"],
+                            ["__next", em.pty+qsTranslate("settingsmanager", "Next image")],
                             //: Name of shortcut action
-                            ["__prev", em.pty+qsTranslate("settingsmanager", "Previous image"), "__prev"],
+                            ["__prev", em.pty+qsTranslate("settingsmanager", "Previous image")],
                             //: Name of shortcut action
-                            ["__goToFirst", em.pty+qsTranslate("settingsmanager", "Go to first image"), "__goToFirst"],
+                            ["__goToFirst", em.pty+qsTranslate("settingsmanager", "Go to first image")],
                             //: Name of shortcut action
-                            ["__goToLast", em.pty+qsTranslate("settingsmanager", "Go to last image"), "__goToLast"],
+                            ["__goToLast", em.pty+qsTranslate("settingsmanager", "Go to last image")],
                             //: Name of shortcut action
-                            ["__close", em.pty+qsTranslate("settingsmanager", "Hide to system tray (if enabled)"), "__close"],
+                            ["__viewerMode", em.pty+qsTranslate("settingsmanager", "Enter viewer mode")],
                             //: Name of shortcut action
-                            ["__quit", em.pty+qsTranslate("settingsmanager", "Quit PhotoQt"), "__quit"]]
+                            ["__close", em.pty+qsTranslate("settingsmanager", "Hide to system tray (if enabled)")],
+                            //: Name of shortcut action
+                            ["__quit", em.pty+qsTranslate("settingsmanager", "Quit PhotoQt")]]
             }
 
             PQContainer {
@@ -161,7 +163,11 @@ Item {
                 //: A shortcuts category: other functions
                 category: em.pty+qsTranslate("settingsmanager", "Other")
                             //: Name of shortcut action
-                available: [["__hideMeta", em.pty+qsTranslate("settingsmanager", "Hide/Show metadata")],
+                available: [["__showMainMenu", em.pty+qsTranslate("settingsmanager", "Hide/Show main menu")],
+                            //: Name of shortcut action
+                            ["__showMetaData", em.pty+qsTranslate("settingsmanager", "Hide/Show metadata")],
+                            //: Name of shortcut action
+                            ["__showThumbnails", em.pty+qsTranslate("settingsmanager", "Hide/Show thumbnails")],
                             //: Name of shortcut action
                             ["__settings", em.pty+qsTranslate("settingsmanager", "Show Settings")],
                             //: Name of shortcut action

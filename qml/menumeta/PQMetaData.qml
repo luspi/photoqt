@@ -65,6 +65,7 @@ Rectangle {
     }
 
     MouseArea {
+        id: globmouse
         anchors.fill: parent
         hoverEnabled: true
 
@@ -356,11 +357,18 @@ Rectangle {
         onMetadataPassOn: {
             if(what == "toggleKeepOpen")
                 toggleKeepOpen()
+            else if(what == "toggle") {
+                if(metadata_top.opacity == 1 && !keepopen.checked)
+                    metadata_top.opacity = 0
+                else
+                    metadata_top.opacity = 1
+            }
+
         }
     }
 
     function toggleKeepOpen() {
-        if(PQSettings.metadataPopoutElement) return
+        if(PQSettings.metadataPopoutElement || globmouse.containsMouse) return
         keepopen.checked = !keepopen.checked
         if(metadata_top.opacity == 1 && !keepopen.checked)
             metadata_top.opacity = 0
