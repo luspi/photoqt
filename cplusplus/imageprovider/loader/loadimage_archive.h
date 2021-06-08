@@ -31,7 +31,6 @@
 #endif
 
 #include "../../logger.h"
-#include "../../variables.h"
 #include "../../scripts/handlingfiledir.h"
 
 class PQLoadImageArchive {

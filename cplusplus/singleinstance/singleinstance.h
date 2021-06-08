@@ -31,9 +31,12 @@
 #include <QVector>
 #include "commandlineparser.h"
 #include "../logger.h"
-#include "../variables.h"
 #include "../passon.h"
 #include "../keypresschecker.h"
+// DO NOT use PQSettings in this class!
+// The right folders are not yet set up at this point
+// This will cause unintended side effects
+// including not loading the settings properly/resetting defaults
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
 class PQSingleInstance : public QApplication {

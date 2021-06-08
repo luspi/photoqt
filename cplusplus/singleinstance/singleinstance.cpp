@@ -163,47 +163,47 @@ void PQSingleInstance::handleMessage(QString msg) {
 
         if(m.startsWith("_F_I_L_E_"))
 
-            PQPassOn::get().cmdFilePath(m.remove(0, 9));
+            PQPassOn::get().setFilePath(m.remove(0, 9));
 
         else if(m.startsWith("_O_P_E_N_"))
 
-            PQPassOn::get().cmdOpen();
+            emit PQPassOn::get().cmdOpen();
 
         else if(m.startsWith("_S_H_O_W_"))
 
-            PQPassOn::get().cmdShow();
+            emit PQPassOn::get().cmdShow();
 
         else if(m.startsWith("_H_I_D_E_"))
 
-            PQPassOn::get().cmdHide();
+            emit PQPassOn::get().cmdHide();
 
         else if(m.startsWith("_T_O_G_G_L_E_"))
 
-            PQPassOn::get().cmdToggle();
+            emit PQPassOn::get().cmdToggle();
 
         else if(m.startsWith("_T_H_U_M_B_S_"))
 
-            PQPassOn::get().cmdThumbs();
+            PQPassOn::get().setThumbs(true);
 
         else if(m.startsWith("_N_O_T_H_U_M_B_S_"))
 
-            PQPassOn::get().cmdNoThumbs();
+            PQPassOn::get().setThumbs(false);
 
         else if(m.startsWith("_T_R_A_Y_"))
 
-            PQPassOn::get().cmdTray();
+            PQPassOn::get().setStartInTray();
 
         else if(m.startsWith("_S_H_O_R_T_C_U_T_"))
 
-            PQPassOn::get().cmdShortcutSequence(m.remove(0, 17));
+            emit PQPassOn::get().cmdShortcutSequence(m.remove(0, 17));
 
         else if(m.startsWith("_D_E_B_U_G_"))
 
-            PQVariables::get().setCmdDebug(true);
+            DBG.setDebug(true);
 
         else if(m.startsWith("_N_O_D_E_B_U_G_"))
 
-            PQVariables::get().setCmdDebug(false);
+            DBG.setDebug(false);
 
     }
 

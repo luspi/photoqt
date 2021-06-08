@@ -32,7 +32,26 @@
 #endif
 
 #include "../../logger.h"
-#include "../../variables.h"
+
+// class to provide a global mutex
+// we need to have one and only one for each thread
+// this is needed because DevIL is not threadsafe
+class PQLoadImageDevilMutex : public QObject {
+    Q_OBJECT
+public:
+        static PQLoadImageDevilMutex& get() {
+            static PQLoadImageDevilMutex instance;
+            return instance;
+        }
+        PQLoadImageDevilMutex(PQLoadImageDevilMutex const&)     = delete;
+        void operator=(PQLoadImageDevilMutex const&) = delete;
+#ifdef DEVIL
+        // DevIL is not threadsafe -> this ensures only one image is loaded at a time
+        QMutex devilMutex;
+#endif
+private:
+        PQLoadImageDevilMutex() {}
+};
 
 class PQLoadImageDevil {
 
@@ -48,7 +67,7 @@ public:
         errormsg = "";
 
         // DevIL is NOT threadsafe -> need to ensure only one image is loaded at a time...
-        QMutexLocker locker(&PQVariables::get().devilMutex);
+        QMutexLocker locker(&PQLoadImageDevilMutex::get().devilMutex);
 
         // THIS IS CURRENTLY SLIGHTLY HACKY:
         // DevIL loads the image and then writes it to a temporary jpg file.

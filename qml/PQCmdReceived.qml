@@ -80,27 +80,27 @@ Item {
         }
 
         onCmdThumbs: {
-            PQSettings.thumbnailDisable = false
-        }
-
-        onCmdNoThumbs: {
-            PQSettings.thumbnailDisable = true
+            PQSettings.thumbnailDisable = !thb
         }
 
         onCmdShortcutSequence: {
-            HandleShortcuts.checkComboForShortcut(PQCppVariables.cmdShortcutSequence)
-        }
-
-        onCmdTray: {
-            PQSettings.trayIcon = 1
-            toplevel.visible = false
+            HandleShortcuts.checkComboForShortcut(seq)
         }
 
         Component.onCompleted: {
-            // check these at startup
-            PQPassOn.cmdThumbs()
-            PQPassOn.cmdNoThumbs()
-            PQPassOn.cmdTray()
+
+            // check at startup
+
+            // --thumbs / --no-thumbs
+            if((PQPassOn.getThumbs()==1) == PQSettings.thumbnailDisable)
+                PQSettings.thumbnailDisable = !PQSettings.thumbnailDisable
+
+            // --start-in-tray
+            if(PQPassOn.getStartInTray()) {
+                PQSettings.trayIcon = 1
+                toplevel.visible = false
+            }
+
         }
 
     }

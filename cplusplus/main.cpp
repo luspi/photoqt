@@ -23,7 +23,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#include "variables.h"
 #include "passon.h"
 #include "startup.h"
 #include "startup/exportimport.h"
@@ -45,6 +44,7 @@
 #include "settings/windowgeometry.h"
 #include "scripts/metadata.h"
 #include "filefoldermodel/filefoldermodel.h"
+#include "logger.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
@@ -90,7 +90,11 @@ int main(int argc, char **argv) {
     QFile set(ConfigFiles::SETTINGS_FILE());
     QFile img(ConfigFiles::IMAGEFORMATS_DB());
     QFile sht(ConfigFiles::SHORTCUTS_FILE());
-    if(!set.exists() || !img.exists() || !sht.exists() || PQSettings::get().getVersion() != VERSION)
+    if(!set.exists() || !img.exists() || !sht.exists()) {
+        PQPassOn::get().setFreshInstall(true);
+        performStartupChecks = true;
+    }
+    if(PQSettings::get().getVersion() != VERSION)
         performStartupChecks = true;
 
 // only one of them will be defined at a time
@@ -138,7 +142,6 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
-    engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
     engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
     engine.rootContext()->setContextProperty("PQKeyPressChecker", &PQKeyPressChecker::get());

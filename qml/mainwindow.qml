@@ -161,7 +161,7 @@ Window {
 
     Component.onCompleted:  {
 
-        if(PQCppVariables.freshInstall)
+        if(PQPassOn.getFreshInstall())
 
             welcome.source = "welcome/PQWelcome.qml"
 
@@ -309,10 +309,10 @@ Window {
 
         var filenameToLoad = handlingGeneral.getLastLoadedImage()
 
-        if(PQCppVariables.cmdFilePath != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
+        if(PQPassOn.getFilePath() != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
 
-            if(PQCppVariables.cmdFilePath != "")
-                filenameToLoad = PQCppVariables.cmdFilePath
+            if(PQPassOn.getFilePath() != "")
+                filenameToLoad = PQPassOn.getFilePath()
 
             var folderToLoad = handlingFileDir.getFilePathFromFullPath(filenameToLoad)
 

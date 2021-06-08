@@ -41,7 +41,6 @@
 #include "../logger.h"
 #include "../settings/imageformats.h"
 #include "../settings/settings.h"
-#include "../variables.h"
 
 class PQHandlingFileDialog : public QObject {
 

@@ -24,6 +24,10 @@
 #define PQPASSON_H
 
 #include <QObject>
+// DO NOT use PQSettings in this class!
+// The right folders are not yet set up at this point
+// This will cause unintended side effects
+// including not loading the settings properly/resetting defaults
 
 class PQPassOn : public QObject {
 
@@ -38,8 +42,55 @@ public:
     PQPassOn(PQPassOn const&)     = delete;
     void operator=(PQPassOn const&) = delete;
 
+    /******************************************************/
+    // at startup, call this method instead of signal directly
+    // later-on, the signal can be used without this method
+    void setFilePath(QString path) {
+        filepath = path;
+        emit cmdFilePath(filepath);
+    }
+    Q_INVOKABLE QString getFilePath() {
+        return filepath;
+    }
+    /******************************************************/
+    // used to show 'welcome' screen if this seems to be a new install
+    void setFreshInstall(bool inst) {
+        freshInstall = inst;
+    }
+    Q_INVOKABLE bool getFreshInstall() {
+        return freshInstall;
+    }
+    /******************************************************/
+    void setThumbs(bool thb) {
+        thumbs = int(thb);
+        emit cmdThumbs(thb);
+    }
+    Q_INVOKABLE bool getThumbs() {
+        return thumbs;
+    }
+    /******************************************************/
+    void setStartInTray() {
+        startintray = true;
+    }
+    Q_INVOKABLE bool getStartInTray() {
+        return startintray;
+    }
+    /******************************************************/
+
+
 private:
-    PQPassOn() {}
+    PQPassOn() {
+        filepath = "";
+        freshInstall = false;
+        startintray = false;
+        thumbs = 2;
+    }
+    // these are used at startup
+    // afterwards we only listen to the signals
+    QString filepath;
+    bool freshInstall;
+    int thumbs;
+    bool startintray;
 
 signals:
     void cmdFilePath(QString path);
@@ -47,14 +98,8 @@ signals:
     void cmdShow();
     void cmdHide();
     void cmdToggle();
-    void cmdThumbs();
-    void cmdNoThumbs();
-
-    void cmdTray();
+    void cmdThumbs(bool thb);
     void cmdShortcutSequence(QString seq);
-
-    void cmdDebug();
-    void cmdNoDebug();
 
 };
 
