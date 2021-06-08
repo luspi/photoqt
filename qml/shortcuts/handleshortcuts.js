@@ -108,6 +108,8 @@ function whatToDoWithFoundShortcut(sh) {
         loader.show("filesaveas")
     else if(cmd === "__showMetaData")
         loader.metadataPassOn("toggle", undefined)
+    else if(cmd == "__keepMetaData")
+        loader.metadataPassOn("toggleKeepOpen", undefined)
     else if(cmd === "__showMainMenu")
         loader.mainmenuPassOn("toggle", undefined)
     else if(cmd === "__showThumbnails")

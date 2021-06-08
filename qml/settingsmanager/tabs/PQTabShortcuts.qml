@@ -171,6 +171,8 @@ Item {
                             //: Name of shortcut action
                             ["__showMetaData", em.pty+qsTranslate("settingsmanager", "Hide/Show metadata")],
                             //: Name of shortcut action
+                            ["__keepMetaData", em.pty+qsTranslate("settingsmanager", "Keep metadata opened")],
+                            //: Name of shortcut action
                             ["__showThumbnails", em.pty+qsTranslate("settingsmanager", "Hide/Show thumbnails")],
                             //: Name of shortcut action
                             ["__settings", em.pty+qsTranslate("settingsmanager", "Show Settings")],
