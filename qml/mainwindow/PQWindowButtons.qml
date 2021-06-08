@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.Window 2.2
 import "../elements"
 
 Item {
@@ -82,6 +83,8 @@ Item {
             width: 3*PQSettings.labelsWindowButtonsSize
             height: 3*PQSettings.labelsWindowButtonsSize
             source: "/mainwindow/close.png"
+
+            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.windowDecoration)
 
             PQMouseArea {
                 anchors.fill: parent
