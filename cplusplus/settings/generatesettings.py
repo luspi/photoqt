@@ -150,7 +150,7 @@ values = {
          ["OpenThumbnails",             "bool",    "true"],
          ["OpenUserPlacesStandard",     "bool",    "true"],
          ["OpenUserPlacesUser",         "bool",    "true"],
-         ["OpenUserPlacesVolumes",      "bool",    "true"],
+         ["OpenUserPlacesVolumes",      "bool",    "false"],
          ["OpenUserPlacesWidth",        "int",     "300"],
          ["OpenZoomLevel",              "int",     "20"]],
 

@@ -19,7 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
- 
+
  /* auto-generated using generatesettings.py */
 
 #ifndef PQSETTINGS_H
@@ -51,7 +51,7 @@ public:
     void operator=(PQSettings const&) = delete;
 
     Q_INVOKABLE void setDefault();
-    
+
     Q_PROPERTY(QString version READ getVersion WRITE setVersion NOTIFY versionChanged)
     QString getVersion() { return m_version; }
     void setVersion(QString val) {
@@ -1439,7 +1439,7 @@ private:
     QTimer *saveSettingsTimer;
     QFileSystemWatcher *watcher;
     QTimer *watcherAddFileTimer;
-    
+
     QString m_version;
     QString m_language;
     bool    m_windowMode;
@@ -1583,7 +1583,7 @@ private slots:
     void readSettings();
     void saveSettings();
     void addFileToWatcher();
-    
+
 signals:
     void versionChanged();
     void languageChanged();

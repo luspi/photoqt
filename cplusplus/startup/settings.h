@@ -39,8 +39,11 @@ namespace PQStartup {
                 QTextStream in(&settingsfile);
                 QString txt = in.readAll();
 
-                if(!txt.contains("Version=2.2")) {
+                if(!txt.contains(QString("Version=%1").arg(VERSION))) {
+                    // Make sure we catch the new name (since 2.2)
                     txt = txt.replace("QuickInfo", "Labels");
+                    // Default value set to 0. Systems with a lot of snaps ave a lot of entries here, so we 'force-hide' it.
+                    txt.replace("OpenUserPlacesVolumes=1", "OpenUserPlacesVolumes=0");
                     QTextStream out(&settingsfile);
                     out << txt;
                 }

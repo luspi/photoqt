@@ -19,7 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
- 
+
  /* auto-generated using generatesettings.py */
 
 #include "settings.h"
@@ -59,13 +59,13 @@ void PQSettings::addFileToWatcher() {
     }
     watcher->removePath(ConfigFiles::SETTINGS_FILE());
     watcher->addPath(ConfigFiles::SETTINGS_FILE());
-    
+
 }
 
 void PQSettings::setDefault() {
 
     DBG << CURDATE << "PQSettings::setDefault()" << NL;
-    
+
     setVersion(QString::fromStdString(VERSION));
     setLanguage(QLocale::system().name());
     setWindowMode(true);
@@ -185,7 +185,7 @@ void PQSettings::setDefault() {
     setOpenThumbnails(true);
     setOpenUserPlacesStandard(true);
     setOpenUserPlacesUser(true);
-    setOpenUserPlacesVolumes(true);
+    setOpenUserPlacesVolumes(false);
     setOpenUserPlacesWidth(300);
     setOpenZoomLevel(20);
 
@@ -240,7 +240,7 @@ void PQSettings::readSettings() {
         file.close();
 
         for(const QString &line : parts) {
-        
+
             if(line.startsWith("Language="))
                 setLanguage(line.split("=").at(1).trimmed());
 
