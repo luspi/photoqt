@@ -39,13 +39,15 @@ enum PQCommandLineResult {
     PQCommandLineToggle = 16,
     PQCommandLineThumbs = 32,
     PQCommandLineNoThumbs = 64,
-    PQCommandLineTray = 128,
+    PQCommandLineStartInTray = 128,
     PQCommandLineStandalone = 256,
     PQCommandLineDebug = 512,
     PQCommandLineNoDebug = 1024,
     PQCommandLineExport = 2048,
     PQCommandLineImport = 4096,
-    PQShortcutSequence = 8192
+    PQShortcutSequence = 8192,
+    PQCommandLineEnableTray = 16384,
+    PQCommandLineDisableTray = 32768
 };
 inline PQCommandLineResult operator|(PQCommandLineResult a, PQCommandLineResult b) {
     return static_cast<PQCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
@@ -91,19 +93,40 @@ public:
         addVersionOption();
 
         addOptions({
+                       //: Command line option
             {{"o", "open"}, QApplication::translate("commandlineparser", "Make PhotoQt ask for a new file.")},
+                       //: Command line option
             {{"s", "show"}, QApplication::translate("commandlineparser", "Shows PhotoQt from system tray.")},
+                       //: Command line option
             {"hide", QApplication::translate("commandlineparser", "Hides PhotoQt to system tray.")},
+                       //: Command line option
             {{"t", "toggle"}, QApplication::translate("commandlineparser", "Show/Hide PhotoQt.")},
+                       //: Command line option
             {"thumbs", QApplication::translate("commandlineparser", "Enable thumbnails.")},
+                       //: Command line option
             {"no-thumbs", QApplication::translate("commandlineparser", "Disable thumbnails.")},
+                       //: Command line option
+            {"enable-tray", QApplication::translate("commandlineparser", "Enable system tray icon.")},
+                       //: Command line option
+            {"disable-tray", QApplication::translate("commandlineparser", "Disable system tray icon.")},
+                       //: Command line option
             {"start-in-tray", QApplication::translate("commandlineparser", "Start PhotoQt hidden to the system tray.")},
+                       //: Command line option
             {"standalone", QApplication::translate("commandlineparser", "Open standalone PhotoQt, allows for multiple instances but without remote interaction.")},
+                       //: Command line option
             {"send-shortcut", QApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
+                       //: Command line option
             {"debug", QApplication::translate("commandlineparser", "Switch on debug messages.")},
+                       //: Command line option
             {"no-debug", QApplication::translate("commandlineparser", "Switch off debug messages.")},
-            {"export", QApplication::translate("commandlineparser", "Export configuration to given filename."), "filename"},
-            {"import", QApplication::translate("commandlineparser", "Import configuration from given filename."), "filename"}
+                       //: Command line option
+            {"export", QApplication::translate("commandlineparser", "Export configuration to given filename."),
+                       //: Command line option
+                       QApplication::translate("commandlineparser", "filename")},
+                       //: Command line option
+            {"import", QApplication::translate("commandlineparser", "Import configuration from given filename."),
+                       //: Command line option
+                       QApplication::translate("commandlineparser", "filename")}
         });
 
         process(app);
@@ -138,7 +161,13 @@ public:
             ret = ret|PQCommandLineNoThumbs;
 
         if(isSet("start-in-tray"))
-            ret = ret|PQCommandLineTray;
+            ret = ret|PQCommandLineStartInTray;
+
+        if(isSet("enable-tray"))
+            ret = ret|PQCommandLineEnableTray;
+
+        if(isSet("disable-tray"))
+            ret = ret|PQCommandLineDisableTray;
 
         if(isSet("standalone"))
             ret = ret|PQCommandLineStandalone;

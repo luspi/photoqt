@@ -87,6 +87,16 @@ Item {
             HandleShortcuts.checkComboForShortcut(seq)
         }
 
+        onCmdTray: {
+            if(tray)
+                PQSettings.trayIcon = 1
+            else {
+                if(!toplevel.visible)
+                    toplevel.visible = true
+                PQSettings.trayIcon = 0
+            }
+        }
+
         Component.onCompleted: {
 
             // check at startup

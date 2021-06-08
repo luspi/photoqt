@@ -100,6 +100,7 @@ signals:
     void cmdToggle();
     void cmdThumbs(bool thb);
     void cmdShortcutSequence(QString seq);
+    void cmdTray(bool tray);
 
 };
 

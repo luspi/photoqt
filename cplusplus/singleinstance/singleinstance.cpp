@@ -65,8 +65,14 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     if(result & PQShortcutSequence)
         message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence.toUtf8();
 
-    if(result & PQCommandLineTray)
+    if(result & PQCommandLineStartInTray)
+        message += ":://::_S_T_A_R_T_I_N_T_R_A_Y_";
+
+    if(result & PQCommandLineEnableTray)
         message += ":://::_T_R_A_Y_";
+
+    if(result & PQCommandLineDisableTray)
+        message += ":://::_N_O_T_R_A_Y_";
 
     if(result & PQCommandLineDebug)
         message += ":://::_D_E_B_U_G_";
@@ -165,43 +171,51 @@ void PQSingleInstance::handleMessage(QString msg) {
 
             PQPassOn::get().setFilePath(m.remove(0, 9));
 
-        else if(m.startsWith("_O_P_E_N_"))
+        else if(m == "_O_P_E_N_")
 
             emit PQPassOn::get().cmdOpen();
 
-        else if(m.startsWith("_S_H_O_W_"))
+        else if(m == "_S_H_O_W_")
 
             emit PQPassOn::get().cmdShow();
 
-        else if(m.startsWith("_H_I_D_E_"))
+        else if(m == "_H_I_D_E_")
 
             emit PQPassOn::get().cmdHide();
 
-        else if(m.startsWith("_T_O_G_G_L_E_"))
+        else if(m == "_T_O_G_G_L_E_")
 
             emit PQPassOn::get().cmdToggle();
 
-        else if(m.startsWith("_T_H_U_M_B_S_"))
+        else if(m == "_T_H_U_M_B_S_")
 
             PQPassOn::get().setThumbs(true);
 
-        else if(m.startsWith("_N_O_T_H_U_M_B_S_"))
+        else if(m == "_N_O_T_H_U_M_B_S_")
 
             PQPassOn::get().setThumbs(false);
 
-        else if(m.startsWith("_T_R_A_Y_"))
+        else if(m == "_S_T_A_R_T_I_N_T_R_A_Y_")
 
             PQPassOn::get().setStartInTray();
+
+        else if(m == "_T_R_A_Y_")
+
+            emit PQPassOn::get().cmdTray(true);
+
+        else if(m == "_N_O_T_R_A_Y_")
+
+            emit PQPassOn::get().cmdTray(false);
 
         else if(m.startsWith("_S_H_O_R_T_C_U_T_"))
 
             emit PQPassOn::get().cmdShortcutSequence(m.remove(0, 17));
 
-        else if(m.startsWith("_D_E_B_U_G_"))
+        else if(m == "_D_E_B_U_G_")
 
             DBG.setDebug(true);
 
-        else if(m.startsWith("_N_O_D_E_B_U_G_"))
+        else if(m == "_N_O_D_E_B_U_G_")
 
             DBG.setDebug(false);
 
