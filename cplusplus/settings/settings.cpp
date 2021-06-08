@@ -43,6 +43,9 @@ PQSettings::PQSettings() {
     setDefault();
     readSettings();
 
+    // make sure timer isn't running from reading the settings
+    saveSettingsTimer->stop();
+
     // we only connect it here so that setting the defaults doesn't accidentally trigger overwriting existing settings
     connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
 
