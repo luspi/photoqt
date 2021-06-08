@@ -104,7 +104,9 @@ Item {
                             //: Name of shortcut action
                             ["__viewerMode", em.pty+qsTranslate("settingsmanager", "Enter viewer mode")],
                             //: Name of shortcut action
-                            ["__close", em.pty+qsTranslate("settingsmanager", "Hide to system tray (if enabled)")],
+                            ["__quickNavigation", em.pty+qsTranslate("settingsmanager", "Show quick navigation buttons")],
+                            //: Name of shortcut action
+                            ["__close", em.pty+qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)")],
                             //: Name of shortcut action
                             ["__quit", em.pty+qsTranslate("settingsmanager", "Quit PhotoQt")]]
             }

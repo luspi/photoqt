@@ -155,4 +155,8 @@ Rectangle {
         }
     }
 
+    function toggle() {
+        opacity = (opacity == 0 ? 1 : 0)
+    }
+
 }
