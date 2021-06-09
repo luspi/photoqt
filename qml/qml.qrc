@@ -146,5 +146,8 @@
         <file>mainwindow/image/PQFaceTagsUnsupported.qml</file>
         <file>PQTrayIcon.qml</file>
         <file>PQCmdReceived.qml</file>
+        <file>settingsmanager/tabs/PQTabShortcuts2.qml</file>
+        <file>settingsmanager/tabs/shortcuts2/PQContainer.qml</file>
+        <file>settingsmanager/tabs/shortcuts2/PQShortcutTile.qml</file>
     </qresource>
 </RCC>
