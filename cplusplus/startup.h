@@ -39,6 +39,7 @@ namespace PQStartup {
         ::PQStartup::Shortcuts::createDefaultShortcuts();
         ::PQStartup::ContextMenu::createDefault();
         ::PQStartup::ImageFormats::ensureImageFormatsDatabaseExists();
+        ::PQStartup::ImageFormats::updateFormats();
         ::PQStartup::Settings::updateNameChanges();
     }
 

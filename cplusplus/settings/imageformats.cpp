@@ -388,3 +388,63 @@ QVariantMap PQImageFormats::getFormatsInfo(QString endings) {
     return ret;
 
 }
+
+bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled,
+                                    int qt, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video,
+                                    QString im_gm_magick, QString qt_formatname) {
+
+    // first check that it doesn't exist yet
+
+    QSqlQuery query(db);
+    query.prepare("SELECT COUNT(endings) AS NumFormats FROM imageformats WHERE description=:description");
+    query.bindValue(":description", description);
+    if(!query.exec()) {
+        LOG << CURDATE << "PQImageFormats::enterNewFormat(): SQL Query error (1): " << query.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    if(!query.next()) {
+        LOG << CURDATE << "PQImageFormats::enterNewFormat(): No SQL results returned" << NL;
+        return false;
+    }
+
+    int howmany = query.record().value("NumFormats").toInt();
+    qDebug() << "howmany =" << howmany;
+    if(howmany != 0) {
+        LOG << CURDATE << "PQImageFormats::enterNewFormat(): Found " << howmany << " format with the new descrption, not entering anything new." << NL;
+        return false;
+    }
+
+    QSqlQuery query2(db);
+    query2.prepare("INSERT INTO imageformats (endings, mimetypes, description, category, enabled, qt, imagemagick, graphicsmagick, libraw, poppler, xcftools, devil, freeimage, archive, video, im_gm_magick, qt_formatname) VALUES (:endings, :mimetypes, :description, :category, :enabled, :qt, :imagemagick, :graphicsmagick, :libraw, :poppler, :xcftools, :devil, :freeimage, :archive, :video, :im_gm_magick, :qt_formatname)");
+
+    query2.bindValue(":endings", endings);
+    query2.bindValue(":mimetypes", mimetypes);
+    query2.bindValue(":description", description);
+    query2.bindValue(":category", category);
+    query2.bindValue(":enabled", enabled);
+    query2.bindValue(":qt", qt);
+    query2.bindValue(":imagemagick", imagemagick);
+    query2.bindValue(":graphicsmagick", graphicsmagick);
+    query2.bindValue(":libraw", libraw);
+    query2.bindValue(":poppler", poppler);
+    query2.bindValue(":xcftools", xcftools);
+    query2.bindValue(":devil", devil);
+    query2.bindValue(":freeimage", freeimage);
+    query2.bindValue(":archive", archive);
+    query2.bindValue(":video", video);
+    query2.bindValue(":im_gm_magick", im_gm_magick);
+    query2.bindValue(":qt_formatname", qt_formatname);
+
+    if(!query2.exec()) {
+        LOG << CURDATE << "PQImageFormats::enterNewFormat(): SQL Query error (2): " << query2.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    // it is recommended to re-read the database after inserting formats
+    // it is not done automatically as this function might be called multiple times
+    // thus it should be taken care of from whererever this function is called.
+
+    return true;
+
+}

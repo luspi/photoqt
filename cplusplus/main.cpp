@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
         PQPassOn::get().setFreshInstall(true);
         performStartupChecks = true;
     }
-    if(PQSettings::get().getVersion() != VERSION)
+    if(PQSettings::get().getVersion() != VERSION || QString(VERSION) == "dev")
         performStartupChecks = true;
 
 // only one of them will be defined at a time

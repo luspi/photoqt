@@ -24,6 +24,7 @@
 #define PQSTARTUP_IMAGEFORMATS_H
 
 #include "../logger.h"
+#include "../settings/imageformats.h"
 
 namespace PQStartup {
 
@@ -41,6 +42,16 @@ namespace PQStartup {
                     file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
                 }
             }
+
+        }
+
+        static void updateFormats() {
+
+            if(!PQImageFormats::get().enterNewFormat("jxl", "image/jxl", "JPEG XL", "img", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "jxl"))
+                LOG << CURDATE << "PQStartup::ImageFormats: unable to enter new format JPEG XL." << NL;
+
+            // we re-read the database after updating it for the above changes to be live
+            PQImageFormats::get().readDatabase();
 
         }
 
