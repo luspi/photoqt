@@ -335,6 +335,11 @@ Window {
 
         }
 
+        // some of the groupings above might coincide with the default versions
+        // this wouldn't trigger saving the settings file and this dialog might be shown again at next start
+        // making sure this timer is running makes sure the settings file will be created
+        PQSettings.restartSaveSettingsTimer()
+
         toplevel.start()
     }
 

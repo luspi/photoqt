@@ -1433,6 +1433,8 @@ public:
     }
     
 
+    Q_INVOKABLE void restartSaveSettingsTimer() { saveSettingsTimer->start(); }
+
 private:
     PQSettings();
 
@@ -1579,9 +1581,11 @@ private:
     bool    m_settingsManagerPopoutElement;
     bool    m_fileSaveAsPopoutElement;
 
+public slots:
+    Q_INVOKABLE void saveSettings();
+
 private slots:
     void readSettings();
-    void saveSettings();
     void addFileToWatcher();
 
 signals:

@@ -40,7 +40,7 @@ namespace PQStartup {
         ::PQStartup::ContextMenu::createDefault();
         ::PQStartup::ImageFormats::ensureImageFormatsDatabaseExists();
         ::PQStartup::ImageFormats::updateFormats();
-        ::PQStartup::Settings::updateNameChanges();
+        ::PQStartup::Settings::updateDefaultValues();
     }
 
 }

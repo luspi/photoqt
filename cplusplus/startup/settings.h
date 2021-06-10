@@ -32,20 +32,9 @@ namespace PQStartup {
 
     namespace Settings {
 
-        static void updateNameChanges() {
+        static void updateDefaultValues() {
 
-            QFile settingsfile(ConfigFiles::SETTINGS_FILE());
-            if(settingsfile.exists() && settingsfile.open(QIODevice::ReadWrite)) {
-
-                QTextStream in(&settingsfile);
-                QString txt = in.readAll();
-
-                // Make sure we catch the new name (since 2.2)
-                txt = txt.replace("QuickInfo", "Labels");
-                QTextStream out(&settingsfile);
-                out << txt;
-
-                settingsfile.close();
+            if(QFileInfo::exists(ConfigFiles::SETTINGS_FILE())) {
 
                 // Default value set to 0. Systems with a lot of snaps ave a lot of entries here, so we 'force-hide' it.
                 PQSettings::get().setOpenUserPlacesVolumes(0);
