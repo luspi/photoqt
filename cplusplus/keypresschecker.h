@@ -66,6 +66,7 @@ private:
 
 signals:
     void receivedKeyPress(int key, int modifiers);
+    void receivedKeyRelease(int key, int modifiers);
 
 };
 

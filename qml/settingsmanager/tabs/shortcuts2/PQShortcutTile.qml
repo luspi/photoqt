@@ -25,11 +25,13 @@ import "../../../elements"
 
 Rectangle {
 
-    id: deleg
+    id: tile_top
 
     width: avail_top.width-10
     height: editmode ? (dsctxt.height+row.height+10) : dsctxt.height
+    Behavior on height { NumberAnimation { duration: 200 } }
     radius: 5
+    clip: true
     color: hovered ? "#2a2a2a" : "#222222"
     Behavior on color { ColorAnimation { duration: 200 } }
 
@@ -37,6 +39,8 @@ Rectangle {
 
     property bool hovered: false
     property bool editmode: false
+
+    signal showNewShortcut()
 
     Text {
         id: dsctxt
@@ -54,7 +58,7 @@ Rectangle {
         height: 30
         verticalAlignment: Text.AlignVCenter
         color: "#aaaaaa"
-        text: deleg.activeShortcuts.length==0 ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : deleg.activeShortcuts.join("    //    ")
+        text: tile_top.activeShortcuts.length==0 ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : tile_top.activeShortcuts.join("    //    ")
     }
 
     PQMouseArea {
@@ -85,7 +89,7 @@ Rectangle {
 
         spacing: 5
 
-        visible: editmode
+        visible: tile_top.height > dsctxt.height
 
         Repeater {
             model: activeShortcuts.length
@@ -94,12 +98,25 @@ Rectangle {
                 height: txt.height+20
                 color: "#333333"
                 radius: 5
+                clip: true
+
+                // animates deleting element
+                // once it reaches virtually zero, we delete the item
+                Behavior on width { NumberAnimation { duration: 200 } }
+                onWidthChanged: {
+                    if(width < 2) {
+                        var tmp = tile_top.activeShortcuts
+                        tmp.splice(index, 1)
+                        tile_top.activeShortcuts = tmp
+                    }
+                }
+
                 Text {
                     id: txt
                     x: 10
                     y: 10
                     color: "white"
-                    text: deleg.activeShortcuts[index]
+                    text: tile_top.activeShortcuts[index]
                 }
 
                 Rectangle {
@@ -127,15 +144,12 @@ Rectangle {
                     tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to delete shortcut")
                     onEntered: {
                         delrect.hovered = true
-                        deleg.hovered = true
+                        tile_top.hovered = true
                     }
                     onExited:
                         delrect.hovered = false
-                    onClicked: {
-                            var tmp = deleg.activeShortcuts
-                            tmp.splice(index, 1)
-                            deleg.activeShortcuts = tmp
-                    }
+                    onClicked:
+                        parent.width = 0    // once this reaches 0 the item will be deleted
                 }
             }
         }
@@ -164,13 +178,23 @@ Rectangle {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: {
                     parent.hovered = true
-                    deleg.hovered = true
+                    tile_top.hovered = true
                 }
                 onExited:
                     parent.hovered = false
+                onClicked:
+                    loadAndShowAddNew()
             }
         }
 
+    }
+
+    Loader { id: addnewloader }
+
+    function loadAndShowAddNew() {
+        if(addnewloader.source != "PQNewShortcut.qml")
+            addnewloader.source = "PQNewShortcut.qml"
+        showNewShortcut()
     }
 
     Connections {
@@ -187,10 +211,15 @@ Rectangle {
                     tmp.push(sh[1])
             }
 
-            deleg.activeShortcuts = tmp
+            tile_top.activeShortcuts = tmp
 
         }
 
+    }
+
+    function addNewCombo(combo) {
+        activeShortcuts.push(combo)
+        activeShortcutsChanged()
     }
 
 }

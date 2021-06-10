@@ -83,7 +83,7 @@ SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcuts.qml ${d}/PQContainer.qml ${d}/PQDetectCombo.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts2")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQContainer.qml ${d}/PQShortcutTile.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQContainer.qml ${d}/PQShortcutTile.qml ${d}/PQNewShortcut.qml)
 
 SET(d "qml/welcome")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQWelcome.qml)
