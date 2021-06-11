@@ -40,6 +40,8 @@ Rectangle {
     color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
     clip: true
 
+    Behavior on color { ColorAnimation { duration: 150 } }
+
     property string text: ""
 
     property string backgroundColor: "#333333"
