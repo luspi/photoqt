@@ -261,6 +261,8 @@ Rectangle {
                     canceltimer.stop()
                     savetimer.stop()
                     newshortcut_top.opacity = 0
+                    settingsmanager_top.modalWindowOpen = false
+                    settingsmanager_top.detectingShortcutCombo = false
                     var combo = keyComboMods.join("+")+"+"
                     if(mouseComboButton != "") {
                         combo += mouseComboButton
@@ -281,6 +283,8 @@ Rectangle {
                     canceltimer.stop()
                     savetimer.stop()
                     newshortcut_top.opacity = 0
+                    settingsmanager_top.modalWindowOpen = false
+                    settingsmanager_top.detectingShortcutCombo = false
                 }
             }
         }

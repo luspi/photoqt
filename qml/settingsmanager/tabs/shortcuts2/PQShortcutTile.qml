@@ -36,6 +36,7 @@ Rectangle {
     Behavior on color { ColorAnimation { duration: 200 } }
 
     property var activeShortcuts: []
+    property var shortcutsForSaving: []
 
     property bool hovered: false
     property bool editmode: false
@@ -58,7 +59,7 @@ Rectangle {
         height: 30
         verticalAlignment: Text.AlignVCenter
         color: "#aaaaaa"
-        text: tile_top.activeShortcuts.length==0 ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : tile_top.activeShortcuts.join("    //    ")
+        text: tile_top.activeShortcuts.length==0 ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : keymousestrings.translateShortcutList(tile_top.activeShortcuts).join("    //    ")
     }
 
     PQMouseArea {
@@ -116,7 +117,7 @@ Rectangle {
                     x: 10
                     y: 10
                     color: "white"
-                    text: tile_top.activeShortcuts[index]
+                    text: keymousestrings.translateShortcut(tile_top.activeShortcuts[index])
                 }
 
                 Rectangle {
@@ -213,6 +214,10 @@ Rectangle {
 
             tile_top.activeShortcuts = tmp
 
+        }
+
+        onSaveShortcuts: {
+            tab_shortcuts.addToList(avail_top.available[index][0], tile_top.activeShortcuts)
         }
 
     }

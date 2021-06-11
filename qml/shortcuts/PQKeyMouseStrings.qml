@@ -151,5 +151,11 @@ Item {
         return ret
 
     }
+    function translateShortcutList(combos) {
+        var ret = []
+        for(var i in combos)
+            ret.push(translateShortcut(combos[i]))
+        return ret
+    }
 
 }

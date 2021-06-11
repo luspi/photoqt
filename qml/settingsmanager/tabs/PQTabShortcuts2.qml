@@ -32,6 +32,9 @@ Item {
 
     property var shortcuts: []
 
+    property var shortcutsForSaving: []
+    signal saveShortcuts()
+
     Flickable {
 
         id: cont
@@ -217,6 +220,16 @@ Item {
 
     }
 
+    Timer {
+        id: saveShortcutsTimer
+        interval: 500
+        repeat: false
+        running: false
+        onTriggered: {
+            handlingShortcuts.saveToFile(shortcutsForSaving)
+        }
+    }
+
     Connections {
 
         target: settingsmanager_top
@@ -226,13 +239,8 @@ Item {
         }
 
         onSaveAllSettings: {
-//            var allsh = [];
-//            allsh = allsh.concat(sh_nav.getActiveShortcuts())
-//            allsh = allsh.concat(sh_img.getActiveShortcuts())
-//            allsh = allsh.concat(sh_fil.getActiveShortcuts())
-//            allsh = allsh.concat(sh_oth.getActiveShortcuts())
-//            allsh = allsh.concat(sh_ext.getActiveShortcuts())
-//            handlingShortcuts.saveToFile(allsh)
+            shortcutsForSaving = []
+            saveShortcuts()
         }
 
     }
@@ -243,6 +251,12 @@ Item {
 
     function load() {
         shortcuts = handlingShortcuts.loadFromFile()
+    }
+
+    function addToList(cmd, sh) {
+        for(var i in sh)
+            shortcutsForSaving.push([0, sh[i], cmd])
+        saveShortcutsTimer.restart()
     }
 
 }
