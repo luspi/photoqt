@@ -37,6 +37,18 @@ Rectangle {
     property string subtitle: ""
     property var activeShortcuts: []
 
+    PQButton {
+        x: 10
+        y: 10
+        backgroundColor: "#222222"
+        //: Used on button as in 'add new external shortcut'. Please keep short!
+        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add new")
+        onClicked: {
+            activeShortcuts.push([0, "", ""])
+            activeShortcutsChanged()
+        }
+    }
+
     Column {
         id: col
         x: 5

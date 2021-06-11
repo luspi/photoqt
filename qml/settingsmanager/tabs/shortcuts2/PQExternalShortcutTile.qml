@@ -71,7 +71,7 @@ Rectangle {
 
             id: shtxt
             height: 30
-            width: childrenRect.width
+            width: shtxt_text.width+20
             color: hovered ? "#444444" : "#2a2a2a"
             Behavior on color { ColorAnimation { duration: 200 } }
             radius: 5
@@ -80,11 +80,12 @@ Rectangle {
 
             Text {
                 id: shtxt_text
+                x: 10
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 color: "#aaaaaa"
                 property string sh: avail_top.activeShortcuts[index][1]
-                text: "  " + (sh=="" ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : keymousestrings.translateShortcut(sh)) + "  "
+                text: (sh=="" ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : keymousestrings.translateShortcut(sh))
             }
 
             PQMouseArea {
@@ -147,7 +148,7 @@ Rectangle {
         target: tab_shortcuts
 
         onSaveShortcuts: {
-            if(avail_top.activeShortcuts[index][0] != -1)
+            if(avail_top.activeShortcuts[index][0] != -1 && dsctxt.text != "")
                 tab_shortcuts.addToList((close_chk.checked?1:0), [shtxt_text.sh], dsctxt.text)
         }
 
