@@ -74,6 +74,7 @@ Rectangle {
             color: "white"
             horizontalAlignment: Text.AlignHCenter
             text: subtitle
+            wrapMode: Text.WordWrap
         }
 
         Repeater {
