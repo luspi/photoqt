@@ -104,7 +104,7 @@ Item {
         return combo
     }
 
-    function translateShortcut(combo) {
+    function translateShortcut(combo, mouse) {
 
         var comboSave = combo
 
@@ -125,23 +125,24 @@ Item {
 
         var comboLC = combo.toLowerCase()
         if((comboLC.indexOf("left button") > -1 && comboLC.indexOf("left button") !== comboLC.length-11)
-                || (comboLC.indexOf("right button") > -1 && comboLC.indexOf("right button") !== comboLC.length-12)) {
+                || (comboLC.indexOf("right button") > -1 && comboLC.indexOf("right button") !== comboLC.length-12)
+                || (mouse != undefined && mouse == true)) {
 
             var p = ret.split("+")
             var lastItem = p[p.length-1]
             ret = ""
             for(var j = 0; j < p.length-1; ++j)
-                ret += p[j] + " + "
+                ret += p[j] + " "
 
             for(var k = 0; k < lastItem.length; ++k) {
                 if(lastItem[k] === "E")
-                    ret += dictMouse["east"] + "-"
+                    ret += "→"
                 else if(lastItem[k] === "S")
-                    ret += dictMouse["south"] + "-"
+                    ret += "↓"
                 else if(lastItem[k] === "W")
-                    ret += dictMouse["west"] + "-"
+                    ret += "←"
                 else if(lastItem[k] === "N")
-                    ret += dictMouse["north"] + "-"
+                    ret += "↑"
             }
             if(ret.endsWith("-"))
                 ret = ret.slice(0,-1)

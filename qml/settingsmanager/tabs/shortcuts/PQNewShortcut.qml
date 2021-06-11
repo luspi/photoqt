@@ -62,7 +62,7 @@ Rectangle {
         var txt = ""
 
         if(keyComboMods.length > 0) {
-            txt += "<b>" + keyComboMods.join("+") + "</b>"
+            txt += "<b>" + keymousestrings.translateShortcut(keyComboMods.join("+")) + "</b>"
             txt += "<br>+<br>"
         }
 
@@ -70,21 +70,16 @@ Rectangle {
             if(keyComboKey == "::PLUS::")
                 txt += "<b>+</b>"
             else
-                txt += "<b>" + keyComboKey + "</b>"
+                txt += "<b>" + keymousestrings.translateShortcut(keyComboKey) + "</b>"
         } else {
 
             if(mouseComboButton != "") {
-                txt += "<b>" + mouseComboButton + "</b>"
+                txt += "<b>" + keymousestrings.translateShortcut(mouseComboButton) + "</b>"
                 if(mouseComboDirection.length > 0)
                     txt += "<br>+<br>"
             }
-            if(mouseComboDirection.length > 0) {
-//                var tmp = []
-//                for(var iMCD in mouseComboDirection)
-//                    tmp.push(keymousestrings.translateShortcut(mouseComboDirection[iMCD]))
-
-                txt += "<b>" + mouseComboDirection.join("") + "</b>"
-            }
+            if(mouseComboDirection.length > 0)
+                txt += "<b>" + keymousestrings.translateShortcut(mouseComboDirection.join(""), true) + "</b>"
 
         }
 
