@@ -134,9 +134,7 @@ Item {
                                  em.pty+qsTranslate("settingsmanager", "Tab to control which file types PhotoQt should recognize")],
                                 //: settings manager tab title
                                 [em.pty+qsTranslate("settingsmanager", "shortcuts"),
-                                 em.pty+qsTranslate("settingsmanager", "Tab to control which shortcuts are set")],
-                                [em.pty+qsTranslate("settingsmanager", "shortcuts2"),
-                                 em.pty+qsTranslate("settingsmanager", "Tab to control which shortcuts are set 2")]]
+                                 em.pty+qsTranslate("settingsmanager", "Tab to control which shortcuts are set")]]
 
             Repeater {
 
@@ -206,7 +204,7 @@ Item {
                 visible: bar.currentIndex==0
             }
 
-            property var srcs: ["tabs/PQTabImageView.qml", "tabs/PQTabThumbnails.qml", "tabs/PQTabMetadata.qml", "tabs/PQTabFileTypes.qml", "tabs/PQTabShortcuts.qml", "tabs/PQTabShortcuts2.qml"]
+            property var srcs: ["tabs/PQTabImageView.qml", "tabs/PQTabThumbnails.qml", "tabs/PQTabMetadata.qml", "tabs/PQTabFileTypes.qml", "tabs/PQTabShortcuts.qml"]
 
             Repeater {
                 model: stack.srcs.length

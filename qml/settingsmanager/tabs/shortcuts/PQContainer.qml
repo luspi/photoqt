@@ -21,113 +21,50 @@
  **************************************************************************/
 
 import QtQuick 2.9
-
 import "../../../elements"
 
 Rectangle {
 
-    id: shcont
+    id: avail_top
 
-    color: "#333333"
+    width: cont.width-2*col.x-scroll.width
+    height: col.height
+
     radius: 10
+    color: "#333333"
 
-    width: cont.width-25
-    height: col.height+20
-
-    property alias category: cat.text
-    property alias subtitle: subcat.text
-    property var available: ({})
-    property bool thisIsAnExternalCategory: false
-
-    property var active: []
-
-    signal newShortcutCombo(var combo)
+    property string category: ""
+    property var available: []
 
     Column {
-
         id: col
+        x: 5
+        width: avail_top.width-10
+        spacing: 10
 
-        x: 10
-        y: 10
+        Item {
+            width: 1
+            height: 1
+        }
 
         Text {
-            id: cat
+            width: parent.width
             color: "white"
-            //: Category here refers to shortcut categories.
-            text: em.pty+qsTranslate("settingsmanager_shortcuts", "Category")
+            horizontalAlignment: Text.AlignHCenter
             font.bold: true
-            font.pointSize: 12
-            x: (parent.width-width)/2
+            text: category
+        }
+
+        Repeater {
+            model: available.length
+            delegate: PQShortcutTile {}
         }
 
         Item {
             width: 1
-            height: 5
+            height: 1
         }
 
-        Text {
-            id: subcat
-            color: "#aaaaaa"
-            font.pointSize: 10
-            x: (parent.width-width)/2
-            visible: text != ""
-        }
-
-        Item {
-            width: 1
-            height: 5
-        }
-
-        Row {
-            width: shcont.width
-            Text {
-                width: parent.width/2
-                horizontalAlignment: Text.AlignHCenter
-                color: "white"
-                //: As in: enabled shortcuts
-                text: em.pty+qsTranslate("settingsmanager_shortcuts", "Active shortcuts")
-            }
-            Text {
-                width: parent.width/2
-                horizontalAlignment: Text.AlignHCenter
-                color: "white"
-                //: Available commands that can be used for shortcuts.
-                text: em.pty+qsTranslate("settingsmanager_shortcuts", "Available commands")
-            }
-        }
-
-        Item {
-            width: 1
-            height: 5
-        }
-
-        Row {
-
-            spacing: 10
-
-            PQActiveShortcuts { id: act; thisIsAnExternalCategory: shcont.thisIsAnExternalCategory }
-            PQAvailableCommands { id: ava; thisIsAnExternalCategory: shcont.thisIsAnExternalCategory }
-
-        }
-
-        PQDetectCombo {
-            id: detectcombo
-            onVisibleChanged: {
-                if(!visible)
-                    newShortcutCombo(currentcombo)
-             }
-        }
-
-    }
-
-    function loadTiles() {
-        act.loadTiles()
-    }
-    function addShortcut(cmd) {
-        act.addShortcut(cmd)
-    }
-    function getActiveShortcuts() {
-        return act.getActiveShortcuts()
     }
 
 }

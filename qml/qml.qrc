@@ -120,10 +120,7 @@
         <file>elements/PQHorizontalLine.qml</file>
         <file>settingsmanager/tabs/PQTabShortcuts.qml</file>
         <file>settingsmanager/tabs/PQTabFileTypes.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQAvailableCommands.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQContainer.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQActiveShortcuts.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQDetectCombo.qml</file>
         <file>shortcuts/mouseshortcuts.js</file>
         <file>filemanagement/PQCopyMove.qml</file>
         <file>mainwindow/PQLoading.qml</file>
@@ -146,11 +143,9 @@
         <file>mainwindow/image/PQFaceTagsUnsupported.qml</file>
         <file>PQTrayIcon.qml</file>
         <file>PQCmdReceived.qml</file>
-        <file>settingsmanager/tabs/PQTabShortcuts2.qml</file>
-        <file>settingsmanager/tabs/shortcuts2/PQContainer.qml</file>
-        <file>settingsmanager/tabs/shortcuts2/PQShortcutTile.qml</file>
-        <file>settingsmanager/tabs/shortcuts2/PQNewShortcut.qml</file>
-        <file>settingsmanager/tabs/shortcuts2/PQExternalContainer.qml</file>
-        <file>settingsmanager/tabs/shortcuts2/PQExternalShortcutTile.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQExternalContainer.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQNewShortcut.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQShortcutTile.qml</file>
     </qresource>
 </RCC>

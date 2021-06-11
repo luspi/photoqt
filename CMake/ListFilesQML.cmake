@@ -58,7 +58,7 @@ SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQSettingsManagerPopout.qml)
 
 SET(d "qml/settingsmanager/tabs")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQTabInterface.qml ${d}/PQTabImageView.qml ${d}/PQTabThumbnails.qml ${d}/PQTabMetadata.qml ${d}/PQTabFileTypes.qml ${d}/PQTabShortcuts.qml ${d}/PQTabShortcuts2.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQTabInterface.qml ${d}/PQTabImageView.qml ${d}/PQTabThumbnails.qml ${d}/PQTabMetadata.qml ${d}/PQTabFileTypes.qml ${d}/PQTabShortcuts.qml)
 
 SET(d "qml/settingsmanager/tabs/interface")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdgeWidth.qml ${d}/PQWindowManagement.qml ${d}/PQMouseWheel.qml ${d}/PQOverlayColor.qml ${d}/PQPopout.qml ${d}/PQLabels.qml ${d}/PQBackground.qml)
@@ -80,9 +80,6 @@ SET(d "qml/settingsmanager/tabs/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQVideo.qml ${d}/PQPoppler.qml ${d}/PQLibArchive.qml ${d}/PQFileTypes.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQAvailableCommands.qml ${d}/PQActiveShortcuts.qml ${d}/PQContainer.qml ${d}/PQDetectCombo.qml)
-
-SET(d "qml/settingsmanager/tabs/shortcuts2")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQContainer.qml ${d}/PQShortcutTile.qml ${d}/PQNewShortcut.qml ${d}/PQExternalContainer.qml ${d}/PQExternalShortcutTile.qml)
 
 SET(d "qml/welcome")
