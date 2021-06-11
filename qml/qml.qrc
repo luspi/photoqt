@@ -150,5 +150,7 @@
         <file>settingsmanager/tabs/shortcuts2/PQContainer.qml</file>
         <file>settingsmanager/tabs/shortcuts2/PQShortcutTile.qml</file>
         <file>settingsmanager/tabs/shortcuts2/PQNewShortcut.qml</file>
+        <file>settingsmanager/tabs/shortcuts2/PQExternalContainer.qml</file>
+        <file>settingsmanager/tabs/shortcuts2/PQExternalShortcutTile.qml</file>
     </qresource>
 </RCC>

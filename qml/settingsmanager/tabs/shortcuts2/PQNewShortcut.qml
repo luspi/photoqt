@@ -305,6 +305,7 @@ Rectangle {
         target: settingsmanager_top
 
         onNewModsKeysCombo: {
+            if(!visible) return
             keyComboMods = []
             keyComboKey = ""
             mouseComboButton = ""
@@ -346,6 +347,7 @@ Rectangle {
     Connections {
         target: PQKeyPressChecker
         onReceivedKeyRelease: {
+            if(!visible) return
             // reset if current combo ends with '+'
             var tmp = combo_txt.text
             tmp = tmp.slice(tmp.length-9,tmp.length)

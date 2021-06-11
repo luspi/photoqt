@@ -217,7 +217,7 @@ Rectangle {
         }
 
         onSaveShortcuts: {
-            tab_shortcuts.addToList(avail_top.available[index][0], tile_top.activeShortcuts)
+            tab_shortcuts.addToList(0, tile_top.activeShortcuts, avail_top.available[index][0])
         }
 
     }

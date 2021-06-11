@@ -211,6 +211,18 @@ Item {
 
             }
 
+            PQExternalContainer {
+
+                id: external
+
+                //: A shortcuts category: external shortcuts
+                category: em.pty+qsTranslate("settingsmanager", "External")
+
+                //: Please leave the three placeholders (%f, %u, %d) as is.
+                subtitle: em.pty+qsTranslate("settingsmanager", "%f = filename including path, %u = filename without path, %d = directory containing file")
+
+            }
+
             Item {
                 width: 1
                 height: 1
@@ -253,9 +265,9 @@ Item {
         shortcuts = handlingShortcuts.loadFromFile()
     }
 
-    function addToList(cmd, sh) {
+    function addToList(close, sh, cmd) {
         for(var i in sh)
-            shortcutsForSaving.push([0, sh[i], cmd])
+            shortcutsForSaving.push([close, sh[i], cmd])
         saveShortcutsTimer.restart()
     }
 
