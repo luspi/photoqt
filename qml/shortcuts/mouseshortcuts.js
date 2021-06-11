@@ -46,20 +46,41 @@ function analyseMouseGestureUpdate(current, before) {
 
 }
 
-function analyseMouseWheelAction(currentCombo, angleDelta, modifiers) {
+function analyseMouseModifiers(modifiers) {
+
+    var ret = []
+
+    if(modifiers & Qt.ControlModifier)
+        ret.push("Ctrl");
+    if(modifiers & Qt.AltModifier)
+        ret.push("Alt");
+    if(modifiers & Qt.ShiftModifier)
+        ret.push("Shift");
+    if(modifiers & Qt.MetaModifier)
+        ret.push("Meta");
+    if(modifiers & Qt.KeypadModifier)
+        ret.push("Keypad");
+
+    return ret
+
+}
+
+function analyseMouseWheelAction(currentCombo, angleDelta, modifiers, ignoreModifiers) {
 
     var combo = ""
 
-    if(modifiers & Qt.ControlModifier)
-        combo += "Ctrl+";
-    if(modifiers & Qt.AltModifier)
-        combo += "Alt+";
-    if(modifiers & Qt.ShiftModifier)
-        combo += "Shift+";
-    if(modifiers & Qt.MetaModifier)
-        combo += "Meta+";
-    if(modifiers & Qt.KeypadModifier)
-        combo += "Keypad+";
+    if(ignoreModifiers == undefined || ignoreModifiers == false) {
+        if(modifiers & Qt.ControlModifier)
+            combo += "Ctrl+";
+        if(modifiers & Qt.AltModifier)
+            combo += "Alt+";
+        if(modifiers & Qt.ShiftModifier)
+            combo += "Shift+";
+        if(modifiers & Qt.MetaModifier)
+            combo += "Meta+";
+        if(modifiers & Qt.KeypadModifier)
+            combo += "Keypad+";
+    }
 
     if(angleDelta.y < 0)
         combo += "Wheel Up"

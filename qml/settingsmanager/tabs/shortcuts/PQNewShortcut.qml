@@ -41,23 +41,16 @@ Rectangle {
 
     property bool dontResetKeys: false
 
+    property var mouseComboMods: []
     property string mouseComboButton: ""
     property var mouseComboDirection: []
-    onMouseComboButtonChanged:
-        assembleCombo()
-    onMouseComboDirectionChanged:
-        assembleCombo()
 
     property var keyComboMods: []
     property string keyComboKey: ""
-    onKeyComboModsChanged:
-        assembleCombo()
-    onKeyComboKeyChanged:
-        assembleCombo()
 
     signal newCombo(var combo)
 
-    function assembleCombo() {
+    function assembleKeyCombo() {
 
         var txt = ""
 
@@ -66,26 +59,38 @@ Rectangle {
             txt += "<br>+<br>"
         }
 
-        if(keyComboKey != "") {
-            if(keyComboKey == "::PLUS::")
-                txt += "<b>+</b>"
-            else
-                txt += "<b>" + keymousestrings.translateShortcut(keyComboKey) + "</b>"
-        } else {
+        if(keyComboKey == "::PLUS::")
+            txt += "<b>+</b>"
+        else
+            txt += "<b>" + keymousestrings.translateShortcut(keyComboKey) + "</b>"
 
-            if(mouseComboButton != "") {
-                txt += "<b>" + keymousestrings.translateShortcut(mouseComboButton) + "</b>"
-                if(mouseComboDirection.length > 0)
-                    txt += "<br>+<br>"
-            }
-            if(mouseComboDirection.length > 0)
-                txt += "<b>" + keymousestrings.translateShortcut(mouseComboDirection.join(""), true) + "</b>"
+        combo_txt.text = txt
 
+        if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
+            restartCancelTimer()
+        else
+            restartSaveTimer()
+
+    }
+
+    function assembleMouseCombo() {
+
+        var txt = ""
+
+        if(mouseComboMods.length > 0) {
+            txt += "<b>" + keymousestrings.translateShortcut(mouseComboMods.join("+")) + "</b>"
+            txt += "<br>+<br>"
+        }
+
+        txt += "<b>" + keymousestrings.translateShortcut(mouseComboButton) + "</b>"
+        if(mouseComboDirection.length > 0) {
+            txt += "<br>+<br>"
+            txt += "<b>" + keymousestrings.translateShortcut(mouseComboDirection.join(""), true) + "</b>"
         }
 
         combo_txt.text = txt
 
-        if(txt.slice(txt.length-9,txt.length) == "<br>+<br>" || txt == "")
+        if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
             restartCancelTimer()
         else
             restartSaveTimer()
@@ -154,32 +159,31 @@ Rectangle {
             property int buttonId: 0
 
             onPressed: {
+
                 pressedEventInProgress = true
                 pressedPosLast = Qt.point(mouse.x, mouse.y)
-                mouseComboButton = (mouse.button == Qt.LeftButton ? "Left Button" : (mouse.button == Qt.MiddleButton ? "Middle Button" : "Right Button"))
 
-                if(!dontResetKeys) {
-                    mouseComboDirection = []
-                    keyComboKey = ""
-                    keyComboMods = []
-                }
-                dontResetKeys = false
+                mouseComboMods = PQAnalyseMouse.analyseMouseModifiers(mouse.modifiers)
+                mouseComboButton = (mouse.button == Qt.LeftButton ? "Left Button" : (mouse.button == Qt.MiddleButton ? "Middle Button" : "Right Button"))
+                mouseComboDirection = []
+                keyComboKey = ""
+                keyComboMods = []
+
+                assembleMouseCombo()
+
             }
 
             onPositionChanged: {
                 if(pressedEventInProgress) {
                     var mov = PQAnalyseMouse.analyseMouseGestureUpdate(mouse, pressedPosLast)
-//                    if(mov == "N") mov = "North"
-//                    if(mov == "E") mov = "East"
-//                    if(mov == "S") mov = "South"
-//                    if(mov == "W") mov = "West"
                     if(mov != "") {
+                        mouseComboMods = PQAnalyseMouse.analyseMouseModifiers(mouse.modifiers)
                         if(mouseComboDirection[mouseComboDirection.length-1] != mov) {
                             mouseComboDirection.push(mov)
-                            mouseComboDirectionChanged()
                         }
                         pressedPosLast = Qt.point(mouse.x, mouse.y)
                     }
+                    assembleMouseCombo()
                 }
             }
 
@@ -188,18 +192,15 @@ Rectangle {
             }
 
            onWheel: {
-               mouseComboDirection = []
+
+               keyComboMods = []
                keyComboKey = ""
-               var txt = PQAnalyseMouse.analyseMouseWheelAction(mouseComboButton, wheel.angleDelta, wheel.modifiers)
-               if(txt.indexOf("+") != -1) {
-                   var parts = txt.split("+")
-                   console.log(parts)
-                   mouseComboButton = parts[parts.length-1]
-                   keyComboMods = parts.slice(0, parts.length-1)
-               } else {
-                   keyComboMods = []
-                   mouseComboButton = txt
-               }
+
+               mouseComboMods = PQAnalyseMouse.analyseMouseModifiers(wheel.modifiers)
+               mouseComboButton = PQAnalyseMouse.analyseMouseWheelAction(mouseComboButton, wheel.angleDelta, wheel.modifiers, true)
+               mouseComboDirection = []
+
+               assembleMouseCombo()
 
            }
 
@@ -258,15 +259,23 @@ Rectangle {
                     newshortcut_top.opacity = 0
                     settingsmanager_top.modalWindowOpen = false
                     settingsmanager_top.detectingShortcutCombo = false
-                    var combo = keyComboMods.join("+")+"+"
-                    if(mouseComboButton != "") {
+
+                    var combo = ""
+                    if(keyComboKey != "") {
+                        if(keyComboMods.length > 0) {
+                            combo += keyComboMods.join("+")
+                            combo += "+"
+                        }
+                        combo += keyComboKey
+                    } else {
+                        if(mouseComboMods.length > 0)
+                            combo += mouseComboMods.join("+")+"+"
                         combo += mouseComboButton
                         if(mouseComboDirection.length > 0) {
                             combo += "+"
                             combo += mouseComboDirection.join("")
                         }
-                    } else
-                        combo += keyComboKey
+                    }
                     tile_top.addNewCombo(combo)
                 }
             }
@@ -286,40 +295,36 @@ Rectangle {
 
     }
 
-    Timer {
-        id: dontResetKeysTimer
-        interval: 1500
-        repeat: false
-        running: false
-        onTriggered:
-            dontResetKeys = false
-    }
-
     Connections {
 
         target: settingsmanager_top
 
         onNewModsKeysCombo: {
+
             if(!visible) return
-            keyComboMods = []
-            keyComboKey = ""
-            mouseComboButton = ""
-            mouseComboDirection = []
-            var tmp = []
+
+            var tmp_keyComboMods = []
+            var tmp_keyComboKey = ""
+
             var combo = handlingShortcuts.composeString(mods, keys)
             combo = combo.replace("++","+::PLUS::")
             var parts = combo.split("+")
             for(var iP in parts) {
                 var p = parts[iP]
                 if(p == "Ctrl" || p == "Alt" || p == "Shift" || p == "Meta" || p == "Keypad")
-                    tmp.push(p)
+                    tmp_keyComboMods.push(p)
                 else
-                    keyComboKey = p
+                    tmp_keyComboKey = p
             }
-            keyComboMods = tmp
 
-            dontResetKeys = true
-            dontResetKeysTimer.restart()
+            mouseComboMods = []
+            mouseComboButton = ""
+            mouseComboDirection = []
+
+            keyComboMods = tmp_keyComboMods
+            keyComboKey = tmp_keyComboKey
+
+            assembleKeyCombo()
 
         }
 
@@ -328,28 +333,18 @@ Rectangle {
     Connections {
         target: tile_top
         onShowNewShortcut: {
+
+            mouseComboMods = []
             mouseComboButton = ""
             mouseComboDirection = []
             keyComboKey = ""
             keyComboMods = []
+
             restartCancelTimer()
+
             newshortcut_top.opacity = 1
             settingsmanager_top.modalWindowOpen = true
             settingsmanager_top.detectingShortcutCombo = true
-        }
-    }
-
-    Connections {
-        target: PQKeyPressChecker
-        onReceivedKeyRelease: {
-            if(!visible) return
-            // reset if current combo ends with '+'
-            var tmp = combo_txt.text
-            tmp = tmp.slice(tmp.length-9,tmp.length)
-            if(tmp == "<br>+<br>") {
-                keyComboMods = []
-                keyComboKey = ""
-            }
         }
     }
 

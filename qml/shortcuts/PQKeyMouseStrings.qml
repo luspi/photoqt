@@ -131,8 +131,10 @@ Item {
             var p = ret.split("+")
             var lastItem = p[p.length-1]
             ret = ""
-            for(var j = 0; j < p.length-1; ++j)
-                ret += p[j] + " "
+            for(var j = 0; j < p.length-1; ++j) {
+                if(j > 0) ret += " + "
+                ret += p[j]
+            }
 
             for(var k = 0; k < lastItem.length; ++k) {
                 if(lastItem[k] === "E")
@@ -152,10 +154,10 @@ Item {
         return ret
 
     }
-    function translateShortcutList(combos) {
+    function translateShortcutList(combos, mouse) {
         var ret = []
         for(var i in combos)
-            ret.push(translateShortcut(combos[i]))
+            ret.push(translateShortcut(combos[i], mouse))
         return ret
     }
 
