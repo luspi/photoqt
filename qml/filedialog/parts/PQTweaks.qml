@@ -105,7 +105,7 @@ Rectangle {
         property int prevCurIndex: -1
         property bool startUpDelay: false
 
-        currentIndex: PQSettings.SortImagesBy=="name" ? 0 : (PQSettings.SortImagesBy=="time" ? 2 : (PQSettings.SortImagesBy=="size" ? 3 : (PQSettings.SortImagesBy=="type" ? 4 : 1)))
+        currentIndex: PQSettings.sortImagesBy=="name" ? 0 : (PQSettings.sortImagesBy=="time" ? 2 : (PQSettings.sortImagesBy=="size" ? 3 : (PQSettings.sortImagesBy=="type" ? 4 : 1)))
 
         onCurrentIndexChanged: {
             if(currentIndex == 5) {
@@ -113,7 +113,7 @@ Rectangle {
                 currentIndex = prevCurIndex
             } else {
                 if(startUpDelay)
-                    PQSettings.SortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                    PQSettings.sortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
         }

@@ -341,13 +341,13 @@ Rectangle {
         PQSettings.animationType = PQSettings.slideShowTypeAnimation
 
         var sortby = 1
-        if(PQSettings.SortImagesBy == "name")
+        if(PQSettings.sortImagesBy == "name")
             sortby = 0
-        else if(PQSettings.SortImagesBy == "time")
+        else if(PQSettings.sortImagesBy == "time")
             sortby = 2
-        else if(PQSettings.SortImagesBy == "size")
+        else if(PQSettings.sortImagesBy == "size")
             sortby = 3
-        else if(PQSettings.SortImagesBy == "type")
+        else if(PQSettings.sortImagesBy == "type")
             sortby = 4
 
         if(PQSettings.slideShowIncludeSubFolders)
