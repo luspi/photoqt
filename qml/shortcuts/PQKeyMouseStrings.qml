@@ -136,13 +136,13 @@ Item {
 
             for(var k = 0; k < lastItem.length; ++k) {
                 if(lastItem[k] === "E")
-                    ret += "→"
+                    ret += "➡"
                 else if(lastItem[k] === "S")
-                    ret += "↓"
+                    ret += "⬇"
                 else if(lastItem[k] === "W")
-                    ret += "←"
+                    ret += "⬅"
                 else if(lastItem[k] === "N")
-                    ret += "↑"
+                    ret += "⬆"
             }
             if(ret.endsWith("-"))
                 ret = ret.slice(0,-1)
