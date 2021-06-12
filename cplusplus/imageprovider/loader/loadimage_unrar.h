@@ -52,7 +52,7 @@ public:
             QStringList cont = handling.listArchiveContent(archivefile);
             if(cont.length() == 0) {
                 errormsg = "Unable to list contents of archive file...";
-                LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
+                LOG << CURDATE << "PQLoadImageUNRAR::load() (1): " << errormsg.toStdString() << NL;
                 return QImage();
             }
             compressedFilename = cont.at(0).split("::ARC::").at(0);
@@ -60,7 +60,7 @@ public:
 
         if(!QFileInfo::exists(archivefile)) {
             errormsg = "Unable to load RAR archive, file doesn't seem to exist...";
-            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
+            LOG << CURDATE << "PQLoadImageUNRAR::load() (2): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -72,7 +72,7 @@ public:
         // If it isn't -> display error
         if(which.exitCode()) {
             errormsg = "'unrar' not found";
-            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
+            LOG << CURDATE << "PQLoadImageUNRAR::load() (3): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -83,7 +83,7 @@ public:
         // Make sure everything starts off well
         if(!p.waitForStarted()) {
             errormsg = "Unable to start 'unrar' process...";
-            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
+            LOG << CURDATE << "PQLoadImageUNRAR::load() (4): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
@@ -102,7 +102,7 @@ public:
         // If image data is invalid or something went wrong, show error image
         if(img.isNull()) {
             errormsg = "Extracted file is not valid image file...";
-            LOG << CURDATE << "PQLoadImageUNRAR::load(): " << errormsg.toStdString() << NL;
+            LOG << CURDATE << "PQLoadImageUNRAR::load() (5): " << errormsg.toStdString() << NL;
             return QImage();
         }
 
