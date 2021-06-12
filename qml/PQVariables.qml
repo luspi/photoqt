@@ -25,7 +25,6 @@ import "shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
-    property var shortcuts: []
     property string visibleItem: ""
     property real currentZoomLevel: 1
     property real currentRotationAngle: 0

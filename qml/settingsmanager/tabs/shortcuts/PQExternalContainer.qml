@@ -37,6 +37,8 @@ Rectangle {
     property string subtitle: ""
     property var activeShortcuts: []
 
+    signal saveExternalShortcuts()
+
     PQButton {
         x: 10
         y: 10
@@ -44,7 +46,7 @@ Rectangle {
         //: Used on button as in 'add new external shortcut'. Please keep short!
         text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add new")
         onClicked: {
-            activeShortcuts.push([0, "", ""])
+            activeShortcuts.push(["", "0", ""])
             activeShortcutsChanged()
         }
     }
@@ -91,26 +93,26 @@ Rectangle {
 
     }
 
+    Component.onCompleted:
+        load()
+
     Connections {
 
-        target: tab_shortcuts
+        target: settingsmanager_top
 
-        onShortcutsChanged: {
-
-            var tmp = []
-
-            for(var i in tab_shortcuts.shortcuts) {
-
-                var cmd = tab_shortcuts.shortcuts[i][2]
-                if(cmd.charAt(0) != "_" || cmd.charAt(1) != "_") {
-                    tmp.push(tab_shortcuts.shortcuts[i])
-                }
-
-            }
-
-            activeShortcuts = tmp
-
+        onLoadAllSettings: {
+            load()
         }
+
+        onSaveAllSettings: {
+            shortcutsettings.deleteAllExternalShortcuts()
+            avail_top.saveExternalShortcuts()
+        }
+
+    }
+
+    function load() {
+        activeShortcuts = shortcutsettings.getAllExternalShortcuts()
     }
 
 }

@@ -39,8 +39,6 @@ public:
     Q_INVOKABLE int convertCharacterToKeyCode(QString key);
     Q_INVOKABLE QString convertKeyCodeToText(int id);
     Q_INVOKABLE void executeExternalApp(QString cmd, QString filename);
-    Q_INVOKABLE QVariantList loadFromFile();
-    Q_INVOKABLE void saveToFile(QVariantList lst);
 
 };
 

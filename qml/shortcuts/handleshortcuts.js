@@ -28,24 +28,18 @@ function checkComboForShortcut(combo) {
         return
     }
 
-    for(var i = 0; i < variables.shortcuts.length; ++i) {
-
-        if(variables.shortcuts[i][1] === combo) {
-            whatToDoWithFoundShortcut(variables.shortcuts[i])
-        }
-
-    }
+    whatToDoWithFoundShortcut(shortcutsettings.getCommandForShortcut(combo))
 
 }
 
 function executeInternalFunction(func) {
-    whatToDoWithFoundShortcut(["","",func])
+    whatToDoWithFoundShortcut(["",func])
 }
 
 function whatToDoWithFoundShortcut(sh) {
 
-    var cmd = sh[2]
     var close = sh[0]
+    var cmd = sh[1]
 
     if(cmd === "__quit")
         toplevel.quitPhotoQt()

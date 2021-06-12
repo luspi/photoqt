@@ -43,6 +43,7 @@
 #include "settings/windowgeometry.h"
 #include "scripts/metadata.h"
 #include "filefoldermodel/filefoldermodel.h"
+#include "settings/shortcuts.h"
 #include "logger.h"
 
 #include "imageprovider/imageprovidericon.h"
@@ -139,6 +140,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
     qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
+    qmlRegisterType<PQShortcuts>("PQShortcuts", 1, 0, "PQShortcuts");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());

@@ -41,21 +41,18 @@ public:
 
 private:
     QFileSystemWatcher *userPlacesWatcher;
-    QFileSystemWatcher *shortcutsWatcher;
     QFileSystemWatcher *contextmenuWatcher;
 
     QTimer *checkRepeatedly;
 
 private slots:
     void userPlacesChangedSLOT();
-    void shortcutsChangedSLOT();
     void contextmenuChangedSLOT();
 
     void checkRepeatedlyTimeout();
 
 signals:
     void userPlacesChanged();
-    void shortcutsChanged();
     void contextmenuChanged();
 
 };

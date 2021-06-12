@@ -28,7 +28,7 @@ Rectangle {
     id: tile_top
 
     width: avail_top.width-10
-    height: avail_top.activeShortcuts[index][0]!=-1 ? dsctxt.height+10 : 0
+    height: iHaveBeenDeleted ? 0 : dsctxt.height+10
     Behavior on height { NumberAnimation { duration: 200 } }
 
     radius: 5
@@ -40,6 +40,7 @@ Rectangle {
     visible: height>0
 
     property bool hovered: false
+    property bool iHaveBeenDeleted: false
 
     signal showNewShortcut()
 
@@ -58,13 +59,13 @@ Rectangle {
             y: (parent.height-height)/2
             //: checkbox in shortcuts settings, used as in: quit PhotoQt. Please keep as short as possible!
             text: em.pty+qsTranslate("settingsmanager_shortcuts", "quit")
-            checked: (avail_top.activeShortcuts[index][0]*1==1)
+            checked: (avail_top.activeShortcuts[index][1]*1==1)
         }
 
         PQLineEdit {
             id: dsctxt
             height: 30
-            text: avail_top.activeShortcuts[index][2]
+            text: avail_top.activeShortcuts[index][0]
         }
 
         Rectangle {
@@ -84,7 +85,7 @@ Rectangle {
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 color: "#aaaaaa"
-                property string sh: avail_top.activeShortcuts[index][1]
+                property string sh: avail_top.activeShortcuts[index][2]
                 text: (sh=="" ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : keymousestrings.translateShortcut(sh))
             }
 
@@ -132,8 +133,7 @@ Rectangle {
                 onExited:
                     parent.hovered = false
                 onClicked: {
-                    avail_top.activeShortcuts[index] = [-1,"",""]
-                    avail_top.activeShortcutsChanged()
+                    iHaveBeenDeleted = true
                 }
             }
 
@@ -145,11 +145,11 @@ Rectangle {
 
     Connections {
 
-        target: tab_shortcuts
+        target: avail_top
 
-        onSaveShortcuts: {
-            if(avail_top.activeShortcuts[index][0] != -1 && dsctxt.text != "")
-                tab_shortcuts.addToList((close_chk.checked?1:0), [shtxt_text.sh], dsctxt.text)
+        onSaveExternalShortcuts: {
+            if(!iHaveBeenDeleted)
+                shortcutsettings.setShortcut(dsctxt.text, [(close_chk.checked?"1":"0"), shtxt_text.sh])
         }
 
     }

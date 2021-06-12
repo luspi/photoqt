@@ -36,7 +36,6 @@ Rectangle {
     Behavior on color { ColorAnimation { duration: 200 } }
 
     property var activeShortcuts: []
-    property var shortcutsForSaving: []
 
     property bool hovered: false
     property bool editmode: false
@@ -198,28 +197,25 @@ Rectangle {
         showNewShortcut()
     }
 
+    Component.onCompleted:
+        load()
+
     Connections {
 
-        target: tab_shortcuts
+        target: settingsmanager_top
 
-        onShortcutsChanged: {
-
-            var tmp = []
-
-            for(var iSH in tab_shortcuts.shortcuts) {
-                var sh = tab_shortcuts.shortcuts[iSH]
-                if(sh[2] == avail_top.available[index][0])
-                    tmp.push(sh[1])
-            }
-
-            tile_top.activeShortcuts = tmp
-
+        onLoadAllSettings: {
+            load()
         }
 
-        onSaveShortcuts: {
-            tab_shortcuts.addToList(0, tile_top.activeShortcuts, avail_top.available[index][0])
+        onSaveAllSettings: {
+            shortcutsettings.setShortcut(avail_top.available[index][0], activeShortcuts)
         }
 
+    }
+
+    function load() {
+        activeShortcuts = shortcutsettings.getShortcutsForCommand(avail_top.available[index][0]).slice(1)
     }
 
     function addNewCombo(combo) {

@@ -28,10 +28,6 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
     connect(userPlacesWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::userPlacesChangedSLOT);
     userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
 
-    shortcutsWatcher = new QFileSystemWatcher;
-    connect(shortcutsWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::shortcutsChangedSLOT);
-    shortcutsWatcher->addPath(ConfigFiles::SHORTCUTS_FILE());
-
     contextmenuWatcher = new QFileSystemWatcher;
     connect(contextmenuWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::contextmenuChangedSLOT);
     contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
@@ -46,7 +42,6 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
 
 PQFileWatcher::~PQFileWatcher() {
     delete userPlacesWatcher;
-    delete shortcutsWatcher;
     delete contextmenuWatcher;
     delete checkRepeatedly;
 }
@@ -58,11 +53,6 @@ void PQFileWatcher::checkRepeatedlyTimeout() {
     if(!userPlacesWatcher->files().contains(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel")) {
         if(QFile(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").exists())
             userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
-    }
-
-    if(!shortcutsWatcher->files().contains(ConfigFiles::SHORTCUTS_FILE())) {
-        if(QFile(ConfigFiles::SHORTCUTS_FILE()).exists())
-            shortcutsWatcher->addPath(ConfigFiles::SHORTCUTS_FILE());
     }
 
     if(!contextmenuWatcher->files().contains(ConfigFiles::CONTEXTMENU_FILE())) {
@@ -87,24 +77,6 @@ void PQFileWatcher::userPlacesChangedSLOT() {
 
     if(info.exists())
         userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
-
-}
-
-void PQFileWatcher::shortcutsChangedSLOT() {
-
-    DBG << CURDATE << "PQFileWatcher::shortcutsChangedSLOT()" << NL;
-
-    QFileInfo info(ConfigFiles::SHORTCUTS_FILE());
-    for(int i = 0; i < 5; ++i) {
-        if(info.exists())
-            break;
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    }
-
-    emit shortcutsChanged();
-
-    if(info.exists())
-        shortcutsWatcher->addPath(ConfigFiles::SHORTCUTS_FILE());
 
 }
 

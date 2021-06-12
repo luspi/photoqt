@@ -52,71 +52,62 @@ namespace PQStartup {
 
         }
 
-        static void createDefaultShortcuts() {
+        static void updateShortcutsFormat() {
 
-            // If the shortcuts file does not exist create it with the set of default shortcuts
             QFile shortcutsfile(ConfigFiles::SHORTCUTS_FILE());
-            if(!shortcutsfile.exists()) {
 
-                QString cont = QString("Version=%1\n").arg(VERSION);
+            if(shortcutsfile.exists() && shortcutsfile.open(QIODevice::ReadWrite)) {
 
-                cont += "0::Left::__prev\n";
-                cont += "0::Backspace::__prev\n";
-                cont += "0::Right Button+W::__prev\n";
-                cont += "0::Right::__next\n";
-                cont += "0::Space::__next\n";
-                cont += "0::Right Button+E::__next\n";
-                cont += "0::Home::__goToFirst\n";
-                cont += "0::End::__goToLast\n";
-                cont += "0::O::__open\n";
-                cont += "0::Ctrl+O::__open\n";
-                cont += "0::Right Button+WE::__open\n";
-                cont += "0::Escape::__hide\n";
-                cont += "0::Q::__quit\n";
-                cont += "0::Ctrl+Q::__quit\n";
-                cont += "0::Right Button+SES::__hide\n";
-                cont += "0::+::__zoomIn\n";
-                cont += "0::=::__zoomIn\n";
-                cont += "0::Keypad++::__zoomIn\n";
-                cont += "0::Ctrl++::__zoomIn\n";
-                cont += "0::Ctrl+=::__zoomIn\n";
-                cont += "0::Ctrl+Wheel Up::__zoomIn\n";
-                cont += "0::-::__zoomOut\n";
-                cont += "0::Keypad+-::__zoomOut\n";
-                cont += "0::Ctrl+-::__zoomOut\n";
-                cont += "0::Ctrl+Wheel Down::__zoomOut\n";
-                cont += "0::1::__zoomActual\n";
-                cont += "0::Ctrl+1::__zoomActual\n";
-                cont += "0::0::__zoomReset\n";
-                cont += "0::L::__rotateL\n";
-                cont += "0::R::__rotateR\n";
-                cont += "0::Ctrl+0::__rotate0\n";
-                cont += "0::Ctrl+H::__flipH\n";
-                cont += "0::Ctrl+V::__flipV\n";
-                cont += "0::P::__settings\n";
-                cont += "0::Ctrl+X::__scale\n";
-                cont += "0::Ctrl+C::__copy\n";
-                cont += "0::Delete::__delete\n";
-                cont += "0::Ctrl+M::__move\n";
-                cont += "0::F2::__rename\n";
-                cont += "0::I::__about\n";
-                cont += "0::H::__histogram\n";
-                cont += "0::M::__slideshow\n";
-                cont += "0::Shift+M::__slideshowQuick\n";
-                cont += "0::W::__wallpaper\n";
-                cont += "0::Ctrl+F::__filterImages\n";
-                cont += "0::Shift+P::__playPauseAni\n";
-                cont += "0::F::__tagFaces\n";
-                cont += "0::Ctrl+Shift+I::__imgurAnonym\n";
-                cont += "0::Ctrl+Shift+S::__saveAs\n";
-                cont += "0::Ctrl+S::__saveAs\n";
+                QTextStream in(&shortcutsfile);
+                QString txt = in.readAll();
 
-                if(shortcutsfile.open(QIODevice::WriteOnly)) {
-                    QTextStream out(&shortcutsfile);
-                    out << cont;
+                // version updated, reformat
+                if(!txt.contains(QString("Version=%1\n").arg(VERSION))) {
+
+                    QMap<QString, QStringList> newShortcuts;
+
+                    const QStringList parts = txt.split("\n");
+                    for(const QString &p : parts) {
+
+                        if(!p.contains("::"))
+                            continue;
+
+                        const QStringList entries = p.split("::");
+                        if(entries.count() > 3 || entries.at(1) == "__")
+                            return;
+
+                        const QString cmd = QString("%1::%2").arg(entries.at(0), entries.at(2));
+                        const QString sh = entries.at(1);
+
+                        if(newShortcuts.contains(cmd))
+                            newShortcuts[cmd].append(sh);
+                        else
+                            newShortcuts.insert(cmd, QStringList() << sh);
+
+                    }
+
+                    QString newtxt = QString("Version=%1\n").arg(VERSION);
+
+                    QMap<QString, QStringList>::const_iterator iter = newShortcuts.constBegin();
+                    while(iter != newShortcuts.constEnd()) {
+
+                        newtxt += QString("%1").arg(iter.key());
+                        for(const QString &entry : qAsConst(iter.value()))
+                            newtxt += QString("::%1").arg(entry);
+                        newtxt += "\n";
+
+                        ++iter;
+                    }
+
                     shortcutsfile.close();
-                } else
-                    LOG << CURDATE << "ERROR: Unable to create default shortcuts file" << NL;
+                    shortcutsfile.open(QIODevice::WriteOnly|QIODevice::Truncate);
+
+                    QTextStream out(&shortcutsfile);
+                    out << newtxt;
+
+                }
+
+                shortcutsfile.close();
 
             }
 

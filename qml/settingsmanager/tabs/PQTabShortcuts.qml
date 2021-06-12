@@ -30,11 +30,6 @@ Item {
 
     id: tab_shortcuts
 
-    property var shortcuts: []
-
-    property var shortcutsForSaving: []
-    signal saveShortcuts()
-
     Flickable {
 
         id: cont
@@ -230,45 +225,6 @@ Item {
 
         }
 
-    }
-
-    Timer {
-        id: saveShortcutsTimer
-        interval: 500
-        repeat: false
-        running: false
-        onTriggered: {
-            handlingShortcuts.saveToFile(shortcutsForSaving)
-        }
-    }
-
-    Connections {
-
-        target: settingsmanager_top
-
-        onLoadAllSettings: {
-            load()
-        }
-
-        onSaveAllSettings: {
-            shortcutsForSaving = []
-            saveShortcuts()
-        }
-
-    }
-
-    Component.onCompleted: {
-        load()
-    }
-
-    function load() {
-        shortcuts = handlingShortcuts.loadFromFile()
-    }
-
-    function addToList(close, sh, cmd) {
-        for(var i in sh)
-            shortcutsForSaving.push([close, sh[i], cmd])
-        saveShortcutsTimer.restart()
     }
 
 }

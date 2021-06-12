@@ -20,54 +20,44 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQml 2.0
+ /* auto-generated using generatesettings.py */
 
-import "./handleshortcuts.js" as HandleShortcuts
+#ifndef PQSHORTCUTS_H
+#define PQSHORTCUTS_H
 
-Item {
+#include <QObject>
+#include <QTimer>
 
-    id: keyshortcuts_top
+#include "../logger.h"
 
-    anchors.fill: parent
+class PQShortcuts : public QObject {
 
-    focus: true
+    Q_OBJECT
 
-    Connections {
+public:
+    PQShortcuts(QObject *parent = 0);
 
-        target: PQKeyPressChecker
+    Q_INVOKABLE void setDefault();
 
-        onReceivedKeyPress: {
+    Q_INVOKABLE QStringList getCommandForShortcut(QString sh);
+    Q_INVOKABLE QStringList getShortcutsForCommand(QString cmd);
+    Q_INVOKABLE QVariantList getAllExternalShortcuts();
+    Q_INVOKABLE void deleteAllExternalShortcuts();
+    Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
 
-            if(variables.visibleItem != "")
+private slots:
+    void readShortcuts();
+    void saveShortcuts();
 
-                loader.passKeyEvent(variables.visibleItem, key, modifiers)
+private:
+    QTimer *saveShortcutsTimer;
 
-            else {
+    QMap<QString,QStringList> shortcuts;
+    QMap<QString,QStringList> externalShortcuts;
 
-                var combo = ""
+signals:
+    void aboutChanged();
 
-                if(modifiers & Qt.ControlModifier)
-                    combo += "Ctrl+";
-                if(modifiers & Qt.AltModifier)
-                    combo += "Alt+";
-                if(modifiers & Qt.ShiftModifier)
-                    combo += "Shift+";
-                if(modifiers & Qt.MetaModifier)
-                    combo += "Meta+";
-                if(modifiers & Qt.KeypadModifier)
-                    combo += "Keypad+";
+};
 
-                // this seems to be the id when a modifier but no key is pressed... ignore key in that case
-                if(key != 16777249)
-                    combo += handlingShortcuts.convertKeyCodeToText(key)
-
-                HandleShortcuts.checkComboForShortcut(combo)
-
-            }
-
-        }
-
-    }
-
-}
+#endif // PQSHORTCUTS_H
