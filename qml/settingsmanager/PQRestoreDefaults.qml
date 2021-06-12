@@ -68,7 +68,8 @@ Rectangle {
             Text {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                text: "Restore defaults"
+                //: As in 'restore the default settings and/or file formats and/or shortcuts'. Please keep short!
+                text: em.pty+qsTranslate("settingsmanager", "Restore defaults")
                 color: "white"
                 font.bold: true
                 font.pointSize: 25
@@ -79,7 +80,7 @@ Rectangle {
                 wrapMode: Text.WordWrap
                 color: "white"
                 font.pointSize: 15
-                text: "Here you can restore the default configuration of PhotoQt. You can choose to restore any selection of the following three categories."
+                text: em.pty+qsTranslate("settingsmanager", "Here you can restore the default configuration of PhotoQt. You can choose to restore any combination of the following three categories.")
             }
 
             Item {
@@ -92,20 +93,20 @@ Rectangle {
                     spacing: 10
                     PQCheckbox {
                         id: restore_set
-                        text: "Restore default settings"
+                        text: em.pty+qsTranslate("settingsmanager", "Restore default settings")
                         font.pointSize: 14
                         checked: true
                     }
 
                     PQCheckbox {
                         id: restore_for
-                        text: "Restore default file formats"
+                        text: em.pty+qsTranslate("settingsmanager", "Restore default file formats")
                         font.pointSize: 14
                     }
 
                     PQCheckbox {
                         id: restore_sho
-                        text: "Restore default shortcuts"
+                        text: em.pty+qsTranslate("settingsmanager", "Restore default shortcuts")
                         font.pointSize: 14
                     }
                 }
@@ -124,7 +125,7 @@ Rectangle {
                 spacing: 10
                 PQButton {
                     fontPointSize: 15
-                    text: "Restore defaults"
+                    text: em.pty+qsTranslate("settingsmanager", "Restore defaults")
 
                     onClicked: {
                         if(restore_set.checked)
