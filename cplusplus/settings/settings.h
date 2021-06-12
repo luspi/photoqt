@@ -50,7 +50,7 @@ public:
     PQSettings(PQSettings const&)     = delete;
     void operator=(PQSettings const&) = delete;
 
-    Q_INVOKABLE void setDefault();
+    Q_INVOKABLE void setDefault(bool ignoreLanguage = false);
 
     Q_PROPERTY(QString version READ getVersion WRITE setVersion NOTIFY versionChanged)
     QString getVersion() { return m_version; }

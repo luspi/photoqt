@@ -72,6 +72,8 @@ Rectangle {
 
     property int leftRightTextSpacing: 10
 
+    property int fontPointSize: txt.font.pointSize
+
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
     //: This is a generic string written on clickable buttons - please keep short!
@@ -85,6 +87,7 @@ Rectangle {
         id: txt
         x: (parent.width-width)/2
         text: parent.text
+        font.pointSize: fontPointSize
         height: parent.height
         verticalAlignment: Text.AlignVCenter
         opacity: enabled ? 1.0 : 0.3

@@ -65,12 +65,12 @@ void PQSettings::addFileToWatcher() {
 
 }
 
-void PQSettings::setDefault() {
+void PQSettings::setDefault(bool ignoreLanguage) {
 
     DBG << CURDATE << "PQSettings::setDefault()" << NL;
 
     setVersion(QString::fromStdString(VERSION));
-    setLanguage(QLocale::system().name());
+    if(!ignoreLanguage) setLanguage(QLocale::system().name());
     setWindowMode(true);
     setWindowDecoration(true);
     setSaveWindowGeometry(false);

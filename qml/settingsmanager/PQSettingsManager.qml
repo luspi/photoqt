@@ -246,15 +246,18 @@ Item {
                 clickOpensMenu: true
                 menuOpenDownward: false
                 buttonSameWidthAsMenu: true
-                listMenuItems: [em.pty+qsTranslate("settingsmanager", "import settings"),
+                listMenuItems: [em.pty+qsTranslate("settingsmanager", "restore defaults"),
+                                em.pty+qsTranslate("settingsmanager", "import settings"),
                                 em.pty+qsTranslate("settingsmanager", "export settings"),
                                 (variables.settingsManagerExpertMode ? em.pty+qsTranslate("settingsmanager", "disable expert mode") : em.pty+qsTranslate("settingsmanager", "enable expert mode"))]
                 onMenuItemClicked: {
                     if(pos == 0) {
-                        openFileDialog.visible = true
+                        restordefaults.show()
                     } else if(pos == 1) {
-                        saveFileDialog.visible = true
+                        openFileDialog.visible = true
                     } else if(pos == 2) {
+                        saveFileDialog.visible = true
+                    } else if(pos == 3) {
                         variables.settingsManagerExpertMode = !variables.settingsManagerExpertMode
                     }
                 }
@@ -303,6 +306,8 @@ Item {
             repeat: false
             onTriggered: resetSettings()
         }
+
+        PQRestoreDefaults { id: restordefaults }
 
         Rectangle {
 

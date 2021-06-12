@@ -39,7 +39,9 @@ PQImageFormats::PQImageFormats() {
     db.setHostName("formats");
     db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
 
-    if(!QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) || !db.open()) {
+    QFileInfo infodb(ConfigFiles::IMAGEFORMATS_DB());
+
+    if(!infodb.exists() || !db.open()) {
 
         LOG << CURDATE << "PQImageFormats::PQImageFormats(): ERROR opening database: " << db.lastError().text().trimmed().toStdString() << NL;
         LOG << CURDATE << "PQImageFormats::PQImageFormats(): Will load built-in read-only database of imageformats" << NL;
@@ -74,6 +76,9 @@ PQImageFormats::PQImageFormats() {
     } else {
 
         readonly = false;
+        if(!infodb.permission(QFileDevice::WriteOwner))
+            readonly = true;
+
         readFromDatabase();
 
     }
@@ -446,5 +451,37 @@ bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString 
     // thus it should be taken care of from whererever this function is called.
 
     return true;
+
+}
+
+void PQImageFormats::restoreDefaults() {
+
+    db.close();
+
+    if(!QFile::remove(ConfigFiles::IMAGEFORMATS_DB())) {
+        LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error removing old database." << NL;
+        return;
+    }
+
+    if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB())) {
+        LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error copying over new database." << NL;
+        return;
+    }
+
+    QFile file(ConfigFiles::IMAGEFORMATS_DB());
+    if(!file.setPermissions(file.permissions()|QFile::WriteOwner)) {
+        LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error setting write permission to new database, setting read-only flag." << NL;
+        readonly = true;
+        return;
+    }
+
+    qDebug() << "db:" << db.databaseName();
+
+    if(!db.open()) {
+        LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error opening new database: " << db.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
+
+    readFromDatabase();
 
 }

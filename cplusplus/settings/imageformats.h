@@ -152,6 +152,8 @@ public:
 
     bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname);
 
+    Q_INVOKABLE void restoreDefaults();
+
 private:
     PQImageFormats();
 

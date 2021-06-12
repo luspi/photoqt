@@ -45,9 +45,9 @@ public:
     Q_INVOKABLE void deleteAllExternalShortcuts();
     Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
 
-private slots:
-    void readShortcuts();
-    void saveShortcuts();
+public slots:
+    Q_INVOKABLE void readShortcuts();
+    Q_INVOKABLE void saveShortcuts();
 
 private:
     QTimer *saveShortcutsTimer;
