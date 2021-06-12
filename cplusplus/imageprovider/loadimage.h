@@ -366,10 +366,8 @@ private:
 
         DBG << CURDATE << "attempt to load image with archive" << NL;
 
-        QFileInfo info(filename);
+        const QFileInfo info(filename);
         const QString suffix = info.suffix().toLower();
-
-        bool used_unrar = false;
 
         if(PQSettings::get().getArchiveUseExternalUnrar() && (suffix == "rar" || suffix == "cbr")) {
             if(foundExternalUnrar == -1) {
@@ -381,23 +379,19 @@ private:
             }
             if(foundExternalUnrar == 1) {
                 img = load_unrar->load(filename, requestedSize, origSize);
-                if(load_unrar->errormsg == "")
-                    used_unrar = true;
-                else {
+                if(load_unrar->errormsg != "") {
                     LOG << CURDATE << "PQLoadImage::load(): failed to load image with unrar" << NL;
                     err += QString("<b>unrar</b><br>%1<br><br>").arg(load_unrar->errormsg);
                 }
+                if(!img.isNull()) return;
             }
         }
 
-        if(!used_unrar) {
-            img = load_archive->load(filename, requestedSize, origSize);
-            if(load_archive->errormsg != "") {
-                LOG << CURDATE << "PQLoadImage::load(): failed to load image with libarchive" << NL;
-                err += QString("<b>libarchive</b><br>%1<br><br>").arg(load_archive->errormsg);
-            }
+        img = load_archive->load(filename, requestedSize, origSize);
+        if(load_archive->errormsg != "") {
+            LOG << CURDATE << "PQLoadImage::load(): failed to load image with libarchive" << NL;
+            err += QString("<b>libarchive</b><br>%1<br><br>").arg(load_archive->errormsg);
         }
-
 
     }
 
