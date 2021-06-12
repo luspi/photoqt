@@ -378,9 +378,9 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
                 outdata.append(p.readAll());
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
-            QStringList allfiles = QString::fromLatin1(outdata).split('\n', Qt::SkipEmptyParts);
+            QStringList allfiles = QTextCodec::codecForMib(106)->toUnicode(outdata).split('\n', Qt::SkipEmptyParts);
 #else
-            QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
+            QStringList allfiles = QTextCodec::codecForMib(106)->toUnicode(outdata).split('\n', QString::SkipEmptyParts);
 #endif
             allfiles.sort();
             for(const QString &f : qAsConst(allfiles)) {
