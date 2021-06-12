@@ -141,12 +141,12 @@ void PQShortcuts::readShortcuts() {
             const QString cmd = vals.at(1);
             const QStringList sh = vals.mid(2);
 
-            if(cmd.startsWith("__")) {
-                // any valid command will be in the map (from setDefault()).
-                // if the key is not there, then this is an invalid command and will be ignored
-                if(shortcuts.contains(cmd))
-                    shortcuts[cmd] = sh;
-            } else
+
+            // any valid command will be in the map (from setDefault()).
+            // if the key is not there, then this is either a typo or external command that starts with two underscores
+            if(cmd.startsWith("__"))
+                shortcuts[cmd] = ((sh.length() == 1 && sh[0] == "") ? QStringList() : sh);
+            else
                 externalShortcuts[cmd] = QStringList() << (close?"1":"0") << sh;
 
         }
