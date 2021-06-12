@@ -117,12 +117,12 @@ Rectangle {
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2-10
-        width: Math.min(500, parent.width)
-        height: Math.min(500, parent.height-titletxt.height-butcont.height-40)
+        width: Math.min(800, parent.width)
+        height: Math.min(600, parent.height-titletxt.height-butcont.height-40)
 
-        color: "#330000"
+        color: "#220000"
         border.width: 1
-        border.color: "#550000"
+        border.color: "#330000"
 
         Text {
             id: instr_txt
