@@ -10,6 +10,9 @@ PQShortcuts::PQShortcuts(QObject *parent) : QObject(parent) {
     setDefault();
     readShortcuts();
 
+    if(!QFileInfo::exists(ConfigFiles::SHORTCUTS_FILE()))
+        saveShortcuts();
+
     saveShortcutsTimer->stop();
 
     connect(saveShortcutsTimer, &QTimer::timeout, this, &PQShortcuts::saveShortcuts);
