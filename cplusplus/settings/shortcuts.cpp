@@ -173,7 +173,7 @@ void PQShortcuts::saveShortcuts() {
     QMapIterator<QString, QStringList> iter2(externalShortcuts);
     while(iter2.hasNext()) {
         iter2.next();
-        cont += QString("%1::%2::%3\n").arg(iter2.value().at(0)).arg(iter2.key(), iter2.value().mid(1).join("::"));
+        cont += QString("%1::%2::%3\n").arg(iter2.value().at(0), iter2.key(), iter2.value().mid(1).join("::"));
     }
 
     QFile file(ConfigFiles::SHORTCUTS_FILE());
