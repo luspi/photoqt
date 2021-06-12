@@ -390,7 +390,11 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
 
         }
 
-    } else {
+    }
+
+    // this either means there is nothing in that archive
+    // or something went wrong above with unrar
+    if(ret.length() == 0) {
 
 #endif
 
