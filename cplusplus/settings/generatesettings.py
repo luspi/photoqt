@@ -52,7 +52,7 @@ values = {
          ["MarginAroundImage",                  "int",     "5"],
          ["MouseWheelSensitivity",              "int",     "1"],
          ["PdfQuality",                         "int",     "150"],
-         ["PixmapCache",                        "bool",    "512"],
+         ["PixmapCache",                        "int",    "512"],
          ["QuickNavigation",                    "bool",    "false"],
          ["ShowTransparencyMarkerBackground",   "bool",    "false"],
          ["SortImagesBy",                       "QString", "\"naturalname\""],
@@ -264,7 +264,7 @@ public:
     PQSettings(PQSettings const&)     = delete;
     void operator=(PQSettings const&) = delete;
 
-    Q_INVOKABLE void setDefault();
+    Q_INVOKABLE void setDefault(bool ignoreLanguage = false);
 
 """
 
@@ -429,7 +429,7 @@ void PQSettings::addFileToWatcher() {
 """
 
 setdefault  = """
-void PQSettings::setDefault() {
+void PQSettings::setDefault(bool ignoreLanguage) {
 
     DBG << CURDATE << \"PQSettings::setDefault()\" << NL;
 
@@ -500,7 +500,9 @@ for key in values:
 
         #####################################
 
-        if typ == "QSize":
+        if prpCap == "Language":
+            setdefault += f"    if(!ignoreLanguage) set{prpCap}({val});\n"
+        elif typ == "QSize":
             setdefault += f"    set{prpCap}(QSize({val}));\n"
         elif typ == "QPoint":
             setdefault += f"    set{prpCap}(QPoint({val}));\n"

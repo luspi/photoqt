@@ -690,7 +690,7 @@ void PQSettings::saveSettings() {
 
     QFile file(ConfigFiles::SETTINGS_FILE());
 
-    if(file.exists() && !file.open(QIODevice::WriteOnly|QIODevice::Truncate))
+    if(file.exists() && !file.open(QIODevice::ReadWrite))
 
         LOG << CURDATE << "Settings::saveSettings() - ERROR saving settings" << NL;
 
@@ -699,8 +699,8 @@ void PQSettings::saveSettings() {
         if(file.exists()) {
             file.close();
             file.remove();
-            file.open(QIODevice::WriteOnly|QIODevice::Truncate);
         }
+        file.open(QIODevice::ReadWrite);
 
         QTextStream out(&file);
 
@@ -743,7 +743,7 @@ void PQSettings::saveSettings() {
         cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
         cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
-        cont += QString("PixmapCache=%1\n").arg(int(m_pixmapCache));
+        cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
         cont += QString("QuickNavigation=%1\n").arg(int(m_quickNavigation));
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("SortImagesBy=%1\n").arg(m_sortImagesBy);

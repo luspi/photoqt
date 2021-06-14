@@ -382,9 +382,9 @@ public:
         }
     }
     
-    Q_PROPERTY(bool pixmapCache READ getPixmapCache WRITE setPixmapCache NOTIFY pixmapCacheChanged)
-    bool getPixmapCache() { return m_pixmapCache; }
-    void setPixmapCache(bool val) {
+    Q_PROPERTY(int pixmapCache READ getPixmapCache WRITE setPixmapCache NOTIFY pixmapCacheChanged)
+    int getPixmapCache() { return m_pixmapCache; }
+    void setPixmapCache(int val) {
         if(m_pixmapCache != val) {
             m_pixmapCache = val;
             emit pixmapCacheChanged();
@@ -1475,7 +1475,7 @@ private:
     int     m_marginAroundImage;
     int     m_mouseWheelSensitivity;
     int     m_pdfQuality;
-    bool    m_pixmapCache;
+    int     m_pixmapCache;
     bool    m_quickNavigation;
     bool    m_showTransparencyMarkerBackground;
     QString m_sortImagesBy;
