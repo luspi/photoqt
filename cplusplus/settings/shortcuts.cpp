@@ -21,45 +21,51 @@ PQShortcuts::PQShortcuts(QObject *parent) : QObject(parent) {
 
 void PQShortcuts::setDefault() {
 
-    shortcuts["__about"] = QStringList() << "I";
-    shortcuts["__close"] = QStringList() << "Escape" << "Right Button+SES";
-    shortcuts["__copy"] = QStringList() << "Ctrl+C";
-    shortcuts["__delete"] = QStringList() << "Delete";
-    shortcuts["__filterImages"] = QStringList() << "Ctrl+F";
-    shortcuts["__flipH"] = QStringList() << "Ctrl+H";
-    shortcuts["__flipV"] = QStringList() << "Ctrl+V";
-    shortcuts["__goToFirst"] = QStringList() << "Home" << "Ctrl+Left";
-    shortcuts["__goToLast"] = QStringList() << "End";
-    shortcuts["__histogram"] = QStringList() << "H";
-    shortcuts["__imgurAnonym"] = QStringList() << "Ctrl+Shift+I";
-    shortcuts["__keepMetaData"] = QStringList() << "Ctrl+Shift+E";
-    shortcuts["__move"] = QStringList() << "Ctrl+M";
-    shortcuts["__next"] = QStringList() << "Right" << "Space" << "Right Button+E";
     shortcuts["__open"] = QStringList() << "O" << "Ctrl+O" << "Right Button+WE";
-    shortcuts["__playPauseAni"] = QStringList() << "Shift+P";
+    shortcuts["__filterImages"] = QStringList() << "F";
+    shortcuts["__next"] = QStringList() << "Right" << "Space" << "Right Button+E";
     shortcuts["__prev"] = QStringList() << "Left" << "Backspace" << "Right Button+W";
-    shortcuts["__quickNavigation"] = QStringList() << "Ctrl+N";
-    shortcuts["__quit"] = QStringList() << "Q" << "Ctrl+Q";
-    shortcuts["__rename"] = QStringList() << "F2";
-    shortcuts["__rotate0"] = QStringList() << "Ctrl+0";
-    shortcuts["__rotateL"] = QStringList() << "L";
-    shortcuts["__rotateR"] = QStringList() << "R";
-    shortcuts["__saveAs"] = QStringList() << "Ctrl+Shift+S" << "Ctrl+S";
-    shortcuts["__scale"] = QStringList() << "Ctrl+X";
-    shortcuts["__settings"] = QStringList() << "P";
-    shortcuts["__showFaceTags"] = QStringList() << "Ctrl+Shift+F";
-    shortcuts["__showMainMenu"] = QStringList() << "Ctrl+Shift+M";
-    shortcuts["__showMetaData"] = QStringList() << "Ctrl+E";
-    shortcuts["__showThumbnails"] = QStringList() << "Ctrl+T";
-    shortcuts["__slideshow"] = QStringList() << "M";
-    shortcuts["__slideshowQuick"] = QStringList() << "Shift+M";
-    shortcuts["__tagFaces"] = QStringList() << "F";
+    shortcuts["__goToFirst"] = QStringList() << "Home" << "Ctrl+Left";
+    shortcuts["__goToLast"] = QStringList() << "End" << "Ctrl+Right";
     shortcuts["__viewerMode"] = QStringList() << "V";
-    shortcuts["__wallpaper"] = QStringList() << "W";
-    shortcuts["__zoomActual"] = QStringList() << "1" << "Ctrl+1";
+    shortcuts["__quickNavigation"] = QStringList() << "Ctrl+N";
+    shortcuts["__close"] = QStringList() << "Escape" << "Right Button+SES";
+    shortcuts["__quit"] = QStringList() << "Q" << "Ctrl+Q";
+
     shortcuts["__zoomIn"] = QStringList() << "+" << "=" << "Keypad++" << "Ctrl++" << "Ctrl+=" << "Ctrl+Wheel Up" << "Wheel Up";
     shortcuts["__zoomOut"] = QStringList() << "-" << "Keypad+-" << "Ctrl+-" << "Ctrl+Wheel Down" << "Wheel Down";
+    shortcuts["__zoomActual"] = QStringList() << "1" << "Ctrl+1";
     shortcuts["__zoomReset"] = QStringList() << "0";
+    shortcuts["__rotateR"] = QStringList() << "R";
+    shortcuts["__rotateL"] = QStringList() << "L";
+    shortcuts["__rotate0"] = QStringList() << "Ctrl+0";
+    shortcuts["__flipH"] = QStringList() << "Ctrl+H";
+    shortcuts["__flipV"] = QStringList() << "Ctrl+V";
+    shortcuts["__scale"] = QStringList() << "Ctrl+X";
+    shortcuts["__playPauseAni"] = QStringList() << "Shift+P";
+    shortcuts["__showFaceTags"] = QStringList() << "Ctrl+Shift+F";
+    shortcuts["__tagFaces"] = QStringList() << "Ctrl+F";
+
+    shortcuts["__rename"] = QStringList() << "F2";
+    shortcuts["__delete"] = QStringList() << "Delete";
+    shortcuts["__deletePermanent"] = QStringList();
+    shortcuts["__copy"] = QStringList() << "Ctrl+C";
+    shortcuts["__move"] = QStringList() << "Ctrl+M";
+    shortcuts["__clipboard"] = QStringList() << "Ctrl+Shift+C";
+    shortcuts["__saveAs"] = QStringList() << "Ctrl+Shift+S" << "Ctrl+S";
+
+    shortcuts["__showMainMenu"] = QStringList() << "M";
+    shortcuts["__showMetaData"] = QStringList() << "E";
+    shortcuts["__keepMetaData"] = QStringList() << "Shift+E";
+    shortcuts["__showThumbnails"] = QStringList() << "T";
+    shortcuts["__settings"] = QStringList() << "P";
+    shortcuts["__slideshow"] = QStringList() << "S";
+    shortcuts["__slideshowQuick"] = QStringList() << "Shift+S";
+    shortcuts["__about"] = QStringList() << "I";
+    shortcuts["__wallpaper"] = QStringList() << "W";
+    shortcuts["__histogram"] = QStringList() << "H";
+    shortcuts["__imgurAnonym"] = QStringList() << "Ctrl+Shift+I";
+    shortcuts["__imgur"] = QStringList();
 
 }
 
