@@ -73,6 +73,8 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
+        acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
+
         onEntered:
             metadata_top.containsMouse = true
         onExited:

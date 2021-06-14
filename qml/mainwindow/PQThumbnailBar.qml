@@ -151,6 +151,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
                 property bool tooltipSetup: false
+                acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
                 onEntered: {
 
                     if(!tooltipSetup) {
