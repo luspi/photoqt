@@ -76,7 +76,7 @@ Rectangle {
                 //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
                 ["__delete","",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
 
-        [["separator", "", ""]],
+        [["separator", "", "", ""]],
 
         //: This is an entry in the main menu on the right. Please keep short!
         [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
@@ -116,12 +116,6 @@ Rectangle {
 
         orientation: ListView.Vertical
 
-    }
-
-    Connections {
-        target: PQSettings
-        onLanguageChanged:
-            mainlistview.maxrowwidth = 0
     }
 
     Component {
@@ -280,6 +274,15 @@ Rectangle {
 
     }
 
+    Component.onCompleted:
+        readExternalContextmenu()
+
+    Connections {
+        target: PQSettings
+        onLanguageChanged:
+            mainlistview.maxrowwidth = 0
+    }
+
     Connections {
         target: PQKeyPressMouseChecker
         onReceivedMouseButtonPress: {
@@ -298,11 +301,15 @@ Rectangle {
     function readExternalContextmenu() {
 
         var tmpentries = handlingExternal.getContextMenuEntries()
-        var entries = []
+        var entries = [[["separator", "", "", ""]]]
         for(var i = 0; i < tmpentries.length; ++i) {
+            tmpentries[i][3] = "hide"   // the context menu is hidden when one of these entries is selected
             entries.push([tmpentries[i]])
         }
-
+        // no external entries (only the separator in the list)
+        if(entries.length == 1)
+            entries = []
+        allitems_external = entries
     }
 
     function show() {
