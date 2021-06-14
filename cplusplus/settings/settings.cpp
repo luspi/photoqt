@@ -690,7 +690,7 @@ void PQSettings::saveSettings() {
 
     QFile file(ConfigFiles::SETTINGS_FILE());
 
-    if(file.exists() && !file.open(QIODevice::ReadWrite))
+    if(file.exists() && !file.open(QIODevice::WriteOnly|QIODevice::Truncate))
 
         LOG << CURDATE << "Settings::saveSettings() - ERROR saving settings" << NL;
 
@@ -699,8 +699,8 @@ void PQSettings::saveSettings() {
         if(file.exists()) {
             file.close();
             file.remove();
+            file.open(QIODevice::WriteOnly|QIODevice::Truncate);
         }
-        file.open(QIODevice::ReadWrite);
 
         QTextStream out(&file);
 
