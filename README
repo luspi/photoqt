@@ -1,4 +1,4 @@
- PhotoQt v2.2 - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v2.3 - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -50,6 +50,8 @@
   up at runtime if available.
 
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
+- Qt plug-in for AVIF images - https://github.com/novomesk/qt-avif-image-plugin
+- Qt plug-in for JPEG XL images - https://github.com/novomesk/qt-jpegxl-image-plugin
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar

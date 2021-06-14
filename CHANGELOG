@@ -1,6 +1,28 @@
 Changelog PhotoQt - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 2.3 - 2021-06-14
+----------------------------
+- add: context menu (subset of mainmenu options), assign right button to it (if not already in use)
+- add: new shortcuts manager
+- add: command line option to enable/disable system tray
+- add: new internal shortcuts: __viewerMode, __showThumbnails, __showMainMenu,
+       __showMetaData, __quickNavigation, __showFaceTags, __keepMetaData, __contextMenu
+- add: restore default configuration, accessible via 'advanced' button in settings manager
+- add: support of JPEG XL format (if qt plugin installed)
+- improve: calling PhotoQt without command line arguments when hidden assumes '--show'
+- improve: use arrows to indicate direction in mouse gestures
+- improve: closing 'x' hidden unless fullscreen or window decoration disabled
+- improve: new format for saving shortcuts
+- improve: handling of command line options
+- improve: keeping track of mouse position
+- fix: load translations for command line help message
+- fix: artifacts in rendered text for scale<1
+- fix: loading rar archives with unrar with non-Latin characters in filenames
+- fix: wrong datatype used for PixmapCache property (was bool but should be int)
+- fix: mirror property of scaled down versions follows main image
+
+
 Release 2.2 - 2021-06-07
 ----------------------------
 - add: viewer mode for documents/archives, activated through button near top left corner of screen

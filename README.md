@@ -1,4 +1,4 @@
-# PhotoQt v2.2
+# PhotoQt v2.3
 __Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ http://photoqt.org  
@@ -42,6 +42,8 @@ PhotoQt can work with either ImageMagick and GraphicsMagick, but due to conflict
 These are some libraries and tools that can add additional formats to PhotoQt if installed. None of them are needed at compile time, but they can be picked up at runtime if available.
 
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
+- Qt plug-in for AVIF images - https://github.com/novomesk/qt-avif-image-plugin
+- Qt plug-in for JPEG XL images - https://github.com/novomesk/qt-jpegxl-image-plugin
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar
