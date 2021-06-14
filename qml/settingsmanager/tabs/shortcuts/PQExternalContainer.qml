@@ -88,7 +88,7 @@ Rectangle {
 
         Item {
             width: 1
-            height: 1
+            height: activeShortcuts.length==0 ? 50 : 1
         }
 
     }

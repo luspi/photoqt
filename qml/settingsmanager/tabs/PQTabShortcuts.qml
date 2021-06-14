@@ -222,7 +222,7 @@ Item {
 
             Item {
                 width: 1
-                height: 1
+                height: 20
             }
 
         }

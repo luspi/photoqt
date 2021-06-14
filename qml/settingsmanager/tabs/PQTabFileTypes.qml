@@ -89,6 +89,11 @@ Item {
                 PQHorizontalLine { expertModeOnly: vid.expertmodeonly; available: vid.available }
             PQFileTypes { id: fty }
 
+            Item {
+                width: 1
+                height: 25
+            }
+
         }
 
         Connections {
