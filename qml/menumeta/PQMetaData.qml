@@ -47,9 +47,13 @@ Rectangle {
     visible: opacity!=0
     Behavior on opacity { NumberAnimation { duration: PQSettings.metadataPopoutElement ? 0 : PQSettings.animationDuration*100 } }
 
+    property bool containsMouse: false
+    property bool resizePressed: false
+
     Connections {
         target: variables
         onMousePosChanged: {
+            if(metadata_top.containsMouse || resizePressed) return
             if(PQSettings.metadataPopoutElement || keepopen.checked)
                 return
             if(variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
@@ -65,8 +69,14 @@ Rectangle {
     }
 
     MouseArea {
+
         anchors.fill: parent
         hoverEnabled: true
+
+        onEntered:
+            metadata_top.containsMouse = true
+        onExited:
+            metadata_top.containsMouse = false
 
         PQMouseArea {
 
@@ -85,11 +95,20 @@ Rectangle {
 
             property int oldMouseX
 
-            onPressed:
-                oldMouseX = mouse.x
+            onEntered:
+                metadata_top.containsMouse = true
+            onExited:
+                metadata_top.containsMouse = false
 
-            onReleased:
+            onPressed: {
+                metadata_top.resizePressed = true
+                oldMouseX = mouse.x
+            }
+
+            onReleased: {
+                metadata_top.resizePressed = false
                 PQSettings.metadataWindowWidth = metadata_top.width
+            }
 
             onPositionChanged: {
                 if (pressed) {
@@ -256,6 +275,13 @@ Rectangle {
                              em.pty+qsTranslate("metadata", "Click to open GPS position with online map") :
                              ((visible&&allMetaData[3*index]!="") ? "<b>" + allMetaData[3*index] + "</b><br>" + allMetaData[3*index+1] : "")
                 cursorShape: index==(allMetaData.length/3 -1) ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+
+                onEntered:
+                    metadata_top.containsMouse = true
+                onExited:
+                    metadata_top.containsMouse = false
+
                 onClicked: {
                     if(index == allMetaData.length/3 -1) {
 
@@ -314,6 +340,11 @@ Rectangle {
             bottomMargin: 5
         }
 
+        onEntered:
+            metadata_top.containsMouse = true
+        onExited:
+            metadata_top.containsMouse = false
+
         onCheckedChanged:
             variables.metaDataWidthWhenKeptOpen = (checked ? metadata_top.width : 0)
 
@@ -340,6 +371,10 @@ Rectangle {
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
+            onEntered:
+                metadata_top.containsMouse = true
+            onExited:
+                metadata_top.containsMouse = false
             onClicked: {
                 if(PQSettings.metadataPopoutElement==0) {
                     keepopen.checked = false

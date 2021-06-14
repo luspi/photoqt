@@ -38,6 +38,9 @@ CheckBox {
     signal clicked(var mouse)
     signal rightClicked(var mouse)
 
+    signal entered()
+    signal exited()
+
     indicator: Rectangle {
 
         implicitWidth: 20
@@ -106,6 +109,10 @@ CheckBox {
 
         onClicked:
             control.rightClicked(mouse)
+        onEntered:
+            control.entered()
+        onExited:
+            control.exited()
 
     }
 

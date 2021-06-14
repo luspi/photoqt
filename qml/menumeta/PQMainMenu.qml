@@ -45,9 +45,13 @@ Rectangle {
     visible: opacity != 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.mainMenuPopoutElement ? 0 : PQSettings.animationDuration*100 } }
 
+    property bool containsMouse: false
+    property bool resizePressed: false
+
     Connections {
         target: variables
         onMousePosChanged: {
+            if(mainmenu_top.containsMouse || resizePressed) return
             if(PQSettings.mainMenuPopoutElement)
                 return
             if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && !variables.slideShowActive && !variables.faceTaggingActive)
@@ -72,8 +76,14 @@ Rectangle {
     }
 
     MouseArea {
+
         anchors.fill: parent;
         hoverEnabled: true
+
+        onEntered:
+            mainmenu_top.containsMouse = true
+        onExited:
+            mainmenu_top.containsMouse = false
 
         PQMouseArea {
 
@@ -94,11 +104,20 @@ Rectangle {
 
             property int oldMouseX
 
-            onPressed:
-                oldMouseX = mouse.x
+            onEntered:
+                mainmenu_top.containsMouse = true
+            onExited:
+                mainmenu_top.containsMouse = false
 
-            onReleased:
+            onPressed: {
+                mainmenu_top.resizePressed = true
+                oldMouseX = mouse.x
+            }
+
+            onReleased: {
+                mainmenu_top.resizePressed = false
                 PQSettings.mainMenuWindowWidth = mainmenu_top.width
+            }
 
             onPositionChanged: {
                 if (pressed) {
@@ -311,10 +330,12 @@ Rectangle {
                                          Qt.ArrowCursor
 
                         onEntered: {
+                            mainmenu_top.containsMouse = true
                             if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
                                 val.color = "#ffffff"
                         }
                         onExited: {
+                            mainmenu_top.containsMouse = false
                             if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
                                 val.color = "#cccccc"
                         }
@@ -408,6 +429,10 @@ Rectangle {
                                 ? em.pty+qsTranslate("popinpopout", "Merge into main interface")
                                 //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                                 : em.pty+qsTranslate("popinpopout", "Move to its own window")
+                onEntered:
+                    mainmenu_top.containsMouse = true
+                onExited:
+                    mainmenu_top.containsMouse = false
                 onClicked: {
                     if(PQSettings.mainMenuPopoutElement)
                         mainmenu_window.storeGeometry()
