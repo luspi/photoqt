@@ -28,7 +28,7 @@ Rectangle {
 
     id: labels_top
 
-    x: variables.metaDataWidthWhenKeptOpen + (PQSettings.hotEdgeWidth+10)
+    x: variables.metaDataWidthWhenKeptOpen + (2*PQSettings.hotEdgeWidth+10)
     Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
     y: PQSettings.thumbnailPosition=="Bottom" ? 10 : parent.height-height-10
 

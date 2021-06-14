@@ -33,13 +33,13 @@ Item {
         PQSettings.thumbnailPosition=="Top" ?
 
            ((PQSettings.thumbnailKeepVisible ||
-           (variables.mousePos.y < PQSettings.hotEdgeWidth*5 && !visible) ||
+           (variables.mousePos.y < 2*PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y < height && visible) ||
            (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
            forceShow)&&!forceHide ? 0 : -height) :
 
            ((PQSettings.thumbnailKeepVisible ||
-           (variables.mousePos.y > toplevel.height-PQSettings.hotEdgeWidth*5 && !visible) ||
+           (variables.mousePos.y > toplevel.height-2*PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
            (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
            forceShow)&&!forceHide ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)

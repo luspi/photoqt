@@ -250,7 +250,7 @@ Rectangle {
                 return
             if(controls_top.visible && variables.mousePos.y > controls_top.height+5)
                 controls_top.opacity = 0
-            else if(!controls_top.visible && variables.mousePos.y < (PQSettings.hotEdgeWidth+5))
+            else if(!controls_top.visible && variables.mousePos.y < (2*PQSettings.hotEdgeWidth+5))
                 controls_top.opacity = 1
         }
     }

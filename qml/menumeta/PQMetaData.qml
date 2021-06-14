@@ -56,7 +56,7 @@ Rectangle {
                 return
             if(metadata_top.visible && !resizePressed && variables.mousePos.x > width+5)
                 metadata_top.opacity = 0
-            else if(!metadata_top.visible && variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
+            else if(!metadata_top.visible && variables.mousePos.x < (2*PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
                 metadata_top.opacity = 1
         }
     }
