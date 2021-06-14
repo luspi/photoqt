@@ -47,19 +47,17 @@ Rectangle {
     visible: opacity!=0
     Behavior on opacity { NumberAnimation { duration: PQSettings.metadataPopoutElement ? 0 : PQSettings.animationDuration*100 } }
 
-    property bool containsMouse: false
     property bool resizePressed: false
 
     Connections {
         target: variables
         onMousePosChanged: {
-            if(metadata_top.containsMouse || resizePressed) return
-            if(PQSettings.metadataPopoutElement || keepopen.checked)
+            if(PQSettings.metadataPopoutElement || (keepopen.checked && metadata_top.visible))
                 return
-            if(variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
-                metadata_top.opacity = 1
-            else
+            if(metadata_top.visible && !resizePressed && variables.mousePos.x > width+5)
                 metadata_top.opacity = 0
+            else if(!metadata_top.visible && variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
+                metadata_top.opacity = 1
         }
     }
 
@@ -74,11 +72,6 @@ Rectangle {
         hoverEnabled: true
 
         acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
-
-        onEntered:
-            metadata_top.containsMouse = true
-        onExited:
-            metadata_top.containsMouse = false
 
         PQMouseArea {
 
@@ -96,11 +89,6 @@ Rectangle {
             tooltip: em.pty+qsTranslate("metadata", "Click and drag to resize meta data")
 
             property int oldMouseX
-
-            onEntered:
-                metadata_top.containsMouse = true
-            onExited:
-                metadata_top.containsMouse = false
 
             onPressed: {
                 metadata_top.resizePressed = true
@@ -278,12 +266,6 @@ Rectangle {
                              ((visible&&allMetaData[3*index]!="") ? "<b>" + allMetaData[3*index] + "</b><br>" + allMetaData[3*index+1] : "")
                 cursorShape: index==(allMetaData.length/3 -1) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-
-                onEntered:
-                    metadata_top.containsMouse = true
-                onExited:
-                    metadata_top.containsMouse = false
-
                 onClicked: {
                     if(index == allMetaData.length/3 -1) {
 
@@ -342,11 +324,6 @@ Rectangle {
             bottomMargin: 5
         }
 
-        onEntered:
-            metadata_top.containsMouse = true
-        onExited:
-            metadata_top.containsMouse = false
-
         onCheckedChanged:
             variables.metaDataWidthWhenKeptOpen = (checked ? metadata_top.width : 0)
 
@@ -373,10 +350,6 @@ Rectangle {
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
-            onEntered:
-                metadata_top.containsMouse = true
-            onExited:
-                metadata_top.containsMouse = false
             onClicked: {
                 if(PQSettings.metadataPopoutElement==0) {
                     keepopen.checked = false

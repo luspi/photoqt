@@ -248,10 +248,10 @@ Rectangle {
         onMousePosChanged: {
             if(!variables.slideShowActive || !controls_top.running || PQSettings.slideShowControlsPopoutElement)
                 return
-            if(variables.mousePos.y < (PQSettings.hotEdgeWidth+5))
-                controls_top.opacity = 1
-            else
+            if(controls_top.visible && variables.mousePos.y > controls_top.height+5)
                 controls_top.opacity = 0
+            else if(!controls_top.visible && variables.mousePos.y < (PQSettings.hotEdgeWidth+5))
+                controls_top.opacity = 1
         }
     }
 
@@ -310,7 +310,7 @@ Rectangle {
         interval: 1000
         repeat: false
         onTriggered: {
-            if(!controlsbgmousearea.containsMouse && controls_top.running && !PQSettings.slideShowControlsPopoutElement)
+            if(controls_top.visible && variables.mousePos.y > controls_top.height+5 && controls_top.running && !PQSettings.slideShowControlsPopoutElement)
                 controls_top.opacity = 0
 
         }
