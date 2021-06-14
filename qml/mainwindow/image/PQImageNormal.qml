@@ -77,6 +77,7 @@ Item {
                 asynchronous: true
                 smooth: theimage.smooth
                 mipmap: theimage.scale < defaultScale*threshold
+                mirror: theimage.mirror
                 source: ""
                 sourceSize.width: theimage.width*(defaultScale*threshold)
                 sourceSize.height: theimage.height*(defaultScale*threshold)
