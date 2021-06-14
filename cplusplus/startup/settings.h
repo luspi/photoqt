@@ -42,6 +42,10 @@ namespace PQStartup {
                 // Make sure the right version is set in the settings file
                 PQSettings::get().setVersion(VERSION);
 
+                // a bug in 2.2 set this value to 1MB. We set it to 512MB to hopefully minimize its impact
+                if(PQSettings::get().getPixmapCache() > 0)
+                    PQSettings::get().setPixmapCache(512);
+
             }
 
         }
