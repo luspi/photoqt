@@ -180,6 +180,7 @@ Item {
                             id: button_removefilter
                             //: Written on a clickable button - please keep short
                             text: em.pty+qsTranslate("filter", "Remove filter")
+                            renderType: Text.QtRendering
                             onClicked: {
                                 filter_top.opacity = 0
                                 variables.visibleItem = ""

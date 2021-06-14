@@ -73,6 +73,7 @@ Rectangle {
     property int leftRightTextSpacing: 10
 
     property int fontPointSize: txt.font.pointSize
+    property alias renderType: txt.renderType
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")

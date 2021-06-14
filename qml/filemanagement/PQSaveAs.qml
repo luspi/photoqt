@@ -288,6 +288,7 @@ Item {
                             text: genericStringCancel
                             border.width: 1
                             border.color: "black"
+                            renderType: Text.QtRendering
                             onClicked: {
                                 saveas_top.opacity = 0
                                 variables.visibleItem = ""

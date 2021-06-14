@@ -103,6 +103,7 @@ Item {
             x: (parent.width-width)/2
             text: genericStringClose
             scale: 1.5
+            renderType: Text.QtRendering
             onClicked: {
                 if(variables.visibleItem == "unavailable") {
                     unavailable_top.opacity = 0
