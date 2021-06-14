@@ -21,6 +21,8 @@ PQShortcuts::PQShortcuts(QObject *parent) : QObject(parent) {
 
 void PQShortcuts::setDefault() {
 
+    DBG << CURDATE << "PQShortcuts::setDefault()" << NL;
+
     shortcuts["__open"] = QStringList() << "O" << "Ctrl+O" << "Right Button+WE";
     shortcuts["__filterImages"] = QStringList() << "F";
     shortcuts["__next"] = QStringList() << "Right" << "Space" << "Right Button+E";
@@ -71,6 +73,9 @@ void PQShortcuts::setDefault() {
 
 QStringList PQShortcuts::getCommandForShortcut(QString sh) {
 
+    DBG << CURDATE << "PQShortcuts::getCommandForShortcut()" << NL
+        << CURDATE << "** sh = " << sh.toStdString() << NL;
+
     QMapIterator<QString, QStringList> iter(shortcuts);
     while(iter.hasNext()) {
         iter.next();
@@ -91,6 +96,9 @@ QStringList PQShortcuts::getCommandForShortcut(QString sh) {
 
 QStringList PQShortcuts::getShortcutsForCommand(QString cmd) {
 
+    DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL;
+
     if(shortcuts.contains(cmd))
         return QStringList() << "0" << shortcuts[cmd];
     else if(externalShortcuts.contains(cmd))
@@ -101,6 +109,8 @@ QStringList PQShortcuts::getShortcutsForCommand(QString cmd) {
 }
 
 QVariantList PQShortcuts::getAllExternalShortcuts() {
+
+    DBG << CURDATE << "PQShortcuts::getAllExternalShortcuts()" << NL;
 
     QVariantList ret;
 
@@ -116,6 +126,10 @@ QVariantList PQShortcuts::getAllExternalShortcuts() {
 
 void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
 
+    DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
+        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** sh = " << sh.join(", ").toStdString() << NL;
+
     if(cmd.startsWith("__"))
         shortcuts[cmd] = sh;
     else
@@ -126,6 +140,8 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
 }
 
 void PQShortcuts::readShortcuts() {
+
+    DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
 
     QFile file(ConfigFiles::SHORTCUTS_FILE());
 
@@ -168,6 +184,8 @@ void PQShortcuts::readShortcuts() {
 
 void PQShortcuts::saveShortcuts() {
 
+    DBG << CURDATE << "PQShortcuts::saveShortcuts()" << NL;
+
     QString cont = QString("Version=%1\n").arg(VERSION);
 
     QMapIterator<QString, QStringList> iter(shortcuts);
@@ -188,10 +206,15 @@ void PQShortcuts::saveShortcuts() {
         QTextStream out(&file);
         out << cont;
         file.close();
-    }
+    } else
+        LOG << CURDATE << "PQShortcuts::saveShortcuts(): unable to open shortcuts file for writing" << NL;
 
 }
 
 void PQShortcuts::deleteAllExternalShortcuts() {
+
+    DBG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts()" << NL;
+
     externalShortcuts.clear();
+
 }
