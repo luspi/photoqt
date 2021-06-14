@@ -32,6 +32,7 @@ void PQShortcuts::setDefault() {
     shortcuts["__quickNavigation"] = QStringList() << "Ctrl+N";
     shortcuts["__close"] = QStringList() << "Escape" << "Right Button+SES";
     shortcuts["__quit"] = QStringList() << "Q" << "Ctrl+Q";
+    shortcuts["__contextMenu"] = QStringList() << "Right Button";
 
     shortcuts["__zoomIn"] = QStringList() << "+" << "=" << "Keypad++" << "Ctrl++" << "Ctrl+=" << "Ctrl+Wheel Up" << "Wheel Up";
     shortcuts["__zoomOut"] = QStringList() << "-" << "Keypad+-" << "Ctrl+-" << "Ctrl+Wheel Down" << "Wheel Down";
