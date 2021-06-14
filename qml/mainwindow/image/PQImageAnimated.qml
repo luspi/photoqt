@@ -159,6 +159,7 @@ Item {
             anchors.fill: parent
             drag.target: theimage
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
+
             Connections {
                 target: variables
                 onMousePosChanged: {

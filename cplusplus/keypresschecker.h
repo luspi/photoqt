@@ -27,20 +27,20 @@
 #include <QKeyEvent>
 #include <QDateTime>
 
-class PQKeyPressChecker : public QObject {
+class PQKeyPressMouseChecker : public QObject {
     Q_OBJECT
 
     // the actual catching of key events is done in the notify() method of PQSingleInstance
     // this class is used to communicate a key press throughout the application
 
 public:
-    static PQKeyPressChecker& get() {
-        static PQKeyPressChecker instance;
+    static PQKeyPressMouseChecker& get() {
+        static PQKeyPressMouseChecker instance;
         return instance;
     }
 
-    PQKeyPressChecker(PQKeyPressChecker const&)    = delete;
-    void operator=(PQKeyPressChecker const&) = delete;
+    PQKeyPressMouseChecker(PQKeyPressMouseChecker const&)    = delete;
+    void operator=(PQKeyPressMouseChecker const&) = delete;
 
     Q_INVOKABLE void simulateKeyPress(QString seq) {
         int key = 0;
@@ -62,10 +62,12 @@ public:
     }
 
 private:
-    PQKeyPressChecker() { }
+    PQKeyPressMouseChecker() { }
 
 signals:
     void receivedKeyPress(int key, int modifiers);
+    void receivedMouseButtonPress(Qt::MouseButtons but, QPoint pos);
+    void receivedMouseMove(QPoint pos);
 
 };
 

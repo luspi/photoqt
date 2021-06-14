@@ -35,9 +35,11 @@ Item {
 
     Connections {
 
-        target: PQKeyPressChecker
+        target: PQKeyPressMouseChecker
 
         onReceivedKeyPress: {
+
+            contextmenu.hide()
 
             if(variables.visibleItem != "")
 

@@ -191,6 +191,8 @@ Window {
 
     PQThumbnailBar { id: thumbnails }
 
+    PQContextMenu { id: contextmenu }
+
     PQModel { id: filefoldermodel }
 
     Loader { id: histogram }

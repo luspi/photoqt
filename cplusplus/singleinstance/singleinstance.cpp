@@ -228,7 +228,15 @@ bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
     if(e->type() == QEvent::KeyPress) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
         if(qmlWindowAddresses.contains(receiver))
-            emit PQKeyPressChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
+            emit PQKeyPressMouseChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
+    } else if(e->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *ev = reinterpret_cast<QMouseEvent*>(e);
+        if(qmlWindowAddresses.contains(receiver))
+            emit PQKeyPressMouseChecker::get().receivedMouseButtonPress(ev->buttons(), ev->pos());
+    } else if(e->type() == QEvent::MouseMove) {
+        QMouseEvent *ev = reinterpret_cast<QMouseEvent*>(e);
+        if(qmlWindowAddresses.contains(receiver))
+            emit PQKeyPressMouseChecker::get().receivedMouseMove(ev->pos());
     }
 
     return QApplication::notify(receiver, e);

@@ -83,7 +83,7 @@ Item {
         }
 
         onCmdShortcutSequence: {
-            PQKeyPressChecker.simulateKeyPress(seq)
+            PQKeyPressMouseChecker.simulateKeyPress(seq)
         }
 
         onCmdTray: {

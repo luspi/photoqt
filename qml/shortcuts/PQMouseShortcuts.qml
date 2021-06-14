@@ -29,6 +29,7 @@ Item {
     anchors.fill: parent
 
     MouseArea {
+
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.MiddleButton
 
@@ -170,8 +171,6 @@ Item {
                     prevPos = Qt.point(mouse.x, mouse.y)
                 }
             }
-
-            variables.mousePos = Qt.point(mouse.x, mouse.y)
         }
 
         onReleased: {

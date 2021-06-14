@@ -64,4 +64,14 @@ Item {
 
     }
 
+    Connections {
+
+        target: PQKeyPressMouseChecker
+
+        onReceivedMouseMove: {
+            mousePos = pos
+        }
+
+    }
+
 }

@@ -377,6 +377,7 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
             while(p.waitForReadyRead())
                 outdata.append(p.readAll());
 
+            // We need to use a QTextCodec as otherwise non-latin characters would be lost
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
             QStringList allfiles = QTextCodec::codecForMib(106)->toUnicode(outdata).split('\n', Qt::SkipEmptyParts);
 #else

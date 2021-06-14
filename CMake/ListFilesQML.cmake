@@ -6,7 +6,7 @@ SET(d "qml")
 SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/PQLoader.qml ${d}/PQVariables.qml ${d}/PQModel.qml ${d}/PQTrayIcon.qml ${d}/PQCmdReceived.qml)
 
 SET(d "qml/mainwindow")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQWindowButtons.qml ${d}/PQThumbnailBar.qml ${d}/PQMessage.qml ${d}/PQLoading.qml ${d}/PQLabels.qml ${d}/PQNavigation.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQWindowButtons.qml ${d}/PQThumbnailBar.qml ${d}/PQMessage.qml ${d}/PQLoading.qml ${d}/PQLabels.qml ${d}/PQNavigation.qml ${d}/PQContextMenu.qml)
 
 SET(d "qml/mainwindow/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQMovie.qml ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQFaceTagsUnsupported.qml)

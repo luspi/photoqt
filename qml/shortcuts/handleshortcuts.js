@@ -28,6 +28,11 @@ function checkComboForShortcut(combo) {
         return
     }
 
+    if(combo == "Escape" && contextmenu.visible) {
+        contextmenu.hide()
+        return
+    }
+
     whatToDoWithFoundShortcut(shortcutsettings.getCommandForShortcut(combo))
 
 }
@@ -51,6 +56,8 @@ function whatToDoWithFoundShortcut(sh) {
         imageitem.loadNextImage()
     else if(cmd === "__prev")
         imageitem.loadPrevImage()
+    else if(cmd == "__contextMenu")
+        contextmenu.show()
     else if(cmd === "__about")
         loader.show("about")
     else if(cmd === "__slideshow")

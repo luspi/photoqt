@@ -97,6 +97,8 @@ Item {
                                             //: Name of shortcut action
                     ["__prev",              em.pty+qsTranslate("settingsmanager", "Previous image")],
                                             //: Name of shortcut action
+                    ["__contextMenu",       "Show Context Menu"],
+                                            //: Name of shortcut action
                     ["__goToFirst",         em.pty+qsTranslate("settingsmanager", "Go to first image")],
                                             //: Name of shortcut action
                     ["__goToLast",          em.pty+qsTranslate("settingsmanager", "Go to last image")],
