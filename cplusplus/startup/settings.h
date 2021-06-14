@@ -42,8 +42,10 @@ namespace PQStartup {
                 // Make sure the right version is set in the settings file
                 PQSettings::get().setVersion(VERSION);
 
-                // a bug in 2.2 set this value to 1MB. We set it to 512MB to hopefully minimize its impact
-                if(PQSettings::get().getPixmapCache() > 0)
+                // a bug in 2.2 set this value to 1MB, we set it back to its default here
+                // a value greater than 1 means the user skipped 2.2
+                // a value of zero means the user had it disabled before
+                if(PQSettings::get().getPixmapCache() == 1)
                     PQSettings::get().setPixmapCache(512);
 
             }
