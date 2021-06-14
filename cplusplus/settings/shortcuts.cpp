@@ -1,5 +1,4 @@
 #include "shortcuts.h"
-#include <QtDebug>
 
 PQShortcuts::PQShortcuts(QObject *parent) : QObject(parent) {
 

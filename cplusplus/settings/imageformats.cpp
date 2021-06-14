@@ -414,7 +414,6 @@ bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString 
     }
 
     int howmany = query.record().value("NumFormats").toInt();
-    qDebug() << "howmany =" << howmany;
     if(howmany != 0) {
         LOG << CURDATE << "PQImageFormats::enterNewFormat(): Found " << howmany << " format with the new descrption, not entering anything new." << NL;
         return false;
@@ -474,8 +473,6 @@ void PQImageFormats::restoreDefaults() {
         readonly = true;
         return;
     }
-
-    qDebug() << "db:" << db.databaseName();
 
     if(!db.open()) {
         LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error opening new database: " << db.lastError().text().trimmed().toStdString() << NL;
