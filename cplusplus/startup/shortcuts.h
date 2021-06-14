@@ -39,9 +39,33 @@ namespace PQStartup {
                 QTextStream in(&shortcutsfile);
                 QString txt = in.readAll();
 
+                bool txtUpdated = false;
+
                 // rename shortcuts
                 if(txt.contains("__hideMeta")) {
+                    LOG << CURDATE << "PQStartup::Shortcuts::updateShortcuts(): rename __hideMeta shortcut" << NL;
                     txt = txt.replace("__hideMeta", "__showMetaData");
+                    txtUpdated = true;
+                }
+
+                // add context menu on right button shortcut if it right button is not assigned yet
+                if(!txt.contains("::Right Button::") && !txt.contains("::Right Button\n")) {
+                    LOG << CURDATE << "PQStartup::Shortcuts::updateShortcuts(): assign right button to context menu" << NL;
+                    if(txt.contains("__contextMenu::\n"))
+                        txt = txt.replace("__contextMenu::", "__contextMenu::Right Button");
+                    else if(txt.contains("__contextMenu::"))
+                        txt = txt.replace("__contextMenu", "__contextMenu::Right Button");
+                    else {
+                        if(!txt.endsWith("\n"))
+                            txt += "\n";
+                        txt += "0::__contextMenu::Right Button\n";
+                    }
+                    txtUpdated = true;
+                }
+
+                if(txtUpdated) {
+                    shortcutsfile.close();
+                    shortcutsfile.open(QIODevice::WriteOnly|QIODevice::Truncate);
                     QTextStream out(&shortcutsfile);
                     out << txt;
                 }
