@@ -2,7 +2,7 @@
 # CMakeLists for PhotoQt: http://photoqt.org #
 ##############################################
 
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.16)
 project(photoqt LANGUAGES CXX)
 
 
