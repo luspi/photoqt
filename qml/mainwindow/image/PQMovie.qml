@@ -142,6 +142,9 @@ Item {
             pinch.maximumScale: 10
             pinch.dragAxis: Pinch.XAndYAxis
 
+            onPinchStarted:
+                contextmenu.hide()
+
             onPinchUpdated:
                 videoelem.rotateTo = videoelem.rotation
 
@@ -153,7 +156,13 @@ Item {
                 drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined
                 cursorShape: controls.mouseHasBeenMovedRecently ? Qt.ArrowCursor : Qt.BlankCursor
 
+                onPressAndHold: {
+                    variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                    contextmenu.show()
+                }
+
                 onClicked: {
+                    contextmenu.hide()
                     if(videoelem.playbackState == MediaPlayer.PlayingState)
                         videoelem.pause()
                     else {

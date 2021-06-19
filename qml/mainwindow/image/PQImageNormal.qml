@@ -190,12 +190,23 @@ Item {
         pinch.maximumScale: 10
         pinch.dragAxis: Pinch.XAndYAxis
 
+        onPinchStarted:
+            contextmenu.hide()
+
         MouseArea {
             id: mousearea
             enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
             drag.target: theimage
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
+
+            onPressAndHold: {
+                variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                contextmenu.show()
+            }
+
+            onClicked:
+                contextmenu.hide()
 
             Connections {
                 target: variables
