@@ -52,7 +52,7 @@ cont += "Name \"PhotoQt\"\n";
 cont += "OutFile \"photoqt-" + version + "_" + architecture + "bit.exe\"\n\n";
 
 # Default installation folder
-cont += "InstallDir \"$PROGRAMFILES\\PhotoQt\"\n\n";
+cont += "InstallDir \"$PROGRAMFILES64\\PhotoQt\"\n\n";
 
 # Get installation folder from registry if available\n";
 cont += "InstallDirRegKey HKCU \"Software\\PhotoQt\" \"\"\n\n";
