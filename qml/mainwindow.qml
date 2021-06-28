@@ -259,6 +259,13 @@ Window {
         }
     }
 
+    Connections {
+        target: filefoldermodel
+        onCurrentFilePathChanged: {
+            cppmetadata.updateMetadata(filefoldermodel.currentFilePath)
+        }
+    }
+
     function start() {
 
         if(PQSettings.windowMode) {
