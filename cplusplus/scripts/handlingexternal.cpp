@@ -88,12 +88,12 @@ void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
     QFileInfo info(currentfile);
 
     for(int i = 0; i < arguments.length(); ++i) {
-        if(arguments[i] == "%f")
-            arguments[i] = currentfile;
-        if(arguments[i] == "%u")
-            arguments[i] = info.fileName();
-        if(arguments[i] == "%d")
-            arguments[i] = info.absolutePath();
+        if(arguments[i].contains("%f"))
+            arguments[i] = arguments[i].replace("%f", currentfile);
+        if(arguments[i].contains("%u"))
+            arguments[i] = arguments[i].replace("%u", info.fileName());
+        if(arguments[i].contains("%d"))
+            arguments[i] = arguments[i].replace("%d", info.absolutePath());
     }
 
     QProcess::startDetached(executable, arguments);
