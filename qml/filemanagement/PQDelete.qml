@@ -146,6 +146,8 @@ Item {
                                     return
                                 }
 
+                                filefoldermodel.removeEntryMainView(filefoldermodel.current)
+
                                 delete_top.opacity = 0
                                 variables.visibleItem = ""
                             }
@@ -159,6 +161,8 @@ Item {
                                     error.visible = true
                                     return
                                 }
+
+                                filefoldermodel.removeEntryMainView(filefoldermodel.current)
 
                                 delete_top.opacity = 0
                                 variables.visibleItem = ""
