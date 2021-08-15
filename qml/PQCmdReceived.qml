@@ -101,8 +101,8 @@ Item {
             // check at startup
 
             // --thumbs / --no-thumbs
-            if((PQPassOn.getThumbs()==1) == PQSettings.thumbnailDisable)
-                PQSettings.thumbnailDisable = !PQSettings.thumbnailDisable
+            if(PQPassOn.getThumbs() != 2)
+                PQSettings.thumbnailDisable = !PQPassOn.getThumbs()
 
             // --start-in-tray
             if(PQPassOn.getStartInTray()) {

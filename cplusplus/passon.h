@@ -65,7 +65,7 @@ public:
         thumbs = int(thb);
         emit cmdThumbs(thb);
     }
-    Q_INVOKABLE bool getThumbs() {
+    Q_INVOKABLE int getThumbs() {
         return thumbs;
     }
     /******************************************************/
