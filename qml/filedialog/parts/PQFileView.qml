@@ -92,6 +92,10 @@ GridView {
             } else
                 rightclickmenu_timer.restart()
         }
+        onClosed: {
+            rightclickmenu_timer.stop()
+            files_grid.rightclickopen = false
+        }
     }
 
     Text {
@@ -367,7 +371,10 @@ GridView {
                     } else
                         rightclickmenu_timer.restart()
                 }
-
+                onClosed: {
+                    rightclickmenu_timer.stop()
+                    files_grid.rightclickopen = false
+                }
             }
 
             Drag.active: dragArea.drag.active

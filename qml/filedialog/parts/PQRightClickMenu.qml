@@ -25,9 +25,13 @@ import "../../elements"
 
 PQMenu {
 
+    id: top
+
     property bool isFolder: false
     property bool isFile: false
     property string path: ""
+
+    signal closed()
 
     model: [
         (isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file")),
@@ -64,6 +68,8 @@ PQMenu {
             PQSettings.openThumbnails = !PQSettings.openThumbnails
         else if(index == 4)
             PQSettings.openPreview = !PQSettings.openPreview
+
+        top.closed()
 
     }
 
