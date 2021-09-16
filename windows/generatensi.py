@@ -67,8 +67,6 @@ cont += "RequestExecutionLevel admin\n\n";
 cont += "!define MUI_ABORTWARNING\n";
 cont += "!define MUI_ICON \"icon_install.ico\"\n\n";
 
-cont += "!define UNINST_KEY \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PhotoQt\"\n\n";
-
 # Show all languages, despite user's codepage
 cont += "!define MUI_LANGDLL_ALLLANGUAGES\n\n";
 
@@ -144,8 +142,6 @@ cont += "    SetShellVarContext all\n\n";
 
 # Write the installation path into the registry
 cont += "    WriteRegStr \"HKLM\" \"Software\\PhotoQt\" \"Install Directory\" \"$INSTDIR\"\n";
-# Write the Uninstall information into the registry
-cont += "    WriteRegStr \"HKLM\" \"UNINST_KEY\" \"UninstallString\" \"$INSTDIR\\uninstall.exe\"\n\n";
 
 # while looping over all the files, we simultaneously compose the uninstall section and store it in a temporary array that we add on to cont later
 deletecont = ""
@@ -183,6 +179,8 @@ cont += "    WriteRegStr HKCU \"Software\\PhotoQt\" \"\" $INSTDIR\n\n";
 
 # Create uninstaller
 cont += "    WriteUninstaller \"$INSTDIR\\uninstall.exe\"\n\n";
+cont += "    WriteRegStr HKLM \"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PhotoQt\" \"DisplayName\" \"PhotoQt Image Viewer\"\n\n";
+cont += "    WriteRegStr HKLM \"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PhotoQt\" \"UninstallString\" \"$\\\"$INSTDIR\\uninstall.exe$\\\"\"\n\n";
 
 cont += "SectionEnd\n";
 
@@ -602,8 +600,8 @@ cont += "    Delete \"$SMPROGRAMS\\PhotoQt\\Uninstall.lnk\"\n";
 cont += "    RMDir \"$SMPROGRAMS\\PhotoQt\"\n\n";
 
 cont += "    DeleteRegKey \"HKLM\" \"Software\\PhotoQt\"\n";
-cont += "    DeleteRegKey \"HKLM\" \"${UNINST_KEY}\"\n";
-cont += "    DeleteRegKey \"HKCU\" \"Software\\PhotoQt\"\n\n";
+cont += "    DeleteRegKey \"HKCU\" \"Software\\PhotoQt\"\n";
+cont += "    DeleteRegKey HKLM \"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PhotoQt\"\n\n";
 
 deleteDirectory(directory)
 
