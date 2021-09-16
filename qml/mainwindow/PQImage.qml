@@ -30,17 +30,19 @@ Item {
     id: container
 
     anchors.fill: parent
-    anchors.leftMargin: variables.metaDataWidthWhenKeptOpen
+    anchors.leftMargin: PQSettings.marginAroundImage+ variables.metaDataWidthWhenKeptOpen
     Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
-    anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive & !variables.faceTaggingActive) ? thumbnails.height : 0
+    anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive & !variables.faceTaggingActive) ? PQSettings.marginAroundImage+thumbnails.height : PQSettings.marginAroundImage
     Behavior on anchors.bottomMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
-    anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive && !variables.faceTaggingActive) ? thumbnails.height : 0
+    anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive && !variables.faceTaggingActive) ? PQSettings.marginAroundImage+thumbnails.height : PQSettings.marginAroundImage
     Behavior on anchors.topMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
-    signal zoomIn()
-    signal zoomOut()
+    anchors.rightMargin: PQSettings.marginAroundImage
+
+    signal zoomIn(var wheelDelta)
+    signal zoomOut(var wheelDelta)
     signal zoomReset()
     signal zoomActual()
     signal rotate(var deg)
@@ -147,7 +149,7 @@ Item {
                             if(deleg.imageStatus == Image.Ready) {
                                 hideShowAni.showing = false
                                 // store pos/zoom/rotation/mirror, can be restored when setting enabled
-                                imageloader.item.storePosRotZoomMirror()
+//                                imageloader.item.storePosRotZoomMirror()
                                 hideShowAni.startAni()
                             } else
                                 image_model.remove(index)

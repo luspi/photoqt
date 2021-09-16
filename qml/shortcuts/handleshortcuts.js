@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-function checkComboForShortcut(combo) {
+function checkComboForShortcut(combo, wheelDelta) {
 
     // if in viewer mode, pressing 'Escape' exits viewer mode
     if(combo == "Escape" && (filefoldermodel.isPQT || filefoldermodel.isARC)) {
@@ -33,7 +33,7 @@ function checkComboForShortcut(combo) {
         return
     }
 
-    whatToDoWithFoundShortcut(shortcutsettings.getCommandForShortcut(combo))
+    whatToDoWithFoundShortcut(shortcutsettings.getCommandForShortcut(combo), wheelDelta)
 
 }
 
@@ -41,7 +41,7 @@ function executeInternalFunction(func) {
     whatToDoWithFoundShortcut(["",func])
 }
 
-function whatToDoWithFoundShortcut(sh) {
+function whatToDoWithFoundShortcut(sh, wheelDelta) {
 
     var close = sh[0]
     var cmd = sh[1]
@@ -70,9 +70,9 @@ function whatToDoWithFoundShortcut(sh) {
     } else if(cmd === "__open")
         loader.show("filedialog")
     else if(cmd === "__zoomIn")
-        imageitem.zoomIn()
+        imageitem.zoomIn(wheelDelta)
     else if(cmd === "__zoomOut")
-        imageitem.zoomOut()
+        imageitem.zoomOut(wheelDelta)
     else if(cmd === "__zoomReset")
         imageitem.zoomReset()
     else if(cmd === "__zoomActual")

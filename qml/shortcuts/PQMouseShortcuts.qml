@@ -94,10 +94,10 @@ Item {
                     combo += "Wheel Right"
             }
 
+            HandleShortcuts.checkComboForShortcut(combo, Qt.point(angleDeltaX, angleDeltaY))
+
             angleDeltaX = 0
             angleDeltaY = 0
-
-            HandleShortcuts.checkComboForShortcut(combo)
 
         }
 
