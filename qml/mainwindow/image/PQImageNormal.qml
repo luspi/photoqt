@@ -20,7 +20,8 @@ Item {
     }
 
     transformOrigin: Item.TopLeft
-    scale: Math.min(imgcont.width/img.sourceSize.width, imgcont.height/img.sourceSize.height)
+    property real defaultScale: (img.sourceSize.width>imgcont.width||img.sourceSize.height>imgcont.height || PQSettings.fitInWindow) ? Math.min(imgcont.width/img.sourceSize.width, imgcont.height/img.sourceSize.height) : 1.0
+    scale: defaultScale
 
     property point mousePos: Qt.point(0,0)
 
