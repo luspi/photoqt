@@ -11,14 +11,6 @@ Item {
     width: container.width
     height: container.height
 
-    Timer {
-        interval: 500
-        repeat: true
-        running: true
-        onTriggered:
-            console.log(width, img.sourceSize.width, scale)
-    }
-
     transformOrigin: Item.TopLeft
     property real defaultScale: (img.sourceSize.width>imgcont.width||img.sourceSize.height>imgcont.height || PQSettings.fitInWindow) ? Math.min(imgcont.width/img.sourceSize.width, imgcont.height/img.sourceSize.height) : 1.0
     scale: defaultScale
@@ -31,8 +23,21 @@ Item {
 
         // NO anchors/width/height here!!
 
+        property real toX: 0
+        property real toY: 0
+        x: toX
+        y: toY
+        Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+        Behavior on y { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+
         transform: Scale {
             id: scaletform
+            property real toXScale: 1
+            property real toYScale: 1
+            xScale: toXScale
+            yScale: toYScale
+            Behavior on xScale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+            Behavior on yScale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
         }
 
         Flickable {
@@ -41,25 +46,22 @@ Item {
             contentWidth: img.sourceSize.width
             contentHeight: img.sourceSize.height
 
+
             PinchArea {
                 width: Math.max(flick.contentWidth, flick.width)
                 height: Math.max(flick.contentHeight, flick.height)
 
                 property real initialWidth
                 property real initialHeight
-                property real initialRotation
                 onPinchStarted: {
                     initialWidth = flick.contentWidth
                     initialHeight = flick.contentHeight
-//                    initialRotation = flick.contentItem.rotation
                 }
 
                 onPinchUpdated: {
                     // adjust content pos due to drag
                     flick.contentX += pinch.previousCenter.x - pinch.center.x
                     flick.contentY += pinch.previousCenter.y - pinch.center.y
-
-//                    flick.contentItem.rotation = initialRotation+pinch.rotation
 
                     // resize content
                     flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
@@ -114,22 +116,25 @@ Item {
             // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
             // in that case we zoom to the screen center
             var localMousePos = imgmousezoom.mapFromGlobal(variables.mousePos)
+            if(wheelDelta == undefined)
+                localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
 
             // the zoomfactor depends on the settings
-            var zoomfactor = 1.2
+
+            var zoomfactor = Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.xScale
-            var realY = localMousePos.y * scaletform.yScale
+            var realX = localMousePos.x * scaletform.toXScale
+            var realY = localMousePos.y * scaletform.toYScale
 
-            var newX = imgmousezoom.x+(1-zoomfactor)*realX
-            var newY = imgmousezoom.y+(1-zoomfactor)*realY
-            imgmousezoom.x = newX
-            imgmousezoom.y = newY
+            var newX = imgmousezoom.toX+(1-zoomfactor)*realX
+            var newY = imgmousezoom.toY+(1-zoomfactor)*realY
+            imgmousezoom.toX = newX
+            imgmousezoom.toY = newY
 
             // update scale factor
-            scaletform.xScale *= zoomfactor
-            scaletform.yScale *= zoomfactor
+            scaletform.toXScale *= zoomfactor
+            scaletform.toYScale *= zoomfactor
 
         }
 
@@ -139,22 +144,24 @@ Item {
             // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
             // in that case we zoom to the screen center
             var localMousePos = imgmousezoom.mapFromGlobal(variables.mousePos)
+            if(wheelDelta == undefined)
+                localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
 
             // the zoomfactor depends on the settings
-            var zoomfactor = 1/1.2
+            var zoomfactor = 1/Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.xScale
-            var realY = localMousePos.y * scaletform.yScale
+            var realX = localMousePos.x * scaletform.toXScale
+            var realY = localMousePos.y * scaletform.toYScale
 
-            var newX = imgmousezoom.x+(1-zoomfactor)*realX
-            var newY = imgmousezoom.y+(1-zoomfactor)*realY
-            imgmousezoom.x = newX
-            imgmousezoom.y = newY
+            var newX = imgmousezoom.toX+(1-zoomfactor)*realX
+            var newY = imgmousezoom.toY+(1-zoomfactor)*realY
+            imgmousezoom.toX = newX
+            imgmousezoom.toY = newY
 
             // update scale factor
-            scaletform.xScale *= zoomfactor
-            scaletform.yScale *= zoomfactor
+            scaletform.toXScale *= zoomfactor
+            scaletform.toYScale *= zoomfactor
 
         }
 
