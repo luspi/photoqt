@@ -194,6 +194,28 @@ Item {
 
         }
 
+        onZoomActual: {
+
+            // zoom to screen center
+            var localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+
+            // the zoomfactor depends on the settings
+            var zoomfactor = 1/totalScale
+
+            // update x/y position of image
+            var realX = localMousePos.x * scaletform.toScale
+            var realY = localMousePos.y * scaletform.toScale
+
+            var newX = imgmousezoom.toX+(1-zoomfactor)*realX
+            var newY = imgmousezoom.toY+(1-zoomfactor)*realY
+            imgmousezoom.toX = newX
+            imgmousezoom.toY = newY
+
+            // update scale factor
+            scaletform.toScale *= zoomfactor
+
+        }
+
         onZoomReset: {
 
             imgmousezoom.toX = 0
