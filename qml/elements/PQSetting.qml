@@ -59,6 +59,7 @@ Item {
             font.bold: true
             font.pointSize: 12
             horizontalAlignment: Text.AlignRight
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
             PQMouseArea {
                 anchors.fill: parent
