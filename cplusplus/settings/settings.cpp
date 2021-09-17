@@ -111,6 +111,7 @@ void PQSettings::setDefault(bool ignoreLanguage) {
     setSortImagesAscending(true);
     setTrayIcon(0);
     setZoomSpeed(20);
+    setZoomSmallerThanDefault(false);
 
     setLabelsWindowButtonsSize(10);
     setLabelsHideCounter(false);
@@ -365,6 +366,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("ZoomSpeed="))
                 setZoomSpeed(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ZoomSmallerThanDefault="))
+                setZoomSmallerThanDefault(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("LabelsWindowButtonsSize="))
@@ -750,6 +754,7 @@ void PQSettings::saveSettings() {
         cont += QString("SortImagesAscending=%1\n").arg(int(m_sortImagesAscending));
         cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
+        cont += QString("ZoomSmallerThanDefault=%1\n").arg(int(m_zoomSmallerThanDefault));
 
         cont += "\n[Labels]\n";
 

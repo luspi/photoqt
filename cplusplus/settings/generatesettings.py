@@ -52,13 +52,14 @@ values = {
          ["MarginAroundImage",                  "int",     "5"],
          ["MouseWheelSensitivity",              "int",     "1"],
          ["PdfQuality",                         "int",     "150"],
-         ["PixmapCache",                        "int",    "512"],
+         ["PixmapCache",                        "int",     "512"],
          ["QuickNavigation",                    "bool",    "false"],
          ["ShowTransparencyMarkerBackground",   "bool",    "false"],
          ["SortImagesBy",                       "QString", "\"naturalname\""],
          ["SortImagesAscending",                "bool",    "true"],
          ["TrayIcon",                           "int",     "0"],
-         ["ZoomSpeed",                          "int",     "20"]],
+         ["ZoomSpeed",                          "int",     "20"],
+         ["ZoomSmallerThanDefault",             "bool",    "false"]],
 
     "Labels" :
 
@@ -308,7 +309,7 @@ for key in values:
         qproperty +=  "            saveSettingsTimer->start();\n"
         qproperty +=  "        }\n"
         qproperty +=  "    }\n"
-        qproperty +=  "    \n"
+        qproperty +=  "\n"
 
 
         ##############################

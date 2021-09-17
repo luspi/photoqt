@@ -66,7 +66,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQCloseOnEmpty.qml ${d}/PQLanguage.qml ${d}/
 
 SET(d "qml/settingsmanager/tabs/imageview")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQAnimation.qml ${d}/PQFitInWindow.qml ${d}/PQInterpolation.qml ${d}/PQKeep.qml ${d}/PQLeftButton.qml ${d}/PQLoop.qml ${d}/PQMargin.qml ${d}/PQPixmapCache.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQSort.qml ${d}/PQTransparencyMarker.qml ${d}/PQZoomSpeed.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSort.qml ${d}/PQTransparencyMarker.qml ${d}/PQZoomSpeed.qml ${d}/PQZoomSmallerDefault.qml)
 
 SET(d "qml/settingsmanager/tabs/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQCache.qml ${d}/PQCenter.qml ${d}/PQDisable.qml ${d}/PQFilenameOnly.qml ${d}/PQFilenameLabel.qml ${d}/PQLiftUp.qml ${d}/PQPosition.qml ${d}/PQSize.qml)

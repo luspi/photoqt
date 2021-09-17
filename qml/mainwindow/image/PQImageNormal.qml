@@ -84,7 +84,10 @@ Item {
                     flick.contentY += pinch.previousCenter.y - pinch.center.y
 
                     // resize content
-                    flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
+                    if(computeTotalScale(scaletform.toScale, (initialHeight * pinch.scale)/img.sourceSize.height) >= imgcont.defaultScale || PQSettings.zoomSmallerThanDefault)
+                        flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
+                    else
+                        flick.resizeContent(img.sourceSize.width, img.sourceSize.height, pinch.center)
 
                 }
 
@@ -141,6 +144,10 @@ Item {
             if(wheelDelta != undefined)
                 zoomfactor = Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
+            var tot = computeTotalScale(scaletform.toScale*zoomfactor, pincharea.pinchscale)
+            if(tot < imgcont.defaultScale && !PQSettings.zoomSmallerThanDefault)
+                zoomfactor = imgcont.defaultScale/(imgcont.scale*pincharea.pinchscale)
+
             // update x/y position of image
             var realX = localMousePos.x * scaletform.toScale
             var realY = localMousePos.y * scaletform.toScale
@@ -169,6 +176,10 @@ Item {
             if(wheelDelta != undefined)
                 zoomfactor = 1/Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
+            var tot = computeTotalScale(scaletform.toScale*zoomfactor, pincharea.pinchscale)
+            if(tot < imgcont.defaultScale && !PQSettings.zoomSmallerThanDefault)
+                zoomfactor = imgcont.defaultScale/(imgcont.scale*pincharea.pinchscale)
+
             // update x/y position of image
             var realX = localMousePos.x * scaletform.toScale
             var realY = localMousePos.y * scaletform.toScale
@@ -185,9 +196,17 @@ Item {
 
         onZoomReset: {
 
-            imgmousezoom.x = 0
-            imgmousezoom.y = 0
-            scaletform.xScale = 1
+            imgmousezoom.toX = 0
+            imgmousezoom.toY = 0
+            scaletform.toScale = 1
+
+            // reset properties changed through drag.target
+            prop_pinchx.from = pincharea.x
+            prop_pinchx.to = 0
+            prop_pinchy.from = pincharea.y
+            prop_pinchy.to = 0
+            prop_pinchx.start()
+            prop_pinchy.start()
 
             // setup and start property animations to reset flickarea pinch-to-zoom levels
             prop_contw.from = flick.contentWidth
@@ -230,6 +249,18 @@ Item {
         id: prop_conty
         target: flick
         property: "contentY"
+        duration: PQSettings.animationDuration*100
+    }
+    PropertyAnimation {
+        id: prop_pinchx
+        target: pincharea
+        property: "x"
+        duration: PQSettings.animationDuration*100
+    }
+    PropertyAnimation {
+        id: prop_pinchy
+        target: pincharea
+        property: "y"
         duration: PQSettings.animationDuration*100
     }
 

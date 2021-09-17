@@ -149,5 +149,6 @@
         <file>settingsmanager/tabs/shortcuts/PQShortcutTile.qml</file>
         <file>settingsmanager/PQRestoreDefaults.qml</file>
         <file>mainwindow/PQContextMenu.qml</file>
+        <file>settingsmanager/tabs/imageview/PQZoomSmallerDefault.qml</file>
     </qresource>
 </RCC>
