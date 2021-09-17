@@ -80,7 +80,7 @@ Window {
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 //: The 'here' refers to the welcome window new users see where they can choose one of three sets of default settings
-                text: em.pty+qsTranslate("welcome", "If you do not know what to do here, that is nothing to worry about: Simple click on continue.")
+                text: em.pty+qsTranslate("welcome", "If you do not know what to do here, that is nothing to worry about: Simply click on continue.")
             }
 
             Text {
