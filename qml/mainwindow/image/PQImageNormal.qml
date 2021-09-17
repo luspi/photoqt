@@ -17,6 +17,14 @@ Item {
 
     property point mousePos: Qt.point(0,0)
 
+    property real totalScale: imgcont.scale * scaletform.xScale * pincharea.pinchscale
+    onTotalScaleChanged:
+        variables.currentZoomLevel = totalScale*100
+
+    function computeTotalScale(scaletformscale, pinchscale) {
+        return imgcont.scale * scaletformscale * pinchscale
+    }
+
     Item {
 
         id: imgmousezoom
@@ -32,12 +40,13 @@ Item {
 
         transform: Scale {
             id: scaletform
-            property real toXScale: 1
-            property real toYScale: 1
-            xScale: toXScale
-            yScale: toYScale
+            property real toScale: 1
+            xScale: toScale
+            yScale: toScale
             Behavior on xScale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
             Behavior on yScale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+            onXScaleChanged:
+                imgcont.totalScale = computeTotalScale(scaletform.xScale, pincharea.pinchscale)
         }
 
         Flickable {
@@ -46,10 +55,20 @@ Item {
             contentWidth: img.sourceSize.width
             contentHeight: img.sourceSize.height
 
+            // we can use the height property in both as we always scale the width/height exactly the same
+            onContentHeightChanged:
+                pincharea.pinchscale = flick.contentHeight/img.sourceSize.height
+            onContentWidthChanged:
+                pincharea.pinchscale = flick.contentHeight/img.sourceSize.height
 
             PinchArea {
+
+                id: pincharea
+
                 width: Math.max(flick.contentWidth, flick.width)
                 height: Math.max(flick.contentHeight, flick.height)
+
+                property real pinchscale: 1
 
                 property real initialWidth
                 property real initialHeight
@@ -59,23 +78,20 @@ Item {
                 }
 
                 onPinchUpdated: {
+
                     // adjust content pos due to drag
                     flick.contentX += pinch.previousCenter.x - pinch.center.x
                     flick.contentY += pinch.previousCenter.y - pinch.center.y
 
                     // resize content
                     flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
+
                 }
 
                 MouseArea {
-                    id: mm
                     anchors.fill: parent
                     hoverEnabled: true
                     drag.target: parent
-                    onMouseXChanged:
-                        imgcont.mousePos.x = mouseX
-                    onMouseYChanged:
-                        imgcont.mousePos.y = mouseY
                 }
 
                 Item {
@@ -121,11 +137,13 @@ Item {
 
             // the zoomfactor depends on the settings
 
-            var zoomfactor = Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
+            var zoomfactor = 1.2
+            if(wheelDelta != undefined)
+                zoomfactor = Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.toXScale
-            var realY = localMousePos.y * scaletform.toYScale
+            var realX = localMousePos.x * scaletform.toScale
+            var realY = localMousePos.y * scaletform.toScale
 
             var newX = imgmousezoom.toX+(1-zoomfactor)*realX
             var newY = imgmousezoom.toY+(1-zoomfactor)*realY
@@ -133,8 +151,7 @@ Item {
             imgmousezoom.toY = newY
 
             // update scale factor
-            scaletform.toXScale *= zoomfactor
-            scaletform.toYScale *= zoomfactor
+            scaletform.toScale *= zoomfactor
 
         }
 
@@ -148,11 +165,13 @@ Item {
                 localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
 
             // the zoomfactor depends on the settings
-            var zoomfactor = 1/Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
+            var zoomfactor = 1/1.2
+            if(wheelDelta != undefined)
+                zoomfactor = 1/Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.toXScale
-            var realY = localMousePos.y * scaletform.toYScale
+            var realX = localMousePos.x * scaletform.toScale
+            var realY = localMousePos.y * scaletform.toScale
 
             var newX = imgmousezoom.toX+(1-zoomfactor)*realX
             var newY = imgmousezoom.toY+(1-zoomfactor)*realY
@@ -160,11 +179,58 @@ Item {
             imgmousezoom.toY = newY
 
             // update scale factor
-            scaletform.toXScale *= zoomfactor
-            scaletform.toYScale *= zoomfactor
+            scaletform.toScale *= zoomfactor
 
         }
 
+        onZoomReset: {
+
+            imgmousezoom.x = 0
+            imgmousezoom.y = 0
+            scaletform.xScale = 1
+
+            // setup and start property animations to reset flickarea pinch-to-zoom levels
+            prop_contw.from = flick.contentWidth
+            prop_contw.to = img.sourceSize.width
+            prop_conth.from = flick.contentHeight
+            prop_conth.to = img.sourceSize.height
+            prop_contx.from = flick.contentX
+            prop_contx.to = 0
+            prop_conty.from = flick.contentY
+            prop_conty.to = 0
+            prop_contw.start()
+            prop_conth.start()
+            prop_contx.start()
+            prop_conty.start()
+
+        }
+
+    }
+
+    // we use porperty animations as we only want to animate these properties on reset and at no other time
+    PropertyAnimation {
+        id: prop_contw
+        target: flick
+        property: "contentWidth"
+        duration: PQSettings.animationDuration*100
+    }
+    PropertyAnimation {
+        id: prop_conth
+        target: flick
+        property: "contentHeight"
+        duration: PQSettings.animationDuration*100
+    }
+    PropertyAnimation {
+        id: prop_contx
+        target: flick
+        property: "contentX"
+        duration: PQSettings.animationDuration*100
+    }
+    PropertyAnimation {
+        id: prop_conty
+        target: flick
+        property: "contentY"
+        duration: PQSettings.animationDuration*100
     }
 
 }
