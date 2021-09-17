@@ -73,14 +73,14 @@ Item {
             if(Math.abs(angleDeltaX) <= threshold && Math.abs(angleDeltaY) <= threshold)
                 return;
 
-            if(angleDeltaY < -threshold) {
+            if(angleDeltaY > threshold) {
                 if(angleDeltaX < -threshold)
                     combo += "Wheel Up Left"
                 else if(angleDeltaX > threshold)
                     combo += "Wheel Up Right"
                 else
                     combo += "Wheel Up"
-            } else if(angleDeltaY > threshold) {
+            } else if(angleDeltaY < -threshold) {
                 if(angleDeltaX < -threshold)
                     combo += "Wheel Down Left"
                 else if(angleDeltaX > threshold)
