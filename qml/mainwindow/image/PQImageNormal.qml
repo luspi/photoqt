@@ -350,14 +350,28 @@ Item {
             // get the local mouse position
             // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
             // in that case we zoom to the screen center
-            var localMousePos = theimage.mapFromGlobal(variables.mousePos)
+            var localMousePos
+            if(wheelDelta != undefined)
+                localMousePos = theimage.mapFromGlobal(variables.mousePos)
+            else
+                localMousePos = theimage.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+
             // adjust for transformOrigin being Center and not TopLeft
             // for some reason (bug?), setting the transformOrigin causes some slight blurriness
             localMousePos.x -= theimage.width/2
             localMousePos.y -= theimage.height/2
 
+            if(wheelDelta != undefined) {
+                if(wheelDelta.y > 12)
+                    wheelDelta.y = 12
+                else if(wheelDelta.y < -12)
+                    wheelDelta.y = -12
+            }
+
             // the zoomfactor depends on the settings
-            var zoomfactor = 1.05
+            var zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQSettings.zoomSpeed*0.005))
+            if(wheelDelta != undefined)
+                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
             // update x/y position of image
             var realX = localMousePos.x * theimage.curScale
@@ -377,14 +391,28 @@ Item {
             // get the local mouse position
             // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
             // in that case we zoom to the screen center
-            var localMousePos = theimage.mapFromGlobal(variables.mousePos)
+            var localMousePos
+            if(wheelDelta != undefined)
+                localMousePos = theimage.mapFromGlobal(variables.mousePos)
+            else
+                localMousePos = theimage.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+
             // adjust for transformOrigin being Center and not TopLeft
             // for some reason (bug?), setting the transformOrigin causes some slight blurriness
             localMousePos.x -= theimage.width/2
             localMousePos.y -= theimage.height/2
 
+            if(wheelDelta != undefined) {
+                if(wheelDelta.y > 12)
+                    wheelDelta.y = 12
+                else if(wheelDelta.y < -12)
+                    wheelDelta.y = -12
+            }
+
             // the zoomfactor depends on the settings
-            var zoomfactor = 1/1.05
+            var zoomfactor = 1/Math.max(1.01, Math.min(1.3, 1+PQSettings.zoomSpeed*0.01))
+            if(wheelDelta != undefined)
+                zoomfactor = 1/Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
 
             // update x/y position of image
             var realX = localMousePos.x * theimage.curScale
