@@ -137,11 +137,11 @@ Item {
             }
         }
 
-        Behavior on x { NumberAnimation { duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
-        Behavior on y { NumberAnimation { duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on x { NumberAnimation { id: xani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on y { NumberAnimation { id: yani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
         Behavior on rotation { NumberAnimation { id: rotani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
         // its duration it set to proper value after image has been loaded properly (in reset())
-        Behavior on scale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+        Behavior on scale { NumberAnimation { id: scaleani; duration: PQSettings.animationDuration*100  } }
 
         Image {
             anchors.fill: parent
@@ -188,15 +188,47 @@ Item {
         scale: theimage.scale
         rotation: theimage.rotation
 
-        pinch.target: theimage
-        pinch.minimumRotation: -360*5
-        pinch.maximumRotation: 360*5
-        pinch.minimumScale: 0.1
-        pinch.maximumScale: 10
-        pinch.dragAxis: Pinch.XAndYAxis
-
-        onPinchStarted:
+        // the actual scale factor from a pinch event is the initial scale multiplied by Pinch.scale
+        property real initialScale
+        onPinchStarted: {
+            initialScale = theimage.curScale
             contextmenu.hide()
+        }
+
+        onPinchUpdated: {
+
+            // disable animations for the pinching
+            xani.duration = 0
+            yani.duration = 0
+            scaleani.duration = 0
+
+            // get the local center position of the pinch
+            var localMousePos = theimage.mapFromItem(pincharea, pinch.center)
+            // adjust for transformOrigin being Center and not TopLeft
+            // for some reason (bug?), setting the transformOrigin causes some slight blurriness
+            localMousePos.x -= theimage.width/2
+            localMousePos.y -= theimage.height/2
+
+            // the zoomfactor depends on the settings
+            var zoomfactor = (initialScale*pinch.scale)/theimage.curScale
+
+            // update x/y position of image
+            var realX = localMousePos.x * theimage.curScale
+            var realY = localMousePos.y * theimage.curScale
+
+            var newX = theimage.curX + (1-zoomfactor)*realX
+            var newY = theimage.curY + (1-zoomfactor)*realY
+            theimage.curX = newX
+            theimage.curY = newY
+
+            // update scale factor
+            theimage.curScale *= zoomfactor
+
+            // re-enable animations after the pinching
+            xani.duration = PQSettings.animationDuration*100
+            yani.duration = PQSettings.animationDuration*100
+            scaleani.duration = PQSettings.animationDuration*100
+        }
 
         MouseArea {
             id: mousearea
