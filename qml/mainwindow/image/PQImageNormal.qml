@@ -1,130 +1,314 @@
-import QtQuick 2.15
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2021 Lukas Spies                                  **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.9
+import "../../elements"
 
 Item {
 
-    id: imgcont
-
-//    x: useStoredData ? variables.zoomRotationMirror[src][4].x : 0
-//    y: useStoredData ? variables.zoomRotationMirror[src][4].y : 0
-    x: (width - img.sourceSize.width*scale)/2
-    y: (height - img.sourceSize.height*scale)/2
+    id: cont
+    x: useStoredData ? variables.zoomRotationMirror[src][4].x : 0
+    y: useStoredData ? variables.zoomRotationMirror[src][4].y : 0
     width: container.width
     height: container.height
 
-    transformOrigin: Item.TopLeft
-    property real defaultScale: (img.sourceSize.width>imgcont.width||img.sourceSize.height>imgcont.height || PQSettings.fitInWindow) ? Math.min(imgcont.width/img.sourceSize.width, imgcont.height/img.sourceSize.height) : 1.0
-    scale: defaultScale
+    property bool imageMoved: false
+    property real defaultScale: 1.0
+    property bool useStoredData: PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror
 
-    property point mousePos: Qt.point(0,0)
+    // large images can cause flickering when transitioning before scale is reset
+    // this makes that invisible
+    // this is set to true *after* proper scale has been set
+    visible: false
 
-    property real totalScale: imgcont.scale * scaletform.xScale * pincharea.pinchscale
-    onTotalScaleChanged:
-        variables.currentZoomLevel = totalScale*100
+    property bool reloadingImage: false
 
-    function computeTotalScale(scaletformscale, pinchscale) {
-        return imgcont.scale * scaletformscale * pinchscale
-    }
+    Image {
 
-    Item {
+        id: theimage
+        property real curX: useStoredData ? variables.zoomRotationMirror[src][0].x : 0
+        property real curY: useStoredData ? variables.zoomRotationMirror[src][0].y : 0
+        x: curX
+        y: curY
+        width: sourceSize.width
+        height: sourceSize.height
+        fillMode: Image.Pad
+        clip: true
+        cache: false
+        asynchronous: true
 
-        id: imgmousezoom
+        source: "image://full/" + src
 
-        // NO anchors/width/height here!!
+        onXChanged:
+            imageMoved = true
+        onYChanged:
+            imageMoved = true
 
-        property real toX: 0
-        property real toY: 0
-        x: toX
-        y: toY
-        Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100  } }
-        Behavior on y { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+        mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
-        transform: Scale {
-            id: scaletform
-            property real toScale: 1
-            xScale: toScale
-            yScale: toScale
-            Behavior on xScale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
-            Behavior on yScale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
-            onXScaleChanged:
-                imgcont.totalScale = computeTotalScale(scaletform.xScale, pincharea.pinchscale)
-        }
+        smooth: (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
+        mipmap: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
 
-        Flickable {
-            id: flick
-            anchors.fill: parent
-            contentWidth: img.sourceSize.width
-            contentHeight: img.sourceSize.height
-
-            // we can use the height property in both as we always scale the width/height exactly the same
-            onContentHeightChanged:
-                pincharea.pinchscale = flick.contentHeight/img.sourceSize.height
-            onContentWidthChanged:
-                pincharea.pinchscale = flick.contentHeight/img.sourceSize.height
-
-            PinchArea {
-
-                id: pincharea
-
-                width: Math.max(flick.contentWidth, flick.width)
-                height: Math.max(flick.contentHeight, flick.height)
-
-                property real pinchscale: 1
-
-                property real initialWidth
-                property real initialHeight
-                onPinchStarted: {
-                    initialWidth = flick.contentWidth
-                    initialHeight = flick.contentHeight
+        Repeater {
+            model: defaultScale < 0.8 ? 5 : 0
+            delegate: Image {
+                id: subimg
+                property real threshold: 1.0-index*0.2
+                anchors.fill: source == "" ? undefined : theimage
+                cache: false
+                antialiasing: false
+                asynchronous: true
+                smooth: theimage.smooth
+                mipmap: theimage.scale < defaultScale*threshold
+                mirror: theimage.mirror
+                source: ""
+                sourceSize.width: theimage.width*(defaultScale*threshold)
+                sourceSize.height: theimage.height*(defaultScale*threshold)
+                visible: (defaultScale < 0.8 || index > 1) && theimage.scale < defaultScale*threshold*1.0001
+                onVisibleChanged: {
+                    if(visible && source == "" && PQSettings.pixmapCache > 0 && !rotani.running)
+                        source = parent.source
                 }
-
-                onPinchUpdated: {
-
-                    // adjust content pos due to drag
-                    flick.contentX += pinch.previousCenter.x - pinch.center.x
-                    flick.contentY += pinch.previousCenter.y - pinch.center.y
-
-                    // resize content
-                    if(computeTotalScale(scaletform.toScale, (initialHeight * pinch.scale)/img.sourceSize.height) >= imgcont.defaultScale || PQSettings.zoomSmallerThanDefault)
-                        flick.resizeContent(initialWidth * pinch.scale, initialHeight * pinch.scale, pinch.center)
-                    else
-                        flick.resizeContent(img.sourceSize.width, img.sourceSize.height, pinch.center)
-
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    drag.target: parent
-                }
-
-                Item {
-                    id: outsideimg
-                    width: flick.contentWidth
-                    height: flick.contentHeight
-                    Image {
-                        id: img
-                        anchors.fill: parent
-                        source: "image://full/" + src
-                        smooth: true
-                        mipmap: true
-
-                        onStatusChanged: {
-                            if(source == "") return
-                            imgcont.parent.imageStatus = status
-                            if(status == Image.Ready) {
-//                                if(reloadingImage) {
-//                                    loadingindicator.forceStop()
-//                                    reloadingImage = false
-//                                } else
-//                                    theimage_load.restart()
-                            }
-                        }
-
+                // when the image has changed, we also need to make sure to reload these images
+                property string tmpsrc: ""
+                Connections {
+                    target: cont
+                    onReloadingImageChanged: {
+                        if(reloadingImage) {
+                            tmpsrc = subimg.source
+                            subimg.source = ""
+                        } else
+                            subimg.source = tmpsrc
                     }
                 }
             }
         }
 
+        rotation: useStoredData ? variables.zoomRotationMirror[src][1] : 0
+        property real rotateTo: 0.0
+        onRotateToChanged: {
+            rotation = rotateTo
+            console.log("reset?", theimage.curScale, defaultScale, imageMoved)
+            if(theimage.curScale == defaultScale && !imageMoved) {
+                reset(true, false)
+            }
+        }
+        onRotationChanged: {
+            if(!rotani.running)
+                rotateTo = rotation
+            variables.currentRotationAngle = rotation
+        }
+
+        property real curScale: useStoredData ? variables.zoomRotationMirror[src][2] : Math.min((container.width-2*PQSettings.marginAroundImage)/theimage.width, (container.height-2*PQSettings.marginAroundImage)/theimage.height)
+        scale: curScale
+        onScaleChanged: {
+            variables.currentZoomLevel = theimage.scale*100
+            variables.currentPaintedZoomLevel = theimage.scale
+        }
+
+        onStatusChanged: {
+            if(source == "") return
+            cont.parent.imageStatus = status
+            if(status == Image.Ready) {
+                if(reloadingImage) {
+                    loadingindicator.forceStop()
+                    reloadingImage = false
+                } else
+                    theimage_load.restart()
+            }
+        }
+
+        Behavior on x { NumberAnimation { duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on y { NumberAnimation { duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on rotation { NumberAnimation { id: rotani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        // its duration it set to proper value after image has been loaded properly (in reset())
+        Behavior on scale { NumberAnimation { duration: PQSettings.animationDuration*100  } }
+
+        Image {
+            anchors.fill: parent
+            z: -1
+            smooth: false
+            visible: PQSettings.showTransparencyMarkerBackground
+            source: PQSettings.showTransparencyMarkerBackground ? "qrc:/image/checkerboard.png" : ""
+            sourceSize.width: Math.max(20, Math.min((parent.height/50), (parent.width/50)))
+            fillMode: Image.Tile
+        }
+
+        Timer {
+            id: theimage_load
+            interval: 0
+            repeat: false
+            running: false
+            onTriggered: {
+                if(!useStoredData)
+                    reset(true, true)
+                cont.visible = true
+            }
+        }
+
+    }
+
+    MouseArea {
+        x: -cont.x
+        y: -cont.y
+        width: container.width
+        height: container.height
+        hoverEnabled: false
+        onPressed: {
+            if(PQSettings.closeOnEmptyBackground)
+                toplevel.close()
+        }
+    }
+
+    PinchArea {
+
+        id: pincharea
+
+        anchors.fill: theimage
+
+        scale: theimage.scale
+        rotation: theimage.rotation
+
+        pinch.target: theimage
+        pinch.minimumRotation: -360*5
+        pinch.maximumRotation: 360*5
+        pinch.minimumScale: 0.1
+        pinch.maximumScale: 10
+        pinch.dragAxis: Pinch.XAndYAxis
+
+        onPinchStarted:
+            contextmenu.hide()
+
+        MouseArea {
+            id: mousearea
+            enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible&&!variables.slideShowActive
+            anchors.fill: parent
+            drag.target: theimage
+            hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
+
+            onPressAndHold: {
+                variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                contextmenu.show()
+            }
+
+            onClicked:
+                contextmenu.hide()
+
+            onReleased: {
+                theimage.curX = theimage.x
+                theimage.curY = theimage.y
+                theimage.x = Qt.binding(function() { return theimage.curX })
+                theimage.y = Qt.binding(function() { return theimage.curY })
+            }
+
+            Connections {
+                target: variables
+                onMousePosChanged: {
+                    hidecursor.restart()
+                    mousearea.cursorShape = Qt.ArrowCursor
+                }
+                onVisibleItemChanged: {
+                    if(variables.visibleItem != "") {
+                        hidecursor.stop()
+                        mousearea.cursorShape = Qt.ArrowCursor
+                    } else {
+                        hidecursor.restart()
+                        mousearea.cursorShape = Qt.ArrowCursor
+                    }
+                }
+            }
+
+            Timer {
+                id: hidecursor
+                interval: 1000
+                repeat: false
+                running: true
+                onTriggered:
+                    mousearea.cursorShape = Qt.BlankCursor
+            }
+
+        }
+
+    }
+
+    PQFaceTracker {
+        id: facetracker
+        anchors.fill: theimage
+        scale: theimage.scale
+        rotation: theimage.rotation
+        filename: src
+        visible: !facetagger.visible
+        Connections {
+            target: facetagger
+            onHasBeenUpdated:
+                facetracker.updateData()
+        }
+    }
+
+    PQFaceTagger {
+        id: facetagger
+        anchors.fill: theimage
+        scale: theimage.scale
+        rotation: theimage.rotation
+        filename: src
+    }
+
+    Connections {
+        target: toplevel
+        onWidthChanged: {
+            widthHeightChanged.interval = 10
+            widthHeightChanged.start()
+        }
+        onHeightChanged: {
+            widthHeightChanged.interval = 10
+            widthHeightChanged.start()
+        }
+    }
+
+    Connections {
+        target: container
+        onWidthChanged: {
+            widthHeightChanged.interval = PQSettings.animationDuration*100
+            widthHeightChanged.start()
+        }
+        onHeightChanged: {
+            widthHeightChanged.interval = PQSettings.animationDuration*100
+            widthHeightChanged.start()
+        }
+    }
+
+    Timer {
+        id: widthHeightChanged
+        interval: 10
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!useStoredData) {
+                if(!imageMoved && theimage.curScale == defaultScale)
+                    reset(true, true)
+                else if(!imageMoved)
+                    reset(false, true)
+            }
+        }
     }
 
     Connections {
@@ -134,156 +318,169 @@ Item {
             // get the local mouse position
             // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
             // in that case we zoom to the screen center
-            var localMousePos = imgmousezoom.mapFromGlobal(variables.mousePos)
-            if(wheelDelta == undefined)
-                localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+            var localMousePos = theimage.mapFromGlobal(variables.mousePos)
+            // adjust for transformOrigin being Center and not TopLeft
+            // for some reason (bug?), setting the transformOrigin causes some slight blurriness
+            localMousePos.x -= theimage.width/2
+            localMousePos.y -= theimage.height/2
 
             // the zoomfactor depends on the settings
-
-            var zoomfactor = 1.2
-            if(wheelDelta != undefined)
-                zoomfactor = Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
-
-            var tot = computeTotalScale(scaletform.toScale*zoomfactor, pincharea.pinchscale)
-            if(tot < imgcont.defaultScale && !PQSettings.zoomSmallerThanDefault)
-                zoomfactor = imgcont.defaultScale/(imgcont.scale*pincharea.pinchscale)
+            var zoomfactor = 1.05
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.toScale
-            var realY = localMousePos.y * scaletform.toScale
+            var realX = localMousePos.x * theimage.curScale
+            var realY = localMousePos.y * theimage.curScale
 
-            var newX = imgmousezoom.toX+(1-zoomfactor)*realX
-            var newY = imgmousezoom.toY+(1-zoomfactor)*realY
-            imgmousezoom.toX = newX
-            imgmousezoom.toY = newY
+            var newX = theimage.curX+(1-zoomfactor)*realX
+            var newY = theimage.curY+(1-zoomfactor)*realY
+            theimage.curX = newX
+            theimage.curY = newY
 
             // update scale factor
-            scaletform.toScale *= zoomfactor
+            theimage.curScale *= zoomfactor
 
         }
-
         onZoomOut: {
 
             // get the local mouse position
             // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
             // in that case we zoom to the screen center
-            var localMousePos = imgmousezoom.mapFromGlobal(variables.mousePos)
-            if(wheelDelta == undefined)
-                localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+            var localMousePos = theimage.mapFromGlobal(variables.mousePos)
+            // adjust for transformOrigin being Center and not TopLeft
+            // for some reason (bug?), setting the transformOrigin causes some slight blurriness
+            localMousePos.x -= theimage.width/2
+            localMousePos.y -= theimage.height/2
 
             // the zoomfactor depends on the settings
-            var zoomfactor = 1/1.2
-            if(wheelDelta != undefined)
-                zoomfactor = 1/Math.max(1.01, Math.min(1.2, Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
-
-            var tot = computeTotalScale(scaletform.toScale*zoomfactor, pincharea.pinchscale)
-            if(tot < imgcont.defaultScale && !PQSettings.zoomSmallerThanDefault)
-                zoomfactor = imgcont.defaultScale/(imgcont.scale*pincharea.pinchscale)
+            var zoomfactor = 1/1.05
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.toScale
-            var realY = localMousePos.y * scaletform.toScale
+            var realX = localMousePos.x * theimage.curScale
+            var realY = localMousePos.y * theimage.curScale
 
-            var newX = imgmousezoom.toX+(1-zoomfactor)*realX
-            var newY = imgmousezoom.toY+(1-zoomfactor)*realY
-            imgmousezoom.toX = newX
-            imgmousezoom.toY = newY
+            var newX = theimage.curX+(1-zoomfactor)*realX
+            var newY = theimage.curY+(1-zoomfactor)*realY
+            theimage.curX = newX
+            theimage.curY = newY
 
             // update scale factor
-            scaletform.toScale *= zoomfactor
+            theimage.curScale *= zoomfactor
 
         }
-
+        onZoomReset: {
+            reset(true, true)
+        }
         onZoomActual: {
 
-            // zoom to screen center
-            var localMousePos = imgmousezoom.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+            if(variables.currentZoomLevel == 100)
+                return
+
+            // get the local mouse position
+            // if wheelDelta is undefined, then the zoom happened, e.g., from a key shortcut
+            // in that case we zoom to the screen center
+            var localMousePos = theimage.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2))
+            // adjust for transformOrigin being Center and not TopLeft
+            // for some reason (bug?), setting the transformOrigin causes some slight blurriness
+            localMousePos.x -= theimage.width/2
+            localMousePos.y -= theimage.height/2
 
             // the zoomfactor depends on the settings
-            var zoomfactor = 1/totalScale
+            var zoomfactor = 1/theimage.curScale
 
             // update x/y position of image
-            var realX = localMousePos.x * scaletform.toScale
-            var realY = localMousePos.y * scaletform.toScale
+            var realX = localMousePos.x * theimage.curScale
+            var realY = localMousePos.y * theimage.curScale
 
-            var newX = imgmousezoom.toX+(1-zoomfactor)*realX
-            var newY = imgmousezoom.toY+(1-zoomfactor)*realY
-            imgmousezoom.toX = newX
-            imgmousezoom.toY = newY
+            var newX = theimage.curX+(1-zoomfactor)*realX
+            var newY = theimage.curY+(1-zoomfactor)*realY
+            theimage.curX = newX
+            theimage.curY = newY
 
             // update scale factor
-            scaletform.toScale *= zoomfactor
+            theimage.curScale *= zoomfactor
+
+        }
+        onRotate: {
+            theimage.rotateTo += deg
+        }
+        onRotateReset: {
+            var old = theimage.rotateTo%360
+            if(old > 0) {
+                if(old <= 180)
+                    theimage.rotateTo -= old
+                else
+                    theimage.rotateTo += 360-old
+            } else if(old < 0) {
+                if(old >= -180)
+                    theimage.rotateTo -= old
+                else
+                    theimage.rotateTo -= (old+360)
+            }
+        }
+        onMirrorH: {
+            var old = theimage.mirror
+            theimage.mirror = !old
+        }
+        onMirrorV: {
+            var old = theimage.mirror
+            theimage.mirror = !old
+            rotani.duration = 0
+            theimage.rotateTo += 180
+            rotani.duration = PQSettings.animationDuration*100
+        }
+        onMirrorReset: {
+            theimage.mirror = false
+        }
+    }
+
+    function reset(scaling, position) {
+
+        var sc1 = 1.0
+        var sc2 = 1.0
+
+        if(Math.abs(theimage.rotateTo%180) == 90) {
+            sc1 = (container.width-2*PQSettings.marginAroundImage)/theimage.height
+            sc2 = (container.height-2*PQSettings.marginAroundImage)/theimage.width
+        } else {
+            sc1 = (container.width-2*PQSettings.marginAroundImage)/theimage.width
+            sc2 = (container.height-2*PQSettings.marginAroundImage)/theimage.height
+        }
+
+        var useThisScale = 1.0
+
+        if((PQSettings.fitInWindow && ((Math.abs(theimage.rotateTo%180) == 0 && theimage.width < container.width && theimage.height < container.height) ||
+                                       (Math.abs(theimage.rotateTo%180) == 90 && theimage.height < container.width && theimage.width > container.height)))
+                ||
+                ((Math.abs(theimage.rotateTo%180) != 90 && (theimage.width > container.width || theimage.height > container.height)) ||
+                 (Math.abs(theimage.rotateTo%180) == 90 && (theimage.height > container.width || theimage.width > container.height)))) {
+
+            useThisScale = Math.min(sc1, sc2)
 
         }
 
-        onZoomReset: {
+        if(position) {
+            theimage.curX = 0
+            theimage.curY = 0
+            if(Math.abs(theimage.rotateTo%180) == 0) {
+                cont.x = PQSettings.marginAroundImage + Math.floor(-(theimage.width*(1-sc1))/2)
+                cont.y = PQSettings.marginAroundImage + Math.floor(-(theimage.height*(1-sc2))/2)
+            }
+            imageMoved = false
+        }
 
-            imgmousezoom.toX = 0
-            imgmousezoom.toY = 0
-            scaletform.toScale = 1
-
-            // reset properties changed through drag.target
-            prop_pinchx.from = pincharea.x
-            prop_pinchx.to = 0
-            prop_pinchy.from = pincharea.y
-            prop_pinchy.to = 0
-            prop_pinchx.start()
-            prop_pinchy.start()
-
-            // setup and start property animations to reset flickarea pinch-to-zoom levels
-            prop_contw.from = flick.contentWidth
-            prop_contw.to = img.sourceSize.width
-            prop_conth.from = flick.contentHeight
-            prop_conth.to = img.sourceSize.height
-            prop_contx.from = flick.contentX
-            prop_contx.to = 0
-            prop_conty.from = flick.contentY
-            prop_conty.to = 0
-            prop_contw.start()
-            prop_conth.start()
-            prop_contx.start()
-            prop_conty.start()
-
+        if(scaling) {
+            defaultScale = useThisScale
+            theimage.curScale = useThisScale
+            variables.currentZoomLevel = useThisScale*100
+            variables.currentPaintedZoomLevel = useThisScale
         }
 
     }
 
-    // we use porperty animations as we only want to animate these properties on reset and at no other time
-    PropertyAnimation {
-        id: prop_contw
-        target: flick
-        property: "contentWidth"
-        duration: PQSettings.animationDuration*100
-    }
-    PropertyAnimation {
-        id: prop_conth
-        target: flick
-        property: "contentHeight"
-        duration: PQSettings.animationDuration*100
-    }
-    PropertyAnimation {
-        id: prop_contx
-        target: flick
-        property: "contentX"
-        duration: PQSettings.animationDuration*100
-    }
-    PropertyAnimation {
-        id: prop_conty
-        target: flick
-        property: "contentY"
-        duration: PQSettings.animationDuration*100
-    }
-    PropertyAnimation {
-        id: prop_pinchx
-        target: pincharea
-        property: "x"
-        duration: PQSettings.animationDuration*100
-    }
-    PropertyAnimation {
-        id: prop_pinchy
-        target: pincharea
-        property: "y"
-        duration: PQSettings.animationDuration*100
+    function storePosRotZoomMirror() {
+
+        variables.zoomRotationMirror[src] = [Qt.point(theimage.x, theimage.y), theimage.rotation, theimage.curScale, theimage.mirror, Qt.point(cont.x, cont.y)]
+
     }
 
 }
