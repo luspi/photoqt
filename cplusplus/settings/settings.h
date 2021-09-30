@@ -452,16 +452,6 @@ public:
         }
     }
 
-    Q_PROPERTY(bool zoomSmallerThanDefault READ getZoomSmallerThanDefault WRITE setZoomSmallerThanDefault NOTIFY zoomSmallerThanDefaultChanged)
-    bool getZoomSmallerThanDefault() { return m_zoomSmallerThanDefault; }
-    void setZoomSmallerThanDefault(bool val) {
-        if(m_zoomSmallerThanDefault != val) {
-            m_zoomSmallerThanDefault = val;
-            emit zoomSmallerThanDefaultChanged();
-            saveSettingsTimer->start();
-        }
-    }
-
     Q_PROPERTY(int labelsWindowButtonsSize READ getLabelsWindowButtonsSize WRITE setLabelsWindowButtonsSize NOTIFY labelsWindowButtonsSizeChanged)
     int getLabelsWindowButtonsSize() { return m_labelsWindowButtonsSize; }
     void setLabelsWindowButtonsSize(int val) {
@@ -1492,7 +1482,6 @@ private:
     bool    m_sortImagesAscending;
     int     m_trayIcon;
     int     m_zoomSpeed;
-    bool    m_zoomSmallerThanDefault;
     int     m_labelsWindowButtonsSize;
     bool    m_labelsHideCounter;
     bool    m_labelsHideFilepath;
@@ -1640,7 +1629,6 @@ signals:
     void sortImagesAscendingChanged();
     void trayIconChanged();
     void zoomSpeedChanged();
-    void zoomSmallerThanDefaultChanged();
     void labelsWindowButtonsSizeChanged();
     void labelsHideCounterChanged();
     void labelsHideFilepathChanged();

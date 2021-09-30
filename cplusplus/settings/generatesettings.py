@@ -58,8 +58,7 @@ values = {
          ["SortImagesBy",                       "QString", "\"naturalname\""],
          ["SortImagesAscending",                "bool",    "true"],
          ["TrayIcon",                           "int",     "0"],
-         ["ZoomSpeed",                          "int",     "20"],
-         ["ZoomSmallerThanDefault",             "bool",    "false"]],
+         ["ZoomSpeed",                          "int",     "20"]],
 
     "Labels" :
 
