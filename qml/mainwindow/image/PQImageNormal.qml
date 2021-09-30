@@ -107,7 +107,6 @@ Item {
         property real rotateTo: 0.0
         onRotateToChanged: {
             rotation = rotateTo
-            console.log("reset?", theimage.curScale, defaultScale, imageMoved)
             if(theimage.curScale == defaultScale && !imageMoved) {
                 reset(true, false)
             }
@@ -118,7 +117,7 @@ Item {
             variables.currentRotationAngle = rotation
         }
 
-        property real curScale: useStoredData ? variables.zoomRotationMirror[src][2] : Math.min((container.width-2*PQSettings.marginAroundImage)/theimage.width, (container.height-2*PQSettings.marginAroundImage)/theimage.height)
+        property real curScale: useStoredData ? variables.zoomRotationMirror[src][2] : 1
         scale: curScale
         onScaleChanged: {
             variables.currentZoomLevel = theimage.scale*100
@@ -137,9 +136,9 @@ Item {
             }
         }
 
-        Behavior on x { NumberAnimation { id: xani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
-        Behavior on y { NumberAnimation { id: yani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
-        Behavior on rotation { NumberAnimation { id: rotani; duration: container.justAfterStartup ? 0 : PQSettings.animationDuration*100  } }
+        Behavior on x { NumberAnimation { id: xani; duration: PQSettings.animationDuration*100  } }
+        Behavior on y { NumberAnimation { id: yani; duration: PQSettings.animationDuration*100  } }
+        Behavior on rotation { NumberAnimation { id: rotani; duration: PQSettings.animationDuration*100  } }
         // its duration it set to proper value after image has been loaded properly (in reset())
         Behavior on scale { NumberAnimation { id: scaleani; duration: PQSettings.animationDuration*100  } }
 
@@ -159,8 +158,18 @@ Item {
             repeat: false
             running: false
             onTriggered: {
-                if(!useStoredData)
+                if(!useStoredData) {
+                    xani.duration = 0
+                    yani.duration = 0
+                    scaleani.duration = 0
+
                     reset(true, true)
+
+                    xani.duration = PQSettings.animationDuration*100
+                    yani.duration = PQSettings.animationDuration*100
+                    scaleani.duration = PQSettings.animationDuration*100
+
+                }
                 cont.visible = true
             }
         }
@@ -215,7 +224,9 @@ Item {
             id: mousearea
             enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
+
             drag.target: theimage
+
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
 
             onPressAndHold: {

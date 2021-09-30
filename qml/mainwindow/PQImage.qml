@@ -69,14 +69,6 @@ Item {
 
     property int currentVideoLength: -1
 
-    property bool justAfterStartup: true
-    Timer {
-        running: true
-        repeat: false
-        interval: 250
-        onTriggered: justAfterStartup = false
-    }
-
     Repeater {
 
         id: repeat
@@ -149,7 +141,7 @@ Item {
                             if(deleg.imageStatus == Image.Ready) {
                                 hideShowAni.showing = false
                                 // store pos/zoom/rotation/mirror, can be restored when setting enabled
-//                                imageloader.item.storePosRotZoomMirror()
+                                imageloader.item.storePosRotZoomMirror()
                                 hideShowAni.startAni()
                             } else
                                 image_model.remove(index)
