@@ -143,8 +143,10 @@ Item {
                                 // store pos/zoom/rotation/mirror, can be restored when setting enabled
                                 imageloader.item.storePosRotZoomMirror()
                                 hideShowAni.startAni()
-                            } else
-                                image_model.remove(index)
+                            } else {
+                                for(var i = image_model.count-2; i >= 0; --i)
+                                    image_model.remove(i)
+                            }
                         }
                     }
                 }
@@ -245,7 +247,8 @@ Item {
 
                 onStopped: {
                     if(!showing) {
-                        image_model.remove(index)
+                        for(var i = image_model.count-2; i >= 0; --i)
+                            image_model.remove(i)
                     } else if(continueToDeleteAfterShowing) {
                         showing = false
                         startAni()
