@@ -29,7 +29,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #############################
 
 include(CMake/ListFilesCPlusPlus.cmake)
-include(CMake/ListFilesQML.cmake)
 include(CMake/ListFilesResources.cmake)
 
 
@@ -131,7 +130,7 @@ composeLangResourceFile()
 
 # on windows we add application icons
 if(WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
+    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files})
 endif()
