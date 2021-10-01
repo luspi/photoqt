@@ -121,7 +121,6 @@ Item {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
                 source: handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesMainView[index]) ? "image://icon/image" : ((PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
-                onSourceChanged: console.log(source)
 
                 visible: !PQSettings.thumbnailFilenameInstead
 
