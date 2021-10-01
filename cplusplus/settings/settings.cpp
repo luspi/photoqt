@@ -246,364 +246,364 @@ void PQSettings::readSettings() {
         for(const QString &line : parts) {
 
             if(line.startsWith("Version="))
-                setVersion(line.split("=").at(1).trimmed());
+                setVersion(line.split("Version=").at(1).trimmed());
 
             else if(line.startsWith("Language="))
-                setLanguage(line.split("=").at(1).trimmed());
+                setLanguage(line.split("Language=").at(1).trimmed());
 
             else if(line.startsWith("WindowMode="))
-                setWindowMode(line.split("=").at(1).toInt());
+                setWindowMode(line.split("WindowMode=").at(1).toInt());
 
             else if(line.startsWith("WindowDecoration="))
-                setWindowDecoration(line.split("=").at(1).toInt());
+                setWindowDecoration(line.split("WindowDecoration=").at(1).toInt());
 
             else if(line.startsWith("SaveWindowGeometry="))
-                setSaveWindowGeometry(line.split("=").at(1).toInt());
+                setSaveWindowGeometry(line.split("SaveWindowGeometry=").at(1).toInt());
 
             else if(line.startsWith("KeepOnTop="))
-                setKeepOnTop(line.split("=").at(1).toInt());
+                setKeepOnTop(line.split("KeepOnTop=").at(1).toInt());
 
             else if(line.startsWith("StartupLoadLastLoadedImage="))
-                setStartupLoadLastLoadedImage(line.split("=").at(1).toInt());
+                setStartupLoadLastLoadedImage(line.split("StartupLoadLastLoadedImage=").at(1).toInt());
 
 
             else if(line.startsWith("BackgroundColorAlpha="))
-                setBackgroundColorAlpha(line.split("=").at(1).toInt());
+                setBackgroundColorAlpha(line.split("BackgroundColorAlpha=").at(1).toInt());
 
             else if(line.startsWith("BackgroundColorBlue="))
-                setBackgroundColorBlue(line.split("=").at(1).toInt());
+                setBackgroundColorBlue(line.split("BackgroundColorBlue=").at(1).toInt());
 
             else if(line.startsWith("BackgroundColorGreen="))
-                setBackgroundColorGreen(line.split("=").at(1).toInt());
+                setBackgroundColorGreen(line.split("BackgroundColorGreen=").at(1).toInt());
 
             else if(line.startsWith("BackgroundColorRed="))
-                setBackgroundColorRed(line.split("=").at(1).toInt());
+                setBackgroundColorRed(line.split("BackgroundColorRed=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageCenter="))
-                setBackgroundImageCenter(line.split("=").at(1).toInt());
+                setBackgroundImageCenter(line.split("BackgroundImageCenter=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImagePath="))
-                setBackgroundImagePath(line.split("=").at(1).toInt());
+                setBackgroundImagePath(line.split("BackgroundImagePath=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageScale="))
-                setBackgroundImageScale(line.split("=").at(1).toInt());
+                setBackgroundImageScale(line.split("BackgroundImageScale=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageScaleCrop="))
-                setBackgroundImageScaleCrop(line.split("=").at(1).toInt());
+                setBackgroundImageScaleCrop(line.split("BackgroundImageScaleCrop=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageScreenshot="))
-                setBackgroundImageScreenshot(line.split("=").at(1).toInt());
+                setBackgroundImageScreenshot(line.split("BackgroundImageScreenshot=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageStretch="))
-                setBackgroundImageStretch(line.split("=").at(1).toInt());
+                setBackgroundImageStretch(line.split("BackgroundImageStretch=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageTile="))
-                setBackgroundImageTile(line.split("=").at(1).toInt());
+                setBackgroundImageTile(line.split("BackgroundImageTile=").at(1).toInt());
 
             else if(line.startsWith("BackgroundImageUse="))
-                setBackgroundImageUse(line.split("=").at(1).toInt());
+                setBackgroundImageUse(line.split("BackgroundImageUse=").at(1).toInt());
 
 
             else if(line.startsWith("AnimationDuration="))
-                setAnimationDuration(line.split("=").at(1).toInt());
+                setAnimationDuration(line.split("AnimationDuration=").at(1).toInt());
 
             else if(line.startsWith("AnimationType="))
-                setAnimationType(line.split("=").at(1).trimmed());
+                setAnimationType(line.split("AnimationType=").at(1).trimmed());
 
             else if(line.startsWith("ArchiveUseExternalUnrar="))
-                setArchiveUseExternalUnrar(line.split("=").at(1).toInt());
+                setArchiveUseExternalUnrar(line.split("ArchiveUseExternalUnrar=").at(1).toInt());
 
             else if(line.startsWith("CloseOnEmptyBackground="))
-                setCloseOnEmptyBackground(line.split("=").at(1).toInt());
+                setCloseOnEmptyBackground(line.split("CloseOnEmptyBackground=").at(1).toInt());
 
             else if(line.startsWith("FitInWindow="))
-                setFitInWindow(line.split("=").at(1).toInt());
+                setFitInWindow(line.split("FitInWindow=").at(1).toInt());
 
             else if(line.startsWith("HotEdgeWidth="))
-                setHotEdgeWidth(line.split("=").at(1).toInt());
+                setHotEdgeWidth(line.split("HotEdgeWidth=").at(1).toInt());
 
             else if(line.startsWith("InterpolationThreshold="))
-                setInterpolationThreshold(line.split("=").at(1).toInt());
+                setInterpolationThreshold(line.split("InterpolationThreshold=").at(1).toInt());
 
             else if(line.startsWith("InterpolationDisableForSmallImages="))
-                setInterpolationDisableForSmallImages(line.split("=").at(1).toInt());
+                setInterpolationDisableForSmallImages(line.split("InterpolationDisableForSmallImages=").at(1).toInt());
 
             else if(line.startsWith("KeepZoomRotationMirror="))
-                setKeepZoomRotationMirror(line.split("=").at(1).toInt());
+                setKeepZoomRotationMirror(line.split("KeepZoomRotationMirror=").at(1).toInt());
 
             else if(line.startsWith("LeftButtonMouseClickAndMove="))
-                setLeftButtonMouseClickAndMove(line.split("=").at(1).toInt());
+                setLeftButtonMouseClickAndMove(line.split("LeftButtonMouseClickAndMove=").at(1).toInt());
 
             else if(line.startsWith("LoopThroughFolder="))
-                setLoopThroughFolder(line.split("=").at(1).toInt());
+                setLoopThroughFolder(line.split("LoopThroughFolder=").at(1).toInt());
 
             else if(line.startsWith("MarginAroundImage="))
-                setMarginAroundImage(line.split("=").at(1).toInt());
+                setMarginAroundImage(line.split("MarginAroundImage=").at(1).toInt());
 
             else if(line.startsWith("MouseWheelSensitivity="))
-                setMouseWheelSensitivity(line.split("=").at(1).toInt());
+                setMouseWheelSensitivity(line.split("MouseWheelSensitivity=").at(1).toInt());
 
             else if(line.startsWith("PdfQuality="))
-                setPdfQuality(line.split("=").at(1).toInt());
+                setPdfQuality(line.split("PdfQuality=").at(1).toInt());
 
             else if(line.startsWith("PixmapCache="))
-                setPixmapCache(line.split("=").at(1).toInt());
+                setPixmapCache(line.split("PixmapCache=").at(1).toInt());
 
             else if(line.startsWith("QuickNavigation="))
-                setQuickNavigation(line.split("=").at(1).toInt());
+                setQuickNavigation(line.split("QuickNavigation=").at(1).toInt());
 
             else if(line.startsWith("ShowTransparencyMarkerBackground="))
-                setShowTransparencyMarkerBackground(line.split("=").at(1).toInt());
+                setShowTransparencyMarkerBackground(line.split("ShowTransparencyMarkerBackground=").at(1).toInt());
 
             else if(line.startsWith("SortImagesBy="))
-                setSortImagesBy(line.split("=").at(1).trimmed());
+                setSortImagesBy(line.split("SortImagesBy=").at(1).trimmed());
 
             else if(line.startsWith("SortImagesAscending="))
-                setSortImagesAscending(line.split("=").at(1).toInt());
+                setSortImagesAscending(line.split("SortImagesAscending=").at(1).toInt());
 
             else if(line.startsWith("TrayIcon="))
-                setTrayIcon(line.split("=").at(1).toInt());
+                setTrayIcon(line.split("TrayIcon=").at(1).toInt());
 
             else if(line.startsWith("ZoomSpeed="))
-                setZoomSpeed(line.split("=").at(1).toInt());
+                setZoomSpeed(line.split("ZoomSpeed=").at(1).toInt());
 
 
             else if(line.startsWith("LabelsWindowButtonsSize="))
-                setLabelsWindowButtonsSize(line.split("=").at(1).toInt());
+                setLabelsWindowButtonsSize(line.split("LabelsWindowButtonsSize=").at(1).toInt());
 
             else if(line.startsWith("LabelsHideCounter="))
-                setLabelsHideCounter(line.split("=").at(1).toInt());
+                setLabelsHideCounter(line.split("LabelsHideCounter=").at(1).toInt());
 
             else if(line.startsWith("LabelsHideFilepath="))
-                setLabelsHideFilepath(line.split("=").at(1).toInt());
+                setLabelsHideFilepath(line.split("LabelsHideFilepath=").at(1).toInt());
 
             else if(line.startsWith("LabelsHideFilename="))
-                setLabelsHideFilename(line.split("=").at(1).toInt());
+                setLabelsHideFilename(line.split("LabelsHideFilename=").at(1).toInt());
 
             else if(line.startsWith("LabelsWindowButtons="))
-                setLabelsWindowButtons(line.split("=").at(1).toInt());
+                setLabelsWindowButtons(line.split("LabelsWindowButtons=").at(1).toInt());
 
             else if(line.startsWith("LabelsHideZoomLevel="))
-                setLabelsHideZoomLevel(line.split("=").at(1).toInt());
+                setLabelsHideZoomLevel(line.split("LabelsHideZoomLevel=").at(1).toInt());
 
             else if(line.startsWith("LabelsHideRotationAngle="))
-                setLabelsHideRotationAngle(line.split("=").at(1).toInt());
+                setLabelsHideRotationAngle(line.split("LabelsHideRotationAngle=").at(1).toInt());
 
             else if(line.startsWith("LabelsManageWindow="))
-                setLabelsManageWindow(line.split("=").at(1).toInt());
+                setLabelsManageWindow(line.split("LabelsManageWindow=").at(1).toInt());
 
 
             else if(line.startsWith("ThumbnailCache="))
-                setThumbnailCache(line.split("=").at(1).toInt());
+                setThumbnailCache(line.split("ThumbnailCache=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailCacheExcludeFolders=")) {
                 QStringList result;
-                QByteArray byteArray = QByteArray::fromBase64(line.split("=").at(1).toUtf8());
+                QByteArray byteArray = QByteArray::fromBase64(line.split("ThumbnailCacheExcludeFolders=").at(1).toUtf8());
                 QDataStream in(&byteArray, QIODevice::ReadOnly);
                 in >> result;
                 setThumbnailCacheExcludeFolders(result);
             }
 
             else if(line.startsWith("ThumbnailCenterActive="))
-                setThumbnailCenterActive(line.split("=").at(1).toInt());
+                setThumbnailCenterActive(line.split("ThumbnailCenterActive=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailDisable="))
-                setThumbnailDisable(line.split("=").at(1).toInt());
+                setThumbnailDisable(line.split("ThumbnailDisable=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailFilenameInstead="))
-                setThumbnailFilenameInstead(line.split("=").at(1).toInt());
+                setThumbnailFilenameInstead(line.split("ThumbnailFilenameInstead=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailFilenameInsteadFontSize="))
-                setThumbnailFilenameInsteadFontSize(line.split("=").at(1).toInt());
+                setThumbnailFilenameInsteadFontSize(line.split("ThumbnailFilenameInsteadFontSize=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailFontSize="))
-                setThumbnailFontSize(line.split("=").at(1).toInt());
+                setThumbnailFontSize(line.split("ThumbnailFontSize=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailKeepVisible="))
-                setThumbnailKeepVisible(line.split("=").at(1).toInt());
+                setThumbnailKeepVisible(line.split("ThumbnailKeepVisible=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailKeepVisibleWhenNotZoomedIn="))
-                setThumbnailKeepVisibleWhenNotZoomedIn(line.split("=").at(1).toInt());
+                setThumbnailKeepVisibleWhenNotZoomedIn(line.split("ThumbnailKeepVisibleWhenNotZoomedIn=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailLiftUp="))
-                setThumbnailLiftUp(line.split("=").at(1).toInt());
+                setThumbnailLiftUp(line.split("ThumbnailLiftUp=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailMaxNumberThreads="))
-                setThumbnailMaxNumberThreads(line.split("=").at(1).toInt());
+                setThumbnailMaxNumberThreads(line.split("ThumbnailMaxNumberThreads=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailPosition="))
-                setThumbnailPosition(line.split("=").at(1).trimmed());
+                setThumbnailPosition(line.split("ThumbnailPosition=").at(1).trimmed());
 
             else if(line.startsWith("ThumbnailSize="))
-                setThumbnailSize(line.split("=").at(1).toInt());
+                setThumbnailSize(line.split("ThumbnailSize=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailSpacingBetween="))
-                setThumbnailSpacingBetween(line.split("=").at(1).toInt());
+                setThumbnailSpacingBetween(line.split("ThumbnailSpacingBetween=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailWriteFilename="))
-                setThumbnailWriteFilename(line.split("=").at(1).toInt());
+                setThumbnailWriteFilename(line.split("ThumbnailWriteFilename=").at(1).toInt());
 
 
             else if(line.startsWith("SlideShowHideLabels="))
-                setSlideShowHideLabels(line.split("=").at(1).toInt());
+                setSlideShowHideLabels(line.split("SlideShowHideLabels=").at(1).toInt());
 
             else if(line.startsWith("SlideShowImageTransition="))
-                setSlideShowImageTransition(line.split("=").at(1).toInt());
+                setSlideShowImageTransition(line.split("SlideShowImageTransition=").at(1).toInt());
 
             else if(line.startsWith("SlideShowLoop="))
-                setSlideShowLoop(line.split("=").at(1).toInt());
+                setSlideShowLoop(line.split("SlideShowLoop=").at(1).toInt());
 
             else if(line.startsWith("SlideShowMusicFile="))
-                setSlideShowMusicFile(line.split("=").at(1).trimmed());
+                setSlideShowMusicFile(line.split("SlideShowMusicFile=").at(1).trimmed());
 
             else if(line.startsWith("SlideShowShuffle="))
-                setSlideShowShuffle(line.split("=").at(1).toInt());
+                setSlideShowShuffle(line.split("SlideShowShuffle=").at(1).toInt());
 
             else if(line.startsWith("SlideShowTime="))
-                setSlideShowTime(line.split("=").at(1).toInt());
+                setSlideShowTime(line.split("SlideShowTime=").at(1).toInt());
 
             else if(line.startsWith("SlideShowTypeAnimation="))
-                setSlideShowTypeAnimation(line.split("=").at(1).trimmed());
+                setSlideShowTypeAnimation(line.split("SlideShowTypeAnimation=").at(1).trimmed());
 
             else if(line.startsWith("SlideShowIncludeSubFolders="))
-                setSlideShowIncludeSubFolders(line.split("=").at(1).toInt());
+                setSlideShowIncludeSubFolders(line.split("SlideShowIncludeSubFolders=").at(1).toInt());
 
 
             else if(line.startsWith("MetaApplyRotation="))
-                setMetaApplyRotation(line.split("=").at(1).toInt());
+                setMetaApplyRotation(line.split("MetaApplyRotation=").at(1).toInt());
 
             else if(line.startsWith("MetaCopyright="))
-                setMetaCopyright(line.split("=").at(1).toInt());
+                setMetaCopyright(line.split("MetaCopyright=").at(1).toInt());
 
             else if(line.startsWith("MetaDimensions="))
-                setMetaDimensions(line.split("=").at(1).toInt());
+                setMetaDimensions(line.split("MetaDimensions=").at(1).toInt());
 
             else if(line.startsWith("MetaExposureTime="))
-                setMetaExposureTime(line.split("=").at(1).toInt());
+                setMetaExposureTime(line.split("MetaExposureTime=").at(1).toInt());
 
             else if(line.startsWith("MetaFilename="))
-                setMetaFilename(line.split("=").at(1).toInt());
+                setMetaFilename(line.split("MetaFilename=").at(1).toInt());
 
             else if(line.startsWith("MetaFileType="))
-                setMetaFileType(line.split("=").at(1).toInt());
+                setMetaFileType(line.split("MetaFileType=").at(1).toInt());
 
             else if(line.startsWith("MetaFileSize="))
-                setMetaFileSize(line.split("=").at(1).toInt());
+                setMetaFileSize(line.split("MetaFileSize=").at(1).toInt());
 
             else if(line.startsWith("MetaFlash="))
-                setMetaFlash(line.split("=").at(1).toInt());
+                setMetaFlash(line.split("MetaFlash=").at(1).toInt());
 
             else if(line.startsWith("MetaFLength="))
-                setMetaFLength(line.split("=").at(1).toInt());
+                setMetaFLength(line.split("MetaFLength=").at(1).toInt());
 
             else if(line.startsWith("MetaFNumber="))
-                setMetaFNumber(line.split("=").at(1).toInt());
+                setMetaFNumber(line.split("MetaFNumber=").at(1).toInt());
 
             else if(line.startsWith("MetaGps="))
-                setMetaGps(line.split("=").at(1).toInt());
+                setMetaGps(line.split("MetaGps=").at(1).toInt());
 
             else if(line.startsWith("MetaGpsMapService="))
-                setMetaGpsMapService(line.split("=").at(1).trimmed());
+                setMetaGpsMapService(line.split("MetaGpsMapService=").at(1).trimmed());
 
             else if(line.startsWith("MetaImageNumber="))
-                setMetaImageNumber(line.split("=").at(1).toInt());
+                setMetaImageNumber(line.split("MetaImageNumber=").at(1).toInt());
 
             else if(line.startsWith("MetaIso="))
-                setMetaIso(line.split("=").at(1).toInt());
+                setMetaIso(line.split("MetaIso=").at(1).toInt());
 
             else if(line.startsWith("MetaKeywords="))
-                setMetaKeywords(line.split("=").at(1).toInt());
+                setMetaKeywords(line.split("MetaKeywords=").at(1).toInt());
 
             else if(line.startsWith("MetaLightSource="))
-                setMetaLightSource(line.split("=").at(1).toInt());
+                setMetaLightSource(line.split("MetaLightSource=").at(1).toInt());
 
             else if(line.startsWith("MetaLocation="))
-                setMetaLocation(line.split("=").at(1).toInt());
+                setMetaLocation(line.split("MetaLocation=").at(1).toInt());
 
             else if(line.startsWith("MetaMake="))
-                setMetaMake(line.split("=").at(1).toInt());
+                setMetaMake(line.split("MetaMake=").at(1).toInt());
 
             else if(line.startsWith("MetaModel="))
-                setMetaModel(line.split("=").at(1).toInt());
+                setMetaModel(line.split("MetaModel=").at(1).toInt());
 
             else if(line.startsWith("MetaSceneType="))
-                setMetaSceneType(line.split("=").at(1).toInt());
+                setMetaSceneType(line.split("MetaSceneType=").at(1).toInt());
 
             else if(line.startsWith("MetaSoftware="))
-                setMetaSoftware(line.split("=").at(1).toInt());
+                setMetaSoftware(line.split("MetaSoftware=").at(1).toInt());
 
             else if(line.startsWith("MetaTimePhotoTaken="))
-                setMetaTimePhotoTaken(line.split("=").at(1).toInt());
+                setMetaTimePhotoTaken(line.split("MetaTimePhotoTaken=").at(1).toInt());
 
 
             else if(line.startsWith("MetadataEnableHotEdge="))
-                setMetadataEnableHotEdge(line.split("=").at(1).toInt());
+                setMetadataEnableHotEdge(line.split("MetadataEnableHotEdge=").at(1).toInt());
 
             else if(line.startsWith("MetadataOpacity="))
-                setMetadataOpacity(line.split("=").at(1).toInt());
+                setMetadataOpacity(line.split("MetadataOpacity=").at(1).toInt());
 
             else if(line.startsWith("MetadataWindowWidth="))
-                setMetadataWindowWidth(line.split("=").at(1).toInt());
+                setMetadataWindowWidth(line.split("MetadataWindowWidth=").at(1).toInt());
 
 
             else if(line.startsWith("PeopleTagInMetaAlwaysVisible="))
-                setPeopleTagInMetaAlwaysVisible(line.split("=").at(1).toInt());
+                setPeopleTagInMetaAlwaysVisible(line.split("PeopleTagInMetaAlwaysVisible=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaBorderAroundFace="))
-                setPeopleTagInMetaBorderAroundFace(line.split("=").at(1).toInt());
+                setPeopleTagInMetaBorderAroundFace(line.split("PeopleTagInMetaBorderAroundFace=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaBorderAroundFaceColor="))
-                setPeopleTagInMetaBorderAroundFaceColor(line.split("=").at(1).trimmed());
+                setPeopleTagInMetaBorderAroundFaceColor(line.split("PeopleTagInMetaBorderAroundFaceColor=").at(1).trimmed());
 
             else if(line.startsWith("PeopleTagInMetaBorderAroundFaceWidth="))
-                setPeopleTagInMetaBorderAroundFaceWidth(line.split("=").at(1).toInt());
+                setPeopleTagInMetaBorderAroundFaceWidth(line.split("PeopleTagInMetaBorderAroundFaceWidth=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaDisplay="))
-                setPeopleTagInMetaDisplay(line.split("=").at(1).toInt());
+                setPeopleTagInMetaDisplay(line.split("PeopleTagInMetaDisplay=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaFontSize="))
-                setPeopleTagInMetaFontSize(line.split("=").at(1).toInt());
+                setPeopleTagInMetaFontSize(line.split("PeopleTagInMetaFontSize=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaHybridMode="))
-                setPeopleTagInMetaHybridMode(line.split("=").at(1).toInt());
+                setPeopleTagInMetaHybridMode(line.split("PeopleTagInMetaHybridMode=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaIndependentLabels="))
-                setPeopleTagInMetaIndependentLabels(line.split("=").at(1).toInt());
+                setPeopleTagInMetaIndependentLabels(line.split("PeopleTagInMetaIndependentLabels=").at(1).toInt());
 
 
             else if(line.startsWith("OpenDefaultView="))
-                setOpenDefaultView(line.split("=").at(1).trimmed());
+                setOpenDefaultView(line.split("OpenDefaultView=").at(1).trimmed());
 
             else if(line.startsWith("OpenKeepLastLocation="))
-                setOpenKeepLastLocation(line.split("=").at(1).toInt());
+                setOpenKeepLastLocation(line.split("OpenKeepLastLocation=").at(1).toInt());
 
             else if(line.startsWith("OpenPreview="))
-                setOpenPreview(line.split("=").at(1).toInt());
+                setOpenPreview(line.split("OpenPreview=").at(1).toInt());
 
             else if(line.startsWith("OpenShowHiddenFilesFolders="))
-                setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
+                setOpenShowHiddenFilesFolders(line.split("OpenShowHiddenFilesFolders=").at(1).toInt());
 
             else if(line.startsWith("OpenThumbnails="))
-                setOpenThumbnails(line.split("=").at(1).toInt());
+                setOpenThumbnails(line.split("OpenThumbnails=").at(1).toInt());
 
             else if(line.startsWith("OpenUserPlacesStandard="))
-                setOpenUserPlacesStandard(line.split("=").at(1).toInt());
+                setOpenUserPlacesStandard(line.split("OpenUserPlacesStandard=").at(1).toInt());
 
             else if(line.startsWith("OpenUserPlacesUser="))
-                setOpenUserPlacesUser(line.split("=").at(1).toInt());
+                setOpenUserPlacesUser(line.split("OpenUserPlacesUser=").at(1).toInt());
 
             else if(line.startsWith("OpenUserPlacesVolumes="))
-                setOpenUserPlacesVolumes(line.split("=").at(1).toInt());
+                setOpenUserPlacesVolumes(line.split("OpenUserPlacesVolumes=").at(1).toInt());
 
             else if(line.startsWith("OpenUserPlacesWidth="))
-                setOpenUserPlacesWidth(line.split("=").at(1).toInt());
+                setOpenUserPlacesWidth(line.split("OpenUserPlacesWidth=").at(1).toInt());
 
             else if(line.startsWith("OpenZoomLevel="))
-                setOpenZoomLevel(line.split("=").at(1).toInt());
+                setOpenZoomLevel(line.split("OpenZoomLevel=").at(1).toInt());
 
 
             else if(line.startsWith("Histogram="))
-                setHistogram(line.split("=").at(1).toInt());
+                setHistogram(line.split("Histogram=").at(1).toInt());
 
             else if(line.startsWith("HistogramPosition=")) {
                 QStringList parts = line.split("HistogramPosition=").at(1).split(",");
@@ -616,73 +616,73 @@ void PQSettings::readSettings() {
             }
 
             else if(line.startsWith("HistogramVersion="))
-                setHistogramVersion(line.split("=").at(1).trimmed());
+                setHistogramVersion(line.split("HistogramVersion=").at(1).trimmed());
 
 
             else if(line.startsWith("MainMenuWindowWidth="))
-                setMainMenuWindowWidth(line.split("=").at(1).toInt());
+                setMainMenuWindowWidth(line.split("MainMenuWindowWidth=").at(1).toInt());
 
 
             else if(line.startsWith("VideoAutoplay="))
-                setVideoAutoplay(line.split("=").at(1).toInt());
+                setVideoAutoplay(line.split("VideoAutoplay=").at(1).toInt());
 
             else if(line.startsWith("VideoLoop="))
-                setVideoLoop(line.split("=").at(1).toInt());
+                setVideoLoop(line.split("VideoLoop=").at(1).toInt());
 
             else if(line.startsWith("VideoVolume="))
-                setVideoVolume(line.split("=").at(1).toInt());
+                setVideoVolume(line.split("VideoVolume=").at(1).toInt());
 
             else if(line.startsWith("VideoThumbnailer="))
-                setVideoThumbnailer(line.split("=").at(1).trimmed());
+                setVideoThumbnailer(line.split("VideoThumbnailer=").at(1).trimmed());
 
 
             else if(line.startsWith("MainMenuPopoutElement="))
-                setMainMenuPopoutElement(line.split("=").at(1).toInt());
+                setMainMenuPopoutElement(line.split("MainMenuPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("MetadataPopoutElement="))
-                setMetadataPopoutElement(line.split("=").at(1).toInt());
+                setMetadataPopoutElement(line.split("MetadataPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("HistogramPopoutElement="))
-                setHistogramPopoutElement(line.split("=").at(1).toInt());
+                setHistogramPopoutElement(line.split("HistogramPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("ScalePopoutElement="))
-                setScalePopoutElement(line.split("=").at(1).toInt());
+                setScalePopoutElement(line.split("ScalePopoutElement=").at(1).toInt());
 
             else if(line.startsWith("OpenPopoutElement="))
-                setOpenPopoutElement(line.split("=").at(1).toInt());
+                setOpenPopoutElement(line.split("OpenPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("OpenPopoutElementKeepOpen="))
-                setOpenPopoutElementKeepOpen(line.split("=").at(1).toInt());
+                setOpenPopoutElementKeepOpen(line.split("OpenPopoutElementKeepOpen=").at(1).toInt());
 
             else if(line.startsWith("SlideShowSettingsPopoutElement="))
-                setSlideShowSettingsPopoutElement(line.split("=").at(1).toInt());
+                setSlideShowSettingsPopoutElement(line.split("SlideShowSettingsPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("SlideShowControlsPopoutElement="))
-                setSlideShowControlsPopoutElement(line.split("=").at(1).toInt());
+                setSlideShowControlsPopoutElement(line.split("SlideShowControlsPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("FileRenamePopoutElement="))
-                setFileRenamePopoutElement(line.split("=").at(1).toInt());
+                setFileRenamePopoutElement(line.split("FileRenamePopoutElement=").at(1).toInt());
 
             else if(line.startsWith("FileDeletePopoutElement="))
-                setFileDeletePopoutElement(line.split("=").at(1).toInt());
+                setFileDeletePopoutElement(line.split("FileDeletePopoutElement=").at(1).toInt());
 
             else if(line.startsWith("AboutPopoutElement="))
-                setAboutPopoutElement(line.split("=").at(1).toInt());
+                setAboutPopoutElement(line.split("AboutPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("ImgurPopoutElement="))
-                setImgurPopoutElement(line.split("=").at(1).toInt());
+                setImgurPopoutElement(line.split("ImgurPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("WallpaperPopoutElement="))
-                setWallpaperPopoutElement(line.split("=").at(1).toInt());
+                setWallpaperPopoutElement(line.split("WallpaperPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("FilterPopoutElement="))
-                setFilterPopoutElement(line.split("=").at(1).toInt());
+                setFilterPopoutElement(line.split("FilterPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("SettingsManagerPopoutElement="))
-                setSettingsManagerPopoutElement(line.split("=").at(1).toInt());
+                setSettingsManagerPopoutElement(line.split("SettingsManagerPopoutElement=").at(1).toInt());
 
             else if(line.startsWith("FileSaveAsPopoutElement="))
-                setFileSaveAsPopoutElement(line.split("=").at(1).toInt());
+                setFileSaveAsPopoutElement(line.split("FileSaveAsPopoutElement=").at(1).toInt());
 
 
         }

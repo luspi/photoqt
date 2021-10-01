@@ -520,17 +520,17 @@ for key in values:
             readsettings += f"            else if(line.startsWith(\"{prpCap}=\"))"
 
         if typ == "QString":
-            readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).trimmed());\n"
+            readsettings += f"\n                set{prpCap}(line.split(\"{prpCap}=\").at(1).trimmed());\n"
         elif typ == "QStringList":
             readsettings += f" {{\n                QStringList result;\n"
-            readsettings += f"                QByteArray byteArray = QByteArray::fromBase64(line.split(\"=\").at(1).toUtf8());\n"
+            readsettings += f"                QByteArray byteArray = QByteArray::fromBase64(line.split(\"{prpCap}=\").at(1).toUtf8());\n"
             readsettings += f"                QDataStream in(&byteArray, QIODevice::ReadOnly);\n"
             readsettings += f"                in >> result;\n"
             readsettings += f"                set{prpCap}(result);\n"
             readsettings += "            }\n"
 
         elif typ == "bool" or typ == "int":
-            readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).toInt());\n"
+            readsettings += f"\n                set{prpCap}(line.split(\"{prpCap}=\").at(1).toInt());\n"
         elif typ == "QPoint":
             readsettings += f" {{\n                QStringList parts = line.split(\"{prpCap}=\").at(1).split(\",\");\n"
             readsettings += f"                set{prpCap}(QPoint(parts.at(0).toInt(), parts.at(1).toInt()));\n"
