@@ -74,6 +74,7 @@ values = {
     "Thumbnail" :
 
         [["ThumbnailCache",                      "bool",    "true"],
+         ["ThumbnailCacheExcludeFolders",        "QStringList", "QStringList()"],
          ["ThumbnailCenterActive",               "bool",    "false"],
          ["ThumbnailDisable",                    "bool",    "false"],
          ["ThumbnailFilenameInstead",            "bool",    "false"],
@@ -248,6 +249,7 @@ preamble  = """/****************************************************************
 #include <QFileSystemWatcher>
 #include <QFile>
 #include <QFileInfo>
+#include <QDataStream>
 
 #include "../logger.h"
 
@@ -519,6 +521,14 @@ for key in values:
 
         if typ == "QString":
             readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).trimmed());\n"
+        elif typ == "QStringList":
+            readsettings += f" {{\n                QStringList result;\n"
+            readsettings += f"                QByteArray byteArray = QByteArray::fromBase64(line.split(\"=\").at(1).toUtf8());\n"
+            readsettings += f"                QDataStream in(&byteArray, QIODevice::ReadOnly);\n"
+            readsettings += f"                in >> result;\n"
+            readsettings += f"                set{prpCap}(result);\n"
+            readsettings += "            }\n"
+
         elif typ == "bool" or typ == "int":
             readsettings += f"\n                set{prpCap}(line.split(\"=\").at(1).toInt());\n"
         elif typ == "QPoint":
@@ -536,19 +546,29 @@ for key in values:
 
         #####################################
 
-        if firstpass == 1:
-            savesettings += "        QString cont = "
-        else:
-            savesettings += "        cont += "
+        if typ == "QStringList":
 
-        if typ == "QString" or typ == "int":
-            savesettings += f"QString(\"{prpCap}=%1\\n\").arg(m_{prp});\n";
-        elif typ == "bool":
-            savesettings += f"QString(\"{prpCap}=%1\\n\").arg(int(m_{prp}));\n";
-        elif typ == "QPoint":
-            savesettings += f"QString(\"{prpCap}=%1,%2\\n\").arg(m_{prp}.x()).arg(m_{prp}.y());\n"
-        elif typ == "QSize":
-            savesettings += f"QString(\"{prpCap}=%1,%2\\n\").arg(m_{prp}.width()).arg(m_{prp}.height());\n"
+            savesettings += "        QByteArray byteArray;\n"
+            savesettings += "        QDataStream byteout(&byteArray, QIODevice::WriteOnly);\n"
+            savesettings += f"        byteout << m_{prp};\n"
+            savesettings += f"        cont += QString(\"{prpCap}=%1\\n\").arg(QString(byteArray.toBase64()));\n";
+
+
+        else:
+
+            if firstpass == 1:
+                savesettings += "        QString cont = "
+            else:
+                savesettings += "        cont += "
+
+            if typ == "QString" or typ == "int":
+                savesettings += f"QString(\"{prpCap}=%1\\n\").arg(m_{prp});\n";
+            elif typ == "bool":
+                savesettings += f"QString(\"{prpCap}=%1\\n\").arg(int(m_{prp}));\n";
+            elif typ == "QPoint":
+                savesettings += f"QString(\"{prpCap}=%1,%2\\n\").arg(m_{prp}.x()).arg(m_{prp}.y());\n"
+            elif typ == "QSize":
+                savesettings += f"QString(\"{prpCap}=%1,%2\\n\").arg(m_{prp}.width()).arg(m_{prp}.height());\n"
 
 
         #####################################

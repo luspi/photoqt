@@ -122,6 +122,7 @@ void PQSettings::setDefault(bool ignoreLanguage) {
     setLabelsManageWindow(false);
 
     setThumbnailCache(true);
+    setThumbnailCacheExcludeFolders(QStringList());
     setThumbnailCenterActive(false);
     setThumbnailDisable(false);
     setThumbnailFilenameInstead(false);
@@ -394,6 +395,14 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("ThumbnailCache="))
                 setThumbnailCache(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ThumbnailCacheExcludeFolders=")) {
+                QStringList result;
+                QByteArray byteArray = QByteArray::fromBase64(line.split("=").at(1).toUtf8());
+                QDataStream in(&byteArray, QIODevice::ReadOnly);
+                in >> result;
+                setThumbnailCacheExcludeFolders(result);
+            }
 
             else if(line.startsWith("ThumbnailCenterActive="))
                 setThumbnailCenterActive(line.split("=").at(1).toInt());
@@ -765,6 +774,10 @@ void PQSettings::saveSettings() {
         cont += "\n[Thumbnail]\n";
 
         cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
+        QByteArray byteArray;
+        QDataStream byteout(&byteArray, QIODevice::WriteOnly);
+        byteout << m_thumbnailCacheExcludeFolders;
+        cont += QString("ThumbnailCacheExcludeFolders=%1\n").arg(QString(byteArray.toBase64()));
         cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
         cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
         cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));

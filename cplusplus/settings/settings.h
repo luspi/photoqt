@@ -34,6 +34,7 @@
 #include <QFileSystemWatcher>
 #include <QFile>
 #include <QFileInfo>
+#include <QDataStream>
 
 #include "../logger.h"
 
@@ -538,6 +539,16 @@ public:
         if(m_thumbnailCache != val) {
             m_thumbnailCache = val;
             emit thumbnailCacheChanged();
+            saveSettingsTimer->start();
+        }
+    }
+
+    Q_PROPERTY(QStringList thumbnailCacheExcludeFolders READ getThumbnailCacheExcludeFolders WRITE setThumbnailCacheExcludeFolders NOTIFY thumbnailCacheExcludeFoldersChanged)
+    QStringList getThumbnailCacheExcludeFolders() { return m_thumbnailCacheExcludeFolders; }
+    void setThumbnailCacheExcludeFolders(QStringList val) {
+        if(m_thumbnailCacheExcludeFolders != val) {
+            m_thumbnailCacheExcludeFolders = val;
+            emit thumbnailCacheExcludeFoldersChanged();
             saveSettingsTimer->start();
         }
     }
@@ -1491,6 +1502,7 @@ private:
     bool    m_labelsHideRotationAngle;
     bool    m_labelsManageWindow;
     bool    m_thumbnailCache;
+    QStringList m_thumbnailCacheExcludeFolders;
     bool    m_thumbnailCenterActive;
     bool    m_thumbnailDisable;
     bool    m_thumbnailFilenameInstead;
@@ -1638,6 +1650,7 @@ signals:
     void labelsHideRotationAngleChanged();
     void labelsManageWindowChanged();
     void thumbnailCacheChanged();
+    void thumbnailCacheExcludeFoldersChanged();
     void thumbnailCenterActiveChanged();
     void thumbnailDisableChanged();
     void thumbnailFilenameInsteadChanged();

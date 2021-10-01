@@ -245,6 +245,16 @@ QString PQHandlingFileDir::getDirectory(QString path, bool lowerCase) {
 
 }
 
+QString PQHandlingFileDir::getExistingDirectory(QString startDir) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getExistingDirectory()" << NL
+        << CURDATE << "** startDir = " << startDir.toStdString() << NL;
+
+    return QFileDialog::getExistingDirectory(nullptr, QString(), startDir);
+
+
+}
+
 QString PQHandlingFileDir::getFileNameFromFullPath(QString path, bool onlyExtraInfo) {
 
     DBG << CURDATE << "PQHandlingFileDir::getFileNameFromFullPath()" << NL
@@ -336,6 +346,21 @@ bool PQHandlingFileDir::isDir(QString path) {
         << CURDATE << "** path = " << path.toStdString() << NL;
 
     return QFileInfo(path).isDir();
+
+}
+
+bool PQHandlingFileDir::isExcludeDirFromCaching(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFileDir::isExcludeDirFromCaching()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    for(QString dir: PQSettings::get().getThumbnailCacheExcludeFolders()) {
+        LOG << dir.toStdString() << " / " << filename.toStdString() << NL;
+        if(filename.indexOf(dir) == 0)
+            return true;
+    }
+
+    return false;
 
 }
 

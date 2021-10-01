@@ -110,6 +110,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: dis.expertmodeonly }
             PQCache { id: cac }
                 PQHorizontalLine { expertModeOnly: cac.expertmodeonly }
+            PQExcludeFolders { id: exl }
+                PQHorizontalLine { expertModeOnly: exl.expertmodeonly }
             PQThreads { id: thr }
 
             // add some spacing at the bottom

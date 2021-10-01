@@ -155,7 +155,8 @@ GridView {
                 opacity: files_grid.currentIndex==index ? 1 : 0.6
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                source: filethumb.status==Image.Ready ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : "image")
+                // if we do not cache this image, then we keep the generic icon here
+                source: (filethumb.status==Image.Ready&&!handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index])) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : "image")
 
                 Text {
                     id: numberOfFilesInsideFolder
@@ -186,7 +187,8 @@ GridView {
                     smooth: true
                     asynchronous: true
 
-                    source: (index < filefoldermodel.countFoldersFileDialog || !PQSettings.openThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index])
+                    // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
+                    source: handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]) ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
 
                 }
 
@@ -323,12 +325,17 @@ GridView {
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
                         } else {
-                            tooltip = "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>" +
-                                      "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +
+
+                            // if we do not cache this directory, we do not show a thumbnail image
+                            if(!handlingFileDir.isExcludeDirFromCaching(fpath))
+                                tooltip = "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
+
+                            tooltip += "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +
                                       em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(fsize) + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b>"
+
                         }
 
                         tooltipSetup = true

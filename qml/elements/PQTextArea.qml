@@ -21,15 +21,33 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 
-Image {
+TextArea {
 
-    property string filePath: ""
+    id: control
 
-    asynchronous: true
-    source: (filePath==""||!PQSettings.openPreview||handlingFileDir.isExcludeDirFromCaching(filePath)) ? "" : ("image://thumb/" + filePath)
-    fillMode: Image.PreserveAspectFit
+    placeholderText: "Enter"
+    color: "white"
+    selectedTextColor: "black"
+    selectionColor: "white"
 
-    opacity: 0.4
+    property string borderColor: "#cccccc"
+
+    focus: true
+
+    enabled: opacity>0 && visible
+
+    background: Rectangle {
+        implicitWidth: 200
+        implicitHeight: contentHeight
+        color: control.enabled ? "transparent" : "#cccccc"
+        border.color: control.enabled ? borderColor : "transparent"
+    }
+
+    function setFocus() {
+        forceActiveFocus()
+        selectAll()
+    }
 
 }

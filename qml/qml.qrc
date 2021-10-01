@@ -149,5 +149,7 @@
         <file>settingsmanager/tabs/shortcuts/PQShortcutTile.qml</file>
         <file>settingsmanager/PQRestoreDefaults.qml</file>
         <file>mainwindow/PQContextMenu.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQExcludeFolders.qml</file>
+        <file>elements/PQTextArea.qml</file>
     </qresource>
 </RCC>
