@@ -326,15 +326,20 @@ GridView {
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
                         } else {
 
+                            var str = ""
+
                             // if we do not cache this directory, we do not show a thumbnail image
                             if(!handlingFileDir.isExcludeDirFromCaching(fpath))
-                                tooltip = "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
+                                str += "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
 
-                            tooltip += "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +
+                            str += "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +
                                       em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(fsize) + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b>"
+
+                            // tooltip needs to be set in one step, otherwise the formatting will be all messed up
+                            tooltip = str
 
                         }
 
