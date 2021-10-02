@@ -24,7 +24,7 @@ localization:
 
 appimage:
 
-  image: ubuntu:xenial
+  image: ubuntu:bionic
 
   only:
     - schedules
@@ -32,29 +32,26 @@ appimage:
   script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl
-    - add-apt-repository -y ppa:beineri/opt-qt597-xenial && apt-get update
-    - apt-get -y install qt59base qt59declarative qt59svg qt59tools qt59multimedia qt59quickcontrols qt59quickcontrols2 libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev libpugixml-dev qt59imageformats qt59graphicaleffects libqt5multimedia5-plugins libmagick++-6.q16-dev libmagick++-6-headers
-    - export QTDIR=/opt/qt59  # Set new qt env variables
-    - export PATH=/opt/qt59/bin:$PATH
-    - export LD_LIBRARY_PATH=/opt/qt59/lib/x86_64-linux-gnu:/opt/qt59/lib:$LD_LIBRARY_PATH
-    - export PKG_CONFIG_PATH=/opt/qt59/lib/pkgconfig:$PKG_CONFIG_PATH
+    - apt-get -y install qt5-image-formats-plugins libqt5svg5 libqt5script5 libqt5qml5 libqt5quick5 libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5 qtbase5-dev qtdeclarative5-dev 	libqt5svg5-dev qtmultimedia5-dev qttools5-dev qt5-default qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-platform qml-module-qtquick-dialogs qml-module-qtmultimedia qtdeclarative5-dev-tools
+    - apt-get -y install libpoppler-qt5-dev libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev graphicsmagick-libmagick-dev-compat libpugixml-dev
     - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null  # update cmake
-    - apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && apt-get update
+    - apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && apt-get update
     - apt-get install -y cmake
     - rm -rf lang/
     - git clone -b l10n_master https://gitlab.com/luspi/photoqt-lang
     - mv photoqt-lang/localized lang
     - mkdir -p build && cd build/  # build PhotoQt
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF -DEXIV2=OFF
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=OFF
     - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install
-    - cd ..  # Generate AppImage
-    - wget -c https://photoqt.org/downloads/linuxdeploy-x86_64-20200805.AppImage
+    - cd ..
+    - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
     - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
     - chmod a+x linuxdeploy-plugin-qt-x86_64.AppImage
-    - chmod a+x linuxdeploy-x86_64-20200805.AppImage
+    - chmod a+x linuxdeploy-x86_64.AppImage
     - ./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
-    - ./linuxdeploy-x86_64-20200805.AppImage --appimage-extract
+    - ./linuxdeploy-x86_64.AppImage --appimage-extract
+    - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ -d ./appdir/usr/share/applications/photoqt.desktop --plugin=qt --output appimage
     - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
     - curl --data-binary @PhotoQt-nightly.AppImage ${UPLOAD_URL}
