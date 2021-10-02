@@ -100,7 +100,7 @@ PQSetting {
             var parts = curexl.text.split("\n").filter(function(el) { return el.length != 0});
             // trim each entry
             for(var p = 0; p < parts.length; ++p) parts[p] = parts[p].trim()
-            PQSettings.ExcludeCacheFolders = parts
+            PQSettings.excludeCacheFolders = parts
         }
 
     }
@@ -123,7 +123,7 @@ PQSetting {
             drpbx.checked = false
         }
 
-        curexl.text = PQSettings.ExcludeCacheFolders.join("\n")
+        curexl.text = PQSettings.excludeCacheFolders.join("\n")
         if(!curexl.text.endsWith("\n") && curexl.text.length > 0)
             curexl.text += "\n"
         curexl.cursorPosition = curexl.text.length
