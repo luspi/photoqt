@@ -533,22 +533,32 @@ public:
         }
     }
 
+    Q_PROPERTY(QStringList excludeCacheFolders READ getExcludeCacheFolders WRITE setExcludeCacheFolders NOTIFY excludeCacheFoldersChanged)
+    QStringList getExcludeCacheFolders() { return m_excludeCacheFolders; }
+    void setExcludeCacheFolders(QStringList val) {
+        if(m_excludeCacheFolders != val) {
+            m_excludeCacheFolders = val;
+            emit excludeCacheFoldersChanged();
+            saveSettingsTimer->start();
+        }
+    }
+
+    Q_PROPERTY(QString excludeCacheDropBox READ getExcludeCacheDropBox WRITE setExcludeCacheDropBox NOTIFY excludeCacheDropBoxChanged)
+    QString getExcludeCacheDropBox() { return m_excludeCacheDropBox; }
+    void setExcludeCacheDropBox(QString val) {
+        if(m_excludeCacheDropBox != val) {
+            m_excludeCacheDropBox = val;
+            emit excludeCacheDropBoxChanged();
+            saveSettingsTimer->start();
+        }
+    }
+
     Q_PROPERTY(bool thumbnailCache READ getThumbnailCache WRITE setThumbnailCache NOTIFY thumbnailCacheChanged)
     bool getThumbnailCache() { return m_thumbnailCache; }
     void setThumbnailCache(bool val) {
         if(m_thumbnailCache != val) {
             m_thumbnailCache = val;
             emit thumbnailCacheChanged();
-            saveSettingsTimer->start();
-        }
-    }
-
-    Q_PROPERTY(QStringList thumbnailCacheExcludeFolders READ getThumbnailCacheExcludeFolders WRITE setThumbnailCacheExcludeFolders NOTIFY thumbnailCacheExcludeFoldersChanged)
-    QStringList getThumbnailCacheExcludeFolders() { return m_thumbnailCacheExcludeFolders; }
-    void setThumbnailCacheExcludeFolders(QStringList val) {
-        if(m_thumbnailCacheExcludeFolders != val) {
-            m_thumbnailCacheExcludeFolders = val;
-            emit thumbnailCacheExcludeFoldersChanged();
             saveSettingsTimer->start();
         }
     }
@@ -1501,8 +1511,9 @@ private:
     bool    m_labelsHideZoomLevel;
     bool    m_labelsHideRotationAngle;
     bool    m_labelsManageWindow;
+    QStringList m_excludeCacheFolders;
+    QString m_excludeCacheDropBox;
     bool    m_thumbnailCache;
-    QStringList m_thumbnailCacheExcludeFolders;
     bool    m_thumbnailCenterActive;
     bool    m_thumbnailDisable;
     bool    m_thumbnailFilenameInstead;
@@ -1649,8 +1660,9 @@ signals:
     void labelsHideZoomLevelChanged();
     void labelsHideRotationAngleChanged();
     void labelsManageWindowChanged();
+    void excludeCacheFoldersChanged();
+    void excludeCacheDropBoxChanged();
     void thumbnailCacheChanged();
-    void thumbnailCacheExcludeFoldersChanged();
     void thumbnailCenterActiveChanged();
     void thumbnailDisableChanged();
     void thumbnailFilenameInsteadChanged();

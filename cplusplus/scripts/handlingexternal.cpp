@@ -190,6 +190,28 @@ bool PQHandlingExternal::exportConfigTo(QString path) {
 
 }
 
+QString PQHandlingExternal::findDropBoxFolder() {
+
+#if defined Q_OS_UNIX || defined Q_OS_WIN
+
+#ifdef Q_OS_UNIX
+    QFile f(QDir::homePath()+"/.dropbox/host.db");
+#elif defined Q_OS_WIN
+    QFile f(QString("%1/Dropbox/host.db").arg(QStandardPaths::AppDataLocation));
+#endif
+    if(f.exists()) {
+        f.open(QIODevice::ReadOnly);
+        QTextStream in(&f);
+        QStringList txt = in.readAll().split("\n");
+        if(txt.length() > 1)
+            return QByteArray::fromBase64(txt[1].toUtf8());
+    }
+#endif
+
+    return "";
+
+}
+
 QVariantList PQHandlingExternal::getContextMenuEntries() {
 
     DBG << CURDATE << "PQHandlingExternal::getContextMenuEntries()" << NL;

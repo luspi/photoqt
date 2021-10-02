@@ -71,10 +71,14 @@ values = {
          ["LabelsHideRotationAngle", "bool", "false"],
          ["LabelsManageWindow",      "bool", "false"]],
 
+    "Exclude" :
+
+        [["ExcludeCacheFolders",                "QStringList", "QStringList()"],
+         ["ExcludeCacheDropBox",                "QString",  "\"\""]],
+
     "Thumbnail" :
 
         [["ThumbnailCache",                      "bool",    "true"],
-         ["ThumbnailCacheExcludeFolders",        "QStringList", "QStringList()"],
          ["ThumbnailCenterActive",               "bool",    "false"],
          ["ThumbnailDisable",                    "bool",    "false"],
          ["ThumbnailFilenameInstead",            "bool",    "false"],

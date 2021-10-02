@@ -34,9 +34,36 @@ PQSetting {
 
             spacing: 5
 
+            PQCheckbox {
+                id: drpbx
+                property string folder: ""
+                visible: folder!=""
+                text: em.pty+qsTranslate("settingsmanager_thumbnails", "Exclude DropBox folder:") + " " + folder
+            }
+
+            Item {
+                visible: drpbx.visible
+                width: 1
+                height: 1
+            }
+
+            Text {
+                color: "white"
+                text: em.pty+qsTranslate("settingsmanager_thumbnails", "Currently excluded folders:")
+            }
+
+            PQTextArea {
+                id: curexl
+                width: 400
+                text: ""
+                placeholderText: em.pty+qsTranslate("settingsmanager_thumbnails", "One folder per line")
+            }
+
             PQButton {
                 //: Written on a button
                 text: em.pty+qsTranslate("settingsmanager_thumbnails", "Add folder")
+                leftRightTextSpacing: 5
+                height: 30
                 onClicked: {
                     var newdir = handlingFileDir.getExistingDirectory()
                     if(newdir != "") {
@@ -53,23 +80,6 @@ PQSetting {
                 }
             }
 
-            Item {
-                width: 5
-                height: 10
-            }
-
-            Text {
-                color: "white"
-                text: em.pty+qsTranslate("settingsmanager_thumbnails", "Currently excluded folders:")
-            }
-
-            PQTextArea {
-                id: curexl
-                width: 400
-                text: ""
-                placeholderText: em.pty+qsTranslate("settingsmanager_thumbnails", "One folder per line")
-            }
-
         }
 
     ]
@@ -83,11 +93,14 @@ PQSetting {
         }
 
         onSaveAllSettings: {
+
+            PQSettings.excludeCacheDropBox = (drpbx.checked ? drpbx.folder : "")
+
             // split by linebreak and remove empty entries
             var parts = curexl.text.split("\n").filter(function(el) { return el.length != 0});
             // trim each entry
             for(var p = 0; p < parts.length; ++p) parts[p] = parts[p].trim()
-            PQSettings.thumbnailCacheExcludeFolders = parts
+            PQSettings.ExcludeCacheFolders = parts
         }
 
     }
@@ -101,8 +114,17 @@ PQSetting {
     }
 
     function load() {
-        curexl.text = PQSettings.thumbnailCacheExcludeFolders.join("\n")
-        if(!curexl.text.endsWith("\n"))
+
+        if(PQSettings.excludeCacheDropBox != "") {
+            drpbx.folder = PQSettings.excludeCacheDropBox
+            drpbx.checked = true
+        } else {
+            drpbx.folder = handlingExternal.findDropBoxFolder()
+            drpbx.checked = false
+        }
+
+        curexl.text = PQSettings.ExcludeCacheFolders.join("\n")
+        if(!curexl.text.endsWith("\n") && curexl.text.length > 0)
             curexl.text += "\n"
         curexl.cursorPosition = curexl.text.length
     }

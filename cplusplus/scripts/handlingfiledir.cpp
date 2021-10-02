@@ -354,8 +354,13 @@ bool PQHandlingFileDir::isExcludeDirFromCaching(QString filename) {
     DBG << CURDATE << "PQHandlingFileDir::isExcludeDirFromCaching()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
-    for(QString dir: PQSettings::get().getThumbnailCacheExcludeFolders()) {
-        LOG << dir.toStdString() << " / " << filename.toStdString() << NL;
+    if(PQSettings::get().getExcludeCacheDropBox() != "") {
+        if(filename.indexOf(PQSettings::get().getExcludeCacheDropBox())== 0)
+            return true;
+    }
+
+    const QStringList str = PQSettings::get().getExcludeCacheFolders();
+    for(const QString &dir: str) {
         if(filename.indexOf(dir) == 0)
             return true;
     }

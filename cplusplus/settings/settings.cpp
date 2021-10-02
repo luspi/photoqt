@@ -121,8 +121,10 @@ void PQSettings::setDefault(bool ignoreLanguage) {
     setLabelsHideRotationAngle(false);
     setLabelsManageWindow(false);
 
+    setExcludeCacheFolders(QStringList());
+    setExcludeCacheDropBox("");
+
     setThumbnailCache(true);
-    setThumbnailCacheExcludeFolders(QStringList());
     setThumbnailCenterActive(false);
     setThumbnailDisable(false);
     setThumbnailFilenameInstead(false);
@@ -393,16 +395,20 @@ void PQSettings::readSettings() {
                 setLabelsManageWindow(line.split("LabelsManageWindow=").at(1).toInt());
 
 
-            else if(line.startsWith("ThumbnailCache="))
-                setThumbnailCache(line.split("ThumbnailCache=").at(1).toInt());
-
-            else if(line.startsWith("ThumbnailCacheExcludeFolders=")) {
+            else if(line.startsWith("ExcludeCacheFolders=")) {
                 QStringList result;
-                QByteArray byteArray = QByteArray::fromBase64(line.split("ThumbnailCacheExcludeFolders=").at(1).toUtf8());
+                QByteArray byteArray = QByteArray::fromBase64(line.split("ExcludeCacheFolders=").at(1).toUtf8());
                 QDataStream in(&byteArray, QIODevice::ReadOnly);
                 in >> result;
-                setThumbnailCacheExcludeFolders(result);
+                setExcludeCacheFolders(result);
             }
+
+            else if(line.startsWith("ExcludeCacheDropBox="))
+                setExcludeCacheDropBox(line.split("ExcludeCacheDropBox=").at(1).trimmed());
+
+
+            else if(line.startsWith("ThumbnailCache="))
+                setThumbnailCache(line.split("ThumbnailCache=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailCenterActive="))
                 setThumbnailCenterActive(line.split("ThumbnailCenterActive=").at(1).toInt());
@@ -771,13 +777,17 @@ void PQSettings::saveSettings() {
         cont += QString("LabelsHideRotationAngle=%1\n").arg(int(m_labelsHideRotationAngle));
         cont += QString("LabelsManageWindow=%1\n").arg(int(m_labelsManageWindow));
 
+        cont += "\n[Exclude]\n";
+
+        QByteArray byteArray;
+        QDataStream byteout(&byteArray, QIODevice::WriteOnly);
+        byteout << m_excludeCacheFolders;
+        cont += QString("ExcludeCacheFolders=%1\n").arg(QString(byteArray.toBase64()));
+        cont += QString("ExcludeCacheDropBox=%1\n").arg(m_excludeCacheDropBox);
+
         cont += "\n[Thumbnail]\n";
 
         cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
-        QByteArray byteArray;
-        QDataStream byteout(&byteArray, QIODevice::WriteOnly);
-        byteout << m_thumbnailCacheExcludeFolders;
-        cont += QString("ThumbnailCacheExcludeFolders=%1\n").arg(QString(byteArray.toBase64()));
         cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
         cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
         cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));
