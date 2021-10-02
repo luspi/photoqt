@@ -359,6 +359,16 @@ bool PQHandlingFileDir::isExcludeDirFromCaching(QString filename) {
             return true;
     }
 
+    if(PQSettings::get().getExcludeCacheNextcloud() != "") {
+        if(filename.indexOf(PQSettings::get().getExcludeCacheNextcloud())== 0)
+            return true;
+    }
+
+    if(PQSettings::get().getExcludeCacheOwnCloud() != "") {
+        if(filename.indexOf(PQSettings::get().getExcludeCacheOwnCloud())== 0)
+            return true;
+    }
+
     const QStringList str = PQSettings::get().getExcludeCacheFolders();
     for(const QString &dir: str) {
         if(filename.indexOf(dir) == 0)

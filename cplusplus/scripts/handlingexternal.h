@@ -44,6 +44,8 @@ public:
     Q_INVOKABLE void executeExternal(QString cmd, QString currentfile);
     Q_INVOKABLE bool exportConfigTo(QString path);
     Q_INVOKABLE QString findDropBoxFolder();
+    Q_INVOKABLE QString findNextcloudFolder();
+    Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QVariantList getContextMenuEntries();
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE bool importConfigFrom(QString path);

@@ -553,6 +553,26 @@ public:
         }
     }
 
+    Q_PROPERTY(QString excludeCacheNextcloud READ getExcludeCacheNextcloud WRITE setExcludeCacheNextcloud NOTIFY excludeCacheNextcloudChanged)
+    QString getExcludeCacheNextcloud() { return m_excludeCacheNextcloud; }
+    void setExcludeCacheNextcloud(QString val) {
+        if(m_excludeCacheNextcloud != val) {
+            m_excludeCacheNextcloud = val;
+            emit excludeCacheNextcloudChanged();
+            saveSettingsTimer->start();
+        }
+    }
+
+    Q_PROPERTY(QString excludeCacheOwnCloud READ getExcludeCacheOwnCloud WRITE setExcludeCacheOwnCloud NOTIFY excludeCacheOwnCloudChanged)
+    QString getExcludeCacheOwnCloud() { return m_excludeCacheOwnCloud; }
+    void setExcludeCacheOwnCloud(QString val) {
+        if(m_excludeCacheOwnCloud != val) {
+            m_excludeCacheOwnCloud = val;
+            emit excludeCacheOwnCloudChanged();
+            saveSettingsTimer->start();
+        }
+    }
+
     Q_PROPERTY(bool thumbnailCache READ getThumbnailCache WRITE setThumbnailCache NOTIFY thumbnailCacheChanged)
     bool getThumbnailCache() { return m_thumbnailCache; }
     void setThumbnailCache(bool val) {
@@ -1513,6 +1533,8 @@ private:
     bool    m_labelsManageWindow;
     QStringList m_excludeCacheFolders;
     QString m_excludeCacheDropBox;
+    QString m_excludeCacheNextcloud;
+    QString m_excludeCacheOwnCloud;
     bool    m_thumbnailCache;
     bool    m_thumbnailCenterActive;
     bool    m_thumbnailDisable;
@@ -1662,6 +1684,8 @@ signals:
     void labelsManageWindowChanged();
     void excludeCacheFoldersChanged();
     void excludeCacheDropBoxChanged();
+    void excludeCacheNextcloudChanged();
+    void excludeCacheOwnCloudChanged();
     void thumbnailCacheChanged();
     void thumbnailCenterActiveChanged();
     void thumbnailDisableChanged();

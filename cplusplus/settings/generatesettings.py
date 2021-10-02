@@ -74,7 +74,9 @@ values = {
     "Exclude" :
 
         [["ExcludeCacheFolders",                "QStringList", "QStringList()"],
-         ["ExcludeCacheDropBox",                "QString",  "\"\""]],
+         ["ExcludeCacheDropBox",                "QString",  "\"\""],
+         ["ExcludeCacheNextcloud",              "QString",  "\"\""],
+         ["ExcludeCacheOwnCloud",               "QString",  "\"\""]],
 
     "Thumbnail" :
 

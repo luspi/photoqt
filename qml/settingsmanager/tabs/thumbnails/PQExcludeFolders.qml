@@ -34,11 +34,56 @@ PQSetting {
 
             spacing: 5
 
+            Text {
+                id: cloudheader
+                color: "white"
+                text: "Cloud providers to exclude from caching:"
+                visible: nxtcld.visible||owncld.visible||drpbx.visible
+            }
+
+            Item {
+                visible: cloudheader.visible
+                width: 1
+                height: 1
+            }
+
             PQCheckbox {
-                id: drpbx
+                id: nxtcld
+                x: 20
                 property string folder: ""
                 visible: folder!=""
-                text: em.pty+qsTranslate("settingsmanager_thumbnails", "Exclude DropBox folder:") + " " + folder
+                //: The placeholder %1 will be replaced by name of cloud providers (DropBox, Nextcloud, etc.)
+                text: "Nextcloud: " + folder
+            }
+
+            Item {
+                visible: nxtcld.visible
+                width: 1
+                height: 1
+            }
+
+            PQCheckbox {
+                id: owncld
+                x: 20
+                property string folder: ""
+                visible: folder!=""
+                //: The placeholder %1 will be replaced by name of cloud providers (DropBox, Nextcloud, etc.)
+                text: "ownCloud: " + folder
+            }
+
+            Item {
+                visible: owncld.visible
+                width: 1
+                height: 1
+            }
+
+            PQCheckbox {
+                id: drpbx
+                x: 20
+                property string folder: ""
+                visible: folder!=""
+                //: The placeholder %1 will be replaced by name of cloud providers (DropBox, Nextcloud, etc.)
+                text: "DropBox: " + folder
             }
 
             Item {
@@ -47,9 +92,15 @@ PQSetting {
                 height: 1
             }
 
+            Item {
+                visible: cloudheader.visible
+                width: 1
+                height: 5
+            }
+
             Text {
                 color: "white"
-                text: em.pty+qsTranslate("settingsmanager_thumbnails", "Currently excluded folders:")
+                text: em.pty+qsTranslate("settingsmanager_thumbnails", "Do not cache these folders:")
             }
 
             PQTextArea {
@@ -94,6 +145,8 @@ PQSetting {
 
         onSaveAllSettings: {
 
+            PQSettings.excludeCacheNextcloud = (nxtcld.checked ? nxtcld.folder : "")
+            PQSettings.excludeCacheOwnCloud = (owncld.checked ? owncld.folder : "")
             PQSettings.excludeCacheDropBox = (drpbx.checked ? drpbx.folder : "")
 
             // split by linebreak and remove empty entries
@@ -114,6 +167,22 @@ PQSetting {
     }
 
     function load() {
+
+        if(PQSettings.excludeCacheNextcloud != "") {
+            nxtcld.folder = PQSettings.excludeCacheNextcloud
+            nxtcld.checked = true
+        } else {
+            nxtcld.folder = handlingExternal.findNextcloudFolder()
+            nxtcld.checked = false
+        }
+
+        if(PQSettings.excludeCacheOwnCloud != "") {
+            owncld.folder = PQSettings.excludeCacheOwnCloud
+            owncld.checked = true
+        } else {
+            owncld.folder = handlingExternal.findOwnCloudFolder()
+            owncld.checked = false
+        }
 
         if(PQSettings.excludeCacheDropBox != "") {
             drpbx.folder = PQSettings.excludeCacheDropBox

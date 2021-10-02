@@ -194,6 +194,9 @@ QString PQHandlingExternal::findDropBoxFolder() {
 
 #if defined Q_OS_UNIX || defined Q_OS_WIN
 
+    // credit for how to find DropBox location:
+    // https://stackoverflow.com/questions/12118162/how-to-determine-the-dropbox-folder-location-programmatically
+
 #ifdef Q_OS_UNIX
     QFile f(QDir::homePath()+"/.dropbox/host.db");
 #elif defined Q_OS_WIN
@@ -205,6 +208,50 @@ QString PQHandlingExternal::findDropBoxFolder() {
         QStringList txt = in.readAll().split("\n");
         if(txt.length() > 1)
             return QByteArray::fromBase64(txt[1].toUtf8());
+    }
+#endif
+
+    return "";
+
+}
+
+QString PQHandlingExternal::findNextcloudFolder() {
+
+#if defined Q_OS_UNIX || defined Q_OS_WIN
+#if defined Q_OS_UNIX
+    QFile f(QDir::homePath()+"/.config/Nextcloud/nextcloud.cfg");
+#elif defined Q_OS_WIN
+    QFile f(QString("%1/Nextcloud/nextcloud.cfg").arg(QStandardPaths::AppDataLocation));
+#endif
+    if(f.exists()) {
+        f.open(QIODevice::ReadOnly);
+        QTextStream in(&f);
+        QString txt = in.readAll();
+        if(txt.contains("0\\Folders\\1\\localPath=")) {
+            return txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+        }
+    }
+#endif
+
+    return "";
+
+}
+
+QString PQHandlingExternal::findOwnCloudFolder() {
+
+#if defined Q_OS_UNIX || defined Q_OS_WIN
+#if defined Q_OS_UNIX
+    QFile f(QDir::homePath()+"/.config/ownCloud/owncloud.cfg");
+#elif defined Q_OS_WIN
+    QFile f(QString("%1/ownCloud/owncloud.cfg").arg(QStandardPaths::AppDataLocation));
+#endif
+    if(f.exists()) {
+        f.open(QIODevice::ReadOnly);
+        QTextStream in(&f);
+        QString txt = in.readAll();
+        if(txt.contains("0\\Folders\\1\\localPath=")) {
+            return txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+        }
     }
 #endif
 

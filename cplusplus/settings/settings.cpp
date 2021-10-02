@@ -123,6 +123,8 @@ void PQSettings::setDefault(bool ignoreLanguage) {
 
     setExcludeCacheFolders(QStringList());
     setExcludeCacheDropBox("");
+    setExcludeCacheNextcloud("");
+    setExcludeCacheOwnCloud("");
 
     setThumbnailCache(true);
     setThumbnailCenterActive(false);
@@ -405,6 +407,12 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("ExcludeCacheDropBox="))
                 setExcludeCacheDropBox(line.split("ExcludeCacheDropBox=").at(1).trimmed());
+
+            else if(line.startsWith("ExcludeCacheNextcloud="))
+                setExcludeCacheNextcloud(line.split("ExcludeCacheNextcloud=").at(1).trimmed());
+
+            else if(line.startsWith("ExcludeCacheOwnCloud="))
+                setExcludeCacheOwnCloud(line.split("ExcludeCacheOwnCloud=").at(1).trimmed());
 
 
             else if(line.startsWith("ThumbnailCache="))
@@ -784,6 +792,8 @@ void PQSettings::saveSettings() {
         byteout << m_excludeCacheFolders;
         cont += QString("ExcludeCacheFolders=%1\n").arg(QString(byteArray.toBase64()));
         cont += QString("ExcludeCacheDropBox=%1\n").arg(m_excludeCacheDropBox);
+        cont += QString("ExcludeCacheNextcloud=%1\n").arg(m_excludeCacheNextcloud);
+        cont += QString("ExcludeCacheOwnCloud=%1\n").arg(m_excludeCacheOwnCloud);
 
         cont += "\n[Thumbnail]\n";
 
