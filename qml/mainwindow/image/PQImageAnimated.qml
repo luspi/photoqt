@@ -300,7 +300,6 @@ Item {
             // zoom to local mouse position
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
-            var localMousePos
             if(wheelDelta != undefined)
                 performZoom(theimage.mapFromGlobal(variables.mousePos), undefined, true, false, false)
             else
@@ -413,10 +412,32 @@ Item {
         var realX = pos.x * theimage.curScale
         var realY = pos.y * theimage.curScale
 
-        var newX = theimage.curX+(1-zoomfactor)*realX
-        var newY = theimage.curY+(1-zoomfactor)*realY
-        theimage.curX = newX
-        theimage.curY = newY
+        // no rotation
+        if(theimage.rotateTo%360 == 0) {
+
+            theimage.curX += (1-zoomfactor)*realX
+            theimage.curY += (1-zoomfactor)*realY
+
+        // rotated by 90 degrees
+        } else if(theimage.rotateTo%360 == 90 || theimage.rotateTo%360 == -270) {
+
+            theimage.curX -= (1-zoomfactor)*realY
+            theimage.curY += (1-zoomfactor)*realX
+
+        // rotated by 180 degrees
+        } else if(Math.abs(theimage.rotateTo%360) == 180) {
+
+            theimage.curX -= (1-zoomfactor)*realX
+            theimage.curY -= (1-zoomfactor)*realY
+
+        // rotated by 270 degrees
+        } else if(theimage.rotateTo%360 == 270 || theimage.rotateTo%360 == -90) {
+
+                theimage.curX += (1-zoomfactor)*realY
+                theimage.curY -= (1-zoomfactor)*realX
+
+        } else
+            console.log("ERROR: unknown rotation step:", theimage.rotateTo)
 
         // update scale factor
         theimage.curScale *= zoomfactor
