@@ -30,7 +30,6 @@ Item {
     width: container.width
     height: container.height
 
-    property bool imageMoved: false
     property real defaultScale: 1.0
     property bool useStoredData: PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror
 
@@ -56,11 +55,6 @@ Item {
         asynchronous: true
 
         source: "image://full/" + src
-
-        onXChanged:
-            imageMoved = true
-        onYChanged:
-            imageMoved = true
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
@@ -106,7 +100,7 @@ Item {
         property real rotateTo: 0.0
         onRotateToChanged: {
             rotation = rotateTo
-            if(theimage.curScale == defaultScale && !imageMoved) {
+            if(theimage.curScale == defaultScale && curX == 0 && curY == 0) {
                 reset(true, false)
             }
         }
@@ -326,9 +320,9 @@ Item {
         running: false
         onTriggered: {
             if(!useStoredData) {
-                if(!imageMoved && theimage.curScale == defaultScale)
+                if(theimage.curX == 0 && theimage.curY == 0 && theimage.curScale == defaultScale)
                     reset(true, true)
-                else if(!imageMoved)
+                else if(theimage.curX == 0 && theimage.curY)
                     reset(false, true)
             }
         }
@@ -496,7 +490,6 @@ Item {
                 cont.x = PQSettings.marginAroundImage + Math.floor(-(theimage.width*(1-sc1))/2)
                 cont.y = PQSettings.marginAroundImage + Math.floor(-(theimage.height*(1-sc2))/2)
             }
-            imageMoved = false
         }
 
         if(scaling) {
