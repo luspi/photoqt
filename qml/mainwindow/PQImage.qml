@@ -284,13 +284,22 @@ Item {
             loadNewFile()
     }
 
+    Connections {
+        target: filewatcher
+        onCurrentFileChanged:
+            loadNewFile()
+    }
+
     function loadNewFile() {
         variables.currentRotationAngle = 0
         if(filefoldermodel.current > -1 && filefoldermodel.current < filefoldermodel.countMainView) {
             var src = handlingFileDir.cleanPath(filefoldermodel.currentFilePath)
             image_model.append({"src" : src, "imageIndex" : filefoldermodel.current})
-        } else if(filefoldermodel.current == -1 || filefoldermodel.countMainView == 0)
+            filewatcher.setCurrentFile(src)
+        } else if(filefoldermodel.current == -1 || filefoldermodel.countMainView == 0) {
             hideAllImages()
+            filewatcher.setCurrentFile("")
+        }
     }
 
     function loadNextImage() {

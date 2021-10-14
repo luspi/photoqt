@@ -32,6 +32,9 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
     connect(contextmenuWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::contextmenuChangedSLOT);
     contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
 
+    currentFileWatcher = new QFileSystemWatcher;
+    connect(currentFileWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::currentFileChangedSLOT);
+
     checkRepeatedly = new QTimer;
     checkRepeatedly->setInterval(2500);
     checkRepeatedly->setSingleShot(false);
@@ -43,6 +46,7 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
 PQFileWatcher::~PQFileWatcher() {
     delete userPlacesWatcher;
     delete contextmenuWatcher;
+    delete currentFileWatcher;
     delete checkRepeatedly;
 }
 
@@ -95,5 +99,33 @@ void PQFileWatcher::contextmenuChangedSLOT() {
 
     if(info.exists())
         contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
+
+}
+
+void PQFileWatcher::currentFileChangedSLOT() {
+
+    DBG << CURDATE << "PQFileWatcher::currentFileChangedSLOT()" << NL;
+
+    QFileInfo info(currentFile);
+    for(int i = 0; i < 5; ++i) {
+        if(info.exists())
+            break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+
+    emit currentFileChanged();
+
+    if(info.exists())
+        contextmenuWatcher->addPath(currentFile);
+
+}
+
+void PQFileWatcher::setCurrentFile(QString file) {
+
+        currentFile = file;
+        delete currentFileWatcher;
+        currentFileWatcher = new QFileSystemWatcher;
+        connect(currentFileWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::currentFileChangedSLOT);
+        currentFileWatcher->addPath(currentFile);
 
 }

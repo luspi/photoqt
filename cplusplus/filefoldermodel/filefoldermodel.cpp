@@ -98,6 +98,7 @@ void PQFileFolderModel::loadDataMainView() {
     // watch directory for changes
 
     watcherMainView->addPath(QFileInfo(m_fileInFolderMainView).absolutePath());
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadDataMainView);
 
     ////////////////////////
     // load files
@@ -161,6 +162,7 @@ void PQFileFolderModel::loadDataFileDialog() {
     // watch directory for changes
 
     watcherFileDialog->addPath(m_folderFileDialog);
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadDataFileDialog);
 
     ////////////////////////
     // load folders

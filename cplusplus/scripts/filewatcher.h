@@ -39,21 +39,27 @@ public:
     explicit PQFileWatcher(QObject *parent = nullptr);
     ~PQFileWatcher();
 
+    Q_INVOKABLE void setCurrentFile(QString file);
+
 private:
     QFileSystemWatcher *userPlacesWatcher;
     QFileSystemWatcher *contextmenuWatcher;
+    QFileSystemWatcher *currentFileWatcher;
 
     QTimer *checkRepeatedly;
+    QString currentFile;
 
 private slots:
     void userPlacesChangedSLOT();
     void contextmenuChangedSLOT();
+    void currentFileChangedSLOT();
 
     void checkRepeatedlyTimeout();
 
 signals:
     void userPlacesChanged();
     void contextmenuChanged();
+    void currentFileChanged();
 
 };
 
