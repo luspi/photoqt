@@ -356,6 +356,18 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
         QString path = bm.attribute("href").value();
 
+#ifdef Q_OS_WIN
+
+        if(path.startsWith("file:///"))
+            path = path.remove(0,8);
+        else if(path.startsWith("file://"))
+            path = path.remove(0,7);
+        else if(path.startsWith("file:/"))
+            path = path.remove(0,6);
+        else
+            continue;
+
+#else
         if(path.startsWith("file:///"))
             path = path.remove(0,7);
         else if(path.startsWith("file://"))
@@ -364,6 +376,7 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
             path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
         else
             continue;
+#endif
 
         // name
         entry << bm.select_node("title").node().child_value();
