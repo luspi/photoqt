@@ -54,7 +54,7 @@ Item {
         cache: false
         asynchronous: true
 
-        source: "file://" + src
+        source: "file:///" + src
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
