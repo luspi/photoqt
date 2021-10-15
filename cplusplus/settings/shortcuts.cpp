@@ -51,9 +51,9 @@ void PQShortcuts::setDefault() {
     shortcuts["__rename"] = QStringList() << "F2";
     shortcuts["__delete"] = QStringList() << "Delete";
     shortcuts["__deletePermanent"] = QStringList();
-    shortcuts["__copy"] = QStringList() << "Ctrl+C";
+    shortcuts["__copy"] = QStringList() << "Ctrl+Shift+C";
     shortcuts["__move"] = QStringList() << "Ctrl+M";
-    shortcuts["__clipboard"] = QStringList() << "Ctrl+Shift+C";
+    shortcuts["__clipboard"] = QStringList() << "Ctrl+C";
     shortcuts["__saveAs"] = QStringList() << "Ctrl+Shift+S" << "Ctrl+S";
 
     shortcuts["__showMainMenu"] = QStringList() << "M";
