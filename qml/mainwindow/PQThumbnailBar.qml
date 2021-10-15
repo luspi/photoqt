@@ -77,6 +77,8 @@ Item {
 
         model: PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView
 
+        property bool excludeCurrentDirectory: false
+
         ScrollBar.horizontal: PQScrollBar { id: scroll }
 
         property int mouseOverItem: -1
@@ -120,7 +122,7 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesMainView[index]) ? "image://icon/image" : ((PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
+                source: view.excludeCurrentDirectory ? "image://icon/image" : ((PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
 
                 visible: !PQSettings.thumbnailFilenameInstead
 
@@ -195,6 +197,7 @@ Item {
             view.model = 0
             if(filefoldermodel.countMainView == 0)
                 return
+            view.excludeCurrentDirectory = handlingFileDir.isExcludeDirFromCaching(handlingFileDir.getFilePathFromFullPath(filefoldermodel.fileInFolderMainView))
             view.model = Qt.binding(function() { return (PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView) })
             view.currentIndex = filefoldermodel.current
         }

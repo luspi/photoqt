@@ -41,6 +41,8 @@ GridView {
     onCurrentIndexChangedUsingKeyIgnoreMouseChanged:
         resetCurrentIndexChangedUsingKeyIgnoreMouse.restart()
 
+    property bool currentFolderExcluded: false
+
     Timer {
         id: resetCurrentIndexChangedUsingKeyIgnoreMouse
         interval: 300
@@ -156,7 +158,7 @@ GridView {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // if we do not cache this image, then we keep the generic icon here
-                source: (filethumb.status==Image.Ready&&!handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index])) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : "image")
+                source: (filethumb.status==Image.Ready&&!currentFolderExcluded) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : "image")
 
                 Text {
                     id: numberOfFilesInsideFolder
@@ -188,7 +190,7 @@ GridView {
                     asynchronous: true
 
                     // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
-                    source: handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]) ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
+                    source: currentFolderExcluded ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
 
                 }
 
@@ -329,7 +331,7 @@ GridView {
                             var str = ""
 
                             // if we do not cache this directory, we do not show a thumbnail image
-                            if(!handlingFileDir.isExcludeDirFromCaching(fpath))
+                            if(!currentFolderExcluded)
                                 str += "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
 
                             str += "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +
@@ -592,6 +594,8 @@ GridView {
     function loadFolder() {
 
         setNameMimeTypeFilters()
+
+        currentFolderExcluded = handlingFileDir.isExcludeDirFromCaching(filefoldermodel.folderFileDialog)
 
         currentIndex = (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog > 0 ? 0 : -1)
 

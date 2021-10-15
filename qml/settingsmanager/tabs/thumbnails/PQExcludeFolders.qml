@@ -152,7 +152,11 @@ PQSetting {
             // split by linebreak and remove empty entries
             var parts = curexl.text.split("\n").filter(function(el) { return el.length != 0});
             // trim each entry
-            for(var p = 0; p < parts.length; ++p) parts[p] = parts[p].trim()
+            for(var p = 0; p < parts.length; ++p) {
+                parts[p] = parts[p].trim()
+                if(parts[p].endsWith("/"))
+                    parts[p] = parts[p].slice(0,parts[p].length-1)
+            }
             PQSettings.excludeCacheFolders = parts
         }
 

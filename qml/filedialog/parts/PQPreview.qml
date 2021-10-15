@@ -27,7 +27,7 @@ Image {
     property string filePath: ""
 
     asynchronous: true
-    source: (filePath==""||!PQSettings.openPreview||handlingFileDir.isExcludeDirFromCaching(filePath)) ? "" : ("image://thumb/" + filePath)
+    source: (filePath==""||!PQSettings.openPreview||fileview.currentFolderExcluded) ? "" : ("image://thumb/" + filePath)
     fillMode: Image.PreserveAspectFit
 
     opacity: 0.4

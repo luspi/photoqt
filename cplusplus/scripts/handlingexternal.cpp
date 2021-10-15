@@ -206,8 +206,12 @@ QString PQHandlingExternal::findDropBoxFolder() {
         f.open(QIODevice::ReadOnly);
         QTextStream in(&f);
         QStringList txt = in.readAll().split("\n");
-        if(txt.length() > 1)
-            return QByteArray::fromBase64(txt[1].toUtf8());
+        if(txt.length() > 1) {
+            QString path = QByteArray::fromBase64(txt[1].toUtf8());
+            if(path.endsWith("/"))
+                return path.remove(path.length()-1,1);
+            return path;
+        }
     }
 #endif
 
@@ -228,7 +232,10 @@ QString PQHandlingExternal::findNextcloudFolder() {
         QTextStream in(&f);
         QString txt = in.readAll();
         if(txt.contains("0\\Folders\\1\\localPath=")) {
-            return txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+            QString path = txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+            if(path.endsWith("/"))
+                return path.remove(path.length()-1,1);
+            return path;
         }
     }
 #endif
@@ -250,7 +257,10 @@ QString PQHandlingExternal::findOwnCloudFolder() {
         QTextStream in(&f);
         QString txt = in.readAll();
         if(txt.contains("0\\Folders\\1\\localPath=")) {
-            return txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+            QString path = txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+            if(path.endsWith("/"))
+                return path.remove(path.length()-1,1);
+            return path;
         }
     }
 #endif
