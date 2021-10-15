@@ -65,7 +65,9 @@ GridView {
     Connections {
         target: filefoldermodel
         onNewDataLoadedFileDialog: {
+            // the order below is important to avoid 'accidentally' preloading/caching excluded folders
             files_grid.model = 0
+            currentFolderExcluded = handlingFileDir.isExcludeDirFromCaching(filefoldermodel.folderFileDialog)
             files_grid.model = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog
         }
     }
@@ -594,8 +596,6 @@ GridView {
     function loadFolder() {
 
         setNameMimeTypeFilters()
-
-        currentFolderExcluded = handlingFileDir.isExcludeDirFromCaching(filefoldermodel.folderFileDialog)
 
         currentIndex = (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog > 0 ? 0 : -1)
 
