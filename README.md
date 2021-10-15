@@ -1,9 +1,11 @@
-# PhotoQt v2.3
+# PhotoQt dev
 __Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ http://photoqt.org  
 
 PhotoQt is a fast and highly configurable image viewer with a simple and nice interface.
+
+PhotoQt is available in an increasing number of repositories, and can also be installed in several other ways (Flatpak, Windows installer, etc.). [Check the website](https://photoqt.org/down) to get more information on that, or see below for instructions about how to build PhotoQt from scratch.
 
 ***************
 
