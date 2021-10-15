@@ -1,7 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 ; FIXME
-; - add different scaled icons to start menu
 ; - add icons for different file types
 ; - add missing file type registry entries
 ; - add check for previous version incl. info that this wont be necessary in the future
@@ -103,7 +102,7 @@ RequestExecutionLevel admin
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; The order of pages
 
-
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE warnUninstPrev
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "license.txt"
 !insertmacro MUI_PAGE_DIRECTORY
@@ -156,6 +155,15 @@ Function .onInstSuccess
          ;create/update log always within .onInstSuccess function
          !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 
+FunctionEnd
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Update warning
+
+Function warnUninstPrev
+    IfFileExists "$INSTDIR\photoqt.exe" 0 +2
+        MessageBox MB_OK|MB_ICONEXCLAMATION "It appears that an older version of PhotoQt is currently installed. In order to avoid cluttering your system with old files, please cancel this installer and first uninstall the previous version.$\r$\n$\r$\n This installer handles installed files much better than before, and this step *will not* be necessary for future updates!"
 FunctionEnd
 
 
