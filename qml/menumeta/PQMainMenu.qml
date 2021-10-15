@@ -195,6 +195,8 @@ Rectangle {
         [["heading","",""]],
 
         //: This is an entry in the main menu on the right. Please keep short!
+        [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale Image"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__defaultFileManager","open",em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]]

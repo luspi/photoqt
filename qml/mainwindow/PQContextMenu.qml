@@ -43,46 +43,48 @@ Rectangle {
     border.width: 1
 
     property var allitems_static: [
-        //: This is an entry in the main menu on the right, used as in: Zoom image. Please keep short!
+        //: This is an entry in the context menu, used as in: Zoom image. Please keep short!
         [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
                 ["__zoomIn","","+", "donthide"],
                 ["__zoomOut","","-", "donthide"],
                 ["__zoomReset","","0", "donthide"],
                 ["__zoomActual","","1:1", "donthide"]],
-        //: This is an entry in the main menu on the right, used as in: Rotate image. Please keep short!
+        //: This is an entry in the context menu, used as in: Rotate image. Please keep short!
         [["rotate","rotate",em.pty+qsTranslate("MainMenu", "Rotate")],
-                //: This is an entry in the main menu on the right, used as in: Rotate image left. Please keep short!
+                //: This is an entry in the context menu, used as in: Rotate image left. Please keep short!
                 ["__rotateL","",em.pty+qsTranslate("MainMenu", "left"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Rotate image right. Please keep short!
+                //: This is an entry in the context menu, used as in: Rotate image right. Please keep short!
                 ["__rotateR","",em.pty+qsTranslate("MainMenu", "right"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Reset rotation of image. Please keep short!
+                //: This is an entry in the context menu, used as in: Reset rotation of image. Please keep short!
                 ["__rotate0","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used as in: Flip/Mirror image. Please keep short!
+        //: This is an entry in the context menu, used as in: Flip/Mirror image. Please keep short!
         [["flip","flip",em.pty+qsTranslate("MainMenu", "Flip")],
-                //: This is an entry in the main menu on the right, used as in: Flip/Mirror image horizontally. Please keep short!
+                //: This is an entry in the context menu, used as in: Flip/Mirror image horizontally. Please keep short!
                 ["__flipH","",em.pty+qsTranslate("MainMenu", "horizontal"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Flip/Mirror image vertically. Please keep short!
+                //: This is an entry in the context menu, used as in: Flip/Mirror image vertically. Please keep short!
                 ["__flipV","",em.pty+qsTranslate("MainMenu", "vertical"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Reset flip/mirror of image. Please keep short!
+                //: This is an entry in the context menu, used as in: Reset flip/mirror of image. Please keep short!
                 ["__flipReset","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Please keep short!
+        //: This is an entry in the context menu, used to refer to the current file (specifically the file, not directly the image). Please keep short!
         [["","copy",em.pty+qsTranslate("MainMenu", "File")],
-                //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
+                //: This is an entry in the context menu, used as in: rename file. Please keep short!
                 ["__rename","",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
+                //: This is an entry in the context menu, used as in: copy file. Please keep short!
                 ["__copy","",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
+                //: This is an entry in the context menu, used as in: move file. Please keep short!
                 ["__move","",em.pty+qsTranslate("MainMenu", "move"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
+                //: This is an entry in the context menu, used as in: delete file. Please keep short!
                 ["__delete","",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
 
         [["separator", "", "", ""]],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the context menu. Please keep short!
+        [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
+        //: This is an entry in the context menu. Please keep short!
         [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the context menu. Please keep short!
         [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the context menu. Please keep short!
         [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]]
     ]
     property var allitems_external: []
