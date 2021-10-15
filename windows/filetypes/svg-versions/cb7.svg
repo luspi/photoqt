@@ -56,7 +56,7 @@
        y="30.273928" />
     <!-- mod the following-->
     <rect
-       style="fill:#d62728 ;fill-opacity:0.5;stroke:#000000;stroke-width:8.47073;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#7f7f7f ;fill-opacity:0.5;stroke:#000000;stroke-width:8.47073;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect874"
        width="248.44127"
        height="248.44127"
@@ -71,15 +71,15 @@
        y="183.47545" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:49.3889px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.389911"
-       x="21.401915"
-       y="241.57646"
+       style="font-style:normal;font-weight:normal;font-size:70.5556px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.389911"
+       x="76.761147"
+       y="249.28143"
        id="text3573"><tspan
          sodipodi:role="line"
          id="tspan3571"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:49.3889px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';stroke-width:0.389911"
-         x="21.401915"
-         y="241.57646">VICARVIC</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70.5556px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';stroke-width:0.389911"
+         x="76.761147"
+         y="249.28143">CB7</tspan></text>
     <rect
        style="opacity:0.5;fill:#48bb44;fill-opacity:0;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect850"

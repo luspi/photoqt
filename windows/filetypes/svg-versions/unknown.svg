@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
-   sodipodi:docname="unknown.svg"
+   sodipodi:docname="template_mod.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,10 +25,10 @@
      showgrid="true"
      inkscape:zoom="0.38529389"
      inkscape:cx="476.25982"
-     inkscape:cy="657.93932"
+     inkscape:cy="656.64161"
      inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="1920"
+     inkscape:window-height="1015"
+     inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
@@ -56,7 +56,7 @@
        y="30.273928" />
     <!-- mod the following-->
     <rect
-       style="fill:#ffffff;fill-opacity:0.5;stroke:#000000;stroke-width:8.47073;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#ffffff ;fill-opacity:0.5;stroke:#000000;stroke-width:8.47073;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect874"
        width="248.44127"
        height="248.44127"
@@ -72,14 +72,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:70.5556px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.389911"
-       x="117.98174"
-       y="249.28143"
+       x="117.5511"
+       y="249.31589"
        id="text3573"><tspan
          sodipodi:role="line"
          id="tspan3571"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:70.5556px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';stroke-width:0.389911"
-         x="117.98174"
-         y="249.28143">?</tspan></text>
+         x="117.5511"
+         y="249.31589">?</tspan></text>
     <rect
        style="opacity:0.5;fill:#48bb44;fill-opacity:0;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect850"
