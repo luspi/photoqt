@@ -42,6 +42,7 @@ values = {
          ["AnimationType",                      "QString", "\"opacity\""],
          ["ArchiveUseExternalUnrar",            "bool",    "false"],
          ["CloseOnEmptyBackground",             "bool",    "false"],
+         ["NavigateOnEmptyBackground",          "bool",    "false"],
          ["FitInWindow",                        "bool",    "false"],
          ["HotEdgeWidth",                       "int",     "4"],
          ["InterpolationThreshold",             "int",     "100"],

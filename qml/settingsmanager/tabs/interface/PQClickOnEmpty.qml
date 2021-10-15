@@ -30,10 +30,21 @@ PQSetting {
     title: em.pty+qsTranslate("settingsmanager_interface", "empty area around image")
     helptext: em.pty+qsTranslate("settingsmanager_interface", "How to handle clicks on empty area around images.")
     content: [
-        PQCheckbox {
-            id: closecheck
-            //: Used as in: Close PhotoQt on click on empty area around main image
-            text: em.pty+qsTranslate("settingsmanager_interface", "close on click")
+        Flow {
+            spacing: 10
+            width: set.contwidth
+            PQRadioButton {
+                id: closecheck
+                //: Used as in: Close PhotoQt on click on empty area around main image
+                text: em.pty+qsTranslate("settingsmanager_interface", "close on click")
+                tooltip: em.pty+qsTranslate("settingsmanager_interface", "Close PhotoQt when click occurred on empty area around image")
+            }
+            PQRadioButton {
+                id: navcheck
+                //: Used as in: Close PhotoQt on click on empty area around main image
+                text: em.pty+qsTranslate("settingsmanager_interface", "navigate on click")
+                tooltip:em.pty+qsTranslate("settingsmanager_interface",  "Go to next/previous image if click occurred in left/right half of window")
+            }
         }
 
     ]
@@ -44,10 +55,12 @@ PQSetting {
 
         onLoadAllSettings: {
             closecheck.checked = PQSettings.closeOnEmptyBackground
+            navcheck.checked = PQSettings.navigateOnEmptyBackground
         }
 
         onSaveAllSettings: {
             PQSettings.closeOnEmptyBackground = closecheck.checked
+            PQSettings.navigateOnEmptyBackground = navcheck.checked
         }
 
     }

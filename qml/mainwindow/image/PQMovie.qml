@@ -41,12 +41,20 @@ Item {
         enabled: PQSettings.leftButtonMouseClickAndMove
         anchors.fill: parent
         onPressed: {
-            if(PQSettings.closeOnEmptyBackground) {
+            if(PQSettings.closeOnEmptyBackground || PQSettings.navigateOnEmptyBackground) {
                 var paintedX = (container.width-videoelem.width)/2
                 var paintedY = (container.height-videoelem.height)/2
                 if(mouse.x < paintedX || mouse.x > paintedX+videoelem.width ||
-                   mouse.y < paintedY || mouse.y > paintedY+videoelem.height)
-                    toplevel.close()
+                   mouse.y < paintedY || mouse.y > paintedY+videoelem.height) {
+                    if(PQSettings.closeOnEmptyBackground)
+                        toplevel.close()
+                    else if(PQSettings.navigateOnEmptyBackground) {
+                        if(mouse.x < width/2)
+                            imageitem.loadPrevImage()
+                        else
+                            imageitem.loadNextImage()
+                    }
+                }
             }
         }
     }

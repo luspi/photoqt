@@ -27,6 +27,7 @@ RadioButton {
 
     id: control
     text: "RadioButton"
+    property alias tooltip: mousearea.tooltip
 
     indicator: Rectangle {
         implicitWidth: 20

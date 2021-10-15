@@ -75,7 +75,7 @@
         <file>settingsmanager/tabs/PQTabThumbnails.qml</file>
         <file>elements/PQSetting.qml</file>
         <file>settingsmanager/tabs/interface/PQBackground.qml</file>
-        <file>settingsmanager/tabs/interface/PQCloseOnEmpty.qml</file>
+        <file>settingsmanager/tabs/interface/PQClickOnEmpty.qml</file>
         <file>settingsmanager/tabs/interface/PQHotEdgeWidth.qml</file>
         <file>settingsmanager/tabs/interface/PQLanguage.qml</file>
         <file>settingsmanager/tabs/interface/PQMouseWheel.qml</file>

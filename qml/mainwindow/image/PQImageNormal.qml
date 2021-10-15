@@ -178,6 +178,12 @@ Item {
         onPressed: {
             if(PQSettings.closeOnEmptyBackground)
                 toplevel.close()
+            else if(PQSettings.navigateOnEmptyBackground) {
+                if(mouse.x < width/2)
+                    imageitem.loadPrevImage()
+                else
+                    imageitem.loadNextImage()
+            }
         }
     }
 

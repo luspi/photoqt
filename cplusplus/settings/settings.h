@@ -283,6 +283,16 @@ public:
         }
     }
 
+    Q_PROPERTY(bool navigateOnEmptyBackground READ getNavigateOnEmptyBackground WRITE setNavigateOnEmptyBackground NOTIFY navigateOnEmptyBackgroundChanged)
+    bool getNavigateOnEmptyBackground() { return m_navigateOnEmptyBackground; }
+    void setNavigateOnEmptyBackground(bool val) {
+        if(m_navigateOnEmptyBackground != val) {
+            m_navigateOnEmptyBackground = val;
+            emit navigateOnEmptyBackgroundChanged();
+            saveSettingsTimer->start();
+        }
+    }
+
     Q_PROPERTY(bool fitInWindow READ getFitInWindow WRITE setFitInWindow NOTIFY fitInWindowChanged)
     bool getFitInWindow() { return m_fitInWindow; }
     void setFitInWindow(bool val) {
@@ -1506,6 +1516,7 @@ private:
     QString m_animationType;
     bool    m_archiveUseExternalUnrar;
     bool    m_closeOnEmptyBackground;
+    bool    m_navigateOnEmptyBackground;
     bool    m_fitInWindow;
     int     m_hotEdgeWidth;
     int     m_interpolationThreshold;
@@ -1657,6 +1668,7 @@ signals:
     void animationTypeChanged();
     void archiveUseExternalUnrarChanged();
     void closeOnEmptyBackgroundChanged();
+    void navigateOnEmptyBackgroundChanged();
     void fitInWindowChanged();
     void hotEdgeWidthChanged();
     void interpolationThresholdChanged();

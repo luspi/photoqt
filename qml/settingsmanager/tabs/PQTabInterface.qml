@@ -109,7 +109,7 @@ Item {
                 PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
             PQStartupLoadLast { id: sll }
                 PQHorizontalLine { expertModeOnly: sll.expertmodeonly }
-            PQCloseOnEmpty { id: coe }
+            PQClickOnEmpty { id: coe }
                 PQHorizontalLine { expertModeOnly: coe.expertmodeonly }
             PQHotEdgeWidth { id: hew }
                 PQHorizontalLine { expertModeOnly: hew.expertmodeonly }

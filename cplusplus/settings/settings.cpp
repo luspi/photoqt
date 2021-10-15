@@ -94,6 +94,7 @@ void PQSettings::setDefault(bool ignoreLanguage) {
     setAnimationType("opacity");
     setArchiveUseExternalUnrar(false);
     setCloseOnEmptyBackground(false);
+    setNavigateOnEmptyBackground(false);
     setFitInWindow(false);
     setHotEdgeWidth(4);
     setInterpolationThreshold(100);
@@ -319,6 +320,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("CloseOnEmptyBackground="))
                 setCloseOnEmptyBackground(line.split("CloseOnEmptyBackground=").at(1).toInt());
+
+            else if(line.startsWith("NavigateOnEmptyBackground="))
+                setNavigateOnEmptyBackground(line.split("NavigateOnEmptyBackground=").at(1).toInt());
 
             else if(line.startsWith("FitInWindow="))
                 setFitInWindow(line.split("FitInWindow=").at(1).toInt());
@@ -756,6 +760,7 @@ void PQSettings::saveSettings() {
         cont += QString("AnimationType=%1\n").arg(m_animationType);
         cont += QString("ArchiveUseExternalUnrar=%1\n").arg(int(m_archiveUseExternalUnrar));
         cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
+        cont += QString("NavigateOnEmptyBackground=%1\n").arg(int(m_navigateOnEmptyBackground));
         cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
         cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
         cont += QString("InterpolationThreshold=%1\n").arg(m_interpolationThreshold);
