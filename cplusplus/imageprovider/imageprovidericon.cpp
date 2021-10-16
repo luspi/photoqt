@@ -22,7 +22,7 @@
 
 #include "imageprovidericon.h"
 
-QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
+QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *origSize, const QSize &requestedSize) {
 
     DBG << CURDATE << "PQImageProviderIcon::requestPixmap() " << NL
         << CURDATE << "** icon = " << icon.toStdString() << NL
@@ -31,8 +31,31 @@ QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *, const Q
     QSize use = requestedSize;
 
     if(use == QSize(-1,-1)) {
-        use.setWidth(300);
-        use.setHeight(300);
+        use.setWidth(256);
+        use.setHeight(256);
+        origSize->setWidth(256);
+        origSize->setHeight(256);
+    } else {
+        origSize->setWidth(requestedSize.width());
+        origSize->setHeight(requestedSize.width());
+    }
+
+
+    // get filetype icon
+    if(icon.startsWith("IMAGE////")) {
+
+        QString i = const_cast<QString&>(icon);
+        QString suf = i.remove(0,9);
+
+        if(QFile::exists(QString(":/filetypes/%1.ico").arg(suf.toLower()))) {
+            QIcon ico = QIcon(QString(":/filetypes/%1.ico").arg(suf.toLower()));
+            return QPixmap(ico.pixmap(use));
+        } else {
+            qDebug() << "UNKNOWN:" << icon;
+            QIcon ico = QIcon(":/filetypes/unknown.ico");
+            return QPixmap(ico.pixmap(use));
+        }
+
     }
 
     // Attempt to load icon from current theme

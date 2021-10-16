@@ -149,10 +149,10 @@ GridView {
 
                 id: fileicon
 
-                x: 5
+                x: PQSettings.openDefaultView=="icons" ? 17.5 : 5
                 y: 5
-                width: PQSettings.openDefaultView=="icons" ? parent.width-10 : parent.height-10
-                height: parent.height-10
+                width: PQSettings.openDefaultView=="icons" ? parent.width-10-25 : parent.height-10
+                height: parent.height-10 - (PQSettings.openDefaultView=="icons" ? 25 : 0)
 
                 asynchronous: true
 
@@ -160,7 +160,7 @@ GridView {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // if we do not cache this image, then we keep the generic icon here
-                source: (filethumb.status==Image.Ready&&!currentFolderExcluded) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : "image")
+                source: (filethumb.status==Image.Ready&&!currentFolderExcluded) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : ("IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index])))
 
                 Text {
                     id: numberOfFilesInsideFolder
@@ -246,7 +246,7 @@ GridView {
                 opacity: PQSettings.openDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                color: "#66000000"
+                color: "#aa000000"
 
                 Text {
 
@@ -333,7 +333,9 @@ GridView {
                             var str = ""
 
                             // if we do not cache this directory, we do not show a thumbnail image
-                            if(!currentFolderExcluded)
+                            if(currentFolderExcluded)
+                                str += "<img src=\"image://icon/IMAGE////" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
+                            else
                                 str += "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
 
                             str += "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +

@@ -122,7 +122,7 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: view.excludeCurrentDirectory ? "image://icon/image" : ((PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
+                source: view.excludeCurrentDirectory ? ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index])) : ((PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
 
                 visible: !PQSettings.thumbnailFilenameInstead
 

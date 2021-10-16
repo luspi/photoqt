@@ -5,7 +5,7 @@ SET(photoqt_RESOURCES ${photoqt_RESOURCES} qml/qml.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)
 
 # And the images
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} img/img.qrc)
+SET(photoqt_RESOURCES ${photoqt_RESOURCES} img/img.qrc img/filetypes.qrc)
 
 # Any other file (e.g. default imageformats database)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} misc/misc.qrc)
