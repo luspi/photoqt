@@ -33,17 +33,25 @@ PQSetting {
         Flow {
             spacing: 10
             width: set.contwidth
-            PQRadioButton {
+            PQCheckbox {
                 id: closecheck
                 //: Used as in: Close PhotoQt on click on empty area around main image
                 text: em.pty+qsTranslate("settingsmanager_interface", "close on click")
                 tooltip: em.pty+qsTranslate("settingsmanager_interface", "Close PhotoQt when click occurred on empty area around image")
+                onCheckedChanged: {
+                    if(checked)
+                        navcheck.checked = false
+                }
             }
-            PQRadioButton {
+            PQCheckbox {
                 id: navcheck
                 //: Used as in: Close PhotoQt on click on empty area around main image
                 text: em.pty+qsTranslate("settingsmanager_interface", "navigate on click")
                 tooltip:em.pty+qsTranslate("settingsmanager_interface",  "Go to next/previous image if click occurred in left/right half of window")
+                onCheckedChanged: {
+                    if(checked)
+                        closecheck.checked = false
+                }
             }
         }
 
