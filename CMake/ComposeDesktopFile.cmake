@@ -41,77 +41,26 @@ function(composeDesktopFile)
     file(APPEND "photoqt.desktop" "Categories=Graphics;Viewer;\n")
 
 
-    # this string will hold all the mime types to be added to desktop file
-    set(COMBINEDMIMETYPE "")
+    # add the mimetypes
+    set(MIMETYPE "image/avif;image/avif-sequence;application/x-fpt;image/bmp;image/x-ms-bmp")
+    set(MIMETYPE "${MIMETYPE};image/bpg;image/x-canon-crw;image/x-canon-cr2;image/x-win-bitmap;image/bmp")
+    set(MIMETYPE "${MIMETYPE};image/x-ms-bmp;application/dicom;image/dicom-rle;image/vnd.djvu;image/x-dpx")
+    set(MIMETYPE "${MIMETYPE};application/postscript;application/postscript;application/eps;application/x-eps;image/eps")
+    set(MIMETYPE "${MIMETYPE};image/x-eps;image/x-eps;image/x-exr;image/fits;application/vnd.ms-office")
+    set(MIMETYPE "${MIMETYPE};image/gif;image/heic;image/heif;image/vnd.microsoft.icon;image/x-icon")
+    set(MIMETYPE "${MIMETYPE};application/x-pnf;video/x-jng;image/jpeg;image/jp2;image/jpx")
+    set(MIMETYPE "${MIMETYPE};image/jpm;image/jxl;application/x-krita;image/x-miff;video/x-mng")
+    set(MIMETYPE "${MIMETYPE};image/x-mvg;image/openraster;image/x-olympus-orf;image/x-portable-arbitrarymap;image/x-portable-pixmap")
+    set(MIMETYPE "${MIMETYPE};image/x-portable-anymap;image/vnd.zbrush.pcx;image/x-pcx;application/pdf;application/x-pdf")
+    set(MIMETYPE "${MIMETYPE};application/x-bzpdf;application/x-gzpdf;image/x-pentax-pef;image/x-portable-greymap;image/x-portable-anymap")
+    set(MIMETYPE "${MIMETYPE};image/x-xpmi;image/png;image/x-portable-pixmap;image/x-portable-anymap;application/postscript")
+    set(MIMETYPE "${MIMETYPE};image/vnd.adobe.photoshop;image/tiff;image/sgi;image/svg+xml;image/x-targa")
+    set(MIMETYPE "${MIMETYPE};image/x-tga;image/tiff;image/tiff-fx;font/sfnt;image/vnd.wap.wbmp")
+    set(MIMETYPE "${MIMETYPE};image/webp;image/x-xbitmap;image/x-xbm;image/x-xcf;image/x-xpixmap")
+    set(MIMETYPE "${MIMETYPE};image/x-xpmi")
 
-    ##########################
-    # QT mime types
-    set(QTMIME "image/x-ms-bmp;image/bmp;image/x-win-bitmap;image/x-exr;image/gif;image/jp2;image/jpx;image/jpm;image/jpeg;video/x-mng")
-    set(QTMIME "${QTMIME};image/openraster;image/x-portable-anymap;image/vnd.zbrush.pcx;image/x-pcx;image/x-portable-anymap;image/x-portable-greymap")
-    set(QTMIME "${QTMIME};image/png;image/x-portable-anymap;image/x-portable-pixmap;image/vnd.adobe.photoshop;image/sgi;image/x-targa;image/x-tga")
-    set(QTMIME "${QTMIME};image/tiff;image/tiff-fx;image/vnd.wap.wbmp;image/x-xbitmap;image/x-xbm;image/webp;image/vnd.microsoft.icon;image/x-icon")
-    set(QTMIME "${QTMIME};image/x-xpixmap;image/x-xpmi;image/avif;image/avif-sequence")
-    foreach(MIME ${QTMIME})
-        list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
-        if(${FOUNDPOS} MATCHES -1)
-            list(APPEND COMBINEDMIMETYPE ${MIME})
-        endif(${FOUNDPOS} MATCHES -1)
-    endforeach()
+    file(APPEND "photoqt.desktop" "MimeType=${MIMETYPE};")
 
-    ##########################
-    # GRAPHICSMAGICK mime types (not covered by Qt)
-    set(GMMIME "application/x-fpt;image/x-ms-bmp;image/bmp;application/dicom;image/dicom-rle;image/x-dpx;image/fits;application/vnd.ms-office")
-    set(GMMIME "${GMMIME};application/x-pnf;video/x-jng;image/x-miff;image/x-portable-arbitrarymap;image/x-portable-pixmap;image/x-xpmi;image/tiff")
-    set(GMMIME "${GMMIME};image/bpg;image/x-canon-cr2;image/x-canon-crw;image/vnd.djvu;image/heic;image/heif;image/x-olympus-orf;image/x-pentax-pef;image/x-mvg")
-    if(GM)
-        foreach(MIME ${GMMIME})
-            list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
-            if(${FOUNDPOS} MATCHES -1)
-                list(APPEND COMBINEDMIMETYPE ${MIME})
-            endif(${FOUNDPOS} MATCHES -1)
-        endforeach()
-    endif(GM)
-
-    ##########################
-    # RAW mime types
-    set(RAWMIME "image/x-sony-arw;image/x-sony-sr2;image/x-canon-crw;image/x-canon-cr2;image/x-kodak-dcr;image/x-kodak-kdc;image/x-adobe-dng;")
-    set(RAWMIME "${RAWMIME};image/x-kde-raw;image/x-minolta-mrw;image/x-nikon-nef;image/x-olympus-orf;image/x-pentax-pef;image/x-fuji-raf;")
-    set(RAWMIME "${RAWMIME};image/x-panasonic-rw2;image/x-panasonic-rw;image/x-adobe-dng;image/x-sigma-x3f")
-    if(RAW)
-        foreach(MIME ${RAWMIME})
-            list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
-            if(${FOUNDPOS} MATCHES -1)
-                list(APPEND COMBINEDMIMETYPE ${MIME})
-            endif(${FOUNDPOS} MATCHES -1)
-        endforeach()
-    endif(RAW)
-
-    ##########################
-    # DEVIL mime types (not covered by Qt)
-    set(DEVILMIME "application/dicom;image/dicom-rle;image/fits")
-    if(DEVIL)
-        foreach(MIME ${DEVILMIME})
-            list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
-            if(${FOUNDPOS} MATCHES -1)
-                list(APPEND COMBINEDMIMETYPE ${MIME})
-            endif(${FOUNDPOS} MATCHES -1)
-        endforeach()
-    endif(DEVIL)
-
-    ##########################
-    # FREEIMAGE mime types (not covered by Qt)
-    set(FREEMIME "application/x-pnf;video/x-jng")
-    if(FREEIMAGE)
-        foreach(MIME ${FREEMIME})
-            list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
-            if(${FOUNDPOS} MATCHES -1)
-                list(APPEND COMBINEDMIMETYPE ${MIME})
-            endif(${FOUNDPOS} MATCHES -1)
-        endforeach()
-    endif(FREEIMAGE)
-
-    # ... and add to file
-    file(APPEND "photoqt.desktop" "MimeType=${COMBINEDMIMETYPE};")
 
 endfunction()
 
