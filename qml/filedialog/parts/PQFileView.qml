@@ -328,12 +328,15 @@ GridView {
                                       (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
+
+                            tooltipSetup = true
+
                         } else {
 
                             var str = ""
 
                             // if we do not cache this directory, we do not show a thumbnail image
-                            if(currentFolderExcluded)
+                            if(currentFolderExcluded || fileicon.source != "")
                                 str += "<img src=\"image://icon/IMAGE////" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
                             else
                                 str += "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
@@ -347,9 +350,10 @@ GridView {
                             // tooltip needs to be set in one step, otherwise the formatting will be all messed up
                             tooltip = str
 
-                        }
+                            if(currentFolderExcluded || (!currentFolderExcluded && fileicon.source == ""))
+                                tooltipSetup = true
 
-                        tooltipSetup = true
+                        }
                     }
 
                     if(!currentIndexChangedUsingKeyIgnoreMouse)
