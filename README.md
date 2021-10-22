@@ -1,4 +1,4 @@
-# PhotoQt dev
+# PhotoQt 2.4
 __Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ http://photoqt.org  

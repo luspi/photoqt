@@ -1,6 +1,25 @@
 Changelog PhotoQt - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 2.4 - 2021-10-22
+----------------------------
+- add: zoom/pinch to position
+- add: click on left/right half of empty area around image can load prev/next image
+- add: option to exclude directories from caching/preloading
+- add: custom filetype icons
+- improve: switch default shortcuts for __copy and __clipboard
+- improve: script to generate data (filetype icons, windows installer script, etc.)
+- fix: loading of metadata
+- fix: replacing placeholders in external shortcuts
+- fix: handling of --thumbs/--no-thumbs at startup
+- fix: reacting to changes to current folder/image
+- fix: change wheel up/down to proper directions
+- windows: make videos playback work on Windows
+- windows: add to software section in settings
+- windows: fix loading userplaces
+- windows: new installer
+
+
 Release 2.3 - 2021-06-14
 ----------------------------
 - add: context menu (subset of mainmenu options), assign right button to it (if not already in use)
