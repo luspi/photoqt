@@ -174,7 +174,7 @@ if which == 'all' or which == 'cmake':
                     cont += "\")\nset(MIMETYPE \"${MIMETYPE}"
                 cont += f"{p};"
                 i += 1
-    cont += "\")\n\nfile(APPEND \"photoqt.desktop\" \"MimeType=${MIMETYPE}\")\n"
+    cont += "\")\n\nfile(APPEND \"org.photoqt.photoqt.desktop\" \"MimeType=${MIMETYPE}\")\n"
 
     f_new = open("output/add_to_ComposeDesktopFile.cmake", "w")
     f_new.write(cont)
@@ -187,7 +187,7 @@ if which == 'all' or which == 'windowsrc':
 
     print("Generating windows resource file...")
 
-    cont = "IDI_ICON1               ICON    DISCARDABLE     \"img/other/icon.ico\"\n";
+    cont = "IDI_ICON1               ICON    DISCARDABLE     \"windows/icon.ico\"\n";
 
     iF = 2
     for row in data:
@@ -196,11 +196,11 @@ if which == 'all' or which == 'windowsrc':
 
         for e in endng:
 
-            cont += f"IDI_ICON{iF}               ICON    DISCARDABLE     \"img/filetypes/{e}.ico\"\n";
+            cont += f"{iF}               ICON    DISCARDABLE     \"img/filetypes/{e}.ico\"\n";
 
             iF += 1
 
-    cont += f"IDI_ICON{iF}               ICON    DISCARDABLE     \"img/filetypes/unknown.ico\"\n";
+    cont += f"{iF}               ICON    DISCARDABLE     \"img/filetypes/unknown.ico\"\n";
 
     f_new = open("output/windowsicons.rc", "w")
     f_new.write(cont)
