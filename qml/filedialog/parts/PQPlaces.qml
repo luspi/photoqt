@@ -193,7 +193,6 @@ ListView {
                         filedialog_top.setCurrentDirectory(path)
                     else if(mouse.button == Qt.RightButton) {
                         if(index == 0) {
-                            console.log("generic right click")
                             var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
                             filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(userplaces_top.x+pos.x, userplaces_top.y+pos.y))
                         } else {

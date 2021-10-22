@@ -51,7 +51,6 @@ QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *origSize,
             QIcon ico = QIcon(QString(":/filetypes/%1.ico").arg(suf.toLower()));
             return QPixmap(ico.pixmap(use));
         } else {
-            qDebug() << "UNKNOWN:" << icon;
             QIcon ico = QIcon(":/filetypes/unknown.ico");
             return QPixmap(ico.pixmap(use));
         }

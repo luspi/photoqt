@@ -262,9 +262,6 @@ Item {
                 fileNameFilter.push(spl[iSpl])
             }
         }
-        console.log("e", fileEndingFilter)
-        console.log("n", fileNameFilter)
-        console.log("o", filefoldermodel.nameFilters)
         filefoldermodel.nameFilters = fileEndingFilter
         filefoldermodel.filenameFilters = fileNameFilter
 
