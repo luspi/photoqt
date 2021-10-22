@@ -22,6 +22,7 @@ SET(FREEIMAGE_LIBRARIES)
 SET(FREEIMAGE_ROOT ${FREEIMAGE_LOCATION})
 
 SET(SEARCH_PATHS
+  ${CMAKE_CURRENT_BINARY_DIR}/include
   $ENV{ProgramFiles}/freeimage/include
   $ENV{SystemDrive}/freeimage/include
   $ENV{ProgramFiles}/freeimage
