@@ -301,7 +301,7 @@ if(UNIX)
 
         # Install desktop file
     install(
-        FILES photoqt.desktop
+        FILES org.photoqt.photoqt.desktop
         DESTINATION share/applications
     )
 
