@@ -48,18 +48,14 @@ namespace PQStartup {
                     txtUpdated = true;
                 }
 
-                // add context menu on right button shortcut if it right button is not assigned yet
-                if(!txt.contains("::Right Button::") && !txt.contains("::Right Button\n")) {
-                    LOG << CURDATE << "PQStartup::Shortcuts::updateShortcuts(): assign right button to context menu" << NL;
-                    if(txt.contains("__contextMenu::\n"))
-                        txt = txt.replace("__contextMenu::", "__contextMenu::Right Button");
-                    else if(txt.contains("__contextMenu::"))
-                        txt = txt.replace("__contextMenu", "__contextMenu::Right Button");
-                    else {
-                        if(!txt.endsWith("\n"))
-                            txt += "\n";
-                        txt += "0::__contextMenu::Right Button\n";
-                    }
+                // the directions were mixed up before v2.4, fix it here for updates
+                // TO BE REMOVED for releases after 2.4!
+                if(txt.contains("Wheel Down") || txt.contains("Wheel Up")) {
+                    QString tmp = txt;
+                    tmp.replace("Wheel Down", "WheelUp");
+                    tmp.replace("Wheel Up", "Wheel Down");
+                    tmp.replace("WheelUp", "Wheel Up");
+                    txt = tmp;
                     txtUpdated = true;
                 }
 
