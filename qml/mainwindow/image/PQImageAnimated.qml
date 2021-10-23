@@ -307,9 +307,9 @@ Item {
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
             if(wheelDelta != undefined)
-                performZoom(theimage.mapFromGlobal(variables.mousePos), undefined, true, false, false)
+                performZoom(theimage.mapFromGlobal(variables.mousePos.x, variables.mousePos.y), undefined, true, false, false)
             else
-                performZoom(theimage.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2)), undefined, true, false, false)
+                performZoom(theimage.mapFromGlobal(toplevel.width/2, toplevel.height/2), undefined, true, false, false)
 
         }
         onZoomOut: {
@@ -318,9 +318,9 @@ Item {
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
             if(wheelDelta != undefined)
-                performZoom(theimage.mapFromGlobal(variables.mousePos), undefined, false, false, false)
+                performZoom(theimage.mapFromGlobal(variables.mousePos.x, variables.mousePos.y), undefined, false, false, false)
             else
-                performZoom(theimage.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2)), undefined, false, false, false)
+                performZoom(theimage.mapFromGlobal(toplevel.width/2, toplevel.height/2), undefined, false, false, false)
 
         }
         onZoomReset: {
@@ -332,7 +332,7 @@ Item {
                 return
 
             // zoom to center of screen
-            performZoom(theimage.mapFromGlobal(Qt.point(toplevel.width/2, toplevel.height/2)), undefined, false, true, false)
+            performZoom(theimage.mapFromGlobal(toplevel.width/2, toplevel.height/2), undefined, false, true, false)
 
         }
         onRotate: {
