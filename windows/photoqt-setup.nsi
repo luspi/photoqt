@@ -95,8 +95,8 @@ RequestExecutionLevel admin
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; The order of pages
 
-!define MUI_PAGE_CUSTOMFUNCTION_LEAVE warnUninstPrev
 !insertmacro MUI_PAGE_WELCOME
+Page custom OldInstallInit OldInstallLeave
 !insertmacro MUI_PAGE_LICENSE "license.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
@@ -123,7 +123,7 @@ Section "PhotoQt" SecDummy
     SetOutPath "$INSTDIR"
     !insertmacro UNINSTALL.LOG_OPEN_INSTALL
 
-    File /r /x *nsh /x *nsi ".\"
+    File /r /x *nsh /x *nsi /x *qmlc /x photoqt-setup.exe ".\"
 
     !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
@@ -154,9 +154,62 @@ FunctionEnd
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Update warning
 
-Function warnUninstPrev
-    IfFileExists "$INSTDIR\photoqt.exe" 0 +2
-        MessageBox MB_OK|MB_ICONEXCLAMATION "It appears that an older version of PhotoQt is currently installed. Please cancel this installer and first UNINSTALL the previous version.$\r$\n$\r$\nThis step will NOT be necessary for future updates, this is the last time."
+Var OldInstallDialog
+Var OldInstallLabel1
+Var OldInstallLabel2
+Var OldInstallLabel3
+Var OldInstallCheck
+Var OldInstallCheckState
+Var OldInstallNext
+
+Function OldInstallInit
+
+    IfFileExists "$INSTDIR\photoqt.exe" +2 0
+        Abort
+
+    !insertmacro MUI_HEADER_TEXT "Previous Version installed" "Your help is needed with starting this installer."
+
+    nsDialogs::Create 1018
+    Pop $OldInstallDialog
+    ${If} $OldInstallDialog == error
+        Abort
+    ${EndIf}
+    
+    GetDlgItem $OldInstallNext $HWNDPARENT 1 ; This returns a handle to the NEXT button.
+    EnableWindow $OldInstallNext 0 ; this should disable the next button.
+    
+    CreateFont $0 "$(^Font)" "8" "700"; size 8 weight 700 makes it bold 
+    
+    ${NSD_CreateLabel} 0 0 100% 24u "A previous version of PhotoQt seems to currently be installed. Starting with v2.4, PhotoQt has changed the way it keeps track of installed files."
+    Pop $OldInstallLabel1
+    
+    ${NSD_CreateLabel} 0 28u 100% 24u "It is highlighy recommeded to first uninstall any version prior to v2.4."
+    Pop $OldInstallLabel2
+;     SendMessage $OldInstallLabel2 ${WM_SETFONT} $0 0
+    
+    ${NSD_CreateLabel} 0 48u 100% 24u "To uninstall, either let this installer wait here in the meantime, or cancel this installer and restart it after the old version is uninstalled. My apologies for this inconvenience!"
+    Pop $OldInstallLabel3
+    
+    ${NSD_CreateCheckbox} 0 74u 100% 12u "Proceed with the installer"
+    Pop $OldInstallCheck
+    ${NSD_OnClick} $OldInstallCheck OldInstallerCheckChange
+
+    nsDialogs::Show
+
+FunctionEnd
+
+Function OldInstallerCheckChange
+
+    ${NSD_GetState} $OldInstallCheck $OldInstallCheckState
+    ${If} $OldInstallCheckState == ${BST_CHECKED}
+        EnableWindow $OldInstallNext 1
+    ${Else}
+        EnableWindow $OldInstallNext 0
+    ${EndIf}
+FunctionEnd
+
+Function OldInstallLeave
+    ; nothing needed here
 FunctionEnd
 
 
@@ -212,7 +265,6 @@ Function FinalStepsInit
 
     ${NSD_CreateCheckbox} 0 88u 100% 12u "Create Desktop Icon"
     Pop $CheckboxDesktop
-    ${NSD_Check} $CheckboxDesktop
 
     ${NSD_CreateCheckbox} 0 103u 100% 12u "Create Start menu entry"
     Pop $CheckboxStartMenu
@@ -537,6 +589,8 @@ Function FinalStepsLeave
 
     ${EndIf}
 
+    WriteRegStr HKLM "${INSTDIR_REG_KEY}" "DisplayIcon" "$INSTDIR\icon.ico"
+    
     System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
 
 FunctionEnd
@@ -787,6 +841,9 @@ Section "Uninstall"
 
     ${EndIf}
 
+    SetShellVarContext all
+    Delete "$SMPROGRAMS\PhotoQt.lnk"
+    Delete "$desktop\PhotoQt.lnk"
 
     ;begin uninstall
     !insertmacro UNINSTALL.LOG_BEGIN_UNINSTALL
@@ -796,10 +853,9 @@ Section "Uninstall"
 
     ;end uninstall, after uninstall from all logged paths has been performed
     !insertmacro UNINSTALL.LOG_END_UNINSTALL
-
+    
     DeleteRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}"
-
-    Delete "$SMPROGRAMS\PhotoQt.lnk"
-    Delete "$desktop\PhotoQt.lnk"
+    
+    System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
 
 SectionEnd
