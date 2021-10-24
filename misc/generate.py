@@ -258,6 +258,10 @@ if which == 'all' or which == 'nsi':
     for row in data:
 
         endings = row[0].split(",")
+        
+        desc = row[2]
+        if ":" in desc:
+            desc = desc.split(":")[1].strip()
 
         for e in endings:
 
@@ -265,11 +269,11 @@ if which == 'all' or which == 'nsi':
             un_line = ""
 
             if endings[0] == "cb7":
-                line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"pqt.{e}file\"\n"
-                un_line = f"${{UnRegisterExtension}} \".{e}\" \"pqt.{endings[0]}file\"\n"
+                line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"{desc}\"\n"
+                un_line = f"${{UnRegisterExtension}} \".{e}\" \"{desc}\"\n"
             else:
-                line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"pqt.{endings[0]}file\"\n"
-                un_line = f"${{UnRegisterExtension}} \".{e}\" \"pqt.{endings[0]}file\"\n"
+                line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"{desc}\"\n"
+                un_line = f"${{UnRegisterExtension}} \".{e}\" \"{desc}\"\n"
 
             if endings[0] in ["eps", "pdf", "ps"]:
                 pdfcont += line
