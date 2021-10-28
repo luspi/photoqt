@@ -66,11 +66,11 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            wheelsensitivity.value = PQSettings.mouseWheelSensitivity
+            wheelsensitivity.value = PQSettings.interfaceMouseWheelSensitivity
         }
 
         onSaveAllSettings: {
-            PQSettings.mouseWheelSensitivity = wheelsensitivity.value
+            PQSettings.interfaceMouseWheelSensitivity = wheelsensitivity.value
         }
 
     }

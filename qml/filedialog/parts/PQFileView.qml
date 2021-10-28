@@ -72,8 +72,8 @@ GridView {
         }
     }
 
-    cellWidth: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : width-scroll.width
-    cellHeight: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : PQSettings.openZoomLevel*2
+    cellWidth: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : width-scroll.width
+    cellHeight: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : PQSettings.openfileZoomLevel*2
 
     PQMouseArea {
         anchors.fill: parent
@@ -149,10 +149,10 @@ GridView {
 
                 id: fileicon
 
-                x: PQSettings.openDefaultView=="icons" ? 17.5 : 5
+                x: PQSettings.openfileDefaultView=="icons" ? 17.5 : 5
                 y: 5
-                width: PQSettings.openDefaultView=="icons" ? parent.width-10-25 : parent.height-10
-                height: parent.height-10 - (PQSettings.openDefaultView=="icons" ? 25 : 0)
+                width: PQSettings.openfileDefaultView=="icons" ? parent.width-10-25 : parent.height-10
+                height: parent.height-10 - (PQSettings.openfileDefaultView=="icons" ? 25 : 0)
 
                 asynchronous: true
 
@@ -164,7 +164,7 @@ GridView {
 
                 Text {
                     id: numberOfFilesInsideFolder
-                    visible: PQSettings.openDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog
+                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -192,7 +192,7 @@ GridView {
                     asynchronous: true
 
                     // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
-                    source: currentFolderExcluded ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
+                    source: currentFolderExcluded ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openfileThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
 
                 }
 
@@ -243,7 +243,7 @@ GridView {
 
                 Behavior on height { NumberAnimation { duration: 100 } }
 
-                opacity: PQSettings.openDefaultView=="icons" ? 1 : 0
+                opacity: PQSettings.openfileDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 color: "#aa000000"
@@ -273,7 +273,7 @@ GridView {
                 anchors.fill: parent
                 anchors.leftMargin: fileicon.width+10
 
-                opacity: PQSettings.openDefaultView=="list" ? 1 : 0
+                opacity: PQSettings.openfileDefaultView=="list" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 verticalAlignment: Text.AlignVCenter
@@ -296,7 +296,7 @@ GridView {
                     rightMargin: 5
                 }
                 verticalAlignment: Qt.AlignVCenter
-                visible: PQSettings.openDefaultView=="list"
+                visible: PQSettings.openfileDefaultView=="list"
                 color: "white"
                 font.bold: true
                 text: index < filefoldermodel.countFoldersFileDialog ? "" : handlingGeneral.convertBytesToHumanReadable(fsize)
@@ -307,7 +307,7 @@ GridView {
                 id: mouseArea
 
                 anchors.fill: parent
-                anchors.leftMargin: PQSettings.openDefaultView=="list"?fileicon.width:0
+                anchors.leftMargin: PQSettings.openfileDefaultView=="list"?fileicon.width:0
 
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -376,7 +376,7 @@ GridView {
                         }
                     } else {
                         var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(deleg_container.x+pos.x+(PQSettings.openDefaultView=="icons" ? 0 : fileicon.width), deleg_container.y+pos.y))
+                        rightclickmenu.popup(Qt.point(deleg_container.x+pos.x+(PQSettings.openfileDefaultView=="icons" ? 0 : fileicon.width), deleg_container.y+pos.y))
                     }
                 }
             }
@@ -525,8 +525,8 @@ GridView {
 
         else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && modifiers == Qt.AltModifier)) {
 
-            var old = PQSettings.openShowHiddenFilesFolders
-            PQSettings.openShowHiddenFilesFolders = !old
+            var old = PQSettings.openfileShowHiddenFilesFolders
+            PQSettings.openfileShowHiddenFilesFolders = !old
 
         } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier)
 

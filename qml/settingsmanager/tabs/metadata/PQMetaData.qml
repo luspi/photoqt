@@ -32,44 +32,44 @@ PQSetting {
     helptext: em.pty+qsTranslate("settingsmanager_metadata", "Which meta information to extract and display.")
 
     //: Part of the meta information about the current image.
-    property var meta: [["metaFilename", em.pty+qsTranslate("settingsmanager_metadata", "file name")],
+    property var meta: [["Filename", em.pty+qsTranslate("settingsmanager_metadata", "file name")],
                         //: Part of the meta information about the current image.
-                        ["metaFileType", em.pty+qsTranslate("settingsmanager_metadata", "file type")],
+                        ["FileType", em.pty+qsTranslate("settingsmanager_metadata", "file type")],
                         //: Part of the meta information about the current image.
-                        ["metaFileSize", em.pty+qsTranslate("settingsmanager_metadata", "file size")],
+                        ["FileSize", em.pty+qsTranslate("settingsmanager_metadata", "file size")],
                         //: Part of the meta information about the current image.
-                        ["metaImageNumber", em.pty+qsTranslate("settingsmanager_metadata", "image #/#")],
+                        ["ImageNumber", em.pty+qsTranslate("settingsmanager_metadata", "image #/#")],
                         //: Part of the meta information about the current image.
-                        ["metaDimensions", em.pty+qsTranslate("settingsmanager_metadata", "dimensions")],
+                        ["Dimensions", em.pty+qsTranslate("settingsmanager_metadata", "dimensions")],
                         //: Part of the meta information about the current image.
-                        ["metaCopyright", em.pty+qsTranslate("settingsmanager_metadata", "copyright")],
+                        ["Copyright", em.pty+qsTranslate("settingsmanager_metadata", "copyright")],
                         //: Part of the meta information about the current image.
-                        ["metaExposureTime", em.pty+qsTranslate("settingsmanager_metadata", "exposure time")],
+                        ["ExposureTime", em.pty+qsTranslate("settingsmanager_metadata", "exposure time")],
                         //: Part of the meta information about the current image.
-                        ["metaFlash", em.pty+qsTranslate("settingsmanager_metadata", "flash")],
+                        ["Flash", em.pty+qsTranslate("settingsmanager_metadata", "flash")],
                         //: Part of the meta information about the current image.
-                        ["metaFLength", em.pty+qsTranslate("settingsmanager_metadata", "focal length")],
+                        ["FLength", em.pty+qsTranslate("settingsmanager_metadata", "focal length")],
                         //: Part of the meta information about the current image.
-                        ["metaFNumber", em.pty+qsTranslate("settingsmanager_metadata", "f-number")],
+                        ["FNumber", em.pty+qsTranslate("settingsmanager_metadata", "f-number")],
                         //: Part of the meta information about the current image.
-                        ["metaGps", em.pty+qsTranslate("settingsmanager_metadata", "GPS position")],
-                        ["metaIso", "ISO"],
+                        ["Gps", em.pty+qsTranslate("settingsmanager_metadata", "GPS position")],
+                        ["Iso", "ISO"],
                         //: Part of the meta information about the current image.
-                        ["metaKeywords", em.pty+qsTranslate("settingsmanager_metadata", "keywords")],
+                        ["Keywords", em.pty+qsTranslate("settingsmanager_metadata", "keywords")],
                         //: Part of the meta information about the current image.
-                        ["metaLightSource", em.pty+qsTranslate("settingsmanager_metadata", "light source")],
+                        ["LightSource", em.pty+qsTranslate("settingsmanager_metadata", "light source")],
                         //: Part of the meta information about the current image.
-                        ["metaLocation", em.pty+qsTranslate("settingsmanager_metadata", "location")],
+                        ["Location", em.pty+qsTranslate("settingsmanager_metadata", "location")],
                         //: Part of the meta information about the current image.
-                        ["metaMake", em.pty+qsTranslate("settingsmanager_metadata", "make")],
+                        ["Make", em.pty+qsTranslate("settingsmanager_metadata", "make")],
                         //: Part of the meta information about the current image.
-                        ["metaModel", em.pty+qsTranslate("settingsmanager_metadata", "model")],
+                        ["Model", em.pty+qsTranslate("settingsmanager_metadata", "model")],
                         //: Part of the meta information about the current image.
-                        ["metaSceneType", em.pty+qsTranslate("settingsmanager_metadata", "scene type")],
+                        ["SceneType", em.pty+qsTranslate("settingsmanager_metadata", "scene type")],
                         //: Part of the meta information about the current image.
-                        ["metaSoftware", em.pty+qsTranslate("settingsmanager_metadata", "software")],
+                        ["Software", em.pty+qsTranslate("settingsmanager_metadata", "software")],
                         //: Part of the meta information about the current image.
-                        ["metaTimePhotoTaken", em.pty+qsTranslate("settingsmanager_metadata", "time photo was taken")]]
+                        ["Time", em.pty+qsTranslate("settingsmanager_metadata", "time photo was taken")]]
 
     content: [
 
@@ -100,7 +100,7 @@ PQSetting {
 
         onSaveAllSettings: {
             for(var i = 0; i < meta.length; ++i)
-                PQSettings[meta[i][0]] = rpt.itemAt(i).checked
+                PQSettings["metadata"+meta[i][0]] = rpt.itemAt(i).checked
         }
 
     }
@@ -111,7 +111,7 @@ PQSetting {
 
     function load() {
         for(var i = 0; i < meta.length; ++i)
-            rpt.itemAt(i).checked = PQSettings[meta[i][0]]
+            rpt.itemAt(i).checked = PQSettings["metadata"+meta[i][0]]
     }
 
 }

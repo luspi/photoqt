@@ -49,7 +49,7 @@ Window {
 
     onClosing: {
         storeGeometry()
-        PQSettings.mainMenuPopoutElement = 0
+        PQSettings.interfacePopoutMainMenu = false
     }
 
     Connections {
@@ -59,7 +59,7 @@ Window {
         }
     }
 
-    visible: PQSettings.mainMenuPopoutElement
+    visible: PQSettings.interfacePopoutMainMenu
     flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"

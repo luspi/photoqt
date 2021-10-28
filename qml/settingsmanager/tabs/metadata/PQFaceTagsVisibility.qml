@@ -54,25 +54,14 @@ PQSetting {
             load()
         }
 
-        onSaveAllSettings: {
-            if(ft_combo.currentIndex == 0) {
-                PQSettings.peopleTagInMetaHybridMode = true
-                PQSettings.peopleTagInMetaAlwaysVisible = false
-                PQSettings.peopleTagInMetaIndependentLabels = false
-            } else if(ft_combo.currentIndex == 1) {
-                PQSettings.peopleTagInMetaHybridMode = false
-                PQSettings.peopleTagInMetaAlwaysVisible = true
-                PQSettings.peopleTagInMetaIndependentLabels = false
-            } else if(ft_combo.currentIndex == 2) {
-                PQSettings.peopleTagInMetaHybridMode = false
-                PQSettings.peopleTagInMetaAlwaysVisible = false
-                PQSettings.peopleTagInMetaIndependentLabels = true
-            } else {
-                PQSettings.peopleTagInMetaHybridMode = false
-                PQSettings.peopleTagInMetaAlwaysVisible = false
-                PQSettings.peopleTagInMetaIndependentLabels = false
-            }
-        }
+        // PQSettings.metadataFaceTagsVisibility:
+        // 0 = Hybrid
+        // 1 = show all always
+        // 2 = show one on hover
+        // 3 = show all on hover
+
+        onSaveAllSettings:
+            PQSettings.metadataFaceTagsVisibility = ft_combo.currentIndex
 
     }
 
@@ -81,14 +70,7 @@ PQSetting {
     }
 
     function load() {
-        if(PQSettings.peopleTagInMetaHybridMode)
-            ft_combo.currentIndex = 0
-        else if(PQSettings.peopleTagInMetaAlwaysVisible)
-            ft_combo.currentIndex = 1
-        else if(PQSettings.peopleTagInMetaIndependentLabels)
-            ft_combo.currentIndex = 2
-        else
-            ft_combo.currentIndex = 3
+        ft_combo.currentIndex = PQSettings.metadataFaceTagsVisibility
     }
 
 }

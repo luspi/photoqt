@@ -187,14 +187,14 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            labels_counter.checked = !PQSettings.labelsHideCounter
-            labels_filepath.checked = !PQSettings.labelsHideFilepath
-            labels_filename.checked = !PQSettings.labelsHideFilename
-            labels_zoom.checked = !PQSettings.labelsHideZoomLevel
-            labels_rotation.checked = !PQSettings.labelsHideRotationAngle
-            labels_windowbuttons.checked = !PQSettings.labelsHideWindowButtons
+            labels_counter.checked = !PQSettings.interfaceLabelsHideCounter
+            labels_filepath.checked = !PQSettings.interfaceLabelsHideFilepath
+            labels_filename.checked = !PQSettings.interfaceLabelsHideFilename
+            labels_zoom.checked = !PQSettings.interfaceLabelsHideZoomLevel
+            labels_rotation.checked = !PQSettings.interfaceLabelsHideRotationAngle
+            labels_windowbuttons.checked = !PQSettings.interfaceLabelsHideWindowButtons
 
-            labels_windowbuttonssize.value = PQSettings.labelsWindowButtonsSize
+            labels_windowbuttonssize.value = PQSettings.interfaceLabelsWindowButtonsSize
 
             if(howManyChecked() == 0)
                 labels_show.checked = false
@@ -204,14 +204,14 @@ PQSetting {
 
         onSaveAllSettings: {
 
-            PQSettings.labelsHideCounter = !labels_counter.checked
-            PQSettings.labelsHideFilepath = !labels_filepath.checked
-            PQSettings.labelsHideFilename = !labels_filename.checked
-            PQSettings.labelsHideZoomLevel = !labels_zoom.checked
-            PQSettings.labelsHideRotationAngle = !labels_rotation.checked
-            PQSettings.labelsHideWindowButtons = !labels_windowbuttons.checked
+            PQSettings.interfaceLabelsHideCounter = !labels_counter.checked
+            PQSettings.interfaceLabelsHideFilepath = !labels_filepath.checked
+            PQSettings.interfaceLabelsHideFilename = !labels_filename.checked
+            PQSettings.interfaceLabelsHideZoomLevel = !labels_zoom.checked
+            PQSettings.interfaceLabelsHideRotationAngle = !labels_rotation.checked
+            PQSettings.interfaceLabelsHideWindowButtons = !labels_windowbuttons.checked
 
-            PQSettings.labelsWindowButtonsSize = labels_windowbuttonssize.value
+            PQSettings.interfaceLabelsWindowButtonsSize = labels_windowbuttonssize.value
 
         }
 

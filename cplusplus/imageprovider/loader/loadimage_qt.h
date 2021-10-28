@@ -83,7 +83,7 @@ public:
             if(mime.size() == 2 && mime.at(0) == "image")
                 reader.setFormat(mime.at(1).toUtf8());
 
-            reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
+            reader.setAutoTransform(PQSettings::get()["metadataAutoRotation"].toBool());
 
             // we need to consider two possibilities below:
             // the FIRST possibility is if autoTransform() is DISabled:

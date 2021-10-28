@@ -85,7 +85,7 @@ public:
         QFileInfo info(filename);
 
         // check image cache, we might be done right here
-        if(PQSettings::get().getPixmapCache() > 0 && load_helper->getCachedImage(filename, img)) {
+        if(PQSettings::get()["imageviewCache"].toInt() > 0 && load_helper->getCachedImage(filename, img)) {
             load_helper->ensureImageFitsMaxSize(img, requestedSize);
             return "";
         }
@@ -300,7 +300,7 @@ public:
             err = "";
 
         // cache image (if not scaled)
-        if(PQSettings::get().getPixmapCache() > 0 && !img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
+        if(PQSettings::get()["imageviewCache"].toInt() > 0 && !img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
             load_helper->saveImageToCache(filename, &img);
 
         return err;
@@ -369,7 +369,7 @@ private:
         const QFileInfo info(filename);
         const QString suffix = info.suffix().toLower();
 
-        if(PQSettings::get().getArchiveUseExternalUnrar() && (suffix == "rar" || suffix == "cbr")) {
+        if(PQSettings::get()["filetypesExternalUnrar"].toBool() && (suffix == "rar" || suffix == "cbr")) {
             if(foundExternalUnrar == -1) {
                 QProcess which;
                 which.setStandardOutputFile(QProcess::nullDevice());

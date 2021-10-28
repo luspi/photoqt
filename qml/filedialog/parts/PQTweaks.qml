@@ -66,7 +66,7 @@ Rectangle {
 
         from: 10
         to: 50
-        value: PQSettings.openZoomLevel
+        value: PQSettings.openfileZoomLevel
 
         divideToolTipValue: 10
         tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
@@ -77,7 +77,7 @@ Rectangle {
         y: (parent.height-height)/2
 
         onValueChanged:
-            PQSettings.openZoomLevel = value
+            PQSettings.openfileZoomLevel = value
 
     }
 
@@ -105,15 +105,15 @@ Rectangle {
         property int prevCurIndex: -1
         property bool startUpDelay: false
 
-        currentIndex: PQSettings.sortImagesBy=="name" ? 0 : (PQSettings.sortImagesBy=="time" ? 2 : (PQSettings.sortImagesBy=="size" ? 3 : (PQSettings.sortImagesBy=="type" ? 4 : 1)))
+        currentIndex: PQSettings.imageviewSortImagesBy=="name" ? 0 : (PQSettings.imageviewSortImagesBy=="time" ? 2 : (PQSettings.imageviewSortImagesBy=="size" ? 3 : (PQSettings.imageviewSortImagesBy=="type" ? 4 : 1)))
 
         onCurrentIndexChanged: {
             if(currentIndex == 5) {
-                PQSettings.sortImagesAscending = !PQSettings.sortImagesAscending
+                PQSettings.imageviewSortImagesAscending = !PQSettings.imageviewSortImagesAscending
                 currentIndex = prevCurIndex
             } else {
                 if(startUpDelay)
-                    PQSettings.sortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                    PQSettings.imageviewSortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
         }
@@ -174,12 +174,12 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Remember loaded folder between sessions.")
         tooltipFollowsMouse: false
 
-        imageButtonSource: PQSettings.openKeepLastLocation ? "/filedialog/remember.png" : "/filedialog/dontremember.png"
+        imageButtonSource: PQSettings.openfileKeepLastLocation ? "/filedialog/remember.png" : "/filedialog/dontremember.png"
 
-        opacity: PQSettings.openKeepLastLocation ? 0.8 : 0.2
+        opacity: PQSettings.openfileKeepLastLocation ? 0.8 : 0.2
 
         onClicked:
-            PQSettings.openKeepLastLocation = !(remember.opacity==0.8)
+            PQSettings.openfileKeepLastLocation = !(remember.opacity==0.8)
 
     }
 
@@ -196,10 +196,10 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Switch between list and icon view")
         tooltipFollowsMouse: false
 
-        imageButtonSource: PQSettings.openDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
+        imageButtonSource: PQSettings.openfileDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
 
         onClicked:
-            PQSettings.openDefaultView = (PQSettings.openDefaultView=="icons" ? "list" : "icons")
+            PQSettings.openfileDefaultView = (PQSettings.openfileDefaultView=="icons" ? "list" : "icons")
 
     }
 

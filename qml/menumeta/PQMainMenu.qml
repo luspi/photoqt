@@ -33,7 +33,7 @@ Rectangle {
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
-    width: (PQSettings.mainMenuPopoutElement ? parentWidth : PQSettings.mainMenuWindowWidth)
+    width: (PQSettings.interfacePopoutMainMenu ? parentWidth : PQSettings.mainmenuElementWidth)
     height: parentHeight+2
     x: parentWidth-width+1
     y: -1
@@ -43,18 +43,18 @@ Rectangle {
 
     opacity: 0
     visible: opacity != 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.mainMenuPopoutElement ? 0 : PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }
 
     property bool resizePressed: false
 
     Connections {
         target: variables
         onMousePosChanged: {
-            if(PQSettings.mainMenuPopoutElement)
+            if(PQSettings.interfacePopoutMainMenu)
                 return
             if(mainmenu_top.visible && !resizePressed && variables.mousePos.x < toplevel.width-width-5)
                 mainmenu_top.opacity = 0
-            else if(!mainmenu_top.visible && !variables.slideShowActive && !variables.faceTaggingActive && variables.mousePos.x > toplevel.width-(2*PQSettings.hotEdgeWidth+5))
+            else if(!mainmenu_top.visible && !variables.slideShowActive && !variables.faceTaggingActive && variables.mousePos.x > toplevel.width-(2*PQSettings.interfaceHotEdgeSize+5))
                 mainmenu_top.opacity = 1
         }
         onSlideShowActiveChanged: {
@@ -68,7 +68,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        if(PQSettings.mainMenuPopoutElement)
+        if(PQSettings.interfacePopoutMainMenu)
                 mainmenu_top.opacity = 1
         readExternalContextmenu()
     }
@@ -89,7 +89,7 @@ Rectangle {
             }
             width: 5
 
-            enabled: !PQSettings.mainMenuPopoutElement
+            enabled: !PQSettings.interfacePopoutMainMenu
 
             hoverEnabled: true
 
@@ -106,7 +106,7 @@ Rectangle {
 
             onReleased: {
                 mainmenu_top.resizePressed = false
-                PQSettings.mainMenuWindowWidth = mainmenu_top.width
+                PQSettings.mainmenuElementWidth = mainmenu_top.width
             }
 
             onPositionChanged: {
@@ -331,7 +331,7 @@ Rectangle {
                         }
                         onClicked: {
                             if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) {
-                                if(allitems[subview.mainindex][index][3] === "hide" && !PQSettings.mainMenuPopoutElement)
+                                if(allitems[subview.mainindex][index][3] === "hide" && !PQSettings.interfacePopoutMainMenu)
                                     mainmenu_top.opacity = 0
                                 var cmd = allitems[subview.mainindex][index][0]
                                 var close = 0
@@ -414,15 +414,15 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.mainMenuPopoutElement
+                tooltip: PQSettings.interfacePopoutMainMenu
                                 //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                                 ? em.pty+qsTranslate("popinpopout", "Merge into main interface")
                                 //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                                 : em.pty+qsTranslate("popinpopout", "Move to its own window")
                 onClicked: {
-                    if(PQSettings.mainMenuPopoutElement)
+                    if(PQSettings.interfacePopoutMainMenu)
                         mainmenu_window.storeGeometry()
-                    PQSettings.mainMenuPopoutElement = !PQSettings.mainMenuPopoutElement
+                    PQSettings.interfacePopoutMainMenu = !PQSettings.interfacePopoutMainMenu
                 }
             }
         }
@@ -454,7 +454,7 @@ Rectangle {
     }
 
     function toggle() {
-        if(PQSettings.mainMenuPopoutElement) return
+        if(PQSettings.interfacePopoutMainMenu) return
         if(mainmenu_top.opacity == 1)
             mainmenu_top.opacity = 0
         else

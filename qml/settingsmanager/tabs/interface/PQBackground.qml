@@ -113,27 +113,27 @@ PQSetting {
 
         onLoadAllSettings: {
 
-            if(PQSettings.backgroundImageScreenshot)
+            if(PQSettings.interfaceBackgroundImageScreenshot)
                 bg_type.currentIndex = 1
-            else if(PQSettings.backgroundImageUse)
+            else if(PQSettings.interfaceBackgroundImageUse)
                 bg_type.currentIndex = 2
             else
                 bg_type.currentIndex = 0
 
-            if(PQSettings.backgroundImagePath == "")
+            if(PQSettings.interfaceBackgroundImagePath == "")
                 bg_image_img.source = ""
             else
-                bg_image_img.source = "image://full/" + PQSettings.backgroundImagePath
+                bg_image_img.source = "image://full/" + PQSettings.interfaceBackgroundImagePath
 
-            if(PQSettings.backgroundImageScale)
+            if(PQSettings.interfaceBackgroundImageScale)
                 bg_image_type.currentIndex = 0
-            else if(PQSettings.backgroundImageScaleCrop)
+            else if(PQSettings.interfaceBackgroundImageScaleCrop)
                 bg_image_type.currentIndex = 1
-            else if(PQSettings.backgroundImageStretch)
+            else if(PQSettings.interfaceBackgroundImageStretch)
                 bg_image_type.currentIndex = 2
-            else if(PQSettings.backgroundImageCenter)
+            else if(PQSettings.interfaceBackgroundImageCenter)
                 bg_image_type.currentIndex = 3
-            else if(PQSettings.backgroundImageTile)
+            else if(PQSettings.interfaceBackgroundImageTile)
                 bg_image_type.currentIndex = 4
             else
                 bg_image_type.currentIndex = 0
@@ -143,51 +143,51 @@ PQSetting {
         onSaveAllSettings: {
 
             if(bg_type.currentIndex == 0) {
-                PQSettings.backgroundImageScreenshot = false
-                PQSettings.backgroundImageUse = false
+                PQSettings.interfaceBackgroundImageScreenshot = false
+                PQSettings.interfaceBackgroundImageUse = false
             } else if(bg_type.currentIndex == 1) {
-                PQSettings.backgroundImageScreenshot = true
-                PQSettings.backgroundImageUse = false
+                PQSettings.interfaceBackgroundImageScreenshot = true
+                PQSettings.interfaceBackgroundImageUse = false
             } else if(bg_type.currentIndex == 2) {
-                PQSettings.backgroundImageScreenshot = false
-                PQSettings.backgroundImageUse = true
+                PQSettings.interfaceBackgroundImageScreenshot = false
+                PQSettings.interfaceBackgroundImageUse = true
             }
 
             if(bg_type.currentIndex == 2)
-                PQSettings.backgroundImagePath = handlingFileDir.cleanPath(bg_image_img.source)
+                PQSettings.interfaceBackgroundImagePath = handlingFileDir.cleanPath(bg_image_img.source)
             else
-                PQSettings.backgroundImagePath = ""
+                PQSettings.interfaceBackgroundImagePath = ""
 
             if(bg_image_type.currentIndex == 0) {
-                PQSettings.backgroundImageScale = true
-                PQSettings.backgroundImageScaleCrop = false
-                PQSettings.backgroundImageStretch = false
-                PQSettings.backgroundImageCenter = false
-                PQSettings.backgroundImageTile = false
+                PQSettings.interfaceBackgroundImageScale = true
+                PQSettings.interfaceBackgroundImageScaleCrop = false
+                PQSettings.interfaceBackgroundImageStretch = false
+                PQSettings.interfaceBackgroundImageCenter = false
+                PQSettings.interfaceBackgroundImageTile = false
             } else if(bg_image_type.currentIndex == 1) {
-                PQSettings.backgroundImageScale = false
-                PQSettings.backgroundImageScaleCrop = true
-                PQSettings.backgroundImageStretch = false
-                PQSettings.backgroundImageCenter = false
-                PQSettings.backgroundImageTile = false
+                PQSettings.interfaceBackgroundImageScale = false
+                PQSettings.interfaceBackgroundImageScaleCrop = true
+                PQSettings.interfaceBackgroundImageStretch = false
+                PQSettings.interfaceBackgroundImageCenter = false
+                PQSettings.interfaceBackgroundImageTile = false
             } else if(bg_image_type.currentIndex == 2) {
-                PQSettings.backgroundImageScale = false
-                PQSettings.backgroundImageScaleCrop = false
-                PQSettings.backgroundImageStretch = true
-                PQSettings.backgroundImageCenter = false
-                PQSettings.backgroundImageTile = false
+                PQSettings.interfaceBackgroundImageScale = false
+                PQSettings.interfaceBackgroundImageScaleCrop = false
+                PQSettings.interfaceBackgroundImageStretch = true
+                PQSettings.interfaceBackgroundImageCenter = false
+                PQSettings.interfaceBackgroundImageTile = false
             } else if(bg_image_type.currentIndex == 3) {
-                PQSettings.backgroundImageScale = false
-                PQSettings.backgroundImageScaleCrop = false
-                PQSettings.backgroundImageStretch = false
-                PQSettings.backgroundImageCenter = true
-                PQSettings.backgroundImageTile = false
+                PQSettings.interfaceBackgroundImageScale = false
+                PQSettings.interfaceBackgroundImageScaleCrop = false
+                PQSettings.interfaceBackgroundImageStretch = false
+                PQSettings.interfaceBackgroundImageCenter = true
+                PQSettings.interfaceBackgroundImageTile = false
             } else if(bg_image_type.currentIndex == 4) {
-                PQSettings.backgroundImageScale = false
-                PQSettings.backgroundImageScaleCrop = false
-                PQSettings.backgroundImageStretch = false
-                PQSettings.backgroundImageCenter = false
-                PQSettings.backgroundImageTile = true
+                PQSettings.interfaceBackgroundImageScale = false
+                PQSettings.interfaceBackgroundImageScaleCrop = false
+                PQSettings.interfaceBackgroundImageStretch = false
+                PQSettings.interfaceBackgroundImageCenter = false
+                PQSettings.interfaceBackgroundImageTile = true
             }
 
         }
@@ -196,8 +196,8 @@ PQSetting {
 
     FileDialog {
         id: fileDialog
-        currentFile: (PQSettings.backgroundImagePath == "" ? "" : "file://"+PQSettings.backgroundImagePath)
-        folder: (PQSettings.backgroundImagePath == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(PQSettings.backgroundImagePath))
+        currentFile: (PQSettings.interfaceBackgroundImagePath == "" ? "" : "file://"+PQSettings.interfaceBackgroundImagePath)
+        folder: (PQSettings.interfaceBackgroundImagePath == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(PQSettings.interfaceBackgroundImagePath))
         modality: Qt.ApplicationModal
         Component.onCompleted: {
             //: This is a category in a file dialog for selecting images used as in: All images supported by PhotoQt.

@@ -48,7 +48,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.leftButtonMouseClickAndMove = left_check.checked
+            PQSettings.imageviewLeftButtonMoveImage = left_check.checked
         }
 
     }
@@ -58,7 +58,7 @@ PQSetting {
     }
 
     function load() {
-        left_check.checked = PQSettings.leftButtonMouseClickAndMove
+        left_check.checked = PQSettings.imageviewLeftButtonMoveImage
     }
 
 }

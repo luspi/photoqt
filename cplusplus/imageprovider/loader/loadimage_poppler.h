@@ -67,7 +67,7 @@ public:
             return QImage();
         }
 
-        double useQuality = PQSettings::get().getPdfQuality();
+        double useQuality = PQSettings::get()["filetypesPDFQuality"].toDouble();
         if(maxSize.width() != -1 && maxSize.height() != -1) {
             double factor1 = maxSize.width()/p->pageSizeF().width();
             double factor2 = maxSize.height()/p->pageSizeF().height();
@@ -77,7 +77,7 @@ public:
 
         QImage ret = p->renderToImage(useQuality, useQuality);
 
-        *origSize = p->pageSize()*(PQSettings::get().getPdfQuality()/72.0);
+        *origSize = p->pageSize()*(PQSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
         delete document;
 
         // return render image

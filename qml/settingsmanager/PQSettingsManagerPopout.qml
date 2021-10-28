@@ -53,14 +53,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.settingsManagerPopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutSettingsManager&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onSettingsManagerPopoutElementChanged: {
-            if(!PQSettings.settingsManagerPopoutElement)
-                settingsmanager_window.visible = Qt.binding(function() { return PQSettings.settingsManagerPopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutSettingsManagerChanged: {
+            if(!PQSettings.interfacePopoutSettingsManager)
+                settingsmanager_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutSettingsManager&&curloader.item.opacity==1; })
         }
     }
 

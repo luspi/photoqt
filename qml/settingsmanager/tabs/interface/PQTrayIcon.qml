@@ -46,11 +46,11 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            tray_combo.currentIndex = PQSettings.trayIcon
+            tray_combo.currentIndex = PQSettings.interfaceTrayIcon
         }
 
         onSaveAllSettings: {
-            PQSettings.trayIcon = tray_combo.currentIndex
+            PQSettings.interfaceTrayIcon = tray_combo.currentIndex
         }
 
     }

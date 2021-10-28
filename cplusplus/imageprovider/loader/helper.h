@@ -34,7 +34,7 @@ class PQLoadImageHelper {
 public:
     PQLoadImageHelper() {
         cache =  new QCache<QString,QImage>;
-        cache->setMaxCost(PQSettings::get().getPixmapCache());
+        cache->setMaxCost(PQSettings::get()["imageviewCache"].toInt());
     }
 
     ~PQLoadImageHelper() {

@@ -67,19 +67,19 @@ Item {
         }
 
         onCmdHide: {
-            PQSettings.trayIcon = 1
+            PQSettings.interfaceTrayIcon = 1
             toplevel.visible = false
         }
 
         onCmdToggle: {
-            PQSettings.trayIcon = 1
+            PQSettings.interfaceTrayIcon = 1
             toplevel.visible = !toplevel.visible
             if(toplevel.visible)
                 toplevel.raise()
         }
 
         onCmdThumbs: {
-            PQSettings.thumbnailDisable = !thb
+            PQSettings.thumbnailsDisable = !thb
         }
 
         onCmdShortcutSequence: {
@@ -88,11 +88,11 @@ Item {
 
         onCmdTray: {
             if(tray)
-                PQSettings.trayIcon = 1
+                PQSettings.interfaceTrayIcon = 1
             else {
                 if(!toplevel.visible)
                     toplevel.visible = true
-                PQSettings.trayIcon = 0
+                PQSettings.interfaceTrayIcon = 0
             }
         }
 
@@ -102,11 +102,11 @@ Item {
 
             // --thumbs / --no-thumbs
             if(PQPassOn.getThumbs() != 2)
-                PQSettings.thumbnailDisable = !PQPassOn.getThumbs()
+                PQSettings.thumbnailsDisable = !PQPassOn.getThumbs()
 
             // --start-in-tray
             if(PQPassOn.getStartInTray()) {
-                PQSettings.trayIcon = 1
+                PQSettings.interfaceTrayIcon = 1
                 toplevel.visible = false
             }
 

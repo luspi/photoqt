@@ -49,7 +49,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.peopleTagInMetaDisplay = ft.checked
+            PQSettings.metadataFaceTagsEnabled = ft.checked
         }
 
     }
@@ -59,7 +59,7 @@ PQSetting {
     }
 
     function load() {
-        ft.checked = PQSettings.peopleTagInMetaDisplay
+        ft.checked = PQSettings.metadataFaceTagsEnabled
     }
 
 }

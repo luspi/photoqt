@@ -70,9 +70,9 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.videoAutoplay = autoplay.checked
-            PQSettings.videoLoop = loop.checked
-            PQSettings.videoThumbnailer = (combo.currentIndex == 0 ? "" : combo.currentText)
+            PQSettings.filetypesVideoAutoplay = autoplay.checked
+            PQSettings.filetypesVideoLoop = loop.checked
+            PQSettings.filetypesVideoThumbnailer = (combo.currentIndex == 0 ? "" : combo.currentText)
         }
 
     }
@@ -83,9 +83,9 @@ PQSetting {
 
     function load() {
 
-        autoplay.checked = PQSettings.videoAutoplay
-        loop.checked = PQSettings.videoLoop
-        combo.currentIndex = (PQSettings.videoThumbnailer == "" ? 0 : 1)
+        autoplay.checked = PQSettings.filetypesVideoAutoplay
+        loop.checked = PQSettings.filetypesVideoLoop
+        combo.currentIndex = (PQSettings.filetypesVideoThumbnailer == "" ? 0 : 1)
 
     }
 

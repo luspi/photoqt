@@ -68,7 +68,7 @@ Item {
             angleDeltaX += wheel.angleDelta.x
             angleDeltaY += wheel.angleDelta.y
 
-            var threshold = Math.max(10, (PQSettings.mouseWheelSensitivity-1)*120)
+            var threshold = Math.max(10, (PQSettings.interfaceMouseWheelSensitivity-1)*120)
 
             if(Math.abs(angleDeltaX) <= threshold && Math.abs(angleDeltaY) <= threshold)
                 return;
@@ -189,7 +189,7 @@ Item {
             pressed = false
 
             // click outside of container
-            if(combo == "Left Button" && PQSettings.closeOnEmptyBackground) {
+            if(combo == "Left Button" && PQSettings.interfaceCloseOnEmptyBackground) {
                 toplevel.close()
                 return
             }

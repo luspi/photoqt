@@ -117,7 +117,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         thumbnails.toggle()
     else if(cmd === "__quickNavigation") {
         loader.ensureItIsReady("quicknavigation")
-        PQSettings.quickNavigation = !PQSettings.quickNavigation
+        PQSettings.interfaceQuickNavigation = !PQSettings.interfaceQuickNavigation
     } else if(cmd === "__goToFirst")
         imageitem.loadFirstImage()
     else if(cmd === "__goToLast")
@@ -125,7 +125,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd === "__viewerMode")
         labels.toggleViewerMode()
     else if(cmd === "__showFaceTags")
-        PQSettings.peopleTagInMetaDisplay = !PQSettings.peopleTagInMetaDisplay
+        PQSettings.metadataFaceTagsEnabled = !PQSettings.metadataFaceTagsEnabled
     else if(cmd === "__wallpaper")
         loader.show("wallpaper")
     else if(cmd === "__scale")
@@ -140,7 +140,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         handlingExternal.openInDefaultFileManager(filefoldermodel.currentFilePath)
     else if(cmd === "__histogram") {
         loader.ensureItIsReady("histogram")
-        PQSettings.histogram = !PQSettings.histogram
+        PQSettings.histogramVisible = !PQSettings.histogramVisible
     }
     else if(cmd === "__clipboard")
         handlingExternal.copyToClipboard(filefoldermodel.currentFilePath)

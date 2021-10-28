@@ -47,7 +47,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailCache = thb_cache.checked
+            PQSettings.thumbnailsCache = thb_cache.checked
         }
 
     }
@@ -57,7 +57,7 @@ PQSetting {
     }
 
     function load() {
-        thb_cache.checked = PQSettings.thumbnailCache
+        thb_cache.checked = PQSettings.thumbnailsCache
     }
 
 }

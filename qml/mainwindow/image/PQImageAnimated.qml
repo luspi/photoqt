@@ -31,7 +31,7 @@ Item {
     height: container.height
 
     property real defaultScale: 1.0
-    property bool useStoredData: PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror
+    property bool useStoredData: PQSettings.imageviewRememberZoomRotationMirror && src in variables.zoomRotationMirror
 
     // large images can cause flickering when transitioning before scale is reset
     // this makes that invisible
@@ -58,8 +58,8 @@ Item {
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
-        smooth: (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
-        mipmap: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.interpolationDisableForSmallImages || width > PQSettings.interpolationThreshold || height > PQSettings.interpolationThreshold)
+        smooth: (!PQSettings.imageviewInterpolationDisableForSmallImages || width > PQSettings.imageviewInterpolationThreshold || height > PQSettings.imageviewInterpolationThreshold)
+        mipmap: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.imageviewInterpolationDisableForSmallImages || width > PQSettings.imageviewInterpolationThreshold || height > PQSettings.imageviewInterpolationThreshold)
 
         rotation: useStoredData ? variables.zoomRotationMirror[src][1] : 0
         property real rotateTo: 0.0
@@ -94,18 +94,18 @@ Item {
             }
         }
 
-        Behavior on x { NumberAnimation { id: xani; duration: PQSettings.animationDuration*100  } }
-        Behavior on y { NumberAnimation { id: yani; duration: PQSettings.animationDuration*100  } }
-        Behavior on rotation { NumberAnimation { id: rotani; duration: PQSettings.animationDuration*100  } }
+        Behavior on x { NumberAnimation { id: xani; duration: PQSettings.imageviewAnimationDuration*100  } }
+        Behavior on y { NumberAnimation { id: yani; duration: PQSettings.imageviewAnimationDuration*100  } }
+        Behavior on rotation { NumberAnimation { id: rotani; duration: PQSettings.imageviewAnimationDuration*100  } }
         // its duration it set to proper value after image has been loaded properly (in reset())
-        Behavior on scale { NumberAnimation { id: scaleani; duration: PQSettings.animationDuration*100  } }
+        Behavior on scale { NumberAnimation { id: scaleani; duration: PQSettings.imageviewAnimationDuration*100  } }
 
         Image {
             anchors.fill: parent
             z: -1
             smooth: false
-            visible: PQSettings.showTransparencyMarkerBackground
-            source: PQSettings.showTransparencyMarkerBackground ? "qrc:/image/checkerboard.png" : ""
+            visible: PQSettings.imageviewTransparencyMarker
+            source: PQSettings.imageviewTransparencyMarker ? "qrc:/image/checkerboard.png" : ""
             sourceSize.width: Math.max(20, Math.min((parent.height/50), (parent.width/50)))
             fillMode: Image.Tile
         }
@@ -123,9 +123,9 @@ Item {
 
                     reset(true, true)
 
-                    xani.duration = PQSettings.animationDuration*100
-                    yani.duration = PQSettings.animationDuration*100
-                    scaleani.duration = PQSettings.animationDuration*100
+                    xani.duration = PQSettings.imageviewAnimationDuration*100
+                    yani.duration = PQSettings.imageviewAnimationDuration*100
+                    scaleani.duration = PQSettings.imageviewAnimationDuration*100
 
                 }
                 cont.visible = true
@@ -141,9 +141,9 @@ Item {
         height: container.height
         hoverEnabled: false
         onPressed: {
-            if(PQSettings.closeOnEmptyBackground)
+            if(PQSettings.interfaceCloseOnEmptyBackground)
                 toplevel.close()
-            else if(PQSettings.navigateOnEmptyBackground) {
+            else if(PQSettings.interfaceNavigateOnEmptyBackground) {
                 if(mouse.x < width/2)
                     imageitem.loadPrevImage()
                 else
@@ -179,14 +179,14 @@ Item {
             performZoom(theimage.mapFromItem(pincharea, pinch.center), undefined, false, false, true, (initialScale*pinch.scale)/theimage.curScale)
 
             // re-enable animations after the pinching
-            xani.duration = PQSettings.animationDuration*100
-            yani.duration = PQSettings.animationDuration*100
-            scaleani.duration = PQSettings.animationDuration*100
+            xani.duration = PQSettings.imageviewAnimationDuration*100
+            yani.duration = PQSettings.imageviewAnimationDuration*100
+            scaleani.duration = PQSettings.imageviewAnimationDuration*100
         }
 
         MouseArea {
             id: mousearea
-            enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible&&!variables.slideShowActive
+            enabled: PQSettings.imageviewLeftButtonMoveImage&&!facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
 
             drag.target: theimage
@@ -275,11 +275,11 @@ Item {
     Connections {
         target: container
         onWidthChanged: {
-            widthHeightChanged.interval = PQSettings.animationDuration*100
+            widthHeightChanged.interval = PQSettings.imageviewAnimationDuration*100
             widthHeightChanged.start()
         }
         onHeightChanged: {
-            widthHeightChanged.interval = PQSettings.animationDuration*100
+            widthHeightChanged.interval = PQSettings.imageviewAnimationDuration*100
             widthHeightChanged.start()
         }
     }
@@ -361,7 +361,7 @@ Item {
             theimage.mirror = !old
             rotani.duration = 0
             theimage.rotateTo += 180
-            rotani.duration = PQSettings.animationDuration*100
+            rotani.duration = PQSettings.imageviewAnimationDuration*100
         }
         onMirrorReset: {
             theimage.mirror = false
@@ -401,15 +401,15 @@ Item {
             if(wheelDelta == undefined) {
 
                 if(zoom_in)
-                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQSettings.zoomSpeed*0.01))
+                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQSettings.imageviewZoomSpeed*0.01))
                 else
-                    zoomfactor = 1/Math.max(1.01, Math.min(1.3, 1+PQSettings.zoomSpeed*0.01))
+                    zoomfactor = 1/Math.max(1.01, Math.min(1.3, 1+PQSettings.imageviewZoomSpeed*0.01))
             } else {
 
                 if(zoom_in)
-                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
+                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(101-PQSettings.imageviewZoomSpeed))))
                 else
-                    zoomfactor = 1/Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(101-PQSettings.zoomSpeed))))
+                    zoomfactor = 1/Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(101-PQSettings.imageviewZoomSpeed))))
 
             }
         }
@@ -456,17 +456,17 @@ Item {
         var sc2 = 1.0
 
         if(Math.abs(theimage.rotateTo%180) == 90) {
-            sc1 = (container.width-2*PQSettings.marginAroundImage)/theimage.height
-            sc2 = (container.height-2*PQSettings.marginAroundImage)/theimage.width
+            sc1 = (container.width-2*PQSettings.imageviewMargin)/theimage.height
+            sc2 = (container.height-2*PQSettings.imageviewMargin)/theimage.width
         } else {
-            sc1 = (container.width-2*PQSettings.marginAroundImage)/theimage.width
-            sc2 = (container.height-2*PQSettings.marginAroundImage)/theimage.height
+            sc1 = (container.width-2*PQSettings.imageviewMargin)/theimage.width
+            sc2 = (container.height-2*PQSettings.imageviewMargin)/theimage.height
         }
 
         var useThisScale = 1.0
 
-        if((PQSettings.fitInWindow && ((Math.abs(theimage.rotateTo%180) == 0 && theimage.width < container.width && theimage.height < container.height) ||
-                                       (Math.abs(theimage.rotateTo%180) == 90 && theimage.height < container.width && theimage.width > container.height)))
+        if((PQSettings.imageviewFitInWindow && ((Math.abs(theimage.rotateTo%180) == 0 && theimage.width < container.width && theimage.height < container.height) ||
+                                                (Math.abs(theimage.rotateTo%180) == 90 && theimage.height < container.width && theimage.width > container.height)))
                 ||
                 ((Math.abs(theimage.rotateTo%180) != 90 && (theimage.width > container.width || theimage.height > container.height)) ||
                  (Math.abs(theimage.rotateTo%180) == 90 && (theimage.height > container.width || theimage.width > container.height)))) {
@@ -479,8 +479,8 @@ Item {
             theimage.curX = 0
             theimage.curY = 0
             if(Math.abs(theimage.rotateTo%180) == 0) {
-                cont.x = PQSettings.marginAroundImage + Math.floor(-(theimage.width*(1-sc1))/2)
-                cont.y = PQSettings.marginAroundImage + Math.floor(-(theimage.height*(1-sc2))/2)
+                cont.x = PQSettings.imageviewMargin + Math.floor(-(theimage.width*(1-sc1))/2)
+                cont.y = PQSettings.imageviewMargin + Math.floor(-(theimage.height*(1-sc2))/2)
             }
         }
 

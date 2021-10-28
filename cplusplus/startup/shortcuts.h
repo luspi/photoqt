@@ -48,17 +48,6 @@ namespace PQStartup {
                     txtUpdated = true;
                 }
 
-                // the directions were mixed up before v2.4, fix it here for updates
-                // TO BE REMOVED for releases after 2.4!
-                if(txt.contains("Wheel Down") || txt.contains("Wheel Up")) {
-                    QString tmp = txt;
-                    tmp.replace("Wheel Down", "WheelUp");
-                    tmp.replace("Wheel Up", "Wheel Down");
-                    tmp.replace("WheelUp", "Wheel Up");
-                    txt = tmp;
-                    txtUpdated = true;
-                }
-
                 if(txtUpdated) {
                     shortcutsfile.close();
                     shortcutsfile.open(QIODevice::WriteOnly|QIODevice::Truncate);

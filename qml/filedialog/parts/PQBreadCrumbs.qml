@@ -215,18 +215,18 @@ Item {
 
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            source: PQSettings.windowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
 
         }
 
         PQMouseArea {
             anchors.fill: parent
-            tooltip: PQSettings.windowMode ? em.pty+qsTranslate("filedialog", "Enter fullscreen")
+            tooltip: PQSettings.interfaceWindowMode ? em.pty+qsTranslate("filedialog", "Enter fullscreen")
                                            : em.pty+qsTranslate("filedialog", "Exit fullscreen")
             tooltipFollowsMouse: false
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: PQSettings.windowMode = !PQSettings.windowMode
+            onClicked: PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
         }
 
     }

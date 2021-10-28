@@ -124,7 +124,7 @@ Item {
                     id: faceLabel
                     x: 4
                     y: 4
-                    font.pointSize: PQSettings.peopleTagInMetaFontSize/facetagger_top.scale
+                    font.pointSize: PQSettings.metadataFaceTagsFontSize/facetagger_top.scale
                     color: "white"
                     text: " "+faceTags[6*index+5]+" "
                 }

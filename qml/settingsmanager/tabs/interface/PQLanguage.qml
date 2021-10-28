@@ -47,7 +47,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.language = languageitems[lang.currentIndex]
+            PQSettings.interfaceLanguage = languageitems[lang.currentIndex]
         }
 
     }
@@ -111,7 +111,7 @@ PQSetting {
         // FIND SELECTED LANGUAGE
 
         var foundIndex = 0
-        var l = PQSettings.language.split("/")[0]
+        var l = PQSettings.interfaceLanguage.split("/")[0]
 
         if(languageitems.indexOf(l) != -1)
             foundIndex = languageitems.indexOf(l)

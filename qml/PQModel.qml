@@ -51,7 +51,7 @@ PQFileFolderModel {
     defaultNameFilters: PQImageFormats.getEnabledFormats()
     mimeTypeFilters: PQImageFormats.getEnabledMimeTypes()
 
-    showHidden: PQSettings.openShowHiddenFilesFolders
+    showHidden: PQSettings.openfileShowHiddenFilesFolders
 
     onCurrentChanged:
         currentFilePath = model.entriesMainView[current]

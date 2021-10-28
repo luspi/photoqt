@@ -90,8 +90,8 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.interpolationDisableForSmallImages = interp_check.checked
-            PQSettings.interpolationThreshold = interp_thr.value
+            PQSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
+            PQSettings.imageviewInterpolationThreshold = interp_thr.value
         }
 
     }
@@ -101,8 +101,8 @@ PQSetting {
     }
 
     function load() {
-        interp_check.checked = PQSettings.interpolationDisableForSmallImages
-        interp_thr.value = PQSettings.interpolationThreshold
+        interp_check.checked = PQSettings.imageviewInterpolationDisableForSmallImages
+        interp_thr.value = PQSettings.imageviewInterpolationThreshold
     }
 
 }

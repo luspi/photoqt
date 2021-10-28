@@ -48,7 +48,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.metaApplyRotation = meta_rot.checked
+            PQSettings.metadataAutoRotation = meta_rot.checked
         }
 
     }
@@ -58,7 +58,7 @@ PQSetting {
     }
 
     function load() {
-        meta_rot.checked = PQSettings.metaApplyRotation
+        meta_rot.checked = PQSettings.metadataAutoRotation
     }
 
 }

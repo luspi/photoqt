@@ -327,3 +327,9 @@ void PQHandlingGeneral::storeQmlWindowMemoryAddress(QString objName) {
     inst->qmlWindowAddresses.push_back(inst->qmlEngine->rootObjects().at(0)->findChild<QObject*>(objName));
 
 }
+
+void PQHandlingGeneral::setDefaultSettings(bool ignoreLanguage) {
+
+    PQSettings::get().setDefault(ignoreLanguage);
+
+}

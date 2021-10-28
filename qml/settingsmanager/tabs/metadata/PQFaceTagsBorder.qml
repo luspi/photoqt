@@ -32,7 +32,7 @@ PQSetting {
     title: em.pty+qsTranslate("settingsmanager_metadata", "face tags - border")
     helptext: em.pty+qsTranslate("settingsmanager_metadata", "If and what style of border to show around tagged faces.")
     expertmodeonly: true
-    property var rgba: handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
+    property var rgba: handlingGeneral.convertHexToRgba(PQSettings.metadataFaceTagsBorderColor)
     content: [
 
         Column {
@@ -124,9 +124,9 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.peopleTagInMetaBorderAroundFace = ft_border.checked
-            PQSettings.peopleTagInMetaBorderAroundFaceWidth = ft_border_w.value
-            PQSettings.peopleTagInMetaBorderAroundFaceColor = handlingGeneral.convertRgbaToHex(rgba)
+            PQSettings.metadataFaceTagsBorder = ft_border.checked
+            PQSettings.metadataFaceTagsBorderWidth = ft_border_w.value
+            PQSettings.metadataFaceTagsBorderColor = handlingGeneral.convertRgbaToHex(rgba)
         }
 
     }
@@ -136,9 +136,9 @@ PQSetting {
     }
 
     function load() {
-        ft_border.checked = PQSettings.peopleTagInMetaBorderAroundFace
-        ft_border_w.value = PQSettings.peopleTagInMetaBorderAroundFaceWidth
-        rgba = handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
+        ft_border.checked = PQSettings.metadataFaceTagsBorder
+        ft_border_w.value = PQSettings.metadataFaceTagsBorderWidth
+        rgba = handlingGeneral.convertHexToRgba(PQSettings.metadataFaceTagsBorderColor)
     }
 
 }

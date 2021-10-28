@@ -43,11 +43,11 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            navcheck.checked = PQSettings.quickNavigation
+            navcheck.checked = PQSettings.interfaceQuickNavigation
         }
 
         onSaveAllSettings: {
-            PQSettings.quickNavigation = navcheck.checked
+            PQSettings.interfaceQuickNavigation = navcheck.checked
             if(navcheck.checked)
                 loader.ensureItIsReady("quicknavigation")
         }

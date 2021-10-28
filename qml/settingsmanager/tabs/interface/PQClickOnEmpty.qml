@@ -63,13 +63,13 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            closecheck.checked = PQSettings.closeOnEmptyBackground
-            navcheck.checked = PQSettings.navigateOnEmptyBackground
+            closecheck.checked = PQSettings.interfaceCloseOnEmptyBackground
+            navcheck.checked = PQSettings.interfaceNavigateOnEmptyBackground
         }
 
         onSaveAllSettings: {
-            PQSettings.closeOnEmptyBackground = closecheck.checked
-            PQSettings.navigateOnEmptyBackground = navcheck.checked
+            PQSettings.interfaceCloseOnEmptyBackground = closecheck.checked
+            PQSettings.interfaceNavigateOnEmptyBackground = navcheck.checked
         }
 
     }

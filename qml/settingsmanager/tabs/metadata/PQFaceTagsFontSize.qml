@@ -71,7 +71,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.peopleTagInMetaFontSize = ft_fs.value
+            PQSettings.metadataFaceTagsFontSize = ft_fs.value
         }
 
     }
@@ -81,7 +81,7 @@ PQSetting {
     }
 
     function load() {
-        ft_fs.value = PQSettings.peopleTagInMetaFontSize
+        ft_fs.value = PQSettings.metadataFaceTagsFontSize
     }
 
 }

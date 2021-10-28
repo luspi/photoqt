@@ -70,7 +70,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.pixmapCache = pixcache.value
+            PQSettings.imageviewCache = pixcache.value
         }
 
     }
@@ -80,7 +80,7 @@ PQSetting {
     }
 
     function load() {
-        pixcache.value = PQSettings.pixmapCache
+        pixcache.value = PQSettings.imageviewCache
     }
 
 }

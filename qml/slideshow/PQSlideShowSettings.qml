@@ -37,8 +37,8 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.slideShowSettingsPopoutElement ? 1 : 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.slideShowSettingsPopoutElement ? 0 : PQSettings.animationDuration*100 } }
+    opacity: PQSettings.interfacePopoutSlideShowSettings ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutSlideShowSettings ? 0 : PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
 
@@ -50,7 +50,7 @@ Item {
 
     ShaderEffectSource {
         id: effectSource
-        sourceItem: PQSettings.slideShowSettingsPopoutElement ? dummyitem : imageitem
+        sourceItem: PQSettings.interfacePopoutSlideShowSettings ? dummyitem : imageitem
         anchors.fill: parent
         sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
     }
@@ -70,7 +70,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            enabled: !PQSettings.slideShowSettingsPopoutElement
+            enabled: !PQSettings.interfacePopoutSlideShowSettings
             onClicked:
                 button_cancel.clicked()
         }
@@ -457,16 +457,16 @@ Item {
                 text: em.pty+qsTranslate("slideshow", "Start slideshow")
                 onClicked: {
 
-                    PQSettings.slideShowTime = interval_slider.value
-                    PQSettings.slideShowTypeAnimation = (animtype_combo.currentIndex==0 ? "opacity" : (animtype_combo.currentIndex==1 ? "x" : "y"))
-                    PQSettings.slideShowImageTransition = transition_slider.value
-                    PQSettings.slideShowLoop = loop_check.checked
-                    PQSettings.slideShowShuffle = shuffle_check.checked
-                    PQSettings.slideShowHideLabels = quick_check.checked
-                    PQSettings.slideShowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
-                    PQSettings.slideShowIncludeSubFolders = subfolders_check.checked
+                    PQSettings.slideshowTime = interval_slider.value
+                    PQSettings.slideshowTypeAnimation = (animtype_combo.currentIndex==0 ? "opacity" : (animtype_combo.currentIndex==1 ? "x" : "y"))
+                    PQSettings.slideshowImageTransition = transition_slider.value
+                    PQSettings.slideshowLoop = loop_check.checked
+                    PQSettings.slideshowShuffle = shuffle_check.checked
+                    PQSettings.slideshowHideLabels = quick_check.checked
+                    PQSettings.slideshowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
+                    PQSettings.slideshowIncludeSubFolders = subfolders_check.checked
 
-                    if(PQSettings.slideShowSettingsPopoutElement) {
+                    if(PQSettings.interfacePopoutSlideShowSettings) {
                         slideshow_window.visible = false
                     } else {
                         slideshowsettings_top.opacity = 0
@@ -481,7 +481,7 @@ Item {
                 y: 5
                 text: genericStringCancel
                 onClicked: {
-                    if(PQSettings.slideShowSettingsPopoutElement) {
+                    if(PQSettings.interfacePopoutSlideShowSettings) {
                         slideshow_window.visible = false
                     } else {
                         slideshowsettings_top.opacity = 0
@@ -505,16 +505,16 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.aboutPopoutElement ?
+                tooltip: PQSettings.interfacePopoutSlideShowSettings ?
                              //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                              em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                              //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                              em.pty+qsTranslate("popinpopout", "Move to its own window")
                 onClicked: {
-                    if(PQSettings.slideShowSettingsPopoutElement)
+                    if(PQSettings.interfacePopoutSlideShowSettings)
                         slideshow_window.storeGeometry()
                     button_cancel.clicked()
-                    PQSettings.slideShowSettingsPopoutElement = (PQSettings.slideShowSettingsPopoutElement+1)%2
+                    PQSettings.interfacePopoutSlideShowSettings = !PQSettings.interfacePopoutSlideShowSettings
                     HandleShortcuts.executeInternalFunction("__slideshow")
                 }
             }
@@ -524,7 +524,7 @@ Item {
             target: loader
             onSlideshowPassOn: {
                 if(what == "show") {
-                    if(PQSettings.slideShowSettingsPopoutElement) {
+                    if(PQSettings.interfacePopoutSlideShowSettings) {
                         slideshow_window.visible = true
                     } else {
                         if(filefoldermodel.current == -1)
@@ -533,15 +533,15 @@ Item {
                         variables.visibleItem = "slideshowsettings"
                     }
 
-                    interval_slider.value = PQSettings.slideShowTime
-                    animtype_combo.currentIndex = (PQSettings.slideShowTypeAnimation=="opacity" ? 0 : (PQSettings.slideShowTypeAnimation=="x" ? 1 : 2))
-                    transition_slider.value = PQSettings.slideShowImageTransition
-                    loop_check.checked = PQSettings.slideShowLoop
-                    shuffle_check.checked = PQSettings.slideShowShuffle
-                    quick_check.checked = PQSettings.slideShowHideLabels
-                    music_check.checked = (PQSettings.slideShowMusicFile!="")
-                    music_button.musicfile = PQSettings.slideShowMusicFile
-                    subfolders_check.checked = PQSettings.slideShowIncludeSubFolders
+                    interval_slider.value = PQSettings.slideshowTime
+                    animtype_combo.currentIndex = (PQSettings.slideshowTypeAnimation=="opacity" ? 0 : (PQSettings.slideshowTypeAnimation=="x" ? 1 : 2))
+                    transition_slider.value = PQSettings.slideshowImageTransition
+                    loop_check.checked = PQSettings.slideshowLoop
+                    shuffle_check.checked = PQSettings.slideshowShuffle
+                    quick_check.checked = PQSettings.slideshowHideLabels
+                    music_check.checked = (PQSettings.slideshowMusicFile!="")
+                    music_button.musicfile = PQSettings.slideshowMusicFile
+                    subfolders_check.checked = PQSettings.slideshowIncludeSubFolders
 
                 } else if(what == "hide") {
                     button_cancel.clicked()

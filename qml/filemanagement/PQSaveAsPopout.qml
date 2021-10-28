@@ -53,14 +53,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.fileSaveAsPopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutFileSaveAs&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onFileSaveAsPopoutElementChanged: {
-            if(!PQSettings.fileSaveAsPopoutElement)
-                saveas_window.visible = Qt.binding(function() { return PQSettings.fileSaveAsPopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutFileSaveAsChanged: {
+            if(!PQSettings.interfacePopoutFileSaveAs)
+                saveas_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutFileSaveAs&&curloader.item.opacity==1; })
         }
     }
 

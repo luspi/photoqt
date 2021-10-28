@@ -145,9 +145,9 @@ PQSetting {
 
         onSaveAllSettings: {
 
-            PQSettings.excludeCacheNextcloud = (nxtcld.checked ? nxtcld.folder : "")
-            PQSettings.excludeCacheOwnCloud = (owncld.checked ? owncld.folder : "")
-            PQSettings.excludeCacheDropBox = (drpbx.checked ? drpbx.folder : "")
+            PQSettings.thumbnailsExcludeNextcloud = (nxtcld.checked ? nxtcld.folder : "")
+            PQSettings.thumbnailsExcludeOwnCloud = (owncld.checked ? owncld.folder : "")
+            PQSettings.thumbnailsExcludeDropBox = (drpbx.checked ? drpbx.folder : "")
 
             // split by linebreak and remove empty entries
             var parts = curexl.text.split("\n").filter(function(el) { return el.length != 0});
@@ -157,7 +157,7 @@ PQSetting {
                 if(parts[p].endsWith("/"))
                     parts[p] = parts[p].slice(0,parts[p].length-1)
             }
-            PQSettings.excludeCacheFolders = parts
+            PQSettings.thumbnailsExcludeFolders = parts
         }
 
     }
@@ -172,31 +172,31 @@ PQSetting {
 
     function load() {
 
-        if(PQSettings.excludeCacheNextcloud != "") {
-            nxtcld.folder = PQSettings.excludeCacheNextcloud
+        if(PQSettings.thumbnailsExcludeNextcloud != "") {
+            nxtcld.folder = PQSettings.thumbnailsExcludeNextcloud
             nxtcld.checked = true
         } else {
             nxtcld.folder = handlingExternal.findNextcloudFolder()
             nxtcld.checked = false
         }
 
-        if(PQSettings.excludeCacheOwnCloud != "") {
-            owncld.folder = PQSettings.excludeCacheOwnCloud
+        if(PQSettings.thumbnailsExcludeOwnCloud != "") {
+            owncld.folder = PQSettings.thumbnailsExcludeOwnCloud
             owncld.checked = true
         } else {
             owncld.folder = handlingExternal.findOwnCloudFolder()
             owncld.checked = false
         }
 
-        if(PQSettings.excludeCacheDropBox != "") {
-            drpbx.folder = PQSettings.excludeCacheDropBox
+        if(PQSettings.thumbnailsExcludeDropBox != "") {
+            drpbx.folder = PQSettings.thumbnailsExcludeDropBox
             drpbx.checked = true
         } else {
             drpbx.folder = handlingExternal.findDropBoxFolder()
             drpbx.checked = false
         }
 
-        curexl.text = PQSettings.excludeCacheFolders.join("\n")
+        curexl.text = PQSettings.thumbnailsExcludeFolders.join("\n")
         if(!curexl.text.endsWith("\n") && curexl.text.length > 0)
             curexl.text += "\n"
         curexl.cursorPosition = curexl.text.length

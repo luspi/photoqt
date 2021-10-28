@@ -29,33 +29,38 @@ Item {
     property int xOffset: (view.contentWidth < (toplevel.width-variables.metaDataWidthWhenKeptOpen) ? ((toplevel.width-variables.metaDataWidthWhenKeptOpen)-view.contentWidth)/2 : 0)
     x: variables.metaDataWidthWhenKeptOpen + xOffset
 
-    y:
-        PQSettings.thumbnailPosition=="Top" ?
+    // ThumbnailsVisibility
+    // 0 = on demand
+    // 1 = always
+    // 2 = except when zoomed
 
-           ((PQSettings.thumbnailKeepVisible ||
-           (variables.mousePos.y < 2*PQSettings.hotEdgeWidth*5 && !visible) ||
+    y:
+        PQSettings.thumbnailsEdge=="Top" ?
+
+           ((PQSettings.thumbnailsVisibility==1 ||
+           (variables.mousePos.y < 2*PQSettings.interfaceHotEdgeSize*5 && !visible) ||
            (variables.mousePos.y < height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
+           (PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1) ||
            forceShow)&&!forceHide ? 0 : -height) :
 
-           ((PQSettings.thumbnailKeepVisible ||
-           (variables.mousePos.y > toplevel.height-2*PQSettings.hotEdgeWidth*5 && !visible) ||
+           ((PQSettings.thumbnailsVisibility==1 ||
+           (variables.mousePos.y > toplevel.height-2*PQSettings.interfaceHotEdgeSize*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1) ||
+           (PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1) ||
            forceShow)&&!forceHide ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
 
     property bool forceShow: false
     property bool forceHide: false
 
-    visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
+    visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailsEdge=="Top" ? (y > -height) : (y < toplevel.height))
 
     width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
-    height: PQSettings.thumbnailSize+PQSettings.thumbnailLiftUp+scroll.height
+    height: PQSettings.thumbnailsSize+PQSettings.thumbnailsLiftUp+scroll.height
 
     clip: true
 
-    Behavior on x { NumberAnimation { duration: justAfterStartup ? 0 : PQSettings.animationDuration*100 } }
-    Behavior on y { NumberAnimation { duration: justAfterStartup ? 0 : PQSettings.animationDuration*100 } }
+    Behavior on x { NumberAnimation { duration: justAfterStartup ? 0 : PQSettings.imageviewAnimationDuration*100 } }
+    Behavior on y { NumberAnimation { duration: justAfterStartup ? 0 : PQSettings.imageviewAnimationDuration*100 } }
 
     property bool justAfterStartup: true
     Timer {
@@ -71,11 +76,11 @@ Item {
 
         anchors.fill: parent
 
-        spacing: PQSettings.thumbnailSpacingBetween
+        spacing: PQSettings.thumbnailsSpacing
 
         orientation: ListView.Horizontal
 
-        model: PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView
+        model: PQSettings.thumbnailsDisable ? 0 : filefoldermodel.countMainView
 
         property bool excludeCurrentDirectory: false
 
@@ -85,20 +90,20 @@ Item {
 
         highlightFollowsCurrentItem: true
         highlightMoveDuration: 0
-        preferredHighlightBegin: currentItem==null ? 0 : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2 : PQSettings.thumbnailSize/2)
-        preferredHighlightEnd: currentItem==null ? width : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2+currentItem.width : (width-PQSettings.thumbnailSize/2))
+        preferredHighlightBegin: currentItem==null ? 0 : (PQSettings.thumbnailsCenterOnActive ? (view.width-currentItem.width)/2 : PQSettings.thumbnailsSize/2)
+        preferredHighlightEnd: currentItem==null ? width : (PQSettings.thumbnailsCenterOnActive ? (view.width-currentItem.width)/2+currentItem.width : (width-PQSettings.thumbnailsSize/2))
         highlightRangeMode: ListView.ApplyRange
 
-        Behavior on contentItem.x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+        Behavior on contentItem.x { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
         delegate: Rectangle {
 
             x: 0
-            y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailLiftUp
-            Behavior on y { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+            y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailsLiftUp
+            Behavior on y { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-            width: PQSettings.thumbnailSize
-            height: PQSettings.thumbnailSize
+            width: PQSettings.thumbnailsSize
+            height: PQSettings.thumbnailsSize
 
             color: "#88000000"
 
@@ -107,11 +112,11 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
 
-                visible: PQSettings.thumbnailFilenameInstead
+                visible: PQSettings.thumbnailsFilenameOnly
                 color: "white"
 
                 text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index])
-                font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
+                font.pointSize: PQSettings.thumbnailsFilenameOnlyFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
 
@@ -122,12 +127,12 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: view.excludeCurrentDirectory ? ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index])) : ((PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
+                source: view.excludeCurrentDirectory ? ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index])) : ((PQSettings.thumbnailsFilenameOnly||PQSettings.thumbnailsDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
 
-                visible: !PQSettings.thumbnailFilenameInstead
+                visible: !PQSettings.thumbnailsFilenameOnly
 
                 Rectangle {
-                    visible: PQSettings.thumbnailWriteFilename
+                    visible: PQSettings.thumbnailsFilename
                     color: "#88000000"
                     width: parent.width
                     height: parent.height/3
@@ -139,7 +144,7 @@ Item {
                         anchors.rightMargin: 2
                         color: "white"
                         elide: Text.ElideMiddle
-                        font.pointSize: PQSettings.thumbnailFontSize
+                        font.pointSize: PQSettings.thumbnailsFontSize
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
@@ -198,7 +203,7 @@ Item {
             if(filefoldermodel.countMainView == 0)
                 return
             view.excludeCurrentDirectory = handlingFileDir.isExcludeDirFromCaching(handlingFileDir.getFilePathFromFullPath(filefoldermodel.fileInFolderMainView))
-            view.model = Qt.binding(function() { return (PQSettings.thumbnailDisable ? 0 : filefoldermodel.countMainView) })
+            view.model = Qt.binding(function() { return (PQSettings.thumbnailsDisable ? 0 : filefoldermodel.countMainView) })
             view.currentIndex = filefoldermodel.current
         }
     }

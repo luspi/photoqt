@@ -47,7 +47,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.loopThroughFolder = loop_check.checked
+            PQSettings.imageviewLoopThroughFolder = loop_check.checked
         }
 
     }
@@ -57,7 +57,7 @@ PQSetting {
     }
 
     function load() {
-        loop_check.checked = PQSettings.loopThroughFolder
+        loop_check.checked = PQSettings.imageviewLoopThroughFolder
     }
 
 }

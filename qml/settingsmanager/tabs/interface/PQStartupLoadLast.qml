@@ -42,11 +42,11 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            start_load_last.checked = PQSettings.startupLoadLastLoadedImage
+            start_load_last.checked = PQSettings.interfaceRememberLastImage
         }
 
         onSaveAllSettings: {
-            PQSettings.startupLoadLastLoadedImage = start_load_last.checked
+            PQSettings.interfaceRememberLastImage = start_load_last.checked
         }
 
     }

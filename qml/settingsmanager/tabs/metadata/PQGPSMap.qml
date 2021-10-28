@@ -48,7 +48,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.metaGpsMapService = gps_combo.currentText
+            PQSettings.metadataGpsMap = gps_combo.currentText
         }
 
     }
@@ -59,7 +59,7 @@ PQSetting {
 
     function load() {
         for(var i = 0; i < gps_combo.count; ++i)
-            if(gps_combo.model[i] == PQSettings.metaGpsMapService)
+            if(gps_combo.model[i] == PQSettings.metadataGpsMap)
                 gps_combo.currentIndex = i
     }
 

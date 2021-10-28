@@ -29,8 +29,8 @@ Rectangle {
 
     id: metadata_top
 
-    color: Qt.rgba(0, 0, 0, PQSettings.metadataOpacity/256)
-    Behavior on color { ColorAnimation { duration: PQSettings.animationDuration*100 } }
+    color: Qt.rgba(0, 0, 0, PQSettings.metadataElementOpacity/256)
+    Behavior on color { ColorAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
     border.color: "#55bbbbbb"
     border.width: 1
@@ -38,31 +38,31 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    width: (PQSettings.metadataPopoutElement ? parentWidth : PQSettings.metadataWindowWidth)
+    width: (PQSettings.interfacePopoutMetadata ? parentWidth : PQSettings.metadataElementWidth)
     height: parentHeight+2
     x: -1
     y: -1
 
     opacity: 0
     visible: opacity!=0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.metadataPopoutElement ? 0 : PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMetadata ? 0 : PQSettings.imageviewAnimationDuration*100 } }
 
     property bool resizePressed: false
 
     Connections {
         target: variables
         onMousePosChanged: {
-            if(PQSettings.metadataPopoutElement || (keepopen.checked && metadata_top.visible))
+            if(PQSettings.interfacePopoutMetadata || (keepopen.checked && metadata_top.visible))
                 return
             if(metadata_top.visible && !resizePressed && variables.mousePos.x > width+5)
                 metadata_top.opacity = 0
-            else if(!metadata_top.visible && variables.mousePos.x < (2*PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
+            else if(!metadata_top.visible && variables.mousePos.x < (2*PQSettings.interfaceHotEdgeSize+5) && PQSettings.metadataElementHotEdge && !variables.faceTaggingActive)
                 metadata_top.opacity = 1
         }
     }
 
     Component.onCompleted: {
-        if(PQSettings.metadataPopoutElement)
+        if(PQSettings.interfacePopoutMetadata)
                 metadata_top.opacity = 1
     }
 
@@ -84,7 +84,7 @@ Rectangle {
 
             cursorShape: Qt.SizeHorCursor
 
-            enabled: !PQSettings.metadataPopoutElement
+            enabled: !PQSettings.interfacePopoutMetadata
 
             tooltip: em.pty+qsTranslate("metadata", "Click and drag to resize meta data")
 
@@ -97,7 +97,7 @@ Rectangle {
 
             onReleased: {
                 metadata_top.resizePressed = false
-                PQSettings.metadataWindowWidth = metadata_top.width
+                PQSettings.metadataElementWidth = metadata_top.width
             }
 
             onPositionChanged: {
@@ -114,48 +114,48 @@ Rectangle {
 
     property var allMetaData: [
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File name"), handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath), PQSettings.metaFilename,
+        em.pty+qsTranslate("metadata", "File name"), handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath), PQSettings.metadataFilename,
         //: The dimensions of the loaded image. Please keep string short!
-        em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
+        em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metadataDimensions,
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
-        em.pty+qsTranslate("metadata", "Image #/#"), ((filefoldermodel.current+1)+"/"+filefoldermodel.countMainView), PQSettings.metaImageNumber,
+        em.pty+qsTranslate("metadata", "Image #/#"), ((filefoldermodel.current+1)+"/"+filefoldermodel.countMainView), PQSettings.metadataImageNumber,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
+        em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metadataFileSize,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File type"), (filefoldermodel.current==-1 ? "" : handlingFileDir.getFileType(filefoldermodel.entriesMainView[filefoldermodel.current])), PQSettings.metaFileType,
+        em.pty+qsTranslate("metadata", "File type"), (filefoldermodel.current==-1 ? "" : handlingFileDir.getFileType(filefoldermodel.entriesMainView[filefoldermodel.current])), PQSettings.metadataFileType,
         "", "", true,
         //: Exif image metadata: the make of the camera used to take the photo. Please keep string short!
-        em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,
+        em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metadataMake,
         //: Exif image metadata: the model of the camera used to take the photo. Please keep string short!
-        em.pty+qsTranslate("metadata", "Model"), cppmetadata.exifImageModel, PQSettings.metaModel,
+        em.pty+qsTranslate("metadata", "Model"), cppmetadata.exifImageModel, PQSettings.metadataModel,
         //: Exif image metadata: the software used to create the photo. Please keep string short!
-        em.pty+qsTranslate("metadata", "Software"), cppmetadata.exifImageSoftware, PQSettings.metaSoftware,
+        em.pty+qsTranslate("metadata", "Software"), cppmetadata.exifImageSoftware, PQSettings.metadataSoftware,
         "", "", true,
         //: Exif image metadata: when the photo was taken. Please keep string short!
-        em.pty+qsTranslate("metadata", "Time Photo was Taken"), cppmetadata.exifPhotoDateTimeOriginal, PQSettings.metaTimePhotoTaken,
+        em.pty+qsTranslate("metadata", "Time Photo was Taken"), cppmetadata.exifPhotoDateTimeOriginal, PQSettings.metadataTime,
         //: Exif image metadata: how long the sensor was exposed to the light. Please keep string short!
-        em.pty+qsTranslate("metadata", "Exposure Time"), cppmetadata.exifPhotoExposureTime, PQSettings.metaExposureTime,
+        em.pty+qsTranslate("metadata", "Exposure Time"), cppmetadata.exifPhotoExposureTime, PQSettings.metadataExposureTime,
         //: Exif image metadata: the flash setting when the photo was taken. Please keep string short!
-        em.pty+qsTranslate("metadata", "Flash"), cppmetadata.exifPhotoFlash, PQSettings.metaFlash,
-        "ISO", cppmetadata.exifPhotoISOSpeedRatings, PQSettings.metaIso,
+        em.pty+qsTranslate("metadata", "Flash"), cppmetadata.exifPhotoFlash, PQSettings.metadataFlash,
+        "ISO", cppmetadata.exifPhotoISOSpeedRatings, PQSettings.metadataIso,
         //: Exif image metadata: the specific scene type the camera used for the photo. Please keep string short!
-        em.pty+qsTranslate("metadata", "Scene Type"), cppmetadata.exifPhotoSceneCaptureType, PQSettings.metaSceneType,
+        em.pty+qsTranslate("metadata", "Scene Type"), cppmetadata.exifPhotoSceneCaptureType, PQSettings.metadataSceneType,
         //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Please keep string short!
-        em.pty+qsTranslate("metadata", "Focal Length"), cppmetadata.exifPhotoFocalLength, PQSettings.metaFLength,
+        em.pty+qsTranslate("metadata", "Focal Length"), cppmetadata.exifPhotoFocalLength, PQSettings.metadataFLength,
         //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Please keep string short!
-        em.pty+qsTranslate("metadata", "F Number"), cppmetadata.exifPhotoFNumber, PQSettings.metaFNumber,
+        em.pty+qsTranslate("metadata", "F Number"), cppmetadata.exifPhotoFNumber, PQSettings.metadataFNumber,
         //: Exif image metadata: What type of light the camera detected. Please keep string short!
-        em.pty+qsTranslate("metadata", "Light Source"), cppmetadata.exifPhotoLightSource, PQSettings.metaLightSource,
+        em.pty+qsTranslate("metadata", "Light Source"), cppmetadata.exifPhotoLightSource, PQSettings.metadataLightSource,
         "","", true,
         //: IPTC image metadata: A description of the image by the user/software. Please keep string short!
-        em.pty+qsTranslate("metadata", "Keywords"), cppmetadata.iptcApplication2Keywords, PQSettings.metaKeywords,
+        em.pty+qsTranslate("metadata", "Keywords"), cppmetadata.iptcApplication2Keywords, PQSettings.metadataKeywords,
         //: IPTC image metadata: The CITY and COUNTRY the imge was taken in. Please keep string short!
-        em.pty+qsTranslate("metadata", "Location"), cppmetadata.iptcLocation, PQSettings.metaLocation,
+        em.pty+qsTranslate("metadata", "Location"), cppmetadata.iptcLocation, PQSettings.metadataLocation,
         //: IPTC image metadata. Please keep string short!
-        em.pty+qsTranslate("metadata", "Copyright"), cppmetadata.iptcApplication2Copyright, PQSettings.metaCopyright,
+        em.pty+qsTranslate("metadata", "Copyright"), cppmetadata.iptcApplication2Copyright, PQSettings.metadataCopyright,
         "","", true,
         //: Exif image metadata. Please keep string short!
-        em.pty+qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metaGps
+        em.pty+qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metadataGps
     ]
 
     // HEADING OF RECTANGLE
@@ -269,9 +269,9 @@ Rectangle {
                 onClicked: {
                     if(index == allMetaData.length/3 -1) {
 
-                        if(PQSettings.metaGpsMapService == "bing.com/maps")
+                        if(PQSettings.metadataGpsMap == "bing.com/maps")
                             Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + allMetaData[3*index+1] + "&obox=1")
-                        else if(PQSettings.metaGpsMapService == "maps.google.com")
+                        else if(PQSettings.metadataGpsMap == "maps.google.com")
                             Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + allMetaData[3*index+1])
                         else {
 
@@ -307,7 +307,7 @@ Rectangle {
             bottomMargin: 5
         }
 
-        height: PQSettings.metadataPopoutElement ? 0 : 1
+        height: PQSettings.interfacePopoutMetadata ? 0 : 1
         color: "#cccccc"
     }
 
@@ -315,7 +315,7 @@ Rectangle {
 
         id: keepopen
 
-        visible: !PQSettings.metadataPopoutElement
+        visible: !PQSettings.interfacePopoutMetadata
 
         anchors {
             right: parent.right
@@ -328,7 +328,7 @@ Rectangle {
             variables.metaDataWidthWhenKeptOpen = (checked ? metadata_top.width : 0)
 
         //: Used as in: Keep the metadata element open even if the cursor leaves it
-        text: PQSettings.metadataPopoutElement ? "" : (em.pty+qsTranslate("metadata", "Keep Open"))
+        text: PQSettings.interfacePopoutMetadata ? "" : (em.pty+qsTranslate("metadata", "Keep Open"))
 
     }
 
@@ -345,18 +345,18 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.aboutPopoutElement ?
+            tooltip: PQSettings.interfacePopoutAbout ?
                          //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(PQSettings.metadataPopoutElement==0) {
+                if(PQSettings.interfacePopoutMetadata==0) {
                     keepopen.checked = false
                     variables.metaDataWidthWhenKeptOpen = 0
                 } else
                     metadata_window.storeGeometry()
-                PQSettings.metadataPopoutElement = (PQSettings.metadataPopoutElement+1)%2
+                PQSettings.interfacePopoutMetadata = !PQSettings.interfacePopoutMetadata
             }
         }
     }
@@ -374,7 +374,7 @@ Rectangle {
     }
 
     function toggle() {
-        if(PQSettings.metadataPopoutElement) return
+        if(PQSettings.interfacePopoutMetadata) return
         keepopen.checked = false
         if(metadata_top.opacity == 1)
             metadata_top.opacity = 0
@@ -383,7 +383,7 @@ Rectangle {
     }
 
     function toggleKeepOpen() {
-        if(PQSettings.metadataPopoutElement) return
+        if(PQSettings.interfacePopoutMetadata) return
         keepopen.checked = !keepopen.checked
         if(metadata_top.opacity == 1 && !keepopen.checked)
             metadata_top.opacity = 0

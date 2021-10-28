@@ -28,14 +28,14 @@ Rectangle {
     id: nav_top
 
     x: variables.metaDataWidthWhenKeptOpen + 100
-    y: PQSettings.thumbnailPosition=="Bottom" ? 100 : parent.height-height-100
+    y: PQSettings.thumbnailsEdge=="Bottom" ? 100 : parent.height-height-100
 
     Behavior on x { NumberAnimation { duration: 200 } }
 
     width: row.width
     height: row.height
 
-    opacity: PQSettings.quickNavigation ? 1 : 0
+    opacity: PQSettings.interfaceQuickNavigation ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 

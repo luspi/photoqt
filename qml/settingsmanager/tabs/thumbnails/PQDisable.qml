@@ -46,7 +46,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailDisable = thb_disable.checked
+            PQSettings.thumbnailsDisable = thb_disable.checked
         }
 
     }
@@ -56,7 +56,7 @@ PQSetting {
     }
 
     function load() {
-        thb_disable.checked = PQSettings.thumbnailDisable
+        thb_disable.checked = PQSettings.thumbnailsDisable
     }
 
 }

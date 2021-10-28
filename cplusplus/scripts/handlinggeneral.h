@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE void setOverrideCursor(bool enabled);
     Q_INVOKABLE void storeQmlWindowMemoryAddress(QString objName);
+    Q_INVOKABLE void setDefaultSettings(bool ignoreLanguage = false);
 
 
 private:

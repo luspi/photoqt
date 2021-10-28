@@ -35,10 +35,10 @@ Item {
     // these are always visible on top of everything, according to the conditions below
     z: 999
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideLabels) && !PQSettings.labelsHideWindowButtons && opacity==1
+    visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) && !PQSettings.interfaceLabelsHideWindowButtons && opacity==1
 
     opacity: variables.visibleItem=="filedialog" ? 0 : 1
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
     // clicks between buttons has no effect anywhere
     PQMouseArea {
@@ -53,24 +53,24 @@ Item {
         spacing: 10
 
         Image {
-            width: 3*PQSettings.labelsWindowButtonsSize
-            height: 3*PQSettings.labelsWindowButtonsSize
-            source: PQSettings.windowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+            width: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            height: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
 
             opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.2
-            Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
             PQMouseArea {
                 id: fullscreen_mouse
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: (PQSettings.windowMode ? em.pty+qsTranslate("quickinfo", "Click here to enter fullscreen mode")
+                tooltip: (PQSettings.interfaceWindowMode ? em.pty+qsTranslate("quickinfo", "Click here to enter fullscreen mode")
                                                 : em.pty+qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
                 onClicked: {
                     if(mouse.button == Qt.LeftButton)
-                        PQSettings.windowMode = !PQSettings.windowMode
+                        PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
                     else {
                         var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
                         rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
@@ -80,11 +80,11 @@ Item {
         }
 
         Image {
-            width: 3*PQSettings.labelsWindowButtonsSize
-            height: 3*PQSettings.labelsWindowButtonsSize
+            width: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/close.png"
 
-            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.windowDecoration)
+            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration)
 
             PQMouseArea {
                 anchors.fill: parent
@@ -112,34 +112,34 @@ Item {
 
         id: rightclickmenu
 
-        model: [(PQSettings.labelsHideCounter ?
+        model: [(PQSettings.interfaceLabelsHideCounter ?
                      em.pty+qsTranslate("quickinfo", "Show counter") :
                      em.pty+qsTranslate("quickinfo", "Hide counter")),
-            (PQSettings.labelsHideFilepath ?
+            (PQSettings.interfaceLabelsHideFilepath ?
                  em.pty+qsTranslate("quickinfo", "Show file path") :
                  em.pty+qsTranslate("quickinfo", "Hide file path")),
-            (PQSettings.labelsHideFilename ?
+            (PQSettings.interfaceLabelsHideFilename ?
                  em.pty+qsTranslate("quickinfo", "Show file name") :
                  em.pty+qsTranslate("quickinfo", "Hide file name")),
-            (PQSettings.labelsHideZoomLevel ?
+            (PQSettings.interfaceLabelsHideZoomLevel ?
                  em.pty+qsTranslate("quickinfo", "Show zoom level") :
                  em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-            (PQSettings.labelsHideWindowButtons ?
+            (PQSettings.interfaceLabelsHideWindowButtons ?
                  em.pty+qsTranslate("quickinfo", "Show window buttons") :
                  em.pty+qsTranslate("quickinfo", "Hide window buttons"))
         ]
 
         onTriggered: {
             if(index == 0)
-                PQSettings.labelsHideCounter = !PQSettings.labelsHideCounter
+                PQSettings.interfaceLabelsHideCounter = !PQSettings.interfaceLabelsHideCounter
             else if(index == 1)
-                PQSettings.labelsHideFilepath = !PQSettings.labelsHideFilepath
+                PQSettings.interfaceLabelsHideFilepath = !PQSettings.interfaceLabelsHideFilepath
             else if(index == 2)
-                PQSettings.labelsHideFilename = !PQSettings.labelsHideFilename
+                PQSettings.interfaceLabelsHideFilename = !PQSettings.interfaceLabelsHideFilename
              else if(index == 3)
-                PQSettings.labelsHideZoomLevel = !PQSettings.labelsHideZoomLevel
+                PQSettings.interfaceLabelsHideZoomLevel = !PQSettings.interfaceLabelsHideZoomLevel
             else if(index == 4)
-                PQSettings.labelsHideWindowButtons = !PQSettings.labelsHideWindowButtons
+                PQSettings.interfaceLabelsHideWindowButtons = !PQSettings.interfaceLabelsHideWindowButtons
         }
 
     }

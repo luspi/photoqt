@@ -32,7 +32,7 @@ PQSetting {
     title: em.pty+qsTranslate("settingsmanager_interface", "overlay color")
     helptext: em.pty+qsTranslate("settingsmanager_interface", "This is the color that is shown on top of any background image/...")
     expertmodeonly: true
-    property var rgba: [PQSettings.backgroundColorRed, PQSettings.backgroundColorGreen, PQSettings.backgroundColorBlue, PQSettings.backgroundColorAlpha]
+    property var rgba: [PQSettings.interfaceOverlayColorRed, PQSettings.interfaceOverlayColorGreen, PQSettings.interfaceOverlayColorBlue, PQSettings.interfaceOverlayColorAlpha]
     content: [
 
         Rectangle {
@@ -85,13 +85,13 @@ PQSetting {
         }
 
         onLoadAllSettings:
-            rgba = [PQSettings.backgroundColorRed, PQSettings.backgroundColorGreen, PQSettings.backgroundColorBlue, PQSettings.backgroundColorAlpha]
+            rgba = [PQSettings.interfaceOverlayColorRed, PQSettings.interfaceOverlayColorGreen, PQSettings.interfaceOverlayColorBlue, PQSettings.interfaceOverlayColorAlpha]
 
         onSaveAllSettings: {
-            PQSettings.backgroundColorRed = rgba[0]
-            PQSettings.backgroundColorGreen = rgba[1]
-            PQSettings.backgroundColorBlue = rgba[2]
-            PQSettings.backgroundColorAlpha = rgba[3]
+            PQSettings.interfaceOverlayColorRed = rgba[0]
+            PQSettings.interfaceOverlayColorGreen = rgba[1]
+            PQSettings.interfaceOverlayColorBlue = rgba[2]
+            PQSettings.interfaceOverlayColorAlpha = rgba[3]
         }
 
     }

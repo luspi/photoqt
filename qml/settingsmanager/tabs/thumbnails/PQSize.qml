@@ -68,7 +68,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailSize = size_slider.value
+            PQSettings.thumbnailsSize = size_slider.value
         }
 
     }
@@ -78,7 +78,7 @@ PQSetting {
     }
 
     function load() {
-        size_slider.value = PQSettings.thumbnailSize
+        size_slider.value = PQSettings.thumbnailsSize
     }
 
 }

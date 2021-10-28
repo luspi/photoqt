@@ -92,8 +92,8 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailWriteFilename = fnamelabel_chk.checked
-            PQSettings.thumbnailFontSize = fnamelabel_fsize.value
+            PQSettings.thumbnailsFilename = fnamelabel_chk.checked
+            PQSettings.thumbnailsFontSize = fnamelabel_fsize.value
         }
 
     }
@@ -103,8 +103,8 @@ PQSetting {
     }
 
     function load() {
-        fnamelabel_chk.checked = PQSettings.thumbnailWriteFilename
-        fnamelabel_fsize.value = PQSettings.thumbnailFontSize
+        fnamelabel_chk.checked = PQSettings.thumbnailsFilename
+        fnamelabel_fsize.value = PQSettings.thumbnailsFontSize
     }
 
 }

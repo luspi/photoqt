@@ -30,16 +30,21 @@ Item {
     id: container
 
     anchors.fill: parent
-    anchors.leftMargin: PQSettings.marginAroundImage+ variables.metaDataWidthWhenKeptOpen
-    Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    anchors.leftMargin: PQSettings.imageviewMargin+ variables.metaDataWidthWhenKeptOpen
+    Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-    anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive & !variables.faceTaggingActive) ? PQSettings.marginAroundImage+thumbnails.height : PQSettings.marginAroundImage
-    Behavior on anchors.bottomMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    // ThumbnailsVisibility
+    // 0 = on demand
+    // 1 = always
+    // 2 = except when zoomed
 
-    anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive && !variables.faceTaggingActive) ? PQSettings.marginAroundImage+thumbnails.height : PQSettings.marginAroundImage
-    Behavior on anchors.topMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    anchors.bottomMargin: ((PQSettings.thumbnailsVisibility==1 || PQSettings.thumbnailsVisibility==2) && PQSettings.thumbnailsEdge!="Top" && !PQSettings.thumbnailsDisable && !variables.slideShowActive & !variables.faceTaggingActive) ? PQSettings.imageviewMargin+thumbnails.height : PQSettings.imageviewMargin
+    Behavior on anchors.bottomMargin { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-    anchors.rightMargin: PQSettings.marginAroundImage
+    anchors.topMargin: ((PQSettings.thumbnailsVisibility==1 || PQSettings.thumbnailsVisibility==2) && PQSettings.thumbnailsEdge=="Top" && !PQSettings.thumbnailsDisable && !variables.slideShowActive && !variables.faceTaggingActive) ? PQSettings.imageviewMargin+thumbnails.height : PQSettings.imageviewMargin
+    Behavior on anchors.topMargin { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+    anchors.rightMargin: PQSettings.imageviewMargin
 
     signal zoomIn(var wheelDelta)
     signal zoomOut(var wheelDelta)
@@ -156,8 +161,8 @@ Item {
             PropertyAnimation {
                 id: hideShowAni
                 target: deleg
-                property: PQSettings.animationType
-                duration: PQSettings.animationDuration*100
+                property: PQSettings.imageviewAnimationType
+                duration: PQSettings.imageviewAnimationDuration*100
                 property bool showing: true
                 property bool continueToDeleteAfterShowing: false
                 alwaysRunToEnd: true
@@ -185,24 +190,24 @@ Item {
 
                     if(showing) {
 
-                        if(PQSettings.animationType == "x") {
+                        if(PQSettings.imageviewAnimationType == "x") {
 
                             if(hideshow == "left") {
                                 from = container.width
-                                to = PQSettings.marginAroundImage
+                                to = PQSettings.imageviewMargin
                             } else {
                                 from = -container.width
-                                to = PQSettings.marginAroundImage
+                                to = PQSettings.imageviewMargin
                             }
 
-                        } else if(PQSettings.animationType == "y") {
+                        } else if(PQSettings.imageviewAnimationType == "y") {
 
                             if(hideshow == "left") {
                                 from = container.height
-                                to = PQSettings.marginAroundImage
+                                to = PQSettings.imageviewMargin
                             } else {
                                 from = -container.height
-                                to = PQSettings.marginAroundImage
+                                to = PQSettings.imageviewMargin
                             }
 
                         // we default to opacity
@@ -213,7 +218,7 @@ Item {
 
                     } else {
 
-                        if(PQSettings.animationType == "x") {
+                        if(PQSettings.imageviewAnimationType == "x") {
 
                             if(hideshow == "left") {
                                 from = deleg.x
@@ -223,7 +228,7 @@ Item {
                                 to = container.width
                             }
 
-                        } else if(PQSettings.animationType == "y") {
+                        } else if(PQSettings.imageviewAnimationType == "y") {
 
                             if(hideshow == "left") {
                                 from = deleg.x
@@ -305,14 +310,14 @@ Item {
     function loadNextImage() {
         if(filefoldermodel.current < filefoldermodel.countMainView-1)
             ++filefoldermodel.current
-        else if(filefoldermodel.current == filefoldermodel.countMainView-1 && PQSettings.loopThroughFolder)
+        else if(filefoldermodel.current == filefoldermodel.countMainView-1 && PQSettings.imageviewLoopThroughFolder)
             filefoldermodel.current = 0
     }
 
     function loadPrevImage() {
         if(filefoldermodel.current > 0)
             --filefoldermodel.current
-        else if(filefoldermodel.current == 0 && PQSettings.loopThroughFolder)
+        else if(filefoldermodel.current == 0 && PQSettings.imageviewLoopThroughFolder)
             filefoldermodel.current = filefoldermodel.countMainView-1
     }
 

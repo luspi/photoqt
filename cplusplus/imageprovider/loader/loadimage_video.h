@@ -42,7 +42,7 @@ public:
 
         errormsg = "";
 
-        if(PQSettings::get().getVideoThumbnailer() == "ffmpegthumbnailer") {
+        if(PQSettings::get()["filetypesVideoThumbnailer"].toString() == "ffmpegthumbnailer") {
 
             // the temp image thumbnail path (incl random int)
             QString tmp_path = QString("%1/photoqt_videothumb_%2.jpg").arg(QDir::tempPath()).arg(rand());
@@ -74,7 +74,7 @@ public:
             // store in return variable
             return thumb.toImage();
 
-        } else if(PQSettings::get().getVideoThumbnailer() == "") {
+        } else if(PQSettings::get()["filetypesVideoThumbnailer"].toString() == "") {
 
             QImage img(":/image/genericvideothumb.png");
             errormsg = "x";
@@ -82,7 +82,7 @@ public:
 
         }
 
-        errormsg = "Unknown video thumbnailer used: " + PQSettings::get().getVideoThumbnailer();
+        errormsg = "Unknown video thumbnailer used: " + PQSettings::get()["filetypesVideoThumbnailer"].toString();
         LOG << CURDATE << "PQLoadImageVideo::load(): " << errormsg.toStdString() << NL;
         return QImage();
 

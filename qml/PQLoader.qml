@@ -51,7 +51,7 @@ Item {
         // This is used to mask features that are not (yet) available on Windows
         if(handlingGeneral.amIOnWindows()) {
             if(ele == "wallpaper") {
-                if(PQSettings.wallpaperPopoutElement)
+                if(PQSettings.interfacePopoutWallpaper)
                     ele = "unavailablepopout"
                 else
                     ele = "unavailable"
@@ -235,114 +235,114 @@ Item {
 
         if(ele == "mainmenu") {
 
-            if(PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenuPopout.qml")
+            if(PQSettings.interfacePopoutMainMenu && mainmenu.source != "menumeta/PQMainMenuPopout.qml")
                 mainmenu.source = "menumeta/PQMainMenuPopout.qml"
 
-             else if(!PQSettings.mainMenuPopoutElement && mainmenu.source != "menumeta/PQMainMenu.qml")
+             else if(!PQSettings.interfacePopoutMainMenu && mainmenu.source != "menumeta/PQMainMenu.qml")
                 mainmenu.source = "menumeta/PQMainMenu.qml"
 
         } else if(ele == "metadata") {
 
-            if(PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaDataPopout.qml")
+            if(PQSettings.interfacePopoutMetadata && metadata.source != "menumeta/PQMetaDataPopout.qml")
                 metadata.source = "menumeta/PQMetaDataPopout.qml"
 
-             else if(!PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaData.qml")
+             else if(!PQSettings.interfacePopoutMetadata && metadata.source != "menumeta/PQMetaData.qml")
                 metadata.source = "menumeta/PQMetaData.qml"
 
         } else if(ele == "filedialog") {
 
-            if(PQSettings.openPopoutElement && filedialog.source != "filedialog/PQFileDialogPopout.qml")
+            if(PQSettings.interfacePopoutOpenFile && filedialog.source != "filedialog/PQFileDialogPopout.qml")
                 filedialog.source = "filedialog/PQFileDialogPopout.qml"
 
-            else if(!PQSettings.openPopoutElement && filedialog.source != "filedialog/PQFileDialog.qml")
+            else if(!PQSettings.interfacePopoutOpenFile && filedialog.source != "filedialog/PQFileDialog.qml")
                 filedialog.source = "filedialog/PQFileDialog.qml"
 
         } else if(ele == "histogram") {
 
-            if(PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogramPopout.qml")
+            if(PQSettings.interfacePopoutHistogram && histogram.source != "histogram/PQHistogramPopout.qml")
                 histogram.source = "histogram/PQHistogramPopout.qml"
 
-            else if(!PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogram.qml")
+            else if(!PQSettings.interfacePopoutHistogram && histogram.source != "histogram/PQHistogram.qml")
                 histogram.source = "histogram/PQHistogram.qml"
 
         } else if(ele == "slideshowsettings") {
 
-            if(PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
+            if(PQSettings.interfacePopoutSlideShowSettings && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettingsPopout.qml"
 
-            else if(!PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
+            else if(!PQSettings.interfacePopoutSlideShowSettings && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettings.qml"
 
         } else if(ele == "slideshowcontrols") {
 
-            if(PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControlsPopout.qml")
+            if(PQSettings.interfacePopoutSlideShowControls && slideshowcontrols.source != "slideshow/PQSlideShowControlsPopout.qml")
                 slideshowcontrols.source = "slideshow/PQSlideShowControlsPopout.qml"
 
-            else if(!PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControls.qml")
+            else if(!PQSettings.interfacePopoutSlideShowControls && slideshowcontrols.source != "slideshow/PQSlideShowControls.qml")
                 slideshowcontrols.source = "slideshow/PQSlideShowControls.qml"
 
         } else if(ele == "filerename") {
 
-            if(PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRenamePopout.qml")
+            if(PQSettings.interfacePopoutFileRename && filerename.source != "filemanagement/PQRenamePopout.qml")
                 filerename.source = "filemanagement/PQRenamePopout.qml"
 
-            else if(!PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRename.qml")
+            else if(!PQSettings.interfacePopoutFileRename && filerename.source != "filemanagement/PQRename.qml")
                 filerename.source = "filemanagement/PQRename.qml"
 
         } else if(ele == "filedelete") {
 
-            if(PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDeletePopout.qml")
+            if(PQSettings.interfacePopoutFileDelete && filedelete.source != "filemanagement/PQDeletePopout.qml")
                 filedelete.source = "filemanagement/PQDeletePopout.qml"
 
-            else if(!PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDelete.qml")
+            else if(!PQSettings.interfacePopoutFileDelete && filedelete.source != "filemanagement/PQDelete.qml")
                 filedelete.source = "filemanagement/PQDelete.qml"
 
         } else if(ele == "scale") {
 
-            if(PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScalePopout.qml")
+            if(PQSettings.interfacePopoutScale && scaleimage.source != "scale/PQScalePopout.qml")
                 scaleimage.source = "scale/PQScalePopout.qml"
 
-            else if(!PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScale.qml")
+            else if(!PQSettings.interfacePopoutScale && scaleimage.source != "scale/PQScale.qml")
                 scaleimage.source = "scale/PQScale.qml"
 
         } else if(ele == "about") {
 
-            if(PQSettings.aboutPopoutElement && about.source != "about/PQAboutPopout.qml")
+            if(PQSettings.interfacePopoutAbout && about.source != "about/PQAboutPopout.qml")
                 about.source = "about/PQAboutPopout.qml"
 
-            else if(!PQSettings.aboutPopoutElement && about.source != "about/PQAbout.qml")
+            else if(!PQSettings.interfacePopoutAbout && about.source != "about/PQAbout.qml")
                 about.source = "about/PQAbout.qml"
 
         } else if(ele == "imgur" || ele == "imguranonym") {
 
-            if(PQSettings.imgurPopoutElement && imgur.source != "imgur/PQImgurPopout.qml")
+            if(PQSettings.interfacePopoutImgur && imgur.source != "imgur/PQImgurPopout.qml")
                 imgur.source = "imgur/PQImgurPopout.qml"
 
-            else if(!PQSettings.imgurPopoutElement && imgur.source != "imgur/PQImgur.qml")
+            else if(!PQSettings.interfacePopoutImgur && imgur.source != "imgur/PQImgur.qml")
                 imgur.source = "imgur/PQImgur.qml"
 
         } else if(ele == "wallpaper") {
 
-            if(PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaperPopout.qml")
+            if(PQSettings.interfacePopoutWallpaper && wallpaper.source != "wallpaper/PQWallpaperPopout.qml")
                 wallpaper.source = "wallpaper/PQWallpaperPopout.qml"
 
-            else if(!PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaper.qml")
+            else if(!PQSettings.interfacePopoutWallpaper && wallpaper.source != "wallpaper/PQWallpaper.qml")
                 wallpaper.source = "wallpaper/PQWallpaper.qml"
 
         } else if(ele == "filter") {
 
-            if(PQSettings.filterPopoutElement && filter.source != "filter/PQFilterPopout.qml")
+            if(PQSettings.interfacePopoutFilter && filter.source != "filter/PQFilterPopout.qml")
                 filter.source = "filter/PQFilterPopout.qml"
 
-            else if(!PQSettings.filterPopoutElement && filter.source != "filter/PQFilter.qml")
+            else if(!PQSettings.interfacePopoutFilter && filter.source != "filter/PQFilter.qml")
                 filter.source = "filter/PQFilter.qml"
 
         } else if(ele == "settingsmanager") {
 
-            if(PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManagerPopout.qml")
+            if(PQSettings.interfacePopoutSettingsManager && settingsmanager.source != "settingsmanager/PQSettingsManagerPopout.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManagerPopout.qml"
 
-            else if(!PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
+            else if(!PQSettings.interfacePopoutSettingsManager && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManager.qml"
 
         } else if(ele == "copymove") {
@@ -352,10 +352,10 @@ Item {
 
         } else if(ele == "filesaveas") {
 
-            if(PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
+            if(PQSettings.interfacePopoutFileSaveAs && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
                 filesaveas.source = "filemanagement/PQSaveAsPopout.qml"
 
-            else if(!PQSettings.fileSaveAsPopoutElement && filesaveas.source != "filemanagement/PQSaveAs.qml")
+            else if(!PQSettings.interfacePopoutFileSaveAs && filesaveas.source != "filemanagement/PQSaveAs.qml")
                 filesaveas.source = "filemanagement/PQSaveAs.qml"
 
         } else if(ele == "quicknavigation") {

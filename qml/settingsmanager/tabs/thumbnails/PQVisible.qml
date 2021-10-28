@@ -51,18 +51,13 @@ PQSetting {
             load()
         }
 
-        onSaveAllSettings: {
-            if(thb_vis.currentIndex == 0) {
-                PQSettings.thumbnailKeepVisible = false
-                PQSettings.thumbnailKeepVisibleWhenNotZoomedIn = false
-            } else if(thb_vis.currentIndex == 1) {
-                PQSettings.thumbnailKeepVisible = true
-                PQSettings.thumbnailKeepVisibleWhenNotZoomedIn = false
-            } else {
-                PQSettings.thumbnailKeepVisible = false
-                PQSettings.thumbnailKeepVisibleWhenNotZoomedIn = true
-            }
-        }
+        // ThumbnailsVisibility
+        // 0 = on demand
+        // 1 = always
+        // 2 = except when zoomed
+
+        onSaveAllSettings:
+            PQSettings.thumbnailsVisibility = thb_vis.currentIndex
 
     }
 
@@ -71,12 +66,7 @@ PQSetting {
     }
 
     function load() {
-        if(PQSettings.thumbnailKeepVisible)
-            thb_vis.currentIndex = 1
-        else if(PQSettings.thumbnailKeepVisibleWhenNotZoomedIn)
-            thb_vis.currentIndex = 2
-        else
-            thb_vis.currentIndex = 0
+        thb_vis.currentIndex = PQSettings.thumbnailsVisibility
     }
 
 }

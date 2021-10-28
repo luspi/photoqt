@@ -39,7 +39,7 @@ Item {
     property int parentHeight: toplevel.height
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
 
@@ -51,7 +51,7 @@ Item {
 
     ShaderEffectSource {
         id: effectSource
-        sourceItem: PQSettings.scalePopoutElement ? dummyitem : imageitem
+        sourceItem: PQSettings.interfacePopoutScale ? dummyitem : imageitem
         anchors.fill: parent
         sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
     }
@@ -71,7 +71,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            enabled: !PQSettings.scalePopoutElement
+            enabled: !PQSettings.interfacePopoutScale
             onClicked:
                 button_cancel.clicked()
         }
@@ -344,16 +344,16 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.aboutPopoutElement ?
+                tooltip: PQSettings.interfacePopoutScale ?
                              //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                              em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                              //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                              em.pty+qsTranslate("popinpopout", "Move to its own window")
                 onClicked: {
-                    if(PQSettings.scalePopoutElement)
+                    if(PQSettings.interfacePopoutScale)
                         scale_window.storeGeometry()
                     button_cancel.clicked()
-                    PQSettings.scalePopoutElement = (PQSettings.scalePopoutElement+1)%2
+                    PQSettings.interfacePopoutScale = !PQSettings.interfacePopoutScale
                     HandleShortcuts.executeInternalFunction("__scale")
                 }
             }

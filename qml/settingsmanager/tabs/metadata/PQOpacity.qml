@@ -69,7 +69,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.metadataOpacity = 255*meta_opacity.value/100
+            PQSettings.metadataElementOpacity = 255*meta_opacity.value/100
         }
 
     }
@@ -79,7 +79,7 @@ PQSetting {
     }
 
     function load() {
-        meta_opacity.value = Math.round(100*PQSettings.metadataOpacity/255)
+        meta_opacity.value = Math.round(100*PQSettings.metadataElementOpacity/255)
     }
 
 }

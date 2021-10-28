@@ -38,7 +38,7 @@ Item {
     property int parentHeight: toplevel.height
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
 
@@ -53,7 +53,7 @@ Item {
 
     ShaderEffectSource {
         id: effectSource
-        sourceItem: PQSettings.imgurPopoutElement ? dummyitem : imageitem
+        sourceItem: PQSettings.interfacePopoutImgur ? dummyitem : imageitem
         anchors.fill: parent
         sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
     }
@@ -73,7 +73,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            enabled: !PQSettings.imgurPopoutElement
+            enabled: !PQSettings.interfacePopoutImgur
             onClicked:
                 abortUpload()
         }

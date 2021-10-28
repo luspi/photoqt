@@ -28,9 +28,9 @@ Rectangle {
 
     id: labels_top
 
-    x: variables.metaDataWidthWhenKeptOpen + (2*PQSettings.hotEdgeWidth+10)
-    Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
-    y: PQSettings.thumbnailPosition=="Bottom" ? 10 : parent.height-height-10
+    x: variables.metaDataWidthWhenKeptOpen + (2*PQSettings.interfaceHotEdgeSize+10)
+    Behavior on x { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+    y: PQSettings.thumbnailsEdge=="Bottom" ? 10 : parent.height-height-10
 
     width: row.width
     height: row.height+10
@@ -38,7 +38,7 @@ Rectangle {
     color: "#000000"
     radius: 5
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideLabels) &&
+    visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) &&
              (filefoldermodel.current>-1 || filefoldermodel.filterCurrentlyActive) &&
              (filefoldermodel.countMainView>0 || filefoldermodel.filterCurrentlyActive) &&
              !variables.faceTaggingActive
@@ -57,9 +57,9 @@ Rectangle {
         Text {
             id: counter
             color: "white"
-            visible: !PQSettings.labelsHideCounter && (filefoldermodel.current > -1) && pageInfo.text==""
+            visible: !PQSettings.interfaceLabelsHideCounter && (filefoldermodel.current > -1) && pageInfo.text==""
             width: visible ? children.width : 0
-            text: PQSettings.labelsHideCounter ? "" : ((filefoldermodel.current+1) + "/" + filefoldermodel.countMainView)
+            text: PQSettings.interfaceLabelsHideCounter ? "" : ((filefoldermodel.current+1) + "/" + filefoldermodel.countMainView)
         }
 
         // filename
@@ -67,11 +67,11 @@ Rectangle {
             id: filename
             visible: text!="" && (filefoldermodel.current > -1)
             color: "white"
-            text: ((PQSettings.labelsHideFilename&&PQSettings.labelsHideFilepath) || filefoldermodel.current==-1) ?
+            text: ((PQSettings.interfaceLabelsHideFilename&&PQSettings.interfaceLabelsHideFilepath) || filefoldermodel.current==-1) ?
                       "" :
-                      (PQSettings.labelsHideFilepath ?
+                      (PQSettings.interfaceLabelsHideFilepath ?
                            handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath) :
-                           (PQSettings.labelsHideFilename ?
+                           (PQSettings.interfaceLabelsHideFilename ?
                                 handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath) :
                                 filefoldermodel.currentFilePath))
         }
@@ -87,9 +87,9 @@ Rectangle {
         Text {
             id: zoomlevel
             color: "white"
-            visible: !PQSettings.labelsHideZoomLevel && (filefoldermodel.current > -1)
+            visible: !PQSettings.interfaceLabelsHideZoomLevel && (filefoldermodel.current > -1)
             width: visible ? children.width : 0
-            text: PQSettings.labelsHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
+            text: PQSettings.interfaceLabelsHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
         }
 
         Rectangle {
@@ -103,7 +103,7 @@ Rectangle {
         Text {
             id: rotationangle
             color: "white"
-            visible: !PQSettings.labelsHideRotationAngle && (filefoldermodel.current > -1)
+            visible: !PQSettings.interfaceLabelsHideRotationAngle && (filefoldermodel.current > -1)
             width: visible ? children.width : 0
             text: (Math.round(variables.currentRotationAngle)%360+360)%360 + "°"
         }
@@ -140,7 +140,7 @@ Rectangle {
         id: viewermode
 
         x: row.x+10
-        y: PQSettings.thumbnailPosition=="Bottom" ? (row.y+row.height+20 + (filterremove_cont.visible ? filterremove_cont.height+10 : 0)) : -height-filterremove_cont.height-10
+        y: PQSettings.thumbnailsEdge=="Bottom" ? (row.y+row.height+20 + (filterremove_cont.visible ? filterremove_cont.height+10 : 0)) : -height-filterremove_cont.height-10
 
         width: 2*row.height+10
         height: width
@@ -163,7 +163,7 @@ Rectangle {
     Rectangle {
         id: filterremove_cont
         x: row.x
-        y: PQSettings.thumbnailPosition=="Bottom" ? (row.y+row.height+10) : -height-5
+        y: PQSettings.thumbnailsEdge=="Bottom" ? (row.y+row.height+10) : -height-5
         visible: filefoldermodel.filterCurrentlyActive
         width: visible ? filterrow.width : 0
         height: visible ? filterrow.height+10 : 0
@@ -199,34 +199,34 @@ Rectangle {
 
         id: rightclickmenu
 
-        model: [(PQSettings.labelsHideCounter ?
+        model: [(PQSettings.interfaceLabelsHideCounter ?
                      em.pty+qsTranslate("quickinfo", "Show counter") :
                      em.pty+qsTranslate("quickinfo", "Hide counter")),
-            (PQSettings.labelsHideFilepath ?
+            (PQSettings.interfaceLabelsHideFilepath ?
                  em.pty+qsTranslate("quickinfo", "Show file path") :
                  em.pty+qsTranslate("quickinfo", "Hide file path")),
-            (PQSettings.labelsHideFilename ?
+            (PQSettings.interfaceLabelsHideFilename ?
                  em.pty+qsTranslate("quickinfo", "Show file name") :
                  em.pty+qsTranslate("quickinfo", "Hide file name")),
-            (PQSettings.labelsHideZoomLevel ?
+            (PQSettings.interfaceLabelsHideZoomLevel ?
                  em.pty+qsTranslate("quickinfo", "Show zoom level") :
                  em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-            (PQSettings.labelsHideWindowButtons ?
+            (PQSettings.interfaceLabelsHideWindowButtons ?
                  em.pty+qsTranslate("quickinfo", "Show window buttons") :
                  em.pty+qsTranslate("quickinfo", "Hide window buttons"))
         ]
 
         onTriggered: {
             if(index == 0)
-                PQSettings.labelsHideCounter = !PQSettings.labelsHideCounter
+                PQSettings.interfaceLabelsHideCounter = !PQSettings.interfaceLabelsHideCounter
             else if(index == 1)
-                PQSettings.labelsHideFilepath = !PQSettings.labelsHideFilepath
+                PQSettings.interfaceLabelsHideFilepath = !PQSettings.interfaceLabelsHideFilepath
             else if(index == 2)
-                PQSettings.labelsHideFilename = !PQSettings.labelsHideFilename
+                PQSettings.interfaceLabelsHideFilename = !PQSettings.interfaceLabelsHideFilename
              else if(index == 3)
-                PQSettings.labelsHideZoomLevel = !PQSettings.labelsHideZoomLevel
+                PQSettings.interfaceLabelsHideZoomLevel = !PQSettings.interfaceLabelsHideZoomLevel
             else if(index == 4)
-                PQSettings.labelsHideWindowButtons = !PQSettings.labelsHideWindowButtons
+                PQSettings.interfaceLabelsHideWindowButtons = !PQSettings.interfaceLabelsHideWindowButtons
         }
 
     }
@@ -236,7 +236,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
-        drag.target: PQSettings.labelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.target: PQSettings.interfaceLabelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         drag.minimumX: 0
         drag.maximumX: toplevel.width-parent.width
         drag.minimumY: 0
@@ -259,7 +259,7 @@ Rectangle {
             }
         }
         onPositionChanged: {
-            if(PQSettings.labelsManageWindow && isPressed) {
+            if(PQSettings.interfaceLabelsManageWindow && isPressed) {
                 if(toplevel.visibility == Window.Maximized)
                     toplevel.visibility = Window.Windowed
                 var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
@@ -288,7 +288,7 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
 
-        drag.target: PQSettings.labelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.target: PQSettings.interfaceLabelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         drag.minimumX: 0
         drag.maximumX: toplevel.width-parent.width
         drag.minimumY: 0

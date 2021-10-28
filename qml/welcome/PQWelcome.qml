@@ -270,75 +270,70 @@ Window {
         // everything in one single window
         if(radio_single.checked) {
 
-            PQSettings.mainMenuPopoutElement = 0
-            PQSettings.metadataPopoutElement = 0
-            PQSettings.histogramPopoutElement = 0
-            PQSettings.scalePopoutElement = 0
-            PQSettings.openPopoutElement = 0
-            PQSettings.slideShowSettingsPopoutElement = 0
-            PQSettings.slideShowControlsPopoutElement = 0
-            PQSettings.fileRenamePopoutElement = 0
-            PQSettings.fileDeletePopoutElement = 0
-            PQSettings.aboutPopoutElement = 0
-            PQSettings.imgurPopoutElement = 0
-            PQSettings.wallpaperPopoutElement = 0
-            PQSettings.filterPopoutElement = 0
-            PQSettings.settingsManagerPopoutElement = 0
-            PQSettings.fileSaveAsPopoutElement = 0
+            PQSettings.interfacePopoutMainMenu = 0
+            PQSettings.interfacePopoutMetadata = 0
+            PQSettings.interfacePopoutHistogram = 0
+            PQSettings.interfacePopoutScale = 0
+            PQSettings.interfacePopoutOpenFile = 0
+            PQSettings.interfacePopoutSlideShowSettings = 0
+            PQSettings.interfacePopoutSlideShowControls = 0
+            PQSettings.interfacePopoutFileRename = 0
+            PQSettings.interfacePopoutFileDelete = 0
+            PQSettings.interfacePopoutAbout = 0
+            PQSettings.interfacePopoutImgur = 0
+            PQSettings.interfacePopoutWallpaper = 0
+            PQSettings.interfacePopoutFilter = 0
+            PQSettings.interfacePopoutSettingsManager = 0
+            PQSettings.interfacePopoutFileSaveAs = 0
 
-            PQSettings.windowMode = 1
-            PQSettings.windowDecoration = 1
+            PQSettings.interfaceWindowMode = 1
+            PQSettings.interfaceWindowDecoration = 1
 
         // everything in its own window
         } else if(radio_individual.checked) {
 
-            PQSettings.mainMenuPopoutElement = 1
-            PQSettings.metadataPopoutElement = 1
-            PQSettings.histogramPopoutElement = 1
-            PQSettings.scalePopoutElement = 1
-            PQSettings.openPopoutElement = 1
-            PQSettings.slideShowSettingsPopoutElement = 1
-            PQSettings.slideShowControlsPopoutElement = 1
-            PQSettings.fileRenamePopoutElement = 1
-            PQSettings.fileDeletePopoutElement = 1
-            PQSettings.aboutPopoutElement = 1
-            PQSettings.imgurPopoutElement = 1
-            PQSettings.wallpaperPopoutElement = 1
-            PQSettings.filterPopoutElement = 1
-            PQSettings.settingsManagerPopoutElement = 1
-            PQSettings.fileSaveAsPopoutElement = 1
+            PQSettings.interfacePopoutMainMenu = 1
+            PQSettings.interfacePopoutMetadata = 1
+            PQSettings.interfacePopoutHistogram = 1
+            PQSettings.interfacePopoutScale = 1
+            PQSettings.interfacePopoutOpenFile = 1
+            PQSettings.interfacePopoutSlideShowSettings = 1
+            PQSettings.interfacePopoutSlideShowControls = 1
+            PQSettings.interfacePopoutFileRename = 1
+            PQSettings.interfacePopoutFileDelete = 1
+            PQSettings.interfacePopoutAbout = 1
+            PQSettings.interfacePopoutImgur = 1
+            PQSettings.interfacePopoutWallpaper = 1
+            PQSettings.interfacePopoutFilter = 1
+            PQSettings.interfacePopoutSettingsManager = 1
+            PQSettings.interfacePopoutFileSaveAs = 1
 
-            PQSettings.windowMode = 1
-            PQSettings.windowDecoration = 1
+            PQSettings.interfaceWindowMode = 1
+            PQSettings.interfaceWindowDecoration = 1
 
         // small elements integrated, large ones in their own window
         } else {
 
-            PQSettings.mainMenuPopoutElement = 0
-            PQSettings.metadataPopoutElement = 0
-            PQSettings.histogramPopoutElement = 0
-            PQSettings.scalePopoutElement = 1
-            PQSettings.openPopoutElement = 1
-            PQSettings.slideShowSettingsPopoutElement = 1
-            PQSettings.slideShowControlsPopoutElement = 1
-            PQSettings.fileRenamePopoutElement = 0
-            PQSettings.fileDeletePopoutElement = 0
-            PQSettings.aboutPopoutElement = 0
-            PQSettings.imgurPopoutElement = 1
-            PQSettings.wallpaperPopoutElement = 1
-            PQSettings.filterPopoutElement = 0
-            PQSettings.settingsManagerPopoutElement = 1
-            PQSettings.fileSaveAsPopoutElement = 0
+            PQSettings.interfacePopoutMainMenu = 0
+            PQSettings.interfacePopoutMetadata = 0
+            PQSettings.interfacePopoutHistogram = 0
+            PQSettings.interfacePopoutScale = 1
+            PQSettings.interfacePopoutOpenFile = 1
+            PQSettings.interfacePopoutSlideShowSettings = 1
+            PQSettings.interfacePopoutSlideShowControls = 1
+            PQSettings.interfacePopoutFileRename = 0
+            PQSettings.interfacePopoutFileDelete = 0
+            PQSettings.interfacePopoutAbout = 0
+            PQSettings.interfacePopoutImgur = 1
+            PQSettings.interfacePopoutWallpaper = 1
+            PQSettings.interfacePopoutFilter = 0
+            PQSettings.interfacePopoutSettingsManager = 1
+            PQSettings.interfacePopoutFileSaveAs = 0
 
-            PQSettings.windowMode = 1
-            PQSettings.windowDecoration = 1
+            PQSettings.interfaceWindowMode = 1
+            PQSettings.interfaceWindowDecoration = 1
 
         }
-
-        // some of the groupings above might coincide with the default versions
-        // this wouldn't trigger saving the settings file and this dialog might be shown again at next start
-        // making sure this timer is running makes sure the settings file will be created
-        PQSettings.restartSaveSettingsTimer()
 
         toplevel.start()
     }

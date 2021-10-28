@@ -37,7 +37,7 @@ ListView {
     property string dragItemId: ""
     property int hoverIndex: -1
 
-    visible: PQSettings.openUserPlacesUser
+    visible: PQSettings.openfileUserPlacesUser
     height: childrenRect.height
 
     Text {

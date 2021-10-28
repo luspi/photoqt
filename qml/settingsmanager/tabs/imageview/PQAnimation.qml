@@ -98,13 +98,13 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.animationDuration = anim_dur.value
+            PQSettings.imageviewAnimationDuration = anim_dur.value
             if(anim_type.currentIndex == 1)
-                PQSettings.animationType = "x"
+                PQSettings.imageviewAnimationType = "x"
             else if(anim_type.currentIndex == 2)
-                PQSettings.animationType = "y"
+                PQSettings.imageviewAnimationType = "y"
             else
-                PQSettings.animationType = "opacity"
+                PQSettings.imageviewAnimationType = "opacity"
         }
 
     }
@@ -114,10 +114,10 @@ PQSetting {
     }
 
     function load() {
-        anim_dur.value = PQSettings.animationDuration
-        if(PQSettings.animationType == "x")
+        anim_dur.value = PQSettings.imageviewAnimationDuration
+        if(PQSettings.imageviewAnimationType == "x")
             anim_type.currentIndex = 1
-        else if(PQSettings.animationType == "y")
+        else if(PQSettings.imageviewAnimationType == "y")
             anim_type.currentIndex = 2
         else
             anim_type.currentIndex = 0

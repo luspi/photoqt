@@ -33,16 +33,16 @@ Rectangle {
     border.width: 1
     border.color: "#88aaaaaa"
 
-    x: PQSettings.slideShowControlsPopoutElement ? 0 : (variables.metaDataWidthWhenKeptOpen-1)
-    y: PQSettings.slideShowControlsPopoutElement ? 0 : -1
-    width: PQSettings.slideShowControlsPopoutElement ? parentWidth : (parentWidth+2-variables.metaDataWidthWhenKeptOpen)
-    height: PQSettings.slideShowControlsPopoutElement ? parentHeight : 75
+    x: PQSettings.interfacePopoutSlideShowControls ? 0 : (variables.metaDataWidthWhenKeptOpen-1)
+    y: PQSettings.interfacePopoutSlideShowControls ? 0 : -1
+    width: PQSettings.interfacePopoutSlideShowControls ? parentWidth : (parentWidth+2-variables.metaDataWidthWhenKeptOpen)
+    height: PQSettings.interfacePopoutSlideShowControls ? parentHeight : 75
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.slideShowControlsPopoutElement ? 1 : 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    opacity: PQSettings.interfacePopoutSlideShowControls ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: (opacity != 0)
     enabled: visible
 
@@ -77,8 +77,8 @@ Rectangle {
 
         id: playplausenextprev
 
-        x: PQSettings.slideShowControlsPopoutElement ? (parent.width-width)/2 : 10
-        y: PQSettings.slideShowControlsPopoutElement ? 20 : 0
+        x: PQSettings.interfacePopoutSlideShowControls ? (parent.width-width)/2 : 10
+        y: PQSettings.interfacePopoutSlideShowControls ? 20 : 0
 
         width: childrenRect.width
         height: childrenRect.height
@@ -90,8 +90,8 @@ Rectangle {
                 id: prev
 
                 y: 20
-                width: PQSettings.slideShowControlsPopoutElement ? 80 : controls_top.height-2*y
-                height: PQSettings.slideShowControlsPopoutElement ? 80 : controls_top.height-2*y
+                width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
+                height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
                 source: "/slideshow/prev.png"
 
@@ -113,8 +113,8 @@ Rectangle {
                 id: playpause
 
                 y: 10
-                width: PQSettings.slideShowControlsPopoutElement ? 120 : controls_top.height-2*y
-                height: PQSettings.slideShowControlsPopoutElement ? 120 : controls_top.height-2*y
+                width: PQSettings.interfacePopoutSlideShowControls ? 120 : controls_top.height-2*y
+                height: PQSettings.interfacePopoutSlideShowControls ? 120 : controls_top.height-2*y
 
                 source: (controls_top.running ? "/slideshow/pause.png" : "/slideshow/play.png")
 
@@ -136,8 +136,8 @@ Rectangle {
                 id: next
 
                 y: 20
-                width: PQSettings.slideShowControlsPopoutElement ? 80 : controls_top.height-2*y
-                height: PQSettings.slideShowControlsPopoutElement ? 80 : controls_top.height-2*y
+                width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
+                height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
                 source: "/slideshow/next.png"
 
@@ -165,7 +165,7 @@ Rectangle {
         visible: slideshowmusic.source!=""
 
         x: (parent.width-width)/2
-        y: PQSettings.slideShowControlsPopoutElement ? (playplausenextprev.y+playplausenextprev.height+50) : ((parent.height-height)/2)
+        y: PQSettings.interfacePopoutSlideShowControls ? (playplausenextprev.y+playplausenextprev.height+50) : ((parent.height-height)/2)
 
         width: childrenRect.width
         height: childrenRect.height
@@ -217,10 +217,10 @@ Rectangle {
 
         id: quit
 
-        x: PQSettings.slideShowControlsPopoutElement ? (parent.width-width)/2 : (parent.width-width-15)
-        y: PQSettings.slideShowControlsPopoutElement ? (volumecont.visible ? (volumecont.y+volumecont.height+50) : (playplausenextprev.y+playplausenextprev.height+50)) : 10
-        width: PQSettings.slideShowControlsPopoutElement ? 75 : (parent.height-2*y)
-        height: PQSettings.slideShowControlsPopoutElement ? 75 : (parent.height-2*y)
+        x: PQSettings.interfacePopoutSlideShowControls ? (parent.width-width)/2 : (parent.width-width-15)
+        y: PQSettings.interfacePopoutSlideShowControls ? (volumecont.visible ? (volumecont.y+volumecont.height+50) : (playplausenextprev.y+playplausenextprev.height+50)) : 10
+        width: PQSettings.interfacePopoutSlideShowControls ? 75 : (parent.height-2*y)
+        height: PQSettings.interfacePopoutSlideShowControls ? 75 : (parent.height-2*y)
 
         source: "/slideshow/quit.png"
 
@@ -246,11 +246,11 @@ Rectangle {
     Connections {
         target: variables
         onMousePosChanged: {
-            if(!variables.slideShowActive || !controls_top.running || PQSettings.slideShowControlsPopoutElement)
+            if(!variables.slideShowActive || !controls_top.running || PQSettings.interfacePopoutSlideShowControls)
                 return
             if(controls_top.visible && variables.mousePos.y > controls_top.height+5)
                 controls_top.opacity = 0
-            else if(!controls_top.visible && variables.mousePos.y < (2*PQSettings.hotEdgeWidth+5))
+            else if(!controls_top.visible && variables.mousePos.y < (2*PQSettings.interfaceHotEdgeSize+5))
                 controls_top.opacity = 1
         }
     }
@@ -310,7 +310,7 @@ Rectangle {
         interval: 1000
         repeat: false
         onTriggered: {
-            if(controls_top.visible && variables.mousePos.y > controls_top.height+5 && controls_top.running && !PQSettings.slideShowControlsPopoutElement)
+            if(controls_top.visible && variables.mousePos.y > controls_top.height+5 && controls_top.running && !PQSettings.interfacePopoutSlideShowControls)
                 controls_top.opacity = 0
 
         }
@@ -318,7 +318,7 @@ Rectangle {
 
     Timer {
         id: switcher
-        interval: imageitem.getCurrentVideoLength()==-1 ? Math.max(1000, Math.min(300*1000, PQSettings.slideShowTime*1000)) : imageitem.getCurrentVideoLength()
+        interval: imageitem.getCurrentVideoLength()==-1 ? Math.max(1000, Math.min(300*1000, PQSettings.slideshowTime*1000)) : imageitem.getCurrentVideoLength()
         repeat: true
         running: variables.slideShowActive&&controls_top.running
         onTriggered: loadNextImage()
@@ -337,23 +337,23 @@ Rectangle {
         imageitem.zoomReset()
         imageitem.rotateReset()
 
-        backupAnimType = PQSettings.animationType
-        PQSettings.animationType = PQSettings.slideShowTypeAnimation
+        backupAnimType = PQSettings.imageviewAnimationType
+        PQSettings.imageviewAnimationType = PQSettings.slideshowTypeAnimation
 
         var sortby = 1
-        if(PQSettings.sortImagesBy == "name")
+        if(PQSettings.imageviewSortImagesBy == "name")
             sortby = 0
-        else if(PQSettings.sortImagesBy == "time")
+        else if(PQSettings.imageviewSortImagesBy == "time")
             sortby = 2
-        else if(PQSettings.sortImagesBy == "size")
+        else if(PQSettings.imageviewSortImagesBy == "size")
             sortby = 3
-        else if(PQSettings.sortImagesBy == "type")
+        else if(PQSettings.imageviewSortImagesBy == "type")
             sortby = 4
 
-        if(PQSettings.slideShowIncludeSubFolders)
+        if(PQSettings.slideshowIncludeSubFolders)
             filefoldermodel.includeFilesInSubFolders = true
 
-        if(PQSettings.slideShowShuffle) {
+        if(PQSettings.slideshowShuffle) {
 
             controls_top.shuffledIndices = []
             for(var k = 0; k < filefoldermodel.countMainView; ++k)
@@ -370,13 +370,13 @@ Rectangle {
         imageitem.restartAnim()
 
         controls_top.opacity = 1
-        if(PQSettings.slideShowControlsPopoutElement)
+        if(PQSettings.interfacePopoutSlideShowControls)
             slideshowcontrols_window.visible = true
 
         hideBarAfterTimeout.start()
 
-        if(PQSettings.slideShowMusicFile != "") {
-            slideshowmusic.source = "file://" + PQSettings.slideShowMusicFile
+        if(PQSettings.slideshowMusicFile != "") {
+            slideshowmusic.source = "file://" + PQSettings.slideshowMusicFile
             slideshowmusic.play()
         } else
             slideshowmusic.source = ""
@@ -387,14 +387,14 @@ Rectangle {
 
         slideshowmusic.stop()
 
-        PQSettings.animationType = backupAnimType
+        PQSettings.imageviewAnimationType = backupAnimType
 
-        if(PQSettings.slideShowIncludeSubFolders)
+        if(PQSettings.slideshowIncludeSubFolders)
             filefoldermodel.includeFilesInSubFolders = false
 
         variables.visibleItem = ""
         variables.slideShowActive = false
-        if(PQSettings.slideShowControlsPopoutElement)
+        if(PQSettings.interfacePopoutSlideShowControls)
             slideshowcontrols_window.visible = false
         else
             controls_top.opacity = 0
@@ -403,10 +403,10 @@ Rectangle {
 
     function loadNextImage() {
 
-        if(!PQSettings.slideShowShuffle) {
+        if(!PQSettings.slideshowShuffle) {
             if(filefoldermodel.current < filefoldermodel.countMainView-1)
                 ++filefoldermodel.current
-            else if(PQSettings.slideShowLoop)
+            else if(PQSettings.slideshowLoop)
                 filefoldermodel.current = 0
             else
                 quitSlideShow()
@@ -414,7 +414,7 @@ Rectangle {
             if(controls_top.shuffledCurrentIndex < controls_top.shuffledIndices.length-1) {
                 ++controls_top.shuffledCurrentIndex
                 filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
-            } else if(PQSettings.slideShowLoop) {
+            } else if(PQSettings.slideshowLoop) {
                 controls_top.shuffledCurrentIndex = 0
                 filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             } else
@@ -426,17 +426,17 @@ Rectangle {
 
     function loadPrevImage() {
 
-        if(!PQSettings.slideShowShuffle) {
+        if(!PQSettings.slideshowShuffle) {
             if(filefoldermodel.current > 0) {
                 --filefoldermodel.current
-            } else if(PQSettings.slideShowLoop) {
+            } else if(PQSettings.slideshowLoop) {
                 filefoldermodel.current = filefoldermodel.countMainView-1
             }
         } else {
             if(controls_top.shuffledCurrentIndex > 0) {
                 --controls_top.shuffledCurrentIndex
                 filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
-            } else if(PQSettings.slideShowLoop) {
+            } else if(PQSettings.slideshowLoop) {
                 controls_top.shuffledCurrentIndex = controls_top.shuffledIndices.length-1
                 filefoldermodel.current = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
             }

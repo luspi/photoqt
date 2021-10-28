@@ -52,9 +52,9 @@ Window {
     id: toplevel
 
     visibility: Window.Hidden
-    flags: PQSettings.windowDecoration ?
-               (PQSettings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
-               (PQSettings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
+    flags: PQSettings.interfaceWindowDecoration ?
+               (PQSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
+               (PQSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
 
     minimumWidth: 600
     minimumHeight: 400
@@ -67,17 +67,17 @@ Window {
 
         anchors.fill: parent
 
-        source: PQSettings.backgroundImageScreenshot ?
+        source: PQSettings.interfaceBackgroundImageScreenshot ?
                     ("file://" + handlingFileDir.getTempDir() + "/photoqt_screenshot_0.jpg") :
-                    (PQSettings.backgroundImageUse ? ("file://"+PQSettings.backgroundImagePath) : "")
+                    (PQSettings.interfaceBackgroundImageUse ? ("file://"+PQSettings.interfaceBackgroundImagePath) : "")
 
-        fillMode: PQSettings.backgroundImageScale ?
+        fillMode: PQSettings.interfaceBackgroundImageScale ?
                       Image.PreserveAspectFit :
-                      PQSettings.backgroundImageScaleCrop ?
+                      PQSettings.interfaceBackgroundImageScaleCrop ?
                           Image.PreserveAspectCrop :
-                          PQSettings.backgroundImageStretch ?
+                          PQSettings.interfaceBackgroundImageStretch ?
                               Image.Stretch :
-                              PQSettings.backgroundImageCenter ?
+                              PQSettings.interfaceBackgroundImageCenter ?
                                   Image.Pad :
                                   Image.Tile
 
@@ -85,10 +85,10 @@ Window {
 
             anchors.fill: parent
 
-            color: Qt.rgba(PQSettings.backgroundColorRed/256.0,
-                           PQSettings.backgroundColorGreen/256.0,
-                           PQSettings.backgroundColorBlue/256.0,
-                           PQSettings.backgroundColorAlpha/256.0)
+            color: Qt.rgba(PQSettings.interfaceOverlayColorRed/256.0,
+                           PQSettings.interfaceOverlayColorGreen/256.0,
+                           PQSettings.interfaceOverlayColorBlue/256.0,
+                           PQSettings.interfaceOverlayColorAlpha/256.0)
 
             Text {
                 id: emptymessage
@@ -151,7 +151,7 @@ Window {
 
         handleBeforeClosing()
 
-        if(PQSettings.trayIcon == 1) {
+        if(PQSettings.interfaceTrayIcon == 1) {
             close.accepted = false
             toplevel.visible = false
         } else {
@@ -244,15 +244,15 @@ Window {
     PQLocalisation {
         id : em
         Component.onCompleted:
-            em.setLanguage(PQSettings.language)
+            em.setLanguage(PQSettings.interfaceLanguage)
     }
 
     Connections {
         target: PQSettings
-        onLanguageChanged:
-            em.setLanguage(PQSettings.language)
-        onWindowModeChanged: {
-            if(PQSettings.windowMode)
+        onInterfaceLanguageChanged:
+            em.setLanguage(PQSettings.interfaceLanguage)
+        onInterfaceWindowModeChanged: {
+            if(PQSettings.interfaceWindowMode)
                 toplevel.visibility = Window.Maximized
             else
                 toplevel.visibility = Window.FullScreen
@@ -268,26 +268,26 @@ Window {
 
     function start() {
 
-        if(PQSettings.windowMode) {
+        if(PQSettings.interfaceWindowMode) {
 
-            if(PQSettings.saveWindowGeometry)
+            if(PQSettings.interfaceSaveWindowGeometry)
                 visibility = Window.Windowed
 
-            else if(PQSettings.mainMenuPopoutElement == 1 &&
-               PQSettings.metadataPopoutElement == 1 &&
-               PQSettings.histogramPopoutElement == 1 &&
-               PQSettings.scalePopoutElement == 1 &&
-               PQSettings.openPopoutElement == 1 &&
-               PQSettings.slideShowSettingsPopoutElement == 1 &&
-               PQSettings.slideShowControlsPopoutElement == 1 &&
-               PQSettings.fileRenamePopoutElement == 1 &&
-               PQSettings.fileDeletePopoutElement == 1 &&
-               PQSettings.aboutPopoutElement == 1 &&
-               PQSettings.imgurPopoutElement == 1 &&
-               PQSettings.wallpaperPopoutElement == 1 &&
-               PQSettings.filterPopoutElement == 1 &&
-               PQSettings.settingsManagerPopoutElement == 1 &&
-               PQSettings.fileSaveAsPopoutElement == 1)
+            else if(PQSettings.interfacePopoutMainMenu == 1 &&
+                    PQSettings.interfacePopoutMetadata == 1 &&
+                    PQSettings.interfacePopoutHistogram == 1 &&
+                    PQSettings.interfacePopoutScale == 1 &&
+                    PQSettings.interfacePopoutOpenFile == 1 &&
+                    PQSettings.interfacePopoutSlideShowSettings == 1 &&
+                    PQSettings.interfacePopoutSlideShowControls == 1 &&
+                    PQSettings.interfacePopoutFileRename == 1 &&
+                    PQSettings.interfacePopoutFileDelete == 1 &&
+                    PQSettings.interfacePopoutAbout == 1 &&
+                    PQSettings.interfacePopoutImgur == 1 &&
+                    PQSettings.interfacePopoutWallpaper == 1 &&
+                    PQSettings.interfacePopoutFilter == 1 &&
+                    PQSettings.interfacePopoutSettingsManager == 1 &&
+                    PQSettings.interfacePopoutFileSaveAs == 1)
 
                 visibility = Window.Windowed
 
@@ -297,7 +297,7 @@ Window {
         } else
             visibility = Window.FullScreen
 
-        if(PQSettings.saveWindowGeometry) {
+        if(PQSettings.interfaceSaveWindowGeometry) {
 
             if(windowgeometry.mainWindowMaximized)
 
@@ -317,15 +317,15 @@ Window {
         loader.ensureItIsReady("mainmenu")
         loader.ensureItIsReady("metadata")
 
-        if(PQSettings.histogram)
+        if(PQSettings.histogramVisible)
             loader.ensureItIsReady("histogram")
 
-        if(PQSettings.quickNavigation)
+        if(PQSettings.interfaceQuickNavigation)
             loader.ensureItIsReady("quicknavigation")
 
         var filenameToLoad = handlingGeneral.getLastLoadedImage()
 
-        if(PQPassOn.getFilePath() != "" || (PQSettings.startupLoadLastLoadedImage && filenameToLoad != "")) {
+        if(PQPassOn.getFilePath() != "" || (PQSettings.interfaceRememberLastImage && filenameToLoad != "")) {
 
             if(PQPassOn.getFilePath() != "")
                 filenameToLoad = PQPassOn.getFilePath()
@@ -342,7 +342,7 @@ Window {
             }
 
         } else {
-            if(PQSettings.openKeepLastLocation)
+            if(PQSettings.openfileKeepLastLocation)
                 filefoldermodel.folderFileDialog = handlingFileDialog.getLastLocation()
             else
                 filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
@@ -356,11 +356,11 @@ Window {
         if(variables.slideShowActive)
             loader.passOn("slideshowcontrols", "quit", undefined)
 
-        if(PQSettings.saveWindowGeometry) {
+        if(PQSettings.interfaceSaveWindowGeometry) {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
             windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
         }
-        if(filefoldermodel.current > -1 && PQSettings.startupLoadLastLoadedImage)
+        if(filefoldermodel.current > -1 && PQSettings.interfaceRememberLastImage)
             handlingGeneral.setLastLoadedImage(filefoldermodel.currentFilePath)
         else
             handlingGeneral.deleteLastLoadedImage()

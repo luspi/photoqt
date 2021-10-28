@@ -71,7 +71,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.marginAroundImage = marginwidth.value
+            PQSettings.imageviewMargin = marginwidth.value
         }
 
     }
@@ -81,7 +81,7 @@ PQSetting {
     }
 
     function load() {
-        marginwidth.value = PQSettings.marginAroundImage
+        marginwidth.value = PQSettings.imageviewMargin
     }
 
 }

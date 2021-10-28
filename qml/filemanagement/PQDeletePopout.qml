@@ -53,14 +53,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.fileDeletePopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutFileDelete&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onFileDeletePopoutElementChanged: {
-            if(!PQSettings.fileDeletePopoutElement)
-                delete_window.visible = Qt.binding(function() { return PQSettings.fileDeletePopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutFileDeleteChanged: {
+            if(!PQSettings.interfacePopoutFileDelete)
+                delete_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutFileDelete&&curloader.item.opacity==1; })
         }
     }
 

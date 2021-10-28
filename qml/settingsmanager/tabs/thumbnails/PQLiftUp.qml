@@ -68,7 +68,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailLiftUp = liftup.value
+            PQSettings.thumbnailsLiftUp = liftup.value
         }
 
     }
@@ -78,7 +78,7 @@ PQSetting {
     }
 
     function load() {
-        liftup.value = PQSettings.thumbnailLiftUp
+        liftup.value = PQSettings.thumbnailsLiftUp
     }
 
 }

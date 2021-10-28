@@ -26,7 +26,7 @@ import Qt.labs.platform 1.0
 SystemTrayIcon {
 
     id: trayicon
-    visible: PQSettings.trayIcon>0
+    visible: PQSettings.interfaceTrayIcon>0
 
     iconSource: "/other/icon.png"
 
@@ -35,7 +35,7 @@ SystemTrayIcon {
         MenuItem {
             text: "Hide/Show PhotoQt"
             onTriggered: {
-                PQSettings.trayIcon = 1
+                PQSettings.interfaceTrayIcon = 1
                 toplevel.visible = !toplevel.visible
             }
         }
@@ -50,7 +50,7 @@ SystemTrayIcon {
     }
 
     onActivated: {
-        PQSettings.trayIcon = 1
+        PQSettings.interfaceTrayIcon = 1
         toplevel.visible = !toplevel.visible
     }
 

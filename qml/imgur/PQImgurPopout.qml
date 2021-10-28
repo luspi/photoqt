@@ -56,14 +56,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.imgurPopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutImgur&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onImgurPopoutElementChanged: {
-            if(!PQSettings.imgurPopoutElement)
-                imgur_window.visible = Qt.binding(function() { return PQSettings.imgurPopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutImgurChanged: {
+            if(!PQSettings.interfacePopoutImgur)
+                imgur_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutImgur&&curloader.item.opacity==1; })
         }
     }
 

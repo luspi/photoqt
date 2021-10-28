@@ -49,7 +49,7 @@ Window {
 
     onClosing: {
         storeGeometry()
-        PQSettings.histogram = 0
+        PQSettings.histogramVisible = 0
     }
 
     Connections {
@@ -59,7 +59,7 @@ Window {
         }
     }
 
-    visible: (PQSettings.histogramPopoutElement&&PQSettings.histogram)
+    visible: (PQSettings.interfacePopoutHistogram&&PQSettings.histogramVisible)
     flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"

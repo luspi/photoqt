@@ -69,7 +69,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailMaxNumberThreads = thrds.value
+            PQSettings.thumbnailsMaxNumberThreads = thrds.value
         }
 
     }
@@ -79,7 +79,7 @@ PQSetting {
     }
 
     function load() {
-        thrds.value = PQSettings.thumbnailMaxNumberThreads
+        thrds.value = PQSettings.thumbnailsMaxNumberThreads
     }
 
 }

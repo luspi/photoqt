@@ -26,7 +26,7 @@ import "../elements"
 Item {
 
     x: variables.metaDataWidthWhenKeptOpen + 10
-    Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on x { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     y: 10
 
     width: cont.width

@@ -52,9 +52,9 @@ PQSetting {
 
         onSaveAllSettings: {
             if(edge.currentIndex == 0)
-                PQSettings.thumbnailPosition = "Top"
+                PQSettings.thumbnailsEdge = "Top"
             else
-                PQSettings.thumbnailPosition = "Bottom"
+                PQSettings.thumbnailsEdge = "Bottom"
         }
 
     }
@@ -64,7 +64,7 @@ PQSetting {
     }
 
     function load() {
-        if(PQSettings.thumbnailPosition == "Top")
+        if(PQSettings.thumbnailsEdge == "Top")
             edge.currentIndex = 0
         else
             edge.currentIndex = 1

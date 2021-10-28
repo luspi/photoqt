@@ -68,7 +68,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailSpacingBetween = spacing_slider.value
+            PQSettings.thumbnailsSpacing = spacing_slider.value
         }
 
     }
@@ -78,7 +78,7 @@ PQSetting {
     }
 
     function load() {
-        spacing_slider.value = PQSettings.thumbnailSpacingBetween
+        spacing_slider.value = PQSettings.thumbnailsSpacing
     }
 
 }

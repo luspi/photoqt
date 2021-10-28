@@ -48,7 +48,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.keepZoomRotationMirror = remember.checked
+            PQSettings.imageviewRememberZoomRotationMirror = remember.checked
         }
 
     }
@@ -58,7 +58,7 @@ PQSetting {
     }
 
     function load() {
-        remember.checked = PQSettings.keepZoomRotationMirror
+        remember.checked = PQSettings.imageviewRememberZoomRotationMirror
     }
 
 }

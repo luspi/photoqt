@@ -58,7 +58,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.archiveUseExternalUnrar = ext_unrar.checked
+            PQSettings.filetypesExternalUnrar = ext_unrar.checked
         }
 
     }
@@ -69,7 +69,7 @@ PQSetting {
 
     function load() {
 
-        ext_unrar.checked = PQSettings.archiveUseExternalUnrar
+        ext_unrar.checked = PQSettings.filetypesExternalUnrar
 
     }
 

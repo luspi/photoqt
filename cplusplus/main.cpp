@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "passon.h"
 #include "startup.h"
@@ -87,14 +88,13 @@ int main(int argc, char **argv) {
 
     // check for update or new install
     bool performStartupChecks = false;
-    QFile set(ConfigFiles::SETTINGS_FILE());
-    QFile img(ConfigFiles::IMAGEFORMATS_DB());
-    QFile sht(ConfigFiles::SHORTCUTS_FILE());
-    if(!set.exists() || !img.exists() || !sht.exists()) {
+    if((!QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
+        !QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) ||
+        !QFile::exists(ConfigFiles::SHORTCUTS_FILE())) {
         PQPassOn::get().setFreshInstall(true);
         performStartupChecks = true;
     }
-    if(PQSettings::get().getVersion() != VERSION || QString(VERSION) == "dev")
+    if(PQSettings::get()["generalVersion"] != VERSION || QString(VERSION) == "dev")
         performStartupChecks = true;
 
 // only one of them will be defined at a time
@@ -142,10 +142,10 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
     qmlRegisterType<PQShortcuts>("PQShortcuts", 1, 0, "PQShortcuts");
 
-    engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
     engine.rootContext()->setContextProperty("PQKeyPressMouseChecker", &PQKeyPressMouseChecker::get());
+    engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);

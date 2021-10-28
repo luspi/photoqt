@@ -65,11 +65,11 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            hotedge_slider.value = PQSettings.hotEdgeWidth
+            hotedge_slider.value = PQSettings.interfaceHotEdgeSize
         }
 
         onSaveAllSettings: {
-            PQSettings.hotEdgeWidth = hotedge_slider.value
+            PQSettings.interfaceHotEdgeSize = hotedge_slider.value
         }
 
     }

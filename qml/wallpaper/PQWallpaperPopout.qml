@@ -53,14 +53,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.wallpaperPopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutWallpaper&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onWallpaperPopoutElementChanged: {
-            if(!PQSettings.wallpaperPopoutElement)
-                wallpaper_window.visible = Qt.binding(function() { return PQSettings.wallpaperPopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutWallpaperChanged: {
+            if(!PQSettings.interfacePopoutWallpaper)
+                wallpaper_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutWallpaper&&curloader.item.opacity==1; })
         }
     }
 

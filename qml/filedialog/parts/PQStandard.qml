@@ -34,7 +34,7 @@ ListView {
 
     height: childrenRect.height
 
-    visible: PQSettings.openUserPlacesStandard
+    visible: PQSettings.openfileUserPlacesStandard
 
     property int hoverIndex: -1
 

@@ -354,22 +354,22 @@ bool PQHandlingFileDir::isExcludeDirFromCaching(QString filename) {
     DBG << CURDATE << "PQHandlingFileDir::isExcludeDirFromCaching()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
-    if(PQSettings::get().getExcludeCacheDropBox() != "") {
-        if(filename.indexOf(PQSettings::get().getExcludeCacheDropBox())== 0)
+    if(PQSettings::get()["thumbnailsExcludeDropBox"].toString() != "") {
+        if(filename.indexOf(PQSettings::get()["thumbnailsExcludeDropBox"].toString())== 0)
             return true;
     }
 
-    if(PQSettings::get().getExcludeCacheNextcloud() != "") {
-        if(filename.indexOf(PQSettings::get().getExcludeCacheNextcloud())== 0)
+    if(PQSettings::get()["thumbnailsExcludeNextcloud"].toString() != "") {
+        if(filename.indexOf(PQSettings::get()["thumbnailsExcludeNextcloud"].toString())== 0)
             return true;
     }
 
-    if(PQSettings::get().getExcludeCacheOwnCloud() != "") {
-        if(filename.indexOf(PQSettings::get().getExcludeCacheOwnCloud())== 0)
+    if(PQSettings::get()["thumbnailsExcludeOwnCloud"].toString() != "") {
+        if(filename.indexOf(PQSettings::get()["thumbnailsExcludeOwnCloud"].toString())== 0)
             return true;
     }
 
-    const QStringList str = PQSettings::get().getExcludeCacheFolders();
+    const QStringList str = PQSettings::get()["thumbnailsExcludeFolders"].toStringList();
     for(const QString &dir: str) {
         if(filename.indexOf(dir) == 0)
             return true;
@@ -405,7 +405,7 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
     which.start("which", QStringList() << "unrar");
     which.waitForFinished();
 
-    if(!which.exitCode() && PQSettings::get().getArchiveUseExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+    if(!which.exitCode() && PQSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
 
         QProcess p;
         p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
@@ -492,7 +492,7 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
     collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
 
-    if(PQSettings::get().getSortImagesAscending())
+    if(PQSettings::get()["imageviewSortImagesAscending"].toBool())
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
     else
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });

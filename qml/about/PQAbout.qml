@@ -37,7 +37,7 @@ Item {
     property int parentHeight: toplevel.height
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
 
@@ -49,7 +49,7 @@ Item {
 
     ShaderEffectSource {
         id: effectSource
-        sourceItem: PQSettings.fileDeletePopoutElement ? dummyitem : imageitem
+        sourceItem: PQSettings.interfacePopoutAbout ? dummyitem : imageitem
         anchors.fill: parent
         sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
     }
@@ -69,9 +69,9 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: PQSettings.aboutPopoutElement ? Qt.ArrowCursor : Qt.PointingHandCursor
+            cursorShape: PQSettings.interfacePopoutAbout ? Qt.ArrowCursor : Qt.PointingHandCursor
             tooltip: em.pty+qsTranslate("about", "Close")
-            enabled: !PQSettings.aboutPopoutElement
+            enabled: !PQSettings.interfacePopoutAbout
             onClicked:
                 button_close.clicked()
         }
@@ -226,16 +226,16 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.aboutPopoutElement ?
+            tooltip: PQSettings.interfacePopoutAbout ?
                          //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(PQSettings.aboutPopoutElement)
+                if(PQSettings.interfacePopoutAbout)
                     about_window.storeGeometry()
                 button_close.clicked()
-                PQSettings.aboutPopoutElement = (PQSettings.aboutPopoutElement+1)%2
+                PQSettings.interfacePopoutAbout = !PQSettings.interfacePopoutAbout
                 HandleShortcuts.executeInternalFunction("__about")
             }
         }

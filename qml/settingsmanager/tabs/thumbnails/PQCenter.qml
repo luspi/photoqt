@@ -46,7 +46,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.thumbnailCenterActive = thb_center.checked
+            PQSettings.thumbnailsCenterOnActive = thb_center.checked
         }
 
     }
@@ -56,7 +56,7 @@ PQSetting {
     }
 
     function load() {
-        thb_center.checked = PQSettings.thumbnailCenterActive
+        thb_center.checked = PQSettings.thumbnailsCenterOnActive
     }
 
 }

@@ -30,7 +30,7 @@ QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QStri
         << CURDATE << "** requestedSize = " << requestedSize.width() << "x" << requestedSize.height() << NL;
 
     PQAsyncImageResponseThumb *response = new PQAsyncImageResponseThumb(url, requestedSize);
-    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQSettings::get().getThumbnailMaxNumberThreads()));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
     pool.start(response);
     return response;
 }
@@ -68,7 +68,7 @@ void PQAsyncImageResponseThumb::run() {
     m_requestedSize = QSize(256, 256);
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
-    if(PQSettings::get().getThumbnailCache()) {
+    if(PQSettings::get()["thumbnailsCache"].toBool()) {
 
         // If there exists a thumbnail of the current file already
         if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
@@ -141,7 +141,7 @@ void PQAsyncImageResponseThumb::run() {
         p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create file cache thumbnail
-    if(PQSettings::get().getThumbnailCache() && msg != "x") {
+    if(PQSettings::get()["thumbnailsCache"].toBool() && msg != "x") {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
         if(!filename.startsWith(QString(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8())

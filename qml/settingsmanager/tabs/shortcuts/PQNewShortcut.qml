@@ -37,7 +37,7 @@ Rectangle {
 
     opacity: 0
     visible: opacity > 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
     property bool dontResetKeys: false
 

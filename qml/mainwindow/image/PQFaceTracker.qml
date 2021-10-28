@@ -49,18 +49,23 @@ Item {
             property bool fullMouseHovered: false
 
             visible: opacity>0
-            opacity: (PQSettings.peopleTagInMetaAlwaysVisible ||
-                      (PQSettings.peopleTagInMetaIndependentLabels && labelMouseHovered) ||
-                      (!PQSettings.peopleTagInMetaIndependentLabels && !PQSettings.peopleTagInMetaHybridMode && fullMouseHovered) ||
-                      (PQSettings.peopleTagInMetaHybridMode && fullMouseHovered && (indexOfLabelHovered == index || indexOfLabelHovered == -1))) ? 1 : 0
+            // PQSettings.metadataFaceTagsVisibility:
+            // 0 = Hybrid
+            // 1 = show all always
+            // 2 = show one on hover
+            // 3 = show all on hover
+            opacity: (((PQSettings.metadataFaceTagsVisibility==0 && fullMouseHovered && (indexOfLabelHovered == index || indexOfLabelHovered == -1)) ||
+                        PQSettings.metadataFaceTagsVisibility==1 ||
+                       (PQSettings.metadataFaceTagsVisibility==2 && labelMouseHovered) ||
+                       (PQSettings.metadataFaceTagsVisibility==3 && fullMouseHovered)) && PQSettings.metadataFaceTagsEnabled) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             Rectangle {
-                visible: PQSettings.peopleTagInMetaBorderAroundFace
+                visible: PQSettings.metadataFaceTagsBorder
                 anchors.fill: parent
                 color: "transparent"
-                border.width: PQSettings.peopleTagInMetaBorderAroundFaceWidth/facetracker_top.scale
-                border.color: PQSettings.peopleTagInMetaBorderAroundFaceColor
+                border.width: PQSettings.metadataFaceTagsBorderWidth/facetracker_top.scale
+                border.color: PQSettings.metadataFaceTagsBorderColor
             }
 
             // This is the background of the text (semi-transparent black rectangle)
@@ -76,7 +81,7 @@ Item {
                     id: faceLabel
                     x: 4
                     y: 4
-                    font.pointSize: PQSettings.peopleTagInMetaFontSize/facetracker_top.scale
+                    font.pointSize: PQSettings.metadataFaceTagsFontSize/facetracker_top.scale
                     color: "white"
                     renderType: Text.QtRendering
                     text: " "+faceTags[6*index+5]+" "
@@ -112,21 +117,21 @@ Item {
     }
 
     Component.onCompleted: {
-        faceTags = (PQSettings.peopleTagInMetaDisplay ? handlingFaceTags.getFaceTags(filename) : [])
+        faceTags = (PQSettings.metadataFaceTagsVisibility!=0 ? handlingFaceTags.getFaceTags(filename) : [])
         refreshModel()
     }
 
     Connections {
         target: PQSettings
-        onPeopleTagInMetaDisplayChanged: {
-            faceTags = (PQSettings.peopleTagInMetaDisplay ? handlingFaceTags.getFaceTags(filename) : [])
+        onMetadataFaceTagsVisibilityChanged: {
+            faceTags = (PQSettings.metadataFaceTagsVisibility!=0 ? handlingFaceTags.getFaceTags(filename) : [])
             refreshModel()
         }
 
     }
 
     function updateData() {
-        faceTags = (PQSettings.peopleTagInMetaDisplay ? handlingFaceTags.getFaceTags(filename) : [])
+        faceTags = (PQSettings.metadataFaceTagsVisibility!=0 ? handlingFaceTags.getFaceTags(filename) : [])
         refreshModel()
     }
 

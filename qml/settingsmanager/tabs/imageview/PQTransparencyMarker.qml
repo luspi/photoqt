@@ -48,7 +48,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.showTransparencyMarkerBackground = trans_chk.checked
+            PQSettings.imageviewTransparencyMarker = trans_chk.checked
         }
 
     }
@@ -58,7 +58,7 @@ PQSetting {
     }
 
     function load() {
-        trans_chk.checked = PQSettings.showTransparencyMarkerBackground
+        trans_chk.checked = PQSettings.imageviewTransparencyMarker
     }
 
 }

@@ -28,10 +28,10 @@ Rectangle {
 
     id: hist_top
 
-    x: PQSettings.histogramPopoutElement ? 0 : PQSettings.histogramPosition.x
-    y: PQSettings.histogramPopoutElement ? 0 : PQSettings.histogramPosition.y
-    width: PQSettings.histogramPopoutElement ? parentWidth : PQSettings.histogramSize.width
-    height: PQSettings.histogramPopoutElement ? parentHeight : PQSettings.histogramSize.height
+    x: PQSettings.interfacePopoutHistogram ? 0 : PQSettings.histogramPosition.x
+    y: PQSettings.interfacePopoutHistogram ? 0 : PQSettings.histogramPosition.y
+    width: PQSettings.interfacePopoutHistogram ? parentWidth : PQSettings.histogramSize.width
+    height: PQSettings.interfacePopoutHistogram ? parentHeight : PQSettings.histogramSize.height
 
     property int parentWidth: 0
     property int parentHeight: 0
@@ -50,14 +50,16 @@ Rectangle {
 
     radius: 5
 
-    opacity: PQSettings.histogramPopoutElement ?
-                 1 : (PQSettings.histogram==1 ?
+    opacity: PQSettings.interfacePopoutHistogram ?
+                 1 : (PQSettings.histogramVisible ?
                      ((dragArea.containsMouse||switchmouse.containsMouse||closemouse.containsMouse) ?
                           (dragArea.buttonPressed ? 1 : 0.9) :
                           0.8) :
                      0)
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
+    onVisibleChanged:
+        updateHistogram()
 
     color: "#dd000000"
 
@@ -69,7 +71,7 @@ Rectangle {
         // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
         running: true
         repeat: false
-        interval: 1000
+        interval: 250
         onTriggered:
             startupDelay = false
     }
@@ -80,7 +82,7 @@ Rectangle {
         repeat: false
         running: false
         onTriggered: {
-            if(!PQSettings.histogramPopoutElement && !startupDelay) {
+            if(!PQSettings.interfacePopoutHistogram && !startupDelay) {
                 PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(hist_top.x, toplevel.width-hist_top.width)), Math.max(0, Math.min(hist_top.y, toplevel.height-hist_top.height)))
                 PQSettings.histogramSize = Qt.size(hist_top.width, hist_top.height)
             }
@@ -110,14 +112,6 @@ Rectangle {
         target: filefoldermodel
         onCurrentFilePathChanged:
             hist_timer.restart()
-    }
-
-    Connections {
-        target: PQSettings
-        onHistogramVersionChanged:
-            updateHistogram()
-        onHistogramChanged:
-            updateHistogram()
     }
 
     Timer {
@@ -159,7 +153,7 @@ Rectangle {
 
         anchors.fill: parent
 
-        pinch.target: PQSettings.histogramPopoutElement ? undefined : hist_top
+        pinch.target: PQSettings.interfacePopoutHistogram ? undefined : hist_top
         pinch.minimumRotation: -360
         pinch.maximumRotation: 360
         pinch.minimumScale: 0.1
@@ -177,10 +171,10 @@ Rectangle {
             id: dragArea
             hoverEnabled: true
             //: Used for the histogram. The version refers to the type of histogram that is available (colored and greyscale)
-            tooltip: (PQSettings.histogramPopoutElement ? "" : (em.pty+qsTranslate("histogram", "Click-and-drag to move.")+" ")) + em.pty+qsTranslate("histogram", "Right click to switch version.")
+            tooltip: (PQSettings.interfacePopoutHistogram ? "" : (em.pty+qsTranslate("histogram", "Click-and-drag to move.")+" ")) + em.pty+qsTranslate("histogram", "Right click to switch version.")
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
-            drag.target: PQSettings.histogramPopoutElement ? undefined : hist_top
+            drag.target: PQSettings.interfacePopoutHistogram ? undefined : hist_top
             drag.minimumX: 0
             drag.minimumY: 0
             drag.maximumX: toplevel.width-hist_top.width
@@ -199,8 +193,8 @@ Rectangle {
 
         source: "/other/histogramswitch.png"
 
-        x: PQSettings.histogramPopoutElement ? 5 : -5
-        y: PQSettings.histogramPopoutElement ? 5 : -5
+        x: PQSettings.interfacePopoutHistogram ? 5 : -5
+        y: PQSettings.interfacePopoutHistogram ? 5 : -5
         width: 25
         height: 25
         mipmap: true
@@ -228,7 +222,7 @@ Rectangle {
         width: 25
         height: 25
 
-        visible: !PQSettings.histogramPopoutElement
+        visible: !PQSettings.interfacePopoutHistogram
 
         source: "/other/histogramclose.png"
 
@@ -241,7 +235,7 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
             onClicked:
-                PQSettings.histogram = (PQSettings.histogram ? false : true)
+                PQSettings.histogramVisible = !PQSettings.histogramVisible
         }
 
     }
@@ -250,7 +244,7 @@ Rectangle {
 
         id: resizeBotRight
 
-        enabled: !PQSettings.histogramPopoutElement
+        enabled: !PQSettings.interfacePopoutHistogram
 
         anchors {
             right: parent.right
@@ -278,7 +272,7 @@ Rectangle {
 
         id: resizeBotLeft
 
-        enabled: !PQSettings.histogramPopoutElement
+        enabled: !PQSettings.interfacePopoutHistogram
 
         anchors {
             left: parent.left
@@ -310,8 +304,8 @@ Rectangle {
     }
 
     Image {
-        x: (PQSettings.histogramPopoutElement ? 5 : histswitch.width)
-        y: PQSettings.histogramPopoutElement ? 5 : -5
+        x: (PQSettings.interfacePopoutHistogram ? 5 : histswitch.width)
+        y: PQSettings.interfacePopoutHistogram ? 5 : -5
         width: 15
         height: 15
         source: "/popin.png"
@@ -322,15 +316,15 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.aboutPopoutElement ?
+            tooltip: PQSettings.interfacePopoutHistogram ?
                          //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(PQSettings.histogramPopoutElement)
+                if(PQSettings.interfacePopoutHistogram)
                     histogram_window.storeGeometry()
-                PQSettings.histogramPopoutElement = (PQSettings.histogramPopoutElement+1)%2
+                PQSettings.interfacePopoutHistogram = !PQSettings.interfacePopoutHistogram
                 HandleShortcuts.executeInternalFunction("__histogram")
             }
         }
@@ -356,12 +350,12 @@ Rectangle {
     function updateHistogram() {
 
         // Don't calculate histogram if disabled
-        if(!PQSettings.histogram || filefoldermodel.current == -1) return;
+        if(!PQSettings.histogramVisible || filefoldermodel.current == -1) return;
 
-        if(PQSettings.histogramVersion !== "grey")
-            imghist.source = "image://hist/color" + filefoldermodel.currentFilePath
-        else if(PQSettings.histogramVersion === "grey")
-            imghist.source = "image://hist/grey" + filefoldermodel.currentFilePath
+        // we do not want to bind to the currentFilePath below, as we want to preserve a short timeout when that property changes
+        var fp = filefoldermodel.currentFilePath
+
+        imghist.source = Qt.binding(function() { return "image://hist/" + (PQSettings.histogramVersion == "color" ? "color" : "grey") + fp; })
 
     }
 

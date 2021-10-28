@@ -52,14 +52,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.slideShowSettingsPopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutSlideShowSettings&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onSlideshowPopoutElementChanged: {
-            if(!PQSettings.slideShowSettingsPopoutElement)
-                slideshow_window.visible = Qt.binding(function() { return PQSettings.slideShowSettingsPopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutSlideShowSettingsChanged: {
+            if(!PQSettings.interfacePopoutSlideShowSettings)
+                slideshow_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutSlideShowSettings&&curloader.item.opacity==1; })
         }
     }
 

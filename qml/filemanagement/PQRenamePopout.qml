@@ -53,14 +53,14 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.fileRenamePopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutFileRename&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onFileRenamePopoutElementChanged: {
-            if(!PQSettings.fileRenamePopoutElement)
-                rename_window.visible = Qt.binding(function() { return PQSettings.fileRenamePopoutElement&&curloader.item.opacity==1; })
+        onInterfacePopoutFileRenameChanged: {
+            if(!PQSettings.interfacePopoutFileRename)
+                rename_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutFileRename&&curloader.item.opacity==1; })
         }
     }
 

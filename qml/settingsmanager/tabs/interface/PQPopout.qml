@@ -32,35 +32,35 @@ PQSetting {
     helptext: em.pty+qsTranslate("settingsmanager_interface", "Here you can choose for most elements whether they are to be shown integrated into the main window or in their own, separate window.")
 
     //: Used as identifying name for one of the elements in the interface
-    property var pops: [["openPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "File dialog"), "openPopoutElementKeepOpen", em.pty+qsTranslate("settingsmanager_interface", "keep open")],
+    property var pops: [["interfacePopoutOpenFile", em.pty+qsTranslate("settingsmanager_interface", "File dialog"), "interfacePopoutOpenFileKeepOpen", em.pty+qsTranslate("settingsmanager_interface", "keep open")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["settingsManagerPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Settings Manager")],
+                        ["interfacePopoutSettingsManager", em.pty+qsTranslate("settingsmanager_interface", "Settings Manager")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["mainMenuPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Main Menu")],
+                        ["interfacePopoutMainMenu", em.pty+qsTranslate("settingsmanager_interface", "Main Menu")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["metadataPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Metadata")],
+                        ["interfacePopoutMetadata", em.pty+qsTranslate("settingsmanager_interface", "Metadata")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["histogramPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Histogram")],
+                        ["interfacePopoutHistogram", em.pty+qsTranslate("settingsmanager_interface", "Histogram")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["scalePopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Scale")],
+                        ["interfacePopoutScale", em.pty+qsTranslate("settingsmanager_interface", "Scale")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["slideShowSettingsPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Slideshow Settings")],
+                        ["interfacePopoutSlideShowSettings", em.pty+qsTranslate("settingsmanager_interface", "Slideshow Settings")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["slideShowControlsPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Slideshow Controls")],
+                        ["interfacePopoutSlideShowControls", em.pty+qsTranslate("settingsmanager_interface", "Slideshow Controls")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["fileRenamePopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Rename File")],
+                        ["interfacePopoutFileRename", em.pty+qsTranslate("settingsmanager_interface", "Rename File")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["fileDeletePopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Delete File")],
+                        ["interfacePopoutFileDelete", em.pty+qsTranslate("settingsmanager_interface", "Delete File")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["fileSaveAsPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Save File As")],
+                        ["interfacePopoutFileSaveAs", em.pty+qsTranslate("settingsmanager_interface", "Save File As")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["aboutPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "About")],
+                        ["interfacePopoutAbout", em.pty+qsTranslate("settingsmanager_interface", "About")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["imgurPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Imgur")],
+                        ["interfacePopoutImgur", em.pty+qsTranslate("settingsmanager_interface", "Imgur")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["wallpaperPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Wallpaper")],
+                        ["interfacePopoutWallpaper", em.pty+qsTranslate("settingsmanager_interface", "Wallpaper")],
                         //: Noun, not a verb. Used as identifying name for one of the elements in the interface
-                        ["filterPopoutElement", em.pty+qsTranslate("settingsmanager_interface", "Filter")]]
+                        ["interfacePopoutFilter", em.pty+qsTranslate("settingsmanager_interface", "Filter")]]
 
     content: [
 

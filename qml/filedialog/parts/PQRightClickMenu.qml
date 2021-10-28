@@ -36,9 +36,9 @@ PQMenu {
     model: [
         (isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file")),
         (em.pty+qsTranslate("filedialog", "Add to Favorites")),
-        (PQSettings.openShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")),
-        (PQSettings.openThumbnails ? qsTranslate("filedialog", "Hide thumbnails") : qsTranslate("filedialog", "Show thumbnails")),
-        (PQSettings.openPreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview"))
+        (PQSettings.openfileShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")),
+        (PQSettings.openfileThumbnails ? qsTranslate("filedialog", "Hide thumbnails") : qsTranslate("filedialog", "Show thumbnails")),
+        (PQSettings.openfilePreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview"))
     ]
 
     hideIndices: [
@@ -63,11 +63,11 @@ PQMenu {
         } else if(index == 1)
             handlingFileDialog.addNewUserPlacesEntry(entry[1], upl.model.count)
         else if(index == 2)
-            PQSettings.openShowHiddenFilesFolders = !PQSettings.openShowHiddenFilesFolders
+            PQSettings.openfileShowHiddenFilesFolders = !PQSettings.openfileShowHiddenFilesFolders
         else if(index == 3)
-            PQSettings.openThumbnails = !PQSettings.openThumbnails
+            PQSettings.openfileThumbnails = !PQSettings.openfileThumbnails
         else if(index == 4)
-            PQSettings.openPreview = !PQSettings.openPreview
+            PQSettings.openfilePreview = !PQSettings.openfilePreview
 
         top.closed()
 

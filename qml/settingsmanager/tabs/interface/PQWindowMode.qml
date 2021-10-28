@@ -53,13 +53,13 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            mode_enable.checked = PQSettings.windowMode
-            mode_enable_deco.checked = PQSettings.windowDecoration
+            mode_enable.checked = PQSettings.interfaceWindowMode
+            mode_enable_deco.checked = PQSettings.interfaceWindowDecoration
         }
 
         onSaveAllSettings: {
-            PQSettings.windowMode = mode_enable.checked
-            PQSettings.windowDecoration = mode_enable_deco.checked
+            PQSettings.interfaceWindowMode = mode_enable.checked
+            PQSettings.interfaceWindowDecoration = mode_enable_deco.checked
         }
 
     }

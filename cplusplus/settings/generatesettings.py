@@ -28,7 +28,7 @@ values = {
          ["BackgroundColorGreen",      "int",  "0"],
          ["BackgroundColorRed",        "int",  "0"],
          ["BackgroundImageCenter",     "bool", "false"],
-         ["BackgroundImagePath",       "bool", "\"\""],
+         ["BackgroundImagePath",       "QString", "\"\""],
          ["BackgroundImageScale",      "bool", "true"],
          ["BackgroundImageScaleCrop",  "bool", "false"],
          ["BackgroundImageScreenshot", "bool", "false"],

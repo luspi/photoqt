@@ -47,7 +47,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.fitInWindow = fitinwin.checked
+            PQSettings.imageviewFitInWindow = fitinwin.checked
         }
 
     }
@@ -57,7 +57,7 @@ PQSetting {
     }
 
     function load() {
-        fitinwin.checked = PQSettings.fitInWindow
+        fitinwin.checked = PQSettings.imageviewFitInWindow
     }
 
 }

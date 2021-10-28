@@ -113,7 +113,7 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     /*****************/
 
     // Create server name
-    QString server_str = qApp->applicationName();
+    QString server_str = "org.photoqt.PhotoQt";
 
     // Connect to a Local Server (if available)
     socket = new QLocalSocket();

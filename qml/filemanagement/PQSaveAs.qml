@@ -37,7 +37,7 @@ Item {
     property int parentHeight: toplevel.height
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
 
@@ -49,7 +49,7 @@ Item {
 
     ShaderEffectSource {
         id: effectSource
-        sourceItem: PQSettings.fileSaveAsPopoutElement ? dummyitem : imageitem
+        sourceItem: PQSettings.interfacePopoutFileSaveAs ? dummyitem : imageitem
         anchors.fill: parent
         sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
     }
@@ -354,16 +354,16 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.aboutPopoutElement ?
+            tooltip: PQSettings.interfacePopoutFileSaveAs ?
                          //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(PQSettings.fileSaveAsPopoutElement)
+                if(PQSettings.interfacePopoutFileSaveAs)
                     saveas_window.storeGeometry()
                 button_cancel.clicked()
-                PQSettings.fileSaveAsPopoutElement = (PQSettings.fileSaveAsPopoutElement+1)%2
+                PQSettings.interfacePopoutFileSaveAs= !PQSettings.interfacePopoutFileSaveAs
                 HandleShortcuts.executeInternalFunction("__saveAs")
             }
         }

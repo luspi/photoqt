@@ -71,7 +71,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.zoomSpeed = zoomspeed.value
+            PQSettings.imageviewZoomSpeed = zoomspeed.value
         }
 
     }
@@ -81,7 +81,7 @@ PQSetting {
     }
 
     function load() {
-        zoomspeed.value = PQSettings.zoomSpeed
+        zoomspeed.value = PQSettings.imageviewZoomSpeed
     }
 
 }

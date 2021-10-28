@@ -40,7 +40,7 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.openPopoutElement ? 1 : 0
+    opacity: PQSettings.interfacePopoutOpenFile ? 1 : 0
     visible: (opacity != 0)
     enabled: visible
 
@@ -73,7 +73,7 @@ Rectangle {
 
     }
 
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: PQSettings.animationDuration*100 } }
+    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: PQSettings.imageviewAnimationDuration*100 } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
@@ -91,9 +91,9 @@ Rectangle {
 
             id: leftcol
 
-            width: PQSettings.openUserPlacesWidth
+            width: PQSettings.openfileUserPlacesWidth
             onWidthChanged:
-                PQSettings.openUserPlacesWidth = width
+                PQSettings.openfileUserPlacesWidth = width
 
             color: "#22222222"
 
@@ -113,18 +113,18 @@ Rectangle {
                 id: rightclickmenu
 
                 model: [
-                    (PQSettings.openUserPlacesStandard ? (em.pty+qsTranslate("filedialog", "Hide standard locations")) : (em.pty+qsTranslate("filedialog", "Show standard locations"))),
-                    (PQSettings.openUserPlacesUser ? (em.pty+qsTranslate("filedialog", "Hide favorite locations")) : (em.pty+qsTranslate("filedialog", "Show favorite locations"))),
-                    (PQSettings.openUserPlacesVolumes ? (em.pty+qsTranslate("filedialog", "Hide storage devices")) : (em.pty+qsTranslate("filedialog", "Show storage devices")))
+                    (PQSettings.openfileUserPlacesStandard ? (em.pty+qsTranslate("filedialog", "Hide standard locations")) : (em.pty+qsTranslate("filedialog", "Show standard locations"))),
+                    (PQSettings.openfileUserPlacesUser ? (em.pty+qsTranslate("filedialog", "Hide favorite locations")) : (em.pty+qsTranslate("filedialog", "Show favorite locations"))),
+                    (PQSettings.openfileUserPlacesVolumes ? (em.pty+qsTranslate("filedialog", "Hide storage devices")) : (em.pty+qsTranslate("filedialog", "Show storage devices")))
                 ]
 
                 onTriggered: {
                     if(index == 0)
-                        PQSettings.openUserPlacesStandard = !PQSettings.openUserPlacesStandard
+                        PQSettings.openfileUserPlacesStandard = !PQSettings.openfileUserPlacesStandard
                     else if(index == 1)
-                        PQSettings.openUserPlacesUser = !PQSettings.openUserPlacesUser
+                        PQSettings.openfileUserPlacesUser = !PQSettings.openfileUserPlacesUser
                     else if(index == 2)
-                        PQSettings.openUserPlacesVolumes = !PQSettings.openUserPlacesVolumes
+                        PQSettings.openfileUserPlacesVolumes = !PQSettings.openfileUserPlacesVolumes
                 }
 
             }
@@ -225,16 +225,16 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.aboutPopoutElement ?
+            tooltip: PQSettings.interfacePopoutOpenFile ?
                          //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(PQSettings.openPopoutElement)
+                if(PQSettings.interfacePopoutOpenFile)
                     filedialog_window.storeGeometry()
                 hideFileDialog()
-                PQSettings.openPopoutElement = (PQSettings.openPopoutElement+1)%2
+                PQSettings.interfacePopoutOpenFile = !PQSettings.interfacePopoutOpenFile
                 HandleShortcuts.executeInternalFunction("__open")
             }
         }
@@ -253,25 +253,25 @@ Rectangle {
     }
 
     function showFileDialog() {
-        if(!PQSettings.openPopoutElement) {
+        if(!PQSettings.interfacePopoutOpenFile) {
             // show in x direction
-            if(PQSettings.animationType == "x") {
+            if(PQSettings.imageviewAnimationType == "x") {
                 xAnim.duration = 0
                 filedialog_top.x = -filedialog_top.width
-                xAnim.duration = PQSettings.animationDuration*100
+                xAnim.duration = PQSettings.imageviewAnimationDuration*100
                 filedialog_top.x = 0
             // show in y direction
-            } else if(PQSettings.animationType == "y") {
+            } else if(PQSettings.imageviewAnimationType == "y") {
                 yAnim.duration = 0
                 filedialog_top.y = -filedialog_top.height
-                yAnim.duration = PQSettings.animationDuration*100
+                yAnim.duration = PQSettings.imageviewAnimationDuration*100
                 filedialog_top.y = 0
             }
             // fade in item
             filedialog_top.opacity = 1
         } else
             filedialog_window.visible = true
-        if(!PQSettings.openPopoutElementKeepOpen)
+        if(!PQSettings.interfacePopoutOpenFileKeepOpen)
             variables.visibleItem = "filedialog"
 
         tweaks.readFileTypeSettings()
@@ -283,16 +283,16 @@ Rectangle {
     }
 
     function hideFileDialog() {
-        if(PQSettings.openPopoutElementKeepOpen)
+        if(PQSettings.interfacePopoutOpenFileKeepOpen)
             return
-        if(!PQSettings.openPopoutElement) {
+        if(!PQSettings.interfacePopoutOpenFile) {
             // hide in x direction
-            if(PQSettings.animationType == "x") {
-                xAnim.duration = PQSettings.animationDuration*100
+            if(PQSettings.imageviewAnimationType == "x") {
+                xAnim.duration = PQSettings.imageviewAnimationDuration*100
                 filedialog_top.x = -width
             // hide in y direction
-            } else if(PQSettings.animationType == "y") {
-                yAnim.duration = PQSettings.animationDuration*100
+            } else if(PQSettings.imageviewAnimationType == "y") {
+                yAnim.duration = PQSettings.imageviewAnimationDuration*100
                 filedialog_top.y = -height
             }
             // fade out item

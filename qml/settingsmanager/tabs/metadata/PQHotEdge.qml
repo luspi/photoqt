@@ -48,7 +48,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.metadataEnableHotEdge = meta_hot.checked
+            PQSettings.metadataElementHotEdge = meta_hot.checked
         }
 
     }
@@ -58,7 +58,7 @@ PQSetting {
     }
 
     function load() {
-        meta_hot.checked = PQSettings.metadataEnableHotEdge
+        meta_hot.checked = PQSettings.metadataElementHotEdge
     }
 
 }

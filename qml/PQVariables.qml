@@ -29,7 +29,7 @@ Item {
     property real currentZoomLevel: 1
     property real currentRotationAngle: 0
     property real currentPaintedZoomLevel: 1
-    property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
+    property string openCurrentDirectory: PQSettings.openfileKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
     property point mousePos: Qt.point(-1, -1)
     property int metaDataWidthWhenKeptOpen: 0
 
@@ -46,16 +46,16 @@ Item {
 
         target: PQSettings
 
-        onMainMenuPopoutElementChanged:
+        onInterfacePopoutMainMenuChanged:
             loader.ensureItIsReady("mainmenu")
 
-        onMetadataPopoutElementChanged:
+        onInterfacePopoutMetadataChanged:
             loader.ensureItIsReady("metadata")
 
-        onHistogramPopoutElementChanged:
+        onInterfacePopoutHistogramChanged:
             loader.ensureItIsReady("histogram")
 
-        onSlideShowSettingsPopoutElementChanged: {
+        onInterfacePopoutSlideShowSettingsChanged: {
             if(variables.visibleItem == "slideshowsettings") {
                 loader.ensureItIsReady("slideshowsettings")
                 loader.show("slideshowsettings")

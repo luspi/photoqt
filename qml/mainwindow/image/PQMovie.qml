@@ -30,25 +30,25 @@ Item {
     id: elem
 
     x: 0 // offset taking care of in container
-    y: PQSettings.marginAroundImage
-    width: container.width-2*PQSettings.marginAroundImage
-    height: container.height-2*PQSettings.marginAroundImage
+    y: PQSettings.imageviewMargin
+    width: container.width-2*PQSettings.imageviewMargin
+    height: container.height-2*PQSettings.imageviewMargin
 
-    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
-    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
+    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.imageviewAnimationDuration*100 } }
+    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.imageviewAnimationDuration*100 } }
 
     MouseArea {
-        enabled: PQSettings.leftButtonMouseClickAndMove
+        enabled: PQSettings.imageviewLeftButtonMoveImage
         anchors.fill: parent
         onPressed: {
-            if(PQSettings.closeOnEmptyBackground || PQSettings.navigateOnEmptyBackground) {
+            if(PQSettings.interfaceCloseOnEmptyBackground || PQSettings.interfaceNavigateOnEmptyBackground) {
                 var paintedX = (container.width-videoelem.width)/2
                 var paintedY = (container.height-videoelem.height)/2
                 if(mouse.x < paintedX || mouse.x > paintedX+videoelem.width ||
                    mouse.y < paintedY || mouse.y > paintedY+videoelem.height) {
-                    if(PQSettings.closeOnEmptyBackground)
+                    if(PQSettings.interfaceCloseOnEmptyBackground)
                         toplevel.close()
-                    else if(PQSettings.navigateOnEmptyBackground) {
+                    else if(PQSettings.interfaceNavigateOnEmptyBackground) {
                         if(mouse.x < width/2)
                             imageitem.loadPrevImage()
                         else
@@ -69,10 +69,10 @@ Item {
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: PQSettings.fitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
-        height: PQSettings.fitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
+        width: PQSettings.imageviewFitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
+        height: PQSettings.imageviewFitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
 
-        volume: PQSettings.videoVolume/100
+        volume: PQSettings.filetypesVideoVolume/100
 
         property int notifyIntervalSHORT: 20
         property int notifyIntervalLONG: 250
@@ -85,7 +85,7 @@ Item {
                 container.currentVideoLength = videoelem.duration
                 variables.currentZoomLevel = videoelem.scale*100
                 variables.currentPaintedZoomLevel = videoelem.scale
-                if(PQSettings.videoAutoplay)
+                if(PQSettings.filetypesVideoAutoplay)
                     videoelem.play()
                 else
                     videoelem.pause()
@@ -95,7 +95,7 @@ Item {
         property bool reachedEnd: (position > videoelem.duration-2*notifyInterval&&notifyInterval==notifyIntervalSHORT)
 
         onPositionChanged: {
-            if(!PQSettings.videoLoop) {
+            if(!PQSettings.filetypesVideoLoop) {
                 if(position > videoelem.duration-2*notifyInterval) {
                     if(notifyInterval == notifyIntervalLONG) {
                         notifyInterval = notifyIntervalSHORT
@@ -108,14 +108,14 @@ Item {
         }
 
         onStopped: {
-            if(PQSettings.videoLoop)
+            if(PQSettings.filetypesVideoLoop)
                 videoelem.play()
         }
 
         property bool scaleAdjustedFromRotation: false
         property int rotateTo: 0    // used to know where a rotation will end up before the animation has finished
         rotation: 0
-        Behavior on rotation { RotationAnimation { id: rotationAni; duration: PQSettings.animationDuration*100 } }
+        Behavior on rotation { RotationAnimation { id: rotationAni; duration: PQSettings.imageviewAnimationDuration*100 } }
         onRotateToChanged: {
             if(pincharea.pinch.active) return // if the update came from a pinch event, don't do anything here
             rotation = rotateTo
@@ -134,7 +134,7 @@ Item {
         onRotationChanged:
             variables.currentRotationAngle = videoelem.rotation
 
-        Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
+        Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.imageviewAnimationDuration*100 } }
         onScaleChanged:
             variables.currentZoomLevel = (videoelem.width/videoelem.metaData.resolution.width)*videoelem.scale*100
 
@@ -159,10 +159,10 @@ Item {
 
             MouseArea {
                 id: videomouse
-                enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
+                enabled: PQSettings.imageviewLeftButtonMoveImage&&!variables.slideShowActive
                 anchors.fill: parent
                 hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
-                drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined
+                drag.target: PQSettings.imageviewLeftButtonMoveImage ? videoelem : undefined
                 cursorShape: controls.mouseHasBeenMovedRecently ? Qt.ArrowCursor : Qt.BlankCursor
 
                 onPressAndHold: {
@@ -342,9 +342,9 @@ Item {
 
                     from: 0
                     to: 100
-                    value: PQSettings.videoVolume
+                    value: PQSettings.filetypesVideoVolume
                     onValueChanged:
-                        PQSettings.videoVolume = value
+                        PQSettings.filetypesVideoVolume = value
 
                 }
 
@@ -362,16 +362,16 @@ Item {
     Connections {
         target: container
         onZoomIn: {
-            videoelem.scale *= (1+PQSettings.zoomSpeed/100)
+            videoelem.scale *= (1+PQSettings.imageviewZoomSpeed/100)
             videoelem.scaleAdjustedFromRotation = false
         }
         onZoomOut: {
-            videoelem.scale /= (1+PQSettings.zoomSpeed/100)
+            videoelem.scale /= (1+PQSettings.imageviewZoomSpeed/100)
             videoelem.scaleAdjustedFromRotation = false
         }
         onZoomReset: {
-            xAni.duration = PQSettings.animationDuration*100
-            yAni.duration = PQSettings.animationDuration*100
+            xAni.duration = PQSettings.imageviewAnimationDuration*100
+            yAni.duration = PQSettings.imageviewAnimationDuration*100
             if(!videoelem.scaleAdjustedFromRotation)
                 videoelem.scale = 1
             videoelem.x = (elem.width-videoelem.width)/2
@@ -430,7 +430,7 @@ Item {
     }
 
     function restorePosZoomRotationMirror() {
-        if(PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror) {
+        if(PQSettings.imageviewRememberZoomRotationMirror && src in variables.zoomRotationMirror) {
 
             elem.x = variables.zoomRotationMirror[src][0].x
             elem.y = variables.zoomRotationMirror[src][0].y

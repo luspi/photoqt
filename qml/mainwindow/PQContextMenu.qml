@@ -235,7 +235,7 @@ Rectangle {
                                 }
                                 onClicked: {
                                     if(allitems[deleg_top.mainindex][index][0]!=="separator" && (allitems[deleg_top.mainindex].length === 1 || index > 0)) {
-                                        if(allitems[deleg_top.mainindex][index][3] === "hide" && !PQSettings.mainMenuPopoutElement)
+                                        if(allitems[deleg_top.mainindex][index][3] === "hide" && !PQSettings.interfacePopoutMainMenu)
                                             context_top.opacity = 0
                                         else
                                             context_top.opacity = 1
@@ -281,7 +281,7 @@ Rectangle {
 
     Connections {
         target: PQSettings
-        onLanguageChanged:
+        onInterfaceLanguageChanged:
             mainlistview.maxrowwidth = 0
     }
 
