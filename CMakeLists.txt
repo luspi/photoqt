@@ -301,7 +301,7 @@ if(UNIX)
 
         # Install desktop file
     install(
-        FILES org.photoqt.photoqt.desktop
+        FILES org.photoqt.PhotoQt.desktop
         DESTINATION share/applications
     )
 
@@ -327,7 +327,7 @@ if(UNIX)
         DESTINATION share/icons/hicolor/128x128/apps/
     )
     install(
-        FILES photoqt.appdata.xml
+        FILES org.photoqt.PhotoQt.appdata.xml
         DESTINATION share/appdata/
     )
 
