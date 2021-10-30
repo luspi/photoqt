@@ -59,7 +59,6 @@ PQSetting {
                 onClicked: {
                     colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
                     colorDialog.visible = true
-                    settingsmanager_top.modalWindowOpen = true
                 }
             }
         }
@@ -71,18 +70,20 @@ PQSetting {
         title: em.pty+qsTranslate("settingsmanager_interface", "please choose a color")
         showAlphaChannel: true
         modality: Qt.ApplicationModal
-        onAccepted:
+        onAccepted: {
+            console.log(colorDialog.color)
             rgba = handlingGeneral.convertHexToRgba(colorDialog.color)
+        }
+        onVisibleChanged:
+            settingsmanager_top.modalWindowOpen = visible
     }
 
     Connections {
 
         target: settingsmanager_top
 
-        onCloseModalWindow: {
+        onCloseModalWindow:
             colorDialog.close()
-            settingsmanager_top.modalWindowOpen = false
-        }
 
         onLoadAllSettings:
             rgba = [PQSettings.interfaceOverlayColorRed, PQSettings.interfaceOverlayColorGreen, PQSettings.interfaceOverlayColorBlue, PQSettings.interfaceOverlayColorAlpha]

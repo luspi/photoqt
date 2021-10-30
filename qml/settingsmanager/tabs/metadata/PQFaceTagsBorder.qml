@@ -97,7 +97,6 @@ PQSetting {
                     onClicked: {
                         colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
                         colorDialog.visible = true
-                        settingsmanager_top.modalWindowOpen = true
                     }
                 }
             }
@@ -113,6 +112,8 @@ PQSetting {
         modality: Qt.ApplicationModal
         onAccepted:
             rgba = handlingGeneral.convertHexToRgba(colorDialog.color)
+        onVisibleChanged:
+            settingsmanager_top.modalWindowOpen = visible
     }
 
     Connections {

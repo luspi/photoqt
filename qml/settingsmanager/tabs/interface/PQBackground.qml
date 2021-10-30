@@ -74,10 +74,8 @@ PQSetting {
                     cursorShape: Qt.PointingHandCursor
                     //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
                     tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click to select an image")
-                    onClicked: {
-                        settingsmanager_top.modalWindowOpen = true
+                    onClicked:
                         fileDialog.open()
-                    }
                 }
             }
 
@@ -106,10 +104,8 @@ PQSetting {
 
         target: settingsmanager_top
 
-        onCloseModalWindow: {
+        onCloseModalWindow:
             fileDialog.close()
-            settingsmanager_top.modalWindowOpen = false
-        }
 
         onLoadAllSettings: {
 
@@ -222,6 +218,8 @@ PQSetting {
         onAccepted: {
             bg_image_img.source = fileDialog.currentFile
         }
+        onVisibleChanged:
+            settingsmanager_top.modalWindowOpen = visible
     }
 
 }
