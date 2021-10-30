@@ -70,10 +70,8 @@ PQSetting {
         title: em.pty+qsTranslate("settingsmanager_interface", "please choose a color")
         showAlphaChannel: true
         modality: Qt.ApplicationModal
-        onAccepted: {
-            console.log(colorDialog.color)
+        onAccepted:
             rgba = handlingGeneral.convertHexToRgba(colorDialog.color)
-        }
         onVisibleChanged:
             settingsmanager_top.modalWindowOpen = visible
     }

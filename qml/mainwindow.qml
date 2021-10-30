@@ -68,8 +68,8 @@ Window {
         anchors.fill: parent
 
         source: PQSettings.interfaceBackgroundImageScreenshot ?
-                    ("file://" + handlingFileDir.getTempDir() + "/photoqt_screenshot_0.jpg") :
-                    (PQSettings.interfaceBackgroundImageUse ? ("file://"+PQSettings.interfaceBackgroundImagePath) : "")
+                    ("image://full/" + handlingFileDir.getTempDir() + "/photoqt_screenshot_0.jpg") :
+                    (PQSettings.interfaceBackgroundImageUse ? ("image://full/"+PQSettings.interfaceBackgroundImagePath) : "")
 
         fillMode: PQSettings.interfaceBackgroundImageScale ?
                       Image.PreserveAspectFit :

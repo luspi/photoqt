@@ -216,7 +216,7 @@ PQSetting {
             fileDialog.nameFilters = str
         }
         onAccepted: {
-            bg_image_img.source = fileDialog.currentFile
+            bg_image_img.source = "image://thumb/" + handlingFileDir.cleanPath(fileDialog.currentFile)
         }
         onVisibleChanged:
             settingsmanager_top.modalWindowOpen = visible
