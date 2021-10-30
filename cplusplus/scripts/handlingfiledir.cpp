@@ -463,7 +463,8 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
         while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
 
             // Read the current file entry
-            QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
+            // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+            QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
 
             // If supported file format, append to temporary list
             if((PQImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(filenameinside).suffix())))
