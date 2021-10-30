@@ -82,10 +82,24 @@ QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
     DBG << CURDATE << "PQHandlingGeneral::convertHexToRgba()" << NL
         << CURDATE << "** hex = " << hex.toStdString() << NL;
 
-    int a = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
-    int r = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
-    int g = QStringRef(&hex, 5, 2).toUInt(nullptr, 16);
-    int b = QStringRef(&hex, 7, 2).toUInt(nullptr, 16);
+    int r,g,b,a;
+
+    // no transparency
+    if(hex.length() == 7) {
+
+        a = 255;
+        r = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
+        g = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
+        b = QStringRef(&hex, 5, 2).toUInt(nullptr, 16);
+
+    } else {
+
+        a = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
+        r = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
+        g = QStringRef(&hex, 5, 2).toUInt(nullptr, 16);
+        b = QStringRef(&hex, 7, 2).toUInt(nullptr, 16);
+
+    }
 
     return QVariantList() << r << g << b << a;
 
