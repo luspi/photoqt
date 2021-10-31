@@ -52,7 +52,7 @@ appimage:
     - ./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
     - ./linuxdeploy-x86_64.AppImage --appimage-extract
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
-    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ -d ./appdir/usr/share/applications/org.photoqt.photoqt.desktop --plugin=qt --output appimage
+    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ -d ./appdir/usr/share/applications/org.photoqt.PhotoQt.desktop --plugin=qt --output appimage
     - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
     - curl --data-binary @PhotoQt-nightly.AppImage ${UPLOAD_URL}
 
