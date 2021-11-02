@@ -27,21 +27,12 @@
 
 PQSettings::PQSettings() {
 
-    QFileInfo infodb(ConfigFiles::SETTINGS_DB());
-//    if(!infodb.exists())
-//        PQStartup::Settings::migrateSettings();
-
+    // we check for driver availability during startup
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+    else
         db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-    else {
-        LOG << CURDATE << "PQSettings::PQSettings(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
-        //: This is the window title of an error message box
-        QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR reading settings"),
-                                 QCoreApplication::translate("PQSettings", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function properly."));
-        return;
-    }
+
     db.setHostName("settings");
     db.setDatabaseName(ConfigFiles::SETTINGS_DB());
 
@@ -57,6 +48,8 @@ PQSettings::PQSettings() {
                              << "histogram";
 
     readonly = false;
+
+    QFileInfo infodb(ConfigFiles::SETTINGS_DB());
 
     if(!infodb.exists() || !db.open()) {
 
