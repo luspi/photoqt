@@ -23,21 +23,26 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
+import PQStartup 1.0
 
 Window {
 
     id: top_first
 
     //: Window title
-    title: em.pty+qsTranslate("welcome", "Welcome to PhotoQt")
+    title: "Welcome to PhotoQt"
 
-    minimumWidth: 600
-    minimumHeight: 500
+    minimumWidth: 800
+    minimumHeight: 600
 
     color: "#ffffff"
 
-    x: (handlingExternal.getScreenSize().width-width)/2
-    y: (handlingExternal.getScreenSize().height-height)/2
+//    x: (handlingExternal.getScreenSize().width-width)/2
+//    y: (handlingExternal.getScreenSize().height-height)/2
+
+    PQStartup {
+        id: startup
+    }
 
     Item {
 
@@ -51,42 +56,39 @@ Window {
 
             Item {
                 width: 1
-                height: 1
+                height: 10
             }
 
             Text {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: em.pty+qsTranslate("welcome", "Welcome to PhotoQt")
-                font.pointSize: 20
+                text: "Welcome to PhotoQt"
+                font.pointSize: 25
                 font.bold: true
             }
 
             Item {
                 width: 1
-                height: 1
+                height: 10
             }
 
             Text {
                 width: parent.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: em.pty+qsTranslate("welcome", "PhotoQt is an image viewer that wants to adapt to your needs, thus it is highly customizable. Below you can choose one of three sets of default settings to start out with.")
+                text: "PhotoQt is an image viewer that aims to be very flexible in order to adapt to your needs and workflow instead of the other way around. Thus, most things and behaviours can be adjusted in the settings manager. Below you can choose one of three sets of default settings to start out with."
             }
 
             Text {
                 width: parent.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                //: The 'here' refers to the welcome window new users see where they can choose one of three sets of default settings
-                text: em.pty+qsTranslate("welcome", "If you do not know what to do here, that is nothing to worry about: Simply click on continue.")
+                text: "If you do not know what to do here, that is nothing to worry about: Simply click on continue."
             }
 
-            Text {
-                width: parent.width
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: em.pty+qsTranslate("welcome", "Note that you can change any and all of these settings (and many more) at any time from the settings manager.")
+            Item {
+                width: 1
+                height: 1
             }
 
             Row {
@@ -105,7 +107,7 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/welcome/single.png"
+                        source: "/startup/single.png"
                         opacity: radio_single.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -133,7 +135,7 @@ Window {
                         width: 150
                         horizontalAlignment: Text.AlignHCenter
                         //: one of three sets of default settings in the welcome screen
-                        text: em.pty+qsTranslate("welcome", "show everything integrated into main window")
+                        text: "show everything integrated into main window"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: radio_single.checked ? "#000000" : "#888888"
                         MouseArea {
@@ -152,7 +154,7 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/welcome/mixed.png"
+                        source: "/startup/mixed.png"
                         opacity: radio_mixed.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -179,7 +181,7 @@ Window {
                         width: 150
                         horizontalAlignment: Text.AlignHCenter
                         //: one of three sets of default settings in the welcome screen
-                        text: em.pty+qsTranslate("welcome", "show some things integrated into the main window and some on their own")
+                        text: "show some things integrated into the main window and some on their own"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: radio_mixed.checked ? "#000000" : "#888888"
                         MouseArea {
@@ -199,7 +201,7 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/welcome/individual.png"
+                        source: "/startup/individual.png"
                         opacity: radio_individual.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -226,7 +228,7 @@ Window {
                         width: 150
                         horizontalAlignment: Text.AlignHCenter
                         //: one of three sets of default settings in the welcome screen
-                        text: em.pty+qsTranslate("welcome", "show everything in its own window")
+                        text: "show everything in its own window"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: radio_individual.checked ? "#000000" : "#888888"
                         MouseArea {
@@ -245,13 +247,26 @@ Window {
 
             Item {
                 width: 1
+                height: 1
+            }
+
+            Text {
+                width: parent.width
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                text: "Note that you can change any and all of these settings (and many more) at any time from the settings manager."
+            }
+
+            Item {
+                width: 1
                 height: 20
             }
 
             Button {
                 x: (parent.width-width)/2
                 //: written on a clickable button
-                text: em.pty+qsTranslate("welcome", "Continue")
+                text: "Continue"
+                font.bold: true
                 focus: true
                 onClicked:
                     top_first.close()
@@ -268,72 +283,19 @@ Window {
     onClosing: {
 
         // everything in one single window
-        if(radio_single.checked) {
+        if(radio_single.checked)
 
-            PQSettings.interfacePopoutMainMenu = 0
-            PQSettings.interfacePopoutMetadata = 0
-            PQSettings.interfacePopoutHistogram = 0
-            PQSettings.interfacePopoutScale = 0
-            PQSettings.interfacePopoutOpenFile = 0
-            PQSettings.interfacePopoutSlideShowSettings = 0
-            PQSettings.interfacePopoutSlideShowControls = 0
-            PQSettings.interfacePopoutFileRename = 0
-            PQSettings.interfacePopoutFileDelete = 0
-            PQSettings.interfacePopoutAbout = 0
-            PQSettings.interfacePopoutImgur = 0
-            PQSettings.interfacePopoutWallpaper = 0
-            PQSettings.interfacePopoutFilter = 0
-            PQSettings.interfacePopoutSettingsManager = 0
-            PQSettings.interfacePopoutFileSaveAs = 0
+            startup.setupFresh(0)
 
-            PQSettings.interfaceWindowMode = 1
-            PQSettings.interfaceWindowDecoration = 1
+        // some integrated, some individual
+        else if(radio_mixed.checked)
+
+            startup.setupFresh(1)
 
         // everything in its own window
-        } else if(radio_individual.checked) {
+        else
 
-            PQSettings.interfacePopoutMainMenu = 1
-            PQSettings.interfacePopoutMetadata = 1
-            PQSettings.interfacePopoutHistogram = 1
-            PQSettings.interfacePopoutScale = 1
-            PQSettings.interfacePopoutOpenFile = 1
-            PQSettings.interfacePopoutSlideShowSettings = 1
-            PQSettings.interfacePopoutSlideShowControls = 1
-            PQSettings.interfacePopoutFileRename = 1
-            PQSettings.interfacePopoutFileDelete = 1
-            PQSettings.interfacePopoutAbout = 1
-            PQSettings.interfacePopoutImgur = 1
-            PQSettings.interfacePopoutWallpaper = 1
-            PQSettings.interfacePopoutFilter = 1
-            PQSettings.interfacePopoutSettingsManager = 1
-            PQSettings.interfacePopoutFileSaveAs = 1
-
-            PQSettings.interfaceWindowMode = 1
-            PQSettings.interfaceWindowDecoration = 1
-
-        // small elements integrated, large ones in their own window
-        } else {
-
-            PQSettings.interfacePopoutMainMenu = 0
-            PQSettings.interfacePopoutMetadata = 0
-            PQSettings.interfacePopoutHistogram = 0
-            PQSettings.interfacePopoutScale = 1
-            PQSettings.interfacePopoutOpenFile = 1
-            PQSettings.interfacePopoutSlideShowSettings = 1
-            PQSettings.interfacePopoutSlideShowControls = 1
-            PQSettings.interfacePopoutFileRename = 0
-            PQSettings.interfacePopoutFileDelete = 0
-            PQSettings.interfacePopoutAbout = 0
-            PQSettings.interfacePopoutImgur = 1
-            PQSettings.interfacePopoutWallpaper = 1
-            PQSettings.interfacePopoutFilter = 0
-            PQSettings.interfacePopoutSettingsManager = 1
-            PQSettings.interfacePopoutFileSaveAs = 0
-
-            PQSettings.interfaceWindowMode = 1
-            PQSettings.interfaceWindowDecoration = 1
-
-        }
+            startup.setupFresh(2)
 
         toplevel.start()
     }

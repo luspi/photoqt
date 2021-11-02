@@ -45,7 +45,6 @@ import "./menumeta"
 import "./histogram"
 import "./slideshow"
 import "./settingsmanager"
-import "./welcome"
 
 Window {
 
@@ -161,20 +160,10 @@ Window {
     }
 
     Component.onCompleted:  {
-
-        if(PQPassOn.getFreshInstall())
-
-            welcome.source = "welcome/PQWelcome.qml"
-
-        else
-
-            start()
-
+        start()
     }
 
     PQTrayIcon { id: trayicon }
-
-    Loader { id: welcome }
 
     PQVariables { id: variables }
     PQCmdReceived { id: cmdreceived }

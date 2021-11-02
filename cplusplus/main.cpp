@@ -89,12 +89,17 @@ int main(int argc, char **argv) {
     int checker = 1;//PQStartup::check();
     if(checker != 0) {
 
-        PQStartup *startup = new PQStartup(checker);
-        startup->exec();
+        QQmlApplicationEngine engine;
+        app.qmlEngine = &engine;
+        qmlRegisterType<PQStartup>("PQStartup", 1, 0, "PQStartup");
+        if(checker == 1)
+            engine.load("qrc:/startup/PQStartupUpdate.qml");
+        else
+            engine.load("qrc:/startup/PQStartupFreshInstall.qml");
+
+        app.exec();
 
     }
-
-
 
     // check for update or new install
 //    bool performStartupChecks = false;

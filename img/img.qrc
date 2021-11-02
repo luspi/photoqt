@@ -72,9 +72,6 @@
         <file>other/logo.png</file>
         <file>image/checkerboard.png</file>
         <file>settingsmanager/filetypes/im.png</file>
-        <file>welcome/single.png</file>
-        <file>welcome/individual.png</file>
-        <file>welcome/mixed.png</file>
         <file>popin.png</file>
         <file>mainwindow/fullscreen_off.png</file>
         <file>mainwindow/fullscreen_on.png</file>
@@ -87,5 +84,8 @@
         <file>filedialog/forwards.png</file>
         <file>mainwindow/menu.png</file>
         <file>mainmenu/clipboard.png</file>
+        <file>startup/individual.png</file>
+        <file>startup/mixed.png</file>
+        <file>startup/single.png</file>
     </qresource>
 </RCC>

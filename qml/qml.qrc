@@ -131,7 +131,6 @@
         <file>settingsmanager/tabs/filetypes/PQFileTypes.qml</file>
         <file>filemanagement/PQSaveAs.qml</file>
         <file>filemanagement/PQSaveAsPopout.qml</file>
-        <file>welcome/PQWelcome.qml</file>
         <file>unavailable/PQUnavailable.qml</file>
         <file>unavailable/PQUnavailablePopout.qml</file>
         <file>mainwindow/PQWindowButtons.qml</file>
@@ -151,5 +150,7 @@
         <file>mainwindow/PQContextMenu.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQExcludeFolders.qml</file>
         <file>elements/PQTextArea.qml</file>
+        <file>startup/PQStartupUpdate.qml</file>
+        <file>startup/PQStartupFreshInstall.qml</file>
     </qresource>
 </RCC>

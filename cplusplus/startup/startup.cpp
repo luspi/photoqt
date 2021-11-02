@@ -1,61 +1,6 @@
 #include "startup.h"
 
-PQStartup::PQStartup(const int checker, QWidget *parent) : QDialog(parent) {
-
-    this->setMaximumWidth(800);
-    this->setMinimumWidth(600);
-
-    this->checker = checker;
-
-    QLabel *title;
-    if(checker == 1)
-        title = new QLabel("Welcome back to PhotoQt");
-    else
-        title = new QLabel("Welcome to PhotoQt");
-    title->setStyleSheet("font-size: 35pt; font-weight: bold");
-    title->setAlignment(Qt::AlignHCenter);
-
-    QLabel *desc1 = new QLabel("PhotoQt is an image viewer that aims to be very flexible in order to adapt to your needs and workflow instead of the other way around. Thus, most things and behaviours can be adjusted in the settings manager.");
-    desc1->setStyleSheet("font-size: 11pt;");
-    desc1->setWordWrap(true);
-
-    QLabel *desc2 = new QLabel("<b>In order to complete the update, some things need to be updated/migrated (done automatically).</b> Simply close this window to continue.");
-    desc2->setStyleSheet("font-size: 11pt;");
-    desc2->setWordWrap(true);
-
-    QLabel *desc3 = new QLabel("<b>Website:</b> <a href=\"https://photoqt.org\">https://photoqt.org</a>&nbsp;&mdash;&nbsp;<b>Contact:</b> <a href=\"mailto:Lukas@photoqt.org\">Lukas@photoqt.org</a>");
-    desc3->setStyleSheet("font-size: 11pt;");
-    desc3->setAlignment(Qt::AlignHCenter);
-    desc3->setWordWrap(true);
-    connect(desc3, &QLabel::linkActivated, this, &PQStartup::linkClicked);
-
-    QPushButton *but = new QPushButton("Open PhotoQt");
-    but->setStyleSheet("font-weight: bold; font-size: 15pt;");
-    but->setMaximumWidth(400);
-    QHBoxLayout *butLay = new QHBoxLayout;
-    butLay->addStretch();
-    butLay->addWidget(but);
-    butLay->addStretch();
-
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->setMargin(20);
-    this->setLayout(mainLayout);
-
-    mainLayout->addWidget(title);
-    mainLayout->addSpacing(20);
-    mainLayout->addWidget(desc1);
-    mainLayout->addSpacing(10);
-    if(checker == 1) {
-        mainLayout->addWidget(desc2);
-        mainLayout->addSpacing(10);
-    }
-    mainLayout->addWidget(desc3);
-    mainLayout->addSpacing(10);
-    mainLayout->addLayout(butLay);
-
-    connect(but, &QPushButton::clicked, this, &QDialog::close);
-
+PQStartup::PQStartup(QObject *parent) : QObject(parent) {
 
 }
 
@@ -121,26 +66,9 @@ int PQStartup::check() {
 
 }
 
-void PQStartup::linkClicked(const QString &url) {
+void PQStartup::setupFresh(int defaultPopout) {
 
-    QDesktopServices::openUrl(QUrl(url));
-
-}
-
-void PQStartup::hideEvent(QHideEvent *e) {
-
-    if(checker == 1)
-        performChecksAndMigrations();
-    else
-        setupFresh();
-
-    return QDialog::hideEvent(e);
-
-}
-
-void PQStartup::setupFresh() {
-
-    qDebug() << "setupFresh";
+    qDebug() << "setupFresh:" << defaultPopout;
 
 }
 
