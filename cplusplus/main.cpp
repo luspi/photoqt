@@ -25,7 +25,8 @@
 
 #include "passon.h"
 #include "startup.h"
-#include "startup/exportimport.h"
+#include "startup/startup.h"
+//#include "startup/exportimport.h"
 #include "settings/settings.h"
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
@@ -70,32 +71,41 @@ int main(int argc, char **argv) {
 
     PQSingleInstance app(argc, argv);
 
-    // Set app name and version
+    // Set app information
     QApplication::setApplicationName("PhotoQt");
     QApplication::setOrganizationName("");
     QApplication::setOrganizationDomain("photoqt.org");
     QApplication::setApplicationVersion(VERSION);
-
     QApplication::setQuitOnLastWindowClosed(true);
 
     if(app.exportAndQuit != "") {
-        PQStartup::Export::perform(app.exportAndQuit);
+//        PQStartup::Export::perform(app.exportAndQuit);
         std::exit(0);
     } else if(app.importAndQuit != "") {
-        PQStartup::Import::perform(app.importAndQuit);
+//        PQStartup::Import::perform(app.importAndQuit);
         std::exit(0);
     }
 
-    // check for update or new install
-    bool performStartupChecks = false;
-    if((!QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
-        !QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) ||
-        !QFile::exists(ConfigFiles::SHORTCUTS_FILE())) {
-        PQPassOn::get().setFreshInstall(true);
-        performStartupChecks = true;
+    int checker = 1;//PQStartup::check();
+    if(checker != 0) {
+
+        PQStartup *startup = new PQStartup(checker);
+        startup->exec();
+
     }
-    if(PQSettings::get()["generalVersion"] != VERSION || QString(VERSION) == "dev")
-        performStartupChecks = true;
+
+
+
+    // check for update or new install
+//    bool performStartupChecks = false;
+//    if((!QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
+//        !QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) ||
+//        !QFile::exists(ConfigFiles::SHORTCUTS_FILE())) {
+//        PQPassOn::get().setFreshInstall(true);
+//        performStartupChecks = true;
+//    }
+//    if(PQSettings::get()["generalVersion"] != VERSION || QString(VERSION) == "dev")
+//        performStartupChecks = true;
 
 // only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
@@ -122,8 +132,8 @@ int main(int argc, char **argv) {
     }, Qt::QueuedConnection);
 
     // we only do startup checks on updates and new installs
-    if(performStartupChecks)
-        PQStartup::PQStartup();
+//    if(performStartupChecks)
+//        PQStartup::PQStartup();
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");

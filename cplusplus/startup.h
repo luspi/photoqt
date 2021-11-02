@@ -20,28 +20,28 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQSTARTUP_H
-#define PQSTARTUP_H
+#ifndef PQSTARTUP2_H
+#define PQSTARTUP2_H
 
-#include "startup/folders.h"
-#include "startup/screenshots.h"
-#include "startup/shortcuts.h"
-#include "startup/contextmenu.h"
-#include "startup/imageformats.h"
-#include "startup/settings.h"
+//#include "startup/folders.h"
+//#include "startup/screenshots.h"
+//#include "startup/shortcuts.h"
+//#include "startup/contextmenu.h"
+//#include "startup/imageformats.h"
+//#include "startup/settings.h"
 
-namespace PQStartup {
+// namespace PQStartup {
+// 
+//     static void PQStartup() {
+//         ::PQStartup::Folders::ensureConfigDataFoldersExist();
+//         ::PQStartup::Screenshots::getAndStore();
+//         ::PQStartup::Shortcuts::updateShortcutsFormat();
+//         ::PQStartup::Shortcuts::updateShortcuts();
+//         ::PQStartup::ContextMenu::createDefault();
+//         ::PQStartup::ImageFormats::ensureImageFormatsDatabaseExists();
+//         ::PQStartup::ImageFormats::updateFormats();
+//     }
+// 
+// }
 
-    static void PQStartup() {
-        ::PQStartup::Folders::ensureConfigDataFoldersExist();
-        ::PQStartup::Screenshots::getAndStore();
-        ::PQStartup::Shortcuts::updateShortcutsFormat();
-        ::PQStartup::Shortcuts::updateShortcuts();
-        ::PQStartup::ContextMenu::createDefault();
-        ::PQStartup::ImageFormats::ensureImageFormatsDatabaseExists();
-        ::PQStartup::ImageFormats::updateFormats();
-    }
-
-}
-
-#endif // PQSTARTUP_H
+#endif // PQSTARTUP2_H

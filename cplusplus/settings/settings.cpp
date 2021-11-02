@@ -23,13 +23,13 @@
  /* auto-generated using generatesettings.py */
 
 #include "settings.h"
-#include "../startup/settings.h"
+//#include "../startup/settings.h"
 
 PQSettings::PQSettings() {
 
     QFileInfo infodb(ConfigFiles::SETTINGS_DB());
-    if(!infodb.exists())
-        PQStartup::Settings::migrateSettings();
+//    if(!infodb.exists())
+//        PQStartup::Settings::migrateSettings();
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
