@@ -67,8 +67,10 @@
 
 int main(int argc, char **argv) {
 
+    // needs to be set before Q*Application is created
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+    // only a single instance (by default)
     PQSingleInstance app(argc, argv);
 
     // Set app information
@@ -78,6 +80,7 @@ int main(int argc, char **argv) {
     QApplication::setApplicationVersion(VERSION);
     QApplication::setQuitOnLastWindowClosed(true);
 
+    // handle export/import commands
     if(app.exportAndQuit != "") {
         PQStartup::exportData(app.exportAndQuit);
         std::exit(0);
@@ -86,7 +89,11 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
+    // perform some startup checks
+    // return 1 on updates and 2 on fresh installs
     int checker = PQStartup::check();
+
+    // update or fresh install detected => show informational message
     if(checker != 0) {
 
         QQmlApplicationEngine engine;
@@ -108,17 +115,6 @@ int main(int argc, char **argv) {
         QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
         pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
     }
-
-    // check for update or new install
-//    bool performStartupChecks = false;
-//    if((!QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
-//        !QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) ||
-//        !QFile::exists(ConfigFiles::SHORTCUTS_FILE())) {
-//        PQPassOn::get().setFreshInstall(true);
-//        performStartupChecks = true;
-//    }
-//    if(PQSettings::get()["generalVersion"] != VERSION || QString(VERSION) == "dev")
-//        performStartupChecks = true;
 
 // only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
@@ -143,10 +139,6 @@ int main(int argc, char **argv) {
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-
-    // we only do startup checks on updates and new installs
-//    if(performStartupChecks)
-//        PQStartup::PQStartup();
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
