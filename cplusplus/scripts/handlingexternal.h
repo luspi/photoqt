@@ -42,13 +42,13 @@ public:
     Q_INVOKABLE void copyToClipboard(QString filename);
     Q_INVOKABLE void copyTextToClipboard(QString txt);
     Q_INVOKABLE void executeExternal(QString cmd, QString currentfile);
-    Q_INVOKABLE bool exportConfigTo(QString path);
+    Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE QString findDropBoxFolder();
     Q_INVOKABLE QString findNextcloudFolder();
     Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QVariantList getContextMenuEntries();
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
-    Q_INVOKABLE bool importConfigFrom(QString path);
+    Q_INVOKABLE static bool importConfigFrom(QString path);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
     Q_INVOKABLE QSize getScreenSize();

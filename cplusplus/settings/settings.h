@@ -38,11 +38,14 @@ public:
         static PQSettings instance;
         return instance;
     }
+    ~PQSettings();
 
     PQSettings(PQSettings const&)     = delete;
     void operator=(PQSettings const&) = delete;
 
     void setDefault(bool ignoreLanguage = false);
+
+    void update(QString key, QVariant value);
 
 private:
     PQSettings();

@@ -119,6 +119,14 @@ PQSettings::PQSettings() {
 
 }
 
+PQSettings::~PQSettings() {
+    db.close();
+    delete dbCommitTimer;
+#ifndef NDEBUG
+    delete checkvalid;
+#endif
+}
+
 void PQSettings::readDB() {
 
 #ifndef NDEBUG
@@ -267,6 +275,11 @@ void PQSettings::setDefault(bool ignoreLanguage) {
 
     dbCommitTimer->start();
 
+}
+
+void PQSettings::update(QString key, QVariant value) {
+    (*this)[key] = value;
+    saveChangedValue(key, value);
 }
 
 void PQSettings::checkValidSlot() {

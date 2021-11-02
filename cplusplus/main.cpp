@@ -79,14 +79,14 @@ int main(int argc, char **argv) {
     QApplication::setQuitOnLastWindowClosed(true);
 
     if(app.exportAndQuit != "") {
-//        PQStartup::Export::perform(app.exportAndQuit);
+        PQStartup::exportData(app.exportAndQuit);
         std::exit(0);
     } else if(app.importAndQuit != "") {
-//        PQStartup::Import::perform(app.importAndQuit);
+        PQStartup::importData(app.importAndQuit);
         std::exit(0);
     }
 
-    int checker = 1;//PQStartup::check();
+    int checker = PQStartup::check();
     if(checker != 0) {
 
         QQmlApplicationEngine engine;
@@ -99,6 +99,14 @@ int main(int argc, char **argv) {
 
         app.exec();
 
+    }
+
+    // Get screenshots for fake transparency
+    for(int i = 0; i < QApplication::screens().count(); ++i) {
+        QScreen *screen = QApplication::screens().at(i);
+        QRect r = screen->geometry();
+        QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+        pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
     }
 
     // check for update or new install

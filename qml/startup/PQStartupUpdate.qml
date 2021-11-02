@@ -111,7 +111,6 @@ Window {
 
     onClosing: {
         startup.performChecksAndMigrations()
-        toplevel.start()
     }
 
     Shortcut {

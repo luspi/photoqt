@@ -297,7 +297,6 @@ Window {
 
             startup.setupFresh(2)
 
-        toplevel.start()
     }
 
     Shortcut {

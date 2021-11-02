@@ -6,8 +6,10 @@
 #include <QtSql>
 #include <QMessageBox>
 
+#include "../scripts/handlingexternal.h"
 #include "../configfiles.h"
 #include "../logger.h"
+#include "../settings/imageformats.h"
 
 class PQStartup : public QObject {
 
@@ -23,6 +25,14 @@ public:
 
     Q_INVOKABLE void setupFresh(int defaultPopout);
     Q_INVOKABLE void performChecksAndMigrations();
+
+    static void exportData(QString path);
+    static void importData(QString path);
+
+private:
+    bool checkIfBinaryExists(QString exec);
+    bool migrateSettingsToDb();
+    void migrateShortcutsToDb();
 
 };
 
