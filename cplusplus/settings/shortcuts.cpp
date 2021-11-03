@@ -219,8 +219,9 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
             externalShortcuts[cmd] = sh;
 
             QSqlQuery query(db);
-            query.prepare("UPDATE external SET shortcuts=:sh WHERE command=:cmd");
-            query.bindValue(":sh", sh.join(", "));
+            query.prepare("UPDATE external SET shortcuts=:sh,close=:cl WHERE command=:cmd");
+            query.bindValue(":cl", sh[0]);
+            query.bindValue(":sh", sh.mid(1).join(", "));
             query.bindValue(":cmd", cmd);
             if(!query.exec())
                 LOG << CURDATE << "PQShortcuts::setShortcut() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
@@ -230,8 +231,9 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
             externalShortcuts[cmd] = sh;
 
             QSqlQuery query(db);
-            query.prepare("INSERT INTO external (command,shortcuts) VALUES(:cmd, :sh)");
-            query.bindValue(":sh", sh.join(", "));
+            query.prepare("INSERT INTO external (command,shortcuts,close) VALUES(:cmd, :sh, :cl)");
+            query.bindValue(":cl", sh[0]);
+            query.bindValue(":sh", sh.mid(1).join(", "));
             query.bindValue(":cmd", cmd);
             if(!query.exec())
                 LOG << CURDATE << "PQShortcuts::setShortcut() [3]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
@@ -277,7 +279,7 @@ void PQShortcuts::readDB() {
     }
 
     query.clear();
-    query.prepare("SELECT command, shortcuts FROM external");
+    query.prepare("SELECT command, shortcuts, close FROM external");
     if(!query.exec()) {
         LOG << CURDATE << "PQShortcuts::readDB() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;
@@ -287,8 +289,10 @@ void PQShortcuts::readDB() {
 
         const QString cmd = query.record().value(0).toString();
         QString sh = query.record().value(1).toString();
+        const QString close = query.record().value(2).toString();
 
         QStringList sh_parts;
+        sh_parts << close;
         if(sh == ",")
             sh_parts << ",";
         else {
