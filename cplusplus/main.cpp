@@ -155,12 +155,12 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
     qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
-    qmlRegisterType<PQShortcuts>("PQShortcuts", 1, 0, "PQShortcuts");
 
     engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
     engine.rootContext()->setContextProperty("PQKeyPressMouseChecker", &PQKeyPressMouseChecker::get());
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
+    engine.rootContext()->setContextProperty("PQShortcuts", &PQShortcuts::get());
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);

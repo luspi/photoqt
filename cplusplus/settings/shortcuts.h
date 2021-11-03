@@ -27,6 +27,8 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QtSql>
+#include <QMessageBox>
 
 #include "../logger.h"
 
@@ -35,7 +37,14 @@ class PQShortcuts : public QObject {
     Q_OBJECT
 
 public:
-    PQShortcuts(QObject *parent = 0);
+    static PQShortcuts& get() {
+        static PQShortcuts instance;
+        return instance;
+    }
+    ~PQShortcuts();
+
+    PQShortcuts(PQShortcuts const&)     = delete;
+    void operator=(PQShortcuts const&) = delete;
 
     Q_INVOKABLE void setDefault();
 
@@ -46,14 +55,16 @@ public:
     Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
 
 public slots:
-    Q_INVOKABLE void readShortcuts();
-    Q_INVOKABLE void saveShortcuts();
+    void readDB();
 
 private:
-    QTimer *saveShortcutsTimer;
+    PQShortcuts();
 
     QMap<QString,QStringList> shortcuts;
     QMap<QString,QStringList> externalShortcuts;
+
+    QSqlDatabase db;
+    bool readonly;
 
 signals:
     void aboutChanged();

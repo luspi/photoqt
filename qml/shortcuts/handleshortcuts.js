@@ -33,7 +33,7 @@ function checkComboForShortcut(combo, wheelDelta) {
         return
     }
 
-    whatToDoWithFoundShortcut(shortcutsettings.getCommandForShortcut(combo), wheelDelta)
+    whatToDoWithFoundShortcut(PQShortcuts.getCommandForShortcut(combo), wheelDelta)
 
 }
 

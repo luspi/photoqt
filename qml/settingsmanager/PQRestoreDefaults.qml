@@ -133,8 +133,7 @@ Rectangle {
                         if(restore_for.checked)
                             PQImageFormats.restoreDefaults()
                         if(restore_sho.checked) {
-                            shortcutsettings.setDefault()
-                            shortcutsettings.saveShortcuts()
+                            PQShortcuts.setDefault()
                         }
                         settingsmanager_top.resetSettings()
                         hide()
