@@ -65,6 +65,8 @@ private:
 
     QSqlDatabase db;
     bool readonly;
+    bool dbIsTransaction;
+    QTimer *dbCommitTimer;
 
 signals:
     void aboutChanged();

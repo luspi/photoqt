@@ -76,6 +76,16 @@ PQShortcuts::PQShortcuts() {
 
     readDB();
 
+    dbCommitTimer = new QTimer();
+    dbCommitTimer->setSingleShot(true);
+    dbCommitTimer->setInterval(400);
+    connect(dbCommitTimer, &QTimer::timeout, this, [=](){ db.commit();
+                                                        dbIsTransaction = false;
+                                                        if(db.lastError().text().trimmed().length())
+                                                            LOG << "PQShortcuts::commitDB: ERROR committing database: "
+                                                                << db.lastError().text().trimmed().toStdString()
+                                                                << NL; });
+
 }
 
 PQShortcuts::~PQShortcuts() {
@@ -88,6 +98,10 @@ void PQShortcuts::setDefault() {
 
     if(readonly)
         return;
+
+    dbCommitTimer->stop();
+    if(!dbIsTransaction)
+        db.transaction();
 
     QSqlQuery query(db);
 
@@ -108,6 +122,12 @@ void PQShortcuts::setDefault() {
         return;
     }
     externalShortcuts.clear();
+
+    // we need to write changes to the database so we can read them right after
+    db.commit();
+    dbIsTransaction = false;
+    if(db.lastError().text().trimmed().length())
+        LOG << "PQShortcuts::setDefault: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
 
     readDB();
 
@@ -175,9 +195,13 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
     if(readonly)
         return;
 
-    if(cmd.startsWith("__")) {
+    dbCommitTimer->stop();
+    if(!dbIsTransaction) {
+        db.transaction();
+        dbIsTransaction = true;
+    }
 
-        qDebug() << cmd << " / " << sh.join(", ");
+    if(cmd.startsWith("__")) {
 
         shortcuts[cmd] = sh;
 
@@ -215,6 +239,8 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
         }
 
     }
+
+    dbCommitTimer->start();
 
 }
 
@@ -284,10 +310,18 @@ void PQShortcuts::deleteAllExternalShortcuts() {
     if(readonly)
         return;
 
+    dbCommitTimer->stop();
+    if(!dbIsTransaction) {
+        db.transaction();
+        dbIsTransaction = true;
+    }
+
     externalShortcuts.clear();
     QSqlQuery query(db);
     query.prepare("DELETE FROM external");
     if(!query.exec())
         LOG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts(): SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+
+    dbCommitTimer->start();
 
 }
