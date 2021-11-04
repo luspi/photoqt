@@ -391,7 +391,8 @@ QVariantMap PQImageFormats::getFormatsInfo(QString endings) {
 
 bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled,
                                     int qt, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video,
-                                    QString im_gm_magick, QString qt_formatname) {
+                                    QString im_gm_magick, QString qt_formatname,
+                                    bool silentIfExists = false) {
 
     // first check that it doesn't exist yet
 
@@ -410,7 +411,8 @@ bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString 
 
     int howmany = query.record().value("NumFormats").toInt();
     if(howmany != 0) {
-        LOG << CURDATE << "PQImageFormats::enterNewFormat(): Found " << howmany << " format with the new descrption, not entering anything new." << NL;
+        if(!silentIfExists)
+            LOG << CURDATE << "PQImageFormats::enterNewFormat(): Found " << howmany << " format with the new descrption, not entering anything new." << NL;
         return false;
     }
 

@@ -207,8 +207,24 @@ void PQStartup::performChecksAndMigrations() {
 
     /**************************************************************/
 
+    // remove version info from imageformats.db
+    // the version info is managed through settings.db
+    QSqlDatabase db;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "imageformatsinfo");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE", "imageformatsinfo");
+    db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
+    if(!db.open())
+        LOG << CURDATE << "PQStartup::performChecksAndMigrations(): Error opening imageformats database: " << db.lastError().text().trimmed().toStdString() << NL;
+    QSqlQuery query(db);
+    if(!query.exec("DROP TABLE IF EXISTS info"))
+        LOG << CURDATE << "PQStartup::performChecksAndMigrations(): SQL query error: " << query.lastError().text().trimmed().toStdString() << NL;
+    query.next();
+    db.close();
+
     // attempt to enter new format
-    if(PQImageFormats::get().enterNewFormat("jxl", "image/jxl", "JPEG XL", "img", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "jxl"))
+    if(PQImageFormats::get().enterNewFormat("jxl", "image/jxl", "JPEG XL", "img", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "jxl", true))
 
         PQImageFormats::get().readDatabase();
 
@@ -245,6 +261,7 @@ void PQStartup::importData(QString path) {
 
 }
 
+/**************************************************************/
 /**************************************************************/
 // the following migration functions are below (in this order):
 // * migrateShortcutsToDb()
