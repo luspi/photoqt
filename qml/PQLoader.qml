@@ -45,6 +45,7 @@ Item {
     signal quickNavigationPassOn(var what, var param)
     signal unavailablePassOn(var what, var param)
     signal unavailablePopoutPassOn(var what, var param)
+    signal streamingPassOn(var what, var param)
 
     function show(ele) {
 
@@ -114,6 +115,9 @@ Item {
         else if(ele == "quicknavigation")
             quickNavigationPassOn("show", undefined)
 
+        else if(ele == "streaming")
+            streamingPassOn("show", undefined)
+
     }
 
     function passOn(ele, what, param) {
@@ -168,6 +172,9 @@ Item {
 
         else if(ele == "quicknavigation")
             quickNavigationPassOn(what, param)
+
+        else if(ele == "streaming")
+            streamingPassOn(what, param)
 
     }
 
@@ -228,6 +235,9 @@ Item {
 
         else if(ele == "quicknavigation")
             quickNavigationPassOn("keyevent", [key, mod])
+
+        else if(ele == "streaming")
+            streamingPassOn("keyevent", [key, mod])
 
     }
 
@@ -357,6 +367,14 @@ Item {
 
             else if(!PQSettings.interfacePopoutFileSaveAs && filesaveas.source != "filemanagement/PQSaveAs.qml")
                 filesaveas.source = "filemanagement/PQSaveAs.qml"
+
+        } else if(ele == "streaming") {
+
+            if(PQSettings.interfacePopoutStreaming && streaming.source != "streaming/PQStreamingPopout.qml")
+                streaming.source = "streaming/PQStreamingPopout.qml"
+
+            else if(!PQSettings.interfacePopoutStreaming && streaming.source != "streaming/PQStreaming.qml")
+                streaming.source = "streaming/PQStreaming.qml"
 
         } else if(ele == "quicknavigation") {
 

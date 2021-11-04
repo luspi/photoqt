@@ -208,6 +208,8 @@ Window {
     Loader { id: unavailable }
     Loader { id: unavailablepopout }
 
+    Loader { id: streaming }
+
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
 
