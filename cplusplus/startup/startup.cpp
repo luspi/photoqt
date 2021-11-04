@@ -280,6 +280,7 @@ void PQStartup::performChecksAndMigrations() {
     migrateShortcutsToDb();
     migrateSettingsToDb();
 
+    PQSettings::get().update("generalVersion", VERSION);
 
 }
 
