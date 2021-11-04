@@ -67,6 +67,30 @@ int PQStartup::check() {
 
 }
 
+void PQStartup::exportData(QString path) {
+
+    if(PQHandlingExternal::exportConfigTo(path))
+
+        LOG << CURDATE << "Configuration successfully exported... I will quit now!" << NL;
+
+    else
+
+        LOG << CURDATE << "Configuration was not exported... I will quit now!" << NL;
+
+}
+
+void PQStartup::importData(QString path) {
+
+    if(PQHandlingExternal::importConfigFrom(path))
+
+        LOG << CURDATE << "Configuration successfully imported... I will quit now!" << NL;
+
+    else
+
+        LOG << CURDATE << "Configuration was not imported... I will quit now!" << NL;
+
+}
+
 bool PQStartup::checkIfBinaryExists(QString exec) {
 
 #ifdef Q_OS_WIN
@@ -93,7 +117,7 @@ void PQStartup::setupFresh(int defaultPopout) {
     /**************************************************************/
     // create default imageformats database
     if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
-        LOG << CURDATE << "PQStartup::ImageFormats: unable to create default imageformats database" << NL;
+        LOG << CURDATE << "PQStartup::setupFresh(): unable to create default imageformats database" << NL;
     else {
         QFile file(ConfigFiles::IMAGEFORMATS_DB());
         file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
@@ -102,7 +126,7 @@ void PQStartup::setupFresh(int defaultPopout) {
     /**************************************************************/
     // create default settings database
     if(!QFile::copy(":/settings.db", ConfigFiles::SETTINGS_DB()))
-        LOG << CURDATE << "PQStartup::Settings: unable to create settings database" << NL;
+        LOG << CURDATE << "PQStartup::setupFresh(): unable to create settings database" << NL;
     else {
         QFile file(ConfigFiles::SETTINGS_DB());
         file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
@@ -158,7 +182,13 @@ void PQStartup::setupFresh(int defaultPopout) {
 #ifndef Q_OS_WIN
 
     /**************************************************************/
-    // create default context menu file
+    // create default contextmenu database
+    if(!QFile::copy(":/contextmenu.db", ConfigFiles::CONTEXTMENU_DB()))
+        LOG << CURDATE << "PQStartup::setupFresh(): unable to create default contextmenu database" << NL;
+    else {
+        QFile file(ConfigFiles::CONTEXTMENU_DB());
+        file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+    }
 
     // These are the possible entries
     // There will be a ' %f' added at the end of each executable.
@@ -180,23 +210,37 @@ void PQStartup::setupFresh(int defaultPopout) {
          //: Used as in 'Open with [application]'. %1 will be replaced with application name.
       << QApplication::translate("startup", "Open in %1").arg("Eye of Gnome") << "eog";
 
-    QString cont = "";
-    // Check for all entries
-    for(int i = 0; i < m.size()/2; ++i)
-        if(checkIfBinaryExists(m[2*i+1])) {
-            cont += QString("0%1").arg(m[2*i+1]);
-            cont += " %f\n";
-            cont += QString("%1\n\n").arg(m[2*i]);
+    {
+        QSqlDatabase db;
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            db = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            db = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
+        db.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+        if(!db.open())
+            LOG << CURDATE << "PQStartup::setupFresh(): Error opening contextmenu database: " << db.lastError().text().trimmed().toStdString() << NL;
+
+        // Check for all entries
+        for(int i = 0; i < m.size()/2; ++i) {
+            if(checkIfBinaryExists(m[2*i+1])) {
+
+                QSqlQuery query(db);
+                query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
+                query.bindValue(":cmd", m[2*i+1]);
+                query.bindValue(":dsc", m[2*i]);
+                query.bindValue(":cls", "0");
+                if(!query.exec())
+                    LOG << CURDATE << "PQStartup::setupFresh(): SQL error, contextmenu insert: " << query.lastError().text().trimmed().toStdString() << NL;
+
+            }
         }
 
-    QFile file(ConfigFiles::CONTEXTMENU_FILE());
-    if(file.open(QIODevice::WriteOnly)) {
-
-        QTextStream out(&file);
-        out << cont;
-        file.close();
+        db.close();
 
     }
+
+    QSqlDatabase::removeDatabase("contextmenu");
+
 #endif
 
     /**************************************************************/
@@ -232,41 +276,106 @@ void PQStartup::performChecksAndMigrations() {
     /**************************************************************/
 
     // migrate data
+    migrateContextmenuToDb();
     migrateShortcutsToDb();
     migrateSettingsToDb();
 
 
 }
 
-void PQStartup::exportData(QString path) {
-
-    if(PQHandlingExternal::exportConfigTo(path))
-
-        LOG << CURDATE << "Configuration successfully exported... I will quit now!" << NL;
-
-    else
-
-        LOG << CURDATE << "Configuration was not exported... I will quit now!" << NL;
-
-}
-
-void PQStartup::importData(QString path) {
-
-    if(PQHandlingExternal::importConfigFrom(path))
-
-        LOG << CURDATE << "Configuration successfully imported... I will quit now!" << NL;
-
-    else
-
-        LOG << CURDATE << "Configuration was not imported... I will quit now!" << NL;
-
-}
-
 /**************************************************************/
 /**************************************************************/
 // the following migration functions are below (in this order):
+// * migrateContextmenuToDb
 // * migrateShortcutsToDb()
 // * migrateSettingsToDb()
+
+bool PQStartup::migrateContextmenuToDb() {
+
+    QFile file(ConfigFiles::CONTEXTMENU_FILE());
+    QFile dbfile(ConfigFiles::CONTEXTMENU_DB());
+
+    // if the database doesn't exist, we always need to create it
+    if(!dbfile.exists()) {
+        if(!QFile::copy(":/contextmenu.db", ConfigFiles::CONTEXTMENU_DB()))
+            LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): unable to create contextmenu database" << NL;
+        else {
+            QFile file(ConfigFiles::CONTEXTMENU_DB());
+            file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+        }
+    }
+
+    // nothing to migrate -> we're done
+    if(!file.exists())
+        return true;
+
+    QSqlDatabase db;
+
+    // access database
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "migratecontextmenu");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE", "migratecontextmenu");
+    else
+        return false;
+
+    db.setHostName("migratecontextmenu");
+    db.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+
+    // open database
+    if(!db.open()) {
+        LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM entries");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): SQL error, truncate: " << query.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    if(!file.open(QIODevice::ReadOnly)) {
+        LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to open old contextmenu file" << NL;
+        return false;
+    }
+
+    QTextStream in(&file);
+    QString txt = file.readAll();
+
+    QStringList allEntries = txt.split("\n\n");
+    for(const auto &entry : qAsConst(allEntries)) {
+
+        QStringList parts = entry.split("\n");
+        if(parts.length() != 2)
+            continue;
+
+        QString close = parts[0].at(0);
+        QString cmd = parts[0].remove(0,1);
+        QString dsc = parts[1];
+
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO entries (command,desc,close) VALUES (:cmd,:dsc,:cls)");
+        query.bindValue(":cmd", cmd);
+        query.bindValue(":dsc", dsc);
+        query.bindValue(":cls", close);
+        if(!query.exec())
+            LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): SQL error, insert: " << query.lastError().text().trimmed().toStdString() << NL;
+
+    }
+
+    db.close();
+
+    if(!QFile::copy(ConfigFiles::CONTEXTMENU_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
+        LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to copy old contextmenu file to 'contextmenu.pre-v2.5' filename" << NL;
+    else {
+        if(!QFile::remove(ConfigFiles::CONTEXTMENU_FILE()))
+            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to remove old contextmenu file" << NL;
+    }
+
+    return true;
+
+}
 
 bool PQStartup::migrateShortcutsToDb() {
 

@@ -27,6 +27,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QProcess>
+#include <QtSql>
 #ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>

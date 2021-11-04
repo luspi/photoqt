@@ -58,6 +58,10 @@ public:
         return QString("%1/contextmenu").arg(CONFIG_DIR());
     }
 
+    static const QString CONTEXTMENU_DB() {
+        return QString("%1/contextmenu.db").arg(CONFIG_DIR());
+    }
+
     static const QString IMAGEFORMATS_FILE() {
         return QString("%1/imageformats_disabled").arg(CONFIG_DIR());
     }

@@ -3,5 +3,6 @@
         <file>imageformats.db</file>
         <file>settings.db</file>
         <file>shortcuts.db</file>
+        <file>contextmenu.db</file>
     </qresource>
 </RCC>
