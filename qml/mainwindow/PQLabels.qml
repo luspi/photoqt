@@ -286,7 +286,9 @@ Rectangle {
         width: viewermode.width+5
         height: viewermode.height
         hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+        cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+        enabled: viewermode.visible
 
         drag.target: PQSettings.interfaceLabelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         drag.minimumX: 0
