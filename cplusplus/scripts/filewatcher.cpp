@@ -30,7 +30,7 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
 
     contextmenuWatcher = new QFileSystemWatcher;
     connect(contextmenuWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::contextmenuChangedSLOT);
-    contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
+    contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_DB());
 
     currentFileWatcher = new QFileSystemWatcher;
     connect(currentFileWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::currentFileChangedSLOT);
@@ -59,9 +59,9 @@ void PQFileWatcher::checkRepeatedlyTimeout() {
             userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
     }
 
-    if(!contextmenuWatcher->files().contains(ConfigFiles::CONTEXTMENU_FILE())) {
-        if(QFile(ConfigFiles::CONTEXTMENU_FILE()).exists())
-            contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
+    if(!contextmenuWatcher->files().contains(ConfigFiles::CONTEXTMENU_DB())) {
+        if(QFile(ConfigFiles::CONTEXTMENU_DB()).exists())
+            contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_DB());
     }
 
 }
@@ -88,7 +88,7 @@ void PQFileWatcher::contextmenuChangedSLOT() {
 
     DBG << CURDATE << "PQFileWatcher::contextmenuChangedSLOT()" << NL;
 
-    QFileInfo info(ConfigFiles::CONTEXTMENU_FILE());
+    QFileInfo info(ConfigFiles::CONTEXTMENU_DB());
     for(int i = 0; i < 5; ++i) {
         if(info.exists())
             break;
@@ -98,7 +98,7 @@ void PQFileWatcher::contextmenuChangedSLOT() {
     emit contextmenuChanged();
 
     if(info.exists())
-        contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_FILE());
+        contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_DB());
 
 }
 

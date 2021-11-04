@@ -124,10 +124,10 @@ bool PQHandlingExternal::exportConfigTo(QString path) {
 
     // All the config files
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
-    allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
-    allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
-    allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
+    allfiles["CFG_SETTINGS_DB"] = ConfigFiles::SETTINGS_DB();
+    allfiles["CFG_IMAGEFORMATS_DB"] = ConfigFiles::IMAGEFORMATS_DB();
+    allfiles["CFG_CONTEXTMENU_DB"] = ConfigFiles::CONTEXTMENU_DB();
+    allfiles["CFG_SHORTCUTS_DB"] = ConfigFiles::SHORTCUTS_DB();
 
     // handler to the file
     struct archive *a = archive_write_new();
@@ -381,12 +381,16 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
 
 #ifdef LIBARCHIVE
 
-    // All the config files to be imported. To be backwards-compatible we use the filename keys (old way) and the real filenames (new way)
+    // All the config files to be imported
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
-    allfiles["IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
+    allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
+    allfiles["CFG_SETTINGS_DB"] = ConfigFiles::SETTINGS_DB();
+    allfiles["CFG_CONTEXTMENU_DB"] = ConfigFiles::CONTEXTMENU_DB();
+    allfiles["CFG_SHORTCUTS_DB"] = ConfigFiles::SHORTCUTS_DB();
+    allfiles["CFG_IMAGEFORMATS_DB"] = ConfigFiles::IMAGEFORMATS_DB();
 
     // Create new archive handler
     struct archive *a = archive_read_new();
