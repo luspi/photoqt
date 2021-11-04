@@ -29,13 +29,14 @@ int PQStartup::check() {
     // if no config files exist, then it is a fresh install
     if((!QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
         !QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) ||
-        !QFile::exists(ConfigFiles::SHORTCUTS_FILE())) {
+       (!QFile::exists(ConfigFiles::SHORTCUTS_FILE()) && !QFile::exists(ConfigFiles::SHORTCUTS_DB()))) {
         return 2;
     }
 
-    // 2.4 and older used a settings file
-    // 2.5 and later uses a settings database
-    if(QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB()))
+    // 2.4 and older used a settings and shortcuts file
+    // 2.5 and later uses a settings and shortcuts database
+    if((QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
+       (QFile::exists(ConfigFiles::SHORTCUTS_FILE()) && !QFile::exists(ConfigFiles::SHORTCUTS_DB())))
         return 1;
 
     // open database
