@@ -37,7 +37,6 @@ import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
 import PQHandlingFaceTags 1.0
 import PQHandlingExternal 1.0
-import PQShortcuts 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -225,7 +224,6 @@ Window {
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }
 
-    PQShortcuts { id: shortcutsettings }
     PQKeyShortcuts { id: shortcuts }
     PQKeyMouseStrings { id: keymousestrings }
 

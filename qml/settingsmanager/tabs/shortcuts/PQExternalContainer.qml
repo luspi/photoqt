@@ -105,14 +105,14 @@ Rectangle {
         }
 
         onSaveAllSettings: {
-            shortcutsettings.deleteAllExternalShortcuts()
+            PQShortcuts.deleteAllExternalShortcuts()
             avail_top.saveExternalShortcuts()
         }
 
     }
 
     function load() {
-        activeShortcuts = shortcutsettings.getAllExternalShortcuts()
+        activeShortcuts = PQShortcuts.getAllExternalShortcuts()
     }
 
 }

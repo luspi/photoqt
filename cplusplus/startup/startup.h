@@ -32,7 +32,7 @@ public:
 private:
     bool checkIfBinaryExists(QString exec);
     bool migrateSettingsToDb();
-    void migrateShortcutsToDb();
+    bool migrateShortcutsToDb();
 
 };
 

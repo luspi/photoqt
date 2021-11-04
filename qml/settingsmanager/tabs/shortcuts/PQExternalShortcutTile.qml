@@ -149,7 +149,7 @@ Rectangle {
 
         onSaveExternalShortcuts: {
             if(!iHaveBeenDeleted)
-                shortcutsettings.setShortcut(dsctxt.text, [(close_chk.checked?"1":"0"), shtxt_text.sh])
+                PQShortcuts.setShortcut(dsctxt.text, [(close_chk.checked?"1":"0"), shtxt_text.sh])
         }
 
     }

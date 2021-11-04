@@ -209,13 +209,13 @@ Rectangle {
         }
 
         onSaveAllSettings: {
-            shortcutsettings.setShortcut(avail_top.available[index][0], activeShortcuts)
+            PQShortcuts.setShortcut(avail_top.available[index][0], activeShortcuts)
         }
 
     }
 
     function load() {
-        activeShortcuts = shortcutsettings.getShortcutsForCommand(avail_top.available[index][0]).slice(1)
+        activeShortcuts = PQShortcuts.getShortcutsForCommand(avail_top.available[index][0]).slice(1)
     }
 
     function addNewCombo(combo) {

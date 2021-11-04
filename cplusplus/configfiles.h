@@ -78,6 +78,10 @@ public:
         return QString("%1/shortcuts").arg(CONFIG_DIR());
     }
 
+    static const QString SHORTCUTS_DB() {
+        return QString("%1/shortcuts.db").arg(CONFIG_DIR());
+    }
+
     static const QString SHORTCUTSNOTIFIER_FILE() {
         return QString("%1/shortcutsnotifier").arg(CONFIG_DIR());
     }

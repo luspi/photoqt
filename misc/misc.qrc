@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>imageformats.db</file>
         <file>settings.db</file>
+        <file>shortcuts.db</file>
     </qresource>
 </RCC>

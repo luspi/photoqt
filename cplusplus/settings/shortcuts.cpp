@@ -21,74 +21,115 @@
  **************************************************************************/
 #include "shortcuts.h"
 
-PQShortcuts::PQShortcuts(QObject *parent) : QObject(parent) {
+PQShortcuts::PQShortcuts() {
 
-    saveShortcutsTimer = new QTimer;
-    saveShortcutsTimer->setInterval(400);
-    saveShortcutsTimer->setSingleShot(true);
+    // we check for driver availability during startup
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
+    else
+        db = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
 
-    setDefault();
-    readShortcuts();
+    db.setHostName("shortcuts");
+    db.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
 
-    if(!QFileInfo::exists(ConfigFiles::SHORTCUTS_FILE()))
-        saveShortcuts();
+    readonly = false;
 
-    saveShortcutsTimer->stop();
+    QFileInfo infodb(ConfigFiles::SHORTCUTS_DB());
 
-    connect(saveShortcutsTimer, &QTimer::timeout, this, &PQShortcuts::saveShortcuts);
+    if(!infodb.exists() || !db.open()) {
 
+        LOG << CURDATE << "PQShortcuts::PQShortcuts(): ERROR opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "PQShortcuts::PQShortcuts(): Will load read-only database of default shortcuts" << NL;
+
+        readonly = true;
+        db.setConnectOptions("QSQLITE_OPEN_READONLY");
+
+        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/shortcuts.db";
+
+        if(QFile::exists(tmppath))
+            QFile::remove(tmppath);
+
+        if(!QFile::copy(":/shortcuts.db", tmppath)) {
+            LOG << CURDATE << "PQShortcuts::PQShortcuts(): ERROR copying read-only default database!" << NL;
+            //: This is the window title of an error message box
+            QMessageBox::critical(0, QCoreApplication::translate("PQShortcuts", "ERROR getting database with default shortcuts"),
+                                     QCoreApplication::translate("PQShortcuts", "I tried hard, but I just cannot open even a read-only version of the shortcuts database.") + QCoreApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
+            return;
+        }
+
+        db.setDatabaseName(tmppath);
+
+        if(!db.open()) {
+            LOG << CURDATE << "PQShortcuts::PQShortcuts(): ERROR opening read-only default database!" << NL;
+            QMessageBox::critical(0, QCoreApplication::translate("PQShortcuts", "ERROR opening database with default settings"),
+                                     QCoreApplication::translate("PQShortcuts", "I tried hard, but I just cannot open the database of default shortcuts.") + QCoreApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
+            return;
+        }
+
+    } else {
+
+        readonly = false;
+        if(!infodb.permission(QFileDevice::WriteOwner))
+            readonly = true;
+
+    }
+
+    readDB();
+
+    dbCommitTimer = new QTimer();
+    dbCommitTimer->setSingleShot(true);
+    dbCommitTimer->setInterval(400);
+    connect(dbCommitTimer, &QTimer::timeout, this, [=](){ db.commit();
+                                                        dbIsTransaction = false;
+                                                        if(db.lastError().text().trimmed().length())
+                                                            LOG << "PQShortcuts::commitDB: ERROR committing database: "
+                                                                << db.lastError().text().trimmed().toStdString()
+                                                                << NL; });
+
+}
+
+PQShortcuts::~PQShortcuts() {
+    db.close();
 }
 
 void PQShortcuts::setDefault() {
 
     DBG << CURDATE << "PQShortcuts::setDefault()" << NL;
 
-    shortcuts["__open"] = QStringList() << "O" << "Ctrl+O" << "Right Button+WE";
-    shortcuts["__filterImages"] = QStringList() << "F";
-    shortcuts["__next"] = QStringList() << "Right" << "Space" << "Right Button+E";
-    shortcuts["__prev"] = QStringList() << "Left" << "Backspace" << "Right Button+W";
-    shortcuts["__goToFirst"] = QStringList() << "Home" << "Ctrl+Left";
-    shortcuts["__goToLast"] = QStringList() << "End" << "Ctrl+Right";
-    shortcuts["__viewerMode"] = QStringList() << "V";
-    shortcuts["__quickNavigation"] = QStringList() << "Ctrl+N";
-    shortcuts["__close"] = QStringList() << "Escape" << "Right Button+SES";
-    shortcuts["__quit"] = QStringList() << "Q" << "Ctrl+Q";
-    shortcuts["__contextMenu"] = QStringList() << "Right Button";
+    if(readonly)
+        return;
 
-    shortcuts["__zoomIn"] = QStringList() << "+" << "=" << "Keypad++" << "Ctrl++" << "Ctrl+=" << "Ctrl+Wheel Up" << "Wheel Up";
-    shortcuts["__zoomOut"] = QStringList() << "-" << "Keypad+-" << "Ctrl+-" << "Ctrl+Wheel Down" << "Wheel Down";
-    shortcuts["__zoomActual"] = QStringList() << "1" << "Ctrl+1";
-    shortcuts["__zoomReset"] = QStringList() << "0";
-    shortcuts["__rotateR"] = QStringList() << "R";
-    shortcuts["__rotateL"] = QStringList() << "L";
-    shortcuts["__rotate0"] = QStringList() << "Ctrl+0";
-    shortcuts["__flipH"] = QStringList() << "Ctrl+H";
-    shortcuts["__flipV"] = QStringList() << "Ctrl+V";
-    shortcuts["__scale"] = QStringList() << "Ctrl+X";
-    shortcuts["__playPauseAni"] = QStringList() << "Shift+P";
-    shortcuts["__showFaceTags"] = QStringList() << "Ctrl+Shift+F";
-    shortcuts["__tagFaces"] = QStringList() << "Ctrl+F";
+    dbCommitTimer->stop();
+    if(!dbIsTransaction)
+        db.transaction();
 
-    shortcuts["__rename"] = QStringList() << "F2";
-    shortcuts["__delete"] = QStringList() << "Delete";
-    shortcuts["__deletePermanent"] = QStringList();
-    shortcuts["__copy"] = QStringList() << "Ctrl+Shift+C";
-    shortcuts["__move"] = QStringList() << "Ctrl+M";
-    shortcuts["__clipboard"] = QStringList() << "Ctrl+C";
-    shortcuts["__saveAs"] = QStringList() << "Ctrl+Shift+S" << "Ctrl+S";
+    QSqlQuery query(db);
 
-    shortcuts["__showMainMenu"] = QStringList() << "M";
-    shortcuts["__showMetaData"] = QStringList() << "E";
-    shortcuts["__keepMetaData"] = QStringList() << "Shift+E";
-    shortcuts["__showThumbnails"] = QStringList() << "T";
-    shortcuts["__settings"] = QStringList() << "P";
-    shortcuts["__slideshow"] = QStringList() << "S";
-    shortcuts["__slideshowQuick"] = QStringList() << "Shift+S";
-    shortcuts["__about"] = QStringList() << "I";
-    shortcuts["__wallpaper"] = QStringList() << "W";
-    shortcuts["__histogram"] = QStringList() << "H";
-    shortcuts["__imgurAnonym"] = QStringList() << "Ctrl+Shift+I";
-    shortcuts["__imgur"] = QStringList();
+    // set default builtin
+    query.prepare("UPDATE builtin SET shortcuts = defaultshortcut");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQShortcuts::setDefault [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
+    shortcuts.clear();
+
+    query.clear();
+
+    // remove external shortcuts
+    query.prepare("DELETE FROM external");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQShortcuts::setDefault [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
+    externalShortcuts.clear();
+
+    // we need to write changes to the database so we can read them right after
+    db.commit();
+    dbIsTransaction = false;
+    if(db.lastError().text().trimmed().length())
+        LOG << "PQShortcuts::setDefault: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
+
+    readDB();
 
 }
 
@@ -151,84 +192,118 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
         << CURDATE << "** cmd = " << cmd.toStdString() << NL
         << CURDATE << "** sh = " << sh.join(", ").toStdString() << NL;
 
-    if(cmd.startsWith("__"))
+    if(readonly)
+        return;
+
+    dbCommitTimer->stop();
+    if(!dbIsTransaction) {
+        db.transaction();
+        dbIsTransaction = true;
+    }
+
+    if(cmd.startsWith("__")) {
+
         shortcuts[cmd] = sh;
-    else
-        externalShortcuts[cmd] = sh;
 
-    saveShortcutsTimer->start();
+        QSqlQuery query(db);
+        query.prepare("UPDATE builtin SET shortcuts=:sh WHERE command=:cmd");
+        query.bindValue(":sh", sh.join(", "));
+        query.bindValue(":cmd", cmd);
+        if(!query.exec())
+            LOG << CURDATE << "PQShortcuts::setShortcut() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
 
-}
+    } else {
 
-void PQShortcuts::readShortcuts() {
+        if(externalShortcuts.contains(cmd)) {
 
-    DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
+            externalShortcuts[cmd] = sh;
 
-    QFile file(ConfigFiles::SHORTCUTS_FILE());
+            QSqlQuery query(db);
+            query.prepare("UPDATE external SET shortcuts=:sh,close=:cl WHERE command=:cmd");
+            query.bindValue(":cl", sh[0]);
+            query.bindValue(":sh", sh.mid(1).join(", "));
+            query.bindValue(":cmd", cmd);
+            if(!query.exec())
+                LOG << CURDATE << "PQShortcuts::setShortcut() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
 
-    if(file.open(QIODevice::ReadOnly)) {
+        } else {
 
-        QTextStream in(&file);
-        QString txt = in.readAll();
+            externalShortcuts[cmd] = sh;
 
-        const QStringList parts = txt.split("\n");
-
-        for(const QString &p : parts) {
-
-            if(p.startsWith("Version") || p == "")
-                continue;
-
-            QStringList vals = p.split("::");
-
-            if(vals.length() < 3)
-                continue;
-
-            const bool close = vals.at(0).toInt();
-            const QString cmd = vals.at(1);
-            const QStringList sh = vals.mid(2);
-
-
-            // any valid command will be in the map (from setDefault()).
-            // if the key is not there, then this is either a typo or external command that starts with two underscores
-            if(cmd.startsWith("__"))
-                shortcuts[cmd] = ((sh.length() == 1 && sh[0] == "") ? QStringList() : sh);
-            else
-                externalShortcuts[cmd] = QStringList() << (close?"1":"0") << sh;
+            QSqlQuery query(db);
+            query.prepare("INSERT INTO external (command,shortcuts,close) VALUES(:cmd, :sh, :cl)");
+            query.bindValue(":cl", sh[0]);
+            query.bindValue(":sh", sh.mid(1).join(", "));
+            query.bindValue(":cmd", cmd);
+            if(!query.exec())
+                LOG << CURDATE << "PQShortcuts::setShortcut() [3]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
 
         }
 
     }
 
-    file.close();
+    dbCommitTimer->start();
 
 }
 
-void PQShortcuts::saveShortcuts() {
+void PQShortcuts::readDB() {
 
-    DBG << CURDATE << "PQShortcuts::saveShortcuts()" << NL;
+    DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
 
-    QString cont = QString("Version=%1\n").arg(VERSION);
-
-    QMapIterator<QString, QStringList> iter(shortcuts);
-    while(iter.hasNext()) {
-        iter.next();
-        cont += QString("0::%1::%2\n").arg(iter.key(), iter.value().join("::"));
+    QSqlQuery query(db);
+    query.prepare("SELECT command, shortcuts FROM builtin");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQShortcuts::readDB() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
     }
 
-    QMapIterator<QString, QStringList> iter2(externalShortcuts);
-    while(iter2.hasNext()) {
-        iter2.next();
-        cont += QString("%1::%2::%3\n").arg(iter2.value().at(0), iter2.key(), iter2.value().mid(1).join("::"));
+    while(query.next()) {
+
+        const QString cmd = query.record().value(0).toString();
+        QString sh = query.record().value(1).toString();
+
+        QStringList sh_parts;
+        if(sh == ",")
+            sh_parts << ",";
+        else {
+            sh = sh.replace(",,","COMMA,");
+            if(sh.endsWith(", ,"))
+                sh.replace(sh.length()-3, sh.length(), ", COMMA");
+            const QStringList tmp = sh.split(",");
+            for(auto p : qAsConst(tmp))
+                sh_parts << p.replace("COMMA",",").trimmed();
+        }
+
+        shortcuts[cmd] = sh_parts;
+
     }
 
-    QFile file(ConfigFiles::SHORTCUTS_FILE());
-    if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+    query.clear();
+    query.prepare("SELECT command, shortcuts, close FROM external");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQShortcuts::readDB() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
 
-        QTextStream out(&file);
-        out << cont;
-        file.close();
-    } else
-        LOG << CURDATE << "PQShortcuts::saveShortcuts(): unable to open shortcuts file for writing" << NL;
+    while(query.next()) {
+
+        const QString cmd = query.record().value(0).toString();
+        QString sh = query.record().value(1).toString();
+        const QString close = query.record().value(2).toString();
+
+        QStringList sh_parts;
+        sh_parts << close;
+        if(sh == ",")
+            sh_parts << ",";
+        else {
+            QStringList tmp = sh.replace(",,","COMMA,").split(",");
+            for(auto p : qAsConst(tmp))
+                sh_parts << p.replace("COMMA",",").trimmed();
+        }
+
+        externalShortcuts[cmd] = sh_parts;
+
+    }
 
 }
 
@@ -236,6 +311,21 @@ void PQShortcuts::deleteAllExternalShortcuts() {
 
     DBG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts()" << NL;
 
+    if(readonly)
+        return;
+
+    dbCommitTimer->stop();
+    if(!dbIsTransaction) {
+        db.transaction();
+        dbIsTransaction = true;
+    }
+
     externalShortcuts.clear();
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM external");
+    if(!query.exec())
+        LOG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts(): SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+
+    dbCommitTimer->start();
 
 }
