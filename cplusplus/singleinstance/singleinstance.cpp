@@ -173,19 +173,19 @@ void PQSingleInstance::handleMessage(QString msg) {
 
         else if(m == "_O_P_E_N_")
 
-            emit PQPassOn::get().cmdOpen();
+            Q_EMIT PQPassOn::get().cmdOpen();
 
         else if(m == "_S_H_O_W_")
 
-            emit PQPassOn::get().cmdShow();
+            Q_EMIT PQPassOn::get().cmdShow();
 
         else if(m == "_H_I_D_E_")
 
-            emit PQPassOn::get().cmdHide();
+            Q_EMIT PQPassOn::get().cmdHide();
 
         else if(m == "_T_O_G_G_L_E_")
 
-            emit PQPassOn::get().cmdToggle();
+            Q_EMIT PQPassOn::get().cmdToggle();
 
         else if(m == "_T_H_U_M_B_S_")
 
@@ -201,15 +201,15 @@ void PQSingleInstance::handleMessage(QString msg) {
 
         else if(m == "_T_R_A_Y_")
 
-            emit PQPassOn::get().cmdTray(true);
+            Q_EMIT PQPassOn::get().cmdTray(true);
 
         else if(m == "_N_O_T_R_A_Y_")
 
-            emit PQPassOn::get().cmdTray(false);
+            Q_EMIT PQPassOn::get().cmdTray(false);
 
         else if(m.startsWith("_S_H_O_R_T_C_U_T_"))
 
-            emit PQPassOn::get().cmdShortcutSequence(m.remove(0, 17));
+            Q_EMIT PQPassOn::get().cmdShortcutSequence(m.remove(0, 17));
 
         else if(m == "_D_E_B_U_G_")
 
@@ -228,15 +228,15 @@ bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
     if(e->type() == QEvent::KeyPress) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
         if(qmlWindowAddresses.contains(receiver))
-            emit PQKeyPressMouseChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
+            Q_EMIT PQKeyPressMouseChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
     } else if(e->type() == QEvent::MouseButtonPress) {
         QMouseEvent *ev = reinterpret_cast<QMouseEvent*>(e);
         if(qmlWindowAddresses.contains(receiver))
-            emit PQKeyPressMouseChecker::get().receivedMouseButtonPress(ev->buttons(), ev->pos());
+            Q_EMIT PQKeyPressMouseChecker::get().receivedMouseButtonPress(ev->buttons(), ev->pos());
     } else if(e->type() == QEvent::MouseMove) {
         QMouseEvent *ev = reinterpret_cast<QMouseEvent*>(e);
         if(qmlWindowAddresses.contains(receiver))
-            emit PQKeyPressMouseChecker::get().receivedMouseMove(ev->pos());
+            Q_EMIT PQKeyPressMouseChecker::get().receivedMouseMove(ev->pos());
     }
 
     return QApplication::notify(receiver, e);

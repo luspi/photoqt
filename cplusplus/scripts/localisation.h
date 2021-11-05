@@ -52,7 +52,7 @@ public:
             if(QFile(":/photoqt_" + c + ".qm").exists()) {
                 trans->load(":/photoqt_" + c);
                 qApp->installTranslator(trans);
-                emit languageChanged();
+                Q_EMIT languageChanged();
                 return;
             }
 
@@ -61,7 +61,7 @@ public:
                 if(QFile(":/photoqt_" + cc + ".qm").exists()) {
                     trans->load(":/photoqt_" + cc);
                     qApp->installTranslator(trans);
-                    emit languageChanged();
+                    Q_EMIT languageChanged();
                     return;
                 }
             } else {
@@ -69,7 +69,7 @@ public:
                 if(QFile(":/photoqt_" + cc + ".qm").exists()) {
                     trans->load(":/photoqt_" + cc);
                     qApp->installTranslator(trans);
-                    emit languageChanged();
+                    Q_EMIT languageChanged();
                     return;
                 }
             }
@@ -78,7 +78,7 @@ public:
 
         // no translator to be added
         // signal change (to English)
-        emit languageChanged();
+        Q_EMIT languageChanged();
 
     }
 
@@ -90,7 +90,7 @@ public:
 private:
     QTranslator *trans;
 
-signals:
+Q_SIGNALS:
     void languageChanged();
 
 };

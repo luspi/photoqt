@@ -49,14 +49,14 @@ private:
     QTimer *checkRepeatedly;
     QString currentFile;
 
-private slots:
+private Q_SLOTS:
     void userPlacesChangedSLOT();
     void contextmenuChangedSLOT();
     void currentFileChangedSLOT();
 
     void checkRepeatedlyTimeout();
 
-signals:
+Q_SIGNALS:
     void userPlacesChanged();
     void contextmenuChanged();
     void currentFileChanged();

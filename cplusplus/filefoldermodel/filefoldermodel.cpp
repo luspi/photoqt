@@ -89,8 +89,8 @@ void PQFileFolderModel::loadDataMainView() {
     // no new directory
 
     if(m_fileInFolderMainView.isEmpty()) {
-        emit newDataLoadedMainView();
-        emit countMainViewChanged();
+        Q_EMIT newDataLoadedMainView();
+        Q_EMIT countMainViewChanged();
         return;
     }
 
@@ -131,8 +131,8 @@ void PQFileFolderModel::loadDataMainView() {
 
     }
 
-    emit newDataLoadedMainView();
-    emit countMainViewChanged();
+    Q_EMIT newDataLoadedMainView();
+    Q_EMIT countMainViewChanged();
 
 }
 
@@ -153,8 +153,8 @@ void PQFileFolderModel::loadDataFileDialog() {
     // no new directory
 
     if(m_folderFileDialog.isEmpty()) {
-        emit newDataLoadedFileDialog();
-        emit countFileDialogChanged();
+        Q_EMIT newDataLoadedFileDialog();
+        Q_EMIT countFileDialogChanged();
         return;
     }
 
@@ -177,8 +177,8 @@ void PQFileFolderModel::loadDataFileDialog() {
 
     m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
 
-    emit newDataLoadedFileDialog();
-    emit countFileDialogChanged();
+    Q_EMIT newDataLoadedFileDialog();
+    Q_EMIT countFileDialogChanged();
 
 }
 
@@ -394,7 +394,7 @@ void PQFileFolderModel::removeEntryMainView(int index) {
     m_entriesMainView.removeAt(index);
     setCountMainView(m_countMainView-1);
 
-    emit newDataLoadedMainView();
-    emit newDataLoadedFileDialog();
+    Q_EMIT newDataLoadedMainView();
+    Q_EMIT newDataLoadedFileDialog();
 
 }

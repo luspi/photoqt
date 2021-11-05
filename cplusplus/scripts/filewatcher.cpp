@@ -77,7 +77,7 @@ void PQFileWatcher::userPlacesChangedSLOT() {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
-    emit userPlacesChanged();
+    Q_EMIT userPlacesChanged();
 
     if(info.exists())
         userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
@@ -95,7 +95,7 @@ void PQFileWatcher::contextmenuChangedSLOT() {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
-    emit contextmenuChanged();
+    Q_EMIT contextmenuChanged();
 
     if(info.exists())
         contextmenuWatcher->addPath(ConfigFiles::CONTEXTMENU_DB());
@@ -113,7 +113,7 @@ void PQFileWatcher::currentFileChangedSLOT() {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
-    emit currentFileChanged();
+    Q_EMIT currentFileChanged();
 
     if(info.exists())
         contextmenuWatcher->addPath(currentFile);

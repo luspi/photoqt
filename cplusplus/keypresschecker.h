@@ -58,13 +58,13 @@ public:
             else
                 key |= QKeySequence::fromString(part)[0];
         }
-        emit receivedKeyPress(key, modifiers);
+        Q_EMIT receivedKeyPress(key, modifiers);
     }
 
 private:
     PQKeyPressMouseChecker() { }
 
-signals:
+Q_SIGNALS:
     void receivedKeyPress(int key, int modifiers);
     void receivedMouseButtonPress(Qt::MouseButtons but, QPoint pos);
     void receivedMouseMove(QPoint pos);

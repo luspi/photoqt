@@ -56,11 +56,11 @@ public:
 protected:
     virtual bool notify(QObject * receiver, QEvent * event) override;
 
-signals:
+Q_SIGNALS:
     // Interact with application
     void interaction(PQCommandLineResult result, QString value);
 
-private slots:
+private Q_SLOTS:
     // A new application instance was started (notification to main instance)
     void newConnection();
 

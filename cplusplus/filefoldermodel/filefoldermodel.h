@@ -69,65 +69,65 @@ public:
 
     Q_PROPERTY(QString fileInFolderMainView READ getFileInFolderMainView WRITE setFileInFolderMainView NOTIFY fileInFolderMainViewChanged)
     QString getFileInFolderMainView() { return m_fileInFolderMainView; }
-    void setFileInFolderMainView(QString val) { m_fileInFolderMainView = val; emit fileInFolderMainViewChanged(); loadDelayMainView->start(); }
+    void setFileInFolderMainView(QString val) { m_fileInFolderMainView = val; Q_EMIT fileInFolderMainViewChanged(); loadDelayMainView->start(); }
 
     Q_PROPERTY(QString folderFileDialog READ getFolderFileDialog WRITE setFolderFileDialog NOTIFY folderFileDialogChanged)
     QString getFolderFileDialog() { return m_folderFileDialog; }
-    void setFolderFileDialog(QString val) { m_folderFileDialog = val; emit folderFileDialogChanged(); loadDelayFileDialog->start(); }
+    void setFolderFileDialog(QString val) { m_folderFileDialog = val; Q_EMIT folderFileDialogChanged(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(int countMainView READ getCountMainView WRITE setCountMainView NOTIFY countMainViewChanged)
     int getCountMainView() { return m_countMainView; }
-    void setCountMainView(int c) { m_countMainView = c; emit countMainViewChanged(); }
+    void setCountMainView(int c) { m_countMainView = c; Q_EMIT countMainViewChanged(); }
 
     Q_PROPERTY(int countFoldersFileDialog READ getCountFoldersFileDialog WRITE setCountFoldersFileDialog NOTIFY countFileDialogChanged)
     int getCountFoldersFileDialog() { return m_countFoldersFileDialog; }
-    void setCountFoldersFileDialog(int c) { m_countFoldersFileDialog = c; emit countFileDialogChanged(); }
+    void setCountFoldersFileDialog(int c) { m_countFoldersFileDialog = c; Q_EMIT countFileDialogChanged(); }
 
     Q_PROPERTY(int countFilesFileDialog READ getCountFilesFileDialog WRITE setCountFilesFileDialog NOTIFY countFileDialogChanged)
     int getCountFilesFileDialog() { return m_countFilesFileDialog; }
-    void setCountFilesFileDialog(int c) { m_countFilesFileDialog = c; emit countFileDialogChanged(); }
+    void setCountFilesFileDialog(int c) { m_countFilesFileDialog = c; Q_EMIT countFileDialogChanged(); }
 
 
     Q_PROPERTY(int readDocumentOnly READ getReadDocumentOnly WRITE setReadDocumentOnly NOTIFY readDocumentOnlyChanged())
     int getReadDocumentOnly() { return m_readDocumentOnly; }
-    void setReadDocumentOnly(int c) { m_readDocumentOnly = c; emit readDocumentOnlyChanged(); }
+    void setReadDocumentOnly(int c) { m_readDocumentOnly = c; Q_EMIT readDocumentOnlyChanged(); }
 
     Q_PROPERTY(int readArchiveOnly READ getReadArchiveOnly WRITE setReadArchiveOnly NOTIFY readArchiveOnlyChanged())
     int getReadArchiveOnly() { return m_readArchiveOnly; }
-    void setReadArchiveOnly(int c) { m_readArchiveOnly = c; emit readArchiveOnlyChanged(); }
+    void setReadArchiveOnly(int c) { m_readArchiveOnly = c; Q_EMIT readArchiveOnlyChanged(); }
 
     Q_PROPERTY(int includeFilesInSubFolders READ getIncludeFilesInSubFolders WRITE setIncludeFilesInSubFolders NOTIFY includeFilesInSubFoldersChanged)
     int getIncludeFilesInSubFolders() { return m_includeFilesInSubFolders; }
-    void setIncludeFilesInSubFolders(int c) { m_includeFilesInSubFolders = c; emit includeFilesInSubFoldersChanged(); loadDelayMainView->start(); }
+    void setIncludeFilesInSubFolders(int c) { m_includeFilesInSubFolders = c; Q_EMIT includeFilesInSubFoldersChanged(); loadDelayMainView->start(); }
 
 
     Q_PROPERTY(QStringList defaultNameFilters READ getDefaultNameFilters WRITE setDefaultNameFilters NOTIFY defaultNameFiltersChanged)
     QStringList getDefaultNameFilters() { return m_defaultNameFilters; }
-    void setDefaultNameFilters(QStringList val) { m_defaultNameFilters = val; emit defaultNameFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setDefaultNameFilters(QStringList val) { m_defaultNameFilters = val; Q_EMIT defaultNameFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters NOTIFY nameFiltersChanged)
     QStringList getNameFilters() { return m_nameFilters; }
-    void setNameFilters(QStringList val) { m_nameFilters = val; emit nameFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setNameFilters(QStringList val) { m_nameFilters = val; Q_EMIT nameFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(QStringList filenameFilters READ getFilenameFilters WRITE setFilenameFilters NOTIFY filenameFiltersChanged)
     QStringList getFilenameFilters() { return m_filenameFilters; }
-    void setFilenameFilters(QStringList val) { m_filenameFilters = val; emit filenameFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setFilenameFilters(QStringList val) { m_filenameFilters = val; Q_EMIT filenameFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(QStringList mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters NOTIFY mimeTypeFiltersChanged)
     QStringList getMimeTypeFilters() { return m_mimeTypeFilters; }
-    void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; emit mimeTypeFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; Q_EMIT mimeTypeFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden NOTIFY showHiddenChanged)
     bool getShowHidden() { return m_showHidden; }
-    void setShowHidden(bool val) { m_showHidden = val; emit showHiddenChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setShowHidden(bool val) { m_showHidden = val; Q_EMIT showHiddenChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(SortBy sortField READ getSortField WRITE setSortField NOTIFY sortFieldChanged)
     SortBy getSortField() { return m_sortField; }
-    void setSortField(SortBy val) { m_sortField = val; emit sortFieldChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setSortField(SortBy val) { m_sortField = val; Q_EMIT sortFieldChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(bool sortReversed READ getSortReversed WRITE setSortReversed NOTIFY sortReversedChanged)
     bool getSortReversed() { return m_sortReversed; }
-    void setSortReversed(bool val) { m_sortReversed = val; emit sortReversedChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+    void setSortReversed(bool val) { m_sortReversed = val; Q_EMIT sortReversedChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
     Q_PROPERTY(QStringList entriesFileDialog READ getEntriesFileDialog NOTIFY entriesFileDialogChanged)
     QStringList getEntriesFileDialog() { return m_entriesFileDialog; }
@@ -182,11 +182,11 @@ private:
 
     QStringList listPDFPages(QString path);
 
-private slots:
+private Q_SLOTS:
     void loadDataMainView();
     void loadDataFileDialog();
 
-signals:
+Q_SIGNALS:
     void newDataLoadedMainView();
     void newDataLoadedFileDialog();
 

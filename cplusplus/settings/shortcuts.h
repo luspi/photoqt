@@ -54,7 +54,7 @@ public:
     Q_INVOKABLE void deleteAllExternalShortcuts();
     Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
 
-public slots:
+public Q_SLOTS:
     void readDB();
 
 private:
@@ -68,7 +68,7 @@ private:
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
-signals:
+Q_SIGNALS:
     void aboutChanged();
 
 };

@@ -65,7 +65,7 @@ private:
     QTimer *checkvalid;
 
 #endif
-private slots:
+private Q_SLOTS:
     void checkValidSlot();
 
 };

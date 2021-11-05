@@ -367,7 +367,7 @@ int PQHandlingShareImgur::upload(QString filename) {
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
         if(ret != IMGUR_NOERROR) {
-            emit abortAllRequests();
+            Q_EMIT abortAllRequests();
             uploadError(QNetworkReply::UnknownServerError);
             return ret;
         }
@@ -531,7 +531,7 @@ void PQHandlingShareImgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 
     // Compute and emit progress, between 0 and 1
     double progress = (double)bytesSent/(double)bytesTotal;
-    emit imgurUploadProgress(progress);
+    Q_EMIT imgurUploadProgress(progress);
 
 }
 
@@ -551,7 +551,7 @@ void PQHandlingShareImgur::uploadError(QNetworkReply::NetworkError err) {
     // Compose, output, and emit error message
     if(debug)
         LOG << CURDATE << QString("ERROR! An error occured while uploading image: %1").arg(err).toStdString() << NL;
-    emit imgurUploadError(err);
+    Q_EMIT imgurUploadError(err);
 
 }
 
@@ -565,8 +565,8 @@ void PQHandlingShareImgur::uploadFinished() {
 
     // The reply is not open when operation was aborted
     if(!reply->isOpen()) {
-        emit imgurImageUrl("");
-        emit finished();
+        Q_EMIT imgurImageUrl("");
+        Q_EMIT finished();
         return;
     }
 
@@ -582,7 +582,7 @@ void PQHandlingShareImgur::uploadFinished() {
             QString errorMsg = resp.split("<error>").at(1).split("</error>").at(0);
             LOG << CURDATE << QString("ERROR! An error occured. Error message: %1").arg(errorMsg).toStdString() << NL;
         }
-        emit finished();
+        Q_EMIT finished();
         return;
     }
 
@@ -590,7 +590,7 @@ void PQHandlingShareImgur::uploadFinished() {
     if(!resp.contains("<link>") || !resp.contains("<deletehash>")) {
         if(debug)
             LOG << CURDATE << QString("ERROR! Invalid return data received: %1").arg(resp).toStdString() << NL;
-        emit finished();
+        Q_EMIT finished();
         return;
     }
 
@@ -598,9 +598,9 @@ void PQHandlingShareImgur::uploadFinished() {
     QString imgLink = resp.split("<link>").at(1).split("</link>").at(0);
     QString delHash = resp.split("<deletehash>").at(1).split("</deletehash>").at(0);
     // and tell the user
-    emit imgurImageUrl(imgLink);
-    emit imgurDeleteHash(delHash);
-    emit finished();
+    Q_EMIT imgurImageUrl(imgLink);
+    Q_EMIT imgurDeleteHash(delHash);
+    Q_EMIT finished();
 
 }
 
@@ -622,7 +622,7 @@ void PQHandlingShareImgur::abort() {
     DBG << CURDATE << "PQHandlingShareImgur::abort()" << NL;
 
     // We do it twice spaced out, in case we were just before a networkrequest to really cancel everything
-    emit abortAllRequests();
+    Q_EMIT abortAllRequests();
     QTimer::singleShot(500, this, &PQHandlingShareImgur::abortAllRequests);
 
 }
