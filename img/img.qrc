@@ -88,5 +88,6 @@
         <file>startup/mixed.png</file>
         <file>startup/single.png</file>
         <file>mainmenu/streaming.png</file>
+        <file>streaming/refresh.png</file>
     </qresource>
 </RCC>

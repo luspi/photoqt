@@ -40,6 +40,9 @@ Item {
     visible: opacity!=0
     enabled: visible
 
+    property bool iAmScanning: false
+    property var chromecastData: []
+
     Item {
         id: dummyitem
         width: 0
@@ -77,7 +80,7 @@ Item {
             id: heading
             y: insidecont.y-height
             width: parent.width
-            text: "Streaming"
+            text: "Chromecast"
             font.pointSize: 25
             font.bold: true
             color: "white"
@@ -96,48 +99,118 @@ Item {
 
             x: ((parent.width-width)/2)
             y: ((parent.height-height)/2)
-            width: childrenRect.width
-            height: childrenRect.height
+            width: Math.max(300,childrenRect.width)
+            height: Math.max(300, childrenRect.height)
 
             clip: true
 
             Column {
+
+                spacing: 20
+
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+                Item {
+
+                    x: (insidecont.width-width)/2
+                    id: scanbut
+                    width: 40
+                    height: 40
+                    PQMouseArea {
+                        id: refreshmousearea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        tooltip: "Scan for devices"
+                        onClicked:
+                            refresh()
+                    }
+
+                    Image {
+                        anchors.fill: parent
+                        mipmap: true
+                        source: "/streaming/refresh.png"
+
+                        RotationAnimation on rotation {
+                            loops: Animation.Infinite
+                            running: iAmScanning
+                            from: 0
+                            to: 360
+                            duration: 1500
+                        }
+
+                    }
+
+                }
+
+                Repeater {
+                    id: devs
+                    model: chromecastData.length/2
+                    Row {
+                        spacing: 10
+                        Text {
+                            id: txt1
+                            text: chromecastData[2*index]
+                            font.pointSize: 15
+                            color: "white"
+                            font.bold: true
+                        }
+                        Text {
+                            id: txt2
+                            y: (txt1.height-height)/2
+                            text: chromecastData[2*index+1]
+                            font.pointSize: 12
+                            font.italic: true
+                            color: "#aaaaaa"
+                        }
+
+                    }
+                }
+
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+            }
+
+            Text {
+
+                anchors.fill: insidecont
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: "#aaaaaa"
+                visible: chromecastData.length==0
+                text: iAmScanning ? "searching for devices..." : "no devices found"
+
             }
 
         }
 
-        Row {
-
-            id: button_row
-
-            spacing: 5
-
-            y: insidecont.y+insidecont.height
+        PQButton {
+            id: button_cancel
             x: (parent.width-width)/2
-
-            height: button_start.height+20
-
-            PQButton {
-                id: button_start
-                y: 5
-                text: genericStringOk
-                onClicked: {
+            y: insidecont.y+insidecont.height
+            text: genericStringCancel
+            onClicked: {
+                if(PQSettings.interfacePopoutStreaming) {
+                    streaming_window.visible = false
+                } else {
+                    streaming_top.opacity = 0
+                    variables.visibleItem = ""
                 }
             }
-            PQButton {
-                id: button_cancel
-                y: 5
-                text: genericStringCancel
-                onClicked: {
-                    if(PQSettings.interfacePopoutStreaming) {
-                        streaming_window.visible = false
-                    } else {
-                        streaming_top.opacity = 0
-                        variables.visibleItem = ""
-                    }
-                }
-            }
+        }
 
+        Connections {
+            target: handlingstreaming
+            onUpdatedListChromecast: {
+                chromecastData = devices
+                iAmScanning = false
+            }
         }
 
         Image {
@@ -178,17 +251,27 @@ Item {
                         opacity = 1
                         variables.visibleItem = "streaming"
                     }
-
+                    refresh()
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {
                     if(param[0] == Qt.Key_Escape)
                         button_cancel.clicked()
                     else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
-                        button_start.clicked()
+                        button_cancel.clicked()
                 }
             }
         }
+
+    }
+
+    function refresh() {
+
+        if(iAmScanning)
+            return
+
+        iAmScanning = true
+        handlingstreaming.getListOfChromecastDevices()
 
     }
 
