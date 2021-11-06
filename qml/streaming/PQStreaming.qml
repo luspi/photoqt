@@ -202,6 +202,7 @@ Item {
                     streaming_top.opacity = 0
                     variables.visibleItem = ""
                 }
+                handlingstreaming.cancelScanForChromecast()
             }
         }
 

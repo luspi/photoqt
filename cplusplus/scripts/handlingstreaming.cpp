@@ -31,6 +31,7 @@ PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
     if(!QFile::exists(chromecastModuleName) && !QFile::copy(":/chromecast.py", chromecastModuleName))
         LOG << CURDATE << "PQHandlingStreaming::PQHandlingStreaming(): Unable to make chromecast module accessible" << NL;
 
+    watcher = nullptr;
 
     Py_Initialize();
 
@@ -38,7 +39,15 @@ PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
 
 PQHandlingStreaming::~PQHandlingStreaming() {
 
-    Py_Finalize();
+    if(watcher != nullptr) {
+        if(watcher->isRunning()) {
+            watcher->cancel();
+            LOG << "Waiting for Chromecast connection to terminate..." << NL;
+            watcher->waitForFinished();
+        }
+        delete watcher;
+    }
+    Py_FinalizeEx();
 
     if(!QFile::remove(chromecastModuleName))
         LOG << CURDATE << "PQHandlingStreaming::~PQHandlingStreaming: Unable to remove chromecast module file" << NL;
@@ -50,19 +59,19 @@ void PQHandlingStreaming::getListOfChromecastDevices() {
     if(!QFile::exists(QString("%1/photoqt_chromecast.py").arg(QDir::tempPath())))
         return;
 
-    auto *watcher = new QFutureWatcher<QVariantList>(this);
-    QObject::connect(watcher, &QFutureWatcher<QVariantList>::finished, this, [this,watcher]() {
+    if(watcher != nullptr)
+        delete watcher;
+    watcher = new QFutureWatcher<QVariantList>(this);
+    QObject::connect(watcher, &QFutureWatcher<QVariantList>::finished, this, [=]() {
         QVariantList devices = watcher->result();
         chromecastServices = devices[0].value<PQPyObject>();
         chromecastBrowser = devices[1].value<PQPyObject>();
         Q_EMIT updatedListChromecast(devices.mid(2));
-        watcher->deleteLater();
     });
     watcher->setFuture(QtConcurrent::run(&PQHandlingStreaming::_getListOfChromecastDevices));
+    connect(this, &PQHandlingStreaming::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
 
 }
-
-
 
 QVariantList PQHandlingStreaming::_getListOfChromecastDevices() {
 
@@ -99,5 +108,9 @@ QVariantList PQHandlingStreaming::_getListOfChromecastDevices() {
 
     return ret;
 
+}
+
+void PQHandlingStreaming::cancelScanForChromecast() {
+    Q_EMIT cancelScan();
 }
 

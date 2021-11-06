@@ -41,8 +41,13 @@ public:
     Q_INVOKABLE void getListOfChromecastDevices();
     static QVariantList _getListOfChromecastDevices();
 
+    Q_INVOKABLE void cancelScanForChromecast();
+
+    QFutureWatcher<QVariantList> *watcher;
+
 Q_SIGNALS:
     void updatedListChromecast(QVariantList devices);
+    void cancelScan();
 
 private:
     QString chromecastModuleName;

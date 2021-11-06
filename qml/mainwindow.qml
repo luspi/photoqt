@@ -156,6 +156,7 @@ Window {
         } else {
             close.accepted = true
             Qt.quit()
+            handlingstreaming.cancelScanForChromecast()
         }
     }
 
