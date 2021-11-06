@@ -78,7 +78,7 @@ Item {
 
         Text {
             id: heading
-            y: insidecont.y-height
+            y: insidecont.y-height-10
             width: parent.width
             text: "Chromecast"
             font.pointSize: 25
@@ -99,87 +99,154 @@ Item {
 
             x: ((parent.width-width)/2)
             y: ((parent.height-height)/2)
-            width: Math.max(300,childrenRect.width)
-            height: Math.max(300, childrenRect.height)
+            width: 500
+            height: 300
 
             clip: true
 
-            Column {
+            Item {
 
-                spacing: 20
-
-                Item {
-                    width: 1
-                    height: 1
+                x: (insidecont.width-width)/2
+                id: scanbut
+                width: 40
+                height: 40
+                PQMouseArea {
+                    id: refreshmousearea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    tooltip: "Scan for devices"
+                    onClicked:
+                        refresh()
                 }
 
-                Item {
+                Image {
+                    anchors.fill: parent
+                    mipmap: true
+                    source: "/streaming/refresh.png"
 
-                    x: (insidecont.width-width)/2
-                    id: scanbut
-                    width: 40
-                    height: 40
-                    PQMouseArea {
-                        id: refreshmousearea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        tooltip: "Scan for devices"
-                        onClicked:
-                            refresh()
-                    }
-
-                    Image {
-                        anchors.fill: parent
-                        mipmap: true
-                        source: "/streaming/refresh.png"
-
-                        RotationAnimation on rotation {
-                            loops: Animation.Infinite
-                            running: iAmScanning
-                            from: 0
-                            to: 360
-                            duration: 1500
-                        }
-
+                    RotationAnimation on rotation {
+                        loops: Animation.Infinite
+                        running: iAmScanning
+                        from: 0
+                        to: 360
+                        duration: 1500
                     }
 
                 }
 
-                Repeater {
+            }
+
+            Rectangle {
+
+                id: devlistrect
+
+                anchors.fill: parent
+                anchors.topMargin: scanbut.height+10
+                anchors.bottomMargin: 5
+                color: "transparent"
+                border.width: 1
+                border.color: "#aaaaaa"
+
+                ListView {
+
                     id: devs
+
+                    orientation: ListView.Vertical
+
+                    anchors.fill: parent
+                    anchors.margins: 1
+
+                    clip: true
+
                     model: chromecastData.length/2
-                    Row {
-                        spacing: 10
-                        Text {
-                            id: txt1
-                            text: chromecastData[2*index]
-                            font.pointSize: 15
-                            color: "white"
-                            font.bold: true
+
+                    delegate: Rectangle {
+
+                        id: deleg
+                        width: parent.width
+                        height: 50
+
+                        property bool hovering: false
+
+                        color: hovering ? "#22ffffff" : "transparent"
+                        Behavior on color { ColorAnimation { duration: 200 } }
+
+                        Row {
+                            width: parent.width
+                            spacing: 10
+
+                            Item {
+                                width: 1
+                                height: 1
+                            }
+
+                            Text {
+                                y: (deleg.height-height)/2
+                                id: txt1
+                                text: chromecastData[2*index]
+                                font.pointSize: 15
+                                color: "white"
+                                font.bold: true
+                            }
+                            Text {
+                                id: txt2
+                                y: (deleg.height-height)/2
+                                text: chromecastData[2*index+1]
+                                font.pointSize: 12
+                                font.italic: true
+                                color: "#aaaaaa"
+                            }
+
                         }
-                        Text {
-                            id: txt2
-                            y: (txt1.height-height)/2
-                            text: chromecastData[2*index+1]
-                            font.pointSize: 12
-                            font.italic: true
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onEntered: {
+                                deleg.hovering = true
+                                connectbut.mouseOver = true
+                            }
+                            onExited: {
+                                deleg.hovering = false
+                                connectbut.mouseOver = false
+                            }
+                            onClicked:
+                                connectbut.clicked()
+                        }
+
+                        PQButton {
+                            id: connectbut
+                            x: parent.width-width-10
+                            y: (deleg.height-height)/2
+                            text: "Connect"
+                            enabled: !iAmScanning
+                            onMouseOverChanged:
+                                deleg.hovering = mouseOver
+                            onClicked: {
+                                if(enabled)
+                                    connectChromecast(index)
+                            }
+                        }
+
+                        Rectangle {
+                            y: parent.height-1
+                            visible: index<chromecastData.length/2-1
+                            width: parent.width
+                            height: 1
                             color: "#aaaaaa"
                         }
 
                     }
-                }
 
-                Item {
-                    width: 1
-                    height: 1
                 }
 
             }
 
             Text {
 
-                anchors.fill: insidecont
+                anchors.fill: devlistrect
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: "#aaaaaa"
@@ -252,7 +319,8 @@ Item {
                         opacity = 1
                         variables.visibleItem = "streaming"
                     }
-                    refresh()
+                    if(chromecastData.length == 0)
+                        refresh()
                 } else if(what == "hide") {
                     button_cancel.clicked()
                 } else if(what == "keyevent") {
@@ -274,6 +342,10 @@ Item {
         iAmScanning = true
         handlingstreaming.getListOfChromecastDevices()
 
+    }
+
+    function connectChromecast(index) {
+        console.log(index)
     }
 
 }
