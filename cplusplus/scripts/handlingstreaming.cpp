@@ -28,7 +28,10 @@ PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
 
     chromecastModuleName = QString("%1/photoqt_chromecast.py").arg(QDir::tempPath());
 
-    if(!QFile::exists(chromecastModuleName) && !QFile::copy(":/chromecast.py", chromecastModuleName))
+    if(QFile::exists(chromecastModuleName))
+        QFile::remove(chromecastModuleName);
+
+    if(!QFile::copy(":/chromecast.py", chromecastModuleName))
         LOG << CURDATE << "PQHandlingStreaming::PQHandlingStreaming(): Unable to make chromecast module accessible" << NL;
 
     watcher = nullptr;
@@ -65,8 +68,7 @@ void PQHandlingStreaming::getListOfChromecastDevices() {
     QObject::connect(watcher, &QFutureWatcher<QVariantList>::finished, this, [=]() {
         QVariantList devices = watcher->result();
         chromecastServices = devices[0].value<PQPyObject>();
-        chromecastBrowser = devices[1].value<PQPyObject>();
-        Q_EMIT updatedListChromecast(devices.mid(2));
+        Q_EMIT updatedListChromecast(devices.mid(1));
     });
     watcher->setFuture(QtConcurrent::run(&PQHandlingStreaming::_getListOfChromecastDevices));
     connect(this, &PQHandlingStreaming::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
@@ -83,16 +85,19 @@ QVariantList PQHandlingStreaming::_getListOfChromecastDevices() {
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
 
     PQPyObject funcGetAvailable = PyObject_GetAttrString(pModule, "getAvailable");
-    PQPyObject services_browser = PyObject_CallFunction(funcGetAvailable, NULL);
+    PQPyObject services_count = PyObject_CallFunction(funcGetAvailable, NULL);
 
-    PQPyObject services = PyList_GetItem(services_browser, 0);
-    PQPyObject browser = PyList_GetItem(services_browser, 1);
+    PQPyObject count = PyList_GetItem(services_count, 0);
+    PQPyObject services = PyList_GetItem(services_count, 1);
 
-    // the first two are pychromecast variables
+    int c = PyLong_AsSize_t(count);
+    if(c == 0)
+        return ret;
+
+    // the first one is a pychromecast variable
     // since this is static we need to wrap it into the return type
     // as we do not have access to global class variables as easily
     ret.push_back(QVariant::fromValue(services));
-    ret.push_back(QVariant::fromValue(browser));
 
     PQPyObject funcGetNames = PyObject_GetAttrString(pModule, "getNames");
     PQPyObject names = PyObject_CallOneArg(funcGetNames, services);
@@ -114,3 +119,35 @@ void PQHandlingStreaming::cancelScanForChromecast() {
     Q_EMIT cancelScan();
 }
 
+bool PQHandlingStreaming::connectToDevice(QString friendlyname) {
+
+    PyObject *sys_path = PySys_GetObject("path");
+    PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
+
+    PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
+
+    PQPyObject funcConnectTo = PyObject_GetAttrString(pModule, "connectTo");
+    PQPyObject browser_mc = PyObject_CallOneArg(funcConnectTo, PyUnicode_FromString(friendlyname.toStdString().c_str()));
+
+    chromecastBrowser = PyList_GetItem(browser_mc, 0);
+    chromecastMediaController = PyList_GetItem(browser_mc, 1);
+
+    return true;
+
+}
+
+void PQHandlingStreaming::streamOnDevice(QString src) {
+
+    PyObject *sys_path = PySys_GetObject("path");
+    PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
+
+    PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
+
+    PQPyObject funcConnectTo = PyObject_GetAttrString(pModule, "streamOnDevice");
+
+    PQPyObject args = PyTuple_Pack(2, PyUnicode_FromString(src.toStdString().c_str()), chromecastMediaController.get());
+    PQPyObject keywords = PyDict_New();
+
+    PQPyObject browser_mc = PyObject_Call(funcConnectTo, args, keywords);
+
+}

@@ -301,6 +301,8 @@ Item {
             var src = handlingFileDir.cleanPath(filefoldermodel.currentFilePath)
             image_model.append({"src" : src, "imageIndex" : filefoldermodel.current})
             filewatcher.setCurrentFile(src)
+            if(variables.chromecastConnected)
+                handlingstreaming.streamOnDevice(src)
         } else if(filefoldermodel.current == -1 || filefoldermodel.countMainView == 0) {
             hideAllImages()
             filewatcher.setCurrentFile("")

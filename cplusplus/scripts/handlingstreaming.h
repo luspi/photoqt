@@ -41,6 +41,9 @@ public:
     Q_INVOKABLE void getListOfChromecastDevices();
     static QVariantList _getListOfChromecastDevices();
 
+    Q_INVOKABLE bool connectToDevice(QString friendlyname);
+    Q_INVOKABLE void streamOnDevice(QString src);
+
     Q_INVOKABLE void cancelScanForChromecast();
 
     QFutureWatcher<QVariantList> *watcher;
@@ -54,6 +57,7 @@ private:
 
     PQPyObject chromecastServices;
     PQPyObject chromecastBrowser;
+    PQPyObject chromecastMediaController;
 
 };
 

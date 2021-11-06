@@ -226,7 +226,7 @@ Item {
                                 deleg.hovering = mouseOver
                             onClicked: {
                                 if(enabled)
-                                    connectChromecast(index)
+                                    connectChromecast(chromecastData[2*index])
                             }
                         }
 
@@ -344,8 +344,15 @@ Item {
 
     }
 
-    function connectChromecast(index) {
-        console.log(index)
+    function connectChromecast(friendly_name) {
+
+        if(handlingstreaming.connectToDevice(friendly_name)) {
+
+            variables.chromecastConnected = true
+            button_cancel.clicked()
+
+        }
+
     }
 
 }
