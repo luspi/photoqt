@@ -27,8 +27,10 @@
 #include <QJSValue>
 #include <QJSEngine>
 #include <QtConcurrent/QtConcurrent>
+#include "httpserver.h"
 #include "../python/pqpy.h"
 #include "../logger.h"
+#include "../imageprovider/imageproviderfull.h"
 
 class PQHandlingStreaming : public QObject {
 
@@ -54,10 +56,16 @@ Q_SIGNALS:
 
 private:
     QString chromecastModuleName;
+    QString localIP;
 
     PQPyObject chromecastServices;
     PQPyObject chromecastBrowser;
     PQPyObject chromecastMediaController;
+
+    PQImageProviderFull *imageprovider;
+
+    PQHttpServer *server;
+    int serverPort;
 
 };
 

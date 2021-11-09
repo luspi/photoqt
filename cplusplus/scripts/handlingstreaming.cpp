@@ -23,8 +23,11 @@
 #include "handlingstreaming.h"
 #include <QtDebug>
 #include <variant>
+#include <QFutureWatcher>
 
 PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
+
+    server = new PQHttpServer;
 
     chromecastModuleName = QString("%1/photoqt_chromecast.py").arg(QDir::tempPath());
 
@@ -41,6 +44,8 @@ PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
 }
 
 PQHandlingStreaming::~PQHandlingStreaming() {
+
+    delete server;
 
     if(watcher != nullptr) {
         if(watcher->isRunning()) {
@@ -132,22 +137,49 @@ bool PQHandlingStreaming::connectToDevice(QString friendlyname) {
     chromecastBrowser = PyList_GetItem(browser_mc, 0);
     chromecastMediaController = PyList_GetItem(browser_mc, 1);
 
+    serverPort = server->start();
+
+    // find local ip address
+    localIP = "";
+    const auto addresses = QNetworkInterface::allAddresses();
+    for(const auto &entry : addresses) {
+        if(!entry.isLoopback() &&  entry.protocol() == QAbstractSocket::IPv4Protocol) {
+            const QString ip = entry.toString();
+            if(ip != "127.0.0.1" && ip != "localhost") {
+                localIP = ip;
+                break;
+            }
+        }
+    }
+
+    if(localIP == "")
+        return false;
+
     return true;
 
 }
 
 void PQHandlingStreaming::streamOnDevice(QString src) {
 
+    // Make sure image provider exists
+    if(imageprovider == nullptr)
+         imageprovider = new PQImageProviderFull;
+
+    // request image
+    QImage img = imageprovider->requestImage(src, new QSize, QSize(1920,1280));
+    if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+        LOG << "FAILED TO SAVE IMAGE!" << NL;
+
     PyObject *sys_path = PySys_GetObject("path");
     PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
 
-    PQPyObject funcConnectTo = PyObject_GetAttrString(pModule, "streamOnDevice");
+    PQPyObject funcStreamOn = PyObject_GetAttrString(pModule, "streamOnDevice");
 
-    PQPyObject args = PyTuple_Pack(2, PyUnicode_FromString(src.toStdString().c_str()), chromecastMediaController.get());
+    PQPyObject args = PyTuple_Pack(3, PyUnicode_FromString(localIP.toStdString().c_str()), PyLong_FromLong(serverPort), chromecastMediaController.get());
     PQPyObject keywords = PyDict_New();
 
-    PQPyObject browser_mc = PyObject_Call(funcConnectTo, args, keywords);
+    PQPyObject browser_mc = PyObject_Call(funcStreamOn, args, keywords);
 
 }
