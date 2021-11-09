@@ -494,11 +494,11 @@ bool PQStartup::migrateShortcutsToDb() {
 
         }
 
-        // add __streaming as shortcut (no default set)
+        // add __chromecast as shortcut (no default set)
         QSqlQuery query(db);
         query.prepare("INSERT INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
         query.bindValue(":cat", "other");
-        query.bindValue(":cmd", "__streaming");
+        query.bindValue(":cmd", "__chromecast");
         query.bindValue(":sh", "");
         query.bindValue(":def", "");
         if(!query.exec())
@@ -550,11 +550,11 @@ bool PQStartup::migrateShortcutsToDb() {
 
         }
 
-        // add __streaming as shortcut (no default set)
+        // add __chromecast as shortcut (no default set)
         QSqlQuery query(db);
         query.prepare("INSERT INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
         query.bindValue(":cat", "other");
-        query.bindValue(":cmd", "__streaming");
+        query.bindValue(":cmd", "__chromecast");
         query.bindValue(":sh", "");
         query.bindValue(":def", "");
         if(!query.exec())

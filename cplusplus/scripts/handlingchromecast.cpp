@@ -20,12 +20,12 @@
  **                                                                      **
  **************************************************************************/
 
-#include "handlingstreaming.h"
+#include "handlingchromecast.h"
 #include <QtDebug>
 #include <variant>
 #include <QFutureWatcher>
 
-PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
+PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
 
     server = new PQHttpServer;
 
@@ -43,7 +43,7 @@ PQHandlingStreaming::PQHandlingStreaming(QObject *parent) : QObject(parent) {
 
 }
 
-PQHandlingStreaming::~PQHandlingStreaming() {
+PQHandlingChromecast::~PQHandlingChromecast() {
 
     delete server;
 
@@ -62,7 +62,7 @@ PQHandlingStreaming::~PQHandlingStreaming() {
 
 }
 
-void PQHandlingStreaming::getListOfChromecastDevices() {
+void PQHandlingChromecast::getListOfChromecastDevices() {
 
     if(!QFile::exists(QString("%1/photoqt_chromecast.py").arg(QDir::tempPath())))
         return;
@@ -75,12 +75,12 @@ void PQHandlingStreaming::getListOfChromecastDevices() {
         chromecastServices = devices[0].value<PQPyObject>();
         Q_EMIT updatedListChromecast(devices.mid(1));
     });
-    watcher->setFuture(QtConcurrent::run(&PQHandlingStreaming::_getListOfChromecastDevices));
-    connect(this, &PQHandlingStreaming::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
+    watcher->setFuture(QtConcurrent::run(&PQHandlingChromecast::_getListOfChromecastDevices));
+    connect(this, &PQHandlingChromecast::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
 
 }
 
-QVariantList PQHandlingStreaming::_getListOfChromecastDevices() {
+QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
 
     QVariantList ret;
 
@@ -120,11 +120,11 @@ QVariantList PQHandlingStreaming::_getListOfChromecastDevices() {
 
 }
 
-void PQHandlingStreaming::cancelScanForChromecast() {
+void PQHandlingChromecast::cancelScanForChromecast() {
     Q_EMIT cancelScan();
 }
 
-bool PQHandlingStreaming::connectToDevice(QString friendlyname) {
+bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
 
     PyObject *sys_path = PySys_GetObject("path");
     PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
@@ -159,7 +159,7 @@ bool PQHandlingStreaming::connectToDevice(QString friendlyname) {
 
 }
 
-void PQHandlingStreaming::streamOnDevice(QString src) {
+void PQHandlingChromecast::streamOnDevice(QString src) {
 
     // Make sure image provider exists
     if(imageprovider == nullptr)

@@ -379,22 +379,22 @@ public:
         }
     }
 
-    Q_PROPERTY(QRect streamingWindowGeometry READ getStreamingWindowGeometry WRITE setStreamingWindowGeometry NOTIFY streamingWindowGeometryChanged)
-    QRect getStreamingWindowGeometry() { return m_streamingWindowGeometry; }
-    void setStreamingWindowGeometry(QRect rect) {
-        if(rect != m_streamingWindowGeometry) {
-            m_streamingWindowGeometry = rect;
-            Q_EMIT streamingWindowGeometryChanged();
+    Q_PROPERTY(QRect chromecastWindowGeometry READ getChromecastWindowGeometry WRITE setChromecastWindowGeometry NOTIFY chromecastWindowGeometryChanged)
+    QRect getChromecastWindowGeometry() { return m_chromecastWindowGeometry; }
+    void setChromecastWindowGeometry(QRect rect) {
+        if(rect != m_chromecastWindowGeometry) {
+            m_chromecastWindowGeometry = rect;
+            Q_EMIT chromecastWindowGeometryChanged();
             saveGeometries();
         }
     }
 
-    Q_PROPERTY(bool streamingWindowMaximized READ getStreamingWindowMaximized WRITE setStreamingWindowMaximized NOTIFY streamingWindowMaximizedChanged)
-    bool getStreamingWindowMaximized() { return m_streamingWindowMaximized; }
-    void setStreamingWindowMaximized(bool maximized) {
-        if(maximized != m_streamingWindowMaximized) {
-            m_streamingWindowMaximized = maximized;
-            Q_EMIT streamingWindowMaximizedChanged();
+    Q_PROPERTY(bool chromecastWindowMaximized READ getChromecastWindowMaximized WRITE setChromecastWindowMaximized NOTIFY chromecastWindowMaximizedChanged)
+    bool getChromecastWindowMaximized() { return m_chromecastWindowMaximized; }
+    void setChromecastWindowMaximized(bool maximized) {
+        if(maximized != m_chromecastWindowMaximized) {
+            m_chromecastWindowMaximized = maximized;
+            Q_EMIT chromecastWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -451,8 +451,8 @@ private:
     QRect m_unavailableWindowGeometry;
     bool  m_unavailableWindowMaximized;
 
-    QRect m_streamingWindowGeometry;
-    bool  m_streamingWindowMaximized;
+    QRect m_chromecastWindowGeometry;
+    bool  m_chromecastWindowMaximized;
 
     QSettings *settings;
     PQHandlingExternal handlingExternal;
@@ -497,8 +497,8 @@ Q_SIGNALS:
     void fileSaveAsWindowMaximizedChanged();
     void unavailableWindowGeometryChanged();
     void unavailableWindowMaximizedChanged();
-    void streamingWindowGeometryChanged();
-    void streamingWindowMaximizedChanged();
+    void chromecastWindowGeometryChanged();
+    void chromecastWindowMaximizedChanged();
 
 };
 

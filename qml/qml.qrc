@@ -152,7 +152,7 @@
         <file>elements/PQTextArea.qml</file>
         <file>startup/PQStartupUpdate.qml</file>
         <file>startup/PQStartupFreshInstall.qml</file>
-        <file>streaming/PQStreaming.qml</file>
-        <file>streaming/PQStreamingPopout.qml</file>
+        <file>chromecast/PQChromecast.qml</file>
+        <file>chromecast/PQChromecastPopout.qml</file>
     </qresource>
 </RCC>

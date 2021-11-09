@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQHANDLINGSTREAMING_H
-#define PQHANDLINGSTREAMING_H
+#ifndef PQHANDLINGCHROMECAST_H
+#define PQHANDLINGCHROMECAST_H
 
 #include <QObject>
 #include <QJSValue>
@@ -32,13 +32,13 @@
 #include "../logger.h"
 #include "../imageprovider/imageproviderfull.h"
 
-class PQHandlingStreaming : public QObject {
+class PQHandlingChromecast : public QObject {
 
     Q_OBJECT
 
 public:
-    PQHandlingStreaming(QObject *parent = nullptr);
-    ~PQHandlingStreaming();
+    PQHandlingChromecast(QObject *parent = nullptr);
+    ~PQHandlingChromecast();
 
     Q_INVOKABLE void getListOfChromecastDevices();
     static QVariantList _getListOfChromecastDevices();
@@ -70,4 +70,4 @@ private:
 };
 
 
-#endif // PQHANDLINGSTREAMING_H
+#endif // PQHANDLINGCHROMECAST_H

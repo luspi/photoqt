@@ -28,38 +28,38 @@ import "../elements"
 
 Window {
 
-    id: streaming_window
+    id: chromecast_window
 
     //: Window title
-    title: em.pty+qsTranslate("slideshow", "Slideshow settings")
+    title: em.pty+qsTranslate("streaming", "Streaming (Chromecast)")
 
     Component.onCompleted: {
-        streaming_window.setX(windowgeometry.slideshowWindowGeometry.x)
-        streaming_window.setY(windowgeometry.slideshowWindowGeometry.y)
-        streaming_window.setWidth(windowgeometry.slideshowWindowGeometry.width)
-        streaming_window.setHeight(windowgeometry.slideshowWindowGeometry.height)
+        chromecast_window.setX(windowgeometry.slideshowWindowGeometry.x)
+        chromecast_window.setY(windowgeometry.slideshowWindowGeometry.y)
+        chromecast_window.setWidth(windowgeometry.slideshowWindowGeometry.width)
+        chromecast_window.setHeight(windowgeometry.slideshowWindowGeometry.height)
     }
 
     minimumWidth: 200
     minimumHeight: 300
 
     modality: Qt.ApplicationModal
-    objectName: "slideshowsettingspopout"
+    objectName: "chromecastpopout"
 
     onClosing: {
         storeGeometry()
-        if(variables.visibleItem == "streaming")
+        if(variables.visibleItem == "chromecast")
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutStreaming&&curloader.item.opacity==1
+    visible: PQSettings.interfacePopoutChromecast&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {
         target: PQSettings
-        onInterfacePopoutStreamingChanged: {
-            if(!PQSettings.interfacePopoutStreaming)
-                streaming_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutStreaming&&curloader.item.opacity==1; })
+        onInterfacePopoutChromecastChanged: {
+            if(!PQSettings.interfacePopoutChromecast)
+                chromecast_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutChromecast&&curloader.item.opacity==1; })
         }
     }
 
@@ -67,11 +67,11 @@ Window {
 
     Loader {
         id: curloader
-        source: "PQStreaming.qml"
+        source: "PQChromecast.qml"
         onStatusChanged:
             if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return streaming_window.width })
-                item.parentHeight = Qt.binding(function() { return streaming_window.height })
+                item.parentWidth = Qt.binding(function() { return chromecast_window.width })
+                item.parentHeight = Qt.binding(function() { return chromecast_window.height })
             }
     }
 
@@ -82,12 +82,12 @@ Window {
         repeat: false
         running: true
         onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(streaming_window.objectName)
+            handlingGeneral.storeQmlWindowMemoryAddress(chromecast_window.objectName)
     }
 
     function storeGeometry() {
-        windowgeometry.streamingWindowGeometry = Qt.rect(streaming_window.x, streaming_window.y, streaming_window.width, streaming_window.height)
-        windowgeometry.streamingWindowMaximized = (streaming_window.visibility==Window.Maximized)
+        windowgeometry.chromecastWindowGeometry = Qt.rect(chromecast_window.x, chromecast_window.y, chromecast_window.width, chromecast_window.height)
+        windowgeometry.chromecastWindowMaximized = (chromecast_window.visibility==Window.Maximized)
     }
 
 }

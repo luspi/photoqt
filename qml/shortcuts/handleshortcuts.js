@@ -146,8 +146,8 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         handlingExternal.copyToClipboard(filefoldermodel.currentFilePath)
     else if(cmd === "__tagFaces")
         loader.passOn("facetagger", "start", undefined)
-    else if(cmd == "__streaming")
-        loader.show("streaming")
+    else if(cmd == "__chromecast")
+        loader.show("chromecast")
     else {
         handlingShortcuts.executeExternalApp(cmd, filefoldermodel.currentFilePath)
         if(close === "1")

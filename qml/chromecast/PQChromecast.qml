@@ -27,7 +27,7 @@ import QtGraphicalEffects 1.0
 
 Item {
 
-    id: streaming_top
+    id: chromecast_top
 
     width: parentWidth
     height: parentHeight
@@ -35,8 +35,8 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.interfacePopoutStreaming ? 1 : 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutStreaming ? 0 : PQSettings.imageviewAnimationDuration*100 } }
+    opacity: PQSettings.interfacePopoutChromecast ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutChromecast ? 0 : PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
 
@@ -51,7 +51,7 @@ Item {
 
     ShaderEffectSource {
         id: effectSource
-        sourceItem: PQSettings.interfacePopoutStreaming ? dummyitem : imageitem
+        sourceItem: PQSettings.interfacePopoutChromecast ? dummyitem : imageitem
         anchors.fill: parent
         sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
     }
@@ -71,7 +71,7 @@ Item {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            enabled: !PQSettings.interfacePopoutStreaming
+            enabled: !PQSettings.interfacePopoutChromecast
             onClicked:
                 button_cancel.clicked()
         }
@@ -263,18 +263,18 @@ Item {
             y: insidecont.y+insidecont.height
             text: genericStringCancel
             onClicked: {
-                if(PQSettings.interfacePopoutStreaming) {
-                    streaming_window.visible = false
+                if(PQSettings.interfacePopoutChromecast) {
+                    chromecast_window.visible = false
                 } else {
-                    streaming_top.opacity = 0
+                    chromecast_top.opacity = 0
                     variables.visibleItem = ""
                 }
-                handlingstreaming.cancelScanForChromecast()
+                handlingchromecast.cancelScanForChromecast()
             }
         }
 
         Connections {
-            target: handlingstreaming
+            target: handlingchromecast
             onUpdatedListChromecast: {
                 chromecastData = devices
                 iAmScanning = false
@@ -294,30 +294,30 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.interfacePopoutStreaming ?
+                tooltip: PQSettings.interfacePopoutChromecast ?
                              //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                              em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                              //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                              em.pty+qsTranslate("popinpopout", "Move to its own window")
                 onClicked: {
-                    if(PQSettings.interfacePopoutStreaming)
-                        streaming_window.storeGeometry()
+                    if(PQSettings.interfacePopoutChromecast)
+                        chromecast_window.storeGeometry()
                     button_cancel.clicked()
-                    PQSettings.interfacePopoutStreaming = !PQSettings.interfacePopoutStreaming
-                    HandleShortcuts.executeInternalFunction("__streaming")
+                    PQSettings.interfacePopoutChromecast = !PQSettings.interfacePopoutChromecast
+                    HandleShortcuts.executeInternalFunction("__chromecast")
                 }
             }
         }
 
         Connections {
             target: loader
-            onStreamingPassOn: {
+            onChromecastPassOn: {
                 if(what == "show") {
-                    if(PQSettings.interfacePopoutStreaming) {
-                        streaming_window.visible = true
+                    if(PQSettings.interfacePopoutChromecast) {
+                        chromecast_window.visible = true
                     } else {
                         opacity = 1
-                        variables.visibleItem = "streaming"
+                        variables.visibleItem = "chromecast"
                     }
                     if(chromecastData.length == 0)
                         refresh()
@@ -340,13 +340,13 @@ Item {
             return
 
         iAmScanning = true
-        handlingstreaming.getListOfChromecastDevices()
+        handlingchromecast.getListOfChromecastDevices()
 
     }
 
     function connectChromecast(friendly_name) {
 
-        if(handlingstreaming.connectToDevice(friendly_name)) {
+        if(handlingchromecast.connectToDevice(friendly_name)) {
 
             variables.chromecastConnected = true
             button_cancel.clicked()

@@ -37,7 +37,7 @@ import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
 import PQHandlingFaceTags 1.0
 import PQHandlingExternal 1.0
-import PQHandlingStreaming 1.0
+import PQHandlingChromecast 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -156,7 +156,7 @@ Window {
         } else {
             close.accepted = true
             Qt.quit()
-            handlingstreaming.cancelScanForChromecast()
+            handlingchromecast.cancelScanForChromecast()
         }
     }
 
@@ -210,7 +210,7 @@ Window {
     Loader { id: unavailable }
     Loader { id: unavailablepopout }
 
-    Loader { id: streaming }
+    Loader { id: chromecast }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
@@ -224,7 +224,7 @@ Window {
     PQHandlingWallpaper { id: handlingWallpaper }
     PQHandlingFaceTags { id: handlingFaceTags }
     PQHandlingExternal { id: handlingExternal }
-    PQHandlingStreaming { id: handlingstreaming }
+    PQHandlingChromecast { id: handlingchromecast }
 
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }

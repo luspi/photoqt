@@ -93,9 +93,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     w = 400; h = 300;
     m_unavailableWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
-    m_streamingWindowMaximized = false;
+    m_chromecastWindowMaximized = false;
     w = 800; h = 600;
-    m_streamingWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
+    m_chromecastWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
@@ -196,10 +196,10 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("unavailableWindowMaximized"))
         m_unavailableWindowMaximized = settings->value("unavailableWindowMaximized").toBool();
 
-    if(settings->allKeys().contains("streamingWindowGeometry"))
-        m_streamingWindowGeometry = settings->value("streamingWindowGeometry").toRect();
-    if(settings->allKeys().contains("streamingWindowMaximized"))
-        m_streamingWindowMaximized = settings->value("streamingWindowMaximized").toBool();
+    if(settings->allKeys().contains("chromecastWindowGeometry"))
+        m_chromecastWindowGeometry = settings->value("chromecastWindowGeometry").toRect();
+    if(settings->allKeys().contains("chromecastWindowMaximized"))
+        m_chromecastWindowMaximized = settings->value("chromecastWindowMaximized").toBool();
 
 }
 
@@ -258,7 +258,7 @@ void PQWindowGeometry::saveGeometries() {
     settings->setValue("unavailableWindowGeometry", m_unavailableWindowGeometry);
     settings->setValue("unavailableWindowMaximized", m_unavailableWindowMaximized);
 
-    settings->setValue("streamingWindowGeometry", m_streamingWindowGeometry);
-    settings->setValue("streamingWindowMaximized", m_streamingWindowMaximized);
+    settings->setValue("chromecastWindowGeometry", m_chromecastWindowGeometry);
+    settings->setValue("chromecastWindowMaximized", m_chromecastWindowMaximized);
 
 }

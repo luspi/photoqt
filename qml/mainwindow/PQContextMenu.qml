@@ -78,8 +78,8 @@ Rectangle {
 
         [["separator", "", "", ""]],
 
-        //: This is an entry in the context menu, 'streaming' as in stream PhotoQt to, e.g., Chromecast devices. Please keep short!
-        [["__streaming", "streaming", em.pty+qsTranslate("MainMenu", "Streaming"), "hide"]],
+        //: This is an entry in the context menu, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
+        [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
 
         [["separator", "", "", ""]],
 
