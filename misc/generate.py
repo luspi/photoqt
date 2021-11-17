@@ -268,12 +268,11 @@ if which == 'all' or which == 'nsi':
             line = ""
             un_line = ""
 
-            if endings[0] == "cb7":
-                line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"{desc}\"\n"
-                un_line = f"${{UnRegisterExtension}} \".{e}\" \"{desc}\"\n"
-            else:
-                line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"{desc}\"\n"
-                un_line = f"${{UnRegisterExtension}} \".{e}\" \"{desc}\"\n"
+            if endings[0] == "zip" or endings[0] == "rar" or endings[0] == "7z":
+                continue
+
+            line = f"${{RegisterExtension}} \"$INSTDIR\photoqt.exe\" \".{e}\" \"{desc}\"\n"
+            un_line = f"${{UnRegisterExtension}} \".{e}\" \"{desc}\"\n"
 
             if endings[0] in ["eps", "pdf", "ps"]:
                 pdfcont += line
