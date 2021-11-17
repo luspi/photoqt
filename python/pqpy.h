@@ -27,6 +27,7 @@
 #include <Python.h>
 #include <list>
 #include <string>
+#include "../cplusplus/logger.h"
 
 class PQPyObject {
     
@@ -64,6 +65,16 @@ public:
         return p;
     }
 
+    static bool catchEx(QString loc) {
+        PyObject *check = PyErr_Occurred();
+        if(check != NULL) {
+            LOG << CURDATE << loc.toStdString() << ": Python error:" << NL;
+            PyErr_Print();
+            PyErr_Clear();
+            return true;
+        }
+        return false;
+    }
 
 };
 Q_DECLARE_METATYPE(PQPyObject)

@@ -44,6 +44,7 @@ public:
     static QVariantList _getListOfChromecastDevices();
 
     Q_INVOKABLE bool connectToDevice(QString friendlyname);
+    Q_INVOKABLE bool disconnectFromDevice();
     Q_INVOKABLE void streamOnDevice(QString src);
 
     Q_INVOKABLE void cancelScanForChromecast();

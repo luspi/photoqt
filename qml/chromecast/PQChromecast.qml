@@ -349,6 +349,9 @@ Item {
         if(handlingchromecast.connectToDevice(friendly_name)) {
 
             variables.chromecastConnected = true
+
+            handlingchromecast.streamOnDevice(filefoldermodel.currentFilePath)
+
             button_cancel.clicked()
 
         }

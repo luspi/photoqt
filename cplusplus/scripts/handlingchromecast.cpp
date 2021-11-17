@@ -72,8 +72,11 @@ void PQHandlingChromecast::getListOfChromecastDevices() {
     watcher = new QFutureWatcher<QVariantList>(this);
     QObject::connect(watcher, &QFutureWatcher<QVariantList>::finished, this, [=]() {
         QVariantList devices = watcher->result();
-        chromecastServices = devices[0].value<PQPyObject>();
-        Q_EMIT updatedListChromecast(devices.mid(1));
+        if(devices.length() > 0) {
+            chromecastServices = devices[0].value<PQPyObject>();
+            Q_EMIT updatedListChromecast(devices.mid(1));
+        } else
+            Q_EMIT updatedListChromecast(QVariantList());
     });
     watcher->setFuture(QtConcurrent::run(&PQHandlingChromecast::_getListOfChromecastDevices));
     connect(this, &PQHandlingChromecast::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
@@ -85,15 +88,25 @@ QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
     QVariantList ret;
 
     PyObject *sys_path = PySys_GetObject("path");
-    PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
+    if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
+        LOG << CURDATE << "PQHandlingChromecast::_getListOfChromecastDevices(): Python error: Unable to append temp path to sys path" << NL;
+        return ret;
+    }
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
 
     PQPyObject funcGetAvailable = PyObject_GetAttrString(pModule, "getAvailable");
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+
     PQPyObject services_count = PyObject_CallFunction(funcGetAvailable, NULL);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
 
     PQPyObject count = PyList_GetItem(services_count, 0);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+
     PQPyObject services = PyList_GetItem(services_count, 1);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
 
     int c = PyLong_AsSize_t(count);
     if(c == 0)
@@ -104,16 +117,23 @@ QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
     // as we do not have access to global class variables as easily
     ret.push_back(QVariant::fromValue(services));
 
-    PQPyObject funcGetNames = PyObject_GetAttrString(pModule, "getNames");
-    PQPyObject names = PyObject_CallOneArg(funcGetNames, services);
+    PQPyObject funcGetNames = PyObject_GetAttrString(pModule, "getNamesIps");
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
 
-    PQPyObject funcGetIps = PyObject_GetAttrString(pModule, "getIps");
-    PQPyObject ips = PyObject_CallOneArg(funcGetIps, services);
+    PQPyObject namesips = PyObject_CallOneArg(funcGetNames, services);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+
+    PQPyObject names = PyList_GetItem(namesips, 0);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+
+    PQPyObject ips = PyList_GetItem(namesips, 1);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
 
     auto len = PyList_Size(names);
     for(int i = 0; i < len; ++i) {
         ret.push_back(PyUnicode_AsUTF8(PyList_GetItem(names, i)));
         ret.push_back(PyUnicode_AsUTF8(PyList_GetItem(ips, i)));
+        if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
     }
 
     return ret;
@@ -127,15 +147,25 @@ void PQHandlingChromecast::cancelScanForChromecast() {
 bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
 
     PyObject *sys_path = PySys_GetObject("path");
-    PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
+    if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
+        LOG << CURDATE << "PQHandlingChromecast::connectToDevice(): Python error: Unable to append temp path to sys path" << NL;
+        return false;
+    }
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
 
     PQPyObject funcConnectTo = PyObject_GetAttrString(pModule, "connectTo");
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+
     PQPyObject browser_mc = PyObject_CallOneArg(funcConnectTo, PyUnicode_FromString(friendlyname.toStdString().c_str()));
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
 
     chromecastBrowser = PyList_GetItem(browser_mc, 0);
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+
     chromecastMediaController = PyList_GetItem(browser_mc, 1);
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
 
     serverPort = server->start();
 
@@ -159,6 +189,12 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
 
 }
 
+bool PQHandlingChromecast::disconnectFromDevice() {
+
+    return true;
+
+}
+
 void PQHandlingChromecast::streamOnDevice(QString src) {
 
     // Make sure image provider exists
@@ -171,15 +207,24 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
         LOG << "FAILED TO SAVE IMAGE!" << NL;
 
     PyObject *sys_path = PySys_GetObject("path");
-    PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str()));
+    if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
+        LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Python error: Unable to append temp path to sys path" << NL;
+        return;
+    }
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
 
     PQPyObject funcStreamOn = PyObject_GetAttrString(pModule, "streamOnDevice");
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
 
     PQPyObject args = PyTuple_Pack(3, PyUnicode_FromString(localIP.toStdString().c_str()), PyLong_FromLong(serverPort), chromecastMediaController.get());
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
+
     PQPyObject keywords = PyDict_New();
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
 
     PQPyObject browser_mc = PyObject_Call(funcStreamOn, args, keywords);
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
 
 }

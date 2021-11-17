@@ -8,18 +8,13 @@ def getAvailable():
     return [len(services), services]
 
 
-def getNames(services):
-    ret = []
+def getNamesIps(services):
+    names = []
+    ips = []
     for s in services:
-        ret.append(s.friendly_name)
-    return ret
-
-
-def getIps(services):
-    ret = []
-    for s in services:
-        ret.append(s.host)
-    return ret
+        names.append(s.friendly_name)
+        ips.append(s.host)
+    return [names, ips]
 
 
 def connectTo(friendlyname):
@@ -33,6 +28,12 @@ def connectTo(friendlyname):
     mc = cast.media_controller
 
     return [browser, mc]
+
+
+# UNTESTED
+def disconnectFrom(mc, cast):
+    mc.stop()
+    cast.disconnect()
 
 
 def streamOnDevice(ip, port, mc):
