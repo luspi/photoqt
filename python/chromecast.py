@@ -27,13 +27,12 @@ def connectTo(friendlyname):
 
     mc = cast.media_controller
 
-    return [browser, mc]
+    return [cast, browser, mc]
 
 
 # UNTESTED
-def disconnectFrom(mc, cast):
-    mc.stop()
-    cast.disconnect()
+def disconnectFrom(cast):
+    cast.quit_app()
 
 
 def streamOnDevice(ip, port, mc):

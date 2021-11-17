@@ -59,6 +59,7 @@ private:
     QString chromecastModuleName;
     QString localIP;
 
+    PQPyObject chromecastCast;
     PQPyObject chromecastServices;
     PQPyObject chromecastBrowser;
     PQPyObject chromecastMediaController;
@@ -67,6 +68,7 @@ private:
 
     PQHttpServer *server;
     int serverPort;
+    QString currentFriendlyName;
 
 };
 

@@ -220,7 +220,7 @@ Item {
                             id: connectbut
                             x: parent.width-width-10
                             y: (deleg.height-height)/2
-                            text: "Connect"
+                            text: ((variables.chromecastConnected && variables.chromecastName==chromecastData[2*index]) ? "Disconnect" : "Connect")
                             enabled: !iAmScanning
                             onMouseOverChanged:
                                 deleg.hovering = mouseOver
@@ -346,9 +346,22 @@ Item {
 
     function connectChromecast(friendly_name) {
 
+        if(variables.chromecastConnected) {
+
+            handlingchromecast.disconnectFromDevice()
+
+            if(variables.chromecastName == friendly_name) {
+                variables.chromecastConnected = false
+                variables.chromecastName = ""
+                return
+            }
+
+        }
+
         if(handlingchromecast.connectToDevice(friendly_name)) {
 
             variables.chromecastConnected = true
+            variables.chromecastName = friendly_name
 
             handlingchromecast.streamOnDevice(filefoldermodel.currentFilePath)
 

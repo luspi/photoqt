@@ -28,6 +28,7 @@
 PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
 
     server = new PQHttpServer;
+    currentFriendlyName = "";
 
     chromecastModuleName = QString("%1/photoqt_chromecast.py").arg(QDir::tempPath());
 
@@ -94,19 +95,19 @@ QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
     }
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 1")) return ret;
 
     PQPyObject funcGetAvailable = PyObject_GetAttrString(pModule, "getAvailable");
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 2")) return ret;
 
     PQPyObject services_count = PyObject_CallFunction(funcGetAvailable, NULL);
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 3")) return ret;
 
     PQPyObject count = PyList_GetItem(services_count, 0);
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 4")) return ret;
 
     PQPyObject services = PyList_GetItem(services_count, 1);
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 5")) return ret;
 
     int c = PyLong_AsSize_t(count);
     if(c == 0)
@@ -118,22 +119,22 @@ QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
     ret.push_back(QVariant::fromValue(services));
 
     PQPyObject funcGetNames = PyObject_GetAttrString(pModule, "getNamesIps");
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 6")) return ret;
 
     PQPyObject namesips = PyObject_CallOneArg(funcGetNames, services);
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 7")) return ret;
 
     PQPyObject names = PyList_GetItem(namesips, 0);
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 8")) return ret;
 
     PQPyObject ips = PyList_GetItem(namesips, 1);
-    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 9")) return ret;
 
     auto len = PyList_Size(names);
     for(int i = 0; i < len; ++i) {
         ret.push_back(PyUnicode_AsUTF8(PyList_GetItem(names, i)));
         ret.push_back(PyUnicode_AsUTF8(PyList_GetItem(ips, i)));
-        if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices()")) return ret;
+        if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 10")) return ret;
     }
 
     return ret;
@@ -153,19 +154,28 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
     }
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 1")) return false;
 
     PQPyObject funcConnectTo = PyObject_GetAttrString(pModule, "connectTo");
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 2")) return false;
 
-    PQPyObject browser_mc = PyObject_CallOneArg(funcConnectTo, PyUnicode_FromString(friendlyname.toStdString().c_str()));
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+    PQPyObject cast_browser_mc = PyObject_CallOneArg(funcConnectTo, PyUnicode_FromString(friendlyname.toStdString().c_str()));
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 3")) return false;
 
-    chromecastBrowser = PyList_GetItem(browser_mc, 0);
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+    int c = PyList_Size(cast_browser_mc);
+    if(c != 3) {
+        LOG << CURDATE << "PQHandlingChromecast::connectToDevice(): Error: device unreachable..." << NL;
+        return false;
+    }
 
-    chromecastMediaController = PyList_GetItem(browser_mc, 1);
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice()")) return false;
+    chromecastCast = PyList_GetItem(cast_browser_mc, 0);
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 4")) return false;
+
+    chromecastBrowser = PyList_GetItem(cast_browser_mc, 1);
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 5")) return false;
+
+    chromecastMediaController = PyList_GetItem(cast_browser_mc, 2);
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 6")) return false;
 
     serverPort = server->start();
 
@@ -185,12 +195,30 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
     if(localIP == "")
         return false;
 
+    currentFriendlyName = friendlyname;
+
     return true;
 
 }
 
 bool PQHandlingChromecast::disconnectFromDevice() {
 
+    PyObject *sys_path = PySys_GetObject("path");
+    if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
+        LOG << CURDATE << "PQHandlingChromecast::disconnectFromDevice(): Python error: Unable to append temp path to sys path" << NL;
+        return false;
+    }
+
+    PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
+    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 1")) return false;
+
+    PQPyObject funcDisconnectFrom = PyObject_GetAttrString(pModule, "disconnectFrom");
+    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 2")) return false;
+
+    PQPyObject disc = PyObject_CallOneArg(funcDisconnectFrom, chromecastCast);
+    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 3")) return false;
+
+    currentFriendlyName = "";
     return true;
 
 }
@@ -213,18 +241,18 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
     }
 
     PQPyObject pModule = PyImport_ImportModule("photoqt_chromecast");
-    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 1")) return;
 
     PQPyObject funcStreamOn = PyObject_GetAttrString(pModule, "streamOnDevice");
-    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 2")) return;
 
     PQPyObject args = PyTuple_Pack(3, PyUnicode_FromString(localIP.toStdString().c_str()), PyLong_FromLong(serverPort), chromecastMediaController.get());
-    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 3")) return;
 
     PQPyObject keywords = PyDict_New();
-    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 4")) return;
 
     PQPyObject browser_mc = PyObject_Call(funcStreamOn, args, keywords);
-    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice()")) return;
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 5")) return;
 
 }
