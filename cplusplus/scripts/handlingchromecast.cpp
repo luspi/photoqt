@@ -262,15 +262,26 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
         imageprovider = new PQImageProviderFull;
 
     // request image
-    QImage img;
     if(src.isNull() || src == "") {
         QImage img(":/other/logo_smallinsidelarge.jpg");
         if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
             LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save default image." << NL;
     } else {
-        img = imageprovider->requestImage(src, new QSize, QSize(1920,1080));
-        if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
-            LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save image: " << src.toStdString() << NL;
+
+        QImage img = imageprovider->requestImage(src, new QSize, QSize(1920,1080));
+
+        // if image is smaller than display and is not to be fit to window size
+        if(!PQSettings::get()["imageviewFitInWindow"].toBool() && (img.width() < 1920 || img.height() < 1080)) {
+            QImage ret(1920, 1080, QImage::Format_ARGB32);
+            ret.fill(Qt::black);
+            QPainter painter(&ret);
+            painter.drawImage((1920-img.width())/2, (1080-img.height())/2, img);
+            painter.end();
+            if(!ret.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+                LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save image: " << src.toStdString() << NL;
+        } else
+            if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+                LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save image: " << src.toStdString() << NL;
     }
 
     PyObject *sys_path = PySys_GetObject("path");
