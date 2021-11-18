@@ -135,20 +135,27 @@ QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
     PQPyObject funcGetNames = PyObject_GetAttrString(pModule, "getNamesIps");
     if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 6")) return ret;
 
-    PQPyObject namesips = PyObject_CallOneArg(funcGetNames, services);
+
+    PQPyObject args = PyTuple_Pack(1, services.get());
     if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 7")) return ret;
 
-    PQPyObject names = PyList_GetItem(namesips, 0);
+    PQPyObject keywords = PyDict_New();
     if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 8")) return ret;
 
-    PQPyObject ips = PyList_GetItem(namesips, 1);
+    PQPyObject namesips = PyObject_Call(funcGetNames, args, keywords);
     if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 9")) return ret;
+
+    PQPyObject names = PyList_GetItem(namesips, 0);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 10")) return ret;
+
+    PQPyObject ips = PyList_GetItem(namesips, 1);
+    if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 11")) return ret;
 
     auto len = PyList_Size(names);
     for(int i = 0; i < len; ++i) {
         ret.push_back(PyUnicode_AsUTF8(PyList_GetItem(names, i)));
         ret.push_back(PyUnicode_AsUTF8(PyList_GetItem(ips, i)));
-        if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 10")) return ret;
+        if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 12")) return ret;
     }
 
     return ret;
@@ -173,8 +180,15 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
     PQPyObject funcConnectTo = PyObject_GetAttrString(pModule, "connectTo");
     if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 2")) return false;
 
-    PQPyObject cast_browser_mc = PyObject_CallOneArg(funcConnectTo, PyUnicode_FromString(friendlyname.toStdString().c_str()));
+
+    PQPyObject args = PyTuple_Pack(1, PyUnicode_FromString(friendlyname.toStdString().c_str()));
     if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 3")) return false;
+
+    PQPyObject keywords = PyDict_New();
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 4")) return false;
+
+    PQPyObject cast_browser_mc = PyObject_Call(funcConnectTo, args, keywords);
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 5")) return false;
 
     int c = PyList_Size(cast_browser_mc);
     if(c != 3) {
@@ -183,13 +197,13 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
     }
 
     *chromecastCast = PyList_GetItem(cast_browser_mc, 0);
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 4")) return false;
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 6")) return false;
 
     *chromecastBrowser = PyList_GetItem(cast_browser_mc, 1);
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 5")) return false;
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 7")) return false;
 
     *chromecastMediaController = PyList_GetItem(cast_browser_mc, 2);
-    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 6")) return false;
+    if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 8")) return false;
 
     currentFriendlyName = friendlyname;
 
