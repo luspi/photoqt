@@ -115,7 +115,8 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    tooltip: "Scan for devices"
+                    //: Used as tooltip for button that starts a scan for Chromecast streaming devices in the local network
+                    tooltip: em.pty+qsTranslate("streaming", "Scan for devices")
                     onClicked:
                         refresh()
                 }
@@ -220,7 +221,11 @@ Item {
                             id: connectbut
                             x: parent.width-width-10
                             y: (deleg.height-height)/2
-                            text: ((variables.chromecastConnected && variables.chromecastName==chromecastData[2*index]) ? "Disconnect" : "Connect")
+                            text: ((variables.chromecastConnected && variables.chromecastName==chromecastData[2*index]) ?
+                                       //: Written on button, as in 'Disconnect from connected Chromecast streaming device'
+                                       em.pty+qsTranslate("streaming", "Disconnect") :
+                                       //: Written on button, as in 'Connect to Chromecast streaming device'
+                                       em.pty+qsTranslate("streaming", "Connect"))
                             enabled: !iAmScanning
                             onMouseOverChanged:
                                 deleg.hovering = mouseOver
@@ -251,7 +256,11 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 color: "#aaaaaa"
                 visible: chromecastData.length==0
-                text: iAmScanning ? "searching for devices..." : "no devices found"
+                text: iAmScanning ?
+                          //: status text while searching for chromecast streaming devices in the local network
+                          em.pty+qsTranslate("streaming", "searching for devices...") :
+                          //: result of scan for chromecast streaming devices
+                          em.pty+qsTranslate("streaming", "no devices found")
 
             }
 
@@ -261,7 +270,7 @@ Item {
             id: button_cancel
             x: (parent.width-width)/2
             y: insidecont.y+insidecont.height
-            text: genericStringCancel
+            text: genericStringClose
             onClicked: {
                 if(PQSettings.interfacePopoutChromecast) {
                     chromecast_window.visible = false

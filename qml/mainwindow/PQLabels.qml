@@ -205,7 +205,8 @@ Rectangle {
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
-            tooltip: "Connected to: " + variables.chromecastName
+            //: This is followed by the name of the Chromecast streaming device currently connected to
+            tooltip: em.pty+qsTranslate("quickinfo", "Connected to:") + " " + variables.chromecastName
             cursorShape: Qt.PointingHandCursor
             onClicked:
                 loader.show("chromecast")
