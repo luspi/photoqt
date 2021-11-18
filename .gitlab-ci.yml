@@ -33,7 +33,10 @@ appimage:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl
     - apt-get -y install qt5-image-formats-plugins libqt5svg5 libqt5script5 libqt5qml5 libqt5quick5 libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5 qtbase5-dev qtdeclarative5-dev 	libqt5svg5-dev qtmultimedia5-dev qttools5-dev qt5-default qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-platform qml-module-qtquick-dialogs qml-module-qtmultimedia qtdeclarative5-dev-tools
-    - apt-get -y install libpoppler-qt5-dev libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev graphicsmagick-libmagick-dev-compat libpugixml-dev gstreamer1.0-tools libexiv2-dev
+    - apt-get -y install libpoppler-qt5-dev libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev graphicsmagick-libmagick-dev-compat libpugixml-dev gstreamer1.0-tools libexiv2-dev libpython3.6-dev python3-pychromecast
+    - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null  # update cmake
+    - apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && apt-get update
+    - apt-get install -y cmake
     - rm -rf lang/
     - git clone -b l10n_master https://gitlab.com/luspi/photoqt-lang
     - mv photoqt-lang/localized lang
