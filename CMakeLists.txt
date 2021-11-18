@@ -2,7 +2,7 @@
 # CMakeLists for PhotoQt: http://photoqt.org #
 ##############################################
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(photoqt LANGUAGES CXX)
 
 
@@ -111,7 +111,7 @@ if(DEVIL)
     find_package(DevIL)
 endif()
 if(CHROMECAST)
-    find_package(Python COMPONENTS Interpreter Development)
+    find_package(Python3 COMPONENTS Interpreter Development)
 endif()
 
 # Since Python might be imported we have to avoid using Qt keywords (like 'slots') to avoid naming conflicts
@@ -310,13 +310,13 @@ else()
 endif()
 
 if(CHROMECAST)
-    if(NOT ${Python_FOUND})
+    if(NOT ${Python3_FOUND})
         message(FATAL_ERROR "** Unable to locate Python... is it installed?")
     else()
-        include_directories(${Python_INCLUDE_DIRS})
-        target_link_libraries(${PROJECT_NAME} ${Python_LIBRARIES})
+        include_directories(${Python3_INCLUDE_DIRS})
+        target_link_libraries(${PROJECT_NAME} ${Python3_LIBRARIES})
         message("** Chromecast support enabled")
-        message("** Using Python ${Python_VERSION}")
+        message("** Using Python ${Python3_VERSION}")
         add_definitions(-DCHROMECAST)
     endif()
 else()
