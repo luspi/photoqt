@@ -319,7 +319,7 @@ Item {
                         opacity = 1
                         variables.visibleItem = "chromecast"
                     }
-                    if(chromecastData.length == 0)
+                    if(chromecastData.length == 0 && !iAmScanning)
                         refresh()
                 } else if(what == "hide") {
                     button_cancel.clicked()

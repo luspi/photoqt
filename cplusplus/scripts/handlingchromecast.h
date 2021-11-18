@@ -56,13 +56,14 @@ Q_SIGNALS:
     void cancelScan();
 
 private:
+    int triedReconnectingAfterDisconnect;
     QString chromecastModuleName;
     QString localIP;
 
-    PQPyObject chromecastCast;
-    PQPyObject chromecastServices;
-    PQPyObject chromecastBrowser;
-    PQPyObject chromecastMediaController;
+    PQPyObject *chromecastCast;
+    PQPyObject *chromecastServices;
+    PQPyObject *chromecastBrowser;
+    PQPyObject *chromecastMediaController;
 
     PQImageProviderFull *imageprovider;
 

@@ -15,6 +15,7 @@ public:
     explicit PQHttpServer(QObject *parent = 0);
     ~PQHttpServer();
     QTcpSocket *socket ;
+    bool isRunning();
 
 public Q_SLOTS:
     void serve();

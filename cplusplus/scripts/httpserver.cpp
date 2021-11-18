@@ -60,3 +60,9 @@ void PQHttpServer::serve() {
     connect(socket, SIGNAL(disconnected()),socket, SLOT(deleteLater()));
     socket->disconnectFromHost();
 }
+
+bool PQHttpServer::isRunning() {
+
+    return server->isListening();
+
+}

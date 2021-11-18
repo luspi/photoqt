@@ -39,8 +39,16 @@ PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
         LOG << CURDATE << "PQHandlingStreaming::PQHandlingStreaming(): Unable to make chromecast module accessible" << NL;
 
     watcher = nullptr;
+    imageprovider = nullptr;
 
     Py_Initialize();
+
+    chromecastCast = new PQPyObject;
+    chromecastServices = new PQPyObject;
+    chromecastBrowser = new PQPyObject;
+    chromecastMediaController = new PQPyObject;
+
+    triedReconnectingAfterDisconnect = 0;
 
 }
 
@@ -56,6 +64,12 @@ PQHandlingChromecast::~PQHandlingChromecast() {
         }
         delete watcher;
     }
+
+    delete chromecastCast;
+    delete chromecastServices;
+    delete chromecastBrowser;
+    delete chromecastMediaController;
+
     Py_FinalizeEx();
 
     if(!QFile::remove(chromecastModuleName))
@@ -74,7 +88,7 @@ void PQHandlingChromecast::getListOfChromecastDevices() {
     QObject::connect(watcher, &QFutureWatcher<QVariantList>::finished, this, [=]() {
         QVariantList devices = watcher->result();
         if(devices.length() > 0) {
-            chromecastServices = devices[0].value<PQPyObject>();
+            *chromecastServices = devices[0].value<PQPyObject>();
             Q_EMIT updatedListChromecast(devices.mid(1));
         } else
             Q_EMIT updatedListChromecast(QVariantList());
@@ -168,14 +182,19 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
         return false;
     }
 
-    chromecastCast = PyList_GetItem(cast_browser_mc, 0);
+    *chromecastCast = PyList_GetItem(cast_browser_mc, 0);
     if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 4")) return false;
 
-    chromecastBrowser = PyList_GetItem(cast_browser_mc, 1);
+    *chromecastBrowser = PyList_GetItem(cast_browser_mc, 1);
     if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 5")) return false;
 
-    chromecastMediaController = PyList_GetItem(cast_browser_mc, 2);
+    *chromecastMediaController = PyList_GetItem(cast_browser_mc, 2);
     if(PQPyObject::catchEx("PQHandlingChromecast::connectToDevice() 6")) return false;
+
+    currentFriendlyName = friendlyname;
+
+    if(server->isRunning())
+        return true;
 
     serverPort = server->start();
 
@@ -195,8 +214,6 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
     if(localIP == "")
         return false;
 
-    currentFriendlyName = friendlyname;
-
     return true;
 
 }
@@ -215,8 +232,14 @@ bool PQHandlingChromecast::disconnectFromDevice() {
     PQPyObject funcDisconnectFrom = PyObject_GetAttrString(pModule, "disconnectFrom");
     if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 2")) return false;
 
-    PQPyObject disc = PyObject_CallOneArg(funcDisconnectFrom, chromecastCast);
+    PQPyObject args = PyTuple_Pack(2, chromecastCast->get(), chromecastBrowser->get());
     if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 3")) return false;
+
+    PQPyObject keywords = PyDict_New();
+    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 4")) return false;
+
+    PQPyObject disc = PyObject_Call(funcDisconnectFrom, args, keywords);
+    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 5")) return false;
 
     currentFriendlyName = "";
     return true;
@@ -227,7 +250,7 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
 
     // Make sure image provider exists
     if(imageprovider == nullptr)
-         imageprovider = new PQImageProviderFull;
+        imageprovider = new PQImageProviderFull;
 
     // request image
     QImage img = imageprovider->requestImage(src, new QSize, QSize(1920,1280));
@@ -246,13 +269,23 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
     PQPyObject funcStreamOn = PyObject_GetAttrString(pModule, "streamOnDevice");
     if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 2")) return;
 
-    PQPyObject args = PyTuple_Pack(3, PyUnicode_FromString(localIP.toStdString().c_str()), PyLong_FromLong(serverPort), chromecastMediaController.get());
+    PQPyObject args = PyTuple_Pack(3, PyUnicode_FromString(localIP.toStdString().c_str()), PyLong_FromLong(serverPort), chromecastMediaController->get());
     if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 3")) return;
 
     PQPyObject keywords = PyDict_New();
     if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 4")) return;
 
     PQPyObject browser_mc = PyObject_Call(funcStreamOn, args, keywords);
-    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 5")) return;
+    if(PQPyObject::catchEx("PQHandlingChromecast::streamOnDevice() 5")) {
+        if(triedReconnectingAfterDisconnect < 4) {
+            ++triedReconnectingAfterDisconnect;
+            connectToDevice(currentFriendlyName);
+            streamOnDevice(src);
+        } else
+            triedReconnectingAfterDisconnect = 0;
+        return;
+    }
+
+    triedReconnectingAfterDisconnect = 0;
 
 }

@@ -345,6 +345,9 @@ Window {
 
     function handleBeforeClosing() {
 
+        if(variables.chromecastConnected)
+            handlingchromecast.disconnectFromDevice()
+
         if(variables.slideShowActive)
             loader.passOn("slideshowcontrols", "quit", undefined)
 

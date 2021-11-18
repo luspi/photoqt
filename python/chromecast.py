@@ -4,7 +4,6 @@ import time
 
 def getAvailable():
     services, browser = pychromecast.discovery.discover_chromecasts()
-    pychromecast.discovery.stop_discovery(browser)
     return [len(services), services]
 
 
@@ -31,8 +30,9 @@ def connectTo(friendlyname):
 
 
 # UNTESTED
-def disconnectFrom(cast):
+def disconnectFrom(cast, browser):
     cast.quit_app()
+    pychromecast.discovery.stop_discovery(browser)
 
 
 def streamOnDevice(ip, port, mc):
