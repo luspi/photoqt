@@ -239,8 +239,17 @@ bool PQHandlingChromecast::disconnectFromDevice() {
     if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 4")) return false;
 
     PQPyObject disc = PyObject_Call(funcDisconnectFrom, args, keywords);
-    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 5")) return false;
+    if(PQPyObject::catchEx("PQHandlingChromecast::disconnectFromDevice() 5")) {
+        if(triedReconnectingAfterDisconnect < 4) {
+            ++triedReconnectingAfterDisconnect;
+            connectToDevice(currentFriendlyName);
+            disconnectFromDevice();
+        } else
+            triedReconnectingAfterDisconnect = 0;
+        return false;
+    }
 
+    triedReconnectingAfterDisconnect = 0;
     currentFriendlyName = "";
     return true;
 
