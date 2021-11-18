@@ -253,9 +253,16 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
         imageprovider = new PQImageProviderFull;
 
     // request image
-    QImage img = imageprovider->requestImage(src, new QSize, QSize(1920,1280));
-    if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
-        LOG << "FAILED TO SAVE IMAGE!" << NL;
+    QImage img;
+    if(src.isNull() || src == "") {
+        QImage img(":/other/logo_smallinsidelarge.jpg");
+        if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+            LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save default image." << NL;
+    } else {
+        img = imageprovider->requestImage(src, new QSize, QSize(1920,1080));
+        if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+            LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save image: " << src.toStdString() << NL;
+    }
 
     PyObject *sys_path = PySys_GetObject("path");
     if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {

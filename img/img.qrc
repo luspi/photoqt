@@ -89,5 +89,6 @@
         <file>startup/single.png</file>
         <file>mainmenu/chromecast.png</file>
         <file>streaming/refresh.png</file>
+        <file>other/logo_smallinsidelarge.jpg</file>
     </qresource>
 </RCC>

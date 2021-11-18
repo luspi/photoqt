@@ -100,6 +100,8 @@ Item {
                 if(imageStatus == Image.Ready) {
                     loadingtimer.stop()
                     loadingindicator.visible = false
+                    if(variables.chromecastConnected)
+                        handlingchromecast.streamOnDevice(src)
                 }
                 if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
                     hideShowAni.showing = true
@@ -301,8 +303,6 @@ Item {
             var src = handlingFileDir.cleanPath(filefoldermodel.currentFilePath)
             image_model.append({"src" : src, "imageIndex" : filefoldermodel.current})
             filewatcher.setCurrentFile(src)
-            if(variables.chromecastConnected)
-                handlingchromecast.streamOnDevice(src)
         } else if(filefoldermodel.current == -1 || filefoldermodel.countMainView == 0) {
             hideAllImages()
             filewatcher.setCurrentFile("")
