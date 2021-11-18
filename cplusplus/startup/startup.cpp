@@ -494,6 +494,16 @@ bool PQStartup::migrateShortcutsToDb() {
 
         }
 
+        // add __chromecast as shortcut (no default set)
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
+        query.bindValue(":cat", "other");
+        query.bindValue(":cmd", "__chromecast");
+        query.bindValue(":sh", "");
+        query.bindValue(":def", "");
+        if(!query.exec())
+            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error, insert new: " << query.lastError().text().trimmed().toStdString() << NL;
+
         db.commit();
         db.close();
 
@@ -539,6 +549,16 @@ bool PQStartup::migrateShortcutsToDb() {
             }
 
         }
+
+        // add __chromecast as shortcut (no default set)
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
+        query.bindValue(":cat", "other");
+        query.bindValue(":cmd", "__chromecast");
+        query.bindValue(":sh", "");
+        query.bindValue(":def", "");
+        if(!query.exec())
+            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error, insert new: " << query.lastError().text().trimmed().toStdString() << NL;
 
         db.commit();
         db.close();
@@ -587,12 +607,12 @@ bool PQStartup::migrateSettingsToDb() {
     db.setHostName("migratesettings");
     db.setDatabaseName(ConfigFiles::SETTINGS_DB());
     if(!db.open()) {
-        LOG << CURDATE << "PQStartup::Settings::migrate: Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
         return false;
     }
 
     if(!file.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << "PQStartup::Settings::migrate: Failed to open old settings file" << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to open old settings file" << NL;
         return false;
     }
     QTextStream in(&file);
@@ -602,7 +622,8 @@ bool PQStartup::migrateSettingsToDb() {
     QString thumbnailsVisibility = "0";
     QString metadataFaceTagsVisibility = "3";
 
-    for(auto line : txt.split("\n")) {
+    const QStringList lines = txt.split("\n");
+    for(const auto &line : lines) {
 
         if(!line.contains("="))
             continue;
@@ -1009,8 +1030,8 @@ bool PQStartup::migrateSettingsToDb() {
             query.bindValue(":val", val);
 
             if(!query.exec()) {
-                LOG << CURDATE << "PQStartup::Settings::migrate: Updating setting failed:  " << key.toStdString() << " / " << val.toStdString() << NL;
-                LOG << CURDATE << "PQStartup::Settings::migrate: SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
+                LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Updating setting failed:  " << key.toStdString() << " / " << val.toStdString() << NL;
+                LOG << CURDATE << "PQStartup::migrateSettingsToDb(): SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
             }
 
         }
@@ -1023,23 +1044,23 @@ bool PQStartup::migrateSettingsToDb() {
     query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Visibility'");
     query.bindValue(":val", thumbnailsVisibility);
     if(!query.exec()) {
-        LOG << CURDATE << "PQStartup::Settings::migrate: Updating setting failed:  thumbnailsVisibility / " << thumbnailsVisibility.toStdString() << NL;
-        LOG << CURDATE << "PQStartup::Settings::migrate: SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Updating setting failed:  thumbnailsVisibility / " << thumbnailsVisibility.toStdString() << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
     }
 
     query.clear();
     query.prepare("UPDATE `metadata` SET value=:val WHERE name='FaceTagsVisibility'");
     query.bindValue(":val", metadataFaceTagsVisibility);
     if(!query.exec()) {
-        LOG << CURDATE << "PQStartup::Settings::migrate: Updating setting failed:  metadataFaceTagsVisibility / " << metadataFaceTagsVisibility.toStdString() << NL;
-        LOG << CURDATE << "PQStartup::Settings::migrate: SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Updating setting failed:  metadataFaceTagsVisibility / " << metadataFaceTagsVisibility.toStdString() << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
     }
 
     if(!QFile::copy(ConfigFiles::SETTINGS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
-        LOG << CURDATE << "PQStartup::Settings::migrate: Failed to copy old settings file to 'settings.pre-v2.5' filename" << NL;
+        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to copy old settings file to 'settings.pre-v2.5' filename" << NL;
     else {
         if(!QFile::remove(ConfigFiles::SETTINGS_FILE()))
-            LOG << CURDATE << "PQStartup::Settings::migrate: Failed to rename old settings file to 'settings.pre-v2.5'" << NL;
+            LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to rename old settings file to 'settings.pre-v2.5'" << NL;
     }
 
     query.clear();

@@ -39,22 +39,21 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                //: as in: pixmap cache turned off
-                text: em.pty+qsTranslate("settingsmanager_imageview", "off")
+                text: "15 MB"
             }
 
             PQSlider {
                 id: pixcache
                 y: (parent.height-height)/2
-                from: 0
-                to: 2048
+                from: 15
+                to: 4096
                 toolTipSuffix: " MB"
             }
 
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "2 GB"
+                text: "4 GB"
             }
 
         }

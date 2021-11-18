@@ -44,7 +44,7 @@ public:
     void setMainWindowGeometry(QRect rect) {
         if(rect != m_mainWindowGeometry) {
             m_mainWindowGeometry = rect;
-            emit mainWindowGeometryChanged();
+            Q_EMIT mainWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -54,7 +54,7 @@ public:
     void setMainWindowMaximized(bool maximized) {
         if(maximized != m_mainWindowMaximized) {
             m_mainWindowMaximized = maximized;
-            emit mainWindowMaximizedChanged();
+            Q_EMIT mainWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -64,7 +64,7 @@ public:
     void setFileDialogWindowGeometry(QRect rect) {
         if(rect != m_fileDialogWindowGeometry) {
             m_fileDialogWindowGeometry = rect;
-            emit fileDialogWindowGeometryChanged();
+            Q_EMIT fileDialogWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -74,7 +74,7 @@ public:
     void setFileDialogWindowMaximized(bool maximized) {
         if(maximized != m_fileDialogWindowMaximized) {
             m_fileDialogWindowMaximized = maximized;
-            emit fileDialogWindowMaximizedChanged();
+            Q_EMIT fileDialogWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -84,7 +84,7 @@ public:
     void setMainMenuWindowGeometry(QRect rect) {
         if(rect != m_mainMenuWindowGeometry) {
             m_mainMenuWindowGeometry = rect;
-            emit mainMenuWindowGeometryChanged();
+            Q_EMIT mainMenuWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -94,7 +94,7 @@ public:
     void setMainMenuWindowMaximized(bool maximized) {
         if(maximized != m_mainMenuWindowMaximized) {
             m_mainMenuWindowMaximized = maximized;
-            emit mainMenuWindowMaximizedChanged();
+            Q_EMIT mainMenuWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -104,7 +104,7 @@ public:
     void setMetaDataWindowGeometry(QRect rect) {
         if(rect != m_metaDataWindowGeometry) {
             m_metaDataWindowGeometry = rect;
-            emit metaDataWindowGeometryChanged();
+            Q_EMIT metaDataWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -114,7 +114,7 @@ public:
     void setMetaDataWindowMaximized(bool maximized) {
         if(maximized != m_metaDataWindowMaximized) {
             m_metaDataWindowMaximized = maximized;
-            emit metaDataWindowMaximizedChanged();
+            Q_EMIT metaDataWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -124,7 +124,7 @@ public:
     void setHistogramWindowGeometry(QRect rect) {
         if(rect != m_histogramWindowGeometry) {
             m_histogramWindowGeometry = rect;
-            emit histogramWindowGeometryChanged();
+            Q_EMIT histogramWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -134,7 +134,7 @@ public:
     void setHistogramWindowMaximized(bool maximized) {
         if(maximized != m_histogramWindowMaximized) {
             m_histogramWindowMaximized = maximized;
-            emit histogramWindowMaximizedChanged();
+            Q_EMIT histogramWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -144,7 +144,7 @@ public:
     void setSlideshowWindowGeometry(QRect rect) {
         if(rect != m_slideshowWindowGeometry) {
             m_slideshowWindowGeometry = rect;
-            emit slideshowWindowGeometryChanged();
+            Q_EMIT slideshowWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -154,7 +154,7 @@ public:
     void setSlideshowWindowMaximized(bool maximized) {
         if(maximized != m_slideshowWindowMaximized) {
             m_slideshowWindowMaximized = maximized;
-            emit slideshowWindowMaximizedChanged();
+            Q_EMIT slideshowWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -164,7 +164,7 @@ public:
     void setSlideshowControlsWindowGeometry(QRect rect) {
         if(rect != m_slideshowControlsWindowGeometry) {
             m_slideshowControlsWindowGeometry = rect;
-            emit slideshowControlsWindowGeometryChanged();
+            Q_EMIT slideshowControlsWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -174,7 +174,7 @@ public:
     void setSlideshowControlsWindowMaximized(bool maximized) {
         if(maximized != m_slideshowControlsWindowMaximized) {
             m_slideshowControlsWindowMaximized = maximized;
-            emit slideshowControlsWindowMaximizedChanged();
+            Q_EMIT slideshowControlsWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -184,7 +184,7 @@ public:
     void setFileRenameWindowGeometry(QRect rect) {
         if(rect != m_fileRenameWindowGeometry) {
             m_fileRenameWindowGeometry = rect;
-            emit fileRenameWindowGeometryChanged();
+            Q_EMIT fileRenameWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -194,7 +194,7 @@ public:
     void setFileRenameWindowMaximized(bool maximized) {
         if(maximized != m_fileRenameWindowMaximized) {
             m_fileRenameWindowMaximized = maximized;
-            emit fileRenameWindowMaximizedChanged();
+            Q_EMIT fileRenameWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -204,7 +204,7 @@ public:
     void setFileDeleteWindowGeometry(QRect rect) {
         if(rect != m_fileDeleteWindowGeometry) {
             m_fileDeleteWindowGeometry = rect;
-            emit fileDeleteWindowGeometryChanged();
+            Q_EMIT fileDeleteWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -214,7 +214,7 @@ public:
     void setFileDeleteWindowMaximized(bool maximized) {
         if(maximized != m_fileDeleteWindowMaximized) {
             m_fileDeleteWindowMaximized = maximized;
-            emit fileDeleteWindowMaximizedChanged();
+            Q_EMIT fileDeleteWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -224,7 +224,7 @@ public:
     void setScaleWindowGeometry(QRect rect) {
         if(rect != m_scaleWindowGeometry) {
             m_scaleWindowGeometry = rect;
-            emit scaleWindowGeometryChanged();
+            Q_EMIT scaleWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -234,7 +234,7 @@ public:
     void setScaleWindowMaximized(bool maximized) {
         if(maximized != m_scaleWindowMaximized) {
             m_scaleWindowMaximized = maximized;
-            emit scaleWindowMaximizedChanged();
+            Q_EMIT scaleWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -244,7 +244,7 @@ public:
     void setAboutWindowGeometry(QRect rect) {
         if(rect != m_aboutWindowGeometry) {
             m_aboutWindowGeometry = rect;
-            emit aboutWindowGeometryChanged();
+            Q_EMIT aboutWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -254,7 +254,7 @@ public:
     void setAboutWindowMaximized(bool maximized) {
         if(maximized != m_aboutWindowMaximized) {
             m_aboutWindowMaximized = maximized;
-            emit aboutWindowMaximizedChanged();
+            Q_EMIT aboutWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -264,7 +264,7 @@ public:
     void setImgurWindowGeometry(QRect rect) {
         if(rect != m_imgurWindowGeometry) {
             m_imgurWindowGeometry = rect;
-            emit imgurWindowGeometryChanged();
+            Q_EMIT imgurWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -274,7 +274,7 @@ public:
     void setImgurWindowMaximized(bool maximized) {
         if(maximized != m_imgurWindowMaximized) {
             m_imgurWindowMaximized = maximized;
-            emit imgurWindowMaximizedChanged();
+            Q_EMIT imgurWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -284,7 +284,7 @@ public:
     void setWallpaperWindowGeometry(QRect rect) {
         if(rect != m_wallpaperWindowGeometry) {
             m_wallpaperWindowGeometry = rect;
-            emit wallpaperWindowGeometryChanged();
+            Q_EMIT wallpaperWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -294,7 +294,7 @@ public:
     void setWallpaperWindowMaximized(bool maximized) {
         if(maximized != m_wallpaperWindowMaximized) {
             m_wallpaperWindowMaximized = maximized;
-            emit wallpaperWindowMaximizedChanged();
+            Q_EMIT wallpaperWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -304,7 +304,7 @@ public:
     void setFilterWindowGeometry(QRect rect) {
         if(rect != m_filterWindowGeometry) {
             m_filterWindowGeometry = rect;
-            emit filterWindowGeometryChanged();
+            Q_EMIT filterWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -314,7 +314,7 @@ public:
     void setFilterWindowMaximized(bool maximized) {
         if(maximized != m_filterWindowMaximized) {
             m_filterWindowMaximized = maximized;
-            emit filterWindowMaximizedChanged();
+            Q_EMIT filterWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -324,7 +324,7 @@ public:
     void setSettingsManagerWindowGeometry(QRect rect) {
         if(rect != m_settingsManagerWindowGeometry) {
             m_settingsManagerWindowGeometry = rect;
-            emit settingsManagerWindowGeometryChanged();
+            Q_EMIT settingsManagerWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -334,7 +334,7 @@ public:
     void setSettingsManagerWindowMaximized(bool maximized) {
         if(maximized != m_settingsManagerWindowMaximized) {
             m_settingsManagerWindowMaximized = maximized;
-            emit settingsManagerWindowMaximizedChanged();
+            Q_EMIT settingsManagerWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -344,7 +344,7 @@ public:
     void setFileSaveAsWindowGeometry(QRect rect) {
         if(rect != m_fileSaveAsWindowGeometry) {
             m_fileSaveAsWindowGeometry = rect;
-            emit fileSaveAsWindowGeometryChanged();
+            Q_EMIT fileSaveAsWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -354,7 +354,7 @@ public:
     void setFileSaveAsWindowMaximized(bool maximized) {
         if(maximized != m_fileSaveAsWindowMaximized) {
             m_fileSaveAsWindowMaximized = maximized;
-            emit fileSaveAsWindowMaximizedChanged();
+            Q_EMIT fileSaveAsWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -364,7 +364,7 @@ public:
     void setUnavailableWindowGeometry(QRect rect) {
         if(rect != m_unavailableWindowGeometry) {
             m_unavailableWindowGeometry = rect;
-            emit unavailableWindowGeometryChanged();
+            Q_EMIT unavailableWindowGeometryChanged();
             saveGeometries();
         }
     }
@@ -374,7 +374,27 @@ public:
     void setUnavailableWindowMaximized(bool maximized) {
         if(maximized != m_unavailableWindowMaximized) {
             m_unavailableWindowMaximized = maximized;
-            emit unavailableWindowMaximizedChanged();
+            Q_EMIT unavailableWindowMaximizedChanged();
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(QRect chromecastWindowGeometry READ getChromecastWindowGeometry WRITE setChromecastWindowGeometry NOTIFY chromecastWindowGeometryChanged)
+    QRect getChromecastWindowGeometry() { return m_chromecastWindowGeometry; }
+    void setChromecastWindowGeometry(QRect rect) {
+        if(rect != m_chromecastWindowGeometry) {
+            m_chromecastWindowGeometry = rect;
+            Q_EMIT chromecastWindowGeometryChanged();
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool chromecastWindowMaximized READ getChromecastWindowMaximized WRITE setChromecastWindowMaximized NOTIFY chromecastWindowMaximizedChanged)
+    bool getChromecastWindowMaximized() { return m_chromecastWindowMaximized; }
+    void setChromecastWindowMaximized(bool maximized) {
+        if(maximized != m_chromecastWindowMaximized) {
+            m_chromecastWindowMaximized = maximized;
+            Q_EMIT chromecastWindowMaximizedChanged();
             saveGeometries();
         }
     }
@@ -431,15 +451,18 @@ private:
     QRect m_unavailableWindowGeometry;
     bool  m_unavailableWindowMaximized;
 
+    QRect m_chromecastWindowGeometry;
+    bool  m_chromecastWindowMaximized;
+
     QSettings *settings;
     PQHandlingExternal handlingExternal;
 
     void saveGeometries();
 
-private slots:
+private Q_SLOTS:
     void readGeometries();
 
-signals:
+Q_SIGNALS:
     void mainWindowGeometryChanged();
     void mainWindowMaximizedChanged();
     void fileDialogWindowGeometryChanged();
@@ -474,6 +497,8 @@ signals:
     void fileSaveAsWindowMaximizedChanged();
     void unavailableWindowGeometryChanged();
     void unavailableWindowMaximizedChanged();
+    void chromecastWindowGeometryChanged();
+    void chromecastWindowMaximizedChanged();
 
 };
 

@@ -83,7 +83,7 @@ void PQAsyncImageResponseThumb::run() {
             if(QFileInfo(filename).lastModified().toTime_t() == mtime) {
 
                 m_image = p;
-                emit finished();
+                Q_EMIT finished();
                 return;
             } else
                 DBG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: "
@@ -109,7 +109,7 @@ void PQAsyncImageResponseThumb::run() {
         LOG << CURDATE << "ImageProviderThumb: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderThumb: Filename: " << filenameForChecking.toStdString() << NL;
         m_image = load_err->load(err);
-        emit finished();
+        Q_EMIT finished();
         return;
     }
 
@@ -122,7 +122,7 @@ void PQAsyncImageResponseThumb::run() {
     if(p.isNull() || msg != "") {
 
         m_image = QIcon(":/filedialog/unknownfile.svg").pixmap(m_requestedSize).toImage();
-        emit finished();
+        Q_EMIT finished();
         return;
 
     }
@@ -132,7 +132,7 @@ void PQAsyncImageResponseThumb::run() {
             << QFileInfo(filename).fileName().toStdString() << NL;
 
         m_image = p;
-        emit finished();
+        Q_EMIT finished();
         return;
     }
 
@@ -179,6 +179,6 @@ void PQAsyncImageResponseThumb::run() {
 
     // aaaaand done!
     m_image = p;
-    emit finished();
+    Q_EMIT finished();
 
 }

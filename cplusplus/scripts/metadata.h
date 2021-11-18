@@ -45,7 +45,7 @@ public:
     void setValidFile(bool val) {
         if(m_validFile != val) {
             m_validFile = val;
-            emit validFileChanged();
+            Q_EMIT validFileChanged();
         }
     }
 
@@ -54,7 +54,7 @@ public:
     void setFileSize(QString val) {
         if(m_fileSize != val) {
             m_fileSize = val;
-            emit fileSizeChanged();
+            Q_EMIT fileSizeChanged();
         }
     }
 
@@ -63,7 +63,7 @@ public:
     void setDimensions(QString val) {
         if(m_dimensions != val) {
             m_dimensions = val;
-            emit dimensionsChanged();
+            Q_EMIT dimensionsChanged();
         }
     }
 
@@ -72,7 +72,7 @@ public:
     void setExifImageMake(QString val) {
         if(m_exifImageMake != val) {
             m_exifImageMake = val;
-            emit exifImageMakeChanged();
+            Q_EMIT exifImageMakeChanged();
         }
     }
 
@@ -81,7 +81,7 @@ public:
     void setExifImageModel(QString val) {
         if(m_exifImageModel != val) {
             m_exifImageModel = val;
-            emit exifImageModelChanged();
+            Q_EMIT exifImageModelChanged();
         }
     }
 
@@ -90,7 +90,7 @@ public:
     void setExifImageSoftware(QString val) {
         if(m_exifImageSoftware != val) {
             m_exifImageSoftware = val;
-            emit exifImageSoftwareChanged();
+            Q_EMIT exifImageSoftwareChanged();
         }
     }
 
@@ -99,7 +99,7 @@ public:
     void setExifPhotoDateTimeOriginal(QString val) {
         if(m_exifPhotoDateTimeOriginal != val) {
             m_exifPhotoDateTimeOriginal = val;
-            emit exifPhotoDateTimeOriginalChanged();
+            Q_EMIT exifPhotoDateTimeOriginalChanged();
         }
     }
 
@@ -108,7 +108,7 @@ public:
     void setExifPhotoExposureTime(QString val) {
         if(m_exifPhotoExposureTime != val) {
             m_exifPhotoExposureTime = val;
-            emit exifPhotoExposureTimeChanged();
+            Q_EMIT exifPhotoExposureTimeChanged();
         }
     }
 
@@ -117,7 +117,7 @@ public:
     void setExifPhotoFlash(QString val) {
         if(m_exifPhotoFlash != val) {
             m_exifPhotoFlash = val;
-            emit exifPhotoFlashChanged();
+            Q_EMIT exifPhotoFlashChanged();
         }
     }
 
@@ -126,7 +126,7 @@ public:
     void setExifPhotoISOSpeedRatings(QString val) {
         if(m_exifPhotoISOSpeedRatings != val) {
             m_exifPhotoISOSpeedRatings = val;
-            emit exifPhotoISOSpeedRatingsChanged();
+            Q_EMIT exifPhotoISOSpeedRatingsChanged();
         }
     }
 
@@ -135,7 +135,7 @@ public:
     void setExifPhotoSceneCaptureType(QString val) {
         if(m_exifPhotoSceneCaptureType != val) {
             m_exifPhotoSceneCaptureType = val;
-            emit exifPhotoSceneCaptureTypeChanged();
+            Q_EMIT exifPhotoSceneCaptureTypeChanged();
         }
     }
 
@@ -144,7 +144,7 @@ public:
     void setExifPhotoFocalLength(QString val) {
         if(m_exifPhotoFocalLength != val) {
             m_exifPhotoFocalLength = val;
-            emit exifPhotoFocalLengthChanged();
+            Q_EMIT exifPhotoFocalLengthChanged();
         }
     }
 
@@ -153,7 +153,7 @@ public:
     void setExifPhotoFNumber(QString val) {
         if(m_exifPhotoFNumber != val) {
             m_exifPhotoFNumber = val;
-            emit exifPhotoFNumberChanged();
+            Q_EMIT exifPhotoFNumberChanged();
         }
     }
 
@@ -162,7 +162,7 @@ public:
     void setExifPhotoLightSource(QString val) {
         if(m_exifPhotoLightSource != val) {
             m_exifPhotoLightSource = val;
-            emit exifPhotoLightSourceChanged();
+            Q_EMIT exifPhotoLightSourceChanged();
         }
     }
 
@@ -171,7 +171,7 @@ public:
     void setExifPhotoPixelXDimension(QString val) {
         if(m_exifPhotoPixelXDimension != val) {
             m_exifPhotoPixelXDimension = val;
-            emit exifPhotoPixelXDimensionChanged();
+            Q_EMIT exifPhotoPixelXDimensionChanged();
         }
     }
 
@@ -180,7 +180,7 @@ public:
     void setExifPhotoPixelYDimension(QString val) {
         if(m_exifPhotoPixelYDimension != val) {
             m_exifPhotoPixelYDimension = val;
-            emit exifPhotoPixelYDimensionChanged();
+            Q_EMIT exifPhotoPixelYDimensionChanged();
         }
     }
 
@@ -189,7 +189,7 @@ public:
     void setExifGPS(QString val) {
         if(m_exifGPS != val) {
             m_exifGPS = val;
-            emit exifGPSChanged();
+            Q_EMIT exifGPSChanged();
         }
     }
 
@@ -198,7 +198,7 @@ public:
     void setIptcApplication2Keywords(QString val) {
         if(m_iptcApplication2Keywords != val) {
             m_iptcApplication2Keywords = val;
-            emit iptcApplication2KeywordsChanged();
+            Q_EMIT iptcApplication2KeywordsChanged();
         }
     }
 
@@ -207,7 +207,7 @@ public:
     void setIptcLocation(QString val) {
         if(m_iptcLocation != val) {
             m_iptcLocation = val;
-            emit iptcLocationChanged();
+            Q_EMIT iptcLocationChanged();
         }
     }
 
@@ -216,7 +216,7 @@ public:
     void setIptcApplication2Copyright(QString val) {
         if(m_iptcApplication2Copyright != val) {
             m_iptcApplication2Copyright = val;
-            emit iptcApplication2CopyrightChanged();
+            Q_EMIT iptcApplication2CopyrightChanged();
         }
     }
 
@@ -255,7 +255,7 @@ private:
     QString analyzeLightSource(const QString val);
     QString analyzeGPS(QString latRef, QString lat, QString lonRef, QString lon);
 
-signals:
+Q_SIGNALS:
     void validFileChanged();
     void fileSizeChanged();
     void dimensionsChanged();

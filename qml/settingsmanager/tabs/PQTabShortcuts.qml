@@ -203,7 +203,9 @@ Item {
                                             //: Name of shortcut action
                     ["__imgurAnonym",       em.pty+qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)")],
                                             //: Name of shortcut action
-                    ["__imgur",             em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account")]
+                    ["__imgur",             em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account")],
+                                            //: Name of shortcut action
+                    ["__chromecast",         em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device")]
                 ]
 
             }

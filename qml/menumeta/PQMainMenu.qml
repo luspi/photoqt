@@ -194,6 +194,8 @@ Rectangle {
 
         [["heading","",""]],
 
+        //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
+        [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!

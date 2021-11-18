@@ -47,6 +47,7 @@ option(POPPLER "Use Poppler library" ON)
 option(LIBARCHIVE "Enable features that require libarchive" ON)
 option(PUGIXML "Enable features that require pugixml" ON)
 option(VIDEO "Enable video support" ON)
+option(CHROMECAST "Enable Chromecast support" ON)
 
 # name of this option changed
 # this helps to make sure nothing breaks
@@ -109,6 +110,12 @@ endif()
 if(DEVIL)
     find_package(DevIL)
 endif()
+if(CHROMECAST)
+    find_package(Python COMPONENTS Interpreter Development)
+endif()
+
+# Since Python might be imported we have to avoid using Qt keywords (like 'slots') to avoid naming conflicts
+ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 
 
 ######################
@@ -300,6 +307,20 @@ if(IMAGEMAGICK)
     endif()
 else()
     message("** ImageMagick DISABLED")
+endif()
+
+if(CHROMECAST)
+    if(NOT ${Python_FOUND})
+        message(FATAL_ERROR "** Unable to locate Python... is it installed?")
+    else()
+        include_directories(${Python_INCLUDE_DIRS})
+        target_link_libraries(${PROJECT_NAME} ${Python_LIBRARIES})
+        message("** Chromecast support enabled")
+        message("** Using Python ${Python_VERSION}")
+        add_definitions(-DCHROMECAST)
+    endif()
+else()
+    message("** Chromecast support DISABLED")
 endif()
 
 

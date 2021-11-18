@@ -20,48 +20,58 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQFILEWATCHER_H
-#define PQFILEWATCHER_H
+#ifndef PQHANDLINGCHROMECAST_H
+#define PQHANDLINGCHROMECAST_H
 
 #include <QObject>
-#include <QFileSystemWatcher>
-#include <QFileInfo>
-#include <thread>
-#include <QTimer>
-#include "../configfiles.h"
+#include <QJSValue>
+#include <QJSEngine>
+#include <QtConcurrent/QtConcurrent>
+#include "httpserver.h"
+#include "../python/pqpy.h"
 #include "../logger.h"
+#include "../imageprovider/imageproviderfull.h"
 
-class PQFileWatcher : public QObject {
+class PQHandlingChromecast : public QObject {
 
     Q_OBJECT
 
 public:
-    explicit PQFileWatcher(QObject *parent = nullptr);
-    ~PQFileWatcher();
+    PQHandlingChromecast(QObject *parent = nullptr);
+    ~PQHandlingChromecast();
 
-    Q_INVOKABLE void setCurrentFile(QString file);
+    Q_INVOKABLE void getListOfChromecastDevices();
+    static QVariantList _getListOfChromecastDevices();
 
-private:
-    QFileSystemWatcher *userPlacesWatcher;
-    QFileSystemWatcher *contextmenuWatcher;
-    QFileSystemWatcher *currentFileWatcher;
+    Q_INVOKABLE bool connectToDevice(QString friendlyname);
+    Q_INVOKABLE bool disconnectFromDevice();
+    Q_INVOKABLE void streamOnDevice(QString src);
 
-    QTimer *checkRepeatedly;
-    QString currentFile;
+    Q_INVOKABLE void cancelScanForChromecast();
 
-private Q_SLOTS:
-    void userPlacesChangedSLOT();
-    void contextmenuChangedSLOT();
-    void currentFileChangedSLOT();
-
-    void checkRepeatedlyTimeout();
+    QFutureWatcher<QVariantList> *watcher;
 
 Q_SIGNALS:
-    void userPlacesChanged();
-    void contextmenuChanged();
-    void currentFileChanged();
+    void updatedListChromecast(QVariantList devices);
+    void cancelScan();
+
+private:
+    int triedReconnectingAfterDisconnect;
+    QString chromecastModuleName;
+    QString localIP;
+
+    PQPyObject *chromecastCast;
+    PQPyObject *chromecastServices;
+    PQPyObject *chromecastBrowser;
+    PQPyObject *chromecastMediaController;
+
+    PQImageProviderFull *imageprovider;
+
+    PQHttpServer *server;
+    int serverPort;
+    QString currentFriendlyName;
 
 };
 
 
-#endif // PQFILEWATCHER_H
+#endif // PQHANDLINGCHROMECAST_H

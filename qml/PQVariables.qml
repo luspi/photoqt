@@ -42,6 +42,9 @@ Item {
 
     property bool videoControlsVisible: false
 
+    property bool chromecastConnected: false
+    property string chromecastName: ""
+
     Connections {
 
         target: PQSettings

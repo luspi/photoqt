@@ -20,48 +20,63 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQFILEWATCHER_H
-#define PQFILEWATCHER_H
+#ifndef PQPY_H
+#define PQPY_H
 
-#include <QObject>
-#include <QFileSystemWatcher>
-#include <QFileInfo>
-#include <thread>
-#include <QTimer>
-#include "../configfiles.h"
-#include "../logger.h"
+#include <QMetaType>
+#include <Python.h>
+#include <list>
+#include <string>
+#include "../cplusplus/logger.h"
 
-class PQFileWatcher : public QObject {
-
-    Q_OBJECT
-
-public:
-    explicit PQFileWatcher(QObject *parent = nullptr);
-    ~PQFileWatcher();
-
-    Q_INVOKABLE void setCurrentFile(QString file);
-
+class PQPyObject {
+    
 private:
-    QFileSystemWatcher *userPlacesWatcher;
-    QFileSystemWatcher *contextmenuWatcher;
-    QFileSystemWatcher *currentFileWatcher;
+    PyObject *p;
+    
+public:
+    PQPyObject() : p(NULL) { }
 
-    QTimer *checkRepeatedly;
-    QString currentFile;
+    PQPyObject(PyObject* _p) : p(_p) { }
 
-private Q_SLOTS:
-    void userPlacesChangedSLOT();
-    void contextmenuChangedSLOT();
-    void currentFileChangedSLOT();
+    ~PQPyObject() {
+        Py_XDECREF(p);
+        p = nullptr;
+    }
 
-    void checkRepeatedlyTimeout();
+    std::list<std::string> asList() {
+        size_t len = PyList_Size(p);
+        std::list<std::string> ret;
+        for(size_t i = 0; i < len; ++i)
+            ret.push_back(PyUnicode_AsUTF8(PyList_GET_ITEM(p,i)));
+        return ret;
+    }
 
-Q_SIGNALS:
-    void userPlacesChanged();
-    void contextmenuChanged();
-    void currentFileChanged();
+    PyObject* get() {
+        return p;
+    }
+
+    PyObject* operator=(PyObject* p2) {
+        p = p2;
+        return p;
+    }
+
+    operator PyObject*() {
+        return p;
+    }
+
+    static bool catchEx(QString loc) {
+        PyObject *check = PyErr_Occurred();
+        if(check != NULL) {
+            LOG << CURDATE << loc.toStdString() << ": Python error:" << NL;
+            PyErr_Print();
+            PyErr_Clear();
+            return true;
+        }
+        return false;
+    }
 
 };
+Q_DECLARE_METATYPE(PQPyObject)
 
-
-#endif // PQFILEWATCHER_H
+#endif

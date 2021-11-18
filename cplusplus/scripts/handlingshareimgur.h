@@ -113,7 +113,7 @@ private:
 
     bool debug;
 
-private slots:
+private Q_SLOTS:
     // functions to connect to an account. the *_request function sets the whole thing in motion
     int saveAccessRefreshTokenUserName(QString filename);
 
@@ -122,7 +122,7 @@ private slots:
     void uploadError(QNetworkReply::NetworkError err);
     void uploadFinished();
 
-signals:
+Q_SIGNALS:
     // signal percentage of upload completed
     void imgurUploadProgress(double perc);
     void imgurImageUrl(QString url);

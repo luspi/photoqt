@@ -300,7 +300,8 @@ public:
             err = "";
 
         // cache image (if not scaled)
-        if(PQSettings::get()["imageviewCache"].toInt() > 0 && !img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
+        // we always cache the last image if nothing else
+        if(!img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
             load_helper->saveImageToCache(filename, &img);
 
         return err;

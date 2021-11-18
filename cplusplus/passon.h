@@ -47,7 +47,7 @@ public:
     // later-on, the signal can be used without this method
     void setFilePath(QString path) {
         filepath = path;
-        emit cmdFilePath(filepath);
+        Q_EMIT cmdFilePath(filepath);
     }
     Q_INVOKABLE QString getFilePath() {
         return filepath;
@@ -63,7 +63,7 @@ public:
     /******************************************************/
     void setThumbs(bool thb) {
         thumbs = int(thb);
-        emit cmdThumbs(thb);
+        Q_EMIT cmdThumbs(thb);
     }
     Q_INVOKABLE int getThumbs() {
         return thumbs;
@@ -92,7 +92,7 @@ private:
     int thumbs;
     bool startintray;
 
-signals:
+Q_SIGNALS:
     void cmdFilePath(QString path);
     void cmdOpen();
     void cmdShow();

@@ -100,6 +100,8 @@ Item {
                 if(imageStatus == Image.Ready) {
                     loadingtimer.stop()
                     loadingindicator.visible = false
+                    if(variables.chromecastConnected)
+                        handlingchromecast.streamOnDevice(src)
                 }
                 if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
                     hideShowAni.showing = true

@@ -195,6 +195,24 @@ Rectangle {
 
     }
 
+    Image {
+        x: row.x+row.width+10
+        y: row.y-5
+        width: row.height+10
+        height: width
+        visible: variables.chromecastConnected
+        source: "/streaming/chromecastactive.png"
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            //: This is followed by the name of the Chromecast streaming device currently connected to
+            tooltip: em.pty+qsTranslate("quickinfo", "Connected to:") + " " + variables.chromecastName
+            cursorShape: Qt.PointingHandCursor
+            onClicked:
+                loader.show("chromecast")
+        }
+    }
+
     PQMenu {
 
         id: rightclickmenu
