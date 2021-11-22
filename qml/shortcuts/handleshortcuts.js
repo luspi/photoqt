@@ -149,7 +149,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd == "__chromecast")
         loader.show("chromecast")
     else {
-        handlingShortcuts.executeExternalApp(cmd, filefoldermodel.currentFilePath)
+        handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()
     }

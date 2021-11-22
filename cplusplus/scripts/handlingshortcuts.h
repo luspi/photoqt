@@ -38,7 +38,6 @@ public:
     Q_INVOKABLE QString composeString(Qt::KeyboardModifiers mods, Qt::Key keys);
     Q_INVOKABLE int convertCharacterToKeyCode(QString key);
     Q_INVOKABLE QString convertKeyCodeToText(int id);
-    Q_INVOKABLE void executeExternalApp(QString cmd, QString filename);
 
 };
 

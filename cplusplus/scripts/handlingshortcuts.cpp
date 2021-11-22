@@ -304,24 +304,3 @@ QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
     return ret;
 
 }
-
-void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
-
-    DBG << CURDATE << "PQHandlingShortcuts::convertKeyCodeToText()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
-
-    QByteArray fn = QByteArray::fromPercentEncoding(filename.toUtf8());
-
-    QProcess *p = new QProcess;
-    cmd = cmd.replace("%f", "\"" + fn + "\"");
-    cmd = cmd.replace("%u", "\"" + QFileInfo(fn).fileName() + "\"");
-    cmd = cmd.replace("%d", "\"" + QFileInfo(fn).absolutePath() + "\"");
-
-    p->startDetached(cmd, QStringList());
-    if(p->error() == QProcess::UnknownError)
-        p->waitForStarted(2000);
-
-    delete p;
-
-}
