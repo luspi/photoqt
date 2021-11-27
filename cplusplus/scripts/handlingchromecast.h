@@ -24,6 +24,7 @@
 #define PQHANDLINGCHROMECAST_H
 
 #include <QObject>
+#ifdef CHROMECAST
 #include <QJSValue>
 #include <QJSEngine>
 #include <QtConcurrent/QtConcurrent>
@@ -31,6 +32,7 @@
 #include "../python/pqpy.h"
 #include "../logger.h"
 #include "../imageprovider/imageproviderfull.h"
+#endif
 
 class PQHandlingChromecast : public QObject {
 
@@ -49,13 +51,16 @@ public:
 
     Q_INVOKABLE void cancelScanForChromecast();
 
+#ifdef CHROMECAST
     QFutureWatcher<QVariantList> *watcher;
+#endif
 
 Q_SIGNALS:
     void updatedListChromecast(QVariantList devices);
     void cancelScan();
 
 private:
+#ifdef CHROMECAST
     int triedReconnectingAfterDisconnect;
     QString chromecastModuleName;
     QString localIP;
@@ -70,6 +75,7 @@ private:
     PQHttpServer *server;
     int serverPort;
     QString currentFriendlyName;
+#endif
 
 };
 

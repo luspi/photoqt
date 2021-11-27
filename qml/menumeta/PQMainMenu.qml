@@ -254,13 +254,15 @@ Rectangle {
             id: subview
 
             property int mainindex: index
-            height: 30
+            height: visible ? 30 : 0
             width: childrenRect.width
 
             interactive: false
 
             orientation: Qt.Horizontal
             spacing: 5
+
+            visible: allitems[mainindex][0][1] != "chromecast" || handlingGeneral.isChromecastEnabled()
 
             model: allitems[mainindex].length
             delegate: Row {

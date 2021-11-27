@@ -22,11 +22,11 @@
 
 #include "handlingchromecast.h"
 #include <QtDebug>
-#include <variant>
 #include <QFutureWatcher>
 
 PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
 
+#ifdef CHROMECAST
     server = new PQHttpServer;
     currentFriendlyName = "";
 
@@ -49,10 +49,13 @@ PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
     chromecastMediaController = new PQPyObject;
 
     triedReconnectingAfterDisconnect = 0;
+#endif
 
 }
 
 PQHandlingChromecast::~PQHandlingChromecast() {
+
+#ifdef CHROMECAST
 
     delete server;
 
@@ -75,9 +78,13 @@ PQHandlingChromecast::~PQHandlingChromecast() {
     if(!QFile::remove(chromecastModuleName))
         LOG << CURDATE << "PQHandlingStreaming::~PQHandlingStreaming: Unable to remove chromecast module file" << NL;
 
+#endif
+
 }
 
 void PQHandlingChromecast::getListOfChromecastDevices() {
+
+#ifdef CHROMECAST
 
     if(!QFile::exists(QString("%1/photoqt_chromecast.py").arg(QDir::tempPath())))
         return;
@@ -96,11 +103,15 @@ void PQHandlingChromecast::getListOfChromecastDevices() {
     watcher->setFuture(QtConcurrent::run(&PQHandlingChromecast::_getListOfChromecastDevices));
     connect(this, &PQHandlingChromecast::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
 
+#endif
+
 }
 
 QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
 
     QVariantList ret;
+
+#ifdef CHROMECAST
 
     PyObject *sys_path = PySys_GetObject("path");
     if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
@@ -158,6 +169,8 @@ QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
         if(PQPyObject::catchEx("PQHandlingChromecast::_getListOfChromecastDevices() 12")) return ret;
     }
 
+#endif
+
     return ret;
 
 }
@@ -167,6 +180,8 @@ void PQHandlingChromecast::cancelScanForChromecast() {
 }
 
 bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
+
+#ifdef CHROMECAST
 
     PyObject *sys_path = PySys_GetObject("path");
     if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
@@ -230,9 +245,15 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
 
     return true;
 
+#else
+    return false;
+#endif
+
 }
 
 bool PQHandlingChromecast::disconnectFromDevice() {
+
+#ifdef CHROMECAST
 
     PyObject *sys_path = PySys_GetObject("path");
     if(PyList_Append(sys_path, PyUnicode_FromString(QDir::tempPath().toStdString().c_str())) == -1) {
@@ -267,9 +288,15 @@ bool PQHandlingChromecast::disconnectFromDevice() {
     currentFriendlyName = "";
     return true;
 
+#else
+    return false;
+#endif
+
 }
 
 void PQHandlingChromecast::streamOnDevice(QString src) {
+
+#ifdef CHROMECAST
 
     // Make sure image provider exists
     if(imageprovider == nullptr)
@@ -328,5 +355,7 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
     }
 
     triedReconnectingAfterDisconnect = 0;
+
+#endif
 
 }

@@ -81,7 +81,8 @@ Rectangle {
         //: This is an entry in the context menu, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
         [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
 
-        [["separator", "", "", ""]],
+        // having 'chromecast' as third entry allows us to also hide this seperator if chromecast is disabled and the above item is hidden
+        [["separator", "", "chromecast", ""]],
 
         //: This is an entry in the context menu. Please keep short!
         [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
@@ -137,6 +138,8 @@ Rectangle {
 
             property int mainindex: index
 
+            visible: (allitems[mainindex][0][1] != "chromecast" && allitems[mainindex][0][2] != "chromecast") || handlingGeneral.isChromecastEnabled()
+
             Repeater {
 
                 model: allitems[mainindex].length
@@ -147,7 +150,7 @@ Rectangle {
                     property bool separator: allitems[deleg_top.mainindex][index][0] == "separator"
 
                     width: separator ? mainlistview.maxrowwidth : childrenRect.width
-                    height: separator ? 10 : childrenRect.height
+                    height: visible ? (separator ? 10 : childrenRect.height) : 0
 
                     Rectangle {
                         width: separator ? parent.width : -deleg_top.spacing

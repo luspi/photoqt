@@ -241,6 +241,14 @@ QString PQHandlingGeneral::getVersion() {
 
 }
 
+bool PQHandlingGeneral::isChromecastEnabled() {
+#ifdef CHROMECAST
+    return true;
+#else
+    return false;
+#endif
+}
+
 bool PQHandlingGeneral::isDevILSupportEnabled() {
 #ifdef DEVIL
     return true;

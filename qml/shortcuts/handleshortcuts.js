@@ -147,7 +147,8 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd === "__tagFaces")
         loader.passOn("facetagger", "start", undefined)
     else if(cmd == "__chromecast")
-        loader.show("chromecast")
+        if(handlingGeneral.isChromecastEnabled())
+            loader.show("chromecast")
     else {
         handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
