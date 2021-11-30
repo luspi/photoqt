@@ -1,4 +1,4 @@
-# PhotoQt 2.4
+# PhotoQt dev
 __Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ http://photoqt.org  
@@ -28,8 +28,9 @@ Dependencies, that are needed by default, but can be disabled via CMake:
 - FreeImage
 - DevIL
 - pugixml
+- Python
 
-Please note that some of these should remain enabled if at all possible as they greatly enhance the experience of PhotoQt (e.g., LibArchive, pugixml). Others can be disabled quite safely with the only effect being the number of supported image formats.
+Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
 
 #### NOTE
 
@@ -61,15 +62,7 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
 
-    \# PhotoQt makes use of various libraries (Exiv2, ImageMagick/GraphicsMagick, etc.).
-    \# Many of them are enabled by default but can be disabled using CMake options.
-
-    \# If CMake aborts with the error that it can't find one of the libraries but they are in fact installed and available, then you can specify the location of some of them as:
-
-    _-DMAGICK_LOCATION=/path/to/graphicsmagick_  
-    _-DEXIV2_LOCATION=/path/to/exiv2_  
-    _-DLIBRAW_LOCATION=/path/to/libraw_  
-    _-DFREEIMAGE_LOCATION=/path/to/freeimage_
+    \# At this step you can also en-/disable any compile time features.
 
 3. _make_  
 
