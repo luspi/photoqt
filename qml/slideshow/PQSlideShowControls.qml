@@ -350,8 +350,10 @@ Rectangle {
         else if(PQSettings.imageviewSortImagesBy == "type")
             sortby = 4
 
-        if(PQSettings.slideshowIncludeSubFolders)
+        if(PQSettings.slideshowIncludeSubFolders) {
             filefoldermodel.includeFilesInSubFolders = true
+            filefoldermodel.forceReloadMainView()
+        }
 
         if(PQSettings.slideshowShuffle) {
 

@@ -145,6 +145,11 @@ public:
         return -1;
     }
 
+    Q_INVOKABLE void forceReloadMainView() {
+        loadDelayMainView->stop();
+        loadDataMainView();
+    }
+
 private:
     PQFileFolderModelCache cache;
 
