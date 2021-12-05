@@ -9,15 +9,24 @@ PQStartup::PQStartup(QObject *parent) : QObject(parent) {
 // 2: fresh install
 int PQStartup::check() {
 
-    QSqlDatabase db;
+    QSqlDatabase db_settings;
+    QSqlDatabase db_shortcuts;
+    QSqlDatabase db_context;
+    QSqlDatabase db_imageformats;
 
     // check if sqlite is available
     // this is a hard requirement now and we wont launch PhotoQt without it
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "startup");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "startup");
-    else {
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
+        db_settings = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+        db_shortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
+        db_context = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
+        db_imageformats = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
+    } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
+        db_settings = QSqlDatabase::addDatabase("QSQLITE", "settings");
+        db_shortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
+        db_context = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
+        db_imageformats = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
+    } else {
         LOG << CURDATE << "PQStartup::check(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
         LOG << CURDATE << "PQStartup::check(): PhotoQt cannot function without SQLite available." << NL;
         //: This is the window title of an error message box
@@ -30,8 +39,19 @@ int PQStartup::check() {
     if((!QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
         !QFile::exists(ConfigFiles::IMAGEFORMATS_DB()) ||
        (!QFile::exists(ConfigFiles::SHORTCUTS_FILE()) && !QFile::exists(ConfigFiles::SHORTCUTS_DB()))) {
+
+        db_settings.setDatabaseName(ConfigFiles::SETTINGS_DB());
+        db_shortcuts.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
+        db_context.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+        db_imageformats.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
+
         return 2;
     }
+
+    db_settings.setDatabaseName(ConfigFiles::SETTINGS_DB());
+    db_shortcuts.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
+    db_context.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+    db_imageformats.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
 
     // 2.4 and older used a settings and shortcuts file
     // 2.5 and later uses a settings and shortcuts database
@@ -40,26 +60,22 @@ int PQStartup::check() {
         return 1;
 
     // open database
-    db.setDatabaseName(ConfigFiles::SETTINGS_DB());
-    if(!db.open())
-        LOG << CURDATE << "PQStartup::check(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+    if(!db_settings.open())
+        LOG << CURDATE << "PQStartup::check(): Error opening database: " << db_settings.lastError().text().trimmed().toStdString() << NL;
 
     // compare version string in database to current version string
-    QSqlQuery query(db);
+    QSqlQuery query(db_settings);
     if(!query.exec("SELECT `value` from `general` where `name`='Version'"))
         LOG << CURDATE << "PQStartup::check(): SQL query error: " << query.lastError().text().trimmed().toStdString() << NL;
     query.next();
 
-    // close database
-    db.close();
+    // last time a dev version was run
+    QString version = query.record().value(0).toString();
+    if(version == "dev")
+        return 3;
 
     // updated
-    QString version = query.record().value(0).toString();
     if(version != QString(VERSION))
-        return 1;
-
-    // if we are on dev, we pretend to always update
-    if(QString(VERSION) == "dev")
         return 1;
 
     // nothing happened
@@ -211,12 +227,7 @@ void PQStartup::setupFresh(int defaultPopout) {
       << QApplication::translate("startup", "Open in %1").arg("Eye of Gnome") << "eog";
 
     {
-        QSqlDatabase db;
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            db = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            db = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
-        db.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+        QSqlDatabase db = QSqlDatabase::database("contextmenu");
         if(!db.open())
             LOG << CURDATE << "PQStartup::setupFresh(): Error opening contextmenu database: " << db.lastError().text().trimmed().toStdString() << NL;
 
@@ -235,11 +246,7 @@ void PQStartup::setupFresh(int defaultPopout) {
             }
         }
 
-        db.close();
-
     }
-
-    QSqlDatabase::removeDatabase("contextmenu");
 
 #endif
 
@@ -254,19 +261,13 @@ void PQStartup::performChecksAndMigrations() {
 
     // remove version info from imageformats.db
     // the version info is managed through settings.db
-    QSqlDatabase db;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "imageformatsinfo");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "imageformatsinfo");
-    db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
+    QSqlDatabase db = QSqlDatabase::database("imageformats");
     if(!db.open())
         LOG << CURDATE << "PQStartup::performChecksAndMigrations(): Error opening imageformats database: " << db.lastError().text().trimmed().toStdString() << NL;
     QSqlQuery query(db);
     if(!query.exec("DROP TABLE IF EXISTS info"))
         LOG << CURDATE << "PQStartup::performChecksAndMigrations(): SQL query error: " << query.lastError().text().trimmed().toStdString() << NL;
     query.next();
-    db.close();
 
     // attempt to enter new format
     if(PQImageFormats::get().enterNewFormat("jxl", "image/jxl", "JPEG XL", "img", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "jxl", true))
@@ -310,18 +311,9 @@ bool PQStartup::migrateContextmenuToDb() {
     if(!file.exists())
         return true;
 
-    QSqlDatabase db;
 
     // access database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "migratecontextmenu");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "migratecontextmenu");
-    else
-        return false;
-
-    db.setHostName("migratecontextmenu");
-    db.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+    QSqlDatabase db = QSqlDatabase::database("contextmenu");
 
     // open database
     if(!db.open()) {
@@ -365,8 +357,6 @@ bool PQStartup::migrateContextmenuToDb() {
 
     }
 
-    db.close();
-
     if(!QFile::copy(ConfigFiles::CONTEXTMENU_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
         LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to copy old contextmenu file to 'contextmenu.pre-v2.5' filename" << NL;
     else {
@@ -397,18 +387,9 @@ bool PQStartup::migrateShortcutsToDb() {
     if(!file.exists())
         return true;
 
-    QSqlDatabase db;
 
     // access database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "migrateshortcuts");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "migrateshortcuts");
-    else
-        return false;
-
-    db.setHostName("migrateshortcuts");
-    db.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
+    QSqlDatabase db = QSqlDatabase::database("shortcuts");
 
     // open database
     if(!db.open()) {
@@ -505,7 +486,6 @@ bool PQStartup::migrateShortcutsToDb() {
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error, insert new: " << query.lastError().text().trimmed().toStdString() << NL;
 
         db.commit();
-        db.close();
 
     // format of 2.3 and 2.4
     } else {
@@ -561,7 +541,6 @@ bool PQStartup::migrateShortcutsToDb() {
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error, insert new: " << query.lastError().text().trimmed().toStdString() << NL;
 
         db.commit();
-        db.close();
 
     }
 
@@ -595,14 +574,7 @@ bool PQStartup::migrateSettingsToDb() {
     if(!file.exists())
         return true;
 
-    QSqlDatabase db;
-
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "migratesettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "migratesettings");
-    else
-        return false;
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     db.setHostName("migratesettings");
     db.setDatabaseName(ConfigFiles::SETTINGS_DB());
@@ -1064,7 +1036,6 @@ bool PQStartup::migrateSettingsToDb() {
     }
 
     query.clear();
-    db.close();
 
     return true;
 

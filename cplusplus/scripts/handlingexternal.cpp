@@ -267,53 +267,38 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
 
     QVariantList ret;
 
-    { // create limited scope for database variables to allow for use of QSqlDatabase::removeDatabase()
+    QSqlDatabase db = QSqlDatabase::database("contextmenu");
 
-        QSqlDatabase db;
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            db = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
-        else
-            db = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
+    if(!db.open()) {
+        LOG << CURDATE << "PQHandlingExternal::getContextMenuEntries(): SQL error, db.open(): " << db.lastError().text().trimmed().toStdString() << NL;
+        return ret;
+    }
 
-        db.setHostName("contextmenu");
-        db.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+    QSqlQuery query(db);
+    query.prepare("SELECT command,desc,close FROM entries");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQHandlingExternal::getContextMenuEntries(): SQL error, select: " << query.lastError().text().trimmed().toStdString() << NL;
+        return ret;
+    }
 
-        if(!db.open()) {
-            LOG << CURDATE << "PQHandlingExternal::getContextMenuEntries(): SQL error, db.open(): " << db.lastError().text().trimmed().toStdString() << NL;
-            return ret;
-        }
+    while(query.next()) {
 
-        QSqlQuery query(db);
-        query.prepare("SELECT command,desc,close FROM entries");
-        if(!query.exec()) {
-            LOG << CURDATE << "PQHandlingExternal::getContextMenuEntries(): SQL error, select: " << query.lastError().text().trimmed().toStdString() << NL;
-            db.close();
-            return ret;
-        }
+        const QString command = query.record().value(0).toString();
+        const QString desc = query.record().value(1).toString();
+        const QString close = query.record().value(2).toString();
 
-        while(query.next()) {
+        QStringList thisentry;
 
-            const QString command = query.record().value(0).toString();
-            const QString desc = query.record().value(1).toString();
-            const QString close = query.record().value(2).toString();
+        thisentry << QString("_:_EX_:_%1").arg(command);
+        thisentry << command.split(" ").at(0);
+        thisentry << desc;
+        thisentry << (close=="1" ? "close" : "donthide");
 
-            QStringList thisentry;
-
-            thisentry << QString("_:_EX_:_%1").arg(command);
-            thisentry << command.split(" ").at(0);
-            thisentry << desc;
-            thisentry << (close=="1" ? "close" : "donthide");
-
-            ret << thisentry;
-
-        }
-
-        query.clear();
-        db.close();
+        ret << thisentry;
 
     }
 
-    QSqlDatabase::removeDatabase("contextmenu");
+    query.clear();
 
     return ret;
 
@@ -473,66 +458,50 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
     QString cont = "";
 
-    { // create limited scope for database variables to allow for use of QSqlDatabase::removeDatabase()
+    bool dontcontinue = false;
 
-        bool dontcontinue = false;
+    QSqlDatabase db = QSqlDatabase::database("contextmenu");
 
-        QSqlDatabase db;
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            db = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
-        else
-            db = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
+    if(!db.open()) {
+        LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): SQL error, db.open(): " << db.lastError().text().trimmed().toStdString() << NL;
+        dontcontinue = true;
+    }
 
-        db.setHostName("contextmenu");
-        db.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
+    if(!dontcontinue) {
 
-        if(!db.open()) {
-            LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): SQL error, db.open(): " << db.lastError().text().trimmed().toStdString() << NL;
+        QSqlQuery query(db);
+        query.prepare("DELETE FROM entries");
+        if(!query.exec()) {
+            LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): SQL error, truncate: " << query.lastError().text().trimmed().toStdString() << NL;
             dontcontinue = true;
         }
 
-        if(!dontcontinue) {
+        for(const auto &entry : qAsConst(entries)) {
 
-            QSqlQuery query(db);
-            query.prepare("DELETE FROM entries");
-            if(!query.exec()) {
-                LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): SQL error, truncate: " << query.lastError().text().trimmed().toStdString() << NL;
-                dontcontinue = true;
-            }
+            if(dontcontinue)
+                continue;
 
-            for(const auto &entry : qAsConst(entries)) {
+            QVariantList entrylist = entry.toList();
 
-                if(dontcontinue)
-                    continue;
+            const QString close = QString::number(entrylist.at(2).toInt());
+            const QString cmd = entrylist.at(1).toString();
+            const QString dsc = entrylist.at(0).toString();
 
-                QVariantList entrylist = entry.toList();
+            if(cmd != "" && dsc != "") {
 
-                const QString close = QString::number(entrylist.at(2).toInt());
-                const QString cmd = entrylist.at(1).toString();
-                const QString dsc = entrylist.at(0).toString();
-
-                if(cmd != "" && dsc != "") {
-
-                    QSqlQuery query(db);
-                    query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
-                    query.bindValue(":cmd", cmd);
-                    query.bindValue(":dsc", dsc);
-                    query.bindValue(":cls", close);
-                    if(!query.exec())
-                        LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): SQL error, insert: " << query.lastError().text().trimmed().toStdString() << NL;
-
-                }
+                QSqlQuery query(db);
+                query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
+                query.bindValue(":cmd", cmd);
+                query.bindValue(":dsc", dsc);
+                query.bindValue(":cls", close);
+                if(!query.exec())
+                    LOG << CURDATE << "PQHandlingExternal::saveContextMenuEntries(): SQL error, insert: " << query.lastError().text().trimmed().toStdString() << NL;
 
             }
 
         }
 
-        db.close();
-
     }
-
-    QSqlDatabase::removeDatabase("contextmenu");
-
 
 }
 

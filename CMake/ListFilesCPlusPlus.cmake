@@ -3,7 +3,7 @@
 #####################
 
 SET(d "cplusplus")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/logger.h ${d}/configfiles.h ${d}/startup.h ${d}/keypresschecker.h ${d}/passon.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/logger.h ${d}/configfiles.h ${d}/keypresschecker.h ${d}/passon.h)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.cpp ${d}/imageformats.cpp ${d}/windowgeometry.cpp ${d}/shortcuts.cpp)
@@ -26,7 +26,7 @@ SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/startup")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/startup.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/startup.cpp ${d}/validate.cpp)
 
 SET(d "cplusplus/filefoldermodel")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filefoldermodel.cpp ${d}/filefoldermodelcache.h)

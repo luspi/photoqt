@@ -21,13 +21,13 @@ public:
     // 0: no update
     // 1: update
     // 2: fresh install
-    static int check();
+    int check();
 
     Q_INVOKABLE void setupFresh(int defaultPopout);
     Q_INVOKABLE void performChecksAndMigrations();
 
-    static void exportData(QString path);
-    static void importData(QString path);
+    void exportData(QString path);
+    void importData(QString path);
 
 private:
     bool checkIfBinaryExists(QString exec);

@@ -25,14 +25,7 @@
 
 PQImageFormats::PQImageFormats() {
 
-    // we check for driver availability during startup
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE");
-
-    db.setHostName("formats");
-    db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
+    db = QSqlDatabase::database("imageformats");
 
     QFileInfo infodb(ConfigFiles::IMAGEFORMATS_DB());
 
@@ -454,6 +447,8 @@ void PQImageFormats::restoreDefaults() {
 
     db.close();
 
+    QSqlDatabase::removeDatabase("imageformats");
+
     if(!QFile::remove(ConfigFiles::IMAGEFORMATS_DB())) {
         LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error removing old database." << NL;
         return;
@@ -475,6 +470,12 @@ void PQImageFormats::restoreDefaults() {
         LOG << CURDATE << "PQImageFormats::restoreDefaults(): Error opening new database: " << db.lastError().text().trimmed().toStdString() << NL;
         return;
     }
+
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
+    else
+        db = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
+    db.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
 
     readFromDatabase();
 

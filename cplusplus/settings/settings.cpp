@@ -27,14 +27,7 @@
 
 PQSettings::PQSettings() {
 
-    // we check for driver availability during startup
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-    else
-        db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-
-    db.setHostName("settings");
-    db.setDatabaseName(ConfigFiles::SETTINGS_DB());
+    db = QSqlDatabase::database("settings");
 
     dbtables = QStringList() << "general"
                              << "interface"
@@ -113,7 +106,6 @@ PQSettings::PQSettings() {
 }
 
 PQSettings::~PQSettings() {
-    db.close();
     delete dbCommitTimer;
 #ifndef NDEBUG
     delete checkvalid;

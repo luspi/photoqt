@@ -24,9 +24,8 @@
 #include <QQmlContext>
 
 #include "passon.h"
-#include "startup.h"
 #include "startup/startup.h"
-//#include "startup/exportimport.h"
+#include "startup/validate.h"
 #include "settings/settings.h"
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
@@ -81,18 +80,21 @@ int main(int argc, char **argv) {
     QApplication::setApplicationVersion(VERSION);
     QApplication::setQuitOnLastWindowClosed(true);
 
+    PQStartup startup;
+    PQValidate validate;
+
     // handle export/import commands
     if(app.exportAndQuit != "") {
-        PQStartup::exportData(app.exportAndQuit);
+        startup.exportData(app.exportAndQuit);
         std::exit(0);
     } else if(app.importAndQuit != "") {
-        PQStartup::importData(app.importAndQuit);
+        startup.importData(app.importAndQuit);
         std::exit(0);
     }
 
     // perform some startup checks
     // return 1 on updates and 2 on fresh installs
-    int checker = PQStartup::check();
+    int checker = startup.check();
 
     // update or fresh install detected => show informational message
     if(checker != 0) {
@@ -100,12 +102,17 @@ int main(int argc, char **argv) {
         QQmlApplicationEngine engine;
         app.qmlEngine = &engine;
         qmlRegisterType<PQStartup>("PQStartup", 1, 0, "PQStartup");
-        if(checker == 1)
+        if(checker == 1 || checker == 3)
             engine.load("qrc:/startup/PQStartupUpdate.qml");
         else
             engine.load("qrc:/startup/PQStartupFreshInstall.qml");
 
         app.exec();
+
+        // run consistency check
+        // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
+        if(checker == 3)
+            validate.validateSettingsDatabase();
 
     }
 

@@ -23,14 +23,7 @@
 
 PQShortcuts::PQShortcuts() {
 
-    // we check for driver availability during startup
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
-    else
-        db = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
-
-    db.setHostName("shortcuts");
-    db.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
+    db = QSqlDatabase::database("shortcuts");
 
     readonly = false;
 
@@ -88,9 +81,7 @@ PQShortcuts::PQShortcuts() {
 
 }
 
-PQShortcuts::~PQShortcuts() {
-    db.close();
-}
+PQShortcuts::~PQShortcuts() {}
 
 void PQShortcuts::setDefault() {
 
