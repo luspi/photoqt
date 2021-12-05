@@ -163,6 +163,8 @@ if which == 'all' or which == 'filetypes':
 if which == 'all' or which == 'cmake':
 
     print("Generating addition to CMake ComposeDesktopFile()...")
+    
+    mt = np.array([], dtype=str)
 
     cont = "set(MIMETYPE \""
     i = 0
@@ -170,10 +172,12 @@ if which == 'all' or which == 'cmake':
         if row[1] != "":
             parts = row[1].split(",")
             for p in parts:
-                if i%5 == 0 and i > 0:
-                    cont += "\")\nset(MIMETYPE \"${MIMETYPE}"
-                cont += f"{p};"
-                i += 1
+                if p not in mt:
+                    if i%5 == 0 and i > 0:
+                        cont += "\")\nset(MIMETYPE \"${MIMETYPE}"
+                    cont += f"{p};"
+                    i += 1
+                    mt = np.append(mt, p)
     cont += "\")\n\nfile(APPEND \"org.photoqt.photoqt.desktop\" \"MimeType=${MIMETYPE}\")\n"
 
     f_new = open("output/add_to_ComposeDesktopFile.cmake", "w")
