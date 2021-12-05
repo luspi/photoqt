@@ -342,13 +342,17 @@ if(UNIX)
         DESTINATION bin/
     )
 
-        # Install desktop file
+    # Install desktop file
     install(
         FILES org.photoqt.PhotoQt.desktop
         DESTINATION share/applications
     )
+    install(
+        FILES org.photoqt.PhotoQt.standalone.desktop
+        DESTINATION share/applications
+    )
 
-        # And install all the icons
+    # And install all the icons
     install(
         FILES icons/16x16/apps/photoqt.png
         DESTINATION share/icons/hicolor/16x16/apps/
