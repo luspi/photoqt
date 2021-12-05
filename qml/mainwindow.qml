@@ -93,7 +93,7 @@ Window {
                 id: emptymessage
                 anchors.fill: parent
                 anchors.leftMargin: arrleft.x+arrleft.width+10
-                anchors.rightMargin: parent.width-arrright.x - 20
+                anchors.rightMargin: parent.width-arrright.x
                 text: em.pty+qsTranslate("other", "Open a file to begin")
                 visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive
                 font.pointSize: 50
@@ -111,8 +111,8 @@ Window {
                 anchors.rightMargin: 10
                 opacity: 0.5
                 y: (parent.height-height)/2
-                width: 50
-                height: 50
+                width: 100
+                height: 100
                 source: "/mainwindow/rightarrow.png"
             }
 
@@ -123,8 +123,8 @@ Window {
                 anchors.leftMargin: 10
                 opacity: 0.5
                 y: (parent.height-height)/2
-                width: 50
-                height: 50
+                width: 100
+                height: 100
                 source: "/mainwindow/leftarrow.png"
             }
 
