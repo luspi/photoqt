@@ -6,8 +6,6 @@ PQValidate::PQValidate(QObject *parent) : QObject(parent) {
 
 bool PQValidate::validateSettingsDatabase() {
 
-    LOG << "validateSettingsDatabase()" << NL;
-
     // first we check all the settings
     // we do so automatically by loading the default settings database and check that all items there are present in the actual one
 

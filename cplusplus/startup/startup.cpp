@@ -357,12 +357,13 @@ bool PQStartup::migrateContextmenuToDb() {
 
     }
 
-    if(!QFile::copy(ConfigFiles::CONTEXTMENU_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
-        LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to copy old contextmenu file to 'contextmenu.pre-v2.5' filename" << NL;
-    else {
+    if(!QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
+        if(!QFile::copy(ConfigFiles::CONTEXTMENU_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
+            LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to copy old contextmenu file to 'contextmenu.pre-v2.5' filename" << NL;
+
+    if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
         if(!QFile::remove(ConfigFiles::CONTEXTMENU_FILE()))
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to remove old contextmenu file" << NL;
-    }
 
     return true;
 
@@ -544,12 +545,13 @@ bool PQStartup::migrateShortcutsToDb() {
 
     }
 
-    if(!QFile::copy(ConfigFiles::SHORTCUTS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
-        LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to copy old shortcuts file to 'shortcuts.pre-v2.5' filename" << NL;
-    else {
+    if(!QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
+        if(!QFile::copy(ConfigFiles::SHORTCUTS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
+            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to copy old shortcuts file to 'shortcuts.pre-v2.5' filename" << NL;
+
+    if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
         if(!QFile::remove(ConfigFiles::SHORTCUTS_FILE()))
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to remove old shortcuts file" << NL;
-    }
 
     return true;
 
@@ -1028,12 +1030,13 @@ bool PQStartup::migrateSettingsToDb() {
         LOG << CURDATE << "PQStartup::migrateSettingsToDb(): SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
     }
 
-    if(!QFile::copy(ConfigFiles::SETTINGS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
-        LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to copy old settings file to 'settings.pre-v2.5' filename" << NL;
-    else {
+    if(!QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
+        if(!QFile::copy(ConfigFiles::SETTINGS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
+            LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to copy old settings file to 'settings.pre-v2.5' filename" << NL;
+
+    if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
         if(!QFile::remove(ConfigFiles::SETTINGS_FILE()))
             LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to rename old settings file to 'settings.pre-v2.5'" << NL;
-    }
 
     query.clear();
 
