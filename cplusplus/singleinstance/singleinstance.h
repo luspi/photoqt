@@ -49,6 +49,7 @@ public:
 
     QString exportAndQuit;
     QString importAndQuit;
+    bool validateSettings;
 
     QQmlApplicationEngine *qmlEngine;
     QVector<void*> qmlWindowAddresses;

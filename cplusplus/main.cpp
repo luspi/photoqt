@@ -111,7 +111,12 @@ int main(int argc, char **argv) {
 
         // run consistency check
         // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
-        if(checker == 3)
+        if(checker == 3 || app.validateSettings)
+            validate.validateSettingsDatabase();
+
+    } else {
+
+        if(app.validateSettings)
             validate.validateSettingsDatabase();
 
     }

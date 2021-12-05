@@ -83,6 +83,10 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     if(result & PQCommandLineStandalone)
         message += ":://::_S_T_A_N_D_A_L_O_N_E_";
 
+    // validation requested
+    validateSettings = false;
+    if(result & PQCommandLineValidateSettings)
+        validateSettings = true;
 
     // STANDALONE, EXPORT, IMPORT
 
