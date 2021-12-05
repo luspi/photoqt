@@ -37,8 +37,8 @@ Window {
 
     color: "#ffffff"
 
-//    x: (handlingExternal.getScreenSize().width-width)/2
-//    y: (handlingExternal.getScreenSize().height-height)/2
+    x: (Screen.width - width)/2
+    y: (Screen.height - height)/2
 
     PQStartup {
         id: startup
