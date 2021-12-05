@@ -48,7 +48,8 @@ enum PQCommandLineResult {
     PQShortcutSequence = 8192,
     PQCommandLineEnableTray = 16384,
     PQCommandLineDisableTray = 32768,
-    PQCommandLineValidateSettings = 65536
+    PQCommandLineValidateSettings = 65536,
+    PQCommandLineResetDefaults = 131072
 };
 inline PQCommandLineResult operator|(PQCommandLineResult a, PQCommandLineResult b) {
     return static_cast<PQCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
@@ -129,7 +130,9 @@ public:
                        //: Command line option
                        QApplication::translate("commandlineparser", "filename")},
                        //: Command line option
-            {"validate-settings", QApplication::translate("commandlineparser", "Validate the settings database.")}
+            {"validate-settings", QApplication::translate("commandlineparser", "Validate the settings database.")},
+                       //: Command line option
+            {"reset-defaults", QApplication::translate("commandlineparser", "Reset to default settings and shortcuts.")}
         });
 
         process(app);
@@ -193,11 +196,8 @@ public:
         if(importFileName != "")
             ret = ret|PQCommandLineImport;
 
-        validateSettings = false;
-        if(isSet("validate-settings")) {
+        if(isSet("validate-settings"))
             ret = ret|PQCommandLineValidateSettings;
-            validateSettings = true;
-        }
 
         return ret;
 
@@ -207,7 +207,6 @@ public:
     QString importFileName;
     QString filename;
     QString shortcutSequence;
-    bool validateSettings;
 
 };
 

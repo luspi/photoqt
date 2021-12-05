@@ -50,6 +50,7 @@ public:
     QString exportAndQuit;
     QString importAndQuit;
     bool validateSettings;
+    bool resetDefaults;
 
     QQmlApplicationEngine *qmlEngine;
     QVector<void*> qmlWindowAddresses;

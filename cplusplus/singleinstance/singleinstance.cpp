@@ -88,6 +88,11 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     if(result & PQCommandLineValidateSettings)
         validateSettings = true;
 
+    // reset defaults
+    resetDefaults = false;
+    if(result & PQCommandLineResetDefaults)
+        resetDefaults = true;
+
     // STANDALONE, EXPORT, IMPORT
 
     exportAndQuit = "";

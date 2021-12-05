@@ -121,6 +121,15 @@ int main(int argc, char **argv) {
 
     }
 
+    if(app.resetDefaults) {
+
+        PQHandlingGeneral general;
+        general.setDefaultSettings();
+
+        PQShortcuts::get().setDefault();
+
+    }
+
     // Get screenshots for fake transparency
     for(int i = 0; i < QApplication::screens().count(); ++i) {
         QScreen *screen = QApplication::screens().at(i);
