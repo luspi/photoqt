@@ -53,6 +53,7 @@ Item {
         clip: true
         cache: false
         asynchronous: true
+        autoTransform: false
 
         source: "image://full/" + src
 
