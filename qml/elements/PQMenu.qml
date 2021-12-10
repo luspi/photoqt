@@ -77,8 +77,8 @@ Popup {
                     x: 0
                     y: parent.height-height
                     width: parent.width
-                    height: 1
-                    color: lineBelowIndices.indexOf(index)==-1 ? "#88555555" : "#cccccc"
+                    height: lineBelowIndices.indexOf(index)==-1 ? 1 : 3
+                    color: height==1 ? "#88555555" : "#555555"
                     visible: index < control.model.length-1
                 }
 
