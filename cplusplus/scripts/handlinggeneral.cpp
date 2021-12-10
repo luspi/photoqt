@@ -163,6 +163,10 @@ void PQHandlingGeneral::deleteLastLoadedImage() {
 
 }
 
+QString PQHandlingGeneral::escapeHTML(QString str) {
+    return str.toHtmlEscaped();
+}
+
 QStringList PQHandlingGeneral::getAvailableTranslations() {
 
     DBG << CURDATE << "PQHandlingGeneral::getAvailableTranslations()" << NL;

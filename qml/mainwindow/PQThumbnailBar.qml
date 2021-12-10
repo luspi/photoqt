@@ -179,7 +179,7 @@ Item {
 
                         var fpath = filefoldermodel.entriesMainView[index]
 
-                        tooltip = "<b><span style=\"font-size: x-large\">" + handlingFileDir.getFileNameFromFullPath(fpath, true) + "</span></b><br><br>" +
+                        tooltip = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(handlingFileDir.getFileNameFromFullPath(fpath, true)) + "</span></b><br><br>" +
                                  em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(fpath)) + "<br>" +
                                  em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(fpath)
 

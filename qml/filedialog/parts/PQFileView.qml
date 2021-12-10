@@ -344,7 +344,7 @@ GridView {
                         var ftype = handlingFileDir.getFileType(fpath)
 
                         if(index < filefoldermodel.countFoldersFileDialog) {
-                            tooltip = "<b><span style=\"font-size: x-large\">" + fname + "</span></b><br><br>" +
+                            tooltip = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(fname) + "</span></b><br><br>" +
                                       (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
@@ -361,7 +361,7 @@ GridView {
                             else
                                 str += "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
 
-                            str += "<b><span style=\"font-size: x-large\">" + fname + "</span></b>" + "<br><br>" +
+                            str += "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(fname) + "</span></b>" + "<br><br>" +
                                       em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(fsize) + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +

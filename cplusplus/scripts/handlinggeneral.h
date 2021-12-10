@@ -48,6 +48,7 @@ public:
     Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
     Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
     Q_INVOKABLE void deleteLastLoadedImage();
+    Q_INVOKABLE QString escapeHTML(QString str);
     Q_INVOKABLE QStringList getAvailableTranslations();
     Q_INVOKABLE QString getLastLoadedImage();
     Q_INVOKABLE QString getQtVersion();
