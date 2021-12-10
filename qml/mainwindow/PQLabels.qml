@@ -217,7 +217,8 @@ Rectangle {
 
         id: rightclickmenu
 
-        model: [(PQSettings.interfaceLabelsHideCounter ?
+        model: [em.pty+qsTranslate("quickinfo", "Copy filename to clipboard"),
+            (PQSettings.interfaceLabelsHideCounter ?
                      em.pty+qsTranslate("quickinfo", "Show counter") :
                      em.pty+qsTranslate("quickinfo", "Hide counter")),
             (PQSettings.interfaceLabelsHideFilepath ?
@@ -234,16 +235,20 @@ Rectangle {
                  em.pty+qsTranslate("quickinfo", "Hide window buttons"))
         ]
 
+        lineBelowIndices: [0]
+
         onTriggered: {
-            if(index == 0)
-                PQSettings.interfaceLabelsHideCounter = !PQSettings.interfaceLabelsHideCounter
+            if(index === 0)
+                handlingExternal.copyTextToClipboard(filename.text)
             else if(index == 1)
-                PQSettings.interfaceLabelsHideFilepath = !PQSettings.interfaceLabelsHideFilepath
+                PQSettings.interfaceLabelsHideCounter = !PQSettings.interfaceLabelsHideCounter
             else if(index == 2)
+                PQSettings.interfaceLabelsHideFilepath = !PQSettings.interfaceLabelsHideFilepath
+            else if(index == 3)
                 PQSettings.interfaceLabelsHideFilename = !PQSettings.interfaceLabelsHideFilename
-             else if(index == 3)
+             else if(index == 4)
                 PQSettings.interfaceLabelsHideZoomLevel = !PQSettings.interfaceLabelsHideZoomLevel
-            else if(index == 4)
+            else if(index == 5)
                 PQSettings.interfaceLabelsHideWindowButtons = !PQSettings.interfaceLabelsHideWindowButtons
         }
 
