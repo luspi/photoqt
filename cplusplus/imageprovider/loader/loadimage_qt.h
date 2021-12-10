@@ -78,43 +78,26 @@ public:
             reader.setFileName(filename);
 
             // Fix: this loads the image properly even if the extension is wrong
-            QMimeDatabase db;
-            QStringList mime = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent).name().split("/");
+            QMimeType mimetype = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent);
+            if(!mimetype.isValid()) {
+                errormsg = "invalid mime type received";
+                LOG << CURDATE << "PQLoadImageQt::load(): Error: " << errormsg.toStdString() << NL;
+                return QImage();
+            }
+            QStringList mime = mimetype.name().split("/");
             if(mime.size() == 2 && mime.at(0) == "image")
                 reader.setFormat(mime.at(1).toUtf8());
 
             reader.setAutoTransform(PQSettings::get()["metadataAutoRotation"].toBool());
 
-            // we need to consider two possibilities below:
-            // the FIRST possibility is if autoTransform() is DISabled:
-            // then reader->size() and img->size() will always agree and we can do scaling/ec. before reading the image
-            // the SECOND possibility is if autoTransform is ENabled:
-            // then reader->size() and img->size() might not match if a transformation has been applied
-
-            // return image
             QImage img;
 
-            bool readImageEarly = false;
-
-            // Possibility 1
-            if(!reader.autoTransform()) {
-
-                // Store the width/height for later use
-                *origSize = reader.size();
-
-                // check if we need to read the image in full to get the original size
-                if(origSize->width() == -1 || origSize->height() == -1) {
-                    readImageEarly = true;
-                    reader.read(&img);
-                    *origSize = img.size();
-                }
-
-            // Possibility 2
-            } else {
-
+            // Store the width/height for later use
+            *origSize = reader.size();
+            // check if we need to read the image in full to get the original size
+            if(origSize->width() == -1 || origSize->height() == -1) {
                 reader.read(&img);
                 *origSize = img.size();
-
             }
 
 
@@ -140,19 +123,18 @@ public:
                 }
 
                 // scaling
-                if(!reader.autoTransform())
-                    reader.setScaledSize(QSize(dispWidth,dispHeight));
-                else
-                    img = img.scaled(dispWidth, dispHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+                reader.setScaledSize(QSize(dispWidth,dispHeight));
 
             }
 
-
-            if(!reader.autoTransform() && !readImageEarly) {
-                // Eventually load the image (if autoTransform() == false)
-                reader.read(&img);
+            // Eventually load the image
+            if(!reader.canRead()) {
+                errormsg = "image reader unable to read image";
+                LOG << CURDATE << "PQLoadImageQt::load(): " << errormsg.toStdString() << NL;
+                return QImage();
             }
 
+            reader.read(&img);
 
             // If an error occured
             if(img.isNull()) {
@@ -168,6 +150,9 @@ public:
     }
 
     QString errormsg;
+
+private:
+    QMimeDatabase db;
 
 };
 
