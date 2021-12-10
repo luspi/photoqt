@@ -68,7 +68,7 @@ PQSetting {
         }
 
         onSaveAllSettings: {
-            PQSettings.filetypesPdfQuality = qual_slider.value
+            PQSettings.filetypesPDFQuality = qual_slider.value
         }
 
     }
@@ -80,7 +80,7 @@ PQSetting {
     function load() {
 
         // We always take the PDF quality in steps of 5!
-        var q = PQSettings.filetypesPdfQuality
+        var q = PQSettings.filetypesPDFQuality
         var qp5 = q%5
         if(qp5 != 0) {
             if(qp5 < 3)
