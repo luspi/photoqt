@@ -131,6 +131,20 @@ Item {
 
                 visible: !PQSettings.thumbnailsFilenameOnly
 
+                Image {
+
+                    width: Math.min(PQSettings.thumbnailsSize, 50)
+                    height: width
+
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+
+                    visible: imageproperties.isVideo(filefoldermodel.entriesMainView[index])
+
+                    source: visible ? "/multimedia/play.png" : ""
+
+                }
+
                 Rectangle {
                     visible: PQSettings.thumbnailsFilename
                     color: "#88000000"

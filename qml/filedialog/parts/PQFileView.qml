@@ -194,6 +194,20 @@ GridView {
                     // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
                     source: currentFolderExcluded ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openfileThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
 
+                    Image {
+
+                        width: Math.min(PQSettings.thumbnailsSize, 50)
+                        height: width
+
+                        x: (parent.width-width)/2
+                        y: (parent.height-height)/2
+
+                        visible: imageproperties.isVideo(filefoldermodel.entriesFileDialog[index])
+
+                        source: visible ? "/multimedia/play.png" : ""
+
+                    }
+
                 }
 
                 PQMouseArea {

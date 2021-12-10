@@ -67,6 +67,22 @@ bool PQImageProperties::isArchive(QString path) {
 
 }
 
+bool PQImageProperties::isVideo(QString path) {
+
+    DBG << CURDATE << "PQImageProperties::isVideo()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    QString suf = QFileInfo(path).suffix().toLower();
+    const QStringList tmp = PQImageFormats::get().getEnabledFormatsVideo();
+    for(const QString &f : tmp) {
+        if(f == suf)
+            return true;
+    }
+
+    return false;
+
+}
+
 int PQImageProperties::getDocumentPages(QString path) {
 
     DBG << CURDATE << "PQImageProperties::getDocumentPages()" << NL

@@ -43,6 +43,7 @@ public:
     Q_INVOKABLE bool isAnimated(QString path);
     Q_INVOKABLE bool isPopplerDocument(QString path);
     Q_INVOKABLE bool isArchive(QString path);
+    Q_INVOKABLE bool isVideo(QString path);
     Q_INVOKABLE int getDocumentPages(QString path);
 
 };
