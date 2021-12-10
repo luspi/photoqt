@@ -33,6 +33,41 @@
 #include "configfiles.h"
 
 /***************************************************************/
+// Combined log/debug messages
+
+class PQLogDebugMessage : public QObject {
+
+    Q_OBJECT
+
+public:
+    static PQLogDebugMessage& get() {
+        static PQLogDebugMessage instance;
+        return instance;
+    }
+
+    PQLogDebugMessage(PQLogDebugMessage const&) = delete;
+    void operator=(PQLogDebugMessage const&) = delete;
+
+    Q_INVOKABLE QString getMessage() {
+        return debugMessage;
+    }
+
+    Q_INVOKABLE void addMessage(QString msg) {
+        debugMessage.append(msg);
+    }
+
+Q_SIGNALS:
+    void debugMessageChanged();
+
+private:
+    PQLogDebugMessage() {
+        debugMessage = "";
+    }
+    QString debugMessage;
+
+};
+
+/***************************************************************/
 // LOGGER
 
 class PQLog : public QObject {
@@ -54,16 +89,25 @@ public:
         std::stringstream str;
         str << v;
 
-        if(str.str() == "[[[DATE]]]")
-            std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
-        else
+        if(str.str() == "[[[DATE]]]") {
+            std::stringstream ss;
+            ss << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
+            std::clog << ss.str();
+            PQLogDebugMessage::get().addMessage(ss.str().c_str());
+        } else {
             std::clog << v;
+            PQLogDebugMessage::get().addMessage(str.str().c_str());
+        }
 
         return *this;
 
     }
 
     PQLog &operator<<(std::ostream&(*f)(std::ostream&)) {
+
+        std::stringstream ss;
+        ss << f;
+        PQLogDebugMessage::get().addMessage(ss.str().c_str());
 
         std::clog << f;
         return *this;
@@ -94,15 +138,20 @@ public:
     template <class T>
     PQDebugLog &operator<<(const T &v) {
 
-        if(!debug) return *this;
+        if(!m_debug) return *this;
 
         std::stringstream str;
         str << v;
 
-        if(str.str() == "[[[DATE]]]")
-            std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
-        else
+        if(str.str() == "[[[DATE]]]") {
+            std::stringstream ss;
+            ss << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
+            std::clog << ss.str();
+            PQLogDebugMessage::get().addMessage(ss.str().c_str());
+        } else {
             std::clog << v;
+            PQLogDebugMessage::get().addMessage(str.str().c_str());
+        }
 
         return *this;
 
@@ -110,22 +159,34 @@ public:
 
     PQDebugLog &operator<<(std::ostream&(*f)(std::ostream&)) {
 
-        if(!debug) return *this;
+        if(!m_debug) return *this;
+
+        std::stringstream ss;
+        ss << f;
+        PQLogDebugMessage::get().addMessage(ss.str().c_str());
 
         std::clog << f;
         return *this;
 
     }
 
-    void setDebug(bool dbg) {
-        debug = dbg;
+    Q_PROPERTY(bool debug READ getDebug WRITE setDebug NOTIFY debugChanged)
+    bool getDebug() { return m_debug; }
+    void setDebug(bool val) {
+        if(val != m_debug) {
+            m_debug = val;
+            Q_EMIT debugChanged();
+        }
     }
+
+Q_SIGNALS:
+    void debugChanged();
 
 private:
     PQDebugLog() {
-        debug = false;
+        m_debug = false;
     }
-    bool debug;
+    bool m_debug;
 
 };
 

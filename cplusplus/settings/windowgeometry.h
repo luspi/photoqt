@@ -399,6 +399,26 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect loggingWindowGeometry READ getLoggingWindowGeometry WRITE setLoggingWindowGeometry NOTIFY loggingWindowGeometryChanged)
+    QRect getLoggingWindowGeometry() { return m_loggingWindowGeometry; }
+    void setLoggingWindowGeometry(QRect rect) {
+        if(rect != m_loggingWindowGeometry) {
+            m_loggingWindowGeometry = rect;
+            Q_EMIT loggingWindowGeometryChanged();
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool loggingWindowMaximized READ getLoggingWindowMaximized WRITE setLoggingWindowMaximized NOTIFY loggingWindowMaximizedChanged)
+    bool getLoggingWindowMaximized() { return m_loggingWindowMaximized; }
+    void setLoggingWindowMaximized(bool maximized) {
+        if(maximized != m_loggingWindowMaximized) {
+            m_loggingWindowMaximized = maximized;
+            Q_EMIT loggingWindowMaximizedChanged();
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -454,6 +474,9 @@ private:
     QRect m_chromecastWindowGeometry;
     bool  m_chromecastWindowMaximized;
 
+    QRect m_loggingWindowGeometry;
+    bool  m_loggingWindowMaximized;
+
     QSettings *settings;
     PQHandlingExternal handlingExternal;
 
@@ -499,6 +522,8 @@ Q_SIGNALS:
     void unavailableWindowMaximizedChanged();
     void chromecastWindowGeometryChanged();
     void chromecastWindowMaximizedChanged();
+    void loggingWindowGeometryChanged();
+    void loggingWindowMaximizedChanged();
 
 };
 

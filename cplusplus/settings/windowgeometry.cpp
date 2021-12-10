@@ -97,6 +97,10 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     w = 800; h = 600;
     m_chromecastWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
+    m_loggingWindowMaximized = false;
+    w = 600; h = 400;
+    m_loggingWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -201,6 +205,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("chromecastWindowMaximized"))
         m_chromecastWindowMaximized = settings->value("chromecastWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("loggingWindowGeometry"))
+        m_loggingWindowGeometry = settings->value("loggingWindowGeometry").toRect();
+    if(settings->allKeys().contains("loggingWindowMaximized"))
+        m_loggingWindowMaximized = settings->value("loggingWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -260,5 +269,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("chromecastWindowGeometry", m_chromecastWindowGeometry);
     settings->setValue("chromecastWindowMaximized", m_chromecastWindowMaximized);
+
+    settings->setValue("loggingWindowGeometry", m_loggingWindowGeometry);
+    settings->setValue("loggingWindowMaximized", m_loggingWindowMaximized);
 
 }

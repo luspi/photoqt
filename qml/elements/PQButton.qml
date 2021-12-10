@@ -95,6 +95,7 @@ Rectangle {
         color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
         Behavior on color { ColorAnimation { duration: 100 } }
         elide: Text.ElideRight
+        renderType: Text.QtRendering
     }
 
     Image {

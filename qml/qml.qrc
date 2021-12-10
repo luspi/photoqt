@@ -154,5 +154,6 @@
         <file>startup/PQStartupFreshInstall.qml</file>
         <file>chromecast/PQChromecast.qml</file>
         <file>chromecast/PQChromecastPopout.qml</file>
+        <file>logging/PQLogging.qml</file>
     </qresource>
 </RCC>

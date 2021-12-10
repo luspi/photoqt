@@ -46,6 +46,7 @@ Item {
     signal unavailablePassOn(var what, var param)
     signal unavailablePopoutPassOn(var what, var param)
     signal chromecastPassOn(var what, var param)
+    signal loggingPassOn(var what, var param)
 
     function show(ele) {
 
@@ -118,6 +119,9 @@ Item {
         else if(ele == "chromecast")
             chromecastPassOn("show", undefined)
 
+        else if(ele == "logging")
+            loggingPassOn("show", undefined)
+
     }
 
     function passOn(ele, what, param) {
@@ -175,6 +179,9 @@ Item {
 
         else if(ele == "chromecast")
             chromecastPassOn(what, param)
+
+        else if(ele == "logging")
+            loggingPassOn(what, param)
 
     }
 
@@ -238,6 +245,9 @@ Item {
 
         else if(ele == "chromecast")
             chromecastPassOn("keyevent", [key, mod])
+
+        else if(ele == "logging")
+            loggingPassOn("keyevent", [key, mod])
 
     }
 
@@ -387,6 +397,10 @@ Item {
         } else if(ele == "unavailablepopout") {
 
             unavailablepopout.source = "unavailable/PQUnavailablePopout.qml"
+
+        } else if(ele == "logging") {
+
+            logging.source = "logging/PQLogging.qml"
 
         }
 

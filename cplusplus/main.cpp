@@ -99,15 +99,19 @@ int main(int argc, char **argv) {
     // update or fresh install detected => show informational message
     if(checker != 0) {
 
-        QQmlApplicationEngine engine;
-        app.qmlEngine = &engine;
-        qmlRegisterType<PQStartup>("PQStartup", 1, 0, "PQStartup");
-        if(checker == 1 || checker == 3)
-            engine.load("qrc:/startup/PQStartupUpdate.qml");
-        else
-            engine.load("qrc:/startup/PQStartupFreshInstall.qml");
+        if(checker == 1 || checker == 2) {
 
-        app.exec();
+            QQmlApplicationEngine engine;
+            app.qmlEngine = &engine;
+            qmlRegisterType<PQStartup>("PQStartup", 1, 0, "PQStartup");
+            if(checker == 1)
+                engine.load("qrc:/startup/PQStartupUpdate.qml");
+            else
+                engine.load("qrc:/startup/PQStartupFreshInstall.qml");
+
+            app.exec();
+
+        }
 
         // run consistency check
         // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
@@ -184,6 +188,8 @@ int main(int argc, char **argv) {
     engine.rootContext()->setContextProperty("PQKeyPressMouseChecker", &PQKeyPressMouseChecker::get());
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQShortcuts", &PQShortcuts::get());
+    engine.rootContext()->setContextProperty("PQDebugLog", &PQDebugLog::get());
+    engine.rootContext()->setContextProperty("PQLogDebugMessage", &PQLogDebugMessage::get());
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);

@@ -109,7 +109,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         loader.show("filesaveas")
     else if(cmd === "__showMetaData")
         loader.metadataPassOn("toggle", undefined)
-    else if(cmd == "__keepMetaData")
+    else if(cmd === "__keepMetaData")
         loader.metadataPassOn("toggleKeepOpen", undefined)
     else if(cmd === "__showMainMenu")
         loader.mainmenuPassOn("toggle", undefined)
@@ -146,9 +146,11 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         handlingExternal.copyToClipboard(filefoldermodel.currentFilePath)
     else if(cmd === "__tagFaces")
         loader.passOn("facetagger", "start", undefined)
-    else if(cmd == "__chromecast")
+    else if(cmd === "__chromecast") {
         if(handlingGeneral.isChromecastEnabled())
             loader.show("chromecast")
+    } else if(cmd === "__logging")
+        loader.show("logging")
     else {
         handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")

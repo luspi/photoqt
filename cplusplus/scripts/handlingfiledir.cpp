@@ -557,3 +557,21 @@ QString PQHandlingFileDir::replaceSuffix(QString filename, QString newSuffix) {
     return QString("%1.%2").arg(info.baseName(), newSuffix);
 
 }
+
+void PQHandlingFileDir::saveStringToNewFile(QString txt) {
+
+    DBG << CURDATE << "PQHandlingFileDir::saveStringToNewFile()" << NL
+        << CURDATE << "** txt = " << txt.toStdString() << NL;
+
+    QString newfile = QFileDialog::getSaveFileName(nullptr, QString(), QString("%1/photoqt-%2.log").arg(QDir::homePath()).arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hhmm")));
+
+    if(newfile == "")
+        return;
+
+    QFile file(newfile);
+    file.open(QIODevice::WriteOnly|QIODevice::Truncate);
+    QTextStream out(&file);
+    out << txt;
+    file.close();
+
+}
