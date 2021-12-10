@@ -42,7 +42,7 @@ public:
 
         // For reading SVG files
         QSvgRenderer svg;
-        QPixmap svg_pixmap;
+        QImage svg_image;
 
         // For all other supported file types
         QImageReader reader;
@@ -62,15 +62,15 @@ public:
             }
 
             // Render SVG into pixmap
-            svg_pixmap = QPixmap(svg.defaultSize());
-            svg_pixmap.fill(::Qt::transparent);
-            QPainter painter(&svg_pixmap);
+            svg_image = QImage(svg.defaultSize(), QImage::Format_RGB32);
+            svg_image.fill(::Qt::transparent);
+            QPainter painter(&svg_image);
             svg.render(&painter);
 
             // Store the width/height for later use
             *origSize = svg.defaultSize();
 
-            return svg_pixmap.toImage();
+            return svg_image;
 
         } else {
 
