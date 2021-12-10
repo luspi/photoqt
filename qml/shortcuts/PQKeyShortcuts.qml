@@ -39,7 +39,7 @@ Item {
 
         onReceivedKeyPress: {
 
-            contextmenu.hide()
+            contextmenu.hideMenu()
 
             if(variables.visibleItem != "")
 

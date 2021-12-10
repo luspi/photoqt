@@ -22,25 +22,23 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Window 2.2
 import "../elements"
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Rectangle {
+Window {
 
     id: context_top
 
     width: mainlistview.width+20
     height: mainlistview.height+20
 
-    opacity: 0
-    visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    visible: false
 
-    radius: 5
+    modality: Qt.NonModal
+    flags: Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint
 
     color: "#dd000000"
-    border.color: "#88ffffff"
-    border.width: 1
 
     property var allitems_static: [
         //: This is an entry in the context menu, used as in: Zoom image. Please keep short!
@@ -109,9 +107,23 @@ Rectangle {
         acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.MiddleButton
         hoverEnabled: true
         onEntered:
-            parent.containsMouse = true
+            context_top.containsMouse = true
         onExited:
-            parent.containsMouse = false
+            context_top.containsMouse = false
+    }
+
+    Item {
+        id: keycatcher
+        anchors.fill: parent
+        Keys.onPressed:
+            keycatcherhide.start()
+    }
+    Timer {
+        id: keycatcherhide
+        interval: 50
+        repeat: false
+        onTriggered:
+            hideMenu()
     }
 
     ListView {
@@ -249,9 +261,7 @@ Rectangle {
                                 onClicked: {
                                     if(allitems[deleg_top.mainindex][index][0]!=="separator" && (allitems[deleg_top.mainindex].length === 1 || index > 0)) {
                                         if(allitems[deleg_top.mainindex][index][3] === "hide" && !PQSettings.interfacePopoutMainMenu)
-                                            context_top.opacity = 0
-                                        else
-                                            context_top.opacity = 1
+                                            context_top.hideMenu()
                                         var cmd = allitems[deleg_top.mainindex][index][0]
                                         var close = 0
                                         if(cmd.slice(0,8) === "_:_EX_:_") {
@@ -302,7 +312,7 @@ Rectangle {
         target: PQKeyPressMouseChecker
         onReceivedMouseButtonPress: {
             if(!context_top.containsMouse)
-                hide()
+                hideMenu()
         }
     }
 
@@ -327,16 +337,35 @@ Rectangle {
         allitems_external = entries
     }
 
-    function show() {
+    function showMenu() {
 
-        x = Math.min(variables.mousePos.x, parent.width-width)
-        y = Math.min(variables.mousePos.y, parent.height-height)
+        if(context_top.visible)
+            return
 
-        opacity = 1
+        // this makes sure the context menu is fully visible AND shown on the screen the click appeared on.
+        // if we don't enforce the latter, the context menu might appear on another screen if click happened close to the boundary between the screens
+
+        // first we find the current screen
+        var _x = toplevel.x+variables.mousePos.x
+        var _y = toplevel.y+variables.mousePos.y
+        var curscreen = handlingExternal.getScreenSizeAt(_x, _y)
+
+        // compute the x/y for the menu
+        x = curscreen.x + Math.min(toplevel.x-curscreen.x+variables.mousePos.x, curscreen.width-width)
+        y = curscreen.y + Math.min(toplevel.y-curscreen.y+variables.mousePos.y, curscreen.height-height)
+
+        // show menu
+        context_top.show()
+
+        // force active focus to catch any key press
+        keycatcher.forceActiveFocus()
+
     }
 
-    function hide() {
-        opacity = 0
+    function hideMenu() {
+        if(!context_top.visible)
+            return
+        context_top.hide()
     }
 
 }

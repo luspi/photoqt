@@ -29,7 +29,7 @@ function checkComboForShortcut(combo, wheelDelta) {
     }
 
     if(combo == "Escape" && contextmenu.visible) {
-        contextmenu.hide()
+        contextmenu.hideMenu()
         return
     }
 
@@ -57,7 +57,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd === "__prev")
         imageitem.loadPrevImage()
     else if(cmd == "__contextMenu")
-        contextmenu.show()
+        contextmenu.showMenu()
     else if(cmd === "__about")
         loader.show("about")
     else if(cmd === "__slideshow")

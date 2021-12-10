@@ -201,7 +201,7 @@ Item {
         property real initialScale
         onPinchStarted: {
             initialScale = theimage.curScale
-            contextmenu.hide()
+            contextmenu.hideMenu()
         }
 
         onPinchUpdated: {
@@ -231,11 +231,11 @@ Item {
 
             onPressAndHold: {
                 variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
-                contextmenu.show()
+                contextmenu.showMenu()
             }
 
             onClicked:
-                contextmenu.hide()
+                contextmenu.hideMenu()
 
             onReleased: {
                 theimage.curX = theimage.x

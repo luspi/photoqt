@@ -152,7 +152,7 @@ Item {
             pinch.dragAxis: Pinch.XAndYAxis
 
             onPinchStarted:
-                contextmenu.hide()
+                contextmenu.hideMenu()
 
             onPinchUpdated:
                 videoelem.rotateTo = videoelem.rotation
@@ -167,11 +167,11 @@ Item {
 
                 onPressAndHold: {
                     variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
-                    contextmenu.show()
+                    contextmenu.showMenu()
                 }
 
                 onClicked: {
-                    contextmenu.hide()
+                    contextmenu.hideMenu()
                     if(videoelem.playbackState == MediaPlayer.PlayingState)
                         videoelem.pause()
                     else {
