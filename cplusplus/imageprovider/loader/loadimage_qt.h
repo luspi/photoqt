@@ -92,11 +92,14 @@ public:
 
             QImage img;
 
+            bool imgAlreadyLoaded = false;
+
             // Store the width/height for later use
             *origSize = reader.size();
             // check if we need to read the image in full to get the original size
             if(origSize->width() == -1 || origSize->height() == -1) {
                 reader.read(&img);
+                imgAlreadyLoaded = true;
                 *origSize = img.size();
             }
 
@@ -123,7 +126,10 @@ public:
                 }
 
                 // scaling
-                reader.setScaledSize(QSize(dispWidth,dispHeight));
+                if(imgAlreadyLoaded)
+                    img = img.scaled(dispWidth, dispHeight);
+                else
+                    reader.setScaledSize(QSize(dispWidth,dispHeight));
 
             }
 
@@ -134,7 +140,8 @@ public:
                 return QImage();
             }
 
-            reader.read(&img);
+            if(!imgAlreadyLoaded)
+                reader.read(&img);
 
             // If an error occured
             if(img.isNull()) {
