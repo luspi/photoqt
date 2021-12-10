@@ -93,14 +93,16 @@ PQSettings::PQSettings() {
                                                             LOG << "PQSettings::commitDB: ERROR committing database: "
                                                                 << db.lastError().text().trimmed().toStdString()
                                                                 << NL; });
+
+    // if a value is changed in the ui, write to database
+    connect(this, &QQmlPropertyMap::valueChanged, this, &PQSettings::saveChangedValue);
+
 #ifndef NDEBUG
     checkvalid = new QTimer;
     checkvalid->setInterval(1000);
     checkvalid->setSingleShot(false);
     connect(checkvalid, &QTimer::timeout, this, &PQSettings::checkValidSlot);
     checkvalid->start();
-
-    connect(this, &QQmlPropertyMap::valueChanged, this, &PQSettings::saveChangedValue);
 #endif
 
 }
