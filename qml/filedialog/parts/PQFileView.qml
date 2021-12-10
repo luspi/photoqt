@@ -83,6 +83,12 @@ GridView {
             var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
             rightclickmenu_bg.popup(Qt.point(pos.x, pos.y))
         }
+        onWheel: {
+            // assume horizontal scrolling
+            var newy = files_grid.contentY - wheel.angleDelta.y
+            // set new contentY, but don't move beyond top/bottom end of view
+            files_grid.contentY = Math.max(0, Math.min(newy, files_grid.contentHeight-files_grid.height))
+        }
     }
 
     PQRightClickMenu {
