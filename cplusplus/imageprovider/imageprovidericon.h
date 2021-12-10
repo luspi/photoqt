@@ -32,10 +32,10 @@
 class PQImageProviderIcon : public QQuickImageProvider {
 
 public:
-    explicit PQImageProviderIcon() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
+    explicit PQImageProviderIcon() : QQuickImageProvider(QQuickImageProvider::Image) { }
     ~PQImageProviderIcon() { }
 
-    QPixmap requestPixmap(const QString &icon, QSize *, const QSize &requestedSize);
+    QImage requestImage(const QString &icon, QSize *, const QSize &requestedSize);
 
 };
 

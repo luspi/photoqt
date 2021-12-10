@@ -22,7 +22,7 @@
 
 #include "imageprovidericon.h"
 
-QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *origSize, const QSize &requestedSize) {
+QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, const QSize &requestedSize) {
 
     DBG << CURDATE << "PQImageProviderIcon::requestPixmap() " << NL
         << CURDATE << "** icon = " << icon.toStdString() << NL
@@ -47,34 +47,31 @@ QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *origSize,
         QString i = const_cast<QString&>(icon);
         QString suf = i.remove(0,9);
 
-        if(QFile::exists(QString(":/filetypes/%1.ico").arg(suf.toLower()))) {
-            QIcon ico = QIcon(QString(":/filetypes/%1.ico").arg(suf.toLower()));
-            return QPixmap(ico.pixmap(use));
-        } else {
-            QIcon ico = QIcon(":/filetypes/unknown.ico");
-            return QPixmap(ico.pixmap(use));
-        }
+        if(QFile::exists(QString(":/filetypes/%1.ico").arg(suf.toLower())))
+            return QImage(QString(":/filetypes/%1.ico").arg(suf.toLower()));
+        else
+            return QImage(":/filetypes/unknown.ico");
 
     }
 
     // Attempt to load icon from current theme
-    QIcon ret;
-    ret = ret.fromTheme(icon);
+    QIcon ico = QIcon::fromTheme(icon);
+    QImage ret = QImage(ico.pixmap(use).toImage());
 
     // If icon is not available or if on Windows, choose from a small selection of custom provided icons
     // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
     if(ret.isNull()) {
         LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
         if(QFile(":/filedialog/backupicons/" + icon + ".svg").exists())
-            ret = QIcon(":/filedialog/backupicons/" + icon + ".svg");
+            ret = QImage(":/filedialog/backupicons/" + icon + ".svg");
         else if(icon.contains("folder") || icon.contains("directory"))
-            ret = QIcon(":/filedialog/backupicons/folder.svg");
+            ret = QImage(":/filedialog/backupicons/folder.svg");
         else if(icon.contains("image"))
-            ret = QIcon(":/filedialog/backupicons/image.svg");
+            ret = QImage(":/filedialog/backupicons/image.svg");
         else
-            ret = QIcon(":/filedialog/backupicons/unknown.svg");
+            ret = QImage(":/filedialog/backupicons/unknown.svg");
     }
 
-    return QPixmap(ret.pixmap(use));
+    return ret;
 
 }

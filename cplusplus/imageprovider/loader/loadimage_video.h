@@ -25,8 +25,6 @@
 
 #include <QImage>
 #include <QProcess>
-#include <QPixmap>
-#include <QPainter>
 
 #include "../../logger.h"
 #include "../../settings/settings.h"

@@ -24,7 +24,6 @@
 
 #include <QQuickAsyncImageProvider>
 #include <QThreadPool>
-#include <QPixmapCache>
 #include <QMimeDatabase>
 #include <QCryptographicHash>
 #include "../settings/imageformats.h"
