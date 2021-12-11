@@ -32,4 +32,20 @@ Image {
 
     opacity: 0.4
 
+    Image {
+
+        width: Math.min(200, parent.width-50)
+        height: Math.min(200, parent.height-50)
+
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+
+        visible: imageproperties.isVideo(filePath)
+
+        opacity: 0.5
+
+        source: visible ? "/multimedia/play.png" : ""
+
+    }
+
 }
