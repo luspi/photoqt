@@ -202,7 +202,7 @@ GridView {
 
                     Image {
 
-                        width: Math.min(PQSettings.thumbnailsSize, 50)
+                        width: PQSettings.openfileDefaultView=="icons" ? Math.min(files_grid.cellWidth-40, 50) : Math.min(files_grid.cellHeight-10, 50)
                         height: width
 
                         x: (parent.width-width)/2
