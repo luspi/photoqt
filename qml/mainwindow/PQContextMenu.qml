@@ -345,14 +345,15 @@ Window {
         // this makes sure the context menu is fully visible AND shown on the screen the click appeared on.
         // if we don't enforce the latter, the context menu might appear on another screen if click happened close to the boundary between the screens
 
-        // first we find the current screen
-        var _x = toplevel.x+variables.mousePos.x
-        var _y = toplevel.y+variables.mousePos.y
-        var curscreen = handlingExternal.getScreenSizeAt(_x, _y)
+        // first we find the current screen geometry
+        var curscreenX = toplevel.screen.virtualX
+        var curscreenY = toplevel.screen.virtualY
+        var curscreenW = toplevel.screen.width
+        var curscreenH = toplevel.screen.height
 
         // compute the x/y for the menu
-        x = curscreen.x + Math.min(toplevel.x-curscreen.x+variables.mousePos.x, curscreen.width-width)
-        y = curscreen.y + Math.min(toplevel.y-curscreen.y+variables.mousePos.y, curscreen.height-height)
+        x = curscreenX + Math.min(toplevel.x-curscreenX+variables.mousePos.x, curscreenW-width)
+        y = curscreenY + Math.min(toplevel.y-curscreenY+variables.mousePos.y, curscreenH-height)
 
         // show menu
         context_top.show()

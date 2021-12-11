@@ -509,10 +509,3 @@ QSize PQHandlingExternal::getScreenSize() {
     DBG << CURDATE << "PQHandlingExternal::getScreenSize()" << NL;
     return QApplication::primaryScreen()->size();
 }
-
-QRect PQHandlingExternal::getScreenSizeAt(int x, int y) {
-    DBG << CURDATE << "PQHandlingExternal::getScreenSizeAt()" << NL
-        << CURDATE << "** x = " << x << NL
-        << CURDATE << "** y = " << y << NL;
-    return QApplication::screenAt(QPoint(x,y))->geometry();
-}

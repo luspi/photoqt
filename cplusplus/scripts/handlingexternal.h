@@ -53,7 +53,6 @@ public:
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
     Q_INVOKABLE QSize getScreenSize();
-    Q_INVOKABLE QRect getScreenSizeAt(int x, int y);
 
 private:
     PQImageProviderFull *imageprovider;
