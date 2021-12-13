@@ -75,7 +75,7 @@ Window {
         font.pointSize: 20
         font.bold: true
         // We don't need to translate this
-        text: "Debug log"
+        text: "Debug/Log"
     }
 
     ScrollView {
@@ -116,7 +116,7 @@ Window {
         height: button_close.height+20
 
         PQCheckbox {
-            text: em.pty+qsTranslate("logging", "enable debug log")
+            text: em.pty+qsTranslate("logging", "enable debug messages")
             x: 10
             y: (parent.height-height)/2
             checked: PQDebugLog.debug
