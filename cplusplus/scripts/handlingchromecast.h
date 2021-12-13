@@ -29,7 +29,7 @@
 #include <QJSEngine>
 #include <QtConcurrent/QtConcurrent>
 #include "httpserver.h"
-#include "../python/pqpy.h"
+#include "../../python/pqpy.h"
 #include "../logger.h"
 #include "../imageprovider/imageproviderfull.h"
 #endif
