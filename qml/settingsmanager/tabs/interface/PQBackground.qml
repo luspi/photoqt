@@ -116,7 +116,8 @@ PQSetting {
             else
                 bg_type.currentIndex = 0
 
-            if(PQSettings.interfaceBackgroundImagePath == "")
+            // a value of zero/one was a bug in version 2.4 (and possibly earlier)
+            if(PQSettings.interfaceBackgroundImagePath == "" || PQSettings.interfaceBackgroundImagePath == "0" || PQSettings.interfaceBackgroundImagePath == "1")
                 bg_image_img.source = ""
             else
                 bg_image_img.source = "image://full/" + PQSettings.interfaceBackgroundImagePath

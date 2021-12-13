@@ -824,7 +824,11 @@ bool PQStartup::migrateSettingsToDb() {
 
         if(key == "Version")
             val = QString(VERSION);
-        else if(key == "ExcludeCacheFolders") {
+        else if(key == "BackgroundImagePath") {
+            // workaround to old bug where this value was either 0 or 1 instead of filepath
+            if(val == "0" || val == "1")
+                val = "";
+        } else if(key == "ExcludeCacheFolders") {
             QStringList result;
             QByteArray byteArray = QByteArray::fromBase64(val.toUtf8());
             QDataStream in(&byteArray, QIODevice::ReadOnly);
