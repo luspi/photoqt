@@ -143,8 +143,7 @@ bool PQHandlingExternal::exportConfigTo(QString path) {
             if(config.open(QIODevice::ReadOnly)) {
 
                 // Get file content
-                QTextStream in(&config);
-                QByteArray configtxt = in.readAll().toLatin1();
+                QByteArray configtxt = config.readAll();
 
                 // create new entry in archive
                 struct archive_entry *entry = archive_entry_new();
