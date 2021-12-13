@@ -53,15 +53,15 @@ PQMenu {
 
     onTriggered: {
         if(index == 0) {
-            if(entry[4])
-                filedialog_top.setCurrentDirectory(entry[1])
+            if(isFolder)
+                filedialog_top.setCurrentDirectory(path)
             else {
-                filefoldermodel.setFileNameOnceReloaded = entry[1]
-                filefoldermodel.fileInFolderMainView = entry[1]
+                filefoldermodel.setFileNameOnceReloaded = path
+                filefoldermodel.fileInFolderMainView = path
                 filedialog_top.hideFileDialog()
             }
         } else if(index == 1)
-            handlingFileDialog.addNewUserPlacesEntry(entry[1], upl.model.count)
+            handlingFileDialog.addNewUserPlacesEntry(path, upl.model.count)
         else if(index == 2)
             PQSettings.openfileShowHiddenFilesFolders = !PQSettings.openfileShowHiddenFilesFolders
         else if(index == 3)
