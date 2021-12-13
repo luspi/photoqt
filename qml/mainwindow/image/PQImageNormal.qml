@@ -75,8 +75,11 @@ Item {
                 mipmap: theimage.scale < defaultScale*threshold
                 mirror: theimage.mirror
                 source: ""
-                sourceSize.width: theimage.width*(defaultScale*threshold)
-                sourceSize.height: theimage.height*(defaultScale*threshold)
+                // we add 1% to width/height to make sure all details are captured when scaled down
+                // not adding anything can lead to images appearing to be (very) slightly blurry
+                // adding too much leads to artefacts from scaling
+                sourceSize.width: theimage.width*(defaultScale*(threshold+0.01))
+                sourceSize.height: theimage.height*(defaultScale*(threshold+0.01))
                 visible: (defaultScale < 0.8 || index > 1) && theimage.scale < defaultScale*threshold*1.0001
                 onVisibleChanged: {
                     if(visible && source == "" && PQSettings.imageviewCache > 0 && !rotani.running)

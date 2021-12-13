@@ -110,6 +110,12 @@ public:
                 int dispWidth = origSize->width();
                 int dispHeight = origSize->height();
 
+                if(reader.autoTransform() && reader.transformation().testFlag(QImageIOHandler::TransformationRotate90)) {
+                    QSize tmp = maxSize;
+                    maxSize.setWidth(tmp.height());
+                    maxSize.setHeight(tmp.width());
+                }
+
                 double q;
 
                 if(dispWidth > maxSize.width()) {
