@@ -221,8 +221,14 @@ Item {
                                         formatsview.currentHover = index
                                     onClicked:
                                         formatsview.currentIndex = index
+                                    onWheel: {
+                                        var newy = formatsview.contentY - wheel.angleDelta.y
+                                        // set new contentY, but don't move beyond top/bottom end of view
+                                        formatsview.contentY = Math.max(0, Math.min(newy, formatsview.contentHeight-formatsview.height))
+                                    }
                                 }
                             }
+
                         }
 
                     }
