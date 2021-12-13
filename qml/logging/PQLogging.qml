@@ -52,16 +52,6 @@ Window {
 
     visible: false
 
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(logging_window.objectName)
-    }
-
     Text {
         id: title
         anchors {
