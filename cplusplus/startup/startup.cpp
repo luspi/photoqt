@@ -476,16 +476,6 @@ bool PQStartup::migrateShortcutsToDb() {
 
         }
 
-        // add __chromecast as shortcut (no default set)
-        QSqlQuery query(db);
-        query.prepare("INSERT INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
-        query.bindValue(":cat", "other");
-        query.bindValue(":cmd", "__chromecast");
-        query.bindValue(":sh", "");
-        query.bindValue(":def", "");
-        if(!query.exec())
-            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error, insert new: " << query.lastError().text().trimmed().toStdString() << NL;
-
         db.commit();
 
     // format of 2.3 and 2.4

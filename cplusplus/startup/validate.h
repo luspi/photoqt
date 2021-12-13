@@ -12,7 +12,11 @@ class PQValidate : public QObject {
 public:
     PQValidate(QObject *parent = nullptr);
 
+    bool validate();
+
+private:
     bool validateSettingsDatabase();
+    bool validateShortcutsDatabase();
 
 };
 
