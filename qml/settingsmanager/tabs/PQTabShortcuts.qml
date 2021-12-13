@@ -205,7 +205,9 @@ Item {
                                             //: Name of shortcut action
                     ["__imgur",             em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account")],
                                             //: Name of shortcut action
-                    ["__chromecast",         em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device")]
+                    ["__chromecast",        em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device")],
+                                            //: Name of shortcut action
+                    ["__logging",           em.pty+qsTranslate("settingsmanager", "Show log/debug messages")]
                 ]
 
             }

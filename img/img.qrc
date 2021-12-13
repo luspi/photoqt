@@ -91,5 +91,6 @@
         <file>streaming/refresh.png</file>
         <file>other/logo_smallinsidelarge.jpg</file>
         <file>streaming/chromecastactive.png</file>
+        <file>mainmenu/logging.png</file>
     </qresource>
 </RCC>

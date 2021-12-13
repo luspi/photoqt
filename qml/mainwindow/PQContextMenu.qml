@@ -89,12 +89,8 @@ Window {
         //: This is an entry in the context menu. Please keep short!
         [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
         //: This is an entry in the context menu. Please keep short!
-        [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
+        [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]]
 
-        [["separator", "", "", ""]],
-
-        //: This is an entry in the context menu. Please keep short!
-        [["__logging", "logging", em.pty+qsTranslate("MainMenu", "Manage debug log"), "hide"]]
     ]
     property var allitems_external: []
     property var allitems: allitems_static.concat(allitems_external)

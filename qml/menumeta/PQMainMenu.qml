@@ -122,12 +122,20 @@ Rectangle {
     }
 
     property var allitems_static: [
+
+        [["heading","",""]],
+
         //: This is an entry in the main menu on the right. Please keep short!
         [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__settings", "settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
+        [["__about", "about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
+        //: This is an entry in the main menu on the right. Please keep short!
+        [["__quit", "quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]],
+
+        [["heading","",""]],
+
         //: This is an entry in the main menu on the right. Please keep short!
         [["slideshow","slideshow",em.pty+qsTranslate("MainMenu", "Slideshow")],
                 //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
@@ -136,6 +144,15 @@ Rectangle {
                 ["__slideshowQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter Images in Folder"), "hide"]],
+        //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
+        [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
+        //: This is an entry in the main menu on the right. Please keep short!
+        [["__defaultFileManager","open",em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]],
+
+        [["heading","",""]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__showMetaData", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide Metadata"), "donthide"]],
         //: This is an entry in the main menu on the right. Please keep short!
@@ -143,9 +160,9 @@ Rectangle {
         //: This is an entry in the main menu on the right. Please keep short!
         [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__about", "about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
+        [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__quit", "quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]],
+        [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale Image"), "hide"]],
 
         [["heading","",""]],
 
@@ -194,14 +211,9 @@ Rectangle {
 
         [["heading","",""]],
 
-        //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
-        [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale Image"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__defaultFileManager","open",em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]]
+        [["__logging", "logging", em.pty+qsTranslate("MainMenu", "Show log/debug messages"), "hide"]]
+
     ]
     property var allitems_external: []
     property var allitems: allitems_static.concat(allitems_external)
@@ -254,7 +266,7 @@ Rectangle {
             id: subview
 
             property int mainindex: index
-            height: visible ? 30 : 0
+            height: visible ? (allitems[mainindex][0][0]=="heading" ? 15 : 30) : 0
             width: childrenRect.width
 
             interactive: false
