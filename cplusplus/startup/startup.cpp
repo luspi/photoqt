@@ -76,12 +76,25 @@ int PQStartup::check(bool onlyCreateDatabase) {
 
     // last time a dev version was run
     QString version = query.record().value(0).toString();
-    if(version == "dev")
+    query.clear();
+    if(version == "dev") {
+        // update stored version string
+        query.prepare("UPDATE general SET value=:val WHERE name='Version'");
+        query.bindValue(":val", VERSION);
+        if(!query.exec())
+            LOG << CURDATE << "PQStartup::check(): Unable to update version string..." << NL;
         return 3;
+    }
 
     // updated
-    if(version != QString(VERSION))
+    if(version != QString(VERSION)) {
+        // update stored version string
+        query.prepare("UPDATE general SET value=:val WHERE name='Version'");
+        query.bindValue(":val", VERSION);
+        if(!query.exec())
+            LOG << CURDATE << "PQStartup::check(): Unable to update version string..." << NL;
         return 1;
+    }
 
     // nothing happened
     return 0;
