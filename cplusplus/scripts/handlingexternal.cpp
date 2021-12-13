@@ -358,11 +358,11 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
 #ifdef LIBARCHIVE
 
     // All the config files to be imported
+    QHash<QString,QString> oldfiles;
+    oldfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
+    oldfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
+    oldfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
-    allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
-    allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
-    allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
     allfiles["CFG_SETTINGS_DB"] = ConfigFiles::SETTINGS_DB();
     allfiles["CFG_CONTEXTMENU_DB"] = ConfigFiles::CONTEXTMENU_DB();
     allfiles["CFG_SHORTCUTS_DB"] = ConfigFiles::SHORTCUTS_DB();
@@ -386,6 +386,8 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
         return false;
     }
 
+    PQStartup startup;
+
     // Loop over entries in archive
     struct archive_entry *entry;
     while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
@@ -394,7 +396,7 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
         // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
         QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
 
-        if(allfiles.contains(filenameinside)) {
+        if(allfiles.contains(filenameinside) || oldfiles.contains(filenameinside)) {
 
             // Find out the size of the data
             size_t size = archive_entry_size(entry);
@@ -412,15 +414,47 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
             // libarchive does not add a null terminating character, but Qt expects it, so we need to add it on
             buff[size] = '\0';
 
-            // The output file...
-            QFile file(allfiles[filenameinside]);
-            // Overwrite old content
-            if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-                file.write(reinterpret_cast<const char*>(buff), size+1);
-                file.close();
-            } else
-                LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: Unable to write new config file '" <<
-                       allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
+            // export in new database-based format
+            if(allfiles.contains(filenameinside)) {
+
+                // The output file...
+                QFile file(allfiles[filenameinside]);
+                // Overwrite old content
+                if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                    file.write(reinterpret_cast<const char*>(buff), size+1);
+                    file.close();
+                } else
+                    LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: Unable to write new config file '" <<
+                           allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
+
+            // export in old text-based format
+            } else {
+
+                QFile file(oldfiles[filenameinside]);
+                // Overwrite old content
+                if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                    file.write(reinterpret_cast<const char*>(buff), size+1);
+                    file.close();
+
+                    if(filenameinside == "CFG_CONTEXTMENU_FILE") {
+                        QFile::remove(ConfigFiles::CONTEXTMENU_DB());
+                        if(!startup.migrateContextmenuToDb())
+                            LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: Unable to migrate imported contextmenu" << NL;
+                    } else if(filenameinside == "CFG_SHORTCUTS_FILE") {
+                        QFile::remove(ConfigFiles::SHORTCUTS_DB());
+                        if(!startup.migrateShortcutsToDb())
+                            LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: Unable to migrate imported shortcuts" << NL;
+                    } else if(filenameinside == "CFG_SETTINGS_FILE") {
+                        QFile::remove(ConfigFiles::SETTINGS_DB());
+                        if(!startup.migrateSettingsToDb())
+                            LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: Unable to migrate imported settings" << NL;
+                    }
+
+                } else
+                    LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: Unable to write new temporary config file '" <<
+                           oldfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
+
+            }
 
             delete[] buff;
 
@@ -432,6 +466,12 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
     r = archive_read_free(a);
     if(r != ARCHIVE_OK)
         LOG << CURDATE << "PQHandlingExternal::importConfigFrom(): ERROR: archive_read_free() returned code of " << r << NL;
+
+    // reload settings, shortcuts, and imageformats
+    // we don't need to reload the contextmenu, the filewatcher takes care of that
+    PQSettings::get().readDB();
+    PQShortcuts::get().readDB();
+    PQImageFormats::get().readDatabase();
 
     return true;
 

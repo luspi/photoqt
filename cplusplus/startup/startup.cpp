@@ -863,6 +863,8 @@ bool PQStartup::migrateSettingsToDb() {
 
         }
 
+        query.clear();
+
     }
 
     // The following multiple old settings combine, thus they can only be updated here

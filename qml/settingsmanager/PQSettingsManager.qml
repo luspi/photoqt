@@ -289,7 +289,7 @@ Item {
             nameFilters: ["PhotoQt (*.pqt)"]
             onAccepted: {
                 if(openFileDialog.file != "") {
-                    var yes = handlingGeneral.askForConfirmation(em.pty+qsTranslate("settingsmanager", "Import of %1. This will replace your current settings with the ones stored in the backup.").arg("'" + handlingGeneral.getFileNameFromFullPath(openFileDialog.file) + "'"),
+                    var yes = handlingGeneral.askForConfirmation(em.pty+qsTranslate("settingsmanager", "Import of %1. This will replace your current settings with the ones stored in the backup.").arg("'" + handlingFileDir.getFileNameFromFullPath(openFileDialog.file) + "'"),
                                                                  em.pty+qsTranslate("settingsmanager", "Do you want to continue?"))
                     if(yes) {
                         handlingExternal.importConfigFrom(handlingFileDir.cleanPath(openFileDialog.file) )

@@ -34,6 +34,7 @@
 #endif
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
+#include "../startup/startup.h"
 
 class PQHandlingExternal : public QObject {
 

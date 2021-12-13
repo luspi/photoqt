@@ -33,11 +33,12 @@ public:
 
     void resetToDefaults();
 
-private:
-    bool checkIfBinaryExists(QString exec);
     bool migrateContextmenuToDb();
     bool migrateSettingsToDb();
     bool migrateShortcutsToDb();
+
+private:
+    bool checkIfBinaryExists(QString exec);
 
 };
 

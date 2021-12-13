@@ -47,6 +47,8 @@ public:
 
     void update(QString key, QVariant value);
 
+    void readDB();
+
 private:
     PQSettings();
 
@@ -56,8 +58,6 @@ private:
     QTimer *dbCommitTimer;
 
     bool readonly;
-
-    void readDB();
     void saveChangedValue(const QString &key, const QVariant &value);
 
 #ifndef NDEBUG
