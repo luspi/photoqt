@@ -6,12 +6,23 @@ PQValidate::PQValidate(QObject *parent) : QObject(parent) {
 
 bool PQValidate::validate() {
 
+    LOG << NL
+        << "PhotoQt v" << VERSION << NL
+        << " > Validating configuration... " << NL;
+
     bool ret = validateSettingsDatabase();
-    if(!ret) return false;
+    if(!ret) {
+        LOG << " >> Failed!" << NL << NL;
+        return false;
+    }
 
     ret = validateShortcutsDatabase();
-    if(!ret) return false;
+    if(!ret) {
+        LOG << " >> Failed!" << NL << NL;
+        return false;
+    }
 
+    LOG << " >> Done!" << NL << NL;
     return true;
 
 }

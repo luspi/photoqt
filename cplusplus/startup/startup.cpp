@@ -7,7 +7,7 @@ PQStartup::PQStartup(QObject *parent) : QObject(parent) {
 // 0: no update
 // 1: update
 // 2: fresh install
-int PQStartup::check() {
+int PQStartup::check(bool onlyCreateDatabase) {
 
     QSqlDatabase db_settings;
     QSqlDatabase db_shortcuts;
@@ -53,6 +53,11 @@ int PQStartup::check() {
     db_context.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
     db_imageformats.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
 
+    /******************************************************************************************************/
+    // If we perform an action like export/import/check/... we need access to the db but no more than that
+    if(onlyCreateDatabase)
+        return 0;
+
     // 2.4 and older used a settings and shortcuts file
     // 2.5 and later uses a settings and shortcuts database
     if((QFile::exists(ConfigFiles::SETTINGS_FILE()) && !QFile::exists(ConfigFiles::SETTINGS_DB())) ||
@@ -85,25 +90,27 @@ int PQStartup::check() {
 
 void PQStartup::exportData(QString path) {
 
+    LOG << NL
+        << "PhotoQt v" << VERSION << NL
+        << " > Exporting configuration to " << path.toStdString() << "... " << NL;
+
     if(PQHandlingExternal::exportConfigTo(path))
-
-        LOG << CURDATE << "Configuration successfully exported... I will quit now!" << NL;
-
+        std::cout << " >> Done!" << NL << NL;
     else
-
-        LOG << CURDATE << "Configuration was not exported... I will quit now!" << NL;
+        std::cout << " >> Failed!" << NL << NL;
 
 }
 
 void PQStartup::importData(QString path) {
 
+    LOG << NL
+        << "PhotoQt v" << VERSION << NL
+        << " > Importing configuration from " << path.toStdString() << "... " << NL;
+
     if(PQHandlingExternal::importConfigFrom(path))
-
-        LOG << CURDATE << "Configuration successfully imported... I will quit now!" << NL;
-
+        std::cout << " >> Done!" << NL << NL;
     else
-
-        LOG << CURDATE << "Configuration was not imported... I will quit now!" << NL;
+        std::cout << " >> Failed!" << NL << NL;
 
 }
 
@@ -252,6 +259,20 @@ void PQStartup::setupFresh(int defaultPopout) {
 
     /**************************************************************/
 
+
+}
+
+void PQStartup::resetToDefaults() {
+
+    LOG << NL
+        << "PhotoQt v" << VERSION << NL
+        << " > Resetting to default configuration... " << NL;
+
+    PQHandlingGeneral general;
+    general.setDefaultSettings();
+    PQShortcuts::get().setDefault();
+
+    LOG << " >> Done!" << NL << NL;
 
 }
 
@@ -523,7 +544,7 @@ bool PQStartup::migrateShortcutsToDb() {
 
         // add __chromecast as shortcut (no default set)
         QSqlQuery query(db);
-        query.prepare("INSERT INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
+        query.prepare("INSERT OR IGNORE INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
         query.bindValue(":cat", "other");
         query.bindValue(":cmd", "__chromecast");
         query.bindValue(":sh", "");
@@ -560,6 +581,10 @@ bool PQStartup::migrateSettingsToDb() {
             QFile file(ConfigFiles::SETTINGS_DB());
             file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
         }
+    } else {
+        if(file.exists())
+            file.remove();
+        return true;
     }
 
     // nothing to migrate -> we're done
@@ -582,6 +607,194 @@ bool PQStartup::migrateSettingsToDb() {
     QTextStream in(&file);
     QString txt = file.readAll();
 
+    QMap<QString, QStringList> conversions;
+    /******************************************************/
+    conversions.insert("Version", QStringList() << "general" << "Version");
+    conversions.insert("Language",                   QStringList() << "interface" << "Language");
+    conversions.insert("WindowMode",                 QStringList() << "interface" << "WindowMode");
+    conversions.insert("WindowDecoration",           QStringList() << "interface" << "WindowDecoration");
+    conversions.insert("SaveWindowGeometry",         QStringList() << "interface" << "SaveWindowGeometry");
+    conversions.insert("KeepOnTop",                  QStringList() << "interface" << "KeepWindowOnTop");
+    conversions.insert("StartupLoadLastLoadedImage", QStringList() << "interface" << "RememberLastImage");
+    /******************************************************/
+    // Category: Look
+    /******************************************************/
+    conversions.insert("BackgroundColorAlpha",      QStringList() << "interface" << "OverlayColorAlpha");
+    conversions.insert("BackgroundColorBlue",       QStringList() << "interface" << "OverlayColorBlue");
+    conversions.insert("BackgroundColorGreen",      QStringList() << "interface" << "OverlayColorGreen");
+    conversions.insert("BackgroundColorRed",        QStringList() << "interface" << "OverlayColorRed");
+    conversions.insert("BackgroundImageCenter",     QStringList() << "interface" << "BackgroundImageCenter");
+    conversions.insert("BackgroundImagePath",       QStringList() << "interface" << "BackgroundImagePath");
+    conversions.insert("BackgroundImageScale",      QStringList() << "interface" << "BackgroundImageScale");
+    conversions.insert("BackgroundImageScaleCrop",  QStringList() << "interface" << "BackgroundImageScaleCrop");
+    conversions.insert("BackgroundImageScreenshot", QStringList() << "interface" << "BackgroundImageScreenshot");
+    conversions.insert("BackgroundImageStretch",    QStringList() << "interface" << "BackgroundImageStretch");
+    conversions.insert("BackgroundImageTile",       QStringList() << "interface" << "BackgroundImageTile");
+    conversions.insert("BackgroundImageUse",        QStringList() << "interface" << "BackgroundImageUse");
+    /******************************************************/
+    // category: Behaviour
+    /******************************************************/
+    conversions.insert("AnimationDuration",                  QStringList() << "imageview" << "AnimationDuration");
+    conversions.insert("AnimationType",                      QStringList() << "imageview" << "AnimationType");
+    conversions.insert("ArchiveUseExternalUnrar",            QStringList() << "imageview" << "ExternalUnrar");
+    conversions.insert("CloseOnEmptyBackground",             QStringList() << "imageview" << "CloseOnEmptyBackground");
+    conversions.insert("NavigateOnEmptyBackground",          QStringList() << "imageview" << "NavigateOnEmptyBackground");
+    conversions.insert("FitInWindow",                        QStringList() << "imageview" << "FitInWindow");
+    conversions.insert("HotEdgeWidth",                       QStringList() << "imageview" << "HotEdgeSize");
+    conversions.insert("InterpolationThreshold",             QStringList() << "imageview" << "InterpolationThreshold");
+    conversions.insert("InterpolationDisableForSmallImages", QStringList() << "imageview" << "InterpolationDisableForSmallImages");
+    conversions.insert("KeepZoomRotationMirror",             QStringList() << "imageview" << "RememberZoomRotationMirror");
+    conversions.insert("LeftButtonMouseClickAndMove",        QStringList() << "imageview" << "LeftButtonMoveImage");
+    conversions.insert("LoopThroughFolder",                  QStringList() << "imageview" << "LoopThroughFolder");
+    conversions.insert("MarginAroundImage",                  QStringList() << "imageview" << "Margin");
+    conversions.insert("MouseWheelSensitivity",              QStringList() << "imageview" << "MouseWheelSensitivity");
+    conversions.insert("PdfQuality",                         QStringList() << "imageview" << "PDFQuality");
+    conversions.insert("PixmapCache",                        QStringList() << "imageview" << "Cache");
+    conversions.insert("QuickNavigation",                    QStringList() << "imageview" << "QuickNavigation");
+    conversions.insert("ShowTransparencyMarkerBackground",   QStringList() << "imageview" << "TransparencyMarker");
+    conversions.insert("SortImagesBy",                       QStringList() << "imageview" << "SortImagesBy");
+    conversions.insert("SortImagesAscending",                QStringList() << "imageview" << "SortImagesAscending");
+    conversions.insert("TrayIcon",                           QStringList() << "imageview" << "TrayIcon");
+    conversions.insert("ZoomSpeed",                          QStringList() << "imageview" << "ZoomSpeed");
+    /******************************************************/
+    // category: Labels
+    /******************************************************/
+    conversions.insert("LabelsWindowButtonsSize", QStringList() << "interface" << "LabelsWindowButtonsSize");
+    conversions.insert("LabelsHideCounter",       QStringList() << "interface" << "LabelsHideCounter");
+    conversions.insert("LabelsHideFilepath",      QStringList() << "interface" << "LabelsHideFilepath");
+    conversions.insert("LabelsHideFilename",      QStringList() << "interface" << "LabelsHideFilename");
+    conversions.insert("LabelsWindowButtons",     QStringList() << "interface" << "LabelsWindowButtons");
+    conversions.insert("LabelsHideZoomLevel",     QStringList() << "interface" << "LabelsHideZoomLevel");
+    conversions.insert("LabelsHideRotationAngle", QStringList() << "interface" << "LabelsHideRotationAngle");
+    conversions.insert("LabelsManageWindow",      QStringList() << "interface" << "LabelsManageWindow");
+    /******************************************************/
+    // category: Exclude
+    /******************************************************/
+    conversions.insert("ExcludeCacheFolders",   QStringList() << "thumbnails" << "ExcludeFolders");
+    conversions.insert("ExcludeCacheDropBox",   QStringList() << "thumbnails" << "ExcludeDropBox");
+    conversions.insert("ExcludeCacheNextcloud", QStringList() << "thumbnails" << "ExcludeNextcloud");
+    conversions.insert("ExcludeCacheOwnCloud",  QStringList() << "thumbnails" << "ExcludeOwnCloud");
+    /******************************************************/
+    // category: Thumbnail
+    /******************************************************/
+    conversions.insert("ThumbnailCache",                      QStringList() << "thumbnails" << "Cache");
+    conversions.insert("ThumbnailCenterActive",               QStringList() << "thumbnails" << "CenterOnActive");
+    conversions.insert("ThumbnailDisable",                    QStringList() << "thumbnails" << "Disable");
+    conversions.insert("ThumbnailFilenameInstead",            QStringList() << "thumbnails" << "FilenameOnly");
+    conversions.insert("ThumbnailFilenameInsteadFontSize",    QStringList() << "thumbnails" << "FilenameOnlyFontSize");
+    conversions.insert("ThumbnailFontSize",                   QStringList() << "thumbnails" << "FontSize");
+    conversions.insert("ThumbnailKeepVisible",                QStringList() << "thumbnails" << "");
+    conversions.insert("ThumbnailKeepVisibleWhenNotZoomedIn", QStringList() << "thumbnails" << "");
+    conversions.insert("ThumbnailLiftUp",                     QStringList() << "thumbnails" << "LiftUp");
+    conversions.insert("ThumbnailMaxNumberThreads",           QStringList() << "thumbnails" << "MaxNumberThreads");
+    conversions.insert("ThumbnailPosition",                   QStringList() << "thumbnails" << "Edge");
+    conversions.insert("ThumbnailSize",                       QStringList() << "thumbnails" << "Size");
+    conversions.insert("ThumbnailSpacingBetween",             QStringList() << "thumbnails" << "Spacing");
+    conversions.insert("ThumbnailWriteFilename",              QStringList() << "thumbnails" << "Filename");
+    /******************************************************/
+    // Slideshow
+    /******************************************************/
+    conversions.insert("SlideShowHideLabels",        QStringList() << "slideshow" << "HideLabels");
+    conversions.insert("SlideShowImageTransition",   QStringList() << "slideshow" << "ImageTransition");
+    conversions.insert("SlideShowLoop",              QStringList() << "slideshow" << "Loop");
+    conversions.insert("SlideShowMusicFile",         QStringList() << "slideshow" << "MusicFile");
+    conversions.insert("SlideShowShuffle",           QStringList() << "slideshow" << "Shuffle");
+    conversions.insert("SlideShowTime",              QStringList() << "slideshow" << "Time");
+    conversions.insert("SlideShowTypeAnimation",     QStringList() << "slideshow" << "TypeAnimation");
+    conversions.insert("SlideShowIncludeSubFolders", QStringList() << "slideshow" << "IncludeSubFolders");
+    /******************************************************/
+    // category: Metadata
+    /******************************************************/
+    conversions.insert("MetaApplyRotation",  QStringList() << "metadata" << "AutoRotation");
+    conversions.insert("MetaCopyright",      QStringList() << "metadata" << "Copyright");
+    conversions.insert("MetaDimensions",     QStringList() << "metadata" << "Dimensions");
+    conversions.insert("MetaExposureTime",   QStringList() << "metadata" << "ExposureTime");
+    conversions.insert("MetaFilename",       QStringList() << "metadata" << "Filename");
+    conversions.insert("MetaFileType",       QStringList() << "metadata" << "FileType");
+    conversions.insert("MetaFileSize",       QStringList() << "metadata" << "FileSize");
+    conversions.insert("MetaFlash",          QStringList() << "metadata" << "Flash");
+    conversions.insert("MetaFLength",        QStringList() << "metadata" << "FLength");
+    conversions.insert("MetaFNumber",        QStringList() << "metadata" << "FNumber");
+    conversions.insert("MetaGps",            QStringList() << "metadata" << "Gps");
+    conversions.insert("MetaGpsMapService",  QStringList() << "metadata" << "GpsMap");
+    conversions.insert("MetaImageNumber",    QStringList() << "metadata" << "ImageNumber");
+    conversions.insert("MetaIso",            QStringList() << "metadata" << "Iso");
+    conversions.insert("MetaKeywords",       QStringList() << "metadata" << "Keywords");
+    conversions.insert("MetaLightSource",    QStringList() << "metadata" << "LightSource");
+    conversions.insert("MetaLocation",       QStringList() << "metadata" << "Location");
+    conversions.insert("MetaMake",           QStringList() << "metadata" << "Make");
+    conversions.insert("MetaModel",          QStringList() << "metadata" << "Model");
+    conversions.insert("MetaSceneType",      QStringList() << "metadata" << "SceneType");
+    conversions.insert("MetaSoftware",       QStringList() << "metadata" << "Software");
+    conversions.insert("MetaTimePhotoTaken", QStringList() << "metadata" << "Time");
+    /******************************************************/
+    // category: Metadata Element
+    /******************************************************/
+    conversions.insert("MetadataEnableHotEdge", QStringList() << "metadata" << "ElementHotEdge");
+    conversions.insert("MetadataOpacity",       QStringList() << "metadata" << "ElementOpacity");
+    conversions.insert("MetadataWindowWidth",   QStringList() << "metadata" << "ElementWidth");
+    /******************************************************/
+    // category: People Tags in Metadata
+    /******************************************************/
+    conversions.insert("PeopleTagInMetaBorderAroundFace",      QStringList() << "metadata" << "FaceTagsBorder");
+    conversions.insert("PeopleTagInMetaBorderAroundFaceColor", QStringList() << "metadata" << "FaceTagsBorderColor");
+    conversions.insert("PeopleTagInMetaBorderAroundFaceWidth", QStringList() << "metadata" << "FaceTagsBorderWidth");
+    conversions.insert("PeopleTagInMetaDisplay",               QStringList() << "metadata" << "FaceTagsEnabled");
+    conversions.insert("PeopleTagInMetaFontSize",              QStringList() << "metadata" << "FaceTagsFontSize");
+    conversions.insert("PeopleTagInMetaAlwaysVisible",         QStringList() << "metadata" << "");
+    conversions.insert("PeopleTagInMetaHybridMode",            QStringList() << "metadata" << "");
+    conversions.insert("PeopleTagInMetaIndependentLabels",     QStringList() << "metadata" << "");
+    /******************************************************/
+    // category: Open File
+    /******************************************************/
+    conversions.insert("OpenDefaultView",            QStringList() << "openfile" << "DefaultView");
+    conversions.insert("OpenKeepLastLocation",       QStringList() << "openfile" << "KeepLastLocation");
+    conversions.insert("OpenPreview",                QStringList() << "openfile" << "Preview");
+    conversions.insert("OpenShowHiddenFilesFolders", QStringList() << "openfile" << "ShowHiddenFilesFolders");
+    conversions.insert("OpenThumbnails",             QStringList() << "openfile" << "Thumbnails");
+    conversions.insert("OpenUserPlacesStandard",     QStringList() << "openfile" << "UserPlacesStandard");
+    conversions.insert("OpenUserPlacesUser",         QStringList() << "openfile" << "UserPlacesUser");
+    conversions.insert("OpenUserPlacesVolumes",      QStringList() << "openfile" << "UserPlacesVolumes");
+    conversions.insert("OpenUserPlacesWidth",        QStringList() << "openfile" << "UserPlacesWidth");
+    conversions.insert("OpenZoomLevel",              QStringList() << "openfile" << "ZoomLevel");
+    /******************************************************/
+    // category: Histogram
+    /******************************************************/
+    conversions.insert("Histogram",         QStringList() << "histogram" << "Visibility");
+    conversions.insert("HistogramPosition", QStringList() << "histogram" << "Position");
+    conversions.insert("HistogramSize",     QStringList() << "histogram" << "Size");
+    conversions.insert("HistogramVersion",  QStringList() << "histogram" << "Version");
+    /******************************************************/
+    // category: Main Menu Element
+    /******************************************************/
+    conversions.insert("MainMenuWindowWidth", QStringList() << "mainmenu" << "ElementWidth");
+    /******************************************************/
+    // category: Video
+    /******************************************************/
+    conversions.insert("VideoAutoplay",    QStringList() << "filetypes" << "VideoAutoplay");
+    conversions.insert("VideoLoop",        QStringList() << "filetypes" << "VideoLoop");
+    conversions.insert("VideoVolume",      QStringList() << "filetypes" << "VideoVolume");
+    conversions.insert("VideoThumbnailer", QStringList() << "filetypes" << "VideoThumbnailer");
+    /******************************************************/
+    // category: Popout
+    /******************************************************/
+    conversions.insert("MainMenuPopoutElement",          QStringList() << "interface" << "PopoutMainMenu");
+    conversions.insert("MetadataPopoutElement",          QStringList() << "interface" << "PopoutMetadata");
+    conversions.insert("HistogramPopoutElement",         QStringList() << "interface" << "PopoutHistogram");
+    conversions.insert("ScalePopoutElement",             QStringList() << "interface" << "PopoutScale");
+    conversions.insert("OpenPopoutElement",              QStringList() << "interface" << "PopoutOpenFile");
+    conversions.insert("OpenPopoutElementKeepOpen",      QStringList() << "interface" << "PopoutOpenFileKeepOpen");
+    conversions.insert("SlideShowSettingsPopoutElement", QStringList() << "interface" << "PopoutSlideShowSettings");
+    conversions.insert("SlideShowControlsPopoutElement", QStringList() << "interface" << "PopoutSlideShowControls");
+    conversions.insert("FileRenamePopoutElement",        QStringList() << "interface" << "PopoutFileRename");
+    conversions.insert("FileDeletePopoutElement",        QStringList() << "interface" << "PopoutFileDelete");
+    conversions.insert("AboutPopoutElement",             QStringList() << "interface" << "PopoutAbout");
+    conversions.insert("ImgurPopoutElement",             QStringList() << "interface" << "PopoutImgur");
+    conversions.insert("WallpaperPopoutElement",         QStringList() << "interface" << "PopoutWallpaper");
+    conversions.insert("FilterPopoutElement",            QStringList() << "interface" << "PopoutFilter");
+    conversions.insert("SettingsManagerPopoutElement",   QStringList() << "interface" << "PopoutSettingsManager");
+    conversions.insert("FileSaveAsPopoutElement",       QStringList() << "interface" << "PopoutFileSaveAs");
+
     // These are settings combined out of multiple old settings
     QString thumbnailsVisibility = "0";
     QString metadataFaceTagsVisibility = "3";
@@ -599,163 +812,25 @@ bool PQStartup::migrateSettingsToDb() {
         QString key = line.split("=")[0].trimmed();
         QString val = line.split("=")[1].trimmed();
 
+        if(!conversions.contains(key))
+            continue;
+
+        QString table = conversions.value(key)[0];
+        QString newkey = conversions.value(key)[1];
+
+        query.prepare(QString("UPDATE `%1` SET value=:val WHERE name='%2'").arg(table).arg(newkey));
+
         /******************************************************/
 
-        if(key == "Version") {
-            query.prepare("UPDATE `general` SET value=:val WHERE name='Version'");
+        if(key == "Version")
             val = QString(VERSION);
-        } else if(key == "Language")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='Language'");
-        else if(key == "WindowMode")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='WindowMode'");
-        else if(key == "WindowDecoration")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='WindowDecoration'");
-        else if(key == "SaveWindowGeometry")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='SaveWindowGeometry'");
-        else if(key == "KeepOnTop")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='KeepWindowOnTop'");
-        else if(key == "StartupLoadLastLoadedImage")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='RememberLastImage'");
-
-
-        /******************************************************/
-        // category: Look
-
-        if(key == "BackgroundColorAlpha")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='OverlayColorAlpha'");
-        else if(key == "BackgroundColorBlue")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='OverlayColorBlue'");
-        else if(key == "BackgroundColorGreen")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='OverlayColorGreen'");
-        else if(key == "BackgroundColorRed")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='OverlayColorRed'");
-        else if(key == "BackgroundImageCenter")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageCenter'");
-        else if(key == "BackgroundImagePath")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImagePath'");
-        else if(key == "BackgroundImageScale")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageScale'");
-        else if(key == "BackgroundImageScaleCrop")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageScaleCrop'");
-        else if(key == "BackgroundImageScreenshot")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageScreenshot'");
-        else if(key == "BackgroundImageStretch")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageStretch'");
-        else if(key == "BackgroundImageTile")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageTile'");
-        else if(key == "BackgroundImageUse")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='BackgroundImageUse'");
-
-
-        /******************************************************/
-        // category: Behaviour
-
-        if(key == "AnimationDuration")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='AnimationDuration'");
-        else if(key == "AnimationType")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='AnimationType'");
-        else if(key == "ArchiveUseExternalUnrar")
-            query.prepare("UPDATE `filetypes` SET value=:val WHERE name='ExternalUnrar'");
-        else if(key == "CloseOnEmptyBackground")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='CloseOnEmptyBackground'");
-        else if(key == "NavigateOnEmptyBackground")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='NavigateOnEmptyBackground'");
-
-        else if(key == "FitInWindow")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='FitInWindow'");
-        else if(key == "HotEdgeWidth")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='HotEdgeSize'");
-        else if(key == "InterpolationThreshold")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='InterpolationThreshold'");
-        else if(key == "InterpolationDisableForSmallImages")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='InterpolationDisableForSmallImages'");
-        else if(key == "KeepZoomRotationMirror")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='RememberZoomRotationMirror'");
-
-        else if(key == "LeftButtonMouseClickAndMove")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='LeftButtonMoveImage'");
-        else if(key == "LoopThroughFolder")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='LoopThroughFolder'");
-        else if(key == "MarginAroundImage")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='Margin'");
-        else if(key == "MouseWheelSensitivity")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='MouseWheelSensitivity'");
-        else if(key == "PdfQuality")
-            query.prepare("UPDATE `filetypes` SET value=:val WHERE name='PDFQuality'");
-
-        else if(key == "PixmapCache")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='Cache'");
-        else if(key == "QuickNavigation")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='QuickNavigation'");
-        else if(key == "ShowTransparencyMarkerBackground")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='TransparencyMarker'");
-        else if(key == "SortImagesBy")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='SortImagesBy'");
-        else if(key == "SortImagesAscending")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='SortImagesAscending'");
-
-        else if(key == "TrayIcon")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='TrayIcon'");
-        else if(key == "ZoomSpeed")
-            query.prepare("UPDATE `imageview` SET value=:val WHERE name='ZoomSpeed'");
-
-
-        /******************************************************/
-        // category: Labels
-
-        if(key == "LabelsWindowButtonsSize")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsWindowButtonsSize'");
-        else if(key == "LabelsHideCounter")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsHideCounter'");
-        else if(key == "LabelsHideFilepath")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsHideFilepath'");
-        else if(key == "LabelsHideFilename")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsHideFilename'");
-        else if(key == "LabelsWindowButtons")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsWindowButtons'");
-        else if(key == "LabelsHideZoomLevel")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsHideZoomLevel'");
-        else if(key == "LabelsHideRotationAngle")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsHideRotationAngle'");
-        else if(key == "LabelsManageWindow")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='LabelsManageWindow'");
-
-
-        /******************************************************/
-        // category: Exclude
-
-        if(key == "ExcludeCacheFolders") {
+        else if(key == "ExcludeCacheFolders") {
             QStringList result;
             QByteArray byteArray = QByteArray::fromBase64(val.toUtf8());
             QDataStream in(&byteArray, QIODevice::ReadOnly);
             in >> result;
             val = result.join(":://::");
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='ExcludeFolders'");
-        } else if(key == "ExcludeCacheDropBox")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='ExcludeDropBox'");
-        else if(key == "ExcludeCacheNextcloud")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='ExcludeNextcloud'");
-        else if(key == "ExcludeCacheOwnCloud")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='ExcludeOwnCloud'");
-
-
-        /******************************************************/
-        // category: Thumbnail
-
-        if(key == "ThumbnailCache")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Cache'");
-        else if(key == "ThumbnailCenterActive")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='CenterOnActive'");
-        else if(key == "ThumbnailDisable")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Disable'");
-        else if(key == "ThumbnailFilenameInstead")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='FilenameOnly'");
-        else if(key == "ThumbnailFilenameInsteadFontSize")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='FilenameOnlyFontSize'");
-
-        else if(key == "ThumbnailFontSize")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='FontSize'");
-        else if(key == "ThumbnailKeepVisible") {
+        } else if(key == "ThumbnailKeepVisible") {
             dontExecQuery = true;
             if(val == "1")
                 thumbnailsVisibility = "1";
@@ -763,120 +838,7 @@ bool PQStartup::migrateSettingsToDb() {
             dontExecQuery = true;
             if(val == "1")
                 thumbnailsVisibility = "2";
-        } else if(key == "ThumbnailLiftUp")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='LiftUp'");
-        else if(key == "ThumbnailMaxNumberThreads")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='MaxNumberThreads'");
-
-        else if(key == "ThumbnailPosition")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Edge'");
-        else if(key == "ThumbnailSize")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Size'");
-        else if(key == "ThumbnailSpacingBetween")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Spacing'");
-        else if(key == "ThumbnailWriteFilename")
-            query.prepare("UPDATE `thumbnails` SET value=:val WHERE name='Filename'");
-
-
-        /******************************************************/
-        // category: Slideshow
-
-        if(key == "SlideShowHideLabels")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='HideLabels'");
-        else if(key == "SlideShowImageTransition")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='ImageTransition'");
-        else if(key == "SlideShowLoop")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='Loop'");
-        else if(key == "SlideShowMusicFile")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='MusicFile'");
-        else if(key == "SlideShowShuffle")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='Shuffle'");
-        else if(key == "SlideShowTime")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='Time'");
-        else if(key == "SlideShowTypeAnimation")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='TypeAnimation'");
-        else if(key == "SlideShowIncludeSubFolders")
-            query.prepare("UPDATE `slideshow` SET value=:val WHERE name='IncludeSubFolders'");
-
-
-        /******************************************************/
-        // category: Metadata
-
-        if(key == "MetaApplyRotation")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='AutoRotation'");
-        else if(key == "MetaCopyright")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Copyright'");
-        else if(key == "MetaDimensions")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Dimensions'");
-        else if(key == "MetaExposureTime")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='ExposureTime'");
-        else if(key == "MetaFilename")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Filename'");
-
-        else if(key == "MetaFileType")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FileType'");
-        else if(key == "MetaFileSize")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FileSize'");
-        else if(key == "MetaFlash")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Flash'");
-        else if(key == "MetaFLength")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FLength'");
-        else if(key == "MetaFNumber")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FNumber'");
-
-        else if(key == "MetaGps")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Gps'");
-        else if(key == "MetaGpsMapService")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='GpsMap'");
-        else if(key == "MetaImageNumber")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='ImageNumber'");
-        else if(key == "MetaIso")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Iso'");
-        else if(key == "MetaKeywords")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Keywords'");
-
-        else if(key == "MetaLightSource")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='LightSource'");
-        else if(key == "MetaLocation")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Location'");
-        else if(key == "MetaMake")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Make'");
-        else if(key == "MetaModel")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Model'");
-        else if(key == "MetaSceneType")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='SceneType'");
-
-        else if(key == "MetaSoftware")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Software'");
-        else if(key == "MetaTimePhotoTaken")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='Time'");
-
-
-        /******************************************************/
-        // category: Metadata Element
-
-        if(key == "MetadataEnableHotEdge")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='ElementHotEdge'");
-        else if(key == "MetadataOpacity")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='ElementOpacity'");
-        else if(key == "MetadataWindowWidth")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='ElementWidth'");
-
-
-        /******************************************************/
-        // category: People Tags in Metadata
-
-        if(key == "PeopleTagInMetaBorderAroundFace")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FaceTagsBorder'");
-        else if(key == "PeopleTagInMetaBorderAroundFaceColor")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FaceTagsBorderColor'");
-        else if(key == "PeopleTagInMetaBorderAroundFaceWidth")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FaceTagsBorderWidth'");
-        else if(key == "PeopleTagInMetaDisplay")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FaceTagsEnabled'");
-        else if(key == "PeopleTagInMetaFontSize")
-            query.prepare("UPDATE `metadata` SET value=:val WHERE name='FaceTagsFontSize'");
-        else if(key == "PeopleTagInMetaAlwaysVisible") {
+        } else if(key == "PeopleTagInMetaAlwaysVisible") {
             dontExecQuery = true;
             if(val == "1")
                 metadataFaceTagsVisibility = "1";
@@ -889,105 +851,6 @@ bool PQStartup::migrateSettingsToDb() {
             if(val == "1")
                 metadataFaceTagsVisibility = "2";
         }
-
-
-        /******************************************************/
-        // category: Open File
-
-        if(key == "OpenDefaultView")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='DefaultView'");
-        else if(key == "OpenKeepLastLocation")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='KeepLastLocation'");
-        else if(key == "OpenPreview")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='Preview'");
-        else if(key == "OpenShowHiddenFilesFolders")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='ShowHiddenFilesFolders'");
-        else if(key == "OpenThumbnails")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='Thumbnails'");
-
-        else if(key == "OpenUserPlacesStandard")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='UserPlacesStandard'");
-        else if(key == "OpenUserPlacesUser")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='UserPlacesUser'");
-        else if(key == "OpenUserPlacesVolumes")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='UserPlacesVolumes'");
-        else if(key == "OpenUserPlacesWidth")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='UserPlacesWidth'");
-        else if(key == "OpenZoomLevel")
-            query.prepare("UPDATE `openfile` SET value=:val WHERE name='ZoomLevel'");
-
-
-        /******************************************************/
-        // category: Histogram
-
-        if(key == "Histogram")
-            query.prepare("UPDATE `histogram` SET value=:val WHERE name='Visibility'");
-        else if(key == "HistogramPosition")
-            query.prepare("UPDATE `histogram` SET value=:val WHERE name='Position'");
-        else if(key == "HistogramSize")
-            query.prepare("UPDATE `histogram` SET value=:val WHERE name='Size'");
-        else if(key == "HistogramVersion")
-            query.prepare("UPDATE `histogram` SET value=:val WHERE name='Version'");
-
-
-        /******************************************************/
-        // category: Main Menu Element
-
-        if(key == "MainMenuWindowWidth")
-            query.prepare("UPDATE `mainmenu` SET value=:val WHERE name='ElementWidth'");
-
-
-        /******************************************************/
-        // category: Video
-
-        if(key == "VideoAutoplay")
-            query.prepare("UPDATE `filetypes` SET value=:val WHERE name='VideoAutoplay'");
-        else if(key == "VideoLoop")
-            query.prepare("UPDATE `filetypes` SET value=:val WHERE name='VideoLoop'");
-        else if(key == "VideoVolume")
-            query.prepare("UPDATE `filetypes` SET value=:val WHERE name='VideoVolume'");
-        else if(key == "VideoThumbnailer")
-            query.prepare("UPDATE `filetypes` SET value=:val WHERE name='VideoThumbnailer'");
-
-
-        /******************************************************/
-        // category:
-
-        if(key == "MainMenuPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutMainMenu'");
-        else if(key == "MetadataPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutMetadata'");
-        else if(key == "HistogramPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutHistogram'");
-        else if(key == "ScalePopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutScale'");
-        else if(key == "OpenPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutOpenFile'");
-
-        else if(key == "OpenPopoutElementKeepOpen")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutOpenFileKeepOpen'");
-        else if(key == "SlideShowSettingsPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutSlideShowSettings'");
-        else if(key == "SlideShowControlsPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutSlideShowControls'");
-        else if(key == "FileRenamePopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutFileRename'");
-        else if(key == "FileDeletePopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutFileDelete'");
-
-        else if(key == "AboutPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutAbout'");
-        else if(key == "ImgurPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutImgur'");
-        else if(key == "WallpaperPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutWallpaper'");
-        else if(key == "FilterPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutFilter'");
-        else if(key == "SettingsManagerPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutSettingsManager'");
-
-        else if(key == "FileSaveAsPopoutElement")
-            query.prepare("UPDATE `interface` SET value=:val WHERE name='PopoutFileSaveAs'");
 
         if(!dontExecQuery) {
 

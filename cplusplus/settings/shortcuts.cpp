@@ -97,7 +97,7 @@ void PQShortcuts::setDefault() {
     QSqlQuery query(db);
 
     // set default builtin
-    query.prepare("UPDATE builtin SET shortcuts = defaultshortcut");
+    query.prepare("UPDATE builtin SET shortcuts = defaultshortcuts");
     if(!query.exec()) {
         LOG << CURDATE << "PQShortcuts::setDefault [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;

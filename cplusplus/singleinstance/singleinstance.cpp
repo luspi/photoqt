@@ -84,14 +84,22 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
         message += ":://::_S_T_A_N_D_A_L_O_N_E_";
 
     // validation requested
-    validateSettings = false;
-    if(result & PQCommandLineValidateSettings)
-        validateSettings = true;
+    checkConfig = false;
+    if(result & PQCommandLineCheckConfig) {
+        checkConfig = true;
+        socket = new QLocalSocket();
+        server = new QLocalServer();
+        return;
+    }
 
     // reset defaults
-    resetDefaults = false;
-    if(result & PQCommandLineResetDefaults)
-        resetDefaults = true;
+    resetConfig = false;
+    if(result & PQCommandLineResetConfig) {
+        resetConfig = true;
+        socket = new QLocalSocket();
+        server = new QLocalServer();
+        return;
+    }
 
     // STANDALONE, EXPORT, IMPORT
 

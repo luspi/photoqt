@@ -49,8 +49,8 @@ public:
 
     QString exportAndQuit;
     QString importAndQuit;
-    bool validateSettings;
-    bool resetDefaults;
+    bool checkConfig;
+    bool resetConfig;
 
     QQmlApplicationEngine *qmlEngine;
     QVector<void*> qmlWindowAddresses;

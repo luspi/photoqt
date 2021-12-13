@@ -7,6 +7,8 @@
 #include <QMessageBox>
 
 #include "../scripts/handlingexternal.h"
+#include "../scripts/handlinggeneral.h"
+#include "../settings/shortcuts.h"
 #include "../configfiles.h"
 #include "../logger.h"
 #include "../settings/imageformats.h"
@@ -21,13 +23,15 @@ public:
     // 0: no update
     // 1: update
     // 2: fresh install
-    int check();
+    int check(bool onlyCreateDatabase = false);
 
     Q_INVOKABLE void setupFresh(int defaultPopout);
     Q_INVOKABLE void performChecksAndMigrations();
 
     void exportData(QString path);
     void importData(QString path);
+
+    void resetToDefaults();
 
 private:
     bool checkIfBinaryExists(QString exec);

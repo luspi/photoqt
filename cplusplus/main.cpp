@@ -85,10 +85,20 @@ int main(int argc, char **argv) {
 
     // handle export/import commands
     if(app.exportAndQuit != "") {
+        startup.check(true);
         startup.exportData(app.exportAndQuit);
         std::exit(0);
     } else if(app.importAndQuit != "") {
+        startup.check(true);
         startup.importData(app.importAndQuit);
+        std::exit(0);
+    } else if(app.checkConfig) {
+        startup.check(true);
+        validate.validate();
+        std::exit(0);
+    } else if(app.resetConfig) {
+        startup.check(true);
+        startup.resetToDefaults();
         std::exit(0);
     }
 
@@ -115,22 +125,8 @@ int main(int argc, char **argv) {
 
         // run consistency check
         // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
-        if(checker == 3 || app.validateSettings)
+        if(checker == 3)
             validate.validate();
-
-    } else {
-
-        if(app.validateSettings)
-            validate.validate();
-
-    }
-
-    if(app.resetDefaults) {
-
-        PQHandlingGeneral general;
-        general.setDefaultSettings();
-
-        PQShortcuts::get().setDefault();
 
     }
 
