@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE QString getFileType(QString path);
     Q_INVOKABLE QDateTime getFileModified(QString path);
     Q_INVOKABLE QString getHomeDir();
+    Q_INVOKABLE QString getInternalFilenameArchive(QString path);
     Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getTempDir();
     Q_INVOKABLE bool isDir(QString path);

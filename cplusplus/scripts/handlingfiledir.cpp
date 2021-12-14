@@ -325,6 +325,19 @@ QString PQHandlingFileDir::getHomeDir() {
 
 }
 
+QString PQHandlingFileDir::getInternalFilenameArchive(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getInternalFilename()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    if(!path.contains("::ARC::"))
+        return "";
+
+    QFileInfo info(path.split("::ARC::")[0]);
+    return info.fileName();
+
+}
+
 QString PQHandlingFileDir::getSuffix(QString path, bool lowerCase) {
 
     DBG << CURDATE << "PQHandlingFileDir::getSuffix()" << NL

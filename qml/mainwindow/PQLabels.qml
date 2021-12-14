@@ -122,7 +122,7 @@ Rectangle {
                       (em.pty+qsTranslate("quickinfo", "Page %1 of %2").arg(filefoldermodel.pqtNum+1).arg(filefoldermodel.countMainView)) :
                                 (filefoldermodel.current>-1 && filefoldermodel.current < filefoldermodel.countMainView && filefoldermodel.isARC) ?
                                             //: Used as in: File 12/34 - please keep as short as possible
-                                            (em.pty+qsTranslate("quickinfo", "File %1 of %2").arg(filefoldermodel.current+1).arg(filefoldermodel.countMainView)) :
+                                            (em.pty+qsTranslate("quickinfo", "File %1 of %2").arg(filefoldermodel.current+1).arg(filefoldermodel.countMainView) + ": " + handlingFileDir.getInternalFilenameArchive(filefoldermodel.currentFilePath)) :
                         ""
             visible: text != "" && (filefoldermodel.current > -1)
             color: "white"
