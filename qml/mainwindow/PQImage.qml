@@ -268,6 +268,102 @@ Item {
 
     }
 
+    // a big button in middle of screen to enter 'viewer mode'
+    Rectangle {
+        id: viewermodebut
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+        width: 300
+        height: 300
+        color: "#cc000000"
+        radius: 10
+        opacity: viewermodemouse.containsMouse||viewermodebutmousehide.containsMouse ? 1 : 0.5
+        Behavior on opacity { NumberAnimation { duration: 300 } }
+
+        property bool viewermodeavailable: ( imageproperties.isPopplerDocument(filefoldermodel.currentFilePath) &&
+                                            (imageproperties.getDocumentPages(filefoldermodel.currentFilePath)>1 || filefoldermodel.isPQT))
+                                                  || (imageproperties.isArchive(filefoldermodel.currentFilePath))
+        property bool notinside: true
+
+        visible: PQSettings.imageviewBigViewerModeButton && viewermodeavailable && notinside
+
+        Connections {
+            target: filefoldermodel
+            onIsPQTChanged: {
+                if(!filefoldermodel.isPQT && !filefoldermodel.isARC)
+                    viewermodebut.notinside = true
+            }
+            onIsARCChanged: {
+                if(!filefoldermodel.isPQT && !filefoldermodel.isARC)
+                    viewermodebut.notinside = true
+            }
+        }
+
+        PropertyAnimation {
+            id: hidebut1
+            target: viewermodebut
+            properties: "width,height"
+            from: 300
+            to: Math.min(container.width, container.height)
+            duration: 400
+        }
+
+        PropertyAnimation {
+            id: hidebut2
+            target: viewermodebut
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: 400
+            onStopped: {
+                viewermodemouse.enabled = true
+                viewermodebut.notinside = false
+                viewermodebut.width = 300
+                viewermodebut.height = 300
+                viewermodebut.opacity = Qt.binding(function() { if(viewermodemouse.containsMouse || viewermodebutmousehide.containsMouse) return 1; return 0.5; })
+            }
+        }
+
+        Image {
+            anchors.fill: parent
+            anchors.margins: 40
+            source: "/image/viewermode.png"
+        }
+
+        PQMouseArea {
+            id: viewermodemouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode")
+            onClicked: {
+                viewermodemouse.enabled = false
+                hidebut1.start()
+                hidebut2.start()
+                labels.enterViewerMode()
+            }
+        }
+
+        Image {
+            x: parent.width-width+10
+            y: -10
+            width: 30
+            height: 30
+            opacity: viewermodebutmousehide.containsMouse ? 0.5 : 0.25
+            Behavior on opacity { NumberAnimation { duration: 300 } }
+            source: "/other/histogramclose.png"
+            PQMouseArea {
+                id: viewermodebutmousehide
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("quickinfo", "Hide central 'viewer mode' button")
+                onClicked: PQSettings.imageviewBigViewerModeButton = false
+            }
+        }
+
+    }
+
     Timer {
         id: loadingtimer
         interval: 500

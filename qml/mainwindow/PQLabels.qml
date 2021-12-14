@@ -201,6 +201,7 @@ Rectangle {
         width: row.height+10
         height: width
         visible: variables.chromecastConnected
+        mipmap: true
         source: "/streaming/chromecastactive.png"
         PQMouseArea {
             anchors.fill: parent
@@ -303,6 +304,20 @@ Rectangle {
         }
     }
 
+    PQMenu {
+
+        id: viewermoderightclickmenu
+
+        model: [PQSettings.imageviewBigViewerModeButton ?
+                     em.pty+qsTranslate("quickinfo", "Hide central 'viewer mode' button") :
+                     em.pty+qsTranslate("quickinfo", "Show central 'viewer mode' button")]
+
+        onTriggered: {
+            PQSettings.imageviewBigViewerModeButton = !PQSettings.imageviewBigViewerModeButton
+        }
+
+    }
+
     PQMouseArea {
         x: viewermode.x
         y: viewermode.y
@@ -310,6 +325,8 @@ Rectangle {
         height: viewermode.height
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
 
         enabled: viewermode.visible
 
@@ -321,10 +338,15 @@ Rectangle {
 
         tooltip: pageInfo.text=="" ? em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode") : em.pty+qsTranslate("quickinfo", "Click here to exit viewer mode")
         onClicked: {
-            if(filefoldermodel.isPQT || filefoldermodel.isARC)
-                exitViewerMode()
-            else
-                enterViewerMode()
+            if(mouse.button == Qt.LeftButton) {
+                if(filefoldermodel.isPQT || filefoldermodel.isARC)
+                    exitViewerMode()
+                else
+                    enterViewerMode()
+            } else {
+                var pos = parent.mapFromItem(parent.parent, mouse.x+viewermode.x, mouse.y+viewermode.y)
+                viewermoderightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+            }
         }
     }
 
