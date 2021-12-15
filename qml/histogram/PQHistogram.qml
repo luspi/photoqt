@@ -139,7 +139,7 @@ Rectangle {
             x: 25
             y: 15
             text: filefoldermodel.current==-1 ?
-                      em.pty+qsTranslate("histogram", "Histogram")+"..." :
+                      em.pty+qsTranslate("histogram", "Histogram") :
                       //: As in: Loading the histogram for the current image
                       em.pty+qsTranslate("histogram", "Loading...")
             color: "white"
