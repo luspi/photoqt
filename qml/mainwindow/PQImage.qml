@@ -406,6 +406,8 @@ Item {
     }
 
     function loadNextImage() {
+        if(filefoldermodel.countMainView == 0)
+            return
         if(filefoldermodel.current < filefoldermodel.countMainView-1)
             ++filefoldermodel.current
         else if(filefoldermodel.current == filefoldermodel.countMainView-1 && PQSettings.imageviewLoopThroughFolder)
@@ -413,6 +415,8 @@ Item {
     }
 
     function loadPrevImage() {
+        if(filefoldermodel.countMainView == 0)
+            return
         if(filefoldermodel.current > 0)
             --filefoldermodel.current
         else if(filefoldermodel.current == 0 && PQSettings.imageviewLoopThroughFolder)
@@ -420,10 +424,14 @@ Item {
     }
 
     function loadFirstImage() {
+        if(filefoldermodel.countMainView == 0)
+            return
         filefoldermodel.current = 0
     }
 
     function loadLastImage() {
+        if(filefoldermodel.countMainView == 0)
+            return
         filefoldermodel.current = filefoldermodel.countMainView-1
     }
 

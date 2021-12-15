@@ -36,6 +36,9 @@ void PQHandlingExternal::copyToClipboard(QString filename) {
     DBG << CURDATE << "PQHandlingExternal::copyToClipboard()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
+    if(filename == "")
+        return;
+
     // Make sure image provider exists
     if(imageprovider == nullptr)
          imageprovider = new PQImageProviderFull;
