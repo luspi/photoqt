@@ -126,7 +126,7 @@ Rectangle {
         [["heading","",""]],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
+        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__settings", "settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
@@ -143,7 +143,7 @@ Rectangle {
                 //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
                 ["__slideshowQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter Images in Folder"), "hide"]],
+        [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter images in folder"), "hide"]],
         //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
         [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
@@ -154,15 +154,15 @@ Rectangle {
         //: This is an entry in the main menu on the right. Please keep short!
         [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__showMetaData", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide Metadata"), "donthide"]],
+        [["__showMetaData", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide metadata"), "donthide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
+        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), "donthide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale Image"), "hide"]],
+        [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale image"), "hide"]],
 
         [["heading","",""]],
 

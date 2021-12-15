@@ -98,7 +98,7 @@ Item {
 
                 available: [
                                             //: Name of shortcut action
-                    ["__open",              em.pty+qsTranslate("settingsmanager", "Open new file")],
+                    ["__open",              em.pty+qsTranslate("settingsmanager", "Open file (browse images)")],
                                             //: Name of shortcut action
                     ["__filterImages",      em.pty+qsTranslate("settingsmanager", "Filter images in folder")],
                                             //: Name of shortcut action

@@ -41,6 +41,12 @@ Window {
     color: "#dd000000"
 
     property var allitems_static: [
+
+        //: This is an entry in the context menu. Please keep short!
+        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
+
+        [["separator", "", "", ""]],
+
         //: This is an entry in the context menu, used as in: Zoom image. Please keep short!
         [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
                 ["__zoomIn","","+", "donthide"],
@@ -85,9 +91,7 @@ Window {
         //: This is an entry in the context menu. Please keep short!
         [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
         //: This is an entry in the context menu. Please keep short!
-        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
-        //: This is an entry in the context menu. Please keep short!
-        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
+        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), "donthide"]],
         //: This is an entry in the context menu. Please keep short!
         [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]]
 
