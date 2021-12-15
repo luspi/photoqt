@@ -89,19 +89,80 @@ Window {
                            PQSettings.interfaceOverlayColorBlue/256.0,
                            PQSettings.interfaceOverlayColorAlpha/256.0)
 
-            Text {
+            Item {
                 id: emptymessage
-                anchors.fill: parent
-                anchors.leftMargin: arrleft.x+arrleft.width+10
-                anchors.rightMargin: parent.width-arrright.x
-                text: em.pty+qsTranslate("other", "Open a file to begin")
+                x: (parent.width-width)/2
+                y: (parent.height-height)/2
+                width: parent.width-arrleft.width-arrright.width-40
+                height: col.height
                 visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive
-                font.pointSize: 50
-                font.bold: true
-                color: "#bb808080"
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                Column {
+                    id: col
+                    spacing: 5
+                    Text {
+                        id: openmessage
+                        width: emptymessage.width
+                        //: Part of the message shown in the main view before any image is loaded
+                        text: em.pty+qsTranslate("other", "Click anywhere to open a file")
+                        font.pointSize: 50
+                        font.bold: true
+                        color: "#c0c0c0"
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Text {
+                        width: emptymessage.width
+                        //: Part of the message shown in the main view before any image is loaded
+                        text: em.pty+qsTranslate("other", "Move your cursor to:")
+                        font.pointSize: 30
+                        font.bold: true
+                        color: "#c0c0c0"
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Text {
+                        width: emptymessage.width
+                        //: Part of the message shown in the main view before any image is loaded, first option for where to move cursor to
+                        text: ">> " + em.pty+qsTranslate("other", "RIGHT EDGE for the main menu")
+                        font.pointSize: 20
+                        font.bold: true
+                        color: "#c0c0c0"
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Text {
+                        width: emptymessage.width
+                        //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
+                        text: ">> " + em.pty+qsTranslate("other", "LEFT EDGE for the metadata")
+                        font.pointSize: 20
+                        font.bold: true
+                        color: "#c0c0c0"
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+                    Column {
+                        Text {
+                            width: emptymessage.width
+                            //: Part of the message shown in the main view before any image is loaded, third option for where to move cursor to
+                            text: ">> " + em.pty+qsTranslate("other", "BOTTOM EDGE to show the thumbnails")
+                            font.pointSize: 20
+                            font.bold: true
+                            color: "#c0c0c0"
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                        Text {
+                            width: emptymessage.width
+                            //: Part of the message shown in the main view before any image is loaded
+                            text: em.pty+qsTranslate("other", "(once an image/folder is loaded)")
+                            font.pointSize: 20
+                            font.bold: true
+                            color: "#c0c0c0"
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                    }
+                }
             }
 
             Image {
@@ -126,6 +187,20 @@ Window {
                 width: 100
                 height: 100
                 source: "/mainwindow/leftarrow.png"
+            }
+
+
+            Image {
+                id: arrdown
+                visible: emptymessage.visible
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
+                opacity: 0.5
+                x: (parent.width-width)/2
+                width: 100
+                height: 100
+                source: "/mainwindow/leftarrow.png"
+                rotation: -90
             }
 
             Text {
@@ -340,7 +415,6 @@ Window {
                 filefoldermodel.folderFileDialog = handlingFileDialog.getLastLocation()
             else
                 filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
-            loader.show("filedialog")
         }
 
     }
