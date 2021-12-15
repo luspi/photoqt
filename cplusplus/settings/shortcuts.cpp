@@ -256,7 +256,7 @@ void PQShortcuts::readDB() {
         QStringList sh_parts;
         if(sh == ",")
             sh_parts << ",";
-        else {
+        else if(sh != "") {
             sh = sh.replace(",,","COMMA,");
             if(sh.endsWith(", ,"))
                 sh.replace(sh.length()-3, sh.length(), ", COMMA");
