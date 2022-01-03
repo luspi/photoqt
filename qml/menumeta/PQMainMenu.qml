@@ -406,9 +406,9 @@ Rectangle {
 
         PQMouseArea {
             anchors.fill: parent
-            tooltip: "http://photoqt.org/man"
+            tooltip: "https://photoqt.org/man"
             cursorShape: Qt.PointingHandCursor
-            onClicked: Qt.openUrlExternally("http://photoqt.org/man")
+            onClicked: Qt.openUrlExternally("https://photoqt.org/man")
         }
 
     }
