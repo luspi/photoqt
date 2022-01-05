@@ -279,7 +279,7 @@ void PQStartup::setupFresh(int defaultPopout) {
 
                 QSqlQuery query(db);
                 query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
-                query.bindValue(":cmd", m[2*i+1]);
+                query.bindValue(":cmd", m[2*i+1]+" %f");
                 query.bindValue(":dsc", m[2*i]);
                 query.bindValue(":cls", "0");
                 if(!query.exec())
