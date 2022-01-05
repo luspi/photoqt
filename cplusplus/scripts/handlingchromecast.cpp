@@ -73,7 +73,9 @@ PQHandlingChromecast::~PQHandlingChromecast() {
     delete chromecastBrowser;
     delete chromecastMediaController;
 
+#if PY_MINOR_VERSION < 10
     Py_FinalizeEx();
+#endif
 
     if(!QFile::remove(chromecastModuleName))
         LOG << CURDATE << "PQHandlingStreaming::~PQHandlingStreaming: Unable to remove chromecast module file" << NL;
