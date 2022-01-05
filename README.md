@@ -1,11 +1,11 @@
-# PhotoQt dev
-__Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org)__  
+# PhotoQt v2.5
+__Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ http://photoqt.org  
 
 PhotoQt is a fast and highly configurable image viewer with a simple and nice interface.
 
-PhotoQt is available in an increasing number of repositories, and can also be installed in several other ways (Flatpak, Windows installer, etc.). [Check the website](https://photoqt.org/down) to get more information on that, or see below for instructions about how to build PhotoQt from scratch.
+PhotoQt is available in the repositories of an increasing number of Linux distributions, and can also be installed in several other ways (Windows installer, Flatpak, etc.). [Check the website](https://photoqt.org/down) to get more information on that, or see below for instructions about how to build PhotoQt from scratch.
 
 ***************
 
@@ -28,7 +28,7 @@ Dependencies, that are needed by default, but can be disabled via CMake:
 - FreeImage
 - DevIL
 - pugixml
-- Python
+- Python (incl. pychromecast package)
 
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
 

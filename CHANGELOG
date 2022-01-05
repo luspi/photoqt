@@ -1,5 +1,38 @@
-Changelog PhotoQt - Copyright (C) 2011-2021, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 2.5 - 2022-01-05
+----------------------------
+- add: chromecast support (using pychromecast)
+- add: new startup checks
+- add: new dialog informing user of new install/update
+- add: convert settings, shortcuts, and contextmenu from file based to database based
+- add: command line option to check and attempt to fix configuration
+- add: command line option to reset settings/shortcuts to defaults
+- add: dialog to show debug/log messages
+- add: second desktop file for standalone mode
+- improve: better handling of threading for loading images
+- improve: scrolling by mouse no longer flicks view resulting in better handling
+- improve: handling of imageformats
+- improve: use image providers for setting background image
+- improve: reorder mainmenu entries
+- improve: copying of image to clipboard
+- improve: default startup message, don't show file dialog automatically
+- improve: context menu now standalone window and thus not confined to PhotoQt window
+- improve: graceful fail when ffmpegthumbnailer not available for video files
+- improve: filename inside archives shown on labels in mainview
+- improve: enable build with Exiv 0.25
+- improve: 'Escape' by default calls __open
+- fix/improve: export/import of old and new backup files
+- fix: settingsmanager, handling of modal windows
+- fix: picking color did not handle the absence of transparency well
+- fix: external shortcuts close PhotoQt when 'close' option set
+- fix: zoom-to-position failed in multi-monitor setup when last-left monitor is not used
+- fix: executing external app by shortcut failed handling placeholders
+- fix: slideshow with many images in many subfolders
+- fix: escape html tags in filenames shown on tooltips/labels
+
 
 Release 2.4 - 2021-10-22
 ----------------------------
