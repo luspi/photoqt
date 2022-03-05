@@ -337,7 +337,52 @@ void PQStartup::performChecksAndMigrations() {
     migrateShortcutsToDb();
     migrateSettingsToDb();
 
+    // enter any new settings
+    enterNewSettings();
+
     PQSettings::get().update("generalVersion", VERSION);
+
+}
+
+bool PQStartup::enterNewSettings() {
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
+    if(!db.open()) {
+        LOG << CURDATE << "PQStartup::enterNewSettings(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    // LabelsAlwaysShowX, 0, 0, bool
+
+    QSqlQuery query(db);
+    query.prepare("SELECT COUNT(name) AS NumSet FROM interface WHERE name='LabelsAlwaysShowX'");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQStartup::enterNewSettings(): SQL Query error (1): " << query.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    if(!query.next()) {
+        LOG << CURDATE << "PQStartup::enterNewSettings(): No SQL results returned" << NL;
+        return false;
+    }
+
+    int howmany = query.record().value("NumSet").toInt();
+    if(howmany != 0) {
+        LOG << CURDATE << "PQStartup::enterNewSettings(): Found " << howmany << " settings with the new name, not entering anything new." << NL;
+        return false;
+    }
+
+    QSqlQuery query2(db);
+    query2.prepare("INSERT INTO interface (name,value,defaultvalue,datatype) VALUES ('LabelsAlwaysShowX', 0, 0, 'bool')");
+
+    if(!query2.exec()) {
+        LOG << CURDATE << "PQStartup::enterNewSettings(): SQL Query error (2): " << query2.lastError().text().trimmed().toStdString() << NL;
+        return false;
+    }
+
+    return true;
+
 
 }
 

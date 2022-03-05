@@ -84,7 +84,7 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/close.png"
 
-            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration)
+            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceLabelsAlwaysShowX
 
             PQMouseArea {
                 anchors.fill: parent

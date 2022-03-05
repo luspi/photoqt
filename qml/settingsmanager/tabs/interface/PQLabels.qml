@@ -56,6 +56,7 @@ PQSetting {
                         labels_zoom.checked = false
                         labels_rotation.checked = false
                         labels_windowbuttons.checked = false
+                        labels_windowclosebuttonalwaysvisible.checked = false
                     }
                 }
             }
@@ -145,6 +146,14 @@ PQSetting {
                     }
                 }
 
+                PQCheckbox {
+                    y: (parent.height-height)/2
+                    id: labels_windowclosebuttonalwaysvisible
+                    //: The 'x' is a small button (part of the window buttons) that closes the window
+                    text: em.pty+qsTranslate("settingsmanager_interface", "always show 'x'")
+                    enabled: labels_windowbuttons.checked
+                }
+
             }
 
             Row {
@@ -193,6 +202,7 @@ PQSetting {
             labels_zoom.checked = !PQSettings.interfaceLabelsHideZoomLevel
             labels_rotation.checked = !PQSettings.interfaceLabelsHideRotationAngle
             labels_windowbuttons.checked = !PQSettings.interfaceLabelsHideWindowButtons
+            labels_windowclosebuttonalwaysvisible.checked = PQSettings.interfaceLabelsAlwaysShowX
 
             labels_windowbuttonssize.value = PQSettings.interfaceLabelsWindowButtonsSize
 
@@ -210,6 +220,7 @@ PQSetting {
             PQSettings.interfaceLabelsHideZoomLevel = !labels_zoom.checked
             PQSettings.interfaceLabelsHideRotationAngle = !labels_rotation.checked
             PQSettings.interfaceLabelsHideWindowButtons = !labels_windowbuttons.checked
+            PQSettings.interfaceLabelsAlwaysShowX = labels_windowclosebuttonalwaysvisible.checked
 
             PQSettings.interfaceLabelsWindowButtonsSize = labels_windowbuttonssize.value
 

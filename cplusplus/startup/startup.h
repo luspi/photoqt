@@ -59,6 +59,8 @@ public:
     bool migrateSettingsToDb();
     bool migrateShortcutsToDb();
 
+    bool enterNewSettings();
+
 private:
     bool checkIfBinaryExists(QString exec);
 
