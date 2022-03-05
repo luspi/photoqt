@@ -102,6 +102,13 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
+// only one of them will be defined at a time
+#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
+    // Initialise Magick as early as possible
+    // this needs to happen BEFORE startup check as this might call into Magick
+    Magick::InitializeMagick(*argv);
+#endif
+
     // perform some startup checks
     // return 1 on updates and 2 on fresh installs
     int checker = startup.check();
@@ -137,12 +144,6 @@ int main(int argc, char **argv) {
         QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
         pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
     }
-
-// only one of them will be defined at a time
-#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
-    // Initialise Magick as early as possible
-    Magick::InitializeMagick(*argv);
-#endif
 
 #ifdef DEVIL
     ilInit();
