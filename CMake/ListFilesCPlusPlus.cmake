@@ -35,4 +35,4 @@ SET(d "python")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqpy.h)
 
 SET(d "cplusplus/print")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tabimageoptions.cpp ${d}/printsupport.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tabimageoptions.cpp ${d}/tabimagepositiontile.cpp ${d}/printsupport.cpp)
