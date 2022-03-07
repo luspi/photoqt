@@ -41,7 +41,11 @@ Rectangle {
     visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) &&
              (filefoldermodel.current>-1 || filefoldermodel.filterCurrentlyActive) &&
              (filefoldermodel.countMainView>0 || filefoldermodel.filterCurrentlyActive) &&
-             !variables.faceTaggingActive
+             !variables.faceTaggingActive && anyLabelsVisible
+
+    property bool anyLabelsVisible: !PQSettings.interfaceLabelsHideCounter || !PQSettings.interfaceLabelsHideFilepath || !PQSettings.interfaceLabelsHideFilename ||
+                                    !PQSettings.interfaceLabelsHideZoomLevel || !PQSettings.interfaceLabelsHideRotationAngle
+
 
     Row {
 
