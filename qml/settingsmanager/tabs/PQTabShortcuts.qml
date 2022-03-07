@@ -178,7 +178,9 @@ Item {
                                             //: Name of shortcut action
                     ["__clipboard",         em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")],
                                             //: Name of shortcut action
-                    ["__saveAs",            em.pty+qsTranslate("settingsmanager", "Save image in another format")]
+                    ["__saveAs",            em.pty+qsTranslate("settingsmanager", "Save image in another format")],
+                                            //: Name of shortcut action
+                    ["__print",             em.pty+qsTranslate("settingsmanager", "Print current photo")]
                 ]
 
             }

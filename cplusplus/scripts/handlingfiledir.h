@@ -44,6 +44,8 @@
 
 #include "../logger.h"
 
+class PQImageProviderFull;
+
 class PQHandlingFileDir : public QObject {
 
     Q_OBJECT

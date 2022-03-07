@@ -47,6 +47,7 @@
 #include "settings/shortcuts.h"
 #include "logger.h"
 #include "scripts/handlingchromecast.h"
+#include "print/printsupport.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
@@ -179,6 +180,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
     qmlRegisterType<PQHandlingChromecast>("PQHandlingChromecast", 1, 0, "PQHandlingChromecast");
+    qmlRegisterType<PQPrintSupport>("PQPrintSupport", 1, 0, "PQPrintSupport");
 
     engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());

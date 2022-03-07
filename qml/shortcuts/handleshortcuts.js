@@ -151,6 +151,8 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
             loader.show("chromecast")
     } else if(cmd === "__logging")
         loader.show("logging")
+    else if(cmd === "__print")
+        printsupport.printFile(filefoldermodel.currentFilePath)
     else {
         handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
