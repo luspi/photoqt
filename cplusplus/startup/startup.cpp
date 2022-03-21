@@ -326,8 +326,13 @@ void PQStartup::performChecksAndMigrations() {
     query.next();
 
     // attempt to enter new format
+    bool anythingnew = false;
     if(PQImageFormats::get().enterNewFormat("jxl", "image/jxl", "JPEG XL", "img", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "jxl", true))
+        anythingnew = true;
+    if(PQImageFormats::get().updateFormatByEnding("heif,heic", "image/heic,image/heif", "HEIF: Apple High Efficiency Image Format", "img", 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "HEIC", "heif", true))
+        anythingnew = true;
 
+    if(anythingnew)
         PQImageFormats::get().readDatabase();
 
     /**************************************************************/
