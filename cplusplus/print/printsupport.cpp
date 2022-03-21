@@ -25,10 +25,12 @@
 
 void PQPrintSupport::printFile(QString filename) {
 
+    PQTabImageOptions *imageoptions = new PQTabImageOptions;
+
     QPrinter printer;
     QPrintDialog printDialog(&printer, nullptr);
     printDialog.setWindowTitle(tr("Print Photo"));
-    printDialog.setOptionTabs({new PQTabImageOptions});
+    printDialog.setOptionTabs({imageoptions});
     if(printDialog.exec() != QDialog::Accepted)
         return;
 
@@ -39,12 +41,36 @@ void PQPrintSupport::printFile(QString filename) {
     QPixmap pixmap = QPixmap::fromImage(imageprovider->requestImage(filename, new QSize, QSize()));
 
     QPainter painter(&printer);
-    QRect rect = painter.viewport();
-    QSize size = pixmap.size();
-    size.scale(rect.size(), Qt::KeepAspectRatio);
-    painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
+    QRect viewport = painter.viewport();
+    QSize pixsize = pixmap.size();
+
+    if(imageoptions->getScalingFitToPage()) {
+        if(pixsize.width() > viewport.width() || pixsize.height() > viewport.height() || imageoptions->getScalingEnlargeSmaller())
+            pixsize.scale(viewport.size(), Qt::KeepAspectRatio);
+    }
+
+    painter.setViewport(viewport.x(), viewport.y(), pixsize.width(), pixsize.height());
     painter.setWindow(pixmap.rect());
-    painter.drawPixmap(0, 0, pixmap);
+
+    int imgPos = imageoptions->getImagePosition();
+
+    int x = 0;
+    int y = 0;
+
+    if((imgPos+1)%3 == 0)
+        x = (viewport.width()-pixsize.width())/2;
+    else if(imgPos%3 == 0)
+        x = viewport.width()-pixsize.width();
+
+    if(imgPos > 3 && imgPos < 7)
+        y = (viewport.height()-pixsize.height())/2;
+    else if(imgPos > 6)
+        y = viewport.height()-pixsize.height();
+
+//    painter.pi
+
+    painter.drawPixmap(x, y, pixmap);
+
     painter.end();
 
 }

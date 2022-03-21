@@ -28,6 +28,8 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
 
     this->setWindowTitle("Image Settings");
 
+    posSelected = 5;
+
     mainhorlay = new QHBoxLayout;
 
     /**********************************************/
@@ -169,5 +171,6 @@ PQTabImageOptions::~PQTabImageOptions() {
 }
 
 void PQTabImageOptions::newPosSelected(int id) {
+    posSelected = id;
     Q_EMIT notifyNewPosSelected(id);
 }

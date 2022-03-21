@@ -21,6 +21,38 @@ public:
     PQTabImageOptions(QWidget *parent = nullptr);
     ~PQTabImageOptions();
 
+    int getImagePosition() {
+        return posSelected;
+    }
+
+    bool getScalingNone() {
+        return scaNone->isChecked();
+    }
+
+    bool getScalingFitToPage() {
+        return scaPage->isChecked();
+    }
+
+    bool getScalingEnlargeSmaller() {
+        return scaInc->isChecked();
+    }
+
+    bool getScalingScaleTo() {
+        return scaSize->isChecked();
+    }
+
+    QSizeF getScalingScaleToSize() {
+        return QSizeF(scaWid->value(), scaHei->value());
+    }
+
+    int getScalingScaleToUnit() {
+        return scaUni->currentIndex();
+    }
+
+    bool getScalingKeepRatio() {
+        return scaRat->isChecked();
+    }
+
 private:
     int posSelected;
 
