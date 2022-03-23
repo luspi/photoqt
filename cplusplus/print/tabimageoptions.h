@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
+#include <QSettings>
 #include <vector>
 
 class PQTabImageOptions : public QWidget {
@@ -53,6 +54,8 @@ public:
         return scaRat->isChecked();
     }
 
+    void storeNewSettings();
+
 private:
     int posSelected;
 
@@ -78,6 +81,8 @@ private:
     QHBoxLayout *scaSizeLayout;
     QCheckBox *scaRat;
     QHBoxLayout *scaRatLayout;
+
+    QSettings set;
 
 private Q_SLOTS:
     void newPosSelected(int id);

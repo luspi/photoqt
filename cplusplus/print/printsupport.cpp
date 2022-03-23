@@ -32,8 +32,12 @@ void PQPrintSupport::printFile(QString filename) {
     QPrintDialog printDialog(&printer, nullptr);
     printDialog.setWindowTitle(tr("Print Photo"));
     printDialog.setOptionTabs({imageoptions});
-    if(printDialog.exec() != QDialog::Accepted)
+    if(printDialog.exec() != QDialog::Accepted) {
+        delete imageoptions;
         return;
+    }
+
+    imageoptions->storeNewSettings();
 
     // Make sure image provider exists
     if(imageprovider == nullptr)
@@ -58,6 +62,8 @@ void PQPrintSupport::printFile(QString filename) {
 
     // get the image position the user selected in the options tab
     int imgPos = imageoptions->getImagePosition();
+
+    delete imageoptions;
 
     // the final position of the image on the page is stored in these
     // these default values are horizontal left and vcertical top

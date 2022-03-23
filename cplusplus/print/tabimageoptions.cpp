@@ -28,8 +28,6 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
 
     this->setWindowTitle("Image Settings");
 
-    posSelected = 5;
-
     mainhorlay = new QHBoxLayout;
 
     /**********************************************/
@@ -50,9 +48,11 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
     posGrid->setSpacing(0);
     posGrid->setHorizontalSpacing(0);
 
+    posSelected = set.value("printImagePos", 4).toInt();
+
     for(int y = 0; y < 3; ++y) {
         for(int x = 0; x < 3; ++x) {
-            PQTabImagePositionTile *pos = new PQTabImagePositionTile(y*3 + x + 1, (x==1&&y==1));
+            PQTabImagePositionTile *pos = new PQTabImagePositionTile(y*3 + x + 1, ((y*3+x)==posSelected));
             posGridTiles.push_back(pos);
             posGrid->addWidget(pos, y, x);
             connect(pos, &PQTabImagePositionTile::newPosSelected, this, &PQTabImageOptions::newPosSelected);
@@ -70,6 +70,14 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
     /**********************************************/
     // scaling
 
+    const bool setNoScaling = set.value("printNoScaling", false).toBool();
+    const bool setFitImagePage = set.value("printFitImagePage", true).toBool();
+    const bool setEnlargeSmall = set.value("printEnlargeSmall", false).toBool();
+    const bool setScaleTo = set.value("printScaleTo", false).toBool();
+    const QSize setScaleToSize = set.value("printScaleToSize", QSize(150, 150)).toSize();
+    const int setScaleToUnit = set.value("printScaleToUnit", 0).toInt();
+    const bool setKeepRatio = set.value("printKeepRatio", false).toBool();
+
     scaFrame = new QFrame;
     scaFrame->setFrameStyle(QFrame::Box);
     scaFrame->setStyleSheet("QFrame { border: 1px solid rgb(200,200,200); }");
@@ -81,29 +89,35 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
     scaTitle->setStyleSheet("border: none");
 
     scaNone = new QRadioButton("No scaling");
-    scaNone->setChecked(true);
+    scaNone->setChecked(setNoScaling);
     scaPage = new QRadioButton("Fit image to page");
+    scaPage->setChecked(setFitImagePage);
 
     scaInc = new QCheckBox("Enlarge smaller images");
-    scaInc->setEnabled(false);
+    scaInc->setEnabled(scaPage->isChecked());
+    scaInc->setChecked(setEnlargeSmall);
     scaIncLayout = new QHBoxLayout;
     scaIncLayout->addSpacing(25);
     scaIncLayout->addWidget(scaInc);
     connect(scaPage, &QRadioButton::toggled, scaInc, &QCheckBox::setEnabled);
 
     scaSize = new QRadioButton("Scale to:");
+    scaSize->setChecked(setScaleTo);
 
     scaWid = new QDoubleSpinBox;
-    scaWid->setEnabled(false);
+    scaWid->setEnabled(scaSize->isChecked());
+    scaWid->setValue(setScaleToSize.width());
     scaX = new QLabel("x");
     scaX->setStyleSheet("border: none");
     scaHei = new QDoubleSpinBox;
-    scaHei->setEnabled(false);
+    scaHei->setEnabled(scaSize->isChecked());
+    scaHei->setValue(setScaleToSize.width());
     scaUni = new QComboBox;
-    scaUni->setEnabled(false);
+    scaUni->setEnabled(scaSize->isChecked());
     scaUni->addItem("Millimeters");
     scaUni->addItem("Centimeters");
     scaUni->addItem("Inches");
+    scaUni->setCurrentIndex(setScaleToUnit);
     scaSizeLayout = new QHBoxLayout;
     scaSizeLayout->addSpacing(25);
     scaSizeLayout->addWidget(scaWid);
@@ -116,7 +130,8 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
     connect(scaSize, &QRadioButton::toggled, scaUni, &QComboBox::setEnabled);
 
     scaRat = new QCheckBox("Keep ratio");
-    scaRat->setEnabled(false);
+    scaRat->setEnabled(scaSize->isChecked());
+    scaRat->setChecked(setKeepRatio);
     scaRatLayout = new QHBoxLayout;
     scaRatLayout->addSpacing(25);
     scaRatLayout->addWidget(scaRat);
@@ -140,6 +155,19 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
     mainhorlay->addWidget(scaFrame);
 
     this->setLayout(mainhorlay);
+
+}
+
+void PQTabImageOptions::storeNewSettings() {
+
+    set.setValue("printImagePos", posSelected-1);
+    set.setValue("printNoScaling", scaNone->isChecked());
+    set.setValue("printFitImagePage", scaPage->isChecked());
+    set.setValue("printEnlargeSmall", scaInc->isChecked());
+    set.setValue("printScaleTo", scaSize->isChecked());
+    set.setValue("printScaleToSize", QSize(scaWid->value(), scaHei->value()));
+    set.setValue("printScaleToUnit", scaUni->currentIndex());
+    set.setValue("printKeepRatio", scaRat->isChecked());
 
 }
 
