@@ -28,13 +28,13 @@ void PQTabImagePositionTile::setSelected() {
 
 QString PQTabImagePositionTile::getBorder() {
     QString ret = "border: 1px solid rgb(200,200,200)";
-    if(id <= 3)
+    if(id <= 2)
         ret += ";border-top: 1px solid black";
-    if(id > 6)
+    if(id > 5)
         ret += ";border-bottom: 1px solid black";
-    if(id%3 == 0)
+    if((id+1)%3 == 0)
         ret += ";border-right: 1px solid black";
-    if((id-1)%3 == 0)
+    if(id%3 == 0)
         ret += ";border-left: 1px solid black";
     return ret;
 }

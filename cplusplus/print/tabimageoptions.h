@@ -19,7 +19,7 @@ class PQTabImageOptions : public QWidget {
     Q_OBJECT
 
 public:
-    PQTabImageOptions(QWidget *parent = nullptr);
+    PQTabImageOptions(QSizeF pixmapsize, QWidget *parent = nullptr);
     ~PQTabImageOptions();
 
     int getImagePosition() {
@@ -43,11 +43,19 @@ public:
     }
 
     QSizeF getScalingScaleToSize() {
-        return QSizeF(scaWid->value(), scaHei->value());
-    }
 
-    int getScalingScaleToUnit() {
-        return scaUni->currentIndex();
+        // Inches
+        if (scaUni->currentIndex() == 2)
+            return QSizeF(scaWid->value(), scaHei->value());
+
+        // Centimeter
+        else if (scaUni->currentIndex() == 1)
+            return QSizeF(scaWid->value(), scaHei->value()) / 2.54;
+
+        // Millimeters
+        else
+            return QSizeF(scaWid->value(), scaHei->value()) / 25.4;
+
     }
 
     bool getScalingKeepRatio() {

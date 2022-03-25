@@ -22,9 +22,11 @@
 
 #include "tabimageoptions.h"
 
-// the setup and layout of this page is inspired by GwenView.
+/**********************************************************/
+/* the setup and layout of this page inspired by GwenView */
+/**********************************************************/
 
-PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
+PQTabImageOptions::PQTabImageOptions(QSizeF pixmapsize, QWidget *parent) : QWidget(parent) {
 
     this->setWindowTitle("Image Settings");
 
@@ -52,7 +54,7 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
 
     for(int y = 0; y < 3; ++y) {
         for(int x = 0; x < 3; ++x) {
-            PQTabImagePositionTile *pos = new PQTabImagePositionTile(y*3 + x + 1, ((y*3+x)==posSelected));
+            PQTabImagePositionTile *pos = new PQTabImagePositionTile(y*3+x, ((y*3+x)==posSelected));
             posGridTiles.push_back(pos);
             posGrid->addWidget(pos, y, x);
             connect(pos, &PQTabImagePositionTile::newPosSelected, this, &PQTabImageOptions::newPosSelected);
@@ -74,7 +76,7 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
     const bool setFitImagePage = set.value("printFitImagePage", true).toBool();
     const bool setEnlargeSmall = set.value("printEnlargeSmall", false).toBool();
     const bool setScaleTo = set.value("printScaleTo", false).toBool();
-    const QSize setScaleToSize = set.value("printScaleToSize", QSize(150, 150)).toSize();
+    const QSize setScaleToSize = set.value("printScaleToSize", QSize(pixmapsize.width(), pixmapsize.height())).toSize();
     const int setScaleToUnit = set.value("printScaleToUnit", 0).toInt();
     const bool setKeepRatio = set.value("printKeepRatio", false).toBool();
 
@@ -106,12 +108,14 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
 
     scaWid = new QDoubleSpinBox;
     scaWid->setEnabled(scaSize->isChecked());
+    scaWid->setMaximum(9999);
     scaWid->setValue(setScaleToSize.width());
     scaX = new QLabel("x");
     scaX->setStyleSheet("border: none");
     scaHei = new QDoubleSpinBox;
     scaHei->setEnabled(scaSize->isChecked());
-    scaHei->setValue(setScaleToSize.width());
+    scaHei->setMaximum(9999);
+    scaHei->setValue(setScaleToSize.height());
     scaUni = new QComboBox;
     scaUni->setEnabled(scaSize->isChecked());
     scaUni->addItem("Millimeters");
@@ -160,7 +164,7 @@ PQTabImageOptions::PQTabImageOptions(QWidget *parent) : QWidget(parent) {
 
 void PQTabImageOptions::storeNewSettings() {
 
-    set.setValue("printImagePos", posSelected-1);
+    set.setValue("printImagePos", posSelected);
     set.setValue("printNoScaling", scaNone->isChecked());
     set.setValue("printFitImagePage", scaPage->isChecked());
     set.setValue("printEnlargeSmall", scaInc->isChecked());

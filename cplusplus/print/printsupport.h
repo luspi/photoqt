@@ -17,6 +17,7 @@ public:
 
 private:
     PQImageProviderFull *imageprovider;
+    QSettings set;
 
 };
 
