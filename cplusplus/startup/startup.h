@@ -60,6 +60,7 @@ public:
     bool migrateShortcutsToDb();
 
     bool enterNewSettings();
+    void enterNewShortcuts();
 
 private:
     bool checkIfBinaryExists(QString exec);

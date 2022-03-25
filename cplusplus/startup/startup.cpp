@@ -342,10 +342,69 @@ void PQStartup::performChecksAndMigrations() {
     migrateShortcutsToDb();
     migrateSettingsToDb();
 
-    // enter any new settings
+    // enter any new settings and shortcuts
     enterNewSettings();
+    enterNewShortcuts();
 
     PQSettings::get().update("generalVersion", VERSION);
+
+}
+
+void PQStartup::enterNewShortcuts() {
+
+    QSqlDatabase db = QSqlDatabase::database("shortcuts");
+
+    if(!db.open()) {
+        LOG << CURDATE << "PQStartup::enterNewShortcuts(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
+
+    QStringList newShortcuts;
+    newShortcuts << "file" << "__print" << "Ctrl+P" << "Ctrl+P";
+
+    for(int i = 0; i < newShortcuts.length()/4; ++i) {
+
+        const QString category = newShortcuts[4*i + 0];
+        const QString command = newShortcuts[4*i + 1];
+        const QString shortcuts = newShortcuts[4*i + 2];
+        const QString defaultshortcuts = newShortcuts[4*i + 3];
+
+        QSqlQuery query(db);
+        query.prepare("SELECT COUNT(category) AS NumSh FROM builtin WHERE command=:command");
+        query.bindValue(":command", command);
+
+        if(!query.exec()) {
+            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": SQL Query error (1): " << query.lastError().text().trimmed().toStdString() << NL;
+            continue;
+        }
+
+        if(!query.next()) {
+            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": No SQL results returned" << NL;
+            continue;
+        }
+
+        int howmany = query.record().value("NumSh").toInt();
+        if(howmany != 0) {
+            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": Found " << howmany << " settings with the new name, not entering anything new." << NL;
+            continue;
+        }
+
+        QSqlQuery query2(db);
+        query2.prepare("INSERT INTO builtin (category,command,shortcuts,defaultshortcuts) VALUES (:cat,:cmd,:sh,:def)");
+        query2.bindValue(":cat", category);
+        query2.bindValue(":cmd", command);
+        query2.bindValue(":sh" , shortcuts);
+        query2.bindValue(":def", defaultshortcuts);
+
+        if(!query2.exec()) {
+            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": SQL Query error (2): " << query2.lastError().text().trimmed().toStdString() << NL;
+            continue;
+        }
+
+        query.clear();
+        query2.clear();
+
+    }
 
 }
 
@@ -387,7 +446,6 @@ bool PQStartup::enterNewSettings() {
     }
 
     return true;
-
 
 }
 
