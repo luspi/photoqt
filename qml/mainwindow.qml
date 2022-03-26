@@ -290,6 +290,8 @@ Window {
 
     Loader { id: chromecast }
 
+    Loader { id: advancedsort }
+
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
 

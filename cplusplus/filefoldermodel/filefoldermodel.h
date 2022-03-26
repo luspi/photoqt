@@ -23,6 +23,8 @@
 #ifndef FILEFOLDERMODEL_H
 #define FILEFOLDERMODEL_H
 
+#include <algorithm>
+#include <future>
 #include <QObject>
 #include <QDateTime>
 #include <QTimer>
@@ -34,6 +36,7 @@
 #include "../logger.h"
 #include "../settings/imageformats.h"
 #include "../scripts/handlingfiledir.h"
+#include "../imageprovider/imageproviderfull.h"
 #include "filefoldermodelcache.h"
 
 #ifdef POPPLER
@@ -63,6 +66,11 @@ public:
         Type
     };
     Q_ENUM(SortBy)
+
+    enum AdvancedSort {
+        DominantColor,
+        AverageColor
+    };
 
     PQFileFolderModel(QObject *parent = nullptr);
     ~PQFileFolderModel();
@@ -145,6 +153,8 @@ public:
         return -1;
     }
 
+    Q_INVOKABLE void advancedSortMainView();
+
     Q_INVOKABLE void forceReloadMainView() {
         loadDelayMainView->stop();
         loadDataMainView();
@@ -187,6 +197,8 @@ private:
 
     QStringList listPDFPages(QString path);
 
+    std::shared_future<void> advancedSortFuture;
+
 private Q_SLOTS:
     void loadDataMainView();
     void loadDataFileDialog();
@@ -194,6 +206,8 @@ private Q_SLOTS:
 Q_SIGNALS:
     void newDataLoadedMainView();
     void newDataLoadedFileDialog();
+
+    void advancedSortingComplete();
 
     void countMainViewChanged();
     void countFileDialogChanged();

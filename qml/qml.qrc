@@ -155,5 +155,6 @@
         <file>chromecast/PQChromecast.qml</file>
         <file>chromecast/PQChromecastPopout.qml</file>
         <file>logging/PQLogging.qml</file>
+        <file>advancedsort/PQAdvancedSort.qml</file>
     </qresource>
 </RCC>
