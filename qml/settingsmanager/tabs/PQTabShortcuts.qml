@@ -129,32 +129,34 @@ Item {
                 category: em.pty+qsTranslate("settingsmanager", "Image")
 
                 available: [
-                                        //: Name of shortcut action
-                    ["__zoomIn",        em.pty+qsTranslate("settingsmanager", "Zoom In")],
-                                        //: Name of shortcut action
-                    ["__zoomOut",       em.pty+qsTranslate("settingsmanager", "Zoom Out")],
-                                        //: Name of shortcut action
-                    ["__zoomActual",    em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size")],
-                                        //: Name of shortcut action
-                    ["__zoomReset",     em.pty+qsTranslate("settingsmanager", "Reset Zoom")],
-                                        //: Name of shortcut action
-                    ["__rotateR",       em.pty+qsTranslate("settingsmanager", "Rotate Right")],
-                                        //: Name of shortcut action
-                    ["__rotateL",       em.pty+qsTranslate("settingsmanager", "Rotate Left")],
-                                        //: Name of shortcut action
-                    ["__rotate0",       em.pty+qsTranslate("settingsmanager", "Reset Rotation")],
-                                        //: Name of shortcut action
-                    ["__flipH",         em.pty+qsTranslate("settingsmanager", "Flip Horizontally")],
-                                        //: Name of shortcut action
-                    ["__flipV",         em.pty+qsTranslate("settingsmanager", "Flip Vertically")],
-                                        //: Name of shortcut action
-                    ["__scale",         em.pty+qsTranslate("settingsmanager", "Scale Image")],
-                                        //: Name of shortcut action
-                    ["__playPauseAni",  em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video")],
-                                        //: Name of shortcut action
-                    ["__showFaceTags",  em.pty+qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)")],
-                                        //: Name of shortcut action
-                    ["__tagFaces",      em.pty+qsTranslate("settingsmanager", "Tag faces (stored in metadata)")]
+                                            //: Name of shortcut action
+                    ["__zoomIn",            em.pty+qsTranslate("settingsmanager", "Zoom In")],
+                                            //: Name of shortcut action
+                    ["__zoomOut",           em.pty+qsTranslate("settingsmanager", "Zoom Out")],
+                                            //: Name of shortcut action
+                    ["__zoomActual",        em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size")],
+                                            //: Name of shortcut action
+                    ["__zoomReset",         em.pty+qsTranslate("settingsmanager", "Reset Zoom")],
+                                            //: Name of shortcut action
+                    ["__rotateR",           em.pty+qsTranslate("settingsmanager", "Rotate Right")],
+                                            //: Name of shortcut action
+                    ["__rotateL",           em.pty+qsTranslate("settingsmanager", "Rotate Left")],
+                                            //: Name of shortcut action
+                    ["__rotate0",           em.pty+qsTranslate("settingsmanager", "Reset Rotation")],
+                                            //: Name of shortcut action
+                    ["__flipH",             em.pty+qsTranslate("settingsmanager", "Flip Horizontally")],
+                                            //: Name of shortcut action
+                    ["__flipV",             em.pty+qsTranslate("settingsmanager", "Flip Vertically")],
+                                            //: Name of shortcut action
+                    ["__scale",             em.pty+qsTranslate("settingsmanager", "Scale Image")],
+                                            //: Name of shortcut action
+                    ["__playPauseAni",      em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video")],
+                                            //: Name of shortcut action
+                    ["__showFaceTags",      em.pty+qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)")],
+                                            //: Name of shortcut action
+                    ["__advancedSort",      em.pty+qsTranslate("settingsmanager", "Advanced image sort (Setup)")],
+                                            //: Name of shortcut action
+                    ["__advancedSortQuick", em.pty+qsTranslate("settingsmanager", "Advanced image sort (Quickstart))")]
                 ]
 
             }
@@ -202,7 +204,7 @@ Item {
                                             //: Name of shortcut action
                     ["__settings",          em.pty+qsTranslate("settingsmanager", "Show Settings")],
                                             //: Name of shortcut action
-                    ["__slideshow",         em.pty+qsTranslate("settingsmanager", "Start Slideshow")],
+                    ["__slideshow",         em.pty+qsTranslate("settingsmanager", "Start Slideshow (Setup)")],
                                             //: Name of shortcut action
                     ["__slideshowQuick",    em.pty+qsTranslate("settingsmanager", "Start Slideshow (Quickstart)")],
                                             //: Name of shortcut action
