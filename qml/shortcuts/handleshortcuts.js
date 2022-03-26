@@ -153,9 +153,11 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         loader.show("logging")
     else if(cmd === "__print")
         printsupport.printFile(filefoldermodel.currentFilePath)
-    else if(cmd == "__advancedSort") {
+    else if(cmd == "__advancedSort")
         loader.show("advancedsort")
-    } else {
+    else if(cmd == "__advancedSortQuick")
+        filefoldermodel.advancedSortMainView()
+    else {
         handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()

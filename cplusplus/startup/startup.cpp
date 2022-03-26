@@ -360,7 +360,9 @@ void PQStartup::enterNewShortcuts() {
     }
 
     QStringList newShortcuts;
-    newShortcuts << "file" << "__print" << "Ctrl+P" << "Ctrl+P";
+    newShortcuts << "file" << "__print" << "" << "Ctrl+P";
+    newShortcuts << "navigation" << "__advancedSort" << "" << "Ctrl+A";
+    newShortcuts << "navigation" << "__advancedSortQuick" << "" << "Ctrl+Shift+A";
 
     for(int i = 0; i < newShortcuts.length()/4; ++i) {
 
