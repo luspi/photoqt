@@ -42,7 +42,7 @@ void PQPrintSupport::printFile(QString filename) {
     // get the starting output filename (directory stored, filename based on image filename)
     QFileInfo info(filename);
     QString fdir = set.value("printOutputDirectory", QDir::currentPath()).toString();
-    printer.setOutputFileName(QString("%1/%2.pdf").arg(fdir).arg(info.baseName()));
+    printer.setOutputFileName(QString("%1/%2.pdf").arg(fdir, info.baseName()));
 
     // the additional image options tab
     PQTabImageOptions *imageoptions = new PQTabImageOptions(printer.pageLayout().pageSize().rect(QPageSize::Millimeter).size());
