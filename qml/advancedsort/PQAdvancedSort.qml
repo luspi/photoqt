@@ -122,15 +122,18 @@ Item {
                     Text {
                         id: sortbytxt
                         color: "white"
-                        text: "Sort by:"
+                        //: Used as 'sort by dominant/average color'
+                        text: em.pty+qsTranslate("advancedsort", "Sort by:")
                     }
                     PQRadioButton {
                         id: sortbyDom
-                        text: "Dominant color"
+                        //: The color that is most common in the image
+                        text: em.pty+qsTranslate("advancedsort", "Dominant color")
                     }
                     PQRadioButton {
                         id: sortbyAvg
-                        text: "Average color"
+                        //: the average color of the image
+                        text: em.pty+qsTranslate("advancedsort", "Average color")
                     }
 
                 }
@@ -144,11 +147,13 @@ Item {
                     }
                     PQRadioButton {
                         id: asc
-                        text: "ascending"
+                        //: sort order, i.e., 'ascending order'
+                        text: em.pty+qsTranslate("advancedsort", "ascending")
                     }
                     PQRadioButton {
                         id: desc
-                        text: "descending"
+                        //: sort order, i.e., 'descending order'
+                        text: em.pty+qsTranslate("advancedsort", "descending")
                     }
                 }
 
@@ -159,11 +164,17 @@ Item {
                         id: qualtxt
                         y: (qual.height-height)/2
                         color: "white"
-                        text: "speed vs quality:"
+                        //: Please keep short! Sorting images by color comes with a speed vs quality tradeoff.
+                        text: em.pty+qsTranslate("advancedsort", "speed vs quality:")
                     }
                     PQComboBox {
                         id: qual
-                        model: ["low quality (fast)", "medium quality", "high quality (slow)"]
+                                //: quality and speed of sorting image by color
+                        model: [em.pty+qsTranslate("advancedsort", "low quality (fast)"),
+                                //: quality and speed of sorting image by color
+                                em.pty+qsTranslate("advancedsort", "medium quality"),
+                                //: quality and speed of sorting image by color
+                                em.pty+qsTranslate("advancedsort", "high quality (slow)")]
                     }
 
                 }
@@ -175,7 +186,7 @@ Item {
                     wrapMode: Text.WordWrap
                     color: "white"
                     font.pointSize: 12
-                    text: em.pty+qsTranslate("advancedsort", "There is also a quickstart shortcut that starts the sorting with the last used settings.")
+                    text: em.pty+qsTranslate("advancedsort", "There is also a quickstart shortcut that immediately starts the sorting using the latest settings.")
                 }
 
                 Item {
@@ -195,7 +206,7 @@ Item {
                         PQButton {
                             id: button_ok
                             //: Written on a clickable button - please keep short
-                            text: em.pty+qsTranslate("advancedsort", "Sort")
+                            text: em.pty+qsTranslate("advancedsort", "Sort images")
                             onClicked: {
                                 saveSettings()
                                 advancedsort_top.opacity = 0
