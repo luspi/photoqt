@@ -525,7 +525,11 @@ void PQFileFolderModel::advancedSortMainView() {
 
         QStringList allSorted;
         for(auto entry : qAsConst(allKeys)) {
-            for(const auto &e : qAsConst(sortedWithKey[entry]))
+            QStringList curVals = sortedWithKey[entry];
+            curVals.sort(Qt::CaseInsensitive);
+            if(!PQSettings::get()["imageviewAdvancedSortAscending"].toBool())
+                std::reverse(curVals.begin(), curVals.end());
+            for(const auto &e : qAsConst(curVals))
                 allSorted << e;
         }
 
