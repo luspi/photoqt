@@ -156,7 +156,7 @@ Item {
                                             //: Name of shortcut action
                     ["__advancedSort",      em.pty+qsTranslate("settingsmanager", "Advanced image sort (Setup)")],
                                             //: Name of shortcut action
-                    ["__advancedSortQuick", em.pty+qsTranslate("settingsmanager", "Advanced image sort (Quickstart))")]
+                    ["__advancedSortQuick", em.pty+qsTranslate("settingsmanager", "Advanced image sort (Quickstart)")]
                 ]
 
             }
