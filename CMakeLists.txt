@@ -163,6 +163,8 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -pedantic -Wextra -O0 -g)
 endif()
 
+target_link_libraries(${PROJECT_NAME} pthread)
+
 
 ##############################################
 #### COMPOSE THE APPROPRIATE DESKTOP FILE ####
