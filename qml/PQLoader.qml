@@ -264,10 +264,10 @@ Item {
             loggingPassOn("keyevent", [key, mod])
 
         else if(ele == "advancedsort")
-            advancedSortPassOn("advancedsort", [key, mod])
+            advancedSortPassOn("keyevent", [key, mod])
 
         else if(ele == "advancedsortbusy")
-            advancedSortBusyPassOn("advancedsortbusy", [key, mod])
+            advancedSortBusyPassOn("keyevent", [key, mod])
 
     }
 

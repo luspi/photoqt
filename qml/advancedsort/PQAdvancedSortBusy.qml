@@ -154,6 +154,9 @@ Item {
                 if(what == "show") {
                     opacity = 1
                     variables.visibleItem = "advancedsortbusy"
+                } else if(what == "keyevent") {
+                    if(param[0] == Qt.Key_Escape)
+                        butcancel.clicked()
                 }
             }
         }

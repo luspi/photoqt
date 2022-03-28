@@ -405,6 +405,7 @@ void PQFileFolderModel::advancedSortMainView() {
 
     advancedSortKeepGoing = true;
     m_advancedSortDone = 0;
+    Q_EMIT advancedSortDoneChanged();
 
     advancedSortFuture = std::shared_future<void>(std::async(std::launch::async, [=]() {
 
