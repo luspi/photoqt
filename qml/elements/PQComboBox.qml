@@ -106,7 +106,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = control.pressed ? "#cccccc" : "#ffffff"
+            context.fillStyle = control.enabled ? (control.pressed ? "#cccccc" : "#ffffff") : "#666666"
             context.fill();
         }
     }
@@ -116,7 +116,8 @@ ComboBox {
 
         text: control.prefix + control.displayText
         font: control.font
-        color: control.pressed ? "#cccccc" : "#ffffff"
+        color: control.enabled ? (control.pressed ? "#cccccc" : "#ffffff") : "#666666"
+        Behavior on color { ColorAnimation { duration: 250; } }
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }

@@ -419,6 +419,26 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect advancedSortWindowGeometry READ getAdvancedSortWindowGeometry WRITE setAdvancedSortWindowGeometry NOTIFY advancedSortWindowGeometryChanged)
+    QRect getAdvancedSortWindowGeometry() { return m_advancedSortWindowGeometry; }
+    void setAdvancedSortWindowGeometry(QRect rect) {
+        if(rect != m_advancedSortWindowGeometry) {
+            m_advancedSortWindowGeometry = rect;
+            Q_EMIT advancedSortWindowGeometryChanged();
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool advancedSortWindowMaximized READ getAdvancedSortWindowMaximized WRITE setAdvancedSortWindowMaximized NOTIFY advancedSortWindowMaximizedChanged)
+    bool getAdvancedSortWindowMaximized() { return m_advancedSortWindowMaximized; }
+    void setAdvancedSortWindowMaximized(bool maximized) {
+        if(maximized != m_advancedSortWindowMaximized) {
+            m_advancedSortWindowMaximized = maximized;
+            Q_EMIT advancedSortWindowMaximizedChanged();
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -477,6 +497,9 @@ private:
     QRect m_loggingWindowGeometry;
     bool  m_loggingWindowMaximized;
 
+    QRect m_advancedSortWindowGeometry;
+    bool  m_advancedSortWindowMaximized;
+
     QSettings *settings;
     PQHandlingExternal handlingExternal;
 
@@ -524,6 +547,8 @@ Q_SIGNALS:
     void chromecastWindowMaximizedChanged();
     void loggingWindowGeometryChanged();
     void loggingWindowMaximizedChanged();
+    void advancedSortWindowGeometryChanged();
+    void advancedSortWindowMaximizedChanged();
 
 };
 

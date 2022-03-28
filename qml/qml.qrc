@@ -156,5 +156,7 @@
         <file>chromecast/PQChromecastPopout.qml</file>
         <file>logging/PQLogging.qml</file>
         <file>advancedsort/PQAdvancedSort.qml</file>
+        <file>advancedsort/PQAdvancedSortPopout.qml</file>
+        <file>advancedsort/PQAdvancedSortBusy.qml</file>
     </qresource>
 </RCC>

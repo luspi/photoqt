@@ -61,6 +61,8 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
     loadDelayFileDialog->setSingleShot(true);
     connect(loadDelayFileDialog, &QTimer::timeout, this, &PQFileFolderModel::loadDataFileDialog);
 
+    m_advancedSortDone = 0;
+
 }
 
 PQFileFolderModel::~PQFileFolderModel() {
@@ -401,13 +403,18 @@ void PQFileFolderModel::removeEntryMainView(int index) {
 
 void PQFileFolderModel::advancedSortMainView() {
 
+    advancedSortKeepGoing = true;
+    m_advancedSortDone = 0;
+
     advancedSortFuture = std::shared_future<void>(std::async(std::launch::async, [=]() {
 
         PQImageProviderFull *imageprovider = new PQImageProviderFull;
 
-        QMap<qint64, QStringList> allColor;
+        QMap<qint64, QStringList> sortedWithKey;
 
         for(int i = 0; i < m_countMainView; ++i) {
+
+            if(!advancedSortKeepGoing) return;
 
             QSize requestedSize = QSize(512,512);
             if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "medium")
@@ -416,67 +423,92 @@ void PQFileFolderModel::advancedSortMainView() {
                 requestedSize = QSize(-1,-1);
 
             QSize origSize;
-            QImage img = imageprovider->requestImage(m_entriesMainView[i], &origSize, QSize(256,256));
+            QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);
 
-            int width = img.width();
-            int height = img.height();
+            // the key used for sorting
+            // depending on the criteria, it is computed in different ways
+            qint64 key = 0;
 
-            QRgb *ct;
+            if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "resolution") {
 
-            QVector<qint64> red(256);
-            QVector<qint64> green(256);
-            QVector<qint64> blue(256);
-            for(int i = 0 ; i < height; i++){
-                ct = (QRgb *)img.scanLine(i);
-                for(int j = 0 ; j < width; j++){
-                    red[qRed(ct[j])]+=1;
-                }
-            }
-            for(int i = 0 ; i < height; i++){
-                ct = (QRgb *)img.scanLine(i);
-                for(int j = 0 ; j < width; j++){
-                    green[qGreen(ct[j])]+=1;
-                }
-            }
-            for(int i = 0 ; i < height; i++){
-                ct = (QRgb *)img.scanLine(i);
-                for(int j = 0 ; j < width; j++){
-                    blue[qBlue(ct[j])]+=1;
-                }
-            }
-
-            qint64 red_val = 0;
-            qint64 green_val = 0;
-            qint64 blue_val = 0;
-
-            if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "dominant") {
-
-                red_val = red.indexOf(*std::max_element(red.constBegin(), red.constEnd()));
-                green_val = green.indexOf(*std::max_element(green.constBegin(), green.constEnd()));
-                blue_val = blue.indexOf(*std::max_element(blue.constBegin(), blue.constEnd()));
+                key = origSize.width()+origSize.height();
 
             } else {
 
-                // we divide before accumulating to minimize the risk of overflow
-                for(int j = 0; j < red.size(); ++j) red[j] /= static_cast<double>(red.size());
-                for(int j = 0; j < green.size(); ++j) green[j] /= static_cast<double>(green.size());
-                for(int j = 0; j < blue.size(); ++j) blue[j] /= static_cast<double>(blue.size());
+                int width = img.width();
+                int height = img.height();
 
-                red_val = red.indexOf(std::accumulate(red.begin(), red.end(), 0));
-                green_val = green.indexOf(std::accumulate(green.begin(), green.end(), 0));
-                blue_val = blue.indexOf(std::accumulate(blue.begin(), blue.end(), 0));
+                QRgb *ct;
+
+                QVector<qint64> red(256);
+                QVector<qint64> green(256);
+                QVector<qint64> blue(256);
+                for(int i = 0 ; i < height; i++){
+                    ct = (QRgb *)img.scanLine(i);
+                    for(int j = 0 ; j < width; j++){
+                        red[qRed(ct[j])]+=1;
+                    }
+                }
+
+                if(!advancedSortKeepGoing) return;
+
+                for(int i = 0 ; i < height; i++){
+                    ct = (QRgb *)img.scanLine(i);
+                    for(int j = 0 ; j < width; j++){
+                        green[qGreen(ct[j])]+=1;
+                    }
+                }
+
+                if(!advancedSortKeepGoing) return;
+
+                for(int i = 0 ; i < height; i++){
+                    ct = (QRgb *)img.scanLine(i);
+                    for(int j = 0 ; j < width; j++){
+                        blue[qBlue(ct[j])]+=1;
+                    }
+                }
+
+                if(!advancedSortKeepGoing) return;
+
+                qint64 red_val = 0;
+                qint64 green_val = 0;
+                qint64 blue_val = 0;
+
+                if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "dominantcolor") {
+
+                    red_val = red.indexOf(*std::max_element(red.constBegin(), red.constEnd()));
+                    green_val = green.indexOf(*std::max_element(green.constBegin(), green.constEnd()));
+                    blue_val = blue.indexOf(*std::max_element(blue.constBegin(), blue.constEnd()));
+
+                } else {
+
+                    // we divide before accumulating to minimize the risk of overflow
+                    for(int j = 0; j < red.size(); ++j) red[j] /= static_cast<double>(red.size());
+                    for(int j = 0; j < green.size(); ++j) green[j] /= static_cast<double>(green.size());
+                    for(int j = 0; j < blue.size(); ++j) blue[j] /= static_cast<double>(blue.size());
+
+                    red_val = red.indexOf(std::accumulate(red.begin(), red.end(), 0));
+                    green_val = green.indexOf(std::accumulate(green.begin(), green.end(), 0));
+                    blue_val = blue.indexOf(std::accumulate(blue.begin(), blue.end(), 0));
+
+                }
+
+                key = red_val*1000000 + green_val*1000 + blue_val;
 
             }
 
-            qint64 key = red_val*1000000 + green_val*1000 + blue_val;
+            sortedWithKey[key].push_back(m_entriesMainView[i]);
 
-            allColor[key].push_back(m_entriesMainView[i]);
+            ++m_advancedSortDone;
+            Q_EMIT advancedSortDoneChanged();
 
         }
 
         delete imageprovider;
 
-        QList<qint64> allKeys = allColor.keys();
+        if(!advancedSortKeepGoing) return;
+
+        QList<qint64> allKeys = sortedWithKey.keys();
         if(PQSettings::get()["imageviewAdvancedSortAscending"].toBool())
             std::sort(allKeys.begin(), allKeys.end(), std::less<int>());
         else
@@ -484,9 +516,11 @@ void PQFileFolderModel::advancedSortMainView() {
 
         QStringList allSorted;
         for(auto entry : qAsConst(allKeys)) {
-            for(const auto &e : qAsConst(allColor[entry]))
+            for(const auto &e : qAsConst(sortedWithKey[entry]))
                 allSorted << e;
         }
+
+        if(!advancedSortKeepGoing) return;
 
         m_entriesMainView = allSorted;
         Q_EMIT newDataLoadedMainView();

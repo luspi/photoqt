@@ -26,6 +26,7 @@ import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 
 import "../elements"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -100,7 +101,7 @@ Item {
                     color: "white"
                     font.pointSize: 20
                     font.bold: true
-                    text: em.pty+qsTranslate("advancedsort", "Advanced Sorting")
+                    text: em.pty+qsTranslate("advancedsort", "Advanced Image Sort")
                 }
 
                 Text {
@@ -121,19 +122,23 @@ Item {
                     spacing: 10
                     Text {
                         id: sortbytxt
+                        y: (sortby.height-height)/2
                         color: "white"
                         //: Used as 'sort by dominant/average color'
                         text: em.pty+qsTranslate("advancedsort", "Sort by:")
                     }
-                    PQRadioButton {
-                        id: sortbyDom
-                        //: The color that is most common in the image
-                        text: em.pty+qsTranslate("advancedsort", "Dominant color")
-                    }
-                    PQRadioButton {
-                        id: sortbyAvg
-                        //: the average color of the image
-                        text: em.pty+qsTranslate("advancedsort", "Average color")
+                    PQComboBox {
+
+                        id: sortby
+
+                        property var props: ["resolution", "dominantcolor", "averagecolor"]
+
+                                //: The image resolution (width/height in pixels)
+                        model: [em.pty+qsTranslate("advancedsort", "Resolution"),
+                                //: The color that is most common in the image
+                                em.pty+qsTranslate("advancedsort", "Dominant color"),
+                                //: the average color of the image
+                                em.pty+qsTranslate("advancedsort", "Average color")]
                     }
 
                 }
@@ -160,14 +165,20 @@ Item {
                 Row {
                     x: (insidecont.width-width)/2
                     spacing: 10
+                    height: sortby.currentIndex>0 ? childrenRect.height : 0
+                    Behavior on height { NumberAnimation { duration: 250 } }
+                    clip: true
                     Text {
+                        enabled: sortby.currentIndex>0
                         id: qualtxt
                         y: (qual.height-height)/2
-                        color: "white"
+                        color: enabled ? "white" : "#666666"
+                        Behavior on color { ColorAnimation { duration: 250; } }
                         //: Please keep short! Sorting images by color comes with a speed vs quality tradeoff.
                         text: em.pty+qsTranslate("advancedsort", "speed vs quality:")
                     }
                     PQComboBox {
+                        enabled: sortby.currentIndex>0
                         id: qual
                                 //: quality and speed of sorting image by color
                         model: [em.pty+qsTranslate("advancedsort", "low quality (fast)"),
@@ -211,6 +222,7 @@ Item {
                                 saveSettings()
                                 advancedsort_top.opacity = 0
                                 variables.visibleItem = ""
+                                loader.show("advancedsortbusy")
                                 filefoldermodel.advancedSortMainView()
                             }
                         }
@@ -258,8 +270,14 @@ Item {
 
     function loadSettings() {
 
-        sortbyDom.checked = (PQSettings.imageviewAdvancedSortCriteria=="dominant")
-        sortbyAvg.checked = (PQSettings.imageviewAdvancedSortCriteria=="average" || !sortbyDom.checked)
+        var curindex = 0
+        for(var i = 0; i < sortby.props.length; ++i) {
+            if(sortby.props[i] == PQSettings.imageviewAdvancedSortCriteria) {
+                curindex = i
+                break;
+            }
+        }
+        sortby.currentIndex = curindex
 
         asc.checked = (PQSettings.imageviewAdvancedSortAscending)
         desc.checked = (!PQSettings.imageviewAdvancedSortAscending)
@@ -270,7 +288,7 @@ Item {
 
     function saveSettings() {
 
-        PQSettings.imageviewAdvancedSortCriteria = (sortbyDom.checked ? "dominant" : "average")
+        PQSettings.imageviewAdvancedSortCriteria = sortby.props[sortby.currentIndex]
         PQSettings.imageviewAdvancedSortAscending = asc.checked
         var opt = ["low", "medium", "high"]
         PQSettings.imageviewAdvancedSortQuality = opt[qual.currentIndex]

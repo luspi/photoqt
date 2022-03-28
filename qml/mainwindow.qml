@@ -291,6 +291,7 @@ Window {
     Loader { id: chromecast }
 
     Loader { id: advancedsort }
+    Loader { id: advancedsortbusy }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
@@ -430,6 +431,8 @@ Window {
 
         if(variables.slideShowActive)
             loader.passOn("slideshowcontrols", "quit", undefined)
+
+        filefoldermodel.advancedSortMainViewCANCEL()
 
         if(PQSettings.interfaceSaveWindowGeometry) {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)

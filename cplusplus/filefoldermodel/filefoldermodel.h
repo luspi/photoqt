@@ -154,6 +154,13 @@ public:
     }
 
     Q_INVOKABLE void advancedSortMainView();
+    Q_INVOKABLE void advancedSortMainViewCANCEL() {
+        advancedSortKeepGoing = false;
+    }
+    Q_PROPERTY(int advancedSortDone READ getAdvancedSortDone NOTIFY advancedSortDoneChanged)
+    int getAdvancedSortDone() {
+        return m_advancedSortDone;
+    }
 
     Q_INVOKABLE void forceReloadMainView() {
         loadDelayMainView->stop();
@@ -197,7 +204,9 @@ private:
 
     QStringList listPDFPages(QString path);
 
+    int m_advancedSortDone;
     std::shared_future<void> advancedSortFuture;
+    bool advancedSortKeepGoing;
 
 private Q_SLOTS:
     void loadDataMainView();
@@ -225,6 +234,7 @@ Q_SIGNALS:
     void readDocumentOnlyChanged();
     void readArchiveOnlyChanged();
     void includeFilesInSubFoldersChanged();
+    void advancedSortDoneChanged();
 
 };
 

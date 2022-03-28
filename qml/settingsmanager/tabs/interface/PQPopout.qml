@@ -60,7 +60,9 @@ PQSetting {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutWallpaper", em.pty+qsTranslate("settingsmanager_interface", "Wallpaper")],
                         //: Noun, not a verb. Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutFilter", em.pty+qsTranslate("settingsmanager_interface", "Filter")]]
+                        ["interfacePopoutFilter", em.pty+qsTranslate("settingsmanager_interface", "Filter")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutAdvancedSort", em.pty+qsTranslate("settingsmanager_interface", "Advanced Image Sort")]]
 
     content: [
 

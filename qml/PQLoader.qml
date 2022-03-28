@@ -48,6 +48,7 @@ Item {
     signal chromecastPassOn(var what, var param)
     signal loggingPassOn(var what, var param)
     signal advancedSortPassOn(var what, var param)
+    signal advancedSortBusyPassOn(var what, var param)
 
     function show(ele) {
 
@@ -126,6 +127,9 @@ Item {
         else if(ele == "advancedsort")
             advancedSortPassOn("show", undefined)
 
+        else if(ele == "advancedsortbusy")
+            advancedSortBusyPassOn("show", undefined)
+
     }
 
     function passOn(ele, what, param) {
@@ -189,6 +193,9 @@ Item {
 
         else if(ele == "advancedsort")
             advancedSortPassOn(what, param)
+
+        else if(ele == "advancedsortbusy")
+            advancedSortBusyPassOn(what, param)
 
     }
 
@@ -258,6 +265,9 @@ Item {
 
         else if(ele == "advancedsort")
             advancedSortPassOn("advancedsort", [key, mod])
+
+        else if(ele == "advancedsortbusy")
+            advancedSortBusyPassOn("advancedsortbusy", [key, mod])
 
     }
 
@@ -398,11 +408,16 @@ Item {
 
         } else if(ele == "advancedsort") {
 
-            if(PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
-                advancedsort.source = "advancedsort/PQChromecastPopout.qml"
+            if(PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSortPopout.qml")
+                advancedsort.source = "advancedsort/PQAdvancedSortPopout.qml"
 
             else if(!PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
                 advancedsort.source = "advancedsort/PQAdvancedSort.qml"
+
+        } else if(ele == "advancedsortbusy") {
+
+            if(advancedsortbusy.source != "advancedsort/PQAdvancedSortBusy.qml")
+                advancedsortbusy.source = "advancedsort/PQAdvancedSortBusy.qml"
 
         } else if(ele == "quicknavigation") {
 
