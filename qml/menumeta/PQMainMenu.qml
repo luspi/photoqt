@@ -137,6 +137,12 @@ Rectangle {
         [["heading","",""]],
 
         //: This is an entry in the main menu on the right. Please keep short!
+        [["sort","sort",em.pty+qsTranslate("MainMenu", "Advanced sort")],
+                //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
+                ["__advancedSort","",em.pty+qsTranslate("MainMenu", "setup"), "hide"],
+                //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
+                ["__advancedSortQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
+        //: This is an entry in the main menu on the right. Please keep short!
         [["slideshow","slideshow",em.pty+qsTranslate("MainMenu", "Slideshow")],
                 //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
                 ["__slideshow","",em.pty+qsTranslate("MainMenu", "setup"), "hide"],
