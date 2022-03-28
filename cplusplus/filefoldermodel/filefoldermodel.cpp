@@ -476,9 +476,18 @@ void PQFileFolderModel::advancedSortMainView() {
 
                 if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "dominantcolor") {
 
-                    red_val = red.indexOf(*std::max_element(red.constBegin(), red.constEnd()));
-                    green_val = green.indexOf(*std::max_element(green.constBegin(), green.constEnd()));
-                    blue_val = blue.indexOf(*std::max_element(blue.constBegin(), blue.constEnd()));
+                    QVector<qint64> redSteps(26);
+                    QVector<qint64> greenSteps(26);
+                    QVector<qint64> blueSteps(26);
+                    for(int j = 0; j < 256; ++j) {
+                        redSteps[j/10] += red[j];
+                        greenSteps[j/10] += green[j];
+                        blueSteps[j/10] += blue[j];
+                    }
+
+                    red_val = 10*redSteps.indexOf(*std::max_element(redSteps.constBegin(), redSteps.constEnd()));
+                    green_val = 10*greenSteps.indexOf(*std::max_element(greenSteps.constBegin(), greenSteps.constEnd()));
+                    blue_val = 10*blueSteps.indexOf(*std::max_element(blueSteps.constBegin(), blueSteps.constEnd()));
 
                 } else {
 
