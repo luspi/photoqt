@@ -220,14 +220,7 @@ Rectangle {
         if(!handlingGeneral.isVideoSupportEnabled())
             allfiles.hideItems.push(7)
 
-        var neg = 2
-        while(neg < allfiles.model.length) {
-            if(allfiles.hideItems.indexOf(allfiles.model.length-neg) != -1)
-                neg += 1
-            else
-                break
-        }
-        allfiles.lineBelowItem = allfiles.model.length-neg
+        allfiles.lineBelowItem = allfiles.model.length-2
     }
 
     function zoomOut() {

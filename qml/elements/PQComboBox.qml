@@ -80,7 +80,7 @@ ComboBox {
                 height: 1
                 x: 0
                 y: parent.height-1
-                color: "#cccccc"
+                color: "#000000"
                 visible: (firstItemEmphasized&&index==0)||(lineBelowItem==index)
             }
         }
