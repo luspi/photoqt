@@ -96,6 +96,8 @@ Item {
 
             property string uniqueid: handlingGeneral.getUniqueId()
 
+            property int hideShowImageIndex: -1
+
             onImageStatusChanged: {
                 if(imageStatus == Image.Ready) {
                     loadingtimer.stop()
@@ -104,9 +106,8 @@ Item {
                         handlingchromecast.streamOnDevice(src)
                 }
                 if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
-                    hideShowAni.showing = true
-                    hideShowAni.imageIndex = imageIndex
-                    hideShowAni.startAni()
+                    deleg.hideShowImageIndex = imageIndex
+                    deleg.hideShow(true)
                     container.newImageLoaded(deleg.uniqueid)
                 }
             }
@@ -134,22 +135,18 @@ Item {
             Connections {
                 target: container
 
-                onHideAllImages: {
-                    hideShowAni.showing = false
-                    hideShowAni.startAni()
-                }
+                onHideAllImages:
+                    deleg.hideShow(false)
 
                 onNewImageLoaded: {
                     if(id != deleg.uniqueid) {
-                        if(hideShowAni.running) {
-                            if(hideShowAni.showing)
-                                hideShowAni.continueToDeleteAfterShowing = true
-                        } else {
+                        if(deleg.getHideShowRunning())
+                            deleg.hideShowContinueDeletingAfterShowing()
+                        else {
                             if(deleg.imageStatus == Image.Ready) {
-                                hideShowAni.showing = false
                                 // store pos/zoom/rotation/mirror, can be restored when setting enabled
                                 imageloader.item.storePosRotZoomMirror()
-                                hideShowAni.startAni()
+                                deleg.hideShow(false)
                             } else {
                                 for(var i = image_model.count-2; i >= 0; --i)
                                     image_model.remove(i)
@@ -161,30 +158,72 @@ Item {
             }
 
             PropertyAnimation {
-                id: hideShowAni
+                id: hideShowOpacity
                 target: deleg
-                property: PQSettings.imageviewAnimationType
+                property: "opacity"
                 duration: PQSettings.imageviewAnimationDuration*100
                 property bool showing: true
                 property bool continueToDeleteAfterShowing: false
                 alwaysRunToEnd: true
 
-                property int imageIndex: -1
+                property bool handleStoppedAni: false
+
+                function startAni() {
+
+                    if(showing) {
+
+                        from = 0
+                        to = 1
+
+                    } else {
+
+                        from = 1
+                        to = 0
+
+                    }
+
+                    start()
+
+                }
+
+                onStopped: {
+                    if(handleStoppedAni) {
+                        if(!showing) {
+                            image_model.remove(0,image_model.count-1)
+                        } else if(continueToDeleteAfterShowing) {
+                            showing = false
+                            startAni()
+                        }
+                    }
+                }
+
+            }
+
+            PropertyAnimation {
+                id: hideShowX
+                target: deleg
+                property: "x"
+                duration: PQSettings.imageviewAnimationDuration*100
+                property bool showing: true
+                property bool continueToDeleteAfterShowing: false
+                alwaysRunToEnd: true
+
+                property bool handleStoppedAni: false
 
                 function startAni() {
 
                     var hideshow = ""
 
                     if(showing) {
-                        if(imageIndex >= container.currentlyShownIndex)
+                        if(deleg.hideShowImageIndex >= container.currentlyShownIndex)
                             hideshow = "left"
                         else
                             hideshow = "right"
 
-                        container.currentlyShownIndex = imageIndex
+                        container.currentlyShownIndex = deleg.hideShowImageIndex
 
                     } else {
-                        if(imageIndex >= container.currentlyShownIndex)
+                        if(deleg.hideShowImageIndex >= container.currentlyShownIndex)
                             hideshow = "right"
                         else
                             hideshow = "left"
@@ -192,58 +231,22 @@ Item {
 
                     if(showing) {
 
-                        if(PQSettings.imageviewAnimationType == "x") {
-
-                            if(hideshow == "left") {
-                                from = container.width
-                                to = PQSettings.imageviewMargin
-                            } else {
-                                from = -container.width
-                                to = PQSettings.imageviewMargin
-                            }
-
-                        } else if(PQSettings.imageviewAnimationType == "y") {
-
-                            if(hideshow == "left") {
-                                from = container.height
-                                to = PQSettings.imageviewMargin
-                            } else {
-                                from = -container.height
-                                to = PQSettings.imageviewMargin
-                            }
-
-                        // we default to opacity
+                        if(hideshow == "left") {
+                            from = container.width
+                            to = PQSettings.imageviewMargin
                         } else {
-                            from = 0
-                            to = 1
+                            from = -container.width
+                            to = PQSettings.imageviewMargin
                         }
 
                     } else {
 
-                        if(PQSettings.imageviewAnimationType == "x") {
-
-                            if(hideshow == "left") {
-                                from = deleg.x
-                                to = -container.width
-                            } else {
-                                from = deleg.x
-                                to = container.width
-                            }
-
-                        } else if(PQSettings.imageviewAnimationType == "y") {
-
-                            if(hideshow == "left") {
-                                from = deleg.x
-                                to = -container.height
-                            } else {
-                                from = deleg.x
-                                to = container.height
-                            }
-
-                        // we default to opacity
+                        if(hideshow == "left") {
+                            from = deleg.x
+                            to = -container.width
                         } else {
-                            from = 1
-                            to = 0
+                            from = deleg.x
+                            to = container.width
                         }
 
                     }
@@ -253,13 +256,195 @@ Item {
                 }
 
                 onStopped: {
-                    if(!showing) {
-                        for(var i = image_model.count-2; i >= 0; --i)
-                            image_model.remove(i)
-                    } else if(continueToDeleteAfterShowing) {
-                        showing = false
-                        startAni()
+                    if(handleStoppedAni) {
+                        if(!showing) {
+                            image_model.remove(0,image_model.count-1)
+                        } else if(continueToDeleteAfterShowing) {
+                            showing = false
+                            startAni()
+                        }
                     }
+                }
+
+            }
+
+            PropertyAnimation {
+                id: hideShowY
+                target: deleg
+                property: "y"
+                duration: PQSettings.imageviewAnimationDuration*100
+                property bool showing: true
+                property bool continueToDeleteAfterShowing: false
+                alwaysRunToEnd: true
+
+                property bool handleStoppedAni: false
+
+                function startAni() {
+
+                    var hideshow = ""
+
+                    if(showing) {
+                        if(deleg.hideShowImageIndex >= container.currentlyShownIndex)
+                            hideshow = "top"
+                        else
+                            hideshow = "bottom"
+
+                        container.currentlyShownIndex = deleg.hideShowImageIndex
+
+                    } else {
+                        if(deleg.hideShowImageIndex >= container.currentlyShownIndex)
+                            hideshow = "bottom"
+                        else
+                            hideshow = "top"
+                    }
+
+                    if(showing) {
+
+                        if(hideshow == "top") {
+                            from = container.height
+                            to = PQSettings.imageviewMargin
+                        } else {
+                            from = -container.height
+                            to = PQSettings.imageviewMargin
+                        }
+
+                    } else {
+
+                        if(hideshow == "top") {
+                            from = deleg.x
+                            to = -container.height
+                        } else {
+                            from = deleg.x
+                            to = container.height
+                        }
+
+                    }
+
+                    start()
+
+                }
+
+                onStopped: {
+                    if(handleStoppedAni) {
+                        if(!showing) {
+                            image_model.remove(0,image_model.count-1)
+                        } else if(continueToDeleteAfterShowing) {
+                            showing = false
+                            startAni()
+                        }
+                    }
+                }
+
+            }
+
+            PropertyAnimation {
+                id: hideShowScale
+                target: imageloader
+                property: "scale"
+                duration: PQSettings.imageviewAnimationDuration*100
+                property bool showing: true
+                property bool continueToDeleteAfterShowing: false
+                alwaysRunToEnd: true
+
+                property bool handleStoppedAni: false
+
+                function startAni() {
+
+                    if(showing) {
+
+                        from = 2
+                        to = 1
+
+                    } else {
+
+                        from = 1
+                        to = 2
+
+                    }
+
+                    start()
+
+                }
+
+                onStopped: {
+                    if(handleStoppedAni) {
+                        if(!showing) {
+                            image_model.remove(0,image_model.count-1)
+                        } else if(continueToDeleteAfterShowing) {
+                            showing = false
+                            startAni()
+                        }
+                    }
+                }
+
+            }
+
+            function hideShow(showing) {
+
+                if(PQSettings.imageviewAnimationType == "opacity") {
+                    hideShowOpacity.showing = showing
+                    hideShowOpacity.handleStoppedAni = true
+                    hideShowOpacity.startAni()
+                }
+
+                if(PQSettings.imageviewAnimationType == "x") {
+                    hideShowX.showing = showing
+                    hideShowX.handleStoppedAni = true
+                    hideShowX.startAni()
+                }
+
+                if(PQSettings.imageviewAnimationType == "y") {
+                    hideShowY.showing = showing
+                    hideShowY.handleStoppedAni = true
+                    hideShowY.startAni()
+                }
+
+                if(PQSettings.imageviewAnimationType == "explosion") {
+
+                    hideShowOpacity.showing = showing
+                    hideShowOpacity.handleStoppedAni = false
+
+                    if(!showing) {
+                        hideShowScale.showing = showing
+                        hideShowScale.handleStoppedAni = true
+                        hideShowScale.startAni()
+                    }
+
+                    hideShowOpacity.startAni()
+                }
+
+            }
+
+            function getHideShowRunning() {
+
+                if(PQSettings.imageviewAnimationType == "opacity")
+                    return hideShowOpacity.running
+
+                if(PQSettings.imageviewAnimationType == "x")
+                    return hideShowX.running
+
+                if(PQSettings.imageviewAnimationType == "y")
+                    return hideShowY.running
+
+                if(PQSettings.imageviewAnimationType == "explosion")
+                    return (hideShowOpacity.running||hideShowScale.running)
+
+            }
+
+            function hideShowContinueDeletingAfterShowing() {
+
+                if(PQSettings.imageviewAnimationType == "opacity")
+                    hideShowOpacity.continueToDeleteAfterShowing = true
+
+                if(PQSettings.imageviewAnimationType == "x")
+                    hideShowX.continueToDeleteAfterShowing = true
+
+                if(PQSettings.imageviewAnimationType == "y")
+                    hideShowY.continueToDeleteAfterShowing = true
+
+                if(PQSettings.imageviewAnimationType == "explosion") {
+                    hideShowOpacity.continueToDeleteAfterShowing = true
+                    hideShowScale.continueToDeleteAfterShowing = true
                 }
 
             }
