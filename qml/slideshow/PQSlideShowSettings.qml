@@ -183,7 +183,11 @@ Item {
                                 //: This is referring to the in/out animation of images during slideshows
                                 em.pty+qsTranslate("slideshow", "along y-axis"),
                                 //: This is referring to the in/out animation of images
-                                em.pty+qsTranslate("slideshow", "explosion")]
+                                em.pty+qsTranslate("slideshow", "rotation"),
+                                //: This is referring to the in/out animation of images
+                                em.pty+qsTranslate("slideshow", "explosion"),
+                                //: This is referring to the in/out animation of images
+                                em.pty+qsTranslate("slideshow", "implosion")]
                     }
 
                 }
@@ -459,8 +463,10 @@ Item {
                 text: em.pty+qsTranslate("slideshow", "Start slideshow")
                 onClicked: {
 
+                    var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion"]
+                    PQSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
+
                     PQSettings.slideshowTime = interval_slider.value
-                    PQSettings.slideshowTypeAnimation = (animtype_combo.currentIndex==0 ? "opacity" : (animtype_combo.currentIndex==1 ? "x" : (animtype_combo.currentIndex == 2 ? "y" : "explosion")))
                     PQSettings.slideshowImageTransition = transition_slider.value
                     PQSettings.slideshowLoop = loop_check.checked
                     PQSettings.slideshowShuffle = shuffle_check.checked
@@ -535,8 +541,12 @@ Item {
                         variables.visibleItem = "slideshowsettings"
                     }
 
+                    var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion"]
+                    PQSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
+                    animtype_combo.currentIndex = animArray.indexOf(PQSettings.slideshowTypeAnimation)
+                    if(animtype_combo.currentIndex == -1) animtype_combo.currentIndex = 0
+
                     interval_slider.value = PQSettings.slideshowTime
-                    animtype_combo.currentIndex = (PQSettings.slideshowTypeAnimation=="opacity" ? 0 : (PQSettings.slideshowTypeAnimation=="x" ? 1 : (PQSettings.slideshowTypeAnimation=="y" ? 2 :  3)))
                     transition_slider.value = PQSettings.slideshowImageTransition
                     loop_check.checked = PQSettings.slideshowLoop
                     shuffle_check.checked = PQSettings.slideshowShuffle

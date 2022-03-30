@@ -348,17 +348,79 @@ Item {
 
                 property bool handleStoppedAni: false
 
+                property bool implode: false
+
+                function startAni() {
+
+                    if(implode) {
+
+                        if(showing) {
+
+                            from = 0.0
+                            to = 1
+
+                        } else {
+
+                            from = 1
+                            to = 0.0
+
+                        }
+
+                    } else {
+
+                        if(showing) {
+
+                            from = 2
+                            to = 1
+
+                        } else {
+
+                            from = 1
+                            to = 2
+
+                        }
+
+                    }
+
+                    start()
+
+                }
+
+                onStopped: {
+                    if(handleStoppedAni) {
+                        if(!showing) {
+                            image_model.remove(0,image_model.count-1)
+                        } else if(continueToDeleteAfterShowing) {
+                            showing = false
+                            startAni()
+                        }
+                    }
+                }
+
+            }
+
+            PropertyAnimation {
+                id: hideShowRotation
+                target: imageloader
+                property: "rotation"
+                duration: PQSettings.imageviewAnimationDuration*100
+                property bool showing: true
+                property bool continueToDeleteAfterShowing: false
+                alwaysRunToEnd: true
+
+                property bool handleStoppedAni: false
+
                 function startAni() {
 
                     if(showing) {
 
-                        from = 2
-                        to = 1
+                        from = 360
+                        to = 0
 
                     } else {
 
-                        from = 1
-                        to = 2
+                        from = variables.currentRotationAngle
+                        to = variables.currentRotationAngle+360
 
                     }
 
@@ -405,12 +467,46 @@ Item {
                     hideShowOpacity.handleStoppedAni = false
 
                     if(!showing) {
+
                         hideShowScale.showing = showing
                         hideShowScale.handleStoppedAni = true
                         hideShowScale.startAni()
+                        hideShowOpacity.startAni()
+
+                    } else
+
+                        hideShowOpacity.startAni()
+                }
+
+                if(PQSettings.imageviewAnimationType == "implosion") {
+
+                    if(!showing) {
+
+                        hideShowScale.showing = showing
+                        hideShowScale.handleStoppedAni = true
+                        hideShowScale.implode = true
+                        hideShowScale.startAni()
+
+                    } else {
+
+                        hideShowOpacity.showing = showing
+                        hideShowOpacity.handleStoppedAni = true
+                        hideShowOpacity.startAni()
+
                     }
+                }
+
+                if(PQSettings.imageviewAnimationType == "rotation") {
+
+                    hideShowOpacity.showing = showing
+                    hideShowOpacity.handleStoppedAni = false
+
+                    hideShowRotation.showing = showing
+                    hideShowRotation.handleStoppedAni = true
 
                     hideShowOpacity.startAni()
+                    hideShowRotation.startAni()
+
                 }
 
             }
@@ -429,6 +525,12 @@ Item {
                 if(PQSettings.imageviewAnimationType == "explosion")
                     return (hideShowOpacity.running||hideShowScale.running)
 
+                if(PQSettings.imageviewAnimationType == "implosion")
+                    return (hideShowOpacity.running||hideShowScale.running)
+
+                if(PQSettings.imageviewAnimationType == "rotation")
+                    return (hideShowOpacity.running||hideShowRotation.running)
+
             }
 
             function hideShowContinueDeletingAfterShowing() {
@@ -445,6 +547,16 @@ Item {
                 if(PQSettings.imageviewAnimationType == "explosion") {
                     hideShowOpacity.continueToDeleteAfterShowing = true
                     hideShowScale.continueToDeleteAfterShowing = true
+                }
+
+                if(PQSettings.imageviewAnimationType == "implosion") {
+                    hideShowOpacity.continueToDeleteAfterShowing = true
+                    hideShowScale.continueToDeleteAfterShowing = true
+                }
+
+                if(PQSettings.imageviewAnimationType == "rotation") {
+                    hideShowOpacity.continueToDeleteAfterShowing = true
+                    hideShowRotation.continueToDeleteAfterShowing = true
                 }
 
             }

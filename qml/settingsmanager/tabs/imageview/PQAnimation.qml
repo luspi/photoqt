@@ -50,7 +50,11 @@ PQSetting {
                         //: This is referring to the in/out animation of images
                         em.pty+qsTranslate("settingsmanager_imageview", "along y-axis"),
                         //: This is referring to the in/out animation of images
-                        em.pty+qsTranslate("settingsmanager_imageview", "explosion")]
+                        em.pty+qsTranslate("settingsmanager_imageview", "rotation"),
+                        //: This is referring to the in/out animation of images
+                        em.pty+qsTranslate("settingsmanager_imageview", "explosion"),
+                        //: This is referring to the in/out animation of images
+                        em.pty+qsTranslate("settingsmanager_imageview", "implosion")]
             }
 
             Item {
@@ -106,7 +110,11 @@ PQSetting {
             else if(anim_type.currentIndex == 2)
                 PQSettings.imageviewAnimationType = "y"
             else if(anim_type.currentIndex == 3)
+                PQSettings.imageviewAnimationType = "rotation"
+            else if(anim_type.currentIndex == 4)
                 PQSettings.imageviewAnimationType = "explosion"
+            else if(anim_type.currentIndex == 5)
+                PQSettings.imageviewAnimationType = "implosion"
             else
                 PQSettings.imageviewAnimationType = "opacity"
         }
@@ -123,8 +131,12 @@ PQSetting {
             anim_type.currentIndex = 1
         else if(PQSettings.imageviewAnimationType == "y")
             anim_type.currentIndex = 2
-        else if(PQSettings.imageviewAnimationType == "explosion")
+        else if(PQSettings.imageviewAnimationType == "rotation")
             anim_type.currentIndex = 3
+        else if(PQSettings.imageviewAnimationType == "explosion")
+            anim_type.currentIndex = 4
+        else if(PQSettings.imageviewAnimationType == "implosion")
+            anim_type.currentIndex = 5
         else
             anim_type.currentIndex = 0
     }
