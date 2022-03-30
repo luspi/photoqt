@@ -41,6 +41,8 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
     m_defaultNameFilters = QStringList();
     m_filenameFilters = QStringList();
     m_mimeTypeFilters = QStringList();
+    m_imageResolutionFilter = QSize(0,0);
+    m_fileSizeFilter = 0;
     m_showHidden = false;
     m_sortField = SortBy::NaturalName;
     m_sortReversed = false;
@@ -203,7 +205,7 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
     else if(m_sortField == SortBy::Type)
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
+    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, m_sortField, m_sortReversed, ret)) {
 
         QDir dir(folder);
 
@@ -235,7 +237,7 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
-        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret);
+        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, m_sortField, m_sortReversed, ret);
 
     }
 
@@ -284,7 +286,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
 
     for(const QString &f : qAsConst(foldersToScan)) {
 
-        if(!cache.loadFilesFromCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret)) {
+        if(!cache.loadFilesFromCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, m_sortField, m_sortReversed, ret)) {
 
             QStringList ret_cur;
 
@@ -303,7 +305,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
             if(m_sortField != SortBy::NaturalName)
                 dir.setSorting(sortFlags);
 
-            if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0) {
+            if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
                 QDirIterator iter(dir);
                 while(iter.hasNext()) {
                     iter.next();
@@ -314,6 +316,37 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
                 while(iter.hasNext()) {
                     iter.next();
                     const QFileInfo f = iter.fileInfo();
+
+                    if(m_fileSizeFilter != 0) {
+
+                        // only show images greater than -> fails check
+                        if(m_fileSizeFilter > 0 && f.size() < m_fileSizeFilter)
+                            continue;
+
+                        // only show images less than -> fails check
+                        if(m_fileSizeFilter < 0 && f.size() > -m_fileSizeFilter)
+                            continue;
+
+                    }
+
+                    if(!m_imageResolutionFilter.isNull()) {
+
+                        const bool greater = (m_imageResolutionFilter.width()>0);
+                        const int width = m_imageResolutionFilter.width();
+                        const int height = m_imageResolutionFilter.height();
+
+                        QSize origSize;
+                        PQImageProviderFull imageprovider;\
+                        imageprovider.requestImage(QUrl::toPercentEncoding(f.absoluteFilePath(), "", " "), &origSize, QSize(1,1));
+
+                        if(greater && (origSize.width() < width || origSize.height() < height))
+                            continue;
+
+                        if(!greater && (origSize.width() > -width || origSize.height() > -height))
+                            continue;
+
+                    }
+
                     if((m_nameFilters.size() == 0 || m_nameFilters.contains(f.suffix().toLower())) && (m_defaultNameFilters.size() == 0 || m_defaultNameFilters.contains(f.suffix().toLower()))) {
                         if(m_filenameFilters.length() == 0)
                             ret_cur << f.absoluteFilePath();
@@ -354,7 +387,7 @@ QStringList PQFileFolderModel::getAllFiles(QString folder) {
             // add current list, sorted, to global result list
             ret << ret_cur;
 
-            cache.saveFilesToCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_sortField, m_sortReversed, ret_cur);
+            cache.saveFilesToCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, m_sortField, m_sortReversed, ret_cur);
 
         }
 

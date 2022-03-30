@@ -28,11 +28,11 @@ TextField {
     id: control
 
     placeholderText: "Enter"
-    color: "white"
+    color: enabled ? "white" : "#cccccc"
     selectedTextColor: "black"
     selectionColor: "white"
 
-    property string borderColor: "#cccccc"
+    property string borderColor: "#88cccccc"
 
     focus: true
 
@@ -41,7 +41,7 @@ TextField {
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
-        color: control.enabled ? "transparent" : "#cccccc"
+        color: control.enabled ? "transparent" : "#44444444"
         border.color: control.enabled ? borderColor : "transparent"
     }
 

@@ -40,7 +40,7 @@ SpinBox {
             text: prefix + control.textFromValue(control.value, control.locale) + suffix
 
             font: control.font
-            color: "black"
+            color: enabled? "black" : "#888888"
             selectionColor: "black"
             selectedTextColor: "white"
             horizontalAlignment: Qt.AlignHCenter

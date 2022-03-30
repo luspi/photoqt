@@ -125,6 +125,14 @@ public:
     QStringList getMimeTypeFilters() { return m_mimeTypeFilters; }
     void setMimeTypeFilters(QStringList val) { m_mimeTypeFilters = val; Q_EMIT mimeTypeFiltersChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
 
+    Q_PROPERTY(QSize imageResolutionFilter READ getImageResolutionFilter WRITE setImageResolutionFilter NOTIFY imageResolutionFilterChanged)
+    QSize getImageResolutionFilter() { return m_imageResolutionFilter; }
+    void setImageResolutionFilter(QSize val) { m_imageResolutionFilter = val; Q_EMIT imageResolutionFilterChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+
+    Q_PROPERTY(qint64 fileSizeFilter READ getFileSizeFilter WRITE setFileSizeFilter NOTIFY fileSizeFilterChanged)
+    qint64 getFileSizeFilter() { return m_fileSizeFilter; }
+    void setFileSizeFilter(qint64 val) { m_fileSizeFilter = val; Q_EMIT fileSizeFilterChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
+
     Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden NOTIFY showHiddenChanged)
     bool getShowHidden() { return m_showHidden; }
     void setShowHidden(bool val) { m_showHidden = val; Q_EMIT showHiddenChanged(); loadDelayMainView->start(); loadDelayFileDialog->start(); }
@@ -190,6 +198,8 @@ private:
     QStringList m_defaultNameFilters;
     QStringList m_filenameFilters;
     QStringList m_mimeTypeFilters;
+    QSize m_imageResolutionFilter;
+    qint64 m_fileSizeFilter;
     bool m_showHidden;
     SortBy m_sortField;
     bool m_sortReversed;
@@ -228,6 +238,8 @@ Q_SIGNALS:
     void defaultNameFiltersChanged();
     void filenameFiltersChanged();
     void mimeTypeFiltersChanged();
+    void imageResolutionFilterChanged();
+    void fileSizeFilterChanged();
     void showHiddenChanged();
     void sortFieldChanged();
     void sortReversedChanged();
