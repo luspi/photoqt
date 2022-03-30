@@ -54,7 +54,10 @@ PQSetting {
                         //: This is referring to the in/out animation of images
                         em.pty+qsTranslate("settingsmanager_imageview", "explosion"),
                         //: This is referring to the in/out animation of images
-                        em.pty+qsTranslate("settingsmanager_imageview", "implosion")]
+                        em.pty+qsTranslate("settingsmanager_imageview", "implosion"),
+                        //: This is referring to the in/out animation of images
+                        em.pty+qsTranslate("settingsmanager_imageview", "choose one at random")]
+                lineBelowItem: 5
             }
 
             Item {
@@ -105,18 +108,9 @@ PQSetting {
 
         onSaveAllSettings: {
             PQSettings.imageviewAnimationDuration = anim_dur.value
-            if(anim_type.currentIndex == 1)
-                PQSettings.imageviewAnimationType = "x"
-            else if(anim_type.currentIndex == 2)
-                PQSettings.imageviewAnimationType = "y"
-            else if(anim_type.currentIndex == 3)
-                PQSettings.imageviewAnimationType = "rotation"
-            else if(anim_type.currentIndex == 4)
-                PQSettings.imageviewAnimationType = "explosion"
-            else if(anim_type.currentIndex == 5)
-                PQSettings.imageviewAnimationType = "implosion"
-            else
-                PQSettings.imageviewAnimationType = "opacity"
+
+            var animValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+            PQSettings.imageviewAnimationType = animValues[anim_type.currentIndex]
         }
 
     }
@@ -127,18 +121,11 @@ PQSetting {
 
     function load() {
         anim_dur.value = PQSettings.imageviewAnimationDuration
-        if(PQSettings.imageviewAnimationType == "x")
-            anim_type.currentIndex = 1
-        else if(PQSettings.imageviewAnimationType == "y")
-            anim_type.currentIndex = 2
-        else if(PQSettings.imageviewAnimationType == "rotation")
-            anim_type.currentIndex = 3
-        else if(PQSettings.imageviewAnimationType == "explosion")
-            anim_type.currentIndex = 4
-        else if(PQSettings.imageviewAnimationType == "implosion")
-            anim_type.currentIndex = 5
-        else
-            anim_type.currentIndex = 0
+
+        var animValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+        anim_type.currentIndex = animValues.indexOf(PQSettings.imageviewAnimationType)
+        if(anim_type.currentIndex == -1) anim_type.currentIndex = 0
+
     }
 
 }

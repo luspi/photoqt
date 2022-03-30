@@ -74,6 +74,8 @@ Item {
 
     property int currentVideoLength: -1
 
+    property string currentTransition: "opacity"
+
     Repeater {
 
         id: repeat
@@ -443,118 +445,179 @@ Item {
 
             function hideShow(showing) {
 
-                if(PQSettings.imageviewAnimationType == "opacity") {
-                    hideShowOpacity.showing = showing
-                    hideShowOpacity.handleStoppedAni = true
-                    hideShowOpacity.startAni()
-                }
+                if(PQSettings.imageviewAnimationType == "opacity")
+                    hideShowExecOpacity(showing)
 
-                if(PQSettings.imageviewAnimationType == "x") {
-                    hideShowX.showing = showing
-                    hideShowX.handleStoppedAni = true
-                    hideShowX.startAni()
-                }
+                if(PQSettings.imageviewAnimationType == "x")
+                    hideShowExecX(showing)
 
-                if(PQSettings.imageviewAnimationType == "y") {
-                    hideShowY.showing = showing
-                    hideShowY.handleStoppedAni = true
-                    hideShowY.startAni()
-                }
+                if(PQSettings.imageviewAnimationType == "y")
+                    hideShowExecY(showing)
 
-                if(PQSettings.imageviewAnimationType == "explosion") {
+                if(PQSettings.imageviewAnimationType == "explosion")
+                    hideShowExecExplosion(showing)
 
-                    hideShowOpacity.showing = showing
-                    hideShowOpacity.handleStoppedAni = false
+                if(PQSettings.imageviewAnimationType == "implosion")
+                    hideShowExecImplosion(showing)
 
-                    if(!showing) {
+                if(PQSettings.imageviewAnimationType == "rotation")
+                    hideShowExecRotation(showing)
 
-                        hideShowScale.showing = showing
-                        hideShowScale.handleStoppedAni = true
-                        hideShowScale.startAni()
-                        hideShowOpacity.startAni()
+                if(PQSettings.imageviewAnimationType == "random") {
 
-                    } else
+                    if(currentTransition == "opacity")
+                        hideShowExecOpacity(showing)
 
-                        hideShowOpacity.startAni()
-                }
+                    if(currentTransition == "x")
+                        hideShowExecX(showing)
 
-                if(PQSettings.imageviewAnimationType == "implosion") {
+                    if(currentTransition == "y")
+                        hideShowExecY(showing)
 
-                    if(!showing) {
+                    if(currentTransition == "explosion")
+                        hideShowExecExplosion(showing)
 
-                        hideShowScale.showing = showing
-                        hideShowScale.handleStoppedAni = true
-                        hideShowScale.implode = true
-                        hideShowScale.startAni()
+                    if(currentTransition == "implosion")
+                        hideShowExecImplosion(showing)
 
-                    } else {
+                    if(currentTransition == "rotation")
+                        hideShowExecRotation(showing)
 
-                        hideShowOpacity.showing = showing
-                        hideShowOpacity.handleStoppedAni = true
-                        hideShowOpacity.startAni()
-
-                    }
-                }
-
-                if(PQSettings.imageviewAnimationType == "rotation") {
-
-                    hideShowOpacity.showing = showing
-                    hideShowOpacity.handleStoppedAni = false
-
-                    hideShowRotation.showing = showing
-                    hideShowRotation.handleStoppedAni = true
-
-                    hideShowOpacity.startAni()
-                    hideShowRotation.startAni()
+                    selectNewCurTransition.restart()
 
                 }
 
             }
 
+            Timer {
+                id: selectNewCurTransition
+                interval: hideShowRotation.duration/2
+                running: false
+                repeat: false
+                onTriggered: {
+                    var animValues = ["opacity","x","y","explosion","implosion","rotation"]
+                    currentTransition = animValues[Math.floor(Math.random()*animValues.length)]
+                }
+            }
+
+            function hideShowExecOpacity(showing) {
+
+                hideShowOpacity.showing = showing
+                hideShowOpacity.handleStoppedAni = true
+                hideShowOpacity.startAni()
+
+            }
+
+            function hideShowExecX(showing) {
+
+                hideShowX.showing = showing
+                hideShowX.handleStoppedAni = true
+                hideShowX.startAni()
+
+            }
+
+            function hideShowExecY(showing) {
+
+                hideShowY.showing = showing
+                hideShowY.handleStoppedAni = true
+                hideShowY.startAni()
+
+            }
+
+            function hideShowExecExplosion(showing) {
+
+                hideShowOpacity.showing = showing
+                hideShowOpacity.handleStoppedAni = false
+
+                if(!showing) {
+
+                    hideShowScale.showing = showing
+                    hideShowScale.handleStoppedAni = true
+                    hideShowScale.startAni()
+                    hideShowOpacity.startAni()
+
+                } else
+
+                    hideShowOpacity.startAni()
+            }
+
+
+            function hideShowExecImplosion(showing) {
+
+                if(!showing) {
+
+                    hideShowScale.showing = showing
+                    hideShowScale.handleStoppedAni = true
+                    hideShowScale.implode = true
+                    hideShowScale.startAni()
+
+                } else {
+
+                    hideShowOpacity.showing = showing
+                    hideShowOpacity.handleStoppedAni = true
+                    hideShowOpacity.startAni()
+
+                }
+            }
+
+            function hideShowExecRotation(showing) {
+
+                hideShowOpacity.showing = showing
+                hideShowOpacity.handleStoppedAni = false
+
+                hideShowRotation.showing = showing
+                hideShowRotation.handleStoppedAni = true
+
+                hideShowOpacity.startAni()
+                hideShowRotation.startAni()
+            }
+
+
+
             function getHideShowRunning() {
 
-                if(PQSettings.imageviewAnimationType == "opacity")
+                if(currentTransition == "opacity")
                     return hideShowOpacity.running
 
-                if(PQSettings.imageviewAnimationType == "x")
+                if(currentTransition == "x")
                     return hideShowX.running
 
-                if(PQSettings.imageviewAnimationType == "y")
+                if(currentTransition == "y")
                     return hideShowY.running
 
-                if(PQSettings.imageviewAnimationType == "explosion")
+                if(currentTransition == "explosion")
                     return (hideShowOpacity.running||hideShowScale.running)
 
-                if(PQSettings.imageviewAnimationType == "implosion")
+                if(currentTransition == "implosion")
                     return (hideShowOpacity.running||hideShowScale.running)
 
-                if(PQSettings.imageviewAnimationType == "rotation")
+                if(currentTransition == "rotation")
                     return (hideShowOpacity.running||hideShowRotation.running)
 
             }
 
             function hideShowContinueDeletingAfterShowing() {
 
-                if(PQSettings.imageviewAnimationType == "opacity")
+                if(currentTransition == "opacity")
                     hideShowOpacity.continueToDeleteAfterShowing = true
 
-                if(PQSettings.imageviewAnimationType == "x")
+                if(currentTransition == "x")
                     hideShowX.continueToDeleteAfterShowing = true
 
-                if(PQSettings.imageviewAnimationType == "y")
+                if(currentTransition == "y")
                     hideShowY.continueToDeleteAfterShowing = true
 
-                if(PQSettings.imageviewAnimationType == "explosion") {
+                if(currentTransition == "explosion") {
                     hideShowOpacity.continueToDeleteAfterShowing = true
                     hideShowScale.continueToDeleteAfterShowing = true
                 }
 
-                if(PQSettings.imageviewAnimationType == "implosion") {
+                if(currentTransition == "implosion") {
                     hideShowOpacity.continueToDeleteAfterShowing = true
                     hideShowScale.continueToDeleteAfterShowing = true
                 }
 
-                if(PQSettings.imageviewAnimationType == "rotation") {
+                if(currentTransition == "rotation") {
                     hideShowOpacity.continueToDeleteAfterShowing = true
                     hideShowRotation.continueToDeleteAfterShowing = true
                 }

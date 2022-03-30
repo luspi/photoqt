@@ -187,7 +187,10 @@ Item {
                                 //: This is referring to the in/out animation of images
                                 em.pty+qsTranslate("slideshow", "explosion"),
                                 //: This is referring to the in/out animation of images
-                                em.pty+qsTranslate("slideshow", "implosion")]
+                                em.pty+qsTranslate("slideshow", "implosion"),
+                                //: This is referring to the in/out animation of images
+                                em.pty+qsTranslate("slideshow", "choose one at random")]
+                        lineBelowItem: 5
                     }
 
                 }
@@ -463,7 +466,7 @@ Item {
                 text: em.pty+qsTranslate("slideshow", "Start slideshow")
                 onClicked: {
 
-                    var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion"]
+                    var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
                     PQSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
 
                     PQSettings.slideshowTime = interval_slider.value
@@ -541,7 +544,7 @@ Item {
                         variables.visibleItem = "slideshowsettings"
                     }
 
-                    var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion"]
+                    var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
                     PQSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
                     animtype_combo.currentIndex = animArray.indexOf(PQSettings.slideshowTypeAnimation)
                     if(animtype_combo.currentIndex == -1) animtype_combo.currentIndex = 0
