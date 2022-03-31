@@ -45,6 +45,8 @@ Item {
     property bool chromecastConnected: false
     property string chromecastName: ""
 
+    property string filterExactFileSizeSet: ""
+
     Connections {
 
         target: PQSettings

@@ -33,7 +33,7 @@ Rectangle {
     y: PQSettings.thumbnailsEdge=="Bottom" ? 10 : parent.height-height-10
 
     width: row.width
-    height: row.height+10
+    height: (filefoldermodel.countMainView==0&&filefoldermodel.filterCurrentlyActive) ? 0 : row.height+10
 
     color: "#000000"
     radius: 5
@@ -189,7 +189,12 @@ Rectangle {
             Text {
                 id: filtertext
                 color: "white"
-                text: em.pty+qsTranslate("quickinfo", "Filter:") + " " + filefoldermodel.filenameFilters.join(" ") + (filefoldermodel.nameFilters.length==0 ? "" : " ." + filefoldermodel.nameFilters.join(" ."))
+                property string txt: filefoldermodel.filenameFilters.join(" ") + (filefoldermodel.nameFilters.length==0 ? "" : " ." + filefoldermodel.nameFilters.join(" ."))
+                property string res: (filefoldermodel.imageResolutionFilter.width != 0 || filefoldermodel.imageResolutionFilter.height != 0) ?
+                                         ((filefoldermodel.imageResolutionFilter.width<0||filefoldermodel.imageResolutionFilter.height<0 ? "< " : "> ") + Math.abs(filefoldermodel.imageResolutionFilter.width)+"x"+Math.abs(filefoldermodel.imageResolutionFilter.height)) :
+                                         ""
+                property string siz: filefoldermodel.fileSizeFilter!=0 ? ((filefoldermodel.fileSizeFilter<0 ? "< " : "> ") + variables.filterExactFileSizeSet) : ""
+                text: "<b>" + em.pty+qsTranslate("quickinfo", "Filter:") + "</b> " + txt + (txt!=""&&res!="" ? "; " : "") + res + (siz!=""&&(txt!=""||res!="") ? "; " : "") + siz
             }
             Item {
                 width: 1
@@ -261,7 +266,13 @@ Rectangle {
 
 
     PQMouseArea {
-        anchors.fill: parent
+
+        x: row.x
+        y: row.y
+
+        width: Math.max(row.width + viewermode.width + chromecast.width, filterremove.width)
+        height: row.height+filterremove.height+10
+
         hoverEnabled: true
 
         drag.target: PQSettings.interfaceLabelsManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent

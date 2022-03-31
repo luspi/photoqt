@@ -37,7 +37,7 @@ SpinBox {
 
     contentItem: TextInput {
             z: 2
-            text: prefix + control.textFromValue(control.value, control.locale) + suffix
+            text: prefix + control.textFromValue(control.value) + suffix
 
             font: control.font
             color: enabled? "black" : "#888888"

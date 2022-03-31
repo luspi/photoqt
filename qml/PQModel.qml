@@ -34,7 +34,7 @@ PQFileFolderModel {
     property string currentFilePath: ""
 
     // shortcut to detect whether filter is currently set
-    property bool filterCurrentlyActive: nameFilters.length!=0||filenameFilters.length!=0
+    property bool filterCurrentlyActive: nameFilters.length!=0||filenameFilters.length!=0||imageResolutionFilter.width!=0||imageResolutionFilter.height!=0||fileSizeFilter!=0
 
     // this allows to set a specific filename as current
     // once the model has finished reloading

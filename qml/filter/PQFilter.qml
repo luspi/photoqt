@@ -376,12 +376,14 @@ Item {
         var fileEndingFilter = []
 
         // filter out search terms and search suffixes
-        var spl = filenameedit.text.split(" ")
-        for(var iSpl = 0; iSpl < spl.length; ++iSpl) {
-            if(spl[iSpl][0] == ".")
-                fileEndingFilter.push(spl[iSpl].slice(1))
-            else {
-                fileNameFilter.push(spl[iSpl])
+        if(filenamecheck.checked) {
+            var spl = filenameedit.text.split(" ")
+            for(var iSpl = 0; iSpl < spl.length; ++iSpl) {
+                if(spl[iSpl][0] == ".")
+                    fileEndingFilter.push(spl[iSpl].slice(1))
+                else {
+                    fileNameFilter.push(spl[iSpl])
+                }
             }
         }
         filefoldermodel.nameFilters = fileEndingFilter
@@ -392,9 +394,11 @@ Item {
         else
             filefoldermodel.imageResolutionFilter = Qt.size(0,0)
 
-        if(filesizecheck.checked)
+        if(filesizecheck.checked) {
+            console.log(filesize.value)
+            variables.filterExactFileSizeSet = filesize.value+(filesizekb.checked ? " KB" : " MB")
             filefoldermodel.fileSizeFilter = (filesizegreaterless.greater ? 1 : -1)*filesize.value*(filesizekb.checked ? 1024 : (1024*1024))
-        else
+        } else
             filefoldermodel.fileSizeFilter = 0
 
     }
