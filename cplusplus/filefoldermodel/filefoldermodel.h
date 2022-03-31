@@ -208,7 +208,7 @@ private:
     QTimer *loadDelayFileDialog;
 
     QStringList getAllFolders(QString folder);
-    QStringList getAllFiles(QString folder);
+    QStringList getAllFiles(QString folder, bool ignoreFiltersExceptDefault = false);
 
     QMimeDatabase db;
 
