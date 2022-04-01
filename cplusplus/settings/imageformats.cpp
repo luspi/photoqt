@@ -149,6 +149,9 @@ void PQImageFormats::readFromDatabase() {
                     mimetypes_qt << mimetypes.split(",");
             }
         }
+
+        QStringList validImGmMagick;
+
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
         if(imgmmagick) {
 
@@ -157,13 +160,17 @@ void PQImageFormats::readFromDatabase() {
             // or when it is reported as not readable, then we skip this format
             bool alright = true;
             if(im_gm_magick != "") {
-                try {
-                    Magick::CoderInfo magickCoderInfo(im_gm_magick.toStdString());
-                    if(!magickCoderInfo.isReadable())
-                        alright = false;
-                } catch(Magick::Exception &) {
-                    alright = false;
+                QStringList tmp = im_gm_magick.split(",", Qt::SkipEmptyParts);
+                for(auto t: qAsConst(tmp)) {
+                    try {
+                        Magick::CoderInfo magickCoderInfo(t.toStdString());
+                        if(magickCoderInfo.isReadable())
+                            validImGmMagick << t;
+                    } catch(Magick::Exception &) {
+                        // do nothing here
+                    }
                 }
+                alright = (validImGmMagick.length()>0);
             }
 
             if(alright) {
@@ -251,18 +258,18 @@ void PQImageFormats::readFromDatabase() {
                 if(mimetypes != "")
                     mimetypes_enabled << mimetypes.split(",");
             }
-            if(magickToBeAdded && im_gm_magick != "") {
+            if(magickToBeAdded && validImGmMagick.length() > 0) {
                 for(QString &e : endings.split(",")) {
                     if(magick.contains(e))
-                        magick[e] = QStringList() << magick[e].toStringList() << im_gm_magick;
+                        magick[e] = QStringList() << magick[e].toStringList() << validImGmMagick;
                     else
-                        magick.insert(e, QStringList() << im_gm_magick);
+                        magick.insert(e, QStringList() << validImGmMagick);
                 }
                 for(QString &mt : mimetypes.split(",")) {
                     if(magick_mimetype.contains(mt))
-                        magick_mimetype[mt] = QStringList() << magick_mimetype[mt].toStringList() << im_gm_magick;
+                        magick_mimetype[mt] = QStringList() << magick_mimetype[mt].toStringList() << validImGmMagick;
                     else
-                        magick_mimetype.insert(mt, QStringList() << im_gm_magick);
+                        magick_mimetype.insert(mt, QStringList() << validImGmMagick);
                 }
             }
 
