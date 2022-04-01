@@ -325,16 +325,6 @@ void PQStartup::performChecksAndMigrations() {
         LOG << CURDATE << "PQStartup::performChecksAndMigrations(): SQL query error: " << query.lastError().text().trimmed().toStdString() << NL;
     query.next();
 
-    // attempt to enter new format
-    bool anythingnew = false;
-    if(PQImageFormats::get().enterNewFormat("jxl", "image/jxl", "JPEG XL", "img", 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "jxl", true))
-        anythingnew = true;
-    if(PQImageFormats::get().updateFormatByEnding("heif,heic", "image/heic,image/heif", "HEIF: High Efficiency Image Format", "img", 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, "HEIC", "heif", true))
-        anythingnew = true;
-
-    if(anythingnew)
-        PQImageFormats::get().readDatabase();
-
     /**************************************************************/
 
     // migrate data
@@ -347,6 +337,9 @@ void PQStartup::performChecksAndMigrations() {
     enterNewShortcuts();
 
     PQSettings::get().update("generalVersion", VERSION);
+
+    PQValidate validate;
+    validate.validate();
 
 }
 

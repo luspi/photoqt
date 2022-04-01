@@ -34,6 +34,7 @@
 #include "../configfiles.h"
 #include "../logger.h"
 #include "../settings/imageformats.h"
+#include "validate.h"
 
 class PQStartup : public QObject {
 
