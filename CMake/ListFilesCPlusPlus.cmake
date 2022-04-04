@@ -16,20 +16,20 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingshareimgur.cpp ${d}/replytim
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfacetags.cpp ${d}/handlingchromecast.cpp ${d}/httpserver.cpp)
 
 SET(d "cplusplus/imageprovider")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumb.cpp ${d}/imageprovidericon.cpp ${d}/imageproviderhistogram.cpp ${d}/loadimage.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumb.cpp ${d}/imageprovidericon.cpp ${d}/imageproviderhistogram.cpp ${d}/loadimage.cpp)
 
 SET(d "cplusplus/imageprovider/loader")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_qt.h ${d}/loadimage_xcf.h ${d}/loadimage_poppler.h ${d}/loadimage_raw.h ${d}/loadimage_devil.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_freeimage.h ${d}/loadimage_archive.h ${d}/loadimage_unrar.h ${d}/loadimage_video.h ${d}/helper.h ${d}/loadimage_magick.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.cpp ${d}/loadimage_qt.cpp ${d}/loadimage_xcf.cpp ${d}/loadimage_poppler.cpp ${d}/loadimage_raw.cpp ${d}/loadimage_devil.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_freeimage.cpp ${d}/loadimage_archive.cpp ${d}/loadimage_unrar.cpp ${d}/loadimage_video.cpp ${d}/helper.cpp ${d}/loadimage_magick.cpp)
 
 SET(d "cplusplus/singleinstance")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.cpp ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/startup")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/startup.cpp ${d}/validate.cpp)
 
 SET(d "cplusplus/filefoldermodel")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filefoldermodel.cpp ${d}/filefoldermodelcache.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filefoldermodel.cpp ${d}/filefoldermodelcache.cpp)
 
 SET(d "python")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqpy.h)
