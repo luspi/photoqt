@@ -34,7 +34,7 @@ QString PQHandlingShortcuts::composeDisplayString(QString combo) {
         QStringList p = combo.split("+");
         ret = p[0] + " + ";
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
         QStringList dir = p[1].split("", Qt::SkipEmptyParts);
 #else
         QStringList dir = p[1].split("", QString::SkipEmptyParts);
