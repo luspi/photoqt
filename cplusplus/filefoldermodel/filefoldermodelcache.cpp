@@ -16,7 +16,7 @@ bool PQFileFolderModelCache::loadFilesFromCache(QString foldername, bool showHid
 
 bool PQFileFolderModelCache::loadFoldersFromCache(QString foldername, bool showHidden, int sortFlags, QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter, bool ignoreFiltersExceptDefault, int sortField, bool sortReversed, QStringList &entriesFolders) {
     const QString key = getUniqueCacheKey(foldername, showHidden, sortFlags, defaultNameFilters, nameFilters, filenameFileters, mimeTypeFilters, imageResolutionFilter, fileSizeFilter, ignoreFiltersExceptDefault, sortField, sortReversed);
-    if(cacheFiles.contains(key)) {
+    if(cacheFolders.contains(key)) {
         entriesFolders = cacheFolders.value(key);
         return true;
     }
