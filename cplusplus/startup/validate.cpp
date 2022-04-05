@@ -128,6 +128,22 @@ bool PQValidate::validateImageFormatsDatabase() {
 
         check.clear();
 
+        bool updateByEnding = true;
+
+        // if ENDINGS does not exist, check for description
+        if(count == 0) {
+            QSqlQuery check(dbinstalled);
+            check.prepare("SELECT count(description) FROM imageformats WHERE description=:description");
+            check.bindValue(":description", description);
+            if(!check.exec()) {
+                LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error checking description: " << endings.toStdString() << "/" << description.toStdString() << ": " << check.lastError().text().trimmed().toStdString() << NL;
+                continue;
+            }
+            check.next();
+            count = check.value(0).toInt();
+            updateByEnding = false;
+        }
+
         // if entry does not exist, add it
         if(count == 0) {
 
@@ -163,7 +179,10 @@ bool PQValidate::validateImageFormatsDatabase() {
         } else {
 
             QSqlQuery check(dbinstalled);
-            check.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
+            if(updateByEnding)
+                check.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
+            else
+                check.prepare("UPDATE imageformats SET  endings=:endings, mimetypes=:mimetypes, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE description=:description");
 
             check.bindValue(":endings", endings);
             check.bindValue(":mimetypes", mimetypes);
