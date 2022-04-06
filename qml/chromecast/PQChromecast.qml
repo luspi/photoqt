@@ -23,7 +23,6 @@
 import QtQuick 2.9
 
 import "../elements"
-import QtGraphicalEffects 1.0
 
 Item {
 
@@ -43,30 +42,10 @@ Item {
     property bool iAmScanning: false
     property var chromecastData: []
 
-    Item {
-        id: dummyitem
-        width: 0
-        height: 0
-    }
-
-    ShaderEffectSource {
-        id: effectSource
-        sourceItem: PQSettings.interfacePopoutChromecast ? dummyitem : imageitem
-        anchors.fill: parent
-        sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
-    }
-
-    FastBlur {
-        id: blur
-        anchors.fill: effectSource
-        source: effectSource
-        radius: 32
-    }
-
     Rectangle {
 
         anchors.fill: parent
-        color: "#ee000000"
+        color: "#f8000000"
 
         PQMouseArea {
             anchors.fill: parent

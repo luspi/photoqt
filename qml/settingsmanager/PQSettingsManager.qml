@@ -25,7 +25,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import Qt.labs.platform 1.0
-import QtGraphicalEffects 1.0
 
 import "../elements"
 import "./tabs"
@@ -63,26 +62,6 @@ Item {
     property bool scrollBarVisible: false
     signal isScrollBarVisible()
 
-    Item {
-        id: dummyitem
-        width: 0
-        height: 0
-    }
-
-    ShaderEffectSource {
-        id: effectSource
-        sourceItem: PQSettings.interfacePopoutSettingsManager ? dummyitem : imageitem
-        anchors.fill: parent
-        sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
-    }
-
-    FastBlur {
-        id: blur
-        anchors.fill: effectSource
-        source: effectSource
-        radius: 32
-    }
-
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
@@ -91,7 +70,7 @@ Item {
     Rectangle {
 
         anchors.fill: parent
-        color: "#ee000000"
+        color: "#f8000000"
 
         Column {
 

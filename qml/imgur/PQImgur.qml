@@ -23,7 +23,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
-import QtGraphicalEffects 1.0
 
 import "../elements"
 
@@ -45,30 +44,10 @@ Item {
     property bool anonymous: false
     property string accountname: ""
 
-    Item {
-        id: dummyitem
-        width: 0
-        height: 0
-    }
-
-    ShaderEffectSource {
-        id: effectSource
-        sourceItem: PQSettings.interfacePopoutImgur ? dummyitem : imageitem
-        anchors.fill: parent
-        sourceRect: Qt.rect(parent.x,parent.y,parent.width,parent.height)
-    }
-
-    FastBlur {
-        id: blur
-        anchors.fill: effectSource
-        source: effectSource
-        radius: 32
-    }
-
     Rectangle {
 
         anchors.fill: parent
-        color: "#ee000000"
+        color: "#f8000000"
 
         PQMouseArea {
             anchors.fill: parent
