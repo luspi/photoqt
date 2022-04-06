@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "filefoldermodel.h"
+#include "../imageprovider/resolutionprovider.h"
 
 PQFileFolderModel::PQFileFolderModel(QObject *parent) : QObject(parent) {
 
@@ -460,8 +461,6 @@ void PQFileFolderModel::advancedSortMainView() {
             else if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "high")
                 requestedSize = QSize(-1,-1);
 
-            QSize origSize;
-            QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);
 
             // the key used for sorting
             // depending on the criteria, it is computed in different ways
@@ -469,12 +468,22 @@ void PQFileFolderModel::advancedSortMainView() {
 
             if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "resolution") {
 
-                key = origSize.width()+origSize.height();
+                QSize size = PQResolutionProvider::get().getResolution(m_entriesMainView[i]);
+                if(size.isEmpty()) {
+                    QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &size, requestedSize);
+                    PQResolutionProvider::get().saveResolution(m_entriesMainView[i], size);
+                }
+
+                key = size.width()+size.height();
 
             } else {
 
-                int width = img.width();
-                int height = img.height();
+                QSize origSize;
+                QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);
+                PQResolutionProvider::get().saveResolution(m_entriesMainView[i], origSize);
+
+                const int width = origSize.width();
+                const int height = origSize.height();
 
                 QRgb *ct;
 

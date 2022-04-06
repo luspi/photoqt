@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "loadimage.h"
+#include "resolutionprovider.h"
 
 PQLoadImage::PQLoadImage() {
     foundExternalUnrar = -1;
@@ -284,8 +285,10 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize *origSize
 
     // cache image (if not scaled)
     // we always cache the last image if nothing else
-    if(!img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1))
+    if(!img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1)) {
         load_helper->saveImageToCache(filename, &img);
+        PQResolutionProvider::get().saveResolution(filename, *origSize);
+    }
 
     if(requestedSize != QSize(-1,-1) && requestedSize != img.size())
         img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);

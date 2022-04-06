@@ -23,6 +23,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "logger.h"
 #include "passon.h"
 #include "startup/startup.h"
 #include "startup/validate.h"
@@ -45,7 +46,6 @@
 #include "scripts/metadata.h"
 #include "filefoldermodel/filefoldermodel.h"
 #include "settings/shortcuts.h"
-#include "logger.h"
 #include "scripts/handlingchromecast.h"
 #include "print/printsupport.h"
 
