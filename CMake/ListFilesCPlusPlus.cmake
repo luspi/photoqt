@@ -16,7 +16,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingshareimgur.cpp ${d}/replytim
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfacetags.cpp ${d}/handlingchromecast.cpp ${d}/httpserver.cpp)
 
 SET(d "cplusplus/imageprovider")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumb.cpp ${d}/imageprovidericon.cpp ${d}/imageproviderhistogram.cpp ${d}/loadimage.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumb.cpp ${d}/imageprovidericon.cpp ${d}/imageproviderhistogram.cpp ${d}/loadimage.cpp ${d}/resolutionprovider.cpp)
 
 SET(d "cplusplus/imageprovider/loader")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.cpp ${d}/loadimage_qt.cpp ${d}/loadimage_xcf.cpp ${d}/loadimage_poppler.cpp ${d}/loadimage_raw.cpp ${d}/loadimage_devil.cpp)
