@@ -54,8 +54,10 @@
         <keyword>exiv2</keyword>
         <keyword>libraw</keyword>
         <keyword>raw</keyword>
+        <keyword>graphicsmagick</keyword>
         <keyword>imagemagick</keyword>
         <keyword>devil</keyword>
+        <keyword>archive</keyword>
         <keyword>face tags</keyword>
         <keyword>touchscreen</keyword>
         <keyword>chromecast</keyword>
@@ -83,6 +85,7 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="2.6" date="2022-04-07" />
         <release version="2.5" date="2022-01-05" />
         <release version="2.4" date="2021-10-22" />
         <release version="2.3" date="2021-06-14" />

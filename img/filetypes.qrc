@@ -4,6 +4,7 @@
         <file>filetypes/7z.ico</file>
         <file>filetypes/aai.ico</file>
         <file>filetypes/amv.ico</file>
+        <file>filetypes/ani.ico</file>
         <file>filetypes/apng.ico</file>
         <file>filetypes/ari.ico</file>
         <file>filetypes/art.ico</file>
@@ -17,6 +18,7 @@
         <file>filetypes/mbfavs.ico</file>
         <file>filetypes/bay.ico</file>
         <file>filetypes/bmp.ico</file>
+        <file>filetypes/dib.ico</file>
         <file>filetypes/bpg.ico</file>
         <file>filetypes/cals.ico</file>
         <file>filetypes/ct1.ico</file>
@@ -36,7 +38,8 @@
         <file>filetypes/cbz.ico</file>
         <file>filetypes/cg3.ico</file>
         <file>filetypes/g3.ico</file>
-        <file>filetypes/cgm.ico</file>
+        <file>filetypes/cg4.ico</file>
+        <file>filetypes/g4.ico</file>
         <file>filetypes/crw.ico</file>
         <file>filetypes/crr.ico</file>
         <file>filetypes/cr2.ico</file>
@@ -45,7 +48,6 @@
         <file>filetypes/cur.ico</file>
         <file>filetypes/cut.ico</file>
         <file>filetypes/pal.ico</file>
-        <file>filetypes/pic.ico</file>
         <file>filetypes/dcr.ico</file>
         <file>filetypes/kdc.ico</file>
         <file>filetypes/drf.ico</file>
@@ -53,7 +55,7 @@
         <file>filetypes/dcs.ico</file>
         <file>filetypes/dcx.ico</file>
         <file>filetypes/dds.ico</file>
-        <file>filetypes/dib.ico</file>
+        <file>filetypes/dfont.ico</file>
         <file>filetypes/dic.ico</file>
         <file>filetypes/dcm.ico</file>
         <file>filetypes/djvu.ico</file>
@@ -68,19 +70,15 @@
         <file>filetypes/erf.ico</file>
         <file>filetypes/exr.ico</file>
         <file>filetypes/ff.ico</file>
-        <file>filetypes/fig.ico</file>
         <file>filetypes/fits.ico</file>
         <file>filetypes/fit.ico</file>
         <file>filetypes/fts.ico</file>
         <file>filetypes/fl32.ico</file>
-        <file>filetypes/flif.ico</file>
         <file>filetypes/flv.ico</file>
         <file>filetypes/f4v.ico</file>
-        <file>filetypes/fpx.ico</file>
         <file>filetypes/ftx.ico</file>
         <file>filetypes/gif.ico</file>
         <file>filetypes/gpr.ico</file>
-        <file>filetypes/gv.ico</file>
         <file>filetypes/heif.ico</file>
         <file>filetypes/heic.ico</file>
         <file>filetypes/hrz.ico</file>
@@ -139,6 +137,10 @@
         <file>filetypes/ora.ico</file>
         <file>filetypes/orf.ico</file>
         <file>filetypes/otb.ico</file>
+        <file>filetypes/otf.ico</file>
+        <file>filetypes/otc.ico</file>
+        <file>filetypes/ttf.ico</file>
+        <file>filetypes/ttc.ico</file>
         <file>filetypes/p7.ico</file>
         <file>filetypes/palm.ico</file>
         <file>filetypes/pam.ico</file>
@@ -151,8 +153,15 @@
         <file>filetypes/pef.ico</file>
         <file>filetypes/ptx.ico</file>
         <file>filetypes/pes.ico</file>
+        <file>filetypes/pfb.ico</file>
+        <file>filetypes/pfm.ico</file>
+        <file>filetypes/afm.ico</file>
+        <file>filetypes/inf.ico</file>
+        <file>filetypes/pfa.ico</file>
+        <file>filetypes/ofm.ico</file>
         <file>filetypes/pfm.ico</file>
         <file>filetypes/pgm.ico</file>
+        <file>filetypes/pgx.ico</file>
         <file>filetypes/phm.ico</file>
         <file>filetypes/pic.ico</file>
         <file>filetypes/picon.ico</file>
@@ -161,6 +170,7 @@
         <file>filetypes/pic.ico</file>
         <file>filetypes/pix.ico</file>
         <file>filetypes/als.ico</file>
+        <file>filetypes/alias.ico</file>
         <file>filetypes/png.ico</file>
         <file>filetypes/ppm.ico</file>
         <file>filetypes/pnm.ico</file>
@@ -172,6 +182,7 @@
         <file>filetypes/ptiff.ico</file>
         <file>filetypes/ptif.ico</file>
         <file>filetypes/pxn.ico</file>
+        <file>filetypes/qoi.ico</file>
         <file>filetypes/raf.ico</file>
         <file>filetypes/rar.ico</file>
         <file>filetypes/raw.ico</file>
@@ -187,6 +198,7 @@
         <file>filetypes/rla.ico</file>
         <file>filetypes/rle.ico</file>
         <file>filetypes/rw2.ico</file>
+        <file>filetypes/scr.ico</file>
         <file>filetypes/sct.ico</file>
         <file>filetypes/ch.ico</file>
         <file>filetypes/ct.ico</file>
@@ -194,7 +206,7 @@
         <file>filetypes/alb.ico</file>
         <file>filetypes/pwm.ico</file>
         <file>filetypes/pwp.ico</file>
-        <file>filetypes/sid.ico</file>
+        <file>filetypes/sixel.ico</file>
         <file>filetypes/srf.ico</file>
         <file>filetypes/mrw.ico</file>
         <file>filetypes/sr2.ico</file>

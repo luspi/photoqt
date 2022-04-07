@@ -2,6 +2,20 @@ Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), Li
 ----------------------------------------------------------------------------------------------------------
 
 
+Release 2.6 - 2022-04-07
+----------------------------
+- add new image formats: ani, dfont, g4, heic/heif, otf, pfa/pfb, pgx, qoi, sixel
+- add: new transitions: explosion, implosion, rotation, random
+- add: advanced sorting (including shortcuts) by: resolution, dominant color, average color
+- add: more filter options: file name/extension, resolution, file size
+- add: print support
+- add: option to always show 'closing x'
+- improve: general performance improvements
+- remove no longer supported image formats: cgm, fig, fpx, flif, gv, sid
+- fix: update with GraphicsMagick caused crash
+- fix: fully hide labels if none are set to be shown
+
+
 Release 2.5 - 2022-01-05
 ----------------------------
 - add: chromecast support (using pychromecast)
