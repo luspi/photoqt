@@ -74,9 +74,12 @@ bool PQValidate::validateImageFormatsDatabase() {
     }
 
     // open database
-    QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
-    QFile::copy(":/imageformats.db", QDir::tempPath()+"/photoqt_tmp.db");
-    dbdefault.setDatabaseName(QDir::tempPath()+"/photoqt_tmp.db");
+    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/imageformats.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                          QFileDevice::ReadGroup);
+    dbdefault.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open())
         LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error opening default database: " << dbdefault.lastError().text().trimmed().toStdString() << NL;
 
@@ -87,7 +90,7 @@ bool PQValidate::validateImageFormatsDatabase() {
     if(!query.exec()) {
         LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error getting default data: " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
-        QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+        QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -214,7 +217,11 @@ bool PQValidate::validateImageFormatsDatabase() {
 
     query.clear();
 
-    QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+    dbdefault.close();
+
+    QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    if(!file.remove())
+        LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): ERROR: Unable to remove ref db: " << file.errorString().toStdString() << NL;
 
     return true;
 
@@ -239,9 +246,12 @@ bool PQValidate::validateSettingsDatabase() {
     }
 
     // open database
-    QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
-    QFile::copy(":/settings.db", QDir::tempPath()+"/photoqt_tmp.db");
-    dbdefault.setDatabaseName(QDir::tempPath()+"/photoqt_tmp.db");
+    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/settings.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                          QFileDevice::ReadGroup);
+    dbdefault.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open())
         LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error opening default database: " << dbdefault.lastError().text().trimmed().toStdString() << NL;
 
@@ -252,7 +262,7 @@ bool PQValidate::validateSettingsDatabase() {
     if(!queryTables.exec()) {
         LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error getting list of tables: " << queryTables.lastError().text().trimmed().toStdString() << NL;
         queryTables.clear();
-        QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+        QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -271,7 +281,7 @@ bool PQValidate::validateSettingsDatabase() {
         if(!query.exec()) {
             LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error getting default data: " << query.lastError().text().trimmed().toStdString() << NL;
             query.clear();
-            QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+            QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
             return false;
         }
 
@@ -333,7 +343,11 @@ bool PQValidate::validateSettingsDatabase() {
 
     }
 
-    QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+    dbdefault.close();
+
+    QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    if(!file.remove())
+        LOG << CURDATE << "PQValidate::validateSettingsDatabase(): ERROR: Unable to remove ref db: " << file.errorString().toStdString() << NL;
 
     return true;
 
@@ -355,9 +369,12 @@ bool PQValidate::validateShortcutsDatabase() {
     }
 
     // open database
-    QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
-    QFile::copy(":/shortcuts.db", QDir::tempPath()+"/photoqt_tmp.db");
-    dbdefault.setDatabaseName(QDir::tempPath()+"/photoqt_tmp.db");
+    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/shortcuts.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                          QFileDevice::ReadGroup);
+    dbdefault.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open())
         LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error opening default database: " << dbdefault.lastError().text().trimmed().toStdString() << NL;
 
@@ -368,7 +385,7 @@ bool PQValidate::validateShortcutsDatabase() {
     if(!query.exec()) {
         LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error getting default data: " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
-        QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+        QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -456,7 +473,11 @@ bool PQValidate::validateShortcutsDatabase() {
 
     query.clear();
 
-    QFile::remove(QDir::tempPath()+"/photoqt_tmp.db");
+    dbdefault.close();
+
+    QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    if(!file.remove())
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to remove ref db: " << file.errorString().toStdString() << NL;
 
     return true;
 
