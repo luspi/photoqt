@@ -178,7 +178,7 @@ void PQStartup::setupFresh(int defaultPopout) {
         LOG << CURDATE << "PQStartup::setupFresh(): unable to create default imageformats database" << NL;
     else {
         QFile file(ConfigFiles::IMAGEFORMATS_DB());
-        file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     /**************************************************************/
@@ -187,7 +187,7 @@ void PQStartup::setupFresh(int defaultPopout) {
         LOG << CURDATE << "PQStartup::setupFresh(): unable to create settings database" << NL;
     else {
         QFile file(ConfigFiles::SETTINGS_DB());
-        file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     PQSettings::get().update("generalVersion", VERSION);
@@ -233,7 +233,7 @@ void PQStartup::setupFresh(int defaultPopout) {
         LOG << CURDATE << "PQStartup::Settings: unable to create shortcuts database" << NL;
     else {
         QFile file(ConfigFiles::SHORTCUTS_DB());
-        file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
 
@@ -245,7 +245,7 @@ void PQStartup::setupFresh(int defaultPopout) {
         LOG << CURDATE << "PQStartup::setupFresh(): unable to create default contextmenu database" << NL;
     else {
         QFile file(ConfigFiles::CONTEXTMENU_DB());
-        file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     // These are the possible entries
@@ -462,7 +462,7 @@ bool PQStartup::migrateContextmenuToDb() {
             LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): unable to create contextmenu database" << NL;
         else {
             QFile file(ConfigFiles::CONTEXTMENU_DB());
-            file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }
 
@@ -516,9 +516,13 @@ bool PQStartup::migrateContextmenuToDb() {
 
     }
 
-    if(!QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
-        if(!QFile::copy(ConfigFiles::CONTEXTMENU_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
+    QString oldFile = QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE());
+    if(!QFile::exists(oldFile)) {
+        if(!QFile::copy(ConfigFiles::CONTEXTMENU_FILE(), oldFile))
             LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to copy old contextmenu file to 'contextmenu.pre-v2.5' filename" << NL;
+        QFile file(oldFile);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+    }
 
     if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
         if(!QFile::remove(ConfigFiles::CONTEXTMENU_FILE()))
@@ -539,7 +543,7 @@ bool PQStartup::migrateShortcutsToDb() {
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb: unable to create shortcuts database" << NL;
         else {
             QFile file(ConfigFiles::SHORTCUTS_DB());
-            file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }
 
@@ -694,9 +698,13 @@ bool PQStartup::migrateShortcutsToDb() {
 
     }
 
-    if(!QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
-        if(!QFile::copy(ConfigFiles::SHORTCUTS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
+    QString oldfile = QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE());
+    if(!QFile::exists(oldfile)) {
+        if(!QFile::copy(ConfigFiles::SHORTCUTS_FILE(), oldfile))
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to copy old shortcuts file to 'shortcuts.pre-v2.5' filename" << NL;
+        QFile file(oldfile);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+    }
 
     if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
         if(!QFile::remove(ConfigFiles::SHORTCUTS_FILE()))
@@ -717,7 +725,7 @@ bool PQStartup::migrateSettingsToDb() {
             LOG << CURDATE << "PQStartup::Settings: unable to create settings database" << NL;
         else {
             QFile file(ConfigFiles::SETTINGS_DB());
-            file.setPermissions(QFile::WriteOwner|QFile::ReadOwner|QFile::ReadGroup|QFile::ReadOther);
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     } else {
         if(file.exists())
@@ -1027,9 +1035,13 @@ bool PQStartup::migrateSettingsToDb() {
         LOG << CURDATE << "PQStartup::migrateSettingsToDb(): SQL error:  " << query.lastError().text().trimmed().toStdString() << NL;
     }
 
-    if(!QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
-        if(!QFile::copy(ConfigFiles::SETTINGS_FILE(), QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
+    QString oldfile = QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE());
+    if(!QFile::exists(oldfile)) {
+        if(!QFile::copy(ConfigFiles::SETTINGS_FILE(), oldfile))
             LOG << CURDATE << "PQStartup::migrateSettingsToDb(): Failed to copy old settings file to 'settings.pre-v2.5' filename" << NL;
+        QFile file(oldfile);
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+    }
 
     if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SETTINGS_FILE())))
         if(!QFile::remove(ConfigFiles::SETTINGS_FILE()))

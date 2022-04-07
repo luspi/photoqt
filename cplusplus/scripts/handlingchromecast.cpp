@@ -38,6 +38,9 @@ PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
     if(!QFile::copy(":/chromecast.py", chromecastModuleName))
         LOG << CURDATE << "PQHandlingStreaming::PQHandlingStreaming(): Unable to make chromecast module accessible" << NL;
 
+    QFile f(chromecastModuleName);
+    f.setPermissions(f.permissions() | QFileDevice::WriteOwner);
+
     watcher = nullptr;
     imageprovider = nullptr;
 

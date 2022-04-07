@@ -65,6 +65,9 @@ PQSettings::PQSettings() {
             return;
         }
 
+        QFile f(tmppath);
+        f.setPermissions(f.permissions()|QFileDevice::WriteOwner);
+
         db.setDatabaseName(tmppath);
 
         if(!db.open()) {
