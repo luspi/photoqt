@@ -22,6 +22,7 @@
 
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QLoggingCategory>
 
 #include "logger.h"
 #include "passon.h"
@@ -70,6 +71,9 @@ int main(int argc, char **argv) {
 
     // needs to be set before Q*Application is created
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    // silence the `deprecated connection' warnings
+    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
 
     // only a single instance (by default)
     PQSingleInstance app(argc, argv);
