@@ -51,6 +51,7 @@ public:
     QString importAndQuit;
     bool checkConfig;
     bool resetConfig;
+    bool showInfo;
 
     QQmlApplicationEngine *qmlEngine;
     QVector<void*> qmlWindowAddresses;

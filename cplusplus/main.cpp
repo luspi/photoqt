@@ -105,6 +105,9 @@ int main(int argc, char **argv) {
         startup.check(true);
         startup.resetToDefaults();
         std::exit(0);
+    } else if(app.showInfo) {
+        startup.showInfo();
+        std::exit(0);
     }
 
 // only one of them will be defined at a time

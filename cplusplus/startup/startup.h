@@ -63,6 +63,8 @@ public:
     bool enterNewSettings();
     void enterNewShortcuts();
 
+    void showInfo();
+
 private:
     bool checkIfBinaryExists(QString exec);
 

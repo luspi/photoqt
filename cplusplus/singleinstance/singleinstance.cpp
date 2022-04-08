@@ -101,6 +101,15 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
         return;
     }
 
+    // show info
+    showInfo = false;
+    if(result & PQCommandLineShowInfo) {
+        showInfo = true;
+        socket = new QLocalSocket();
+        server = new QLocalServer();
+        return;
+    }
+
     // STANDALONE, EXPORT, IMPORT
 
     exportAndQuit = "";

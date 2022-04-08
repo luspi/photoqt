@@ -93,7 +93,9 @@ PQCommandLineParser::PQCommandLineParser(QApplication &app, QObject *parent) : Q
                    //: Command line option
         {"check-config", QApplication::translate("commandlineparser", "Check the configuration and correct any detected issues.")},
                    //: Command line option
-        {"reset-config", QApplication::translate("commandlineparser", "Reset default configuration.")}
+        {"reset-config", QApplication::translate("commandlineparser", "Reset default configuration.")},
+                   //: Command line option
+        {"show-info", QApplication::translate("commandlineparser", "Show configuration overview.")}
     });
 
     process(app);
@@ -162,6 +164,9 @@ PQCommandLineResult PQCommandLineParser::getResult() {
 
     if(isSet("reset-config"))
         ret = ret|PQCommandLineResetConfig;
+
+    if(isSet("show-info"))
+        ret = ret|PQCommandLineShowInfo;
 
     return ret;
 

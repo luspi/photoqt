@@ -49,7 +49,8 @@ enum PQCommandLineResult {
     PQCommandLineEnableTray = 16384,
     PQCommandLineDisableTray = 32768,
     PQCommandLineCheckConfig = 65536,
-    PQCommandLineResetConfig = 131072
+    PQCommandLineResetConfig = 131072,
+    PQCommandLineShowInfo = 262144
 };
 inline PQCommandLineResult operator|(PQCommandLineResult a, PQCommandLineResult b) {
     return static_cast<PQCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
