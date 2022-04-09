@@ -92,14 +92,15 @@ Item {
                     textFormat: Text.RichText
                 }
 
-                Row {
+                PQButton {
                     x: (parent.width-width)/2
-                    spacing: 10
-                    PQButton {
-                        text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
-                        onClicked:
-                            configinfo.opacity = 1
-                    }
+                    backgroundColor: "#111111"
+                    text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
+                    //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
+                    tooltip: em.pty+qsTranslate("about", "Show configuration overview")
+                    font.pointSize: 12
+                    onClicked:
+                        configinfo.opacity = 1
                 }
 
                 Text {
@@ -111,7 +112,7 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        tooltip: em.pty+qsTranslate("about", "Open license")
+                        tooltip: em.pty+qsTranslate("about", "Open license in browser")
                         onClicked:
                             Qt.openUrlExternally("http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")
                     }
@@ -131,7 +132,7 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        tooltip: em.pty+qsTranslate("about", "Open website")
+                        tooltip: em.pty+qsTranslate("about", "Open website in browser")
                         onClicked:
                             Qt.openUrlExternally("https://photoqt.org")
                     }
@@ -164,6 +165,7 @@ Item {
                     text: em.pty+qsTranslate("about", "Close")
                     tooltip: text
                     onClicked: {
+                        configinfo.opacity = 0
                         about_top.opacity = 0
                         variables.visibleItem = ""
                     }
@@ -177,22 +179,6 @@ Item {
             }
 
         }
-
-        Connections {
-            target: loader
-            onAboutPassOn: {
-                if(what == "show") {
-                    opacity = 1
-                    variables.visibleItem = "about"
-                } else if(what == "hide") {
-                    button_close.clicked()
-                } else if(what == "keyevent") {
-                    if(param[0] == Qt.Key_Escape)
-                        button_close.clicked()
-                }
-            }
-        }
-
 
         Rectangle {
 
@@ -213,7 +199,8 @@ Item {
                 Text {
                     x: (parent.width-width)/2
                     color: "white"
-                    text: "PhotoQt configuration"
+                    //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
+                    text: em.pty+qsTranslate("about", "Configuration")
                     lineHeight: 1.2
                     font.pointSize: 20
                     font.weight: bold
@@ -245,6 +232,21 @@ Item {
 
             }
 
+        }
+
+        Connections {
+            target: loader
+            onAboutPassOn: {
+                if(what == "show") {
+                    opacity = 1
+                    variables.visibleItem = "about"
+                } else if(what == "hide") {
+                    button_close.clicked()
+                } else if(what == "keyevent") {
+                    if(param[0] == Qt.Key_Escape)
+                        button_close.clicked()
+                }
+            }
         }
 
     }
