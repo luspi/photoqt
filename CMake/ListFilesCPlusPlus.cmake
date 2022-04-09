@@ -21,6 +21,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageprov
 SET(d "cplusplus/imageprovider/loader")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.cpp ${d}/loadimage_qt.cpp ${d}/loadimage_xcf.cpp ${d}/loadimage_poppler.cpp ${d}/loadimage_raw.cpp ${d}/loadimage_devil.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_freeimage.cpp ${d}/loadimage_archive.cpp ${d}/loadimage_unrar.cpp ${d}/loadimage_video.cpp ${d}/helper.cpp ${d}/loadimage_magick.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_libvips.cpp)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.cpp ${d}/singleinstance.cpp)

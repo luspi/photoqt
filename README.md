@@ -25,6 +25,7 @@ Dependencies, that are needed by default, but can be disabled via CMake:
 - ImageMagick _or_ GraphicsMagick 
 - LibRaw
 - Poppler
+- LibVips
 - FreeImage
 - DevIL
 - pugixml

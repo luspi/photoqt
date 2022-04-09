@@ -67,6 +67,10 @@
 #include <IL/il.h>
 #endif
 
+#ifdef LIBVIPS
+#include <vips/vips8>
+#endif
+
 int main(int argc, char **argv) {
 
     // needs to be set before Q*Application is created
@@ -161,6 +165,10 @@ int main(int argc, char **argv) {
     FreeImage_Initialise();
 #endif
 
+#ifdef LIBVIPS
+    VIPS_INIT(argv[0]);
+#endif
+
     QQmlApplicationEngine engine;
     app.qmlEngine = &engine;
 
@@ -210,6 +218,10 @@ int main(int argc, char **argv) {
 
 #ifdef FREEIMAGE
     FreeImage_DeInitialise();
+#endif
+
+#ifdef LIBVIPS
+    vips_shutdown();
 #endif
 
     return ret;

@@ -37,6 +37,7 @@ PQLoadImage::PQLoadImage() {
     load_archive = new PQLoadImageArchive;
     load_unrar = new PQLoadImageUNRAR;
     load_video = new PQLoadImageVideo;
+    load_libvips = new PQLoadImageLibVips;
 }
 
 PQLoadImage::~PQLoadImage() {
@@ -52,6 +53,7 @@ PQLoadImage::~PQLoadImage() {
     delete load_archive;
     delete load_unrar;
     delete load_video;
+    delete load_libvips;
 }
 
 
@@ -78,28 +80,31 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize *origSize
     // it is best to start with specilized libraries first before getting to the more catch-all libraries
     // the specialized ones are usually better for their specific image formats then the catch-all ones
     QStringList order;
-    order << "qt"
+    order << "qt";
 #ifdef RAW
-          << "libraw"
+    order << "libraw";
 #endif
 #ifdef POPPLER
-          << "poppler"
+    order << "poppler";
 #endif
 #ifdef LIBARCHIVE
-          << "archive"
+    order << "archive";
 #endif
-          << "xcftools"
+    order << "xcftools";
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-          << "magick"
+    order << "magick";
+#endif
+#ifdef LIBVIPS
+    order << "libvips";
 #endif
 #ifdef FREEIMAGE
-          << "freeimage"
+    order << "freeimage";
 #endif
 #ifdef DEVIL
-          << "devil"
+    order << "devil";
 #endif
 #ifdef VIDEO
-          << "video"
+    order << "video";
 #endif
     ;
 
@@ -117,6 +122,12 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize *origSize
 
             loadWithQt(filename, requestedSize, origSize, img, err);
 
+#ifdef LIBVIPS
+        else if(o == "libvips" && PQImageFormats::get().getEnabledFormatsLibVips().contains(suffix))
+
+            loadWithLibVips(filename, requestedSize, origSize, img, err);
+
+#endif
 #ifdef RAW
 
          else if(o == "libraw" && PQImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
@@ -197,6 +208,12 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize *origSize
 
                     loadWithQt(filename, requestedSize, origSize, img, err);
 
+#ifdef LIBVIPS
+                 else if(o == "libvips" && PQImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
+
+                    loadWithLibVips(filename, requestedSize, origSize, img, err);
+
+#endif
 #ifdef RAW
 
                  else if(o == "libraw" && PQImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
@@ -437,3 +454,17 @@ void PQLoadImage::loadWithVideo(QString filename, QSize requestedSize, QSize *or
     }
 
 }
+
+void PQLoadImage::loadWithLibVips(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+
+    DBG << CURDATE << "attempt to load image with libvips" << NL;
+
+    img = load_libvips->load(filename, requestedSize, origSize);
+
+    if(load_libvips->errormsg != "") {
+        LOG << CURDATE << "PQLoadImage::load(): failed to load image with libvips" << NL;
+        err += QString("<b>LibVips</b><br>%1<br><br>").arg(load_libvips->errormsg);
+    }
+
+}
+

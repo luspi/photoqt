@@ -37,6 +37,7 @@
 #include "loader/loadimage_archive.h"
 #include "loader/loadimage_unrar.h"
 #include "loader/loadimage_video.h"
+#include "loader/loadimage_libvips.h"
 #include "loader/helper.h"
 
 class PQLoadImage {
@@ -61,6 +62,7 @@ private:
     PQLoadImageArchive *load_archive;
     PQLoadImageUNRAR *load_unrar;
     PQLoadImageVideo *load_video;
+    PQLoadImageLibVips *load_libvips;
     QMimeDatabase db;
 
     void loadWithQt(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
@@ -72,6 +74,7 @@ private:
     void loadWithFreeImage(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
     void loadWithDevIL(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
     void loadWithVideo(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
+    void loadWithLibVips(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
 
 };
 

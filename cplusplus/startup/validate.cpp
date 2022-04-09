@@ -85,11 +85,59 @@ bool PQValidate::validateImageFormatsDatabase() {
 
     QSqlQuery query(dbdefault);
 
+    // get default columns
+    query.prepare("PRAGMA table_info(imageformats)");
+    if(!query.exec()) {
+        LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error getting default columns: " << query.lastError().text().trimmed().toStdString() << NL;
+        query.clear();
+        dbdefault.close();
+        QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+        return false;
+    }
+
+    // loop over default columns and make sure they all exist in installed db
+    while(query.next()) {
+        QString col = query.value(1).toString();
+        QString type = query.value(2).toString();
+
+        QSqlQuery query2(dbinstalled);
+        query2.prepare("SELECT COUNT(*) AS count FROM pragma_table_info('imageformats') WHERE name=:name");
+        query2.bindValue(":name", col);
+        if(!query2.exec()) {
+            LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error checking column existence: " << query2.lastError().text().trimmed().toStdString() << NL;
+            query2.clear();
+            dbdefault.close();
+            QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+            return false;
+        }
+        query2.next();
+        int c = query2.value(0).toInt();
+
+        // if column does not exist, add it
+        if(c == 0) {
+            QSqlQuery query3(dbinstalled);
+            query3.prepare(QString("ALTER TABLE imageformats ADD %1 %2").arg(col).arg(type));
+            if(!query3.exec()) {
+                LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error adding new column: " << query3.lastError().text().trimmed().toStdString() << NL;
+                query3.clear();
+                dbdefault.close();
+                QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+                return false;
+            }
+            query3.clear();
+        }
+        query2.clear();
+
+    }
+
+    query.clear();
+
     // get reference data
-    query.prepare("SELECT endings,mimetypes,description,category,enabled,qt,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,im_gm_magick,qt_formatname FROM 'imageformats'");
+    query.prepare("SELECT endings,mimetypes,description,category,enabled,qt,libvips,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,im_gm_magick,qt_formatname FROM 'imageformats'");
     if(!query.exec()) {
         LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error getting default data: " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
+        dbdefault.close();
         QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
@@ -104,19 +152,20 @@ bool PQValidate::validateImageFormatsDatabase() {
         const QString enabled = query.value(4).toString();
 
         const QString qt = query.value(5).toString();
-        const QString imagemagick = query.value(6).toString();
-        const QString graphicsmagick = query.value(7).toString();
-        const QString libraw = query.value(8).toString();
-        const QString poppler = query.value(9).toString();
+        const QString libvips = query.value(6).toString();
+        const QString imagemagick = query.value(7).toString();
+        const QString graphicsmagick = query.value(8).toString();
+        const QString libraw = query.value(9).toString();
 
-        const QString xcftools = query.value(10).toString();
-        const QString devil = query.value(11).toString();
-        const QString freeimage = query.value(12).toString();
-        const QString archive = query.value(13).toString();
-        const QString video = query.value(14).toString();
+        const QString poppler = query.value(10).toString();
+        const QString xcftools = query.value(11).toString();
+        const QString devil = query.value(12).toString();
+        const QString freeimage = query.value(13).toString();
+        const QString archive = query.value(14).toString();
 
-        const QString im_gm_magick = query.value(15).toString();
-        const QString qt_formatname = query.value(16).toString();
+        const QString video = query.value(15).toString();
+        const QString im_gm_magick = query.value(16).toString();
+        const QString qt_formatname = query.value(17).toString();
 
         // check whether an entry with that name exists in the in-production database
         QSqlQuery check(dbinstalled);
@@ -151,7 +200,7 @@ bool PQValidate::validateImageFormatsDatabase() {
         if(count == 0) {
 
             QSqlQuery insquery(dbinstalled);
-            insquery.prepare("INSERT INTO imageformats (endings,mimetypes,description,category,enabled,qt,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,im_gm_magick,qt_formatname) VALUES(:endings,:mimetypes,:description,:category,:enabled,:qt,:imagemagick,:graphicsmagick,:libraw,:poppler,:xcftools,:devil,:freeimage,:archive,:video,:im_gm_magick,:qt_formatname)");
+            insquery.prepare("INSERT INTO imageformats (endings,mimetypes,description,category,enabled,qt,libvips,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,im_gm_magick,qt_formatname) VALUES(:endings,:mimetypes,:description,:category,:enabled,:qt,:libvips,:imagemagick,:graphicsmagick,:libraw,:poppler,:xcftools,:devil,:freeimage,:archive,:video,:im_gm_magick,:qt_formatname)");
             insquery.bindValue(":endings", endings);
             insquery.bindValue(":mimetypes", mimetypes);
             insquery.bindValue(":description", description);
@@ -159,17 +208,18 @@ bool PQValidate::validateImageFormatsDatabase() {
             insquery.bindValue(":enabled", enabled);
 
             insquery.bindValue(":qt", qt);
+            insquery.bindValue(":libvips", libvips);
             insquery.bindValue(":imagemagick", imagemagick);
             insquery.bindValue(":graphicsmagick", graphicsmagick);
             insquery.bindValue(":libraw",libraw );
-            insquery.bindValue(":poppler", poppler);
 
+            insquery.bindValue(":poppler", poppler);
             insquery.bindValue(":xcftools", xcftools);
             insquery.bindValue(":devil", devil);
             insquery.bindValue(":freeimage", freeimage);
             insquery.bindValue(":archive", archive);
-            insquery.bindValue(":video", video);
 
+            insquery.bindValue(":video", video);
             insquery.bindValue(":im_gm_magick", im_gm_magick);
             insquery.bindValue(":qt_formatname", qt_formatname);
 
@@ -183,9 +233,9 @@ bool PQValidate::validateImageFormatsDatabase() {
 
             QSqlQuery check(dbinstalled);
             if(updateByEnding)
-                check.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
+                check.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, enabled=:enabled, qt=:qt, libvips=:libvips, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
             else
-                check.prepare("UPDATE imageformats SET  endings=:endings, mimetypes=:mimetypes, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE description=:description");
+                check.prepare("UPDATE imageformats SET  endings=:endings, mimetypes=:mimetypes, category=:category, enabled=:enabled, qt=:qt, libvips=:libvips, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE description=:description");
 
             check.bindValue(":endings", endings);
             check.bindValue(":mimetypes", mimetypes);
@@ -193,6 +243,7 @@ bool PQValidate::validateImageFormatsDatabase() {
             check.bindValue(":category", category);
             check.bindValue(":enabled", enabled);
             check.bindValue(":qt", qt);
+            check.bindValue(":libvips", libvips);
             check.bindValue(":imagemagick", imagemagick);
             check.bindValue(":graphicsmagick", graphicsmagick);
             check.bindValue(":libraw", libraw);

@@ -75,6 +75,14 @@ public:
         return mimetypes_qt;
     }
 
+    Q_INVOKABLE QStringList getEnabledFormatsLibVips() {
+        return formats_libvips;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibVips() {
+        return mimetypes_libvips;
+    }
+
     Q_INVOKABLE QStringList getEnabledFormatsMagick() {
         return formats_magick;
     }
@@ -150,8 +158,8 @@ public:
     Q_INVOKABLE QVariantList getWriteableFormats();
     QVariantMap getFormatsInfo(QString endings);
 
-    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
-    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
 
     Q_INVOKABLE void restoreDefaults();
 
@@ -170,6 +178,8 @@ private:
 
     QStringList formats_qt;
     QStringList mimetypes_qt;
+    QStringList formats_libvips;
+    QStringList mimetypes_libvips;
     QStringList formats_magick;
     QStringList mimetypes_magick;
     QStringList formats_libraw;

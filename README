@@ -26,6 +26,7 @@
 - ImageMagick or GraphicsMagick
 - LibRaw
 - Poppler
+- LibVips
 - FreeImage
 - DevIL
 - pugixml

@@ -10,7 +10,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="2.6")
+add_definitions(-DVERSION="dev")
 
 
 ########################################
@@ -48,6 +48,7 @@ option(LIBARCHIVE "Enable features that require libarchive" ON)
 option(PUGIXML "Enable features that require pugixml" ON)
 option(VIDEO "Enable video support" ON)
 option(CHROMECAST "Enable Chromecast support" ON)
+option(LIBVIPS "Use libvips" ON)
 
 # name of this option changed
 # this helps to make sure nothing breaks
@@ -112,6 +113,10 @@ if(DEVIL)
 endif()
 if(CHROMECAST)
     find_package(Python3 COMPONENTS Interpreter Development)
+endif()
+if(LIBVIPS)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLIB REQUIRED glib-2.0 gobject-2.0)
 endif()
 
 # Since Python might be imported we have to avoid using Qt keywords (like 'slots') to avoid naming conflicts
@@ -337,6 +342,18 @@ if(CHROMECAST)
     endif()
 else()
     message("** Chromecast support DISABLED")
+endif()
+
+if(LIBVIPS)
+    include_directories(${GLIB_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} ${GLIB_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} "vips")
+    target_link_libraries(${PROJECT_NAME} "gobject-2.0")
+    target_link_libraries(${PROJECT_NAME} "vips-cpp")
+    add_definitions(-DLIBVIPS)
+    message("** Using libvips")
+else()
+    message("** libvips DISABLED")
 endif()
 
 
