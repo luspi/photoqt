@@ -22,30 +22,6 @@
 
 #include <iomanip>
 #include "startup.h"
-#ifdef EXIV2
-#include <exiv2/exiv2.hpp>
-#endif
-#ifdef PUGIXML
-#include <pugixml.hpp>
-#endif
-#ifdef CHROMECAST
-#include <Python.h>
-#endif
-#ifdef RAW
-#include <libraw/libraw.h>
-#endif
-#ifdef LIBARCHIVE
-#include <archive.h>
-#endif
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-#include <Magick++.h>
-#endif
-#ifdef FREEIMAGE
-#include <FreeImagePlus.h>
-#endif
-#ifdef DEVIL
-#include <il.h>
-#endif
 
 PQStartup::PQStartup(QObject *parent) : QObject(parent) {
 
@@ -1080,58 +1056,8 @@ bool PQStartup::migrateSettingsToDb() {
 
 void PQStartup::showInfo() {
 
-    LOG << NL
-        << " PhotoQt configuration:"
-        << NL << NL;
-
-#ifdef EXIV2
-    LOG << " ** Exiv2: " << Exiv2::version() << NL;
-#endif
-
-#ifdef PUGIXML
-    LOG << " ** pugixml: " << (PUGIXML_VERSION)/1000. << NL;
-#endif
-
-#ifdef CHROMECAST
-    LOG << " ** Python: " << PY_VERSION << NL;
-#endif
-
-#ifdef RAW
-    LOG << " ** LibRaw: " << LibRaw::version() << NL;
-#endif
-
-#ifdef POPPLER
-    LOG << " ** Poppler enabled" << NL;
-#endif
-#ifdef LIBARCHIVE
-    LOG << " ** LibArchive: " << ARCHIVE_VERSION_ONLY_STRING << NL;
-#endif
-#ifdef IMAGEMAGICK
-    LOG << " ** ImageMagick: " << MAGICKCORE_PACKAGE_VERSION << NL;
-#endif
-#ifdef GRAPHICSMAGICK
-    LOG << " ** GraphicsMagick: " << MagickLibVersionText << NL;
-#endif
-#ifdef FREEIMAGE
-    LOG << " ** FreeImage: " << FREEIMAGE_MAJOR_VERSION << "." << FREEIMAGE_MINOR_VERSION << NL;
-#endif
-#ifdef DEVIL
-    LOG << " ** DevIL: " << IL_VERSION << NL;
-#endif
-#ifdef VIDEO
-    LOG << " ** Video through Qt" << NL;
-#endif
-
-    LOG << " ** Qt formats available:" << NL << "    ";
-    QImageReader reader;
-    auto formats = reader.supportedImageFormats();
-    for(int i = 0; i < formats.length(); ++i) {
-        if(i != 0 && i%5 == 0)
-            LOG << NL << "    ";
-        LOG << std::setw(5) << formats[i].toStdString() << ", ";
-    }
-    LOG << NL;
-
-    LOG << NL;
+    LOG << NL << "PhotoQt configuration:" << NL << NL
+        << PQHandlingGeneral::getConfigInfo().toStdString()
+        << NL;
 
 }

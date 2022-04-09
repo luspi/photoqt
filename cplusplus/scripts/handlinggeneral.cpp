@@ -21,6 +21,30 @@
  **************************************************************************/
 
 #include "handlinggeneral.h"
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+#ifdef PUGIXML
+#include <pugixml.hpp>
+#endif
+#ifdef CHROMECAST
+#include <Python.h>
+#endif
+#ifdef RAW
+#include <libraw/libraw.h>
+#endif
+#ifdef LIBARCHIVE
+#include <archive.h>
+#endif
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include <Magick++.h>
+#endif
+#ifdef FREEIMAGE
+#include <FreeImagePlus.h>
+#endif
+#ifdef DEVIL
+#include <il.h>
+#endif
 
 bool PQHandlingGeneral::amIOnWindows() {
 #ifdef Q_OS_WIN
@@ -201,6 +225,75 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
     ret.append(tmp);
 
     return ret;
+
+}
+
+QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
+
+    QString bold1 = "";
+    QString bold2 = "";
+    QString nl = "\n";
+    QString spacing = "    ";
+    if(formatHTML) {
+        bold1 = "<b>";
+        bold2 = "</b>";
+        nl = "<br>";
+        spacing = "&nbsp;&nbsp;&nbsp;";
+    }
+
+    QString txt = "";
+
+#ifdef EXIV2
+    txt += QString("- %1Exiv2%2: %3%4").arg(bold1, bold2, Exiv2::version(), nl);
+#endif
+
+#ifdef PUGIXML
+    txt += QString("- %1pugixml%2: %3%4").arg(bold1, bold2).arg((PUGIXML_VERSION)/1000.).arg(nl);
+#endif
+
+#ifdef CHROMECAST
+    txt += QString("- %1Python%2: %3%4").arg(bold1, bold2, PY_VERSION, nl);
+#endif
+
+#ifdef RAW
+    txt += QString("- %1LibRaw%2: %3%4").arg(bold1, bold2, LibRaw::version(), nl);
+#endif
+
+#ifdef POPPLER
+//    txt += QString("- Poppler: %1%4").arg(Exiv2::version());
+    LOG << "- Poppler enabled" << NL;
+#endif
+#ifdef LIBARCHIVE
+    txt += QString("- %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
+#endif
+#ifdef IMAGEMAGICK
+    txt += QString("- %1ImageMagick%2: %3%4").arg(bold1, bold2, MAGICKCORE_PACKAGE_VERSION, nl);
+#endif
+#ifdef GRAPHICSMAGICK
+    txt += QString("- %1GraphicsMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
+#endif
+#ifdef FREEIMAGE
+    txt += QString("- %1FreeImage%2: %3.%4%5").arg(bold1, bold2).arg(FREEIMAGE_MAJOR_VERSION).arg(FREEIMAGE_MINOR_VERSION).arg(nl);
+#endif
+#ifdef DEVIL
+    txt += QString("- %1DevIL%2: %3%4").arg(bold1, bold2).arg(IL_VERSION).arg(nl);
+#endif
+#ifdef VIDEO
+    txt += QString("- %1Video%2 through Qt%3").arg(bold1, bold2, nl);
+#endif
+
+    txt += QString("- %1Qt%2 image formats available:%3%4").arg(bold1, bold2, nl, spacing);
+    QImageReader reader;
+    auto formats = reader.supportedImageFormats();
+    for(int i = 0; i < formats.length(); ++i) {
+        if(i != 0 && i%10 == 0)
+            txt += QString("%1%2").arg(nl, spacing);
+        txt += QString("%1, ").arg(QString(formats[i]), 5);
+    }
+
+    txt += nl;
+
+    return txt;
 
 }
 

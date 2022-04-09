@@ -22,10 +22,13 @@
 
 #include "handlingexternal.h"
 
-void PQHandlingExternal::copyTextToClipboard(QString txt) {
+void PQHandlingExternal::copyTextToClipboard(QString txt, bool removeHTML) {
 
     DBG << CURDATE << "PQHandlingExternal::copyTextToClipboard()" << NL
         << CURDATE << "** txt = " << txt.toStdString() << NL;
+
+    if(removeHTML)
+        txt = QTextDocumentFragment::fromHtml(txt).toPlainText();
 
     QApplication::clipboard()->setText(txt, QClipboard::Clipboard);
 

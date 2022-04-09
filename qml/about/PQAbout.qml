@@ -92,11 +92,14 @@ Item {
                     textFormat: Text.RichText
                 }
 
-                Text {
+                Row {
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: 12
-                    text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
+                    spacing: 10
+                    PQButton {
+                        text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
+                        onClicked:
+                            configinfo.opacity = 1
+                    }
                 }
 
                 Text {
@@ -188,6 +191,60 @@ Item {
                         button_close.clicked()
                 }
             }
+        }
+
+
+        Rectangle {
+
+            id: configinfo
+
+            anchors.fill: parent
+            color: "#ee000000"
+
+            opacity: 0
+            Behavior on opacity { NumberAnimation { duration: 250 } }
+            visible: opacity>0
+
+            Column {
+
+                x: (parent.width-width)/2
+                y: (parent.height-height)/2
+
+                Text {
+                    x: (parent.width-width)/2
+                    color: "white"
+                    text: "PhotoQt configuration"
+                    lineHeight: 1.2
+                    font.pointSize: 20
+                    font.weight: bold
+                }
+
+                Text {
+                    id: configinfo_txt
+                    color: "white"
+                    text: handlingGeneral.getConfigInfo(true)
+                    lineHeight: 1.2
+                    font.pointSize: 11
+                    font.weight: bold
+                }
+
+                Row {
+                    x: (parent.width-width)/2
+                    spacing: 10
+                    PQButton {
+                        text: em.pty+qsTranslate("about", "Copy to clipboard")
+                        onClicked:
+                            handlingExternal.copyTextToClipboard(configinfo_txt.text, true)
+                    }
+                    PQButton {
+                        text: genericStringClose
+                        onClicked:
+                            configinfo.opacity = 0
+                    }
+                }
+
+            }
+
         }
 
     }
