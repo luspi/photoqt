@@ -29,12 +29,12 @@ PQLoadImageXCF::PQLoadImageXCF() {
 QSize PQLoadImageXCF::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s, true);
+    load(filename, QSize(), s, true);
     return s;
 
 }
 
-QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
+QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
     errormsg = "";
 
@@ -57,7 +57,7 @@ QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize *origSize, bo
     // And load it
     QImageReader reader(QDir::tempPath() + "/photoqt_xcf.png");
 
-    *origSize = reader.size();
+    origSize = reader.size();
 
     if(stopAfterSize) return QImage();
 

@@ -47,7 +47,7 @@ public:
     ~PQLoadImage();
 
     QSize loadSize(QString filename);
-    QString load(QString filename, QSize requestedSize, QSize *origSize, QImage &img);
+    QString load(QString filename, QSize requestedSize, QSize &origSize, QImage &img);
 
 private:
     QStringList loadOrder;
@@ -78,16 +78,16 @@ private:
     QSize loadSizeWithDevIL(QString filename);
     QSize loadSizeWithVideo(QString filename);
     QSize loadSizeWithLibVips(QString filename);
-    void loadWithQt(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithLibRaw(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithPoppler(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithLibArchive(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithXCFTools(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithMagick(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithFreeImage(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithDevIL(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithVideo(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
-    void loadWithLibVips(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
+    void loadWithQt(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithLibRaw(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithPoppler(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithLibArchive(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithXCFTools(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithMagick(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithFreeImage(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithDevIL(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithVideo(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithLibVips(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
 
 };
 

@@ -29,12 +29,12 @@ PQLoadImageDevil::PQLoadImageDevil() {
 QSize PQLoadImageDevil::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s, true);
+    load(filename, QSize(), s, true);
     return s;
 
 }
 
-QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
+QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
 #ifdef DEVIL
 
@@ -63,7 +63,7 @@ QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize *origSize, 
     // get the width/height
     const int width  = ilGetInteger(IL_IMAGE_WIDTH);
     const int height = ilGetInteger(IL_IMAGE_HEIGHT);
-    *origSize = QSize(width, height);
+    origSize = QSize(width, height);
 
     if(checkForError()) return QImage();
 

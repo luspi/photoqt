@@ -71,7 +71,7 @@ QSize PQLoadImageVideo::loadSize(QString filename) {
 
 }
 
-QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize *) {
+QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize) {
 
     errormsg = "";
 
@@ -84,7 +84,7 @@ QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize *) {
 
         // create thumbnail using ffmpegthumbnailer
         QProcess proc;
-        int ret = proc.execute("ffmpegthumbnailer", QStringList() << "-i" << filename << "-s" << QString::number(maxSize.width()) << "-o" << tmp_path);
+        int ret = proc.execute("ffmpegthumbnailer", QStringList() << "-i" << filename << "-s0" << "-o" << tmp_path);
 
         if(ret != 0) {
             LOG << CURDATE << "PQLoadImageVideo: ffmpegthumbnailer ended with error code " << ret << " - is it installed?" << NL;
@@ -93,6 +93,8 @@ QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize *) {
         }
 
         QImage thumb(tmp_path);
+
+        origSize = thumb.size();
 
         // remove temporary thumbnail file
         QFile::remove(tmp_path);

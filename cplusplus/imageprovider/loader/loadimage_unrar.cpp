@@ -29,12 +29,12 @@ PQLoadImageUNRAR::PQLoadImageUNRAR() {
 QSize PQLoadImageUNRAR::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s);
+    load(filename, QSize(), s);
     return s;
 
 }
 
-QImage PQLoadImageUNRAR::load(QString filename, QSize maxSize, QSize *origSize) {
+QImage PQLoadImageUNRAR::load(QString filename, QSize maxSize, QSize &origSize) {
 
     errormsg = "";
 
@@ -95,7 +95,7 @@ QImage PQLoadImageUNRAR::load(QString filename, QSize maxSize, QSize *origSize) 
     // And load image from the read data
     QImage img = QImage::fromData(imgdata);
 
-    *origSize = img.size();
+    origSize = img.size();
 
     // If image data is invalid or something went wrong, show error image
     if(img.isNull()) {

@@ -83,7 +83,7 @@ int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename
             // First we load the image...
             PQLoadImageQt loader;
             QSize tmp;
-            QImage img = loader.load(sourceFilename, QSize(-1,-1), &tmp);
+            QImage img = loader.load(sourceFilename, QSize(-1,-1), tmp);
 
             // ... and then we write it into the new format
             writer.setFileName(QString("%1/%2").arg(targetdir, targetFilename));
@@ -123,7 +123,7 @@ int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename
                 // first load the image but skip the conversion into QImage type
                 PQLoadImageMagick loader;
                 QSize tmp;
-                loader.load(sourceFilename, QSize(-1,-1), &tmp, true);
+                loader.load(sourceFilename, QSize(-1,-1), tmp, true);
 
                 // get raw Magick image from loader
                 Magick::Image img = loader.image;

@@ -28,11 +28,11 @@ PQLoadImageArchive::PQLoadImageArchive() {
 
 QSize PQLoadImageArchive::loadSize(QString filename) {
     QSize s;
-    load(filename, QSize(), &s);
+    load(filename, QSize(), s);
     return s;
 }
 
-QImage PQLoadImageArchive::load(QString filename, QSize maxSize, QSize *origSize) {
+QImage PQLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSize) {
 
     errormsg = "";
 
@@ -108,7 +108,7 @@ QImage PQLoadImageArchive::load(QString filename, QSize maxSize, QSize *origSize
             // and finish off by turning it into an image
             ret = QImage::fromData(buff, size);
 
-            *origSize = ret.size();
+            origSize = ret.size();
 
             delete[] buff;
 

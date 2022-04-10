@@ -33,12 +33,12 @@ PQLoadImageFreeImage::PQLoadImageFreeImage() {
 QSize PQLoadImageFreeImage::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s, true);
+    load(filename, QSize(), s, true);
     return s;
 
 }
 
-QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
+QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
 #ifdef FREEIMAGE
 
@@ -110,7 +110,7 @@ QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize *origSi
     // the width/height of the image, needed to ensure we respect the maxSize further down
     int width  = FreeImage_GetWidth(dib);
     int height = FreeImage_GetHeight(dib);
-    *origSize = QSize(width, height);
+    origSize = QSize(width, height);
 
     if(stopAfterSize) {
         FreeImage_Unload(dib);

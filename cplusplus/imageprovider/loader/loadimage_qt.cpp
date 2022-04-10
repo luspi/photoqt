@@ -29,12 +29,12 @@ PQLoadImageQt::PQLoadImageQt() {
 QSize PQLoadImageQt::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s, true);
+    load(filename, QSize(), s, true);
     return s;
 
 }
 
-QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
+QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
     errormsg = "";
 
@@ -60,7 +60,7 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize, boo
         }
 
         // Store the width/height for later use
-        *origSize = svg.defaultSize();
+        origSize = svg.defaultSize();
 
         if(stopAfterSize) return QImage();
 
@@ -95,22 +95,22 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize, boo
         bool imgAlreadyLoaded = false;
 
         // Store the width/height for later use
-        *origSize = reader.size();
+        origSize = reader.size();
         // check if we need to read the image in full to get the original size
-        if(origSize->width() == -1 || origSize->height() == -1) {
+        if(origSize.width() == -1 || origSize.height() == -1) {
             reader.read(&img);
             imgAlreadyLoaded = true;
-            *origSize = img.size();
+            origSize = img.size();
         }
 
         if(stopAfterSize) return QImage();
 
 
         // check if we need to scale the image
-        if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
+        if(maxSize.width() > -1 && origSize.width() > 0 && origSize.height() > 0) {
 
-            int dispWidth = origSize->width();
-            int dispHeight = origSize->height();
+            int dispWidth = origSize.width();
+            int dispHeight = origSize.height();
 
             if(reader.autoTransform() && reader.transformation().testFlag(QImageIOHandler::TransformationRotate90)) {
                 QSize tmp = maxSize;

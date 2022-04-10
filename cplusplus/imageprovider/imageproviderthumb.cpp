@@ -115,7 +115,7 @@ void PQAsyncImageResponseThumb::run() {
 
     // Load image
     QSize origSize;
-    QString msg = loader->load(filename, m_requestedSize, &origSize, p);
+    QString msg = loader->load(filename, m_requestedSize, origSize, p);
 
     /**********************************************************/
 

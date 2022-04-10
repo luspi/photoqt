@@ -35,7 +35,7 @@ public:
     PQLoadImageUNRAR();
 
     QSize loadSize(QString filename);
-    QImage load(QString filename, QSize maxSize, QSize *origSize);
+    QImage load(QString filename, QSize maxSize, QSize &origSize);
 
     QString errormsg;
 

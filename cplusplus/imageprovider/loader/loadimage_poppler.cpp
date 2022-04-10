@@ -29,12 +29,12 @@ PQLoadImagePoppler::PQLoadImagePoppler() {
 QSize PQLoadImagePoppler::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s, true);
+    load(filename, QSize(), s, true);
     return s;
 
 }
 
-QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
+QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
 #ifdef POPPLER
 
@@ -64,7 +64,7 @@ QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize *origSize
     }
 
     if(stopAfterSize) {
-        *origSize = p->pageSize()*(PQSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
+        origSize = p->pageSize()*(PQSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
         return QImage();
     }
 
@@ -78,7 +78,7 @@ QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize *origSize
 
     QImage ret = p->renderToImage(useQuality, useQuality);
 
-    *origSize = p->pageSize()*(PQSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
+    origSize = p->pageSize()*(PQSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
     delete document;
 
     // return render image

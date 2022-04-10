@@ -67,7 +67,7 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 
     // Load image
     QImage ret;
-    QString err = loader->load(filename, requestedSize, origSize, ret);
+    QString err = loader->load(filename, requestedSize, *origSize, ret);
 
     // if returned image is not an error image ...
     if(ret.isNull())

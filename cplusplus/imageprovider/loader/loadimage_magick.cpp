@@ -31,12 +31,13 @@ PQLoadImageMagick::PQLoadImageMagick() {
 
 QSize PQLoadImageMagick::loadSize(QString filename) {
 
-    load(filename, QSize(), new QSize, true);
+    QSize s;
+    load(filename, QSize(), s, true);
     return QSize(image.size().width(), image.size().height());
 
 }
 
-QImage PQLoadImageMagick::load(QString filename, QSize maxSize, QSize *origSize, bool onlyLoadMagickImage) {
+QImage PQLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSize, bool onlyLoadMagickImage) {
 
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
 
@@ -111,7 +112,7 @@ QImage PQLoadImageMagick::load(QString filename, QSize maxSize, QSize *origSize,
     try {
 
         finalSize = QSize(image.columns(), image.rows());
-        *origSize = finalSize;
+        origSize = finalSize;
 
         // Scale image if necessary
         if(maxSize.width() != -1) {

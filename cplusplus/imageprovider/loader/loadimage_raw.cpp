@@ -29,12 +29,12 @@ PQLoadImageRAW::PQLoadImageRAW() {
 QSize PQLoadImageRAW::loadSize(QString filename) {
 
     QSize s;
-    load(filename, QSize(), &s, true);
+    load(filename, QSize(), s, true);
     return s;
 
 }
 
-QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
+QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
 #ifdef RAW
 
@@ -105,7 +105,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize, bo
     else img = raw.dcraw_make_mem_image(&ret);
 
     if(stopAfterSize) {
-        *origSize = QSize(img->width, img->height);
+        origSize = QSize(img->width, img->height);
         // Clean up memory
         raw.dcraw_clear_mem(img);
         raw.recycle();
@@ -175,9 +175,9 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize, bo
     raw.recycle();
 
     if(thumb || half)
-        *origSize = QSize(-1,-1);
+        origSize = QSize(-1,-1);
     else
-        *origSize = image.size();
+        origSize = image.size();
 
     return image;
 

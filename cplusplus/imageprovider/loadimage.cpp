@@ -289,7 +289,7 @@ QSize PQLoadImage::loadSize(QString filename) {
 
 }
 
-QString PQLoadImage::load(QString filename, QSize requestedSize, QSize *origSize, QImage &img) {
+QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize, QImage &img) {
 
     DBG << CURDATE << "PQLoadImage::load()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL
@@ -502,9 +502,9 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize *origSize
 
     // cache image (if not scaled)
     // we always cache the last image if nothing else
-    if(!img.isNull() && img.size() == *origSize && *origSize != QSize(-1,-1)) {
+    if(!img.isNull() && img.size() == origSize && origSize != QSize(-1,-1)) {
         load_helper->saveImageToCache(filename, &img);
-        PQResolutionProvider::get().saveResolution(filename, *origSize);
+        PQResolutionProvider::get().saveResolution(filename, origSize);
     }
 
     if(requestedSize != QSize(-1,-1) && requestedSize != img.size())
@@ -545,7 +545,7 @@ QSize PQLoadImage::loadSizeWithLibVips(QString filename) {
     return load_libvips->loadSize(filename);
 }
 
-void PQLoadImage::loadWithQt(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithQt(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     img = load_qt->load(filename, requestedSize, origSize);
 
@@ -556,7 +556,7 @@ void PQLoadImage::loadWithQt(QString filename, QSize requestedSize, QSize *origS
 
 }
 
-void PQLoadImage::loadWithLibRaw(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithLibRaw(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with libraw" << NL;
 
@@ -569,7 +569,7 @@ void PQLoadImage::loadWithLibRaw(QString filename, QSize requestedSize, QSize *o
 
 }
 
-void PQLoadImage::loadWithPoppler(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithPoppler(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with poppler" << NL;
 
@@ -582,7 +582,7 @@ void PQLoadImage::loadWithPoppler(QString filename, QSize requestedSize, QSize *
 
 }
 
-void PQLoadImage::loadWithLibArchive(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithLibArchive(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with archive" << NL;
 
@@ -615,7 +615,7 @@ void PQLoadImage::loadWithLibArchive(QString filename, QSize requestedSize, QSiz
 
 }
 
-void PQLoadImage::loadWithXCFTools(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithXCFTools(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with xcftools" << NL;
 
@@ -628,7 +628,7 @@ void PQLoadImage::loadWithXCFTools(QString filename, QSize requestedSize, QSize 
 
 }
 
-void PQLoadImage::loadWithMagick(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithMagick(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
 #ifdef IMAGEMAGICK
     DBG << CURDATE << "attempt to load image with imagemagick" << NL;
@@ -645,7 +645,7 @@ void PQLoadImage::loadWithMagick(QString filename, QSize requestedSize, QSize *o
 
 }
 
-void PQLoadImage::loadWithFreeImage(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithFreeImage(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with freeimage" << NL;
 
@@ -658,7 +658,7 @@ void PQLoadImage::loadWithFreeImage(QString filename, QSize requestedSize, QSize
 
 }
 
-void PQLoadImage::loadWithDevIL(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithDevIL(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with devil" << NL;
 
@@ -671,7 +671,7 @@ void PQLoadImage::loadWithDevIL(QString filename, QSize requestedSize, QSize *or
 
 }
 
-void PQLoadImage::loadWithVideo(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithVideo(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with video" << NL;
 
@@ -684,7 +684,7 @@ void PQLoadImage::loadWithVideo(QString filename, QSize requestedSize, QSize *or
 
 }
 
-void PQLoadImage::loadWithLibVips(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err) {
+void PQLoadImage::loadWithLibVips(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
 
     DBG << CURDATE << "attempt to load image with libvips" << NL;
 

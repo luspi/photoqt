@@ -69,7 +69,7 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
         // Retrieve the current image
         if(recalcvalues_filepath) {
             QSize origSize;
-            loader->load(filepath, QSize(), &origSize, histimg);
+            loader->load(filepath, QSize(), origSize, histimg);
         }
 
         // Read and store image dimensions
