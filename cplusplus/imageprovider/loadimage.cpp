@@ -395,7 +395,7 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize
     // if that failed, then we check for mimetype matches
 
 
-    if(img.isNull() && !img.isNull()) {
+    if(img.isNull()) {
 
         QString mimetype = db.mimeTypeForFile(filename).name();
 
