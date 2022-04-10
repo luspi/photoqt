@@ -26,7 +26,15 @@ PQLoadImageDevil::PQLoadImageDevil() {
     errormsg = "";
 }
 
-QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize *origSize) {
+QSize PQLoadImageDevil::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
 
 #ifdef DEVIL
 
@@ -58,6 +66,12 @@ QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize *origSize) 
     *origSize = QSize(width, height);
 
     if(checkForError()) return QImage();
+
+    if(stopAfterSize) {
+        ilBindImage(0);
+        ilDeleteImages(1, &imageID);
+        return QImage();
+    }
 
 /*
     // this would be the way to load images directly from DevIL into QImage,

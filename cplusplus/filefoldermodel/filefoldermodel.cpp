@@ -448,19 +448,13 @@ void PQFileFolderModel::advancedSortMainView() {
     advancedSortFuture = std::shared_future<void>(std::async(std::launch::async, [=]() {
 
         PQImageProviderFull *imageprovider = new PQImageProviderFull;
+        PQLoadImage loader;
 
         QMap<qint64, QStringList> sortedWithKey;
 
         for(int i = 0; i < m_countMainView; ++i) {
 
             if(!advancedSortKeepGoing) return;
-
-            QSize requestedSize = QSize(512,512);
-            if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "medium")
-                requestedSize = QSize(1024,1024);
-            else if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "high")
-                requestedSize = QSize(-1,-1);
-
 
             // the key used for sorting
             // depending on the criteria, it is computed in different ways
@@ -469,14 +463,21 @@ void PQFileFolderModel::advancedSortMainView() {
             if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "resolution") {
 
                 QSize size = PQResolutionProvider::get().getResolution(m_entriesMainView[i]);
-                if(size.isEmpty()) {
-                    QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &size, requestedSize);
-                    PQResolutionProvider::get().saveResolution(m_entriesMainView[i], size);
+                if(!size.isValid()) {
+                    size = loader.loadSize(m_entriesMainView[i]);
+                    if(size.isValid())
+                        PQResolutionProvider::get().saveResolution(m_entriesMainView[i], size);
                 }
 
                 key = size.width()+size.height();
 
             } else {
+
+                QSize requestedSize = QSize(512,512);
+                if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "medium")
+                    requestedSize = QSize(1024,1024);
+                else if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "high")
+                    requestedSize = QSize(-1,-1);
 
                 QSize origSize;
                 QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);

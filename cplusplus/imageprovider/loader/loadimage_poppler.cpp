@@ -26,7 +26,15 @@ PQLoadImagePoppler::PQLoadImagePoppler() {
     errormsg = "";
 }
 
-QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize *origSize) {
+QSize PQLoadImagePoppler::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
 
 #ifdef POPPLER
 
@@ -52,6 +60,11 @@ QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize *origSize
     if(p == nullptr) {
         errormsg = QString("Unable to read page %1").arg(page);
         LOG << CURDATE << "PQLoadImagePoppler::load(): " << errormsg.toStdString() << NL;
+        return QImage();
+    }
+
+    if(stopAfterSize) {
+        *origSize = p->pageSize()*(PQSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
         return QImage();
     }
 

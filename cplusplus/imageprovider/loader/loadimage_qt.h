@@ -34,7 +34,8 @@ class PQLoadImageQt {
 public:
     PQLoadImageQt();
 
-    QImage load(QString filename, QSize maxSize, QSize *origSize);
+    QImage load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize = false);
+    QSize loadSize(QString filename);
 
     QString errormsg;
 

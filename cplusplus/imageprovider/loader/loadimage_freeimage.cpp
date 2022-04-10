@@ -30,7 +30,15 @@ PQLoadImageFreeImage::PQLoadImageFreeImage() {
 #endif
 }
 
-QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize *origSize) {
+QSize PQLoadImageFreeImage::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
 
 #ifdef FREEIMAGE
 
@@ -103,6 +111,11 @@ QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize *origSi
     int width  = FreeImage_GetWidth(dib);
     int height = FreeImage_GetHeight(dib);
     *origSize = QSize(width, height);
+
+    if(stopAfterSize) {
+        FreeImage_Unload(dib);
+        return QImage();
+    }
 
     // This will be the access handler for the data that we can load into QImage
     FIMEMORY *stream = FreeImage_OpenMemory();

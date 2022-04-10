@@ -26,7 +26,15 @@ PQLoadImageQt::PQLoadImageQt() {
     errormsg = "";
 }
 
-QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize) {
+QSize PQLoadImageQt::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
 
     errormsg = "";
 
@@ -51,14 +59,16 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize) {
             return QImage(); // PQLoadImage::ErrorImage::load("The file doesn't contain a valid vector graphic");
         }
 
+        // Store the width/height for later use
+        *origSize = svg.defaultSize();
+
+        if(stopAfterSize) return QImage();
+
         // Render SVG into pixmap
         svg_image = QImage(svg.defaultSize(), QImage::Format_RGB32);
         svg_image.fill(::Qt::transparent);
         QPainter painter(&svg_image);
         svg.render(&painter);
-
-        // Store the width/height for later use
-        *origSize = svg.defaultSize();
 
         return svg_image;
 
@@ -92,6 +102,8 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize *origSize) {
             imgAlreadyLoaded = true;
             *origSize = img.size();
         }
+
+        if(stopAfterSize) return QImage();
 
 
         // check if we need to scale the image

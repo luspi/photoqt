@@ -36,7 +36,8 @@ class PQLoadImageLibVips {
 public:
     PQLoadImageLibVips();
 
-    QImage load(QString filename, QSize, QSize *origSize);
+    QSize loadSize(QString filename);
+    QImage load(QString filename, QSize, QSize *origSize, bool stopAfterSize = false);
 
     QString errormsg;
 

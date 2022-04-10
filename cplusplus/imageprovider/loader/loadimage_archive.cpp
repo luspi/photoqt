@@ -26,6 +26,12 @@ PQLoadImageArchive::PQLoadImageArchive() {
     errormsg = "";
 }
 
+QSize PQLoadImageArchive::loadSize(QString filename) {
+    QSize s;
+    load(filename, QSize(), &s);
+    return s;
+}
+
 QImage PQLoadImageArchive::load(QString filename, QSize maxSize, QSize *origSize) {
 
     errormsg = "";

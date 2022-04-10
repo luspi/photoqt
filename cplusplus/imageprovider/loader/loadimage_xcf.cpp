@@ -26,7 +26,15 @@ PQLoadImageXCF::PQLoadImageXCF() {
     errormsg = "";
 }
 
-QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize *origSize) {
+QSize PQLoadImageXCF::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
 
     errormsg = "";
 
@@ -50,6 +58,8 @@ QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize *origSize) {
     QImageReader reader(QDir::tempPath() + "/photoqt_xcf.png");
 
     *origSize = reader.size();
+
+    if(stopAfterSize) return QImage();
 
 
     // Make sure image fits into size specified by maxSize

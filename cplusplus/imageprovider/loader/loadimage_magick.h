@@ -38,6 +38,7 @@ class PQLoadImageMagick {
 public:
     PQLoadImageMagick();
 
+    QSize loadSize(QString filename);
     QImage load(QString filename, QSize maxSize, QSize *origSize, bool onlyLoadMagickImage = false);
 
     QString errormsg;

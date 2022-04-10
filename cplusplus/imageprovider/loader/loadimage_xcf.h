@@ -34,7 +34,8 @@ class PQLoadImageXCF {
 public:
     PQLoadImageXCF();
 
-    QImage load(QString filename, QSize maxSize, QSize *origSize);
+    QSize loadSize(QString filename);
+    QImage load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize = false);
 
     QString errormsg;
 

@@ -46,9 +46,12 @@ public:
     PQLoadImage();
     ~PQLoadImage();
 
+    QSize loadSize(QString filename);
     QString load(QString filename, QSize requestedSize, QSize *origSize, QImage &img);
 
 private:
+    QStringList loadOrder;
+
     int foundExternalUnrar;
     PQLoadImageHelper *load_helper;
     PQLoadImageErrorImage *load_err;
@@ -65,6 +68,16 @@ private:
     PQLoadImageLibVips *load_libvips;
     QMimeDatabase db;
 
+    QSize loadSizeWithQt(QString filename);
+    QSize loadSizeWithLibRaw(QString filename);
+    QSize loadSizeWithPoppler(QString filename);
+    QSize loadSizeWithLibArchive(QString filename);
+    QSize loadSizeWithXCFTools(QString filename);
+    QSize loadSizeWithMagick(QString filename);
+    QSize loadSizeWithFreeImage(QString filename);
+    QSize loadSizeWithDevIL(QString filename);
+    QSize loadSizeWithVideo(QString filename);
+    QSize loadSizeWithLibVips(QString filename);
     void loadWithQt(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
     void loadWithLibRaw(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);
     void loadWithPoppler(QString filename, QSize requestedSize, QSize *origSize, QImage &img, QString &err);

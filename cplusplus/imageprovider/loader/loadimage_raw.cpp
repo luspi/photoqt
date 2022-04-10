@@ -26,7 +26,15 @@ PQLoadImageRAW::PQLoadImageRAW() {
     errormsg = "";
 }
 
-QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize) {
+QSize PQLoadImageRAW::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize, bool stopAfterSize) {
 
 #ifdef RAW
 
@@ -57,7 +65,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize) {
     }
 
     // If either dimension is set to 0 (or actually -1), then the full image is supposed to be loaded
-    if(maxSize.width() > 0 && maxSize.height() > 0) {
+    if(maxSize.width() > 0 && maxSize.height() > 0 && !stopAfterSize) {
 
         // Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
         if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height() &&
@@ -95,6 +103,14 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize *origSize) {
     libraw_processed_image_t* img;
     if(thumb) img = raw.dcraw_make_mem_thumb(&ret);
     else img = raw.dcraw_make_mem_image(&ret);
+
+    if(stopAfterSize) {
+        *origSize = QSize(img->width, img->height);
+        // Clean up memory
+        raw.dcraw_clear_mem(img);
+        raw.recycle();
+        return QImage();
+    }
 
 
     // This will hold the loaded image data

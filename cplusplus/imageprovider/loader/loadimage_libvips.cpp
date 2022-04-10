@@ -6,7 +6,15 @@ PQLoadImageLibVips::PQLoadImageLibVips() {
     errormsg = "";
 }
 
-QImage PQLoadImageLibVips::load(QString filename, QSize, QSize *origSize) {
+QSize PQLoadImageLibVips::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s, true);
+    return s;
+
+}
+
+QImage PQLoadImageLibVips::load(QString filename, QSize, QSize *origSize, bool stopAfterSize) {
 
     // we use the C API as the equivalent C++ API calls led to crash on subsequent call
 
@@ -23,6 +31,11 @@ QImage PQLoadImageLibVips::load(QString filename, QSize, QSize *origSize) {
 
     // store original size
     *origSize = QSize(vips_image_get_width(in), vips_image_get_height(in));
+
+    if(stopAfterSize) {
+        g_object_unref(in);
+        return QImage();
+    }
 
     // convert VipsImage to QImage
     QImage img((uchar*)vips_image_get_data(in), vips_image_get_width(in), vips_image_get_height(in), VIPS_IMAGE_SIZEOF_LINE(in), QImage::Format_RGB888);

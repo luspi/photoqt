@@ -26,6 +26,14 @@ PQLoadImageUNRAR::PQLoadImageUNRAR() {
     errormsg = "";
 }
 
+QSize PQLoadImageUNRAR::loadSize(QString filename) {
+
+    QSize s;
+    load(filename, QSize(), &s);
+    return s;
+
+}
+
 QImage PQLoadImageUNRAR::load(QString filename, QSize maxSize, QSize *origSize) {
 
     errormsg = "";

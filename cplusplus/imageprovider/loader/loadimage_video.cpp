@@ -21,9 +21,54 @@
  **************************************************************************/
 
 #include "loadimage_video.h"
+#include <QMediaPlayer>
 
 PQLoadImageVideo::PQLoadImageVideo() {
     errormsg = "";
+}
+
+QSize PQLoadImageVideo::loadSize(QString filename) {
+
+#ifdef Q_OS_LINUX
+
+    if(PQSettings::get()["filetypesVideoThumbnailer"].toString() == "ffmpegthumbnailer") {
+
+        // the temp image thumbnail path (incl random int)
+        QString tmp_path = QString("%1/photoqt_videothumb_%2.jpg").arg(QDir::tempPath()).arg(rand());
+
+        // create thumbnail using ffmpegthumbnailer, the -s0 makes it create a thumbnail at original size
+        QProcess proc;
+        int ret = proc.execute("ffmpegthumbnailer", QStringList() << "-i" << filename << "-s0" << "-o" << tmp_path);
+
+        if(ret != 0) {
+            LOG << CURDATE << "PQLoadImageVideo::loadSize(): ffmpegthumbnailer ended with error code " << ret << " - is it installed?" << NL;
+            return QSize();
+        }
+
+        QImage thumb(tmp_path);
+
+        // remove temporary thumbnail file
+        QFile::remove(tmp_path);
+
+        // store in return variable
+        return thumb.size();
+
+    } else if(PQSettings::get()["filetypesVideoThumbnailer"].toString() == "") {
+
+#endif
+
+        return QSize();
+
+#ifdef Q_OS_LINUX
+
+    }
+
+    errormsg = "Unknown video thumbnailer used: " + PQSettings::get()["filetypesVideoThumbnailer"].toString();
+    LOG << CURDATE << "PQLoadImageVideo::loadSize(): " << errormsg.toStdString() << NL;
+    return QSize();
+
+#endif
+
 }
 
 QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize *) {
