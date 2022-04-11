@@ -121,7 +121,10 @@ Item {
                 loadingtimer.restart()
 
                 if(PQImageFormats.getEnabledFormatsVideo().indexOf(handlingFileDir.getSuffix(src))>-1) {
-                    imageloader.source = "image/PQMovie.qml"
+                    if(handlingGeneral.isMPVSupportEnabled())
+                        imageloader.source = "image/PQMPV.qml"
+                    else
+                        imageloader.source = "image/PQMovie.qml"
                     variables.videoControlsVisible = true
                 } else if(imageproperties.isAnimated(src)) {
                     imageloader.source = "image/PQImageAnimated.qml"

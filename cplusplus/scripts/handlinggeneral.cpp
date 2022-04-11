@@ -410,6 +410,14 @@ bool PQHandlingGeneral::isVideoSupportEnabled() {
 #endif
 }
 
+bool PQHandlingGeneral::isMPVSupportEnabled() {
+#ifdef LIBMPV
+    return true;
+#else
+    return false;
+#endif
+}
+
 void PQHandlingGeneral::setLastLoadedImage(QString path) {
 
     DBG << CURDATE << "PQHandlingGeneral::setLastLoadedImage()" << NL

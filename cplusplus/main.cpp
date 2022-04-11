@@ -71,6 +71,10 @@
 #include <vips/vips8>
 #endif
 
+#ifdef LIBMPV
+#include "libmpv/mpvobject.h"
+#endif
+
 int main(int argc, char **argv) {
 
     // needs to be set before Q*Application is created
@@ -81,6 +85,12 @@ int main(int argc, char **argv) {
 
     // only a single instance (by default)
     PQSingleInstance app(argc, argv);
+
+#ifdef LIBMPV
+    // Qt sets the locale in the QGuiApplication constructor, but libmpv
+    // requires the LC_NUMERIC category to be set to "C", so change it back.
+    std::setlocale(LC_NUMERIC, "C");
+#endif
 
     // Set app information
     QApplication::setApplicationName("PhotoQt");
@@ -196,6 +206,9 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
     qmlRegisterType<PQHandlingChromecast>("PQHandlingChromecast", 1, 0, "PQHandlingChromecast");
     qmlRegisterType<PQPrintSupport>("PQPrintSupport", 1, 0, "PQPrintSupport");
+#ifdef LIBMPV
+    qmlRegisterType<PQMPVObject>("PQMPVObject", 1, 0, "PQMPVObject");
+#endif
 
     engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
