@@ -37,6 +37,27 @@ Item {
     Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.imageviewAnimationDuration*100 } }
     Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.imageviewAnimationDuration*100 } }
 
+    MouseArea {
+        enabled: PQSettings.imageviewLeftButtonMoveImage
+        anchors.fill: parent
+        onPressed: {
+            if(PQSettings.interfaceCloseOnEmptyBackground || PQSettings.interfaceNavigateOnEmptyBackground) {
+                var paintedX = (container.width-renderer.width)/2
+                var paintedY = (container.height-renderer.height)/2
+                if(mouse.x < paintedX || mouse.x > paintedX+renderer.width ||
+                   mouse.y < paintedY || mouse.y > paintedY+renderer.height) {
+                    if(PQSettings.interfaceCloseOnEmptyBackground)
+                        toplevel.close()
+                    else if(PQSettings.interfaceNavigateOnEmptyBackground) {
+                        if(mouse.x < width/2)
+                            imageitem.loadPrevImage()
+                        else
+                            imageitem.loadNextImage()
+                    }
+                }
+            }
+        }
+    }
 
     // video element
     PQMPVObject {
@@ -45,10 +66,14 @@ Item {
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: 300
-        height: 300
+        width: mediaInfoWidth
+        height: mediaInfoHeight
 
         property bool playing: true
+
+        property int mediaInfoWidth: 100
+        property int mediaInfoHeight: 100
+
     }
 
     Timer {
@@ -59,6 +84,29 @@ Item {
         onTriggered: {
             renderer.command(["loadfile", src])
             deleg.imageStatus = Image.Ready
+            getProps.start()
+        }
+    }
+
+    Timer {
+        id: getProps
+        interval: 100
+        repeat: false
+        running: false
+        onTriggered: {
+            renderer.mediaInfoWidth = renderer.getProperty("width")
+            renderer.mediaInfoHeight = renderer.getProperty("height")
+        }
+    }
+
+    Timer {
+        id: getPropsConfirm
+        interval: 1000
+        repeat: false
+        running: false
+        onTriggered: {
+            renderer.mediaInfoWidth = renderer.getProperty("width")
+            renderer.mediaInfoHeight = renderer.getProperty("height")
         }
     }
 
