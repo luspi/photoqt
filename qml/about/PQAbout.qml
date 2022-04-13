@@ -203,7 +203,7 @@ Item {
                     text: em.pty+qsTranslate("about", "Configuration")
                     lineHeight: 1.2
                     font.pointSize: 20
-                    font.weight: bold
+                    font.bold: true
                 }
 
                 Text {
@@ -212,7 +212,7 @@ Item {
                     text: handlingGeneral.getConfigInfo(true)
                     lineHeight: 1.2
                     font.pointSize: 11
-                    font.weight: bold
+                    font.bold: false
                 }
 
                 Row {
