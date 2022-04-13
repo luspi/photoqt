@@ -147,6 +147,14 @@ public:
         return mimetypes_video;
     }
 
+    Q_INVOKABLE QStringList getEnabledFormatsLibmpv() {
+        return formats_libmpv;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibmpv() {
+        return mimetypes_libmpv;
+    }
+
     Q_INVOKABLE QVariantMap getMagick() {
         return magick;
     }
@@ -158,8 +166,8 @@ public:
     Q_INVOKABLE QVariantList getWriteableFormats();
     QVariantMap getFormatsInfo(QString endings);
 
-    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
-    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
 
     Q_INVOKABLE void restoreDefaults();
 
@@ -196,6 +204,8 @@ private:
     QStringList mimetypes_archive;
     QStringList formats_video;
     QStringList mimetypes_video;
+    QStringList formats_libmpv;
+    QStringList mimetypes_libmpv;
 
     QVariantMap magick;
     QVariantMap magick_mimetype;

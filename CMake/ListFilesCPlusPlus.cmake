@@ -37,3 +37,8 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqpy.h)
 
 SET(d "cplusplus/print")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tabimageoptions.cpp ${d}/tabimagepositiontile.cpp ${d}/printsupport.cpp)
+
+if(VIDEO_MPV)
+    SET(d "cplusplus/libmpv")
+    SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mpvqthelper.h ${d}/mpvobject.cpp)
+endif()

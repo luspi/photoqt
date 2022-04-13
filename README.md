@@ -28,6 +28,7 @@ Dependencies, that are needed by default, but can be disabled via CMake:
 - LibVips
 - FreeImage
 - DevIL
+- libmpv
 - pugixml
 - Python (incl. pychromecast package)
 
