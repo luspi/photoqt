@@ -66,8 +66,8 @@ Item {
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: mediaInfoWidth
-        height: mediaInfoHeight
+        width: Math.min(mediaInfoWidth, parent.width)
+        height: Math.min(mediaInfoHeight, parent.height)
 
         // this is set to true after 100ms after calling loadFile
         visible: false
