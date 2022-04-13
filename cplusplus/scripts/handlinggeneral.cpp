@@ -45,6 +45,9 @@
 #ifdef DEVIL
 #include <il.h>
 #endif
+#ifdef VIDEOMPV
+#include "../libmpv/mpvobject.h"
+#endif
 
 bool PQHandlingGeneral::amIOnWindows() {
 #ifdef Q_OS_WIN
@@ -280,6 +283,12 @@ QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
 #endif
 #ifdef VIDEOQT
     txt += QString("- %1Video%2 through Qt%3").arg(bold1, bold2, nl);
+#endif
+#ifdef VIDEOMPV
+    mpv_handle *mpv = mpv_create();
+    if(mpv_initialize(mpv) < 0)
+        throw std::runtime_error("could not initialize mpv context");
+    txt += QString("- %1libmpv%2: %3 (ffmpeg: %4)%5").arg(bold1, bold2, mpv::qt::get_property(mpv, "mpv-version").toString(), mpv::qt::get_property(mpv, "ffmpeg-version").toString(), nl);
 #endif
 
     txt += QString("- %1Qt%2 image formats available:%3%4").arg(bold1, bold2, nl, spacing);
