@@ -212,9 +212,10 @@ Item {
                     restarting = true
                 }
             } else {
-                restarting = false
                 renderer.currentPosition = renderer.getProperty("time-pos")
+                restarting = false
             }
+
         }
     }
 
@@ -313,13 +314,27 @@ Item {
                 overrideBackgroundHeight: 10
                 onValueChanged: {
                     if(pressed) {
+                        sliderAni.duration = 0
                         controls.mouseHasBeenMovedRecently = true
                         resetMouseHasBeenMovedRecently.restart()
                         if(renderer.getProperty("eof-reached"))
                             renderer.command(["loadfile", src])
                         renderer.command(["seek", value, "absolute"])
+                        videopos_slider.value = value
+                        sliderAni.duration = Qt.binding(function() { return getPosition.interval })
+                        resetPropBinding.start()
                     }
                 }
+                Timer {
+                    id: resetPropBinding
+                    interval: 250
+                    repeat: false
+                    running: false
+                    onTriggered:
+                        videopos_slider.value = Qt.binding(function() { return renderer.currentPosition })
+                }
+
+                Behavior on value { NumberAnimation { id: sliderAni; duration: getPosition.interval } }
             }
 
             Text {

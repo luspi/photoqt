@@ -50,6 +50,13 @@ PQSetting {
                 //: Used as setting for video files (i.e., loop videos)
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "Loop")
             }
+            PQCheckbox {
+                id: mpv
+                y: (combo.height-height)/2
+                //: Used as setting for video files
+                text: em.pty+qsTranslate("settingsmanager_filetypes", "Prefer libmpv")
+                tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "libmpv can offer a more comprehensive video support but tends to be slightly slower to load.")
+            }
             PQComboBox {
                 id: combo
                 //: Tooltip shown for combobox for selectiong video thumbnailer
@@ -72,6 +79,7 @@ PQSetting {
         onSaveAllSettings: {
             PQSettings.filetypesVideoAutoplay = autoplay.checked
             PQSettings.filetypesVideoLoop = loop.checked
+            PQSettings.filetypesVideoPreferLibmpv = mpv.checked
             PQSettings.filetypesVideoThumbnailer = (combo.currentIndex == 0 ? "" : combo.currentText)
         }
 
@@ -85,6 +93,7 @@ PQSetting {
 
         autoplay.checked = PQSettings.filetypesVideoAutoplay
         loop.checked = PQSettings.filetypesVideoLoop
+        mpv.checked = PQSettings.filetypesVideoPreferLibmpv
         combo.currentIndex = (PQSettings.filetypesVideoThumbnailer == "" ? 0 : 1)
 
     }

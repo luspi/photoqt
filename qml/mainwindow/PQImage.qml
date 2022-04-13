@@ -120,7 +120,7 @@ Item {
                 loadingindicator.visible = false
                 loadingtimer.restart()
 
-                if(PQImageFormats.getEnabledFormatsVideo().indexOf(handlingFileDir.getSuffix(src))>-1 && !handlingGeneral.isMPVSupportEnabled()) {
+                if(PQImageFormats.getEnabledFormatsVideo().indexOf(handlingFileDir.getSuffix(src))>-1 && (!PQSettings.filetypesVideoPreferLibmpv || !handlingGeneral.isMPVSupportEnabled())) {
                     imageloader.source = "image/PQMovie.qml"
                     variables.videoControlsVisible = true
                 } else if(PQImageFormats.getEnabledFormatsLibmpv().indexOf(handlingFileDir.getSuffix(src))>-1 && handlingGeneral.isMPVSupportEnabled()) {
