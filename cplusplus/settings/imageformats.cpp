@@ -92,6 +92,7 @@ void PQImageFormats::readFromDatabase() {
     formats_freeimage.clear();
     formats_archive.clear();
     formats_video.clear();
+    formats_libmpv.clear();
 
     mimetypes_enabled.clear();
     mimetypes_qt.clear();
@@ -104,6 +105,7 @@ void PQImageFormats::readFromDatabase() {
     mimetypes_freeimage.clear();
     mimetypes_archive.clear();
     mimetypes_video.clear();
+    mimetypes_libmpv.clear();
 
     magick.clear();
     magick_mimetype.clear();
@@ -133,6 +135,7 @@ void PQImageFormats::readFromDatabase() {
         const int freeimage = query.record().value("freeimage").toInt();
         const int archive = query.record().value("archive").toInt();
         const int video = query.record().value("video").toInt();
+        const int libmpv = query.record().value("libmpv").toInt();
         const QString im_gm_magick = query.record().value("im_gm_magick").toString();
         const QString qt_formatname = query.record().value("qt_formatname").toString();
 
@@ -260,13 +263,22 @@ void PQImageFormats::readFromDatabase() {
                 mimetypes_archive << mimetypes.split(",");
         }
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
         if(video) {
             supportedByAnyLibrary = true;
             all << "Video";
             formats_video << endings.split(",");
             if(mimetypes != "")
                 mimetypes_video << mimetypes.split(",");
+        }
+#endif
+#ifdef VIDEOMPV
+        if(libmpv) {
+            supportedByAnyLibrary = true;
+            all << "libmpv";
+            formats_libmpv << endings.split(",");
+            if(mimetypes != "")
+                mimetypes_libmpv << mimetypes.split(",");
         }
 #endif
 
@@ -404,6 +416,7 @@ QVariantMap PQImageFormats::getFormatsInfo(QString endings) {
     ret.insert("freeimage", query.record().value("freeimage"));
     ret.insert("archive", query.record().value("archive"));
     ret.insert("video", query.record().value("video"));
+    ret.insert("libmpv", query.record().value("libmpv"));
     ret.insert("im_gm_magick", query.record().value("im_gm_magick"));
     ret.insert("qt_formatname", query.record().value("qt_formatname"));
 
@@ -412,7 +425,7 @@ QVariantMap PQImageFormats::getFormatsInfo(QString endings) {
 }
 
 bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled,
-                                    int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video,
+                                    int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv,
                                     QString im_gm_magick, QString qt_formatname,
                                     bool silentIfExists = false) {
 
@@ -439,7 +452,7 @@ bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString 
     }
 
     QSqlQuery query2(db);
-    query2.prepare("INSERT INTO imageformats (endings, mimetypes, description, category, enabled, qt, libvips, imagemagick, graphicsmagick, libraw, poppler, xcftools, devil, freeimage, archive, video, im_gm_magick, qt_formatname) VALUES (:endings, :mimetypes, :description, :category, :enabled, :qt, :libvips, :imagemagick, :graphicsmagick, :libraw, :poppler, :xcftools, :devil, :freeimage, :archive, :video, :im_gm_magick, :qt_formatname)");
+    query2.prepare("INSERT INTO imageformats (endings, mimetypes, description, category, enabled, qt, libvips, imagemagick, graphicsmagick, libraw, poppler, xcftools, devil, freeimage, archive, video, libmpv, im_gm_magick, qt_formatname) VALUES (:endings, :mimetypes, :description, :category, :enabled, :qt, :libvips, :imagemagick, :graphicsmagick, :libraw, :poppler, :xcftools, :devil, :freeimage, :archive, :video, :libmpv, :im_gm_magick, :qt_formatname)");
 
     query2.bindValue(":endings", endings);
     query2.bindValue(":mimetypes", mimetypes);
@@ -457,6 +470,7 @@ bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString 
     query2.bindValue(":freeimage", freeimage);
     query2.bindValue(":archive", archive);
     query2.bindValue(":video", video);
+    query2.bindValue(":libmpv", libmpv);
     query2.bindValue(":im_gm_magick", im_gm_magick);
     query2.bindValue(":qt_formatname", qt_formatname);
 
@@ -474,7 +488,7 @@ bool PQImageFormats::enterNewFormat(QString endings, QString mimetypes, QString 
 }
 
 bool PQImageFormats::updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled,
-                                          int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video,
+                                          int qt, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv,
                                           QString im_gm_magick, QString qt_formatname,
                                           bool silentIfExists = false) {
 
@@ -497,12 +511,12 @@ bool PQImageFormats::updateFormatByEnding(QString endings, QString mimetypes, QS
     int howmany = query.record().value("NumFormats").toInt();
     if(howmany != 1) {
         return enterNewFormat(endings, mimetypes, description, category, enabled,
-                              qt, libvips, imagemagick, graphicsmagick, libraw, poppler, xcftools, devil, freeimage, archive, video,
+                              qt, libvips, imagemagick, graphicsmagick, libraw, poppler, xcftools, devil, freeimage, archive, video, libmpv,
                               im_gm_magick, qt_formatname, silentIfExists);
     }
 
     QSqlQuery query2(db);
-    query2.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
+    query2.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, enabled=:enabled, qt=:qt, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, libmpv=:libmpv, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
 
     query2.bindValue(":endings", endings);
     query2.bindValue(":mimetypes", mimetypes);
@@ -520,6 +534,7 @@ bool PQImageFormats::updateFormatByEnding(QString endings, QString mimetypes, QS
     query2.bindValue(":freeimage", freeimage);
     query2.bindValue(":archive", archive);
     query2.bindValue(":video", video);
+    query2.bindValue(":libmpv", libmpv);
     query2.bindValue(":im_gm_magick", im_gm_magick);
     query2.bindValue(":qt_formatname", qt_formatname);
 

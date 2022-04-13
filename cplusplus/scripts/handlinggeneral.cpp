@@ -278,7 +278,7 @@ QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
 #ifdef DEVIL
     txt += QString("- %1DevIL%2: %3%4").arg(bold1, bold2).arg(IL_VERSION).arg(nl);
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
     txt += QString("- %1Video%2 through Qt%3").arg(bold1, bold2, nl);
 #endif
 
@@ -403,7 +403,7 @@ bool PQHandlingGeneral::isPopplerSupportEnabled() {
 }
 
 bool PQHandlingGeneral::isVideoSupportEnabled() {
-#ifdef VIDEO
+#ifdef VIDEOQT
     return true;
 #else
     return false;
@@ -411,7 +411,7 @@ bool PQHandlingGeneral::isVideoSupportEnabled() {
 }
 
 bool PQHandlingGeneral::isMPVSupportEnabled() {
-#ifdef LIBMPV
+#ifdef VIDEOMPV
     return true;
 #else
     return false;

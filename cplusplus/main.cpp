@@ -71,7 +71,7 @@
 #include <vips/vips8>
 #endif
 
-#ifdef LIBMPV
+#ifdef VIDEOMPV
 #include "libmpv/mpvobject.h"
 #endif
 
@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
     // only a single instance (by default)
     PQSingleInstance app(argc, argv);
 
-#ifdef LIBMPV
+#ifdef VIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
     // requires the LC_NUMERIC category to be set to "C", so change it back.
     std::setlocale(LC_NUMERIC, "C");
@@ -206,7 +206,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
     qmlRegisterType<PQHandlingChromecast>("PQHandlingChromecast", 1, 0, "PQHandlingChromecast");
     qmlRegisterType<PQPrintSupport>("PQPrintSupport", 1, 0, "PQPrintSupport");
-#ifdef LIBMPV
+#ifdef VIDEOMPV
     qmlRegisterType<PQMPVObject>("PQMPVObject", 1, 0, "PQMPVObject");
 #endif
 

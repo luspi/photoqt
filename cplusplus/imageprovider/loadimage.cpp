@@ -66,8 +66,11 @@ PQLoadImage::PQLoadImage() {
 #ifdef DEVIL
     loadOrder << "devil";
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
     loadOrder << "video";
+#endif
+#ifdef VIDEOMPV
+    loadOrder << "libmpv";
 #endif
     ;
 
@@ -171,9 +174,16 @@ QSize PQLoadImage::loadSize(QString filename) {
             ret = loadSizeWithDevIL(filename);
 
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
 
         else if(o == "video" && PQImageFormats::get().getEnabledFormatsVideo().contains(suffix))
+
+            ret = loadSizeWithVideo(filename);
+
+#endif
+#ifdef VIDEOMPV
+
+        else if(o == "libmpv" && PQImageFormats::get().getEnabledFormatsLibmpv().contains(suffix))
 
             ret = loadSizeWithVideo(filename);
 
@@ -257,9 +267,16 @@ QSize PQLoadImage::loadSize(QString filename) {
                     ret = loadSizeWithDevIL(filename);
 
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
 
                 else if(o == "video" && PQImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype))
+
+                    ret = loadSizeWithVideo(filename);
+
+#endif
+#ifdef VIDEOQT
+
+                else if(o == "libmpv" && PQImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype))
 
                     ret = loadSizeWithVideo(filename);
 
@@ -375,9 +392,16 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize
             loadWithDevIL(filename, requestedSize, origSize, img, err);
 
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
 
         else if(o == "video" && PQImageFormats::get().getEnabledFormatsVideo().contains(suffix))
+
+            loadWithVideo(filename, requestedSize, origSize, img, err);
+
+#endif
+#ifdef VIDEOMPV
+
+        else if(o == "libmpv" && PQImageFormats::get().getEnabledFormatsLibmpv().contains(suffix))
 
             loadWithVideo(filename, requestedSize, origSize, img, err);
 
@@ -461,9 +485,16 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize
                     loadWithDevIL(filename, requestedSize, origSize, img, err);
 
 #endif
-#ifdef VIDEO
+#ifdef VIDEOQT
 
                 else if(o == "video" && PQImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype))
+
+                    loadWithVideo(filename, requestedSize, origSize, img, err);
+
+#endif
+#ifdef VIDEOQT
+
+                else if(o == "libmpv" && PQImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype))
 
                     loadWithVideo(filename, requestedSize, origSize, img, err);
 

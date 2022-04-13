@@ -62,6 +62,13 @@ if(GM)
     message("")
     set(GRAPHICSMAGICK ON)
 endif()
+if(VIDEO)
+    message("")
+    message("** The VIDEO cmake flag was changed to VIDEO_QT")
+    message("** This was done to distinguish it from VIDEO_MPV")
+    message("")
+    set(VIDEO_QT ON)
+endif()
 
 ################################
 #### FIND REQUIRED PACKAGES ####
@@ -201,8 +208,8 @@ if(PUGIXML)
     target_link_libraries(${PROJECT_NAME} "pugixml")
 endif()
 
-if(VIDEO)
-    add_definitions(-DVIDEO)
+if(VIDEO_QT)
+    add_definitions(-DVIDEOQT)
 endif()
 
 if(LIBARCHIVE)
@@ -367,7 +374,7 @@ if(VIDEO_MPV)
         include_directories(${Libmpv_INCLUDE_DIRS})
         target_link_libraries(${PROJECT_NAME} ${Libmpv_LIBRARIES})
         message("** Using libmpv " ${Libmpv_VERSION})
-        add_definitions(-DLIBMPV)
+        add_definitions(-DVIDEOMPV)
     endif()
 endif()
 
