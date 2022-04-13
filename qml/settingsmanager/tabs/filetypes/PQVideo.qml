@@ -53,6 +53,7 @@ PQSetting {
             PQCheckbox {
                 id: mpv
                 y: (combo.height-height)/2
+                visible: handlingGeneral.isMPVSupportEnabled()
                 //: Used as setting for video files
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "Prefer libmpv")
                 tooltip: em.pty+qsTranslate("settingsmanager_filetypes", "libmpv can offer a more comprehensive video support but tends to be slightly slower to load.")

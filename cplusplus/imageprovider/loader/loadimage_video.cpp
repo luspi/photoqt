@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "loadimage_video.h"
-#include <QMediaPlayer>
 
 PQLoadImageVideo::PQLoadImageVideo() {
     errormsg = "";
