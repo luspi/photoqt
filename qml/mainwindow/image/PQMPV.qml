@@ -298,6 +298,7 @@ Item {
                 y: (controls.height-height)/2
                 width: controls.width - playpause.width - curpos.width - timeleft.width - volumecontrol.width - volumecontrol_slider.width - 80
                 from: 0
+                stepSize: 0.1
                 to: renderer.mediaInfoDuration
                 value: renderer.currentPosition
                 divideToolTipValue: 1000
@@ -440,26 +441,29 @@ Item {
             }
         }
         onRestartAnim: {
-//            videoelem.seek(0)
+            if(renderer.getProperty("eof-reached"))
+                renderer.command(["loadfile", src])
+            else
+                renderer.command(["seek", "0", "absolute"])
         }
     }
 
     function restorePosZoomRotationMirror() {
-//        if(PQSettings.imageviewRememberZoomRotationMirror && src in variables.zoomRotationMirror) {
+        if(PQSettings.imageviewRememberZoomRotationMirror && src in variables.zoomRotationMirror) {
 
-//            elem.x = variables.zoomRotationMirror[src][0].x
-//            elem.y = variables.zoomRotationMirror[src][0].y
+            elem.x = variables.zoomRotationMirror[src][0].x
+            elem.y = variables.zoomRotationMirror[src][0].y
 
-//            elem.scale = variables.zoomRotationMirror[src][1]
-//            elem.rotation = variables.zoomRotationMirror[src][2]
-//            elem.mirror = variables.zoomRotationMirror[src][3]
+            elem.scale = variables.zoomRotationMirror[src][1]
+            elem.rotation = variables.zoomRotationMirror[src][2]
+            elem.mirror = variables.zoomRotationMirror[src][3]
 
-//        }
+        }
     }
 
     function storePosRotZoomMirror() {
 
-//        variables.zoomRotationMirror[src] = [Qt.point(elem.x, elem.y), elem.rotation, elem.scale, elem.mirror]
+        variables.zoomRotationMirror[src] = [Qt.point(elem.x, elem.y), elem.rotation, elem.scale, elem.mirror]
 
     }
 
