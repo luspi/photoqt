@@ -471,6 +471,34 @@ void PQFileFolderModel::advancedSortMainView() {
 
                 key = size.width()+size.height();
 
+            } else if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "luminosity") {
+
+                QSize requestedSize = QSize(512,512);
+                if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "medium")
+                    requestedSize = QSize(1024,1024);
+                else if(PQSettings::get()["imageviewAdvancedSortQuality"].toString() == "high")
+                    requestedSize = QSize(-1,-1);
+
+                QSize origSize;
+                QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);
+                PQResolutionProvider::get().saveResolution(m_entriesMainView[i], origSize);
+
+                QRgb *rgb = reinterpret_cast<QRgb*>(img.bits());
+
+                quint64 pixelCount = img.width() * img.height();
+
+                for(int i = 0; i < img.height(); ++i) {
+                    qint64 tmpval = 0;
+                    for(int j = 0; j < img.width(); ++j) {
+                        int h,s,v;
+                        QColor col(rgb[i*img.width()+j]);
+                        col.getHsv(&h,&s,&v);
+                        tmpval += v;
+                    }
+                    key += static_cast<double>(tmpval)/static_cast<double>(pixelCount);
+                    if(!advancedSortKeepGoing) return;
+                }
+
             } else {
 
                 QSize requestedSize = QSize(512,512);

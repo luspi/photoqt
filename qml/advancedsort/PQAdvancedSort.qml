@@ -110,14 +110,16 @@ Item {
 
                         id: sortby
 
-                        property var props: ["resolution", "dominantcolor", "averagecolor"]
+                        property var props: ["resolution", "dominantcolor", "averagecolor", "luminosity"]
 
                                 //: The image resolution (width/height in pixels)
                         model: [em.pty+qsTranslate("advancedsort", "Resolution"),
                                 //: The color that is most common in the image
                                 em.pty+qsTranslate("advancedsort", "Dominant color"),
                                 //: the average color of the image
-                                em.pty+qsTranslate("advancedsort", "Average color")]
+                                em.pty+qsTranslate("advancedsort", "Average color"),
+                                //: the average color of the image
+                                em.pty+qsTranslate("advancedsort", "Luminosity")]
                     }
 
                 }
