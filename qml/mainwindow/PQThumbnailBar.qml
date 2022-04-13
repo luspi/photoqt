@@ -83,7 +83,7 @@ Item {
             else if(variables.mousePos.y > toplevel.height-2*PQSettings.interfaceHotEdgeSize*5 && !visible)
                 shouldBeVisible = true
 
-            else if(variables.mousePos.y > toplevel.height-height && visible)
+            else if(variables.mousePos.y > toplevel.height-height-(variables.videoControlsVisible ? 100 : 0) && visible)
                 shouldBeVisible = true
 
             else if(PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1)
@@ -108,7 +108,7 @@ Item {
 
         } else {
 
-            posVisible = toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)
+            posVisible = toplevel.height-height-(variables.videoControlsVisible ? 100 : 0)
             posHidden = toplevel.height
 
         }
