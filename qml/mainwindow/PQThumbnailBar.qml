@@ -34,28 +34,94 @@ Item {
     // 1 = always
     // 2 = except when zoomed
 
-    y:
-        PQSettings.thumbnailsEdge=="Top" ?
-
-           ((PQSettings.thumbnailsVisibility==1 ||
-           (variables.mousePos.y < 2*PQSettings.interfaceHotEdgeSize*5 && !visible) ||
-           (variables.mousePos.y < height && visible) ||
-           (PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1) ||
-           forceShow)&&!forceHide ? 0 : -height) :
-
-           ((PQSettings.thumbnailsVisibility==1 ||
-           (variables.mousePos.y > toplevel.height-2*PQSettings.interfaceHotEdgeSize*5 && !visible) ||
-           (variables.mousePos.y > toplevel.height-height && visible) ||
-           (PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1) ||
-           forceShow)&&!forceHide ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
+    y: shouldBeVisible ? posVisible : posHidden
 
     property bool forceShow: false
     property bool forceHide: false
+    onForceShowChanged: calculateY()
+    onForceHideChanged: calculateY()
 
-    visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailsEdge=="Top" ? (y > -height) : (y < toplevel.height))
+    property int posVisible: 0
+    property int posHidden: 0
+
+    property bool shouldBeVisible: false
+
+    function checkVisibility() {
+
+        if(PQSettings.thumbnailsEdge == "Top") {
+
+            // force it hidden
+            if(forceHide)
+                shouldBeVisible = false
+
+            // always visible
+            else if(PQSettings.thumbailsVisibility == 1)
+                shouldBeVisible = true
+            // mouse pointer close to top edge and bar not visible
+            else if(variables.mousePos.y < 2*PQSettings.interfaceHotEdgeSize*5 && !visible)
+                shouldBeVisible = true
+            // mouse pointer hovering visible bar
+            else if(variables.mousePos.y < height && visible)
+                shouldBeVisible = true
+            // thumbnails set to 'hide when zoomed in' but we're not zoomed in
+            else if(PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1)
+                shouldBeVisible = true
+            else if(forceShow)
+                shouldBeVisible = true
+
+            else
+                shouldBeVisible = false
+
+        } else {
+
+            if(forceHide)
+                shouldBeVisible = false
+
+            else if(PQSettings.thumbnailsVisibility==1)
+                shouldBeVisible = true
+
+            else if(variables.mousePos.y > toplevel.height-2*PQSettings.interfaceHotEdgeSize*5 && !visible)
+                shouldBeVisible = true
+
+            else if(variables.mousePos.y > toplevel.height-height && visible)
+                shouldBeVisible = true
+
+            else if(PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1)
+                shouldBeVisible = true
+
+            else if(forceShow)
+                shouldBeVisible = true
+
+            else
+                shouldBeVisible = false
+
+        }
+
+    }
+
+    function calculateY() {
+
+        if(PQSettings.thumbnailsEdge == "Top") {
+
+            posVisible = 0
+            posHidden = -height
+
+        } else {
+
+            posVisible = toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)
+            posHidden = toplevel.height
+
+        }
+
+    }
+
+    visible: !variables.slideShowActive && !variables.faceTaggingActive
+    onVisibleChanged:
+        checkVisibility()
 
     width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
     height: PQSettings.thumbnailsSize+PQSettings.thumbnailsLiftUp+scroll.height
+    onHeightChanged: calculateY()
 
     clip: true
 
@@ -227,7 +293,33 @@ Item {
         onMousePosChanged: {
             forceShow = false
             forceHide = false
+            checkVisibility()
         }
+        onCurrentPaintedZoomLevelChanged:
+            checkVisibility()
+        onVideoControlsVisibleChanged:
+            calculateY()
+    }
+
+    Connections {
+        target: PQSettings
+        onThumbnailsEdgeChanged:
+            checkVisibility()
+        onThumbnailsVisibilityChanged:
+            checkVisibility()
+        onInterfaceHotEdgeSizeChanged:
+            checkVisibility()
+    }
+
+    Connections {
+        target: toplevel
+        onHeightChanged:
+            calculateY()
+    }
+
+    Component.onCompleted: {
+        calculateY()
+        checkVisibility()
     }
 
     function toggle() {
