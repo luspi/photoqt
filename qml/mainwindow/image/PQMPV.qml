@@ -75,6 +75,7 @@ Item {
         property bool playing: true
 
         property real currentPosition: 0
+        property int volume: PQSettings.filetypesVideoVolume
 
         property int mediaInfoWidth: 100
         property int mediaInfoHeight: 100
@@ -147,6 +148,11 @@ Item {
 
         }
 
+        Component.onCompleted: {
+            volume = PQSettings.filetypesVideoVolume
+            renderer.setProperty("volume", volume)
+        }
+
     }
 
     Timer {
@@ -198,6 +204,7 @@ Item {
         running: true
         property bool restarting: false
         onTriggered: {
+            PQSettings.filetypesVideoVolume = renderer.getProperty("volume")
             renderer.playing = !renderer.getProperty("core-idle")
             if(renderer.getProperty("eof-reached")) {
                 if(PQSettings.filetypesVideoLoop && !restarting) {
@@ -371,8 +378,10 @@ Item {
                 from: 0
                 to: 100
                 value: PQSettings.filetypesVideoVolume
-                onValueChanged:
+                onValueChanged: {
+                    renderer.setProperty("volume", value)
                     PQSettings.filetypesVideoVolume = value
+                }
 
             }
 
