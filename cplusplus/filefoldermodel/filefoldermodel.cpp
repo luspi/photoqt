@@ -487,6 +487,7 @@ void PQFileFolderModel::advancedSortMainView() {
 
                 quint64 pixelCount = img.width() * img.height();
 
+                double val = 0;
                 for(int i = 0; i < img.height(); ++i) {
                     qint64 tmpval = 0;
                     for(int j = 0; j < img.width(); ++j) {
@@ -495,9 +496,11 @@ void PQFileFolderModel::advancedSortMainView() {
                         col.getHsv(&h,&s,&v);
                         tmpval += v;
                     }
-                    key += static_cast<double>(tmpval)/static_cast<double>(pixelCount);
+                    val += static_cast<double>(tmpval)/static_cast<double>(pixelCount);
                     if(!advancedSortKeepGoing) return;
                 }
+
+                key = val;
 
             } else {
 
