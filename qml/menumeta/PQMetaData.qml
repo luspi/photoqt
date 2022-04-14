@@ -254,6 +254,7 @@ Rectangle {
                 textFormat: Text.RichText
                 width: parent.width
                 wrapMode: Text.WordWrap
+                font.pointSize: 11
                 text: (allMetaData[3*index] !== "") ? ("<b>" + allMetaData[3*index] + "</b>: " + allMetaData[3*index +1]) : ""
 
             }
