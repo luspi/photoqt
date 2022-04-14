@@ -136,6 +136,12 @@ void PQFileFolderModel::loadDataMainView() {
 
     }
 
+    QFileInfo info(m_fileInFolderMainView);
+    if(info.absolutePath() == cacheAdvancedSortFolderName)
+        advancedSortMainView();
+    else
+        cacheAdvancedSortFolderName = "";
+
     Q_EMIT newDataLoadedMainView();
     Q_EMIT countMainViewChanged();
 
@@ -430,6 +436,12 @@ void PQFileFolderModel::removeEntryMainView(int index) {
     DBG << CURDATE << "PQFileFolderModel::removeEntryMainView()" << NL
         << CURDATE << "** index = " << index << NL;
 
+    QFileInfo info(m_fileInFolderMainView);
+    if(info.absolutePath() == cacheAdvancedSortFolderName) {
+        QString oldentry = m_entriesMainView[index];
+        cacheAdvancedSortFolder.removeOne(oldentry);
+    }
+
     loadDelayFileDialog->start();
     m_entriesMainView.removeAt(index);
     setCountMainView(m_countMainView-1);
@@ -440,6 +452,19 @@ void PQFileFolderModel::removeEntryMainView(int index) {
 }
 
 void PQFileFolderModel::advancedSortMainView() {
+
+    // if nothing changed, reload folder
+    QFileInfo info(m_fileInFolderMainView);
+    if(info.absolutePath() == cacheAdvancedSortFolderName
+            && PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == cacheAdvancedSortCriteria
+            && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified) {
+
+        m_entriesMainView = cacheAdvancedSortFolder;
+        Q_EMIT newDataLoadedMainView();
+        Q_EMIT advancedSortingComplete();
+        return;
+
+    }
 
     advancedSortKeepGoing = true;
     m_advancedSortDone = 0;
@@ -602,22 +627,25 @@ void PQFileFolderModel::advancedSortMainView() {
         else
             std::sort(allKeys.begin(), allKeys.end(), std::greater<int>());
 
-        QStringList allSorted;
+        cacheAdvancedSortFolder.clear();
         for(auto entry : qAsConst(allKeys)) {
             QStringList curVals = sortedWithKey[entry];
             curVals.sort(Qt::CaseInsensitive);
             if(!PQSettings::get()["imageviewAdvancedSortAscending"].toBool())
                 std::reverse(curVals.begin(), curVals.end());
             for(const auto &e : qAsConst(curVals))
-                allSorted << e;
+                cacheAdvancedSortFolder << e;
         }
 
-        if(!advancedSortKeepGoing) return;
-
-        m_entriesMainView = allSorted;
+        m_entriesMainView = cacheAdvancedSortFolder;
         Q_EMIT newDataLoadedMainView();
         Q_EMIT countMainViewChanged();
         Q_EMIT advancedSortingComplete();
+
+        QFileInfo info(m_fileInFolderMainView);
+        cacheAdvancedSortFolderName = info.absolutePath();
+        cacheAdvancedSortLastModified = info.lastModified().toMSecsSinceEpoch();
+        cacheAdvancedSortCriteria = PQSettings::get()["imageviewAdvancedSortCriteria"].toString();
 
     }));
 

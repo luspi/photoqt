@@ -218,6 +218,11 @@ private:
     std::shared_future<void> advancedSortFuture;
     bool advancedSortKeepGoing;
 
+    QString cacheAdvancedSortCriteria;
+    QString cacheAdvancedSortFolderName;
+    QStringList cacheAdvancedSortFolder;
+    qint64 cacheAdvancedSortLastModified;
+
 private Q_SLOTS:
     void loadDataMainView();
     void loadDataFileDialog();
