@@ -23,7 +23,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import "../elements"
-import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Rectangle {
 
@@ -121,108 +120,7 @@ Rectangle {
 
     }
 
-    property var allitems_static: [
-
-        [["heading","",""]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__settings", "settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__about", "about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__quit", "quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]],
-
-        [["heading","",""]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["sort","sort",em.pty+qsTranslate("MainMenu", "Advanced sort")],
-                //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
-                ["__advancedSort","",em.pty+qsTranslate("MainMenu", "setup"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
-                ["__advancedSortQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["slideshow","slideshow",em.pty+qsTranslate("MainMenu", "Slideshow")],
-                //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
-                ["__slideshow","",em.pty+qsTranslate("MainMenu", "setup"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
-                ["__slideshowQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter images in folder"), "hide"]],
-        //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
-        [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__defaultFileManager","open",em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]],
-
-        [["heading","",""]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__showMetaData", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide metadata"), "donthide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), "donthide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale image"), "hide"]],
-
-        [["heading","",""]],
-
-        //: This is an entry in the main menu on the right, used as in: Go To some image. Please keep short!
-        [["","goto",em.pty+qsTranslate("MainMenu", "Go to")],
-                //: This is an entry in the main menu on the right, used as in: go to previous image. Please keep short!
-                ["__prev","",em.pty+qsTranslate("MainMenu", "previous"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: go to next image. Please keep short!
-                ["__next","",em.pty+qsTranslate("MainMenu", "next"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: go to first image. Please keep short!
-                ["__goToFirst","",em.pty+qsTranslate("MainMenu", "first"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: go to last image. Please keep short!
-                ["__goToLast","",em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
-        //: This is an entry in the main menu on the right, used as in: Zoom image. Please keep short!
-        [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
-                ["__zoomIn","","+", "donthide"],
-                ["__zoomOut","","-", "donthide"],
-                ["__zoomReset","","0", "donthide"],
-                ["__zoomActual","","1:1", "donthide"]],
-        //: This is an entry in the main menu on the right, used as in: Rotate image. Please keep short!
-        [["rotate","rotate",em.pty+qsTranslate("MainMenu", "Rotate")],
-                //: This is an entry in the main menu on the right, used as in: Rotate image left. Please keep short!
-                ["__rotateL","",em.pty+qsTranslate("MainMenu", "left"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Rotate image right. Please keep short!
-                ["__rotateR","",em.pty+qsTranslate("MainMenu", "right"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Reset rotation of image. Please keep short!
-                ["__rotate0","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used as in: Flip/Mirror image. Please keep short!
-        [["flip","flip",em.pty+qsTranslate("MainMenu", "Flip")],
-                //: This is an entry in the main menu on the right, used as in: Flip/Mirror image horizontally. Please keep short!
-                ["__flipH","",em.pty+qsTranslate("MainMenu", "horizontal"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Flip/Mirror image vertically. Please keep short!
-                ["__flipV","",em.pty+qsTranslate("MainMenu", "vertical"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in: Reset flip/mirror of image. Please keep short!
-                ["__flipReset","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Please keep short!
-        [["","copy",em.pty+qsTranslate("MainMenu", "File")],
-                //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
-                ["__rename","",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
-                ["__copy","",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
-                ["__move","",em.pty+qsTranslate("MainMenu", "move"), "hide"],
-                //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
-                ["__delete","",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
-
-        [["heading","",""]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        [["__logging", "logging", em.pty+qsTranslate("MainMenu", "Show log/debug messages"), "hide"]]
-
-    ]
     property var allitems_external: []
-    property var allitems: allitems_static.concat(allitems_external)
 
     Text {
 
@@ -246,138 +144,231 @@ Rectangle {
         color: "#88ffffff"
     }
 
-    ListView {
+    Flickable {
 
-        id: mainlistview
+        id: flick
+
         x: 10
         y: spacingbelowheader.y + spacingbelowheader.height+10
-        height: parent.height-y-(helptext.height+5)
-        width: parent.width-scroll.width
-        model: allitems.length
-        delegate: maindeleg
+        width: parent.width-20
+        height: parent.height-y-helptext.height-10
+        contentHeight: col.height
+
         clip: true
 
-        orientation: ListView.Vertical
+        boundsBehavior: Flickable.OvershootBounds
+        ScrollBar.vertical: PQScrollBar {}
 
-        ScrollBar.vertical: PQScrollBar { id: scroll }
+        PQMouseArea {
+            anchors.fill: parent
+            onWheel: {
+                var newy = flick.contentY - wheel.angleDelta.y
+                // set new contentY, but don't move beyond top/bottom end of view
+                flick.contentY = Math.max(0, Math.min(newy, flick.contentHeight-flick.height))
+            }
+        }
 
-    }
+        Column {
 
-    Component {
+            id: col
 
-        id: maindeleg
+            width: parent.width
 
-        ListView {
+            PQMainMenuGroup {
+                heading: ""
+                allitems: [
 
-            id: subview
+                    ["open",
+                     "",
+                     //: This is an entry in the main menu on the right. Please keep short!
+                     ["__open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
 
-            property int mainindex: index
-            height: visible ? (allitems[mainindex][0][0]=="heading" ? 15 : 30) : 0
-            width: childrenRect.width
+                    ["settings",
+                     "",
+                     //: This is an entry in the main menu on the right. Please keep short!
+                     ["__settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
 
-            interactive: false
+                    ["about",
+                     "",
+                     //: This is an entry in the main menu on the right. Please keep short!
+                     ["__about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
 
-            orientation: Qt.Horizontal
-            spacing: 5
+                    ["quit",
+                     "",
+                     //: This is an entry in the main menu on the right. Please keep short!
+                     ["__quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]]
+                ]
+            }
 
-            visible: allitems[mainindex][0][1] != "chromecast" || handlingGeneral.isChromecastEnabled()
+            Item { width: parent.width; height: 10 }
 
-            model: allitems[mainindex].length
-            delegate: Row {
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: "#555555"
+            }
 
-                spacing: 5
+            Item { width: parent.width; height: 10 }
 
-                Text {
-                    id: sep
-                    lineHeight: 1.5
+            PQMainMenuGroup {
+                heading: ""
+                allitems: [
+                    ["goto",
+                     em.pty+qsTranslate("MainMenu", "Go to"),
+                     ["__prev", "img:leftarrow", "donthide"],
+                     ["__next", "img:rightarrow", "donthide"],
+                     //: This is an entry in the main menu on the right, used as in: first image in list. Please keep short!
+                     ["__goToFirst", em.pty+qsTranslate("MainMenu", "first"), "donthide"],
+                     //: This is an entry in the main menu on the right, used as in: last image in list. Please keep short!
+                     ["__goToLast", em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
 
-                    color: "#cccccc"
-                    visible: allitems[subview.mainindex].length > 1 && index > 1
-                    font.bold: true
-                    font.pointSize: 11
-                    text: "/"
-                }
+                    ["zoom",
+                     em.pty+qsTranslate("MainMenu", "Zoom"),
+                     ["__zoomIn", "img:zoomin", "donthide"],
+                     ["__zoomOut", "img:zoomout", "donthide"],
+                     ["__zoomReset", "img:reset", "donthide"],
+                     ["__zoomActual", "1:1", "donthide"]],
 
-                Image {
-                    y: 2.5
-                    width: ((source!="" || allitems[subview.mainindex][index][0]==="heading") ? val.height*0.5 : 0)
-                    height: val.height*0.5
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    source: allitems[subview.mainindex][index][1]===""
-                            ? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
-                                    ? handlingExternal.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
-                                      "/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
-                    opacity: allitems[subview.mainindex][index][0] !== "hide" ? 1 : 0.5
-                    visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
-                }
+                    ["rotate",
+                     em.pty+qsTranslate("MainMenu", "Rotate"),
+                     ["__rotateL", "img:rotateleft", "donthide"],
+                     ["__rotateR", "img:rotateright", "donthide"],
+                     ["__rotate0", "img:reset", "donthide"]],
 
-                Text {
+                    ["flip",
+                     em.pty+qsTranslate("MainMenu", "Flip"),
+                     ["__flipH", "img:leftrightarrow", "donthide"],
+                     ["__flipV", "img:updownarrow", "donthide"],
+                     ["__flipReset", "img:reset", "donthide"]]
 
-                    id: val;
+                ]
+            }
 
-                    color: (allitems[subview.mainindex][index][0]==="heading") ? "white" : "#cccccc"
-                    lineHeight: 1.5
+            Item { width: parent.width; height: 10 }
 
-                    font.capitalization: (allitems[subview.mainindex][index][0]==="heading") ? Font.SmallCaps : Font.MixedCase
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: "#555555"
+            }
 
-                    opacity: enabled ? 1 : 0.5
+            Item { width: parent.width; height: 10 }
 
-                    font.pointSize: 11
-                    font.bold: true
+            PQMainMenuGroup {
 
-                    enabled: ((allitems[subview.mainindex][index][0] !== "__close" &&
-                               allitems[subview.mainindex][index][0] !=="heading" &&
-                              (allitems[subview.mainindex].length === 1 || index > 0)))
+                heading: em.pty+qsTranslate("MainMenu", "current image/file")
 
+                allitems: [
+                    ["copy",
+                      "",
+                      ["__rename",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
+                      //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
+                      ["__copy",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
+                      //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
+                      ["__move",em.pty+qsTranslate("MainMenu", "move"), "hide"],
+                      //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
+                      ["__delete",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
 
-                    // The spaces guarantee a bit of space betwene icon and text
-                    text: allitems[subview.mainindex][index][2] + ((allitems[subview.mainindex].length > 1 && index == 0) ? ":" : "")
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["metadata",
+                     "",
+                     ["__showMetaData", em.pty+qsTranslate("MainMenu", "Show/Hide metadata"), "donthide"]],
 
-                    MouseArea {
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["histogram",
+                     "",
+                     ["__histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), "donthide"]],
 
-                        anchors.fill: parent
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["settings",
+                     "",
+                     ["__wallpaper", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
 
-                        hoverEnabled: true
-                        cursorShape: (allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) ?
-                                         Qt.PointingHandCursor :
-                                         Qt.ArrowCursor
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["faces",
+                     "",
+                     ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
 
-                        onEntered: {
-                            if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
-                                val.color = "#ffffff"
-                        }
-                        onExited: {
-                            if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
-                                val.color = "#cccccc"
-                        }
-                        onClicked: {
-                            if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) {
-                                if(allitems[subview.mainindex][index][3] === "hide" && !PQSettings.interfacePopoutMainMenu)
-                                    mainmenu_top.opacity = 0
-                                var cmd = allitems[subview.mainindex][index][0]
-                                var close = 0
-                                if(cmd.slice(0,8) === "_:_EX_:_") {
-                                    if(filefoldermodel.current != -1 && filefoldermodel.countMainView > 0) {
-                                        handlingExternal.executeExternal(cmd.substring(8), filefoldermodel.currentFilePath)
-                                        if(allitems[subview.mainindex][index][3] === "close")
-                                            toplevel.closePhotoQt()
-                                    }
-                                    return
-                                }
-                                HandleShortcuts.executeInternalFunction(cmd)
-                            }
-                        }
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["clipboard",
+                     "",
+                     ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
 
-                    }
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["scale",
+                     "",
+                     ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), "hide"]]
 
-                }
+                ]
+
+                expanded: PQSettings.mainmenuExpandCurrentImage
+                onExpandedChanged:
+                    PQSettings.mainmenuExpandCurrentImage = expanded
+
+            }
+
+            PQMainMenuGroup {
+
+                heading: em.pty+qsTranslate("MainMenu", "current folder")
+                allitems: [
+
+                    ["sort",
+                     //: This is an entry in the main menu on the right. Please keep short!
+                     em.pty+qsTranslate("MainMenu", "Advanced sort"),
+                     //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
+                     ["__advancedSort", em.pty+qsTranslate("MainMenu", "setup"), "hide"],
+                     //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
+                     ["__advancedSortQuick", em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
+
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["slideshow",
+                     em.pty+qsTranslate("MainMenu", "Slideshow"),
+                     //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
+                     ["__slideshow", em.pty+qsTranslate("MainMenu", "setup"), "hide"],
+                     //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
+                     ["__slideshowQuick", em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
+
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["filter",
+                     "",
+                     ["__filterImages", em.pty+qsTranslate("MainMenu", "Filter images in folder"), "hide"]],
+
+                    //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
+                    ["chromecast",
+                     "",
+                     ["__chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
+
+                    //: This is an entry in the main menu on the right. Please keep short!
+                    ["open",
+                     "",
+                     ["__defaultFileManager", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]]
+
+                ]
+
+                expanded: PQSettings.mainmenuExpandCurrentFolder
+                onExpandedChanged:
+                    PQSettings.mainmenuExpandCurrentFolder = expanded
+
+            }
+
+            PQMainMenuGroup {
+
+                id: custom
+
+                heading: em.pty+qsTranslate("MainMenu", "custom commands")
+                callExternal: true
+                visible: allitems.length>0
+
+                expanded: PQSettings.mainmenuExpandCustomCommands
+                onExpandedChanged:
+                    PQSettings.mainmenuExpandCustomCommands = expanded
 
             }
 
         }
 
     }
+
 
     Rectangle {
         anchors {
@@ -467,11 +458,12 @@ Rectangle {
 
     function readExternalContextmenu() {
         var tmpentries = handlingExternal.getContextMenuEntries()
-        var entries = [[["heading","",""]]]
+        var entries = []
         for(var i = 0; i < tmpentries.length; ++i) {
-            entries.push([tmpentries[i]])
+            var e = ["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], tmpentries[i][3]]]
+            entries.push(e)
         }
-        allitems_external = entries
+        custom.allitems = entries
 
     }
 

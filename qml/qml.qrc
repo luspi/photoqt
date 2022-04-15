@@ -159,5 +159,6 @@
         <file>advancedsort/PQAdvancedSortPopout.qml</file>
         <file>advancedsort/PQAdvancedSortBusy.qml</file>
         <file>mainwindow/image/PQMPV.qml</file>
+        <file>menumeta/PQMainMenuGroup.qml</file>
     </qresource>
 </RCC>

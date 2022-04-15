@@ -35,11 +35,7 @@ PQSetting {
 
     expertmodeonly: false
 
-    property var entries: [["","",false],
-                           ["","",false],
-                           ["","",false],
-                           ["","",false],
-                           ["","",false]]
+    property var entries: [["","","dontclose"]]
 
     property int focusIndex: -1
     property int focusField: 0
@@ -75,9 +71,9 @@ PQSetting {
                             borderColor: "#666666"
                             //: this is the placeholder text inside of a text box telling the user what text they can enter here
                             placeholderText: em.pty+qsTranslate("settingsmanager_interface", "what string to show in main menu")
-                            text: entries[index][0]
+                            text: entries[index][2]
                             onTextEdited: {
-                                entries[index][0] = text
+                                entries[index][2] = text
                                 if(index == entries.length-1) {
                                     focusIndex = index
                                     focusField = 0
@@ -123,9 +119,9 @@ PQSetting {
                             anchors.rightMargin: 5
                             //: Keep string short! Used on checkbox for contextmenu, refers to option to close PhotoQt after respective command has been executed.
                             text: em.pty+qsTranslate("settingsmanager_interface", "quit")
-                            checked: entries[index][2]
+                            checked: entries[index][3]=="close"
                             onCheckedChanged: {
-                                entries[index][2] = checked
+                                entries[index][3] = (checked ? "close" : "dontclose")
                                 if(index == entries.length-1) {
                                     focusIndex = index
                                     focusField = 2
@@ -205,20 +201,8 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-
-            var toset = []
-
-            var e = handlingExternal.getContextMenuEntries()
-            for(var i = 0; i < e.length; ++i) {
-                var tmp = []
-                tmp.push(e[i][2])
-                tmp.push(e[i][0].substr(8))
-                tmp.push(e[i][3]=="close")
-                toset.push(tmp)
-            }
-            toset.push(["", "", false])
-            entries = toset
-
+            entries = handlingExternal.getContextMenuEntries()
+            addNewEntry()
         }
 
         onSaveAllSettings: {
@@ -258,7 +242,7 @@ PQSetting {
     }
 
     function addNewEntry() {
-        entries.push(["","",false])
+        entries.push(["","","","dontclose"])
         set.entriesChanged()
     }
 

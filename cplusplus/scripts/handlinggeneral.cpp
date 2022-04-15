@@ -263,8 +263,7 @@ QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
 #endif
 
 #ifdef POPPLER
-//    txt += QString("- Poppler: %1%4").arg(Exiv2::version());
-    LOG << "- Poppler enabled" << NL;
+    txt += QString("- %1Poppler%2%3").arg(bold1, bold2, nl);
 #endif
 #ifdef LIBARCHIVE
     txt += QString("- %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
