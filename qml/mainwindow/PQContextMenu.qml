@@ -30,8 +30,8 @@ Window {
 
     id: context_top
 
-    width: mainlistview.width+20
-    height: mainlistview.height+20
+    width: submenu.width+20
+    height: submenu.height
 
     visible: false
 
@@ -39,65 +39,6 @@ Window {
     flags: Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint
 
     color: "#dd000000"
-
-    property var allitems_static: [
-
-        //: This is an entry in the context menu. Please keep short!
-        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
-
-        [["separator", "", "", ""]],
-
-        //: This is an entry in the context menu, used as in: Zoom image. Please keep short!
-        [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
-                ["__zoomIn","","+", "donthide"],
-                ["__zoomOut","","-", "donthide"],
-                ["__zoomReset","","0", "donthide"],
-                ["__zoomActual","","1:1", "donthide"]],
-        //: This is an entry in the context menu, used as in: Rotate image. Please keep short!
-        [["rotate","rotate",em.pty+qsTranslate("MainMenu", "Rotate")],
-                //: This is an entry in the context menu, used as in: Rotate image left. Please keep short!
-                ["__rotateL","",em.pty+qsTranslate("MainMenu", "left"), "donthide"],
-                //: This is an entry in the context menu, used as in: Rotate image right. Please keep short!
-                ["__rotateR","",em.pty+qsTranslate("MainMenu", "right"), "donthide"],
-                //: This is an entry in the context menu, used as in: Reset rotation of image. Please keep short!
-                ["__rotate0","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the context menu, used as in: Flip/Mirror image. Please keep short!
-        [["flip","flip",em.pty+qsTranslate("MainMenu", "Flip")],
-                //: This is an entry in the context menu, used as in: Flip/Mirror image horizontally. Please keep short!
-                ["__flipH","",em.pty+qsTranslate("MainMenu", "horizontal"), "donthide"],
-                //: This is an entry in the context menu, used as in: Flip/Mirror image vertically. Please keep short!
-                ["__flipV","",em.pty+qsTranslate("MainMenu", "vertical"), "donthide"],
-                //: This is an entry in the context menu, used as in: Reset flip/mirror of image. Please keep short!
-                ["__flipReset","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the context menu, used to refer to the current file (specifically the file, not directly the image). Please keep short!
-        [["","copy",em.pty+qsTranslate("MainMenu", "File")],
-                //: This is an entry in the context menu, used as in: rename file. Please keep short!
-                ["__rename","",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
-                //: This is an entry in the context menu, used as in: copy file. Please keep short!
-                ["__copy","",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
-                //: This is an entry in the context menu, used as in: move file. Please keep short!
-                ["__move","",em.pty+qsTranslate("MainMenu", "move"), "hide"],
-                //: This is an entry in the context menu, used as in: delete file. Please keep short!
-                ["__delete","",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
-
-        [["separator", "", "", ""]],
-
-        //: This is an entry in the context menu, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
-        [["__chromecast", "chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
-
-        // having 'chromecast' as third entry allows us to also hide this seperator if chromecast is disabled and the above item is hidden
-        [["separator", "", "chromecast", ""]],
-
-        //: This is an entry in the context menu. Please keep short!
-        [["__clipboard", "clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
-        //: This is an entry in the context menu. Please keep short!
-        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), "donthide"]],
-        //: This is an entry in the context menu. Please keep short!
-        [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]]
-
-    ]
-    property var allitems_external: []
-    property var allitems: allitems_static.concat(allitems_external)
 
     property bool containsMouse: false
 
@@ -126,173 +67,191 @@ Window {
             hideMenu()
     }
 
-    ListView {
+    property var allitems_internal: [
 
-        id: mainlistview
-        x: 10
-        y: 10
-        height: childrenRect.height
-        width: maxrowwidth
-        model: allitems.length
-        delegate: maindeleg
-        clip: true
+        ["open",
+         "",
+         //: This is an entry in the main menu on the right. Please keep short!
+         ["__open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
 
-        property int maxrowwidth: 0
+        ["",
+         ""],
 
-        orientation: ListView.Vertical
+        ["zoom",
+         em.pty+qsTranslate("MainMenu", "Zoom"),
+         ["__zoomIn", "img:zoomin", "donthide"],
+         ["__zoomOut", "img:zoomout", "donthide"],
+         ["__zoomReset", "img:reset", "donthide"],
+         ["__zoomActual", "1:1", "donthide"]],
 
-    }
+        ["rotate",
+         em.pty+qsTranslate("MainMenu", "Rotate"),
+         ["__rotateL", "img:rotateleft", "donthide"],
+         ["__rotateR", "img:rotateright", "donthide"],
+         ["__rotate0", "img:reset", "donthide"]],
 
-    Component {
+        ["flip",
+         em.pty+qsTranslate("MainMenu", "Flip"),
+         ["__flipH", "img:leftrightarrow", "donthide"],
+         ["__flipV", "img:updownarrow", "donthide"],
+         ["__flipReset", "img:reset", "donthide"]],
 
-        id: maindeleg
+        ["",
+         ""],
 
-        Row {
+        ["copy",
+          "",
+          //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
+          ["__rename",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
+          //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
+          ["__copy",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
+          //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
+          ["__move",em.pty+qsTranslate("MainMenu", "move"), "hide"],
+          //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
+          ["__delete",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
 
-            id: deleg_top
+        //: This is an entry in the main menu on the right. Please keep short!
+//        ["settings",
+//         "",
+//         ["__wallpaper", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
 
-            spacing: 5
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["faces",
+         "",
+         ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
 
-            property int mainindex: index
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["clipboard",
+         "",
+         ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]]
 
-            visible: (allitems[mainindex][0][1] != "chromecast" && allitems[mainindex][0][2] != "chromecast") || handlingGeneral.isChromecastEnabled()
+    ]
 
-            Repeater {
+    property var allitems_external: []
 
-                model: allitems[mainindex].length
+    property var allitems: allitems_internal.concat([["",""]]).concat(allitems_external)
 
+    Item {
+
+        id: submenu
+
+        width: listview.width
+        height: listview.height+10
+        Behavior on height { NumberAnimation { duration: 250 } }
+
+        ListView {
+
+            id: listview
+
+            x: 5
+            y: 5
+            width: Math.max(allwidths)+20
+            height: childrenRect.height
+
+            model: allitems.length
+
+            boundsBehavior: ListView.StopAtBounds
+
+            property var allwidths: []
+
+            delegate: Item {
+
+                width: managerow.width
+                height: sep.visible ? 6 : (managerow.height+10)
+
+                property int topindex: index
 
                 Item {
-
-                    property bool separator: allitems[deleg_top.mainindex][index][0] == "separator"
-
-                    width: separator ? mainlistview.maxrowwidth : childrenRect.width
-                    height: visible ? (separator ? 10 : childrenRect.height) : 0
-
+                    id: sep
+                    y: 3
+                    width: listview.width
+                    height: 1
+                    visible: allitems[index][0]==""
                     Rectangle {
-                        width: separator ? parent.width : -deleg_top.spacing
+                        color: "#999999"
+                        width: parent.width
                         height: 1
-                        color: separator ? "#aaaaaa" : "transparent"
+                    }
+                }
+
+                Row {
+                    id: managerow
+                    y: 5
+                    height: sep.visible ? 0 : childrenRect.height
+                    spacing: 10
+                    visible: !sep.visible
+                    clip: true
+                    Image {
+                        width: 20
+                        height: 20
+                        source: (allitems[index][0].toString().match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) : ("/mainmenu/"+allitems[index][0]+".png")
+                    }
+
+                    Text {
+                        id: nametxt
+                        color: "#666666"
+                        visible: allitems[topindex][1]!=""
+                        text: visible ? (allitems[topindex][1]+":") : ""
+                        font.pointSize: 11
+                        font.bold: true
+                    }
+
+                    Repeater {
+                        model: allitems[topindex].length-2
+                        Item {
+                            width: Math.max(txt.width, img.width)
+                            height: Math.max(txt.height, img.height)
+                            property bool hovered: false
+                            Image {
+                                id: img
+                                y: (parent.parent.height-height)/2
+                                width: nametxt.height
+                                height: nametxt.height
+                                visible: allitems[topindex][2+index][1].toString().match("^img:")=="img:"
+                                opacity: parent.hovered ? 1 : 0.8
+                                Behavior on opacity { NumberAnimation { duration: 100 } }
+                                source: visible ? ("/mainmenu/"+allitems[topindex][2+index][1].slice(4)+".png") : ""
+                                mipmap: true
+                            }
+                            Text {
+                                id: txt
+                                y: (parent.parent.height-height)/2
+                                visible: !img.visible
+                                color: parent.hovered ? "white" : "#cccccc"
+                                Behavior on color { ColorAnimation { duration: 100 } }
+                                text: visible ? allitems[topindex][2+index][1] : ""
+                                font.pointSize: 11
+                                font.bold: true
+                            }
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onEntered:
+                                    parent.hovered = true
+                                onExited:
+                                    parent.hovered = false
+                                onClicked: {
+
+                                    HandleShortcuts.executeInternalFunction(allitems[topindex][2+index][0])
+
+                                    if(allitems[topindex][2+index][2] == "hide")
+                                        hideMenu()
+                                    else if(allitems[topindex][2+index][2] == "close")
+                                        toplevel.closePhotoQt()
+
+                                }
+                            }
+                        }
                     }
 
                     Component.onCompleted: {
-                        if(width > mainlistview.maxrowwidth && !separator)
-                            mainlistview.maxrowwidth = width
-                    }
-                    onWidthChanged: {
-                        if(width > mainlistview.maxrowwidth && !separator)
-                            mainlistview.maxrowwidth = width
-                    }
-
-                    Row {
-
-                        spacing: 5
-
-                        visible: !parent.separator
-                        width: childrenRect.width
-                        height: separator ? 0 : childrenRect.height
-
-                        Text {
-                            id: sep
-                            lineHeight: 1.5
-
-                            color: "#cccccc"
-                            visible: allitems[deleg_top.mainindex][index].length > 1 && index > 1
-                            font.bold: true
-                            font.pointSize: 11
-                            text: "/"
-                        }
-
-                        Image {
-                            y: 2.5
-                            width: ((source!="" || allitems[deleg_top.mainindex][index][0]==="separator") ? val.height*0.5 : 0)
-                            height: val.height*0.5
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            source: allitems[deleg_top.mainindex][index][1]===""
-                                    ? "" : (allitems[deleg_top.mainindex][index][0].slice(0,8)=="_:_EX_:_"
-                                            ? handlingExternal.getIconPathFromTheme(allitems[deleg_top.mainindex][index][1]) :
-                                              "/mainmenu/" + allitems[deleg_top.mainindex][index][1] + ".png")
-                            opacity: allitems[deleg_top.mainindex][index][0] !== "hide" ? 1 : 0.5
-                            visible: (source!="" || allitems[deleg_top.mainindex][index][0]==="separator")
-                        }
-
-                        Text {
-
-                            id: val;
-
-                            color: (allitems[deleg_top.mainindex][index][0]==="separator") ? "white" : "#cccccc"
-                            lineHeight: 1.5
-
-                            font.capitalization: (allitems[deleg_top.mainindex][index][0]==="separator") ? Font.SmallCaps : Font.MixedCase
-
-                            opacity: enabled ? 1 : 0.5
-
-                            font.pointSize: 11
-                            font.bold: true
-
-                            enabled: ((allitems[deleg_top.mainindex][index][0] !== "__close" &&
-                                       allitems[deleg_top.mainindex][index][0] !=="separator" &&
-                                      (allitems[deleg_top.mainindex].length === 1 || index > 0)))
-
-
-                            // The spaces guarantee a bit of space betwene icon and text
-                            text: allitems[deleg_top.mainindex][index][2] + ((allitems[deleg_top.mainindex].length > 1 && index == 0) ? ":" : "")
-
-                            MouseArea {
-
-                                anchors.fill: parent
-
-                                hoverEnabled: true
-                                cursorShape: (allitems[deleg_top.mainindex][index][0]!=="separator" && (allitems[deleg_top.mainindex].length === 1 || index > 0)) ?
-                                                 Qt.PointingHandCursor :
-                                                 Qt.ArrowCursor
-
-                                onEntered: {
-                                    context_top.containsMouse = true
-                                    if(allitems[deleg_top.mainindex][index][0]!=="separator" && (allitems[deleg_top.mainindex].length === 1 || index > 0))
-                                        val.color = "#ffffff"
-                                }
-                                onExited: {
-                                    context_top.containsMouse = false
-                                    if(allitems[deleg_top.mainindex][index][0]!=="separator" && (allitems[deleg_top.mainindex].length === 1 || index > 0))
-                                        val.color = "#cccccc"
-                                }
-                                onClicked: {
-                                    if(allitems[deleg_top.mainindex][index][0]!=="separator" && (allitems[deleg_top.mainindex].length === 1 || index > 0)) {
-                                        if(allitems[deleg_top.mainindex][index][3] === "hide" && !PQSettings.interfacePopoutMainMenu)
-                                            context_top.hideMenu()
-                                        var cmd = allitems[deleg_top.mainindex][index][0]
-                                        var close = 0
-                                        if(cmd.slice(0,8) === "_:_EX_:_") {
-                                            if(filefoldermodel.current != -1 && filefoldermodel.countMainView > 0) {
-                                                handlingExternal.executeExternal(cmd.substring(8), filefoldermodel.currentFilePath)
-                                                if(allitems[deleg_top.mainindex][index][3] === "close")
-                                                    toplevel.closePhotoQt()
-                                            }
-                                            return
-                                        }
-                                        HandleShortcuts.executeInternalFunction(cmd)
-                                    }
-                                }
-
-                            }
-
-                        }
-
+                        listview.allwidths.push(managerow.width)
+                        listview.allwidthsChanged()
                     }
 
                 }
 
-            }
-
-            Component.onCompleted: {
-                if(width > mainlistview.maxrowwidth)
-                    mainlistview.maxrowwidth = width
-            }
-            onWidthChanged: {
-                if(width > mainlistview.maxrowwidth)
-                    mainlistview.maxrowwidth = width
             }
 
         }
@@ -301,12 +260,6 @@ Window {
 
     Component.onCompleted:
         readExternalContextmenu()
-
-    Connections {
-        target: PQSettings
-        onInterfaceLanguageChanged:
-            mainlistview.maxrowwidth = 0
-    }
 
     Connections {
         target: PQKeyPressMouseChecker
@@ -326,14 +279,10 @@ Window {
     function readExternalContextmenu() {
 
         var tmpentries = handlingExternal.getContextMenuEntries()
-        var entries = [[["separator", "", "", ""]]]
+        var entries = []
         for(var i = 0; i < tmpentries.length; ++i) {
-            tmpentries[i][3] = "hide"   // the context menu is hidden when one of these entries is selected
-            entries.push([tmpentries[i]])
+            entries.push(["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], "hide"]])
         }
-        // no external entries (only the separator in the list)
-        if(entries.length == 1)
-            entries = []
         allitems_external = entries
     }
 

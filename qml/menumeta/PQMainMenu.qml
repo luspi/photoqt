@@ -261,6 +261,7 @@ Rectangle {
                 allitems: [
                     ["copy",
                       "",
+                     //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
                       ["__rename",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
                       //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
                       ["__copy",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
