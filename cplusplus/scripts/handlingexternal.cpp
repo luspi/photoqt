@@ -297,7 +297,7 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
         thisentry << command.split(" ").at(0);  // icon
         thisentry << command;   // executable
         thisentry << desc;      // name
-        thisentry << (close=="1" ? "close" : "dontclose");
+        thisentry << (close=="1" ? "2" : "1");
 
         ret << thisentry;
 
@@ -528,7 +528,7 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
             QVariantList entrylist = entry.toList();
 
-            const QString close = (entrylist.at(3).toString()=="close" ? "1" : "0");
+            const QString close = (entrylist.at(3).toInt()==2 ? "1" : "0");
             const QString cmd = entrylist.at(1).toString();
             const QString dsc = entrylist.at(2).toString();
 

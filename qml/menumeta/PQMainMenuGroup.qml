@@ -13,7 +13,7 @@ Item {
     // each entry is of the same form:
     // [icon name,
     //  title text (inactive text) - optional (leave as "" if not wanted),
-    //  all options as individual lists: [command, name, hide/donthide]
+    //  all options as individual lists: [command, name, hide=1/close=2]
     // ]
     property var allitems: []
 
@@ -38,7 +38,7 @@ Item {
 
         property bool hovered: false
 
-        color: hovered ? "#222222" : "#111111"
+        color: hovered ? "#282828" : "#181818"
         Behavior on color { ColorAnimation { duration: 100 } }
 
         Image {
@@ -133,12 +133,13 @@ Item {
                             width: Math.max(txt.width, img.width)
                             height: Math.max(txt.height, img.height)
                             property bool hovered: false
+                            enabled: (!allitems[topindex][2+index][3] || filefoldermodel.current!=-1)
                             Image {
                                 id: img
                                 width: nametxt.height
                                 height: nametxt.height
                                 visible: allitems[topindex][2+index][1].toString().match("^img:")=="img:"
-                                opacity: parent.hovered ? 1 : 0.8
+                                opacity: enabled ? (parent.hovered ? 1 : 0.8) : 0.2
                                 Behavior on opacity { NumberAnimation { duration: 100 } }
                                 source: visible ? ("/mainmenu/"+allitems[topindex][2+index][1].slice(4)+".png") : ""
                                 mipmap: true
@@ -146,7 +147,7 @@ Item {
                             Text {
                                 id: txt
                                 visible: !img.visible
-                                color: parent.hovered ? "white" : "#cccccc"
+                                color: enabled ? (parent.hovered ? "white" : "#cccccc") : "#555555"
                                 Behavior on color { ColorAnimation { duration: 100 } }
                                 text: visible ? allitems[topindex][2+index][1] : ""
                                 font.pointSize: 11
@@ -167,9 +168,9 @@ Item {
                                     else
                                         HandleShortcuts.executeInternalFunction(allitems[topindex][2+index][0])
 
-                                    if(allitems[topindex][2+index][2] == "hide")
+                                    if(allitems[topindex][2+index][2] == 1)
                                         mainmenu_top.opacity = 0
-                                    else if(allitems[topindex][2+index][2] == "close")
+                                    else if(allitems[topindex][2+index][2] == 2)
                                         toplevel.closePhotoQt()
 
                                 }

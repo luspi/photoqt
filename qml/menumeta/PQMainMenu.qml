@@ -181,22 +181,22 @@ Rectangle {
                     ["open",
                      "",
                      //: This is an entry in the main menu on the right. Please keep short!
-                     ["__open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), "hide"]],
+                     ["__open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), 1, false]],
 
                     ["settings",
                      "",
                      //: This is an entry in the main menu on the right. Please keep short!
-                     ["__settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
+                     ["__settings", em.pty+qsTranslate("MainMenu", "Settings"), 1, false]],
 
                     ["about",
                      "",
                      //: This is an entry in the main menu on the right. Please keep short!
-                     ["__about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
+                     ["__about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), 1, false]],
 
                     ["quit",
                      "",
                      //: This is an entry in the main menu on the right. Please keep short!
-                     ["__quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]]
+                     ["__quit", em.pty+qsTranslate("MainMenu", "Quit"), 1, false]]
                 ]
             }
 
@@ -215,31 +215,31 @@ Rectangle {
                 allitems: [
                     ["goto",
                      em.pty+qsTranslate("MainMenu", "Go to"),
-                     ["__prev", "img:leftarrow", "donthide"],
-                     ["__next", "img:rightarrow", "donthide"],
+                     ["__prev", "img:leftarrow", 0, true],
+                     ["__next", "img:rightarrow", 0, true],
                      //: This is an entry in the main menu on the right, used as in: first image in list. Please keep short!
-                     ["__goToFirst", em.pty+qsTranslate("MainMenu", "first"), "donthide"],
+                     ["__goToFirst", em.pty+qsTranslate("MainMenu", "first"), 0, true],
                      //: This is an entry in the main menu on the right, used as in: last image in list. Please keep short!
-                     ["__goToLast", em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
+                     ["__goToLast", em.pty+qsTranslate("MainMenu", "last"), 0, true]],
 
                     ["zoom",
                      em.pty+qsTranslate("MainMenu", "Zoom"),
-                     ["__zoomIn", "img:zoomin", "donthide"],
-                     ["__zoomOut", "img:zoomout", "donthide"],
-                     ["__zoomReset", "img:reset", "donthide"],
-                     ["__zoomActual", "1:1", "donthide"]],
+                     ["__zoomIn", "img:zoomin", 0, true],
+                     ["__zoomOut", "img:zoomout", 0, true],
+                     ["__zoomReset", "img:reset", 0, true],
+                     ["__zoomActual", "1:1", 0, true]],
 
                     ["rotate",
                      em.pty+qsTranslate("MainMenu", "Rotate"),
-                     ["__rotateL", "img:rotateleft", "donthide"],
-                     ["__rotateR", "img:rotateright", "donthide"],
-                     ["__rotate0", "img:reset", "donthide"]],
+                     ["__rotateL", "img:rotateleft", 0, true],
+                     ["__rotateR", "img:rotateright", 0, true],
+                     ["__rotate0", "img:reset", 0, true]],
 
                     ["flip",
                      em.pty+qsTranslate("MainMenu", "Flip"),
-                     ["__flipH", "img:leftrightarrow", "donthide"],
-                     ["__flipV", "img:updownarrow", "donthide"],
-                     ["__flipReset", "img:reset", "donthide"]]
+                     ["__flipH", "img:leftrightarrow", 0, true],
+                     ["__flipV", "img:updownarrow", 0, true],
+                     ["__flipReset", "img:reset", 0, true]]
 
                 ]
             }
@@ -262,43 +262,43 @@ Rectangle {
                     ["copy",
                       "",
                      //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
-                      ["__rename",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
+                      ["__rename",em.pty+qsTranslate("MainMenu", "rename"), 1, true],
                       //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
-                      ["__copy",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
+                      ["__copy",em.pty+qsTranslate("MainMenu", "copy"), 1, true],
                       //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
-                      ["__move",em.pty+qsTranslate("MainMenu", "move"), "hide"],
+                      ["__move",em.pty+qsTranslate("MainMenu", "move"), 1, true],
                       //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
-                      ["__delete",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
+                      ["__delete",em.pty+qsTranslate("MainMenu", "delete"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["metadata",
                      "",
-                     ["__showMetaData", em.pty+qsTranslate("MainMenu", "Show/Hide metadata"), "donthide"]],
+                     ["__showMetaData", em.pty+qsTranslate("MainMenu", "Show/Hide metadata"), 0, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["histogram",
                      "",
-                     ["__histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), "donthide"]],
+                     ["__histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), 0, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["settings",
                      "",
-                     ["__wallpaper", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
+                     ["__wallpaper", em.pty+qsTranslate("MainMenu", "Wallpaper"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["faces",
                      "",
-                     ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
+                     ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["clipboard",
                      "",
-                     ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "hide"]],
+                     ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["scale",
                      "",
-                     ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), "hide"]]
+                     ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), 1, true]]
 
                 ]
 
@@ -317,32 +317,32 @@ Rectangle {
                      //: This is an entry in the main menu on the right. Please keep short!
                      em.pty+qsTranslate("MainMenu", "Advanced sort"),
                      //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
-                     ["__advancedSort", em.pty+qsTranslate("MainMenu", "setup"), "hide"],
+                     ["__advancedSort", em.pty+qsTranslate("MainMenu", "setup"), 1, true],
                      //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
-                     ["__advancedSortQuick", em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
+                     ["__advancedSortQuick", em.pty+qsTranslate("MainMenu", "quickstart"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["slideshow",
                      em.pty+qsTranslate("MainMenu", "Slideshow"),
                      //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
-                     ["__slideshow", em.pty+qsTranslate("MainMenu", "setup"), "hide"],
+                     ["__slideshow", em.pty+qsTranslate("MainMenu", "setup"), 1, true],
                      //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
-                     ["__slideshowQuick", em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
+                     ["__slideshowQuick", em.pty+qsTranslate("MainMenu", "quickstart"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["filter",
                      "",
-                     ["__filterImages", em.pty+qsTranslate("MainMenu", "Filter images in folder"), "hide"]],
+                     ["__filterImages", em.pty+qsTranslate("MainMenu", "Filter images in folder"), 1, true]],
 
                     //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
                     ["chromecast",
                      "",
-                     ["__chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "hide"]],
+                     ["__chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), 1, true]],
 
                     //: This is an entry in the main menu on the right. Please keep short!
                     ["open",
                      "",
-                     ["__defaultFileManager", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]]
+                     ["__defaultFileManager", em.pty+qsTranslate("MainMenu", "Open in default file manager"), 0, true]]
 
                 ]
 
@@ -461,7 +461,7 @@ Rectangle {
         var tmpentries = handlingExternal.getContextMenuEntries()
         var entries = []
         for(var i = 0; i < tmpentries.length; ++i) {
-            var e = ["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], tmpentries[i][3]]]
+            var e = ["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], 1*tmpentries[i][3], true]]
             entries.push(e)
         }
         custom.allitems = entries
