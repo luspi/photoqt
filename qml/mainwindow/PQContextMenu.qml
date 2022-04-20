@@ -132,7 +132,6 @@ Window {
 
         width: listview.width
         height: listview.height+10
-        Behavior on height { NumberAnimation { duration: 250 } }
 
         ListView {
 
@@ -179,7 +178,7 @@ Window {
                     Image {
                         width: 20
                         height: 20
-                        source: (allitems[index][0].toString().match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) : ("/mainmenu/"+allitems[index][0]+".png")
+                        source: (allitems[index][0].toString().match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) : (allitems[index][0]!="" ? ("/mainmenu/"+allitems[index][0]+".png") : "")
                     }
 
                     Text {
