@@ -405,29 +405,36 @@ if(UNIX)
 
     # And install all the icons
     install(
-        FILES icons/16x16/apps/photoqt.png
+        FILES icons/16x16/apps/org.photoqt.PhotoQt.png
         DESTINATION share/icons/hicolor/16x16/apps/
     )
     install(
-        FILES icons/32x32/apps/photoqt.png
+        FILES icons/32x32/apps/org.photoqt.PhotoQt.png
         DESTINATION share/icons/hicolor/32x32/apps/
     )
     install(
-        FILES icons/48x48/apps/photoqt.png
+        FILES icons/48x48/apps/org.photoqt.PhotoQt.png
         DESTINATION share/icons/hicolor/48x48/apps/
     )
     install(
-        FILES icons/64x64/apps/photoqt.png
+        FILES icons/64x64/apps/org.photoqt.PhotoQt.png
         DESTINATION share/icons/hicolor/64x64/apps/
     )
     install(
-        FILES icons/128x128/apps/photoqt.png
+        FILES icons/128x128/apps/org.photoqt.PhotoQt.png
         DESTINATION share/icons/hicolor/128x128/apps/
     )
     install(
         FILES org.photoqt.PhotoQt.appdata.xml
         DESTINATION share/appdata/
     )
+    # These are the old icon names up to v2.6
+    # we remove the old files if they are still there
+    file(REMOVE share/icons/hicolor/16x16/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/32x32/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/48x48/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/64x64/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/128x128/apps/photoqt.png)
 
 endif()
 
