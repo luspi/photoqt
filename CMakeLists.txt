@@ -387,6 +387,13 @@ if(UNIX)
         FILES org.photoqt.PhotoQt.appdata.xml
         DESTINATION share/appdata/
     )
+    # These are the old icon names up to v2.6
+    # we remove the old files if they are still there
+    file(REMOVE share/icons/hicolor/16x16/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/32x32/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/48x48/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/64x64/apps/photoqt.png)
+    file(REMOVE share/icons/hicolor/128x128/apps/photoqt.png)
 
 endif()
 
