@@ -375,7 +375,6 @@ Rectangle {
             filefoldermodel.setFileNameOnceReloaded = "---"
             filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath
         }
-        imageitem.viewerModeEnabled()
     }
 
     function exitViewerMode() {

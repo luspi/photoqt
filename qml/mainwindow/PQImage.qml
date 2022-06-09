@@ -743,6 +743,20 @@ Item {
         target: filefoldermodel
         onCurrentFilePathChanged:
             loadNewFile()
+        onIsARCChanged: {
+            if(filefoldermodel.isARC) {
+                viewermodemouse.enabled = false
+                hidebut1.start()
+                hidebut2.start()
+            }
+        }
+        onIsPQTChanged: {
+            if(filefoldermodel.isPQT) {
+                viewermodemouse.enabled = false
+                hidebut1.start()
+                hidebut2.start()
+            }
+        }
     }
 
     Connections {
@@ -799,12 +813,6 @@ Item {
 
     function getCurrentVideoLength() {
         return currentVideoLength
-    }
-
-    function viewerModeEnabled() {
-        viewermodemouse.enabled = false
-        hidebut1.start()
-        hidebut2.start()
     }
 
 }
