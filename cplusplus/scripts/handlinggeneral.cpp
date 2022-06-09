@@ -410,6 +410,14 @@ bool PQHandlingGeneral::isPopplerSupportEnabled() {
 #endif
 }
 
+bool PQHandlingGeneral::isPugixmlSupportEnabled() {
+#ifdef PUGIXML
+    return true;
+#else
+    return false;
+#endif
+}
+
 bool PQHandlingGeneral::isVideoSupportEnabled() {
 #ifdef VIDEOQT
     return true;

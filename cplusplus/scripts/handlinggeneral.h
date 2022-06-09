@@ -63,6 +63,7 @@ public:
     Q_INVOKABLE bool isLibRawSupportEnabled();
     Q_INVOKABLE bool isLibArchiveSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
+    Q_INVOKABLE bool isPugixmlSupportEnabled();
     Q_INVOKABLE bool isVideoSupportEnabled();
     Q_INVOKABLE bool isMPVSupportEnabled();
     Q_INVOKABLE void setLastLoadedImage(QString path);

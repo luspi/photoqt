@@ -43,7 +43,7 @@ ListView {
     Text {
         anchors.fill: parent
         anchors.margins: 15
-        visible: parent.model.count==1
+        visible: parent.model.count==1&&handlingGeneral.isPugixmlSupportEnabled()
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         //: 'favorites' here refers to the list of favorite folders a user can set in the file dialog
@@ -138,6 +138,8 @@ ListView {
                 // size and position
                 anchors.fill: parent
                 anchors.leftMargin: entryicon.width
+
+                visible: handlingGeneral.isPugixmlSupportEnabled()
 
                 // vertically center text
                 verticalAlignment: Qt.AlignVCenter
