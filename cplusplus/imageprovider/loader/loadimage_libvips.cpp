@@ -1,6 +1,8 @@
 #include "loadimage_libvips.h"
 #include <QtDebug>
+#ifdef LIBVIPS
 #include <vips/image.h>
+#endif
 
 PQLoadImageLibVips::PQLoadImageLibVips() {
     errormsg = "";
@@ -15,6 +17,8 @@ QSize PQLoadImageLibVips::loadSize(QString filename) {
 }
 
 QImage PQLoadImageLibVips::load(QString filename, QSize, QSize &origSize, bool stopAfterSize) {
+
+#ifdef LIBVIPS
 
     // we use the C API as the equivalent C++ API calls led to crash on subsequent call
 
@@ -48,5 +52,10 @@ QImage PQLoadImageLibVips::load(QString filename, QSize, QSize &origSize, bool s
     g_object_unref(in);
 
     return img;
+
+#endif
+    errormsg = "Failed to load image, libvips not supported by this build of PhotoQt!";
+    LOG << CURDATE << "PQLoadImageLibVips::load(): " << errormsg.toStdString() << NL;
+    return QImage();
 
 }
