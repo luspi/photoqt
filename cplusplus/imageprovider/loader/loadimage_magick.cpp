@@ -31,9 +31,13 @@ PQLoadImageMagick::PQLoadImageMagick() {
 
 QSize PQLoadImageMagick::loadSize(QString filename) {
 
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
     QSize s;
     load(filename, QSize(), s, true);
     return QSize(image.size().width(), image.size().height());
+#endif
+
+    return QSize();
 
 }
 
