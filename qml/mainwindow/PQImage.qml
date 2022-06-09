@@ -698,12 +698,8 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             tooltip: em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode")
-            onClicked: {
-                viewermodemouse.enabled = false
-                hidebut1.start()
-                hidebut2.start()
+            onClicked:
                 labels.enterViewerMode()
-            }
         }
 
         Image {
@@ -803,6 +799,12 @@ Item {
 
     function getCurrentVideoLength() {
         return currentVideoLength
+    }
+
+    function viewerModeEnabled() {
+        viewermodemouse.enabled = false
+        hidebut1.start()
+        hidebut2.start()
     }
 
 }
