@@ -1,4 +1,4 @@
-# PhotoQt v2.6
+# PhotoQt v2.7
 __Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org)__  
 __License:__ GPLv2 (or later)  
 __Website:__ https://photoqt.org  
@@ -18,7 +18,7 @@ PhotoQt is available in the repositories of an increasing number of Linux distri
 Make sure that you have all the required QML modules installed:  
 QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.  
 
-Dependencies, that are needed by default, but can be disabled via CMake:
+Dependencies that are needed by default, but can be disabled via CMake:
 
 - LibArchive
 - Exiv2
@@ -28,9 +28,14 @@ Dependencies, that are needed by default, but can be disabled via CMake:
 - LibVips
 - FreeImage
 - DevIL
-- libmpv
 - pugixml
 - Python (incl. pychromecast package)
+
+Dependencies that are disabled by default, but can be enabled via CMake:
+
+- libvips
+- libmpv
+
 
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
 
@@ -49,6 +54,7 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - Qt plug-in for AVIF images - https://github.com/novomesk/qt-avif-image-plugin
 - Qt plug-in for JPEG XL images - https://github.com/novomesk/qt-jpegxl-image-plugin
+- Qt plug-in for HEIF/HEIC images - https://github.com/novomesk/qt-heic-image-plugin
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar

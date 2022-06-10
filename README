@@ -1,4 +1,4 @@
- PhotoQt v2.6 - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v2.7 - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: https://photoqt.org
 --------------------------------------------------------------------
 
@@ -20,7 +20,7 @@
   QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
   QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window
 
-> Dependencies, that are needed by default, but can be disabled via CMake:
+> Dependencies that are needed by default, but can be disabled via CMake:
 - LibArchive
 - Exiv2
 - ImageMagick or GraphicsMagick
@@ -29,9 +29,12 @@
 - LibVips
 - FreeImage
 - DevIL
-- libmpv
 - pugixml
 - Python (incl. pychromecast package)
+
+> Dependencies that are disabled by default, but can be enabled via CMake:
+- libvips
+- libmpv
 
 > Please note that you probably want to have as many of these enabled as possible as
   they greatly enhance the experience of PhotoQt.
@@ -57,6 +60,7 @@
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - Qt plug-in for AVIF images - https://github.com/novomesk/qt-avif-image-plugin
 - Qt plug-in for JPEG XL images - https://github.com/novomesk/qt-jpegxl-image-plugin
+- Qt plug-in for HEIF/HEIC images - https://github.com/novomesk/qt-heic-image-plugin
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar

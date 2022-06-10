@@ -2,6 +2,19 @@ Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), Li
 ----------------------------------------------------------------------------------------------------------
 
 
+Release 2.7 - 2022-06-10
+----------------------------
+- add: support for libvips image library
+- add: support for libmpv video library
+- add: advanced sorting by luminosity
+- add: obtain configuration visually (About) and through command line (--show-info)
+- improve: reworked main menu with collapsible sections
+- improve: better performance of obtaining image size info
+- fix: mimetypes where never checked
+- fix: hiding of viewer mode button when shortcut used
+- various improvements and fixes under the hood
+
+
 Release 2.6 - 2022-04-07
 ----------------------------
 - add new image formats: ani, dfont, g4, heic/heif, otf, pfa/pfb, pgx, qoi, sixel
