@@ -47,6 +47,8 @@ Item {
 
     property string filterExactFileSizeSet: ""
 
+    property bool startupCompleted: false
+
     Connections {
 
         target: PQSettings

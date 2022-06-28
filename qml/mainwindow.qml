@@ -96,7 +96,7 @@ Window {
                 y: (parent.height-height)/2
                 width: parent.width-arrleft.width-arrright.width-40
                 height: col.height
-                visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive
+                visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
                 Column {
                     id: col
                     spacing: 5
@@ -421,6 +421,8 @@ Window {
             else
                 filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
         }
+
+        variables.startupCompleted = true
 
     }
 
