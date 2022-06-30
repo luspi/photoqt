@@ -160,5 +160,6 @@
         <file>advancedsort/PQAdvancedSortBusy.qml</file>
         <file>mainwindow/image/PQMPV.qml</file>
         <file>menumeta/PQMainMenuGroup.qml</file>
+        <file>settingsmanager/tabs/imageview/PQZoomToFrom.qml</file>
     </qresource>
 </RCC>

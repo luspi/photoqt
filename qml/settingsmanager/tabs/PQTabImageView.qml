@@ -118,6 +118,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: itp.expertmodeonly }
             PQKeep { id: kee }
                 PQHorizontalLine { expertModeOnly: kee.expertmodeonly }
+            PQZoomToFrom { id: ztf }
+                PQHorizontalLine { expertModeOnly: ztf.expertmodeonly }
             PQZoomSpeed { id: zos }
 
             // add some spacing at the bottom

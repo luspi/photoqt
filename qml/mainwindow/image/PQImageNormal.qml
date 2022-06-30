@@ -345,7 +345,7 @@ Item {
             // zoom to local mouse position
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
-            if(wheelDelta != undefined)
+            if(wheelDelta != undefined && !PQSettings.imageviewZoomToCenter)
                 performZoom(theimage.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y), undefined, true, false, false)
             else
                 performZoom(theimage.mapFromItem(bgimage, toplevel.width/2, toplevel.height/2), undefined, true, false, false)
@@ -356,7 +356,7 @@ Item {
             // zoom to local mouse position
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
-            if(wheelDelta != undefined)
+            if(wheelDelta != undefined && !PQSettings.imageviewZoomToCenter)
                 performZoom(theimage.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y), undefined, false, false, false)
             else
                 performZoom(theimage.mapFromItem(bgimage, toplevel.width/2, toplevel.height/2), undefined, false, false, false)
