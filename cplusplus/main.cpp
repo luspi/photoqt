@@ -138,6 +138,9 @@ int main(int argc, char **argv) {
     // update or fresh install detected => show informational message
     if(checker != 0) {
 
+        PQSettings::get().backupDatabase();
+        PQShortcuts::get().backupDatabase();
+
         if(checker == 1 || checker == 2) {
 
             QQmlApplicationEngine engine;

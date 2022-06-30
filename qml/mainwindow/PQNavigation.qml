@@ -35,7 +35,7 @@ Rectangle {
     width: row.width
     height: row.height
 
-    opacity: PQSettings.interfaceQuickNavigation ? 1 : 0
+    opacity: PQSettings.interfaceNavigationFloating ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
@@ -157,7 +157,7 @@ Rectangle {
 
     Connections {
         target: loader
-        onQuickNavigationPassOn: {
+        onNavigationFloatingPassOn: {
             if(what == "toggle")
                 toggle()
         }

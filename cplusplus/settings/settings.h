@@ -49,6 +49,8 @@ public:
 
     void readDB();
 
+    bool backupDatabase();
+
 private:
     PQSettings();
 

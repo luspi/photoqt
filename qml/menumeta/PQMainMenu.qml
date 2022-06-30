@@ -22,6 +22,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Window 2.2
 import "../elements"
 
 Rectangle {
@@ -438,6 +439,63 @@ Rectangle {
                         mainmenu_window.storeGeometry()
                     PQSettings.interfacePopoutMainMenu = !PQSettings.interfacePopoutMainMenu
                 }
+            }
+        }
+    }
+
+    Row {
+        x: (parent.width-width-10)
+        y: 10
+        spacing: 10
+
+        Image {
+            width: heading.height
+            height: heading.height
+            source: "/mainwindow/menu.png"
+            opacity: mainmenu_mouse.containsMouse ? 0.8 : 0.5
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+            visible: PQSettings.interfaceNavigationTopRight
+            PQMouseArea {
+                id: mainmenu_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("quickinfo", "Click here to show main menu")
+                onClicked:
+                    loader.passOn("mainmenu", "toggle", undefined)
+            }
+        }
+
+        Image {
+            width: heading.height
+            height: heading.height
+            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.5
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+            PQMouseArea {
+                id: fullscreen_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: (PQSettings.interfaceWindowMode ? em.pty+qsTranslate("quickinfo", "Click here to enter fullscreen mode")
+                                                : em.pty+qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
+                onClicked:
+                    PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
+            }
+        }
+
+        Image {
+            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceLabelsAlwaysShowX
+            width: heading.height
+            height: heading.height
+            source: "/mainwindow/close.png"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
+                onClicked:
+                    toplevel.close()
             }
         }
     }

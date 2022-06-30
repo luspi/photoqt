@@ -180,6 +180,25 @@ void PQSettings::readDB() {
 
 }
 
+bool PQSettings::backupDatabase() {
+
+    // make sure all changes are written to db
+    if(dbIsTransaction) {
+        dbCommitTimer->stop();
+        db.commit();
+        dbIsTransaction = false;
+        if(db.lastError().text().trimmed().length())
+            LOG << "PQSettings::commitDB: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
+    }
+
+    // backup file
+    if(QFile::exists(QString("%1.bak").arg(ConfigFiles::SETTINGS_DB())))
+        QFile::remove(QString("%1.bak").arg(ConfigFiles::SETTINGS_DB()));
+    QFile file(ConfigFiles::SETTINGS_DB());
+    return file.copy(QString("%1.bak").arg(ConfigFiles::SETTINGS_DB()));
+
+}
+
 void PQSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
     if(readonly) return;
@@ -236,6 +255,8 @@ void PQSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 void PQSettings::setDefault(bool ignoreLanguage) {
 
     if(readonly) return;
+
+    backupDatabase();
 
     dbCommitTimer->stop();
     if(!dbIsTransaction) {

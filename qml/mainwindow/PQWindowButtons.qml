@@ -26,14 +26,11 @@ import "../elements"
 
 Item {
 
-    x: parent.width-width-5
-    y: 5
+    x: parent.width-width-PQSettings.imageviewMargin
+    y: PQSettings.imageviewMargin
 
     width: row.width
     height: row.height
-
-    // these are always visible on top of everything, according to the conditions below
-    z: 999
 
     visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) && !PQSettings.interfaceLabelsHideWindowButtons && opacity==1
 
@@ -50,14 +47,87 @@ Item {
 
         id: row
 
-        spacing: 10
+        spacing: 0
+
+        Image {
+            width: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            height: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            source: "/mainwindow/leftarrow.png"
+            enabled: filefoldermodel.countMainView>0
+            opacity: enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+            visible: PQSettings.interfaceNavigationTopRight
+            PQMouseArea {
+                id: left_mouse
+                anchors.fill: parent
+                enabled: parent.enabled&&parent.opacity>0
+                hoverEnabled: true
+                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                tooltip: em.pty+qsTranslate("navigate", "Navigate to previous image in folder")
+                onClicked:
+                    imageitem.loadPrevImage()
+            }
+        }
+
+        Image {
+            width: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            height: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            source: "/mainwindow/rightarrow.png"
+            enabled: filefoldermodel.countMainView>0
+            opacity: enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+            visible: PQSettings.interfaceNavigationTopRight
+            PQMouseArea {
+                id: right_mouse
+                anchors.fill: parent
+                enabled: parent.enabled&&parent.opacity>0
+                hoverEnabled: true
+                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                tooltip: em.pty+qsTranslate("navigate", "Navigate to next image in folder")
+                onClicked:
+                    imageitem.loadNextImage()
+            }
+        }
+
+        Item {
+            width: 1
+            height: 1
+        }
+
+        Image {
+            width: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            height: 3*PQSettings.interfaceLabelsWindowButtonsSize
+            source: "/mainwindow/menu.png"
+
+            opacity: mainmenu_mouse.containsMouse ? 0.8 : 0.5
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+            visible: PQSettings.interfaceNavigationTopRight
+
+            PQMouseArea {
+                id: mainmenu_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("quickinfo", "Click here to show main menu")
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: {
+                    if(mouse.button == Qt.LeftButton)
+                        loader.passOn("mainmenu", "toggle", undefined)
+                    else {
+                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    }
+                }
+            }
+        }
 
         Image {
             width: 3*PQSettings.interfaceLabelsWindowButtonsSize
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
 
-            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.2
+            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.5
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
             PQMouseArea {
@@ -77,6 +147,11 @@ Item {
                     }
                 }
             }
+        }
+
+        Item {
+            width: 1
+            height: 1
         }
 
         Image {

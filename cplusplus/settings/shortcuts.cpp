@@ -86,6 +86,25 @@ PQShortcuts::PQShortcuts() {
 
 PQShortcuts::~PQShortcuts() {}
 
+bool PQShortcuts::backupDatabase() {
+
+    // make sure all changes are written to db
+    if(dbIsTransaction) {
+        dbCommitTimer->stop();
+        db.commit();
+        dbIsTransaction = false;
+        if(db.lastError().text().trimmed().length())
+            LOG << "PQShortcuts::commitDB: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
+    }
+
+    // backup file
+    if(QFile::exists(QString("%1.bak").arg(ConfigFiles::SHORTCUTS_DB())))
+        QFile::remove(QString("%1.bak").arg(ConfigFiles::SHORTCUTS_DB()));
+    QFile file(ConfigFiles::SHORTCUTS_DB());
+    return file.copy(QString("%1.bak").arg(ConfigFiles::SHORTCUTS_DB()));
+
+}
+
 void PQShortcuts::setDefault() {
 
     DBG << CURDATE << "PQShortcuts::setDefault()" << NL;

@@ -54,6 +54,8 @@ public:
     Q_INVOKABLE void deleteAllExternalShortcuts();
     Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
 
+    bool backupDatabase();
+
 public Q_SLOTS:
     void readDB();
 

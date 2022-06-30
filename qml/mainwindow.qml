@@ -265,7 +265,7 @@ Window {
 
     Loader { id: mainmenu }
     Loader { id: metadata }
-    Loader { id: quicknavigation }
+    Loader { id: navigationfloating }
 
     Loader { id: slideshowsettings }
     Loader { id: slideshowcontrols }
@@ -394,8 +394,8 @@ Window {
         if(PQSettings.histogramVisible)
             loader.ensureItIsReady("histogram")
 
-        if(PQSettings.interfaceQuickNavigation)
-            loader.ensureItIsReady("quicknavigation")
+        if(PQSettings.interfaceNavigationFloating)
+            loader.ensureItIsReady("navigationfloating")
 
         var filenameToLoad = handlingGeneral.getLastLoadedImage()
 

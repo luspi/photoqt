@@ -60,8 +60,8 @@ public:
     bool migrateSettingsToDb();
     bool migrateShortcutsToDb();
 
-    bool enterNewSettings();
-    void enterNewShortcuts();
+    bool renameSettings();
+    bool renameShortcuts();
 
     void showInfo();
 

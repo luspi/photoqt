@@ -334,8 +334,8 @@ void PQStartup::performChecksAndMigrations() {
     migrateSettingsToDb();
 
     // enter any new settings and shortcuts
-    enterNewSettings();
-    enterNewShortcuts();
+    renameSettings();
+    renameShortcuts();
 
     PQSettings::get().update("generalVersion", VERSION);
 
@@ -344,101 +344,63 @@ void PQStartup::performChecksAndMigrations() {
 
 }
 
-void PQStartup::enterNewShortcuts() {
-
-    QSqlDatabase db = QSqlDatabase::database("shortcuts");
-
-    if(!db.open()) {
-        LOG << CURDATE << "PQStartup::enterNewShortcuts(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
-        return;
-    }
-
-    QStringList newShortcuts;
-    newShortcuts << "file" << "__print" << "" << "Ctrl+P";
-    newShortcuts << "navigation" << "__advancedSort" << "" << "Ctrl+A";
-    newShortcuts << "navigation" << "__advancedSortQuick" << "" << "Ctrl+Shift+A";
-
-    for(int i = 0; i < newShortcuts.length()/4; ++i) {
-
-        const QString category = newShortcuts[4*i + 0];
-        const QString command = newShortcuts[4*i + 1];
-        const QString shortcuts = newShortcuts[4*i + 2];
-        const QString defaultshortcuts = newShortcuts[4*i + 3];
-
-        QSqlQuery query(db);
-        query.prepare("SELECT COUNT(category) AS NumSh FROM builtin WHERE command=:command");
-        query.bindValue(":command", command);
-
-        if(!query.exec()) {
-            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": SQL Query error (1): " << query.lastError().text().trimmed().toStdString() << NL;
-            continue;
-        }
-
-        if(!query.next()) {
-            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": No SQL results returned" << NL;
-            continue;
-        }
-
-        int howmany = query.record().value("NumSh").toInt();
-        if(howmany != 0) {
-            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": Found " << howmany << " settings with the new name, not entering anything new." << NL;
-            continue;
-        }
-
-        QSqlQuery query2(db);
-        query2.prepare("INSERT INTO builtin (category,command,shortcuts,defaultshortcuts) VALUES (:cat,:cmd,:sh,:def)");
-        query2.bindValue(":cat", category);
-        query2.bindValue(":cmd", command);
-        query2.bindValue(":sh" , shortcuts);
-        query2.bindValue(":def", defaultshortcuts);
-
-        if(!query2.exec()) {
-            LOG << CURDATE << "PQStartup::enterNewShortcuts(): " << command.toStdString() << ": SQL Query error (2): " << query2.lastError().text().trimmed().toStdString() << NL;
-            continue;
-        }
-
-        query.clear();
-        query2.clear();
-
-    }
-
-}
-
-bool PQStartup::enterNewSettings() {
+// These settings changed names
+bool PQStartup::renameSettings() {
 
     QSqlDatabase db = QSqlDatabase::database("settings");
 
-    if(!db.open()) {
-        LOG << CURDATE << "PQStartup::enterNewSettings(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
-        return false;
+    QMap<QString,QStringList> rename;
+    rename ["QuickNavigation"] = QStringList() << "NavigationFloating" << "interface";
+    QMapIterator<QString, QStringList> i(rename);
+    while(i.hasNext()) {
+        i.next();
+
+        QString oldname = i.key();
+        QString newname = i.value().value(0);
+        QString table = i.value().value(1);
+
+        QSqlQuery query(db);
+        query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
+        query.bindValue(":new", newname);
+        query.bindValue(":old", oldname);
+        if(!query.exec()) {
+            LOG << CURDATE << "PQValidate::renameSettings(): Error updating setting name (" << oldname.toStdString() << " -> " << newname.toStdString() << "): " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            return false;
+        }
+        query.clear();
     }
 
-    // LabelsAlwaysShowX, 0, 0, bool
+    return true;
 
-    QSqlQuery query(db);
-    query.prepare("SELECT COUNT(name) AS NumSet FROM interface WHERE name='LabelsAlwaysShowX'");
-    if(!query.exec()) {
-        LOG << CURDATE << "PQStartup::enterNewSettings(): SQL Query error (1): " << query.lastError().text().trimmed().toStdString() << NL;
-        return false;
-    }
+}
 
-    if(!query.next()) {
-        LOG << CURDATE << "PQStartup::enterNewSettings(): No SQL results returned" << NL;
-        return false;
-    }
+bool PQStartup::renameShortcuts() {
 
-    int howmany = query.record().value("NumSet").toInt();
-    if(howmany != 0) {
-        LOG << CURDATE << "PQStartup::enterNewSettings(): Found " << howmany << " settings with the new name, not entering anything new." << NL;
-        return false;
-    }
+    QSqlDatabase db = QSqlDatabase::database("shortcuts");
 
-    QSqlQuery query2(db);
-    query2.prepare("INSERT INTO interface (name,value,defaultvalue,datatype) VALUES ('LabelsAlwaysShowX', 0, 0, 'bool')");
+    QMap<QString,QStringList> rename;
+    rename["__quickNavigation"] = QStringList() << "__navigationFloating" << "navigation";
 
-    if(!query2.exec()) {
-        LOG << CURDATE << "PQStartup::enterNewSettings(): SQL Query error (2): " << query2.lastError().text().trimmed().toStdString() << NL;
-        return false;
+    QMapIterator<QString, QStringList> i(rename);
+    while(i.hasNext()) {
+        i.next();
+
+        QString oldname = i.key();
+        QString newname = i.value().value(0);
+        QString cat = i.value().value(1);
+
+        QSqlQuery query(db);
+        query.prepare("UPDATE 'builtin' SET command=:new WHERE command=:old AND category=:cat");
+        query.bindValue(":new", newname);
+        query.bindValue(":old", oldname);
+        query.bindValue(":cat", cat);
+        if(!query.exec()) {
+            LOG << CURDATE << "PQValidate::renameShortcuts(): Error updating shortcuts command (" << oldname.toStdString() << " -> " << newname.toStdString() << "): " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            return false;
+        }
+        query.clear();
     }
 
     return true;

@@ -42,7 +42,7 @@ Item {
     signal faceTaggerPassOn(var what, var param)
     signal settingsManagerPassOn(var what, var param)
     signal fileSaveAsPassOn(var what, var param)
-    signal quickNavigationPassOn(var what, var param)
+    signal navigationFloatingPassOn(var what, var param)
     signal unavailablePassOn(var what, var param)
     signal unavailablePopoutPassOn(var what, var param)
     signal chromecastPassOn(var what, var param)
@@ -115,8 +115,8 @@ Item {
         else if(ele == "unavailablepopout")
             unavailablePopoutPassOn("show", undefined)
 
-        else if(ele == "quicknavigation")
-            quickNavigationPassOn("show", undefined)
+        else if(ele == "navigationfloating")
+            navigationFloatingPassOn("show", undefined)
 
         else if(ele == "chromecast")
             chromecastPassOn("show", undefined)
@@ -182,8 +182,8 @@ Item {
         else if(ele == "unavailable")
             unavailablePassOn(what, param)
 
-        else if(ele == "quicknavigation")
-            quickNavigationPassOn(what, param)
+        else if(ele == "navigationfloating")
+            navigationFloatingPassOn(what, param)
 
         else if(ele == "chromecast")
             chromecastPassOn(what, param)
@@ -254,8 +254,8 @@ Item {
         else if(ele == "unavailablepopout")
             unavailablePopoutPassOn("keyevent", [key, mod])
 
-        else if(ele == "quicknavigation")
-            quickNavigationPassOn("keyevent", [key, mod])
+        else if(ele == "navigationfloating")
+            navigationFloatingPassOn("keyevent", [key, mod])
 
         else if(ele == "chromecast")
             chromecastPassOn("keyevent", [key, mod])
@@ -419,9 +419,9 @@ Item {
             if(advancedsortbusy.source != "advancedsort/PQAdvancedSortBusy.qml")
                 advancedsortbusy.source = "advancedsort/PQAdvancedSortBusy.qml"
 
-        } else if(ele == "quicknavigation") {
+        } else if(ele == "navigationfloating") {
 
-            quicknavigation.source = "mainwindow/PQNavigation.qml"
+            navigationfloating.source = "mainwindow/PQNavigation.qml"
 
         } else if(ele == "unavailable") {
 

@@ -26,14 +26,26 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    //: A settings title. The hot edge refers to the area along the edges of PhotoQt where the mouse cursor triggers an action (e.g., showing the thumbnails or the main menu)
-    title: em.pty+qsTranslate("settingsmanager_interface", "quick navigation")
-    helptext: em.pty+qsTranslate("settingsmanager_interface", "Some buttons to help with quick navigation. These can come in handy when, e.g., operating with a touch screen.")
+    id: set
+    //: A settings title.
+    title: em.pty+qsTranslate("settingsmanager_interface", "navigation buttons")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "Some buttons to help with navigation. These can come in handy when, e.g., operating with a touch screen.")
     expertmodeonly: false
     content: [
-        PQCheckbox {
-            id: navcheck
-            text: em.pty+qsTranslate("settingsmanager_interface", "Show quick navigation buttons")
+        Flow {
+            spacing: 10
+            width: set.contwidth
+            PQCheckbox {
+                id: navcheck1
+                y: (parent.height-height)/2
+                text: em.pty+qsTranslate("settingsmanager_interface", "buttons next to window buttons")
+            }
+            PQCheckbox {
+                id: navcheck2
+                y: (parent.height-height)/2
+                text: em.pty+qsTranslate("settingsmanager_interface", "floating buttons")
+            }
+
         }
 
     ]
@@ -43,13 +55,17 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            navcheck.checked = PQSettings.interfaceQuickNavigation
+            navcheck1.checked = PQSettings.interfaceNavigationTopRight
+            navcheck2.checked = PQSettings.interfaceNavigationFloating
         }
 
         onSaveAllSettings: {
-            PQSettings.interfaceQuickNavigation = navcheck.checked
-            if(navcheck.checked)
-                loader.ensureItIsReady("quicknavigation")
+
+            PQSettings.interfaceNavigationTopRight = navcheck1.checked
+            PQSettings.interfaceNavigationFloating = navcheck2.checked
+
+            if(navcheck2.checked)
+                loader.ensureItIsReady("navigationfloating")
         }
 
     }
