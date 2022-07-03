@@ -44,6 +44,8 @@ Rectangle {
     opacity: 0
     visible: opacity != 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }
+    onOpacityChanged:
+        variables.mainMenuVisible = (opacity>0)
 
     property bool resizePressed: false
 

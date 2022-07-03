@@ -254,6 +254,7 @@ Window {
     PQLabels { id: labels }
     PQMessage { id: message }
     PQWindowButtons { id: windowbuttons }
+    PQWindowButtons { id: windowsbuttons_ontop; visibleAlways: true }
 
     PQThumbnailBar { id: thumbnails }
 

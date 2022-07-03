@@ -49,6 +49,8 @@ Item {
 
     property bool startupCompleted: false
 
+    property bool mainMenuVisible: false
+
     Connections {
 
         target: PQSettings

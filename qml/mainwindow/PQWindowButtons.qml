@@ -32,10 +32,11 @@ Item {
     width: row.width
     height: row.height
 
-    visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) && !PQSettings.interfaceLabelsHideWindowButtons && opacity==1
+    visible: (!(variables.slideShowActive&&PQSettings.slideshowHideLabels) && !PQSettings.interfaceLabelsHideWindowButtons && opacity==1)
 
-    opacity: variables.visibleItem=="filedialog" ? 0 : 1
-    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+    property bool visibleAlways: false
+
+    z: (visibleAlways&&!variables.mainMenuVisible&&variables.visibleItem!="filedialog") ? 999 : 0
 
     // clicks between buttons has no effect anywhere
     PQMouseArea {
@@ -54,9 +55,9 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/leftarrow.png"
             enabled: filefoldermodel.countMainView>0
-            opacity: enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2
+            opacity: visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-            visible: PQSettings.interfaceNavigationTopRight
+            visible: PQSettings.interfaceNavigationTopRight && opacity > 0
             PQMouseArea {
                 id: left_mouse
                 anchors.fill: parent
@@ -74,9 +75,9 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/rightarrow.png"
             enabled: filefoldermodel.countMainView>0
-            opacity: enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2
+            opacity: visibleAlways ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-            visible: PQSettings.interfaceNavigationTopRight
+            visible: PQSettings.interfaceNavigationTopRight && opacity > 0
             PQMouseArea {
                 id: right_mouse
                 anchors.fill: parent
@@ -99,10 +100,10 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/menu.png"
 
-            opacity: mainmenu_mouse.containsMouse ? 0.8 : 0.5
+            opacity: visibleAlways ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-            visible: PQSettings.interfaceNavigationTopRight
+            visible: PQSettings.interfaceNavigationTopRight && opacity > 0
 
             PQMouseArea {
                 id: mainmenu_mouse
@@ -127,7 +128,7 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
 
-            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.5
+            opacity: !visibleAlways ? 0 : (fullscreen_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
             PQMouseArea {
@@ -158,6 +159,8 @@ Item {
             width: 3*PQSettings.interfaceLabelsWindowButtonsSize
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/close.png"
+
+            opacity: visibleAlways ? 1 : 0
 
             visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceLabelsAlwaysShowX
 
