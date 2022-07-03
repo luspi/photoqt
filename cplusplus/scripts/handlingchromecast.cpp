@@ -310,7 +310,7 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
     // request image
     if(src.isNull() || src == "") {
         QImage img(":/other/logo_smallinsidelarge.jpg");
-        if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+        if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100))
             LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save default image." << NL;
     } else {
 
@@ -323,10 +323,10 @@ void PQHandlingChromecast::streamOnDevice(QString src) {
             QPainter painter(&ret);
             painter.drawImage((1920-img.width())/2, (1080-img.height())/2, img);
             painter.end();
-            if(!ret.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+            if(!ret.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100))
                 LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save image: " << src.toStdString() << NL;
         } else
-            if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 50))
+            if(!img.save(QString("%1/photoqtchromecast.jpg").arg(QDir::tempPath()), nullptr, 100))
                 LOG << CURDATE << "PQHandlingChromecast::streamOnDevice(): Failed to save image: " << src.toStdString() << NL;
     }
 
