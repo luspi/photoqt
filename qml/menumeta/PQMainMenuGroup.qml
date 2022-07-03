@@ -93,7 +93,7 @@ Item {
 
     }
 
-    Rectangle {
+    Item {
 
         id: submenu
 
@@ -103,8 +103,6 @@ Item {
         width: parent.width
         height: showme ? listview.height+10 : 0
         Behavior on height { NumberAnimation { duration: 250 } }
-
-        color: headingtxt.text!="" ? "#111111" : "transparent"
 
         clip: true
 
