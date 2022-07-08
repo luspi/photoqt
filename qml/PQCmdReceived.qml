@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.Window 2.2
 
 Item {
 
@@ -50,7 +51,11 @@ Item {
             } else
                 console.log("ERROR: File does not exist:", path)
 
+            toplevel.visible = true
+            if(toplevel.visibility == Window.Minimized)
+                toplevel.visibility = Window.Maximized
             toplevel.raise()
+            toplevel.requestActivate()
 
         }
 
@@ -58,12 +63,23 @@ Item {
             closeAllExcept("filedialog")
             if(variables.visibleItem == "")
                 loader.show("filedialog")
+
+            toplevel.visible = true
+            if(toplevel.visibility == Window.Minimized)
+                toplevel.visibility = Window.Maximized
             toplevel.raise()
+            toplevel.requestActivate()
+
         }
 
         onCmdShow: {
             toplevel.visible = true
+
+            if(toplevel.visibility == Window.Minimized)
+                toplevel.visibility = Window.Maximized
             toplevel.raise()
+            toplevel.requestActivate()
+
         }
 
         onCmdHide: {
@@ -74,8 +90,12 @@ Item {
         onCmdToggle: {
             PQSettings.interfaceTrayIcon = 1
             toplevel.visible = !toplevel.visible
-            if(toplevel.visible)
+            if(toplevel.visible) {
+                if(toplevel.visibility == Window.Minimized)
+                    toplevel.visibility = Window.Maximized
                 toplevel.raise()
+                toplevel.requestActivate()
+            }
         }
 
         onCmdThumbs: {
@@ -90,8 +110,13 @@ Item {
             if(tray)
                 PQSettings.interfaceTrayIcon = 1
             else {
-                if(!toplevel.visible)
+                if(!toplevel.visible) {
                     toplevel.visible = true
+                    if(toplevel.visibility == Window.Minimized)
+                        toplevel.visibility = Window.Maximized
+                    toplevel.raise()
+                    toplevel.requestActivate()
+                }
                 PQSettings.interfaceTrayIcon = 0
             }
         }

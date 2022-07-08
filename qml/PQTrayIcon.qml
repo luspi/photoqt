@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
 
 SystemTrayIcon {
@@ -37,6 +38,12 @@ SystemTrayIcon {
             onTriggered: {
                 PQSettings.interfaceTrayIcon = 1
                 toplevel.visible = !toplevel.visible
+                if(toplevel.visible) {
+                    if(toplevel.visibility == Window.Minimized)
+                        toplevel.visibility = Window.Maximized
+                    toplevel.raise()
+                    toplevel.requestActivate()
+                }
             }
         }
         MenuItem {
@@ -52,6 +59,12 @@ SystemTrayIcon {
     onActivated: {
         PQSettings.interfaceTrayIcon = 1
         toplevel.visible = !toplevel.visible
+        if(toplevel.visible) {
+            if(toplevel.visibility == Window.Minimized)
+                toplevel.visibility = Window.Maximized
+            toplevel.raise()
+            toplevel.requestActivate()
+        }
     }
 
 }
