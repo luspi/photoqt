@@ -492,7 +492,11 @@ void PQHandlingExternal::openInDefaultFileManager(QString filename) {
     DBG << CURDATE << "PQHandlingExternal::openInDefaultFileManager()" << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
-    QDesktopServices::openUrl(QUrl("file://" + QFileInfo(filename).absolutePath()));
+#ifdef Q_OS_WIN
+    QProcess::startDetached("explorer.exe", {"/select,", QDir::toNativeSeparators(filename)});
+#else
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(filename).absolutePath()));
+#endif
 
 }
 
