@@ -28,7 +28,7 @@ import "../../../elements"
 PQSetting {
     //: A settings title, the zoom here is the zoom of the main image
     title: em.pty+qsTranslate("settingsmanager_imageview", "zoom min/max")
-    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Specifies the minimum and maximum zoom levels for an image.") + "<br><br>" + qsTranslate("settingsmanager_imageview", "Note that the maximum zoom level is the absolute zoom level, the minimum zoom level is relative to the default zoom level (the zoom level when the image is first loaded).")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "This defines the minimum and/or maximum zoom level for an image.") + "<br><br>" + qsTranslate("settingsmanager_imageview", "Note that the maximum zoom level is the absolute zoom level, the minimum zoom level is relative to the default zoom level (the zoom level when the image is first loaded).")
     expertmodeonly: true
     content: [
 
