@@ -121,6 +121,8 @@ Item {
             PQZoomToFrom { id: ztf }
                 PQHorizontalLine { expertModeOnly: ztf.expertmodeonly }
             PQZoomSpeed { id: zos }
+                PQHorizontalLine { expertModeOnly: zos.expertmodeonly }
+            PQZoomMinMax { id: zmm }
 
             // add some spacing at the bottom
             Item { width: 1; height: 25 }

@@ -460,31 +460,13 @@ Item {
         var contW = container.width-2*PQSettings.imageviewMargin
         var contH = container.height-2*PQSettings.imageviewMargin
 
-        var zoomMin = PQSettings.imageviewZoomMin
-        var zoomMax = PQSettings.imageviewZoomMax
-        var fact = 1
-
-        if(theimage.width > contW) {
-            fact = theimage.width/contW
-            if(zoomMin*theimage.width > PQSettings.imageviewZoomMin*contW)
-                zoomMin = PQSettings.imageviewZoomMin*contW/theimage.width
-            if(zoomMin*theimage.height > PQSettings.imageviewZoomMin*contH)
-                zoomMin = PQSettings.imageviewZoomMin*contH/theimage.height
+        if(theimage.width < contW && theimage.height < contH) {
+            zoomfactor = Math.min(PQSettings.imageviewZoomMax/(100*theimage.curScale), zoomfactor)
+            zoomfactor = Math.max(PQSettings.imageviewZoomMin/(100*theimage.curScale), zoomfactor)
+        } else {
+            zoomfactor = Math.min(PQSettings.imageviewZoomMax/(100*theimage.curScale), zoomfactor)
+            zoomfactor = Math.max(Math.min(((PQSettings.imageviewZoomMin/100) * contW)/(theimage.width*theimage.curScale), ((PQSettings.imageviewZoomMin/100) * contH)/(theimage.height*theimage.curScale)), zoomfactor)
         }
-
-        if(theimage.height > contH) {
-            fact = Math.max(fact, theimage.height/contH)
-            if(zoomMax*theimage.width < PQSettings.imageviewZoomMax*contW)
-                zoomMax = PQSettings.imageviewZoomMax*contW/theimage.width
-            if(zoomMax*theimage.height > PQSettings.imageviewZoomMax*contH)
-                zoomMax = PQSettings.imageviewZoomMax*contH/theimage.height
-        }
-
-        if(theimage.curScale*zoomfactor < zoomMin)
-            zoomfactor = zoomMin/theimage.curScale
-
-        else if(theimage.curScale*zoomfactor > zoomMax*fact)
-            zoomfactor = fact*zoomMax/theimage.curScale
 
         ////////////////////////////////////////////////////////////////////
 

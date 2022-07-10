@@ -161,5 +161,6 @@
         <file>mainwindow/image/PQMPV.qml</file>
         <file>menumeta/PQMainMenuGroup.qml</file>
         <file>settingsmanager/tabs/imageview/PQZoomToFrom.qml</file>
+        <file>settingsmanager/tabs/imageview/PQZoomMinMax.qml</file>
     </qresource>
 </RCC>
