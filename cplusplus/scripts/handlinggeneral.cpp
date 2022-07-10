@@ -269,7 +269,7 @@ QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
     txt += QString("- %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
 #endif
 #ifdef IMAGEMAGICK
-    txt += QString("- %1ImageMagick%2: %3%4").arg(bold1, bold2, MAGICKCORE_PACKAGE_VERSION, nl);
+    txt += QString("- %1ImageMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
 #endif
 #ifdef GRAPHICSMAGICK
     txt += QString("- %1GraphicsMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
