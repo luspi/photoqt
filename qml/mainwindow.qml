@@ -423,9 +423,19 @@ Window {
                 filefoldermodel.folderFileDialog = handlingFileDir.getHomeDir()
         }
 
-        variables.startupCompleted = true
+        setStartupCompleted.start()
 
     }
+
+    Timer {
+        id: setStartupCompleted
+        interval: 1000
+        running: false
+        repeat: false
+        onTriggered:
+            variables.startupCompleted = true
+    }
+
 
     function handleBeforeClosing() {
 
