@@ -414,6 +414,40 @@ Item {
             }
         }
 
+        ////////////////////////////////////////////////////////////////////
+        // make sure we stay within the specified zoom bounds
+
+        var contW = container.width-2*PQSettings.imageviewMargin
+        var contH = container.height-2*PQSettings.imageviewMargin
+
+        var zoomMin = PQSettings.imageviewZoomMin
+        var zoomMax = PQSettings.imageviewZoomMax
+        var fact = 1
+
+        if(theimage.width > contW) {
+            fact = theimage.width/contW
+            if(zoomMin*theimage.width > PQSettings.imageviewZoomMin*contW)
+                zoomMin = PQSettings.imageviewZoomMin*contW/theimage.width
+            if(zoomMin*theimage.height > PQSettings.imageviewZoomMin*contH)
+                zoomMin = PQSettings.imageviewZoomMin*contH/theimage.height
+        }
+
+        if(theimage.height > contH) {
+            fact = Math.max(fact, theimage.height/contH)
+            if(zoomMax*theimage.width < PQSettings.imageviewZoomMax*contW)
+                zoomMax = PQSettings.imageviewZoomMax*contW/theimage.width
+            if(zoomMax*theimage.height > PQSettings.imageviewZoomMax*contH)
+                zoomMax = PQSettings.imageviewZoomMax*contH/theimage.height
+        }
+
+        if(theimage.curScale*zoomfactor < zoomMin)
+            zoomfactor = zoomMin/theimage.curScale
+
+        else if(theimage.curScale*zoomfactor > zoomMax*fact)
+            zoomfactor = fact*zoomMax/theimage.curScale
+
+        ////////////////////////////////////////////////////////////////////
+
         // update x/y position of image
         var realX = pos.x * theimage.curScale
         var realY = pos.y * theimage.curScale
