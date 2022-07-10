@@ -428,12 +428,22 @@ Item {
         var contW = container.width-2*PQSettings.imageviewMargin
         var contH = container.height-2*PQSettings.imageviewMargin
 
-        if(theimage.width < contW && theimage.height < contH) {
-            zoomfactor = Math.min(PQSettings.imageviewZoomMax/(100*theimage.curScale), zoomfactor)
-            zoomfactor = Math.max(PQSettings.imageviewZoomMin/(100*theimage.curScale), zoomfactor)
-        } else {
-            zoomfactor = Math.min(PQSettings.imageviewZoomMax/(100*theimage.curScale), zoomfactor)
-            zoomfactor = Math.max(Math.min(((PQSettings.imageviewZoomMin/100) * contW)/(theimage.width*theimage.curScale), ((PQSettings.imageviewZoomMin/100) * contH)/(theimage.height*theimage.curScale)), zoomfactor)
+        if(PQSettings.imageviewZoomMinEnabled) {
+
+            if(theimage.width < contW && theimage.height < contH)
+                zoomfactor = Math.max(PQSettings.imageviewZoomMin/(100*theimage.curScale), zoomfactor)
+            else
+                zoomfactor = Math.max(Math.min(((PQSettings.imageviewZoomMin/100) * contW)/(theimage.width*theimage.curScale), ((PQSettings.imageviewZoomMin/100) * contH)/(theimage.height*theimage.curScale)), zoomfactor)
+
+        }
+
+        if(PQSettings.imageviewZoomMaxEnabled) {
+
+            if(theimage.width < contW && theimage.height < contH)
+                zoomfactor = Math.min(PQSettings.imageviewZoomMax/(100*theimage.curScale), zoomfactor)
+            else
+                zoomfactor = Math.min(PQSettings.imageviewZoomMax/(100*theimage.curScale), zoomfactor)
+
         }
 
         ////////////////////////////////////////////////////////////////////

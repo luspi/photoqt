@@ -40,18 +40,37 @@ PQSetting {
 
                 spacing: 10
 
+                property int minval: 20
+                onMinvalChanged: {
+                    zoommin.value = minval
+                    zoommin_spin.value = minval
+                }
+
+                PQCheckbox {
+                    id: zoommin_check
+                    y: (parent.height-height)/2
+                    text: em.pty+qsTranslate("settingsmanager_imageview", "minimum zoom:")
+                }
+
                 PQSlider {
                     id: zoommin
+                    enabled: zoommin_check.checked
                     y: (parent.height-height)/2
                     from: 1
                     to: 100
                     toolTipSuffix: " %"
+                    onValueChanged:
+                        parent.minval = value
                 }
 
-                Text {
+                PQSpinBox {
+                    id: zoommin_spin
+                    enabled: zoommin_check.checked
                     y: (parent.height-height)/2
-                    color: "white"
-                    text: em.pty+qsTranslate("settingsmanager_imageview", "minimum zoom: %1\%").arg(zoommin.value)
+                    from: 1
+                    to: 100
+                    onValueChanged:
+                        parent.minval = value
                 }
 
             }
@@ -60,18 +79,38 @@ PQSetting {
 
                 spacing: 10
 
+                property int maxval: 500
+                onMaxvalChanged: {
+                    zoommax.value = maxval
+                    zoommax_spin.value = maxval
+                }
+
+                PQCheckbox {
+                    id: zoommax_check
+                    y: (parent.height-height)/2
+                    text: em.pty+qsTranslate("settingsmanager_imageview", "maximum zoom:")
+                }
+
                 PQSlider {
                     id: zoommax
+                    enabled: zoommax_check.checked
                     y: (parent.height-height)/2
                     from: 100
                     to: 1000
                     toolTipSuffix: " %"
+                    onValueChanged: {
+                        parent.maxval = value
+                    }
                 }
 
-                Text {
+                PQSpinBox {
+                    id: zoommax_spin
+                    enabled: zoommax_check.checked
                     y: (parent.height-height)/2
-                    color: "white"
-                    text: em.pty+qsTranslate("settingsmanager_imageview", "maximum zoom: %1\%").arg(zoommax.value)
+                    from: 100
+                    to: 1000
+                    onValueChanged:
+                        parent.maxval = value
                 }
 
             }
@@ -89,6 +128,8 @@ PQSetting {
         }
 
         onSaveAllSettings: {
+            PQSettings.imageviewZoomMinEnabled = zoommin_check.checked
+            PQSettings.imageviewZoomMaxEnabled = zoommax_check.checked
             PQSettings.imageviewZoomMin = zoommin.value
             PQSettings.imageviewZoomMax = zoommax.value
         }
@@ -100,6 +141,8 @@ PQSetting {
     }
 
     function load() {
+        zoommin_check.checked = PQSettings.imageviewZoomMinEnabled
+        zoommax_check.checked = PQSettings.imageviewZoomMaxEnabled
         zoommin.value = PQSettings.imageviewZoomMin
         zoommax.value = PQSettings.imageviewZoomMax
     }
