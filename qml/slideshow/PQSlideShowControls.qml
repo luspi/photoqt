@@ -101,7 +101,8 @@ Rectangle {
                     hoverEnabled: true
                     tooltip: em.pty+qsTranslate("slideshow", "Click to go to the previous image")
                     onClicked: {
-                        switcher.restart()
+                        if(switcher.running)
+                            switcher.restart()
                         loadPrevImage()
                     }
                 }
@@ -147,7 +148,8 @@ Rectangle {
                     hoverEnabled: true
                     tooltip: em.pty+qsTranslate("slideshow", "Click to go to the next image")
                     onClicked: {
-                        switcher.restart()
+                        if(switcher.running)
+                            switcher.restart()
                         loadNextImage()
                     }
                 }
