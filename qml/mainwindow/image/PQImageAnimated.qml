@@ -54,6 +54,8 @@ Item {
         cache: false
         asynchronous: true
 
+        property bool storePlaying: playing
+
         source: "file:///" + src
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
@@ -218,9 +220,12 @@ Item {
                     if(variables.visibleItem != "") {
                         hidecursor.stop()
                         mousearea.cursorShape = Qt.ArrowCursor
+                        theimage.storePlaying = theimage.playing
+                        theimage.playing = false
                     } else {
                         hidecursor.restart()
                         mousearea.cursorShape = Qt.ArrowCursor
+                        theimage.playing = theimage.storePlaying
                     }
                 }
             }
@@ -365,6 +370,9 @@ Item {
         }
         onMirrorReset: {
             theimage.mirror = false
+        }
+        onPlayPauseAnim: {
+            theimage.playing = !theimage.playing
         }
     }
 
