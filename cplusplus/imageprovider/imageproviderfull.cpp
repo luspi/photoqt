@@ -47,8 +47,11 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 #ifdef Q_OS_WIN
     // It is not always clear whether the file url prefix comes with two or three slashes
     // This makes sure that in Windows the file always starts with something like C:/path and not /C:/path
-    while(full_filename.startsWith("/"))
-        full_filename = full_filename.remove(0,1);
+    // If the filename starts with two slashes, then it likely is a network location and we need to leave the slashes untouched.
+    if(!full_filename.startsWith("//")) {
+        while(full_filename.startsWith("/"))
+            full_filename = full_filename.remove(0,1);
+    }
 #endif
     QString filename = full_filename;
 
