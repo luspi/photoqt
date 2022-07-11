@@ -38,7 +38,9 @@ PQMenu {
         (em.pty+qsTranslate("filedialog", "Add to Favorites")),
         (PQSettings.openfileShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")),
         (PQSettings.openfileThumbnails ? qsTranslate("filedialog", "Hide thumbnails") : qsTranslate("filedialog", "Show thumbnails")),
-        (PQSettings.openfilePreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview"))
+        (PQSettings.openfilePreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview")),
+        (PQSettings.openfilePreviewBlur ? qsTranslate("filedialog", "Remove blur from preview") : qsTranslate("filedialog", "Add blur to preview")),
+        (PQSettings.openfilePreviewMuted ? qsTranslate("filedialog", "Normal colors in preview") : qsTranslate("filedialog", "Muted colors in preview"))
     ]
 
     hideIndices: [
@@ -48,7 +50,8 @@ PQMenu {
 
     lineBelowIndices: [
         ((isFile&&!isFolder) ? 0 : -1),
-        (isFolder ? 1 : -1)
+        (isFolder ? 1 : -1),
+        4
     ]
 
     onTriggered: {
@@ -68,6 +71,10 @@ PQMenu {
             PQSettings.openfileThumbnails = !PQSettings.openfileThumbnails
         else if(index == 4)
             PQSettings.openfilePreview = !PQSettings.openfilePreview
+        else if(index == 5)
+            PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
+        else if(index == 6)
+            PQSettings.openfilePreviewMuted = !PQSettings.openfilePreviewMuted
 
         top.closed()
 

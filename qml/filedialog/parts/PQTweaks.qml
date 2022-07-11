@@ -147,7 +147,7 @@ Rectangle {
         onCurrentIndexChanged:
             showWhichFileTypeIndex = allfiletypes[allfiles.currentIndex]
 
-        anchors.right: remember.left
+        anchors.right: preview.left
         anchors.rightMargin: 10
         y: (parent.height-height)/2
 
@@ -158,6 +158,28 @@ Rectangle {
 
         Component.onCompleted:
             readFileTypeSettings()
+
+    }
+
+    PQButton {
+
+        id: preview
+
+        anchors.right: remember.left
+        anchors.rightMargin: 10
+        y: (parent.height-height)/2
+
+        leftRightTextSpacing: 0
+
+        tooltip: em.pty+qsTranslate("filedialog", "Toggle preview of images.")
+        tooltipFollowsMouse: false
+
+        imageButtonSource: PQSettings.openfilePreview ? "/filedialog/preview.png" : "/filedialog/nopreview.png"
+
+        opacity: PQSettings.openfilePreview ? 0.8 : 0.2
+
+        onClicked:
+            PQSettings.openfilePreview = !PQSettings.openfilePreview
 
     }
 
@@ -179,7 +201,7 @@ Rectangle {
         opacity: PQSettings.openfileKeepLastLocation ? 0.8 : 0.2
 
         onClicked:
-            PQSettings.openfileKeepLastLocation = !(remember.opacity==0.8)
+            PQSettings.openfileKeepLastLocation = !PQSettings.openfileKeepLastLocation
 
     }
 

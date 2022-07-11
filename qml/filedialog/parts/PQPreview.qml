@@ -21,31 +21,54 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import QtGraphicalEffects 1.0
 
-Image {
+Item {
 
     property string filePath: ""
 
-    asynchronous: true
-    source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : ("image://thumb/" + filePath)
-    fillMode: Image.PreserveAspectFit
-
-    opacity: 0.4
+    opacity: 0.2
 
     Image {
 
-        width: Math.min(200, parent.width-50)
-        height: Math.min(200, parent.height-50)
+        id: img
 
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
+        asynchronous: true
+        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : ("image://thumb/" + (PQSettings.openfilePreviewMuted ? "::muted::" : "") + filePath)
+        fillMode: Image.PreserveAspectFit
 
-        visible: imageproperties.isVideo(filePath)
+        anchors.fill: parent
 
-        opacity: 0.5
+        Image {
 
-        source: visible ? "/multimedia/play.png" : ""
+            width: Math.min(200, parent.width-50)
+            height: Math.min(200, parent.height-50)
 
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
+
+            visible: imageproperties.isVideo(filePath)
+
+            opacity: 0.5
+
+            source: visible ? "/multimedia/play.png" : ""
+
+        }
+
+    }
+
+    Item {
+        id: empty
+        width: 1
+        height: 1
+    }
+
+    GaussianBlur {
+        visible: PQSettings.openfilePreviewBlur
+        anchors.fill: img
+        source: PQSettings.openfilePreviewBlur ? img : empty
+        radius: 50
+        samples: 101
     }
 
 }

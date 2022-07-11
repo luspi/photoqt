@@ -100,5 +100,7 @@
         <file>mainmenu/reset.png</file>
         <file>mainmenu/leftrightarrow.png</file>
         <file>mainmenu/updownarrow.png</file>
+        <file>filedialog/preview.png</file>
+        <file>filedialog/nopreview.png</file>
     </qresource>
 </RCC>
