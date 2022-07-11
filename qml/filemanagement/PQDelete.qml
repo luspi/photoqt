@@ -117,6 +117,7 @@ Item {
 
                         PQButton {
                             id: button_trash
+                            visible: !handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515()
                             text: em.pty+qsTranslate("filemanagement", "Move to trash")
                             onClicked: {
 
@@ -172,8 +173,10 @@ Item {
                     color: "white"
                     textFormat: Text.RichText
                     text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
-                          "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to trash") +
-                          "</td</tr><tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") +
+                          ((!handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515())
+                                ? ("</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to trash") +
+                                  "</td</tr><tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter"))
+                                : "") +
                           "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
                 }
 

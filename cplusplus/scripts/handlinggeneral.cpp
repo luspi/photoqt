@@ -434,6 +434,14 @@ bool PQHandlingGeneral::isMPVSupportEnabled() {
 #endif
 }
 
+bool PQHandlingGeneral::isAtLeastQt515() {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    return true;
+#else
+    return false;
+#endif
+}
+
 void PQHandlingGeneral::setLastLoadedImage(QString path) {
 
     DBG << CURDATE << "PQHandlingGeneral::setLastLoadedImage()" << NL
