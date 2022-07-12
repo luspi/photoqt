@@ -70,7 +70,7 @@ Item {
         anchors.fill: img
         source: PQSettings.openfilePreviewBlur ? img : empty
         radius: 50
-        samples: 101
+        samples: 20
     }
 
 }
