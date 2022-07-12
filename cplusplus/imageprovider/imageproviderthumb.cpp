@@ -23,12 +23,12 @@
 #include "imageproviderthumb.h"
 #include "../settings/settings.h"
 
-QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &) {
+QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     DBG << CURDATE << "PQAsyncImageProviderThumb::requestImageResponse()" << NL
         << CURDATE << "** url = " << url.toStdString() << NL;
 
-    PQAsyncImageResponseThumb *response = new PQAsyncImageResponseThumb(url, QSize(256,256));
+    PQAsyncImageResponseThumb *response = new PQAsyncImageResponseThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
     QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
     pool.start(response);
     return response;
@@ -83,10 +83,10 @@ void PQAsyncImageResponseThumb::run() {
 
     // We always opt for the 256px resolution for the thumbnails,
     // as then we don't have to re-create thumbnails depending on change in settings
-    m_requestedSize = QSize(256, 256);
+    bool lookInCache = (m_requestedSize.width() == 256 && m_requestedSize.height() == 256);
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
-    if(PQSettings::get()["thumbnailsCache"].toBool()) {
+    if(lookInCache && PQSettings::get()["thumbnailsCache"].toBool()) {
 
         // If there exists a thumbnail of the current file already
         if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
@@ -162,7 +162,7 @@ void PQAsyncImageResponseThumb::run() {
         p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create file cache thumbnail
-    if(PQSettings::get()["thumbnailsCache"].toBool() && msg != "x") {
+    if(lookInCache && PQSettings::get()["thumbnailsCache"].toBool() && msg != "x") {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
         if(!filename.startsWith(QString(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8())
@@ -198,9 +198,11 @@ void PQAsyncImageResponseThumb::run() {
 
     }
 
-    // aaaaand done!
+    // check if colors are to be muted
     if(m_muted)
         muteColors(p);
+
+    // aaaaand done!
     m_image = p;
     Q_EMIT finished();
 

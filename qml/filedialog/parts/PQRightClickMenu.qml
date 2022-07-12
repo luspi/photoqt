@@ -91,9 +91,17 @@ Menu {
         }
         MenuItem {
             checkable: true
+            checked: PQSettings.openfilePreviewHigherResolution
+            //: This is a context menu entry, referring to whether a preview image with a HIGHER RESOLUTION should be loaded
+            text: em.pty+qsTranslate("filedialog", "Higher resolution")
+            onTriggered:
+                PQSettings.openfilePreviewHigherResolution = !PQSettings.openfilePreviewHigherResolution
+        }
+        MenuItem {
+            checkable: true
             checked: PQSettings.openfilePreviewBlur
-            //: This is a context menu entry, selecting it will ADD BLUR to the preview image
-            text: em.pty+qsTranslate("filedialog", "Add blur")
+            //: This is a context menu entry, selecting it will BLUR the preview IMAGE
+            text: em.pty+qsTranslate("filedialog", "Blurred image")
             onTriggered:
                 PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
         }
