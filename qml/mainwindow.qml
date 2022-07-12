@@ -429,7 +429,7 @@ Window {
 
     Timer {
         id: setStartupCompleted
-        interval: 1000
+        interval: 200
         running: false
         repeat: false
         onTriggered:
