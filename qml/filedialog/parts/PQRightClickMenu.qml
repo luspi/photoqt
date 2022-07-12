@@ -21,11 +21,12 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import Qt.labs.platform 1.1
 import "../../elements"
 
-PQMenu {
+Menu {
 
-    id: top
+    id: control
 
     property bool isFolder: false
     property bool isFile: false
@@ -33,29 +34,14 @@ PQMenu {
 
     signal closed()
 
-    model: [
-        (isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file")),
-        (em.pty+qsTranslate("filedialog", "Add to Favorites")),
-        (PQSettings.openfileShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")),
-        (PQSettings.openfileThumbnails ? qsTranslate("filedialog", "Hide thumbnails") : qsTranslate("filedialog", "Show thumbnails")),
-        (PQSettings.openfilePreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview")),
-        (PQSettings.openfilePreviewBlur ? qsTranslate("filedialog", "Remove blur from preview") : qsTranslate("filedialog", "Add blur to preview")),
-        (PQSettings.openfilePreviewMuted ? qsTranslate("filedialog", "Normal colors in preview") : qsTranslate("filedialog", "Muted colors in preview"))
-    ]
+    function popup() {
+        open()
+    }
 
-    hideIndices: [
-        ((!isFile&&!isFolder) ? 0 : -1),
-        (!isFolder ? 1 : -1)
-    ]
-
-    lineBelowIndices: [
-        ((isFile&&!isFolder) ? 0 : -1),
-        (isFolder ? 1 : -1),
-        4
-    ]
-
-    onTriggered: {
-        if(index == 0) {
+    MenuItem {
+        visible: isFile || isFolder
+        text: (isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file"))
+        onTriggered: {
             if(isFolder)
                 filedialog_top.setCurrentDirectory(path)
             else {
@@ -63,21 +49,62 @@ PQMenu {
                 filefoldermodel.fileInFolderMainView = path
                 filedialog_top.hideFileDialog()
             }
-        } else if(index == 1)
+        }
+    }
+    MenuItem {
+        visible: isFolder
+        text: (em.pty+qsTranslate("filedialog", "Add to Favorites"))
+        onTriggered:
             handlingFileDialog.addNewUserPlacesEntry(path, upl.model.count)
-        else if(index == 2)
+    }
+    MenuSeparator { visible: isFile || isFolder }
+    MenuItem {
+        checkable: true
+        checked: PQSettings.openfileShowHiddenFilesFolders
+        text: qsTranslate("filedialog", "Show hidden files")
+        onTriggered:
             PQSettings.openfileShowHiddenFilesFolders = !PQSettings.openfileShowHiddenFilesFolders
-        else if(index == 3)
+    }
+    MenuItem {
+        checkable: true
+        checked: PQSettings.openfileThumbnails
+        text: qsTranslate("filedialog", "Show thumbnails")
+        onTriggered:
             PQSettings.openfileThumbnails = !PQSettings.openfileThumbnails
-        else if(index == 4)
-            PQSettings.openfilePreview = !PQSettings.openfilePreview
-        else if(index == 5)
-            PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
-        else if(index == 6)
-            PQSettings.openfilePreviewMuted = !PQSettings.openfilePreviewMuted
-
-        top.closed()
-
+    }
+    MenuItem {
+        checkable: true
+        checked: PQSettings.openfileDetailsTooltip
+        text: qsTranslate("filedialog", "Show tooltip with image details")
+        onTriggered:
+            PQSettings.openfileDetailsTooltip = !PQSettings.openfileDetailsTooltip
+    }
+    Menu {
+        title: "Preview"
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfilePreview
+            //: This is a context menu entry, referring to whether the large preview image is VISIBLE
+            text: em.pty+qsTranslate("filedialog", "Visible")
+            onTriggered:
+                PQSettings.openfilePreview = !PQSettings.openfilePreview
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfilePreviewBlur
+            //: This is a context menu entry, selecting it will ADD BLUR to the preview image
+            text: em.pty+qsTranslate("filedialog", "Add blur")
+            onTriggered:
+                PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfilePreviewMuted
+            //: This is a context menu entry, selecting it will make the COLORS of the preview image MUTED
+            text: em.pty+qsTranslate("filedialog", "Muted colors")
+            onTriggered:
+                PQSettings.openfilePreviewMuted = !PQSettings.openfilePreviewMuted
+        }
     }
 
 }

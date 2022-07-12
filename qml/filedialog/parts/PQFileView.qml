@@ -336,6 +336,10 @@ GridView {
 
                 property bool tooltipSetup: false
 
+                property string tooltipStr: ""
+
+                tooltip: PQSettings.openfileDetailsTooltip ? tooltipStr : ""
+
                 onEntered: {
 
                     if(!tooltipSetup) {
@@ -344,10 +348,10 @@ GridView {
                         var ftype = handlingFileDir.getFileType(fpath)
 
                         if(index < filefoldermodel.countFoldersFileDialog) {
-                            tooltip = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(fname) + "</span></b><br><br>" +
-                                      (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
-                                      em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                                      em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
+                            tooltipStr = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(fname) + "</span></b><br><br>" +
+                                         (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
+                                         em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
+                                         em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
 
                             tooltipSetup = true
 
@@ -368,7 +372,7 @@ GridView {
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b>"
 
                             // tooltip needs to be set in one step, otherwise the formatting will be all messed up
-                            tooltip = str
+                            tooltipStr = str
 
                             if(currentFolderExcluded || (!currentFolderExcluded && fileicon.source == ""))
                                 tooltipSetup = true
