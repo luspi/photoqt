@@ -339,6 +339,7 @@ GridView {
                 property string tooltipStr: ""
 
                 tooltip: PQSettings.openfileDetailsTooltip ? tooltipStr : ""
+                tooltipWidth: 282
 
                 onEntered: {
 
@@ -348,7 +349,8 @@ GridView {
                         var ftype = handlingFileDir.getFileType(fpath)
 
                         if(index < filefoldermodel.countFoldersFileDialog) {
-                            tooltipStr = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(fname) + "</span></b><br><br>" +
+
+                            tooltipStr = "<b>" + handlingFileDialog.createTooltipFilename(fname) + "</b><br><br>" +
                                          (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
                                          em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                          em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
@@ -363,21 +365,23 @@ GridView {
                             if(currentFolderExcluded || fileicon.source != "")
                                 str += "<img src=\"image://icon/IMAGE////" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
                             else
-                                str += "<img src=\"image://thumb/" + filefoldermodel.entriesFileDialog[index].replace("'","&#39;") + "\"><br><br>"
+                                str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
 
-                            str += "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(fname) + "</span></b>" + "<br><br>" +
+                            // add details
+                            str += "<b>" + handlingFileDialog.createTooltipFilename(fname) + "</b>" + "<br><br>" +
                                       em.pty+qsTranslate("filedialog", "File size:")+" <b>" + handlingGeneral.convertBytesToHumanReadable(fsize) + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                       em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b>"
 
-                            // tooltip needs to be set in one step, otherwise the formatting will be all messed up
                             tooltipStr = str
 
+                            // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
                             if(currentFolderExcluded || (!currentFolderExcluded && fileicon.source == ""))
                                 tooltipSetup = true
 
                         }
+
                     }
 
                     if(!currentIndexChangedUsingKeyIgnoreMouse)

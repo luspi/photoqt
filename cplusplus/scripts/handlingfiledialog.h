@@ -59,6 +59,7 @@ public:
     Q_INVOKABLE void moveUserPlacesEntry(QString id, bool moveDown, int howmany);
     Q_INVOKABLE void removeUserPlacesEntry(QString id);
     Q_INVOKABLE void setLastLocation(QString path);
+    Q_INVOKABLE QString createTooltipFilename(QString fname);
 
 private:
     QHash<QString,int> cacheNumberOfFilesInFolder;

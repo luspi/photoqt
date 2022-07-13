@@ -50,6 +50,7 @@ public:
 
     QString m_url;
     bool m_muted;
+    bool m_fixedSize;
     QSize m_requestedSize;
     QImage m_image;
 

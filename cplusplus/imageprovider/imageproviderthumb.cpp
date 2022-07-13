@@ -38,9 +38,16 @@ PQAsyncImageResponseThumb::PQAsyncImageResponseThumb(const QString &url, const Q
     m_url = url;
     if(url.startsWith("::muted::")) {
         m_muted = true;
+        m_fixedSize = false;
         m_url = m_url.remove(0, 9);
-    } else
+    } else if(url.startsWith("::fixedsize::")) {
         m_muted = false;
+        m_fixedSize = true;
+        m_url = m_url.remove(0, 13);
+    } else {
+        m_muted = false;
+        m_fixedSize = false;
+    }
     setAutoDelete(false);
     foundExternalUnrar = -1;
     loader = new PQLoadImage;
@@ -103,7 +110,18 @@ void PQAsyncImageResponseThumb::run() {
                 if(m_muted)
                     muteColors(p);
 
-                m_image = p;
+                if(m_fixedSize) {
+                    QImage fix(266, 202, QImage::Format_ARGB32);
+                    fix.fill(qRgba(255,255,255,8));
+                    QPainter painter(&fix);
+                    p = p.scaled(256,192,Qt::KeepAspectRatio);
+                    painter.drawImage((266-p.width())/2, (202-p.height())/2-2, p);
+                    painter.setPen(qRgba(255,255,255,175));
+                    painter.drawLine(0, 201, 266, 202);
+                    painter.end();
+                    m_image = fix;
+                } else
+                    m_image = p;
                 Q_EMIT finished();
                 return;
             } else
@@ -202,8 +220,20 @@ void PQAsyncImageResponseThumb::run() {
     if(m_muted)
         muteColors(p);
 
+    if(m_fixedSize) {
+        QImage fix(266, 202, QImage::Format_ARGB32);
+        fix.fill(qRgba(255,255,255,8));
+        QPainter painter(&fix);
+        p = p.scaled(256,192,Qt::KeepAspectRatio);
+        painter.drawImage((266-p.width())/2, (202-p.height())/2-2, p);
+        painter.setPen(qRgba(255,255,255,175));
+        painter.drawLine(0, 201, 266, 202);
+        painter.end();
+        m_image = fix;
+    } else
+        m_image = p;
+
     // aaaaand done!
-    m_image = p;
     Q_EMIT finished();
 
 }
