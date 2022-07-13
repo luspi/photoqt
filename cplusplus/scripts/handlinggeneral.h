@@ -71,6 +71,7 @@ public:
     Q_INVOKABLE void setOverrideCursor(bool enabled);
     Q_INVOKABLE void storeQmlWindowMemoryAddress(QString objName);
     Q_INVOKABLE void setDefaultSettings(bool ignoreLanguage = false);
+    Q_INVOKABLE QString toPercentEncoding(QString str);
 
 
 private:

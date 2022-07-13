@@ -484,3 +484,7 @@ void PQHandlingGeneral::setDefaultSettings(bool ignoreLanguage) {
     PQSettings::get().setDefault(ignoreLanguage);
 
 }
+
+QString PQHandlingGeneral::toPercentEncoding(QString str) {
+    return QUrl::toPercentEncoding(str);
+}
