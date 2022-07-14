@@ -79,6 +79,9 @@ int main(int argc, char **argv) {
 
     // needs to be set before Q*Application is created
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#ifdef Q_OS_WIN
+    QApplication::setAttribute(Qt::AA_UseOpenGLES);     // This appears to avoid some glitches with OpenGL and fullscreen mode on Windows
+#endif
 
     // silence the `deprecated connection' warnings
     QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
