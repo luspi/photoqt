@@ -189,9 +189,14 @@ Item {
             pressed = false
 
             // click outside of container
-            if(combo == "Left Button" && PQSettings.interfaceCloseOnEmptyBackground) {
-                toplevel.close()
-                return
+            if(combo == "Left Button") {
+                if(PQSettings.interfaceCloseOnEmptyBackground) {
+                    toplevel.close()
+                    return
+                } else if(PQSettings.interfaceWindowModeOnEmptyBackground && !emptymessage.visible) {
+                    PQSettings.interfaceWindowMode = true
+                    return
+                }
             }
 
             // a click on the empty background when no image is loaded shows filedialog

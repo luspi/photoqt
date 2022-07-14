@@ -40,18 +40,34 @@ PQSetting {
                 text: em.pty+qsTranslate("settingsmanager_interface", "close on click")
                 tooltip: em.pty+qsTranslate("settingsmanager_interface", "Close PhotoQt when click occurred on empty area around image")
                 onCheckedChanged: {
-                    if(checked)
+                    if(checked) {
                         navcheck.checked = false
+                        wincheck.checked = false
+                    }
                 }
             }
             PQCheckbox {
                 id: navcheck
-                //: Used as in: Close PhotoQt on click on empty area around main image
+                //: Used as in: Navigate in folder on click on empty area around main image
                 text: em.pty+qsTranslate("settingsmanager_interface", "navigate on click")
                 tooltip:em.pty+qsTranslate("settingsmanager_interface",  "Go to next/previous image if click occurred in left/right half of window")
                 onCheckedChanged: {
-                    if(checked)
+                    if(checked) {
                         closecheck.checked = false
+                        wincheck.checked = false
+                    }
+                }
+            }
+            PQCheckbox {
+                id: wincheck
+                //: Used as in: Switch to window mode (when in fullscreen mode) on click on empty area around main image
+                text: em.pty+qsTranslate("settingsmanager_interface", "window mode on click")
+                tooltip:em.pty+qsTranslate("settingsmanager_interface",  "Switch to window mode when PhotoQt is shown as fullscreen.")
+                onCheckedChanged: {
+                    if(checked) {
+                        closecheck.checked = false
+                        navcheck.checked = false
+                    }
                 }
             }
         }
@@ -65,11 +81,13 @@ PQSetting {
         onLoadAllSettings: {
             closecheck.checked = PQSettings.interfaceCloseOnEmptyBackground
             navcheck.checked = PQSettings.interfaceNavigateOnEmptyBackground
+            wincheck.checked = PQSettings.interfaceWindowModeOnEmptyBackground
         }
 
         onSaveAllSettings: {
             PQSettings.interfaceCloseOnEmptyBackground = closecheck.checked
             PQSettings.interfaceNavigateOnEmptyBackground = navcheck.checked
+            PQSettings.interfaceWindowModeOnEmptyBackground = wincheck.checked
         }
 
     }

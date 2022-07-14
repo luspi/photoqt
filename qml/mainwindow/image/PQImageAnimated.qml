@@ -150,7 +150,8 @@ Item {
                     imageitem.loadPrevImage()
                 else
                     imageitem.loadNextImage()
-            }
+            } else if(PQSettings.interfaceWindowModeOnEmptyBackground)
+                PQSettings.interfaceWindowMode = true
         }
     }
 

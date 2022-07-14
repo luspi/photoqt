@@ -327,9 +327,10 @@ Window {
         onInterfaceLanguageChanged:
             em.setLanguage(PQSettings.interfaceLanguage)
         onInterfaceWindowModeChanged: {
-            if(PQSettings.interfaceWindowMode)
-                toplevel.visibility = Window.Maximized
-            else
+            if(PQSettings.interfaceWindowMode) {
+                toplevel.visibility = Window.Maximized  // calling this only once does not always restore a maximized window but a 'normal' window
+                toplevel.visibility = Window.Maximized  // calling it twice has been observed to correct this situation, though ymmv
+            } else
                 toplevel.visibility = Window.FullScreen
         }
     }
