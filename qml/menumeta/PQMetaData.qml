@@ -49,16 +49,25 @@ Rectangle {
 
     property bool resizePressed: false
 
-    Connections {
-        target: variables
-        onMousePosChanged: {
-            if(PQSettings.interfacePopoutMetadata || (keepopen.checked && metadata_top.visible))
-                return
-            if(metadata_top.visible && !resizePressed && variables.mousePos.x > width+5)
-                metadata_top.opacity = 0
-            else if(!metadata_top.visible && variables.mousePos.x < (2*PQSettings.interfaceHotEdgeSize+5) && PQSettings.metadataElementHotEdge && !variables.faceTaggingActive)
-                metadata_top.opacity = 1
-        }
+    property bool makeVisible: (!PQSettings.interfacePopoutMetadata &&
+                                !(keepopen.checked && metadata_top.visible) &&
+                                !metadata_top.visible &&
+                                variables.mousePos.x < (2*PQSettings.interfaceHotEdgeSize+5) &&
+                                variables.mousePos.x > -1 &&
+                                PQSettings.metadataElementHotEdge &&
+                                !variables.faceTaggingActive)
+    onMakeVisibleChanged: {
+        if(makeVisible)
+            metadata_top.opacity = 1
+    }
+    property bool makeHidden: (!PQSettings.interfacePopoutMetadata &&
+                               !(keepopen.checked && metadata_top.visible) &&
+                               metadata_top.visible &&
+                               !resizePressed && variables.mousePos.x > width+5)
+                              || variables.faceTaggingActive
+    onMakeHiddenChanged: {
+        if(makeHidden)
+            metadata_top.opacity = 0
     }
 
     Component.onCompleted: {

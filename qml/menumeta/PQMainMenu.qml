@@ -49,24 +49,25 @@ Rectangle {
 
     property bool resizePressed: false
 
-    Connections {
-        target: variables
-        onMousePosChanged: {
-            if(PQSettings.interfacePopoutMainMenu)
-                return
-            if(mainmenu_top.visible && !resizePressed && variables.mousePos.x < toplevel.width-width-5)
-                mainmenu_top.opacity = 0
-            else if(!mainmenu_top.visible && !variables.slideShowActive && !variables.faceTaggingActive && variables.mousePos.x > toplevel.width-(2*PQSettings.interfaceHotEdgeSize+5) && variables.mousePos.y > 1.2*windowbuttons.height)
-                mainmenu_top.opacity = 1
-        }
-        onSlideShowActiveChanged: {
-            if(variables.slideShowActive)
-                mainmenu_top.opacity = 0
-        }
-        onFaceTaggingActiveChanged: {
-            if(variables.faceTaggingActive)
-                mainmenu_top.opacity = 0
-        }
+    property bool makeVisible: (!PQSettings.interfacePopoutMainMenu &&
+                                !mainmenu_top.visible &&
+                                !variables.slideShowActive &&
+                                !variables.faceTaggingActive &&
+                                variables.mousePos.x > toplevel.width-(2*PQSettings.interfaceHotEdgeSize+5) &&
+                                variables.mousePos.y > 1.2*windowbuttons.height)
+    onMakeVisibleChanged: {
+        if(makeVisible)
+            mainmenu_top.opacity = 1
+    }
+    property bool makeHidden: (!PQSettings.interfacePopoutMainMenu &&
+                               mainmenu_top.visible &&
+                               !resizePressed &&
+                               variables.mousePos.x < toplevel.width-width-5)
+                              || variables.slideShowActive
+                              || variables.faceTaggingActive
+    onMakeHiddenChanged: {
+        if(makeHidden)
+            mainmenu_top.opacity = 0
     }
 
     Component.onCompleted: {
