@@ -493,6 +493,8 @@ Rectangle {
             source: "/mainwindow/close.png"
             PQMouseArea {
                 anchors.fill: parent
+                anchors.rightMargin: -10
+                anchors.topMargin: -10
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
