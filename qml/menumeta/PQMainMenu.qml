@@ -56,7 +56,7 @@ Rectangle {
                 return
             if(mainmenu_top.visible && !resizePressed && variables.mousePos.x < toplevel.width-width-5)
                 mainmenu_top.opacity = 0
-            else if(!mainmenu_top.visible && !variables.slideShowActive && !variables.faceTaggingActive && variables.mousePos.x > toplevel.width-(2*PQSettings.interfaceHotEdgeSize+5))
+            else if(!mainmenu_top.visible && !variables.slideShowActive && !variables.faceTaggingActive && variables.mousePos.x > toplevel.width-(2*PQSettings.interfaceHotEdgeSize+5) && variables.mousePos.y > 1.2*windowbuttons.height)
                 mainmenu_top.opacity = 1
         }
         onSlideShowActiveChanged: {
