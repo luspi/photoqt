@@ -195,6 +195,7 @@ Item {
                     return
                 } else if(PQSettings.interfaceWindowModeOnEmptyBackground && !emptymessage.visible) {
                     PQSettings.interfaceWindowMode = true
+                    PQSettings.interfaceWindowDecoration = true
                     return
                 }
             }
