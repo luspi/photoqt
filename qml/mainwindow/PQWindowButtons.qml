@@ -166,6 +166,8 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
+                anchors.topMargin: -PQSettings.imageviewMargin
+                anchors.rightMargin: -PQSettings.imageviewMargin
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
