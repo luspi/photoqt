@@ -187,10 +187,8 @@ Item {
                     imageitem.loadPrevImage()
                 else
                     imageitem.loadNextImage()
-            } else if(PQSettings.interfaceWindowModeOnEmptyBackground) {
-                PQSettings.interfaceWindowMode = true
-                PQSettings.interfaceWindowDecoration = true
-            }
+            } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground)
+                PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
         }
     }
 

@@ -60,9 +60,8 @@ PQSetting {
             }
             PQCheckbox {
                 id: wincheck
-                //: Used as in: Switch to window mode (when in fullscreen mode) on click on empty area around main image
-                text: em.pty+qsTranslate("settingsmanager_interface", "window mode on click")
-                tooltip:em.pty+qsTranslate("settingsmanager_interface",  "Switch to window mode when PhotoQt is shown as fullscreen.")
+                text: em.pty+qsTranslate("settingsmanager_interface", "toggle window decoration")
+                tooltip:em.pty+qsTranslate("settingsmanager_interface",  "Toggle window decoration")
                 onCheckedChanged: {
                     if(checked) {
                         closecheck.checked = false
@@ -81,13 +80,13 @@ PQSetting {
         onLoadAllSettings: {
             closecheck.checked = PQSettings.interfaceCloseOnEmptyBackground
             navcheck.checked = PQSettings.interfaceNavigateOnEmptyBackground
-            wincheck.checked = PQSettings.interfaceWindowModeOnEmptyBackground
+            wincheck.checked = PQSettings.interfaceWindowDecorationOnEmptyBackground
         }
 
         onSaveAllSettings: {
             PQSettings.interfaceCloseOnEmptyBackground = closecheck.checked
             PQSettings.interfaceNavigateOnEmptyBackground = navcheck.checked
-            PQSettings.interfaceWindowModeOnEmptyBackground = wincheck.checked
+            PQSettings.interfaceWindowDecorationOnEmptyBackground = wincheck.checked
         }
 
     }

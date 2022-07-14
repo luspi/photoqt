@@ -193,9 +193,8 @@ Item {
                 if(PQSettings.interfaceCloseOnEmptyBackground) {
                     toplevel.close()
                     return
-                } else if(PQSettings.interfaceWindowModeOnEmptyBackground && !emptymessage.visible) {
-                    PQSettings.interfaceWindowMode = true
-                    PQSettings.interfaceWindowDecoration = true
+                } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground && !emptymessage.visible) {
+                    PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
                     return
                 }
             }
