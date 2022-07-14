@@ -95,10 +95,6 @@ if(OLDEXIV2)
 endif()
 if(EXIV2)
     find_package(exiv2 REQUIRED)
-    if(WIN32)
-        find_package(Threads)
-        find_package(Iconv)
-    endif()
 endif()
 if(RAW)
     find_package(LibRaw)
@@ -178,8 +174,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     target_compile_definitions(${PROJECT_NAME} PRIVATE QT_QML_DEBUG)
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -pedantic -Wextra -O0 -g)
 endif()
-
-target_link_libraries(${PROJECT_NAME} pthread)
 
 
 ##############################################
