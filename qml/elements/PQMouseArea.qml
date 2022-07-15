@@ -56,9 +56,10 @@ MouseArea {
         else {
             if(doubleClickTimer.running) {
                 doubleClickTimer.stop()
-                if(Math.abs(mouse.x - doubleClickTimer.mouse.x) < 50 && Math.abs(mouse.y - doubleClickTimer.mouse.y) < 50)
+                if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
                     top.doubleClicked(mouse)
             } else {
+                doubleClickTimer.firstClick = Qt.point(mouse.x, mouse.y)
                 doubleClickTimer.mouse = mouse
                 doubleClickTimer.restart()
             }
@@ -71,6 +72,7 @@ MouseArea {
         repeat: false
         running: false
         property var mouse: undefined
+        property point firstClick: Qt.point(-1,-1)
         onTriggered: {
             top.clicked(mouse)
         }
