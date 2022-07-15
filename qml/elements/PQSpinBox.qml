@@ -29,15 +29,12 @@ SpinBox {
 
     editable: true
 
-    property string prefix: ""
-    property string suffix: ""
-
     width: 100
     height: 30
 
     contentItem: TextInput {
             z: 2
-            text: prefix + control.textFromValue(control.value) + suffix
+            text: control.textFromValue(control.value)
 
             font: control.font
             color: enabled? "black" : "#888888"
