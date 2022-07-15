@@ -91,6 +91,10 @@ Item {
                 text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be managed. Below you can add a new shortcut for any one of the available actions, both key combinations and mouse gestures are supported.") + "\n" + em.pty+qsTranslate("settingsmanager", "You can also set the same shortcut for multiple actions or multiple times for the same action. All actions for a shortcut will be executed sequentially, allowing a lot more flexibility in using PhotoQt.")
             }
 
+            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
+            PQDoubleClick { id: dblclk }
+            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
+
             PQContainer {
 
                 //: A shortcuts category: navigation

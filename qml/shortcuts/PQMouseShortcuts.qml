@@ -138,6 +138,9 @@ Item {
 
         }
 
+        onDoubleClicked:
+            gotDoubleClick(mouse)
+
         onPositionChanged: {
 
             var threshold = 50
@@ -206,6 +209,30 @@ Item {
                 HandleShortcuts.checkComboForShortcut(combo)
 
         }
+
+    }
+
+    function gotDoubleClick(mouse) {
+
+        var mods = []
+
+        if(mouse.modifiers & Qt.ControlModifier)
+            mods.push("Ctrl")
+        if(mouse.modifiers & Qt.AltModifier)
+            mods.push("Alt")
+        if(mouse.modifiers & Qt.ShiftModifier)
+            mods.push("Shift")
+        if(mouse.modifiers & Qt.MetaModifier)
+            mods.push("Meta")
+        if(mouse.modifiers & Qt.KeypadModifier)
+            mods.push("Keypad")
+
+        var combo = mods.join("+")
+        if(combo != "")
+            combo += "+"
+        combo += keymousestrings.dictMouse["double click"]
+
+        HandleShortcuts.checkComboForShortcut(combo)
 
     }
 

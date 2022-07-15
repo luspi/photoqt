@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import "../../elements"
 
 Item {
 
@@ -173,13 +174,13 @@ Item {
 
     }
 
-    MouseArea {
+    PQMouseArea {
         x: -cont.x
         y: -cont.y
         width: container.width
         height: container.height
         hoverEnabled: false
-        onPressed: {
+        onClicked: {
             if(PQSettings.interfaceCloseOnEmptyBackground)
                 toplevel.close()
             else if(PQSettings.interfaceNavigateOnEmptyBackground) {
@@ -224,7 +225,7 @@ Item {
             scaleani.duration = PQSettings.imageviewAnimationDuration*100
         }
 
-        MouseArea {
+        PQMouseArea {
             id: mousearea
             enabled: PQSettings.imageviewLeftButtonMoveImage&&!facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
@@ -240,6 +241,9 @@ Item {
 
             onClicked:
                 contextmenu.hideMenu()
+
+            onDoubleClicked:
+                mouseshortcuts.gotDoubleClick(mouse)
 
             onReleased: {
                 theimage.curX = theimage.x

@@ -80,6 +80,8 @@ Item {
         "right button" : em.pty+qsTranslate("keymouse", "Right Button"),
         //: Refers to a mouse button
         "middle button" : em.pty+qsTranslate("keymouse", "Middle Button"),
+        //: Refers to a mouse event
+        "double click" : em.pty+qsTranslate("keymouse", "Double Click"),
         //: Refers to the mouse wheel
         "wheel up" : em.pty+qsTranslate("keymouse", "Wheel Up"),
         //: Refers to the mouse wheel

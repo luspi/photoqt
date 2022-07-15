@@ -158,7 +158,14 @@ Rectangle {
             property bool pressedEventInProgress: false
             property int buttonId: 0
 
+            property bool ignoreSingleBecauseDouble: false
+
             onPressed: {
+
+                if(ignoreSingleBecauseDouble) {
+                    ignoreSingleBecauseDouble = false
+                    return
+                }
 
                 pressedEventInProgress = true
                 pressedPosLast = Qt.point(mouse.x, mouse.y)
@@ -171,6 +178,19 @@ Rectangle {
 
                 assembleMouseCombo()
 
+            }
+
+            onDoubleClicked: {
+                ignoreSingleBecauseDouble = true
+                pressedEventInProgress = false
+                keyComboMods = []
+                keyComboKey = ""
+
+                mouseComboMods = PQAnalyseMouse.analyseMouseModifiers(mouse.modifiers)
+                mouseComboButton = "Double Click"
+                mouseComboDirection = []
+
+                assembleMouseCombo()
             }
 
             onPositionChanged: {

@@ -23,57 +23,55 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
-MouseArea {
+import "../../../elements"
 
-    id: top
+PQSetting {
+    //: A settings title
+    title: em.pty+qsTranslate("settingsmanager_imageview", "Double Click Threshold")
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "Two clicks within the specified interval are interpreted as a double click. Note that too high a value will cause noticable delays in reacting to single clicks.")
+    expertmodeonly: true
+    content: [
 
-    property bool tooltipFollowsMouse: true
-    property alias tooltip: control.text
-    property alias tooltipWrapMode: control.wrapMode
-    property alias tooltipWidth: control.width
-    property alias tooltipElide: control.elide
-    property alias tooltipDelay: control.delay
+        Row {
 
-    signal doubleClicked(var mouse)
+            spacing: 10
 
-    PQToolTip {
-        id: control
-        parent: top.tooltipFollowsMouse ? curmouse : top
-        visible: text!=""&&top.containsMouse
-    }
-
-    Item {
-        id: curmouse
-        x: top.mouseX + control.width/2
-        y: top.mouseY
-        width: 1
-        height: 1
-    }
-
-    onPressed: {
-        if(PQSettings.interfaceDoubleClickThreshold == 0)
-            top.clicked(mouse)
-        else {
-            if(doubleClickTimer.running) {
-                doubleClickTimer.stop()
-                if(Math.abs(mouse.x - doubleClickTimer.mouse.x) < 50 && Math.abs(mouse.y - doubleClickTimer.mouse.y) < 50)
-                    top.doubleClicked(mouse)
-            } else {
-                doubleClickTimer.mouse = mouse
-                doubleClickTimer.restart()
+            PQSpinBox {
+                id: dblclk
+                from: 0
+                to: 1000
             }
+            Text {
+                y: (dblclk.height-height)/2
+                color: "white"
+                font.bold: true
+                text: "ms"
+            }
+
         }
-        mouse.accepted = false
+
+    ]
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            load()
+        }
+
+        onSaveAllSettings: {
+            PQSettings.interfaceDoubleClickThreshold = dblclk.value
+        }
+
     }
-    Timer {
-        id: doubleClickTimer
-        interval: PQSettings.interfaceDoubleClickThreshold
-        repeat: false
-        running: false
-        property var mouse: undefined
-        onTriggered: {
-            top.clicked(mouse)
-        }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        dblclk.value = PQSettings.interfaceDoubleClickThreshold
     }
 
 }
