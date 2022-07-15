@@ -160,6 +160,8 @@ Rectangle {
 
             property bool ignoreSingleBecauseDouble: false
 
+            doubleClickThreshold: PQSettings.interfaceDoubleClickThreshold
+
             onPressed: {
 
                 if(ignoreSingleBecauseDouble) {

@@ -193,6 +193,8 @@ Item {
             enabled: PQSettings.imageviewLeftButtonMoveImage&&!facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
 
+            doubleClickThreshold: PQSettings.interfaceDoubleClickThreshold
+
             drag.target: theimage
 
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!

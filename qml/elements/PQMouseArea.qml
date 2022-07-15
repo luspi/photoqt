@@ -34,6 +34,8 @@ MouseArea {
     property alias tooltipElide: control.elide
     property alias tooltipDelay: control.delay
 
+    property int doubleClickThreshold: 0
+
     signal doubleClicked(var mouse)
 
     PQToolTip {
@@ -51,7 +53,7 @@ MouseArea {
     }
 
     onPressed: {
-        if(PQSettings.interfaceDoubleClickThreshold == 0)
+        if(doubleClickThreshold == 0)
             top.clicked(mouse)
         else {
             if(doubleClickTimer.running) {
@@ -68,7 +70,7 @@ MouseArea {
     }
     Timer {
         id: doubleClickTimer
-        interval: PQSettings.interfaceDoubleClickThreshold
+        interval: doubleClickThreshold
         repeat: false
         running: false
         property var mouse: undefined
