@@ -24,7 +24,7 @@
 #define FILEFOLDERMODEL_H
 
 #include <algorithm>
-#include <future>
+#include <QtConcurrent/QtConcurrent>
 #include <QObject>
 #include <QDateTime>
 #include <QTimer>
@@ -215,7 +215,6 @@ private:
     QStringList listPDFPages(QString path);
 
     int m_advancedSortDone;
-    std::shared_future<void> advancedSortFuture;
     bool advancedSortKeepGoing;
 
     QString cacheAdvancedSortCriteria;

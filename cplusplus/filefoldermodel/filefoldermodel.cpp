@@ -470,7 +470,7 @@ void PQFileFolderModel::advancedSortMainView() {
     m_advancedSortDone = 0;
     Q_EMIT advancedSortDoneChanged();
 
-    advancedSortFuture = std::shared_future<void>(std::async(std::launch::async, [=]() {
+    QtConcurrent::run([=]() {
 
         PQImageProviderFull *imageprovider = new PQImageProviderFull;
         PQLoadImage loader;
@@ -647,6 +647,6 @@ void PQFileFolderModel::advancedSortMainView() {
         cacheAdvancedSortLastModified = info.lastModified().toMSecsSinceEpoch();
         cacheAdvancedSortCriteria = PQSettings::get()["imageviewAdvancedSortCriteria"].toString();
 
-    }));
+    });
 
 }
