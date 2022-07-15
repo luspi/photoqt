@@ -105,7 +105,7 @@ Window {
                         width: emptymessage.width
                         //: Part of the message shown in the main view before any image is loaded
                         text: em.pty+qsTranslate("other", "Click anywhere to open a file")
-                        font.pointSize: 50
+                        font.pointSize: Math.min(60, Math.max(20, (toplevel.width+toplevel.height)/60))
                         font.bold: true
                         color: "#c0c0c0"
                         wrapMode: Text.WordWrap
@@ -115,7 +115,7 @@ Window {
                         width: emptymessage.width
                         //: Part of the message shown in the main view before any image is loaded
                         text: em.pty+qsTranslate("other", "Move your cursor to:")
-                        font.pointSize: 30
+                        font.pointSize: Math.min(40, Math.max(15, (toplevel.width+toplevel.height)/90))
                         font.bold: true
                         color: "#c0c0c0"
                         wrapMode: Text.WordWrap
@@ -125,7 +125,7 @@ Window {
                         width: emptymessage.width
                         //: Part of the message shown in the main view before any image is loaded, first option for where to move cursor to
                         text: ">> " + em.pty+qsTranslate("other", "RIGHT EDGE for the main menu")
-                        font.pointSize: 20
+                        font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
                         font.bold: true
                         color: "#c0c0c0"
                         wrapMode: Text.WordWrap
@@ -135,7 +135,7 @@ Window {
                         width: emptymessage.width
                         //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
                         text: ">> " + em.pty+qsTranslate("other", "LEFT EDGE for the metadata")
-                        font.pointSize: 20
+                        font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
                         font.bold: true
                         color: "#c0c0c0"
                         wrapMode: Text.WordWrap
@@ -146,7 +146,7 @@ Window {
                             width: emptymessage.width
                             //: Part of the message shown in the main view before any image is loaded, third option for where to move cursor to
                             text: ">> " + em.pty+qsTranslate("other", "BOTTOM EDGE to show the thumbnails")
-                            font.pointSize: 20
+                            font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
                             font.bold: true
                             color: "#c0c0c0"
                             wrapMode: Text.WordWrap
@@ -156,7 +156,7 @@ Window {
                             width: emptymessage.width
                             //: Part of the message shown in the main view before any image is loaded
                             text: em.pty+qsTranslate("other", "(once an image/folder is loaded)")
-                            font.pointSize: 20
+                            font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
                             font.bold: true
                             color: "#c0c0c0"
                             wrapMode: Text.WordWrap
