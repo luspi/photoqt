@@ -46,13 +46,18 @@ PQSetting {
             PQSlider {
                 id: qual_slider
                 y: (docviewer.height-height)/2
-                from: 75
-                to: 350
+                from: 50
+                to: 500
                 stepSize: 5
                 wheelStepSize: 5
                 toolTipSuffix: " dpi"
                 //: the quality setting to be used when loading PDFs
                 toolTipPrefix: em.pty+qsTranslate("settingsmanager_filetypes", "Quality:") + " "
+            }
+
+            Text {
+                color: "white"
+                text: qual_slider.value + " dpi"
             }
 
         }

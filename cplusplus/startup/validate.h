@@ -40,6 +40,7 @@ private:
     bool validateImageFormatsDatabase();
     bool validateSettingsDatabase();
     bool validateShortcutsDatabase();
+    bool validateSettingsValues();
 
 };
 

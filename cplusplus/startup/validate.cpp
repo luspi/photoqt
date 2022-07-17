@@ -34,19 +34,25 @@ bool PQValidate::validate() {
 
     bool ret = validateSettingsDatabase();
     if(!ret) {
-        LOG << " >> Failed!" << NL << NL;
+        LOG << " >> Failed: settings db" << NL << NL;
         return false;
     }
 
     ret = validateShortcutsDatabase();
     if(!ret) {
-        LOG << " >> Failed!" << NL << NL;
+        LOG << " >> Failed: shortcuts db" << NL << NL;
         return false;
     }
 
     ret = validateImageFormatsDatabase();
     if(!ret) {
-        LOG << " >> Failed!" << NL << NL;
+        LOG << " >> Failed: imageformats db" << NL << NL;
+        return false;
+    }
+
+    ret = validateSettingsValues();
+    if(!ret) {
+        LOG << " >> Failed: settings values" << NL << NL;
         return false;
     }
 
@@ -577,6 +583,110 @@ bool PQValidate::validateShortcutsDatabase() {
     QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     if(!file.remove())
         LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to remove ref db: " << file.errorString().toStdString() << NL;
+
+    return true;
+
+}
+
+bool PQValidate::validateSettingsValues() {
+
+    QSqlDatabase dbinstalled = QSqlDatabase::database("settings");
+
+    QSqlDatabase dbcheck;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        dbcheck = QSqlDatabase::addDatabase("QSQLITE3", "checksettings");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbcheck = QSqlDatabase::addDatabase("QSQLITE", "checksettings");
+    else {
+        LOG << CURDATE << "PQCheckSettings::check(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
+        LOG << CURDATE << "PQCheckSettings::check(): PhotoQt cannot function without SQLite available." << NL;
+        return false;
+    }
+
+    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+    QFile::copy(":/checksettings.db", ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_check.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                          QFileDevice::ReadGroup);
+    dbcheck.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+
+    if(!dbcheck.open())
+        LOG << CURDATE << "PQCheckSettings::check(): Error opening default database: " << dbcheck.lastError().text().trimmed().toStdString() << NL;
+
+    QSqlQuery queryCheck(dbcheck);
+    queryCheck.prepare("SELECT tablename,setting,minvalue,maxvalue FROM 'entries'");
+
+    if(!queryCheck.exec()) {
+        LOG << CURDATE << "PQCheckSettings::check(): Error getting default data: " << queryCheck.lastError().text().trimmed().toStdString() << NL;
+        queryCheck.clear();
+        QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+        return false;
+    }
+
+    QList<QList<QVariant> > toUpdate;
+
+    // loop over check data
+    while(queryCheck.next()) {
+
+        const QString table = queryCheck.value(0).toString();
+        const QString setting = queryCheck.value(1).toString();
+        const double minValue = queryCheck.value(2).toDouble();
+        const double maxValue = queryCheck.value(3).toDouble();
+
+        QSqlQuery check(dbinstalled);
+        check.prepare(QString("SELECT value,datatype FROM '%1' WHERE name=:name").arg(table));
+        check.bindValue(":name", setting);
+        if(!check.exec()) {
+            LOG << CURDATE << "PQCheckSettings::check(): Error checking entry: " << setting.toStdString() << ": " << check.lastError().text().trimmed().toStdString() << NL;
+            continue;
+        }
+        check.next();
+
+        const QString dt = check.value(1).toString();
+
+        const double value = check.value(0).toDouble();
+
+        if(value < minValue)
+            toUpdate << (QList<QVariant>() << table << setting << dt << minValue);
+        else if(value > maxValue)
+            toUpdate << (QList<QVariant>() << table << setting << dt << maxValue);
+
+        check.clear();
+
+
+    }
+
+    queryCheck.clear();
+
+    // update what needs fixing
+    for(int i = 0; i < toUpdate.size(); ++i) {
+        QList<QVariant> lst = toUpdate.at(i);
+
+        qDebug() << "updating:" << lst;
+
+        QSqlQuery query(dbinstalled);
+
+        query.prepare(QString("UPDATE %1 SET value=:val WHERE name=:name").arg(lst.at(0).toString()));
+        query.bindValue(":name", lst.at(1).toString());
+        if(lst.at(2).toString() == "double")
+            query.bindValue(":val", lst.at(3).toDouble());
+        if(lst.at(2).toString() == "int")
+            query.bindValue(":val", static_cast<int>(lst.at(3).toDouble()));
+
+        if(!query.exec()) {
+            LOG << CURDATE << "PQCheckSettings::check(): Error updating entry: " << lst.at(1).toString().toStdString() << ": " << query.lastError().text().trimmed().toStdString() << NL;
+            continue;
+        }
+
+        query.clear();
+
+     }
+
+    dbcheck.close();
+
+    QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+    if(!file.remove())
+        LOG << CURDATE << "PQCheckSettings::check(): ERROR: Unable to remove check db: " << file.errorString().toStdString() << NL;
 
     return true;
 

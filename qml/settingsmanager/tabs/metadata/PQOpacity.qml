@@ -39,13 +39,13 @@ PQSetting {
             Text {
                 y: (parent.height-height)/2
                 color: "white"
-                text: "0%"
+                text: "50%"
             }
 
             PQSlider {
                 id: meta_opacity
                 y: (parent.height-height)/2
-                from: 0
+                from: 50
                 to: 100
                 toolTipSuffix: "%"
             }
