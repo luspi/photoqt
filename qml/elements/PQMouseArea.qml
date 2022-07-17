@@ -53,9 +53,7 @@ MouseArea {
     }
 
     onPressed: {
-        if(doubleClickThreshold == 0)
-            top.clicked(mouse)
-        else {
+        if(doubleClickThreshold > 0) {
             if(doubleClickTimer.running) {
                 doubleClickTimer.stop()
                 if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
@@ -65,8 +63,8 @@ MouseArea {
                 doubleClickTimer.mouse = mouse
                 doubleClickTimer.restart()
             }
+            mouse.accepted = false
         }
-        mouse.accepted = false
     }
     Timer {
         id: doubleClickTimer
