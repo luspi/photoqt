@@ -47,7 +47,8 @@ void PQHandlingExternal::copyToClipboard(QString filename) {
          imageprovider = new PQImageProviderFull;
 
     // set image to clipboard
-    qApp->clipboard()->setImage(imageprovider->requestImage(filename, new QSize, QSize()));
+    QImage img = imageprovider->requestImage(filename, new QSize, QSize());
+    qApp->clipboard()->setImage(img);
 
 }
 
