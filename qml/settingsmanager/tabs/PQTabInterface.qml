@@ -116,6 +116,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: ovc.expertmodeonly }
             PQPopout { id: pop }
                 PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
+            PQPopoutWhenSmall { id: psm }
+                PQHorizontalLine { expertModeOnly: psm.expertmodeonly }
             PQStartupLoadLast { id: sll }
                 PQHorizontalLine { expertModeOnly: sll.expertmodeonly }
             PQClickOnEmpty { id: coe }

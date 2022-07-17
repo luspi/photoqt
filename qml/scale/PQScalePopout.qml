@@ -53,7 +53,7 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutScale&&curloader.item.opacity==1
+    visible: (windowsizepopup.scaleImage || PQSettings.interfacePopoutScale)&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {

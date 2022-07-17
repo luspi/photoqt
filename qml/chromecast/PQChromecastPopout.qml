@@ -52,7 +52,7 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutChromecast&&curloader.item.opacity==1
+    visible: (windowsizepopup.chromecast || PQSettings.interfacePopoutChromecast)&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {

@@ -40,7 +40,7 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.interfacePopoutOpenFile ? 1 : 0
+    opacity: (windowsizepopup.fileDialog || PQSettings.interfacePopoutOpenFile) ? 1 : 0
     visible: (opacity != 0)
     enabled: visible
 
@@ -253,7 +253,7 @@ Rectangle {
     }
 
     function showFileDialog() {
-        if(!PQSettings.interfacePopoutOpenFile) {
+        if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {
             // show in x direction
             if(PQSettings.imageviewAnimationType == "x") {
                 xAnim.duration = 0
@@ -285,7 +285,7 @@ Rectangle {
     function hideFileDialog() {
         if(PQSettings.interfacePopoutOpenFileKeepOpen)
             return
-        if(!PQSettings.interfacePopoutOpenFile) {
+        if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {
             // hide in x direction
             if(PQSettings.imageviewAnimationType == "x") {
                 xAnim.duration = PQSettings.imageviewAnimationDuration*100

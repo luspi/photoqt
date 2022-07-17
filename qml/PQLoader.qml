@@ -291,10 +291,10 @@ Item {
 
         } else if(ele == "filedialog") {
 
-            if(PQSettings.interfacePopoutOpenFile && filedialog.source != "filedialog/PQFileDialogPopout.qml")
+            if((windowsizepopup.fileDialog || PQSettings.interfacePopoutOpenFile) && filedialog.source != "filedialog/PQFileDialogPopout.qml")
                 filedialog.source = "filedialog/PQFileDialogPopout.qml"
 
-            else if(!PQSettings.interfacePopoutOpenFile && filedialog.source != "filedialog/PQFileDialog.qml")
+            else if(!windowsizepopup.fileDialog && !PQSettings.interfacePopoutOpenFile && filedialog.source != "filedialog/PQFileDialog.qml")
                 filedialog.source = "filedialog/PQFileDialog.qml"
 
         } else if(ele == "histogram") {
@@ -307,10 +307,10 @@ Item {
 
         } else if(ele == "slideshowsettings") {
 
-            if(PQSettings.interfacePopoutSlideShowSettings && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
+            if((windowsizepopup.slideShowSettings || PQSettings.interfacePopoutSlideShowSettings) && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettingsPopout.qml"
 
-            else if(!PQSettings.interfacePopoutSlideShowSettings && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
+            else if(!windowsizepopup.slideShowSettings && !PQSettings.interfacePopoutSlideShowSettings && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettings.qml"
 
         } else if(ele == "slideshowcontrols") {
@@ -339,18 +339,18 @@ Item {
 
         } else if(ele == "scale") {
 
-            if(PQSettings.interfacePopoutScale && scaleimage.source != "scale/PQScalePopout.qml")
+            if((windowsizepopup.scaleImage || PQSettings.interfacePopoutScale) && scaleimage.source != "scale/PQScalePopout.qml")
                 scaleimage.source = "scale/PQScalePopout.qml"
 
-            else if(!PQSettings.interfacePopoutScale && scaleimage.source != "scale/PQScale.qml")
+            else if(!windowsizepopup.scaleImage && !PQSettings.interfacePopoutScale && scaleimage.source != "scale/PQScale.qml")
                 scaleimage.source = "scale/PQScale.qml"
 
         } else if(ele == "about") {
 
-            if(PQSettings.interfacePopoutAbout && about.source != "about/PQAboutPopout.qml")
+            if((windowsizepopup.about || PQSettings.interfacePopoutAbout) && about.source != "about/PQAboutPopout.qml")
                 about.source = "about/PQAboutPopout.qml"
 
-            else if(!PQSettings.interfacePopoutAbout && about.source != "about/PQAbout.qml")
+            else if(!windowsizepopup.about && !PQSettings.interfacePopoutAbout && about.source != "about/PQAbout.qml")
                 about.source = "about/PQAbout.qml"
 
         } else if(ele == "imgur" || ele == "imguranonym") {
@@ -363,26 +363,26 @@ Item {
 
         } else if(ele == "wallpaper") {
 
-            if(PQSettings.interfacePopoutWallpaper && wallpaper.source != "wallpaper/PQWallpaperPopout.qml")
+            if((windowsizepopup.wallpaper || PQSettings.interfacePopoutWallpaper) && wallpaper.source != "wallpaper/PQWallpaperPopout.qml")
                 wallpaper.source = "wallpaper/PQWallpaperPopout.qml"
 
-            else if(!PQSettings.interfacePopoutWallpaper && wallpaper.source != "wallpaper/PQWallpaper.qml")
+            else if(!windowsizepopup.wallpaper && !PQSettings.interfacePopoutWallpaper && wallpaper.source != "wallpaper/PQWallpaper.qml")
                 wallpaper.source = "wallpaper/PQWallpaper.qml"
 
         } else if(ele == "filter") {
 
-            if(PQSettings.interfacePopoutFilter && filter.source != "filter/PQFilterPopout.qml")
+            if((windowsizepopup.filter || PQSettings.interfacePopoutFilter) && filter.source != "filter/PQFilterPopout.qml")
                 filter.source = "filter/PQFilterPopout.qml"
 
-            else if(!PQSettings.interfacePopoutFilter && filter.source != "filter/PQFilter.qml")
+            else if(!windowsizepopup.filter && !PQSettings.interfacePopoutFilter && filter.source != "filter/PQFilter.qml")
                 filter.source = "filter/PQFilter.qml"
 
         } else if(ele == "settingsmanager") {
 
-            if(PQSettings.interfacePopoutSettingsManager && settingsmanager.source != "settingsmanager/PQSettingsManagerPopout.qml")
+            if((windowsizepopup.settingsManager || PQSettings.interfacePopoutSettingsManager) && settingsmanager.source != "settingsmanager/PQSettingsManagerPopout.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManagerPopout.qml"
 
-            else if(!PQSettings.interfacePopoutSettingsManager && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
+            else if(!windowsizepopup.settingsManager && !PQSettings.interfacePopoutSettingsManager && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
                 settingsmanager.source = "settingsmanager/PQSettingsManager.qml"
 
         } else if(ele == "copymove") {
@@ -392,26 +392,26 @@ Item {
 
         } else if(ele == "filesaveas") {
 
-            if(PQSettings.interfacePopoutFileSaveAs && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
+            if((windowsizepopup.saveAs || PQSettings.interfacePopoutFileSaveAs) && filesaveas.source != "filemanagement/PQSaveAsPopout.qml")
                 filesaveas.source = "filemanagement/PQSaveAsPopout.qml"
 
-            else if(!PQSettings.interfacePopoutFileSaveAs && filesaveas.source != "filemanagement/PQSaveAs.qml")
+            else if(!windowsizepopup.saveAs && !PQSettings.interfacePopoutFileSaveAs && filesaveas.source != "filemanagement/PQSaveAs.qml")
                 filesaveas.source = "filemanagement/PQSaveAs.qml"
 
         } else if(ele == "chromecast") {
 
-            if(PQSettings.interfacePopoutChromecast && chromecast.source != "chromecast/PQChromecastPopout.qml")
+            if((windowsizepopup.chromecast || PQSettings.interfacePopoutChromecast) && chromecast.source != "chromecast/PQChromecastPopout.qml")
                 chromecast.source = "chromecast/PQChromecastPopout.qml"
 
-            else if(!PQSettings.interfacePopoutChromecast && chromecast.source != "chromecast/PQChromecast.qml")
+            else if(!windowsizepopup.chromecast && !PQSettings.interfacePopoutChromecast && chromecast.source != "chromecast/PQChromecast.qml")
                 chromecast.source = "chromecast/PQChromecast.qml"
 
         } else if(ele == "advancedsort") {
 
-            if(PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSortPopout.qml")
+            if((windowsizepopup.advancedSort || PQSettings.interfacePopoutAdvancedSort) && advancedsort.source != "advancedsort/PQAdvancedSortPopout.qml")
                 advancedsort.source = "advancedsort/PQAdvancedSortPopout.qml"
 
-            else if(!PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
+            else if(!windowsizepopup.advancedSort && !PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
                 advancedsort.source = "advancedsort/PQAdvancedSort.qml"
 
         } else if(ele == "advancedsortbusy") {

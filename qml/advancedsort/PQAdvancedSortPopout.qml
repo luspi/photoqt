@@ -53,7 +53,7 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutAdvancedSort&&curloader.item.opacity==1
+    visible: (windowsizepopup.advancedSort || PQSettings.interfacePopoutAdvancedSort)&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {

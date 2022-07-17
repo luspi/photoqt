@@ -53,7 +53,7 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutFileSaveAs&&curloader.item.opacity==1
+    visible: (windowsizepopup.saveAs || PQSettings.interfacePopoutFileSaveAs)&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {

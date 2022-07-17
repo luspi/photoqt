@@ -163,5 +163,7 @@
         <file>settingsmanager/tabs/imageview/PQZoomToFrom.qml</file>
         <file>settingsmanager/tabs/imageview/PQZoomMinMax.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
+        <file>PQWindowSizePopupManager.qml</file>
+        <file>settingsmanager/tabs/interface/PQPopoutWhenSmall.qml</file>
     </qresource>
 </RCC>

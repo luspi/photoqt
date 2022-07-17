@@ -53,7 +53,7 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutWallpaper&&curloader.item.opacity==1
+    visible: (windowsizepopup.wallpaper || PQSettings.interfacePopoutWallpaper)&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {

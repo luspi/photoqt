@@ -52,7 +52,7 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.interfacePopoutSlideShowSettings&&curloader.item.opacity==1
+    visible: (windowsizepopup.slideShowSettings || PQSettings.interfacePopoutSlideShowSettings)&&curloader.item.opacity==1
     flags: Qt.WindowStaysOnTopHint
 
     Connections {

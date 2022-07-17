@@ -36,7 +36,7 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
-    modality: PQSettings.interfacePopoutOpenFile ? Qt.NonModal : Qt.ApplicationModal
+    modality: (PQSettings.interfacePopoutOpenFile||windowsizepopup.fileDialog) ? Qt.NonModal : Qt.ApplicationModal
     flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"

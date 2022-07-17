@@ -245,6 +245,7 @@ Window {
     PQVariables { id: variables }
     PQCmdReceived { id: cmdreceived }
     PQLoader { id: loader }
+    PQWindowSizePopupManager { id: windowsizepopup }
 
     // this needs to come BEFORE some of the following items
     // otherwise they will not be able to receive mouse events at all
