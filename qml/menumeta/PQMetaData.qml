@@ -307,6 +307,31 @@ Item {
         }
     }
 
+    Image {
+
+        x: parent.width-width+5
+        y: -5
+        width: 25
+        height: 25
+
+        visible: !PQSettings.interfacePopoutMetadata
+
+        source: "/other/histogramclose.png"
+
+        opacity: closemouse.containsMouse ? 0.8 : 0
+        Behavior on opacity { NumberAnimation { duration: 150 } }
+
+        PQMouseArea {
+            id: closemouse
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onClicked:
+                PQSettings.metadataElementVisible = !PQSettings.metadataElementVisible
+        }
+
+    }
+
     PQMouseArea {
 
         id: resizeBotRight
