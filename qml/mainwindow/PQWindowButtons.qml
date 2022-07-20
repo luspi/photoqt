@@ -57,7 +57,7 @@ Item {
             enabled: filefoldermodel.countMainView>0
             opacity: visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-            visible: PQSettings.interfaceNavigationTopRight && opacity > 0
+            visible: PQSettings.interfaceNavigationTopRight && opacity > 0 && !variables.slideShowActive
             PQMouseArea {
                 id: left_mouse
                 anchors.fill: parent
@@ -75,7 +75,7 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/rightarrow.png"
             enabled: filefoldermodel.countMainView>0
-            opacity: visibleAlways ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
+            opacity: visibleAlways||variables.slideShowActive ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
             visible: PQSettings.interfaceNavigationTopRight && opacity > 0
             PQMouseArea {
@@ -100,7 +100,7 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/menu.png"
 
-            opacity: visibleAlways ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
+            opacity: visibleAlways||variables.slideShowActive ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
             visible: PQSettings.interfaceNavigationTopRight && opacity > 0
