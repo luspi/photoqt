@@ -26,8 +26,8 @@ import "../elements"
 
 Item {
 
-    property int xOffset: (view.contentWidth < (toplevel.width-variables.metaDataWidthWhenKeptOpen) ? ((toplevel.width-variables.metaDataWidthWhenKeptOpen)-view.contentWidth)/2 : 0)
-    x: variables.metaDataWidthWhenKeptOpen + xOffset
+    property int xOffset: (view.contentWidth < toplevel.width ? (toplevel.width-view.contentWidth)/2 : 0)
+    x: xOffset
 
     // ThumbnailsVisibility
     // 0 = on demand
@@ -119,7 +119,7 @@ Item {
     onVisibleChanged:
         checkVisibility()
 
-    width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
+    width: toplevel.width - xOffset*2
     height: PQSettings.thumbnailsSize+PQSettings.thumbnailsLiftUp+scroll.height
     onHeightChanged: calculateY()
 

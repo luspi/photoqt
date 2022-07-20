@@ -94,7 +94,7 @@ Window {
                 id: emptymessage
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
-                width: parent.width-arrleft.width-arrright.width-40
+                width: parent.width-arrright.width-40
                 height: col.height
                 visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
                 Column {
@@ -126,16 +126,6 @@ Window {
                         //: Part of the message shown in the main view before any image is loaded, first option for where to move cursor to
                         text: ">> " + em.pty+qsTranslate("other", "RIGHT EDGE for the main menu")
                         font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
-                        font.bold: true
-                        color: "#c0c0c0"
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    Text {
-                        width: emptymessage.width
-                        //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
-                        text: ">> " + em.pty+qsTranslate("other", "LEFT EDGE for the metadata")
-                        font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
                         font.bold: true
                         color: "#c0c0c0"
                         wrapMode: Text.WordWrap
@@ -176,18 +166,6 @@ Window {
                 width: 100
                 height: 100
                 source: "/mainwindow/rightarrow.png"
-            }
-
-            Image {
-                id: arrleft
-                visible: emptymessage.visible
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                opacity: 0.5
-                y: (parent.height-height)/2
-                width: 100
-                height: 100
-                source: "/mainwindow/leftarrow.png"
             }
 
 

@@ -22,103 +22,58 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtGraphicalEffects 1.0
 
 import "../elements"
 
-Rectangle {
+Item {
 
     id: metadata_top
 
-    color: Qt.rgba(0, 0, 0, PQSettings.metadataElementOpacity/256)
-    Behavior on color { ColorAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+    x: PQSettings.interfacePopoutMetadata ? 0 : PQSettings.metadataElementPosition.x
+    y: PQSettings.interfacePopoutMetadata ? 0 : PQSettings.metadataElementPosition.y
+    width: PQSettings.interfacePopoutMetadata ? parentWidth : PQSettings.metadataElementSize.width
+    height: PQSettings.interfacePopoutMetadata ? parentHeight : PQSettings.metadataElementSize.height
 
-    border.color: "#55bbbbbb"
-    border.width: 1
+    onXChanged:
+        saveGeometryTimer.restart()
+    onYChanged:
+        saveGeometryTimer.restart()
+    onWidthChanged:
+        saveGeometryTimer.restart()
+    onHeightChanged:
+        saveGeometryTimer.restart()
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    property int parentWidth: 0
+    property int parentHeight: 0
 
-    width: (PQSettings.interfacePopoutMetadata ? parentWidth : PQSettings.metadataElementWidth)
-    height: parentHeight+2
-    x: -1
-    y: -1
+    // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+    property bool startupDelay: true
 
-    opacity: 0
-    visible: opacity!=0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMetadata ? 0 : PQSettings.imageviewAnimationDuration*100 } }
+    opacity: (PQSettings.metadataElementVisible&&filefoldermodel.current!=-1) ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }
+    visible: opacity>0
 
-    property bool resizePressed: false
-
-    property bool makeVisible: (!PQSettings.interfacePopoutMetadata &&
-                                !(keepopen.checked && metadata_top.visible) &&
-                                !metadata_top.visible &&
-                                variables.mousePos.x < (2*PQSettings.interfaceHotEdgeSize+5) &&
-                                variables.mousePos.x > -1 &&
-                                PQSettings.metadataElementHotEdge &&
-                                !variables.faceTaggingActive)
-    onMakeVisibleChanged: {
-        if(makeVisible)
-            metadata_top.opacity = 1
-    }
-    property bool makeHidden: (!PQSettings.interfacePopoutMetadata &&
-                               !(keepopen.checked && metadata_top.visible) &&
-                               metadata_top.visible &&
-                               !resizePressed && variables.mousePos.x > width+5)
-                              || variables.faceTaggingActive
-    onMakeHiddenChanged: {
-        if(makeHidden)
-            metadata_top.opacity = 0
+    Timer {
+        // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+        running: true
+        repeat: false
+        interval: 250
+        onTriggered:
+            startupDelay = false
     }
 
-    Component.onCompleted: {
-        if(PQSettings.interfacePopoutMetadata)
-                metadata_top.opacity = 1
-    }
-
-    MouseArea {
-
-        anchors.fill: parent
-        hoverEnabled: true
-
-        acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
-
-        PQMouseArea {
-
-            anchors {
-                right: parent.right
-                top: parent.top
-                bottom: parent.bottom
+    Timer {
+        id: saveGeometryTimer
+        interval: 500
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!PQSettings.interfacePopoutMetadata && !startupDelay) {
+                PQSettings.metadataElementPosition = Qt.point(Math.max(0, Math.min(metadata_top.x, toplevel.width-metadata_top.width)), Math.max(0, Math.min(metadata_top.y, toplevel.height-metadata_top.height)))
+                PQSettings.metadataElementSize = Qt.size(metadata_top.width, metadata_top.height)
             }
-            width: 5
-
-            cursorShape: Qt.SizeHorCursor
-
-            enabled: !PQSettings.interfacePopoutMetadata
-
-            tooltip: em.pty+qsTranslate("metadata", "Click and drag to resize meta data")
-
-            property int oldMouseX
-
-            onPressed: {
-                metadata_top.resizePressed = true
-                oldMouseX = mouse.x
-            }
-
-            onReleased: {
-                metadata_top.resizePressed = false
-                PQSettings.metadataElementWidth = metadata_top.width
-            }
-
-            onPositionChanged: {
-                if (pressed) {
-                    var w = metadata_top.width + (mouse.x-oldMouseX)
-                    if(w < 2*toplevel.width/3)
-                        metadata_top.width = w
-                }
-            }
-
         }
-
     }
 
     property var allMetaData: [
@@ -167,6 +122,25 @@ Rectangle {
         em.pty+qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metadataGps
     ]
 
+    ShaderEffectSource{
+        id: shader
+        sourceItem: imageitem
+        anchors.fill: parent
+        sourceRect: Qt.rect(metadata_top.x-imageitem.x, metadata_top.y-imageitem.y, width, height)
+    }
+    GaussianBlur {
+        anchors.fill: parent
+        source: shader
+        radius: 7
+        samples: 6
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#88000000"
+        radius: 10
+    }
+
     // HEADING OF RECTANGLE
     Text {
 
@@ -176,13 +150,14 @@ Rectangle {
             top: parent.top
             left: parent.left
             right: parent.right
-            topMargin: 10
+            topMargin: 20
+            leftMargin: 30
         }
 
-        horizontalAlignment: Qt.AlignHCenter
+        horizontalAlignment: Qt.AlignLeft
 
         color: "#ffffff"
-        font.pointSize: 15
+        font.pointSize: 18
         font.bold: true
 
         //: This is the heading of the metadata element
@@ -190,30 +165,21 @@ Rectangle {
 
     }
 
-    Rectangle {
-
-        id: separatorTop
-
-        anchors {
-            top: heading.bottom
-            left: parent.left
-            right: parent.right
-            topMargin: 10
-        }
-
-        color: "#cccccc"
-        height: 1
-
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        drag.target: parent
+        onWheel: mouse.accepted = false
     }
 
     // Label at first start-up
     Text {
 
         anchors {
-            top: separatorTop.bottom
+            top: heading.bottom
             left: parent.left
             right: parent.right
-            bottom: separatorBottom.bottom
+            bottom: parent.bottom
             margins: 10
         }
 
@@ -235,16 +201,23 @@ Rectangle {
         id: view
 
         anchors {
-            top: separatorTop.bottom
+            top: heading.bottom
             left: parent.left
             right: parent.right
-            bottom: separatorBottom.top
-            margins: 10
+            bottom: parent.bottom
+            leftMargin: 30
+            rightMargin: 30
+            topMargin: 10
+            bottomMargin: 10
         }
 
         visible: filefoldermodel.current!==-1
 
-        ScrollBar.vertical: PQScrollBar { id: scroll }
+        boundsBehavior: Flickable.OvershootBounds
+
+        ScrollBar.vertical: PQScrollBar { id: scroll; opacity: 0.5 }
+
+        clip: true
 
         model: allMetaData.length/3
         delegate: Item {
@@ -308,40 +281,6 @@ Rectangle {
 
     }
 
-    Rectangle {
-        id: separatorBottom
-        anchors {
-            bottom: keepopen.top
-            left: parent.left
-            right: parent.right
-            bottomMargin: 5
-        }
-
-        height: PQSettings.interfacePopoutMetadata ? 0 : 1
-        color: "#cccccc"
-    }
-
-    PQCheckbox {
-
-        id: keepopen
-
-        visible: !PQSettings.interfacePopoutMetadata
-
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            rightMargin: 5
-            bottomMargin: 5
-        }
-
-        onCheckedChanged:
-            variables.metaDataWidthWhenKeptOpen = (checked ? metadata_top.width : 0)
-
-        //: Used as in: Keep the metadata element open even if the cursor leaves it
-        text: PQSettings.interfacePopoutMetadata ? "" : (em.pty+qsTranslate("metadata", "Keep Open"))
-
-    }
-
     Image {
         x: 5
         y: 5
@@ -355,50 +294,53 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.interfacePopoutAbout ?
+            tooltip: PQSettings.interfacePopoutMetadata ?
                          //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                          em.pty+qsTranslate("popinpopout", "Merge into main interface") :
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(PQSettings.interfacePopoutMetadata==0) {
-                    keepopen.checked = false
-                    variables.metaDataWidthWhenKeptOpen = 0
-                } else
+                if(PQSettings.interfacePopoutMetadata==1)
                     metadata_window.storeGeometry()
                 PQSettings.interfacePopoutMetadata = !PQSettings.interfacePopoutMetadata
             }
         }
     }
 
+    PQMouseArea {
+
+        id: resizeBotRight
+
+        enabled: !PQSettings.interfacePopoutMetadata
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+        }
+        width: 10
+        height: 10
+        cursorShape: Qt.SizeFDiagCursor
+
+        onPositionChanged: {
+            if(pressed) {
+                metadata_top.width = Math.max(300, metadata_top.width + (mouse.x-resizeBotRight.width))
+                metadata_top.height = Math.max(400, metadata_top.height + (mouse.y-resizeBotRight.height))
+            }
+        }
+
+    }
+
     Connections {
         target: loader
         onMetadataPassOn: {
-            if(what == "toggleKeepOpen")
-                toggleKeepOpen()
-            else if(what == "toggle") {
+            if(what == "toggleKeepOpen" || what == "toggle")
                 toggle()
-            }
-
         }
     }
 
     function toggle() {
         if(PQSettings.interfacePopoutMetadata) return
-        keepopen.checked = false
-        if(metadata_top.opacity == 1)
-            metadata_top.opacity = 0
-        else
-            metadata_top.opacity = 1
-    }
-
-    function toggleKeepOpen() {
-        if(PQSettings.interfacePopoutMetadata) return
-        keepopen.checked = !keepopen.checked
-        if(metadata_top.opacity == 1 && !keepopen.checked)
-            metadata_top.opacity = 0
-        else if(keepopen.checked)
-            metadata_top.opacity = 1
+        PQSettings.metadataElementVisible = !PQSettings.metadataElementVisible
     }
 
 }

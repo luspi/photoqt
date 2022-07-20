@@ -64,7 +64,6 @@ MouseArea {
                 doubleClickTimer.mouse = mouse
                 doubleClickTimer.restart()
             }
-            top.pressed(mouse)
         }
     }
     Timer {

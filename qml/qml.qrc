@@ -111,7 +111,6 @@
         <file>settingsmanager/tabs/metadata/PQGPSMap.qml</file>
         <file>settingsmanager/tabs/metadata/PQHotEdge.qml</file>
         <file>settingsmanager/tabs/metadata/PQMetaData.qml</file>
-        <file>settingsmanager/tabs/metadata/PQOpacity.qml</file>
         <file>settingsmanager/tabs/metadata/PQRotation.qml</file>
         <file>settingsmanager/tabs/metadata/PQFaceTags.qml</file>
         <file>settingsmanager/tabs/metadata/PQFaceTagsVisibility.qml</file>

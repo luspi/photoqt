@@ -27,7 +27,7 @@ Rectangle {
 
     id: nav_top
 
-    x: variables.metaDataWidthWhenKeptOpen + 100
+    x: 100
     y: PQSettings.thumbnailsEdge=="Bottom" ? 100 : parent.height-height-100
 
     Behavior on x { NumberAnimation { duration: 200 } }

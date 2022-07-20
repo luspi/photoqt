@@ -29,7 +29,7 @@ Item {
     id: container
 
     anchors.fill: parent
-    anchors.leftMargin: PQSettings.imageviewMargin+ variables.metaDataWidthWhenKeptOpen
+    anchors.leftMargin: PQSettings.imageviewMargin
     Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
     // ThumbnailsVisibility

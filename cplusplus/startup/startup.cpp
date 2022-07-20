@@ -840,7 +840,6 @@ bool PQStartup::migrateSettingsToDb() {
     // category: Metadata Element
     /******************************************************/
     conversions.insert("MetadataEnableHotEdge", QStringList() << "metadata" << "ElementHotEdge");
-    conversions.insert("MetadataOpacity",       QStringList() << "metadata" << "ElementOpacity");
     conversions.insert("MetadataWindowWidth",   QStringList() << "metadata" << "ElementWidth");
     /******************************************************/
     // category: People Tags in Metadata

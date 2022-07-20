@@ -31,7 +31,6 @@ Item {
     property real currentPaintedZoomLevel: 1
     property string openCurrentDirectory: PQSettings.openfileKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDir.getHomeDir()
     property point mousePos: Qt.point(-1, -1)
-    property int metaDataWidthWhenKeptOpen: 0
 
     property bool slideShowActive: false
     property bool faceTaggingActive: false

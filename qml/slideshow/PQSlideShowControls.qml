@@ -29,7 +29,7 @@ Item {
 
     id: controls_top
 
-    x: PQSettings.interfacePopoutSlideShowControls ? 0 : ((parentWidth-variables.metaDataWidthWhenKeptOpen-width)/2)
+    x: PQSettings.interfacePopoutSlideShowControls ? 0 : ((parentWidth-width)/2)
     y: PQSettings.interfacePopoutSlideShowControls ? 0 : (parentHeight-height-50)
     width: PQSettings.interfacePopoutSlideShowControls ? parentWidth : playplausenextprev.width
     height: PQSettings.interfacePopoutSlideShowControls ? parentHeight : 80
