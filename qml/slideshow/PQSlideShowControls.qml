@@ -28,23 +28,32 @@ Rectangle {
 
     id: controls_top
 
-    color: "#cc000000"
+    color: "#44000000"
 
-    border.width: 1
-    border.color: "#88aaaaaa"
+    radius: 10
 
-    x: PQSettings.interfacePopoutSlideShowControls ? 0 : (variables.metaDataWidthWhenKeptOpen-1)
-    y: PQSettings.interfacePopoutSlideShowControls ? 0 : -1
-    width: PQSettings.interfacePopoutSlideShowControls ? parentWidth : (parentWidth+2-variables.metaDataWidthWhenKeptOpen)
-    height: PQSettings.interfacePopoutSlideShowControls ? parentHeight : 75
+    border.width: PQSettings.interfacePopoutSlideShowControls ? 0 : 1
+    border.color: PQSettings.interfacePopoutSlideShowControls ? "transparent" : "#88aaaaaa"
+
+    x: PQSettings.interfacePopoutSlideShowControls ? 0 : ((parentWidth-variables.metaDataWidthWhenKeptOpen-width)/2)
+    y: PQSettings.interfacePopoutSlideShowControls ? 0 : 10
+    width: PQSettings.interfacePopoutSlideShowControls ? parentWidth : playplausenextprev.width
+    height: PQSettings.interfacePopoutSlideShowControls ? parentHeight : 80
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.interfacePopoutSlideShowControls ? 1 : 0
+    opacity: PQSettings.interfacePopoutSlideShowControls ? 1 : (!variables.slideShowActive ? 0 : ((showForeground||slideshowPaused||mouseOver) ? (mouseOver ? opacityMouseOver : opacityForeground) : opacityBackground))
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: (opacity != 0)
     enabled: visible
+
+    property real opacityMouseOver: 0.75
+    property real opacityForeground: 0.5
+    property real opacityBackground: 0.1
+    property bool showForeground: true
+    property bool slideshowPaused: false
+    property bool mouseOver: false
 
     property string backupAnimType: ""
     property var backupAllImagesInFolder: []
@@ -53,11 +62,17 @@ Rectangle {
         id: controlsbgmousearea
         anchors.fill: parent
         hoverEnabled: true
+        drag.target: controls_top
+        onEntered:
+            controls_top.mouseOver = true
+        onExited:
+            controls_top.mouseOver = false
     }
 
     property bool running: false
     onRunningChanged: {
         if(running) {
+            controls_top.slideshowPaused = false
             imageitem.playAnim()
             switcher.restart()
             hideBarAfterTimeout.restart()
@@ -65,7 +80,7 @@ Rectangle {
                 slideshowmusic.play()
         } else {
             imageitem.pauseAnim()
-            controls_top.opacity = 1
+            controls_top.slideshowPaused = true
             slideshowmusic.pause()
         }
     }
@@ -84,6 +99,8 @@ Rectangle {
         height: childrenRect.height
 
         Row {
+
+            spacing: 5
 
             Image {
 
@@ -105,6 +122,11 @@ Rectangle {
                             switcher.restart()
                         loadPrevImage()
                     }
+                    drag.target: controls_top
+                    onEntered:
+                        controls_top.mouseOver = true
+                    onExited:
+                        controls_top.mouseOver = false
                 }
 
             }
@@ -113,9 +135,9 @@ Rectangle {
 
                 id: playpause
 
-                y: 10
-                width: PQSettings.interfacePopoutSlideShowControls ? 120 : controls_top.height-2*y
-                height: PQSettings.interfacePopoutSlideShowControls ? 120 : controls_top.height-2*y
+                y: 20
+                width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
+                height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
                 source: (controls_top.running ? "/slideshow/pause.png" : "/slideshow/play.png")
 
@@ -128,6 +150,11 @@ Rectangle {
                                   em.pty+qsTranslate("slideshow", "Click to play slideshow"))
                     onClicked:
                         controls_top.running = !controls_top.running
+                    drag.target: controls_top
+                    onEntered:
+                        controls_top.mouseOver = true
+                    onExited:
+                        controls_top.mouseOver = false
                 }
 
             }
@@ -152,33 +179,55 @@ Rectangle {
                             switcher.restart()
                         loadNextImage()
                     }
+                    drag.target: controls_top
+                    onEntered:
+                        controls_top.mouseOver = true
+                    onExited:
+                        controls_top.mouseOver = false
                 }
 
             }
 
-        }
+            Image {
 
-    }
+                id: exit
 
-    Item {
+                y: 20
+                width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
+                height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
-        id: volumecont
+                source: "/slideshow/exit.png"
 
-        visible: slideshowmusic.source!=""
+                PQMouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+                    tooltip: em.pty+qsTranslate("slideshow", "Click to exit slideshow")
+                    onClicked: {
+                        quitSlideShow()
+                    }
+                    drag.target: controls_top
+                    onEntered:
+                        controls_top.mouseOver = true
+                    onExited:
+                        controls_top.mouseOver = false
+                }
 
-        x: (parent.width-width)/2
-        y: PQSettings.interfacePopoutSlideShowControls ? (playplausenextprev.y+playplausenextprev.height+50) : ((parent.height-height)/2)
+            }
 
-        width: childrenRect.width
-        height: childrenRect.height
-
-        Row {
+            Item {
+                width: volumeicon.visible ? 25 : 10
+                height: 1
+            }
 
             Image {
 
                 id: volumeicon
 
-                width: 40
+                visible: slideshowmusic.source!=""
+
+                y: exit.y + (exit.height-height)/2
+                width: visible ? 40 : 0
                 height: 40
 
                 source: volumeslider.value==0 ?
@@ -195,7 +244,10 @@ Rectangle {
 
                 id: volumeslider
 
-                width: 200
+                visible: slideshowmusic.source!=""
+
+                y: exit.y + (exit.height-height)/2
+                width: visible? 200 : 0
                 height: 20
 
                 toolTipPrefix: em.pty+qsTranslate("slideshow", "Sound volume:") + " "
@@ -203,36 +255,19 @@ Rectangle {
 
                 value: 80
 
-                y: 10
-
                 from: 0
                 to: 100
 
+                onHoveredChanged:
+                    controls_top.mouseOver = hovered
+
             }
 
-        }
+            Item {
+                width: volumeslider.visible? 20 : 0
+                height: 1
+            }
 
-    }
-
-
-    Image {
-
-        id: quit
-
-        x: PQSettings.interfacePopoutSlideShowControls ? (parent.width-width)/2 : (parent.width-width-15)
-        y: PQSettings.interfacePopoutSlideShowControls ? (volumecont.visible ? (volumecont.y+volumecont.height+50) : (playplausenextprev.y+playplausenextprev.height+50)) : 10
-        width: PQSettings.interfacePopoutSlideShowControls ? 75 : (parent.height-2*y)
-        height: PQSettings.interfacePopoutSlideShowControls ? 75 : (parent.height-2*y)
-
-        source: "/slideshow/quit.png"
-
-        PQMouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            hoverEnabled: true
-            tooltip: em.pty+qsTranslate("slideshow", "Click to quit slideshow")
-            onClicked:
-                quitSlideShow()
         }
 
     }
@@ -243,18 +278,6 @@ Rectangle {
         volume: volumeslider.value/100.0
         onError: console.error("AUDIO ERROR:",errorString,"-",source)
         loops: Audio.Infinite
-    }
-
-    Connections {
-        target: variables
-        onMousePosChanged: {
-            if(!variables.slideShowActive || !controls_top.running || PQSettings.interfacePopoutSlideShowControls)
-                return
-            if(controls_top.visible && variables.mousePos.y > controls_top.height+5)
-                controls_top.opacity = 0
-            else if(!controls_top.visible && variables.mousePos.y < (2*PQSettings.interfaceHotEdgeSize+5))
-                controls_top.opacity = 1
-        }
     }
 
     Connections {
@@ -312,9 +335,7 @@ Rectangle {
         interval: 1000
         repeat: false
         onTriggered: {
-            if(controls_top.visible && variables.mousePos.y > controls_top.height+5 && controls_top.running && !PQSettings.interfacePopoutSlideShowControls)
-                controls_top.opacity = 0
-
+            controls_top.showForeground = false
         }
     }
 
@@ -335,6 +356,8 @@ Rectangle {
 
         variables.visibleItem = "slideshowcontrols"
         variables.slideShowActive = true
+
+        controls_top.showForeground = true
 
         imageitem.zoomReset()
         imageitem.rotateReset()
@@ -373,7 +396,6 @@ Rectangle {
         controls_top.running = true
         imageitem.restartAnim()
 
-        controls_top.opacity = 1
         if(PQSettings.interfacePopoutSlideShowControls)
             slideshowcontrols_window.visible = true
 
@@ -400,8 +422,6 @@ Rectangle {
         variables.slideShowActive = false
         if(PQSettings.interfacePopoutSlideShowControls)
             slideshowcontrols_window.visible = false
-        else
-            controls_top.opacity = 0
 
     }
 
@@ -449,27 +469,27 @@ Rectangle {
     }
 
     /***************************************/
-        // The Fisher–Yates shuffle algorithm
-        // Code found at http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-        // (adapted from http://bost.ocks.org/mike/shuffle/)
-        function shuffle(array) {
-            var counter = array.length, temp, index;
+    // The Fisher–Yates shuffle algorithm
+    // Code found at http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+    // (adapted from http://bost.ocks.org/mike/shuffle/)
+    function shuffle(array) {
+        var counter = array.length, temp, index;
 
-            // While there are elements in the array
-            while (counter > 0) {
-                // Pick a random index
-                index = Math.floor(Math.random() * counter);
+        // While there are elements in the array
+        while (counter > 0) {
+            // Pick a random index
+            index = Math.floor(Math.random() * counter);
 
-                // Decrease counter by 1
-                counter--;
+            // Decrease counter by 1
+            counter--;
 
-                // And swap the last element with it
-                temp = array[counter];
-                array[counter] = array[index];
-                array[index] = temp;
-            }
-
-            return array;
+            // And swap the last element with it
+            temp = array[counter];
+            array[counter] = array[index];
+            array[index] = temp;
         }
+
+        return array;
+    }
 
 }
