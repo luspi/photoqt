@@ -331,13 +331,12 @@ Item {
 
                     Text {
                         id: quick_txt
-                        y: (loop_txt-height)/2
                         verticalAlignment: Text.AlignTop
                         color: "white"
                         font.pointSize: 15
                         font.bold: true
-                        //: What to do with the quick info during slideshows
-                        text: em.pty+qsTranslate("slideshow", "quickinfo") + ":"
+                        //: What to do with the file details during slideshows
+                        text: em.pty+qsTranslate("slideshow", "file info") + ":"
                         horizontalAlignment: Text.AlignRight
                         Component.onCompleted: {
                             if(width > col.leftcolwidth)
@@ -349,8 +348,39 @@ Item {
                     PQCheckbox {
                         id: quick_check
                         y: (quick_txt.height-height)/2
-                        //: What to do with the quick info during slideshows
-                        text: em.pty+qsTranslate("slideshow", "hide quickinfo")
+                        //: What to do with the file details during slideshows
+                        text: em.pty+qsTranslate("slideshow", "hide label with details about current file")
+                    }
+
+                }
+
+                Row {
+
+                    spacing: 15
+
+                    height: childrenRect.height
+
+                    Text {
+                        id: winbut_txt
+                        verticalAlignment: Text.AlignTop
+                        color: "white"
+                        font.pointSize: 15
+                        font.bold: true
+                        //: What to do with the window buttons during slideshows
+                        text: em.pty+qsTranslate("slideshow", "window buttons") + ":"
+                        horizontalAlignment: Text.AlignRight
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
+                    }
+
+                    PQCheckbox {
+                        id: winbut_check
+                        y: (winbut_txt.height-height)/2
+                        //: What to do with the window buttons during slideshows
+                        text: em.pty+qsTranslate("slideshow", "hide window buttons during slideshow")
                     }
 
                 }
@@ -452,6 +482,7 @@ Item {
                     PQSettings.slideshowImageTransition = transition_slider.value
                     PQSettings.slideshowLoop = loop_check.checked
                     PQSettings.slideshowShuffle = shuffle_check.checked
+                    PQSettings.slideshowHideWindowButtons = winbut_check.checked
                     PQSettings.slideshowHideLabels = quick_check.checked
                     PQSettings.slideshowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
                     PQSettings.slideshowIncludeSubFolders = subfolders_check.checked
@@ -532,6 +563,7 @@ Item {
                     transition_slider.value = PQSettings.slideshowImageTransition
                     loop_check.checked = PQSettings.slideshowLoop
                     shuffle_check.checked = PQSettings.slideshowShuffle
+                    winbut_check.checked = PQSettings.slideshowHideWindowButtons
                     quick_check.checked = PQSettings.slideshowHideLabels
                     music_check.checked = (PQSettings.slideshowMusicFile!="")
                     music_button.musicfile = PQSettings.slideshowMusicFile
