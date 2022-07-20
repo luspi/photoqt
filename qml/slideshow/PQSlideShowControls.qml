@@ -22,18 +22,12 @@
 
 import QtQuick 2.9
 import QtMultimedia 5.5
+import QtGraphicalEffects 1.0
 import "../elements"
 
-Rectangle {
+Item {
 
     id: controls_top
-
-    color: "#44000000"
-
-    radius: 10
-
-    border.width: PQSettings.interfacePopoutSlideShowControls ? 0 : 1
-    border.color: PQSettings.interfacePopoutSlideShowControls ? "transparent" : "#88aaaaaa"
 
     x: PQSettings.interfacePopoutSlideShowControls ? 0 : ((parentWidth-variables.metaDataWidthWhenKeptOpen-width)/2)
     y: PQSettings.interfacePopoutSlideShowControls ? 0 : 10
@@ -57,6 +51,36 @@ Rectangle {
 
     property string backupAnimType: ""
     property var backupAllImagesInFolder: []
+
+    ShaderEffectSource{
+        id: shader
+        sourceItem: imageitem
+        width: bg.width
+        height: bg.height
+        sourceRect: Qt.rect(controls_top.x-imageitem.x,controls_top.y-imageitem.y, width, height)
+    }
+
+    GaussianBlur {
+        anchors.fill: bg
+        source: shader
+        radius: 4
+        samples: 9
+    }
+
+    Rectangle {
+
+        id: bg
+
+        anchors.fill: parent
+        color: "#66000000"
+
+        radius: 10
+
+        border.width: PQSettings.interfacePopoutSlideShowControls ? 0 : 1
+        border.color: PQSettings.interfacePopoutSlideShowControls ? "transparent" : "#88aaaaaa"
+
+    }
+
 
     MouseArea {
         id: controlsbgmousearea
