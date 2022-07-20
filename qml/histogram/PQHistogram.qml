@@ -21,10 +21,9 @@
  **************************************************************************/
 
 import QtQuick 2.9
-
 import "../elements"
 
-Rectangle {
+Item {
 
     id: hist_top
 
@@ -48,8 +47,6 @@ Rectangle {
     onHeightChanged:
         saveGeometryTimer.restart()
 
-    radius: 5
-
     opacity: PQSettings.interfacePopoutHistogram ?
                  1 : (PQSettings.histogramVisible ?
                      ((dragArea.containsMouse||switchmouse.containsMouse||closemouse.containsMouse) ?
@@ -60,8 +57,6 @@ Rectangle {
     visible: opacity!=0
     onVisibleChanged:
         updateHistogram()
-
-    color: "#dd000000"
 
     Component.onCompleted:
         if(filefoldermodel.current != -1)
@@ -87,6 +82,12 @@ Rectangle {
                 PQSettings.histogramSize = Qt.size(hist_top.width, hist_top.height)
             }
         }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#000000"
+        radius: 5
     }
 
     // This will hold the histogram image

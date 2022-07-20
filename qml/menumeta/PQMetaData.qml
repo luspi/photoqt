@@ -22,7 +22,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtGraphicalEffects 1.0
 
 import "../elements"
 
@@ -122,22 +121,9 @@ Item {
         em.pty+qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metadataGps
     ]
 
-    ShaderEffectSource{
-        id: shader
-        sourceItem: imageitem
-        anchors.fill: parent
-        sourceRect: Qt.rect(metadata_top.x-imageitem.x, metadata_top.y-imageitem.y, width, height)
-    }
-    GaussianBlur {
-        anchors.fill: parent
-        source: shader
-        radius: 7
-        samples: 6
-    }
-
     Rectangle {
         anchors.fill: parent
-        color: "#88000000"
+        color: "#bb000000"
         radius: 10
     }
 
