@@ -130,11 +130,23 @@ Item {
         color: "#444444"
     }
 
+    Text {
+        id: dotdotdot
+        anchors.left: sep1.right
+        anchors.leftMargin: visible ? 10 : 0
+        text: visible ? "..." : ""
+        height: bread_top.height
+        verticalAlignment: Text.AlignVCenter
+        color: "#88ffffff"
+        font.bold: true
+        visible: path.contentWidth > path.width
+    }
+
     ListView {
 
         id: path
 
-        anchors.left: sep1.right
+        anchors.left: dotdotdot.right
         anchors.leftMargin: 10
         anchors.right: sep2.left
         anchors.rightMargin: 10
@@ -149,6 +161,12 @@ Item {
         model: Math.max(0, 2*pathParts.length -1)
 
         orientation: Qt.Horizontal
+        Component.onCompleted:
+            path.positionViewAtEnd()
+        onWidthChanged:
+            path.positionViewAtEnd()
+        onContentWidthChanged:
+            path.positionViewAtEnd()
 
         delegate: PQButton {
 
