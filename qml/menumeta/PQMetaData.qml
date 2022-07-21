@@ -154,6 +154,10 @@ Item {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        drag.minimumX: 0
+        drag.minimumY: 0
+        drag.maximumX: toplevel.width-metadata_top.width
+        drag.maximumY: toplevel.height-metadata_top.height
         drag.target: parent
         cursorShape: Qt.SizeAllCursor
         onWheel: mouse.accepted = false

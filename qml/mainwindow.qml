@@ -243,9 +243,9 @@ Window {
 
     Loader { id: histogram }
 
-    Loader { id: mainmenu }
     Loader { id: metadata }
     Loader { id: navigationfloating }
+    Loader { id: mainmenu }
 
     Loader { id: slideshowsettings }
     Loader { id: slideshowcontrols }

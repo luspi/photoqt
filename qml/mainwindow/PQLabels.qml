@@ -149,7 +149,7 @@ Rectangle {
 
         width: 2*row.height+10
         height: width
-        color: "#000000"
+        color: "#cc000000"
         radius: 5
 
         visible: (imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)
@@ -169,16 +169,16 @@ Rectangle {
     Rectangle {
         id: filterremove_cont
         x: row.x
-        y: PQSettings.thumbnailsEdge=="Bottom" ? (row.y+row.height+10) : -height-5
+        y: PQSettings.thumbnailsEdge=="Bottom" ? (row.y+row.height+20) : -height-5
         visible: filefoldermodel.filterCurrentlyActive
         width: visible ? filterrow.width : 0
-        height: visible ? filterrow.height+10 : 0
-        color: "#000000"
+        height: visible ? filterrow.height+20 : 0
+        color: "#cc000000"
         radius: 5
         Row {
             id: filterrow
-            spacing: 5
-            y: 5
+            spacing: 10
+            y: 10
             Item {
                 width: 1
                 height: 1
