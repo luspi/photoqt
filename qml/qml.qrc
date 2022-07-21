@@ -109,7 +109,6 @@
         <file>settingsmanager/tabs/thumbnails/PQFilenameOnly.qml</file>
         <file>elements/PQTile.qml</file>
         <file>settingsmanager/tabs/metadata/PQGPSMap.qml</file>
-        <file>settingsmanager/tabs/metadata/PQHotEdge.qml</file>
         <file>settingsmanager/tabs/metadata/PQMetaData.qml</file>
         <file>settingsmanager/tabs/metadata/PQRotation.qml</file>
         <file>settingsmanager/tabs/metadata/PQFaceTags.qml</file>

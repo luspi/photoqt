@@ -101,8 +101,6 @@ Item {
 
             PQMetaData { id: mtd }
                 PQHorizontalLine { expertModeOnly: mtd.expertmodeonly }
-            PQHotEdge { id: hot }
-                PQHorizontalLine { expertModeOnly: hot.expertmodeonly }
             PQGPSMap { id: gps }
                 PQHorizontalLine { expertModeOnly: gps.expertmodeonly }
             PQRotation { id: rot }
