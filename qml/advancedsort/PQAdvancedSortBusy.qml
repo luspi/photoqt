@@ -143,7 +143,8 @@ Item {
         Connections {
             target: filefoldermodel
             onAdvancedSortingComplete: {
-                butcancel.clicked()
+                if(advancedsort_top.visible)
+                    butcancel.clicked()
             }
         }
 

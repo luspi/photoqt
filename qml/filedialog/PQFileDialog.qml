@@ -271,7 +271,8 @@ Rectangle {
             filedialog_top.opacity = 1
         } else
             filedialog_window.visible = true
-        if(!PQSettings.interfacePopoutOpenFileKeepOpen)
+
+        if(!PQSettings.interfacePopoutOpenFile || !PQSettings.interfacePopoutOpenFileKeepOpen)
             variables.visibleItem = "filedialog"
 
         tweaks.readFileTypeSettings()
@@ -283,7 +284,7 @@ Rectangle {
     }
 
     function hideFileDialog() {
-        if(PQSettings.interfacePopoutOpenFileKeepOpen)
+        if(PQSettings.interfacePopoutOpenFile && PQSettings.interfacePopoutOpenFileKeepOpen)
             return
         if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {
             // hide in x direction
