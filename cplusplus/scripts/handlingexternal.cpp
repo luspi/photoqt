@@ -22,6 +22,10 @@
 
 #include "handlingexternal.h"
 
+PQHandlingExternal::PQHandlingExternal(QObject *parent) : QObject(parent) {
+    imageprovider = nullptr;
+}
+
 void PQHandlingExternal::copyTextToClipboard(QString txt, bool removeHTML) {
 
     DBG << CURDATE << "PQHandlingExternal::copyTextToClipboard()" << NL

@@ -41,6 +41,7 @@ class PQHandlingExternal : public QObject {
     Q_OBJECT
 
 public:
+    PQHandlingExternal(QObject *parent = 0);
     Q_INVOKABLE void copyToClipboard(QString filename);
     Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false);
     Q_INVOKABLE void executeExternal(QString cmd, QString currentfile);
