@@ -49,7 +49,7 @@ Item {
     Rectangle {
 
         anchors.fill: parent
-        color: "#f8000000"
+        color: "#dd000000"
 
         PQMouseArea {
             anchors.fill: parent
