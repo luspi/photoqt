@@ -213,23 +213,41 @@ Item {
 
     Rectangle {
         id: sep2
-        anchors.right: fullscreenwindow.left
+        anchors.right: cancelbut.left
         anchors.rightMargin: 5
         width: 1
         height: bread_top.height
         color: "#444444"
     }
 
+    PQButton {
+
+        id: cancelbut
+        anchors.right: fullscreenwindow.left
+        anchors.margins: 5
+        y: (parent.height-height)/2
+
+        backgroundColor: "#444444"
+        backgroundColorHover: "#5a5a5a"
+        backgroundColorActive: "#555555"
+
+        text: genericStringCancel
+
+        onClicked: filedialog_top.hideFileDialog()
+
+    }
+
     Item {
         id: fullscreenwindow
         anchors.right: closefileview.left
+        anchors.rightMargin: -5
         height: parent.height
         width: height
 
         Image {
 
             anchors.fill: parent
-            anchors.margins: 10
+            anchors.margins: 5
 
             mipmap: true
 
@@ -260,7 +278,7 @@ Item {
         Image {
 
             anchors.fill: parent
-            anchors.margins: 10
+            anchors.margins: 5
 
             mipmap: true
 
@@ -276,7 +294,7 @@ Item {
             tooltipFollowsMouse: false
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: filedialog_top.hideFileDialog()
+            onClicked: toplevel.close()
         }
 
     }
