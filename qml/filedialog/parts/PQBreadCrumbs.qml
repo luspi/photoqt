@@ -213,6 +213,8 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
 
+            mipmap: true
+
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
             source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
@@ -242,9 +244,11 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
 
+            mipmap: true
+
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            source: "/filedialog/close.png"
+            source: "/other/close.png"
 
         }
 

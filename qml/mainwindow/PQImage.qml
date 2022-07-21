@@ -689,6 +689,7 @@ Item {
         Image {
             anchors.fill: parent
             anchors.margins: 40
+            mipmap: true
             source: "/image/viewermode.png"
         }
 
@@ -703,13 +704,14 @@ Item {
         }
 
         Image {
-            x: parent.width-width+10
-            y: -10
+            x: parent.width-width+5
+            y: -5
             width: 30
             height: 30
             opacity: viewermodebutmousehide.containsMouse ? 0.5 : 0.25
             Behavior on opacity { NumberAnimation { duration: 300 } }
-            source: "/other/histogramclose.png"
+            source: "/other/close.png"
+            mipmap: true
             PQMouseArea {
                 id: viewermodebutmousehide
                 anchors.fill: parent

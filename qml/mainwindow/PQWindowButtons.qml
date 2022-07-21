@@ -58,6 +58,7 @@ Item {
             opacity: visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
             visible: PQSettings.interfaceNavigationTopRight && opacity > 0 && !variables.slideShowActive
+            mipmap: true
             PQMouseArea {
                 id: left_mouse
                 anchors.fill: parent
@@ -78,6 +79,7 @@ Item {
             opacity: visibleAlways||variables.slideShowActive ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
             visible: PQSettings.interfaceNavigationTopRight && opacity > 0
+            mipmap: true
             PQMouseArea {
                 id: right_mouse
                 anchors.fill: parent
@@ -102,6 +104,8 @@ Item {
 
             opacity: visibleAlways||variables.slideShowActive ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+            mipmap: true
 
             visible: PQSettings.interfaceNavigationTopRight && opacity > 0
 
@@ -131,6 +135,8 @@ Item {
             opacity: !visibleAlways ? 0 : (fullscreen_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
+            mipmap: true
+
             PQMouseArea {
                 id: fullscreen_mouse
                 anchors.fill: parent
@@ -158,13 +164,17 @@ Item {
         Image {
             width: 3*PQSettings.interfaceLabelsWindowButtonsSize
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
-            source: "/mainwindow/close.png"
+            source: "/other/close.png"
 
-            opacity: visibleAlways ? 1 : 0
+            opacity: !visibleAlways ? 0 : (closemouse.containsMouse ? 1 : 0.8)
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+            mipmap: true
 
             visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceLabelsAlwaysShowX
 
             PQMouseArea {
+                id: closemouse
                 anchors.fill: parent
                 anchors.topMargin: -PQSettings.imageviewMargin
                 anchors.rightMargin: -PQSettings.imageviewMargin

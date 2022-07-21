@@ -491,7 +491,8 @@ Rectangle {
             visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceLabelsAlwaysShowX
             width: heading.height
             height: heading.height
-            source: "/mainwindow/close.png"
+            source: "/other/close.png"
+            mipmap: true
             PQMouseArea {
                 anchors.fill: parent
                 anchors.rightMargin: -10

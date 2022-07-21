@@ -32,10 +32,10 @@ Rectangle {
     Behavior on x { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     y: PQSettings.thumbnailsEdge=="Bottom" ? 10 : parent.height-height-10
 
-    width: row.width
-    height: (filefoldermodel.countMainView==0&&filefoldermodel.filterCurrentlyActive) ? 0 : row.height+10
+    width: row.width+20
+    height: (filefoldermodel.countMainView==0&&filefoldermodel.filterCurrentlyActive) ? 0 : row.height+20
 
-    color: "#000000"
+    color: "#cc000000"
     radius: 5
 
     visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) &&
@@ -50,7 +50,8 @@ Rectangle {
     Row {
 
         id: row
-        y: 5
+        x: 10
+        y: 10
         spacing: 10
 
         Item {
@@ -159,6 +160,7 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: 5
             source: pageInfo.text=="" ? "/image/viewermode.png" : "/image/noviewermode.png"
+            mipmap: true
         }
 
     }

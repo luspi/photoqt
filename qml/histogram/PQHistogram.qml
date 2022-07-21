@@ -49,7 +49,7 @@ Item {
 
     opacity: PQSettings.interfacePopoutHistogram ?
                  1 : (PQSettings.histogramVisible ?
-                     ((dragArea.containsMouse||switchmouse.containsMouse||closemouse.containsMouse) ?
+                     ((dragArea.containsMouse||closemouse.containsMouse) ?
                           (dragArea.buttonPressed ? 1 : 0.9) :
                           0.8) :
                      0)
@@ -190,32 +190,6 @@ Item {
 
     Image {
 
-        id: histswitch
-
-        source: "/other/histogramswitch.png"
-
-        x: PQSettings.interfacePopoutHistogram ? 5 : -5
-        y: PQSettings.interfacePopoutHistogram ? 5 : -5
-        width: 25
-        height: 25
-        mipmap: true
-
-        opacity: switchmouse.containsMouse ? 0.8 : 0.2
-        Behavior on opacity { NumberAnimation { duration: 150 } }
-
-        PQMouseArea {
-            id: switchmouse
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            hoverEnabled: true
-            onClicked:
-                PQSettings.histogramVersion = (PQSettings.histogramVersion !== "grey" ? "grey" : "color")
-        }
-
-    }
-
-    Image {
-
         id: histclose
 
         x: parent.width-width+5
@@ -225,9 +199,10 @@ Item {
 
         visible: !PQSettings.interfacePopoutHistogram
 
-        source: "/other/histogramclose.png"
+        source: "/other/close.png"
+        mipmap: true
 
-        opacity: closemouse.containsMouse ? 0.8 : 0.2
+        opacity: closemouse.containsMouse ? 0.8 : 0
         Behavior on opacity { NumberAnimation { duration: 150 } }
 
         PQMouseArea {
@@ -305,12 +280,12 @@ Item {
     }
 
     Image {
-        x: (PQSettings.interfacePopoutHistogram ? 5 : histswitch.width)
-        y: PQSettings.interfacePopoutHistogram ? 5 : -5
+        x: (PQSettings.interfacePopoutHistogram ? 5 : 0)
+        y: PQSettings.interfacePopoutHistogram ? 5 : 0
         width: 15
         height: 15
         source: "/popin.png"
-        opacity: popinmouse.containsMouse ? 1 : 0.2
+        opacity: popinmouse.containsMouse ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse

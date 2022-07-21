@@ -43,8 +43,8 @@ Item {
     onHeightChanged:
         saveGeometryTimer.restart()
 
-    property int parentWidth: 0
-    property int parentHeight: 0
+    property int parentWidth: toplevel.width
+    property int parentHeight: toplevel.height
 
     // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
     property bool startupDelay: true
@@ -123,7 +123,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#bb000000"
+        color: "#cc000000"
         radius: 10
     }
 
@@ -137,7 +137,7 @@ Item {
             left: parent.left
             right: parent.right
             topMargin: 20
-            leftMargin: 30
+            leftMargin: 20
         }
 
         horizontalAlignment: Qt.AlignLeft
@@ -155,6 +155,7 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         drag.target: parent
+        cursorShape: Qt.SizeAllCursor
         onWheel: mouse.accepted = false
     }
 
@@ -191,9 +192,9 @@ Item {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            leftMargin: 30
-            rightMargin: 30
-            topMargin: 10
+            leftMargin: 20
+            rightMargin: 20
+            topMargin: 20
             bottomMargin: 10
         }
 
@@ -302,7 +303,8 @@ Item {
 
         visible: !PQSettings.interfacePopoutMetadata
 
-        source: "/other/histogramclose.png"
+        source: "/other/close.png"
+        mipmap: true
 
         opacity: closemouse.containsMouse ? 0.8 : 0
         Behavior on opacity { NumberAnimation { duration: 150 } }

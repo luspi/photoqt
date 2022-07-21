@@ -171,7 +171,7 @@ Item {
             width: PQSettings.thumbnailsSize
             height: PQSettings.thumbnailsSize
 
-            color: "#88000000"
+            color: "#aa000000"
 
             Text {
 
