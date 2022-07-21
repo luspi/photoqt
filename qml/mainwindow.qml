@@ -85,10 +85,17 @@ Window {
 
             anchors.fill: parent
 
-            color: Qt.rgba(PQSettings.interfaceOverlayColorRed/256.0,
-                           PQSettings.interfaceOverlayColorGreen/256.0,
-                           PQSettings.interfaceOverlayColorBlue/256.0,
-                           PQSettings.interfaceOverlayColorAlpha/256.0)
+            color: (toplevel.visibility==Window.FullScreen&&PQSettings.interfaceFullscreenOverlayColorDifferent) ?
+                       Qt.rgba(PQSettings.interfaceFullscreenOverlayColorRed/256.0,
+                                  PQSettings.interfaceFullscreenOverlayColorGreen/256.0,
+                                  PQSettings.interfaceFullscreenOverlayColorBlue/256.0,
+                                  PQSettings.interfaceFullscreenOverlayColorAlpha/256.0) :
+                        Qt.rgba(PQSettings.interfaceOverlayColorRed/256.0,
+                                   PQSettings.interfaceOverlayColorGreen/256.0,
+                                   PQSettings.interfaceOverlayColorBlue/256.0,
+                                   PQSettings.interfaceOverlayColorAlpha/256.0)
+
+            Behavior on color { ColorAnimation { duration: 200 } }
 
             Item {
                 id: emptymessage
