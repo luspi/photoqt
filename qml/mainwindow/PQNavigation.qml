@@ -23,24 +23,35 @@
 import QtQuick 2.9
 import "../elements"
 
-Rectangle {
+Item {
 
     id: nav_top
 
-    x: 100
-    y: PQSettings.thumbnailsEdge=="Bottom" ? 100 : parent.height-height-100
-
-    Behavior on x { NumberAnimation { duration: 200 } }
-
+    x: ((parentWidth-width)/2)
+    y: (parentHeight-height-thumbnails.height)
     width: row.width
-    height: row.height
+    height: 80
 
-    opacity: PQSettings.interfaceNavigationFloating ? 1 : 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
-    visible: opacity>0
+    property int parentWidth: toplevel.width
+    property int parentHeight: toplevel.height
 
-    color: "#bb000000"
-    radius: 10
+    opacity: !PQSettings.interfaceNavigationFloating ? 0 : (mouseOver ? opacityMouseOver : opacityBackground)
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+    visible: (opacity != 0)
+    enabled: visible
+
+    property real opacityMouseOver: 1
+    property real opacityBackground: 0.5
+    property bool mouseOver: false
+
+    property bool atStartup: true
+
+    function disconnectPos() {
+        if(!atStartup) return
+        nav_top.x = nav_top.x
+        nav_top.y = nav_top.y
+        atStartup = false
+    }
 
     PQMouseArea {
         anchors.fill: parent
@@ -49,22 +60,25 @@ Rectangle {
         drag.maximumX: toplevel.width-nav_top.width
         drag.minimumY: 0
         drag.maximumY: toplevel.height-nav_top.height
+        property bool dragActive: drag.active
+        onDragActiveChanged: disconnectPos()
         hoverEnabled: true
         tooltip: em.pty+qsTranslate("navigate", "Click and drag to move")
+        onEntered:
+            nav_top.mouseOver = true
+        onExited:
+            nav_top.mouseOver = false
     }
 
     Row {
 
         id: row
-        spacing: 10
+        spacing: 5
 
-        Item {
-            width: 1
-            height: 1
-        }
+        y: (parent.height-height)/2
 
         Image {
-            width: 50
+            width: 75
             height: width
             source: "/mainwindow/leftarrow.png"
             enabled: filefoldermodel.countMainView>0
@@ -79,14 +93,20 @@ Rectangle {
                 drag.maximumX: toplevel.width-nav_top.width
                 drag.minimumY: 0
                 drag.maximumY: toplevel.height-nav_top.height
+                property bool dragActive: drag.active
+                onDragActiveChanged: disconnectPos()
                 tooltip: em.pty+qsTranslate("navigate", "Navigate to previous image in folder")
                 onClicked:
                     imageitem.loadPrevImage()
+                onEntered:
+                    nav_top.mouseOver = true
+                onExited:
+                    nav_top.mouseOver = false
             }
         }
 
         Image {
-            width: 50
+            width: 75
             height: width
             source: "/mainwindow/rightarrow.png"
             enabled: filefoldermodel.countMainView>0
@@ -101,19 +121,20 @@ Rectangle {
                 drag.maximumX: toplevel.width-nav_top.width
                 drag.minimumY: 0
                 drag.maximumY: toplevel.height-nav_top.height
+                property bool dragActive: drag.active
+                onDragActiveChanged: disconnectPos()
                 tooltip: em.pty+qsTranslate("navigate", "Navigate to next image in folder")
                 onClicked:
                     imageitem.loadNextImage()
+                onEntered:
+                    nav_top.mouseOver = true
+                onExited:
+                    nav_top.mouseOver = false
             }
         }
 
-        Item {
-            width: 1
-            height: 1
-        }
-
         Image {
-            width: 50
+            width: 75
             height: width
             source: "/mainwindow/menu.png"
             PQMouseArea {
@@ -125,34 +146,18 @@ Rectangle {
                 drag.maximumX: toplevel.width-nav_top.width
                 drag.minimumY: 0
                 drag.maximumY: toplevel.height-nav_top.height
+                property bool dragActive: drag.active
+                onDragActiveChanged: disconnectPos()
                 tooltip: em.pty+qsTranslate("navigate", "Show main menu")
                 onClicked:
                     loader.passOn("mainmenu", "toggle", undefined)
+                onEntered:
+                    nav_top.mouseOver = true
+                onExited:
+                    nav_top.mouseOver = false
             }
         }
 
-        Item {
-            width: 1
-            height: 1
-        }
-
-    }
-
-    // this makes sure that a change in the window geometry does not leeds to the element being outside the visible area
-    Connections {
-        target: toplevel
-        onWidthChanged: {
-            if(nav_top.x < 0)
-                nav_top.x = 0
-            else if(nav_top.x > toplevel.width-nav_top.width)
-                nav_top.x = toplevel.width-nav_top.width
-        }
-        onHeightChanged: {
-            if(nav_top.y < 0)
-                nav_top.y = 0
-            else if(nav_top.y > toplevel.height-nav_top.height)
-                nav_top.y = toplevel.height-nav_top.height
-        }
     }
 
     Connections {

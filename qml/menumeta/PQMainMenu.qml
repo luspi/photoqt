@@ -49,12 +49,16 @@ Rectangle {
 
     property bool resizePressed: false
 
+    property bool forceShow: false
+    property bool forceHide: false
+
     property bool makeVisible: (!PQSettings.interfacePopoutMainMenu &&
                                 !mainmenu_top.visible &&
                                 !variables.slideShowActive &&
                                 !variables.faceTaggingActive &&
                                 variables.mousePos.x > toplevel.width-(2*PQSettings.interfaceHotEdgeSize+5) &&
-                                variables.mousePos.y > 1.2*windowbuttons.height)
+                                variables.mousePos.y > 1.2*windowbuttons.height) ||
+                               forceShow
     onMakeVisibleChanged: {
         if(makeVisible)
             mainmenu_top.opacity = 1
@@ -62,9 +66,11 @@ Rectangle {
     property bool makeHidden: (!PQSettings.interfacePopoutMainMenu &&
                                mainmenu_top.visible &&
                                !resizePressed &&
-                               variables.mousePos.x < toplevel.width-width-5)
+                               variables.mousePos.x < toplevel.width-width-5 &&
+                               !forceShow)
                               || variables.slideShowActive
                               || variables.faceTaggingActive
+                              || forceHide
     onMakeHiddenChanged: {
         if(makeHidden)
             mainmenu_top.opacity = 0
@@ -74,6 +80,14 @@ Rectangle {
         if(PQSettings.interfacePopoutMainMenu)
                 mainmenu_top.opacity = 1
         readExternalContextmenu()
+    }
+
+    Connections {
+        target: variables
+        onMousePosChanged: {
+            forceShow = false
+            forceHide = false
+        }
     }
 
     MouseArea {
@@ -465,7 +479,7 @@ Rectangle {
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to show main menu")
                 onClicked:
-                    loader.passOn("mainmenu", "toggle", undefined)
+                    toggle()
             }
         }
 
@@ -534,10 +548,13 @@ Rectangle {
 
     function toggle() {
         if(PQSettings.interfacePopoutMainMenu) return
-        if(mainmenu_top.opacity == 1)
-            mainmenu_top.opacity = 0
-        else
-            mainmenu_top.opacity = 1
+        if(mainmenu_top.opacity == 1) {
+            forceShow = false
+            forceHide = true
+        } else {
+            forceShow = true
+            forceHide = false
+        }
     }
 
 }
