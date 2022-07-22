@@ -28,6 +28,8 @@ ToolTip {
     text: ""
     delay: 500
 
+    property bool someTransparency: true
+
     property alias wrapMode: contentText.wrapMode
     property alias elide: contentText.elide
 
@@ -40,8 +42,8 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: "#ee000000"
-        border.color: "#ee666666"
+        color: someTransparency ? "#f02d2d2d" : "#2f2f2f"
+        border.color: "#dd666666"
     }
 
 }

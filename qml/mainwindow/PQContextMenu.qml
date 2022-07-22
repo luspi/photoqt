@@ -38,9 +38,15 @@ Window {
     modality: Qt.NonModal
     flags: Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint
 
-    color: "#dd2f2f2f"
+    color: "transparent"
 
     property bool containsMouse: false
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#dd2f2f2f"
+        radius: 5
+    }
 
     onActiveChanged: {
         if(!active)
@@ -125,7 +131,7 @@ Window {
         //: This is an entry in the main menu on the right. Please keep short!
         ["scale",
          "",
-         ["__scale", em.pty+qsTranslate("MainMenu", "Scale"), 1, true]],
+         ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), 1, true]],
 
     ]
 

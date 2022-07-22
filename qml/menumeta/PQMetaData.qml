@@ -123,7 +123,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#cc000000"
+        color: "#dd2f2f2f"
         radius: 10
     }
 

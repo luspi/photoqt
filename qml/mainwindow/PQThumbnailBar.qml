@@ -171,7 +171,7 @@ Item {
             width: PQSettings.thumbnailsSize
             height: PQSettings.thumbnailsSize
 
-            color: "#aa000000"
+            color: "#dd2f2f2f"
 
             Text {
 
@@ -213,7 +213,7 @@ Item {
 
                 Rectangle {
                     visible: PQSettings.thumbnailsFilename
-                    color: "#88000000"
+                    color: "#aa2f2f2f"
                     width: parent.width
                     height: parent.height/3
                     x: 0

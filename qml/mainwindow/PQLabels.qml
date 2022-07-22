@@ -35,7 +35,7 @@ Rectangle {
     width: row.width+20
     height: (filefoldermodel.countMainView==0&&filefoldermodel.filterCurrentlyActive) ? 0 : row.height+20
 
-    color: "#cc000000"
+    color: "#dd2f2f2f"
     radius: 5
 
     visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) &&
@@ -149,7 +149,7 @@ Rectangle {
 
         width: 2*row.height+10
         height: width
-        color: "#cc000000"
+        color: "#dd2f2f2f"
         radius: 5
 
         visible: (imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)
@@ -173,7 +173,7 @@ Rectangle {
         visible: filefoldermodel.filterCurrentlyActive
         width: visible ? filterrow.width : 0
         height: visible ? filterrow.height+20 : 0
-        color: "#cc000000"
+        color: "#dd2f2f2f"
         radius: 5
         Row {
             id: filterrow

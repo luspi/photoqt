@@ -86,7 +86,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#000000"
+        color: "#dd2f2f2f"
         radius: 5
     }
 
@@ -134,7 +134,7 @@ Item {
         x: (parent.width-width)/2
         y: (parent.height-height)/2
         radius: 5
-        color: "#88000000"
+        color: "#dd2f2f2f"
 
         Text {
             x: 25

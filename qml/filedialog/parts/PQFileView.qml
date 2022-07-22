@@ -340,6 +340,7 @@ GridView {
 
                 tooltip: PQSettings.openfileDetailsTooltip ? tooltipStr : ""
                 tooltipWidth: 282
+                tooltipSomeTransparency: false
 
                 onEntered: {
 

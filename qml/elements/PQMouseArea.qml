@@ -33,6 +33,7 @@ MouseArea {
     property alias tooltipWidth: control.width
     property alias tooltipElide: control.elide
     property alias tooltipDelay: control.delay
+    property alias tooltipSomeTransparency: control.someTransparency
 
     property int doubleClickThreshold: 0
 
