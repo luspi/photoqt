@@ -83,7 +83,7 @@ Item {
             else if(variables.mousePos.y > toplevel.height-2*PQSettings.interfaceHotEdgeSize*5 && !visible)
                 shouldBeVisible = true
 
-            else if(variables.mousePos.y > toplevel.height-height-(variables.videoControlsVisible ? 100 : 0) && visible)
+            else if(variables.mousePos.y > toplevel.height-height-(variables.videoControlsVisible ? 100 : 25) && visible)
                 shouldBeVisible = true
 
             else if(PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1)
@@ -115,7 +115,7 @@ Item {
 
     }
 
-    visible: !variables.slideShowActive && !variables.faceTaggingActive
+    visible: !variables.slideShowActive && !variables.faceTaggingActive && y!=posHidden
     onVisibleChanged:
         checkVisibility()
 
