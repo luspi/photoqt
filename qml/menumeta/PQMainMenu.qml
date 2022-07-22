@@ -203,24 +203,18 @@ Rectangle {
 
                           [["img", "updownarrow",                                   "__flipV", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Vertical flip"), "__flipV", false, true]]]
+                           ["txt", em.pty+qsTranslate("MainMenu", "Vertical flip"), "__flipV", false, true]],
+
+                          [["img", "reset",                                      "__flipReset", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Reset flip"), "__flipReset", false, true]],
+
+                          [["img", "reset",                                          "__rotate0", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Reset rotation"), "__rotate0", false, true]]]
 
                 rightcol: [["img", "rotateleft",  "__rotateL", false, true],
                            ["img", "rotateright", "__rotateR", false, true]]
-            }
-
-            PQMainMenuGroup {
-                title: ""
-                rightcolNormal: true
-                noSpacingAtTop: true
-                rightcolCenter: true
-                leftcol: [[["img", "reset",                                      "__flipReset", false, true],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Reset flip"), "__flipReset", false, true]]]
-
-                rightcol: [["img", "reset",                                          "__rotate0", false, true],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Reset rotation"), "__rotate0",   false, true]]
             }
 
             PQMainMenuGroup {

@@ -39,7 +39,7 @@ Column {
 
     Item {
         width: 1
-        height: noSpacingAtTop ? 0 : 30
+        height: noSpacingAtTop ? 0 : 25
     }
 
     Text {
