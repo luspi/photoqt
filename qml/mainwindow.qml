@@ -86,14 +86,14 @@ Window {
             anchors.fill: parent
 
             color: (toplevel.visibility==Window.FullScreen&&PQSettings.interfaceFullscreenOverlayColorDifferent) ?
-                       Qt.rgba(PQSettings.interfaceFullscreenOverlayColorRed/256.0,
-                                  PQSettings.interfaceFullscreenOverlayColorGreen/256.0,
-                                  PQSettings.interfaceFullscreenOverlayColorBlue/256.0,
-                                  PQSettings.interfaceFullscreenOverlayColorAlpha/256.0) :
-                        Qt.rgba(PQSettings.interfaceOverlayColorRed/256.0,
-                                   PQSettings.interfaceOverlayColorGreen/256.0,
-                                   PQSettings.interfaceOverlayColorBlue/256.0,
-                                   PQSettings.interfaceOverlayColorAlpha/256.0)
+                       Qt.rgba(PQSettings.interfaceFullscreenOverlayColorRed/255.0,
+                                  PQSettings.interfaceFullscreenOverlayColorGreen/255.0,
+                                  PQSettings.interfaceFullscreenOverlayColorBlue/255.0,
+                                  PQSettings.interfaceFullscreenOverlayColorAlpha/255.0) :
+                        Qt.rgba(PQSettings.interfaceOverlayColorRed/255.0,
+                                   PQSettings.interfaceOverlayColorGreen/255.0,
+                                   PQSettings.interfaceOverlayColorBlue/255.0,
+                                   PQSettings.interfaceOverlayColorAlpha/255.0)
 
             Behavior on color { ColorAnimation { duration: 200 } }
 

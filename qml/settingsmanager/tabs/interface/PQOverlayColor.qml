@@ -39,136 +39,151 @@ PQSetting {
         Column {
 
             spacing: 10
+            width: set.contwidth
 
-            Flow {
-                spacing: 5
-                width: set.contwidth
+            Row {
 
-                Row {
+                id: rgba_row
 
-                    id: rgba_row
+                spacing: 10
 
-                    spacing: 10
+                Text {
+                    visible: !samecolor_check.checked
+                    y: (rgba_rect.height-height)/2
+                    color: "white"
+                    text: em.pty+qsTranslate("settingsmanager_interface", "window mode")
+                }
 
+                Rectangle {
+                    id: rgba_rect
+                    width: rgba_txt.width+20
+                    height: rgba_txt.height+20
+                    border.width: 1
+                    border.color: "#333333"
+                    color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
                     Text {
-                        visible: !samecolor_check1.checked
-                        y: (rgba_rect.height-height)/2
+                        id: rgba_txt
+                        x: 10
+                        y: 10
                         color: "white"
-                        text: em.pty+qsTranslate("settingsmanager_interface", "window mode")
+                        style: Text.Outline
+                        styleColor: "black"
+                        text: "RGB = %1, %2, %3".arg(rgba[0]).arg(rgba[1]).arg(rgba[2])
                     }
-
-                    Rectangle {
-                        id: rgba_rect
-                        width: rgba_txt.width+20
-                        height: rgba_txt.height+20
-                        border.width: 1
-                        border.color: "#333333"
-                        color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
-                        Text {
-                            id: rgba_txt
-                            x: 10
-                            y: 10
-                            color: "white"
-                            style: Text.Outline
-                            styleColor: "black"
-                            text: "RGBA = %1, %2, %3, %4".arg(rgba[0]).arg(rgba[1]).arg(rgba[2]).arg(rgba[3])
-                        }
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            tooltip: em.pty+qsTranslate("settingsmanager_interface", "click to change color")
-                            onClicked: {
-                                colorDialog.fullscreen = false
-                                colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
-                                colorDialog.visible = true
-                            }
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        tooltip: em.pty+qsTranslate("settingsmanager_interface", "click to change color")
+                        onClicked: {
+                            colorDialog.fullscreen = false
+                            colorDialog.color = Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
+                            colorDialog.visible = true
                         }
                     }
-
                 }
 
-                Item {
-                    visible: !samecolor_check1.checked
-                    width: 15
-                    height: 1
+                Text {
+                    y: (rgba_rect.height-height)/2
+                    color: "white"
+                    text: "opacity"
                 }
 
-                Row {
-                    visible: !samecolor_check1.checked
-
-                    spacing: 10
-
-                    Text {
-                        y: (fullscreen_rgba_rect.height-height)/2
-                        color: "white"
-                        text: em.pty+qsTranslate("settingsmanager_interface", "fullscreen mode")
-                    }
-
-                    Rectangle {
-                        id: fullscreen_rgba_rect
-                        width: fullscreen_rgba_txt.width+20
-                        height: fullscreen_rgba_txt.height+20
-                        border.width: 1
-                        border.color: "#333333"
-                        color: Qt.rgba(fullscreen_rgba[0]/255, fullscreen_rgba[1]/255, fullscreen_rgba[2]/255, fullscreen_rgba[3]/255)
-                        enabled: !samecolor_check1.checked
-                        opacity: enabled ? 1 : 0
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-                        Text {
-                            id: fullscreen_rgba_txt
-                            x: 10
-                            y: 10
-                            color: "white"
-                            style: Text.Outline
-                            styleColor: "black"
-                            text: "RGBA = %1, %2, %3, %4".arg(fullscreen_rgba[0]).arg(fullscreen_rgba[1]).arg(fullscreen_rgba[2]).arg(fullscreen_rgba[3])
-                        }
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            tooltip: em.pty+qsTranslate("settingsmanager_interface", "click to change color")
-                            onClicked: {
-                                colorDialog.fullscreen = true
-                                colorDialog.color = Qt.rgba(fullscreen_rgba[0]/255, fullscreen_rgba[1]/255, fullscreen_rgba[2]/255, fullscreen_rgba[3]/255)
-                                colorDialog.visible = true
-                            }
-                        }
-                    }
-
+                PQSpinBox {
+                    id: rgba_spin
+                    y: (rgba_rect.height-height)/2
+                    from: 50
+                    to: 100
+                    value: 100*rgba[3]/255
                 }
 
-                Item {
-                    visible: samecolor_check1.checked
-                    width: 15
-                    height: 1
-                }
-
-                Item {
-
-                    width: samecolor_check1.width
-                    height: rgba_row.height
-
-                    PQCheckbox {
-                        id: samecolor_check1
-                        y: (parent.height-height)/2
-                        visible: samecolor_check1.checked
-                        text: em.pty+qsTranslate("settingsmanager_interface", "use same color in window and fullscreen mode")
-                        onCheckedChanged:
-                            samecolor_check2.checked = checked
-                    }
-
+                Text {
+                    y: (rgba_rect.height-height)/2
+                    color: "white"
+                    text: "%"
                 }
 
             }
 
+            Item {
+                visible: !samecolor_check.checked
+                width: 15
+                height: 1
+            }
+
+            Row {
+                visible: !samecolor_check.checked
+
+                spacing: 10
+
+                Text {
+                    y: (fullscreen_rgba_rect.height-height)/2
+                    color: "white"
+                    text: em.pty+qsTranslate("settingsmanager_interface", "fullscreen mode")
+                }
+
+                Rectangle {
+                    id: fullscreen_rgba_rect
+                    width: fullscreen_rgba_txt.width+20
+                    height: fullscreen_rgba_txt.height+20
+                    border.width: 1
+                    border.color: "#333333"
+                    color: Qt.rgba(fullscreen_rgba[0]/255, fullscreen_rgba[1]/255, fullscreen_rgba[2]/255, fullscreen_rgba[3]/255)
+                    enabled: !samecolor_check.checked
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    Text {
+                        id: fullscreen_rgba_txt
+                        x: 10
+                        y: 10
+                        color: "white"
+                        style: Text.Outline
+                        styleColor: "black"
+                        text: "RGB = %1, %2, %3".arg(fullscreen_rgba[0]).arg(fullscreen_rgba[1]).arg(fullscreen_rgba[2])
+                    }
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        tooltip: em.pty+qsTranslate("settingsmanager_interface", "click to change color")
+                        onClicked: {
+                            colorDialog.fullscreen = true
+                            colorDialog.color = Qt.rgba(fullscreen_rgba[0]/255, fullscreen_rgba[1]/255, fullscreen_rgba[2]/255, fullscreen_rgba[3]/255)
+                            colorDialog.visible = true
+                        }
+                    }
+                }
+
+                Text {
+                    y: (fullscreen_rgba_rect.height-height)/2
+                    color: "white"
+                    text: "opacity"
+                }
+
+                PQSpinBox {
+                    id: fullscreen_rgba_spin
+                    y: (fullscreen_rgba_rect.height-height)/2
+                    from: 50
+                    to: 100
+                    value: 100*fullscreen_rgba[3]/255
+                }
+
+                Text {
+                    y: (fullscreen_rgba_rect.height-height)/2
+                    color: "white"
+                    text: "%"
+                }
+
+            }
+
+            Item {
+                width: 1
+                height: 1
+            }
+
             PQCheckbox {
-                id: samecolor_check2
-                visible: !samecolor_check2.checked
+                id: samecolor_check
                 text: em.pty+qsTranslate("settingsmanager_interface", "use same color in window and fullscreen mode")
-                onCheckedChanged:
-                    samecolor_check1.checked = checked
             }
 
         }
@@ -178,7 +193,7 @@ PQSetting {
     ColorDialog {
         id: colorDialog
         title: em.pty+qsTranslate("settingsmanager_interface", "please choose a color")
-        showAlphaChannel: true
+        showAlphaChannel: false
         modality: Qt.ApplicationModal
         property bool fullscreen: false
         onAccepted: {
@@ -200,20 +215,22 @@ PQSetting {
 
         onLoadAllSettings: {
             rgba = [PQSettings.interfaceOverlayColorRed, PQSettings.interfaceOverlayColorGreen, PQSettings.interfaceOverlayColorBlue, PQSettings.interfaceOverlayColorAlpha]
-            samecolor_check1.checked = !PQSettings.interfaceFullscreenOverlayColorDifferent
+            samecolor_check.checked = !PQSettings.interfaceFullscreenOverlayColorDifferent
             fullscreen_rgba = [PQSettings.interfaceFullscreenOverlayColorRed, PQSettings.interfaceFullscreenOverlayColorGreen, PQSettings.interfaceFullscreenOverlayColorBlue, PQSettings.interfaceFullscreenOverlayColorAlpha]
+            fullscreen_rgba_spin.value = 100*fullscreen_rgba[3]/255
+            rgba_spin.value = 100*rgba[3]/255
         }
 
         onSaveAllSettings: {
             PQSettings.interfaceOverlayColorRed = rgba[0]
             PQSettings.interfaceOverlayColorGreen = rgba[1]
             PQSettings.interfaceOverlayColorBlue = rgba[2]
-            PQSettings.interfaceOverlayColorAlpha = rgba[3]
-            PQSettings.interfaceFullscreenOverlayColorDifferent = !samecolor_check1.checked
+            PQSettings.interfaceOverlayColorAlpha = Math.ceil(255*rgba_spin.value/100)
+            PQSettings.interfaceFullscreenOverlayColorDifferent = !samecolor_check.checked
             PQSettings.interfaceFullscreenOverlayColorRed = fullscreen_rgba[0]
             PQSettings.interfaceFullscreenOverlayColorGreen = fullscreen_rgba[1]
             PQSettings.interfaceFullscreenOverlayColorBlue = fullscreen_rgba[2]
-            PQSettings.interfaceFullscreenOverlayColorAlpha = fullscreen_rgba[3]
+            PQSettings.interfaceFullscreenOverlayColorAlpha = Math.ceil(255*fullscreen_rgba_spin.value/100)
         }
 
     }
