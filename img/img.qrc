@@ -94,5 +94,15 @@
         <file>mainmenu/setup.png</file>
         <file>mainmenu/streaming.png</file>
         <file>mainmenu/uparrow.png</file>
+        <file>mainmenu/copy.png</file>
+        <file>mainmenu/clipboard.png</file>
+        <file>mainmenu/delete.png</file>
+        <file>mainmenu/move.png</file>
+        <file>mainmenu/rename.png</file>
+        <file>mainmenu/metadata.png</file>
+        <file>mainmenu/histogram.png</file>
+        <file>mainmenu/faces.png</file>
+        <file>mainmenu/scale.png</file>
+        <file>mainmenu/wallpaper.png</file>
     </qresource>
 </RCC>

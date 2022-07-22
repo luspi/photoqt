@@ -30,17 +30,22 @@ Window {
 
     id: context_top
 
-    width: submenu.width+20
-    height: submenu.height
+    width: submenu.width+30
+    height: submenu.height+20
 
     visible: false
 
     modality: Qt.NonModal
     flags: Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint
 
-    color: "#dd000000"
+    color: "#dd2f2f2f"
 
     property bool containsMouse: false
+
+    onActiveChanged: {
+        if(!active)
+            hideMenu()
+    }
 
     MouseArea {
         id: backmouse
@@ -69,46 +74,48 @@ Window {
 
     property var allitems_internal: [
 
-        ["open",
-         "",
-         //: This is an entry in the main menu on the right. Please keep short!
-         ["__open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), 1, false]],
-
-        ["",
-         ""],
-
-        ["zoom",
-         em.pty+qsTranslate("MainMenu", "Zoom"),
-         ["__zoomIn", "img:zoomin", 0, true],
-         ["__zoomOut", "img:zoomout", 0, true],
-         ["__zoomReset", "img:reset", 0, true],
-         ["__zoomActual", "1:1", 0, true]],
-
-        ["rotate",
-         em.pty+qsTranslate("MainMenu", "Rotate"),
-         ["__rotateL", "img:rotateleft", 0, true],
-         ["__rotateR", "img:rotateright", 0, true],
-         ["__rotate0", "img:reset", 0, true]],
-
-        ["flip",
-         em.pty+qsTranslate("MainMenu", "Flip"),
-         ["__flipH", "img:leftrightarrow", 0, true],
-         ["__flipV", "img:updownarrow", 0, true],
-         ["__flipReset", "img:reset", 0, true]],
-
-        ["",
-         ""],
+        ["rename",
+          "",
+          //: This is an entry in the main menu on the right. Please keep short!
+          ["__rename",em.pty+qsTranslate("MainMenu", "Rename file"), 1, true]],
 
         ["copy",
           "",
-          //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
-          ["__rename",em.pty+qsTranslate("MainMenu", "rename"), 1, true],
-          //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
-          ["__copy",em.pty+qsTranslate("MainMenu", "copy"), 1, true],
-          //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
-          ["__move",em.pty+qsTranslate("MainMenu", "move"), 1, true],
-          //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
-          ["__delete",em.pty+qsTranslate("MainMenu", "delete"), 1, true]],
+          //: This is an entry in the main menu on the right. Please keep short!
+          ["__copy",em.pty+qsTranslate("MainMenu", "Copy file"), 1, true]],
+
+        ["move",
+          "",
+          //: This is an entry in the main menu on the right. Please keep short!
+          ["__move",em.pty+qsTranslate("MainMenu", "Move file"), 1, true]],
+
+        ["delete",
+          "",
+          //: This is an entry in the main menu on the right. Please keep short!
+          ["__delete",em.pty+qsTranslate("MainMenu", "Delete file"), 1, true]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["clipboard",
+         "",
+         ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), 1, true]],
+
+        ["",
+         ""],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["metadata",
+         "",
+         ["__showMetaData", PQSettings.metadataElementVisible ? (em.pty+qsTranslate("MainMenu", "Hide metadata")) : (em.pty+qsTranslate("MainMenu", "Show metadata")), 1, true]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["histogram",
+         "",
+         ["__histogram", PQSettings.histogramVisible ? (em.pty+qsTranslate("MainMenu", "Hide histogram")) : (em.pty+qsTranslate("MainMenu", "Show histogram")), 1, true]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["wallpaper",
+         "",
+         ["__wallpaper", em.pty+qsTranslate("MainMenu", "Set as wallpaper"), 1, true]],
 
         //: This is an entry in the main menu on the right. Please keep short!
         ["faces",
@@ -116,20 +123,22 @@ Window {
          ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), 1, true]],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["clipboard",
+        ["scale",
          "",
-         ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), 1, true]]
+         ["__scale", em.pty+qsTranslate("MainMenu", "Scale"), 1, true]],
 
     ]
 
     property var allitems_external: []
 
-    property var allitems: allitems_internal.concat([["",""]]).concat(allitems_external)
+    property var allitems: allitems_external.length > 0 ? (allitems_internal.concat([["",""]]).concat(allitems_external)) : allitems_internal
 
     Item {
 
         id: submenu
 
+        x: 10
+        y: 10
         width: listview.width
         height: listview.height+10
 
@@ -139,14 +148,14 @@ Window {
 
             x: 5
             y: 5
-            width: Math.max(allwidths)+20
+            width: maxWidth
             height: childrenRect.height
 
             model: allitems.length
 
             boundsBehavior: ListView.StopAtBounds
 
-            property var allwidths: []
+            property int maxWidth: 100
 
             delegate: Item {
 
@@ -172,12 +181,17 @@ Window {
                     id: managerow
                     y: 5
                     height: sep.visible ? 0 : childrenRect.height
+
+                    onWidthChanged:
+                        listview.maxWidth = Math.max(listview.maxWidth, width)
+
                     spacing: 10
                     visible: !sep.visible
                     clip: true
                     Image {
                         width: 20
                         height: 20
+                        mipmap: true
                         source: (allitems[index][0].toString().match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) : (allitems[index][0]!="" ? ("/mainmenu/"+allitems[index][0]+".png") : "")
                     }
 
@@ -214,7 +228,7 @@ Window {
                                 visible: !img.visible
                                 color: enabled ? (parent.hovered ? "white" : "#cccccc") : "#555555"
                                 Behavior on color { ColorAnimation { duration: 100 } }
-                                text: visible ? allitems[topindex][2+index][1] : ""
+                                text: visible ? (allitems[topindex][2+index][1] + "  ") : ""
                                 font.pointSize: 11
                                 font.bold: true
                             }
@@ -238,11 +252,6 @@ Window {
                                 }
                             }
                         }
-                    }
-
-                    Component.onCompleted: {
-                        listview.allwidths.push(managerow.width)
-                        listview.allwidthsChanged()
                     }
 
                 }
