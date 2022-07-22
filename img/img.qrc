@@ -6,23 +6,10 @@
         <file>image/plainerrorimg.png</file>
         <file>other/icon.png</file>
         <file>mainmenu/about.png</file>
-        <file>mainmenu/copy.png</file>
-        <file>mainmenu/delete.png</file>
-        <file>mainmenu/faces.png</file>
         <file>mainmenu/filter.png</file>
-        <file>mainmenu/flip.png</file>
-        <file>mainmenu/goto.png</file>
-        <file>mainmenu/histogram.png</file>
-        <file>mainmenu/metadata.png</file>
-        <file>mainmenu/move.png</file>
         <file>mainmenu/open.png</file>
         <file>mainmenu/quit.png</file>
-        <file>mainmenu/rename.png</file>
-        <file>mainmenu/rotate.png</file>
-        <file>mainmenu/scale.png</file>
-        <file>mainmenu/settings.png</file>
         <file>mainmenu/slideshow.png</file>
-        <file>mainmenu/zoom.png</file>
         <file>mainmenu/zoomin.png</file>
         <file>mainmenu/zoomout.png</file>
         <file>multimedia/pause.png</file>
@@ -81,15 +68,12 @@
         <file>filedialog/upwards.png</file>
         <file>filedialog/forwards.png</file>
         <file>mainwindow/menu.png</file>
-        <file>mainmenu/clipboard.png</file>
         <file>startup/individual.png</file>
         <file>startup/mixed.png</file>
         <file>startup/single.png</file>
-        <file>mainmenu/chromecast.png</file>
         <file>streaming/refresh.png</file>
         <file>other/logo_smallinsidelarge.jpg</file>
         <file>streaming/chromecastactive.png</file>
-        <file>mainmenu/logging.png</file>
         <file>mainmenu/sort.png</file>
         <file>mainmenu/leftarrow.png</file>
         <file>mainmenu/rightarrow.png</file>
@@ -100,5 +84,15 @@
         <file>mainmenu/updownarrow.png</file>
         <file>slideshow/exit.png</file>
         <file>other/close.png</file>
+        <file>mainmenu/actualsize.png</file>
+        <file>mainmenu/first.png</file>
+        <file>mainmenu/fittoscreen.png</file>
+        <file>mainmenu/help.png</file>
+        <file>mainmenu/last.png</file>
+        <file>mainmenu/next.png</file>
+        <file>mainmenu/prev.png</file>
+        <file>mainmenu/setup.png</file>
+        <file>mainmenu/streaming.png</file>
+        <file>mainmenu/uparrow.png</file>
     </qresource>
 </RCC>

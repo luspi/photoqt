@@ -29,17 +29,16 @@ Rectangle {
 
     id: mainmenu_top
 
-    color: "#ee000000"
+    color: "#dd2f2f2f"
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
-    width: (PQSettings.interfacePopoutMainMenu ? parentWidth : PQSettings.mainmenuElementWidth)
-    height: parentHeight+2
+
     x: parentWidth-width+1
     y: -1
+    width: (PQSettings.interfacePopoutMainMenu ? parentWidth : PQSettings.mainmenuElementWidth)
+    height: parentHeight+2
 
-    border.color: "#55bbbbbb"
-    border.width: 1
 
     opacity: 0
     visible: opacity != 0
@@ -78,8 +77,7 @@ Rectangle {
 
     Component.onCompleted: {
         if(PQSettings.interfacePopoutMainMenu)
-                mainmenu_top.opacity = 1
-        readExternalContextmenu()
+            mainmenu_top.opacity = 1
     }
 
     Connections {
@@ -90,9 +88,10 @@ Rectangle {
         }
     }
 
-    MouseArea {
 
-        anchors.fill: parent;
+
+    PQMouseArea {
+        anchors.fill: parent
         hoverEnabled: true
 
         acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
@@ -136,55 +135,21 @@ Rectangle {
 
         }
 
-    }
 
-    property var allitems_external: []
-
-    Text {
-
-        id: heading
-        y: 10
-        x: (parent.width-width)/2
-        font.pointSize: 15
-        color: "white"
-        font.bold: true
-        //: This is the heading of the main menu element
-        text: em.pty+qsTranslate("MainMenu", "Main Menu")
-
-    }
-
-    Rectangle {
-        id: spacingbelowheader
-        x: 5
-        y: heading.y+heading.height+10
-        height: 1
-        width: parent.width-10
-        color: "#88ffffff"
     }
 
     Flickable {
 
         id: flick
 
-        x: 10
-        y: spacingbelowheader.y + spacingbelowheader.height+10
-        width: parent.width-20
-        height: parent.height-y-helptext.height-10
-        contentHeight: col.height
+        anchors.fill: parent
+        anchors.margins: 20
+        anchors.topMargin: 0
 
-        clip: true
+        contentHeight: col.height
 
         boundsBehavior: Flickable.OvershootBounds
         ScrollBar.vertical: PQScrollBar {}
-
-        PQMouseArea {
-            anchors.fill: parent
-            onWheel: {
-                var newy = flick.contentY - wheel.angleDelta.y
-                // set new contentY, but don't move beyond top/bottom end of view
-                flick.contentY = Math.max(0, Math.min(newy, flick.contentHeight-flick.height))
-            }
-        }
 
         Column {
 
@@ -193,238 +158,166 @@ Rectangle {
             width: parent.width
 
             PQMainMenuGroup {
-                heading: ""
-                allitems: [
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "Navigation")
+                rightcolCenter: true
+                leftcol: [[["img", "open",                                          "__open", true, false],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Browse images"), "__open", true, false]],
 
-                    ["open",
-                     "",
-                     //: This is an entry in the main menu on the right. Please keep short!
-                     ["__open", em.pty+qsTranslate("MainMenu", "Open file (browse images)"), 1, false]],
+                          [["img", "first",                                 "__goToFirst", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "first"), "__goToFirst", false, true],
+                           ["txt", " ",                                     "",            false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "last"),  "__goToLast" , false, true],
+                           ["img", "last",                                  "__goToLast" , false, true]]]
 
-                    ["settings",
-                     "",
-                     //: This is an entry in the main menu on the right. Please keep short!
-                     ["__settings", em.pty+qsTranslate("MainMenu", "Settings"), 1, false]],
-
-                    ["about",
-                     "",
-                     //: This is an entry in the main menu on the right. Please keep short!
-                     ["__about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), 1, false]],
-
-                    ["quit",
-                     "",
-                     //: This is an entry in the main menu on the right. Please keep short!
-                     ["__quit", em.pty+qsTranslate("MainMenu", "Quit"), 1, false]]
-                ]
+                rightcol: [["img", "leftarrow",  "__prev", false, true],
+                           ["img", "rightarrow", "__next", false, true]]
             }
-
-            Item { width: parent.width; height: 10 }
-
-            Rectangle {
-                width: parent.width
-                height: 1
-                color: "#555555"
-            }
-
-            Item { width: parent.width; height: 10 }
 
             PQMainMenuGroup {
-                heading: ""
-                allitems: [
-                    ["goto",
-                     em.pty+qsTranslate("MainMenu", "Go to"),
-                     ["__prev", "img:leftarrow", 0, true],
-                     ["__next", "img:rightarrow", 0, true],
-                     //: This is an entry in the main menu on the right, used as in: first image in list. Please keep short!
-                     ["__goToFirst", em.pty+qsTranslate("MainMenu", "first"), 0, true],
-                     //: This is an entry in the main menu on the right, used as in: last image in list. Please keep short!
-                     ["__goToLast", em.pty+qsTranslate("MainMenu", "last"), 0, true]],
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "Zoom")
+                rightcolCenter: true
+                leftcol: [[["img", "actualsize",                                  "__zoomActual",  false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Actual size"), "__zoomActual",  false, true]],
 
-                    ["zoom",
-                     em.pty+qsTranslate("MainMenu", "Zoom"),
-                     ["__zoomIn", "img:zoomin", 0, true],
-                     ["__zoomOut", "img:zoomout", 0, true],
-                     ["__zoomReset", "img:reset", 0, true],
-                     ["__zoomActual", "1:1", 0, true]],
+                          [["img", "fittoscreen",                                   "__zoomReset", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Fit to screen"), "__zoomReset", false, true]]]
 
-                    ["rotate",
-                     em.pty+qsTranslate("MainMenu", "Rotate"),
-                     ["__rotateL", "img:rotateleft", 0, true],
-                     ["__rotateR", "img:rotateright", 0, true],
-                     ["__rotate0", "img:reset", 0, true]],
-
-                    ["flip",
-                     em.pty+qsTranslate("MainMenu", "Flip"),
-                     ["__flipH", "img:leftrightarrow", 0, true],
-                     ["__flipV", "img:updownarrow", 0, true],
-                     ["__flipReset", "img:reset", 0, true]]
-
-                ]
+                rightcol: [["img", "zoomin",  "__zoomIn",  false, true],
+                           ["img", "zoomout", "__zoomOut", false, true]]
             }
-
-            Item { width: parent.width; height: 10 }
-
-            Rectangle {
-                width: parent.width
-                height: 1
-                color: "#555555"
-            }
-
-            Item { width: parent.width; height: 10 }
 
             PQMainMenuGroup {
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "Rotation/Flip")
+                rightcolCenter: true
+                leftcol: [[["img", "leftrightarrow",                                  "__flipH", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Horizontal flip"), "__flipH", false, true]],
 
-                heading: em.pty+qsTranslate("MainMenu", "current image/file")
+                          [["img", "updownarrow",                                   "__flipV", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Vertical flip"), "__flipV", false, true]]]
 
-                allitems: [
-                    ["copy",
-                      "",
-                     //: This is an entry in the main menu on the right, used as in: rename file. Please keep short!
-                      ["__rename",em.pty+qsTranslate("MainMenu", "rename"), 1, true],
-                      //: This is an entry in the main menu on the right, used as in: copy file. Please keep short!
-                      ["__copy",em.pty+qsTranslate("MainMenu", "copy"), 1, true],
-                      //: This is an entry in the main menu on the right, used as in: move file. Please keep short!
-                      ["__move",em.pty+qsTranslate("MainMenu", "move"), 1, true],
-                      //: This is an entry in the main menu on the right, used as in: delete file. Please keep short!
-                      ["__delete",em.pty+qsTranslate("MainMenu", "delete"), 1, true]],
+                rightcol: [["img", "rotateleft",  "__rotateL", false, true],
+                           ["img", "rotateright", "__rotateR", false, true]]
+            }
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["metadata",
-                     "",
-                     ["__showMetaData", em.pty+qsTranslate("MainMenu", "Show/Hide metadata"), 0, true]],
+            PQMainMenuGroup {
+                title: ""
+                rightcolNormal: true
+                noSpacingAtTop: true
+                rightcolCenter: true
+                leftcol: [[["img", "reset",                                      "__flipReset", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Reset flip"), "__flipReset", false, true]]]
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["histogram",
-                     "",
-                     ["__histogram", em.pty+qsTranslate("MainMenu", "Show/Hide histogram"), 0, true]],
+                rightcol: [["img", "reset",                                          "__rotate0", false, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Reset rotation"), "__rotate0",   false, true]]
+            }
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["settings",
-                     "",
-                     ["__wallpaper", em.pty+qsTranslate("MainMenu", "Wallpaper"), 1, true]],
+            PQMainMenuGroup {
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "Slideshow")
+                rightcolNormal: true
+                leftcol: [[["img", "slideshow",                                 "__slideshowQuick", true, true],
+                                   //: This is an entry in the main menu on the right, used as in "START slideshow/sorting". Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Start"),     "__slideshowQuick", true, true]]]
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["faces",
-                     "",
-                     ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), 1, true]],
+                rightcol: [["img", "setup",                                 "__slideshow", true, true],
+                                   //: This is an entry in the main menu on the right, used as in "SETUP slideshow/sorting". Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Setup"), "__slideshow", true, true]]
+            }
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["clipboard",
-                     "",
-                     ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), 1, true]],
+            PQMainMenuGroup {
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "Advanced Sort")
+                rightcolNormal: true
+                leftcol: [[["img", "sort",                                  "__advancedSortQuick", true, true],
+                                   //: This is an entry in the main menu on the right, used as in "START slideshow/sorting". Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Start"), "__advancedSortQuick", true, true]]]
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["scale",
-                     "",
-                     ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), 1, true]]
+                rightcol: [["img", "setup",                                 "__advancedSort", true, true],
+                                   //: This is an entry in the main menu on the right, used as in "SETUP slideshow/sorting". Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Setup"), "__advancedSort", true, true]]
+            }
 
-                ]
+            PQMainMenuGroup {
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "Other")
+                leftcol: [[["img", "filter",                                        "__filterImages", true, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Filter images"), "__filterImages", true, true]],
 
-                expanded: PQSettings.mainmenuExpandCurrentImage
-                onExpandedChanged:
-                    PQSettings.mainmenuExpandCurrentImage = expanded
+                          [["img", "streaming",                                              "__chromecast", true, false],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "__chromecast", true, false]],
+
+                          [["img", "open",                                                         "__defaultFileManager", true, true],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "__defaultFileManager", true, true]]]
 
             }
 
             PQMainMenuGroup {
+                id: ext
+                //: Used as heading for a group of entries in the main menu on the right. Please keep short!
+                title: em.pty+qsTranslate("MainMenu", "External")
+                external: true
 
-                heading: em.pty+qsTranslate("MainMenu", "current folder")
-                allitems: [
+                visible: PQSettings.mainmenuShowExternal
 
-                    ["sort",
-                     //: This is an entry in the main menu on the right. Please keep short!
-                     em.pty+qsTranslate("MainMenu", "Advanced sort"),
-                     //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
-                     ["__advancedSort", em.pty+qsTranslate("MainMenu", "setup"), 1, true],
-                     //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
-                     ["__advancedSortQuick", em.pty+qsTranslate("MainMenu", "quickstart"), 1, true]],
+                Component.onCompleted:
+                    readExternalEntries()
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["slideshow",
-                     em.pty+qsTranslate("MainMenu", "Slideshow"),
-                     //: This is an entry in the main menu on the right, used as in: setting up a slideshow. Please keep short!
-                     ["__slideshow", em.pty+qsTranslate("MainMenu", "setup"), 1, true],
-                     //: This is an entry in the main menu on the right, used as in: quickstarting a slideshow. Please keep short!
-                     ["__slideshowQuick", em.pty+qsTranslate("MainMenu", "quickstart"), 1, true]],
+                Connections {
+                    target: filewatcher
+                    onContextmenuChanged: {
+                        ext.readExternalEntries()
+                    }
+                }
 
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["filter",
-                     "",
-                     ["__filterImages", em.pty+qsTranslate("MainMenu", "Filter images in folder"), 1, true]],
+                function readExternalEntries() {
+                    var tmpentries = handlingExternal.getContextMenuEntries()
+                    var entries = []
+                    for(var i = 0; i < tmpentries.length; ++i) {
+                        var e = [["img", "icn:"+tmpentries[i][0], tmpentries[i][1], tmpentries[i][3], true],
+                                 ["txt", tmpentries[i][2], tmpentries[i][1], tmpentries[i][3], true]]
+                        entries.push(e)
+                    }
+                    ext.leftcol = entries
 
-                    //: This is an entry in the main menu on the right, 'streaming' as in stream PhotoQt to Chromecast devices. Please keep short!
-                    ["chromecast",
-                     "",
-                     ["__chromecast", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), 1, true]],
-
-                    //: This is an entry in the main menu on the right. Please keep short!
-                    ["open",
-                     "",
-                     ["__defaultFileManager", em.pty+qsTranslate("MainMenu", "Open in default file manager"), 0, true]]
-
-                ]
-
-                expanded: PQSettings.mainmenuExpandCurrentFolder
-                onExpandedChanged:
-                    PQSettings.mainmenuExpandCurrentFolder = expanded
-
+                }
             }
 
             PQMainMenuGroup {
+                title: "PhotoQt"
+                rightcolNormal: true
+                leftcol: [[["img", "setup",                                    "__settings", true, false],
+                           ["txt", em.pty+qsTranslate("MainMenu", "Settings"), "__settings", true, false]]]
 
-                id: custom
-
-                heading: em.pty+qsTranslate("MainMenu", "custom commands")
-                callExternal: true
-                visible: allitems.length>0
-
-                expanded: PQSettings.mainmenuExpandCustomCommands
-                onExpandedChanged:
-                    PQSettings.mainmenuExpandCustomCommands = expanded
-
+                rightcol: [["img", "about",                                 "__about", true, false],
+                           ["txt", em.pty+qsTranslate("MainMenu", "About"), "__about", true, false]]
             }
 
-        }
+            PQMainMenuGroup {
+                title: ""
+                rightcolNormal: true
+                noSpacingAtTop: true
+                leftcol: [[["img", "help",                                        "__onlineHelp", true, false],
+                           ["txt", em.pty+qsTranslate("MainMenu", "Online help"), "__onlineHelp", true, false]]]
 
-    }
+                rightcol: [["img", "quit",                                 "__quit", true, false],
+                           ["txt", em.pty+qsTranslate("MainMenu", "Quit"), "__quit", true, false]]
+            }
 
-
-    Rectangle {
-        anchors {
-            bottom: helptext.top
-            left: parent.left
-            right: parent.right
-        }
-        height: 1
-        color: "#22ffffff"
-
-    }
-
-    Text {
-
-        id: helptext
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-
-        height: 100
-
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-
-        color: "grey"
-        wrapMode: Text.WordWrap
-
-        text: em.pty+qsTranslate("MainMenu", "Click here to go to the online manual for help regarding shortcuts, settings, features, ...")
-
-        PQMouseArea {
-            anchors.fill: parent
-            tooltip: "https://photoqt.org/man"
-            cursorShape: Qt.PointingHandCursor
-            onClicked: Qt.openUrlExternally("https://photoqt.org/man")
         }
 
     }
@@ -460,73 +353,6 @@ Rectangle {
         }
     }
 
-    Row {
-        x: (parent.width-width-10)
-        y: 10
-        spacing: 10
-
-        Image {
-            width: heading.height
-            height: heading.height
-            source: "/mainwindow/menu.png"
-            opacity: mainmenu_mouse.containsMouse ? 0.8 : 0.5
-            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-            visible: PQSettings.interfaceNavigationTopRight
-            PQMouseArea {
-                id: mainmenu_mouse
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: em.pty+qsTranslate("quickinfo", "Click here to show main menu")
-                onClicked:
-                    toggle()
-            }
-        }
-
-        Image {
-            width: heading.height
-            height: heading.height
-            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
-            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.5
-            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-            PQMouseArea {
-                id: fullscreen_mouse
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: (PQSettings.interfaceWindowMode ? em.pty+qsTranslate("quickinfo", "Click here to enter fullscreen mode")
-                                                : em.pty+qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
-                onClicked:
-                    PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
-            }
-        }
-
-        Image {
-            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceLabelsAlwaysShowX
-            width: heading.height
-            height: heading.height
-            source: "/other/close.png"
-            mipmap: true
-            PQMouseArea {
-                anchors.fill: parent
-                anchors.rightMargin: -10
-                anchors.topMargin: -10
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
-                onClicked:
-                    toplevel.close()
-            }
-        }
-    }
-
-    Connections {
-        target: filewatcher
-        onContextmenuChanged: {
-            readExternalContextmenu()
-        }
-    }
-
     Connections {
         target: loader
         onMainmenuPassOn: {
@@ -535,16 +361,7 @@ Rectangle {
         }
     }
 
-    function readExternalContextmenu() {
-        var tmpentries = handlingExternal.getContextMenuEntries()
-        var entries = []
-        for(var i = 0; i < tmpentries.length; ++i) {
-            var e = ["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], 1*tmpentries[i][3], true]]
-            entries.push(e)
-        }
-        custom.allitems = entries
 
-    }
 
     function toggle() {
         if(PQSettings.interfacePopoutMainMenu) return
@@ -556,5 +373,6 @@ Rectangle {
             forceHide = false
         }
     }
+
 
 }

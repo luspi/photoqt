@@ -36,7 +36,7 @@ Item {
 
     property bool visibleAlways: false
 
-    z: (visibleAlways&&!variables.mainMenuVisible&&variables.visibleItem!="filedialog") ? 999 : 0
+    z: (visibleAlways&&variables.visibleItem!="filedialog") ? 999 : 0
 
     // clicks between buttons has no effect anywhere
     PQMouseArea {
@@ -102,7 +102,7 @@ Item {
             height: 3*PQSettings.interfaceLabelsWindowButtonsSize
             source: "/mainwindow/menu.png"
 
-            opacity: visibleAlways||variables.slideShowActive ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
+            opacity: (visibleAlways && !variables.mainMenuVisible)||variables.slideShowActive ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
             mipmap: true

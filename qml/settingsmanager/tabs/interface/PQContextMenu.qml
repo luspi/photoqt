@@ -30,8 +30,8 @@ PQSetting {
     id: set
 
     //: A settings title.
-    title: em.pty+qsTranslate("settingsmanager_interface", "custom main menu entries")
-    helptext: em.pty+qsTranslate("settingsmanager_interface", "Add some custom entries in the main menu on the right.")
+    title: em.pty+qsTranslate("settingsmanager_interface", "custom context menu entries")
+    helptext: em.pty+qsTranslate("settingsmanager_interface", "Add some custom entries to the context menu.")
 
     expertmodeonly: false
 
@@ -45,13 +45,21 @@ PQSetting {
     content: [
         Rectangle {
             width: contwidth-20
-            height: childrenRect.height+20
+            height: variables.settingsManagerExpertMode ? (showExternal.height+entrycol.height+40) : (entrycol.height+20)
             color: "#111111"
             radius: 5
 
+            PQCheckbox {
+                id: showExternal
+                visible: variables.settingsManagerExpertMode
+                x: 10
+                y: 10
+                text: "Also show entries in main menu"
+            }
+
             Column {
                 id: entrycol
-                y: 10
+                y: variables.settingsManagerExpertMode ? (showExternal.y+showExternal.height+20) : 10
                 width: parent.width
                 spacing: 10
                 Repeater {
@@ -201,12 +209,14 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
+            showExternal.checked = PQSettings.mainmenuShowExternal
             entries = handlingExternal.getContextMenuEntries()
             addNewEntry()
         }
 
         onSaveAllSettings: {
             handlingExternal.saveContextMenuEntries(entries)
+            PQSettings.mainmenuShowExternal = showExternal.checked
         }
 
     }

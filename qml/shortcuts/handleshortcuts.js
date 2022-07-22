@@ -158,7 +158,9 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd == "__advancedSortQuick") {
         loader.show("advancedsortbusy")
         filefoldermodel.advancedSortMainView()
-    } else {
+    } else if(cmd == "__onlineHelp")
+        Qt.openUrlExternally("https://photoqt.org/man")
+    else {
         handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()

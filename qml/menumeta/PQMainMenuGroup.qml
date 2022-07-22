@@ -25,177 +25,232 @@ import QtQuick.Controls 2.2
 import "../elements"
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Item {
-
-    id: top
+Column {
 
     width: parent.width
-    height: headingrect.height+submenu.height
 
-    // each entry is of the same form:
-    // [icon name,
-    //  title text (inactive text) - optional (leave as "" if not wanted),
-    //  all options as individual lists: [command, name, hide=1/close=2]
-    // ]
-    property var allitems: []
+    property string title: ""
+    property var leftcol: []
+    property var rightcol: []
+    property bool external: false
+    property bool rightcolNormal: false
+    property bool rightcolCenter: false
+    property bool noSpacingAtTop: false
 
-    // setting/leaving this property empty hides the header bar and keeps the submenu always visible
-    property alias heading: headingtxt.text
+    Item {
+        width: 1
+        height: noSpacingAtTop ? 0 : 30
+    }
 
-    // whether the shortcut is guaranteed to be internal or external
-    property bool callExternal: false
-
-    property alias expanded: submenu.showme
-
-    Rectangle {
-
-        id: headingrect
-
-        x: 0
-        width: parent.width
-        height: visible ? (headingtxt.height+20) : 0
-        visible: headingtxt.text!=""
-
-        clip: true
-
-        property bool hovered: false
-
-        color: hovered ? "#282828" : "#181818"
-        Behavior on color { ColorAnimation { duration: 100 } }
-
-        Image {
-            width: 15
-            height: 15
-            x: 20
-            y: (parent.height-height)/2
-            opacity: 0.2
-            source: submenu.showme ? "/mainmenu/zoomout.png" : "/mainmenu/zoomin.png"
-        }
-
-        Text {
-            id: headingtxt
-            x: (parent.width-width)/2
-            y: 10
-            color: "#cccccc"
-            font.pointSize: 13
-        }
-
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onEntered: parent.hovered = true
-            onExited: parent.hovered = false
-            onClicked:
-                submenu.showme = !submenu.showme
-        }
-
-
+    Text {
+        visible: text!=""
+        color: "#666666"
+        font.pointSize: 15
+        font.bold: true
+        text: parent.title
     }
 
     Item {
-
-        id: submenu
-
-        property bool showme: (headingtxt.text=="")
-
-        y: headingrect.height
+        visible: parent.title!=""
         width: parent.width
-        height: showme ? listview.height+10 : 0
-        Behavior on height { NumberAnimation { duration: 250 } }
+        height: 1
+    }
 
-        clip: true
+    Item {
+        width: 1
+        height: 10
+    }
 
-        ListView {
+    Row {
 
-            id: listview
+        spacing: 10
 
-            x: 5
-            y: 5
-            width: parent.width-10
-            height: childrenRect.height
+        width: parent.width
 
-            model: allitems.length
+        Column {
 
-            boundsBehavior: ListView.StopAtBounds
+            id: nav_col
 
-            delegate: Item {
+            spacing: 10
 
-                width: listview.width
-                height: managerow.height+10
+            width: rightcol.length==0 ? flick.width : (flick.width/2)
 
-                property int topindex: index
+            Repeater {
+                model: leftcol.length
 
                 Row {
-                    id: managerow
-                    y: 5
-                    height: childrenRect.height
-                    width: childrenRect.width
+                    id: row
                     spacing: 10
-                    Image {
-                        width: 20
-                        height: 20
-                        source: (allitems[index][0].toString().match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) : ("/mainmenu/"+allitems[index][0]+".png")
-                    }
-
-                    Text {
-                        id: nametxt
-                        color: "#666666"
-                        visible: allitems[topindex][1]!=""
-                        text: visible ? (allitems[topindex][1]+":") : ""
-                        font.pointSize: 11
-                        font.bold: true
-                    }
-
+                    property int outerIndex: index
+                    property bool mouseOver: false
                     Repeater {
-                        model: allitems[topindex].length-2
+                        model: leftcol[outerIndex].length
+
                         Item {
-                            width: Math.max(txt.width, img.width)
-                            height: Math.max(txt.height, img.height)
-                            property bool hovered: false
-                            enabled: (!allitems[topindex][2+index][3] || filefoldermodel.current!=-1)
+
+                            y: (parent.height-height)/2
+
+                            width: childrenRect.width
+                            height: childrenRect.height
+
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                enabled: leftcol[outerIndex][index][4] && filefoldermodel.current==-1
+                                tooltip: em.pty+qsTranslate("MainMenu", "You need to load an image first.")
+                            }
+
                             Image {
-                                id: img
-                                width: nametxt.height
-                                height: nametxt.height
-                                visible: allitems[topindex][2+index][1].toString().match("^img:")=="img:"
-                                opacity: enabled ? (parent.hovered ? 1 : 0.8) : 0.2
-                                Behavior on opacity { NumberAnimation { duration: 100 } }
-                                source: visible ? ("/mainmenu/"+allitems[topindex][2+index][1].slice(4)+".png") : ""
+                                enabled: !leftcol[outerIndex][index][4] || filefoldermodel.current!=-1
+
+                                y: 0.2*height
+                                visible: leftcol[outerIndex][index][0] == "img"
+                                source: !visible ? ""
+                                                 : ((leftcol[outerIndex][index][1].match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(leftcol[outerIndex][index][1].slice(4))) : ("/mainmenu/" + leftcol[outerIndex][index][1] + ".png"))
+                                height: visible ? (txt.height*0.8) : 0
+                                width: height
                                 mipmap: true
+                                opacity: enabled ? (row.mouseOver ? 1 : 0.8) : 0.4
+                                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                                PQMouseArea {
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onEntered: row.mouseOver = true
+                                    onExited: row.mouseOver = false
+                                    onClicked: parent.parent.click()
+                                }
                             }
                             Text {
+                                enabled: !leftcol[outerIndex][index][4] || filefoldermodel.current!=-1
+
                                 id: txt
-                                visible: !img.visible
-                                color: enabled ? (parent.hovered ? "white" : "#cccccc") : "#555555"
-                                Behavior on color { ColorAnimation { duration: 100 } }
-                                text: visible ? allitems[topindex][2+index][1] : ""
-                                font.pointSize: 11
-                                font.bold: true
+                                visible: leftcol[outerIndex][index][0] == "txt"
+                                color: "white"
+                                text: visible ? leftcol[outerIndex][index][1] : " "
+                                font.pointSize: 12
+                                opacity: enabled ? (row.mouseOver ? 1 : 0.8) : 0.4
+                                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                                PQMouseArea {
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onEntered: row.mouseOver = true
+                                    onExited: row.mouseOver = false
+                                    onClicked: parent.parent.click()
+                                }
                             }
+
+                            function click() {
+
+                                if(variables.visibleItem != "" && leftcol[outerIndex][index][1] != "quit")
+                                    return
+
+                                if(external)
+                                    handlingExternal.executeExternal(leftcol[outerIndex][index][2], filefoldermodel.currentFilePath)
+                                else
+                                    HandleShortcuts.executeInternalFunction(leftcol[outerIndex][index][2])
+
+                                if(leftcol[outerIndex][index][3]) {
+                                    if(external)
+                                        toplevel.closePhotoQt()
+                                    else if(!PQSettings.interfacePopoutMainMenu)
+                                        forceHide = true
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+
+        Item {
+
+            width: rightcol.length==0 ? 0 : (flick.width/2)
+            height: row2.height
+
+            Row {
+
+                id: row2
+
+                spacing: rightcolNormal ? 10 : 30
+
+                property bool mouseOver: false
+
+                Repeater {
+                    model: rightcol.length
+
+                    Item {
+
+                        y: (nav_col.height-height)/2
+
+                        width: childrenRect.width
+                        height: childrenRect.height
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            enabled: rightcol[index][4] && filefoldermodel.current==-1
+                            tooltip: em.pty+qsTranslate("MainMenu", "You need to load an image first.")
+                        }
+
+                        Image {
+                            enabled: !rightcol[index][4] || filefoldermodel.current!=-1
+
+                            y: rightcolNormal ? 0.2*height : 0
+                            visible: rightcol[index][0] == "img"
+                            source: visible ? ("/mainmenu/" + rightcol[index][1] + ".png") : ""
+                            height: visible ? (rightcolNormal ? (txt2.height*0.8) : (txt2.height*2)) : 0
+                            width: height
+                            mipmap: true
+                            opacity: enabled ? (row2.mouseOver ? 1 : 0.8) : 0.4
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                onEntered:
-                                    parent.hovered = true
-                                onExited:
-                                    parent.hovered = false
-                                onClicked: {
-
-                                    if(callExternal)
-                                        handlingExternal.executeExternal(allitems[topindex][2+index][0], filefoldermodel.currentFilePath)
-                                    else
-                                        HandleShortcuts.executeInternalFunction(allitems[topindex][2+index][0])
-
-                                    if(allitems[topindex][2+index][2] == 1)
-                                        mainmenu_top.opacity = 0
-                                    else if(allitems[topindex][2+index][2] == 2)
-                                        toplevel.closePhotoQt()
-
-                                }
+                                onEntered: row2.mouseOver = true
+                                onExited: row2.mouseOver = false
+                                onClicked: parent.parent.click()
                             }
                         }
+                        Text {
+                            enabled: !rightcol[index][4] || filefoldermodel.current!=-1
+                            id: txt2
+                            visible: rightcol[index][0] == "txt"
+                            color: "white"
+                            text: visible ? rightcol[index][1] : " "
+                            font.pointSize: 12
+                            opacity: enabled ? (row2.mouseOver ? 1 : 0.8) : 0.4
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onEntered: row2.mouseOver = true
+                                onExited: row2.mouseOver = false
+                                onClicked: parent.parent.click()
+                            }
+                        }
+
+                        function click() {
+
+                            if(variables.visibleItem != "" && rightcol[index][1] != "quit")
+                                return
+
+                            HandleShortcuts.executeInternalFunction(rightcol[index][2])
+                            if(!PQSettings.interfacePopoutMainMenu && rightcol[index][3])
+                                forceHide = true
+                        }
+
                     }
 
                 }
