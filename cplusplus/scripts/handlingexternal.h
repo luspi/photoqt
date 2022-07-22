@@ -50,11 +50,14 @@ public:
     Q_INVOKABLE QString findNextcloudFolder();
     Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QVariantList getContextMenuEntries();
+    Q_INVOKABLE void replaceContextMenuEntriesWithAvailable();
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE static bool importConfigFrom(QString path);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
     Q_INVOKABLE QSize getScreenSize();
+
+    bool checkIfBinaryExists(QString exec);
 
 private:
     PQImageProviderFull *imageprovider;

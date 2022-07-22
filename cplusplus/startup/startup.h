@@ -65,9 +65,6 @@ public:
 
     void showInfo();
 
-private:
-    bool checkIfBinaryExists(QString exec);
-
 };
 
 

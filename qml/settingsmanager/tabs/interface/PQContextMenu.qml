@@ -45,21 +45,29 @@ PQSetting {
     content: [
         Rectangle {
             width: contwidth-20
-            height: variables.settingsManagerExpertMode ? (showExternal.height+entrycol.height+40) : (entrycol.height+20)
+            height: variables.settingsManagerExpertMode ? (showExternal.height+(handlingGeneral.amIOnWindows() ? 0 : replaceWithAvailable.height)+entrycol.height+60) : ((handlingGeneral.amIOnWindows() ? 0 : replaceWithAvailable.height)+entrycol.height+40)
             color: "#111111"
             radius: 5
 
-            PQCheckbox {
-                id: showExternal
-                visible: variables.settingsManagerExpertMode
+            PQButton {
+                id: replaceWithAvailable
+                visible: !handlingGeneral.amIOnWindows()
                 x: 10
                 y: 10
-                text: "Also show entries in main menu"
+                text: em.pty+qsTranslate("settingsmanager_interface", "Set entries for other image related applications")
+                onClicked: {
+                    if(handlingGeneral.askForConfirmation(em.pty+qsTranslate("settingsmanager_interface", "This will look for some other image related applications on your computer and add an entry for any that are found."),
+                                                          em.pty+qsTranslate("settingsmanager_interface", "Note that this will replace all entries currently set and cannot be undone."))) {
+                        handlingExternal.replaceContextMenuEntriesWithAvailable()
+                        entries = handlingExternal.getContextMenuEntries()
+                        addNewEntry()
+                    }
+                }
             }
 
             Column {
                 id: entrycol
-                y: variables.settingsManagerExpertMode ? (showExternal.y+showExternal.height+20) : 10
+                y: handlingGeneral.amIOnWindows() ? 10 : (replaceWithAvailable.y+replaceWithAvailable.height+20)
                 width: parent.width
                 spacing: 10
                 Repeater {
@@ -198,6 +206,14 @@ PQSetting {
                     }
                 }
 
+            }
+
+            PQCheckbox {
+                id: showExternal
+                visible: variables.settingsManagerExpertMode
+                x: 10
+                y: 10
+                text: em.pty+qsTranslate("settingsmanager_interface", "Also show entries in main menu")
             }
 
         }

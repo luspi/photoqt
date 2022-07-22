@@ -314,6 +314,69 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
 
 }
 
+void PQHandlingExternal::replaceContextMenuEntriesWithAvailable() {
+
+    // These are the possible entries
+    // There will be a ' %f' added at the end of each executable.
+    QStringList m;
+    //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+    m << QApplication::translate("startup", "Edit with %1").arg("Gimp") << "gimp"
+         //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Edit with %1").arg("Krita") << "krita"
+         //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Edit with %1").arg("KolourPaint") << "kolourpaint"
+         //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("GwenView") << "gwenview"
+         //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("showFoto") << "showfoto"
+         //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("Shotwell") << "shotwell"
+         //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("GThumb") << "gthumb"
+         //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("Eye of Gnome") << "eog";
+
+    {
+        QSqlDatabase db = QSqlDatabase::database("contextmenu");
+        if(!db.open())
+            LOG << CURDATE << "PQStartup::setupFresh(): Error opening contextmenu database: " << db.lastError().text().trimmed().toStdString() << NL;
+
+        QSqlQuery query(db);
+        query.exec("DELETE FROM entries");
+        query.clear();
+
+        // Check for all entries
+        for(int i = 0; i < m.size()/2; ++i) {
+            if(checkIfBinaryExists(m[2*i+1])) {
+
+                QSqlQuery query(db);
+                query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
+                query.bindValue(":cmd", m[2*i+1]+" %f");
+                query.bindValue(":dsc", m[2*i]);
+                query.bindValue(":cls", "0");
+                if(!query.exec())
+                    LOG << CURDATE << "PQStartup::setupFresh(): SQL error, contextmenu insert: " << query.lastError().text().trimmed().toStdString() << NL;
+
+            }
+        }
+
+    }
+
+}
+
+bool PQHandlingExternal::checkIfBinaryExists(QString exec) {
+
+#ifdef Q_OS_WIN
+    return false;
+#endif
+
+    QProcess p;
+    p.setStandardOutputFile(QProcess::nullDevice());
+    p.start("which", QStringList() << exec);
+    p.waitForFinished();
+    return p.exitCode() == 0;
+}
+
 QString PQHandlingExternal::getIconPathFromTheme(QString binary) {
 
     DBG << CURDATE << "PQHandlingExternal::getIconPathFromTheme()" << NL
