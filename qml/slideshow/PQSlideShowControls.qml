@@ -327,7 +327,7 @@ Item {
 
     Timer {
         id: hideBarAfterTimeout
-        interval: 1000
+        interval: 3000
         repeat: false
         onTriggered: {
             controls_top.showForeground = false
