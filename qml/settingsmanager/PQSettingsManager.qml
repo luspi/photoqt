@@ -70,7 +70,7 @@ Item {
     Rectangle {
 
         anchors.fill: parent
-        color: "#dd000000"
+        color: "#181818"
 
         Column {
 
