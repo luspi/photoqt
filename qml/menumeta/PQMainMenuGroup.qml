@@ -154,7 +154,7 @@ Column {
                                 else
                                     HandleShortcuts.executeInternalFunction(leftcol[outerIndex][index][2])
 
-                                if(leftcol[outerIndex][index][3]) {
+                                if(1*leftcol[outerIndex][index][3]) {
                                     if(external)
                                         toplevel.closePhotoQt()
                                     else if(!PQSettings.interfacePopoutMainMenu)

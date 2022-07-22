@@ -135,9 +135,9 @@ PQSetting {
                             anchors.rightMargin: 5
                             //: Keep string short! Used on checkbox for contextmenu, refers to option to close PhotoQt after respective command has been executed.
                             text: em.pty+qsTranslate("settingsmanager_interface", "quit")
-                            checked: entries[index][3]=="close"
+                            checked: entries[index][3]=="1"
                             onCheckedChanged: {
-                                entries[index][3] = (checked ? "close" : "dontclose")
+                                entries[index][3] = (checked ? 1 : 0)
                                 if(index == entries.length-1) {
                                     focusIndex = index
                                     focusField = 2
