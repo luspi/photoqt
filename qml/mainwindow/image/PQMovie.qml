@@ -38,7 +38,6 @@ Item {
     Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.imageviewAnimationDuration*100 } }
 
     MouseArea {
-        enabled: PQSettings.imageviewLeftButtonMoveImage
         anchors.fill: parent
         onPressed: {
             if(PQSettings.interfaceCloseOnEmptyBackground || PQSettings.interfaceNavigateOnEmptyBackground) {
@@ -159,10 +158,10 @@ Item {
 
             MouseArea {
                 id: videomouse
-                enabled: PQSettings.imageviewLeftButtonMoveImage&&!variables.slideShowActive
+                enabled: !variables.slideShowActive
                 anchors.fill: parent
                 hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
-                drag.target: PQSettings.imageviewLeftButtonMoveImage ? videoelem : undefined
+                drag.target: videoelem
                 cursorShape: controls.mouseHasBeenMovedRecently ? Qt.ArrowCursor : Qt.BlankCursor
 
                 onPressAndHold: {

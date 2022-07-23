@@ -106,8 +106,6 @@ Item {
                 PQHorizontalLine { expertModeOnly: fiw.expertmodeonly }
             PQLoop { id: loo }
                 PQHorizontalLine { expertModeOnly: loo.expertmodeonly }
-            PQLeftButton { id: lfb }
-                PQHorizontalLine { expertModeOnly: lfb.expertmodeonly }
             PQMargin { id: mrg }
                 PQHorizontalLine { expertModeOnly: mrg.expertmodeonly }
             PQPixmapCache { id: pix }

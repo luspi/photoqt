@@ -227,7 +227,7 @@ Item {
 
         PQMouseArea {
             id: mousearea
-            enabled: PQSettings.imageviewLeftButtonMoveImage&&!facetagger.visible&&!variables.slideShowActive
+            enabled: !facetagger.visible&&!variables.slideShowActive
             anchors.fill: parent
 
             doubleClickThreshold: PQSettings.interfaceDoubleClickThreshold

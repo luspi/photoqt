@@ -89,7 +89,6 @@
         <file>settingsmanager/tabs/imageview/PQFitInWindow.qml</file>
         <file>settingsmanager/tabs/imageview/PQInterpolation.qml</file>
         <file>settingsmanager/tabs/imageview/PQKeep.qml</file>
-        <file>settingsmanager/tabs/imageview/PQLeftButton.qml</file>
         <file>settingsmanager/tabs/imageview/PQLoop.qml</file>
         <file>settingsmanager/tabs/imageview/PQMargin.qml</file>
         <file>settingsmanager/tabs/imageview/PQPixmapCache.qml</file>
