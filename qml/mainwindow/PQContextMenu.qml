@@ -100,10 +100,28 @@ Window {
           //: This is an entry in the main menu on the right. Please keep short!
           ["__delete",em.pty+qsTranslate("MainMenu", "Delete file"), 1, true]],
 
+        ["",
+         ""],
+
         //: This is an entry in the main menu on the right. Please keep short!
         ["clipboard",
          "",
          ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), 1, true]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["faces",
+         "",
+         ["__tagFaces", em.pty+qsTranslate("MainMenu", "Tag faces"), 1, true]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["scale",
+         "",
+         ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), 1, true]],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["wallpaper",
+         "",
+         ["__wallpaper", em.pty+qsTranslate("MainMenu", "Set as wallpaper"), 1, true]],
 
         ["",
          ""],
@@ -117,21 +135,6 @@ Window {
         ["histogram",
          "",
          ["__histogram", PQSettings.histogramVisible ? (em.pty+qsTranslate("MainMenu", "Hide histogram")) : (em.pty+qsTranslate("MainMenu", "Show histogram")), 1, true]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        ["wallpaper",
-         "",
-         ["__wallpaper", em.pty+qsTranslate("MainMenu", "Set as wallpaper"), 1, true]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        ["faces",
-         "",
-         ["__tagFaces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), 1, true]],
-
-        //: This is an entry in the main menu on the right. Please keep short!
-        ["scale",
-         "",
-         ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), 1, true]],
 
     ]
 
