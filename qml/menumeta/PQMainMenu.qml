@@ -147,7 +147,7 @@ Rectangle {
 
         anchors.fill: parent
         anchors.margins: 20
-        anchors.topMargin: 0
+        anchors.topMargin: 10
 
         contentHeight: col.height
 
