@@ -54,16 +54,18 @@ MouseArea {
     }
 
     onPressed: {
-        if(doubleClickThreshold > 0) {
-            if(doubleClickTimer.running) {
-                doubleClickTimer.stop()
-                if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
-                    top.doubleClicked(mouse)
-                mouse.accepted = false
-            } else {
-                doubleClickTimer.firstClick = Qt.point(mouse.x, mouse.y)
-                doubleClickTimer.mouse = mouse
-                doubleClickTimer.restart()
+        if(mouse.button == Qt.LeftButton) {
+            if(doubleClickThreshold > 0) {
+                if(doubleClickTimer.running) {
+                    doubleClickTimer.stop()
+                    if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
+                        top.doubleClicked(mouse)
+                    mouse.accepted = false
+                } else {
+                    doubleClickTimer.firstClick = Qt.point(mouse.x, mouse.y)
+                    doubleClickTimer.mouse = mouse
+                    doubleClickTimer.restart()
+                }
             }
         }
     }
