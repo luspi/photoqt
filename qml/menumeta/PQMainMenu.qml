@@ -269,7 +269,7 @@ Rectangle {
                 title: em.pty+qsTranslate("MainMenu", "External")
                 external: true
 
-                visible: PQSettings.mainmenuShowExternal
+                visible: PQSettings.mainmenuShowExternal && leftcol.length>0
 
                 Component.onCompleted:
                     readExternalEntries()
