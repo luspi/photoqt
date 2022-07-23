@@ -166,13 +166,13 @@ Window {
             delegate: Item {
 
                 width: managerow.width
-                height: sep.visible ? 6 : (managerow.height+10)
+                height: sep.visible ? 12 : (managerow.height+10)
 
                 property int topindex: index
 
                 Item {
                     id: sep
-                    y: 3
+                    y: 6
                     width: listview.width
                     height: 1
                     visible: allitems[index][0]==""

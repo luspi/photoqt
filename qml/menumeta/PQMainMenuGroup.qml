@@ -44,7 +44,7 @@ Column {
 
     Text {
         visible: text!=""
-        color: "#666666"
+        color: "#6f6f6f"
         font.pointSize: 15
         font.bold: true
         text: parent.title

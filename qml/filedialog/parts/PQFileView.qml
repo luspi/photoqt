@@ -266,7 +266,7 @@ GridView {
                 opacity: PQSettings.openfileDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                color: "#aa000000"
+                color: "#aa2f2f2f"
 
                 Text {
 

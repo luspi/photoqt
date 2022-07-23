@@ -212,7 +212,7 @@ PQSetting {
                 id: showExternal
                 visible: variables.settingsManagerExpertMode
                 x: 10
-                y: 10
+                y: entrycol.y+entrycol.height+20
                 text: em.pty+qsTranslate("settingsmanager_interface", "Also show entries in main menu")
             }
 

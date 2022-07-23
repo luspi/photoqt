@@ -96,6 +96,9 @@ Rectangle {
 
         acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
 
+        onWheel: {
+        }
+
         PQMouseArea {
 
             anchors {
