@@ -288,6 +288,15 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         }
 
 
+    } else if(category == "windows") {
+
+
+        int wallpaperStyle = options.value("WallpaperStyle").toInt();
+
+        QSettings settings("HKEY_CURRENT_USER\\Control Panel\\Desktop", QSettings::NativeFormat);
+        settings.setValue("Wallpaper", filename.replace("/", "\""));
+        settings.setValue("WallpaperStyle", wallpaperStyle);
+
     } else
         LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: Unknown window manager: " << category.toStdString() << NL;
 
