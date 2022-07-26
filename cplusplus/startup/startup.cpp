@@ -277,8 +277,6 @@ void PQStartup::performChecksAndMigrations() {
     renameSettings();
     renameShortcuts();
 
-    PQSettings::get().update("generalVersion", VERSION);
-
     PQValidate validate;
     validate.validate();
 

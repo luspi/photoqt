@@ -142,9 +142,6 @@ int main(int argc, char **argv) {
     // update or fresh install detected => show informational message
     if(checker != 0) {
 
-        PQSettings::get().backupDatabase();
-        PQShortcuts::get().backupDatabase();
-
         if(checker == 1 || checker == 2) {
 
             QQmlApplicationEngine engine;
@@ -163,6 +160,8 @@ int main(int argc, char **argv) {
         // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
         if(checker == 3)
             validate.validate();
+
+        PQSettings::get().update("generalVersion", VERSION);
 
     }
 
