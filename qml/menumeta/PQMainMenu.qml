@@ -190,7 +190,7 @@ Rectangle {
 
                           [["img", "fittoscreen",                                   "__zoomReset", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Fit to screen"), "__zoomReset", false, true]]]
+                           ["txt", em.pty+qsTranslate("MainMenu", "Reset zoom"), "__zoomReset", false, true]]]
 
                 rightcol: [["img", "zoomin",  "__zoomIn",  false, true],
                            ["img", "zoomout", "__zoomOut", false, true]]
