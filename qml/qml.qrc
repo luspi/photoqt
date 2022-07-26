@@ -162,5 +162,6 @@
         <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
         <file>PQWindowSizePopupManager.qml</file>
         <file>settingsmanager/tabs/interface/PQPopoutWhenSmall.qml</file>
+        <file>wallpaper/ele/PQWindows.qml</file>
     </qresource>
 </RCC>

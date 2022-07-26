@@ -43,7 +43,9 @@ Item {
     visible: opacity!=0
     enabled: visible
 
-    property string curCat: "plasma"
+    property bool onWindows: handlingGeneral.amIOnWindows()
+
+    property string curCat: onWindows ? "windows" : "plasma"
     property int numDesktops: 3
 
     Rectangle {
@@ -77,8 +79,10 @@ Item {
                 id: category
                 x: 0
                 y: 0
-                width: 300
+                width: visible ? 300 : 0
                 height: parent.height
+
+                visible: !onWindows
 
                 Item {
                     width: parent.width
@@ -256,6 +260,10 @@ Item {
                             args["app"] = other.checkedTool
                             args["option"] = other.checkedOption
 
+                        } else if(curCat == "windows") {
+
+                            args["WallpaperStyle"] = windows.checkedOption
+
                         }
 
                         handlingWallpaper.setWallpaper(curCat, filefoldermodel.currentFilePath, args)
@@ -284,15 +292,22 @@ Item {
                     right: parent.right
                     rightMargin: 10
                     bottomMargin: 10
+                    topMargin: onWindows ? -20 : 0
                 }
 
                 ScrollBar.vertical: PQScrollBar { }
 
-                contentHeight: (curCat=="plasma" ? plasma.height
-                                                 : (curCat=="gnome" ? gnome.height
-                                                                    : (curCat=="xfce" ? xfce.height
-                                                                                      : (curCat=="enlightenment" ? enlightenment.height
-                                                                                                                 : other.height))))
+                contentHeight: (curCat=="plasma"
+                                    ? plasma.height
+                                    : (curCat=="gnome"
+                                            ? gnome.height
+                                            : (curCat=="xfce"
+                                                    ? xfce.height
+                                                    : (curCat=="enlightenment"
+                                                            ? enlightenment.height
+                                                            : (curCat == "windows"
+                                                                    ? windows.height
+                                                                    : other.height)))))
 
                 clip: true
 
@@ -321,6 +336,11 @@ Item {
                     visible: curCat=="other"
                 }
 
+                PQWindows {
+                    id: windows
+                    visible: curCat=="windows"
+                }
+
             }
 
         }
@@ -341,6 +361,9 @@ Item {
                     else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
                         button_ok.clicked()
                     else if(param[0] == Qt.Key_Tab) {
+
+                        if(onWindows) return
+
                         var avail = ["plasma", "gnome", "xfce", "enlightenment", "other"]
                         var cur = avail.indexOf(curCat)+1
                         if(cur == avail.length)
@@ -354,8 +377,10 @@ Item {
             }
         }
 
-        Component.onCompleted:
+        Component.onCompleted: {
+            if(onWindows) return
             curCat = handlingWallpaper.detectWM()
+        }
 
     }
 
