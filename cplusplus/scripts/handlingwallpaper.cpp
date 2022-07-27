@@ -139,6 +139,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         << CURDATE << "** category = " << category.toStdString() << NL
         << CURDATE << "** filename = " << filename.toStdString() << NL;
 
+#ifndef Q_OS_WIN
     if(category == "plasma") {
 
         QVariantList screens = options.value("screens").toList();
@@ -288,16 +289,62 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         }
 
 
-    } else if(category == "windows") {
-
-
-        int wallpaperStyle = options.value("WallpaperStyle").toInt();
-
-        QSettings settings("HKEY_CURRENT_USER\\Control Panel\\Desktop", QSettings::NativeFormat);
-        settings.setValue("Wallpaper", filename.replace("/", "\""));
-        settings.setValue("WallpaperStyle", wallpaperStyle);
-
     } else
         LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: Unknown window manager: " << category.toStdString() << NL;
+
+#else
+
+
+        // get handle to current active desktop
+        IActiveDesktop *pDesk;
+
+        // Create an instance of the Active Desktop
+        HRESULT hr = CoCreateInstance(CLSID_ActiveDesktop, NULL, CLSCTX_INPROC_SERVER,
+                              IID_IActiveDesktop, (void**)&pDesk);
+        if(hr != S_OK) {
+            LOG << CURDATE << "CoCreateInstance() returned error: " << hr << NL;
+            return;
+        }
+
+        // Create options struct
+        WALLPAPEROPT opts;
+        opts.dwSize = sizeof(WALLPAPEROPT);
+
+        const int wallpaperStyle = options.value("WallpaperStyle").toInt();
+        if(wallpaperStyle == 0)
+            opts.dwStyle = WPSTYLE_CENTER;
+        else if(wallpaperStyle == 1)
+            opts.dwStyle = WPSTYLE_TILE;
+        else if(wallpaperStyle == 2)
+            opts.dwStyle = WPSTYLE_STRETCH;
+        else if(wallpaperStyle == 3)
+            opts.dwStyle = WPSTYLE_KEEPASPECT;
+        else if(wallpaperStyle == 4)
+            opts.dwStyle = WPSTYLE_CROPTOFIT;
+        else if(wallpaperStyle == 5)
+            opts.dwStyle = WPSTYLE_SPAN;
+
+        // set the wallpaper
+        hr = pDesk->SetWallpaper(filename.toStdWString().c_str(), 0);
+        if(hr != S_OK) {
+            LOG << CURDATE << "IActiveDesktop::SetWallpaper() returned error: " << hr << NL;
+            return;
+        }
+
+        // set the wallpaper options
+        hr = pDesk->SetWallpaperOptions(&opts, 0);
+        if(hr != S_OK) {
+            LOG << CURDATE << "IActiveDesktop::SetWallpaperOptions() returned error: " << hr << NL;
+            return;
+        }
+
+        // apply the above changes
+        pDesk->ApplyChanges(AD_APPLY_ALL);
+
+        // call the Release method
+        pDesk->Release();
+
+
+#endif
 
 }

@@ -25,7 +25,13 @@
 
 #include <QObject>
 #include <QProcess>
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#include <WinInet.h>
+#include <ShlObj_core.h>
+#else
 #include <QtDBus>
+#endif
 #include <QApplication>
 #include "../logger.h"
 

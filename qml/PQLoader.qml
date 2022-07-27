@@ -52,16 +52,6 @@ Item {
 
     function show(ele) {
 
-        // This is used to mask features that are not (yet) available on Windows
-        if(handlingGeneral.amIOnWindows()) {
-            if(ele == "wallpaper") {
-                if(PQSettings.interfacePopoutWallpaper)
-                    ele = "unavailablepopout"
-                else
-                    ele = "unavailable"
-            }
-        }
-
         ensureItIsReady(ele)
 
         if(ele == "filedialog")
