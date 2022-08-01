@@ -10,7 +10,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="dev")
+add_definitions(-DVERSION="2.8")
 
 
 ########################################
@@ -390,10 +390,6 @@ if(UNIX)
     # Install desktop file
     install(
         FILES org.photoqt.PhotoQt.desktop
-        DESTINATION share/applications
-    )
-    install(
-        FILES org.photoqt.PhotoQt.standalone.desktop
         DESTINATION share/applications
     )
 

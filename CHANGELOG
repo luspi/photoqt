@@ -1,6 +1,37 @@
 Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 2.8 - 2022-07-31
+----------------------------
+- file dialog: preview image can be blurred and/or its colors muted
+- file dialog: preview image can be loadedin low (fast) and high (slower) resolution
+- file dialog: option to hide tooltip with file details
+- file dialog: reworked context menu of fileview
+- file dialog: tooltip with file details 
+- slideshow: fix next/prev buttons during slideshow when slideshow paused
+- slideshow: controls turned into floating buttons at bottom center
+- shortcuts: support for double clicks
+- navigation: add navigation buttons to window buttons
+- navigation: add zoom to/from setting
+- navigation: add min/max zoom range
+- navigation: option to enable/disable window decoration by clicking outside visible image
+- main menu: restyled and regrouped, complementary to context menu
+- context menu: restyled and regrouped, complementary to main menu
+- metadata: turn into floating element, not hiding behind edge anymore
+- file formats: support for Adove Illustrator (AI) file format
+- startup: validate values of some settings, ensuring they fall within a valid min/max range
+- interface: pause animated image when element opened on top
+- interface: raise window properly when needed
+- interface: startup background text message font size follows window size
+- interface: option to automatically pop out elements if window is too small
+- interface: option to set different overlay color in fullscreen
+- Windows: open in default folder
+- Windows: loading of images located on network drives
+- Windows: trash support (Qt >= 5.15)
+- Windows: support setting as wallpaper
+- Windows: explicitely use OpenGLES
+- general UI updates and color adjustments
+
 
 Release 2.7 - 2022-06-10
 ----------------------------
