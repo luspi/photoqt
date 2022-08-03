@@ -200,18 +200,10 @@ QStringList PQHandlingGeneral::getAvailableTranslations() {
 
     QStringList ret;
 
-    // these are shown first
-    // they are the ones with recent activity
-    // this list will be updated before release
-    // the other ones are shown afterwards sorted alphabetically
-    ret << "en";
-    ret << "de_DE";
-    ret << "es_ES";
-    ret << "lt_LT";
-    ret << "pl_PL";
-    ret << "pt_PT";
-
     QStringList tmp;
+
+    // the non-translated language is English
+    tmp << "en";
 
     QDirIterator it(":");
     while (it.hasNext()) {
