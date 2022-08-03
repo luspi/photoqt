@@ -95,7 +95,7 @@ PQSetting {
                     var cur2 = cur.split("_")[0]
                     if(cur2 in languages) {
                         tmp.push(languages[cur2])
-                        languageitems.push(cur2)
+                        languageitems.push(cur)
                     } else {
                         tmp.push(cur)
                         languageitems.push(cur)
