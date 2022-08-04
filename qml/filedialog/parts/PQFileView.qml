@@ -637,8 +637,22 @@ GridView {
         var cleaned = handlingFileDir.cleanPath(filefoldermodel.folderFileDialog)
         if(cleaned == "/")
             breadcrumbs.pathParts = [""]
-        else
-            breadcrumbs.pathParts = cleaned.split("/")
+        else {
+            if(handlingGeneral.amIOnWindows()) {
+                cleaned = cleaned.replace("//", "::::::")
+                cleaned = cleaned.split("/")
+                var parts = []
+                for(var i = 0; i < cleaned.length; ++i) {
+                    var c = cleaned[i]
+                    if(c.indexOf("::::::") > -1)
+                        parts.push(c.replace("::::::", "//"))
+                    else
+                        parts.push(c)
+                }
+                breadcrumbs.pathParts = parts
+            } else
+                breadcrumbs.pathParts = cleaned.split("/")
+        }
 
     }
 
