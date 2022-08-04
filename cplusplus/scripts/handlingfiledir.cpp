@@ -47,7 +47,12 @@ QString PQHandlingFileDir::cleanPath(QString path) {
     if(path.startsWith("image://thumb/"))
         path = path.remove(0, 14);
 
+#ifdef Q_OS_WIN
+    path = QDir::cleanPath(path.replace("//", "::::::::"));
+    return path.replace("::::::::", "//");
+#else
     return QDir::cleanPath(path);
+#endif
 
 }
 
