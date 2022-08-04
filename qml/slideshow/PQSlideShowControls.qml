@@ -22,7 +22,6 @@
 
 import QtQuick 2.9
 import QtMultimedia 5.5
-import QtGraphicalEffects 1.0
 import "../elements"
 
 Item {
@@ -37,7 +36,7 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.interfacePopoutSlideShowControls ? 1 : (!variables.slideShowActive ? 0 : ((showForeground||slideshowPaused||mouseOver) ? (mouseOver ? opacityMouseOver : opacityForeground) : opacityBackground))
+    opacity: !variables.slideShowActive ? 0 : (PQSettings.interfacePopoutSlideShowControls ? 1 : ((showForeground||slideshowPaused||mouseOver) ? (mouseOver ? opacityMouseOver : opacityForeground) : opacityBackground))
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: (opacity != 0)
     enabled: visible
