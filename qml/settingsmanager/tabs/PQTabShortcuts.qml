@@ -224,7 +224,9 @@ Item {
                                             //: Name of shortcut action
                     ["__chromecast",        em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device")],
                                             //: Name of shortcut action
-                    ["__logging",           em.pty+qsTranslate("settingsmanager", "Show log/debug messages")]
+                    ["__logging",           em.pty+qsTranslate("settingsmanager", "Show log/debug messages")],
+                                            //: Name of shortcut action
+                    ["__fullscreenToggle",  em.pty+qsTranslate("settingsmanager", "Toggle fullscreen mode")]
                 ]
 
             }
