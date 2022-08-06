@@ -358,9 +358,7 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
 #ifdef Q_OS_WIN
 
-        if(path.startsWith("file:///"))
-            path = path.remove(0,8);
-        else if(path.startsWith("file://"))
+        if(path.startsWith("file://"))
             path = path.remove(0,7);
         else if(path.startsWith("file:/"))
             path = path.remove(0,6);
