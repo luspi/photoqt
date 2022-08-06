@@ -54,7 +54,19 @@ Item {
             toplevel.visible = true
             if(toplevel.visibility == Window.Minimized)
                 toplevel.visibility = Window.Maximized
+
             toplevel.raise()
+
+            // calling show is necessary to show it (most of the time) on Windows, should work just fine without on Linux
+            if(handlingGeneral.amIOnWindows()) {
+                if(toplevel.visibility == Window.FullScreen)
+                    toplevel.showFullScreen()
+                else if(toplevel.visibility == Window.Maximized)
+                    toplevel.showMaximized()
+                else
+                    toplevel.show()
+            }
+
             toplevel.requestActivate()
 
         }
@@ -67,7 +79,19 @@ Item {
             toplevel.visible = true
             if(toplevel.visibility == Window.Minimized)
                 toplevel.visibility = Window.Maximized
+
             toplevel.raise()
+
+            // calling show is necessary to show it (most of the time) on Windows, should work just fine without on Linux
+            if(handlingGeneral.amIOnWindows()) {
+                if(toplevel.visibility == Window.FullScreen)
+                    toplevel.showFullScreen()
+                else if(toplevel.visibility == Window.Maximized)
+                    toplevel.showMaximized()
+                else
+                    toplevel.show()
+            }
+
             toplevel.requestActivate()
 
         }
@@ -77,7 +101,19 @@ Item {
 
             if(toplevel.visibility == Window.Minimized)
                 toplevel.visibility = Window.Maximized
+
             toplevel.raise()
+
+            // calling show is necessary to show it (most of the time) on Windows, should work just fine without on Linux
+            if(handlingGeneral.amIOnWindows()) {
+                if(toplevel.visibility == Window.FullScreen)
+                    toplevel.showFullScreen()
+                else if(toplevel.visibility == Window.Maximized)
+                    toplevel.showMaximized()
+                else
+                    toplevel.show()
+            }
+
             toplevel.requestActivate()
 
         }
@@ -93,7 +129,19 @@ Item {
             if(toplevel.visible) {
                 if(toplevel.visibility == Window.Minimized)
                     toplevel.visibility = Window.Maximized
+
                 toplevel.raise()
+
+                // calling show is necessary to show it (most of the time) on Windows, should work just fine without on Linux
+                if(handlingGeneral.amIOnWindows()) {
+                    if(toplevel.visibility == Window.FullScreen)
+                        toplevel.showFullScreen()
+                    else if(toplevel.visibility == Window.Maximized)
+                        toplevel.showMaximized()
+                    else
+                        toplevel.show()
+                }
+
                 toplevel.requestActivate()
             }
         }
@@ -114,7 +162,19 @@ Item {
                     toplevel.visible = true
                     if(toplevel.visibility == Window.Minimized)
                         toplevel.visibility = Window.Maximized
+
                     toplevel.raise()
+
+                    // calling show is necessary to show it (most of the time) on Windows, should work just fine without on Linux
+                    if(handlingGeneral.amIOnWindows()) {
+                        if(toplevel.visibility == Window.FullScreen)
+                            toplevel.showFullScreen()
+                        else if(toplevel.visibility == Window.Maximized)
+                            toplevel.showMaximized()
+                        else
+                            toplevel.show()
+                    }
+
                     toplevel.requestActivate()
                 }
                 PQSettings.interfaceTrayIcon = 0
