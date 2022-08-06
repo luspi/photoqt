@@ -247,6 +247,7 @@ Item {
         FileDialog {
             id: saveFileDialog
             folder: "file://"+handlingFileDir.getHomeDir()
+            currentFile: "file://" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
             modality: Qt.ApplicationModal
             fileMode: FileDialog.SaveFile
             nameFilters: ["PhotoQt (*.pqt)"]
@@ -255,7 +256,7 @@ Item {
                     handlingExternal.exportConfigTo(handlingFileDir.cleanPath(saveFileDialog.file))
             }
             onVisibleChanged: {
-                if(visible)
+                if(visible && !handlingGeneral.amIOnWindows())
                     currentFile = "file://" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
             }
         }
