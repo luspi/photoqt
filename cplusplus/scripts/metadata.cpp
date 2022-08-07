@@ -51,6 +51,28 @@ PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
 }
 
+void PQMetaData::setEmptyExivData() {
+
+    setExifImageMake("");
+    setExifImageModel("");
+    setExifImageSoftware("");
+    setExifPhotoDateTimeOriginal("");
+    setExifPhotoExposureTime("");
+    setExifPhotoFlash("");
+    setExifPhotoISOSpeedRatings("");
+    setExifPhotoSceneCaptureType("");
+    setExifPhotoFocalLength("");
+    setExifPhotoFNumber("");
+    setExifPhotoLightSource("");
+    setExifPhotoPixelXDimension("");
+    setExifPhotoPixelYDimension("");
+    setExifGPS("");
+    setIptcApplication2Keywords("");
+    setIptcLocation("");
+    setIptcApplication2Copyright("");
+
+}
+
 void PQMetaData::updateMetadata(QString path) {
 
     DBG << CURDATE << "PQMetaData::updateMetadata()" << NL
@@ -87,38 +109,6 @@ void PQMetaData::updateMetadata(QString path) {
     } else
         setDimensions("");
 
-    // These formats are supported by exiv2
-    QStringList formats;
-    formats << "jpeg" << "jpg" << "tif" << "tiff"
-            << "png" << "psd" << "jpeg2000" << "jp2"
-            << "j2k" << "jpc" << "jpf" << "jpx"
-            << "jpm" << "mj2" << "bmp" << "bitmap"
-            << "gif" << "tga";
-
-    if(!formats.contains(info.suffix().toLower())) {
-
-        setExifImageMake("");
-        setExifImageModel("");
-        setExifImageSoftware("");
-        setExifPhotoDateTimeOriginal("");
-        setExifPhotoExposureTime("");
-        setExifPhotoFlash("");
-        setExifPhotoISOSpeedRatings("");
-        setExifPhotoSceneCaptureType("");
-        setExifPhotoFocalLength("");
-        setExifPhotoFNumber("");
-        setExifPhotoLightSource("");
-        setExifPhotoPixelXDimension("");
-        setExifPhotoPixelYDimension("");
-        setExifGPS("");
-        setIptcApplication2Keywords("");
-        setIptcLocation("");
-        setIptcApplication2Copyright("");
-
-        return;
-
-    }
-
 #ifdef EXIV2
 
     // Obtain METADATA
@@ -133,6 +123,7 @@ void PQMetaData::updateMetadata(QString path) {
         image->readMetadata();
     } catch (Exiv2::Error& e) {
         LOG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+        setEmptyExivData();
         return;
     }
 
@@ -147,6 +138,8 @@ void PQMetaData::updateMetadata(QString path) {
         exifData = image->exifData();
     } catch(Exiv2::Error &e) {
         LOG << CURDATE << "PQMetaData::updateMetaData(): ERROR: Unable to read exif metadata: " << e.what() << NL;
+        setEmptyExivData();
+        return;
     }
 
 

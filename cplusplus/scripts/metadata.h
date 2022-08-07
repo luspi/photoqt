@@ -221,6 +221,9 @@ public:
     }
 
 private:
+
+    void setEmptyExivData();
+
     bool    m_validFile;
     QString m_fileSize;
     QString m_dimensions;
