@@ -48,6 +48,18 @@ PQFileFolderModel {
     property string arcName: isARC ? currentFilePath.split("::ARC::")[1] : ""
     property string arcFile: isARC ? currentFilePath.split("::ARC::")[0] : ""
 
+    sortField: PQSettings.imageviewSortImagesBy=="name" ?
+                   PQFileFolderModel.Name :
+                   PQSettings.imageviewSortImagesBy=="time" ?
+                       PQFileFolderModel.Time :
+                       PQSettings.imageviewSortImagesBy=="size" ?
+                           PQFileFolderModel.Size :
+                           PQSettings.imageviewSortImagesBy=="type" ?
+                               PQFileFolderModel.Type :
+                               PQFileFolderModel.NaturalName
+
+    sortReversed: !PQSettings.imageviewSortImagesAscending
+
     defaultNameFilters: PQImageFormats.getEnabledFormats()
     mimeTypeFilters: PQImageFormats.getEnabledMimeTypes()
 

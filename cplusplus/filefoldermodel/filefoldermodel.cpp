@@ -319,10 +319,9 @@ QStringList PQFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersExc
                     ret_cur << iter.filePath();
                 }
             } else {
-                QDirIterator iter(dir);
-                while(iter.hasNext()) {
-                    iter.next();
-                    const QFileInfo f = iter.fileInfo();
+
+                const QFileInfoList lst = dir.entryInfoList();
+                for(const auto &f : lst) {
 
                     if(!ignoreFiltersExceptDefault) {
 
@@ -383,7 +382,9 @@ QStringList PQFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersExc
                             }
                         }
                     }
+
                 }
+
             }
 
             if(m_sortField == SortBy::NaturalName) {
