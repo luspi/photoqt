@@ -26,7 +26,6 @@ PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
     m_validFile = true;
     m_fileSize = "";
-    m_dimensions = "";
 
     m_exifImageMake = "";
     m_exifImageModel = "";
@@ -98,16 +97,6 @@ void PQMetaData::updateMetadata(QString path) {
     setValidFile(true);
 
     setFileSize(QString("%1 KB").arg(info.size()/1024.0));
-
-    // Obtain dimensions (if supported by ImageReader)
-    if(QImageReader::supportedImageFormats().contains(info.suffix().toLower().toUtf8())) {
-        QSize s = QImageReader(path).size();
-        if(s.width() > 0 && s.height() > 0)
-            setDimensions(QString("%1x%2").arg(s.width()).arg(s.height()));
-        else
-            setDimensions("");
-    } else
-        setDimensions("");
 
 #ifdef EXIV2
 

@@ -89,13 +89,21 @@ Item {
 
             id: deleg
             property int imageStatus: Image.Loading
+            property size imageDimensions: Qt.size(-1,-1)
+            onImageDimensionsChanged: {
+                if(container.imageLatestAdded == deleg.uniqueid)
+                    variables.currentImageResolution = imageDimensions
+            }
 
             Loader {
                 id: imageloader
                 property alias imageStatus: deleg.imageStatus
+                property alias imageDimensions: deleg.imageDimensions
             }
 
-            property string uniqueid: handlingGeneral.getUniqueId()
+            // we don't set this here directly as otherwise for some reason the id in Component.onCompleted and here can be different at
+            // startup when the image from a previous session is reloaded
+            property string uniqueid: ""
 
             property int hideShowImageIndex: -1
 
@@ -114,6 +122,8 @@ Item {
             }
 
             Component.onCompleted: {
+
+                uniqueid = handlingGeneral.getUniqueId()
 
                 container.imageLatestAdded = deleg.uniqueid
 

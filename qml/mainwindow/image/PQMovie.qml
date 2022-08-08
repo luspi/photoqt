@@ -88,6 +88,7 @@ Item {
                     videoelem.play()
                 else
                     videoelem.pause()
+                cont.parent.imageDimensions = Qt.size(-1,-1)
             }
         }
 

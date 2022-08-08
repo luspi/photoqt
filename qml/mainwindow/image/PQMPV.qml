@@ -150,6 +150,7 @@ Item {
         Component.onCompleted: {
             volume = PQSettings.filetypesVideoVolume
             renderer.setProperty("volume", volume)
+            cont.parent.imageDimensions = Qt.size(-1,-1)
         }
 
     }

@@ -58,15 +58,6 @@ public:
         }
     }
 
-    Q_PROPERTY(QString dimensions READ getDimensions WRITE setDimensions NOTIFY dimensionsChanged)
-    QString getDimensions() { return m_dimensions; }
-    void setDimensions(QString val) {
-        if(m_dimensions != val) {
-            m_dimensions = val;
-            Q_EMIT dimensionsChanged();
-        }
-    }
-
     Q_PROPERTY(QString exifImageMake READ getExifImageMake WRITE setExifImageMake NOTIFY exifImageMakeChanged)
     QString getExifImageMake() { return m_exifImageMake; }
     void setExifImageMake(QString val) {
@@ -226,7 +217,6 @@ private:
 
     bool    m_validFile;
     QString m_fileSize;
-    QString m_dimensions;
 
     QString m_exifImageMake;
     QString m_exifImageModel;
@@ -261,7 +251,6 @@ private:
 Q_SIGNALS:
     void validFileChanged();
     void fileSizeChanged();
-    void dimensionsChanged();
     void exifImageMakeChanged();
     void exifImageModelChanged();
     void exifImageSoftwareChanged();

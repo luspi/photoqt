@@ -85,6 +85,36 @@ Rectangle {
             color: "#cccccc"
             width: 1
             height: filename.height
+            visible: resolution.visible
+        }
+
+        // image resolution
+        Row {
+            id: resolution
+            spacing: 2
+            visible: !PQSettings.interfaceLabelsHideResolution && (filefoldermodel.current > -1) && (variables.currentImageResolution.width > -1 && variables.currentImageResolution.height > -1)
+            Text {
+                color: "white"
+                width: visible ? children.width : 0
+                text: variables.currentImageResolution.width
+            }
+            Text {
+                color: "white"
+                opacity: 0.7
+                width: visible ? children.width : 0
+                text: "x"
+            }
+            Text {
+                color: "white"
+                width: visible ? children.width : 0
+                text: variables.currentImageResolution.height
+            }
+        }
+
+        Rectangle {
+            color: "#cccccc"
+            width: 1
+            height: filename.height
             visible: zoomlevel.visible
         }
 

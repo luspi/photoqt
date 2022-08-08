@@ -46,6 +46,7 @@ PQSetting {
                         labels_counter.checked = true
                         labels_filepath.checked = false
                         labels_filename.checked = true
+                        labels_resolution.checked = false   // only show when explicitely enabled
                         labels_zoom.checked = true
                         labels_rotation.checked = true
                         labels_windowbuttons.checked = true
@@ -53,6 +54,7 @@ PQSetting {
                         labels_counter.checked = false
                         labels_filepath.checked = false
                         labels_filename.checked = false
+                        labels_resolution.checked = false
                         labels_zoom.checked = false
                         labels_rotation.checked = false
                         labels_windowbuttons.checked = false
@@ -105,6 +107,17 @@ PQSetting {
                     id: labels_filename
                     //: show filename in the labels. This is specifically the fileNAME and not the filepath.
                     text: em.pty+qsTranslate("settingsmanager_interface", "filename")
+                    onCheckedChanged: {
+                        labels_show.skipCheckedCheck = true
+                        labels_show.checked = (howManyChecked() > 0)
+                        labels_show.skipCheckedCheck = false
+                    }
+                }
+
+                PQCheckbox {
+                    y: (parent.height-height)/2
+                    id: labels_resolution
+                    text: em.pty+qsTranslate("settingsmanager_interface", "image resolution")
                     onCheckedChanged: {
                         labels_show.skipCheckedCheck = true
                         labels_show.checked = (howManyChecked() > 0)
@@ -185,6 +198,7 @@ PQSetting {
         if(labels_counter.checked) howmany += 1
         if(labels_filepath.checked) howmany += 1
         if(labels_filename.checked) howmany += 1
+        if(labels_resolution.checked) howmany += 1
         if(labels_zoom.checked) howmany += 1
         if(labels_rotation.checked) howmany += 1
         if(labels_windowbuttons.checked) howmany += 1
@@ -199,6 +213,7 @@ PQSetting {
             labels_counter.checked = !PQSettings.interfaceLabelsHideCounter
             labels_filepath.checked = !PQSettings.interfaceLabelsHideFilepath
             labels_filename.checked = !PQSettings.interfaceLabelsHideFilename
+            labels_resolution.checked = !PQSettings.interfaceLabelsHideResolution
             labels_zoom.checked = !PQSettings.interfaceLabelsHideZoomLevel
             labels_rotation.checked = !PQSettings.interfaceLabelsHideRotationAngle
             labels_windowbuttons.checked = !PQSettings.interfaceLabelsHideWindowButtons
@@ -217,6 +232,7 @@ PQSetting {
             PQSettings.interfaceLabelsHideCounter = !labels_counter.checked
             PQSettings.interfaceLabelsHideFilepath = !labels_filepath.checked
             PQSettings.interfaceLabelsHideFilename = !labels_filename.checked
+            PQSettings.interfaceLabelsHideResolution = !labels_resolution.checked
             PQSettings.interfaceLabelsHideZoomLevel = !labels_zoom.checked
             PQSettings.interfaceLabelsHideRotationAngle = !labels_rotation.checked
             PQSettings.interfaceLabelsHideWindowButtons = !labels_windowbuttons.checked

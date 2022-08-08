@@ -131,6 +131,7 @@ Item {
                     reloadingImage = false
                 } else
                     theimage_load.restart()
+                cont.parent.imageDimensions = sourceSize
             }
         }
 

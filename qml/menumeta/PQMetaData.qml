@@ -79,7 +79,7 @@ Item {
         //: Please keep string short!
         em.pty+qsTranslate("metadata", "File name"), handlingGeneral.escapeHTML(handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)), PQSettings.metadataFilename,
         //: The dimensions of the loaded image. Please keep string short!
-        em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metadataDimensions,
+        em.pty+qsTranslate("metadata", "Dimensions"), "%1 x %2".arg(variables.currentImageResolution.width).arg(variables.currentImageResolution.height), PQSettings.metadataDimensions,
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
         em.pty+qsTranslate("metadata", "Image"), ((filefoldermodel.current+1)+"/"+filefoldermodel.countMainView), PQSettings.metadataImageNumber,
         //: Please keep string short!

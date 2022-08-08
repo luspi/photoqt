@@ -50,6 +50,8 @@ Item {
 
     property bool mainMenuVisible: false
 
+    property size currentImageResolution: Qt.size(-1,-1)
+
     Connections {
 
         target: PQSettings
