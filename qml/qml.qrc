@@ -163,5 +163,6 @@
         <file>PQWindowSizePopupManager.qml</file>
         <file>settingsmanager/tabs/interface/PQPopoutWhenSmall.qml</file>
         <file>wallpaper/ele/PQWindows.qml</file>
+        <file>settingsmanager/tabs/metadata/PQBehindLeftEdge.qml</file>
     </qresource>
 </RCC>

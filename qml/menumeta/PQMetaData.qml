@@ -29,10 +29,10 @@ Item {
 
     id: metadata_top
 
-    x: PQSettings.interfacePopoutMetadata ? 0 : PQSettings.metadataElementPosition.x
-    y: PQSettings.interfacePopoutMetadata ? 0 : PQSettings.metadataElementPosition.y
+    x: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 0 : PQSettings.metadataElementPosition.x)
+    y: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 0 : PQSettings.metadataElementPosition.y)
     width: PQSettings.interfacePopoutMetadata ? parentWidth : PQSettings.metadataElementSize.width
-    height: PQSettings.interfacePopoutMetadata ? parentHeight : PQSettings.metadataElementSize.height
+    height: PQSettings.interfacePopoutMetadata ? parentHeight : (PQSettings.metadataElementBehindLeftEdge ? parentHeight : PQSettings.metadataElementSize.height)
 
     onXChanged:
         saveGeometryTimer.restart()
@@ -49,9 +49,19 @@ Item {
     // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
     property bool startupDelay: true
 
-    opacity: (PQSettings.metadataElementVisible&&filefoldermodel.current!=-1) ? 1 : 0
+    property bool makeVisible: (startupDelay||variables.mousePos.x == -1) ? false : (visible ? (variables.mousePos.x < width+20) : (variables.mousePos.x < 20))
+
+    opacity: PQSettings.interfacePopoutMetadata ? 1 : (PQSettings.metadataElementBehindLeftEdge ? (makeVisible ? 1 : 0) : ((PQSettings.metadataElementVisible&&filefoldermodel.current!=-1) ? 1 : 0))
     Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity>0
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.MiddleButton
+        onWheel:
+            wheel.accepted = true
+    }
 
     Timer {
         // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
@@ -69,8 +79,12 @@ Item {
         running: false
         onTriggered: {
             if(!PQSettings.interfacePopoutMetadata && !startupDelay) {
-                PQSettings.metadataElementPosition = Qt.point(Math.max(0, Math.min(metadata_top.x, toplevel.width-metadata_top.width)), Math.max(0, Math.min(metadata_top.y, toplevel.height-metadata_top.height)))
-                PQSettings.metadataElementSize = Qt.size(metadata_top.width, metadata_top.height)
+                if(PQSettings.metadataElementBehindLeftEdge)
+                    PQSettings.metadataElementSize = Qt.size(metadata_top.width, PQSettings.metadataElementSize.height)
+                else {
+                    PQSettings.metadataElementPosition = Qt.point(Math.max(0, Math.min(metadata_top.x, toplevel.width-metadata_top.width)), Math.max(0, Math.min(metadata_top.y, toplevel.height-metadata_top.height)))
+                    PQSettings.metadataElementSize = Qt.size(metadata_top.width, metadata_top.height)
+                }
             }
         }
     }
@@ -153,13 +167,14 @@ Item {
 
     PQMouseArea {
         anchors.fill: parent
+        enabled: !PQSettings.metadataElementBehindLeftEdge
         hoverEnabled: true
         drag.minimumX: 0
         drag.minimumY: 0
         drag.maximumX: toplevel.width-metadata_top.width
         drag.maximumY: toplevel.height-metadata_top.height
         drag.target: parent
-        cursorShape: Qt.SizeAllCursor
+        cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
         onWheel: mouse.accepted = false
     }
 
@@ -213,7 +228,7 @@ Item {
         model: allMetaData.length/3
         delegate: Item {
 
-            width: parent.width
+            width: view.width
             height: ((allMetaData[3*index+1] !== "" && allMetaData[3*index+2]) || (allMetaData[3*index]===""&&allMetaData[3*index+1]==="")) ? val.height : 0
 
             Text {
@@ -305,7 +320,7 @@ Item {
         width: 25
         height: 25
 
-        visible: !PQSettings.interfacePopoutMetadata
+        visible: !PQSettings.interfacePopoutMetadata && !PQSettings.metadataElementBehindLeftEdge
 
         source: "/other/close.png"
         mipmap: true
@@ -315,6 +330,7 @@ Item {
 
         PQMouseArea {
             id: closemouse
+            enabled: !PQSettings.metadataElementBehindLeftEdge
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
@@ -328,7 +344,7 @@ Item {
 
         id: resizeBotRight
 
-        enabled: !PQSettings.interfacePopoutMetadata
+        enabled: !PQSettings.interfacePopoutMetadata && !PQSettings.metadataElementBehindLeftEdge
 
         anchors {
             right: parent.right
@@ -336,12 +352,47 @@ Item {
         }
         width: 10
         height: 10
-        cursorShape: Qt.SizeFDiagCursor
+        cursorShape: enabled ? Qt.SizeFDiagCursor : Qt.ArrowCursor
 
         onPositionChanged: {
             if(pressed) {
                 metadata_top.width = Math.max(300, metadata_top.width + (mouse.x-resizeBotRight.width))
                 metadata_top.height = Math.max(400, metadata_top.height + (mouse.y-resizeBotRight.height))
+            }
+        }
+
+    }
+
+    PQMouseArea {
+
+        id: resizeWidth
+
+        x: parent.width-width
+        y: 0
+        width: 5
+        height: parent.height
+
+        enabled: !PQSettings.interfacePopoutMetadata && PQSettings.metadataElementBehindLeftEdge
+
+        tooltip: em.pty+qsTranslate("metadata", "Click and drag to resize element")
+
+        cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
+
+        property int oldMouseX
+
+        onPressed: {
+            oldMouseX = mouse.x
+        }
+
+        onReleased: {
+            PQSettings.metadataElementWidth = metadata_top.width
+        }
+
+        onPositionChanged: {
+            if (pressed) {
+                var w = metadata_top.width + (mouse.x-oldMouseX)
+                if(w < 2*toplevel.width/3)
+                    metadata_top.width = w
             }
         }
 

@@ -105,6 +105,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: gps.expertmodeonly }
             PQRotation { id: rot }
                 PQHorizontalLine { expertModeOnly: rot.expertmodeonly }
+            PQBehindLeftEdge { id: edg }
+                PQHorizontalLine { expertModeOnly: edg.expertmodeonly }
             PQFaceTags { id: ftg }
                 PQHorizontalLine { expertModeOnly: ftg.expertmodeonly }
             PQFaceTagsFontSize { id: ftf }
