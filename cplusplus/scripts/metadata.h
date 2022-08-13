@@ -49,9 +49,9 @@ public:
         }
     }
 
-    Q_PROPERTY(QString fileSize READ getFileSize WRITE setFileSize NOTIFY fileSizeChanged)
-    QString getFileSize() { return m_fileSize; }
-    void setFileSize(QString val) {
+    Q_PROPERTY(qint64 fileSize READ getFileSize WRITE setFileSize NOTIFY fileSizeChanged)
+    qint64 getFileSize() { return m_fileSize; }
+    void setFileSize(qint64 val) {
         if(m_fileSize != val) {
             m_fileSize = val;
             Q_EMIT fileSizeChanged();
@@ -216,7 +216,7 @@ private:
     void setEmptyExivData();
 
     bool    m_validFile;
-    QString m_fileSize;
+    qint64  m_fileSize;
 
     QString m_exifImageMake;
     QString m_exifImageModel;

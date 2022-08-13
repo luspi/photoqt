@@ -97,7 +97,7 @@ Item {
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
         em.pty+qsTranslate("metadata", "Image"), ((filefoldermodel.current+1)+"/"+filefoldermodel.countMainView), PQSettings.metadataImageNumber,
         //: Please keep string short!
-        em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metadataFileSize,
+        em.pty+qsTranslate("metadata", "File size"), handlingGeneral.convertBytesToHumanReadable(cppmetadata.fileSize), PQSettings.metadataFileSize,
         //: Please keep string short!
         em.pty+qsTranslate("metadata", "File type"), (filefoldermodel.current==-1 ? "" : handlingFileDir.getFileType(filefoldermodel.entriesMainView[filefoldermodel.current])), PQSettings.metadataFileType,
         "", "", true,

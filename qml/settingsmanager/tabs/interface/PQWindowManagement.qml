@@ -59,13 +59,13 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            wm_manage.checked = PQSettings.interfaceLabelsManageWindow
+            wm_manage.checked = PQSettings.interfaceStatusInfoManageWindow
             wm_save.checked = PQSettings.interfaceSaveWindowGeometry
             wm_keep.checked = PQSettings.interfaceKeepWindowOnTop
         }
 
         onSaveAllSettings: {
-            PQSettings.interfaceLabelsManageWindow = wm_manage.checked
+            PQSettings.interfaceStatusInfoManageWindow = wm_manage.checked
             PQSettings.interfaceSaveWindowGeometry = wm_save.checked
             PQSettings.interfaceKeepWindowOnTop = wm_keep.checked
         }

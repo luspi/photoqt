@@ -237,7 +237,7 @@ Window {
     PQMouseShortcuts { id: mouseshortcuts }
 
     PQImage { id: imageitem }
-    PQLabels { id: labels }
+    PQStatusInfo { id: statusinfo }
     PQMessage { id: message }
     PQWindowButtons { id: windowbuttons }
     PQWindowButtons { id: windowsbuttons_ontop; visibleAlways: true }

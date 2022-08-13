@@ -288,7 +288,8 @@ bool PQStartup::renameSettings() {
     QSqlDatabase db = QSqlDatabase::database("settings");
 
     QMap<QString,QStringList> rename;
-    rename ["QuickNavigation"] = QStringList() << "NavigationFloating" << "interface";
+    rename ["LabelsWindowButtonsSize"] = QStringList() << "WindowButtonsSize" << "interface";
+    rename ["LabelsManageWindow"] = QStringList() << "StatusInfoManageWindow" << "interface";
     QMapIterator<QString, QStringList> i(rename);
     while(i.hasNext()) {
         i.next();

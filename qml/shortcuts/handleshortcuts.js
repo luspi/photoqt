@@ -24,7 +24,7 @@ function checkComboForShortcut(combo, wheelDelta) {
 
     // if in viewer mode, pressing 'Escape' exits viewer mode
     if(combo == "Escape" && (filefoldermodel.isPQT || filefoldermodel.isARC)) {
-        labels.exitViewerMode()
+        statusinfo.exitViewerMode()
         return
     }
 
@@ -123,7 +123,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd === "__goToLast")
         imageitem.loadLastImage()
     else if(cmd === "__viewerMode")
-        labels.toggleViewerMode()
+        statusinfo.toggleViewerMode()
     else if(cmd === "__showFaceTags")
         PQSettings.metadataFaceTagsEnabled = !PQSettings.metadataFaceTagsEnabled
     else if(cmd === "__wallpaper")

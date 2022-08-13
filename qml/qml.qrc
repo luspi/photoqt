@@ -132,10 +132,8 @@
         <file>unavailable/PQUnavailablePopout.qml</file>
         <file>mainwindow/PQWindowButtons.qml</file>
         <file>PQModel.qml</file>
-        <file>mainwindow/PQLabels.qml</file>
         <file>mainwindow/PQNavigation.qml</file>
         <file>settingsmanager/tabs/interface/PQNavigation.qml</file>
-        <file>settingsmanager/tabs/interface/PQLabels.qml</file>
         <file>mainwindow/image/PQFaceTagsUnsupported.qml</file>
         <file>PQTrayIcon.qml</file>
         <file>PQCmdReceived.qml</file>
@@ -164,5 +162,8 @@
         <file>settingsmanager/tabs/interface/PQPopoutWhenSmall.qml</file>
         <file>wallpaper/ele/PQWindows.qml</file>
         <file>settingsmanager/tabs/metadata/PQBehindLeftEdge.qml</file>
+        <file>mainwindow/PQStatusInfo.qml</file>
+        <file>settingsmanager/tabs/interface/PQStatusInfo.qml</file>
+        <file>settingsmanager/tabs/interface/PQWindowButtons.qml</file>
     </qresource>
 </RCC>

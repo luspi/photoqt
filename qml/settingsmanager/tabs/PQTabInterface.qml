@@ -102,10 +102,12 @@ Item {
 
             PQLanguage { id: lng }
                 PQHorizontalLine { expertModeOnly: lng.expertmodeonly }
-            PQLabels { id: lab }
-                PQHorizontalLine { expertModeOnly: lab.expertmodeonly }
+            PQStatusInfo { id: sti }
+                PQHorizontalLine { expertModeOnly: sti.expertmodeonly }
             PQWindowMode { id: wmo }
                 PQHorizontalLine { expertModeOnly: wmo.expertmodeonly }
+            PQWindowButtons { id: wbt }
+                PQHorizontalLine { expertModeOnly: wbt.expertmodeonly }
             PQNavigation { id: nav }
                 PQHorizontalLine { expertModeOnly: nav.expertmodeonly }
             PQTrayIcon { id: tic }

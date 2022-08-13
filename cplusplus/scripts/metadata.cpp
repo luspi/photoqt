@@ -25,7 +25,7 @@
 PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
     m_validFile = true;
-    m_fileSize = "";
+    m_fileSize = 0;
 
     m_exifImageMake = "";
     m_exifImageModel = "";
@@ -96,7 +96,7 @@ void PQMetaData::updateMetadata(QString path) {
 
     setValidFile(true);
 
-    setFileSize(QString("%1 KB").arg(info.size()/1024.0));
+    setFileSize(info.size());
 
 #ifdef EXIV2
 

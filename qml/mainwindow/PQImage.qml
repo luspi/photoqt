@@ -710,7 +710,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
             tooltip: em.pty+qsTranslate("quickinfo", "Click here to enter viewer mode")
             onClicked:
-                labels.enterViewerMode()
+                statusinfo.enterViewerMode()
         }
 
         Image {

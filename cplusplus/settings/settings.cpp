@@ -23,6 +23,7 @@
  /* auto-generated using generatesettings.py */
 
 #include "settings.h"
+#include <QJSValue>
 //#include "../startup/settings.h"
 
 PQSettings::PQSettings() {
@@ -240,7 +241,14 @@ void PQSettings::saveChangedValue(const QString &_key, const QVariant &value) {
         query.bindValue(":val", QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y()));
     } else if(value.type() == QVariant::Size || value.type() == QVariant::SizeF)
         query.bindValue(":val", QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height()));
-    else
+    else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
+        QStringList ret;
+        QJSValue val = value.value<QJSValue>();
+        const int length = val.property("length").toInt();
+        for(int i = 0; i < length; ++i)
+            ret << val.property(i).toString();
+        query.bindValue(":val", ret.join(":://::"));
+    } else
         query.bindValue(":val", value.toString());
     query.bindValue(":name", key);
 
