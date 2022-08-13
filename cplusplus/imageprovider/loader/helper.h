@@ -42,7 +42,7 @@ public:
 
 private:
     QCache<QString,QImage> *cache;
-    int mincost;
+    int maxcost;
 
 };
 
