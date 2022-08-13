@@ -113,6 +113,14 @@ Menu {
             onTriggered:
                 PQSettings.openfilePreviewMuted = !PQSettings.openfilePreviewMuted
         }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfilePreviewFullColors
+            //: This is a context menu entry, selecting it will make the COLORS of the preview image in FULL (i.e., without blur/opacity)
+            text: em.pty+qsTranslate("filedialog", "Full colors")
+            onTriggered:
+                PQSettings.openfilePreviewFullColors = !PQSettings.openfilePreviewFullColors
+        }
     }
 
 }

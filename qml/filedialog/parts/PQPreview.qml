@@ -27,7 +27,7 @@ Item {
 
     property string filePath: ""
 
-    opacity: 0.2
+    opacity: PQSettings.openfilePreviewFullColors ? 1 : 0.2
 
     Image {
 
