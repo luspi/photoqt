@@ -58,13 +58,6 @@ Item {
             if(wheel.modifiers & Qt.KeypadModifier)
                 combo += "Keypad+";
 
-            if(wheel.buttons & Qt.LeftButton)
-                combo += "Left Button"
-            if(wheel.buttons & Qt.MiddleButton)
-                combo += "Middle Button"
-            if(wheel.buttons & Qt.RightButton)
-                combo += "Right Button"
-
             angleDeltaX += wheel.angleDelta.x
             angleDeltaY += wheel.angleDelta.y
 
