@@ -26,8 +26,10 @@ import "../elements"
 
 Item {
 
-    x: parent.width-width-PQSettings.imageviewMargin
-    y: PQSettings.imageviewMargin
+    x: parent.width-width-distanceFromEdge
+    y: distanceFromEdge
+
+    property int distanceFromEdge: 5
 
     width: row.width
     height: row.height
@@ -176,8 +178,8 @@ Item {
             PQMouseArea {
                 id: closemouse
                 anchors.fill: parent
-                anchors.topMargin: -PQSettings.imageviewMargin
-                anchors.rightMargin: -PQSettings.imageviewMargin
+                anchors.topMargin: -distanceFromEdge
+                anchors.rightMargin: -distanceFromEdge
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
