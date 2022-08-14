@@ -29,10 +29,10 @@ Item {
 
     id: metadata_top
 
-    x: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 0 : PQSettings.metadataElementPosition.x)
-    y: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 0 : PQSettings.metadataElementPosition.y)
+    x: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 40 : PQSettings.metadataElementPosition.x)
+    y: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? (parentHeight-height)/3 : PQSettings.metadataElementPosition.y)
     width: PQSettings.interfacePopoutMetadata ? parentWidth : PQSettings.metadataElementSize.width
-    height: PQSettings.interfacePopoutMetadata ? parentHeight : (PQSettings.metadataElementBehindLeftEdge ? parentHeight : PQSettings.metadataElementSize.height)
+    height: PQSettings.interfacePopoutMetadata ? parentHeight : Math.min(parentHeight, PQSettings.metadataElementSize.height)
 
     onXChanged:
         saveGeometryTimer.restart()
@@ -49,7 +49,7 @@ Item {
     // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
     property bool startupDelay: true
 
-    property bool makeVisible: (startupDelay||variables.mousePos.x == -1) ? false : (visible ? (variables.mousePos.x < width+20) : (variables.mousePos.x < 20))
+    property bool makeVisible: (startupDelay||variables.mousePos.x == -1) ? false : (visible ? (variables.mousePos.x < width+x+20) : (variables.mousePos.x < 20))
 
     opacity: PQSettings.interfacePopoutMetadata ? 1 : (PQSettings.metadataElementBehindLeftEdge ? (makeVisible ? 1 : 0) : ((PQSettings.metadataElementVisible&&filefoldermodel.current!=-1) ? 1 : 0))
     Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }
@@ -79,12 +79,8 @@ Item {
         running: false
         onTriggered: {
             if(!PQSettings.interfacePopoutMetadata && !startupDelay) {
-                if(PQSettings.metadataElementBehindLeftEdge)
-                    PQSettings.metadataElementSize = Qt.size(metadata_top.width, PQSettings.metadataElementSize.height)
-                else {
-                    PQSettings.metadataElementPosition = Qt.point(Math.max(0, Math.min(metadata_top.x, toplevel.width-metadata_top.width)), Math.max(0, Math.min(metadata_top.y, toplevel.height-metadata_top.height)))
-                    PQSettings.metadataElementSize = Qt.size(metadata_top.width, metadata_top.height)
-                }
+                PQSettings.metadataElementPosition = Qt.point(Math.max(0, Math.min(metadata_top.x, toplevel.width-metadata_top.width)), Math.max(0, Math.min(metadata_top.y, toplevel.height-metadata_top.height)))
+                PQSettings.metadataElementSize = Qt.size(metadata_top.width, metadata_top.height)
             }
         }
     }
@@ -167,15 +163,15 @@ Item {
 
     PQMouseArea {
         anchors.fill: parent
-        enabled: !PQSettings.metadataElementBehindLeftEdge
         hoverEnabled: true
         drag.minimumX: 0
         drag.minimumY: 0
         drag.maximumX: toplevel.width-metadata_top.width
         drag.maximumY: toplevel.height-metadata_top.height
         drag.target: parent
+        drag.axis: PQSettings.metadataElementBehindLeftEdge ? Drag.YAxis : Drag.XAndYAxis
         cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
-        onWheel: mouse.accepted = false
+        onWheel: wheel.accepted = false
     }
 
     // Label at first start-up
@@ -342,29 +338,6 @@ Item {
 
     PQMouseArea {
 
-        id: resizeBotRight
-
-        enabled: !PQSettings.interfacePopoutMetadata && !PQSettings.metadataElementBehindLeftEdge
-
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-        }
-        width: 10
-        height: 10
-        cursorShape: enabled ? Qt.SizeFDiagCursor : Qt.ArrowCursor
-
-        onPositionChanged: {
-            if(pressed) {
-                metadata_top.width = Math.max(300, metadata_top.width + (mouse.x-resizeBotRight.width))
-                metadata_top.height = Math.max(400, metadata_top.height + (mouse.y-resizeBotRight.height))
-            }
-        }
-
-    }
-
-    PQMouseArea {
-
         id: resizeWidth
 
         x: parent.width-width
@@ -385,7 +358,7 @@ Item {
         }
 
         onReleased: {
-            PQSettings.metadataElementWidth = metadata_top.width
+            PQSettings.metadataElementSize.width = metadata_top.width
         }
 
         onPositionChanged: {
@@ -393,6 +366,61 @@ Item {
                 var w = metadata_top.width + (mouse.x-oldMouseX)
                 if(w < 2*toplevel.width/3)
                     metadata_top.width = w
+            }
+        }
+
+    }
+
+    PQMouseArea {
+
+        id: resizeHeight
+
+        x: 0
+        y: parent.height-height
+        width: parent.width
+        height: 5
+
+        enabled: !PQSettings.interfacePopoutMetadata && PQSettings.metadataElementBehindLeftEdge
+
+        tooltip: em.pty+qsTranslate("metadata", "Click and drag to resize element")
+
+        cursorShape: enabled ? Qt.SizeVerCursor : Qt.ArrowCursor
+
+        property int oldMouseY
+
+        onPressed: {
+            oldMouseY = mouse.y
+        }
+
+        onReleased: {
+            PQSettings.metadataElementSize.height = metadata_top.height
+        }
+
+        onPositionChanged: {
+            if (pressed) {
+                var h = metadata_top.height + (mouse.y-oldMouseY)
+                metadata_top.height = h
+            }
+        }
+
+    }
+
+    PQMouseArea {
+
+        id: resizeBotRight
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+        }
+        width: 10
+        height: 10
+        cursorShape: enabled ? Qt.SizeFDiagCursor : Qt.ArrowCursor
+
+        onPositionChanged: {
+            if(pressed) {
+                metadata_top.width = Math.max(300, metadata_top.width + (mouse.x-resizeBotRight.width))
+                metadata_top.height = Math.max(400, metadata_top.height + (mouse.y-resizeBotRight.height))
             }
         }
 

@@ -34,11 +34,12 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    x: parentWidth-width+1
-    y: -1
+    x: parentWidth-width-40
+    y: (parentHeight-height)/2
     width: (PQSettings.interfacePopoutMainMenu ? parentWidth : PQSettings.mainmenuElementWidth)
-    height: parentHeight+2
+    height: Math.min(flick.height+20, parentHeight)
 
+    radius: 10
 
     opacity: 0
     visible: opacity != 0
@@ -65,7 +66,7 @@ Rectangle {
     property bool makeHidden: (!PQSettings.interfacePopoutMainMenu &&
                                mainmenu_top.visible &&
                                !resizePressed &&
-                               variables.mousePos.x < toplevel.width-width-5 &&
+                               variables.mousePos.x < toplevel.width-width-5-40 &&
                                !forceShow)
                               || variables.slideShowActive
                               || variables.faceTaggingActive
@@ -88,6 +89,12 @@ Rectangle {
         }
     }
 
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+
+        onWheel: mouse.accepted = false
+    }
 
 
     PQMouseArea {
@@ -145,11 +152,12 @@ Rectangle {
 
         id: flick
 
-        anchors.fill: parent
-        anchors.margins: 20
-        anchors.topMargin: 10
+        x: 20
+        y: 0
+        width: parent.width-20
+        height: Math.min(childrenRect.height, parentHeight)
 
-        contentHeight: col.height
+        contentHeight: col.height+20
 
         boundsBehavior: Flickable.OvershootBounds
         ScrollBar.vertical: PQScrollBar {}
@@ -317,6 +325,74 @@ Rectangle {
 
         }
 
+    }
+
+    PQMouseArea {
+        // drag along left edge
+        anchors {
+            top: parent.top
+            left: parent.left
+            bottom: parent.bottom
+        }
+        width: 20
+        hoverEnabled: true
+
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-mainmenu_top.height
+        drag.target: parent
+        drag.axis: Drag.YAxis
+        cursorShape: Qt.SizeAllCursor
+    }
+
+    PQMouseArea {
+        // drag along right edge
+        anchors {
+            top: parent.top
+            right: parent.right
+            bottom: parent.bottom
+        }
+        width: 20
+        hoverEnabled: true
+
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-mainmenu_top.height
+        drag.target: parent
+        drag.axis: Drag.YAxis
+        cursorShape: Qt.SizeAllCursor
+    }
+
+    PQMouseArea {
+        // drag along top edge
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+        height: 20
+        hoverEnabled: true
+
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-mainmenu_top.height
+        drag.target: parent
+        drag.axis: Drag.YAxis
+        cursorShape: Qt.SizeAllCursor
+    }
+
+    PQMouseArea {
+        // drag along bottom edge
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        height: 20
+        hoverEnabled: true
+
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-mainmenu_top.height
+        drag.target: parent
+        drag.axis: Drag.YAxis
+        cursorShape: Qt.SizeAllCursor
     }
 
     // visible when popped out

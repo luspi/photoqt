@@ -138,6 +138,17 @@ Window {
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignHCenter
                     }
+                    Text {
+                        width: emptymessage.width
+                        visible: PQSettings.metadataElementBehindLeftEdge
+                        //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
+                        text: ">> " + em.pty+qsTranslate("other", "LEFT EDGE for the metadata")
+                        font.pointSize: 20
+                        font.bold: true
+                        color: "#c0c0c0"
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                    }
                     Column {
                         Text {
                             width: emptymessage.width
@@ -175,6 +186,17 @@ Window {
                 source: "/mainwindow/rightarrow.png"
             }
 
+            Image {
+                id: arrleft
+                visible: emptymessage.visible && PQSettings.metadataElementBehindLeftEdge
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                opacity: 0.5
+                y: (parent.height-height)/2
+                width: 100
+                height: 100
+                source: "/mainwindow/leftarrow.png"
+            }
 
             Image {
                 id: arrdown
