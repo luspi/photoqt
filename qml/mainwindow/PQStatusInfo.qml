@@ -29,7 +29,7 @@ Item {
     id: status_top
 
     x: 40
-    y: 20
+    y: (PQSettings.thumbnailsEdge == "Top") ? (20 + thumbnails.height+thumbnails.y) : 20
 
     width: col.width
     height: col.height
@@ -213,6 +213,11 @@ Item {
                 drag.maximumX: toplevel.width-parent.width
                 drag.minimumY: 0
                 drag.maximumY: toplevel.height-parent.height
+
+                drag.onActiveChanged: {
+                    var tmp = status_top.y
+                    status_top.y = tmp
+                }
 
                 doubleClickThreshold: 250
 

@@ -50,15 +50,20 @@ Item {
 
         if(PQSettings.thumbnailsEdge == "Top") {
 
+            if(filefoldermodel.current == -1)
+                shouldBeVisible = false
+
             // force it hidden
-            if(forceHide)
+            else if(forceHide)
                 shouldBeVisible = false
 
             // always visible
-            else if(PQSettings.thumbailsVisibility == 1)
+            else if(PQSettings.thumbnailsVisibility == 1)
                 shouldBeVisible = true
             // mouse pointer close to top edge and bar not visible
-            else if(variables.mousePos.y < 2*PQSettings.interfaceHotEdgeSize*5 && !visible)
+            else if(variables.mousePos.y < 2*PQSettings.interfaceHotEdgeSize*5 && !visible && variables.mousePos.x < toplevel.width-windowbuttons.width-50)
+                shouldBeVisible = true
+            else if(variables.mousePos.y < height+windowbuttons.height && visible)
                 shouldBeVisible = true
             // mouse pointer hovering visible bar
             else if(variables.mousePos.y < height && visible)
@@ -74,7 +79,10 @@ Item {
 
         } else {
 
-            if(forceHide)
+            if(filefoldermodel.current == -1)
+                shouldBeVisible = false
+
+            else if(forceHide)
                 shouldBeVisible = false
 
             else if(PQSettings.thumbnailsVisibility==1)
@@ -303,8 +311,10 @@ Item {
 
     Connections {
         target: PQSettings
-        onThumbnailsEdgeChanged:
+        onThumbnailsEdgeChanged: {
+            calculateY()
             checkVisibility()
+        }
         onThumbnailsVisibilityChanged:
             checkVisibility()
         onInterfaceHotEdgeSizeChanged:

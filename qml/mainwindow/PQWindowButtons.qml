@@ -27,7 +27,7 @@ import "../elements"
 Item {
 
     x: parent.width-width-distanceFromEdge
-    y: distanceFromEdge
+    y: (PQSettings.thumbnailsEdge == "Top") ? (distanceFromEdge + thumbnails.height+thumbnails.y) : distanceFromEdge
 
     property int distanceFromEdge: 5
 
