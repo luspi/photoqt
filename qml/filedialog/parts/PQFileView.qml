@@ -58,18 +58,15 @@ GridView {
         filedialog_top.historyListDirectory = [filefoldermodel.folderFileDialog]
         filedialog_top.historyListIndex = 0
         loadFolder()
+        setModelToGridView()
     }
 
     // we connect to this model instead of a property binding of model to countFileDialog
     // this way we also rebuild the model if the count has remained the same
     Connections {
         target: filefoldermodel
-        onNewDataLoadedFileDialog: {
-            // the order below is important to avoid 'accidentally' preloading/caching excluded folders
-            files_grid.model = 0
-            currentFolderExcluded = handlingFileDir.isExcludeDirFromCaching(filefoldermodel.folderFileDialog)
-            files_grid.model = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog
-        }
+        onNewDataLoadedFileDialog:
+            setModelToGridView()
     }
 
     cellWidth: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : width-scroll.width
@@ -625,6 +622,15 @@ GridView {
             filefoldermodel.mimeTypeFilter = []
         } else
             console.log("PQFileView.loadFolder(): ERROR: file type unknown:", tweaks.showWhichFileTypeIndex)
+
+    }
+
+    function setModelToGridView() {
+
+        // the order below is important to avoid 'accidentally' preloading/caching excluded folders
+        files_grid.model = 0
+        currentFolderExcluded = handlingFileDir.isExcludeDirFromCaching(filefoldermodel.folderFileDialog)
+        files_grid.model = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog
 
     }
 
