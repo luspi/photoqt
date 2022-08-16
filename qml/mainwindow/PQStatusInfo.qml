@@ -34,7 +34,11 @@ Item {
     width: col.width
     height: col.height
 
-    visible: info.length>0
+    visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) &&
+                 (filefoldermodel.current>-1 || filefoldermodel.filterCurrentlyActive) &&
+                 (filefoldermodel.countMainView>0 || filefoldermodel.filterCurrentlyActive) &&
+                 !variables.faceTaggingActive && info.length>0
+
 
     // possible values: counter, filename, filepathname, resolution, zoom, rotation
     property var info: PQSettings.interfaceStatusInfoList
