@@ -1,4 +1,4 @@
- PhotoQt v2.8 - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt vdev - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: https://photoqt.org
 --------------------------------------------------------------------
 
@@ -95,3 +95,49 @@
  the desktop file (via xdg-desktop-menu uninstall), the icons, the binary file, and
  the appdata file. Alternatively you can simply remove all the files manually which
  should yield the same result.
+
+
+ BUILDING ON WINDOWS
+---------------------
+
+ PhotoQt offers installers for pre-built binaries on its website:
+ https://photoqt.org/downpopupwindows
+
+ If you prefer to build it yourself, this process is not as hard as it might seem at
+ first. The main challenge in building PhotoQt on Windows lies in getting the environment
+ set up and all dependencies installed.
+
+ The following are required dependencies:
+
+ 1) Install Visual Studio 2019 Community Edition (free, be sure to install the 'Desktop
+    Development with C++' workload)
+    - Website: https://visualstudio.microsoft.com/
+ 2) Install CMake:
+    - Website: https://cmake.org/
+    - In the installer set the system path option to Add CMake to the system PATH for all
+      users
+ 3) Install Qt 5.15
+    - Website: https://qt.io
+    - In the installer, make sure to install all required modules as listed above under
+      dependencies.
+    - After installation, confirm that your installation of Qt finds both CMake and the
+      compiler installed in steps 1 and 2
+
+ The following dependencies are recommended but can be disabled through CMake if not
+ wanted:
+
+ 1) LibArchive: https://libarchive.org/
+ 2) Exiv2: https://exiv2.org/
+ 3) ImageMagick: https://imagemagick.org/
+ 4) LibRaw: https://www.libraw.org/
+ 5) pugixml: https://pugixml.org/
+ 6) Poppler: https://poppler.freedesktop.org/
+ 7) FreeImage: https://freeimage.sourceforge.io/
+ 8) DevIL: http://openil.sourceforge.net/
+
+ Make sure that any installed dependency is added to the system path, or otherwise you
+ need to explicitely point CMake to the right location for each of them.
+
+ Once all the requried and desired dependencies are installed, then the source code of
+ PhotoQt can be fetched from the website (https://photoqt.og/down). One way to build
+ PhotoQt is to load it in the IDE QtCreator that is part of the Qt installation.
