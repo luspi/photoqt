@@ -86,14 +86,14 @@
      # This (  i) installs the desktop file to share/applications/
      #      ( ii) installs some icons to icons/hicolor/
      #      (iii) installs the binary to bin/
-     #      ( iv) installs the appdata file to share/appdata/
+     #      ( iv) installs the metainfo file to share/metainfo/
 
 
  UNINSTALL
 -----------
  If you want to uninstall PhotoQt, simply run "make uninstall" as root. This removes
  the desktop file (via xdg-desktop-menu uninstall), the icons, the binary file, and
- the appdata file. Alternatively you can simply remove all the files manually which
+ the metainfo file. Alternatively you can simply remove all the files manually which
  should yield the same result.
 
 

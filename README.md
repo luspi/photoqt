@@ -82,11 +82,11 @@ These are some libraries and tools that can add additional formats to PhotoQt if
     1. installs the desktop file to share/applications/  
     2. moves some icons to icons/hicolor/  
     3. moves the binary to bin/
-    4. installs the appdata file to share/appdata/
+    4. installs the metainfo file to share/metainfo/
 
 ## UNINSTALL
 
-If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons, the binary file, and the appdata file. Alternatively you can simply remove all the files manually which should yield the same result.
+If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons, the binary file, and the metainfo file. Alternatively you can simply remove all the files manually which should yield the same result.
 
 ## BUILDING ON WINDOWS
 

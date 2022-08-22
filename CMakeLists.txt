@@ -415,8 +415,8 @@ if(UNIX)
         DESTINATION share/icons/hicolor/128x128/apps/
     )
     install(
-        FILES org.photoqt.PhotoQt.appdata.xml
-        DESTINATION share/appdata/
+        FILES org.photoqt.PhotoQt.metainfo.xml
+        DESTINATION share/metainfo/
     )
     # These are the old icon names up to v2.6
     # we remove the old files if they are still there

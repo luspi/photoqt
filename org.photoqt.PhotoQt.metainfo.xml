@@ -20,19 +20,19 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://photoqt.org/img/appdata/appdataxml1.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo1.jpg</image>
             <caption>The main window showing PhotoQt in action</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/appdata/appdataxml2.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo2.jpg</image>
             <caption>Opening a new file from within PhotoQt</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/appdata/appdataxml3.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo3.jpg</image>
             <caption>The settings manager, 'interface' tab</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/appdata/appdataxml4.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo4.jpg</image>
             <caption>The settings manager, 'filetypes' tab</caption>
         </screenshot>
     </screenshots>
