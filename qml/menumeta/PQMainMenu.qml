@@ -172,71 +172,71 @@ Rectangle {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Navigation")
                 rightcolCenter: true
-                leftcol: [[["img", "open",                                          "__open", true, false],
+                leftcol: [[["img", "open.svg",                                      "__open", true, false],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Browse images"), "__open", true, false]],
 
-                          [["img", "first",                                 "__goToFirst", false, true],
+                          [["img", "first.svg",                             "__goToFirst", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "first"), "__goToFirst", false, true],
                            ["txt", " ",                                     "",            false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "last"),  "__goToLast" , false, true],
-                           ["img", "last",                                  "__goToLast" , false, true]]]
+                           ["img", "last.svg",                              "__goToLast" , false, true]]]
 
-                rightcol: [["img", "leftarrow",  "__prev", false, true],
-                           ["img", "rightarrow", "__next", false, true]]
+                rightcol: [["img", "leftarrow.svg",  "__prev", false, true],
+                           ["img", "rightarrow.svg", "__next", false, true]]
             }
 
             PQMainMenuGroup {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Zoom")
                 rightcolCenter: true
-                leftcol: [[["img", "actualsize",                                  "__zoomActual",  false, true],
+                leftcol: [[["img", "actualsize.svg",                              "__zoomActual",  false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Actual size"), "__zoomActual",  false, true]],
 
-                          [["img", "fittoscreen",                                   "__zoomReset", false, true],
+                          [["img", "reset.svg",                                  "__zoomReset", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Reset zoom"), "__zoomReset", false, true]]]
 
-                rightcol: [["img", "zoomin",  "__zoomIn",  false, true],
-                           ["img", "zoomout", "__zoomOut", false, true]]
+                rightcol: [["img", "zoomin.svg",  "__zoomIn",  false, true],
+                           ["img", "zoomout.svg", "__zoomOut", false, true]]
             }
 
             PQMainMenuGroup {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Rotation/Flip")
                 rightcolCenter: true
-                leftcol: [[["img", "leftrightarrow",                                  "__flipH", false, true],
+                leftcol: [[["img", "leftrightarrow.svg",                              "__flipH", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Horizontal flip"), "__flipH", false, true]],
 
-                          [["img", "updownarrow",                                   "__flipV", false, true],
+                          [["img", "updownarrow.svg",                               "__flipV", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Vertical flip"), "__flipV", false, true]],
 
-                          [["img", "reset",                                      "__flipReset", false, true],
+                          [["img", "reset.svg",                                  "__flipReset", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Reset flip"), "__flipReset", false, true]],
 
-                          [["img", "reset",                                          "__rotate0", false, true],
+                          [["img", "reset.svg",                                      "__rotate0", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Reset rotation"), "__rotate0", false, true]]]
 
-                rightcol: [["img", "rotateleft",  "__rotateL", false, true],
-                           ["img", "rotateright", "__rotateR", false, true]]
+                rightcol: [["img", "rotateleft.svg",  "__rotateL", false, true],
+                           ["img", "rotateright.svg", "__rotateR", false, true]]
             }
 
             PQMainMenuGroup {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Slideshow")
                 rightcolNormal: true
-                leftcol: [[["img", "slideshow",                                 "__slideshowQuick", true, true],
+                leftcol: [[["img", "slideshow.svg",                             "__slideshowQuick", true, true],
                                    //: This is an entry in the main menu on the right, used as in "START slideshow/sorting". Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Start"),     "__slideshowQuick", true, true]]]
 
-                rightcol: [["img", "setup",                                 "__slideshow", true, true],
+                rightcol: [["img", "setup.svg",                             "__slideshow", true, true],
                                    //: This is an entry in the main menu on the right, used as in "SETUP slideshow/sorting". Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Setup"), "__slideshow", true, true]]
             }
@@ -245,11 +245,11 @@ Rectangle {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Advanced Sort")
                 rightcolNormal: true
-                leftcol: [[["img", "sort",                                  "__advancedSortQuick", true, true],
+                leftcol: [[["img", "sort.svg",                              "__advancedSortQuick", true, true],
                                    //: This is an entry in the main menu on the right, used as in "START slideshow/sorting". Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Start"), "__advancedSortQuick", true, true]]]
 
-                rightcol: [["img", "setup",                                 "__advancedSort", true, true],
+                rightcol: [["img", "setup.svg",                             "__advancedSort", true, true],
                                    //: This is an entry in the main menu on the right, used as in "SETUP slideshow/sorting". Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Setup"), "__advancedSort", true, true]]
             }
@@ -257,15 +257,15 @@ Rectangle {
             PQMainMenuGroup {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Other")
-                leftcol: [[["img", "filter",                                        "__filterImages", true, true],
+                leftcol: [[["img", "filter.svg",                                    "__filterImages", true, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Filter images"), "__filterImages", true, true]],
 
-                          [["img", "streaming",                                              "__chromecast", true, false],
+                          [["img", "streaming.svg",                                          "__chromecast", true, false],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "__chromecast", true, false]],
 
-                          [["img", "open",                                                         "__defaultFileManager", true, true],
+                          [["img", "open.svg",                                                     "__defaultFileManager", true, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "__defaultFileManager", true, true]]]
 
@@ -305,10 +305,10 @@ Rectangle {
             PQMainMenuGroup {
                 title: "PhotoQt"
                 rightcolNormal: true
-                leftcol: [[["img", "setup",                                    "__settings", true, false],
+                leftcol: [[["img", "setup.svg",                                "__settings", true, false],
                            ["txt", em.pty+qsTranslate("MainMenu", "Settings"), "__settings", true, false]]]
 
-                rightcol: [["img", "about",                                 "__about", true, false],
+                rightcol: [["img", "about.svg",                             "__about", true, false],
                            ["txt", em.pty+qsTranslate("MainMenu", "About"), "__about", true, false]]
             }
 
@@ -316,10 +316,10 @@ Rectangle {
                 title: ""
                 rightcolNormal: true
                 noSpacingAtTop: true
-                leftcol: [[["img", "help",                                        "__onlineHelp", true, false],
+                leftcol: [[["img", "help.svg",                                    "__onlineHelp", true, false],
                            ["txt", em.pty+qsTranslate("MainMenu", "Online help"), "__onlineHelp", true, false]]]
 
-                rightcol: [["img", "quit",                                 "__quit", true, false],
+                rightcol: [["img", "quit.svg",                             "__quit", true, false],
                            ["txt", em.pty+qsTranslate("MainMenu", "Quit"), "__quit", true, false]]
             }
 

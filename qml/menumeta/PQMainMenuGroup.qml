@@ -106,10 +106,14 @@ Column {
                                 y: 0.2*height
                                 visible: leftcol[outerIndex][index][0] == "img"
                                 source: !visible ? ""
-                                                 : ((leftcol[outerIndex][index][1].match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(leftcol[outerIndex][index][1].slice(4))) : ("/mainmenu/" + leftcol[outerIndex][index][1] + ".png"))
+                                                 : ((leftcol[outerIndex][index][1].match("^icn:")=="icn:") ?
+                                                        (handlingExternal.getIconPathFromTheme(leftcol[outerIndex][index][1].slice(4))) :
+                                                        ("/mainmenu/" + leftcol[outerIndex][index][1]))
                                 height: visible ? (txt.height*0.8) : 0
                                 width: height
                                 mipmap: true
+                                smooth: false
+                                sourceSize: Qt.size(width, height)
                                 opacity: enabled ? (row.mouseOver ? 1 : 0.8) : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -206,10 +210,11 @@ Column {
 
                             y: rightcolNormal ? 0.2*height : 0
                             visible: rightcol[index][0] == "img"
-                            source: visible ? ("/mainmenu/" + rightcol[index][1] + ".png") : ""
+                            source: visible ? ("/mainmenu/" + rightcol[index][1]) : ""
                             height: visible ? (rightcolNormal ? (txt2.height*0.8) : (txt2.height*2)) : 0
                             width: height
-                            mipmap: true
+                            sourceSize: Qt.size(width,height)
+                            smooth: false
                             opacity: enabled ? (row2.mouseOver ? 1 : 0.8) : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
 

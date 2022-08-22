@@ -123,6 +123,8 @@ ListView {
                     // not shown for first entry (first entry is category title)
                     visible: index>0
 
+                    sourceSize: Qt.size(width*1.5, height*1.5)
+
                     // the image icon is taken from image loader (i.e., from system theme if available)
                     source: ((icon!==undefined&&icon!="") ? ("image://icon/" + icon) : "")
 

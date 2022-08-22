@@ -62,14 +62,14 @@ QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, c
     // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
     if(ret.isNull()) {
         LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
-        if(QFile(":/filedialog/backupicons/" + icon + ".svg").exists())
-            ret = QImage(":/filedialog/backupicons/" + icon + ".svg");
+        if(QFile(QString(":/filedialog/backupicons/%1.svg").arg(icon)).exists())
+            return QIcon(QString(":/filedialog/backupicons/%1.svg").arg(icon)).pixmap(use).toImage();
         else if(icon.contains("folder") || icon.contains("directory"))
-            ret = QImage(":/filedialog/backupicons/folder.svg");
+            return QIcon(":/filedialog/backupicons/folder.svg").pixmap(use).toImage();
         else if(icon.contains("image"))
-            ret = QImage(":/filedialog/backupicons/image.svg");
+            return QIcon(":/filedialog/backupicons/image.svg").pixmap(use).toImage();
         else
-            ret = QImage(":/filedialog/backupicons/unknown.svg");
+            return QIcon(":/filedialog/backupicons/unknown.svg").pixmap(use).toImage();
     }
 
     return ret;

@@ -5,13 +5,6 @@
         <file>filedialog/unknownfile.svg</file>
         <file>image/plainerrorimg.png</file>
         <file>other/icon.png</file>
-        <file>mainmenu/about.png</file>
-        <file>mainmenu/filter.png</file>
-        <file>mainmenu/open.png</file>
-        <file>mainmenu/quit.png</file>
-        <file>mainmenu/slideshow.png</file>
-        <file>mainmenu/zoomin.png</file>
-        <file>mainmenu/zoomout.png</file>
         <file>multimedia/pause.png</file>
         <file>multimedia/play.png</file>
         <file>multimedia/speaker_high.png</file>
@@ -74,35 +67,39 @@
         <file>streaming/refresh.png</file>
         <file>other/logo_smallinsidelarge.jpg</file>
         <file>streaming/chromecastactive.png</file>
-        <file>mainmenu/sort.png</file>
-        <file>mainmenu/leftarrow.png</file>
-        <file>mainmenu/rightarrow.png</file>
-        <file>mainmenu/rotateleft.png</file>
-        <file>mainmenu/rotateright.png</file>
-        <file>mainmenu/reset.png</file>
-        <file>mainmenu/leftrightarrow.png</file>
-        <file>mainmenu/updownarrow.png</file>
         <file>slideshow/exit.png</file>
         <file>other/close.png</file>
-        <file>mainmenu/actualsize.png</file>
-        <file>mainmenu/first.png</file>
-        <file>mainmenu/fittoscreen.png</file>
-        <file>mainmenu/help.png</file>
-        <file>mainmenu/last.png</file>
-        <file>mainmenu/next.png</file>
-        <file>mainmenu/prev.png</file>
-        <file>mainmenu/setup.png</file>
-        <file>mainmenu/streaming.png</file>
-        <file>mainmenu/uparrow.png</file>
-        <file>mainmenu/copy.png</file>
-        <file>mainmenu/clipboard.png</file>
-        <file>mainmenu/delete.png</file>
-        <file>mainmenu/move.png</file>
-        <file>mainmenu/rename.png</file>
-        <file>mainmenu/metadata.png</file>
-        <file>mainmenu/histogram.png</file>
-        <file>mainmenu/faces.png</file>
-        <file>mainmenu/scale.png</file>
-        <file>mainmenu/wallpaper.png</file>
+        <file>mainmenu/about.svg</file>
+        <file>mainmenu/actualsize.svg</file>
+        <file>mainmenu/clipboard.svg</file>
+        <file>mainmenu/copy.svg</file>
+        <file>mainmenu/delete.svg</file>
+        <file>mainmenu/faces.svg</file>
+        <file>mainmenu/filter.svg</file>
+        <file>mainmenu/fittoscreen.svg</file>
+        <file>mainmenu/help.svg</file>
+        <file>mainmenu/histogram.svg</file>
+        <file>mainmenu/first.svg</file>
+        <file>mainmenu/last.svg</file>
+        <file>mainmenu/leftarrow.svg</file>
+        <file>mainmenu/leftrightarrow.svg</file>
+        <file>mainmenu/metadata.svg</file>
+        <file>mainmenu/move.svg</file>
+        <file>mainmenu/open.svg</file>
+        <file>mainmenu/quit.svg</file>
+        <file>mainmenu/rename.svg</file>
+        <file>mainmenu/reset.svg</file>
+        <file>mainmenu/rightarrow.svg</file>
+        <file>mainmenu/rotateright.svg</file>
+        <file>mainmenu/rotateleft.svg</file>
+        <file>mainmenu/scale.svg</file>
+        <file>mainmenu/setup.svg</file>
+        <file>mainmenu/slideshow.svg</file>
+        <file>mainmenu/sort.svg</file>
+        <file>mainmenu/streaming.svg</file>
+        <file>mainmenu/updownarrow.svg</file>
+        <file>mainmenu/wallpaper.svg</file>
+        <file>mainmenu/zoomin.svg</file>
+        <file>mainmenu/zoomout.svg</file>
     </qresource>
 </RCC>

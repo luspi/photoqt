@@ -80,22 +80,22 @@ Window {
 
     property var allitems_internal: [
 
-        ["rename",
+        ["rename.svg",
           "",
           //: This is an entry in the main menu on the right. Please keep short!
           ["__rename",em.pty+qsTranslate("MainMenu", "Rename file"), 1, true]],
 
-        ["copy",
+        ["copy.svg",
           "",
           //: This is an entry in the main menu on the right. Please keep short!
           ["__copy",em.pty+qsTranslate("MainMenu", "Copy file"), 1, true]],
 
-        ["move",
+        ["move.svg",
           "",
           //: This is an entry in the main menu on the right. Please keep short!
           ["__move",em.pty+qsTranslate("MainMenu", "Move file"), 1, true]],
 
-        ["delete",
+        ["delete.svg",
           "",
           //: This is an entry in the main menu on the right. Please keep short!
           ["__delete",em.pty+qsTranslate("MainMenu", "Delete file"), 1, true]],
@@ -104,22 +104,22 @@ Window {
          ""],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["clipboard",
+        ["clipboard.svg",
          "",
          ["__clipboard", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), 1, true]],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["faces",
+        ["faces.svg",
          "",
          ["__tagFaces", em.pty+qsTranslate("MainMenu", "Tag faces"), 1, true]],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["scale",
+        ["scale.svg",
          "",
          ["__scale", em.pty+qsTranslate("MainMenu", "Scale image"), 1, true]],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["wallpaper",
+        ["wallpaper.svg",
          "",
          ["__wallpaper", em.pty+qsTranslate("MainMenu", "Set as wallpaper"), 1, true]],
 
@@ -127,12 +127,12 @@ Window {
          ""],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["metadata",
+        ["metadata.svg",
          "",
          ["__showMetaData", PQSettings.metadataElementVisible ? (em.pty+qsTranslate("MainMenu", "Hide metadata")) : (em.pty+qsTranslate("MainMenu", "Show metadata")), 1, true]],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["histogram",
+        ["histogram.svg",
          "",
          ["__histogram", PQSettings.histogramVisible ? (em.pty+qsTranslate("MainMenu", "Hide histogram")) : (em.pty+qsTranslate("MainMenu", "Show histogram")), 1, true]],
 
@@ -200,8 +200,11 @@ Window {
                     Image {
                         width: 20
                         height: 20
-                        mipmap: true
-                        source: (allitems[index][0].toString().match("^icn:")=="icn:") ? (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) : (allitems[index][0]!="" ? ("/mainmenu/"+allitems[index][0]+".png") : "")
+                        source: (allitems[index][0].toString().match("^icn:")=="icn:") ?
+                                    (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) :
+                                    (allitems[index][0]!="" ? ("/mainmenu/"+allitems[index][0]) : "")
+                        sourceSize: Qt.size(width, height)
+                        smooth: false
                     }
 
                     Text {
@@ -227,9 +230,10 @@ Window {
                                 height: nametxt.height
                                 visible: allitems[topindex][2+index][1].toString().match("^img:")=="img:"
                                 opacity: enabled ? (parent.hovered ? 1 : 0.8) : 0.2
+                                smooth: false
                                 Behavior on opacity { NumberAnimation { duration: 100 } }
-                                source: visible ? ("/mainmenu/"+allitems[topindex][2+index][1].slice(4)+".png") : ""
-                                mipmap: true
+                                source: visible ? ("/mainmenu/"+allitems[topindex][2+index][1].slice(4)) : ""
+                                sourceSize: Qt.size(width, height)
                             }
                             Text {
                                 id: txt

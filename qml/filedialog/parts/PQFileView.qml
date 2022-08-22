@@ -159,6 +159,9 @@ GridView {
 
                 asynchronous: true
 
+                smooth: true
+                mipmap: true
+
                 opacity: files_grid.currentIndex==index ? 1 : 0.6
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
