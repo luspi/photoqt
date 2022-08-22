@@ -160,9 +160,11 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         filefoldermodel.advancedSortMainView()
     } else if(cmd == "__onlineHelp")
         Qt.openUrlExternally("https://photoqt.org/man")
-    else if(cmd == "__fullscreenToggle") {
+    else if(cmd == "__fullscreenToggle")
         PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
-    } else {
+    else if(cmd == "__fitInWindow")
+        PQSettings.imageviewFitInWindow = !PQSettings.imageviewFitInWindow
+    else {
         handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()

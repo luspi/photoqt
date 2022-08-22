@@ -415,6 +415,15 @@ Item {
         }
     }
 
+    Connections {
+        target: PQSettings
+        onImageviewFitInWindowChanged: {
+            if(theimage.curScale == defaultScale && theimage.curX == 0 && theimage.curY == 0)
+                reset(true, false)
+        }
+
+    }
+
     function performZoom(pos, wheelDelta, zoom_in, zoom_actual, zoom_pinch, zoom_pinchfactor) {
 
         // adjust for transformOrigin being Center and not TopLeft

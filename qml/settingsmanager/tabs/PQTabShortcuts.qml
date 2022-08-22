@@ -142,6 +142,8 @@ Item {
                                             //: Name of shortcut action
                     ["__zoomReset",         em.pty+qsTranslate("settingsmanager", "Reset Zoom")],
                                             //: Name of shortcut action
+                    ["__fitInWindow",       em.pty+qsTranslate("settingsmanager", "Toggle 'Fit in window'")],
+                                            //: Name of shortcut action
                     ["__rotateR",           em.pty+qsTranslate("settingsmanager", "Rotate Right")],
                                             //: Name of shortcut action
                     ["__rotateL",           em.pty+qsTranslate("settingsmanager", "Rotate Left")],
