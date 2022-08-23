@@ -91,7 +91,7 @@
         <file>startup/single.svg</file>
         <file>streaming/refresh.svg</file>
         <file>streaming/chromecastactive.svg</file>
-        <file>image/checkerboard.svg</file>
         <file>popin.svg</file>
+        <file>image/checkerboard.png</file>
     </qresource>
 </RCC>
