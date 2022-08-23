@@ -77,6 +77,11 @@
 
 int main(int argc, char **argv) {
 
+#ifdef Q_OS_WIN
+    qputenv("MAGICK_CODER_MODULE_PATH", qgetenv("PHOTOQT_MAGICK_CODER_MODULE_PATH"));
+    qputenv("MAGICK_FILTER_MODULE_PATH", qgetenv("PHOTOQT_MAGICK_FILTER_MODULE_PATH"));
+#endif
+
     // needs to be set before Q*Application is created
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #ifdef Q_OS_WIN

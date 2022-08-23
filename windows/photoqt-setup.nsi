@@ -29,6 +29,9 @@
 ; - license.txt
 ; - photoqt-setup.nsi (this file)
 ;
+; In addition the EnVar plugin needs to be installed for NSIS:
+; https://nsis.sourceforge.io/EnVar_plug-in
+;
 ; This will then create a new file in the application directory
 ; called photoqt-setup.exe.
 ;
@@ -96,7 +99,6 @@ RequestExecutionLevel admin
 ; The order of pages
 
 !insertmacro MUI_PAGE_WELCOME
-Page custom OldInstallInit OldInstallLeave
 !insertmacro MUI_PAGE_LICENSE "license.txt"
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
@@ -148,68 +150,6 @@ Function .onInstSuccess
          ;create/update log always within .onInstSuccess function
          !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 
-FunctionEnd
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Update warning
-
-Var OldInstallDialog
-Var OldInstallLabel1
-Var OldInstallLabel2
-Var OldInstallLabel3
-Var OldInstallCheck
-Var OldInstallCheckState
-Var OldInstallNext
-
-Function OldInstallInit
-
-    IfFileExists "$INSTDIR\photoqt.exe" +2 0
-        Abort
-
-    !insertmacro MUI_HEADER_TEXT "Previous Version installed" "Your help is needed with starting this installer."
-
-    nsDialogs::Create 1018
-    Pop $OldInstallDialog
-    ${If} $OldInstallDialog == error
-        Abort
-    ${EndIf}
-
-    GetDlgItem $OldInstallNext $HWNDPARENT 1 ; This returns a handle to the NEXT button.
-    EnableWindow $OldInstallNext 0 ; this should disable the next button.
-
-    CreateFont $0 "$(^Font)" "8" "700"; size 8 weight 700 makes it bold
-
-    ${NSD_CreateLabel} 0 0 100% 24u "A previous version of PhotoQt seems to currently be installed. Starting with v2.4, PhotoQt has changed the way it keeps track of installed files."
-    Pop $OldInstallLabel1
-
-    ${NSD_CreateLabel} 0 28u 100% 24u "It is highlighy recommeded to first uninstall any version prior to v2.4."
-    Pop $OldInstallLabel2
-;     SendMessage $OldInstallLabel2 ${WM_SETFONT} $0 0
-
-    ${NSD_CreateLabel} 0 48u 100% 24u "To uninstall, either let this installer wait here in the meantime, or cancel this installer and restart it after the old version is uninstalled. My apologies for this inconvenience!"
-    Pop $OldInstallLabel3
-
-    ${NSD_CreateCheckbox} 0 74u 100% 12u "Proceed with the installer"
-    Pop $OldInstallCheck
-    ${NSD_OnClick} $OldInstallCheck OldInstallerCheckChange
-
-    nsDialogs::Show
-
-FunctionEnd
-
-Function OldInstallerCheckChange
-
-    ${NSD_GetState} $OldInstallCheck $OldInstallCheckState
-    ${If} $OldInstallCheckState == ${BST_CHECKED}
-        EnableWindow $OldInstallNext 1
-    ${Else}
-        EnableWindow $OldInstallNext 0
-    ${EndIf}
-FunctionEnd
-
-Function OldInstallLeave
-    ; nothing needed here
 FunctionEnd
 
 
@@ -1043,6 +983,17 @@ Function FinalStepsLeave
 
     System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
 
+
+    ; Make sure ImageMagick can find all its DLLs
+    EnVar::SetHKLM
+    EnVar::Delete "PHOTOQT_MAGICK_CODER_MODULE_PATH"
+    EnVar::Delete "PHOTOQT_MAGICK_FILTER_MODULE_PATH"
+    EnVar::AddValue "PHOTOQT_MAGICK_CODER_MODULE_PATH" "$INSTDIR\imagemagick\coders"
+    EnVar::AddValue "PHOTOQT_MAGICK_FILTER_MODULE_PATH" "$INSTDIR\imagemagick\filters"
+    ; Make sure that the current process also picks them up (including the 'Open' option at the last installer page)
+    System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("PHOTOQT_MAGICK_CODER_MODULE_PATH", "$INSTDIR\imagemagick\coders").r0'
+    System::Call 'Kernel32::SetEnvironmentVariable(t, t) i("PHOTOQT_MAGICK_FILTER_MODULE_PATH", "$INSTDIR\imagemagick\filters").r0'
+
 FunctionEnd
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1320,6 +1271,10 @@ Section "Uninstall"
     !insertmacro UNINSTALL.LOG_END_UNINSTALL
 
     DeleteRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}"
+
+    ; Remove environment variables
+    EnVar::Delete "PHOTOQT_MAGICK_CODER_MODULE_PATH"
+    EnVar::Delete "PHOTOQT_MAGICK_FILTER_MODULE_PATH"
 
     System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
 
