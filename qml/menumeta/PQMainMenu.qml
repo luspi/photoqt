@@ -34,8 +34,8 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    x: parentWidth-width-40
-    y: (parentHeight-height)/2
+    x: PQSettings.interfacePopoutMainMenu ? 0 : (parentWidth-width-40)
+    y: PQSettings.interfacePopoutMainMenu ? 0 : ((parentHeight-height)/2)
     width: (PQSettings.interfacePopoutMainMenu ? parentWidth : PQSettings.mainmenuElementWidth)
     height: Math.min(flick.height+20, parentHeight)
 
