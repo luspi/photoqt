@@ -262,58 +262,81 @@ Item {
 
         }
 
-        Rectangle {
-            id: filterremove_cont
-            visible: filefoldermodel.filterCurrentlyActive
-            width: visible ? filterrow.width : 0
-            height: visible ? filterrow.height+20 : 0
-            color: "#dd2f2f2f"
-            radius: 5
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                drag.target: PQSettings.interfaceStatusInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : status_top
-                drag.minimumX: 0
-                drag.maximumX: toplevel.width-parent.width
-                drag.minimumY: 0
-                drag.maximumY: toplevel.height-parent.height
+        Row {
+
+            spacing: 10
+
+            Image {
+                width: filterrow.height+20
+                height: filterrow.height+20
+                visible: variables.chromecastConnected
+                source: "/streaming/chromecastactive.png"
+                sourceSize: Qt.size(width, height)
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    //: This is followed by the name of the Chromecast streaming device currently connected to
+                    tooltip: em.pty+qsTranslate("quickinfo", "Connected to:") + " " + variables.chromecastName
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked:
+                        loader.show("chromecast")
+                }
             }
 
-            Row {
-                id: filterrow
-                spacing: 10
-                y: 10
-                Item {
-                    width: 1
-                    height: 1
+            Rectangle {
+                id: filterremove_cont
+                visible: filefoldermodel.filterCurrentlyActive
+                width: visible ? filterrow.width : 0
+                height: visible ? filterrow.height+20 : 0
+                color: "#dd2f2f2f"
+                radius: 5
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    drag.target: PQSettings.interfaceStatusInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : status_top
+                    drag.minimumX: 0
+                    drag.maximumX: toplevel.width-parent.width
+                    drag.minimumY: 0
+                    drag.maximumY: toplevel.height-parent.height
                 }
-                Text {
-                    id: filterremove
-                    color: "#999999"
-                    text: "x"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        tooltip: em.pty+qsTranslate("quickinfo", "Click to remove filter")
-                        onPressed:
-                            loader.passOn("filter", "removeFilter", undefined)
+
+                Row {
+                    id: filterrow
+                    spacing: 10
+                    y: 10
+                    Item {
+                        width: 1
+                        height: 1
+                    }
+                    Text {
+                        id: filterremove
+                        color: "#999999"
+                        text: "x"
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            tooltip: em.pty+qsTranslate("quickinfo", "Click to remove filter")
+                            onPressed:
+                                loader.passOn("filter", "removeFilter", undefined)
+                        }
+                    }
+                    Text {
+                        id: filtertext
+                        color: "white"
+                        property string txt: filefoldermodel.filenameFilters.join(" ") + (filefoldermodel.nameFilters.length==0 ? "" : " ." + filefoldermodel.nameFilters.join(" ."))
+                        property string res: (filefoldermodel.imageResolutionFilter.width != 0 || filefoldermodel.imageResolutionFilter.height != 0) ?
+                                                 ((filefoldermodel.imageResolutionFilter.width<0||filefoldermodel.imageResolutionFilter.height<0 ? "< " : "> ") + Math.abs(filefoldermodel.imageResolutionFilter.width)+"x"+Math.abs(filefoldermodel.imageResolutionFilter.height)) :
+                                                 ""
+                        property string siz: filefoldermodel.fileSizeFilter!=0 ? ((filefoldermodel.fileSizeFilter<0 ? "< " : "> ") + variables.filterExactFileSizeSet) : ""
+                        text: "<b>" + em.pty+qsTranslate("quickinfo", "Filter:") + "</b> " + txt + (txt!=""&&res!="" ? "; " : "") + res + (siz!=""&&(txt!=""||res!="") ? "; " : "") + siz
+                    }
+                    Item {
+                        width: 1
+                        height: 1
                     }
                 }
-                Text {
-                    id: filtertext
-                    color: "white"
-                    property string txt: filefoldermodel.filenameFilters.join(" ") + (filefoldermodel.nameFilters.length==0 ? "" : " ." + filefoldermodel.nameFilters.join(" ."))
-                    property string res: (filefoldermodel.imageResolutionFilter.width != 0 || filefoldermodel.imageResolutionFilter.height != 0) ?
-                                             ((filefoldermodel.imageResolutionFilter.width<0||filefoldermodel.imageResolutionFilter.height<0 ? "< " : "> ") + Math.abs(filefoldermodel.imageResolutionFilter.width)+"x"+Math.abs(filefoldermodel.imageResolutionFilter.height)) :
-                                             ""
-                    property string siz: filefoldermodel.fileSizeFilter!=0 ? ((filefoldermodel.fileSizeFilter<0 ? "< " : "> ") + variables.filterExactFileSizeSet) : ""
-                    text: "<b>" + em.pty+qsTranslate("quickinfo", "Filter:") + "</b> " + txt + (txt!=""&&res!="" ? "; " : "") + res + (siz!=""&&(txt!=""||res!="") ? "; " : "") + siz
-                }
-                Item {
-                    width: 1
-                    height: 1
-                }
+
             }
 
         }
