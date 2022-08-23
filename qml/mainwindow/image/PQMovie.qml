@@ -237,12 +237,12 @@ Item {
 
                     id: playpause
 
-                    source: videoelem.playbackState==MediaPlayer.PlayingState ? "/multimedia/pause.png" : "/multimedia/play.png"
+                    source: videoelem.playbackState==MediaPlayer.PlayingState ? "/multimedia/pause.svg" : "/multimedia/play.svg"
 
                     y: (controls.height-height)/2
                     height: controls.height/2
                     width: height
-                    sourceSize: Qt.size(height, height)
+                    sourceSize: Qt.size(width, height)
 
                     MouseArea {
                         anchors.fill: parent
@@ -300,17 +300,17 @@ Item {
                     id: volumecontrol
 
                     source: volumecontrol_slider.value==0 ?
-                                "/multimedia/speaker_mute.png" :
+                                "/multimedia/speaker_mute.svg" :
                                 (volumecontrol_slider.value <= 40 ?
-                                     "/multimedia/speaker_low.png" :
+                                     "/multimedia/speaker_low.svg" :
                                      (volumecontrol_slider.value <= 80 ?
-                                          "/multimedia/speaker_medium.png" :
-                                          "/multimedia/speaker_high.png"))
+                                          "/multimedia/speaker_medium.svg" :
+                                          "/multimedia/speaker_high.svg"))
 
                     y: (controls.height-height)/2
                     height: 2*controls.height/3
                     width: height
-                    sourceSize: Qt.size(height, height)
+                    sourceSize: Qt.size(width, height)
 
                     PQMouseArea {
                         anchors.fill: parent

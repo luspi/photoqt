@@ -103,7 +103,8 @@ Item {
                 Image {
                     anchors.fill: parent
                     mipmap: true
-                    source: "/streaming/refresh.png"
+                    source: "/streaming/refresh.svg"
+                    sourceSize: Qt.size(width, height)
 
                     RotationAnimation on rotation {
                         loops: Animation.Infinite
@@ -274,7 +275,8 @@ Item {
             y: 5
             width: 15
             height: 15
-            source: "/popin.png"
+            source: "/popin.svg"
+            sourceSize: Qt.size(width, height)
             opacity: popinmouse.containsMouse ? 1 : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
             PQMouseArea {

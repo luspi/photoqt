@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   fill="none"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="listview.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1"
+     inkscape:cx="382.99998"
+     inkscape:cy="227.99999"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <rect
+     x="27.156668"
+     y="27.156668"
+     width="190.93666"
+     height="190.93666"
+     rx="27.276665"
+     stroke="#ffffff"
+     stroke-width="40"
+     stroke-linecap="round"
+     id="rect2"
+     style="stroke:#ffffff;stroke-width:27.2769;stroke-dasharray:none;stroke-opacity:1" />
+  <rect
+     x="37.75"
+     y="304.5"
+     width="169.75"
+     height="169.75"
+     rx="24.249998"
+     stroke="#ffffff"
+     stroke-width="48.5"
+     stroke-linecap="round"
+     id="rect4"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+  <path
+     d="M 283.16449,79.20085 H 474.47137"
+     stroke="#ffffff"
+     stroke-width="47.8267"
+     stroke-linecap="round"
+     id="path242"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+  <path
+     d="M 283.15851,174.82497 H 474.46539"
+     stroke="#ffffff"
+     stroke-width="47.8267"
+     stroke-linecap="round"
+     id="path242-6"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+  <path
+     d="M 279.15935,338.87288 H 411.83233"
+     stroke="#ffffff"
+     stroke-width="39.8287"
+     stroke-linecap="round"
+     id="path242-6-7"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+  <path
+     d="M 279.43115,434.52632 H 415.74977"
+     stroke="#ffffff"
+     stroke-width="40.3723"
+     stroke-linecap="round"
+     id="path242-6-7-5"
+     style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+</svg>

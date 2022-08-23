@@ -80,7 +80,8 @@ Item {
         Image {
             width: 75
             height: width
-            source: "/mainwindow/leftarrow.png"
+            source: "/mainwindow/leftarrow.svg"
+            sourceSize: Qt.size(width, height)
             enabled: filefoldermodel.countMainView>0
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -108,7 +109,8 @@ Item {
         Image {
             width: 75
             height: width
-            source: "/mainwindow/rightarrow.png"
+            source: "/mainwindow/rightarrow.svg"
+            sourceSize: Qt.size(width, height)
             enabled: filefoldermodel.countMainView>0
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -136,7 +138,8 @@ Item {
         Image {
             width: 75
             height: width
-            source: "/mainwindow/menu.png"
+            source: "/mainwindow/menu.svg"
+            sourceSize: Qt.size(width, height)
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true

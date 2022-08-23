@@ -59,7 +59,7 @@ Item {
         enabled: filedialog_top.historyListIndex>0
 
         leftRightTextSpacing: 0
-        imageButtonSource: "/filedialog/backwards.png"
+        imageButtonSource: "/filedialog/backwards.svg"
 
         onClicked: {
             if(filedialog_top.historyListIndex > 0) {
@@ -85,7 +85,8 @@ Item {
         enabled: !handlingFileDir.isRoot(filefoldermodel.folderFileDialog)
 
         leftRightTextSpacing: 0
-        imageButtonSource: "/filedialog/upwards.png"
+        imageButtonSource: "/filedialog/backwards.svg"
+        rotation: 90
 
         onClicked:
             filedialog_top.setCurrentDirectory(filefoldermodel.folderFileDialog + "/../", false)
@@ -107,7 +108,7 @@ Item {
         enabled: filedialog_top.historyListIndex<filedialog_top.historyListDirectory.length-1
 
         leftRightTextSpacing: 0
-        imageButtonSource: "/filedialog/forwards.png"
+        imageButtonSource: "/filedialog/forwards.svg"
 
         onClicked: {
             if(filedialog_top.historyListIndex < filedialog_top.historyListDirectory.length-1) {
@@ -249,11 +250,13 @@ Item {
             anchors.fill: parent
             anchors.margins: 5
 
+            sourceSize: Qt.size(width, height)
+
             mipmap: true
 
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.svg" : "/mainwindow/fullscreen_off.svg"
 
         }
 
@@ -280,11 +283,10 @@ Item {
             anchors.fill: parent
             anchors.margins: 5
 
-            mipmap: true
-
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            source: "/other/close.png"
+            source: "/other/close.svg"
+            sourceSize: Qt.size(width, height)
 
         }
 

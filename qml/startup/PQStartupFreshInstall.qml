@@ -107,7 +107,8 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/startup/single.png"
+                        source: "/startup/single.svg"
+                        sourceSize: Qt.size(width, height)
                         opacity: radio_single.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -154,7 +155,8 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/startup/mixed.png"
+                        source: "/startup/mixed.svg"
+                        sourceSize: Qt.size(width, height)
                         opacity: radio_mixed.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent
@@ -201,7 +203,8 @@ Window {
                         width: 150
                         height: 100
                         fillMode: Image.PreserveAspectFit
-                        source: "/startup/individual.png"
+                        source: "/startup/individual.svg"
+                        sourceSize: Qt.size(width, height)
                         opacity: radio_individual.checked ? 1 : 0.5
                         MouseArea {
                             anchors.fill: parent

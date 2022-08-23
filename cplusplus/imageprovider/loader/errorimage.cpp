@@ -25,7 +25,7 @@
 PQLoadImageErrorImage::PQLoadImageErrorImage() {}
 
 QImage PQLoadImageErrorImage::load(QString errormessage) {
-    QPixmap pix(":/image/plainerrorimg.png");
+    QPixmap pix(":/image/plainerrorimg.svg");
     QPainter paint(&pix);
     QTextDocument txt;
     txt.setHtml("<div align='center' style='color: white; font-size: 20pt'><b>Image failed to load</b></div><br><div align='center' style='color: white; font-size: 15pt'>" + errormessage + "</div>");

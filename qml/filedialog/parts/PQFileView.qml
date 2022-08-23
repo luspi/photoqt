@@ -208,9 +208,11 @@ GridView {
                         x: (parent.width-width)/2
                         y: (parent.height-height)/2
 
+                        sourceSize: Qt.size(width, height)
+
                         visible: imageproperties.isVideo(filefoldermodel.entriesFileDialog[index])
 
-                        source: visible ? "/multimedia/play.png" : ""
+                        source: visible ? "/multimedia/play.svg" : ""
 
                     }
 

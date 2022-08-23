@@ -199,8 +199,8 @@ Item {
 
         visible: !PQSettings.interfacePopoutHistogram
 
-        source: "/other/close.png"
-        mipmap: true
+        source: "/other/close.svg"
+        sourceSize: Qt.size(width, height)
 
         opacity: closemouse.containsMouse ? 0.8 : 0
         Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -284,7 +284,8 @@ Item {
         y: PQSettings.interfacePopoutHistogram ? 5 : 0
         width: 15
         height: 15
-        source: "/popin.png"
+        source: "/popin.svg"
+        sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {

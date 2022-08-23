@@ -700,7 +700,8 @@ Item {
             anchors.fill: parent
             anchors.margins: 40
             mipmap: true
-            source: "/image/viewermode.png"
+            sourceSize: Qt.size(width, height)
+            source: "/image/viewermode.svg"
         }
 
         PQMouseArea {
@@ -714,14 +715,14 @@ Item {
         }
 
         Image {
-            x: parent.width-width+5
-            y: -5
+            x: parent.width-width
+            y: 0
             width: 30
             height: 30
             opacity: viewermodebutmousehide.containsMouse ? 0.5 : 0.25
             Behavior on opacity { NumberAnimation { duration: 300 } }
-            source: "/other/close.png"
-            mipmap: true
+            source: "/other/close.svg"
+            sourceSize: Qt.size(width, height)
             PQMouseArea {
                 id: viewermodebutmousehide
                 anchors.fill: parent

@@ -55,7 +55,8 @@ Item {
         Image {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
-            source: "/mainwindow/leftarrow.png"
+            sourceSize: Qt.size(width, height)
+            source: "/mainwindow/leftarrow.svg"
             enabled: filefoldermodel.countMainView>0
             opacity: visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
@@ -76,7 +77,8 @@ Item {
         Image {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
-            source: "/mainwindow/rightarrow.png"
+            sourceSize: Qt.size(width, height)
+            source: "/mainwindow/rightarrow.svg"
             enabled: filefoldermodel.countMainView>0
             opacity: visibleAlways||variables.slideShowActive ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
@@ -102,7 +104,8 @@ Item {
         Image {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
-            source: "/mainwindow/menu.png"
+            sourceSize: Qt.size(width, height)
+            source: "/mainwindow/menu.svg"
 
             opacity: (visibleAlways && !variables.mainMenuVisible)||variables.slideShowActive ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
@@ -132,7 +135,8 @@ Item {
         Image {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
-            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.png" : "/mainwindow/fullscreen_off.png"
+            sourceSize: Qt.size(width, height)
+            source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.svg" : "/mainwindow/fullscreen_off.svg"
 
             opacity: !visibleAlways ? 0 : (fullscreen_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
@@ -166,7 +170,8 @@ Item {
         Image {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
-            source: "/other/close.png"
+            source: "/other/close.svg"
+            sourceSize: Qt.size(width, height)
 
             opacity: !visibleAlways ? 0 : (closemouse.containsMouse ? 1 : 0.8)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }

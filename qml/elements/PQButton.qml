@@ -107,7 +107,7 @@ Rectangle {
         opacity: imageOpacity
         visible: imageButtonSource!=undefined&&imageButtonSource!=""
 
-        sourceSize: Qt.size(30,30)
+        sourceSize: Qt.size(control.height*0.75,control.height*0.75)
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2

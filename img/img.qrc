@@ -1,18 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>filedialog/iconview.png</file>
-        <file>filedialog/listview.png</file>
         <file>filedialog/unknownfile.svg</file>
-        <file>image/plainerrorimg.png</file>
         <file>other/icon.png</file>
-        <file>multimedia/pause.png</file>
-        <file>multimedia/play.png</file>
-        <file>multimedia/speaker_high.png</file>
-        <file>multimedia/speaker_low.png</file>
-        <file>multimedia/speaker_medium.png</file>
-        <file>multimedia/speaker_mute.png</file>
-        <file>other/histogramswitch.png</file>
-        <file>other/histogramclose.png</file>
         <file>filedialog/backupicons/drive-harddisk.svg</file>
         <file>filedialog/backupicons/folder-pictures.svg</file>
         <file>filedialog/backupicons/folder-red.svg</file>
@@ -26,49 +15,14 @@
         <file>filedialog/backupicons/unknown.svg</file>
         <file>filedialog/backupicons/user-desktop.svg</file>
         <file>filedialog/backupicons/user-home.svg</file>
-        <file>slideshow/next.png</file>
-        <file>slideshow/pause.png</file>
-        <file>slideshow/play.png</file>
-        <file>slideshow/prev.png</file>
-        <file>slideshow/quit.png</file>
-        <file>slideshow/speaker_high.png</file>
-        <file>slideshow/speaker_low.png</file>
-        <file>slideshow/speaker_medium.png</file>
-        <file>slideshow/speaker_mute.png</file>
-        <file>image/filmborder.png</file>
         <file>settingsmanager/filetypes/devil.jpg</file>
         <file>settingsmanager/filetypes/freeimage.jpg</file>
         <file>settingsmanager/filetypes/gm.jpg</file>
         <file>settingsmanager/filetypes/poppler.jpg</file>
         <file>settingsmanager/filetypes/qt.png</file>
-        <file>settingsmanager/filetypes/advancedclose.png</file>
-        <file>settingsmanager/shortcuts/categorykeyboard.png</file>
-        <file>settingsmanager/shortcuts/categorymouse.png</file>
-        <file>filedialog/remember.png</file>
-        <file>filedialog/dontremember.png</file>
-        <file>image/genericvideothumb.png</file>
         <file>other/logo.png</file>
-        <file>image/checkerboard.png</file>
         <file>settingsmanager/filetypes/im.png</file>
-        <file>popin.png</file>
-        <file>mainwindow/fullscreen_off.png</file>
-        <file>mainwindow/fullscreen_on.png</file>
-        <file>image/viewermode.png</file>
-        <file>image/noviewermode.png</file>
-        <file>mainwindow/rightarrow.png</file>
-        <file>mainwindow/leftarrow.png</file>
-        <file>filedialog/backwards.png</file>
-        <file>filedialog/upwards.png</file>
-        <file>filedialog/forwards.png</file>
-        <file>mainwindow/menu.png</file>
-        <file>startup/individual.png</file>
-        <file>startup/mixed.png</file>
-        <file>startup/single.png</file>
-        <file>streaming/refresh.png</file>
         <file>other/logo_smallinsidelarge.jpg</file>
-        <file>streaming/chromecastactive.png</file>
-        <file>slideshow/exit.png</file>
-        <file>other/close.png</file>
         <file>mainmenu/about.svg</file>
         <file>mainmenu/actualsize.svg</file>
         <file>mainmenu/clipboard.svg</file>
@@ -101,5 +55,43 @@
         <file>mainmenu/wallpaper.svg</file>
         <file>mainmenu/zoomin.svg</file>
         <file>mainmenu/zoomout.svg</file>
+        <file>mainwindow/fullscreen_off.svg</file>
+        <file>mainwindow/fullscreen_on.svg</file>
+        <file>mainwindow/leftarrow.svg</file>
+        <file>mainwindow/menu.svg</file>
+        <file>mainwindow/rightarrow.svg</file>
+        <file>multimedia/pause.svg</file>
+        <file>multimedia/play.svg</file>
+        <file>slideshow/pause.svg</file>
+        <file>slideshow/play.svg</file>
+        <file>multimedia/speaker_high.svg</file>
+        <file>multimedia/speaker_low.svg</file>
+        <file>multimedia/speaker_medium.svg</file>
+        <file>multimedia/speaker_mute.svg</file>
+        <file>slideshow/speaker_mute.svg</file>
+        <file>slideshow/speaker_medium.svg</file>
+        <file>slideshow/speaker_low.svg</file>
+        <file>slideshow/speaker_high.svg</file>
+        <file>slideshow/exit.svg</file>
+        <file>slideshow/next.svg</file>
+        <file>slideshow/prev.svg</file>
+        <file>filedialog/backwards.svg</file>
+        <file>filedialog/forwards.svg</file>
+        <file>filedialog/listview.svg</file>
+        <file>filedialog/iconview.svg</file>
+        <file>filedialog/dontremember.svg</file>
+        <file>filedialog/remember.svg</file>
+        <file>image/viewermode.svg</file>
+        <file>image/noviewermode.svg</file>
+        <file>image/plainerrorimg.svg</file>
+        <file>image/genericvideothumb.svg</file>
+        <file>other/close.svg</file>
+        <file>startup/individual.svg</file>
+        <file>startup/mixed.svg</file>
+        <file>startup/single.svg</file>
+        <file>streaming/refresh.svg</file>
+        <file>streaming/chromecastactive.svg</file>
+        <file>image/checkerboard.svg</file>
+        <file>popin.svg</file>
     </qresource>
 </RCC>

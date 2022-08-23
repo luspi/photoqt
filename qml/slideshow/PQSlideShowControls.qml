@@ -104,7 +104,9 @@ Item {
                 width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
                 height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
-                source: "/slideshow/prev.png"
+                source: "/slideshow/prev.svg"
+
+                sourceSize: Qt.size(width, height)
 
                 PQMouseArea {
                     anchors.fill: parent
@@ -133,7 +135,9 @@ Item {
                 width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
                 height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
-                source: (controls_top.running ? "/slideshow/pause.png" : "/slideshow/play.png")
+                source: (controls_top.running ? "/slideshow/pause.svg" : "/slideshow/play.svg")
+
+                sourceSize: Qt.size(width, height)
 
                 PQMouseArea {
                     anchors.fill: parent
@@ -161,7 +165,9 @@ Item {
                 width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
                 height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
-                source: "/slideshow/next.png"
+                source: "/slideshow/next.svg"
+
+                sourceSize: Qt.size(width, height)
 
                 PQMouseArea {
                     anchors.fill: parent
@@ -190,7 +196,8 @@ Item {
                 width: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
                 height: PQSettings.interfacePopoutSlideShowControls ? 80 : controls_top.height-2*y
 
-                source: "/slideshow/exit.png"
+                source: "/slideshow/exit.svg"
+                sourceSize: Qt.size(width, height)
 
                 PQMouseArea {
                     anchors.fill: parent
@@ -224,13 +231,15 @@ Item {
                 width: visible ? 40 : 0
                 height: 40
 
+                sourceSize: Qt.size(width, height)
+
                 source: volumeslider.value==0 ?
-                            "/slideshow/speaker_mute.png" :
+                            "/slideshow/speaker_mute.svg" :
                             (volumeslider.value <= 40 ?
-                                 "/slideshow/speaker_low.png" :
+                                 "/slideshow/speaker_low.svg" :
                                  (volumeslider.value <= 80 ?
-                                      "/slideshow/speaker_medium.png" :
-                                      "/slideshow/speaker_high.png"))
+                                      "/slideshow/speaker_medium.svg" :
+                                      "/slideshow/speaker_high.svg"))
 
             }
 

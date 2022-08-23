@@ -183,7 +183,8 @@ Window {
                 y: (parent.height-height)/2
                 width: 100
                 height: 100
-                source: "/mainwindow/rightarrow.png"
+                sourceSize: Qt.size(width, height)
+                source: "/mainwindow/rightarrow.svg"
             }
 
             Image {
@@ -195,7 +196,8 @@ Window {
                 y: (parent.height-height)/2
                 width: 100
                 height: 100
-                source: "/mainwindow/leftarrow.png"
+                sourceSize: Qt.size(width, height)
+                source: "/mainwindow/leftarrow.svg"
             }
 
             Image {
@@ -207,7 +209,8 @@ Window {
                 x: (parent.width-width)/2
                 width: 100
                 height: 100
-                source: "/mainwindow/leftarrow.png"
+                sourceSize: Qt.size(width, height)
+                source: "/mainwindow/leftarrow.svg"
                 rotation: -90
             }
 

@@ -174,7 +174,7 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Remember loaded folder between sessions.")
         tooltipFollowsMouse: false
 
-        imageButtonSource: PQSettings.openfileKeepLastLocation ? "/filedialog/remember.png" : "/filedialog/dontremember.png"
+        imageButtonSource: PQSettings.openfileKeepLastLocation ? "/filedialog/remember.svg" : "/filedialog/dontremember.svg"
 
         opacity: PQSettings.openfileKeepLastLocation ? 0.8 : 0.2
 
@@ -196,7 +196,7 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Switch between list and icon view")
         tooltipFollowsMouse: false
 
-        imageButtonSource: PQSettings.openfileDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
+        imageButtonSource: PQSettings.openfileDefaultView=="icons" ? "/filedialog/iconview.svg" : "/filedialog/listview.svg"
 
         onClicked:
             PQSettings.openfileDefaultView = (PQSettings.openfileDefaultView=="icons" ? "list" : "icons")

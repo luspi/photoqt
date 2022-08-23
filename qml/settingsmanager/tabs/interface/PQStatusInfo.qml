@@ -158,8 +158,8 @@ PQSetting {
                                 width: 20
                                 height: 20
 
-                                source: "/other/close.png"
-                                mipmap: true
+                                source: "/other/close.svg"
+                                sourceSize: Qt.size(width, height)
 
                                 opacity: closemouse.containsMouse ? 0.8 : 0.2
                                 Behavior on opacity { NumberAnimation { duration: 150 } }

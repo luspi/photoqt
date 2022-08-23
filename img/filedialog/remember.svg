@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   fill="none"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="remember.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.56705727"
+     inkscape:cx="118.15385"
+     inkscape:cy="484.95983"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <g
+     id="g244"
+     transform="matrix(24.249153,0,0,24.249153,-34.997019,-34.971149)">
+    <path
+       d="M 16,21 V 19 C 16,17.1144 16,16.1716 15.4142,15.5858 14.8284,15 13.8856,15 12,15 H 11 C 9.11438,15 8.17157,15 7.58579,15.5858 7,16.1716 7,17.1144 7,19 v 2"
+       stroke="#ffffff"
+       stroke-width="2"
+       id="path2" />
+    <path
+       d="m 7,8 h 5"
+       stroke="#ffffff"
+       stroke-width="2"
+       stroke-linecap="round"
+       id="path4" />
+    <path
+       d="M 3,9 C 3,6.17157 3,4.75736 3.87868,3.87868 4.75736,3 6.17157,3 9,3 h 7.1716 c 0.4087,0 0.6131,0 0.7969,0.07612 0.1837,0.07612 0.3283,0.22064 0.6173,0.50967 l 2.8284,2.82842 c 0.289,0.28903 0.4336,0.43355 0.5097,0.61732 C 21,7.2153 21,7.41968 21,7.82843 V 15 c 0,2.8284 0,4.2426 -0.8787,5.1213 C 19.2426,21 17.8284,21 15,21 H 9 C 6.17157,21 4.75736,21 3.87868,20.1213 3,19.2426 3,17.8284 3,15 Z"
+       stroke="#ffffff"
+       stroke-width="2"
+       id="path6" />
+  </g>
+</svg>

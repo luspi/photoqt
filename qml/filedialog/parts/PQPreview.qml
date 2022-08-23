@@ -46,6 +46,8 @@ Item {
             width: Math.min(200, parent.width-50)
             height: Math.min(200, parent.height-50)
 
+            sourceSize: Qt.size(width, height)
+
             x: (parent.width-width)/2
             y: (parent.height-height)/2
 
@@ -53,7 +55,7 @@ Item {
 
             opacity: 0.5
 
-            source: visible ? "/multimedia/play.png" : ""
+            source: visible ? "/multimedia/play.svg" : ""
 
         }
 

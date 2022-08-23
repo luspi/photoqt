@@ -87,7 +87,7 @@ QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize) 
 
         if(ret != 0) {
             LOG << CURDATE << "PQLoadImageVideo: ffmpegthumbnailer ended with error code " << ret << " - is it installed?" << NL;
-            QImage img(":/image/genericvideothumb.png");
+            QImage img(":/image/genericvideothumb.svg");
             return img.scaledToWidth(maxSize.width());
         }
 
@@ -105,7 +105,7 @@ QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize) 
 
 #endif
 
-        QImage img(":/image/genericvideothumb.png");
+        QImage img(":/image/genericvideothumb.svg");
         return img.scaledToWidth(maxSize.width());
 
 #ifdef Q_OS_LINUX

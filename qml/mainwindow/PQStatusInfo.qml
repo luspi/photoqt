@@ -270,7 +270,7 @@ Item {
                 width: filterrow.height+20
                 height: filterrow.height+20
                 visible: variables.chromecastConnected
-                source: "/streaming/chromecastactive.png"
+                source: "/streaming/chromecastactive.svg"
                 sourceSize: Qt.size(width, height)
                 PQMouseArea {
                     anchors.fill: parent
@@ -357,7 +357,8 @@ Item {
             Image {
                 anchors.fill: parent
                 anchors.margins: 5
-                source: (filefoldermodel.isPQT || filefoldermodel.isARC) ? "/image/noviewermode.png" : "/image/viewermode.png"
+                sourceSize: Qt.size(width, height)
+                source: (filefoldermodel.isPQT || filefoldermodel.isARC) ? "/image/noviewermode.svg" : "/image/viewermode.svg"
                 mipmap: true
             }
 
@@ -397,8 +398,8 @@ Item {
         width: 20
         height: 20
 
-        source: "/other/close.png"
-        mipmap: true
+        source: "/other/close.svg"
+        sourceSize: Qt.size(width, height)
 
         opacity: closemouse.containsMouse ? 0.8 : 0
         Behavior on opacity { NumberAnimation { duration: 150 } }

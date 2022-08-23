@@ -219,7 +219,8 @@ Rectangle {
         height: 15
         opacity: popinmouse.containsMouse ? 1 : 0.2
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "/popin.png"
+        source: "/popin.svg"
+        sourceSize: Qt.size(width, height)
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent

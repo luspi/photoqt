@@ -215,7 +215,9 @@ Item {
 
                     visible: imageproperties.isVideo(filefoldermodel.entriesMainView[index])
 
-                    source: visible ? "/multimedia/play.png" : ""
+                    source: visible ? "/multimedia/play.svg" : ""
+
+                    sourceSize: Qt.size(width, height)
 
                 }
 

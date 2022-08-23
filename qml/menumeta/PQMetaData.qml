@@ -288,7 +288,8 @@ Item {
         y: 5
         width: 15
         height: 15
-        source: "/popin.png"
+        source: "/popin.svg"
+        sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
@@ -311,15 +312,15 @@ Item {
 
     Image {
 
-        x: parent.width-width+5
-        y: -5
+        x: parent.width-width
+        y: 0
         width: 25
         height: 25
 
         visible: !PQSettings.interfacePopoutMetadata && !PQSettings.metadataElementBehindLeftEdge
 
-        source: "/other/close.png"
-        mipmap: true
+        source: "/other/close.svg"
+        sourceSize: Qt.size(width, height)
 
         opacity: closemouse.containsMouse ? 0.8 : 0
         Behavior on opacity { NumberAnimation { duration: 150 } }

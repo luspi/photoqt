@@ -315,7 +315,8 @@ Item {
             y: 5
             width: 15
             height: 15
-            source: "/popin.png"
+            source: "/popin.svg"
+            sourceSize: Qt.size(width, height)
             opacity: popinmouse.containsMouse ? 1 : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
             PQMouseArea {

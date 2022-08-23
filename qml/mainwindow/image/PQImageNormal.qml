@@ -146,8 +146,8 @@ Item {
             z: -1
             smooth: false
             visible: PQSettings.imageviewTransparencyMarker
-            source: PQSettings.imageviewTransparencyMarker ? "qrc:/image/checkerboard.png" : ""
-            sourceSize.width: Math.max(20, Math.min((parent.height/50), (parent.width/50)))
+            source: PQSettings.imageviewTransparencyMarker ? "qrc:/image/checkerboard.svg" : ""
+            sourceSize: Qt.size(Math.min(width/20, height/20), Math.min(width/20, height/20))
             fillMode: Image.Tile
         }
 
