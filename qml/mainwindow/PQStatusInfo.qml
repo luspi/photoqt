@@ -71,14 +71,14 @@ Item {
                 x: 20
                 y: 10
                 width: childrenRect.width
-                height: allheights.length > 0 ? Math.max.apply(Math, allheights) : 0
+                height: allheights.length > 0 ? Math.max.apply(Math, allheights.slice(allheights.length-info.length)) : 0
 
                 model: info.length
 
                 orientation: ListView.Horizontal
                 interactive: false
 
-                spacing: 10
+                spacing: PQSettings.interfaceStatusInfoFontSize
 
                 delegate:
 
@@ -90,7 +90,7 @@ Item {
                         height: childrenRect.height
 
                         Row {
-                            spacing: 10
+                            spacing: PQSettings.interfaceStatusInfoFontSize
 
                             Loader {
                                 id: ldr
@@ -116,6 +116,7 @@ Item {
                                 id: rectCounter
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: (filefoldermodel.current+1) + "/" + filefoldermodel.countMainView
                                 }
                             }
@@ -124,6 +125,7 @@ Item {
                                 id: rectFilename
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
                                 }
                             }
@@ -132,6 +134,7 @@ Item {
                                 id: rectFilepath
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: filefoldermodel.currentFilePath
                                 }
                             }
@@ -140,6 +143,7 @@ Item {
                                 id: rectZoom
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: Math.round(variables.currentZoomLevel)+"%"
                                 }
                             }
@@ -148,6 +152,7 @@ Item {
                                 id: rectRotation
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: (Math.round(variables.currentRotationAngle)%360+360)%360 + "°"
                                 }
                             }
@@ -158,15 +163,18 @@ Item {
                                     spacing: 2
                                     Text {
                                         color: "white"
+                                        font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                         text: variables.currentImageResolution.width
                                     }
                                     Text {
                                         color: "white"
+                                        font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                         opacity: 0.7
                                         text: "x"
                                     }
                                     Text {
                                         color: "white"
+                                        font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                         text: variables.currentImageResolution.height
                                     }
                                 }
@@ -176,6 +184,7 @@ Item {
                                 id: rectFilesize
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: handlingGeneral.convertBytesToHumanReadable(cppmetadata.fileSize)
                                 }
                             }
@@ -184,6 +193,7 @@ Item {
                                 id: rectDummy
                                 Text {
                                     color: "white"
+                                    font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: "[unknown]"
                                 }
                             }

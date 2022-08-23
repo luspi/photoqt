@@ -234,6 +234,28 @@ PQSetting {
                 }
             }
 
+            Row {
+                spacing: 5
+                Text {
+                    y: (parent.height-height)/2
+                    color: "white"
+                    text: em.pty+qsTranslate("settingsmanager_interface", "Font size:")
+                }
+
+                PQSlider {
+                    id: fs_slider
+                    y: (parent.height-height)/2
+                    from: 6
+                    to: 30
+                }
+                Text {
+                    y: (parent.height-height)/2
+                    color: "white"
+                    text: fs_slider.value+"pt"
+                }
+            }
+
+
         }
 
     ]
@@ -250,6 +272,9 @@ PQSetting {
             var setprops = PQSettings.interfaceStatusInfoList
             for(var j = 0; j < setprops.length; ++j)
                 model.append({name: setprops[j]})
+
+            fs_slider.value = PQSettings.interfaceStatusInfoFontSize
+
         }
 
         onSaveAllSettings: {
@@ -260,6 +285,9 @@ PQSetting {
             for(var i = 0; i < model.count; ++i)
                 opts.push(model.get(i).name)
             PQSettings.interfaceStatusInfoList = opts
+
+            PQSettings.interfaceStatusInfoFontSize = fs_slider.value
+
         }
 
     }
