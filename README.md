@@ -117,6 +117,6 @@ The following dependencies are recommended but can be disabled through CMake if 
 7. FreeImage: https://freeimage.sourceforge.io/
 8. DevIL: http://openil.sourceforge.net/
 
-Make sure that any installed dependency is added to the system path, or otherwise you need to explicitely point CMake to the right location for each of them.
+Make sure that any installed dependency is added to the system path, or otherwise you need to explicitely point CMake to the right location for each of them. Regardless, CMake might have to be explicitely pointed to the library/include paths of some of the dependencies by specifying `target_include_directories()` and `target_link_libraries()`.
 
 Once all the requried and desired dependencies are installed, then the source code of PhotoQt can be fetched from the website (https://photoqt.og/down). One way to build PhotoQt is to load it in the IDE QtCreator that is part of the Qt installation.
