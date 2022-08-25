@@ -40,6 +40,11 @@ QSize PQLoadImageFreeImage::loadSize(QString filename) {
 
 QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImageFreeImage::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
 #ifdef FREEIMAGE
 
     // Reset variables at start, set handler for log output

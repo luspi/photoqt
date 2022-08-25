@@ -36,6 +36,11 @@ QSize PQLoadImageRAW::loadSize(QString filename) {
 
 QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImageRAW::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
 #ifdef RAW
 
     errormsg = "";

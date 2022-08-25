@@ -72,6 +72,10 @@ QSize PQLoadImageVideo::loadSize(QString filename) {
 
 QImage PQLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize) {
 
+    DBG << CURDATE << "PQLoadImageVideo::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL;
+
     errormsg = "";
 
 #ifdef Q_OS_LINUX

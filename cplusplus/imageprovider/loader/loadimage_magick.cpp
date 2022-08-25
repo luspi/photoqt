@@ -43,6 +43,11 @@ QSize PQLoadImageMagick::loadSize(QString filename) {
 
 QImage PQLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSize, bool onlyLoadMagickImage) {
 
+    DBG << CURDATE << "PQLoadImageMagick::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** onlyLoadMagickImage = " << onlyLoadMagickImage << NL;
+
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
 
     errormsg = "";

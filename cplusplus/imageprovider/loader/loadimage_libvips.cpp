@@ -40,6 +40,10 @@ QSize PQLoadImageLibVips::loadSize(QString filename) {
 
 QImage PQLoadImageLibVips::load(QString filename, QSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImageLibVips::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
 #ifdef LIBVIPS
 
     // we use the C API as the equivalent C++ API calls led to crash on subsequent call

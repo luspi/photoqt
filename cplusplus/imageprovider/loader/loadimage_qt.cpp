@@ -36,6 +36,11 @@ QSize PQLoadImageQt::loadSize(QString filename) {
 
 QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImageQt::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
     errormsg = "";
 
     // For reading SVG files

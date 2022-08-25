@@ -36,6 +36,11 @@ QSize PQLoadImageDevil::loadSize(QString filename) {
 
 QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImageDevil::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
 #ifdef DEVIL
 
     errormsg = "";

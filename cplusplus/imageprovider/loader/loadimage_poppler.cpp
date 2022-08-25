@@ -36,6 +36,11 @@ QSize PQLoadImagePoppler::loadSize(QString filename) {
 
 QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImagePoppler::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
 #ifdef POPPLER
 
     errormsg = "";

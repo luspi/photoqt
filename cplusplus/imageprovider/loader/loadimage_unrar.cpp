@@ -36,6 +36,10 @@ QSize PQLoadImageUNRAR::loadSize(QString filename) {
 
 QImage PQLoadImageUNRAR::load(QString filename, QSize maxSize, QSize &origSize) {
 
+    DBG << CURDATE << "PQLoadImageUNRAR::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL;
+
     errormsg = "";
 
     // filter out name of archivefile and of compressed file inside

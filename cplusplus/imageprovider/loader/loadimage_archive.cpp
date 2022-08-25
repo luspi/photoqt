@@ -34,6 +34,10 @@ QSize PQLoadImageArchive::loadSize(QString filename) {
 
 QImage PQLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSize) {
 
+    DBG << CURDATE << "PQLoadImageArchive::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL;
+
     errormsg = "";
 
     // filter out name of archivefile and of compressed file inside

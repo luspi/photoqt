@@ -36,6 +36,11 @@ QSize PQLoadImageXCF::loadSize(QString filename) {
 
 QImage PQLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize) {
 
+    DBG << CURDATE << "PQLoadImageXCF::load()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** maxSize = " << maxSize.width() << "x" << maxSize.height() << NL
+        << CURDATE << "** stopAfterSize = " << stopAfterSize << NL;
+
     errormsg = "";
 
     // We first check if xcftools is actually installed
