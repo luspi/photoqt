@@ -52,6 +52,12 @@ Item {
 
     function show(ele) {
 
+        if(ele == "chromecast" && !handlingGeneral.isChromecastEnabled()) {
+            ensureItIsReady("unavailable")
+            unavailablePassOn("show", undefined)
+            return
+        }
+
         ensureItIsReady(ele)
 
         if(ele == "filedialog")

@@ -71,7 +71,7 @@ Item {
             color: "white"
             font.bold: true
             font.pointSize: 25
-            text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not yet available on Windows.")
+            text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not available.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
