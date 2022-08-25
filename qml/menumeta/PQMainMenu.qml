@@ -337,11 +337,13 @@ Rectangle {
         width: 20
         hoverEnabled: true
 
+        enabled: !PQSettings.interfacePopoutMainMenu
+
         drag.minimumY: 0
         drag.maximumY: toplevel.height-mainmenu_top.height
         drag.target: parent
         drag.axis: Drag.YAxis
-        cursorShape: Qt.SizeAllCursor
+        cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
     }
 
     PQMouseArea {
@@ -354,11 +356,13 @@ Rectangle {
         width: 20
         hoverEnabled: true
 
+        enabled: !PQSettings.interfacePopoutMainMenu
+
         drag.minimumY: 0
         drag.maximumY: toplevel.height-mainmenu_top.height
         drag.target: parent
         drag.axis: Drag.YAxis
-        cursorShape: Qt.SizeAllCursor
+        cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
     }
 
     PQMouseArea {
@@ -371,11 +375,13 @@ Rectangle {
         height: 20
         hoverEnabled: true
 
+        enabled: !PQSettings.interfacePopoutMainMenu
+
         drag.minimumY: 0
         drag.maximumY: toplevel.height-mainmenu_top.height
         drag.target: parent
         drag.axis: Drag.YAxis
-        cursorShape: Qt.SizeAllCursor
+        cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
     }
 
     PQMouseArea {
@@ -388,11 +394,13 @@ Rectangle {
         height: 20
         hoverEnabled: true
 
+        enabled: !PQSettings.interfacePopoutMainMenu
+
         drag.minimumY: 0
         drag.maximumY: toplevel.height-mainmenu_top.height
         drag.target: parent
         drag.axis: Drag.YAxis
-        cursorShape: Qt.SizeAllCursor
+        cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
     }
 
     // visible when popped out

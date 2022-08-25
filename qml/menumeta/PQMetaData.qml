@@ -172,6 +172,8 @@ Item {
         drag.axis: PQSettings.metadataElementBehindLeftEdge ? Drag.YAxis : Drag.XAndYAxis
         cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
         onWheel: wheel.accepted = false
+
+        enabled: !PQSettings.interfacePopoutMetadata
     }
 
     // Label at first start-up
