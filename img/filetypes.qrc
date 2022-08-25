@@ -1,8 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>filetypes/3fr.ico</file>
+        <file>filetypes/3gp.ico</file>
+        <file>filetypes/3g2.ico</file>
         <file>filetypes/7z.ico</file>
         <file>filetypes/aai.ico</file>
+        <file>filetypes/ai.ico</file>
         <file>filetypes/amv.ico</file>
         <file>filetypes/ani.ico</file>
         <file>filetypes/apng.ico</file>
@@ -118,18 +121,22 @@
         <file>filetypes/mos.ico</file>
         <file>filetypes/mov.ico</file>
         <file>filetypes/qt.ico</file>
-        <file>filetypes/mpc.ico</file>
-        <file>filetypes/mpeg.ico</file>
-        <file>filetypes/3g2.ico</file>
-        <file>filetypes/3gp.ico</file>
-        <file>filetypes/m2v.ico</file>
-        <file>filetypes/m4v.ico</file>
         <file>filetypes/mp4.ico</file>
+        <file>filetypes/m4v.ico</file>
+        <file>filetypes/mpc.ico</file>
         <file>filetypes/mpg.ico</file>
+        <file>filetypes/mp2.ico</file>
+        <file>filetypes/mpeg.ico</file>
+        <file>filetypes/mpe.ico</file>
         <file>filetypes/mpv.ico</file>
+        <file>filetypes/m2v.ico</file>
+        <file>filetypes/mts.ico</file>
+        <file>filetypes/m2ts.ico</file>
+        <file>filetypes/ts.ico</file>
         <file>filetypes/mtv.ico</file>
         <file>filetypes/pic.ico</file>
         <file>filetypes/mvg.ico</file>
+        <file>filetypes/mxf.ico</file>
         <file>filetypes/nef.ico</file>
         <file>filetypes/nrw.ico</file>
         <file>filetypes/ogg.ico</file>
@@ -197,6 +204,7 @@
         <file>filetypes/rgf.ico</file>
         <file>filetypes/rla.ico</file>
         <file>filetypes/rle.ico</file>
+        <file>filetypes/rm.ico</file>
         <file>filetypes/rw2.ico</file>
         <file>filetypes/scr.ico</file>
         <file>filetypes/sct.ico</file>
@@ -232,6 +240,7 @@
         <file>filetypes/tif.ico</file>
         <file>filetypes/tim.ico</file>
         <file>filetypes/ttf.ico</file>
+        <file>filetypes/unknown.ico</file>
         <file>filetypes/vicar.ico</file>
         <file>filetypes/vic.ico</file>
         <file>filetypes/img.ico</file>
@@ -245,6 +254,7 @@
         <file>filetypes/wmf.ico</file>
         <file>filetypes/wmz.ico</file>
         <file>filetypes/apm.ico</file>
+        <file>filetypes/wmv.ico</file>
         <file>filetypes/wpg.ico</file>
         <file>filetypes/xbm.ico</file>
         <file>filetypes/bm.ico</file>

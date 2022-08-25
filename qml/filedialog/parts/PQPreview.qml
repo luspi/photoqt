@@ -36,7 +36,7 @@ Item {
         sourceSize: PQSettings.openfilePreviewHigherResolution ? Qt.size(width, height) : Qt.size(256, 256)
 
         asynchronous: true
-        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : ("image://thumb/" + (PQSettings.openfilePreviewMuted ? "::muted::" : "") + filePath)
+        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : (PQSettings.openfileThumbnails ? ("image://thumb/" + (PQSettings.openfilePreviewMuted ? "::muted::" : "") + filePath) : ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filePath)))
         fillMode: Image.PreserveAspectFit
 
         anchors.fill: parent

@@ -23,7 +23,7 @@
 import numpy as np
 import sys
 
-known_args = np.array(['all', 'filetypes', 'cmake', 'windowsrc', 'nsi'])
+known_args = np.array(['all', 'filetypecolors', 'filetypes', 'cmake', 'windowsrc', 'nsi'])
 
 if len(sys.argv) != 2 or sys.argv[1] not in known_args:
 
@@ -31,6 +31,7 @@ if len(sys.argv) != 2 or sys.argv[1] not in known_args:
 One of the following flags is required:
 
  all\t\tGenerate all items
+ filetypecolors\tCHeck filetype colors and add any new/missing ones
  filetypes\tGenerate filetype icons
  cmake\t\tGenerate CMake desktop file creation
  windowsrc\tGenerate windows resource file
@@ -54,130 +55,211 @@ data = c.fetchall()
 import os
 os.makedirs('output/', exist_ok=True)
 
+
+#############################################################
+#############################################################
+# CHECK FOR MISSING/NEW ICON COLORS
+if which == 'all' or which == 'filetypecolors':
+
+    import random
+    
+    print("Checking filetype colors...")
+    
+    def myhex(x):
+        val = hex(x)[2:]
+        if len(val) == 1:
+            val = f"0{val}"
+        return val
+
+    # get all data
+    c.execute('SELECT endings,category FROM imageformats ORDER BY endings')
+    data = c.fetchall()
+
+    newdata = ({})
+
+    conn2 = sqlite3.connect('icons/iconcolors.db')
+    c2 = conn2.cursor()
+
+    for row in data:
+
+        ending = row[0]
+        
+        c2.execute(f"SELECT * FROM colors WHERE endings='{ending}'")
+        howmany = len(c2.fetchall())
+        
+        if howmany == 0:
+            
+            print("")
+            print(f"Found new ending: {ending}")
+            
+            color = f"#{myhex(random.randint(0,192))}{myhex(random.randint(0,192))}{myhex(random.randint(0,192))}"
+            print(f"Generating new random color: {color}")
+            
+            newdata[ending] = [color,row[1]]
+
+
+    for ind in newdata:
+        c2.execute(f"INSERT INTO colors (endings, color, category) VALUES('{ind}','{newdata[ind][0]}', '{newdata[ind][1]}')")
+
+    conn2.commit()
+
 #############################################################
 #############################################################
 # GENERATE FILETYPES IN SUBDIRECTORY
 if which == 'all' or which == 'filetypes':
 
     import math
-    import seaborn as sns
+    import os
     import glob
-    from wand.image import Image
+    import multiprocessing
+    import shutil
 
-    # remove all old data
+    os.makedirs('output/', exist_ok=True)
     os.makedirs('output/svg', exist_ok=True)
+    os.makedirs('output/svg/large', exist_ok=True)
+    os.makedirs('output/svg/small', exist_ok=True)
     os.makedirs('output/ico', exist_ok=True)
-    files = glob.glob('./output/svg/*')
+    os.makedirs('output/tmp', exist_ok=True)
+    files = glob.glob('./output/tmp/*')
     for f in files:
         os.remove(f)
-    files = glob.glob('./output/ico/*')
-    for f in files:
-        os.remove(f)
+
+    conn = sqlite3.connect('icons/iconcolors.db')
+    c = conn.cursor()
+
+    c.execute("SELECT endings,color,category FROM colors ORDER BY endings")
+    data = c.fetchall()
+    
+    # fontsizes and x/y for strings of length 1 to 9
+    fontsizes = [
+        167.569, 
+        167.569,
+        167.569,
+        167.569,
+        167.569,
+        158.75,
+        141.111,
+        123.472,
+        114.653
+        ]
+    xy = [
+        [344.67334, 827.80219],
+        [294.2308, 827.80219],
+        [246.16951, 827.80219],
+        [193.34572, 827.80219],
+        [142.90329, 827.80219],
+        
+        [108.4817, 834.60229],
+        [98.047729, 834.97253],
+        [98.233337, 835.34283],
+        
+        [85.050117, 842.14288],
+        ]
 
     print("Generating filetype icons...")
-
-    def rgb_to_hex(rgb):
-        return '%02x%02x%02x' % (math.floor(rgb[0]*255), math.floor(rgb[1]*255), math.floor(rgb[2]*255))
-
-    f_default = open("templ.ate", "r")
-    cont_default = f_default.read()
+    
 
     qrc_cont = "<RCC>\n    <qresource prefix=\"/\">\n"
+    
+    updatedEndings = np.array([])
 
-    # we add a few extra as some cases have special handling below
-    palette = sns.color_palette(None, len(data)+10)
-
-    iF = 0
+    totallen = len(data)
+    i = 1
     for row in data:
+        
+        endings = row[0].split(",")
+        color = row[1]
+        category = row[2]
 
-        endng = row[0].split(',')
+        print(f"{i}/{totallen}: {endings}")
+        i += 1
 
-        for e in endng:
-
-            f_new = open(f"output/svg/{e}.svg", "w")
-
-            cont = cont_default.replace("#MODMOD", f"#{rgb_to_hex(palette[iF])}")
-            cont = cont.replace("MOD", endng[0].upper())
-
-            if len(endng[0]) == 1:
-                cont = cont.replace("76.761147", "117.5511")
-                cont = cont.replace("249.28143", "249.31589")
-                cont = cont.replace("70.5556", "70.5556")
-            elif len(endng[0]) == 2:
-                cont = cont.replace("76.761147", "98.809769")
-                cont = cont.replace("249.28143", "249.78098")
-                cont = cont.replace("70.5556", "70.5556")
-            elif len(endng[0]) == 3:
-                cont = cont.replace("76.761147", "76.761147")
-                cont = cont.replace("249.28143", "249.28143")
-                cont = cont.replace("70.5556", "70.5556")
-            elif len(endng[0]) == 4:
-                cont = cont.replace("76.761147", "55.212063")
-                cont = cont.replace("249.28143", "249.31589")
-                cont = cont.replace("70.5556", "70.5556")
-            elif len(endng[0]) == 5:
-                cont = cont.replace("76.761147", "34.076389")
-                cont = cont.replace("249.28143", "248.81635")
-                cont = cont.replace("70.5556", "70.5556")
-            elif len(endng[0]) == 6:
-                cont = cont.replace("76.761147", "25.339693")
-                cont = cont.replace("249.28143", "246.65109")
-                cont = cont.replace("70.5556", "63.5")
-            elif len(endng[0]) == 7:
-                cont = cont.replace("76.761147", "21.66")
-                cont = cont.replace("249.28143", "244.17233")
-                cont = cont.replace("70.5556", "56.4444")
-            elif len(endng[0]) == 8:
-                cont = cont.replace("76.761147", "21.401915")
-                cont = cont.replace("249.28143", "241.57646")
-                cont = cont.replace("70.5556", "49.3889")
-            elif len(endng[0]) == 9:
-                cont = cont.replace("76.761147", "25.856543")
-                cont = cont.replace("249.28143", "238.77042")
-                cont = cont.replace("70.5556", "42.3333")
-            else:
-                cont = cont.replace("76.761147", "22.909904")
-                cont = cont.replace("249.28143", "237.724")
-                cont = cont.replace("70.5556", "38.8056")
-
-            f_new.write(cont)
-            f_new.close()
-
-            # also convert to ico
-            with Image(filename=f"output/svg/{e}.svg") as img:
-                img.format = 'ico'
-                img.resize(256,256)
-                img.save(filename=f"output/ico/{e}.ico")
-
-
+        for e in endings:
+            
+            l = len(e)
+            if e == "unknown":
+                l = 1
+            
             qrc_cont += f"        <file>filetypes/{e}.ico</file>\n"
+                        
+            if e == "svg" or e == "svgz":
+                category = "svg"
+            
+            fname_large = f"output/svg/large/{e}.svg"
+            fname_small = f"output/svg/small/{e}.svg"
+            
+            generateHowMany = 0
+            
+            if not os.path.exists(fname_large):
+                
+                generateHowMany += 1
+                
+                print(f"  > large SVG: {e}")
+                                      
+                icn_large = open(f"icons/{category}.svg").read()
+                icn_large = icn_large.replace("#ff0000", color)
+                icn_large = icn_large.replace("ZZZ", "?" if (e=="unknown") else e.upper())
+                icn_large = icn_large.replace("font-size:167.569px", f"font-size:{fontsizes[l-1]}px")
+                icn_large = icn_large.replace('x="246.16951"', f'x="{xy[l-1][0]}"')
+                icn_large = icn_large.replace('y="827.80219"', f'y="{xy[l-1][1]}"')
+                f_large = open(fname_large, "w")
+                f_large.write(icn_large)
+                f_large.close()
+                
+            if not os.path.exists(fname_small):
+                
+                generateHowMany += 1
+                
+                print(f"  > small SVG: {e}")
+            
+                icn_small = open(f"icons/{category}_small.svg").read()
+                icn_small = icn_small.replace("#ff0000", color)
+                f_small = open(fname_small, "w")
+                f_small.write(icn_small)
+                f_small.close()
+            
+            if not os.path.exists(f"output/ico/{e}.ico"):
+                
+                generateHowMany += 1
+                
+                print(f"  > ICON: {e}")
+            
+                def convert(size):
+                    global fname_small
+                    global fname_large
+                    global e
+                    if size < 64:
+                        os.system(f"convert -background none {fname_small} -resize {int(size*0.75)}x{size} output/tmp/{e}{size}.png")
+                    else:
+                        os.system(f"convert -background none {fname_large} -resize {int(size*0.75)}x{size} output/tmp/{e}{size}.png")
+                                
+                pool_obj = multiprocessing.Pool()
+                pool_obj.map(convert,[256,128,64,48,32,16])
 
-        iF += 1
-
-    # add on the unknown filetype
-    f_new = open(f"output/svg/unknown.svg", "w")
-    cont = cont_default.replace("#MODMOD", f"#ffffff")
-    cont = cont.replace("MOD", "?")
-    cont = cont.replace("76.761147", "117.5511")
-    cont = cont.replace("249.28143", "249.31589")
-    cont = cont.replace("70.5556", "70.5556")
-    f_new.write(cont)
-    f_new.close()
-    # also convert to ico
-    with Image(filename=f"output/svg/unknown.svg") as img:
-        img.format = 'ico'
-        img.resize(256,256)
-        img.save(filename=f"output/ico/unknown.ico")
-
-    f_default.close()
-
-    # save qrc file
+                exe = "convert "
+                for sze in [256,128,64,48,32,16]:
+                    exe += f"output/tmp/{e}{sze}.png "
+                exe += f"output/ico/{e}.ico"
+                os.system(exe)
+                
+            if generateHowMany == 0:
+                print(f"  > {e} already up to date")
+            else:
+                updatedEndings = np.append(updatedEndings, e)
+            
     qrc_cont += "    </qresource>\n"
     qrc_cont += "</RCC>\n"
 
     f_qrc = open("output/filetypes.qrc", "w")
     f_qrc.write(qrc_cont)
     f_qrc.close()
+    
+    shutil.rmtree("output/tmp/")
+    
+    if len(updatedEndings) > 0:
+        print("**********************")
+        print("The following endings have been updated:")
+        print(updatedEndings)
 
 #############################################################
 #############################################################

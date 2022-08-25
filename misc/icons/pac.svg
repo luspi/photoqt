@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="3000"
+   height="4000"
+   viewBox="0 0 793.75 1058.3333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="pac.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.15480994"
+     inkscape:cx="-364.96365"
+     inkscape:cy="1756.9931"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:92.8229;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+       id="rect790"
+       width="700.92712"
+       height="965.51038"
+       x="46.411449"
+       y="46.411449"
+       rx="91.823669"
+       ry="101.97951" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:167.569px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="246.16951"
+       y="827.80219"
+       id="text1657"><tspan
+         sodipodi:role="line"
+         id="tspan1655"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:167.569px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+         x="246.16951"
+         y="827.80219">ZZZ</tspan></text>
+    <path
+       style="fill:#ffffff;fill-opacity:0.5;stroke-width:11.2791"
+       d="m 408.15399,439.06049 v -22.55832 h 22.55831 v -22.55791 h -22.55831 v -22.55831 h 22.55831 v -22.5583 h -22.55831 v -22.5579 H 430.7123 V 303.71143 H 408.15399 V 281.15311 H 430.7123 V 258.5952 H 408.15399 V 236.0369 H 385.5961 v 22.5583 h -22.55833 v 22.55791 h 22.55833 v 22.55832 h -22.55833 v 22.55832 h 22.55833 v 22.5579 h -22.55833 v 22.5583 h 22.55833 v 22.55831 h -22.55833 v 22.55791 h 22.55833 v 22.55832 h -45.11664 v 56.39558 c 0,31.09618 25.29941,56.39516 56.39558,56.39516 31.0966,0 56.39558,-25.29898 56.39558,-56.39516 v -56.39558 z m 22.55831,56.39558 c 0,18.65557 -15.18168,33.83726 -33.83726,33.83726 -18.65557,0 -33.83727,-15.18169 -33.83727,-33.83726 v -33.83725 h 67.67453 z"
+       id="path16" />
+  </g>
+</svg>

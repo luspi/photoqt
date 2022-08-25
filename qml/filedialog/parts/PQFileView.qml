@@ -159,6 +159,8 @@ GridView {
 
                 asynchronous: true
 
+                fillMode: Image.PreserveAspectFit
+
                 smooth: true
                 mipmap: true
 
@@ -366,7 +368,7 @@ GridView {
 
                             // if we do not cache this directory, we do not show a thumbnail image
                             if(currentFolderExcluded || fileicon.source != "")
-                                str += "<img src=\"image://icon/IMAGE////" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
+                                str += "<img src=\"image://icon/IMAGE////::fixedsize::" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
                             else
                                 str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
 

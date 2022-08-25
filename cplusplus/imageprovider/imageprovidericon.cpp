@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "imageprovidericon.h"
+#include <QPainter>
 
 QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, const QSize &requestedSize) {
 
@@ -47,10 +48,34 @@ QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, c
         QString i = const_cast<QString&>(icon);
         QString suf = i.remove(0,9);
 
+        bool fixed = false;
+        if(suf.startsWith("::fixedsize::")) {
+            suf = suf.remove(0,13);
+            fixed = true;
+        }
+
+        QImage ret;
+
         if(QFile::exists(QString(":/filetypes/%1.ico").arg(suf.toLower())))
-            return QImage(QString(":/filetypes/%1.ico").arg(suf.toLower()));
+            ret = QImage(QString(":/filetypes/%1.ico").arg(suf.toLower()));
         else
-            return QImage(":/filetypes/unknown.ico");
+            ret = QImage(":/filetypes/unknown.ico");
+
+        if(fixed) {
+
+            QImage fix(266, 266, QImage::Format_ARGB32);
+            fix.fill(qRgba(255,255,255,8));
+            QPainter painter(&fix);
+            ret = ret.scaled(256,256,Qt::KeepAspectRatio);
+            painter.drawImage((266-ret.width())/2, (266-ret.height())/2, ret);
+            painter.setPen(qRgba(255,255,255,175));
+            painter.drawLine(0, 265, 266, 265);
+            painter.end();
+
+            return fix;
+
+        } else
+            return ret;
 
     }
 
