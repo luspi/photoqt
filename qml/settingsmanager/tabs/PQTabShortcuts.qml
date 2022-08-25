@@ -240,8 +240,9 @@ Item {
                 //: A shortcuts category: external shortcuts
                 category: em.pty+qsTranslate("settingsmanager", "External")
 
-                //: Please leave the three placeholders (%f, %u, %d) as is.
-                subtitle: em.pty+qsTranslate("settingsmanager", "%f = filename including path, %u = filename without path, %d = directory containing file")
+                subtitle: "%f = " + em.pty+qsTranslate("settingsmanager", "filename including path") + ", " +
+                          "%u = " + em.pty+qsTranslate("settingsmanager", "filename without path") + ", " +
+                          "%d = " + em.pty+qsTranslate("settingsmanager", "directory containing file")
 
             }
 
