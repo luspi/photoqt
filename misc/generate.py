@@ -229,14 +229,15 @@ if which == 'all' or which == 'filetypes':
                     global fname_large
                     global e
                     if size < 64:
-                        os.system(f"convert -background none {fname_small} -resize {int(size*0.75)}x{size} output/tmp/{e}{size}.png")
+                        os.system(f"convert -background none -gravity center -compress zip {fname_small} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
                     else:
-                        os.system(f"convert -background none {fname_large} -resize {int(size*0.75)}x{size} output/tmp/{e}{size}.png")
+                        os.system(f"convert -background none -gravity center -compress zip {fname_large} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
+                    os.system(f"optipng -o7 -strip all output/tmp/{e}{size}.png")
                                 
                 pool_obj = multiprocessing.Pool()
                 pool_obj.map(convert,[256,128,64,48,32,16])
 
-                exe = "convert "
+                exe = "go-png2ico "
                 for sze in [256,128,64,48,32,16]:
                     exe += f"output/tmp/{e}{sze}.png "
                 exe += f"output/ico/{e}.ico"

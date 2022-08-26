@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="doc_new.svg"
+   sodipodi:docname="doc.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,10 +25,10 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.077404971"
-     inkscape:cx="155.0288"
-     inkscape:cy="439.24828"
+     inkscape:cx="3597.9601"
+     inkscape:cy="1912.0219"
      inkscape:window-width="1920"
-     inkscape:window-height="1015"
+     inkscape:window-height="1051"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -54,21 +54,21 @@
        stroke-width="38.5746"
        stroke-linecap="round"
        id="path6"
-       style="stroke:#ffffff;stroke-width:50;stroke-dasharray:none;stroke-opacity:0.5" />
+       style="stroke:#ffffff;stroke-width:50;stroke-dasharray:none;stroke-opacity:1" />
     <path
-       d="M 214.24323,389.58346 H 491.54681"
+       d="M 214.243,389.52481 H 579.50629"
        stroke="#222222"
        stroke-width="38.5746"
        stroke-linecap="round"
-       id="path6-7"
-       style="stroke:#ffffff;stroke-width:50;stroke-dasharray:none;stroke-opacity:0.5" />
+       id="path6-3"
+       style="stroke:#ffffff;stroke-width:50;stroke-dasharray:none;stroke-opacity:1" />
     <path
-       d="M 214.24323,489.58346 H 403.58737"
+       d="M 214.243,489.25321 H 579.50629"
        stroke="#222222"
        stroke-width="38.5746"
        stroke-linecap="round"
-       id="path6-7-5"
-       style="stroke:#ffffff;stroke-width:50;stroke-dasharray:none;stroke-opacity:0.5" />
+       id="path6-3-6"
+       style="stroke:#ffffff;stroke-width:50;stroke-dasharray:none;stroke-opacity:1" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:167.569px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"

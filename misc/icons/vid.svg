@@ -25,10 +25,10 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.15480994"
-     inkscape:cx="-358.50411"
+     inkscape:cx="-888.18586"
      inkscape:cy="988.30863"
      inkscape:window-width="1920"
-     inkscape:window-height="1015"
+     inkscape:window-height="1051"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -60,7 +60,7 @@
          x="246.16951"
          y="827.80219">ZZZ</tspan></text>
     <ellipse
-       style="opacity:0.5;fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-width:42.7353;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1;paint-order:stroke fill markers"
+       style="opacity:1;fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-width:42.7353;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1;paint-order:stroke fill markers"
        id="path2871"
        cx="396.87503"
        cy="390.52588"
@@ -73,6 +73,6 @@
        stroke-linecap="round"
        stroke-linejoin="round"
        id="path5237"
-       style="fill:#ffffff;fill-opacity:0.5;stroke:#f7f7f7;stroke-width:0;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill" />
+       style="fill:#ffffff;fill-opacity:1;stroke:#f7f7f7;stroke-width:0;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill;opacity:1" />
   </g>
 </svg>
