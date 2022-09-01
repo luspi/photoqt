@@ -28,7 +28,7 @@
 #include <QMutexLocker>
 
 #ifdef DEVIL
-#include <il.h>
+#include <IL/il.h>
 #endif
 
 #include "../../logger.h"

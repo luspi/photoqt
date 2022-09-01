@@ -43,7 +43,7 @@
 #include <FreeImagePlus.h>
 #endif
 #ifdef DEVIL
-#include <il.h>
+#include <IL/il.h>
 #endif
 #ifdef VIDEOMPV
 #include "../libmpv/mpvobject.h"
