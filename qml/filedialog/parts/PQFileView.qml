@@ -284,6 +284,7 @@ GridView {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     wrapMode: Text.Wrap
+                    font.bold: true
 
                     font.pointSize: files_grid.currentIndex == index ? 10 : 8
                     Behavior on font.pointSize { NumberAnimation { duration: 100 } }
