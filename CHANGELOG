@@ -1,6 +1,27 @@
 Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 2.9 - 2022-09-01
+----------------------------
+- add/improve: new status information labels
+- improve: always attempt loading of Exiv2 data
+- improve: option to move meta data back behind screen edge
+- improve: replace PNGs icons by SVGs for better scaling
+- improve: new filetype and backup icons
+- improve: small interface updates
+- improve: switch from deprecated appdata to metainfo
+- new shortcuts: __fullscreenToggle, __fitInWindow
+- fix: sorting of files in file and folder model
+- fix: selection of certain localizations
+- fix: calculation of size of pixmap cache
+- fix: preserve network paths on Windows
+- fix: loading favorited network location on Windows
+- fix: proper default filename for exporting settings on Windows
+- fix: visibility of slideshow controls
+- other smaller bug fixes and improvements
+
+
+
 Release 2.8 - 2022-07-31
 ----------------------------
 - file dialog: preview image can be blurred and/or its colors muted
