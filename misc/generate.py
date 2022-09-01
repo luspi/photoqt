@@ -44,14 +44,6 @@ import sqlite3
 
 which = sys.argv[1]
 
-# create database connection
-conn = sqlite3.connect('imageformats.db')
-c = conn.cursor()
-
-# get all data
-c.execute('SELECT * FROM imageformats ORDER BY endings')
-data = c.fetchall()
-
 import os
 os.makedirs('output/', exist_ok=True)
 
@@ -59,7 +51,7 @@ os.makedirs('output/', exist_ok=True)
 #############################################################
 #############################################################
 # CHECK FOR MISSING/NEW ICON COLORS
-if which == 'all' or which == 'filetypecolors':
+if which == 'filetypecolors':
 
     import random
     
@@ -70,6 +62,11 @@ if which == 'all' or which == 'filetypecolors':
         if len(val) == 1:
             val = f"0{val}"
         return val
+    
+    
+    # create database connection
+    conn = sqlite3.connect('imageformats.db')
+    c = conn.cursor()
 
     # get all data
     c.execute('SELECT endings,category FROM imageformats ORDER BY endings')
@@ -269,6 +266,14 @@ if which == 'all' or which == 'cmake':
 
     print("Generating addition to CMake ComposeDesktopFile()...")
     
+    # create database connection
+    conn = sqlite3.connect('imageformats.db')
+    c = conn.cursor()
+
+    # get all data
+    c.execute('SELECT * FROM imageformats ORDER BY endings')
+    data = c.fetchall()
+    
     mt = np.array([], dtype=str)
 
     cont = "set(MIMETYPE \""
@@ -295,6 +300,12 @@ if which == 'all' or which == 'cmake':
 if which == 'all' or which == 'windowsrc':
 
     print("Generating windows resource file...")
+    
+    conn = sqlite3.connect('icons/iconcolors.db')
+    c = conn.cursor()
+
+    c.execute("SELECT endings FROM colors ORDER BY endings")
+    data = c.fetchall()
 
     cont = "IDI_ICON1               ICON    DISCARDABLE     \"windows/icon.ico\"\n";
 
@@ -322,13 +333,19 @@ if which == 'all' or which == 'windowsrc':
 if which == 'all' or which == 'nsi':
 
     print("Generating additions to FileAssociation.nsh...")
+    
+    conn2 = sqlite3.connect('icons/iconcolors.db')
+    c2 = conn2.cursor()
+
+    c2.execute("SELECT endings FROM colors ORDER BY endings")
+    data2 = c2.fetchall()
 
     # FileAssociation.nsh
 
     cont = ""
 
     iF = 1
-    for row in data:
+    for row in data2:
 
         endings = row[0].split(",")
 
@@ -353,6 +370,14 @@ if which == 'all' or which == 'nsi':
     #############################################################
 
     print("Generating additions to install script...")
+    
+    # create database connection
+    conn = sqlite3.connect('imageformats.db')
+    c = conn.cursor()
+
+    # get all data
+    c.execute('SELECT * FROM imageformats ORDER BY endings')
+    data = c.fetchall()
 
     # register file extensions in install script
 
