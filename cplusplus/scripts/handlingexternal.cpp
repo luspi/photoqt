@@ -62,8 +62,29 @@ void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
         << CURDATE << "** cmd = " << cmd.toStdString() << NL
         << CURDATE << "** currentfile = " << currentfile.toStdString() << NL;
 
+#ifdef Q_OS_WIN
+
+    cmd = cmd.replace("\\", "/");
+
+    QStringList parts = cmd.split(".exe");
+    cmd = QString("\"%1.exe\"").arg(parts[0]) + " " + parts[1];
+
+    QFileInfo info(currentfile);
+
+    if(cmd.contains("%f"))
+        cmd = cmd.replace("%f", QString("%1").arg(currentfile));
+    if(cmd.contains("%u"))
+        cmd = cmd.replace("%u", QString("%1").arg(info.fileName()));
+    if(cmd.contains("%d"))
+        cmd = cmd.replace("%d", QString("%1").arg(info.absolutePath()));
+
+    QProcess::startDetached(cmd);
+
+#else
+
     QString executable = "";
     QStringList arguments = cmd.split(" ");
+
     if(!arguments.at(0).startsWith("/")) {
         executable = arguments.at(0);
         arguments.removeFirst();
@@ -100,6 +121,7 @@ void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
     }
 
     QProcess::startDetached(executable, arguments);
+#endif
 
 }
 
