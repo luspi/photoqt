@@ -48,8 +48,8 @@ QString PQHandlingFileDir::cleanPath(QString path) {
         path = path.remove(0, 14);
 
 #ifdef Q_OS_WIN
-    path = QDir::cleanPath(path.replace("//", "::::::::"));
-    return path.replace("::::::::", "//");
+    path = QDir::cleanPath(path.replace("//", "|::::::::|"));
+    return path.replace("|::::::::|", "//");
 #else
     return QDir::cleanPath(path);
 #endif
