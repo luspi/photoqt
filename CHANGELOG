@@ -1,6 +1,13 @@
 Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+
+Release 2.9.1 - 2022-09-05
+----------------------------
+- fix: language files missing
+- fix: network path handling on Windows
+
+
 Release 2.9 - 2022-09-01
 ----------------------------
 - add/improve: new status information labels
@@ -19,7 +26,6 @@ Release 2.9 - 2022-09-01
 - fix: proper default filename for exporting settings on Windows
 - fix: visibility of slideshow controls
 - other smaller bug fixes and improvements
-
 
 
 Release 2.8 - 2022-07-31
