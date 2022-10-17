@@ -56,6 +56,8 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         imageitem.loadNextImage()
     else if(cmd === "__prev")
         imageitem.loadPrevImage()
+    else if(cmd === "__loadRandom")
+        imageitem.loadRandomImage()
     else if(cmd == "__contextMenu")
         contextmenu.showMenu()
     else if(cmd === "__about")

@@ -808,6 +808,24 @@ Item {
             filefoldermodel.current = filefoldermodel.countMainView-1
     }
 
+    function loadRandomImage() {
+        if(filefoldermodel.countMainView == 0 || filefoldermodel.countMainView == 1)
+            return
+        // special case: load other image
+        if(filefoldermodel.countMainView == 2)
+            filefoldermodel.current = (filefoldermodel.current+1)%2
+        // find new image that's not the current one (if possible)
+        var ran = filefoldermodel.current
+        var iter = 0
+        while(ran == filefoldermodel.current) {
+            ran = Math.floor(Math.random() * filefoldermodel.countMainView);
+            iter += 1
+            if(iter > 100)
+                break
+        }
+        filefoldermodel.current = ran
+    }
+
     function loadFirstImage() {
         if(filefoldermodel.countMainView == 0)
             return

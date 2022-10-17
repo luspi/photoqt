@@ -110,6 +110,8 @@ Item {
                                             //: Name of shortcut action
                     ["__prev",              em.pty+qsTranslate("settingsmanager", "Previous image")],
                                             //: Name of shortcut action
+                    ["__loadRandom",        em.pty+qsTranslate("settingsmanager", "Load a random image")],
+                                            //: Name of shortcut action
                     ["__contextMenu",       "Show Context Menu"],
                                             //: Name of shortcut action
                     ["__goToFirst",         em.pty+qsTranslate("settingsmanager", "Go to first image")],
