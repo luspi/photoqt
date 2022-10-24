@@ -24,6 +24,7 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
+import Qt.labs.platform 1.0
 import "./parts"
 import "../elements"
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
@@ -104,27 +105,42 @@ Rectangle {
                 acceptedButtons: Qt.RightButton
                 onClicked: {
                     var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                    rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    rightclickmenu.open(Qt.point(parent.x+pos.x, parent.y+pos.y))
                 }
             }
 
-            PQMenu {
+            Menu {
 
                 id: rightclickmenu
 
-                model: [
-                    (PQSettings.openfileUserPlacesStandard ? (em.pty+qsTranslate("filedialog", "Hide standard locations")) : (em.pty+qsTranslate("filedialog", "Show standard locations"))),
-                    (PQSettings.openfileUserPlacesUser ? (em.pty+qsTranslate("filedialog", "Hide favorite locations")) : (em.pty+qsTranslate("filedialog", "Show favorite locations"))),
-                    (PQSettings.openfileUserPlacesVolumes ? (em.pty+qsTranslate("filedialog", "Hide storage devices")) : (em.pty+qsTranslate("filedialog", "Show storage devices")))
-                ]
-
-                onTriggered: {
-                    if(index == 0)
+                MenuItem {
+                    text: PQSettings.openfileUserPlacesStandard ?
+                              (em.pty+qsTranslate("filedialog", "Hide standard locations")) :
+                              (em.pty+qsTranslate("filedialog", "Show standard locations"))
+                    onTriggered:
                         PQSettings.openfileUserPlacesStandard = !PQSettings.openfileUserPlacesStandard
-                    else if(index == 1)
+                }
+
+                MenuItem {
+                    text : PQSettings.openfileUserPlacesUser ?
+                               (em.pty+qsTranslate("filedialog", "Hide favorite locations")) :
+                               (em.pty+qsTranslate("filedialog", "Show favorite locations"))
+                    onTriggered:
                         PQSettings.openfileUserPlacesUser = !PQSettings.openfileUserPlacesUser
-                    else if(index == 2)
+                }
+
+                MenuItem {
+                    text : PQSettings.openfileUserPlacesVolumes ?
+                               (em.pty+qsTranslate("filedialog", "Hide storage devices")) :
+                               (em.pty+qsTranslate("filedialog", "Show storage devices"))
+                    onTriggered:
                         PQSettings.openfileUserPlacesVolumes = !PQSettings.openfileUserPlacesVolumes
+                }
+
+                Connections {
+                    target: PQKeyPressMouseChecker
+                    onReceivedMouseButtonPress:
+                        rightclickmenu.close()
                 }
 
             }
@@ -306,7 +322,7 @@ Rectangle {
     }
 
     function leftPanelPopupGenericRightClickMenu(pos) {
-        rightclickmenu.popup(pos)
+        rightclickmenu.open(pos)
     }
 
 }

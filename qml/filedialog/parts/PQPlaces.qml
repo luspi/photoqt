@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import Qt.labs.platform 1.0
 import "../../elements"
 
 ListView {
@@ -201,7 +202,7 @@ ListView {
                             filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(userplaces_top.x+pos.x, userplaces_top.y+pos.y))
                         } else {
                             var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                            contextmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                            contextmenu.open(Qt.point(parent.x+pos.x, parent.y+pos.y))
                         }
                     }
                 }
@@ -214,22 +215,36 @@ ListView {
 
             }
 
-            PQMenu {
+            Menu {
 
                 id: contextmenu
 
-                model: [
-                    (hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry"))),
-                    (em.pty+qsTranslate("filedialog", "Remove entry")),
-                    (userplaces_top.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))
-                ]
-                onTriggered: {
-                    if(index == 0)
+                MenuItem {
+                    text: hidden=="true" ?
+                              (em.pty+qsTranslate("filedialog", "Show entry")) :
+                              (em.pty+qsTranslate("filedialog", "Hide entry"))
+                    onTriggered:
                         handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
-                    else if(index == 1)
+                }
+
+                MenuItem {
+                    text: em.pty+qsTranslate("filedialog", "Remove entry")
+                    onTriggered:
                         handlingFileDialog.removeUserPlacesEntry(id)
-                    else if(index == 2)
+                }
+
+                MenuItem {
+                    text: userplaces_top.showHiddenEntries ?
+                              (em.pty+qsTranslate("filedialog", "Hide hidden entries")) :
+                              (em.pty+qsTranslate("filedialog", "Show hidden entries"))
+                    onTriggered:
                         userplaces_top.showHiddenEntries = !userplaces_top.showHiddenEntries
+                }
+
+                Connections {
+                    target: PQKeyPressMouseChecker
+                    onReceivedMouseButtonPress:
+                        contextmenu.close()
                 }
 
             }
