@@ -263,7 +263,7 @@ Item {
             if(what == "start") {
 
                 // start tagger
-                if(variables.visibleItem == "" && handlingFaceTags.canWriteXmpTags(facetagger_top.filename)) {
+                if((variables.visibleItem == "" || variables.visibleItem == "facetagger") && handlingFaceTags.canWriteXmpTags(facetagger_top.filename)) {
                     variables.visibleItem = "facetagger"
                     variables.faceTaggingActive = true
                     imageitem.zoomReset()
@@ -341,6 +341,17 @@ Item {
         handlingFaceTags.setFaceTags(facetagger_top.filename, facetagger_top.faceTags)
         refreshModel()
         facetagger_top.hasBeenUpdated()
+        loader.faceTaggerPassOn("stop", undefined)
+        reenable.restart()
+    }
+
+    Timer {
+        id: reenable
+        interval: 100
+        repeat: false
+        running: false
+        onTriggered:
+            loader.faceTaggerPassOn("start", undefined)
     }
 
     function deleteFaceTag(number) {
@@ -354,6 +365,8 @@ Item {
         handlingFaceTags.setFaceTags(facetagger_top.filename, facetagger_top.faceTags)
         refreshModel()
         facetagger_top.hasBeenUpdated()
+        loader.faceTaggerPassOn("stop", undefined)
+        reenable.restart()
 
     }
 
