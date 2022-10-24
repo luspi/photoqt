@@ -62,12 +62,17 @@ void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
         << CURDATE << "** cmd = " << cmd.toStdString() << NL
         << CURDATE << "** currentfile = " << currentfile.toStdString() << NL;
 
+    if(cmd == "")
+        return;
+
 #ifdef Q_OS_WIN
 
     cmd = cmd.replace("\\", "/");
 
-    QStringList parts = cmd.split(".exe");
-    cmd = QString("\"%1.exe\"").arg(parts[0]) + " " + parts[1];
+    if(cmd.contains(".exe")) {
+        QStringList parts = cmd.split(".exe");
+        cmd = QString("\"%1.exe\"").arg(parts[0]) + " " + parts[1];
+    }
 
     QFileInfo info(currentfile);
 
