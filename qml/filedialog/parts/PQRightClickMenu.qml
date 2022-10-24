@@ -123,4 +123,10 @@ Menu {
         }
     }
 
+    Connections {
+        target: PQKeyPressMouseChecker
+        onReceivedMouseButtonPress:
+            control.close()
+    }
+
 }
