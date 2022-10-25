@@ -1,62 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Svg Vector Icons : http://www.onlinewebfonts.com/icon -->
-
-<svg
-   version="1.1"
-   x="0px"
-   y="0px"
-   viewBox="0 0 1000 1000"
-   enable-background="new 0 0 1000 1000"
-   xml:space="preserve"
-   id="svg4686"
-   sodipodi:docname="noviewermode.svg"
-   width="512"
-   height="512"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs4690" /><sodipodi:namedview
-   id="namedview4688"
-   pagecolor="#ffffff"
-   bordercolor="#666666"
-   borderopacity="1.0"
-   inkscape:showpageshadow="2"
-   inkscape:pageopacity="0.0"
-   inkscape:pagecheckerboard="true"
-   inkscape:deskcolor="#d1d1d1"
-   showgrid="false"
-   inkscape:zoom="1.23178"
-   inkscape:cx="222.0364"
-   inkscape:cy="189.96898"
-   inkscape:window-width="1920"
-   inkscape:window-height="1051"
-   inkscape:window-x="0"
-   inkscape:window-y="0"
-   inkscape:window-maximized="1"
-   inkscape:current-layer="svg4686" />
-<metadata
-   id="metadata4678"> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
-<g
-   id="g4684"
-   transform="matrix(-1,0,0,1,1000,0)"
-   style="stroke:#ffffff;stroke-opacity:1;fill:#ffffff;fill-opacity:1"><g
-     id="g4682"
-     style="stroke:#ffffff;stroke-opacity:1;fill:#ffffff;fill-opacity:1"><path
-       d="M 537.2785,482.82831 H 233.74443 v 34.41341 H 537.2785 Z m 0,113.77693 H 233.74443 v 36.73343 H 537.2785 Z M 348.77804,26.367187 V 140.82081 H 233.74443 V 255.27442 H 121.70749 V 973.70285 H 651.73211 V 858.66922 H 763.76905 V 747.21228 H 878.22266 V 26.367187 Z M 614.99869,936.87275 H 158.53758 V 289.59117 H 614.99869 Z M 727.03562,824.2558 H 651.73211 V 255.17776 H 270.57452 v -77.62352 h 456.4611 z M 841.39257,710.47886 H 763.76905 V 140.72414 H 385.51147 V 63.100617 h 455.8811 z M 537.2785,823.67581 H 233.74443 v 36.73342 H 537.2785 Z m 0,-114.45361 H 233.74443 v 36.73341 H 537.2785 Z m 0.58,-341.42751 H 234.32443 v 37.89343 H 537.8585 Z"
-       id="path4680"
-       style="stroke-width:0.966669;stroke:#ffffff;stroke-opacity:1;fill:#ffffff;fill-opacity:1" /></g></g>
-<path
-   d="M 118.05091,876.12771 876.12766,118.05089"
-   stroke="#ff0000"
-   stroke-width="150.691"
-   stroke-linecap="round"
-   id="path7573"
-   style="stroke:#ff0000;stroke-width:97.65625;stroke-dasharray:none;stroke-opacity:1" /><path
-   d="M 876.12766,876.12771 118.05091,118.05089"
-   stroke="#ff0000"
-   stroke-width="150.691"
-   stroke-linecap="round"
-   id="path7575"
-   style="stroke:#ff0000;stroke-width:97.65625;stroke-dasharray:none;stroke-opacity:1" /></svg>
+<svg width="512" height="512" enable-background="new 0 0 1000 1000" version="1.1" viewBox="0 0 1e3 1e3" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+<metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
+<g transform="matrix(-1 0 0 1 1e3 0)" fill="#fff" stroke="#fff"><path d="m348.29 25.885v114.45h-115.03v114.45h-112.04v719.39h530.99v-115.03h112.04v-111.46h114.45v-721.81zm0.9668 0.96484h528.48v719.88h-114.46v111.46h-112.04v115.03h-529.06v-717.46h112.04v-114.45h115.03zm35.766 35.768v78.59h378.26v569.76h78.59v-648.35zm0.9668 0.9668h454.92v646.41h-76.658v-569.76h-378.26zm-115.9 113.49v78.59h381.16v569.08h76.271v-647.67zm0.96679 0.9668h455.49v645.74h-74.338v-569.08h-381.16zm-113 111.07v648.25h457.43v-648.25zm0.96679 0.9668h455.49v646.31h-455.49zm74.82 77.236v38.861h304.5v-38.861h-0.48243zm0.96679 0.96679h302.57v36.928h-302.57zm-1.5469 114.07v35.379h304.5v-35.379h-0.48242zm0.9668 0.9668h302.57v33.445h-302.57zm-0.9668 112.81v37.701h304.5v-37.701h-0.48242zm0.9668 0.9668h302.57v35.768h-302.57zm-0.9668 111.65v37.701h304.5v-37.701h-0.48242zm0.9668 0.9668h302.57v35.768h-302.57zm-0.9668 113.49v37.699h304.5v-37.699h-0.48242zm0.9668 0.96484h302.57v35.768h-302.57zm303.05-341.33h-303.53v34.413h303.53zm0 113.78h-303.53v36.733h303.53zm-188.5-570.24v114.45h-115.03v114.45h-112.04v718.43h530.02v-115.03h112.04v-111.46h114.45v-720.85zm266.22 910.51h-456.46v-647.28h456.46zm112.04-112.62h-75.304v-569.08h-381.16v-77.624h456.46zm114.36-113.78h-77.624v-569.75h-378.26v-77.624h455.88zm-304.11 113.2h-303.53v36.733h303.53zm0-114.45h-303.53v36.733h303.53zm0.58-341.43h-303.53v37.893h303.53z" color="#000000" stroke="none" style="-inkscape-stroke:none"/></g>
+<g stroke-linecap="round"><path d="m118.05 876.13 758.08-758.08" color="#000000" stroke-width="97.656" style="-inkscape-stroke:none"/><path d="m876.13 69.223a48.828 48.828 0 0 0-34.525 14.301l-758.08 758.08a48.828 48.828 0 0 0 0 69.053 48.828 48.828 0 0 0 69.055 0l758.08-758.08a48.828 48.828 0 0 0 0-69.055 48.828 48.828 0 0 0-34.527-14.301z" color="#000000" fill="#f00" style="-inkscape-stroke:none"/></g><g stroke-linecap="round"><path d="m876.13 876.13-758.08-758.08" color="#000000" stroke-width="97.656"/><path d="m118.05 69.223a48.828 48.828 0 0 0-34.527 14.301 48.828 48.828 0 0 0 0 69.055l758.08 758.08a48.828 48.828 0 0 0 69.053 0 48.828 48.828 0 0 0 0-69.053l-758.08-758.08a48.828 48.828 0 0 0-34.527-14.301z" color="#000000" fill="#f00"/></g></svg>

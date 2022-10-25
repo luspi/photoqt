@@ -1,48 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="512"
-   height="512"
-   viewBox="0 0 512 512"
-   fill="none"
-   version="1.1"
-   id="svg6"
-   sodipodi:docname="rightarrow.svg"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs10" />
-  <sodipodi:namedview
-     id="namedview8"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showgrid="false"
-     inkscape:zoom="1.6038802"
-     inkscape:cx="255.00657"
-     inkscape:cy="238.1724"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg6" />
-  <g
-     id="g241"
-     transform="matrix(24.467425,0,0,24.467425,-35.43485,-37.699295)">
-    <path
-       d="m 17,11 c 0.5523,0 1,0.4477 1,1 0,0.5523 -0.4477,1 -1,1 z M 3,13 C 2.44771,13 2,12.5523 2,12 2,11.4477 2.44771,11 3,11 Z m 14,0 H 3 v -2 h 14 z"
-       fill="#ffffff"
-       id="path2" />
-    <path
-       d="M 21.7152,11.7966 16.265,7.90356 C 15.7355,7.52535 15,7.90385 15,8.55455 v 6.89085 c 0,0.6507 0.7355,1.0292 1.265,0.651 l 5.4502,-3.893 c 0.1396,-0.0997 0.1396,-0.3071 0,-0.4068 z"
-       fill="#ffffff"
-       id="path4" />
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+ <path d="m380.51 231.44c13.513 0 24.467 10.954 24.467 24.467 0 13.513-10.954 24.467-24.467 24.467zm-342.54 48.935c-13.513 0-24.467-10.954-24.467-24.467 0-13.513 10.954-24.467 24.467-24.467zm342.54 0h-342.54v-48.935h342.54z" fill="#fff" stroke-width="24.467"/>
+ <path d="m495.88 250.93-133.35-95.253c-12.956-9.2538-30.951 7e-3 -30.951 15.928v168.6c0 15.921 17.996 25.182 30.951 15.928l133.35-95.252c3.4156-2.4394 3.4156-7.514 0-9.9534z" fill="#fff" stroke-width="24.467"/>
 </svg>
