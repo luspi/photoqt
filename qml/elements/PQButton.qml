@@ -37,7 +37,7 @@ Rectangle {
 
     property alias font: txt.font
 
-    color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
+    color: menu.isOpen ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
     clip: true
 
     Behavior on color { ColorAnimation { duration: 150 } }
@@ -130,10 +130,10 @@ Rectangle {
             control.down = false
         onClicked: {
             if(clickOpensMenu) {
-                if(menu.visible)
+                if(menu.isOpen)
                     menu.close()
                 else {
-                    var pos = parent.mapFromItem(parent.parent, parent.x, parent.y)
+                    var pos = parent.mapFromItem(control.parent, parent.x, parent.y)
                     if(menuOpenDownward)
                         menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
                     else
@@ -144,11 +144,11 @@ Rectangle {
         }
     }
 
-    PQMenu {
+    PQDropDown {
 
         id: menu
 
-        model: listMenuItems
+        entries: listMenuItems
         onTriggered: control.menuItemClicked(index)
 
     }

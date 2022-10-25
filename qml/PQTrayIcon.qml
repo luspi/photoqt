@@ -23,6 +23,7 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
+import "elements"
 
 SystemTrayIcon {
 
@@ -31,11 +32,14 @@ SystemTrayIcon {
 
     iconSource: "/other/icon.png"
 
-    menu: Menu {
+    menu: PQMenu {
         id: mn
-        MenuItem {
-            text: "Hide/Show PhotoQt"
-            onTriggered: {
+
+        entries: [(toplevel.visible ? "Hide PhotoQt" : "Show PhotoQt"),
+                  "Quit PhotoQt"]
+
+        onTriggered: {
+            if(index == 0) {
                 PQSettings.interfaceTrayIcon = 1
                 toplevel.visible = !toplevel.visible
                 if(toplevel.visible) {
@@ -44,16 +48,10 @@ SystemTrayIcon {
                     toplevel.raise()
                     toplevel.requestActivate()
                 }
-            }
-        }
-        MenuItem {
-            text: "Quit PhotoQt"
-            onTriggered: {
+            } else if(index == 1)
                 toplevel.quitPhotoQt()
-            }
         }
-        Component.onCompleted:
-            mn.visible = false
+
     }
 
     onActivated: {

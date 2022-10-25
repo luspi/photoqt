@@ -209,7 +209,7 @@ Item {
 
         id: rightclickmenu
 
-        model: [(PQSettings.interfaceLabelsHideCounter ?
+        entries: [(PQSettings.interfaceLabelsHideCounter ?
                      em.pty+qsTranslate("quickinfo", "Show counter") :
                      em.pty+qsTranslate("quickinfo", "Hide counter")),
             (PQSettings.interfaceLabelsHideFilepath ?

@@ -215,36 +215,21 @@ ListView {
 
             }
 
-            Menu {
+            PQMenu {
 
                 id: contextmenu
 
-                MenuItem {
-                    text: hidden=="true" ?
-                              (em.pty+qsTranslate("filedialog", "Show entry")) :
-                              (em.pty+qsTranslate("filedialog", "Hide entry"))
-                    onTriggered:
+                entries: [(hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry"))),
+                          (em.pty+qsTranslate("filedialog", "Remove entry")),
+                          (userplaces_top.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))]
+
+                onTriggered: {
+                    if(index == 0)
                         handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
-                }
-
-                MenuItem {
-                    text: em.pty+qsTranslate("filedialog", "Remove entry")
-                    onTriggered:
+                    else if(index == 1)
                         handlingFileDialog.removeUserPlacesEntry(id)
-                }
-
-                MenuItem {
-                    text: userplaces_top.showHiddenEntries ?
-                              (em.pty+qsTranslate("filedialog", "Hide hidden entries")) :
-                              (em.pty+qsTranslate("filedialog", "Show hidden entries"))
-                    onTriggered:
+                    else if(index == 2)
                         userplaces_top.showHiddenEntries = !userplaces_top.showHiddenEntries
-                }
-
-                Connections {
-                    target: PQKeyPressMouseChecker
-                    onReceivedMouseButtonPress:
-                        contextmenu.close()
                 }
 
             }

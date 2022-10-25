@@ -109,38 +109,21 @@ Rectangle {
                 }
             }
 
-            Menu {
+            PQMenu {
 
                 id: rightclickmenu
 
-                MenuItem {
-                    text: PQSettings.openfileUserPlacesStandard ?
-                              (em.pty+qsTranslate("filedialog", "Hide standard locations")) :
-                              (em.pty+qsTranslate("filedialog", "Show standard locations"))
-                    onTriggered:
+                entries: [(PQSettings.openfileUserPlacesStandard ? (em.pty+qsTranslate("filedialog", "Hide standard locations")) : (em.pty+qsTranslate("filedialog", "Show standard locations"))),
+                          (PQSettings.openfileUserPlacesUser ? (em.pty+qsTranslate("filedialog", "Hide favorite locations")) : (em.pty+qsTranslate("filedialog", "Show favorite locations"))),
+                          (PQSettings.openfileUserPlacesVolumes ? (em.pty+qsTranslate("filedialog", "Hide storage devices")) : (em.pty+qsTranslate("filedialog", "Show storage devices")))]
+
+                onTriggered: {
+                    if(index == 0)
                         PQSettings.openfileUserPlacesStandard = !PQSettings.openfileUserPlacesStandard
-                }
-
-                MenuItem {
-                    text : PQSettings.openfileUserPlacesUser ?
-                               (em.pty+qsTranslate("filedialog", "Hide favorite locations")) :
-                               (em.pty+qsTranslate("filedialog", "Show favorite locations"))
-                    onTriggered:
+                    else if(index == 1)
                         PQSettings.openfileUserPlacesUser = !PQSettings.openfileUserPlacesUser
-                }
-
-                MenuItem {
-                    text : PQSettings.openfileUserPlacesVolumes ?
-                               (em.pty+qsTranslate("filedialog", "Hide storage devices")) :
-                               (em.pty+qsTranslate("filedialog", "Show storage devices"))
-                    onTriggered:
+                    else if(index == 2)
                         PQSettings.openfileUserPlacesVolumes = !PQSettings.openfileUserPlacesVolumes
-                }
-
-                Connections {
-                    target: PQKeyPressMouseChecker
-                    onReceivedMouseButtonPress:
-                        rightclickmenu.close()
                 }
 
             }

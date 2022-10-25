@@ -21,87 +21,44 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.2
+import Qt.labs.platform 1.0
 
-Popup {
+Menu {
 
     id: control
 
-    property var model: []
+    property var entries: []
     property var hideIndices: []
     property var lineBelowIndices: []
 
-    padding: 1
-    margins: 0
-
     signal triggered(var index)
 
-    property int maxWidth: 100
+    property bool isOpen: false
 
-    property int leftrightpadding: 5
+    onAboutToShow:
+        isOpen = true
+    onAboutToHide:
+        isOpen = false
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: 0
-
-        Repeater {
-            model: control.model.length
-            Rectangle {
-                implicitWidth: control.maxWidth
-                implicitHeight: 30
-                property bool mouseOver: false
-                visible: (hideIndices.indexOf(index)==-1)
-                opacity: enabled ? 1 : 0.3
-                color: mouseOver ? "#666666" : "#cccccc"
-                Behavior on color { ColorAnimation { duration: 200 } }
-                Text {
-                    x: leftrightpadding
-                    y: (parent.height-height)/2
-                    text: control.model[index]
-                    font: control.font
-                    opacity: enabled ? 1.0 : 0.3
-                    color: parent.mouseOver ? "#ffffff" : "#000000"
-                    Behavior on color { ColorAnimation { duration: 200 } }
-                    horizontalAlignment: Text.AlignLeft // Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    Component.onCompleted:
-                        if(width+2*leftrightpadding > control.maxWidth)
-                            control.maxWidth = width+2*leftrightpadding
-                    onWidthChanged: {
-                        if(width+2*leftrightpadding > control.maxWidth)
-                            control.maxWidth = width+2*leftrightpadding
-                    }
-                }
-                Rectangle {
-                    x: 0
-                    y: parent.height-height
-                    width: parent.width
-                    height: lineBelowIndices.indexOf(index)==-1 ? 1 : 3
-                    color: height==1 ? "#88555555" : "#555555"
-                    visible: index < control.model.length-1
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onEntered: parent.mouseOver = true
-                    onExited: parent.mouseOver = false
-                    onClicked: {
-                        control.triggered(index)
-                        control.close()
-                    }
-                }
-            }
+    Instantiator {
+        id: rpt
+        model: control.entries
+        delegate: MenuItem {
+            text: modelData
+            onTriggered: control.triggered(index)
         }
-
+        onObjectAdded: control.insertItem(index, object)
+        onObjectRemoved: control.removeItem(object)
     }
 
     function popup(pos) {
-        control.x = pos.x
-        control.y = pos.y
-        control.open()
+        control.open(pos)
+    }
+
+    Connections {
+        target: PQKeyPressMouseChecker
+        onReceivedMouseButtonPress:
+            control.close()
     }
 
 }
