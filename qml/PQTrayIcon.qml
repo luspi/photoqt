@@ -52,6 +52,9 @@ SystemTrayIcon {
                 toplevel.quitPhotoQt()
         }
 
+        Component.onCompleted:
+            mn.visible = false
+
     }
 
     onActivated: {
