@@ -43,17 +43,14 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, boo
 
     errormsg = "";
 
-    // For reading SVG files
-    QSvgRenderer svg;
-    QImage svg_image;
-
-    // For all other supported file types
-    QImageReader reader;
-
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(filename).suffix().toLower();
 
     if(suffix == "svg") {
+
+        // For reading SVG files
+        QSvgRenderer svg;
+        QImage svg_image;
 
         // Loading SVG file
         svg.load(filename);
@@ -78,6 +75,9 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, boo
         return svg_image;
 
     } else {
+
+        // For all other supported file types
+        QImageReader reader;
 
         // Setting QImageReader
         reader.setFileName(filename);
