@@ -70,7 +70,7 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, boo
         if(stopAfterSize) return QImage();
 
         // Render SVG into pixmap
-        svg_image = QImage(svg.defaultSize(), QImage::Format_RGB32);
+        svg_image = QImage(svg.defaultSize(), QImage::Format_ARGB32);
         svg_image.fill(::Qt::transparent);
         QPainter painter(&svg_image);
         svg.render(&painter);
