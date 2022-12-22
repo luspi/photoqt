@@ -57,7 +57,6 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bo
     // Since we don't care about manipulating RAW images but only want to display
     // them, we can optimise for speed
     raw.imgdata.params.user_qual = 2;
-    raw.imgdata.params.use_rawspeed = 1;
     raw.imgdata.params.use_camera_wb = 1;
 
     // Open the RAW image
