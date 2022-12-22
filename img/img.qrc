@@ -93,5 +93,6 @@
         <file>streaming/chromecastactive.svg</file>
         <file>popin.svg</file>
         <file>image/checkerboard.png</file>
+        <file>settingsmanager/interface/application.svg</file>
     </qresource>
 </RCC>

@@ -378,17 +378,17 @@ QString PQHandlingExternal::getIconPathFromTheme(QString binary) {
         // Setup path (this is the most likely directory) and format (PNG)
         QString path = QIcon::themeSearchPaths().at(i) + "/hicolor/32x32/apps/" + binary.trimmed() + ".png";
         if(QFile(path).exists())
-            return "file:" + path;
+            return "file://" + path;
         else {
             // Also check a smaller version
             path = path.replace("32x32","22x22");
             if(QFile(path).exists())
-                return "file:" + path;
+                return "file://" + path;
             else {
                 // And check 24x24, if not in the two before, it most likely is in here (e.g., shotwell on my system)
                 path = path.replace("22x22","24x24");
                 if(QFile(path).exists())
-                    return "file:" + path;
+                    return "file://" + path;
             }
         }
 
@@ -396,15 +396,15 @@ QString PQHandlingExternal::getIconPathFromTheme(QString binary) {
 
         path = path.replace("22x22","32x32").replace(".png",".svg");
         if(QFile(path).exists())
-            return "file:" + path;
+            return "file://" + path;
         else {
             path = path.replace("32x32","22x22");
             if(QFile(path).exists())
-                return "file:" + path;
+                return "file://" + path;
             else {
                 path = path.replace("22x22","24x24");
                 if(QFile(path).exists())
-                    return "file:" + path;
+                    return "file://" + path;
             }
         }
     }
@@ -592,16 +592,17 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
             const QString cmd = entrylist.at(1).toString();
             const QString args = entrylist.at(4).toString();
-//            const QString icn = entrylist.at(0).toString();
+            const QString icn = entrylist.at(0).toString();
             const QString dsc = entrylist.at(2).toString();
             const QString close = entrylist.at(3).toString();
 
             if(cmd != "" && dsc != "") {
 
                 QSqlQuery query(db);
-                query.prepare("INSERT INTO entries (command,arguments,desc,close) VALUES(:cmd,:arg,:dsc,:cls)");
+                query.prepare("INSERT INTO entries (icon,command,arguments,desc,close) VALUES(:icn,:cmd,:arg,:dsc,:cls)");
                 query.bindValue(":cmd", cmd);
                 query.bindValue(":arg", args);
+                query.bindValue(":icn", icn);
                 query.bindValue(":dsc", dsc);
                 query.bindValue(":cls", close);
                 if(!query.exec())
@@ -618,4 +619,21 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 QSize PQHandlingExternal::getScreenSize() {
     DBG << CURDATE << "PQHandlingExternal::getScreenSize()" << NL;
     return QApplication::primaryScreen()->size();
+}
+
+QString PQHandlingExternal::loadImageAndConvertToBase64(QString filename) {
+
+    PQHandlingFileDir filedir;
+    filename = filedir.cleanPath(filename);
+
+    QPixmap pix;
+    pix.load(filename);
+    if(pix.width() > 64 || pix.height() > 64)
+        pix = pix.scaled(64,64,Qt::KeepAspectRatio);
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    pix.save(&buffer, "PNG");
+    return bytes.toBase64();
+
 }

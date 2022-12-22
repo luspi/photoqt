@@ -107,7 +107,7 @@ Column {
                                 visible: leftcol[outerIndex][index][0] == "img"
                                 source: !visible ? ""
                                                  : ((leftcol[outerIndex][index][1].match("^icn:")=="icn:") ?
-                                                        (handlingExternal.getIconPathFromTheme(leftcol[outerIndex][index][1].slice(4))) :
+                                                        (leftcol[outerIndex][index][1].slice(4)=="" ? "/settingsmanager/interface/application.svg" : ("data:image/png;base64,"+leftcol[outerIndex][index][1].slice(4))) :
                                                         ("/mainmenu/" + leftcol[outerIndex][index][1]))
                                 height: visible ? (txt.height*0.8) : 0
                                 width: height

@@ -201,7 +201,7 @@ Window {
                         width: 20
                         height: 20
                         source: (allitems[index][0].toString().match("^icn:")=="icn:") ?
-                                    (handlingExternal.getIconPathFromTheme(allitems[index][0].slice(4))) :
+                                    (allitems[index][0].slice(4)=="" ? "/settingsmanager/interface/application.svg" : ("data:image/png;base64,"+allitems[index][0].slice(4))) :
                                     (allitems[index][0]!="" ? ("/mainmenu/"+allitems[index][0]) : "")
                         sourceSize: Qt.size(width, height)
                         smooth: false

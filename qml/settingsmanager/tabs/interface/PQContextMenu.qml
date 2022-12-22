@@ -80,11 +80,49 @@ PQSetting {
                         color: "#222222"
                         radius: 5
 
+                        Rectangle {
+
+                            id: exeicon
+
+                            x: 0
+                            y: 0
+                            height: parent.height
+                            width: height
+
+                            color: "transparent"
+                            border.width: 1
+                            border.color: "#44cccccc"
+
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 3
+                                fillMode: Image.PreserveAspectFit
+                                verticalAlignment: Image.AlignVCenter
+                                horizontalAlignment: Image.AlignHCenter
+                                opacity: 0.5
+                                source: (entries[index][0] == "" ? "/settingsmanager/interface/application.svg" : ("data:image/png;base64," + entries[index][0]))
+
+                            }
+
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click to change the icon of the entry")
+                                onClicked: {
+                                    selectIcon.folder = "file://" + (handlingGeneral.amIOnWindows() ? handlingFileDir.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps")
+                                    selectIcon.currentIndex = index
+                                    selectIcon.visible = true
+                                }
+                            }
+
+                        }
+
                         PQLineEdit {
                             id: entrytext
-                            x: 10
+                            x: exeicon.width + 10
                             y: (parent.height-height)/2
-                            width: (parent.width-quit.width-up.width-down.width-del.width-10)*0.4-20
+                            width: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.4-20
                             borderColor: "#666666"
                             //: this is the placeholder text inside of a text box telling the user what text they can enter here
                             placeholderText: em.pty+qsTranslate("settingsmanager_interface", "what string to show for this entry")
@@ -106,9 +144,9 @@ PQSetting {
                         }
                         PQButton {
                             id: exebutton
-                            x: entrytext.width+20
+                            x: exeicon.width+entrytext.width+20
                             y: (parent.height-height)/2
-                            forceWidth: (parent.width-quit.width-up.width-down.width-del.width-10)*0.3-10
+                            forceWidth: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.3-10
                             tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click here to select an executable to be used with this shortcut.")
                             //: This is written on a button, used as in 'click this button to select an executable'
                             text: (entries[index][1] == "" ? ("(" + em.pty+qsTranslate("settingsmanager_interface", "executable") + ")") : entries[index][1])
@@ -126,9 +164,9 @@ PQSetting {
 
                         PQLineEdit {
                             id: exec
-                            x: entrytext.width+exebutton.width+30
+                            x: exeicon.width+entrytext.width+exebutton.width+30
                             y: (parent.height-height)/2
-                            width: (parent.width-quit.width-up.width-down.width-del.width-10)*0.3-10
+                            width: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.3-10
                             borderColor: "#666666"
                             //: this is the placeholder text inside of a text box telling the user what text they can enter here
                             placeholderText: em.pty+qsTranslate("settingsmanager_interface", "additional command line flags")
@@ -252,13 +290,45 @@ PQSetting {
                 return
 
             var fname = handlingFileDir.getFileNameFromFullPath(selectExec.file)
+            var icn = handlingExternal.getIconPathFromTheme(fname)
 
             if(StandardPaths.findExecutable(fname) == selectExec.file)
                 entries[currentIndex][1] = fname
             else
                 entries[currentIndex][1] = handlingFileDir.cleanPath(selectExec.file)
 
+            if(icn != "") {
+                if(handlingGeneral.askForConfirmation("An icon for this executable was found in the system theme.", "Do you want to use it?")) {
+                    entries[currentIndex][0] = handlingExternal.loadImageAndConvertToBase64(icn)
+                }
+            }
+
             entriesChanged()
+        }
+    }
+
+    FileDialog {
+        id: selectIcon
+        modality: Qt.ApplicationModal
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["Images (*.jpg *.jpeg *.png *.bmp *.tiff *.webp *.icns *.icn)", "All files (*.*)"]
+        property int currentIndex: -1
+        onAccepted: {
+
+            if(selectIcon.file == "")
+                return
+
+            entries[currentIndex][0] = handlingExternal.loadImageAndConvertToBase64(selectIcon.file)
+            entriesChanged()
+
+        }
+        onRejected: {
+
+            if(handlingGeneral.askForConfirmation("No icon was selected.", "Do you want to remove any icon currently set?")) {
+                entries[currentIndex][0] = ""
+                entriesChanged()
+            }
+
         }
     }
 

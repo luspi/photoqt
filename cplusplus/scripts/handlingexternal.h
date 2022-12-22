@@ -56,6 +56,7 @@ public:
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
     Q_INVOKABLE QSize getScreenSize();
+    Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
 
     bool checkIfBinaryExists(QString exec);
 

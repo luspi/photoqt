@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "validate.h"
+#include "cplusplus/scripts/handlingexternal.h"
 
 PQValidate::PQValidate(QObject *parent) : QObject(parent) {
 
@@ -77,8 +78,8 @@ bool PQValidate::validateContextMenuDatabase() {
         LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error opening database: " << dbinstalled.lastError().text().trimmed().toStdString() << NL;
 
     QStringList newcols;
-    newcols << "arguments" << "TEXT"
-            << "icon" << "BLOB";
+    newcols << "icon" << "TEXT"
+            << "arguments" << "TEXT";
 
     for(int i = 0; i < newcols.length()/2; ++i) {
 
@@ -118,7 +119,9 @@ bool PQValidate::validateContextMenuDatabase() {
                     return false;
                 }
 
+                // compose list of new entries
                 QList<QStringList> lst;
+                PQHandlingExternal hand;
                 while(query3.next()) {
 
                     QStringList parts = query3.value(0).toString().split(" ");
@@ -127,11 +130,16 @@ bool PQValidate::validateContextMenuDatabase() {
                     parts.removeFirst();
                     QString args = parts.join(" ");
 
+                    QString icn = hand.getIconPathFromTheme(cmd);
+                    if(icn != "")
+                        icn = hand.loadImageAndConvertToBase64(icn);
+
                     QStringList cur;
                     cur << cmd
                         << args
                         << query3.value(1).toString()
-                        << query3.value(2).toString();
+                        << query3.value(2).toString()
+                        << icn;
 
                     lst.append(cur);
 
@@ -149,11 +157,12 @@ bool PQValidate::validateContextMenuDatabase() {
                 for(const auto &entry : lst) {
 
                     QSqlQuery query5(dbinstalled);
-                    query5.prepare("INSERT INTO `entries` (command, arguments, desc, close) VALUES (:cmd, :arg, :desc, :close)");
+                    query5.prepare("INSERT INTO `entries` (command, arguments, desc, close, icon) VALUES (:cmd, :arg, :desc, :close, :icn)");
                     query5.bindValue(":cmd", entry[0]);
                     query5.bindValue(":arg", entry[1]);
                     query5.bindValue(":desc", entry[2]);
                     query5.bindValue(":close", entry[3]);
+                    query5.bindValue(":icn", entry[4]);
                     if(!query5.exec()) {
                         LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error adding new data: " << query5.lastError().text().trimmed().toStdString() << NL;
                         query5.clear();
