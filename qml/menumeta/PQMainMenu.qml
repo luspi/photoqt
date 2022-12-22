@@ -294,7 +294,7 @@ Rectangle {
                     var entries = []
                     for(var i = 0; i < tmpentries.length; ++i) {
                         var e = [["img", "icn:"+tmpentries[i][0], tmpentries[i][1], tmpentries[i][3], true],
-                                 ["txt", tmpentries[i][2], tmpentries[i][1], tmpentries[i][3], true]]
+                                 ["txt", tmpentries[i][2], tmpentries[i][1], tmpentries[i][3], true, tmpentries[i][4]]]
                         entries.push(e)
                     }
                     ext.leftcol = entries

@@ -44,7 +44,7 @@ public:
     PQHandlingExternal(QObject *parent = 0);
     Q_INVOKABLE void copyToClipboard(QString filename);
     Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false);
-    Q_INVOKABLE void executeExternal(QString cmd, QString currentfile);
+    Q_INVOKABLE void executeExternal(QString exe, QString args, QString currentfile);
     Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE QString findDropBoxFolder();
     Q_INVOKABLE QString findNextcloudFolder();

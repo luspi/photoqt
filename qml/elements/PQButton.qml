@@ -67,6 +67,8 @@ Rectangle {
     property alias tooltip: mousearea.tooltip
     property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
 
+    property alias elide: txt.elide
+
     signal menuItemClicked(var pos)
     signal clicked()
 
@@ -90,7 +92,9 @@ Rectangle {
         text: parent.text
         font.pointSize: fontPointSize
         height: parent.height
+        width: (parent.forceWidth == 0 ? undefined : parent.forceWidth-10)
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
         opacity: enabled ? 1.0 : 0.3
         color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
         Behavior on color { ColorAnimation { duration: 100 } }

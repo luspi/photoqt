@@ -22,6 +22,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import Qt.labs.platform 1.0
 
 import "../../../elements"
 
@@ -35,7 +36,7 @@ PQSetting {
 
     expertmodeonly: false
 
-    property var entries: [["","","dontclose"]]
+    property var entries: [["","","","0",""]]
 
     property int focusIndex: -1
     property int focusField: 0
@@ -83,10 +84,10 @@ PQSetting {
                             id: entrytext
                             x: 10
                             y: (parent.height-height)/2
-                            width: (parent.width-quit.width-up.width-down.width-del.width-10)*0.5-20
+                            width: (parent.width-quit.width-up.width-down.width-del.width-10)*0.4-20
                             borderColor: "#666666"
                             //: this is the placeholder text inside of a text box telling the user what text they can enter here
-                            placeholderText: em.pty+qsTranslate("settingsmanager_interface", "what string to show in main menu")
+                            placeholderText: em.pty+qsTranslate("settingsmanager_interface", "what string to show for this entry")
                             text: entries[index][2]
                             onTextEdited: {
                                 entries[index][2] = text
@@ -103,17 +104,37 @@ PQSetting {
                                 }
                             }
                         }
-                        PQLineEdit {
-                            id: exec
+                        PQButton {
+                            id: exebutton
                             x: entrytext.width+20
                             y: (parent.height-height)/2
-                            width: (parent.width-quit.width-up.width-down.width-del.width-10)*0.5-10
+                            forceWidth: (parent.width-quit.width-up.width-down.width-del.width-10)*0.3-10
+                            tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click here to select an executable to be used with this shortcut.")
+                            //: This is written on a button, used as in 'click this button to select an executable'
+                            text: (entries[index][1] == "" ? ("(" + em.pty+qsTranslate("settingsmanager_interface", "executable") + ")") : entries[index][1])
+                            elide: Text.ElideLeft
+                            onClicked: {
+                                selectExec.currentIndex = index
+                                selectExec.folder = "file://"+(entries[index][1].slice(0,1) == "/"
+                                                               ? handlingFileDir.getDirectory(entries[index][1])
+                                                               : (handlingGeneral.amIOnWindows()
+                                                                  ? handlingFileDir.getHomeDir()
+                                                                  : "/usr/bin/"))
+                                selectExec.visible = true
+                            }
+                        }
+
+                        PQLineEdit {
+                            id: exec
+                            x: entrytext.width+exebutton.width+30
+                            y: (parent.height-height)/2
+                            width: (parent.width-quit.width-up.width-down.width-del.width-10)*0.3-10
                             borderColor: "#666666"
                             //: this is the placeholder text inside of a text box telling the user what text they can enter here
-                            placeholderText: em.pty+qsTranslate("settingsmanager_interface", "which command to execute")
-                            text: entries[index][1]
+                            placeholderText: em.pty+qsTranslate("settingsmanager_interface", "additional command line flags")
+                            text: entries[index][4]
                             onTextEdited: {
-                                entries[index][1] = text
+                                entries[index][4] = text
                                 if(index == entries.length-1) {
                                     focusIndex = index
                                     focusField = 1
@@ -220,6 +241,27 @@ PQSetting {
 
     ]
 
+    FileDialog {
+        id: selectExec
+        modality: Qt.ApplicationModal
+        fileMode: FileDialog.OpenFile
+        property int currentIndex: -1
+        onAccepted: {
+
+            if(selectExec.file == "")
+                return
+
+            var fname = handlingFileDir.getFileNameFromFullPath(selectExec.file)
+
+            if(StandardPaths.findExecutable(fname) == selectExec.file)
+                entries[currentIndex][1] = fname
+            else
+                entries[currentIndex][1] = handlingFileDir.cleanPath(selectExec.file)
+
+            entriesChanged()
+        }
+    }
+
     Connections {
 
         target: settingsmanager_top
@@ -268,7 +310,7 @@ PQSetting {
     }
 
     function addNewEntry() {
-        entries.push(["","","","dontclose"])
+        entries.push(["","","","0",""])
         set.entriesChanged()
     }
 

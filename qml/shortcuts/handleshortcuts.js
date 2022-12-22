@@ -37,14 +37,15 @@ function checkComboForShortcut(combo, wheelDelta) {
 
 }
 
-function executeInternalFunction(func) {
-    whatToDoWithFoundShortcut(["",func])
+function executeInternalFunction(func, args) {
+    whatToDoWithFoundShortcut(["",func,args])
 }
 
 function whatToDoWithFoundShortcut(sh, wheelDelta) {
 
     var close = sh[0]
     var cmd = sh[1]
+    var args = sh[2]
 
     if(cmd === "__quit")
         toplevel.quitPhotoQt()
@@ -166,7 +167,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd == "__fitInWindow")
         PQSettings.imageviewFitInWindow = !PQSettings.imageviewFitInWindow
     else {
-        handlingExternal.executeExternal(cmd, filefoldermodel.currentFilePath)
+        handlingExternal.executeExternal(cmd, args, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()
     }

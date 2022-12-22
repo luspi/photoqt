@@ -32,31 +32,144 @@ bool PQValidate::validate() {
         << "PhotoQt v" << VERSION << NL
         << " > Validating configuration... " << NL;
 
+    bool success = true;
+
     bool ret = validateSettingsDatabase();
     if(!ret) {
         LOG << " >> Failed: settings db" << NL << NL;
-        return false;
+        success = false;
+    }
+
+    ret = validateContextMenuDatabase();
+    if(!ret) {
+        LOG << " >> Failed: context menu db" << NL << NL;
+        success = false;
     }
 
     ret = validateShortcutsDatabase();
     if(!ret) {
         LOG << " >> Failed: shortcuts db" << NL << NL;
-        return false;
+        success = false;
     }
 
     ret = validateImageFormatsDatabase();
     if(!ret) {
         LOG << " >> Failed: imageformats db" << NL << NL;
-        return false;
+        success = false;
     }
 
     ret = validateSettingsValues();
     if(!ret) {
         LOG << " >> Failed: settings values" << NL << NL;
-        return false;
+        success = false;
     }
 
     LOG << " >> Done!" << NL << NL;
+    return success;
+
+}
+
+bool PQValidate::validateContextMenuDatabase() {
+
+    QSqlDatabase dbinstalled = QSqlDatabase::database("contextmenu");
+
+    if(!dbinstalled.open())
+        LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error opening database: " << dbinstalled.lastError().text().trimmed().toStdString() << NL;
+
+    QStringList newcols;
+    newcols << "arguments" << "TEXT"
+            << "icon" << "BLOB";
+
+    for(int i = 0; i < newcols.length()/2; ++i) {
+
+        QString col = newcols[2*i];
+        QString typ = newcols[2*i +1];
+
+        QSqlQuery query(dbinstalled);
+        query.prepare("SELECT COUNT(*) AS count FROM pragma_table_info('entries') WHERE name=:col");
+        query.bindValue(":col", col);
+        if(!query.exec()) {
+            LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error checking existence of column '" << col.toStdString() << "': " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            return false;
+        }
+        query.next();
+        int c = query.value(0).toInt();
+
+        // if column does not exist, add it
+        if(c == 0) {
+            QSqlQuery query2(dbinstalled);
+            query2.prepare(QString("ALTER TABLE entries ADD COLUMN %1 %2").arg(col, typ));
+            if(!query2.exec()) {
+                LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error adding new column '" << col.toStdString() << "': " << query2.lastError().text().trimmed().toStdString() << NL;
+                query2.clear();
+                return false;
+            }
+            query2.clear();
+
+            if(col == "arguments") {
+
+                // split old 'command' into new 'command' and 'arguments'
+                QSqlQuery query3(dbinstalled);
+                query3.prepare("SELECT command,desc,close FROM `entries`");
+                if(!query3.exec()) {
+                    LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error getting old 'command' data: " << query3.lastError().text().trimmed().toStdString() << NL;
+                    query3.clear();
+                    return false;
+                }
+
+                QList<QStringList> lst;
+                while(query3.next()) {
+
+                    QStringList parts = query3.value(0).toString().split(" ");
+
+                    QString cmd = parts[0];
+                    parts.removeFirst();
+                    QString args = parts.join(" ");
+
+                    QStringList cur;
+                    cur << cmd
+                        << args
+                        << query3.value(1).toString()
+                        << query3.value(2).toString();
+
+                    lst.append(cur);
+
+                }
+
+                query3.clear();
+
+                QSqlQuery query4(dbinstalled);
+                if(!query4.exec("DELETE FROM `entries`")) {
+                    LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error removing old data: " << query4.lastError().text().trimmed().toStdString() << NL;
+                    query4.clear();
+                    return false;
+                }
+
+                for(const auto &entry : lst) {
+
+                    QSqlQuery query5(dbinstalled);
+                    query5.prepare("INSERT INTO `entries` (command, arguments, desc, close) VALUES (:cmd, :arg, :desc, :close)");
+                    query5.bindValue(":cmd", entry[0]);
+                    query5.bindValue(":arg", entry[1]);
+                    query5.bindValue(":desc", entry[2]);
+                    query5.bindValue(":close", entry[3]);
+                    if(!query5.exec()) {
+                        LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): Error adding new data: " << query5.lastError().text().trimmed().toStdString() << NL;
+                        query5.clear();
+                        return false;
+                    }
+
+                }
+
+            }
+
+        }
+
+        query.clear();
+
+    }
+
     return true;
 
 }

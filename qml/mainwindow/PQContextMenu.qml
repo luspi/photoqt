@@ -255,9 +255,9 @@ Window {
                                     parent.hovered = false
                                 onClicked: {
 
-                                    HandleShortcuts.executeInternalFunction(allitems[topindex][2+index][0])
+                                    HandleShortcuts.executeInternalFunction(allitems[topindex][2+index][0], allitems[topindex][2+index][5])
 
-                                    if(allitems[topindex][2+index].length == 5 && allitems[topindex][2+index][4] == "extern")  {
+                                    if(allitems[topindex][2+index].length > 4 && allitems[topindex][2+index][4] == "extern")  {
                                         if(allitems[topindex][2+index][2])
                                             toplevel.closePhotoQt()
                                         else
@@ -303,7 +303,7 @@ Window {
         var tmpentries = handlingExternal.getContextMenuEntries()
         var entries = []
         for(var i = 0; i < tmpentries.length; ++i) {
-            entries.push(["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], 1*tmpentries[i][3], true, "extern"]])
+            entries.push(["icn:"+tmpentries[i][0], "", [tmpentries[i][1], tmpentries[i][2], 1*tmpentries[i][3], true, "extern", tmpentries[i][4]]])
         }
         allitems_external = entries
     }

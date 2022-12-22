@@ -37,6 +37,7 @@ public:
     bool validate();
 
 private:
+    bool validateContextMenuDatabase();
     bool validateImageFormatsDatabase();
     bool validateSettingsDatabase();
     bool validateShortcutsDatabase();

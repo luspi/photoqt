@@ -56,77 +56,36 @@ void PQHandlingExternal::copyToClipboard(QString filename) {
 
 }
 
-void PQHandlingExternal::executeExternal(QString cmd, QString currentfile) {
+void PQHandlingExternal::executeExternal(QString exe, QString args, QString currentfile) {
 
     DBG << CURDATE << "PQHandlingExternal::executeExternal()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL
+        << CURDATE << "** exe = " << exe.toStdString() << NL
+        << CURDATE << "** args = " << args.toStdString() << NL
         << CURDATE << "** currentfile = " << currentfile.toStdString() << NL;
 
-    if(cmd == "")
+    if(exe == "")
         return;
 
-#ifdef Q_OS_WIN
-
-    cmd = cmd.replace("\\", "/");
-
-    if(cmd.contains(".exe")) {
-        QStringList parts = cmd.split(".exe");
-        cmd = QString("\"%1.exe\"").arg(parts[0]) + " " + parts[1];
-    }
-
     QFileInfo info(currentfile);
 
-    if(cmd.contains("%f"))
-        cmd = cmd.replace("%f", QString("%1").arg(currentfile));
-    if(cmd.contains("%u"))
-        cmd = cmd.replace("%u", QString("%1").arg(info.fileName()));
-    if(cmd.contains("%d"))
-        cmd = cmd.replace("%d", QString("%1").arg(info.absolutePath()));
+    QStringList argslist;
+    QStringList argslist_tmp = args.split(" ");
 
-    QProcess::startDetached(cmd);
-
-#else
-
-    QString executable = "";
-    QStringList arguments = cmd.split(" ");
-
-    if(!arguments.at(0).startsWith("/")) {
-        executable = arguments.at(0);
-        arguments.removeFirst();
-    } else {
-
-        QString path = arguments[0];
-        int i;
-        for(i = 1; i < arguments.length(); ++i) {
-            path += " ";
-            path += arguments[i];
-            QFileInfo info(path);
-            if(info.exists() && info.isFile()) {
-                i += 1;
-                break;
-            }
-        }
-        if(i == arguments.length()) {
-            LOG << CURDATE << "PQHandlingExternal::executeExternal(): Error, unable to execute: " << cmd.toStdString() << NL;
-            return;
-        }
-        executable = path;
-        arguments.erase(arguments.begin(), arguments.begin()+i);
+    for(auto &a : argslist_tmp) {
+        if(a.contains("%f"))
+            a = a.replace("%f", currentfile);
+        if(args.contains("%u"))
+            a = a.replace("%u", info.fileName());
+        if(a.contains("%d"))
+            a = a.replace("%d", info.absolutePath());
+        argslist << a;
     }
 
-    QFileInfo info(currentfile);
+    QProcess proc;
+    proc.setProgram(exe);
+    proc.setArguments(argslist);
 
-    for(int i = 0; i < arguments.length(); ++i) {
-        if(arguments[i].contains("%f"))
-            arguments[i] = arguments[i].replace("%f", currentfile);
-        if(arguments[i].contains("%u"))
-            arguments[i] = arguments[i].replace("%u", info.fileName());
-        if(arguments[i].contains("%d"))
-            arguments[i] = arguments[i].replace("%d", info.absolutePath());
-    }
-
-    QProcess::startDetached(executable, arguments);
-#endif
+    proc.startDetached();
 
 }
 
@@ -312,7 +271,7 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
     }
 
     QSqlQuery query(db);
-    query.prepare("SELECT command,desc,close FROM entries");
+    query.prepare("SELECT command,arguments,icon,desc,close FROM entries");
     if(!query.exec()) {
         LOG << CURDATE << "PQHandlingExternal::getContextMenuEntries(): SQL error, select: " << query.lastError().text().trimmed().toStdString() << NL;
         return ret;
@@ -321,15 +280,18 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
     while(query.next()) {
 
         const QString command = query.record().value(0).toString();
-        const QString desc = query.record().value(1).toString();
-        const QString close = query.record().value(2).toString();
+        const QString arguments = query.record().value(1).toString();
+        const QString icon = query.record().value(2).toString();
+        const QString desc = query.record().value(3).toString();
+        const QString close = query.record().value(4).toString();
 
         QStringList thisentry;
 
-        thisentry << command.split(" ").at(0);  // icon
+        thisentry << icon;      // icon (if specified)
         thisentry << command;   // executable
         thisentry << desc;      // name
         thisentry << close;     // close
+        thisentry << arguments; // command line arguments
 
         ret << thisentry;
 
@@ -377,8 +339,9 @@ void PQHandlingExternal::replaceContextMenuEntriesWithAvailable() {
             if(checkIfBinaryExists(m[2*i+1])) {
 
                 QSqlQuery query(db);
-                query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
-                query.bindValue(":cmd", m[2*i+1]+" %f");
+                query.prepare("INSERT INTO entries (command,arguments,desc,close) VALUES(:cmd,:arg,:dsc,:cls)");
+                query.bindValue(":cmd", m[2*i+1]);
+                query.bindValue(":arg", "%f");
                 query.bindValue(":dsc", m[2*i]);
                 query.bindValue(":cls", "0");
                 if(!query.exec())
@@ -627,15 +590,18 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
 
             QVariantList entrylist = entry.toList();
 
-            const QString close = entrylist.at(3).toString();
             const QString cmd = entrylist.at(1).toString();
+            const QString args = entrylist.at(4).toString();
+//            const QString icn = entrylist.at(0).toString();
             const QString dsc = entrylist.at(2).toString();
+            const QString close = entrylist.at(3).toString();
 
             if(cmd != "" && dsc != "") {
 
                 QSqlQuery query(db);
-                query.prepare("INSERT INTO entries (command,desc,close) VALUES(:cmd,:dsc,:cls)");
+                query.prepare("INSERT INTO entries (command,arguments,desc,close) VALUES(:cmd,:arg,:dsc,:cls)");
                 query.bindValue(":cmd", cmd);
+                query.bindValue(":arg", args);
                 query.bindValue(":dsc", dsc);
                 query.bindValue(":cls", close);
                 if(!query.exec())

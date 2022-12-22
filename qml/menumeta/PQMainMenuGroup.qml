@@ -154,7 +154,7 @@ Column {
                                     return
 
                                 if(external)
-                                    handlingExternal.executeExternal(leftcol[outerIndex][index][2], filefoldermodel.currentFilePath)
+                                    handlingExternal.executeExternal(leftcol[outerIndex][index][2], leftcol[outerIndex][index][5], filefoldermodel.currentFilePath)
                                 else
                                     HandleShortcuts.executeInternalFunction(leftcol[outerIndex][index][2])
 
