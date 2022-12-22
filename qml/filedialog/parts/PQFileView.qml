@@ -472,6 +472,15 @@ GridView {
 
     }
 
+    function mouseEvent(button, modifiers) {
+
+        if(button == Qt.BackButton)
+            breadcrumbs.goBackwards()
+        else if(button == Qt.ForwardButton)
+            breadcrumbs.goForwards()
+
+    }
+
     function keyEvent(key, modifiers) {
 
         if(key == Qt.Key_Down) {

@@ -249,6 +249,8 @@ Rectangle {
                 filedialog_top.hideFileDialog()
             else if(what == "keyevent")
                 fileview.keyEvent(param[0], param[1])
+            else if(what == "mouseevent")
+                fileview.mouseEvent(param[0], param[1])
         }
     }
 

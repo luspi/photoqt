@@ -195,6 +195,15 @@ Item {
 
     }
 
+    function passMouseEvent(ele, buttons, mod) {
+
+        ensureItIsReady(ele)
+
+        if(ele == "filedialog")
+            filedialogPassOn("mouseevent", [buttons, mod])
+
+    }
+
     function passKeyEvent(ele, key, mod) {
 
         ensureItIsReady(ele)

@@ -110,6 +110,8 @@ Item {
             buttons = []
             if(variables.visibleItem=="")
                 pressed = true
+            else
+                loader.passMouseEvent(variables.visibleItem, mouse.button, mouse.modifiers)
 
             if(mouse.buttons & Qt.LeftButton)
                 buttons.push("Left Button")
