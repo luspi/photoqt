@@ -31,7 +31,7 @@ Item {
     MouseArea {
 
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.MiddleButton
+        acceptedButtons: Qt.AllButtons
 
         hoverEnabled: true
 
@@ -117,6 +117,20 @@ Item {
                 buttons.push("Middle Button")
             if(mouse.buttons & Qt.RightButton)
                 buttons.push("Right Button")
+            if(mouse.buttons & Qt.ForwardButton)
+                buttons.push("Forward Button")
+            if(mouse.buttons & Qt.BackButton)
+                buttons.push("Back Button")
+            if(mouse.buttons & Qt.TaskButton)
+                buttons.push("Task Button")
+            if(mouse.buttons & Qt.ExtraButton4)
+                buttons.push("Button #7")
+            if(mouse.buttons & Qt.ExtraButton5)
+                buttons.push("Button #8")
+            if(mouse.buttons & Qt.ExtraButton6)
+                buttons.push("Button #9")
+            if(mouse.buttons & Qt.ExtraButton7)
+                buttons.push("Button #10")
 
             if(mouse.modifiers & Qt.ControlModifier)
                 modifiers.push("Ctrl")

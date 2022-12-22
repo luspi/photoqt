@@ -152,7 +152,7 @@ Rectangle {
             anchors.fill: parent
 
             hoverEnabled: true
-            acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
+            acceptedButtons: Qt.AllButtons
 
             property point pressedPosLast: Qt.point(-1,-1)
             property bool pressedEventInProgress: false
@@ -173,7 +173,27 @@ Rectangle {
                 pressedPosLast = Qt.point(mouse.x, mouse.y)
 
                 mouseComboMods = PQAnalyseMouse.analyseMouseModifiers(mouse.modifiers)
-                mouseComboButton = (mouse.button == Qt.LeftButton ? "Left Button" : (mouse.button == Qt.MiddleButton ? "Middle Button" : "Right Button"))
+                mouseComboButton = (mouse.button == Qt.LeftButton
+                                        ? "Left Button"
+                                        : (mouse.button == Qt.MiddleButton
+                                           ? "Middle Button"
+                                           : (mouse.button == Qt.RightButton
+                                              ? "Right Button"
+                                              : (mouse.button == Qt.ForwardButton
+                                                 ? "Forward Button"
+                                                 : (mouse.button == Qt.BackButton
+                                                    ? "Back Button"
+                                                    : (mouse.button == Qt.TaskButton
+                                                       ? "Task Button"
+                                                       : (mouse.button == Qt.ExtraButton4
+                                                          ? "Button #7"
+                                                          : (mouse.button == Qt.ExtraButton5
+                                                             ? "Button #8"
+                                                             : (mouse.button == Qt.ExtraButton6
+                                                                ? "Button #9"
+                                                                : (mouse.button == Qt.ExtraButton7
+                                                                   ? "Button #10"
+                                                                   : "Unknown Button"))))))))))
                 mouseComboDirection = []
                 keyComboKey = ""
                 keyComboMods = []
