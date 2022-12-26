@@ -149,7 +149,9 @@ PQSetting {
                             forceWidth: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.3-10
                             tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click here to select an executable to be used with this shortcut.")
                             //: This is written on a button, used as in 'click this button to select an executable'
-                            text: (entries[index][1] == "" ? ("(" + em.pty+qsTranslate("settingsmanager_interface", "executable") + ")") : entries[index][1])
+                            text: (entries[index][1] == ""
+                                        ? ("(" + em.pty+qsTranslate("settingsmanager_interface", "executable") + ")")
+                                        : handlingFileDir.pathWithNativeSeparators(entries[index][1]))
                             elide: Text.ElideLeft
                             onClicked: {
                                 selectExec.currentIndex = index

@@ -598,3 +598,9 @@ void PQHandlingFileDir::saveStringToNewFile(QString txt) {
     file.close();
 
 }
+
+QString PQHandlingFileDir::pathWithNativeSeparators(QString path) {
+
+    return QDir::toNativeSeparators(path);
+
+}

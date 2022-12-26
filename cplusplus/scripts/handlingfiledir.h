@@ -75,6 +75,7 @@ public:
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
     Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);
     Q_INVOKABLE void saveStringToNewFile(QString txt);
+    Q_INVOKABLE QString pathWithNativeSeparators(QString path);
 
 private:
     QMimeDatabase db;

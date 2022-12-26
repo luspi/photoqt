@@ -91,7 +91,7 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
     }
 
     QProcess proc;
-    proc.setProgram(exe);
+    proc.setProgram(QDir::toNativeSeparators(exe));
     proc.setArguments(argslist);
 
     proc.startDetached();
