@@ -1,47 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="512"
-   height="512"
-   viewBox="0 0 512 512"
-   fill="none"
-   version="1.1"
-   id="svg6934"
-   sodipodi:docname="speaker_low.svg"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs6938" />
-  <sodipodi:namedview
-     id="namedview6936"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showgrid="false"
-     inkscape:zoom="0.80194012"
-     inkscape:cx="300.52119"
-     inkscape:cy="317.97885"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg6934" />
-  <path
-     d="m 48.270092,299.76055 c -16.160892,-26.93368 -16.160892,-60.58323 0,-87.51692 v 0 c 4.93161,-8.21995 13.101473,-13.9775 22.500725,-15.85739 l 38.373763,-7.67485 c 2.28607,-0.45717 4.34683,-1.68316 5.83937,-3.47443 l 46.89744,-56.27674 c 26.80336,-32.164034 40.20515,-48.246277 52.16405,-43.916215 11.9607,4.330061 11.9607,25.264355 11.9607,67.132725 v 207.65028 c 0,41.86814 0,62.80221 -11.9607,67.13363 -11.9589,4.32915 -25.36069,-11.75218 -52.16405,-43.91712 l -46.89744,-56.27675 c -1.49254,-1.79059 -3.5533,-3.01681 -5.83937,-3.47465 L 70.770817,315.6175 c -9.399252,-1.87899 -17.569115,-7.63609 -22.500725,-15.85695 z"
-     stroke="#ffffff"
-     stroke-width="45.3315"
-     id="path6928" />
-  <path
-     d="m 283.4751,175.86672 c 21.14486,21.14373 33.0761,49.78823 33.19397,79.68886 0.11786,29.9029 -11.58673,58.63851 -32.56386,79.94883"
-     stroke="#ffffff"
-     stroke-width="45.3315"
-     stroke-linecap="round"
-     id="path6930" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" fill="none" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+ <path d="m48.27 299.76c-16.161-26.934-16.161-60.583 0-87.517 4.9316-8.22 13.101-13.978 22.501-15.857l38.374-7.6748c2.2861-0.45717 4.3468-1.6832 5.8394-3.4744l46.897-56.277c26.803-32.164 40.205-48.246 52.164-43.916 11.961 4.3301 11.961 25.264 11.961 67.133v207.65c0 41.868 0 62.802-11.961 67.134-11.959 4.3292-25.361-11.752-52.164-43.917l-46.897-56.277c-1.4925-1.7906-3.5533-3.0168-5.8394-3.4746l-38.374-7.6746c-9.3993-1.879-17.569-7.6361-22.501-15.857z" stroke="#fff" stroke-width="45.332"/>
+ <path d="m283.48 175.87c21.145 21.144 33.076 49.788 33.194 79.689 0.11786 29.903-11.587 58.639-32.564 79.949" stroke="#fff" stroke-linecap="round" stroke-width="45.332"/>
 </svg>

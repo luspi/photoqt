@@ -1,83 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="1850"
-   height="900"
-   viewBox="0 0 489.47915 238.125"
-   version="1.1"
-   id="svg16748"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="mixed.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview16750"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="true"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:zoom="0.38796647"
-     inkscape:cx="858.3216"
-     inkscape:cy="641.80804"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs16745" />
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0600481;stroke-linecap:square;stroke-miterlimit:0;stroke-opacity:0;paint-order:fill markers stroke"
-       id="rect16921"
-       width="233.58727"
-       height="171.28131"
-       x="37.066662"
-       y="33.421894"
-       rx="9.0974016" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.0391543;stroke-linecap:square;stroke-miterlimit:0;stroke-opacity:0;paint-order:fill markers stroke"
-       id="rect16921-5"
-       width="152.31046"
-       height="111.68389"
-       x="300.11246"
-       y="52.070206"
-       rx="5.9319568" />
-    <rect
-       style="fill:#595959;fill-opacity:1;stroke:#000000;stroke-width:0.0569507;stroke-linecap:square;stroke-miterlimit:0;stroke-opacity:0;paint-order:fill markers stroke"
-       id="rect17338"
-       width="46.672508"
-       height="132.3432"
-       x="44.991226"
-       y="53.197613"
-       rx="8.9024372" />
-    <rect
-       style="fill:#595959;fill-opacity:1;stroke:#000000;stroke-width:0.0569507;stroke-linecap:square;stroke-miterlimit:0;stroke-opacity:0;paint-order:fill markers stroke"
-       id="rect17338-3"
-       width="46.672508"
-       height="132.3432"
-       x="213.101"
-       y="51.911533"
-       rx="8.9024372" />
-    <rect
-       style="fill:#595959;fill-opacity:1;stroke:#000000;stroke-width:0.0671358;stroke-linecap:square;stroke-miterlimit:0;stroke-opacity:0;paint-order:fill markers stroke"
-       id="rect17340"
-       width="54.450569"
-       height="38.874084"
-       x="109.29969"
-       y="68.21357"
-       rx="10.028824" />
+<svg width="1850" height="900" version="1.1" viewBox="0 0 489.48 238.12" xmlns="http://www.w3.org/2000/svg">
+ <g stroke-miterlimit="0" stroke-opacity="0">
+  <rect x="37.067" y="33.422" width="233.59" height="171.28" rx="9.0974" style="paint-order:fill markers stroke"/>
+  <rect x="300.11" y="52.07" width="152.31" height="111.68" rx="5.932" style="paint-order:fill markers stroke"/>
+  <g fill="#595959">
+   <rect x="44.991" y="53.198" width="46.673" height="132.34" rx="8.9024" style="paint-order:fill markers stroke"/>
+   <rect x="213.1" y="51.912" width="46.673" height="132.34" rx="8.9024" style="paint-order:fill markers stroke"/>
+   <rect x="109.3" y="68.214" width="54.451" height="38.874" rx="10.029" style="paint-order:fill markers stroke"/>
   </g>
+ </g>
 </svg>
