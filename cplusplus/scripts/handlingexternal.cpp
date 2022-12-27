@@ -90,11 +90,20 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
         argslist << a;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
+
+    QProcess::startDetached(exe, argslist);
+
+
+#else
+
     QProcess proc;
     proc.setProgram(QDir::toNativeSeparators(exe));
     proc.setArguments(argslist);
 
     proc.startDetached();
+
+#endif
 
 }
 
