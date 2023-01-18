@@ -88,8 +88,12 @@ Item {
         imageButtonSource: "/filedialog/backwards.svg"
         rotation: 90
 
-        onClicked:
-            filedialog_top.setCurrentDirectory(filefoldermodel.folderFileDialog + "/../", false)
+        onClicked: {
+            if(handlingGeneral.amIOnWindows())
+                filedialog_top.setCurrentDirectory(filefoldermodel.folderFileDialog + "\\..", false)
+            else
+                filedialog_top.setCurrentDirectory(filefoldermodel.folderFileDialog + "/../", false)
+        }
 
         tooltip: em.pty+qsTranslate("filedialog", "Up a level")
         tooltipFollowsMouse: false
@@ -159,7 +163,7 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        model: Math.max(0, 2*pathParts.length -1)
+        model: Math.max(0, 2*pathParts.length - (handlingGeneral.amIOnWindows() ? 2 : 1))
 
         orientation: Qt.Horizontal
         Component.onCompleted:
@@ -190,22 +194,33 @@ Item {
             onClicked:
                 filedialog_top.setCurrentDirectory(completePath)
 
+            // Fixes for Windows supplied by @hadouken
             Component.onCompleted: {
                 completePath = "/"
-                if(handlingGeneral.amIOnWindows())
-                    completePath = pathParts[0]+"/"
-                for(var i = 1; i <= (index+1)/2; ++i)
-                    completePath += pathParts[i] + "/"
+                if(handlingGeneral.amIOnWindows()) {
+                    completePath = pathParts[0]+"\\"
+                    for(var i = 1; i <= (index+1)/2; ++i)
+                        completePath += pathParts[i] + "\\"
+                } else {
+                    for(var i = 1; i <= (index+1)/2; ++i)
+                        completePath += pathParts[i] + "/"
+                }
                 listMenuItems = handlingFileDialog.getFoldersIn(completePath)
             }
 
+            // Fixes for Windows supplied by @hadouken
             onMenuItemClicked:  {
                 var newpath = "/"
-                if(handlingGeneral.amIOnWindows())
-                    newpath = pathParts[0]+"/"
-                for(var i = 1; i < (index+1)/2; ++i)
-                    newpath += pathParts[i] + "/"
-                filedialog_top.setCurrentDirectory(newpath+"/"+listMenuItems[pos])
+                if(handlingGeneral.amIOnWindows()) {
+                    newpath = pathParts[0]+"\\"
+                    for(var i = 1; i < (index+1)/2; ++i)
+                        newpath += pathParts[i] + "\\"
+                    filedialog_top.setCurrentDirectory(newpath + listMenuItems[pos])
+                } else {
+                    for(var i = 1; i < (index+1)/2; ++i)
+                        newpath += pathParts[i] + "/"
+                    filedialog_top.setCurrentDirectory(newpath + "/" + listMenuItems[pos])
+                }
             }
 
         }
