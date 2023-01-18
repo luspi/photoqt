@@ -144,6 +144,16 @@ Item {
         onTriggered: justAfterStartup = false
     }
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        propagateComposedEvents: true
+        onWheel: {
+            scrollViewFromWheel(wheel.angleDelta)
+            wheel.accepted = true
+        }
+    }
+
     ListView {
 
         id: view
@@ -269,15 +279,8 @@ Item {
                     filefoldermodel.current = index
                 onExited:
                     view.mouseOverItem = -1
-                onWheel: {
-                    // assume horizontal scrolling
-                    var newx = view.contentX - wheel.angleDelta.x
-                    // if scrolling was vertical
-                    if(wheel.angleDelta.x == 0 && wheel.angleDelta.y != 0)
-                        var newx = view.contentX - wheel.angleDelta.y
-                    // set new contentX, but don't move beyond left/right end of thumbnails
-                    view.contentX = Math.max(0, Math.min(newx, view.contentWidth-view.width))
-                }
+                onWheel:
+                    scrollViewFromWheel(wheel.angleDelta)
             }
 
         }
@@ -332,6 +335,16 @@ Item {
     Component.onCompleted: {
         calculateY()
         checkVisibility()
+    }
+
+    function scrollViewFromWheel(angleDelta) {
+        // assume horizontal scrolling
+        var newx = view.contentX - angleDelta.x
+        // if scrolling was vertical
+        if(angleDelta.x == 0 && angleDelta.y != 0)
+            var newx = view.contentX - angleDelta.y
+        // set new contentX, but don't move beyond left/right end of thumbnails
+        view.contentX = Math.max(0, Math.min(newx, view.contentWidth-view.width))
     }
 
     function toggle() {
