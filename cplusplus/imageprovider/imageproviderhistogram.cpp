@@ -47,7 +47,6 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
     }
 
     bool recalcvalues_filepath = (tmp != filepath);
-    bool recalcvalues_color = (color != colorversion);
     filepath = tmp;
 
     // Retrieve the current image
@@ -56,12 +55,11 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
         loader->load(filepath, QSize(), origSize, histimg);
         histimg.convertTo(QImage::Format_RGB32);
     }
+    bool alsoComputeColor = true;
     if(histimg.isGrayscale()) {
         color = false;
-        recalcvalues_color = (color != colorversion);
+        alsoComputeColor = false;
     }
-
-    colorversion = color;
 
     // Get width and height
     int w = requestedSize.width();
@@ -72,7 +70,7 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
     // Get the spacing of the data points
     int interval = w/256;
 
-    if(recalcvalues_filepath || recalcvalues_color) {
+    if(recalcvalues_filepath) {
 
         // Read and store image dimensions
         int imgWidth = histimg.width();
@@ -96,20 +94,12 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
                 // Get pixel data of pixel at column j in row i
                 QRgb pixelData = rowData[j];
 
-                // Get RGB values
-                int red = qRed(pixelData);
-                int green = qGreen(pixelData);
-                int blue = qBlue(pixelData);
+                ++levels_grey[qGray(pixelData)];
 
-                // Add a pixel at current gray level
-                if(!colorversion) {
-                    // Compute the gray level
-                    int gray_level = qGray(red,green,blue);
-                    ++levels_grey[gray_level];
-                } else {
-                    ++levels_red[red];
-                    ++levels_green[green];
-                    ++levels_blue[blue];
+                if(alsoComputeColor) {
+                    ++levels_red[qRed(pixelData)];
+                    ++levels_green[qGreen(pixelData)];
+                    ++levels_blue[qBlue(pixelData)];
                 }
 
             }
@@ -117,53 +107,48 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
         }
 
         // Figure out the greatest value for normalisation
-        greatestvalue = 0;
-        if(!colorversion)
-            greatestvalue = *std::max_element(levels_grey, levels_grey+256);
-        else {
+        greatestvalue_bw = *std::max_element(levels_grey, levels_grey+256);
+        greatestvalue_rgb = 0;
+        if(alsoComputeColor) {
             int allgreat[3];
             allgreat[0] = *std::max_element(levels_red, levels_red+256);
             allgreat[1] = *std::max_element(levels_green, levels_green+256);
             allgreat[2] = *std::max_element(levels_blue, levels_blue+256);
-            greatestvalue = *std::max_element(allgreat, allgreat+3);
+            greatestvalue_rgb = *std::max_element(allgreat, allgreat+3);
         }
 
-    }
-
-    // Set up the needed polygons for filling them with color
-    // This has to ALWAYS been done even if only the size changed, as then the interval changes, too
-    polyGREY.clear();
-    polyRED.clear();
-    polyGREEN.clear();
-    polyBLUE.clear();
-    if(!colorversion) {
+        // Set up the needed polygons for filling them with color
+        // This has to ALWAYS been done even if only the size changed, as then the interval changes, too
+        polyGREY.clear();
+        polyRED.clear();
+        polyGREEN.clear();
+        polyBLUE.clear();
         polyGREY << QPointF(0,h);
         for(int i = 0; i < 256; ++i)
-            polyGREY << QPointF(i*interval,h*(1-(static_cast<double>(levels_grey[i])/static_cast<double>(greatestvalue))));
+            polyGREY << QPointF(i*interval,h*(1-(static_cast<double>(levels_grey[i])/static_cast<double>(greatestvalue_bw))));
         polyGREY << QPointF(w,h);
-    } else {
-        polyRED << QPointF(0,h);
-        for(int i = 0; i < 256; ++i)
-            polyRED << QPointF(i*interval,h*(1-(static_cast<double>(levels_red[i])/static_cast<double>(greatestvalue))));
-        polyRED << QPointF(w,h);
-        polyGREEN << QPointF(0,h);
-        for(int i = 0; i < 256; ++i)
-            polyGREEN << QPointF(i*interval,h*(1-(static_cast<double>(levels_green[i])/static_cast<double>(greatestvalue))));
-        polyGREEN << QPointF(w,h);
-        polyBLUE << QPointF(0,h);
-        for(int i = 0; i < 256; ++i)
-            polyBLUE << QPointF(i*interval,h*(1-(static_cast<double>(levels_blue[i])/static_cast<double>(greatestvalue))));
-        polyBLUE << QPointF(w,h);
-    }
+        if(alsoComputeColor) {
+            polyRED << QPointF(0,h);
+            for(int i = 0; i < 256; ++i)
+                polyRED << QPointF(i*interval,h*(1-(static_cast<double>(levels_red[i])/static_cast<double>(greatestvalue_rgb))));
+            polyRED << QPointF(w,h);
+            polyGREEN << QPointF(0,h);
+            for(int i = 0; i < 256; ++i)
+                polyGREEN << QPointF(i*interval,h*(1-(static_cast<double>(levels_green[i])/static_cast<double>(greatestvalue_rgb))));
+            polyGREEN << QPointF(w,h);
+            polyBLUE << QPointF(0,h);
+            for(int i = 0; i < 256; ++i)
+                polyBLUE << QPointF(i*interval,h*(1-(static_cast<double>(levels_blue[i])/static_cast<double>(greatestvalue_rgb))));
+            polyBLUE << QPointF(w,h);
+        }
 
-    if(recalcvalues_filepath || recalcvalues_color) {
-        if(!colorversion)
+        if(recalcvalues_filepath) {
             delete[] levels_grey;
-        else {
             delete[] levels_red;
             delete[] levels_green;
             delete[] levels_blue;
         }
+
     }
 
     // Create pixmap...
@@ -188,7 +173,7 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
     for(int i = 0; i < horizontallines; ++i)
         paint.drawLine(QPointF(0, (i+1)*(h/(horizontallines+1))), QPointF(w, (i+1)*(h/(horizontallines+1))));
 
-    if(!colorversion) {
+    if(!color) {
 
         // set pen color
         paint.setPen(QPen(QColor(50,50,50,255),2));

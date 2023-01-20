@@ -54,9 +54,9 @@ private:
     QPolygonF polyGREEN;
     QPolygonF polyBLUE;
     QString filepath;
-    bool colorversion;
     QImage histimg;
-    int greatestvalue;
+    int greatestvalue_rgb;
+    int greatestvalue_bw;
     PQLoadImage *loader;
 
 };
