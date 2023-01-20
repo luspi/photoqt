@@ -54,6 +54,7 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
     if(recalcvalues_filepath) {
         QSize origSize;
         loader->load(filepath, QSize(), origSize, histimg);
+        histimg.convertTo(QImage::Format_RGB32);
     }
     if(histimg.isGrayscale()) {
         color = false;
@@ -84,9 +85,7 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
         levels_blue = new int[256]{};
 
         // Loop over all rows of the image
-        // some images cause a crash here if we don't stop one before the end
-        // there is no explanation why, it just does...?
-        for(int i = 0; i < imgHeight-1; ++i) {
+        for(int i = 0; i < imgHeight; ++i) {
 
             // Get the pixel data of row i of the image
             QRgb *rowData = (QRgb*)histimg.scanLine(i);
