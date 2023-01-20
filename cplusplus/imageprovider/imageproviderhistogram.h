@@ -49,10 +49,10 @@ private:
     int *levels_red;
     int *levels_green;
     int *levels_blue;
-    QPolygon polyGREY;
-    QPolygon polyRED;
-    QPolygon polyGREEN;
-    QPolygon polyBLUE;
+    QPolygonF polyGREY;
+    QPolygonF polyRED;
+    QPolygonF polyGREEN;
+    QPolygonF polyBLUE;
     QString filepath;
     bool colorversion;
     QImage histimg;

@@ -46,13 +46,20 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
         return pix;
     }
 
-    bool recalcvalues_filepath = false;
-    bool recalcvalues_color = false;
-    if(tmp != filepath)
-        recalcvalues_filepath = true;
-    if(color != colorversion)
-        recalcvalues_color = true;
+    bool recalcvalues_filepath = (tmp != filepath);
+    bool recalcvalues_color = (color != colorversion);
     filepath = tmp;
+
+    // Retrieve the current image
+    if(recalcvalues_filepath) {
+        QSize origSize;
+        loader->load(filepath, QSize(), origSize, histimg);
+    }
+    if(histimg.isGrayscale()) {
+        color = false;
+        recalcvalues_color = (color != colorversion);
+    }
+
     colorversion = color;
 
     // Get width and height
@@ -66,12 +73,6 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
 
     if(recalcvalues_filepath || recalcvalues_color) {
 
-        // Retrieve the current image
-        if(recalcvalues_filepath) {
-            QSize origSize;
-            loader->load(filepath, QSize(), origSize, histimg);
-        }
-
         // Read and store image dimensions
         int imgWidth = histimg.width();
         int imgHeight = histimg.height();
@@ -83,7 +84,9 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
         levels_blue = new int[256]{};
 
         // Loop over all rows of the image
-        for(int i = 0; i < imgHeight; ++i) {
+        // some images cause a crash here if we don't stop one before the end
+        // there is no explanation why, it just does...?
+        for(int i = 0; i < imgHeight-1; ++i) {
 
             // Get the pixel data of row i of the image
             QRgb *rowData = (QRgb*)histimg.scanLine(i);
@@ -135,23 +138,23 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
     polyGREEN.clear();
     polyBLUE.clear();
     if(!colorversion) {
-        polyGREY << QPoint(0,h);
+        polyGREY << QPointF(0,h);
         for(int i = 0; i < 256; ++i)
-            polyGREY << QPoint(i*interval,h*(1-((double)levels_grey[i]/(double)greatestvalue)));
-        polyGREY << QPoint(w,h);
+            polyGREY << QPointF(i*interval,h*(1-(static_cast<double>(levels_grey[i])/static_cast<double>(greatestvalue))));
+        polyGREY << QPointF(w,h);
     } else {
-        polyRED << QPoint(0,h);
+        polyRED << QPointF(0,h);
         for(int i = 0; i < 256; ++i)
-            polyRED << QPoint(i*interval,h*(1-((double)levels_red[i]/(double)greatestvalue)));
-        polyRED << QPoint(w,h);
-        polyGREEN << QPoint(0,h);
+            polyRED << QPointF(i*interval,h*(1-(static_cast<double>(levels_red[i])/static_cast<double>(greatestvalue))));
+        polyRED << QPointF(w,h);
+        polyGREEN << QPointF(0,h);
         for(int i = 0; i < 256; ++i)
-            polyGREEN << QPoint(i*interval,h*(1-((double)levels_green[i]/(double)greatestvalue)));
-        polyGREEN << QPoint(w,h);
-        polyBLUE << QPoint(0,h);
+            polyGREEN << QPointF(i*interval,h*(1-(static_cast<double>(levels_green[i])/static_cast<double>(greatestvalue))));
+        polyGREEN << QPointF(w,h);
+        polyBLUE << QPointF(0,h);
         for(int i = 0; i < 256; ++i)
-            polyBLUE << QPoint(i*interval,h*(1-((double)levels_blue[i]/(double)greatestvalue)));
-        polyBLUE << QPoint(w,h);
+            polyBLUE << QPointF(i*interval,h*(1-(static_cast<double>(levels_blue[i])/static_cast<double>(greatestvalue))));
+        polyBLUE << QPointF(w,h);
     }
 
     if(recalcvalues_filepath || recalcvalues_color) {
