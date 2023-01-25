@@ -33,7 +33,7 @@ QString PQHandlingFileDir::cleanPath(QString path) {
         path = path.remove(0, 8);
     else if(path.startsWith("file://"))
         path = path.remove(0, 7);
-    elseif(path.startsWith("file:/"))
+    else if(path.startsWith("file:/"))
         path = path.remove(0, 6);
 #else
     if(path.startsWith("file:////"))
