@@ -38,6 +38,7 @@ Item {
     property var zoomRotationMirror: ({})
 
     property bool settingsManagerExpertMode: false
+    property bool settingsManagerOnTopOfFileDialog: false
 
     property bool videoControlsVisible: false
 

@@ -187,7 +187,7 @@ Rectangle {
 
         id: whichview
 
-        anchors.right: parent.right
+        anchors.right: divider.left
         anchors.rightMargin: 10
         y: (parent.height-height)/2
 
@@ -200,6 +200,37 @@ Rectangle {
 
         onClicked:
             PQSettings.openfileDefaultView = (PQSettings.openfileDefaultView=="icons" ? "list" : "icons")
+
+    }
+
+    Rectangle {
+        id: divider
+        anchors.right: settingsbutton.left
+        anchors.rightMargin: 10
+        y: (parent.height-height)/2
+        height: parent.height-10
+        width: 2
+        color: "#cccccc"
+    }
+
+    PQButton {
+
+        id: settingsbutton
+
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        y: (parent.height-height)/2
+
+        leftRightTextSpacing: 0
+
+        tooltip: em.pty+qsTranslate("filedialog", "Open global settings")
+        tooltipFollowsMouse: false
+
+        imageButtonSource: "/mainmenu/setup.svg"
+
+        onClicked: {
+            loader.show("settingsmanager")
+        }
 
     }
 

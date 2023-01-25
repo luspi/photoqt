@@ -340,6 +340,8 @@ Item {
                         else {
                             settingsmanager_top.opacity = 0
                             variables.visibleItem = ""
+                            if(variables.settingsManagerOnTopOfFileDialog)
+                                variables.visibleItem = "filedialog"
                         }
                     }
                 }
@@ -383,6 +385,8 @@ Item {
                 if(what == "show") {
                     resetSettings()
                     opacity = 1
+                    if(variables.visibleItem == "filedialog")
+                        variables.settingsManagerOnTopOfFileDialog = true
                     variables.visibleItem = "settingsmanager"
                     isScrollBarVisible()
                 } else if(what == "hide") {
