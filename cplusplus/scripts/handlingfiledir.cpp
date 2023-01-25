@@ -31,14 +31,16 @@ QString PQHandlingFileDir::cleanPath(QString path) {
 #ifdef Q_OS_WIN
     if(path.startsWith("file:///"))
         path = path.remove(0, 8);
-    if(path.startsWith("file://"))
+    else if(path.startsWith("file://"))
         path = path.remove(0, 7);
-    if(path.startsWith("file:/"))
+    elseif(path.startsWith("file:/"))
         path = path.remove(0, 6);
 #else
-    if(path.startsWith("file:///"))
+    if(path.startsWith("file:////"))
+        path = path.remove(0, 8);
+    else if(path.startsWith("file:///"))
         path = path.remove(0, 7);
-    if(path.startsWith("file://"))
+    else if(path.startsWith("file://"))
         path = path.remove(0, 6);
 #endif
 

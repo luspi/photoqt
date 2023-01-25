@@ -246,8 +246,8 @@ Item {
 
         FileDialog {
             id: saveFileDialog
-            folder: "file://"+handlingFileDir.getHomeDir()
-            currentFile: "file://" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
+            folder: "file:///"+handlingFileDir.getHomeDir()
+            currentFile: "file:///" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
             modality: Qt.ApplicationModal
             fileMode: FileDialog.SaveFile
             nameFilters: ["PhotoQt (*.pqt)"]
@@ -257,13 +257,13 @@ Item {
             }
             onVisibleChanged: {
                 if(visible && !handlingGeneral.amIOnWindows())
-                    currentFile = "file://" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
+                    currentFile = "file:///" + handlingFileDir.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
             }
         }
 
         FileDialog {
             id: openFileDialog
-            folder: "file://"+handlingFileDir.getHomeDir()
+            folder: "file:///"+handlingFileDir.getHomeDir()
             modality: Qt.ApplicationModal
             fileMode: FileDialog.OpenFile
             nameFilters: ["PhotoQt (*.pqt)"]

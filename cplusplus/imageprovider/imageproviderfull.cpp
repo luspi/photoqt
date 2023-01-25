@@ -91,7 +91,7 @@ QByteArray PQImageProviderFull::getUniqueCacheKey(QString path) {
         << CURDATE << "** path = " << path.toStdString() << NL;
 
     path = path.remove("image://full/");
-    path = path.remove("file:/");
+    path = path.remove("file:///");
 
     QFileInfo info(path);
     QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());

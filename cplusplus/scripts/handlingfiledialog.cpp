@@ -69,7 +69,7 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
         // <bookmark>
         newnode.set_name("bookmark");
         newnode.append_attribute("href");
-        newnode.attribute("href").set_value(QString("file://%1").arg(path).toStdString().c_str());
+        newnode.attribute("href").set_value(QString("file:///%1").arg(path).toStdString().c_str());
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
@@ -122,7 +122,7 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
                 // <bookmark>
                 newnode.set_name("bookmark");
                 newnode.append_attribute("href");
-                newnode.attribute("href").set_value(QString("file://%1").arg(path).toStdString().c_str());
+                newnode.attribute("href").set_value(QString("file:///%1").arg(path).toStdString().c_str());
 
                 // <title>
                 pugi::xml_node title = newnode.append_child("title");
@@ -358,7 +358,7 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
 #ifdef Q_OS_WIN
 
-        if(path.startsWith("file://"))
+        if(path.startsWith("file:///"))
             path = path.remove(0,7);
         else if(path.startsWith("file:/"))
             path = path.remove(0,6);
@@ -368,7 +368,7 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 #else
         if(path.startsWith("file:///"))
             path = path.remove(0,7);
-        else if(path.startsWith("file://"))
+        else if(path.startsWith("file:///"))
             path = path.remove(0,6);
         else if(path == "trash:/")
             path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";

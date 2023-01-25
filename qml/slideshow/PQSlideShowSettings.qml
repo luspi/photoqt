@@ -434,7 +434,7 @@ Item {
                         FileDialog {
                             id: fileDialog
                             currentFile: music_button.musicfile=="" ? "" : music_button.musicfile
-                            folder: (music_button.musicfile == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(music_button.musicfile))
+                            folder: (music_button.musicfile == "" ? "file:///"+handlingFileDir.getHomeDir() : "file:///"+handlingFileDir.getFilePathFromFullPath(music_button.musicfile))
                             modality: Qt.ApplicationModal
                             nameFilters: [em.pty+qsTranslate("slideshow", "Common music file formats") + " (aac *.flac *.mp3 *.ogg *.oga *.wav *.wma)",
                                           em.pty+qsTranslate("slideshow", "All Files") + " (*.*)"]

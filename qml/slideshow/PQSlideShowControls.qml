@@ -405,7 +405,7 @@ Item {
         hideBarAfterTimeout.start()
 
         if(PQSettings.slideshowMusicFile != "") {
-            slideshowmusic.source = "file://" + PQSettings.slideshowMusicFile
+            slideshowmusic.source = "file:///" + PQSettings.slideshowMusicFile
             slideshowmusic.play()
         } else
             slideshowmusic.source = ""

@@ -110,7 +110,7 @@ PQSetting {
                                 cursorShape: Qt.PointingHandCursor
                                 tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click to change the icon of the entry")
                                 onClicked: {
-                                    selectIcon.folder = "file://" + (handlingGeneral.amIOnWindows() ? handlingFileDir.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps")
+                                    selectIcon.folder = "file:///" + (handlingGeneral.amIOnWindows() ? handlingFileDir.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps")
                                     selectIcon.currentIndex = index
                                     selectIcon.visible = true
                                 }
@@ -155,7 +155,7 @@ PQSetting {
                             elide: Text.ElideLeft
                             onClicked: {
                                 selectExec.currentIndex = index
-                                selectExec.folder = "file://"+(entries[index][1].slice(0,1) == "/"
+                                selectExec.folder = "file:///"+(entries[index][1].slice(0,1) == "/"
                                                                ? handlingFileDir.getDirectory(entries[index][1])
                                                                : (handlingGeneral.amIOnWindows()
                                                                   ? handlingFileDir.getHomeDir()

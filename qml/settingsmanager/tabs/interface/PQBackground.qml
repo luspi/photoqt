@@ -193,8 +193,8 @@ PQSetting {
 
     FileDialog {
         id: fileDialog
-        currentFile: (PQSettings.interfaceBackgroundImagePath == "" ? "" : "file://"+PQSettings.interfaceBackgroundImagePath)
-        folder: (PQSettings.interfaceBackgroundImagePath == "" ? "file://"+handlingFileDir.getHomeDir() : "file://"+handlingFileDir.getFilePathFromFullPath(PQSettings.interfaceBackgroundImagePath))
+        currentFile: (PQSettings.interfaceBackgroundImagePath == "" ? "" : "file:///"+PQSettings.interfaceBackgroundImagePath)
+        folder: (PQSettings.interfaceBackgroundImagePath == "" ? "file:///"+handlingFileDir.getHomeDir() : "file:///"+handlingFileDir.getFilePathFromFullPath(PQSettings.interfaceBackgroundImagePath))
         modality: Qt.ApplicationModal
         Component.onCompleted: {
             //: This is a category in a file dialog for selecting images used as in: All images supported by PhotoQt.
