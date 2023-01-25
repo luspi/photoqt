@@ -53,7 +53,12 @@ QPixmap PQImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, c
     if(recalcvalues_filepath) {
         QSize origSize;
         loader->load(filepath, QSize(), origSize, histimg);
-        histimg.convertTo(QImage::Format_RGB32);
+        if(histimg.format() != QImage::Format_RGB32)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+            histimg.convertTo(QImage::Format_RGB32);
+#else
+            histimg = histimg.convertToFormat(QImage::Format_RGB32);
+#endif
     }
     bool alsoComputeColor = true;
     if(histimg.isGrayscale()) {
