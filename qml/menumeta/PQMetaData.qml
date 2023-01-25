@@ -365,11 +365,8 @@ Item {
         }
 
         onPositionChanged: {
-            if (pressed) {
-                var w = metadata_top.width + (mouse.x-oldMouseX)
-                if(w < 2*toplevel.width/3)
-                    metadata_top.width = w
-            }
+            if (pressed)
+                metadata_top.width = Math.max(300, Math.min(2*toplevel.width/3, metadata_top.width + (mouse.x-oldMouseX)))
         }
 
     }
@@ -400,10 +397,8 @@ Item {
         }
 
         onPositionChanged: {
-            if (pressed) {
-                var h = metadata_top.height + (mouse.y-oldMouseY)
-                metadata_top.height = h
-            }
+            if (pressed)
+                metadata_top.height = Math.max(400, metadata_top.height + (mouse.y-oldMouseY))
         }
 
     }
