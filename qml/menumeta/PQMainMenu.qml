@@ -193,12 +193,11 @@ Rectangle {
                 title: em.pty+qsTranslate("MainMenu", "Zoom")
                 rightcolCenter: true
                 leftcol: [[["img", "actualsize.svg",                              "__zoomActual",  false, true],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Actual size"), "__zoomActual",  false, true]],
+                           ["txt", "100%", "__zoomActual",  false, true]],
 
                           [["img", "reset.svg",                                  "__zoomReset", false, true],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Reset zoom"), "__zoomReset", false, true]]]
+                                   //: This is an entry in the main menu on the right, used as in 'FIT image in window (reset zoom)'. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Fit"), "__zoomReset", false, true]]]
 
                 rightcol: [["img", "zoomin.svg",  "__zoomIn",  false, true],
                            ["img", "zoomout.svg", "__zoomOut", false, true]]
