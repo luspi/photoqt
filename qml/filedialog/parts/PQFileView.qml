@@ -488,10 +488,19 @@ GridView {
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(modifiers == Qt.NoModifier) {
-                if(currentIndex == -1)
-                    currentIndex = 0
-                else if(currentIndex < filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1)
-                    currentIndex += 1
+                if(PQSettings.openfileDefaultView=="list") {
+                    if(currentIndex == -1)
+                        currentIndex = 0
+                    else if(currentIndex < filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1)
+                        currentIndex += 1
+                } else {
+                    if(currentIndex == -1)
+                        currentIndex = 0
+                    else if(currentIndex < filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-Math.floor(files_grid.width/files_grid.cellWidth))
+                        currentIndex += Math.floor(files_grid.width/files_grid.cellWidth)
+                    else
+                        currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
+                }
             } else if(modifiers == Qt.ControlModifier)
                 currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
 
@@ -500,10 +509,19 @@ GridView {
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(modifiers == Qt.NoModifier) {
-                if(currentIndex == -1)
-                    currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
-                else if(currentIndex > 0)
-                    currentIndex -= 1
+                if(PQSettings.openfileDefaultView=="list") {
+                    if(currentIndex == -1)
+                        currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
+                    else if(currentIndex > 0)
+                        currentIndex -= 1
+                } else {
+                    if(currentIndex == -1)
+                        currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
+                    else if(currentIndex > Math.floor(files_grid.width/files_grid.cellWidth)-1)
+                        currentIndex -= Math.floor(files_grid.width/files_grid.cellWidth)
+                    else if(currentIndex > 0)
+                        currentIndex = 0
+                }
             } else if(modifiers == Qt.ControlModifier)
                 currentIndex = 0
             else if(modifiers == Qt.AltModifier && handlingFileDir.cleanPath(filefoldermodel.folderFileDialog) != "/")
