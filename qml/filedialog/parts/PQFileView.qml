@@ -658,31 +658,14 @@ GridView {
         currentIndex = (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog > 0 ? 0 : -1)
 
         var cleaned = handlingFileDir.cleanPath(filefoldermodel.folderFileDialog)
-        if(cleaned == "/")
-            breadcrumbs.pathParts = ["/"]
-        else {
-            if(handlingGeneral.amIOnWindows()) {
-                if(handlingGeneral.amIOnWindows())
-                    cleaned = cleaned.replace("\\", "::::::")
-                else
-                    cleaned = cleaned.replace("//", "::::::")
-                cleaned = cleaned.split("/")
-                var parts = []
-                for(var i = 0; i < cleaned.length; ++i) {
-                    var c = cleaned[i]
-                    if(c.indexOf("::::::") > -1) {
-                        if(handlingGeneral.amIOnWindows())
-                            parts.push(c.replace("::::::", "\\"))
-                        else
-                            parts.push(c.replace("::::::", "//"))
-                    } else
-                        parts.push(c)
-                }
-                breadcrumbs.pathParts = parts
-            } else {
-                breadcrumbs.pathParts = cleaned.split("/")
-                breadcrumbs.pathParts[0] = "/"
-            }
+        if(cleaned == "/" || (handlingGeneral.amIOnWindows() && cleaned.length == 3)) {
+            breadcrumbs.pathParts = [cleaned]
+        } else {
+            var crumbs = cleaned.split("/")
+            if(!handlingGeneral.amIOnWindows())
+                crumbs[0] = "/"
+            crumbs = crumbs.filter(element => element);
+            breadcrumbs.pathParts = crumbs
         }
 
     }

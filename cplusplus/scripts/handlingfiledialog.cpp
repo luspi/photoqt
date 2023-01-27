@@ -263,11 +263,17 @@ QVariantList PQHandlingFileDialog::getStorageInfo() {
             if(name == "")
                 name = s.rootPath();
 
+            QString p = s.rootPath();
+#ifdef Q_OS_WIN
+            if(p.endsWith("/"))
+                p = p.remove(p.length()-1, p.length());
+#endif
+
             QVariantList vol;
             vol << name
                 << s.bytesTotal()
                 << QString(s.fileSystemType())
-                << s.rootPath();
+                << p;
 
             ret.append(vol);
 
