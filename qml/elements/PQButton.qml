@@ -134,14 +134,16 @@ Rectangle {
             control.down = false
         onClicked: {
             if(clickOpensMenu) {
-                if(menu.isOpen)
-                    menu.close()
-                else {
-                    var pos = parent.mapFromItem(control.parent, parent.x, parent.y)
-                    if(menuOpenDownward)
-                        menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
-                    else
-                        menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
+                if(listMenuItems.length > 0) {
+                    if(menu.isOpen)
+                        menu.close()
+                    else {
+                        var pos = parent.mapFromItem(control.parent, parent.x, parent.y)
+                        if(menuOpenDownward)
+                            menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
+                        else
+                            menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
+                    }
                 }
             } else
                 control.clicked()
@@ -153,7 +155,8 @@ Rectangle {
         id: menu
 
         entries: listMenuItems
-        onTriggered: control.menuItemClicked(index)
+        onTriggered:
+            control.menuItemClicked(index)
 
     }
 

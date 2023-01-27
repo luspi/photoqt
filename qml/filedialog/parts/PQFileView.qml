@@ -659,7 +659,7 @@ GridView {
 
         var cleaned = handlingFileDir.cleanPath(filefoldermodel.folderFileDialog)
         if(cleaned == "/")
-            breadcrumbs.pathParts = [""]
+            breadcrumbs.pathParts = ["/"]
         else {
             if(handlingGeneral.amIOnWindows()) {
                 if(handlingGeneral.amIOnWindows())
@@ -679,8 +679,10 @@ GridView {
                         parts.push(c)
                 }
                 breadcrumbs.pathParts = parts
-            } else
+            } else {
                 breadcrumbs.pathParts = cleaned.split("/")
+                breadcrumbs.pathParts[0] = "/"
+            }
         }
 
     }

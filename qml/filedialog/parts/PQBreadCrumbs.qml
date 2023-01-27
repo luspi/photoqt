@@ -163,7 +163,7 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        model: Math.max(0, 2*pathParts.length - (handlingGeneral.amIOnWindows() ? 2 : 1))
+        model: Math.max(0, 2*pathParts.length)
 
         orientation: Qt.Horizontal
         Component.onCompleted:
@@ -176,51 +176,38 @@ Item {
         delegate: PQButton {
 
             id: modelentry
-            text: (index==0 ? pathParts[0]+"/" : (index%2==0 ? "/" : pathParts[(index+1)/2]))
+            text: index%2 == 0 ? (pathParts[index/2]=="" ? "/" : pathParts[index/2]) : "▼"
 
-            leftRightTextSpacing: text=="/" ? 5 : 10
+            leftRightTextSpacing: index%2 == 1 ? 5 : 10
 
             height: bread_top.height
 
-            clickOpensMenu: index==0||index%2==0
+            clickOpensMenu: index%2==1
 
             font.bold: true
 
             property string completePath: ""
 
-            tooltip: index==0||index%2==0 ? em.pty+qsTranslate("filedialog", "List subfolders") : completePath
+            opacity: listMenuItems.length ? 1 : 0.5
+
+            tooltip: index%2==1 ? (listMenuItems.length ? (em.pty+qsTranslate("filedialog", "List subfolders")) : (em.pty+qsTranslate("filedialog", "No subfolders found"))) : completePath
             tooltipFollowsMouse: false
 
             onClicked:
                 filedialog_top.setCurrentDirectory(completePath)
 
-            // Fixes for Windows supplied by @hadouken
             Component.onCompleted: {
                 completePath = "/"
-                if(handlingGeneral.amIOnWindows()) {
-                    completePath = pathParts[0]+"\\"
-                    for(var i = 1; i <= (index+1)/2; ++i)
-                        completePath += pathParts[i] + "\\"
-                } else {
-                    for(var i = 1; i <= (index+1)/2; ++i)
-                        completePath += pathParts[i] + "/"
-                }
+                for(var i = 0; i <= index/2; ++i)
+                    completePath += pathParts[i] + "/"
                 listMenuItems = handlingFileDialog.getFoldersIn(completePath)
             }
 
-            // Fixes for Windows supplied by @hadouken
             onMenuItemClicked:  {
                 var newpath = "/"
-                if(handlingGeneral.amIOnWindows()) {
-                    newpath = pathParts[0]+"\\"
-                    for(var i = 1; i < (index+1)/2; ++i)
-                        newpath += pathParts[i] + "\\"
-                    filedialog_top.setCurrentDirectory(newpath + listMenuItems[pos])
-                } else {
-                    for(var i = 1; i < (index+1)/2; ++i)
-                        newpath += pathParts[i] + "/"
-                    filedialog_top.setCurrentDirectory(newpath + "/" + listMenuItems[pos])
-                }
+                for(var i = 0; i < index/2; ++i)
+                    newpath += pathParts[i] + "/"
+                filedialog_top.setCurrentDirectory(newpath + "/" + listMenuItems[pos])
             }
 
         }
