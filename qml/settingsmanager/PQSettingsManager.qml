@@ -328,6 +328,8 @@ Item {
                             saveSettings()
                             settingsmanager_top.opacity = 0
                             variables.visibleItem = ""
+                            if(variables.settingsManagerOnTopOfFileDialog)
+                                variables.visibleItem = "filedialog"
                         }
                     }
                 }
