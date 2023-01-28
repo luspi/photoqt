@@ -76,8 +76,12 @@ Rectangle {
         anchors.leftMargin: 5
         y: (parent.height-height)/2
 
-        onValueChanged:
+        onValueChanged: {
             PQSettings.openfileZoomLevel = value
+            // we set the focus to some random element (one that doesn't aid in catching key events (otherwise we catch them twice))
+            // this avoids the case where left/right arrow would cause inadvertently a zoom in/out event
+            variables.forceActiveFocus()
+        }
 
     }
 
