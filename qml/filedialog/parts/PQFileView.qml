@@ -600,7 +600,19 @@ GridView {
 
             filedialog_top.hideFileDialog()
 
-        else {
+        else if(key == Qt.Key_Home && modifiers == Qt.NoModifier) {
+
+            currentIndexChangedUsingKeyIgnoreMouse = true
+
+            currentIndex = 0
+
+        } else if(key == Qt.Key_End && modifiers == Qt.NoModifier) {
+
+            currentIndexChangedUsingKeyIgnoreMouse = true
+
+            currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
+
+        } else {
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
