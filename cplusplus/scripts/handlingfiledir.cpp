@@ -28,25 +28,23 @@ QString PQHandlingFileDir::cleanPath(QString path) {
     DBG << CURDATE << "PQHandlingFileDir::cleanPath()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
+    // older versions of PhotoQt used the incorrect form of only two slashes after file:
+    // this was corrected everywhere starting with v3.0, but we still need to check for both
+
 #ifdef Q_OS_WIN
     if(path.startsWith("file:///"))
         path = path.remove(0, 8);
     else if(path.startsWith("file://"))
         path = path.remove(0, 7);
-    else if(path.startsWith("file:/"))
-        path = path.remove(0, 6);
 #else
     if(path.startsWith("file:////"))
         path = path.remove(0, 8);
     else if(path.startsWith("file:///"))
         path = path.remove(0, 7);
-    else if(path.startsWith("file://"))
-        path = path.remove(0, 6);
 #endif
-
-    if(path.startsWith("image://full/"))
+    else if(path.startsWith("image://full/"))
         path = path.remove(0, 13);
-    if(path.startsWith("image://thumb/"))
+    else if(path.startsWith("image://thumb/"))
         path = path.remove(0, 14);
 
 #ifdef Q_OS_WIN

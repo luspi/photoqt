@@ -362,25 +362,23 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
         QString path = bm.attribute("href").value();
 
+        // we need to check for the old (wrong) syntax of two slashes
+        // and for the new right synbtax of three slashes after file:
 #ifdef Q_OS_WIN
-
         if(path.startsWith("file:///"))
+            path = path.remove(0,8);
+        else if(path.startsWith("file://"))
             path = path.remove(0,7);
-        else if(path.startsWith("file:/"))
-            path = path.remove(0,6);
-        else
-            continue;
-
 #else
-        if(path.startsWith("file:///"))
-            path = path.remove(0,7);
+        if(path.startsWith("file:////"))
+            path = path.remove(0,8);
         else if(path.startsWith("file:///"))
-            path = path.remove(0,6);
+            path = path.remove(0,7);
         else if(path == "trash:/")
             path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
+#endif
         else
             continue;
-#endif
 
         // name
         entry << bm.select_node("title").node().child_value();
