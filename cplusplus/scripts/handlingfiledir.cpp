@@ -603,6 +603,11 @@ void PQHandlingFileDir::saveStringToNewFile(QString txt) {
 
 QString PQHandlingFileDir::pathWithNativeSeparators(QString path) {
 
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.mid(1);
+#endif
+
     return QDir::toNativeSeparators(path);
 
 }
