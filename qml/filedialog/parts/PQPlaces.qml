@@ -170,7 +170,7 @@ ListView {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Your favorites") : (path==undefined ? "" : path)
+                tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Your favorites") : (path==undefined ? "" : (handlingGeneral.amIOnWindows() ? handlingFileDir.pathWithNativeSeparators(path.substr(1)) : path))
 
                 drag.target: parent
 

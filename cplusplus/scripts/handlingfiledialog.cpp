@@ -261,7 +261,7 @@ QVariantList PQHandlingFileDialog::getStorageInfo() {
 
             QString name = s.name();
             if(name == "")
-                name = s.rootPath();
+                name = QDir::toNativeSeparators(s.rootPath());
 
             QString p = s.rootPath();
 #ifdef Q_OS_WIN

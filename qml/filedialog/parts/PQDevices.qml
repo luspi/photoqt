@@ -138,7 +138,7 @@ ListView {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-                tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Detected storage devices on your system") : (location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
+                tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Detected storage devices on your system") : (handlingFileDir.pathWithNativeSeparators(location) + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
 
                 // some properties
                 hoverEnabled: true
