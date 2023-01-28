@@ -558,13 +558,20 @@ GridView {
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
-            currentIndex = Math.max(currentIndex-5, 0)
+            if(PQSettings.openfileDefaultView=="list")
+
+                currentIndex = Math.max(currentIndex-5, 0)
+            else
+                currentIndex = Math.max(currentIndex-5*Math.floor(files_grid.width/files_grid.cellWidth), 0)
 
         } else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier) {
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
-            currentIndex = Math.min(currentIndex+5, filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1)
+            if(PQSettings.openfileDefaultView=="list")
+                currentIndex = Math.min(currentIndex+5, filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1)
+            else
+                currentIndex = Math.min(currentIndex+5*Math.floor(files_grid.width/files_grid.cellWidth), filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1)
 
         } else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
