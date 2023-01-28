@@ -180,6 +180,11 @@ void PQStartup::setupFresh(int defaultPopout) {
 
     PQSettings::get().update("generalVersion", VERSION);
 
+#ifdef Q_OS_WIN
+    // these defaults are different on Windows as on Linux
+    PQSettings::get().update("openfileUserPlacesVolumes", true);
+#endif
+
     // record popout selection
     // default is all integrated (defaultPopout == 0)
     if(defaultPopout == 1) { // some integrated, some individual
