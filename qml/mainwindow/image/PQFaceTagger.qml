@@ -39,9 +39,32 @@ Item {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: false
-        onClicked: {
 
+        property bool mouseDown: false
+
+        onPressed: {
+            mouseDown = true
+
+            var p = facetagger_top.mapFromItem(theimage, mouse.x, mouse.y)
+
+            if(p.x < 0 || p.x > facetagger_top.width || p.y < 0 || p.y > facetagger_top.height)
+                return
+
+            newtag.setX = p.x
+            newtag.x = p.x
+            newtag.setY = p.y
+            newtag.y = p.y
+            newtag.setWidth = 0
+            newtag.setHeight = 0
+            updateNewtagPos()
+            newtag.visible = true
+
+        }
+
+        onReleased: {
             if(newtag.visible) {
+
+                mouseDown = false
 
                 if(newtag.width/facetagger_top.scale < 10 || newtag.height/facetagger_top.scale < 10) {
                     newtag.visible = false
@@ -52,20 +75,6 @@ Item {
                 nameedit.text = ""
                 nameedit.setFocus()
 
-            } else {
-                var p = facetagger_top.mapFromItem(theimage, mouse.x, mouse.y)
-
-                if(p.x < 0 || p.x > facetagger_top.width || p.y < 0 || p.y > facetagger_top.height)
-                    return
-
-                newtag.setX = p.x
-                newtag.x = p.x
-                newtag.setY = p.y
-                newtag.y = p.y
-                newtag.setWidth = 0
-                newtag.setHeight = 0
-                updateNewtagPos()
-                newtag.visible = true
             }
 
         }
