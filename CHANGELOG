@@ -1,5 +1,25 @@
-Changelog PhotoQt - Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 3.0 - 2023-01-30
+----------------------------
+- add: shortcut: load random image in folder
+- add: filedialog: forward/backward mouse button navigates through history
+- add: filedialog: access settings manager
+- improve: file dialog: use native path separators
+- improve: file dialog: improve subfolder listing
+- improve: file dialog: breadcrumbs handling
+- improve: file dialog: up/down arrows in icon view moves rows up/down
+- improve: right click and context menus
+- improve: custom menu entries (icons, path, etc.)
+- improve: histogram: support for images other than 32bit
+- improve: face tagger: use click-and-draw instead of click-then-draw to mark new faces
+- improve: face tagger:  preserves other meta data
+- improve: performance and resilience for RAW images
+- improve: structure and rendering of SVG icons
+- fix usage of file URI scheme
+- many more bug fixes and improvements
 
 
 Release 2.9.1 - 2022-09-05
@@ -34,7 +54,7 @@ Release 2.8 - 2022-07-31
 - file dialog: preview image can be loadedin low (fast) and high (slower) resolution
 - file dialog: option to hide tooltip with file details
 - file dialog: reworked context menu of fileview
-- file dialog: tooltip with file details 
+- file dialog: tooltip with file details
 - slideshow: fix next/prev buttons during slideshow when slideshow paused
 - slideshow: controls turned into floating buttons at bottom center
 - shortcuts: support for double clicks

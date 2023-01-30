@@ -1,7 +1,7 @@
-# PhotoQt v2.9.1
-__Copyright (C) 2011-2022, Lukas Spies (Lukas@photoqt.org)__  
-__License:__ GPLv2 (or later)  
-__Website:__ https://photoqt.org  
+# PhotoQt v3.0
+__Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org)__
+__License:__ GPLv2 (or later)
+__Website:__ https://photoqt.org
 
 PhotoQt is a fast and highly configurable image viewer with a simple and nice interface.
 
@@ -15,14 +15,14 @@ PhotoQt is available in the repositories of an increasing number of Linux distri
 - CMake (needed for building PhotoQt)
 - Qt5 ImageFormats
 
-Make sure that you have all the required QML modules installed:  
-QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.  
+Make sure that you have all the required QML modules installed:
+QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.
 
 Dependencies that are needed by default, but can be disabled via CMake:
 
 - LibArchive
 - Exiv2
-- ImageMagick _or_ GraphicsMagick 
+- ImageMagick _or_ GraphicsMagick
 - LibRaw
 - Poppler
 - LibVips
@@ -65,22 +65,22 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 
 2. _cmake .._
 
-    \# Note: This installs PhotoQt by default into /usr/local/{bin,share}  
+    \# Note: This installs PhotoQt by default into /usr/local/{bin,share}
     \# To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
 
     \# At this step you can also en-/disable any compile time features.
 
-3. _make_  
+3. _make_
 
     \# This creates an executeable photoqt binary located in the ./build/ folder
 
 4. (as root or sudo) _make install_
 
-    \# This command:  
-    1. installs the desktop file to share/applications/  
-    2. moves some icons to icons/hicolor/  
+    \# This command:
+    1. installs the desktop file to share/applications/
+    2. moves some icons to icons/hicolor/
     3. moves the binary to bin/
     4. installs the metainfo file to share/metainfo/
 
