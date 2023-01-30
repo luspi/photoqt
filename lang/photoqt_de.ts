@@ -3756,7 +3756,7 @@ Window title</extracomment>
       <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="153"/>
       <source>executable</source>
       <extracomment>This is written on a button, used as in &apos;click this button to select an executable&apos;</extracomment>
-      <translation>EXE auswählen</translation>
+      <translation>ausführbare Datei</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="174"/>
