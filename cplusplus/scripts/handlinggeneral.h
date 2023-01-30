@@ -34,6 +34,9 @@
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 #include "../singleinstance/singleinstance.h"
+#ifdef POPPLER
+#include <poppler/qt5/poppler-version.h>
+#endif
 
 class PQHandlingGeneral : public QObject {
 

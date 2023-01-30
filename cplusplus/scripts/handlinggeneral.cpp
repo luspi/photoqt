@@ -255,7 +255,7 @@ QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
 #endif
 
 #ifdef POPPLER
-    txt += QString("- %1Poppler%2%3").arg(bold1, bold2, nl);
+    txt += QString("- %1Poppler%2: %3%4").arg(bold1, bold2, POPPLER_VERSION, nl);
 #endif
 #ifdef LIBARCHIVE
     txt += QString("- %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
