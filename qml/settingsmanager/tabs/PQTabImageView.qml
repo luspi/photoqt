@@ -104,6 +104,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: trn.expertmodeonly }
             PQFitInWindow { id: fiw }
                 PQHorizontalLine { expertModeOnly: fiw.expertmodeonly }
+            PQAlwaysActualSize { id: act }
+                PQHorizontalLine { expertModeOnly: act.expertmodeonly }
             PQLoop { id: loo }
                 PQHorizontalLine { expertModeOnly: loo.expertmodeonly }
             PQMargin { id: mrg }

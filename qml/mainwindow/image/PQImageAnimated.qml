@@ -389,6 +389,10 @@ Item {
             if(theimage.curScale == defaultScale && theimage.curX == 0 && theimage.curY == 0)
                 reset(true, false)
         }
+        onImageviewAlwaysActualSizeChanged: {
+            if(theimage.curScale == defaultScale && theimage.curX == 0 && theimage.curY == 0)
+                reset(true, false)
+        }
 
     }
 
@@ -533,6 +537,9 @@ Item {
                 cont.y = PQSettings.imageviewMargin + Math.floor(-(theimage.height*(1-sc2))/2)
             }
         }
+
+        if(PQSettings.imageviewAlwaysActualSize)
+            useThisScale = 1.0
 
         if(scaling) {
             defaultScale = useThisScale

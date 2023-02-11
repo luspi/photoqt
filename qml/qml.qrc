@@ -166,5 +166,6 @@
         <file>settingsmanager/tabs/interface/PQStatusInfo.qml</file>
         <file>settingsmanager/tabs/interface/PQWindowButtons.qml</file>
         <file>elements/PQDropDown.qml</file>
+        <file>settingsmanager/tabs/imageview/PQAlwaysActualSize.qml</file>
     </qresource>
 </RCC>
