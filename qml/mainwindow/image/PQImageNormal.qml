@@ -60,7 +60,7 @@ Item {
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
-        smooth: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.imageviewInterpolationDisableForSmallImages || width > PQSettings.imageviewInterpolationThreshold || height > PQSettings.imageviewInterpolationThreshold)
+        smooth: (scale < 0.99 && scale < 1.01) && (!PQSettings.imageviewInterpolationDisableForSmallImages || width > PQSettings.imageviewInterpolationThreshold || height > PQSettings.imageviewInterpolationThreshold)
         mipmap: (scale < defaultScale || (scale < 0.8 && defaultScale < 0.8)) && (!PQSettings.imageviewInterpolationDisableForSmallImages || width > PQSettings.imageviewInterpolationThreshold || height > PQSettings.imageviewInterpolationThreshold)
 
         Repeater {
