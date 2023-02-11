@@ -28,11 +28,24 @@ Item {
 
     id: status_top
 
+                                // show when always shown
+    property bool makeVisible: !PQSettings.interfaceStatusInfoAutoHide ||
+                               // show when no files loaded
+                               filefoldermodel.countMainView==0 ||
+                               // show when hidden or as long as mouse is not too far away from them
+                               (((variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height-20 : 20) && y == -height) || (variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height+height : height)+30)) ? true : false)
+
     x: 40
-    y: (PQSettings.thumbnailsEdge == "Top") ? (20 + thumbnails.height+thumbnails.y) : 20
+    y: (PQSettings.thumbnailsEdge == "Top") ?
+           (makeVisible ? (20 + thumbnails.height+thumbnails.y) : -height) :
+           (makeVisible ? 20 : -height)
+
+    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
 
     width: col.width
     height: col.height
+
+    property bool movedByMouse: false
 
     visible: !(variables.slideShowActive&&PQSettings.slideshowHideLabels) &&
                  (filefoldermodel.current>-1 || filefoldermodel.filterCurrentlyActive) &&
@@ -231,6 +244,7 @@ Item {
                 drag.onActiveChanged: {
                     var tmp = status_top.y
                     status_top.y = tmp
+                    status_top.movedByMouse = true
                 }
 
                 doubleClickThreshold: 250
@@ -393,6 +407,7 @@ Item {
                     else
                         enterViewerMode()
                 }
+
             }
 
         }
@@ -404,6 +419,43 @@ Item {
     Image {
 
         x: parent.width-width+5
+        y: parent.height-height+5
+        width: 18
+        height: 18
+
+        visible: status_top.movedByMouse
+
+        source: "/other/reset.svg"
+        sourceSize: Qt.size(width, height)
+
+        opacity: closemouse1.containsMouse ? 0.8 : 0.2
+        Behavior on opacity { NumberAnimation { duration: 150 } }
+
+        PQMouseArea {
+            id: closemouse1
+            anchors.fill: parent
+            visible: PQSettings.interfaceStatusInfoShow
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            tooltip: em.pty+qsTranslate("quickinfo", "Reset status info position")
+            onClicked: {
+                status_top.x = 40
+                status_top.y = Qt.binding(function(){
+                    if(PQSettings.thumbnailsEdge == "Top")
+                       return (20 + thumbnails.height+thumbnails.y)
+                    return (makeVisible ? 20 : -status_top.height)
+                });
+                status_top.movedByMouse = false
+            }
+        }
+
+    }
+
+    Image {
+
+        id: closebut
+
+        x: parent.width-width+5
         y: -5
         width: 20
         height: 20
@@ -411,11 +463,11 @@ Item {
         source: "/other/close.svg"
         sourceSize: Qt.size(width, height)
 
-        opacity: closemouse.containsMouse ? 0.8 : 0
+        opacity: closemouse2.containsMouse ? 0.8 : 0
         Behavior on opacity { NumberAnimation { duration: 150 } }
 
         PQMouseArea {
-            id: closemouse
+            id: closemouse2
             anchors.fill: parent
             visible: PQSettings.interfaceStatusInfoShow
             cursorShape: Qt.PointingHandCursor
