@@ -90,9 +90,9 @@ releaseappimage:
     - ./linuxdeploy-x86_64.AppImage --appimage-extract
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
-    - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
-    - curl --data-binary @PhotoQt-nightly.AppImage ${UPLOAD_URL}
+    - mv ./PhotoQt*.AppImage PhotoQt-latesttag.AppImage
+    - curl --data-binary @PhotoQt-latesttag.AppImage ${UPLOAD_URL}
 
   artifacts:
     paths:
-      - PhotoQt-nightly.AppImage
+      - PhotoQt-latesttag.AppImage
