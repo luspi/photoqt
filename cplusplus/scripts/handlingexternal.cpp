@@ -68,6 +68,8 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
 
     QFileInfo info(currentfile);
 
+    QStringList argslist;
+
     QStringList argslist_tmp = args.split(" ");
     if(args.isEmpty() && exe.contains(" ")) {
         argslist_tmp = exe.split(" ");
