@@ -37,11 +37,13 @@ Item {
 
     x: 40
     y: (PQSettings.thumbnailsEdge == "Top") ?
-           (makeVisible ? (20 + thumbnails.height+thumbnails.y) : -height) :
-           (makeVisible ? 20 : -height)
+           ((makeVisible||showTemporarily) ? (20 + thumbnails.height+thumbnails.y) : -height) :
+           ((makeVisible||showTemporarily) ? 20 : -height)
 
-    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide || movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
-    Behavior on x { NumberAnimation { duration: (movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide || movedByMouse || showTemporarily) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+    Behavior on x { NumberAnimation { duration: (movedByMouse || showTemporarily) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+
+    property bool showTemporarily: false
 
     width: col.width
     height: col.height
@@ -477,6 +479,29 @@ Item {
                 PQSettings.interfaceStatusInfoShow = false
         }
 
+    }
+
+    Connections {
+        target: filefoldermodel
+        onCurrentChanged: {
+
+            if(PQSettings.interfaceStatusInfoAutoHideTimeout == 0 || !PQSettings.interfaceStatusInfoAutoHide)
+                return
+
+            showTemporarily = true
+            resetAutoHide.restart()
+
+        }
+    }
+
+    Timer {
+        id: resetAutoHide
+        interval:  PQSettings.imageviewAnimationDuration*100 + PQSettings.interfaceStatusInfoAutoHideTimeout
+        repeat: false
+        running: false
+        onTriggered: {
+            showTemporarily = false
+        }
     }
 
     function enterViewerMode() {

@@ -262,6 +262,32 @@ PQSetting {
                 enabled: status_show.checked
             }
 
+            Flow {
+
+                spacing: 10
+
+                width: set.contwidth
+                enabled: status_autohide.checked
+
+                Text {
+                    color: "white"
+                    text: "Show for x seconds on image change:"
+                }
+
+                PQSlider {
+                    id: st_slider
+                    from: 0
+                    to: 5000
+                    stepSize: 100
+                }
+
+                Text {
+                    color: "white"
+                    text: st_slider.value/1000 + " s"
+                }
+
+            }
+
 
         }
 
@@ -283,6 +309,7 @@ PQSetting {
             fs_slider.value = PQSettings.interfaceStatusInfoFontSize
 
             status_autohide.checked = PQSettings.interfaceStatusInfoAutoHide
+            st_slider.value = PQSettings.interfaceStatusInfoAutoHideTimeout
 
         }
 
@@ -298,6 +325,7 @@ PQSetting {
             PQSettings.interfaceStatusInfoFontSize = fs_slider.value
 
             PQSettings.interfaceStatusInfoAutoHide = status_autohide.checked
+            PQSettings.interfaceStatusInfoAutoHideTimeout = st_slider.value
 
         }
 
