@@ -68,10 +68,14 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
 
     QFileInfo info(currentfile);
 
-    QStringList argslist;
+    QStringList argslist_tmp = args.split(" ");
+    if(args.isEmpty() && exe.contains(" ")) {
+        argslist_tmp = exe.split(" ");
+        exe = argslist_tmp.takeFirst();
+    }
+
 
 #ifdef Q_OS_WIN
-    QStringList argslist_tmp = args.split(" ");
     for(auto &a : argslist_tmp) {
         if(a.contains("%f"))
             a = a.replace("%f", currentfile.replace("/","\\"));
@@ -82,8 +86,6 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
         argslist << a;
     }
 #else
-    QStringList argslist_tmp = exe.split(" ");
-    exe = argslist_tmp.takeFirst();
     for(auto &a : argslist_tmp) {
         if(a.contains("%f"))
             a = a.replace("%f", currentfile);
