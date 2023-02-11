@@ -40,7 +40,8 @@ Item {
            (makeVisible ? (20 + thumbnails.height+thumbnails.y) : -height) :
            (makeVisible ? 20 : -height)
 
-    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide || movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+    Behavior on x { NumberAnimation { duration: (movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
 
     width: col.width
     height: col.height
@@ -428,7 +429,7 @@ Item {
         source: "/other/reset.svg"
         sourceSize: Qt.size(width, height)
 
-        opacity: closemouse1.containsMouse ? 0.8 : 0.2
+        opacity: closemouse1.containsMouse ? 0.8 : 0.1
         Behavior on opacity { NumberAnimation { duration: 150 } }
 
         PQMouseArea {

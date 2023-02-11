@@ -26,8 +26,20 @@ import "../elements"
 
 Item {
 
+                               // show when always shown
+    property bool makeVisible: !PQSettings.interfaceWindowButtonsAutoHide ||
+                               // show when hidden or as long as mouse is not too far away from them
+                               (((variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height-20 : 20) && y == -height) || (variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height+height : height)+30)) ? true : false)
+
     x: parent.width-width-distanceFromEdge
-    y: (PQSettings.thumbnailsEdge == "Top") ? (distanceFromEdge + thumbnails.height+thumbnails.y) : distanceFromEdge
+    y: (PQSettings.thumbnailsEdge == "Top") ?
+           (makeVisible ? (distanceFromEdge + thumbnails.height+thumbnails.y) : -height) :
+           (makeVisible ? distanceFromEdge : -height)
+
+    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceWindowButtonsAutoHide || movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+    Behavior on x { NumberAnimation { duration: (movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+
+    property bool movedByMouse: false
 
     property int distanceFromEdge: 5
 

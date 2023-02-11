@@ -68,6 +68,11 @@ PQSetting {
                 }
             }
 
+            PQCheckbox {
+                id: labels_autohide
+                text: em.pty+qsTranslate("settingsmanager_interface", "automatically hide")
+            }
+
         }
 
     ]
@@ -83,6 +88,8 @@ PQSetting {
 
             labels_windowbuttonssize.value = PQSettings.interfaceWindowButtonsSize
 
+            labels_autohide.checked = PQSettings.interfaceWindowButtonsAutoHide
+
         }
 
         onSaveAllSettings: {
@@ -91,6 +98,8 @@ PQSetting {
             PQSettings.interfaceWindowButtonsAlwaysShowX = labels_windowclosebuttonalwaysvisible.checked
 
             PQSettings.interfaceWindowButtonsSize = labels_windowbuttonssize.value
+
+            PQSettings.interfaceWindowButtonsAutoHide = labels_autohide.checked
 
         }
 

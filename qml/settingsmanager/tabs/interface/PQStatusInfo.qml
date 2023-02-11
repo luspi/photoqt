@@ -34,11 +34,11 @@ PQSetting {
 
         Column {
 
-            spacing: 10
+            spacing: 15
 
             PQCheckbox {
                 id: status_show
-                text: em.pty+qsTranslate("settingsmanager_interface", "Show status information")
+                text: em.pty+qsTranslate("settingsmanager_interface", "show status information")
             }
 
             Rectangle {
@@ -228,7 +228,7 @@ PQSetting {
                 PQButton {
                     id: but_add
                     //: This is written on a button that is used to add a selected block to the status info section.
-                    text: em.pty+qsTranslate("settingsmanager_interface", "Add")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "add")
                     onClicked:
                         model.append({name: combo_add.data[combo_add.currentIndex][0]})
                 }
@@ -239,7 +239,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: "white"
-                    text: em.pty+qsTranslate("settingsmanager_interface", "Font size:")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "font size:")
                 }
 
                 PQSlider {
@@ -247,12 +247,19 @@ PQSetting {
                     y: (parent.height-height)/2
                     from: 6
                     to: 30
+                    enabled: status_show.checked
                 }
                 Text {
                     y: (parent.height-height)/2
                     color: "white"
                     text: fs_slider.value+"pt"
                 }
+            }
+
+            PQCheckbox {
+                id: status_autohide
+                text: em.pty+qsTranslate("settingsmanager_interface", "automatically hide")
+                enabled: status_show.checked
             }
 
 
@@ -275,6 +282,8 @@ PQSetting {
 
             fs_slider.value = PQSettings.interfaceStatusInfoFontSize
 
+            status_autohide.checked = PQSettings.interfaceStatusInfoAutoHide
+
         }
 
         onSaveAllSettings: {
@@ -287,6 +296,8 @@ PQSetting {
             PQSettings.interfaceStatusInfoList = opts
 
             PQSettings.interfaceStatusInfoFontSize = fs_slider.value
+
+            PQSettings.interfaceStatusInfoAutoHide = status_autohide.checked
 
         }
 
