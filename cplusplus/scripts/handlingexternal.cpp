@@ -69,7 +69,8 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
     QFileInfo info(currentfile);
 
     QStringList argslist;
-    QStringList argslist_tmp = args.split(" ");
+    QStringList argslist_tmp = exe.split(" ");
+    exe = argslist_tmp.takeFirst();
 
     for(auto &a : argslist_tmp) {
 #ifdef Q_OS_WIN
