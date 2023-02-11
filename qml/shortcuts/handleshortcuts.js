@@ -166,6 +166,8 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
     else if(cmd == "__fitInWindow")
         PQSettings.imageviewFitInWindow = !PQSettings.imageviewFitInWindow
+    else if(cmd == "__toggleAlwaysActualSize")
+        PQSettings.imageviewAlwaysActualSize = !PQSettings.imageviewAlwaysActualSize
     else {
         handlingExternal.executeExternal(cmd, args, filefoldermodel.currentFilePath)
         if(close === "1")
