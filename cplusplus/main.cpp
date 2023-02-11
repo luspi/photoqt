@@ -78,8 +78,10 @@
 int main(int argc, char **argv) {
 
 #ifdef Q_OS_WIN
-    qputenv("MAGICK_CODER_MODULE_PATH", qgetenv("PHOTOQT_MAGICK_CODER_MODULE_PATH"));
-    qputenv("MAGICK_FILTER_MODULE_PATH", qgetenv("PHOTOQT_MAGICK_FILTER_MODULE_PATH"));
+    QFileInfo f(argv[0]);
+    qputenv("PATH", QString("%1;%2").arg(qgetenv("PATH"),f.absolutePath().replace("/", "\\")).toLocal8Bit());
+    qputenv("MAGICK_CODER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\coders").toLocal8Bit());
+    qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
 #endif
 
     // needs to be set before Q*Application is created
