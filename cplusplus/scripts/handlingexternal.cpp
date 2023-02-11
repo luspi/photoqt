@@ -69,27 +69,31 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
     QFileInfo info(currentfile);
 
     QStringList argslist;
-    QStringList argslist_tmp = exe.split(" ");
-    exe = argslist_tmp.takeFirst();
 
-    for(auto &a : argslist_tmp) {
 #ifdef Q_OS_WIN
+    QStringList argslist_tmp = args.split(" ");
+    for(auto &a : argslist_tmp) {
         if(a.contains("%f"))
             a = a.replace("%f", currentfile.replace("/","\\"));
         if(args.contains("%u"))
             a = a.replace("%u", info.fileName().replace("/","\\"));
         if(a.contains("%d"))
             a = a.replace("%d", info.absolutePath().replace("/","\\"));
+        argslist << a;
+    }
 #else
+    QStringList argslist_tmp = exe.split(" ");
+    exe = argslist_tmp.takeFirst();
+    for(auto &a : argslist_tmp) {
         if(a.contains("%f"))
             a = a.replace("%f", currentfile);
         if(args.contains("%u"))
             a = a.replace("%u", info.fileName());
         if(a.contains("%d"))
             a = a.replace("%d", info.absolutePath());
-#endif
         argslist << a;
     }
+#endif
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
 
