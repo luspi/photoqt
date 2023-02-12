@@ -580,7 +580,59 @@ void PQHandlingExternal::openInDefaultFileManager(QString filename) {
 #ifdef Q_OS_WIN
     QProcess::startDetached("explorer.exe", {"/select,", QDir::toNativeSeparators(filename)});
 #else
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(filename).absolutePath()));
+
+    // Finding out what is set as default file manager
+    QProcess proc;
+    proc.start("xdg-mime", QStringList() << "query" << "default" << "inode/directory");
+    proc.waitForFinished();
+    QString def = proc.readAllStandardOutput().toLower();
+
+    // If we find a supported file manager, store it in here
+    QString exe = "";
+    QStringList args;
+
+    // Check for all currently supported file managers
+    if(def.contains("dolphin")) {
+        exe = "dolphin";
+        args << "--select" << filename;
+    } else if(def.contains("nautilus")) {
+        exe = "nautilus";
+        args << "--select" << filename;
+    } else if(def.contains("konqbrowser")) {
+        exe = "konqueror";
+        args << "--select" << filename;
+    } else if(def.contains("thunar")) {
+        exe = "thunar";
+        args << filename;
+    } else if(def.contains("caja")) {
+        exe = "caja";
+        args << "--select" << filename;
+    } else if(def.contains("dde-file-manager")) {
+        exe = "dde-file-manager";
+        args << "--show-item" << filename;
+    } else if(def.contains("doublecmd")) {
+        exe = "doublecmd";
+        args << filename;
+    } else if(def.contains("nemo")) {
+        exe = "nemo";
+        args << filename;
+    } else if(def.contains("rox")) {
+        exe = "rox";
+        args << "-s" << filename;
+    }
+
+    // found a supported one
+    if(exe != "") {
+
+        QProcess proc;
+        proc.setProgram(exe);
+        proc.setArguments(args);
+        proc.startDetached();
+
+    // else open folder in default file manager
+    } else
+        QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(filename).absolutePath()));
+
 #endif
 
 }
