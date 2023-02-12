@@ -122,7 +122,7 @@ PQSetting {
                             id: entrytext
                             x: exeicon.width + 10
                             y: (parent.height-height)/2
-                            width: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.4-20
+                            width: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.35-20
                             borderColor: "#666666"
                             //: this is the placeholder text inside of a text box telling the user what text they can enter here
                             placeholderText: em.pty+qsTranslate("settingsmanager_interface", "what string to show for this entry")
@@ -142,17 +142,37 @@ PQSetting {
                                 }
                             }
                         }
-                        PQButton {
-                            id: exebutton
+                        PQLineEdit {
+                            id: exepath
                             x: exeicon.width+entrytext.width+20
                             y: (parent.height-height)/2
-                            forceWidth: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.3-10
+                            width: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.3
+                            //: This is used as in "executable binary/program"
+                            placeholderText: em.pty+qsTranslate("settingsmanager_interface", "executable")
+                            text: handlingFileDir.pathWithNativeSeparators(entries[index][1])
+                            onTextEdited: {
+                                entries[index][1] = text
+                                if(index == entries.length-1) {
+                                    focusIndex = index
+                                    focusField = 3
+                                    addNewEntry()
+                                }
+                            }
+                            Component.onCompleted: {
+                                if(focusIndex == index && focusField == 3) {
+                                    exepath.setFocus()
+                                    exepath.deselect()
+                                }
+                            }
+                        }
+
+                        PQButton {
+                            id: exebutton
+                            x: exepath.x+exepath.width
+                            y: (parent.height-height)/2
+                            forceWidth: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.05-10
                             tooltip: em.pty+qsTranslate("settingsmanager_interface", "Click here to select an executable to be used with this shortcut.")
-                            //: This is written on a button, used as in 'click this button to select an executable'
-                            text: (entries[index][1] == ""
-                                        ? ("(" + em.pty+qsTranslate("settingsmanager_interface", "executable") + ")")
-                                        : handlingFileDir.pathWithNativeSeparators(entries[index][1]))
-                            elide: Text.ElideLeft
+                            text: "..."
                             onClicked: {
                                 selectExec.currentIndex = index
                                 selectExec.folder = "file:///"+(entries[index][1].slice(0,1) == "/"
@@ -166,7 +186,7 @@ PQSetting {
 
                         PQLineEdit {
                             id: exec
-                            x: exeicon.width+entrytext.width+exebutton.width+30
+                            x: exebutton.x+exebutton.width+10
                             y: (parent.height-height)/2
                             width: (parent.width-exeicon.width-quit.width-up.width-down.width-del.width-10)*0.3-10
                             borderColor: "#666666"
