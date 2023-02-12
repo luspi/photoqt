@@ -229,11 +229,9 @@ QStringList PQFileFolderModel::getAllFolders(QString folder) {
         if(m_sortField != SortBy::NaturalName)
             dir.setSorting(sortFlags);
 
-        QDirIterator iter(dir);
-        while(iter.hasNext()) {
-            iter.next();
-            ret << iter.filePath();
-        }
+        const QFileInfoList lst = dir.entryInfoList();
+        for(const auto &f : lst)
+            ret << f.filePath();
 
         if(m_sortField == SortBy::NaturalName) {
             QCollator collator;
@@ -313,11 +311,9 @@ QStringList PQFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersExc
                 dir.setSorting(sortFlags);
 
             if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
-                QDirIterator iter(dir);
-                while(iter.hasNext()) {
-                    iter.next();
-                    ret_cur << iter.filePath();
-                }
+                const QFileInfoList lst = dir.entryInfoList();
+                for(const auto &f: lst)
+                    ret_cur << f.filePath();
             } else {
 
                 const QFileInfoList lst = dir.entryInfoList();
