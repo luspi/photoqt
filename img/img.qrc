@@ -95,5 +95,10 @@
         <file>image/checkerboard.png</file>
         <file>settingsmanager/interface/application.svg</file>
         <file>other/reset.svg</file>
+        <file>mainwindow/restore.svg</file>
+        <file>mainwindow/minimize.svg</file>
+        <file>mainwindow/maximize.svg</file>
+        <file>mainwindow/keepforeground.svg</file>
+        <file>mainwindow/dontkeepforeground.svg</file>
     </qresource>
 </RCC>

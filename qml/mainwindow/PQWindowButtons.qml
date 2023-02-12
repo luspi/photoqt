@@ -148,6 +148,121 @@ Item {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
+            source: PQSettings.interfaceKeepWindowOnTop ? "/mainwindow/keepforeground.svg" : "/mainwindow/dontkeepforeground.svg"
+
+            opacity: !visibleAlways ? 0 : (fore_mouse.containsMouse ? 0.8 : 0.5)
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+            visible: PQSettings.interfaceWindowMode
+
+            mipmap: true
+
+            PQMouseArea {
+                id: fore_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.interfaceKeepWindowOnTop ? em.pty+qsTranslate("quickinfo", "Click here to not keep window in foreground") : em.pty+qsTranslate("quickinfo", "Click here to keep window in foreground")
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: {
+                    if(mouse.button == Qt.LeftButton) {
+                        PQSettings.interfaceKeepWindowOnTop = !PQSettings.interfaceKeepWindowOnTop
+                    } else {
+                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    }
+                }
+            }
+        }
+
+        Item {
+            width: 1
+            height: 1
+            visible: PQSettings.interfaceWindowMode
+        }
+
+        Image {
+            width: 3*PQSettings.interfaceWindowButtonsSize
+            height: 3*PQSettings.interfaceWindowButtonsSize
+            sourceSize: Qt.size(width, height)
+            source: "/mainwindow/minimize.svg"
+
+            opacity: !visibleAlways ? 0 : (mini_mouse.containsMouse ? 0.8 : 0.5)
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+            visible: PQSettings.interfaceWindowMode
+
+            mipmap: true
+
+            PQMouseArea {
+                id: mini_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("quickinfo", "Click here to minimize window")
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: {
+                    if(mouse.button == Qt.LeftButton) {
+                        toplevel.showMinimized()
+                    } else {
+                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    }
+                }
+            }
+        }
+
+        Item {
+            width: 1
+            height: 1
+            visible: PQSettings.interfaceWindowMode
+        }
+
+        Image {
+            width: 3*PQSettings.interfaceWindowButtonsSize
+            height: 3*PQSettings.interfaceWindowButtonsSize
+            sourceSize: Qt.size(width, height)
+            source: toplevel.visibility==Window.Windowed ? "/mainwindow/maximize.svg" : "/mainwindow/restore.svg"
+
+            opacity: !visibleAlways ? 0 : (minimaxi_mouse.containsMouse ? 0.8 : 0.5)
+            Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+
+            visible: PQSettings.interfaceWindowMode
+
+            mipmap: true
+
+            PQMouseArea {
+                id: minimaxi_mouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: (toplevel.visibility==Window.Maximized ? em.pty+qsTranslate("quickinfo", "Click here to restore window")
+                                                : em.pty+qsTranslate("quickinfo", "Click here to maximize window"))
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: {
+                    if(mouse.button == Qt.LeftButton) {
+                        if(toplevel.visibility == Window.Windowed)
+                            toplevel.visibility = Window.Maximized
+                        else
+                            toplevel.visibility = Window.Windowed
+                    } else {
+                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                    }
+                }
+            }
+        }
+
+        Item {
+            width: 1
+            height: 1
+            visible: PQSettings.interfaceWindowMode
+        }
+
+        Image {
+            width: 3*PQSettings.interfaceWindowButtonsSize
+            height: 3*PQSettings.interfaceWindowButtonsSize
+            sourceSize: Qt.size(width, height)
             source: PQSettings.interfaceWindowMode ? "/mainwindow/fullscreen_on.svg" : "/mainwindow/fullscreen_off.svg"
 
             opacity: !visibleAlways ? 0 : (fullscreen_mouse.containsMouse ? 0.8 : 0.5)
