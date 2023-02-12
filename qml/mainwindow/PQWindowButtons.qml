@@ -46,7 +46,7 @@ Item {
     width: row.width
     height: row.height
 
-    visible: (!(variables.slideShowActive&&PQSettings.slideshowHideWindowButtons) && !PQSettings.interfaceLabelsHideWindowButtons && opacity==1)
+    visible: (!(variables.slideShowActive&&PQSettings.slideshowHideWindowButtons) && PQSettings.interfaceWindowButtonsShow && opacity==1)
 
     property bool visibleAlways: false
 
