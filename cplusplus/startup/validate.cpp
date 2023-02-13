@@ -595,6 +595,85 @@ bool PQValidate::validateShortcutsDatabase() {
         return false;
     }
 
+    /****************************************************/
+    // First update external table
+
+    QSqlQuery queryCol(dbinstalled);
+    if(!queryCol.exec("SELECT count() FROM PRAGMA_TABLE_INFO('external')")) {
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error validating 'external' columns: " << queryCol.lastError().text().trimmed().toStdString() << NL;
+        queryCol.clear();
+        return false;
+    }
+
+    queryCol.next();
+    int c = queryCol.value(0).toInt();
+    queryCol.clear();
+
+    // If database needs to be migrated
+    if(c == 3) {
+
+        if(!queryCol.exec("ALTER TABLE external ADD COLUMN arguments TEXT")) {
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error adding 'arguments' columns to 'external' table: " << queryCol.lastError().text().trimmed().toStdString() << NL;
+            queryCol.clear();
+            return false;
+        }
+
+        // Loop over existing data and update with new format
+        queryCol.clear();
+
+        if(!queryCol.exec("SELECT command,shortcuts,close FROM external")) {
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to migrate external shortcuts: " << queryCol.lastError().text().trimmed().toStdString() << NL;
+            queryCol.clear();
+            return false;
+        }
+
+        // save migrated data in list
+        QList<QStringList> lst;
+        while(queryCol.next()) {
+
+            QStringList oldexe = queryCol.value(0).toString().split(" ");
+            QString exec = oldexe.takeFirst();
+            QString args = oldexe.join(" ");
+
+            lst.append({exec, args, queryCol.value(1).toString(), queryCol.value(2).toString()});
+
+        }
+        queryCol.clear();
+
+        // if external shortcuts were set
+        if(lst.length() > 0) {
+
+            // delete old data
+            if(!queryCol.exec("DELETE FROM external")) {
+                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to remove old external shortcuts to fill in migrated data: " << queryCol.lastError().text().trimmed().toStdString() << NL;
+                queryCol.clear();
+                return false;
+            }
+            queryCol.clear();
+
+            // insert migrated data
+            for(const auto &l : qAsConst(lst)) {
+
+                QSqlQuery queryNew(dbinstalled);
+                queryNew.prepare("INSERT INTO external (command, arguments, shortcuts, close) VALUES (:cmd, :arg, :sh, :cl)");
+                queryNew.bindValue(":cmd", l[0]);
+                queryNew.bindValue(":arg", l[1]);
+                queryNew.bindValue(":sh", l[2]);
+                queryNew.bindValue(":cl", l[3]);
+                if(!queryNew.exec()) {
+                    LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to insert migrated data, old data might be lost: " << queryNew.lastError().text().trimmed().toStdString() << NL;
+                    queryNew.clear();
+                    return false;
+                }
+            }
+
+        }
+
+    }
+
+    /****************************************************/
+    // Validate with default data
+
     // open database
     QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     QFile::copy(":/shortcuts.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");

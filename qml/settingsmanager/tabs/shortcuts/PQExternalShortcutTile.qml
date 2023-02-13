@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import Qt.labs.platform 1.0
 import "../../../elements"
 
 Rectangle {
@@ -28,7 +29,7 @@ Rectangle {
     id: tile_top
 
     width: avail_top.width-10
-    height: iHaveBeenDeleted ? 0 : dsctxt.height+10
+    height: iHaveBeenDeleted ? 0 : exectxt.height+10
     Behavior on height { NumberAnimation { duration: 200 } }
 
     radius: 5
@@ -62,11 +63,43 @@ Rectangle {
             checked: (avail_top.activeShortcuts[index][1]*1==1)
         }
 
-        PQLineEdit {
-            id: dsctxt
-            height: 30
-            text: avail_top.activeShortcuts[index][0]
+        Row {
+
+            PQLineEdit {
+                id: exectxt
+                height: 30
+                placeholderText: "executable"
+                text: avail_top.activeShortcuts[index][0].split(":://:://::")[0]
+            }
+
+            PQButton {
+                id: exebutton
+                forceWidth: 30
+                height: 30
+                tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click here to select an executable to be used with this shortcut.")
+                text: "..."
+                onClicked: {
+                    selectExec.currentIndex = index
+                    selectExec.folder = "file:///"+(entries[index][1].slice(0,1) == "/"
+                                                   ? handlingFileDir.getDirectory(entries[index][1])
+                                                   : (handlingGeneral.amIOnWindows()
+                                                      ? handlingFileDir.getHomeDir()
+                                                      : "/usr/bin/"))
+                    selectExec.visible = true
+                }
+            }
+
         }
+
+
+        PQLineEdit {
+            id: argstxt
+            height: 30
+            placeholderText: "additional flags"
+            text: avail_top.activeShortcuts[index][0].split(":://:://::")[1]
+        }
+
+
 
         Rectangle {
 
@@ -149,9 +182,29 @@ Rectangle {
 
         onSaveExternalShortcuts: {
             if(!iHaveBeenDeleted)
-                PQShortcuts.setShortcut(dsctxt.text, [(close_chk.checked?"1":"0"), shtxt_text.sh])
+                PQShortcuts.setShortcut((exectxt.text+":://:://::"+argstxt.text), [(close_chk.checked?"1":"0"), shtxt_text.sh])
         }
 
+    }
+
+    FileDialog {
+        id: selectExec
+        modality: Qt.ApplicationModal
+        fileMode: FileDialog.OpenFile
+        property int currentIndex: -1
+        onAccepted: {
+
+            if(selectExec.file == "")
+                return
+
+            var fname = handlingFileDir.getFileNameFromFullPath(selectExec.file)
+
+            if(StandardPaths.findExecutable(fname) == selectExec.file)
+                exectxt.text = fname
+            else
+                exectxt.text = handlingFileDir.cleanPath(selectExec.file)
+
+        }
     }
 
     function addNewCombo(combo) {

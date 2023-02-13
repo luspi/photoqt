@@ -292,7 +292,7 @@ void PQShortcuts::readDB() {
     }
 
     query.clear();
-    query.prepare("SELECT command, shortcuts, close FROM external");
+    query.prepare("SELECT command, arguments, shortcuts, close FROM external");
     if(!query.exec()) {
         LOG << CURDATE << "PQShortcuts::readDB() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;
@@ -301,8 +301,9 @@ void PQShortcuts::readDB() {
     while(query.next()) {
 
         const QString cmd = query.record().value(0).toString();
-        QString sh = query.record().value(1).toString();
-        const QString close = query.record().value(2).toString();
+        const QString args = query.record().value(1).toString();
+        QString sh = query.record().value(2).toString();
+        const QString close = query.record().value(3).toString();
 
         QStringList sh_parts;
         sh_parts << close;
@@ -314,7 +315,7 @@ void PQShortcuts::readDB() {
                 sh_parts << p.replace("COMMA",",").trimmed();
         }
 
-        externalShortcuts[cmd] = sh_parts;
+        externalShortcuts[QString("%1:://:://::%2").arg(cmd, args)] = sh_parts;
 
     }
 
