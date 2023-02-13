@@ -612,6 +612,14 @@ bool PQValidate::validateShortcutsDatabase() {
     // If database needs to be migrated
     if(c == 3) {
 
+        // backup old database
+        QFile f(ConfigFiles::SHORTCUTS_DB());
+        if(QFileInfo::exists(ConfigFiles::SHORTCUTS_DB() + ".bak"))
+            QFile::remove(ConfigFiles::SHORTCUTS_DB()+".bak");
+        if(!f.copy(ConfigFiles::SHORTCUTS_DB() + ".bak"))
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to backup old database, copying failed" << NL;
+
+        // add new column
         if(!queryCol.exec("ALTER TABLE external ADD COLUMN arguments TEXT")) {
             LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error adding 'arguments' columns to 'external' table: " << queryCol.lastError().text().trimmed().toStdString() << NL;
             queryCol.clear();
