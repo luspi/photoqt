@@ -169,9 +169,7 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
     else if(cmd == "__toggleAlwaysActualSize")
         PQSettings.imageviewAlwaysActualSize = !PQSettings.imageviewAlwaysActualSize
     else if(cmd == "__resetSession" || cmd == "__resetSessionAndHide") {
-        filefoldermodel.resetQMLModel()
-        filefoldermodel.resetModel()
-        PQPassOn.resetSessionData()
+        toplevel.resetPhotoQt()
         if(cmd == "__resetSessionAndHide") {
             if(PQSettings.interfaceTrayIcon == 0)
                 PQSettings.interfaceTrayIcon = 1

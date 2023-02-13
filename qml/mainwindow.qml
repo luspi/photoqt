@@ -239,6 +239,8 @@ Window {
         if(PQSettings.interfaceTrayIcon == 1) {
             close.accepted = false
             toplevel.visible = false
+            if(PQSettings.interfaceTrayIconHideReset)
+                resetPhotoQt()
         } else {
             close.accepted = true
             Qt.quit()
@@ -478,6 +480,12 @@ Window {
 
     function closePhotoQt() {
         close()
+    }
+
+    function resetPhotoQt() {
+        filefoldermodel.resetQMLModel()
+        filefoldermodel.resetModel()
+        PQPassOn.resetSessionData()
     }
 
 }

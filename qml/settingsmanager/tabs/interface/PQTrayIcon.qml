@@ -30,13 +30,32 @@ PQSetting {
     title: em.pty+qsTranslate("settingsmanager_interface", "tray icon")
     helptext: em.pty+qsTranslate("settingsmanager_interface", "If a tray icon is to be shown and, if shown, whether to hide it or not.")
     content: [
-        PQComboBox {
-            id: tray_combo
-            model: [
-                em.pty+qsTranslate("settingsmanager_interface", "no tray icon"),
-                em.pty+qsTranslate("settingsmanager_interface", "hide to tray icon"),
-                em.pty+qsTranslate("settingsmanager_interface", "show tray icon but don't hide to it")
-            ]
+        Flow {
+            width: set.contwidth
+            spacing: 10
+
+            PQComboBox {
+                id: tray_combo
+                model: [
+                    em.pty+qsTranslate("settingsmanager_interface", "no tray icon"),
+                    em.pty+qsTranslate("settingsmanager_interface", "hide to tray icon"),
+                    em.pty+qsTranslate("settingsmanager_interface", "show tray icon but don't hide to it")
+                ]
+            }
+            Item {
+
+                width: childrenRect.width
+                height: tray_combo.height
+
+                PQCheckbox {
+                    id: tray_reset
+                    y: (parent.height-height)/2
+                    enabled: tray_combo.currentIndex==1
+                    text: em.pty+qsTranslate("settingsmanager_interface", "reset session when hiding")
+                }
+
+            }
+
         }
 
     ]
@@ -47,10 +66,12 @@ PQSetting {
 
         onLoadAllSettings: {
             tray_combo.currentIndex = PQSettings.interfaceTrayIcon
+            tray_reset.checked = PQSettings.interfaceTrayIconHideReset
         }
 
         onSaveAllSettings: {
             PQSettings.interfaceTrayIcon = tray_combo.currentIndex
+            PQSettings.interfaceTrayIconHideReset = tray_reset.checked
         }
 
     }

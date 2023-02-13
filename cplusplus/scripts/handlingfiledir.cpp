@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "handlingfiledir.h"
-#include "../imageprovider/imageproviderfull.h"
 
 QString PQHandlingFileDir::cleanPath(QString path) {
 
