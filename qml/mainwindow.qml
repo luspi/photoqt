@@ -143,7 +143,7 @@ Window {
                         visible: PQSettings.metadataElementBehindLeftEdge
                         //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
                         text: ">> " + em.pty+qsTranslate("other", "LEFT EDGE for the metadata")
-                        font.pointSize: 20
+                        font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
                         font.bold: true
                         color: "#c0c0c0"
                         wrapMode: Text.WordWrap
