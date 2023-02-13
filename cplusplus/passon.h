@@ -101,6 +101,7 @@ Q_SIGNALS:
     void cmdThumbs(bool thb);
     void cmdShortcutSequence(QString seq);
     void cmdTray(bool tray);
+    void resetSessionData();
 
 };
 

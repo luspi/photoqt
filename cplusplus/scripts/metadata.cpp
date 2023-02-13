@@ -77,6 +77,13 @@ void PQMetaData::updateMetadata(QString path) {
     DBG << CURDATE << "PQMetaData::updateMetadata()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
+    if(path == "") {
+        setValidFile(true);
+        setFileSize(0);
+        setEmptyExivData();
+        return;
+    }
+
     if(path.contains("::PQT::"))
         path = path.split("::PQT::").at(1);
     if(path.contains("::ARC::"))

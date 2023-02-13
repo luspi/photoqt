@@ -21,11 +21,14 @@
  **************************************************************************/
 
 #include "helper.h"
+#include "../../passon.h"
+#include "../../settings/settings.h"
 
-PQLoadImageHelper::PQLoadImageHelper() {
+PQLoadImageHelper::PQLoadImageHelper(QObject *parent) : QObject(parent) {
     maxcost = PQSettings::get()["imageviewCache"].toInt();
     cache =  new QCache<QString,QImage>;
     cache->setMaxCost(maxcost);
+    connect(&PQPassOn::get(), &PQPassOn::resetSessionData, this, &PQLoadImageHelper::resetData);
 }
 
 PQLoadImageHelper::~PQLoadImageHelper() {
@@ -72,4 +75,10 @@ bool PQLoadImageHelper::ensureImageFitsMaxSize(QImage &img, QSize maxSize) {
 
     return false;
 
+}
+
+void PQLoadImageHelper::resetData() {
+    delete cache;
+    cache =  new QCache<QString,QImage>;
+    cache->setMaxCost(maxcost);
 }

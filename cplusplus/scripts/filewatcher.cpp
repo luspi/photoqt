@@ -122,10 +122,13 @@ void PQFileWatcher::currentFileChangedSLOT() {
 
 void PQFileWatcher::setCurrentFile(QString file) {
 
-        currentFile = file;
-        delete currentFileWatcher;
-        currentFileWatcher = new QFileSystemWatcher;
+    currentFile = file;
+    delete currentFileWatcher;
+    currentFileWatcher = new QFileSystemWatcher;
+
+    if(file != "") {
         connect(currentFileWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::currentFileChangedSLOT);
         currentFileWatcher->addPath(currentFile);
+    }
 
 }

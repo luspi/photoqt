@@ -72,3 +72,8 @@ QString PQFileFolderModelCache::getUniqueCacheKey(QString foldername, bool showH
                       << sortReversed;
     return QCryptographicHash::hash(key.toUtf8(),QCryptographicHash::Md5).toHex();
 }
+
+void PQFileFolderModelCache::resetData() {
+    cacheFiles.clear();
+    cacheFolders.clear();
+}

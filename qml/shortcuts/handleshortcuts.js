@@ -168,7 +168,16 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
         PQSettings.imageviewFitInWindow = !PQSettings.imageviewFitInWindow
     else if(cmd == "__toggleAlwaysActualSize")
         PQSettings.imageviewAlwaysActualSize = !PQSettings.imageviewAlwaysActualSize
-    else {
+    else if(cmd == "__resetSession" || cmd == "__resetSessionAndHide") {
+        filefoldermodel.resetQMLModel()
+        filefoldermodel.resetModel()
+        PQPassOn.resetSessionData()
+        if(cmd == "__resetSessionAndHide") {
+            if(PQSettings.interfaceTrayIcon == 0)
+                PQSettings.interfaceTrayIcon = 1
+            toplevel.closePhotoQt()
+        }
+    } else {
         handlingExternal.executeExternal(cmd, args, filefoldermodel.currentFilePath)
         if(close === "1")
             toplevel.closePhotoQt()

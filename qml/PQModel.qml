@@ -65,11 +65,17 @@ PQFileFolderModel {
 
     showHidden: PQSettings.openfileShowHiddenFilesFolders
 
-    onCurrentChanged:
-        currentFilePath = model.entriesMainView[current]
+    onCurrentChanged: {
+        if(current == -1)
+            currentFilePath = ""
+        else
+            currentFilePath = model.entriesMainView[current]
+    }
 
-    onFolderFileDialogChanged:
-        handlingFileDialog.setLastLocation(folderFileDialog)
+    onFolderFileDialogChanged: {
+        if(folderFileDialog != "")
+            handlingFileDialog.setLastLocation(folderFileDialog)
+    }
 
     onNewDataLoadedMainView: {
 
@@ -117,6 +123,12 @@ PQFileFolderModel {
             return true
         }
         return false
+    }
+
+    function resetQMLModel() {
+        current = -1
+        setFileNameOnceReloaded = ""
+        currentFilePath = ""
     }
 
 }

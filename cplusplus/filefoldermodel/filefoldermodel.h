@@ -281,6 +281,8 @@ public:
         loadDataMainView();
     }
 
+    Q_INVOKABLE void resetModel();
+
 private:
     PQFileFolderModelCache cache;
 

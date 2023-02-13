@@ -52,6 +52,8 @@ public:
                             QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
                             bool ignoreFiltersExceptDefault, int sortField, bool sortReversed, QStringList &entriesFolders);
 
+    void resetData();
+
 private:
     QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags,
                               QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,

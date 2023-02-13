@@ -203,7 +203,10 @@ Item {
                 onStopped: {
                     if(handleStoppedAni) {
                         if(!showing) {
-                            image_model.remove(0,image_model.count-1)
+                            if(image_model.count == 1)
+                                image_model.remove(0,image_model.count)
+                            else
+                                image_model.remove(0,image_model.count-1)
                         } else if(continueToDeleteAfterShowing) {
                             showing = false
                             startAni()

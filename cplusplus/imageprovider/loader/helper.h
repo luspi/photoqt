@@ -26,13 +26,12 @@
 #include <QString>
 #include <QCryptographicHash>
 #include <QFileInfo>
-#include "../../settings/imageformats.h"
-#include "../../settings/settings.h"
+#include <QObject>
 
-class PQLoadImageHelper {
+class PQLoadImageHelper : public QObject {
 
 public:
-    PQLoadImageHelper();
+    PQLoadImageHelper(QObject *parent = nullptr);
     ~PQLoadImageHelper();
 
     QString getUniqueCacheKey(QString filename);
@@ -43,6 +42,9 @@ public:
 private:
     QCache<QString,QImage> *cache;
     int maxcost;
+
+private Q_SLOTS:
+    void resetData();
 
 };
 

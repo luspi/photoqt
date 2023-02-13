@@ -232,7 +232,11 @@ Item {
                                             //: Name of shortcut action
                     ["__logging",           em.pty+qsTranslate("settingsmanager", "Show log/debug messages")],
                                             //: Name of shortcut action
-                    ["__fullscreenToggle",  em.pty+qsTranslate("settingsmanager", "Toggle fullscreen mode")]
+                    ["__fullscreenToggle",  em.pty+qsTranslate("settingsmanager", "Toggle fullscreen mode")],
+                                            //: Name of shortcut action
+                    ["__resetSession",      em.pty+qsTranslate("settingsmanager", "Reset current session")],
+                                            //: Name of shortcut action
+                    ["__resetSessionAndHide", em.pty+qsTranslate("settingsmanager", "Reset current session and hide window")]
                 ]
 
             }
