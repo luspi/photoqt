@@ -38,6 +38,10 @@ TextField {
 
     enabled: opacity>0 && visible
 
+    PQToolTip.visible: placeholderText=="" ? false : hovered
+    PQToolTip.text: placeholderText
+    PQToolTip.delay: 500
+
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
