@@ -624,10 +624,18 @@ void PQHandlingExternal::openInDefaultFileManager(QString filename) {
     // found a supported one
     if(exe != "") {
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
+
+        QProcess::startDetached(exe, args);
+
+#else
+
         QProcess proc;
         proc.setProgram(exe);
         proc.setArguments(args);
         proc.startDetached();
+
+#endif
 
     // else open folder in default file manager
     } else
