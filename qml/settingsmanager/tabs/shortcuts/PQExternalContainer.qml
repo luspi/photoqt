@@ -46,7 +46,7 @@ Rectangle {
         //: Used on button as in 'add new external shortcut'. Please keep short!
         text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add new")
         onClicked: {
-            activeShortcuts.push(["", "0", ""])
+            activeShortcuts.push([":://:://::", "0", ""])
             activeShortcutsChanged()
         }
     }

@@ -70,6 +70,8 @@ Rectangle {
                 height: 30
                 placeholderText: "executable"
                 text: avail_top.activeShortcuts[index][0].split(":://:://::")[0]
+                onTextEdited:
+                    avail_top.activeShortcuts[index][0] = text+":://:://::"+argstxt.text
             }
 
             PQButton {
@@ -97,6 +99,8 @@ Rectangle {
             height: 30
             placeholderText: "additional flags"
             text: avail_top.activeShortcuts[index][0].split(":://:://::")[1]
+            onTextEdited:
+                avail_top.activeShortcuts[index][0] = exectxt.text+":://:://::"+text
         }
 
 
@@ -208,7 +212,8 @@ Rectangle {
     }
 
     function addNewCombo(combo) {
-        shtxt_text.sh = combo
+        avail_top.activeShortcuts[index][2] = combo
+        avail_top.activeShortcutsChanged()
     }
 
 }
