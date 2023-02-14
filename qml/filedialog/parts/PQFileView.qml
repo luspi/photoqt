@@ -158,7 +158,7 @@ GridView {
                 smooth: true
                 mipmap: true
 
-                opacity: files_grid.currentIndex==index ? 1 : 0.6
+                opacity: 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // if we do not cache this image, then we keep the generic icon here
@@ -280,7 +280,7 @@ GridView {
                     wrapMode: Text.Wrap
                     font.bold: true
 
-                    font.pointSize: files_grid.currentIndex == index ? 10 : 8
+                    font.pointSize: 8
                     Behavior on font.pointSize { NumberAnimation { duration: 100 } }
 
 

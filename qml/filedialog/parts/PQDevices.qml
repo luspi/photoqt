@@ -67,7 +67,7 @@ ListView {
                 width: parent.height
                 height: width
 
-                opacity: hoverIndex==index ? 1 : 0.8
+                opacity: 1
 
                 // the icon image
                 Image {

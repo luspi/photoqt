@@ -58,7 +58,7 @@ ListView {
 
             id: entryicon
 
-            opacity: (standard_top.hoverIndex==index) ? 1 : 0.8
+            opacity: 1
 
             // its size is square (height==width)
             width: deleg_container.height
