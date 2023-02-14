@@ -100,5 +100,7 @@
         <file>mainwindow/maximize.svg</file>
         <file>mainwindow/keepforeground.svg</file>
         <file>mainwindow/dontkeepforeground.svg</file>
+        <file>filedialog/upwards.svg</file>
+        <file>filedialog/downwards.svg</file>
     </qresource>
 </RCC>

@@ -26,11 +26,15 @@ import "../../elements"
 
 Rectangle {
 
+    id: tweaks_top
+
     color: "transparent"
 
     height: 50
 
     property string showWhichFileTypeIndex: "all"
+
+    property bool condensed: false
 
     Rectangle {
         x: 0
@@ -40,9 +44,15 @@ Rectangle {
         color: "#aaaaaa"
     }
 
+    PQTweaksPopup {
+        id: condensed_popup
+    }
+
     Text {
 
         id: zoomtext
+
+        visible: !condensed
 
         color: "white"
         text: em.pty+qsTranslate("filedialog", "Zoom:")
@@ -63,6 +73,8 @@ Rectangle {
     PQSlider {
 
         id: zoom
+
+        visible: !condensed
 
         from: 10
         to: 50
@@ -87,7 +99,12 @@ Rectangle {
 
     PQComboBox {
 
+        onXChanged:
+            condensed = (x < zoomtext.width+zoom.width+20)
+
         id: sortby
+
+        visible: !condensed
 
         prefix: em.pty+qsTranslate("filedialog", "Sort by:") + " "
 
@@ -136,6 +153,8 @@ Rectangle {
     PQComboBox {
 
         id: allfiles
+
+        visible: !condensed
 
         property var allfiletypes: ["all", "qt", "magick", "libraw", "devil", "freeimage", "poppler", "video", "allfiles"]
 
