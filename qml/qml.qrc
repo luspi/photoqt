@@ -168,5 +168,6 @@
         <file>elements/PQDropDown.qml</file>
         <file>settingsmanager/tabs/imageview/PQAlwaysActualSize.qml</file>
         <file>filedialog/parts/PQTweaksPopup.qml</file>
+        <file>filedialog/PQFileDialogSettings.qml</file>
     </qresource>
 </RCC>

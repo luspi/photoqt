@@ -252,7 +252,7 @@ Rectangle {
         imageButtonSource: "/mainmenu/setup.svg"
 
         onClicked: {
-            loader.show("settingsmanager")
+            filedialogsettings.show()
         }
 
     }

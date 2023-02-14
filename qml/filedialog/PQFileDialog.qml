@@ -228,6 +228,10 @@ Rectangle {
 
     }
 
+    PQFileDialogSettings {
+        id: filedialogsettings
+    }
+
     Image {
         x: 5
         y: 5
