@@ -246,7 +246,7 @@ Rectangle {
 
         leftRightTextSpacing: 0
 
-        tooltip: em.pty+qsTranslate("filedialog", "Open global settings")
+        tooltip: em.pty+qsTranslate("filedialog", "Fine-tune file dialog")
         tooltipFollowsMouse: false
 
         imageButtonSource: "/mainmenu/setup.svg"

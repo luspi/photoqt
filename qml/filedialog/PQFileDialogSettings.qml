@@ -42,6 +42,7 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Close settings")
         onClicked:
             hide()
+        onWheel: {}
     }
 
     Rectangle {
