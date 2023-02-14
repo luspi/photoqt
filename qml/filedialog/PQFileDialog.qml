@@ -268,10 +268,13 @@ Rectangle {
                 filedialog_top.showFileDialog()
             else if(what == "hide")
                 filedialog_top.hideFileDialog()
-            else if(what == "keyevent")
-                fileview.keyEvent(param[0], param[1])
-            else if(what == "mouseevent")
-                fileview.mouseEvent(param[0], param[1])
+            else if(what == "keyevent") {
+                if(!filedialogsettings.isOpen())
+                    fileview.keyEvent(param[0], param[1])
+            } else if(what == "mouseevent") {
+                if(!filedialogsettings.isOpen())
+                    fileview.mouseEvent(param[0], param[1])
+            }
         }
     }
 
@@ -307,6 +310,10 @@ Rectangle {
     }
 
     function hideFileDialog() {
+        if(filedialogsettings.isOpen()) {
+            filedialogsettings.hide()
+            return
+        }
         if(PQSettings.interfacePopoutOpenFile && PQSettings.interfacePopoutOpenFileKeepOpen)
             return
         if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {

@@ -473,6 +473,10 @@ Rectangle {
         opacity = 1
     }
 
+    function isOpen() {
+        return opacity>0
+    }
+
     function hide() {
         opacity = 0
     }
