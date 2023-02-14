@@ -164,17 +164,26 @@ GridView {
                 // if we do not cache this image, then we keep the generic icon here
                 source: (filethumb.status==Image.Ready&&!currentFolderExcluded) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : ("IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index])))
 
-                Text {
-                    id: numberOfFilesInsideFolder
-                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog
-                    anchors.fill: parent
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: "white"
-                    font.pointSize: 11
-                    font.bold: true
-                    elide: Text.ElideMiddle
-                    text: ""
+                Rectangle {
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+                    width: numberOfFilesInsideFolder.width + 20
+                    height: 30
+                    radius: 5
+                    color: "#66000000"
+                    opacity: 0.8
+                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && numberOfFilesInsideFolder.text != ""
+
+                    Text {
+                        id: numberOfFilesInsideFolder
+                        x: 10
+                        y: (parent.height-height)/2-2
+                        color: "white"
+                        font.pointSize: 11
+                        font.bold: true
+                        elide: Text.ElideMiddle
+                        text: ""
+                    }
                 }
 
                 Image {
