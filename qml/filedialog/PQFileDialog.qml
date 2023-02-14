@@ -84,6 +84,23 @@ Rectangle {
 
         anchors.fill: parent
 
+        // Show larger handle with triple dash
+        // code inspired by @hadoukez
+        handleDelegate: Rectangle {
+
+            width: 8
+            color: styleData.hovered ? "#888888" : "#666666"
+            Behavior on color { ColorAnimation { duration: 100 } }
+
+            Image {
+                y: (parent.height-height)/2
+                width: parent.width
+                height: width
+                source: "/filedialog/handle.svg"
+            }
+
+        }
+
         // the dragsource, used to distinguish between dragging new folder and reordering userplaces
         property string dragSource: ""
         property string dragItemPath: ""

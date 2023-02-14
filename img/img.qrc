@@ -102,5 +102,6 @@
         <file>mainwindow/dontkeepforeground.svg</file>
         <file>filedialog/upwards.svg</file>
         <file>filedialog/downwards.svg</file>
+        <file>filedialog/handle.svg</file>
     </qresource>
 </RCC>
