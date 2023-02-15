@@ -257,17 +257,29 @@ Rectangle {
             PQMainMenuGroup {
                 //: Used as heading for a group of entries in the main menu on the right. Please keep short!
                 title: em.pty+qsTranslate("MainMenu", "Other")
-                leftcol: [[["img", "filter.svg",                                    "__filterImages", true, true],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Filter images"), "__filterImages", true, true]],
+                leftcol: handlingGeneral.isChromecastEnabled() ?
 
-                          [["img", "streaming.svg",                                          "__chromecast", true, false],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "__chromecast", true, false]],
+                             [[["img", "filter.svg",                                    "__filterImages", true, true],
+                                      //: This is an entry in the main menu on the right. Please keep short!
+                              ["txt", em.pty+qsTranslate("MainMenu", "Filter images"), "__filterImages", true, true]],
 
-                          [["img", "open.svg",                                                     "__defaultFileManager", true, true],
-                                   //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "__defaultFileManager", true, true]]]
+                             [["img", "streaming.svg",                                          "__chromecast", true, false],
+                                      //: This is an entry in the main menu on the right. Please keep short!
+                              ["txt", em.pty+qsTranslate("MainMenu", "Streaming (Chromecast)"), "__chromecast", true, false]],
+
+                             [["img", "open.svg",                                                     "__defaultFileManager", true, true],
+                                      //: This is an entry in the main menu on the right. Please keep short!
+                              ["txt", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "__defaultFileManager", true, true]]]
+
+                           :
+
+                             [[["img", "filter.svg",                                    "__filterImages", true, true],
+                                      //: This is an entry in the main menu on the right. Please keep short!
+                              ["txt", em.pty+qsTranslate("MainMenu", "Filter images"), "__filterImages", true, true]],
+
+                             [["img", "open.svg",                                                     "__defaultFileManager", true, true],
+                                      //: This is an entry in the main menu on the right. Please keep short!
+                              ["txt", em.pty+qsTranslate("MainMenu", "Open in default file manager"), "__defaultFileManager", true, true]]]
 
             }
 
