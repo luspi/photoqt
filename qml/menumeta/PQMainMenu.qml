@@ -25,11 +25,14 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import "../elements"
 
-Rectangle {
+Item {
 
     id: mainmenu_top
 
-    color: "#dd2f2f2f"
+    PQBlurBackground {
+        thisis: mainmenu
+        radius: 10
+    }
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
@@ -38,8 +41,6 @@ Rectangle {
     y: PQSettings.interfacePopoutMainMenu ? 0 : ((parentHeight-height)/2)
     width: (PQSettings.interfacePopoutMainMenu ? parentWidth : PQSettings.mainmenuElementWidth)
     height: Math.min(flick.height+20, parentHeight)
-
-    radius: 10
 
     opacity: 0
     visible: opacity != 0

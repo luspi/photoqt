@@ -72,10 +72,10 @@ Item {
 
             visible: PQSettings.interfaceStatusInfoShow
 
-            Rectangle {
-                anchors.fill: parent
-                color: "#dd2f2f2f"
-                radius: 5
+            PQBlurBackground {
+                thisis: statusinfo
+                reacttoxy: status_top
+                radius: 10
             }
 
             ListView {

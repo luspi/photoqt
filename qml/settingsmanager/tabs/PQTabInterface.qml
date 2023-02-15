@@ -116,6 +116,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: bck.expertmodeonly }
             PQOverlayColor { id: ovc }
                 PQHorizontalLine { expertModeOnly: ovc.expertmodeonly }
+            PQBlurElementsInBackground { id: blu }
+                PQHorizontalLine { expertModeOnly: blu.expertmodeonly }
             PQPopout { id: pop }
                 PQHorizontalLine { expertModeOnly: pop.expertmodeonly }
             PQPopoutWhenSmall { id: psm }

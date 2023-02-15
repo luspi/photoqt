@@ -29,6 +29,11 @@ Item {
 
     id: metadata_top
 
+    PQBlurBackground {
+        thisis: metadata
+        radius: 10
+    }
+
     x: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 40 : PQSettings.metadataElementPosition.x)
     y: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? (parentHeight-height)/3 : PQSettings.metadataElementPosition.y)
     width: PQSettings.interfacePopoutMetadata ? parentWidth : PQSettings.metadataElementSize.width
@@ -130,12 +135,6 @@ Item {
         //: Exif image metadata. Please keep string short!
         em.pty+qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metadataGps
     ]
-
-    Rectangle {
-        anchors.fill: parent
-        color: "#dd2f2f2f"
-        radius: 10
-    }
 
     // HEADING OF RECTANGLE
     Text {

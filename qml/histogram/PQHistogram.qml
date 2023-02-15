@@ -27,6 +27,11 @@ Item {
 
     id: hist_top
 
+    PQBlurBackground {
+        thisis: histogram
+        radius: 10
+    }
+
     x: PQSettings.interfacePopoutHistogram ? 0 : PQSettings.histogramPosition.x
     y: PQSettings.interfacePopoutHistogram ? 0 : PQSettings.histogramPosition.y
     width: PQSettings.interfacePopoutHistogram ? parentWidth : PQSettings.histogramSize.width
@@ -47,12 +52,7 @@ Item {
     onHeightChanged:
         saveGeometryTimer.restart()
 
-    opacity: PQSettings.interfacePopoutHistogram ?
-                 1 : (PQSettings.histogramVisible ?
-                     ((dragArea.containsMouse||closemouse.containsMouse) ?
-                          (dragArea.buttonPressed ? 1 : 0.9) :
-                          0.8) :
-                     0)
+    opacity: (PQSettings.interfacePopoutHistogram||PQSettings.histogramVisible) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     onVisibleChanged:
@@ -82,12 +82,6 @@ Item {
                 PQSettings.histogramSize = Qt.size(hist_top.width, hist_top.height)
             }
         }
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        color: "#dd2f2f2f"
-        radius: 5
     }
 
     // This will hold the histogram image

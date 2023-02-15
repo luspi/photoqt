@@ -169,5 +169,7 @@
         <file>settingsmanager/tabs/imageview/PQAlwaysActualSize.qml</file>
         <file>filedialog/parts/PQTweaksPopup.qml</file>
         <file>filedialog/PQFileDialogSettings.qml</file>
+        <file>elements/PQBlurBackground.qml</file>
+        <file>settingsmanager/tabs/interface/PQBlurElementsInBackground.qml</file>
     </qresource>
 </RCC>
