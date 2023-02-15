@@ -30,6 +30,7 @@ Item {
     PQBlurBackground {
         thisis: histogram
         radius: 10
+        isPoppedOut: PQSettings.interfacePopoutHistogram
     }
 
     x: PQSettings.interfacePopoutHistogram ? 0 : PQSettings.histogramPosition.x

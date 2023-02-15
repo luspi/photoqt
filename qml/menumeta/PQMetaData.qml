@@ -32,6 +32,7 @@ Item {
     PQBlurBackground {
         thisis: metadata
         radius: 10
+        isPoppedOut: PQSettings.interfacePopoutMetadata
     }
 
     x: PQSettings.interfacePopoutMetadata ? 0 : (PQSettings.metadataElementBehindLeftEdge ? 40 : PQSettings.metadataElementPosition.x)

@@ -34,8 +34,10 @@ Item {
     property int bluruntil: thisis!=undefined ? items.indexOf(thisis) : items.length-1
     property var reacttoxy: parent
 
+    property bool isPoppedOut: false
+
     property int radius: 0
-    property string color: PQSettings.interfaceBlurElementsInBackground ? "#99000000" : "#bb000000"
+    property string color: (PQSettings.interfaceBlurElementsInBackground&&!isPoppedOut) ? "#99000000" : "#bb000000"
 
     Item {
         id: empty
@@ -44,7 +46,7 @@ Item {
     }
 
     Repeater {
-        model: PQSettings.interfaceBlurElementsInBackground ? (bluruntil+1) : 0
+        model: (PQSettings.interfaceBlurElementsInBackground&&!isPoppedOut) ? (bluruntil+1) : 0
 
         Item {
 

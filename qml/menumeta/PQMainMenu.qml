@@ -32,6 +32,7 @@ Item {
     PQBlurBackground {
         thisis: mainmenu
         radius: 10
+        isPoppedOut: PQSettings.interfacePopoutMainMenu
     }
 
     property int parentWidth: toplevel.width
