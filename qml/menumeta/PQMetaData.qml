@@ -49,7 +49,7 @@ Item {
     // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
     property bool startupDelay: true
 
-    property bool makeVisible: (startupDelay||variables.mousePos.x == -1) ? false : (visible ? (variables.mousePos.x < width+x+20) : (variables.mousePos.x < 20))
+    property bool makeVisible: (startupDelay||variables.mousePos.x == -1||toplevel.width<800) ? false : (visible ? (variables.mousePos.x < width+x+20) : (variables.mousePos.x < 20))
 
     opacity: PQSettings.interfacePopoutMetadata ? 1 : (PQSettings.metadataElementBehindLeftEdge ? (makeVisible ? 1 : 0) : ((PQSettings.metadataElementVisible&&filefoldermodel.current!=-1) ? 1 : 0))
     Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }

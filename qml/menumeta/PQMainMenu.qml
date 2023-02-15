@@ -53,6 +53,7 @@ Rectangle {
     property bool forceHide: false
 
     property bool makeVisible: (!PQSettings.interfacePopoutMainMenu &&
+                                toplevel.width>800 &&
                                 !mainmenu_top.visible &&
                                 !variables.slideShowActive &&
                                 !variables.faceTaggingActive &&

@@ -62,12 +62,12 @@ Item {
                 shouldBeVisible = true
             // mouse pointer close to top edge and bar not visible
             else if(variables.mousePos.y < 2*PQSettings.interfaceHotEdgeSize*5 && !visible && variables.mousePos.x < toplevel.width-windowbuttons.width-50)
-                shouldBeVisible = true
+                shouldBeVisible = (toplevel.height > 500)
             else if(variables.mousePos.y < height+windowbuttons.height && visible)
-                shouldBeVisible = true
+                shouldBeVisible = (toplevel.height > 500)
             // mouse pointer hovering visible bar
             else if(variables.mousePos.y < height && visible)
-                shouldBeVisible = true
+                shouldBeVisible = (toplevel.height > 500)
             // thumbnails set to 'hide when zoomed in' but we're not zoomed in
             else if(PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1)
                 shouldBeVisible = true
@@ -89,10 +89,10 @@ Item {
                 shouldBeVisible = true
 
             else if(variables.mousePos.y > toplevel.height-2*PQSettings.interfaceHotEdgeSize*5 && !visible)
-                shouldBeVisible = true
+                shouldBeVisible = (toplevel.height > 500)
 
             else if(variables.mousePos.y > toplevel.height-height-(variables.videoControlsVisible ? 100 : 25) && visible)
-                shouldBeVisible = true
+                shouldBeVisible = (toplevel.height > 500)
 
             else if(PQSettings.thumbnailsVisibility==2 && variables.currentPaintedZoomLevel<=1)
                 shouldBeVisible = true
