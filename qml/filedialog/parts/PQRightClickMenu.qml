@@ -105,21 +105,63 @@ Menu {
             onTriggered:
                 PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
         }
-        MenuItem {
-            checkable: true
-            checked: PQSettings.openfilePreviewMuted
-            //: This is a context menu entry, selecting it will make the COLORS of the preview image MUTED
-            text: em.pty+qsTranslate("filedialog", "Muted colors")
-            onTriggered:
-                PQSettings.openfilePreviewMuted = !PQSettings.openfilePreviewMuted
-        }
-        MenuItem {
-            checkable: true
-            checked: PQSettings.openfilePreviewFullColors
-            //: This is a context menu entry, selecting it will make the COLORS of the preview image in FULL (i.e., without blur/opacity)
-            text: em.pty+qsTranslate("filedialog", "Full colors")
-            onTriggered:
-                PQSettings.openfilePreviewFullColors = !PQSettings.openfilePreviewFullColors
+        Menu {
+            title: em.pty+qsTranslate("filedialog", "Color intensity")
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==10 ? "* " : "") + "100%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 10
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==9 ? "* " : "") + "90%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 9
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==8 ? "* " : "") + "80%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 8
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==7 ? "* " : "") + "70%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 7
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==6 ? "* " : "") + "60%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 6
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==5 ? "* " : "") + "50%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 5
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==4 ? "* " : "") + "40%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 4
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==3 ? "* " : "") + "30%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 3
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==2 ? "* " : "") + "20%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 2
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==1 ? "* " : "") + "10%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 1
+            }
+            MenuItem {
+                text: (PQSettings.openfilePreviewColorIntensity==0 ? "* " : "") + "0%"
+                onTriggered:
+                    PQSettings.openfilePreviewColorIntensity = 0
+            }
         }
     }
 

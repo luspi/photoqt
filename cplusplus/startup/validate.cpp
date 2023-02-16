@@ -548,6 +548,53 @@ bool PQValidate::validateSettingsDatabase() {
                     continue;
                 }
 
+                // new settings that are based on old settings
+                if(name == "PreviewColorIntensity") {
+
+                    // muted colors?
+                    bool muted = false;
+                    QSqlQuery qCheck(dbinstalled);
+                    if(!qCheck.exec("SELECT `value` FROM `openfile` WHERE `name`='PreviewMuted'")) {
+                        LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error checking PreviewMuted setting: " << qCheck.lastError().text().trimmed().toStdString() << NL;
+                        continue;
+                    }
+                    qCheck.next();
+                    muted = qCheck.value(0).toBool();
+
+                    // full colors?
+                    bool full = false;
+                    qCheck.clear();
+                    if(!qCheck.exec("SELECT `value` FROM `openfile` WHERE `name`='PreviewFullColors'")) {
+                        LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error checking PreviewFullColors setting: " << qCheck.lastError().text().trimmed().toStdString() << NL;
+                        continue;
+                    }
+                    qCheck.next();
+                    full = qCheck.value(0).toBool();
+                    qCheck.clear();
+
+                    if(full) {
+                        QSqlQuery queryupd(dbinstalled);
+                        if(!queryupd.exec("UPDATE `openfile` SET `value`=10 WHERE `name`='PreviewColorIntensity'")) {
+                            LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error updating PreviewColorIntensity setting with full colors: " << queryupd.lastError().text().trimmed().toStdString() << NL;
+                            continue;
+                        }
+                        queryupd.clear();
+                    } else if(muted) {
+                        QSqlQuery queryupd(dbinstalled);
+                        if(!queryupd.exec("UPDATE `openfile` SET `value`=3 WHERE `name`='PreviewColorIntensity'")) {
+                            LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error updating PreviewColorIntensity setting with muted colors: " << queryupd.lastError().text().trimmed().toStdString() << NL;
+                            continue;
+                        }
+                        queryupd.clear();
+                    }
+
+                    // delete old setting names
+                    QSqlQuery queryDel(dbinstalled);
+                    if(!queryDel.exec("DELETE FROM `openfile` WHERE `name`='PreviewMuted' OR `name`='PreviewFullColors'"))
+                        LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error deleting old settings PreviewMuted and PreviewFullColors: " << queryDel.lastError().text().trimmed().toStdString() << NL;
+                    queryDel.clear();
+                }
+
             // if entry does exist, make sure defaultvalue and datatype is valid
             } else {
 

@@ -49,7 +49,6 @@ public:
     void run() override;
 
     QString m_url;
-    bool m_muted;
     bool m_fixedSize;
     QSize m_requestedSize;
     QImage m_image;
@@ -60,8 +59,6 @@ private:
     int foundExternalUnrar;
 
     QString whatDoIUse(QString filename);
-
-    void muteColors(QImage &img);
 
     PQLoadImage *loader;
     PQLoadImageErrorImage *load_err;

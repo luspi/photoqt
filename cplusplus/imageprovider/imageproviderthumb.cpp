@@ -36,18 +36,11 @@ QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QStri
 
 PQAsyncImageResponseThumb::PQAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_requestedSize(requestedSize) {
     m_url = url;
-    if(url.startsWith("::muted::")) {
-        m_muted = true;
-        m_fixedSize = false;
-        m_url = m_url.remove(0, 9);
-    } else if(url.startsWith("::fixedsize::")) {
-        m_muted = false;
+    if(url.startsWith("::fixedsize::")) {
         m_fixedSize = true;
         m_url = m_url.remove(0, 13);
-    } else {
-        m_muted = false;
+    } else
         m_fixedSize = false;
-    }
     setAutoDelete(false);
     foundExternalUnrar = -1;
     loader = new PQLoadImage;
@@ -61,19 +54,6 @@ PQAsyncImageResponseThumb::~PQAsyncImageResponseThumb() {
 
 QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
     return QQuickTextureFactory::textureFactoryForImage(m_image);
-}
-
-void PQAsyncImageResponseThumb::muteColors(QImage &img) {
-
-    for (int y = 0; y < img.height(); y++) {
-        QRgb *line = (QRgb *) img.scanLine(y);
-        for (int x = 0; x < img.width(); x++) {
-            auto hsv = QColor(line[x]).toHsv();
-            hsv.setHsv(hsv.hsvHue(), hsv.hsvSaturation(), qMin(hsv.value()/4, 64));
-            line[x] = hsv.rgb();
-        }
-    }
-
 }
 
 void PQAsyncImageResponseThumb::run() {
@@ -106,9 +86,6 @@ void PQAsyncImageResponseThumb::run() {
 
             // Use image if it's up-to-date
             if(QFileInfo(filename).lastModified().toTime_t() == mtime) {
-
-                if(m_muted)
-                    muteColors(p);
 
                 if(m_fixedSize) {
                     QImage fix(266, 202, QImage::Format_ARGB32);
@@ -215,10 +192,6 @@ void PQAsyncImageResponseThumb::run() {
         }
 
     }
-
-    // check if colors are to be muted
-    if(m_muted)
-        muteColors(p);
 
     if(m_fixedSize) {
         QImage fix(266, 202, QImage::Format_ARGB32);

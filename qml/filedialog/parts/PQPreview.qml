@@ -25,9 +25,9 @@ import QtGraphicalEffects 1.0
 
 Item {
 
-    property string filePath: ""
+    id: prev_top
 
-    opacity: PQSettings.openfilePreviewFullColors ? 1 : 0.2
+    property string filePath: ""
 
     Image {
 
@@ -36,10 +36,12 @@ Item {
         sourceSize: PQSettings.openfilePreviewHigherResolution ? Qt.size(width, height) : Qt.size(256, 256)
 
         asynchronous: true
-        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : (PQSettings.openfileThumbnails ? ("image://thumb/" + (PQSettings.openfilePreviewMuted ? "::muted::" : "") + filePath) : ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filePath)))
+        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : (PQSettings.openfileThumbnails ? ("image://thumb/" + filePath) : ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filePath)))
         fillMode: Image.PreserveAspectFit
 
         anchors.fill: parent
+
+        visible: !PQSettings.openfilePreviewBlur
 
         Image {
 
@@ -67,12 +69,45 @@ Item {
         height: 1
     }
 
+    // specify as source only the actual painted image
+    // this avoid srtefats around the edge of the preview image
+    ShaderEffectSource{
+        id: shader
+        sourceItem: img
+        x: (img.width-img.paintedWidth)/2
+        y: (img.height-img.paintedHeight)/2
+        width: img.paintedWidth
+        height: img.paintedHeight
+        sourceRect: Qt.rect((img.width-img.paintedWidth)/2, (img.height-img.paintedHeight)/2, img.paintedWidth-1, img.paintedHeight)
+    }
+
+    // blurring the image
     GaussianBlur {
+        id: blur
         visible: PQSettings.openfilePreviewBlur
-        anchors.fill: img
-        source: PQSettings.openfilePreviewBlur ? img : empty
-        radius: 50
-        samples: 20
+
+        x: (img.width-img.paintedWidth)/2
+        y: (img.height-img.paintedHeight)/2
+        width: img.paintedWidth
+        height: img.paintedHeight
+
+        source: PQSettings.openfilePreviewBlur ? shader : empty
+        radius: 9
+        samples: 19
+        deviation: 10
+    }
+
+    // mute the colors to various extents
+    Rectangle {
+
+        x: (img.width-img.paintedWidth)/2
+        y: (img.height-img.paintedHeight)/2
+        width: img.paintedWidth
+        height: img.paintedHeight
+
+        color: filedialog_top.color
+        opacity:  0.1*(10-PQSettings.openfilePreviewColorIntensity)
+
     }
 
 }

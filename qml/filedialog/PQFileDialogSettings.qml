@@ -354,36 +354,17 @@ Rectangle {
 
                             spacing: 10
 
-                            PQRadioButton {
-                                id: preview_trans
-                                //: This refers to how the preview image is shown
-                                text: em.pty+qsTranslate("filedialog", "partial transparency")
-                                onCheckedChanged: {
-                                    if(checked) {
-                                        PQSettings.openfilePreviewMuted = false
-                                        PQSettings.openfilePreviewFullColors = false
-                                    }
-                                }
+                            Text {
+                                y: (preview_colintense.height-height)/2
+                                text: "Color intensity:"
+                                color: "white"
                             }
 
-                            PQRadioButton {
-                                id: preview_muted
-                                //: This refers to how the preview image is shown
-                                text: em.pty+qsTranslate("filedialog", "muted colors")
-                                onCheckedChanged: {
-                                    if(checked)
-                                        PQSettings.openfilePreviewMuted = checked
-                                }
-                            }
-
-                            PQRadioButton {
-                                id: preview_full
-                                //: This refers to how the preview image is shown
-                                text: em.pty+qsTranslate("filedialog", "full colors")
-                                onCheckedChanged: {
-                                    if(checked)
-                                        PQSettings.openfilePreviewFullColors = checked
-                                }
+                            PQComboBox {
+                                id: preview_colintense
+                                model: ["100%", "90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%"]
+                                onCurrentIndexChanged:
+                                    PQSettings.openfilePreviewColorIntensity = 10-currentIndex
                             }
 
                         }
@@ -462,9 +443,7 @@ Rectangle {
         preview_show.checked = PQSettings.openfilePreview
         preview_highres.checked = PQSettings.openfilePreviewHigherResolution
         preview_blur.checked = PQSettings.openfilePreviewBlur
-        preview_trans.checked = (!PQSettings.openfilePreviewMuted && !PQSettings.openfilePreviewFullColors)
-        preview_muted.checked = PQSettings.openfilePreviewMuted
-        preview_full.checked = PQSettings.openfilePreviewFullColors
+        preview_colintense.currentIndex = 10-PQSettings.openfilePreviewColorIntensity
 
     }
 
