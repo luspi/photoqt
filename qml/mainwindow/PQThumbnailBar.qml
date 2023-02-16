@@ -22,9 +22,12 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtGraphicalEffects 1.0
 import "../elements"
 
 Item {
+
+    id: thumb_top
 
     property int xOffset: (view.contentWidth < toplevel.width ? (toplevel.width-view.contentWidth)/2 : 0)
     x: xOffset
@@ -185,7 +188,9 @@ Item {
 
         Behavior on contentItem.x { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-        delegate: Rectangle {
+        delegate: Item {
+
+            id: deleg
 
             x: 0
             y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailsLiftUp
@@ -194,7 +199,49 @@ Item {
             width: PQSettings.thumbnailsSize
             height: PQSettings.thumbnailsSize
 
-            color: "#dd2f2f2f"
+            Item {
+                id: empty
+                width: 1
+                height: 1
+            }
+
+            ShaderEffectSource{
+                id: shader
+                sourceItem: PQSettings.interfaceBlurElementsInBackground ? imageitem : empty
+                anchors.fill: parent
+                property point glob: view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                sourceRect: Qt.rect(glob.x-imageitem.x, glob.y-imageitem.y, deleg.width, deleg.height)
+            }
+
+            GaussianBlur {
+                anchors.fill: parent
+                source: shader
+                radius: 9
+                samples: 19
+                deviation: 10
+                transparentBorder: false
+            }
+
+            Connections {
+                target: view
+                onContentXChanged:
+                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                onContentYChanged:
+                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+            }
+
+            Connections {
+                target: thumb_top
+                onXChanged:
+                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                onYChanged:
+                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: PQSettings.interfaceBlurElementsInBackground ? "#99000000" : "#bb000000"
+            }
 
             Text {
 
