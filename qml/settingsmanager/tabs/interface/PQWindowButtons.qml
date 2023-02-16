@@ -34,7 +34,7 @@ PQSetting {
     content: [
 
         Column {
-            spacing: 10
+            spacing: 15
             Flow {
                 spacing: 10
                 width: set.contwidth
@@ -68,9 +68,48 @@ PQSetting {
                 }
             }
 
-            PQCheckbox {
-                id: labels_autohide
-                text: em.pty+qsTranslate("settingsmanager_interface", "automatically hide")
+            Row {
+                spacing: 10
+                PQCheckbox {
+                    id: labels_autohide
+                    y: (labels_autohide_howshow.height-height)/2
+                    text: em.pty+qsTranslate("settingsmanager_interface", "automatically hide")
+                    enabled: labels_windowbuttons.checked
+                }
+                PQComboBox {
+                    id: labels_autohide_howshow
+                    width: 250
+                    enabled: labels_autohide.checked
+                    model: [em.pty+qsTranslate("settingsmanager_interface", "Show on any cursor move"),
+                            em.pty+qsTranslate("settingsmanager_interface", "Show when cursor near top edge")]
+                }
+            }
+
+            Flow {
+
+                spacing: 10
+
+                width: set.contwidth
+                enabled: labels_autohide.checked
+
+                Text {
+                    color: "white"
+                    text: em.pty+qsTranslate("settingsmanager_interface", "Timeout for hiding once shown:")
+                }
+
+                PQSlider {
+                    id: lt_slider
+                    from: 0
+                    to: 5000
+                    stepSize: 100
+                    wheelStepSize: 100
+                }
+
+                Text {
+                    color: "white"
+                    text: lt_slider.value/1000 + " s"
+                }
+
             }
 
         }
@@ -89,6 +128,8 @@ PQSetting {
             labels_windowbuttonssize.value = PQSettings.interfaceWindowButtonsSize
 
             labels_autohide.checked = PQSettings.interfaceWindowButtonsAutoHide
+            labels_autohide_howshow.currentIndex = (PQSettings.interfaceWindowButtonsAutoHideTopEdge ? 1 : 0)
+            lt_slider.value = PQSettings.interfaceWindowButtonsAutoHideTimeout
 
         }
 
@@ -100,6 +141,8 @@ PQSetting {
             PQSettings.interfaceWindowButtonsSize = labels_windowbuttonssize.value
 
             PQSettings.interfaceWindowButtonsAutoHide = labels_autohide.checked
+            PQSettings.interfaceWindowButtonsAutoHideTopEdge = labels_autohide_howshow.currentIndex
+            PQSettings.interfaceWindowButtonsAutoHideTimeout = lt_slider.value
 
         }
 

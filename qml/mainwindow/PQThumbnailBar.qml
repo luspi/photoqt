@@ -48,6 +48,11 @@ Item {
 
     function checkVisibility() {
 
+        if(variables.visibleItem != "") {
+            shouldBeVisible = false
+            return
+        }
+
         if(PQSettings.thumbnailsEdge == "Top") {
 
             if(filefoldermodel.current == -1)

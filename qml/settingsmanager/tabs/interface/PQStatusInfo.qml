@@ -256,10 +256,21 @@ PQSetting {
                 }
             }
 
-            PQCheckbox {
-                id: status_autohide
-                text: em.pty+qsTranslate("settingsmanager_interface", "automatically hide")
-                enabled: status_show.checked
+            Row {
+                spacing: 10
+                PQCheckbox {
+                    id: status_autohide
+                    y: (status_autohide_howshow.height-height)/2
+                    text: em.pty+qsTranslate("settingsmanager_interface", "automatically hide")
+                    enabled: status_show.checked
+                }
+                PQComboBox {
+                    id: status_autohide_howshow
+                    width: 250
+                    enabled: status_autohide.checked
+                    model: [em.pty+qsTranslate("settingsmanager_interface", "Show on any cursor move"),
+                            em.pty+qsTranslate("settingsmanager_interface", "Show when cursor near top edge")]
+                }
             }
 
             Flow {
@@ -271,7 +282,7 @@ PQSetting {
 
                 Text {
                     color: "white"
-                    text: "Show for x seconds on image change:"
+                    text: em.pty+qsTranslate("settingsmanager_interface", "Timeout for hiding once shown:")
                 }
 
                 PQSlider {
@@ -279,6 +290,7 @@ PQSetting {
                     from: 0
                     to: 5000
                     stepSize: 100
+                    wheelStepSize: 100
                 }
 
                 Text {
@@ -286,6 +298,12 @@ PQSetting {
                     text: st_slider.value/1000 + " s"
                 }
 
+            }
+
+            PQCheckbox {
+                id: imgchange
+                enabled: status_autohide.checked
+                text: em.pty+qsTranslate("settingsmanager_interface", "Show status information whenever the image changes")
             }
 
 
@@ -309,7 +327,10 @@ PQSetting {
             fs_slider.value = PQSettings.interfaceStatusInfoFontSize
 
             status_autohide.checked = PQSettings.interfaceStatusInfoAutoHide
+            status_autohide_howshow.currentIndex = (PQSettings.interfaceStatusInfoAutoHideTopEdge ? 1 : 0)
             st_slider.value = PQSettings.interfaceStatusInfoAutoHideTimeout
+
+            imgchange.checked = PQSettings.interfaceStatusInfoShowImageChange
 
         }
 
@@ -325,7 +346,10 @@ PQSetting {
             PQSettings.interfaceStatusInfoFontSize = fs_slider.value
 
             PQSettings.interfaceStatusInfoAutoHide = status_autohide.checked
+            PQSettings.interfaceStatusInfoAutoHideTopEdge = status_autohide_howshow.currentIndex
             PQSettings.interfaceStatusInfoAutoHideTimeout = st_slider.value
+
+            PQSettings.interfaceStatusInfoShowImageChange = imgchange.checked
 
         }
 

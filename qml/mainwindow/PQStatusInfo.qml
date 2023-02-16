@@ -28,22 +28,15 @@ Item {
 
     id: status_top
 
-                                // show when always shown
-    property bool makeVisible: !PQSettings.interfaceStatusInfoAutoHide ||
-                               // show when no files loaded
-                               filefoldermodel.countMainView==0 ||
-                               // show when hidden or as long as mouse is not too far away from them
-                               (((variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height-20 : 20) && y == -height) || (variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height+height : height)+30)) ? true : false)
+    property bool makeVisible: !PQSettings.interfaceStatusInfoAutoHide
 
     x: 40
     y: (PQSettings.thumbnailsEdge == "Top") ?
-           ((makeVisible||showTemporarily) ? (20 + thumbnails.height+thumbnails.y) : -height) :
-           ((makeVisible||showTemporarily) ? 20 : -height)
+           ((makeVisible) ? (20 + thumbnails.height+thumbnails.y) : -height) :
+           ((makeVisible) ? 20 : -height)
 
-    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide || movedByMouse || showTemporarily) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
-    Behavior on x { NumberAnimation { duration: (movedByMouse || showTemporarily) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
-
-    property bool showTemporarily: false
+    Behavior on y { NumberAnimation { duration: (PQSettings.interfaceStatusInfoAutoHide || movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
+    Behavior on x { NumberAnimation { duration: (movedByMouse) ? (PQSettings.imageviewAnimationDuration*100) : 0 } }
 
     width: col.width
     height: col.height
@@ -445,10 +438,11 @@ Item {
                 status_top.x = 40
                 status_top.y = Qt.binding(function(){
                     if(PQSettings.thumbnailsEdge == "Top")
-                       return (20 + thumbnails.height+thumbnails.y)
+                       return (makeVisible ? (20 + thumbnails.height+thumbnails.y) : -status_top.height)
                     return (makeVisible ? 20 : -status_top.height)
                 });
                 status_top.movedByMouse = false
+
             }
         }
 
@@ -482,13 +476,34 @@ Item {
     }
 
     Connections {
+        target: variables
+        onMousePosChanged: {
+
+            if(!PQSettings.interfaceStatusInfoAutoHide || filefoldermodel.countMainView==0) {
+                makeVisible = true
+                return
+            }
+
+            var trigger = 30
+            if(PQSettings.thumbnailsEdge == "Top")
+                trigger = 60
+
+            if((variables.mousePos.y < trigger && PQSettings.interfaceStatusInfoAutoHideTopEdge) || !PQSettings.interfaceStatusInfoAutoHideTopEdge)
+                makeVisible = true
+
+            resetAutoHide.restart()
+
+        }
+    }
+
+    Connections {
         target: filefoldermodel
         onCurrentChanged: {
 
-            if(PQSettings.interfaceStatusInfoAutoHideTimeout == 0 || !PQSettings.interfaceStatusInfoAutoHide)
+            if(PQSettings.interfaceStatusInfoAutoHideTimeout == 0 || !PQSettings.interfaceStatusInfoAutoHide || !PQSettings.interfaceStatusInfoShowImageChange)
                 return
 
-            showTemporarily = true
+            makeVisible = true
             resetAutoHide.restart()
 
         }
@@ -496,11 +511,12 @@ Item {
 
     Timer {
         id: resetAutoHide
-        interval:  PQSettings.imageviewAnimationDuration*100 + PQSettings.interfaceStatusInfoAutoHideTimeout
+        interval:  500 + PQSettings.interfaceStatusInfoAutoHideTimeout
         repeat: false
         running: false
         onTriggered: {
-            showTemporarily = false
+            if(variables.mousePos.y > status_top.y+status_top.height+20)
+                makeVisible = false
         }
     }
 

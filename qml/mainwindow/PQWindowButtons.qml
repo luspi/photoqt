@@ -26,10 +26,9 @@ import "../elements"
 
 Item {
 
-                               // show when always shown
-    property bool makeVisible: !PQSettings.interfaceWindowButtonsAutoHide ||
-                               // show when hidden or as long as mouse is not too far away from them
-                               (((variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height-20 : 20) && y == -height) || (variables.mousePos.y < (PQSettings.thumbnailsEdge == "Top" ? thumbnails.height+height : height)+30)) ? true : false)
+    id: windowbuttons_top
+
+    property bool makeVisible: !PQSettings.interfaceWindowButtonsAutoHide && PQSettings.interfaceWindowButtonsShow
 
     x: parent.width-width-distanceFromEdge
     y: (PQSettings.thumbnailsEdge == "Top") ?
@@ -330,6 +329,46 @@ Item {
 
     }
 
+
+    Connections {
+
+        target: variables
+
+        onMousePosChanged: {
+
+            if(!PQSettings.interfaceWindowButtonsAutoHide || variables.visibleItem != "") {
+                makeVisible = true
+                return
+            }
+
+            var trigger = 30
+            if(PQSettings.thumbnailsEdge == "Top")
+                trigger = 60
+
+            if((variables.mousePos.y < trigger && PQSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQSettings.interfaceWindowButtonsAutoHideTopEdge)
+                makeVisible = true
+
+            resetAutoHide.restart()
+
+        }
+
+        onVisibleItemChanged: {
+            if(variables.visibleItem != "")
+                makeVisible = true
+        }
+
+    }
+
+    Timer {
+        id: resetAutoHide
+        interval:  500 + PQSettings.interfaceWindowButtonsAutoHideTimeout
+        repeat: false
+        running: false
+        onTriggered: {
+            if(variables.mousePos.y > windowbuttons_top.y+windowbuttons_top.height+20)
+                makeVisible = false
+        }
+    }
 
 
     PQMenu {
