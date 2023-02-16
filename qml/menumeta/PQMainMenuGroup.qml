@@ -44,7 +44,7 @@ Column {
 
     Text {
         visible: text!=""
-        color: "#6f6f6f"
+        color: "white"
         font.pointSize: 15
         font.bold: true
         text: parent.title
@@ -132,7 +132,6 @@ Column {
                                 id: txt
                                 visible: leftcol[outerIndex][index][0] == "txt"
                                 color: "white"
-                                font.bold: true
                                 text: visible ? leftcol[outerIndex][index][1] : " "
                                 font.pointSize: 12
                                 opacity: enabled ? (row.mouseOver ? 1 : 0.8) : 0.4
@@ -232,7 +231,6 @@ Column {
                             id: txt2
                             visible: rightcol[index][0] == "txt"
                             color: "white"
-                            font.bold: true
                             text: visible ? rightcol[index][1] : " "
                             font.pointSize: 12
                             opacity: enabled ? (row2.mouseOver ? 1 : 0.8) : 0.4
