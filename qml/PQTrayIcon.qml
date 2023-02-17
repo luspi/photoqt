@@ -32,14 +32,12 @@ SystemTrayIcon {
 
     iconSource: "/other/icon.png"
 
-    menu: PQMenu {
+    menu: Menu {
         id: mn
 
-        entries: [(toplevel.visible ? "Hide PhotoQt" : "Show PhotoQt"),
-                  "Quit PhotoQt"]
-
-        onTriggered: {
-            if(index == 0) {
+        MenuItem {
+            text: (toplevel.visible ? "Hide PhotoQt" : "Show PhotoQt")
+            onTriggered: {
                 PQSettings.interfaceTrayIcon = 1
                 toplevel.visible = !toplevel.visible
                 if(toplevel.visible) {
@@ -48,7 +46,12 @@ SystemTrayIcon {
                     toplevel.raise()
                     toplevel.requestActivate()
                 }
-            } else if(index == 1)
+            }
+        }
+
+        MenuItem {
+            text: "Quit PhotoQt"
+            onTriggered:
                 toplevel.quitPhotoQt()
         }
 
