@@ -363,8 +363,19 @@ Rectangle {
                             PQComboBox {
                                 id: preview_colintense
                                 model: ["100%", "90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%"]
-                                onCurrentIndexChanged:
-                                    PQSettings.openfilePreviewColorIntensity = 10-currentIndex
+                                property bool watchForChanges: false
+                                onCurrentIndexChanged: {
+                                    if(watchForChanges)
+                                        PQSettings.openfilePreviewColorIntensity = 10-currentIndex
+                                }
+                                // We need a delay as this signal otherwise will be called during creationg (re-)setting that value to 10 every time
+                                Timer {
+                                    running: true
+                                    repeat: false
+                                    interval: 500
+                                    onTriggered:
+                                        preview_colintense.watchForChanges = true
+                                }
                             }
 
                         }
