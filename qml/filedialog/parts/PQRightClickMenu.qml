@@ -157,11 +157,6 @@ Menu {
                 onTriggered:
                     PQSettings.openfilePreviewColorIntensity = 1
             }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==0 ? "* " : "") + "0%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 0
-            }
         }
     }
 
