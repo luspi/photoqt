@@ -131,15 +131,8 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to show main menu")
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                onClicked: {
-                    if(mouse.button == Qt.LeftButton)
-                        loader.passOn("mainmenu", "toggle", undefined)
-                    else {
-                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                    }
-                }
+                onClicked:
+                    loader.passOn("mainmenu", "toggle", undefined)
             }
         }
 
@@ -162,15 +155,8 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: PQSettings.interfaceKeepWindowOnTop ? em.pty+qsTranslate("quickinfo", "Click here to not keep window in foreground") : em.pty+qsTranslate("quickinfo", "Click here to keep window in foreground")
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                onClicked: {
-                    if(mouse.button == Qt.LeftButton) {
-                        PQSettings.interfaceKeepWindowOnTop = !PQSettings.interfaceKeepWindowOnTop
-                    } else {
-                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                    }
-                }
+                onClicked:
+                    PQSettings.interfaceKeepWindowOnTop = !PQSettings.interfaceKeepWindowOnTop
             }
         }
 
@@ -199,15 +185,8 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to minimize window")
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                onClicked: {
-                    if(mouse.button == Qt.LeftButton) {
-                        toplevel.showMinimized()
-                    } else {
-                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                    }
-                }
+                onClicked:
+                    toplevel.showMinimized()
             }
         }
 
@@ -237,17 +216,11 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 tooltip: (toplevel.visibility==Window.Maximized ? em.pty+qsTranslate("quickinfo", "Click here to restore window")
                                                 : em.pty+qsTranslate("quickinfo", "Click here to maximize window"))
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
                 onClicked: {
-                    if(mouse.button == Qt.LeftButton) {
-                        if(toplevel.visibility == Window.Windowed)
-                            toplevel.visibility = Window.Maximized
-                        else
-                            toplevel.visibility = Window.Windowed
-                    } else {
-                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                    }
+                    if(toplevel.visibility == Window.Windowed)
+                        toplevel.visibility = Window.Maximized
+                    else
+                        toplevel.visibility = Window.Windowed
                 }
             }
         }
@@ -276,15 +249,8 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 tooltip: (PQSettings.interfaceWindowMode ? em.pty+qsTranslate("quickinfo", "Click here to enter fullscreen mode")
                                                 : em.pty+qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                onClicked: {
-                    if(mouse.button == Qt.LeftButton)
-                        PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
-                    else {
-                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                    }
-                }
+                onClicked:
+                    PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
             }
         }
 
@@ -314,15 +280,8 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 tooltip: em.pty+qsTranslate("quickinfo", "Click here to close PhotoQt")
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                onClicked: {
-                    if(mouse.button == Qt.LeftButton)
-                        toplevel.close()
-                    else {
-                        var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
-                        rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                    }
-                }
+                onClicked:
+                    toplevel.close()
             }
 
         }
@@ -368,43 +327,6 @@ Item {
             if(variables.mousePos.y > windowbuttons_top.y+windowbuttons_top.height+20)
                 makeVisible = false
         }
-    }
-
-
-    PQMenu {
-
-        id: rightclickmenu
-
-        entries: [(PQSettings.interfaceLabelsHideCounter ?
-                     em.pty+qsTranslate("quickinfo", "Show counter") :
-                     em.pty+qsTranslate("quickinfo", "Hide counter")),
-            (PQSettings.interfaceLabelsHideFilepath ?
-                 em.pty+qsTranslate("quickinfo", "Show file path") :
-                 em.pty+qsTranslate("quickinfo", "Hide file path")),
-            (PQSettings.interfaceLabelsHideFilename ?
-                 em.pty+qsTranslate("quickinfo", "Show file name") :
-                 em.pty+qsTranslate("quickinfo", "Hide file name")),
-            (PQSettings.interfaceLabelsHideZoomLevel ?
-                 em.pty+qsTranslate("quickinfo", "Show zoom level") :
-                 em.pty+qsTranslate("quickinfo", "Hide zoom level")),
-            (PQSettings.interfaceLabelsHideWindowButtons ?
-                 em.pty+qsTranslate("quickinfo", "Show window buttons") :
-                 em.pty+qsTranslate("quickinfo", "Hide window buttons"))
-        ]
-
-        onTriggered: {
-            if(index == 0)
-                PQSettings.interfaceLabelsHideCounter = !PQSettings.interfaceLabelsHideCounter
-            else if(index == 1)
-                PQSettings.interfaceLabelsHideFilepath = !PQSettings.interfaceLabelsHideFilepath
-            else if(index == 2)
-                PQSettings.interfaceLabelsHideFilename = !PQSettings.interfaceLabelsHideFilename
-             else if(index == 3)
-                PQSettings.interfaceLabelsHideZoomLevel = !PQSettings.interfaceLabelsHideZoomLevel
-            else if(index == 4)
-                PQSettings.interfaceLabelsHideWindowButtons = !PQSettings.interfaceLabelsHideWindowButtons
-        }
-
     }
 
 }
