@@ -31,7 +31,7 @@ Menu {
     style: MenuStyle {
         id: styleroot
         frame: Rectangle {
-            color: "#44000000"
+            color: "#88000000"
             border.width: 1
             border.color: "gray" // must be a color NAME
         }
