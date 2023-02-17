@@ -21,10 +21,10 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import Qt.labs.platform 1.0
+import QtQuick.Controls 1.4
 import "../../elements"
 
-Menu {
+PQMenu {
 
     id: control
 
@@ -33,10 +33,6 @@ Menu {
     property string path: ""
 
     signal closed()
-
-    function popup() {
-        open()
-    }
 
     MenuItem {
         visible: isFile || isFolder
@@ -79,7 +75,7 @@ Menu {
         onTriggered:
             PQSettings.openfileDetailsTooltip = !PQSettings.openfileDetailsTooltip
     }
-    Menu {
+    PQMenu {
         title: "Preview"
         MenuItem {
             checkable: true
@@ -105,65 +101,26 @@ Menu {
             onTriggered:
                 PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
         }
-        Menu {
+        PQMenu {
+            id: colint_submenu
             title: em.pty+qsTranslate("filedialog", "Color intensity")
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==10 ? "* " : "") + "100%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 10
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==9 ? "* " : "") + "90%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 9
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==8 ? "* " : "") + "80%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 8
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==7 ? "* " : "") + "70%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 7
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==6 ? "* " : "") + "60%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 6
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==5 ? "* " : "") + "50%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 5
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==4 ? "* " : "") + "40%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 4
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==3 ? "* " : "") + "30%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 3
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==2 ? "* " : "") + "20%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 2
-            }
-            MenuItem {
-                text: (PQSettings.openfilePreviewColorIntensity==1 ? "* " : "") + "10%"
-                onTriggered:
-                    PQSettings.openfilePreviewColorIntensity = 1
-            }
-        }
-    }
+            ExclusiveGroup { id: exl }
 
-    Connections {
-        target: PQKeyPressMouseChecker
-        onReceivedMouseButtonPress:
-            control.close()
+            Instantiator {
+                model: 10
+                MenuItem {
+                    checkable: true
+                    exclusiveGroup: exl
+                    checked: PQSettings.openfilePreviewColorIntensity==(10-index)
+                    text: (10*(10-index))+"%"
+                    onTriggered:
+                        PQSettings.openfilePreviewColorIntensity = 10-index
+                }
+                onObjectAdded: colint_submenu.insertItem(index, object)
+                onObjectRemoved: colint_submenu.removeItem(object)
+            }
+
+        }
     }
 
 }

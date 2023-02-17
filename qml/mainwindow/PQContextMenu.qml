@@ -22,49 +22,11 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQml.Models 2.15
 import "../elements"
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Menu {
+PQMenu {
     id: contextMenu
-
-    style: MenuStyle {
-        frame: Rectangle {
-            color: "#44000000"
-            border.color: "#44ffffff"
-        }
-        itemDelegate {
-            background:
-                Rectangle {
-                    color: (styleData.selected&&styleData.enabled) ? "#bb333333" : "#bb000000"
-                    anchors.margins: 0
-                }
-            label:
-                Row {
-                    anchors.margins: 0
-                    Image {
-                        y: 5
-                        opacity: styleData.enabled ? 1 : 0.6
-                        height: txt.height-10
-                        width: height
-                        source: styleData.iconSource
-                        sourceSize: Qt.size(width, height)
-                    }
-
-                    Text {
-                        id: txt
-                        color: styleData.enabled ? "white" : "#aaaaaa"
-                        text: styleData.text
-                        leftPadding: 10
-                        rightPadding: 10
-                        topPadding: 5
-                        bottomPadding: 5
-                    }
-                }
-        }
-    }
 
     property var allitems_file: [
 

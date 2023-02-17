@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import Qt.labs.platform 1.0
+import QtQuick.Controls 1.4
 import "../../elements"
 
 ListView {
@@ -199,11 +199,9 @@ ListView {
                     else if(mouse.button == Qt.RightButton) {
                         if(index == 0) {
                             var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                            filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(userplaces_top.x+pos.x, userplaces_top.y+pos.y))
-                        } else {
-                            var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                            contextmenu.open(Qt.point(parent.x+pos.x, parent.y+pos.y))
-                        }
+                            filedialog_top.leftPanelPopupGenericRightClickMenu()
+                        } else
+                            contextmenu.popup()
                     }
                 }
 
@@ -219,16 +217,21 @@ ListView {
 
                 id: contextmenu
 
-                entries: [(hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry"))),
-                          (em.pty+qsTranslate("filedialog", "Remove entry")),
-                          (userplaces_top.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))]
-
-                onTriggered: {
-                    if(index == 0)
+                MenuItem {
+                    text: (hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry")))
+                    onTriggered:
                         handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
-                    else if(index == 1)
+                }
+
+                MenuItem {
+                    text: (em.pty+qsTranslate("filedialog", "Remove entry"))
+                    onTriggered:
                         handlingFileDialog.removeUserPlacesEntry(id)
-                    else if(index == 2)
+                }
+
+                MenuItem {
+                    text: (userplaces_top.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))
+                    onTriggered:
                         userplaces_top.showHiddenEntries = !userplaces_top.showHiddenEntries
                 }
 
