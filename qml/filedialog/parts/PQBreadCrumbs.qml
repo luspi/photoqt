@@ -85,8 +85,7 @@ Item {
         enabled: !handlingFileDir.isRoot(filefoldermodel.folderFileDialog)
 
         leftRightTextSpacing: 0
-        imageButtonSource: "/filedialog/backwards.svg"
-        rotation: 90
+        imageButtonSource: "/filedialog/upwards.svg"
 
         onClicked: {
             if(handlingGeneral.amIOnWindows())
