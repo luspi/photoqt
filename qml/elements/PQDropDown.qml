@@ -29,8 +29,6 @@ Popup {
     id: control
 
     property var entries: []
-    property var hideIndices: []
-    property var lineBelowIndices: []
 
     property bool isOpen: control.visible
 
@@ -43,6 +41,12 @@ Popup {
 
     property int leftrightpadding: 5
 
+    background: Rectangle {
+        color: "#88000000"
+        border.width: 1
+        border.color: "gray"
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -51,11 +55,10 @@ Popup {
             model: control.entries.length
             Rectangle {
                 implicitWidth: control.maxWidth
-                implicitHeight: 1.5*txt.height
+                implicitHeight: 1.8*txt.height
                 property bool mouseOver: false
-                visible: (hideIndices.indexOf(index)==-1)
                 opacity: enabled ? 1 : 0.3
-                color: mouseOver ? "#666666" : "#cccccc"
+                color: mouseOver ? "#454545" : "#202020"
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Text {
                     id: txt
@@ -64,11 +67,13 @@ Popup {
                     text: control.entries[index]
                     font: control.font
                     opacity: enabled ? 1.0 : 0.3
-                    color: parent.mouseOver ? "#ffffff" : "#000000"
+                    color: "white"
                     Behavior on color { ColorAnimation { duration: 200 } }
                     horizontalAlignment: Text.AlignLeft // Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     renderType: Text.NativeRendering
+                    leftPadding: 10
+                    rightPadding: 10
                     Component.onCompleted:
                         if(width+2*leftrightpadding > control.maxWidth)
                             control.maxWidth = width+2*leftrightpadding
@@ -77,15 +82,6 @@ Popup {
                             control.maxWidth = width+2*leftrightpadding
                     }
                 }
-                Rectangle {
-                    x: 0
-                    y: parent.height-height
-                    width: parent.width
-                    height: lineBelowIndices.indexOf(index)==-1 ? 1 : 3
-                    color: height==1 ? "#88555555" : "#555555"
-                    visible: index < control.entries.length-1
-                }
-
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
