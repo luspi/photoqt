@@ -350,6 +350,13 @@ Rectangle {
                                 PQSettings.openfilePreviewBlur = checked
                         }
 
+                        PQCheckbox {
+                            id: preview_crop
+                            text: em.pty+qsTranslate("filedialog", "scale and crop to fill area")
+                            onCheckedChanged:
+                                PQSettings.openfilePreviewCropToFit = checked
+                        }
+
                         Row {
 
                             spacing: 10

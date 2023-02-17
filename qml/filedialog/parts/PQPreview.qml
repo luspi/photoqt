@@ -37,7 +37,7 @@ Item {
 
         asynchronous: true
         source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : (PQSettings.openfileThumbnails ? ("image://thumb/" + filePath) : ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filePath)))
-        fillMode: Image.PreserveAspectFit
+        fillMode: PQSettings.openfilePreviewCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
         anchors.fill: parent
 

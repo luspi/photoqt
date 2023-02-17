@@ -101,6 +101,14 @@ PQMenu {
             onTriggered:
                 PQSettings.openfilePreviewBlur = !PQSettings.openfilePreviewBlur
         }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfilePreviewCropToFit
+            //: This is a context menu entry, selecting it will crop the preview image to make it fit the available space
+            text: em.pty+qsTranslate("filedialog", "Scale and crop")
+            onTriggered:
+                PQSettings.openfilePreviewCropToFit = !PQSettings.openfilePreviewCropToFit
+        }
         PQMenu {
             id: colint_submenu
             title: em.pty+qsTranslate("filedialog", "Color intensity")
