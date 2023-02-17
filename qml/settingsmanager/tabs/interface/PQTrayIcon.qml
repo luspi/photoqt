@@ -26,6 +26,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     //: A settings title.
     title: em.pty+qsTranslate("settingsmanager_interface", "tray icon")
     helptext: em.pty+qsTranslate("settingsmanager_interface", "If a tray icon is to be shown and, if shown, whether to hide it or not.")
