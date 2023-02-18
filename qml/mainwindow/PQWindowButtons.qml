@@ -170,7 +170,7 @@ Item {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "/mainwindow/minimize.svg"
+            source: handlingGeneral.amIOnWindows() ? "/mainwindow/windows-minimize.svg" : "/mainwindow/minimize.svg"
 
             opacity: !visibleAlways ? 0 : (mini_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
@@ -200,7 +200,9 @@ Item {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: toplevel.visibility==Window.Windowed ? "/mainwindow/maximize.svg" : "/mainwindow/restore.svg"
+            source: handlingGeneral.amIOnWindows() ?
+                        (toplevel.visibility==Window.Windowed ? "/mainwindow/windows-maximize.svg" : "/mainwindow/windows-restore.svg") :
+                        (toplevel.visibility==Window.Windowed ? "/mainwindow/maximize.svg" : "/mainwindow/restore.svg")
 
             opacity: !visibleAlways ? 0 : (minimaxi_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
