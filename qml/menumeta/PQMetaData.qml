@@ -433,7 +433,6 @@ Item {
     }
 
     function toggle() {
-        if(PQSettings.interfacePopoutMetadata) return
         PQSettings.metadataElementVisible = !PQSettings.metadataElementVisible
     }
 

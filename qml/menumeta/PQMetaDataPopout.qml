@@ -49,7 +49,7 @@ Window {
 
     onClosing: {
         storeGeometry()
-        PQSettings.interfacePopoutMetadata = false
+        PQSettings.metadataElementVisible = 0
     }
 
     Connections {
@@ -59,7 +59,7 @@ Window {
         }
     }
 
-    visible: PQSettings.interfacePopoutMetadata
+    visible: (PQSettings.interfacePopoutMetadata&&PQSettings.metadataElementVisible)
     flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
