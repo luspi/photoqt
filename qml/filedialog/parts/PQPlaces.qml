@@ -326,7 +326,7 @@ ListView {
                              "path" : "",
                              "icon" : "",
                              "id" : "",
-                             "hidden" : ""})
+                             "hidden" : "false"})
 
         for(var i = 0; i < upl.length; i+=5)
             places_model.append({"folder" : upl[i],
