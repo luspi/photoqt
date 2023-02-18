@@ -140,9 +140,9 @@ Item {
             width: 3*PQSettings.interfaceWindowButtonsSize
             height: 3*PQSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQSettings.interfaceKeepWindowOnTop ? "/mainwindow/keepforeground.svg" : "/mainwindow/dontkeepforeground.svg"
+            source: "/mainwindow/keepforeground.svg"
 
-            opacity: !visibleAlways ? 0 : (fore_mouse.containsMouse ? 0.8 : 0.5)
+            opacity: !visibleAlways ? 0 : (fore_mouse.containsMouse ? 0.8 : 0.5)*(PQSettings.interfaceKeepWindowOnTop ? 1 : 0.3)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
             visible: PQSettings.interfaceWindowMode
@@ -163,7 +163,7 @@ Item {
         Item {
             width: 1
             height: 1
-            visible: PQSettings.interfaceWindowMode
+            visible: PQSettings.interfaceWindowMode && ((!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsDuplicateDecorationButtons)
         }
 
         Image {
@@ -175,7 +175,7 @@ Item {
             opacity: !visibleAlways ? 0 : (mini_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-            visible: PQSettings.interfaceWindowMode
+            visible: PQSettings.interfaceWindowMode && ((!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsDuplicateDecorationButtons)
 
             mipmap: true
 
@@ -193,7 +193,7 @@ Item {
         Item {
             width: 1
             height: 1
-            visible: PQSettings.interfaceWindowMode
+            visible: PQSettings.interfaceWindowMode && ((!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsDuplicateDecorationButtons)
         }
 
         Image {
@@ -205,7 +205,7 @@ Item {
             opacity: !visibleAlways ? 0 : (minimaxi_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-            visible: PQSettings.interfaceWindowMode
+            visible: PQSettings.interfaceWindowMode && ((!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsDuplicateDecorationButtons)
 
             mipmap: true
 
@@ -228,7 +228,6 @@ Item {
         Item {
             width: 1
             height: 1
-            visible: PQSettings.interfaceWindowMode
         }
 
         Image {
@@ -255,6 +254,7 @@ Item {
         }
 
         Item {
+            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsDuplicateDecorationButtons
             width: 1
             height: 1
         }
@@ -270,7 +270,7 @@ Item {
 
             mipmap: true
 
-            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsAlwaysShowX
+            visible: (toplevel.visibility==Window.FullScreen) || (!PQSettings.interfaceWindowDecoration) || PQSettings.interfaceWindowButtonsDuplicateDecorationButtons
 
             PQMouseArea {
                 id: closemouse

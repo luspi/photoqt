@@ -44,10 +44,10 @@ PQSetting {
                     text: em.pty+qsTranslate("settingsmanager_interface", "show integrated window buttons")
                 }
                 PQCheckbox {
-                    id: labels_windowclosebuttonalwaysvisible
+                    id: labels_windowduplicatebuttons
                     y: (parent.height-height)/2
                     enabled: labels_windowbuttons.checked
-                    text: em.pty+qsTranslate("settingsmanager_interface", "always show 'x'")
+                    text: em.pty+qsTranslate("settingsmanager_interface", "also duplicate buttons from window decoration")
                 }
 
             }
@@ -123,7 +123,7 @@ PQSetting {
         onLoadAllSettings: {
 
             labels_windowbuttons.checked = PQSettings.interfaceWindowButtonsShow
-            labels_windowclosebuttonalwaysvisible.checked = PQSettings.interfaceWindowButtonsAlwaysShowX
+            labels_windowduplicatebuttons.checked = PQSettings.interfaceWindowButtonsDuplicateDecorationButtons
 
             labels_windowbuttonssize.value = PQSettings.interfaceWindowButtonsSize
 
@@ -136,7 +136,7 @@ PQSetting {
         onSaveAllSettings: {
 
             PQSettings.interfaceWindowButtonsShow = labels_windowbuttons.checked
-            PQSettings.interfaceWindowButtonsAlwaysShowX = labels_windowclosebuttonalwaysvisible.checked
+            PQSettings.interfaceWindowButtonsDuplicateDecorationButtons = labels_windowduplicatebuttons.checked
 
             PQSettings.interfaceWindowButtonsSize = labels_windowbuttonssize.value
 
