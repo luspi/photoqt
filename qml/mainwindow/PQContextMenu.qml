@@ -107,6 +107,7 @@ PQMenu {
     Instantiator {
         model: allitems_interface.length
         MenuItem {
+            visible: allitems_interface[index][2]!="__showMetaData" || !PQSettings.metadataElementBehindLeftEdge
             iconSource: "/mainmenu/" + allitems_interface[index][0]
             text: allitems_interface[index][1]
             onTriggered:
