@@ -25,7 +25,6 @@ import QtQuick.Controls 2.2
 
 ScrollBar {
     id: control
-    active: true
     orientation: Qt.Vertical
 
     width: orientation==Qt.Vertical ? 6 : undefined
