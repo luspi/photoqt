@@ -305,7 +305,7 @@ void PQSettings::checkValidSlot() {
 
 #ifndef NDEBUG
 
-    for(auto key : this->keys()){
+    for(const auto &key : this->keys()){
 
         if(!valid.contains(key))
             LOG << CURDATE << "PQSettings::checkValidSlot(): INVALID KEY: " << key.toStdString() << NL;

@@ -650,8 +650,6 @@ void PQHandlingExternal::saveContextMenuEntries(QVariantList entries) {
     DBG << CURDATE << "PQHandlingExternal::saveContextMenuEntries()" << NL
         << CURDATE << "** entries.length() = " << entries.length() << NL;
 
-    QString cont = "";
-
     bool dontcontinue = false;
 
     QSqlDatabase db = QSqlDatabase::database("contextmenu");

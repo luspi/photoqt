@@ -433,7 +433,7 @@ bool PQValidate::validateImageFormatsDatabase() {
 
     queryInst.clear();
 
-    for(auto endings : toBeRemoved) {
+    for(const auto &endings : qAsConst(toBeRemoved)) {
 
         QSqlQuery query(dbinstalled);
         query.prepare("DELETE FROM imageformats WHERE endings=:endings");

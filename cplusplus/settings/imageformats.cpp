@@ -185,7 +185,7 @@ void PQImageFormats::readFromDatabase() {
                 QStringList tmp = im_gm_magick.split(",", QString::SkipEmptyParts);
 #endif
 
-                for(auto t: qAsConst(tmp)) {
+                for(const auto &t: qAsConst(tmp)) {
                     try {
                         Magick::CoderInfo magickCoderInfo(t.toStdString());
                         if(magickCoderInfo.isReadable())

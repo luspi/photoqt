@@ -476,7 +476,10 @@ void PQFileFolderModel::advancedSortMainView() {
 
         for(int i = 0; i < m_countMainView; ++i) {
 
-            if(!advancedSortKeepGoing) return;
+            if(!advancedSortKeepGoing) {
+                delete imageprovider;
+                return;
+            }
 
             // the key used for sorting
             // depending on the criteria, it is computed in different ways
@@ -519,7 +522,11 @@ void PQFileFolderModel::advancedSortMainView() {
                         tmpval += v;
                     }
                     val += static_cast<double>(tmpval)/static_cast<double>(pixelCount);
-                    if(!advancedSortKeepGoing) return;
+
+                    if(!advancedSortKeepGoing) {
+                        delete imageprovider;
+                        return;
+                    }
                 }
 
                 key = val;
@@ -551,7 +558,10 @@ void PQFileFolderModel::advancedSortMainView() {
                     }
                 }
 
-                if(!advancedSortKeepGoing) return;
+                if(!advancedSortKeepGoing) {
+                    delete imageprovider;
+                    return;
+                }
 
                 for(int i = 0 ; i < height; i++){
                     ct = (QRgb *)img.scanLine(i);
@@ -560,7 +570,10 @@ void PQFileFolderModel::advancedSortMainView() {
                     }
                 }
 
-                if(!advancedSortKeepGoing) return;
+                if(!advancedSortKeepGoing) {
+                    delete imageprovider;
+                    return;
+                }
 
                 for(int i = 0 ; i < height; i++){
                     ct = (QRgb *)img.scanLine(i);
@@ -569,7 +582,10 @@ void PQFileFolderModel::advancedSortMainView() {
                     }
                 }
 
-                if(!advancedSortKeepGoing) return;
+                if(!advancedSortKeepGoing) {
+                    delete imageprovider;
+                    return;
+                }
 
                 qint64 red_val = 0;
                 qint64 green_val = 0;

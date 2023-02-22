@@ -25,6 +25,8 @@
 
 #include <QObject>
 #include <QTimerEvent>
+#include <QBasicTimer>
+#include <QNetworkReply>
 
 class PQReplyTimeout : public QObject {
     Q_OBJECT

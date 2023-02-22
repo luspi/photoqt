@@ -45,7 +45,7 @@ void PQTabImagePositionTile::setNotHovered() {
 void PQTabImagePositionTile::setSelected() {
     this->setStyleSheet(getBorder()+";background: rgb(125,125,125);");
     selected = true;
-    newPosSelected(id);
+    Q_EMIT newPosSelected(id);
 }
 
 QString PQTabImagePositionTile::getBorder() {
