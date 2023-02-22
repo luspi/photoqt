@@ -166,72 +166,13 @@ Item {
 
         orientation: Qt.Horizontal
         Component.onCompleted:
-            path.positionViewAtEnd()
+            path.contentX = Math.max(0, path.contentWidth-path.width)
         onWidthChanged:
-            path.positionViewAtEnd()
+            path.contentX = Math.max(0, path.contentWidth-path.width)
         onContentWidthChanged:
-            path.positionViewAtEnd()
+            path.contentX = Math.max(0, path.contentWidth-path.width)
 
-        delegate: PQButton {
-
-            id: modelentry
-            text: index%2 == 0 ?
-                      (pathParts[index/2]=="" ? "/" :
-                                                // This is needed to not show a trailing slash when top level folder is loaded in Windows
-                                                (handlingGeneral.amIOnWindows()&&index==0 ?
-                                                     pathParts[index/2].substr(0,2) :
-                                                     pathParts[index/2])) :
-                      "▼"
-
-            leftRightTextSpacing: index%2 == 1 ? 5 : 10
-
-            height: bread_top.height
-
-            clickOpensMenu: index%2==1
-
-            font.bold: true
-
-            property string completePath: ""
-
-            opacity: (index%2==0||listMenuItems.length) ? 1 : 0.5
-
-            tooltip: index%2==1 ? (listMenuItems.length ? (em.pty+qsTranslate("filedialog", "List subfolders")) : (em.pty+qsTranslate("filedialog", "No subfolders found"))) : handlingFileDir.pathWithNativeSeparators(completePath)
-            tooltipFollowsMouse: false
-
-            onClicked:
-                filedialog_top.setCurrentDirectory(completePath)
-
-            Component.onCompleted: {
-                if(pathParts.length == 1)
-                    completePath = pathParts[0]
-                else {
-                    if(handlingGeneral.amIOnWindows()) {
-                        completePath = ""
-                        for(var i = 0; i <= index/2; ++i)
-                            completePath += pathParts[i] + "/"
-                    } else {
-                        completePath = "/"
-                        for(var i = 1; i <= index/2; ++i)
-                            completePath += pathParts[i] + "/"
-                    }
-                }
-                listMenuItems = handlingFileDialog.getFoldersIn(completePath)
-            }
-
-            onMenuItemClicked:  {
-                if(handlingGeneral.amIOnWindows()) {
-                    var newpath = ""
-                    for(var i = 0; i <= index/2; ++i)
-                        newpath += pathParts[i] + "/"
-                } else {
-                    newpath = "/"
-                    for(var i = 1; i <= index/2; ++i)
-                        newpath += pathParts[i] + "/"
-                }
-                filedialog_top.setCurrentDirectory(newpath + listMenuItems[pos])
-            }
-
-        }
+        delegate: PQBreadCrumbsButton {}
 
     }
 

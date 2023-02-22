@@ -171,5 +171,6 @@
         <file>filedialog/PQFileDialogSettings.qml</file>
         <file>elements/PQBlurBackground.qml</file>
         <file>settingsmanager/tabs/interface/PQBlurElementsInBackground.qml</file>
+        <file>filedialog/parts/PQBreadCrumbsButton.qml</file>
     </qresource>
 </RCC>

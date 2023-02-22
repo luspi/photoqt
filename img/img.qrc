@@ -105,5 +105,6 @@
         <file>mainwindow/windows-minimize.svg</file>
         <file>mainwindow/windows-maximize.svg</file>
         <file>mainwindow/windows-restore.svg</file>
+        <file>filedialog/breadcrumb.svg</file>
     </qresource>
 </RCC>
