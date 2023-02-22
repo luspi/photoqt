@@ -181,7 +181,13 @@ QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
     dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 
-    return dir.entryList();
+    QStringList ret = dir.entryList();
+
+    QCollator collator;
+    collator.setNumericMode(true);
+    std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+
+    return ret;
 
 }
 
