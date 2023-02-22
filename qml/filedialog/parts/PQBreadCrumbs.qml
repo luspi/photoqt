@@ -162,8 +162,6 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        model: Math.max(0, 2*pathParts.length)
-
         orientation: Qt.Horizontal
         Component.onCompleted:
             path.contentX = Math.max(0, path.contentWidth-path.width)
@@ -171,6 +169,15 @@ Item {
             path.contentX = Math.max(0, path.contentWidth-path.width)
         onContentWidthChanged:
             path.contentX = Math.max(0, path.contentWidth-path.width)
+
+        // we do this with delay to avoid some visual glitches when the path is wider than the space
+        Timer {
+            interval: 100
+            repeat: false
+            running: true
+            onTriggered:
+                parent.model = Qt.binding(function() { return Math.max(0, 2*pathParts.length); })
+        }
 
         delegate: PQBreadCrumbsButton {}
 
