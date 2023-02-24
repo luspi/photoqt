@@ -59,20 +59,25 @@ Item {
 
     function checkWindowSize() {
 
-        var forcepopout = (toplevel.width < 800 || toplevel.height < 600)
-        if(!PQSettings.interfacePopoutWhenWindowIsSmall)
-            forcepopout = false
+        var forcepopout_small = (toplevel.width < 800 || toplevel.height < 600)
+        var forcepopout_large = (toplevel.width < 1024 || toplevel.height < 768)
 
-        settingsManager = forcepopout
-        fileDialog = forcepopout
-        slideShowSettings = forcepopout
-        scaleImage = forcepopout
-        about = forcepopout
-        wallpaper = forcepopout
-        filter = forcepopout
-        saveAs = forcepopout
-        chromecast = forcepopout
-        advancedSort = forcepopout
+        if(!PQSettings.interfacePopoutWhenWindowIsSmall) {
+            forcepopout_small = false
+            forcepopout_large = false
+        }
+
+        settingsManager = forcepopout_large
+
+        fileDialog = forcepopout_small
+        slideShowSettings = forcepopout_small
+        scaleImage = forcepopout_small
+        about = forcepopout_small
+        wallpaper = forcepopout_small
+        filter = forcepopout_small
+        saveAs = forcepopout_small
+        chromecast = forcepopout_small
+        advancedSort = forcepopout_small
 
     }
 

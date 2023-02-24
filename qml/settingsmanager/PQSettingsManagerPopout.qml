@@ -40,8 +40,8 @@ Window {
         settingsmanager_window.setHeight(windowgeometry.settingsManagerWindowGeometry.height)
     }
 
-    minimumWidth: 500
-    minimumHeight: 500
+    minimumWidth: 1024
+    minimumHeight: 768
 
     modality: Qt.ApplicationModal
 

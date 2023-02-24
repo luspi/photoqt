@@ -56,8 +56,8 @@ Window {
                (PQSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (PQSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
 
-    minimumWidth: (variables.visibleItem==""||width<800) ? 600 : 800
-    minimumHeight: (variables.visibleItem==""||height<600) ? 400 : 600
+    minimumWidth: (variables.visibleItem==""||width<800) ? 600 : ((variables.visibleItem!="settingsmanager" || width < 1024) ? 800 : 1024)
+    minimumHeight: (variables.visibleItem==""||height<600) ? 400 : ((variables.visibleItem!="settingsmanager" || height < 768) ? 600 : 768)
 
     color: "#00000000"
 
