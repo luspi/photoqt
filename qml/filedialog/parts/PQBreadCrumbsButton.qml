@@ -48,7 +48,7 @@ Rectangle {
     property string completePath: ""
 
     // style the background
-    color: menu.isOpen ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
+    color: menu.isOpen ? control.backgroundColorMenuOpen : ((control.down&&listMenuItems.length>0) ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
     // some easy stylings
@@ -399,7 +399,7 @@ Rectangle {
         target: PQKeyPressMouseChecker
         // mouse clicks anywhere outside of the menu close the menu
         onReceivedMouseButtonPress: {
-            if(!control.someMenuItemHovered && !scroll.active)
+            if(!control.someMenuItemHovered && !scroll.active && !control.mouseOver)
                 menu.close()
         }
         // pressing the escape button closes the menu
