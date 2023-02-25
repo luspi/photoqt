@@ -91,6 +91,12 @@ int main(int argc, char **argv) {
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
 #endif
 
+#ifdef Q_OS_WIN
+    // On Windows Qt uses and old and long deprecated font as default
+    // This forces the app to use the same font (and size) as current Windows versions use by default
+    QGuiApplication::setFont(QFont("Segoe UI", 9));
+#endif
+
     // silence the `deprecated connection' warnings
     QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
 
