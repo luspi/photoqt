@@ -26,10 +26,11 @@ Item {
 
     // these are some base definitions for the look and feel of PhotoQt
 
-    // base font sizes in pt
-    property int fontsize_s: 8
+    // base font size in pt
     property int fontsize: 11
-    property int fontsize_l: 15
-    property int fontsize_xl: 20
+    // various sizes based on the value defined above
+    property int fontsize_s: fontsize-3
+    property int fontsize_l: fontsize+4
+    property int fontsize_xl: fontsize+9
 
 }
