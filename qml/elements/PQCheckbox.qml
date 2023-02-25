@@ -76,6 +76,8 @@ CheckBox {
 
             onPaint: {
                 var w = 3;
+                if(context == undefined)
+                    return
                 context.reset()
                 context.moveTo(0, height/2);
                 context.lineTo(width/2, height-w)
