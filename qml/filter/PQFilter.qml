@@ -85,7 +85,7 @@ Item {
                     id: heading
                     x: (parent.width-width)/2
                     color: "white"
-                    font.pointSize: 20
+                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("filter", "Filter images in current directory")
                 }
@@ -94,7 +94,7 @@ Item {
 
                     x: (parent.width-width)/2
                     color: "white"
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                     width: Math.min(inside.maxrowwidth+100, inside.width)
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
@@ -155,7 +155,7 @@ Item {
                         property bool greater: true
                         text: greater ? ">" : "<"
                         font.bold: true
-                        font.pointSize: 15
+                        font.pointSize: baselook.fontsize_l
                         tooltip: greater ?
                                      //: used as tooltip in the sense of 'image resolution GREATER THAN 123x123'
                                      em.pty+qsTranslate("filter", "greater than") :
@@ -176,6 +176,7 @@ Item {
                         color: rescheck.checked ? "white" : "#888888"
                         font.bold: true
                         text: "x"
+                        font.pointSize: baselook.fontsize
                     }
                     PQSpinBox {
                         id: resheight
@@ -207,7 +208,7 @@ Item {
                         property bool greater: true
                         text: greater ? ">" : "<"
                         font.bold: true
-                        font.pointSize: 15
+                        font.pointSize: baselook.fontsize_l
                         tooltip: greater ?
                                      //: used as tooltip in the sense of 'file size GREATER THAN 123 KB/MB'
                                      em.pty+qsTranslate("filter", "greater than") :
@@ -252,7 +253,7 @@ Item {
 
                     Text {
                         color: "white"
-                        font.pointSize: 10
+                        font.pointSize: baselook.fontsize
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap

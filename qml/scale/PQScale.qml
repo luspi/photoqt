@@ -79,7 +79,7 @@ Item {
                     id: heading
                     x: (insidecont.width-width)/2
                     color: "white"
-                    font.pointSize: 30
+                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("scale", "Scale file")
                 }
@@ -89,7 +89,7 @@ Item {
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("scale", "An error occured, file could not be scaled!")
                 }
@@ -99,7 +99,7 @@ Item {
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("scale", "This file format cannot (yet) be scaled with PhotoQt!")
                 }
@@ -113,7 +113,7 @@ Item {
                     x: (insidecont.width-width)/2
                     color: "white"
                     text: em.pty+qsTranslate("scale", "New width x height:") + " " + Math.round(newwidth.value) + " x " + Math.round(newheight.value)
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -194,7 +194,7 @@ Item {
                     Text {
                         y: (quality.height-height)/2
                         color: "white"
-                        font.pointSize: 12
+                        font.pointSize: baselook.fontsize
                         //: This refers to the quality to be used to scale the image
                         text: em.pty+qsTranslate("scale", "Quality:")
                     }
@@ -295,7 +295,7 @@ Item {
 
                 Text {
                     x: (parent.width-width)/2
-                    font.pointSize: 8
+                    font.pointSize: baselook.fontsize_s
                     font.bold: true
                     color: "white"
                     textFormat: Text.RichText

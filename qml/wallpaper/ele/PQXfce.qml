@@ -50,7 +50,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         text: "XFCE 4"
         font.bold: true
     }
@@ -64,7 +64,7 @@ Column {
         x: (parent.width-width)/2
         visible: xfconfQueryError
         color: "red"
-        font.pointSize: 12
+        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>xfconf-query</i>")
     }
@@ -86,7 +86,7 @@ Column {
         Text {
             x: (parent.width-width)/2
             color: "white"
-            font.pointSize: 15
+            font.pointSize: baselook.fontsize_l
             //: As in: Set wallpaper to which screens
             text: em.pty+qsTranslate("wallpaper", "Set to which screens")
         }
@@ -123,7 +123,7 @@ Column {
         Text {
             x: (parent.width-width)/2
             color: "white"
-            font.pointSize: 15
+            font.pointSize: baselook.fontsize_l
             //: picture option refers to how to format a pictrue when setting it as wallpaper
             text: em.pty+qsTranslate("wallpaper", "Choose picture option")
         }

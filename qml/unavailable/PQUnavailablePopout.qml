@@ -71,7 +71,7 @@ Window {
             horizontalAlignment: Text.AlignHCenter
             color: "white"
             font.bold: true
-            font.pointSize: 20
+            font.pointSize: baselook.fontsize_xl
             text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not yet available on Windows.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

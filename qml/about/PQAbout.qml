@@ -86,7 +86,7 @@ Item {
                 Text {
                     x: (parent.width-width)/2
                     color: "white"
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     property date currentDate: new Date()
                     text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
                     textFormat: Text.RichText
@@ -98,7 +98,7 @@ Item {
                     text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     tooltip: em.pty+qsTranslate("about", "Show configuration overview")
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                     onClicked:
                         configinfo.opacity = 1
                 }
@@ -106,7 +106,7 @@ Item {
                 Text {
                     x: (parent.width-width)/2
                     color: "white"
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("about", "License:") + " GPL 2+"
                     PQMouseArea {
                         anchors.fill: parent
@@ -126,7 +126,7 @@ Item {
                 Text {
                     x: (parent.width-width)/2
                     color: "white"
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("about", "Website:") + " https://photoqt.org"
                     PQMouseArea {
                         anchors.fill: parent
@@ -141,7 +141,7 @@ Item {
                 Text {
                     x: (parent.width-width)/2
                     color: "white"
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("about", "Contact:") + " Lukas@photoqt.org"
                     PQMouseArea {
                         anchors.fill: parent
@@ -202,7 +202,7 @@ Item {
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     text: em.pty+qsTranslate("about", "Configuration")
                     lineHeight: 1.2
-                    font.pointSize: 20
+                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                 }
 
@@ -211,7 +211,7 @@ Item {
                     color: "white"
                     text: handlingGeneral.getConfigInfo(true)
                     lineHeight: 1.2
-                    font.pointSize: 11
+                    font.pointSize: baselook.fontsize
                     font.bold: false
                 }
 

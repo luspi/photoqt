@@ -29,6 +29,8 @@ RadioButton {
     text: "RadioButton"
     property alias tooltip: mousearea.tooltip
 
+    font.pointSize: baselook.fontsize
+
     indicator: Rectangle {
         implicitWidth: 20
         implicitHeight: 20

@@ -105,7 +105,7 @@ GridView {
         anchors.margins: 20
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         color: "#888888"
         font.bold: true
         wrapMode: Text.WordWrap
@@ -179,7 +179,7 @@ GridView {
                         x: 10
                         y: (parent.height-height)/2-2
                         color: "white"
-                        font.pointSize: 11
+                        font.pointSize: baselook.fontsize
                         font.bold: true
                         elide: Text.ElideMiddle
                         text: ""
@@ -289,9 +289,7 @@ GridView {
                     wrapMode: Text.Wrap
                     font.bold: true
 
-                    font.pointSize: 8
-                    Behavior on font.pointSize { NumberAnimation { duration: 100 } }
-
+                    font.pointSize: baselook.fontsize_s
 
                 }
 
@@ -307,6 +305,7 @@ GridView {
                 verticalAlignment: Text.AlignVCenter
 
                 font.bold: true
+                font.pointSize: baselook.fontsize
 
                 color: "white"
                 text: decodeURIComponent(fname)
@@ -327,6 +326,7 @@ GridView {
                 visible: PQSettings.openfileDefaultView=="list"
                 color: "white"
                 font.bold: true
+                font.pointSize: baselook.fontsize
                 text: index < filefoldermodel.countFoldersFileDialog ? "" : handlingGeneral.convertBytesToHumanReadable(fsize)
             }
 

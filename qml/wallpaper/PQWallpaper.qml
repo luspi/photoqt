@@ -95,7 +95,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             color: curCat=="plasma" ? "#ffffff" : "#aaaaaa"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: 15
+                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Plasma 5"
                             PQMouseArea {
@@ -113,7 +113,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             color: curCat=="gnome" ? "#ffffff" : "#aaaaaa"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: 15
+                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Gnome<br>Unity<br>Cinnamon"
                             PQMouseArea {
@@ -131,7 +131,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             color: curCat=="xfce" ? "#ffffff" : "#aaaaaa"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: 15
+                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "XFCE4"
                             PQMouseArea {
@@ -149,7 +149,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             color: curCat=="enlightenment" ? "#ffffff" : "#aaaaaa"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: 15
+                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Enlightenment"
                             PQMouseArea {
@@ -167,7 +167,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             color: curCat=="other" ? "#ffffff" : "#aaaaaa"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: 15
+                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Other"
                             PQMouseArea {
@@ -206,7 +206,7 @@ Item {
                 //: Heading of wallpaper element
                 text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
                 color: "white"
-                font.pointSize: 20
+                font.pointSize: baselook.fontsize_xl
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

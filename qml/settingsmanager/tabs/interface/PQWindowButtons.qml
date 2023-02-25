@@ -59,6 +59,7 @@ PQSetting {
                     color: "white"
                     //: the size of the window buttons (the buttons shown in the top right corner of the window)
                     text: em.pty+qsTranslate("settingsmanager_interface", "size of window buttons") + ":"
+                    font.pointSize: baselook.fontsize
                 }
                 PQSlider {
                     id: labels_windowbuttonssize
@@ -95,6 +96,7 @@ PQSetting {
                 Text {
                     color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "Timeout for hiding once shown:")
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -108,6 +110,7 @@ PQSetting {
                 Text {
                     color: "white"
                     text: lt_slider.value/1000 + " s"
+                    font.pointSize: baselook.fontsize
                 }
 
             }

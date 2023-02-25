@@ -60,6 +60,8 @@ Rectangle {
         anchors.leftMargin: 5
         y: (parent.height-height)/2
 
+        font.pointSize: baselook.fontsize
+
         PQMouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton

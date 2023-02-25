@@ -332,6 +332,7 @@ Item {
                         id: filterremove
                         color: "#999999"
                         text: "x"
+                        font.pointSize: PQSettings.interfaceStatusInfoFontSize
                         PQMouseArea {
                             anchors.fill: parent
                             hoverEnabled: true
@@ -350,6 +351,7 @@ Item {
                                                  ""
                         property string siz: filefoldermodel.fileSizeFilter!=0 ? ((filefoldermodel.fileSizeFilter<0 ? "< " : "> ") + variables.filterExactFileSizeSet) : ""
                         text: "<b>" + em.pty+qsTranslate("quickinfo", "Filter:") + "</b> " + txt + (txt!=""&&res!="" ? "; " : "") + res + (siz!=""&&(txt!=""||res!="") ? "; " : "") + siz
+                        font.pointSize: PQSettings.interfaceStatusInfoFontSize
                     }
                     Item {
                         width: 1

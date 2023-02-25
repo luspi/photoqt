@@ -72,14 +72,14 @@ Rectangle {
                 text: em.pty+qsTranslate("settingsmanager", "Restore defaults")
                 color: "white"
                 font.bold: true
-                font.pointSize: 25
+                font.pointSize: baselook.fontsize_xl
             }
 
             Text {
                 width: parent.width
                 wrapMode: Text.WordWrap
                 color: "white"
-                font.pointSize: 15
+                font.pointSize: baselook.fontsize_l
                 text: em.pty+qsTranslate("settingsmanager", "Here you can restore the default configuration of PhotoQt. You can choose to restore any combination of the following three categories.")
             }
 
@@ -94,20 +94,20 @@ Rectangle {
                     PQCheckbox {
                         id: restore_set
                         text: em.pty+qsTranslate("settingsmanager", "Restore default settings")
-                        font.pointSize: 14
+                        font.pointSize: baselook.fontsize_l
                         checked: true
                     }
 
                     PQCheckbox {
                         id: restore_for
                         text: em.pty+qsTranslate("settingsmanager", "Restore default file formats")
-                        font.pointSize: 14
+                        font.pointSize: baselook.fontsize_l
                     }
 
                     PQCheckbox {
                         id: restore_sho
                         text: em.pty+qsTranslate("settingsmanager", "Restore default shortcuts")
-                        font.pointSize: 14
+                        font.pointSize: baselook.fontsize_l
                     }
                 }
 
@@ -124,7 +124,7 @@ Rectangle {
 
                 spacing: 10
                 PQButton {
-                    fontPointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     text: em.pty+qsTranslate("settingsmanager", "Restore defaults")
 
                     onClicked: {
@@ -141,7 +141,7 @@ Rectangle {
 
                 }
                 PQButton {
-                    fontPointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     text: "Cancel"
                     onClicked:
                         hide()

@@ -62,7 +62,7 @@ Window {
         }
         horizontalAlignment: Text.AlignHCenter
         color: "white"
-        font.pointSize: 20
+        font.pointSize: baselook.fontsize_xl
         font.bold: true
         // We don't need to translate this
         text: "Debug/Log"
@@ -80,6 +80,7 @@ Window {
             placeholderText: ""
             text: ""
             readOnly: true
+            font.pointSize: baselook.fontsize
         }
     }
 

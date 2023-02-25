@@ -107,7 +107,7 @@ PQSetting {
                                 y: (parent.height-height)/2
                                 text: avail.disp[name]
                                 font.bold: true
-                                font.pointSize: 10
+                                font.pointSize: baselook.fontsize
                                 color: "white"
                                 onWidthChanged: {
                                     avail.widths.push(width+20)
@@ -240,6 +240,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "font size:")
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -253,6 +254,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     color: "white"
                     text: fs_slider.value+"pt"
+                    font.pointSize: baselook.fontsize
                 }
             }
 
@@ -283,6 +285,7 @@ PQSetting {
                 Text {
                     color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "Timeout for hiding once shown:")
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -296,6 +299,7 @@ PQSetting {
                 Text {
                     color: "white"
                     text: st_slider.value/1000 + " s"
+                    font.pointSize: baselook.fontsize
                 }
 
             }

@@ -143,6 +143,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         color: "#88ffffff"
         font.bold: true
+        font.pointSize: baselook.fontsize
         visible: path.contentWidth > path.width
     }
 

@@ -56,12 +56,14 @@ PQSetting {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
                     text: em.pty+qsTranslate("settingsmanager_thumbnails", "font size:")
+                    font.pointSize: baselook.fontsize
                 }
 
                 Text {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
                     text: fname_fsize.from + " pt"
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -76,6 +78,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
                     text: fname_fsize.to + " pt"
+                    font.pointSize: baselook.fontsize
                 }
 
             }

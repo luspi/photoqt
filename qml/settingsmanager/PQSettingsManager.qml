@@ -155,7 +155,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         color: "#ffffff"
                         wrapMode: Text.WordWrap
-                        font.pointSize: 12
+                        font.pointSize: baselook.fontsize
                         font.bold: true
                         elide: Text.ElideRight
                         text: bar.tabs[index][0]

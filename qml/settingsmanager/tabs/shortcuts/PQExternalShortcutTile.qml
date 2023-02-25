@@ -124,6 +124,7 @@ Rectangle {
                 color: "#aaaaaa"
                 property string sh: avail_top.activeShortcuts[index][2]
                 text: (sh=="" ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : keymousestrings.translateShortcut(sh))
+                font.pointSize: baselook.fontsize
             }
 
             PQMouseArea {
@@ -158,6 +159,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 text: "x"
                 color: "white"
+                font.pointSize: baselook.fontsize
             }
 
             PQMouseArea {

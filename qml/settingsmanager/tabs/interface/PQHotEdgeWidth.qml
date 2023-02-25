@@ -38,6 +38,7 @@ PQSetting {
                 color: "white"
                 //: used as in: small area
                 text: em.pty+qsTranslate("settingsmanager_interface", "small")
+                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -55,6 +56,7 @@ PQSetting {
                 color: "white"
                 //: used as in: large area
                 text: em.pty+qsTranslate("settingsmanager_interface", "large")
+                font.pointSize: baselook.fontsize
             }
         }
 

@@ -46,6 +46,7 @@ PQSetting {
                 color: "white"
                 font.bold: true
                 text: "ms"
+                font.pointSize: baselook.fontsize
             }
 
         }

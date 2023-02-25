@@ -24,7 +24,6 @@ import QtQuick 2.9
 
 Item {
 
-
     Connections {
         target: loader
         onCopyMoveFilePassOn: {

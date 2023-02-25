@@ -81,7 +81,7 @@ Item {
                     id: faceLabel
                     x: 4
                     y: 4
-                    font.pointSize: PQSettings.metadataFaceTagsFontSize/facetracker_top.scale
+                    font.pointSize: baselook.fontsize/facetracker_top.scale
                     color: "white"
                     renderType: Text.QtRendering
                     text: " "+faceTags[6*index+5]+" "

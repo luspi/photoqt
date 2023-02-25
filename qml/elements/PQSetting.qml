@@ -57,7 +57,7 @@ Item {
             color: "white"
             width: 260
             font.bold: true
-            font.pointSize: 12
+            font.pointSize: baselook.fontsize
             horizontalAlignment: Text.AlignRight
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 

@@ -60,7 +60,7 @@ Item {
             y: insidecont.y-height-10
             width: parent.width
             text: "Chromecast"
-            font.pointSize: 25
+            font.pointSize: baselook.fontsize_xl
             font.bold: true
             color: "white"
             horizontalAlignment: Text.AlignHCenter
@@ -166,7 +166,7 @@ Item {
                                 y: (deleg.height-height)/2
                                 id: txt1
                                 text: chromecastData[2*index]
-                                font.pointSize: 15
+                                font.pointSize: baselook.fontsize_l
                                 color: "white"
                                 font.bold: true
                             }
@@ -174,7 +174,7 @@ Item {
                                 id: txt2
                                 y: (deleg.height-height)/2
                                 text: chromecastData[2*index+1]
-                                font.pointSize: 12
+                                font.pointSize: baselook.fontsize
                                 font.italic: true
                                 color: "#aaaaaa"
                             }
@@ -236,6 +236,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 color: "#aaaaaa"
                 visible: chromecastData.length==0
+                font.pointSize: baselook.fontsize
                 text: iAmScanning ?
                           //: status text while searching for chromecast streaming devices in the local network
                           em.pty+qsTranslate("streaming", "searching for devices...") :

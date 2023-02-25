@@ -45,7 +45,7 @@ Column {
     Text {
         visible: text!=""
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         font.bold: true
         text: parent.title
     }
@@ -133,7 +133,7 @@ Column {
                                 visible: leftcol[outerIndex][index][0] == "txt"
                                 color: "white"
                                 text: visible ? leftcol[outerIndex][index][1] : " "
-                                font.pointSize: 12
+                                font.pointSize: baselook.fontsize
                                 opacity: enabled ? (row.mouseOver ? 1 : 0.8) : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -232,7 +232,7 @@ Column {
                             visible: rightcol[index][0] == "txt"
                             color: "white"
                             text: visible ? rightcol[index][1] : " "
-                            font.pointSize: 12
+                            font.pointSize: baselook.fontsize
                             opacity: enabled ? (row2.mouseOver ? 1 : 0.8) : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
 

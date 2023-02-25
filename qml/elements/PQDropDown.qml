@@ -41,6 +41,8 @@ Popup {
 
     property int leftrightpadding: 5
 
+    font.pointSize: baselook.fontsize
+
     background: Rectangle {
         color: "#88000000"
         border.width: 1

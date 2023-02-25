@@ -31,7 +31,7 @@ TabButton {
     implicitHeight: 60
     implicitWidth: 250
 
-    font.pointSize: 12
+    font.pointSize: baselook.fontsize
 
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"

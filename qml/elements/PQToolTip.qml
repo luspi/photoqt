@@ -33,6 +33,8 @@ ToolTip {
     property alias wrapMode: contentText.wrapMode
     property alias elide: contentText.elide
 
+    font.pointSize: baselook.fontsize
+
     contentItem: Text {
         id: contentText
         text: control.text

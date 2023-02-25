@@ -78,7 +78,7 @@ Rectangle {
             text: em.pty+qsTranslate("filedialog", "File Dialog Settings")
 
             color: "white"
-            font.pointSize: 20
+            font.pointSize: baselook.fontsize_xl
             font.bold: true
 
         }
@@ -101,6 +101,7 @@ Rectangle {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color: "white"
             horizontalAlignment: Text.AlignHCenter
+            font.pointSize: baselook.fontsize
         }
 
         Rectangle {
@@ -149,7 +150,7 @@ Rectangle {
                     Text {
                         id: defaultview_txt
                         color: "white"
-                        font.pointSize: 15
+                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: This refers to the files listed in the file dialog. Please keep short.
                         text: em.pty+qsTranslate("filedialog", "Files view")
@@ -242,7 +243,7 @@ Rectangle {
                     Text {
                         id: rightcol_txt
                         color: "white"
-                        font.pointSize: 15
+                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: This refers to the left column of the file dialog (standard, favorites, devices). Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Places")
@@ -306,7 +307,7 @@ Rectangle {
                     Text {
                         id: preview_txt
                         color: "white"
-                        font.pointSize: 15
+                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: The preview is the image behind all files when the mouse is hovering a file. Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Preview")
@@ -365,6 +366,7 @@ Rectangle {
                                 y: (preview_colintense.height-height)/2
                                 text: "Color intensity:"
                                 color: "white"
+                                font.pointSize: baselook.fontsize
                             }
 
                             PQComboBox {

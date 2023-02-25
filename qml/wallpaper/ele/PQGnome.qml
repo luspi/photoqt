@@ -50,7 +50,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         text: "Gnome/Unity/Cinnamon"
         font.bold: true
     }
@@ -64,7 +64,7 @@ Column {
         x: (parent.width-width)/2
         visible: gsettingsError
         color: "red"
-        font.pointSize: 12
+        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>gsettings</i>")
     }
@@ -78,7 +78,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         //: picture option refers to how to format a pictrue when setting it as wallpaper
         text: em.pty+qsTranslate("wallpaper", "Choose picture option")
     }

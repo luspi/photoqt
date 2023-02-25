@@ -32,6 +32,8 @@ TextArea {
     selectedTextColor: "black"
     selectionColor: "white"
 
+    font.pointSize: baselook.fontsize
+
     property string borderColor: "#cccccc"
 
     focus: true

@@ -74,7 +74,6 @@ Rectangle {
 
     property int leftRightTextSpacing: 10
 
-    property int fontPointSize: txt.font.pointSize
     property alias renderType: txt.renderType
 
     //: This is a generic string written on clickable buttons - please keep short!
@@ -90,7 +89,7 @@ Rectangle {
         id: txt
         x: (parent.width-width)/2
         text: parent.text
-        font.pointSize: fontPointSize
+        font.pointSize: baselook.fontsize
         height: parent.height
         width: (parent.forceWidth == 0 ? undefined : parent.forceWidth-10)
         verticalAlignment: Text.AlignVCenter

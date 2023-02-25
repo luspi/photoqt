@@ -30,6 +30,7 @@ Menu {
 
     style: MenuStyle {
         id: styleroot
+        font.pointSize: baselook.fontsize
         frame: Rectangle {
             color: "#88000000"
             border.width: 1

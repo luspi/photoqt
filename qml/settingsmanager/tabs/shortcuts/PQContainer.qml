@@ -53,6 +53,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             font.bold: true
             text: category
+            font.pointSize: baselook.fontsize
         }
 
         Repeater {

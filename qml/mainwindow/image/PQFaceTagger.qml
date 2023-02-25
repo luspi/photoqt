@@ -113,7 +113,7 @@ Item {
                     verticalAlignment: Qt.AlignVCenter
                     color: "white"
                     font.bold: true
-                    font.pointSize: 12
+                    font.pointSize: baselook.fontsize
                     text: "x"
                     opacity: hovered ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -133,7 +133,7 @@ Item {
                     id: faceLabel
                     x: 4
                     y: 4
-                    font.pointSize: PQSettings.metadataFaceTagsFontSize/facetagger_top.scale
+                    font.pointSize: baselook.fontsize/facetagger_top.scale
                     color: "white"
                     text: " "+faceTags[6*index+5]+" "
                 }
@@ -197,7 +197,7 @@ Item {
             Text {
                 x: (parent.width-width)/2
                 color: "white"
-                font.pointSize: 15
+                font.pointSize: baselook.fontsize_l
                 font.bold: true
                 //: This question is asked in the face tagger to ask for the name of a tagged face
                 text: em.pty+qsTranslate("facetagging", "Who is this?")

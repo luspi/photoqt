@@ -31,6 +31,8 @@ ComboBox {
     property bool firstItemEmphasized: false
     property int lineBelowItem: -1
 
+    font.pointSize: baselook.fontsize
+
     property var hideItems: []
 
     property string prefix: ""

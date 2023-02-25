@@ -220,7 +220,7 @@ Window {
                 //: Used as in: No matches found for the currently set filter
                 text: em.pty+qsTranslate("other", "No matches found")
                 visible: filefoldermodel.current==-1&&filefoldermodel.filterCurrentlyActive
-                font.pointSize: 50
+                font.pointSize: Math.min(60, Math.max(20, (toplevel.width+toplevel.height)/60))
                 font.bold: true
                 color: "#bb808080"
             }
@@ -255,6 +255,7 @@ Window {
     PQTrayIcon { id: trayicon }
 
     PQVariables { id: variables }
+    PQBaseLook { id: baselook }
     PQCmdReceived { id: cmdreceived }
     PQLoader { id: loader }
     PQWindowSizePopupManager { id: windowsizepopup }

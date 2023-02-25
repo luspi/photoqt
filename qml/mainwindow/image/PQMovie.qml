@@ -266,6 +266,7 @@ Item {
                     color: "white"
                     font.bold: true
                     text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round(videoelem.duration/1000))
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -293,6 +294,7 @@ Item {
                     color: "white"
                     font.bold: true
                     text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
+                    font.pointSize: baselook.fontsize
                 }
 
                 Image {

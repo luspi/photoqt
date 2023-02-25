@@ -69,6 +69,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             font.bold: true
             text: category
+            font.pointSize: baselook.fontsize
         }
 
         Text {
@@ -77,6 +78,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             text: subtitle
             wrapMode: Text.WordWrap
+            font.pointSize: baselook.fontsize
         }
 
         Repeater {

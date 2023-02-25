@@ -47,7 +47,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         text: "Plasma 5"
         font.bold: true
     }
@@ -61,7 +61,7 @@ Column {
         x: 10
         width: parent.width-20
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         text: em.pty+qsTranslate("wallpaper", "The image will be set to all screens at the same time.")

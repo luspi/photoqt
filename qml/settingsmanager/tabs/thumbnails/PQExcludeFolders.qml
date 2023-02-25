@@ -39,6 +39,7 @@ PQSetting {
                 color: "white"
                 text: "Cloud providers to exclude from caching:"
                 visible: nxtcld.visible||owncld.visible||drpbx.visible
+                font.pointSize: baselook.fontsize
             }
 
             Item {
@@ -101,6 +102,7 @@ PQSetting {
             Text {
                 color: "white"
                 text: em.pty+qsTranslate("settingsmanager_thumbnails", "Do not cache these folders:")
+                font.pointSize: baselook.fontsize
             }
 
             PQTextArea {
@@ -108,6 +110,7 @@ PQSetting {
                 width: 400
                 text: ""
                 placeholderText: em.pty+qsTranslate("settingsmanager_thumbnails", "One folder per line")
+                font.pointSize: baselook.fontsize
             }
 
             PQButton {

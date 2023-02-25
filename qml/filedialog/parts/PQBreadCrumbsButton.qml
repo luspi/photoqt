@@ -85,6 +85,8 @@ Rectangle {
         rightPadding: 10
         font.bold: true
 
+        font.pointSize: baselook.fontsize
+
         visible: text != ""
 
         text: index%2 == 0 ?
@@ -294,6 +296,8 @@ Rectangle {
                                 rightPadding: 10
                                 topPadding: 5
                                 bottomPadding: 5
+
+                                font.pointSize: baselook.fontsize
 
                                 verticalAlignment: Text.AlignVCenter
                                 elide: Text.ElideMiddle

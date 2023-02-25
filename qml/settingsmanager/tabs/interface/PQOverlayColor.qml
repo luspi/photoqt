@@ -52,6 +52,7 @@ PQSetting {
                     y: (rgba_rect.height-height)/2
                     color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "window mode")
+                    font.pointSize: baselook.fontsize
                 }
 
                 Rectangle {
@@ -69,6 +70,7 @@ PQSetting {
                         style: Text.Outline
                         styleColor: "black"
                         text: "RGB = %1, %2, %3".arg(rgba[0]).arg(rgba[1]).arg(rgba[2])
+                        font.pointSize: baselook.fontsize
                     }
                     PQMouseArea {
                         anchors.fill: parent
@@ -87,6 +89,7 @@ PQSetting {
                     y: (rgba_rect.height-height)/2
                     color: "white"
                     text: "opacity"
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSpinBox {
@@ -101,6 +104,7 @@ PQSetting {
                     y: (rgba_rect.height-height)/2
                     color: "white"
                     text: "%"
+                    font.pointSize: baselook.fontsize
                 }
 
             }
@@ -120,6 +124,7 @@ PQSetting {
                     y: (fullscreen_rgba_rect.height-height)/2
                     color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "fullscreen mode")
+                    font.pointSize: baselook.fontsize
                 }
 
                 Rectangle {
@@ -140,6 +145,7 @@ PQSetting {
                         style: Text.Outline
                         styleColor: "black"
                         text: "RGB = %1, %2, %3".arg(fullscreen_rgba[0]).arg(fullscreen_rgba[1]).arg(fullscreen_rgba[2])
+                        font.pointSize: baselook.fontsize
                     }
                     PQMouseArea {
                         anchors.fill: parent
@@ -158,6 +164,7 @@ PQSetting {
                     y: (fullscreen_rgba_rect.height-height)/2
                     color: "white"
                     text: "opacity"
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSpinBox {
@@ -172,6 +179,7 @@ PQSetting {
                     y: (fullscreen_rgba_rect.height-height)/2
                     color: "white"
                     text: "%"
+                    font.pointSize: baselook.fontsize
                 }
 
             }

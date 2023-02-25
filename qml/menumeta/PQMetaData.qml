@@ -153,7 +153,7 @@ Item {
         horizontalAlignment: Qt.AlignLeft
 
         color: "#ffffff"
-        font.pointSize: 18
+        font.pointSize: baselook.fontsize_xl
         font.bold: true
 
         //: This is the heading of the metadata element
@@ -194,7 +194,7 @@ Item {
 
         color: "#888888"
         font.bold: true
-        font.pointSize: 18
+        font.pointSize: baselook.fontsize_xl
         wrapMode: Text.WordWrap
         text: em.pty+qsTranslate("metadata", "No File Loaded")
 
@@ -240,7 +240,7 @@ Item {
                 textFormat: Text.RichText
                 width: parent.width
                 wrapMode: Text.WordWrap
-                font.pointSize: 11
+                font.pointSize: baselook.fontsize
                 text: (allMetaData[3*index] !== "") ? ("<b>" + allMetaData[3*index] + "</b>: " + allMetaData[3*index +1]) : ""
 
             }

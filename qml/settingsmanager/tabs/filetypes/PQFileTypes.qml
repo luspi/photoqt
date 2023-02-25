@@ -112,7 +112,7 @@ Item {
                 id: countEnabled
                 property int num: 0
                 color: "white"
-                font.pointSize: 12
+                font.pointSize: baselook.fontsize
                 //: The %1 will be replaced with the number of file formats, please don't forget to add it.
                 text:  em.pty+qsTranslate("settingsmanager_filetypes", "Currently there are %1 file formats enabled").arg("<b>"+num+"</b>")
                 Connections {
@@ -212,6 +212,7 @@ Item {
                         color: checkenable.checked ? "#dddddd" : "#aaaaaa"
                         Behavior on color { ColorAnimation { duration: 50 } }
                         textFormat: Text.StyledText
+                        font.pointSize: baselook.fontsize
                     }
 
                     Text {
@@ -227,6 +228,7 @@ Item {
                         text: listview.ft[index].slice(4).join(", ")
                         color: checkenable.checked ? "#bbbbbb" : "#666666"
                         Behavior on color { ColorAnimation { duration: 50 } }
+                        font.pointSize: baselook.fontsize
                     }
 
                     PQMouseArea {

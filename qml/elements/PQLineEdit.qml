@@ -32,6 +32,8 @@ TextField {
     selectedTextColor: "black"
     selectionColor: "white"
 
+    font.pointSize: baselook.fontsize
+
     property string borderColor: "#88cccccc"
 
     focus: true

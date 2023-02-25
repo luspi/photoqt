@@ -80,7 +80,7 @@ Item {
                 id: title
                 width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 25
+                font.pointSize: baselook.fontsize_xl
                 font.bold: true
                 color: "white"
                 text: em.pty+qsTranslate("settingsmanager", "Interface settings")
@@ -94,7 +94,7 @@ Item {
             Text {
                 id: desc
                 color: "white"
-                font.pointSize: 12
+                font.pointSize: baselook.fontsize
                 width: cont.width-20
                 wrapMode: Text.WordWrap
                 text: em.pty+qsTranslate("settingsmanager", "These settings affect the interface in general, how the application looks like and behaves. This includes the background, some of the labels in the main view, which elements are to be shown in their own window, and others.") + "\n" + em.pty+qsTranslate("settingsmanager", "Some settings are only shown in expert mode.")

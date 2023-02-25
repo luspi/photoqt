@@ -29,6 +29,8 @@ CheckBox {
 
     text: ""
 
+    font.pointSize: baselook.fontsize
+
     property alias interactive: mousearea.enabled
     property string tooltip: text
     property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse

@@ -48,7 +48,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         text: "Microsoft Windows"
         font.bold: true
     }
@@ -61,7 +61,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         //: picture option refers to how to format a pictrue when setting it as wallpaper
         text: em.pty+qsTranslate("wallpaper", "Choose picture option")
     }

@@ -42,6 +42,7 @@ PQSetting {
                 id: docviewer
                 color: "white"
                 text: em.pty+qsTranslate("settingsmanager_filetypes", "Quality:")
+                font.pointSize: baselook.fontsize
             }
             PQSlider {
                 id: qual_slider
@@ -58,6 +59,7 @@ PQSetting {
             Text {
                 color: "white"
                 text: qual_slider.value + " dpi"
+                font.pointSize: baselook.fontsize
             }
 
         }

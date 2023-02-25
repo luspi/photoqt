@@ -39,6 +39,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 text: "0 px"
+                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -53,6 +54,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 text: "100 px"
+                font.pointSize: baselook.fontsize
             }
 
         }

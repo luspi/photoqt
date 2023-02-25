@@ -42,6 +42,7 @@ PQSetting {
                 // The translation context here needs to be unique otherwise this string will be conflated with a different 'none' in tabs/filetypes/PQAdvancedTuning.qml
                 //: As in: no margin between the main image and the window edges
                 text: em.pty+qsTranslate("settingsmanager_imageview", "none")
+                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -56,6 +57,7 @@ PQSetting {
                 y: (parent.height-height)/2
                 color: "white"
                 text: "100 px"
+                font.pointSize: baselook.fontsize
             }
 
         }

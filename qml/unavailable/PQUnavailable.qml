@@ -70,7 +70,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             color: "white"
             font.bold: true
-            font.pointSize: 25
+            font.pointSize: baselook.fontsize_xl
             text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not available.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

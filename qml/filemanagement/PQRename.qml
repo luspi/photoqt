@@ -78,7 +78,7 @@ Item {
                     id: heading
                     x: (insidecont.width-width)/2
                     color: "white"
-                    font.pointSize: 20
+                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("filemanagement", "Rename file")
                 }
@@ -87,7 +87,7 @@ Item {
                     id: filename
                     x: (insidecont.width-width)/2
                     color: "grey"
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     text: "this_is_the_old_filename.jpg"
                 }
 
@@ -96,7 +96,7 @@ Item {
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be renamed!")
                 }

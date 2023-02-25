@@ -52,7 +52,7 @@ Column {
     Text {
         x: (parent.width-width)/2
         color: "white"
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         text: "Enlightenment"
         font.bold: true
     }
@@ -66,7 +66,7 @@ Column {
         x: (parent.width-width)/2
         visible: msgbusError
         color: "red"
-        font.pointSize: 12
+        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 module not activated").arg("<i>msgbus (DBUS)</i>")
     }
@@ -75,7 +75,7 @@ Column {
         x: (parent.width-width)/2
         visible: enlightenmentRemoteError
         color: "red"
-        font.pointSize: 12
+        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>enlightenment_remote</i>")
     }
@@ -97,7 +97,7 @@ Column {
         Text {
             x: (parent.width-width)/2
             color: "white"
-            font.pointSize: 15
+            font.pointSize: baselook.fontsize_l
             //: As in: Set wallpaper to which screens
             text: em.pty+qsTranslate("wallpaper", "Set to which screens")
         }
@@ -135,7 +135,7 @@ Column {
         Text {
             x: (parent.width-width)/2
             color: "white"
-            font.pointSize: 15
+            font.pointSize: baselook.fontsize_l
             //: Enlightenment desktop environment handles wallpapers per workspace (different from screen)
             text: em.pty+qsTranslate("wallpaper", "Set to which workspaces")
         }

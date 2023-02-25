@@ -35,6 +35,8 @@ Slider {
 
     implicitHeight: 20
 
+    font.pointSize: baselook.fontsize
+
     property real wheelStepSize: 1.0
 
     property int divideToolTipValue: 1

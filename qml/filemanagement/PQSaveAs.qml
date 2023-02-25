@@ -76,7 +76,7 @@ Item {
                     id: heading
                     x: (insidecont.width-width)/2
                     color: "white"
-                    font.pointSize: 20
+                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     //: This is a title, similar to all the 'save as' options in many programs.
                     text: em.pty+qsTranslate("filemanagement", "Save file as")
@@ -86,7 +86,7 @@ Item {
                     id: filename
                     x: (insidecont.width-width)/2
                     color: "grey"
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     text: "this_is_the_filename.jpg"
                 }
 
@@ -100,7 +100,7 @@ Item {
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be saved!")
                 }
@@ -110,7 +110,7 @@ Item {
                     x: (insidecont.width-width)/2
                     color: "orange"
                     visible: false
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     //: 'Operation' here is the operation of saving an image in a new format
                     text: em.pty+qsTranslate("filemanagement", "Operation cancelled")
@@ -189,6 +189,7 @@ Item {
                                     width: parent.width-10
                                     color: "white"
                                     text: formatsview.data[index][2]
+                                    font.pointSize: baselook.fontsize
                                 }
 
                                 PQMouseArea {
@@ -222,6 +223,7 @@ Item {
                         y: (newfilename.height-height)/2
                         text: em.pty+qsTranslate("filemanagement", "New filename") + ":"
                         color: "white"
+                        font.pointSize: baselook.fontsize
                     }
 
                     PQLineEdit {

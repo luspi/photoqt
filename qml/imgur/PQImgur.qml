@@ -80,7 +80,7 @@ Item {
                 Text {
                     x: (insidecont.width-width)/2
                     color: "white"
-                    font.pointSize: 20
+                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     visible: !report.visible
                     text: em.pty+qsTranslate("imgur", "Upload to imgur.com")
@@ -89,7 +89,7 @@ Item {
                 Text {
                     x: (insidecont.width-width)/2
                     color: "white"
-                    font.pointSize: 15
+                    font.pointSize: baselook.fontsize_l
                     font.bold: true
                     font.italic: true
                     visible: !report.visible
@@ -125,7 +125,7 @@ Item {
                         opacity: 1-progress.opacity
                         visible: !report.visible && !error.visible && !nointernet.visible
                         color: "white"
-                        font.pointSize: 12
+                        font.pointSize: baselook.fontsize
                         text: em.pty+qsTranslate("imgur", "Obtaining image url...")
                     }
 
@@ -136,7 +136,7 @@ Item {
                         visible: !report.visible && !error.visible && !nointernet.visible
                         color: "red"
                         horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 12
+                        font.pointSize: baselook.fontsize
                         text: em.pty+qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
                               em.pty+qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
                     }
@@ -148,7 +148,7 @@ Item {
                         visible: false
                         color: "red"
                         horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 12
+                        font.pointSize: baselook.fontsize
                         text: em.pty+qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
                               em.pty+qsTranslate("imgur", "Error code:") + " " + code
                     }
@@ -160,7 +160,7 @@ Item {
                         visible: false
                         color: "red"
                         horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 12
+                        font.pointSize: baselook.fontsize
                         text: em.pty+qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
                               em.pty+qsTranslate("imgur", "Unable to upload!")
                     }
@@ -185,14 +185,14 @@ Item {
                             Text {
                                 color: "white"
                                 text: em.pty+qsTranslate("imgur", "Access Image")
-                                font.pointSize: 15
+                                font.pointSize: baselook.fontsize_l
                                 font.bold: true
                             }
 
                             Text {
                                 color: "white"
                                 text: report.accessurl
-                                font.pointSize: 15
+                                font.pointSize: baselook.fontsize_l
                                 PQMouseArea {
                                     anchors.fill: parent
                                     cursorShape: Qt.PointingHandCursor
@@ -217,14 +217,14 @@ Item {
                             Text {
                                 color: "white"
                                 text: em.pty+qsTranslate("imgur", "Delete Image")
-                                font.pointSize: 15
+                                font.pointSize: baselook.fontsize_l
                                 font.bold: true
                             }
 
                             Text {
                                 color: "white"
                                 text: report.deleteurl
-                                font.pointSize: 15
+                                font.pointSize: baselook.fontsize_l
                                 PQMouseArea {
                                     anchors.fill: parent
                                     cursorShape: Qt.PointingHandCursor

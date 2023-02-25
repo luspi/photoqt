@@ -60,7 +60,7 @@ Item {
                 x: (busycont.width-width)/2
                 color: "white"
                 font.bold: true
-                font.pointSize: 15
+                font.pointSize: baselook.fontsize_l
                 text: "Busy with sorting images..."
             }
 
@@ -109,6 +109,7 @@ Item {
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: "white"
                     font.bold: true
+                    font.pointSize: baselook.fontsize
                     text: filefoldermodel.advancedSortDone + "/" + filefoldermodel.countMainView
                 }
 

@@ -139,7 +139,7 @@ Item {
                       //: As in: Loading the histogram for the current image
                       em.pty+qsTranslate("histogram", "Loading...")
             color: "white"
-            font.pixelSize: 15
+            font.pointSize: baselook.fontsize
             font.bold: true
         }
 

@@ -107,7 +107,7 @@ Rectangle {
         y: 10
         width: parent.width
         font.bold: true
-        font.pointSize: 15
+        font.pointSize: baselook.fontsize_l
         color: "white"
         horizontalAlignment: Text.AlignHCenter
         text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut")
@@ -131,6 +131,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             color: "white"
             font.bold: true
+            font.pointSize: baselook.fontsize
             text: em.pty+qsTranslate("settingsmanager_shortcuts", "Perform a mouse gesture here or press any key combo")
         }
 
@@ -140,7 +141,7 @@ Rectangle {
             anchors.topMargin: instr_txt.height
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: 20
+            font.pointSize: baselook.fontsize_xl
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color: "#cccccc"
         }

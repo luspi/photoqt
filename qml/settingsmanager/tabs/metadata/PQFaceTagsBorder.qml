@@ -54,6 +54,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     color: ft_border.checked ? "white" : "#888888"
                     text: "1 px"
+                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -67,6 +68,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     color: ft_border.checked ? "white" : "#888888"
                     text: "20 px"
+                    font.pointSize: baselook.fontsize
                 }
 
             }
@@ -88,6 +90,7 @@ PQSetting {
                     style: Text.Outline
                     styleColor: "black"
                     text: "rgba = %1, %2, %3, %4".arg(rgba[0]).arg(rgba[1]).arg(rgba[2]).arg(rgba[3])
+                    font.pointSize: baselook.fontsize
                 }
                 PQMouseArea {
                     anchors.fill: parent

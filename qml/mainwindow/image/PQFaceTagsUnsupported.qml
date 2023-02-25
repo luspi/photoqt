@@ -59,7 +59,7 @@ Rectangle {
         y: 20
         text: em.pty+qsTranslate("facetagging", "File type does not support face tags.")
         color: "white"
-        font.pointSize: 20
+        font.pointSize: baselook.fontsize_xl
         wrapMode: Text.WordWrap
     }
 
