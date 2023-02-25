@@ -54,12 +54,10 @@ PQSetting {
 
             Row {
                 spacing: 5
-                Text {
+                PQText {
                     y: (parent.height-height)/2
-                    color: "white"
                     //: the size of the window buttons (the buttons shown in the top right corner of the window)
                     text: em.pty+qsTranslate("settingsmanager_interface", "size of window buttons") + ":"
-                    font.pointSize: baselook.fontsize
                 }
                 PQSlider {
                     id: labels_windowbuttonssize
@@ -93,10 +91,8 @@ PQSetting {
                 width: set.contwidth
                 enabled: labels_autohide.checked
 
-                Text {
-                    color: "white"
+                PQText {
                     text: em.pty+qsTranslate("settingsmanager_interface", "Timeout for hiding once shown:")
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -107,10 +103,8 @@ PQSetting {
                     wheelStepSize: 100
                 }
 
-                Text {
-                    color: "white"
+                PQText {
                     text: lt_slider.value/1000 + " s"
-                    font.pointSize: baselook.fontsize
                 }
 
             }

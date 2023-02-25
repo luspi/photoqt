@@ -35,12 +35,10 @@ PQSetting {
 
             spacing: 10
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 //: The sensitivity here refers to the sensitivity of the mouse wheel
                 text: em.pty+qsTranslate("settingsmanager_interface", "very sensitive")
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -52,12 +50,10 @@ PQSetting {
                 wheelStepSize: 1
             }
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 //: The sensitivity here refers to the sensitivity of the mouse wheel
                 text: em.pty+qsTranslate("settingsmanager_interface", "not sensitive")
-                font.pointSize: baselook.fontsize
             }
 
         }

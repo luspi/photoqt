@@ -74,29 +74,25 @@ Item {
 
                 spacing: 10
 
-                Text {
+                PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("filemanagement", "Delete file?")
                 }
 
-                Text {
+                PQTextL {
                     id: filename
                     x: (insidecont.width-width)/2
                     color: "grey"
-                    font.pointSize: baselook.fontsize_l
                     text: "this_is_the_filename.jpg"
                 }
 
-                Text {
+                PQTextL {
                     id: error
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be deleted!")
                 }
@@ -166,11 +162,9 @@ Item {
                     height: 1
                 }
 
-                Text {
+                PQTextS {
                     x: (parent.width-width)/2
-                    font.pointSize: baselook.fontsize_s
                     font.bold: true
-                    color: "white"
                     textFormat: Text.RichText
                     text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
                           ((!handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515())

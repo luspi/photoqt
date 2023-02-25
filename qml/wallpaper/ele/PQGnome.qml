@@ -47,10 +47,8 @@ Column {
 
     property string checkedOption: ""
 
-    Text {
+    PQTextL {
         x: (parent.width-width)/2
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         text: "Gnome/Unity/Cinnamon"
         font.bold: true
     }
@@ -60,11 +58,10 @@ Column {
         height: 10
     }
 
-    Text {
+    PQText {
         x: (parent.width-width)/2
         visible: gsettingsError
         color: "red"
-        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>gsettings</i>")
     }
@@ -75,10 +72,8 @@ Column {
         height: 10
     }
 
-    Text {
+    PQTextL {
         x: (parent.width-width)/2
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         //: picture option refers to how to format a pictrue when setting it as wallpaper
         text: em.pty+qsTranslate("wallpaper", "Choose picture option")
     }

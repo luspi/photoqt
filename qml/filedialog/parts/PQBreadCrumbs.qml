@@ -134,16 +134,15 @@ Item {
         color: "#444444"
     }
 
-    Text {
+    PQText {
         id: dotdotdot
         anchors.left: sep1.right
         anchors.leftMargin: visible ? 10 : 0
         text: visible ? "..." : ""
         height: bread_top.height
         verticalAlignment: Text.AlignVCenter
-        color: "#88ffffff"
+        opacity: 0.5
         font.bold: true
-        font.pointSize: baselook.fontsize
         visible: path.contentWidth > path.width
     }
 

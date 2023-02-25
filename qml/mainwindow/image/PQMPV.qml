@@ -293,13 +293,11 @@ Item {
 
             }
 
-            Text {
+            PQText {
                 id: curpos
                 y: (controls.height-height)/2
-                color: "white"
                 font.bold: true
                 text: handlingGeneral.convertSecsToProperTime(Math.round(renderer.currentPosition), Math.round(renderer.mediaInfoDuration))
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -338,13 +336,11 @@ Item {
                 Behavior on value { NumberAnimation { id: sliderAni; duration: getPosition.interval } }
             }
 
-            Text {
+            PQText {
                 id: timeleft
                 y: (controls.height-height)/2
-                color: "white"
                 font.bold: true
                 text: handlingGeneral.convertSecsToProperTime(Math.round((renderer.mediaInfoDuration-renderer.currentPosition)), Math.round(renderer.mediaInfoDuration))
-                font.pointSize: baselook.fontsize
             }
 
             Image {

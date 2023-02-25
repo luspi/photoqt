@@ -74,23 +74,19 @@ Item {
 
                 spacing: 20
 
-                Text {
+                PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("advancedsort", "Advanced Image Sort")
                 }
 
-                Text {
+                PQText {
                     id: description1
                     x: (insidecont.width-width)/2
                     width: Math.min(800, insidecont.width-20)
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("advancedsort", "It is possible to sort the images in the current folder by color properties. Depending on the number of images and the settings, this might take a few seconds.")
 
                 }
@@ -99,11 +95,9 @@ Item {
                     id: sortbyrow
                     x: (insidecont.width-width)/2
                     spacing: 10
-                    Text {
+                    PQText {
                         id: sortbytxt
                         y: (sortby.height-height)/2
-                        color: "white"
-                        font.pointSize: baselook.fontsize
                         //: Used as 'sort by dominant/average color'
                         text: em.pty+qsTranslate("advancedsort", "Sort by:")
                     }
@@ -150,12 +144,10 @@ Item {
                     height: sortby.currentIndex>0 ? childrenRect.height : 0
                     Behavior on height { NumberAnimation { duration: 250 } }
                     clip: true
-                    Text {
+                    PQText {
                         enabled: sortby.currentIndex>0
                         id: qualtxt
                         y: (qual.height-height)/2
-                        color: enabled ? "white" : "#666666"
-                        font.pointSize: baselook.fontsize
                         Behavior on color { ColorAnimation { duration: 250; } }
                         //: Please keep short! Sorting images by color comes with a speed vs quality tradeoff.
                         text: em.pty+qsTranslate("advancedsort", "speed vs quality:")
@@ -173,13 +165,11 @@ Item {
 
                 }
 
-                Text {
+                PQText {
                     x: 10
                     width: insidecont.width-20
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("advancedsort", "There is also a quickstart shortcut that immediately starts the sorting using the latest settings.")
                 }
 

@@ -47,19 +47,17 @@ PQSetting {
                 spacing: 5
                 height: interp_thr.height
 
-                Text {
+                PQText {
                     y: (parent.height-height)/2
                     //: The threshold (in pixels) at which to switch interpolation algorithm
                     text: em.pty+qsTranslate("settingsmanager_imageview", "threshold:")
-                    color: interp_check.checked ? "white" : "#cccccc"
-                    font.pointSize: baselook.fontsize
+                    enabled: interp_check.checked
                 }
 
-                Text {
+                PQText {
                     y: (parent.height-height)/2
                     text: interp_thr.from + " px"
-                    color: interp_check.checked ? "white" : "#cccccc"
-                    font.pointSize: baselook.fontsize
+                    enabled: interp_check.checked
                 }
 
                 PQSlider {
@@ -71,11 +69,10 @@ PQSetting {
                     wheelStepSize: 50
                 }
 
-                Text {
+                PQText {
                     y: (parent.height-height)/2
                     text: interp_thr.to + " px"
-                    color: interp_check.checked ? "white" : "#cccccc"
-                    font.pointSize: baselook.fontsize
+                    enabled: interp_check.checked
                 }
 
             }

@@ -82,7 +82,7 @@ ListView {
         }
 
         // The text of each entry
-        Text {
+        PQText {
 
             id: entrytextUser
 
@@ -96,7 +96,6 @@ ListView {
             // some styling
             color: index==0 ? "grey" : "white"
             font.bold: true
-            font.pointSize: baselook.fontsize
             elide: Text.ElideRight
 
             //: This is the category title of user-set folders (or favorites) in the file dialog

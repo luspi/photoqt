@@ -33,12 +33,10 @@ PQSetting {
     content: [
         Row {
             spacing: 10
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 //: used as in: small area
                 text: em.pty+qsTranslate("settingsmanager_interface", "small")
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -51,12 +49,10 @@ PQSetting {
 
             }
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 //: used as in: large area
                 text: em.pty+qsTranslate("settingsmanager_interface", "large")
-                font.pointSize: baselook.fontsize
             }
         }
 

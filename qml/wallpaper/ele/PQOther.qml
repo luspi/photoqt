@@ -49,10 +49,8 @@ Column {
     property string checkedTool: ""
     property string checkedOption: ""
 
-    Text {
+    PQTextL {
         x: (parent.width-width)/2
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         //: Used as in: Other Desktop Environment
         text: em.pty+qsTranslate("wallpaper", "Other")
         font.bold: true
@@ -63,20 +61,18 @@ Column {
         height: 10
     }
 
-    Text {
+    PQText {
         x: (parent.width-width)/2
         visible: fehError && feh.checked
         color: "red"
-        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>feh</i>")
     }
 
-    Text {
+    PQText {
         x: (parent.width-width)/2
         visible: nitrogenError && nitrogen.checked
         color: "red"
-        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>nitrogen</i>")
     }
@@ -93,12 +89,10 @@ Column {
         width: childrenRect.width
         spacing: 10
 
-        Text {
+        PQText {
             y: (feh.height-height)/2
-            color: "white"
             //: Tool refers to a program that can be executed
             text: em.pty+qsTranslate("wallpaper", "Tool:")
-            font.pointSize: baselook.fontsize
         }
 
         PQRadioButton {

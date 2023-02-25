@@ -67,13 +67,11 @@ Item {
                 height: 1
             }
 
-            Text {
+            PQTextXL {
                 id: title
                 width: cont.width-30
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: baselook.fontsize_xl
                 font.bold: true
-                color: "white"
                 text: em.pty+qsTranslate("settingsmanager", "Shortcuts")
             }
 
@@ -82,10 +80,8 @@ Item {
                 height: 1
             }
 
-            Text {
+            PQText {
                 id: desc
-                color: "white"
-                font.pointSize: baselook.fontsize
                 width: cont.width-30
                 wrapMode: Text.WordWrap
                 text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be managed. Below you can add a new shortcut for any one of the available actions, both key combinations and mouse gestures are supported.") + "\n" + em.pty+qsTranslate("settingsmanager", "You can also set the same shortcut for multiple actions or multiple times for the same action. All actions for a shortcut will be executed sequentially, allowing a lot more flexibility in using PhotoQt.")

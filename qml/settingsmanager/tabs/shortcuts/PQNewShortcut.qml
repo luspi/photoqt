@@ -102,13 +102,11 @@ Rectangle {
         hoverEnabled: true
     }
 
-    Text {
+    PQTextL {
         id: titletxt
         y: 10
         width: parent.width
         font.bold: true
-        font.pointSize: baselook.fontsize_l
-        color: "white"
         horizontalAlignment: Text.AlignHCenter
         text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut")
     }
@@ -124,24 +122,21 @@ Rectangle {
         border.width: 1
         border.color: "#330000"
 
-        Text {
+        PQText {
             id: instr_txt
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            color: "white"
             font.bold: true
-            font.pointSize: baselook.fontsize
             text: em.pty+qsTranslate("settingsmanager_shortcuts", "Perform a mouse gesture here or press any key combo")
         }
 
-        Text {
+        PQTextXL {
             id: combo_txt
             anchors.fill: parent
             anchors.topMargin: instr_txt.height
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: baselook.fontsize_xl
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color: "#cccccc"
         }

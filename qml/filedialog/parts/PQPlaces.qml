@@ -41,7 +41,7 @@ ListView {
     visible: PQSettings.openfileUserPlacesUser
     height: childrenRect.height
 
-    Text {
+    PQTextL {
         anchors.fill: parent
         anchors.margins: 15
         visible: parent.model.count==1&&handlingGeneral.isPugixmlSupportEnabled()
@@ -51,7 +51,6 @@ ListView {
         text: em.pty+qsTranslate("filedialog", "no folder added to favorites yet")
         color: "grey"
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        font.pointSize: baselook.fontsize_l
         font.bold: true
         lineHeight: 1.5
     }
@@ -134,7 +133,7 @@ ListView {
             }
 
             // The text of each entry
-            Text {
+            PQText {
 
                 id: entrytextUser
 
@@ -150,7 +149,6 @@ ListView {
                 // some styling
                 color: index==0 ? "grey" : "white"
                 font.bold: true
-                font.pointSize: baselook.fontsize
                 elide: Text.ElideRight
 
                 //: This is the category title of user-set folders (or favorites) in the file dialog

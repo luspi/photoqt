@@ -36,11 +36,9 @@ PQSetting {
 
             spacing: 10
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 text: "1"
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -51,11 +49,9 @@ PQSetting {
                 toolTipPrefix: em.pty+qsTranslate("settingsmanager_thumbnails", "Threads:") + " "
             }
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 text: "8"
-                font.pointSize: baselook.fontsize
             }
 
         }

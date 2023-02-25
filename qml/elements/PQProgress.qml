@@ -94,7 +94,7 @@ Item {
         }
     }
 
-    Text {
+    PQText {
         anchors.centerIn: rotator
         color: "#ffffff"
         text: progress+"%"

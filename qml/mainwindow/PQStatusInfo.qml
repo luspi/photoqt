@@ -123,8 +123,7 @@ Item {
 
                             Component {
                                 id: rectCounter
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: (filefoldermodel.current+1) + "/" + filefoldermodel.countMainView
                                 }
@@ -132,8 +131,7 @@ Item {
 
                             Component {
                                 id: rectFilename
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
                                 }
@@ -141,8 +139,7 @@ Item {
 
                             Component {
                                 id: rectFilepath
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: filefoldermodel.currentFilePath
                                 }
@@ -150,8 +147,7 @@ Item {
 
                             Component {
                                 id: rectZoom
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: Math.round(variables.currentZoomLevel)+"%"
                                 }
@@ -159,8 +155,7 @@ Item {
 
                             Component {
                                 id: rectRotation
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: (Math.round(variables.currentRotationAngle)%360+360)%360 + "°"
                                 }
@@ -170,19 +165,16 @@ Item {
                                 id: rectResolution
                                 Row {
                                     spacing: 2
-                                    Text {
-                                        color: "white"
+                                    PQText {
                                         font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                         text: variables.currentImageResolution.width
                                     }
-                                    Text {
-                                        color: "white"
+                                    PQText {
                                         font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                         opacity: 0.7
                                         text: "x"
                                     }
-                                    Text {
-                                        color: "white"
+                                    PQText {
                                         font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                         text: variables.currentImageResolution.height
                                     }
@@ -191,8 +183,7 @@ Item {
 
                             Component {
                                 id: rectFilesize
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: handlingGeneral.convertBytesToHumanReadable(cppmetadata.fileSize)
                                 }
@@ -200,8 +191,7 @@ Item {
 
                             Component {
                                 id: rectDummy
-                                Text {
-                                    color: "white"
+                                PQText {
                                     font.pointSize: PQSettings.interfaceStatusInfoFontSize
                                     text: "[unknown]"
                                 }
@@ -328,7 +318,7 @@ Item {
                         width: 1
                         height: 1
                     }
-                    Text {
+                    PQText {
                         id: filterremove
                         color: "#999999"
                         text: "x"
@@ -342,9 +332,8 @@ Item {
                                 loader.passOn("filter", "removeFilter", undefined)
                         }
                     }
-                    Text {
+                    PQText {
                         id: filtertext
-                        color: "white"
                         property string txt: filefoldermodel.filenameFilters.join(" ") + (filefoldermodel.nameFilters.length==0 ? "" : " ." + filefoldermodel.nameFilters.join(" ."))
                         property string res: (filefoldermodel.imageResolutionFilter.width != 0 || filefoldermodel.imageResolutionFilter.height != 0) ?
                                                  ((filefoldermodel.imageResolutionFilter.width<0||filefoldermodel.imageResolutionFilter.height<0 ? "< " : "> ") + Math.abs(filefoldermodel.imageResolutionFilter.width)+"x"+Math.abs(filefoldermodel.imageResolutionFilter.height)) :

@@ -55,14 +55,12 @@ Item {
                 button_cancel.clicked()
         }
 
-        Text {
+        PQTextXL {
             id: heading
             y: insidecont.y-height-10
             width: parent.width
             text: "Chromecast"
-            font.pointSize: baselook.fontsize_xl
             font.bold: true
-            color: "white"
             horizontalAlignment: Text.AlignHCenter
         }
 
@@ -162,19 +160,16 @@ Item {
                                 height: 1
                             }
 
-                            Text {
+                            PQTextL {
                                 y: (deleg.height-height)/2
                                 id: txt1
                                 text: chromecastData[2*index]
-                                font.pointSize: baselook.fontsize_l
-                                color: "white"
                                 font.bold: true
                             }
-                            Text {
+                            PQText {
                                 id: txt2
                                 y: (deleg.height-height)/2
                                 text: chromecastData[2*index+1]
-                                font.pointSize: baselook.fontsize
                                 font.italic: true
                                 color: "#aaaaaa"
                             }
@@ -229,14 +224,13 @@ Item {
 
             }
 
-            Text {
+            PQText {
 
                 anchors.fill: devlistrect
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 color: "#aaaaaa"
                 visible: chromecastData.length==0
-                font.pointSize: baselook.fontsize
                 text: iAmScanning ?
                           //: status text while searching for chromecast streaming devices in the local network
                           em.pty+qsTranslate("streaming", "searching for devices...") :

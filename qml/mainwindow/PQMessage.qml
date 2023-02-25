@@ -48,14 +48,12 @@ Item {
         color: "#88000000"
         radius: 5
 
-        Text {
+        PQText {
             id: thex
             x: 10
             y: 5
-            color: "white"
             text: "x"
             visible: variables.faceTaggingActive
-            font.pointSize: baselook.fontsize
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
@@ -66,13 +64,10 @@ Item {
             }
         }
 
-        Text {
+        PQText {
 
             x: variables.faceTaggingActive ? (thex.x+thex.width+5) : 10
             y: 5
-            color: "white"
-
-            font.pointSize: baselook.fontsize
 
             text: variables.faceTaggingActive ?
                       em.pty+qsTranslate("facetagging", "Click to tag faces, changes are saved automatically") :

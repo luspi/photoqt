@@ -47,12 +47,10 @@ PQSetting {
 
                 spacing: 10
 
-                Text {
+                PQText {
                     visible: !samecolor_check.checked
                     y: (rgba_rect.height-height)/2
-                    color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "window mode")
-                    font.pointSize: baselook.fontsize
                 }
 
                 Rectangle {
@@ -62,15 +60,13 @@ PQSetting {
                     border.width: 1
                     border.color: "#333333"
                     color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
-                    Text {
+                    PQText {
                         id: rgba_txt
                         x: 10
                         y: 10
-                        color: "white"
                         style: Text.Outline
                         styleColor: "black"
                         text: "RGB = %1, %2, %3".arg(rgba[0]).arg(rgba[1]).arg(rgba[2])
-                        font.pointSize: baselook.fontsize
                     }
                     PQMouseArea {
                         anchors.fill: parent
@@ -85,11 +81,9 @@ PQSetting {
                     }
                 }
 
-                Text {
+                PQText {
                     y: (rgba_rect.height-height)/2
-                    color: "white"
                     text: "opacity"
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSpinBox {
@@ -100,11 +94,9 @@ PQSetting {
                     value: 100*rgba[3]/255
                 }
 
-                Text {
+                PQText {
                     y: (rgba_rect.height-height)/2
-                    color: "white"
                     text: "%"
-                    font.pointSize: baselook.fontsize
                 }
 
             }
@@ -120,11 +112,9 @@ PQSetting {
 
                 spacing: 10
 
-                Text {
+                PQText {
                     y: (fullscreen_rgba_rect.height-height)/2
-                    color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "fullscreen mode")
-                    font.pointSize: baselook.fontsize
                 }
 
                 Rectangle {
@@ -137,15 +127,13 @@ PQSetting {
                     enabled: !samecolor_check.checked
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    Text {
+                    PQText {
                         id: fullscreen_rgba_txt
                         x: 10
                         y: 10
-                        color: "white"
                         style: Text.Outline
                         styleColor: "black"
                         text: "RGB = %1, %2, %3".arg(fullscreen_rgba[0]).arg(fullscreen_rgba[1]).arg(fullscreen_rgba[2])
-                        font.pointSize: baselook.fontsize
                     }
                     PQMouseArea {
                         anchors.fill: parent
@@ -160,11 +148,9 @@ PQSetting {
                     }
                 }
 
-                Text {
+                PQText {
                     y: (fullscreen_rgba_rect.height-height)/2
-                    color: "white"
-                    text: "opacity"
-                    font.pointSize: baselook.fontsize
+                    text: em.pty+qsTranslate("settingsmanager_interface", "opacity")
                 }
 
                 PQSpinBox {
@@ -175,11 +161,9 @@ PQSetting {
                     value: 100*fullscreen_rgba[3]/255
                 }
 
-                Text {
+                PQText {
                     y: (fullscreen_rgba_rect.height-height)/2
-                    color: "white"
                     text: "%"
-                    font.pointSize: baselook.fontsize
                 }
 
             }

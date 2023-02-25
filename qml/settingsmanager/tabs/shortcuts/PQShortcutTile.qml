@@ -42,25 +42,22 @@ Rectangle {
 
     signal showNewShortcut()
 
-    Text {
+    PQText {
         id: dsctxt
         x: 5
         height: 30
         verticalAlignment: Text.AlignVCenter
         text: avail_top.available[index][1]
-        color: "white"
         font.bold: true
-        font.pointSize: baselook.fontsize
     }
 
-    Text {
+    PQText {
         id: shtxt
         x: dsctxt.x+dsctxt.width+20
         height: 30
+        enabled: false
         verticalAlignment: Text.AlignVCenter
-        color: "#aaaaaa"
         text: tile_top.activeShortcuts.length==0 ? "<i>[" + em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcut set") + "]</i>" : keymousestrings.translateShortcutList(tile_top.activeShortcuts).join("    //    ")
-        font.pointSize: baselook.fontsize
     }
 
     PQMouseArea {
@@ -113,13 +110,11 @@ Rectangle {
                     }
                 }
 
-                Text {
+                PQText {
                     id: txt
                     x: 10
                     y: 10
-                    color: "white"
                     text: keymousestrings.translateShortcut(tile_top.activeShortcuts[index])
-                    font.pointSize: baselook.fontsize
                 }
 
                 Rectangle {
@@ -131,14 +126,12 @@ Rectangle {
                     Behavior on opacity { NumberAnimation { duration: 200 } }
                     visible: opacity>0
                     property bool hovered: false
-                    Text {
+                    PQText {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        color: "white"
                         font.bold: true
                         text: "x"
-                        font.pointSize: baselook.fontsize
                     }
                 }
                 PQMouseArea {
@@ -167,14 +160,12 @@ Rectangle {
 
             property bool hovered: false
 
-            Text {
+            PQText {
                 id: newtxt
                 x: 10
                 y: 10
-                color: "white"
                 //: Used as in 'add new shortcut'. Please keep short!
                 text: "[" + em.pty+qsTranslate("settingsmanager_shortcuts", "add new") + "]"
-                font.pointSize: baselook.fontsize
             }
 
             PQMouseArea {

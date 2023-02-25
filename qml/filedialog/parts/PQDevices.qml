@@ -87,7 +87,7 @@ ListView {
             }
 
             // The text of each entry
-            Text {
+            PQText {
 
                 id: entrytextStorage
 
@@ -102,7 +102,6 @@ ListView {
                 // some styling
                 color: index==0 ? "grey" : "white"
                 font.bold: true
-                font.pointSize: baselook.fontsize
                 elide: Text.ElideLeft
 
                 //: This is the category title of storage devices to open (like USB keys) in the element for opening files
@@ -110,7 +109,7 @@ ListView {
 
             }
 
-            Text {
+            PQText {
 
                 id: entrytextStorageSize
 
@@ -121,9 +120,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
 
                 // some styling
-                color: "white"
                 font.bold: true
-                font.pointSize: baselook.fontsize
                 elide: Text.ElideRight
 
                 text: index==0 ? "" : size + " GB"

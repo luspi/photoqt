@@ -47,10 +47,8 @@ Column {
     property var checkedScreens: []
     property string checkedOption: ""
 
-    Text {
+    PQTextL {
         x: (parent.width-width)/2
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         text: "XFCE 4"
         font.bold: true
     }
@@ -60,11 +58,10 @@ Column {
         height: 10
     }
 
-    Text {
+    PQText {
         x: (parent.width-width)/2
         visible: xfconfQueryError
         color: "red"
-        font.pointSize: baselook.fontsize
         font.bold: true
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>xfconf-query</i>")
     }
@@ -83,10 +80,8 @@ Column {
         width: parent.width
         height: childrenRect.height
 
-        Text {
+        PQTextL {
             x: (parent.width-width)/2
-            color: "white"
-            font.pointSize: baselook.fontsize_l
             //: As in: Set wallpaper to which screens
             text: em.pty+qsTranslate("wallpaper", "Set to which screens")
         }
@@ -120,10 +115,8 @@ Column {
             height: 10
         }
 
-        Text {
+        PQTextL {
             x: (parent.width-width)/2
-            color: "white"
-            font.pointSize: baselook.fontsize_l
             //: picture option refers to how to format a pictrue when setting it as wallpaper
             text: em.pty+qsTranslate("wallpaper", "Choose picture option")
         }

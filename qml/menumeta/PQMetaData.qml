@@ -138,7 +138,7 @@ Item {
     ]
 
     // HEADING OF RECTANGLE
-    Text {
+    PQTextXL {
 
         id: heading
 
@@ -152,8 +152,6 @@ Item {
 
         horizontalAlignment: Qt.AlignLeft
 
-        color: "#ffffff"
-        font.pointSize: baselook.fontsize_xl
         font.bold: true
 
         //: This is the heading of the metadata element
@@ -177,7 +175,7 @@ Item {
     }
 
     // Label at first start-up
-    Text {
+    PQTextXL {
 
         anchors {
             top: heading.bottom
@@ -188,13 +186,12 @@ Item {
         }
 
         visible: filefoldermodel.current==-1
+        enabled: false
 
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
-        color: "#888888"
         font.bold: true
-        font.pointSize: baselook.fontsize_xl
         wrapMode: Text.WordWrap
         text: em.pty+qsTranslate("metadata", "No File Loaded")
 
@@ -229,18 +226,16 @@ Item {
             width: view.width
             height: ((allMetaData[3*index+1] !== "" && allMetaData[3*index+2]) || (allMetaData[3*index]===""&&allMetaData[3*index+1]==="")) ? val.height : 0
 
-            Text {
+            PQText {
 
                 id: val;
 
                 visible: (allMetaData[3*index+1] !== "" && allMetaData[3*index+2]) || (allMetaData[3*index]===""&&allMetaData[3*index+1]==="")
 
-                color: "#ffffff"
                 lineHeight: ((allMetaData[3*index] == "" ? 0.8 : 1.3))
                 textFormat: Text.RichText
                 width: parent.width
                 wrapMode: Text.WordWrap
-                font.pointSize: baselook.fontsize
                 text: (allMetaData[3*index] !== "") ? ("<b>" + allMetaData[3*index] + "</b>: " + allMetaData[3*index +1]) : ""
 
             }

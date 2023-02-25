@@ -163,15 +163,12 @@ Item {
 
                 spacing: 5
 
-                Text {
+                PQText {
 
                     id: zoomtext
 
-                    color: "white"
                     text: em.pty+qsTranslate("filedialog", "Zoom:")
                     y: (zoom.height-height)/2
-
-                    font.pointSize: baselook.fontsize
 
                     PQMouseArea {
                         anchors.fill: parent

@@ -69,13 +69,11 @@ PQSetting {
 
                 spacing: 5
 
-                Text {
+                PQText {
                     height: anim_type.height
                     verticalAlignment: Text.AlignVCenter
                     //: This is referring to the in/out animation of images
                     text: em.pty+qsTranslate("settingsmanager_imageview", "no animation")
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -85,13 +83,11 @@ PQSetting {
                     to: 10
                 }
 
-                Text {
+                PQText {
                     height: anim_type.height
                     verticalAlignment: Text.AlignVCenter
                     //: This is referring to the in/out animation of images
                     text: em.pty+qsTranslate("settingsmanager_imageview", "long animation")
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                 }
 
             }

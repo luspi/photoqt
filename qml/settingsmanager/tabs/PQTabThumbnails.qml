@@ -75,13 +75,11 @@ Item {
                 height: 1
             }
 
-            Text {
+            PQTextXL {
                 id: title
                 width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: baselook.fontsize_xl
                 font.bold: true
-                color: "white"
                 text: em.pty+qsTranslate("settingsmanager", "Thumbnails settings")
             }
 
@@ -90,10 +88,8 @@ Item {
                 height: 1
             }
 
-            Text {
+            PQText {
                 id: desc
-                color: "white"
-                font.pointSize: baselook.fontsize
                 width: cont.width-20
                 wrapMode: Text.WordWrap
                 text: em.pty+qsTranslate("settingsmanager", "These settings affect the thumbnails shown, by default, along the bottom edge of the screen. This includes their look, behavior, and the user's interaction with them.") + "\n" + em.pty+qsTranslate("settingsmanager", "Some settings are only shown in expert mode.")

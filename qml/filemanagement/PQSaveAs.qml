@@ -72,21 +72,18 @@ Item {
 
                 spacing: 10
 
-                Text {
+                PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     //: This is a title, similar to all the 'save as' options in many programs.
                     text: em.pty+qsTranslate("filemanagement", "Save file as")
                 }
 
-                Text {
+                PQTextL {
                     id: filename
                     x: (insidecont.width-width)/2
                     color: "grey"
-                    font.pointSize: baselook.fontsize_l
                     text: "this_is_the_filename.jpg"
                 }
 
@@ -95,22 +92,20 @@ Item {
                     height: 1
                 }
 
-                Text {
+                PQTextL {
                     id: error
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be saved!")
                 }
 
-                Text {
+                PQTextL {
                     id: abort
                     x: (insidecont.width-width)/2
                     color: "orange"
                     visible: false
-                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     //: 'Operation' here is the operation of saving an image in a new format
                     text: em.pty+qsTranslate("filemanagement", "Operation cancelled")
@@ -182,14 +177,12 @@ Item {
 
                                 visible: formatsfilter.text=="" || formatsview.data[index][1].toLowerCase().indexOf(formatsfilter.text.toLowerCase())!=-1 || formatsview.data[index][2].toLowerCase().indexOf(formatsfilter.text.toLowerCase())!=-1
 
-                                Text {
+                                PQText {
                                     id: formatsname
                                     x: 5
                                     y: 5
                                     width: parent.width-10
-                                    color: "white"
                                     text: formatsview.data[index][2]
-                                    font.pointSize: baselook.fontsize
                                 }
 
                                 PQMouseArea {
@@ -218,12 +211,10 @@ Item {
                 Row {
                     x: (insidecont.width-width)/2
                     spacing: 5
-                    Text {
+                    PQText {
                         id: newfilename_label
                         y: (newfilename.height-height)/2
                         text: em.pty+qsTranslate("filemanagement", "New filename") + ":"
-                        color: "white"
-                        font.pointSize: baselook.fontsize
                     }
 
                     PQLineEdit {

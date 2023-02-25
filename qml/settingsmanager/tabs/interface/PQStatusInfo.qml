@@ -101,14 +101,12 @@ PQSetting {
                             anchors.horizontalCenter: parent.horizontalCenter
                             color: "#666666"
                             radius: 5
-                            Text {
+                            PQText {
                                 id: txt
                                 x: (parent.width-width)/2
                                 y: (parent.height-height)/2
                                 text: avail.disp[name]
                                 font.bold: true
-                                font.pointSize: baselook.fontsize
-                                color: "white"
                                 onWidthChanged: {
                                     avail.widths.push(width+20)
                                     avail.widthsChanged()
@@ -236,11 +234,9 @@ PQSetting {
 
             Row {
                 spacing: 5
-                Text {
+                PQText {
                     y: (parent.height-height)/2
-                    color: "white"
                     text: em.pty+qsTranslate("settingsmanager_interface", "font size:")
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -250,11 +246,9 @@ PQSetting {
                     to: 30
                     enabled: status_show.checked
                 }
-                Text {
+                PQText {
                     y: (parent.height-height)/2
-                    color: "white"
                     text: fs_slider.value+"pt"
-                    font.pointSize: baselook.fontsize
                 }
             }
 
@@ -282,10 +276,8 @@ PQSetting {
                 width: set.contwidth
                 enabled: status_autohide.checked
 
-                Text {
-                    color: "white"
+                PQText {
                     text: em.pty+qsTranslate("settingsmanager_interface", "Timeout for hiding once shown:")
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -296,10 +288,8 @@ PQSetting {
                     wheelStepSize: 100
                 }
 
-                Text {
-                    color: "white"
+                PQText {
                     text: st_slider.value/1000 + " s"
-                    font.pointSize: baselook.fontsize
                 }
 
             }

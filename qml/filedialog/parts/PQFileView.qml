@@ -99,13 +99,12 @@ GridView {
         }
     }
 
-    Text {
+    PQTextL {
         visible: (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog)==0
         anchors.fill: parent
         anchors.margins: 20
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pointSize: baselook.fontsize_l
         color: "#888888"
         font.bold: true
         wrapMode: Text.WordWrap
@@ -174,12 +173,10 @@ GridView {
                     opacity: 0.8
                     visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && numberOfFilesInsideFolder.text != ""
 
-                    Text {
+                    PQText {
                         id: numberOfFilesInsideFolder
                         x: 10
                         y: (parent.height-height)/2-2
-                        color: "white"
-                        font.pointSize: baselook.fontsize
                         font.bold: true
                         elide: Text.ElideMiddle
                         text: ""
@@ -275,27 +272,24 @@ GridView {
 
                 color: "#aa2f2f2f"
 
-                Text {
+                PQTextS {
 
                     width: parent.width-20
                     height: parent.height
                     x: 10
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    color: "white"
                     text: decodeURIComponent(fname)
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     wrapMode: Text.Wrap
                     font.bold: true
 
-                    font.pointSize: baselook.fontsize_s
-
                 }
 
             }
 
-            Text {
+            PQText {
                 anchors.fill: parent
                 anchors.leftMargin: fileicon.width+10
 
@@ -305,16 +299,14 @@ GridView {
                 verticalAlignment: Text.AlignVCenter
 
                 font.bold: true
-                font.pointSize: baselook.fontsize
 
-                color: "white"
                 text: decodeURIComponent(fname)
                 maximumLineCount: 2
                 elide: Text.ElideMiddle
                 wrapMode: Text.Wrap
             }
 
-            Text {
+            PQText {
                 id: filesizenum
                 anchors {
                     right: parent.right
@@ -324,9 +316,7 @@ GridView {
                 }
                 verticalAlignment: Qt.AlignVCenter
                 visible: PQSettings.openfileDefaultView=="list"
-                color: "white"
                 font.bold: true
-                font.pointSize: baselook.fontsize
                 text: index < filefoldermodel.countFoldersFileDialog ? "" : handlingGeneral.convertBytesToHumanReadable(fsize)
             }
 

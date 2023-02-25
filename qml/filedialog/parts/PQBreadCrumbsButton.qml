@@ -72,7 +72,7 @@ Rectangle {
 
     // if this is a folder in the actual path, show that folder
     // otherwise hide it
-    Text {
+    PQText {
 
         id: txt
 
@@ -84,8 +84,6 @@ Rectangle {
         leftPadding: 10
         rightPadding: 10
         font.bold: true
-
-        font.pointSize: baselook.fontsize
 
         visible: text != ""
 
@@ -288,7 +286,7 @@ Rectangle {
 
                             property bool hovered: false
 
-                            Text {
+                            PQText {
 
                                 anchors.fill: parent
 
@@ -297,12 +295,9 @@ Rectangle {
                                 topPadding: 5
                                 bottomPadding: 5
 
-                                font.pointSize: baselook.fontsize
-
                                 verticalAlignment: Text.AlignVCenter
                                 elide: Text.ElideMiddle
 
-                                color: "white"
                                 text: listMenuItems[index]
 
                             }

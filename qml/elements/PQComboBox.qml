@@ -43,7 +43,7 @@ ComboBox {
     delegate: ItemDelegate {
         id: controldelegate
         width: control.width
-        contentItem: Text {
+        contentItem: PQText {
             text: modelData
             color: controldelegmouse.containsMouse ? "#ffffff" : "#000000"
             font: control.font
@@ -113,7 +113,7 @@ ComboBox {
         }
     }
 
-    contentItem: Text {
+    contentItem: PQText {
         rightPadding: control.indicator.width + control.spacing
 
         text: control.prefix + control.displayText

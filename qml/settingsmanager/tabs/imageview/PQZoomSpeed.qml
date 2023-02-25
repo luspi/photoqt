@@ -36,12 +36,10 @@ PQSetting {
 
             spacing: 10
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 //: This refers to the zoom speed, the zoom here is the zoom of the main image
                 text: em.pty+qsTranslate("settingsmanager_imageview", "super slow")
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -52,12 +50,10 @@ PQSetting {
                 toolTipSuffix: " %"
             }
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 //: This refers to the zoom speed, the zoom here is the zoom of the main image
                 text: em.pty+qsTranslate("settingsmanager_imageview", "very fast")
-                font.pointSize: baselook.fontsize
             }
 
         }

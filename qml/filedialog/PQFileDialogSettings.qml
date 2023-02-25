@@ -66,7 +66,7 @@ Rectangle {
         /***********************************************/
         // top row with heading
 
-        Text {
+        PQTextXL {
 
             id: heading
             height: 75
@@ -77,8 +77,6 @@ Rectangle {
 
             text: em.pty+qsTranslate("filedialog", "File Dialog Settings")
 
-            color: "white"
-            font.pointSize: baselook.fontsize_xl
             font.bold: true
 
         }
@@ -92,16 +90,14 @@ Rectangle {
             y: heading.height
         }
 
-        Text {
+        PQText {
             id: subtitle
             x: 10
             y: sep1.y + 10
             width: parent.width-20
             text: em.pty+qsTranslate("filedialog", "Settings are automatically saved when changed.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: "white"
             horizontalAlignment: Text.AlignHCenter
-            font.pointSize: baselook.fontsize
         }
 
         Rectangle {
@@ -147,10 +143,8 @@ Rectangle {
 
                     spacing: 25
 
-                    Text {
+                    PQTextL {
                         id: defaultview_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: This refers to the files listed in the file dialog. Please keep short.
                         text: em.pty+qsTranslate("filedialog", "Files view")
@@ -240,10 +234,8 @@ Rectangle {
 
                     spacing: 25
 
-                    Text {
+                    PQTextL {
                         id: rightcol_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: This refers to the left column of the file dialog (standard, favorites, devices). Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Places")
@@ -304,10 +296,8 @@ Rectangle {
 
                     spacing: 25
 
-                    Text {
+                    PQTextL {
                         id: preview_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: The preview is the image behind all files when the mouse is hovering a file. Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Preview")
@@ -362,11 +352,9 @@ Rectangle {
 
                             spacing: 10
 
-                            Text {
+                            PQText {
                                 y: (preview_colintense.height-height)/2
                                 text: "Color intensity:"
-                                color: "white"
-                                font.pointSize: baselook.fontsize
                             }
 
                             PQComboBox {

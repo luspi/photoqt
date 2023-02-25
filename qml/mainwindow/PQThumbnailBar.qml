@@ -243,13 +243,12 @@ Item {
                 color: PQSettings.interfaceBlurElementsInBackground ? "#99000000" : "#bb000000"
             }
 
-            Text {
+            PQText {
 
                 anchors.fill: parent
                 anchors.margins: 5
 
                 visible: PQSettings.thumbnailsFilenameOnly
-                color: "white"
 
                 text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index])
                 font.pointSize: PQSettings.thumbnailsFilenameOnlyFontSize
@@ -290,11 +289,10 @@ Item {
                     height: parent.height/3
                     x: 0
                     y: 2*parent.height/3
-                    Text {
+                    PQText {
                         anchors.fill: parent
                         anchors.leftMargin: 2
                         anchors.rightMargin: 2
-                        color: "white"
                         elide: Text.ElideMiddle
                         font.pointSize: PQSettings.thumbnailsFontSize
                         font.bold: true

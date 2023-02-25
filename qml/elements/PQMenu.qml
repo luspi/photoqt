@@ -53,9 +53,9 @@ Menu {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Text {
+                    PQText {
                         id: txt
-                        color: styleData.enabled ? "white" : "#aaaaaa"
+                        enabled: styleData.enabled
                         text: styleData.text
                         leftPadding: 10
                         rightPadding: 10
@@ -64,7 +64,7 @@ Menu {
                     }
                 }
             submenuIndicator:
-                Text {
+                PQText {
                     y: 2*height/3
                     topPadding: 5
                     bottomPadding: 5

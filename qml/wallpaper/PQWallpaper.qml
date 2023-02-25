@@ -90,12 +90,11 @@ Item {
                     anchors.centerIn: parent
                     Column {
                         spacing: 20
-                        Text {
+                        PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat=="plasma" ? "#ffffff" : "#aaaaaa"
+                            enabled: curCat=="plasma"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Plasma 5"
                             PQMouseArea {
@@ -108,12 +107,11 @@ Item {
                                     curCat = "plasma"
                             }
                         }
-                        Text {
+                        PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat=="gnome" ? "#ffffff" : "#aaaaaa"
+                            enabled: curCat=="gnome"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Gnome<br>Unity<br>Cinnamon"
                             PQMouseArea {
@@ -126,12 +124,11 @@ Item {
                                     curCat = "gnome"
                             }
                         }
-                        Text {
+                        PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat=="xfce" ? "#ffffff" : "#aaaaaa"
+                            enabled: curCat=="xfce"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "XFCE4"
                             PQMouseArea {
@@ -144,12 +141,11 @@ Item {
                                     curCat = "xfce"
                             }
                         }
-                        Text {
+                        PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat=="enlightenment" ? "#ffffff" : "#aaaaaa"
+                            enabled: curCat=="enlightenment"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Enlightenment"
                             PQMouseArea {
@@ -162,12 +158,11 @@ Item {
                                     curCat = "enlightenment"
                             }
                         }
-                        Text {
+                        PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat=="other" ? "#ffffff" : "#aaaaaa"
+                            enabled: curCat=="other"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.pointSize: baselook.fontsize_l
                             font.bold: true
                             text: "Other"
                             PQMouseArea {
@@ -197,7 +192,7 @@ Item {
 
             }
 
-            Text {
+            PQTextXL {
                 id: heading
                 x: category.width
                 y: 0
@@ -205,8 +200,6 @@ Item {
                 height: 100
                 //: Heading of wallpaper element
                 text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
-                color: "white"
-                font.pointSize: baselook.fontsize_xl
                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

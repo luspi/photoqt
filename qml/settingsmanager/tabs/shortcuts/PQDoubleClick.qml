@@ -41,12 +41,10 @@ PQSetting {
                 from: 0
                 to: 1000
             }
-            Text {
+            PQText {
                 y: (dblclk.height-height)/2
-                color: "white"
                 font.bold: true
                 text: "ms"
-                font.pointSize: baselook.fontsize
             }
 
         }

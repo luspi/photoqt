@@ -62,7 +62,7 @@ Popup {
                 opacity: enabled ? 1 : 0.3
                 color: mouseOver ? "#454545" : "#202020"
                 Behavior on color { ColorAnimation { duration: 200 } }
-                Text {
+                PQText {
                     id: txt
                     x: leftrightpadding
                     y: (parent.height-height)/2

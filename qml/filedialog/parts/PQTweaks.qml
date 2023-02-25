@@ -48,19 +48,16 @@ Rectangle {
         id: condensed_popup
     }
 
-    Text {
+    PQText {
 
         id: zoomtext
 
         visible: !condensed
 
-        color: "white"
         text: em.pty+qsTranslate("filedialog", "Zoom:")
         anchors.left: parent.left
         anchors.leftMargin: 5
         y: (parent.height-height)/2
-
-        font.pointSize: baselook.fontsize
 
         PQMouseArea {
             anchors.fill: parent

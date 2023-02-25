@@ -53,13 +53,11 @@ Rectangle {
             fadeout.restart()
     }
 
-    Text {
+    PQTextXL {
         id: txt
         x: 20
         y: 20
         text: em.pty+qsTranslate("facetagging", "File type does not support face tags.")
-        color: "white"
-        font.pointSize: baselook.fontsize_xl
         wrapMode: Text.WordWrap
     }
 

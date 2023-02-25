@@ -45,10 +45,8 @@ Column {
 
     property int checkedOption: 4
 
-    Text {
+    PQTextL {
         x: (parent.width-width)/2
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         text: "Microsoft Windows"
         font.bold: true
     }
@@ -58,10 +56,8 @@ Column {
         height: 10
     }
 
-    Text {
+    PQTextL {
         x: (parent.width-width)/2
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         //: picture option refers to how to format a pictrue when setting it as wallpaper
         text: em.pty+qsTranslate("wallpaper", "Choose picture option")
     }

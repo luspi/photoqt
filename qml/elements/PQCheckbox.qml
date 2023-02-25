@@ -92,7 +92,7 @@ CheckBox {
 
     }
 
-    contentItem: Text {
+    contentItem: PQText {
         text: " " + control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3

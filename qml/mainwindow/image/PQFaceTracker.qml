@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import "../../elements"
 
 Item {
 
@@ -77,12 +78,11 @@ Item {
                 color: "#bb000000"
 
                 // This holds the person's name
-                Text {
+                PQText {
                     id: faceLabel
                     x: 4
                     y: 4
                     font.pointSize: baselook.fontsize/facetracker_top.scale
-                    color: "white"
                     renderType: Text.QtRendering
                     text: " "+faceTags[6*index+5]+" "
                 }

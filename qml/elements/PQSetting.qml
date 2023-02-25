@@ -50,14 +50,12 @@ Item {
 
         y: 10
 
-        Text {
+        PQText {
             id: txt
             y: (parent.height-height)/2
             text: ""
-            color: "white"
             width: 260
             font.bold: true
-            font.pointSize: baselook.fontsize
             horizontalAlignment: Text.AlignRight
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 

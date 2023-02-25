@@ -81,20 +81,16 @@ Item {
 
                 property int maxrowwidth: Math.max(filenameextrow.width, Math.max(imageresrow.width, filesizerow.width))
 
-                Text {
+                PQTextXL {
                     id: heading
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("filter", "Filter images in current directory")
                 }
 
-                Text {
+                PQText {
 
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                     width: Math.min(inside.maxrowwidth+100, inside.width)
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
@@ -171,12 +167,11 @@ Item {
                         from: 0
                         to: 99999999
                     }
-                    Text {
+                    PQText {
                         y: (resheight.height-height)/2
-                        color: rescheck.checked ? "white" : "#888888"
+                        enabled: rescheck.checked
                         font.bold: true
                         text: "x"
-                        font.pointSize: baselook.fontsize
                     }
                     PQSpinBox {
                         id: resheight
@@ -251,9 +246,7 @@ Item {
 
                     clip: true
 
-                    Text {
-                        color: "white"
-                        font.pointSize: baselook.fontsize
+                    PQText {
                         width: parent.width
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap

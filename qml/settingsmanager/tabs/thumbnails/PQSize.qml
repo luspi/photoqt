@@ -35,11 +35,9 @@ PQSetting {
 
             spacing: 10
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 text: "20 px"
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -50,11 +48,9 @@ PQSetting {
                 toolTipSuffix: " px"
             }
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 text: "256 px"
-                font.pointSize: baselook.fontsize
             }
 
         }

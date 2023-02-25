@@ -50,11 +50,10 @@ PQSetting {
                 spacing: 10
                 height: ft_border_w.height
 
-                Text {
+                PQText {
                     y: (parent.height-height)/2
-                    color: ft_border.checked ? "white" : "#888888"
+                    enabled: ft_border.checked
                     text: "1 px"
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -64,11 +63,10 @@ PQSetting {
                     to: 20
                 }
 
-                Text {
+                PQText {
                     y: (parent.height-height)/2
-                    color: ft_border.checked ? "white" : "#888888"
+                    enabled: ft_border.checked
                     text: "20 px"
-                    font.pointSize: baselook.fontsize
                 }
 
             }
@@ -82,15 +80,13 @@ PQSetting {
                 border.color: "#333333"
                 opacity: ft_border.checked ? 1 : 0.5
                 color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
-                Text {
+                PQText {
                     id: rgba_txt
                     x: 10
                     y: 10
-                    color: "white"
                     style: Text.Outline
                     styleColor: "black"
                     text: "rgba = %1, %2, %3, %4".arg(rgba[0]).arg(rgba[1]).arg(rgba[2]).arg(rgba[3])
-                    font.pointSize: baselook.fontsize
                 }
                 PQMouseArea {
                     anchors.fill: parent

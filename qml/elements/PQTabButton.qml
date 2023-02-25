@@ -50,7 +50,7 @@ TabButton {
     contentItem: Item {
         implicitWidth: control.implicitWidth-20
         implicitHeight: control.height
-        Text {
+        PQText {
             id: txt
             text: control.text
             font: control.font

@@ -36,11 +36,9 @@ PQSetting {
 
             spacing: 10
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 text: "15 MB"
-                font.pointSize: baselook.fontsize
             }
 
             PQSlider {
@@ -51,11 +49,9 @@ PQSetting {
                 toolTipSuffix: " MB"
             }
 
-            Text {
+            PQText {
                 y: (parent.height-height)/2
-                color: "white"
                 text: "4 GB"
-                font.pointSize: baselook.fontsize
             }
 
         }

@@ -66,12 +66,10 @@ Window {
 
         spacing: 10
 
-        Text {
+        PQTextXL {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            color: "white"
             font.bold: true
-            font.pointSize: baselook.fontsize_xl
             text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not yet available on Windows.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

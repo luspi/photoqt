@@ -74,29 +74,25 @@ Item {
 
                 spacing: 10
 
-                Text {
+                PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("filemanagement", "Rename file")
                 }
 
-                Text {
+                PQTextL {
                     id: filename
                     x: (insidecont.width-width)/2
                     color: "grey"
-                    font.pointSize: baselook.fontsize_l
                     text: "this_is_the_old_filename.jpg"
                 }
 
-                Text {
+                PQTextL {
                     id: error
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be renamed!")
                 }

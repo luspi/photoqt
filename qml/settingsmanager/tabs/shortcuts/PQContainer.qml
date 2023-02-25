@@ -47,13 +47,11 @@ Rectangle {
             height: 1
         }
 
-        Text {
+        PQText {
             width: parent.width
-            color: "white"
             horizontalAlignment: Text.AlignHCenter
             font.bold: true
             text: category
-            font.pointSize: baselook.fontsize
         }
 
         Repeater {

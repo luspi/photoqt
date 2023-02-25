@@ -75,31 +75,27 @@ Item {
 
                 spacing: 10
 
-                Text {
+                PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                     text: em.pty+qsTranslate("scale", "Scale file")
                 }
 
-                Text {
+                PQTextL {
                     id: error
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("scale", "An error occured, file could not be scaled!")
                 }
 
-                Text {
+                PQTextL {
                     id: unsupported
                     x: (insidecont.width-width)/2
                     color: "red"
                     visible: false
-                    font.pointSize: baselook.fontsize_l
                     horizontalAlignment: Qt.AlignHCenter
                     text: em.pty+qsTranslate("scale", "This file format cannot (yet) be scaled with PhotoQt!")
                 }
@@ -109,11 +105,9 @@ Item {
                     height: 1
                 }
 
-                Text {
+                PQText {
                     x: (insidecont.width-width)/2
-                    color: "white"
                     text: em.pty+qsTranslate("scale", "New width x height:") + " " + Math.round(newwidth.value) + " x " + Math.round(newheight.value)
-                    font.pointSize: baselook.fontsize
                 }
 
                 PQSlider {
@@ -191,10 +185,8 @@ Item {
 
                 Row {
                     x: (insidecont.width-width)/2
-                    Text {
+                    PQText {
                         y: (quality.height-height)/2
-                        color: "white"
-                        font.pointSize: baselook.fontsize
                         //: This refers to the quality to be used to scale the image
                         text: em.pty+qsTranslate("scale", "Quality:")
                     }
@@ -293,11 +285,9 @@ Item {
                     height: 1
                 }
 
-                Text {
+                PQTextS {
                     x: (parent.width-width)/2
-                    font.pointSize: baselook.fontsize_s
                     font.bold: true
-                    color: "white"
                     textFormat: Text.RichText
                     text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (create new file)") + "</td</tr>
                           <tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (change file in place)") + "</td></tr>

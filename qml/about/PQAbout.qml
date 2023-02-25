@@ -83,10 +83,8 @@ Item {
                     source: "qrc:/other/logo.png"
                 }
 
-                Text {
+                PQTextL {
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize_l
                     property date currentDate: new Date()
                     text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
                     textFormat: Text.RichText
@@ -103,10 +101,8 @@ Item {
                         configinfo.opacity = 1
                 }
 
-                Text {
+                PQText {
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("about", "License:") + " GPL 2+"
                     PQMouseArea {
                         anchors.fill: parent
@@ -123,10 +119,8 @@ Item {
                     height: 1
                 }
 
-                Text {
+                PQText {
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("about", "Website:") + " https://photoqt.org"
                     PQMouseArea {
                         anchors.fill: parent
@@ -138,10 +132,8 @@ Item {
                     }
                 }
 
-                Text {
+                PQText {
                     x: (parent.width-width)/2
-                    color: "white"
-                    font.pointSize: baselook.fontsize
                     text: em.pty+qsTranslate("about", "Contact:") + " Lukas@photoqt.org"
                     PQMouseArea {
                         anchors.fill: parent
@@ -196,22 +188,18 @@ Item {
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
 
-                Text {
+                PQTextXL {
                     x: (parent.width-width)/2
-                    color: "white"
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     text: em.pty+qsTranslate("about", "Configuration")
                     lineHeight: 1.2
-                    font.pointSize: baselook.fontsize_xl
                     font.bold: true
                 }
 
-                Text {
+                PQText {
                     id: configinfo_txt
-                    color: "white"
                     text: handlingGeneral.getConfigInfo(true)
                     lineHeight: 1.2
-                    font.pointSize: baselook.fontsize
                     font.bold: false
                 }
 

@@ -56,11 +56,9 @@ Item {
             x: (parent.width-width)/2
             y: (parent.height-height)/2
 
-            Text {
+            PQTextL {
                 x: (busycont.width-width)/2
-                color: "white"
                 font.bold: true
-                font.pointSize: baselook.fontsize_l
                 text: "Busy with sorting images..."
             }
 
@@ -104,12 +102,10 @@ Item {
 
                 }
 
-                Text {
+                PQText {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: "white"
                     font.bold: true
-                    font.pointSize: baselook.fontsize
                     text: filefoldermodel.advancedSortDone + "/" + filefoldermodel.countMainView
                 }
 

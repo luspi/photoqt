@@ -147,15 +147,13 @@ Item {
                             bar.currentIndex = index
                     }
 
-                    Text {
+                    PQText {
                         anchors.fill: parent
                         anchors.leftMargin: 10
                         anchors.rightMargin: 10
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        color: "#ffffff"
                         wrapMode: Text.WordWrap
-                        font.pointSize: baselook.fontsize
                         font.bold: true
                         elide: Text.ElideRight
                         text: bar.tabs[index][0]

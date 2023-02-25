@@ -35,11 +35,10 @@ ToolTip {
 
     font.pointSize: baselook.fontsize
 
-    contentItem: Text {
+    contentItem: PQText {
         id: contentText
         text: control.text
         font: control.font
-        color: "white"
         textFormat: Text.StyledText
     }
 

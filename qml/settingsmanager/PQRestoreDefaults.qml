@@ -65,21 +65,17 @@ Rectangle {
 
             spacing: 15
 
-            Text {
+            PQTextXL {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
                 //: As in 'restore the default settings and/or file formats and/or shortcuts'. Please keep short!
                 text: em.pty+qsTranslate("settingsmanager", "Restore defaults")
-                color: "white"
                 font.bold: true
-                font.pointSize: baselook.fontsize_xl
             }
 
-            Text {
+            PQTextL {
                 width: parent.width
                 wrapMode: Text.WordWrap
-                color: "white"
-                font.pointSize: baselook.fontsize_l
                 text: em.pty+qsTranslate("settingsmanager", "Here you can restore the default configuration of PhotoQt. You can choose to restore any combination of the following three categories.")
             }
 

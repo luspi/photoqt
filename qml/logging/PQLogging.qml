@@ -52,7 +52,7 @@ Window {
 
     visible: false
 
-    Text {
+    PQTextXL {
         id: title
         anchors {
             left: parent.left
@@ -61,8 +61,6 @@ Window {
             topMargin: 10
         }
         horizontalAlignment: Text.AlignHCenter
-        color: "white"
-        font.pointSize: baselook.fontsize_xl
         font.bold: true
         // We don't need to translate this
         text: "Debug/Log"

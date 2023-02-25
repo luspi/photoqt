@@ -42,10 +42,8 @@ Column {
         height: noSpacingAtTop ? 0 : 25
     }
 
-    Text {
+    PQTextL {
         visible: text!=""
-        color: "white"
-        font.pointSize: baselook.fontsize_l
         font.bold: true
         text: parent.title
     }
@@ -126,14 +124,12 @@ Column {
                                     onClicked: parent.parent.click()
                                 }
                             }
-                            Text {
+                            PQText {
                                 enabled: !leftcol[outerIndex][index][4] || filefoldermodel.current!=-1
 
                                 id: txt
                                 visible: leftcol[outerIndex][index][0] == "txt"
-                                color: "white"
                                 text: visible ? leftcol[outerIndex][index][1] : " "
-                                font.pointSize: baselook.fontsize
                                 opacity: enabled ? (row.mouseOver ? 1 : 0.8) : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -226,13 +222,11 @@ Column {
                                 onClicked: parent.parent.click()
                             }
                         }
-                        Text {
+                        PQText {
                             enabled: !rightcol[index][4] || filefoldermodel.current!=-1
                             id: txt2
                             visible: rightcol[index][0] == "txt"
-                            color: "white"
                             text: visible ? rightcol[index][1] : " "
-                            font.pointSize: baselook.fontsize
                             opacity: enabled ? (row2.mouseOver ? 1 : 0.8) : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
 

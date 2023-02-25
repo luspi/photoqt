@@ -54,14 +54,12 @@ Item {
                 button_cancel.clicked()
         }
 
-        Text {
+        PQTextXL {
             id: heading
             y: insidecont.y-height
             width: parent.width
             text: em.pty+qsTranslate("slideshow", "Slideshow settings")
-            font.pointSize: baselook.fontsize_xl
             font.bold: true
-            color: "white"
             horizontalAlignment: Text.AlignHCenter
         }
 
@@ -101,10 +99,8 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: interval_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: The interval between images in a slideshow
                         text: em.pty+qsTranslate("slideshow", "interval") + ":"
@@ -124,11 +120,9 @@ Item {
                         toolTipSuffix: "s"
                     }
 
-                    Text {
+                    PQText {
                         y: (interval_txt.height-height)/2
-                        color: "white"
                         text: interval_slider.value+"s"
-                        font.pointSize: baselook.fontsize
                     }
 
                 }
@@ -139,10 +133,8 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: animtype_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: This is referring to the in/out animation of images during a slideshow
                         text: em.pty+qsTranslate("slideshow", "animation") + ":"
@@ -182,11 +174,9 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: trans_txt
                         verticalAlignment: Text.AlignTop
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: The speed of transitioning from one image to another during slideshows
                         text: em.pty+qsTranslate("slideshow", "animation speed") + ":"
@@ -220,10 +210,8 @@ Item {
                                                    em.pty+qsTranslate("slideshow", "very slow animation"))))
                         }
 
-                        Text {
+                        PQText {
                             id: transspeed_txt
-                            color: "white"
-                            font.pointSize: baselook.fontsize
                             //: This refers to the currently set speed of transitioning from one image to another during slideshows
                             text: em.pty+qsTranslate("slideshow", "current speed") + ": <b>" + transition_slider.tooltip + "</b>"
                         }
@@ -242,10 +230,8 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: loop_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         text: em.pty+qsTranslate("slideshow", "looping") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -271,10 +257,8 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: shuffle_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: during slideshows shuffle the order of all images
                         text: em.pty+qsTranslate("slideshow", "shuffle") + ":"
@@ -301,10 +285,8 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: subfolders_txt
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: also include images in subfolders during slideshows
                         text: em.pty+qsTranslate("slideshow", "subfolders") + ":"
@@ -331,11 +313,9 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: quick_txt
                         verticalAlignment: Text.AlignTop
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: What to do with the file details during slideshows
                         text: em.pty+qsTranslate("slideshow", "file info") + ":"
@@ -362,11 +342,9 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: winbut_txt
                         verticalAlignment: Text.AlignTop
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: What to do with the window buttons during slideshows
                         text: em.pty+qsTranslate("slideshow", "window buttons") + ":"
@@ -393,11 +371,9 @@ Item {
 
                     height: childrenRect.height
 
-                    Text {
+                    PQTextL {
                         id: music_txt
                         verticalAlignment: Text.AlignTop
-                        color: "white"
-                        font.pointSize: baselook.fontsize_l
                         font.bold: true
                         //: The music that is to be played during slideshows
                         text: em.pty+qsTranslate("slideshow", "music") + ":"

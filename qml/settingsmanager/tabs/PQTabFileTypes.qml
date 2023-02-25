@@ -66,13 +66,11 @@ Item {
                 height: 1
             }
 
-            Text {
+            PQTextXL {
                 id: title
                 width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: baselook.fontsize_xl
                 font.bold: true
-                color: "white"
                 text: em.pty+qsTranslate("settingsmanager", "Filetype settings")
             }
 
@@ -81,10 +79,8 @@ Item {
                 height: 1
             }
 
-            Text {
+            PQText {
                 id: desc
-                color: "white"
-                font.pointSize: baselook.fontsize
                 width: cont.width-20
                 wrapMode: Text.WordWrap
                 text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.") + " " + em.pty+qsTranslate("settingsmanager", "Not all file types might be available, depending on your setup and what library support was enabled at compile time")
