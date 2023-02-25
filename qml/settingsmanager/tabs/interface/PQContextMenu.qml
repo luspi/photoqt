@@ -138,6 +138,7 @@ PQSetting {
                                         //: this is the placeholder text inside of a text box telling the user what text they can enter here
                                         placeholderText: em.pty+qsTranslate("settingsmanager_interface", "entry name")
                                         text: entries[index][2]
+                                        tooltipText: text=="" ? placeholderText : (placeholderText + ": " + text)
                                         onTextEdited: {
                                             entries[index][2] = text
                                             if(index == entries.length-1) {
@@ -244,6 +245,7 @@ PQSetting {
                                         //: This is used as in "executable binary/program"
                                         placeholderText: em.pty+qsTranslate("settingsmanager_interface", "executable")
                                         text: handlingFileDir.pathWithNativeSeparators(entries[index][1])
+                                        tooltipText: text=="" ? placeholderText : (placeholderText + ": " + text)
                                         onTextEdited: {
                                             entries[index][1] = text
                                             if(index == entries.length-1) {
@@ -287,6 +289,7 @@ PQSetting {
                                     //: this is the placeholder text inside of a text box telling the user what text they can enter here
                                     placeholderText: em.pty+qsTranslate("settingsmanager_interface", "additional flags")
                                     text: entries[index][4]
+                                    tooltipText: text=="" ? placeholderText : (placeholderText + ": " + text)
                                     onTextEdited: {
                                         entries[index][4] = text
                                         if(index == entries.length-1) {

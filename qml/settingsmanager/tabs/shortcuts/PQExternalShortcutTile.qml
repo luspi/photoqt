@@ -70,6 +70,7 @@ Rectangle {
                 height: 30
                 placeholderText: "executable"
                 text: avail_top.activeShortcuts[index][0].split(":://:://::")[0]
+                tooltipText: text=="" ? placeholderText : (placeholderText + ": " + text)
                 onTextEdited:
                     avail_top.activeShortcuts[index][0] = text+":://:://::"+argstxt.text
             }
@@ -99,6 +100,7 @@ Rectangle {
             height: 30
             placeholderText: "additional flags"
             text: avail_top.activeShortcuts[index][0].split(":://:://::")[1]
+            tooltipText: text=="" ? placeholderText : (placeholderText + ": " + text)
             onTextEdited:
                 avail_top.activeShortcuts[index][0] = exectxt.text+":://:://::"+text
         }

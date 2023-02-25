@@ -40,8 +40,10 @@ TextField {
 
     enabled: opacity>0 && visible
 
-    PQToolTip.visible: placeholderText=="" ? false : hovered
-    PQToolTip.text: placeholderText
+    property string tooltipText: placeholderText
+
+    PQToolTip.visible: tooltipText=="" ? false : hovered
+    PQToolTip.text: tooltipText
     PQToolTip.delay: 500
 
     background: Rectangle {
