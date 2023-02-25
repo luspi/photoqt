@@ -77,7 +77,7 @@ Rectangle {
 
             text: em.pty+qsTranslate("filedialog", "File Dialog Settings")
 
-            font.bold: true
+            font.weight: baselook.boldweight
 
         }
 
@@ -145,7 +145,7 @@ Rectangle {
 
                     PQTextL {
                         id: defaultview_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: This refers to the files listed in the file dialog. Please keep short.
                         text: em.pty+qsTranslate("filedialog", "Files view")
                         horizontalAlignment: Text.AlignRight
@@ -236,7 +236,7 @@ Rectangle {
 
                     PQTextL {
                         id: rightcol_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: This refers to the left column of the file dialog (standard, favorites, devices). Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Places")
                         horizontalAlignment: Text.AlignRight
@@ -298,7 +298,7 @@ Rectangle {
 
                     PQTextL {
                         id: preview_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: The preview is the image behind all files when the mouse is hovering a file. Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Preview")
                         horizontalAlignment: Text.AlignRight

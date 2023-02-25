@@ -138,7 +138,7 @@ Item {
                       em.pty+qsTranslate("histogram", "Histogram") :
                       //: As in: Loading the histogram for the current image
                       em.pty+qsTranslate("histogram", "Loading...")
-            font.bold: true
+            font.weight: baselook.boldweight
         }
 
     }

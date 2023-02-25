@@ -263,7 +263,7 @@ Item {
                 PQText {
                     id: curpos
                     y: (controls.height-height)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round(videoelem.duration/1000))
                 }
 
@@ -289,7 +289,7 @@ Item {
                 PQText {
                     id: timeleft
                     y: (controls.height-height)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
                 }
 

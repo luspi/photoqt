@@ -61,7 +61,7 @@ Window {
             topMargin: 10
         }
         horizontalAlignment: Text.AlignHCenter
-        font.bold: true
+        font.weight: baselook.boldweight
         // We don't need to translate this
         text: "Debug/Log"
     }

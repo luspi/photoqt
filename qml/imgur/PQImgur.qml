@@ -79,14 +79,14 @@ Item {
 
                 PQTextXL {
                     x: (insidecont.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     visible: !report.visible
                     text: em.pty+qsTranslate("imgur", "Upload to imgur.com")
                 }
 
                 PQTextL {
                     x: (insidecont.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     font.italic: true
                     visible: !report.visible
                     //: Used as in: Upload image as anonymous user
@@ -175,7 +175,7 @@ Item {
 
                             PQTextL {
                                 text: em.pty+qsTranslate("imgur", "Access Image")
-                                font.bold: true
+                                font.weight: baselook.boldweight
                             }
 
                             PQTextL {
@@ -203,7 +203,7 @@ Item {
 
                             PQTextL {
                                 text: em.pty+qsTranslate("imgur", "Delete Image")
-                                font.bold: true
+                                font.weight: baselook.boldweight
                             }
 
                             PQTextL {

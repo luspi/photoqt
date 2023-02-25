@@ -83,7 +83,7 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         leftPadding: 10
         rightPadding: 10
-        font.bold: true
+        font.weight: baselook.boldweight
 
         visible: text != ""
 

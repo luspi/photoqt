@@ -58,7 +58,7 @@ Item {
 
             PQTextL {
                 x: (busycont.width-width)/2
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: "Busy with sorting images..."
             }
 
@@ -105,7 +105,7 @@ Item {
                 PQText {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: filefoldermodel.advancedSortDone + "/" + filefoldermodel.countMainView
                 }
 

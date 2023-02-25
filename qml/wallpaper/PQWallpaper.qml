@@ -95,7 +95,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             enabled: curCat=="plasma"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.bold: true
+                            font.weight: baselook.boldweight
                             text: "Plasma 5"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -112,7 +112,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             enabled: curCat=="gnome"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.bold: true
+                            font.weight: baselook.boldweight
                             text: "Gnome<br>Unity<br>Cinnamon"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -129,7 +129,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             enabled: curCat=="xfce"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.bold: true
+                            font.weight: baselook.boldweight
                             text: "XFCE4"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -146,7 +146,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             enabled: curCat=="enlightenment"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.bold: true
+                            font.weight: baselook.boldweight
                             text: "Enlightenment"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -163,7 +163,7 @@ Item {
                             horizontalAlignment: Text.AlignHCenter
                             enabled: curCat=="other"
                             Behavior on color { ColorAnimation { duration: 150 } }
-                            font.bold: true
+                            font.weight: baselook.boldweight
                             text: "Other"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -200,7 +200,7 @@ Item {
                 height: 100
                 //: Heading of wallpaper element
                 text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
-                font.bold: true
+                font.weight: baselook.boldweight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
             }

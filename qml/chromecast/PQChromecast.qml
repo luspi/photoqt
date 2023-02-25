@@ -60,7 +60,7 @@ Item {
             y: insidecont.y-height-10
             width: parent.width
             text: "Chromecast"
-            font.bold: true
+            font.weight: baselook.boldweight
             horizontalAlignment: Text.AlignHCenter
         }
 
@@ -164,7 +164,7 @@ Item {
                                 y: (deleg.height-height)/2
                                 id: txt1
                                 text: chromecastData[2*index]
-                                font.bold: true
+                                font.weight: baselook.boldweight
                             }
                             PQText {
                                 id: txt2

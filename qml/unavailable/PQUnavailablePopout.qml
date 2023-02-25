@@ -69,7 +69,7 @@ Window {
         PQTextXL {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            font.bold: true
+            font.weight: baselook.boldweight
             text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not yet available on Windows.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

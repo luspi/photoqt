@@ -32,6 +32,7 @@ ComboBox {
     property int lineBelowItem: -1
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     property var hideItems: []
 
@@ -51,7 +52,7 @@ ComboBox {
             verticalAlignment: Text.AlignVCenter
             Component.onCompleted: {
                 if(index == 0 && firstItemEmphasized)
-                    font.bold = true
+                    font.weight = baselook.boldweight
             }
 
             PQMouseArea {

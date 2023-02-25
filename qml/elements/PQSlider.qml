@@ -36,6 +36,7 @@ Slider {
     implicitHeight: 20
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     property real wheelStepSize: 1.0
 

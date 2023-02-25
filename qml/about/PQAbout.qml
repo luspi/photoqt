@@ -193,14 +193,13 @@ Item {
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     text: em.pty+qsTranslate("about", "Configuration")
                     lineHeight: 1.2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                 }
 
                 PQText {
                     id: configinfo_txt
                     text: handlingGeneral.getConfigInfo(true)
                     lineHeight: 1.2
-                    font.bold: false
                 }
 
                 Row {

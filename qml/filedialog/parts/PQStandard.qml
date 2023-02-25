@@ -95,7 +95,7 @@ ListView {
 
             // some styling
             color: index==0 ? "grey" : "white"
-            font.bold: true
+            font.weight: baselook.boldweight
             elide: Text.ElideRight
 
             //: This is the category title of user-set folders (or favorites) in the file dialog

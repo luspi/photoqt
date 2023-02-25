@@ -77,7 +77,7 @@ Item {
                 PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: em.pty+qsTranslate("filemanagement", "Delete file?")
                 }
 
@@ -164,7 +164,7 @@ Item {
 
                 PQTextS {
                     x: (parent.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     textFormat: Text.RichText
                     text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
                           ((!handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515())

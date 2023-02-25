@@ -111,7 +111,7 @@ Item {
                     anchors.fill: parent
                     horizontalAlignment: Qt.AlignHCenter
                     verticalAlignment: Qt.AlignVCenter
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: "x"
                     opacity: hovered ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -193,7 +193,7 @@ Item {
             // heading
             PQTextL {
                 x: (parent.width-width)/2
-                font.bold: true
+                font.weight: baselook.boldweight
                 //: This question is asked in the face tagger to ask for the name of a tagged face
                 text: em.pty+qsTranslate("facetagging", "Who is this?")
             }

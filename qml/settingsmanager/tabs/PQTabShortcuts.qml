@@ -71,7 +71,7 @@ Item {
                 id: title
                 width: cont.width-30
                 horizontalAlignment: Text.AlignHCenter
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: em.pty+qsTranslate("settingsmanager", "Shortcuts")
             }
 

@@ -33,6 +33,7 @@ TextField {
     selectionColor: "white"
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     property string borderColor: "#88cccccc"
 

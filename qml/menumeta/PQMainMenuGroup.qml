@@ -44,7 +44,7 @@ Column {
 
     PQTextL {
         visible: text!=""
-        font.bold: true
+        font.weight: baselook.boldweight
         text: parent.title
     }
 

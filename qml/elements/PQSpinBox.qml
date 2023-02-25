@@ -30,6 +30,7 @@ SpinBox {
     editable: true
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     width: 100
     height: 30

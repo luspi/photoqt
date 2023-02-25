@@ -295,7 +295,7 @@ Item {
                         anchors.rightMargin: 2
                         elide: Text.ElideMiddle
                         font.pointSize: PQSettings.thumbnailsFontSize
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
                         text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index], true)

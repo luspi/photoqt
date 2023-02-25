@@ -43,7 +43,7 @@ PQSetting {
             }
             PQText {
                 y: (dblclk.height-height)/2
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: "ms"
             }
 

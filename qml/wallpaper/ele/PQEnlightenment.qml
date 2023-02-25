@@ -52,7 +52,7 @@ Column {
     PQTextL {
         x: (parent.width-width)/2
         text: "Enlightenment"
-        font.bold: true
+        font.weight: baselook.boldweight
     }
 
     Item {
@@ -64,7 +64,7 @@ Column {
         x: (parent.width-width)/2
         visible: msgbusError
         color: "red"
-        font.bold: true
+        font.weight: baselook.boldweight
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 module not activated").arg("<i>msgbus (DBUS)</i>")
     }
 
@@ -72,7 +72,7 @@ Column {
         x: (parent.width-width)/2
         visible: enlightenmentRemoteError
         color: "red"
-        font.bold: true
+        font.weight: baselook.boldweight
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>enlightenment_remote</i>")
     }
 

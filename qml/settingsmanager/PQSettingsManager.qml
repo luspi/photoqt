@@ -154,7 +154,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         wrapMode: Text.WordWrap
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         elide: Text.ElideRight
                         text: bar.tabs[index][0]
                     }

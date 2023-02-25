@@ -77,7 +77,7 @@ Item {
                 PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: em.pty+qsTranslate("filemanagement", "Rename file")
                 }
 

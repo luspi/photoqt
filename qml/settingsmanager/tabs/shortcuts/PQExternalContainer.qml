@@ -66,7 +66,7 @@ Rectangle {
         PQText {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            font.bold: true
+            font.weight: baselook.boldweight
             text: category
         }
 

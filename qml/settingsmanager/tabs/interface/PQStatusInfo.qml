@@ -106,7 +106,7 @@ PQSetting {
                                 x: (parent.width-width)/2
                                 y: (parent.height-height)/2
                                 text: avail.disp[name]
-                                font.bold: true
+                                font.weight: baselook.boldweight
                                 onWidthChanged: {
                                     avail.widths.push(width+20)
                                     avail.widthsChanged()

@@ -53,7 +53,7 @@ Column {
         x: (parent.width-width)/2
         //: Used as in: Other Desktop Environment
         text: em.pty+qsTranslate("wallpaper", "Other")
-        font.bold: true
+        font.weight: baselook.boldweight
     }
 
     Item {
@@ -65,7 +65,7 @@ Column {
         x: (parent.width-width)/2
         visible: fehError && feh.checked
         color: "red"
-        font.bold: true
+        font.weight: baselook.boldweight
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>feh</i>")
     }
 
@@ -73,7 +73,7 @@ Column {
         x: (parent.width-width)/2
         visible: nitrogenError && nitrogen.checked
         color: "red"
-        font.bold: true
+        font.weight: baselook.boldweight
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>nitrogen</i>")
     }
 

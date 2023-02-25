@@ -48,7 +48,7 @@ Column {
     PQTextL {
         x: (parent.width-width)/2
         text: "Microsoft Windows"
-        font.bold: true
+        font.weight: baselook.boldweight
     }
 
     Item {

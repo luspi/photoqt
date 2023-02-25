@@ -47,7 +47,7 @@ Column {
     PQTextL {
         x: (parent.width-width)/2
         text: "Plasma 5"
-        font.bold: true
+        font.weight: baselook.boldweight
     }
 
     Item {

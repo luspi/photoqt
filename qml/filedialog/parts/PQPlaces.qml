@@ -51,7 +51,7 @@ ListView {
         text: em.pty+qsTranslate("filedialog", "no folder added to favorites yet")
         color: "grey"
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        font.bold: true
+        font.weight: baselook.boldweight
         lineHeight: 1.5
     }
 
@@ -148,7 +148,7 @@ ListView {
 
                 // some styling
                 color: index==0 ? "grey" : "white"
-                font.bold: true
+                font.weight: baselook.boldweight
                 elide: Text.ElideRight
 
                 //: This is the category title of user-set folders (or favorites) in the file dialog

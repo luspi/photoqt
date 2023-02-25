@@ -55,7 +55,7 @@ Item {
             y: (parent.height-height)/2
             text: ""
             width: 260
-            font.bold: true
+            font.weight: baselook.boldweight
             horizontalAlignment: Text.AlignRight
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 

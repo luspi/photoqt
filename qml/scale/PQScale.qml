@@ -78,7 +78,7 @@ Item {
                 PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: em.pty+qsTranslate("scale", "Scale file")
                 }
 
@@ -287,7 +287,7 @@ Item {
 
                 PQTextS {
                     x: (parent.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     textFormat: Text.RichText
                     text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (create new file)") + "</td</tr>
                           <tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (change file in place)") + "</td></tr>

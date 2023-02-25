@@ -48,7 +48,7 @@ Rectangle {
         height: 30
         verticalAlignment: Text.AlignVCenter
         text: avail_top.available[index][1]
-        font.bold: true
+        font.weight: baselook.boldweight
     }
 
     PQText {
@@ -130,7 +130,7 @@ Rectangle {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         text: "x"
                     }
                 }

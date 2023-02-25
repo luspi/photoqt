@@ -142,7 +142,7 @@ Item {
         height: bread_top.height
         verticalAlignment: Text.AlignVCenter
         opacity: 0.5
-        font.bold: true
+        font.weight: baselook.boldweight
         visible: path.contentWidth > path.width
     }
 

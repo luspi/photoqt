@@ -106,7 +106,7 @@ GridView {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         color: "#888888"
-        font.bold: true
+        font.weight: baselook.boldweight
         wrapMode: Text.WordWrap
         text: em.pty+qsTranslate("filedialog", "no supported files/folders found")
     }
@@ -177,7 +177,7 @@ GridView {
                         id: numberOfFilesInsideFolder
                         x: 10
                         y: (parent.height-height)/2-2
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         elide: Text.ElideMiddle
                         text: ""
                     }
@@ -283,7 +283,7 @@ GridView {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     wrapMode: Text.Wrap
-                    font.bold: true
+                    font.weight: baselook.boldweight
 
                 }
 
@@ -298,7 +298,7 @@ GridView {
 
                 verticalAlignment: Text.AlignVCenter
 
-                font.bold: true
+                font.weight: baselook.boldweight
 
                 text: decodeURIComponent(fname)
                 maximumLineCount: 2
@@ -316,7 +316,7 @@ GridView {
                 }
                 verticalAlignment: Qt.AlignVCenter
                 visible: PQSettings.openfileDefaultView=="list"
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: index < filefoldermodel.countFoldersFileDialog ? "" : handlingGeneral.convertBytesToHumanReadable(fsize)
             }
 

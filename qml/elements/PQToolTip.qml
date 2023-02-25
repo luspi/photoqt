@@ -34,6 +34,7 @@ ToolTip {
     property alias elide: contentText.elide
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     contentItem: PQText {
         id: contentText

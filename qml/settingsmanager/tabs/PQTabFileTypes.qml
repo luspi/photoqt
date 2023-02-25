@@ -70,7 +70,7 @@ Item {
                 id: title
                 width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: em.pty+qsTranslate("settingsmanager", "Filetype settings")
             }
 

@@ -75,7 +75,7 @@ Item {
                 PQTextXL {
                     id: heading
                     x: (insidecont.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     //: This is a title, similar to all the 'save as' options in many programs.
                     text: em.pty+qsTranslate("filemanagement", "Save file as")
                 }

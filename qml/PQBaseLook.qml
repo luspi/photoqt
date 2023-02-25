@@ -33,4 +33,18 @@ Item {
     property int fontsize_l: fontsize+4
     property int fontsize_xl: fontsize+9
 
+    // font weights, possible values:
+    // - Font.Thin
+    // - Font.Light
+    // - Font.ExtraLight
+    // - Font.Normal
+    // - Font.Medium
+    // - Font.DemiBold
+    // - Font.Bold
+    // - Font.ExtraBold
+    // - Font.Black
+    property int boldweight: Font.Bold
+    property int normalweight: Font.Normal
+
+
 }

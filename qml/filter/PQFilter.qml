@@ -84,7 +84,7 @@ Item {
                 PQTextXL {
                     id: heading
                     x: (parent.width-width)/2
-                    font.bold: true
+                    font.weight: baselook.boldweight
                     text: em.pty+qsTranslate("filter", "Filter images in current directory")
                 }
 
@@ -150,7 +150,7 @@ Item {
                         enabled: rescheck.checked
                         property bool greater: true
                         text: greater ? ">" : "<"
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         font.pointSize: baselook.fontsize_l
                         tooltip: greater ?
                                      //: used as tooltip in the sense of 'image resolution GREATER THAN 123x123'
@@ -170,7 +170,7 @@ Item {
                     PQText {
                         y: (resheight.height-height)/2
                         enabled: rescheck.checked
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         text: "x"
                     }
                     PQSpinBox {
@@ -202,7 +202,7 @@ Item {
                         enabled: filesizecheck.checked
                         property bool greater: true
                         text: greater ? ">" : "<"
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         font.pointSize: baselook.fontsize_l
                         tooltip: greater ?
                                      //: used as tooltip in the sense of 'file size GREATER THAN 123 KB/MB'

@@ -50,7 +50,7 @@ Column {
     PQTextL {
         x: (parent.width-width)/2
         text: "Gnome/Unity/Cinnamon"
-        font.bold: true
+        font.weight: baselook.boldweight
     }
 
     Item {
@@ -62,7 +62,7 @@ Column {
         x: (parent.width-width)/2
         visible: gsettingsError
         color: "red"
-        font.bold: true
+        font.weight: baselook.boldweight
         text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>gsettings</i>")
     }
 

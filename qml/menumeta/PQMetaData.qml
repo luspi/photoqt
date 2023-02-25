@@ -152,7 +152,7 @@ Item {
 
         horizontalAlignment: Qt.AlignLeft
 
-        font.bold: true
+        font.weight: baselook.boldweight
 
         //: This is the heading of the metadata element
         text: em.pty+qsTranslate("metadata", "Metadata")
@@ -191,7 +191,7 @@ Item {
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
-        font.bold: true
+        font.weight: baselook.boldweight
         wrapMode: Text.WordWrap
         text: em.pty+qsTranslate("metadata", "No File Loaded")
 

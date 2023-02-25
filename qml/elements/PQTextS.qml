@@ -26,5 +26,6 @@ Text {
 
     color: enabled ? "white" : "#666666"
     font.pointSize: baselook.fontsize_s
+    font.weight: baselook.normalweight
 
 }

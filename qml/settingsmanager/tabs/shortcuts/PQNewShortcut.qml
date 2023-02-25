@@ -106,7 +106,7 @@ Rectangle {
         id: titletxt
         y: 10
         width: parent.width
-        font.bold: true
+        font.weight: baselook.boldweight
         horizontalAlignment: Text.AlignHCenter
         text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut")
     }
@@ -127,7 +127,7 @@ Rectangle {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            font.bold: true
+            font.weight: baselook.boldweight
             text: em.pty+qsTranslate("settingsmanager_shortcuts", "Perform a mouse gesture here or press any key combo")
         }
 
@@ -290,7 +290,7 @@ Rectangle {
             PQButton {
                 id: savebut
                 text: (savetimer.running ? (genericStringSave+" (" + savetimer.countdown + ")") : genericStringSave)
-                font.bold: savetimer.running
+                font.weight: (savetimer.running ? baselook.boldweight : baselook.normalweight)
                 onClicked: {
                     canceltimer.stop()
                     savetimer.stop()
@@ -320,7 +320,7 @@ Rectangle {
             PQButton {
                 id: cancelbut
                 text: (canceltimer.running ? genericStringCancel+" (" + canceltimer.countdown + ")" : genericStringCancel)
-                font.bold: canceltimer.running
+                font.weight: (canceltimer.running ? baselook.boldweight : baselook.normalweight)
                 onClicked: {
                     canceltimer.stop()
                     savetimer.stop()

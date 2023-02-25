@@ -32,6 +32,7 @@ TabButton {
     implicitWidth: 250
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
@@ -65,7 +66,7 @@ TabButton {
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
             Component.onCompleted: {
-                font.bold = true
+                font.weight = baselook.boldweight
             }
         }
     }

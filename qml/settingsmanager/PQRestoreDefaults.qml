@@ -70,7 +70,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 //: As in 'restore the default settings and/or file formats and/or shortcuts'. Please keep short!
                 text: em.pty+qsTranslate("settingsmanager", "Restore defaults")
-                font.bold: true
+                font.weight: baselook.boldweight
             }
 
             PQTextL {

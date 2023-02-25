@@ -296,7 +296,7 @@ Item {
             PQText {
                 id: curpos
                 y: (controls.height-height)/2
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: handlingGeneral.convertSecsToProperTime(Math.round(renderer.currentPosition), Math.round(renderer.mediaInfoDuration))
             }
 
@@ -339,7 +339,7 @@ Item {
             PQText {
                 id: timeleft
                 y: (controls.height-height)/2
-                font.bold: true
+                font.weight: baselook.boldweight
                 text: handlingGeneral.convertSecsToProperTime(Math.round((renderer.mediaInfoDuration-renderer.currentPosition)), Math.round(renderer.mediaInfoDuration))
             }
 

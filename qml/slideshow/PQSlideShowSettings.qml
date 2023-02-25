@@ -59,7 +59,7 @@ Item {
             y: insidecont.y-height
             width: parent.width
             text: em.pty+qsTranslate("slideshow", "Slideshow settings")
-            font.bold: true
+            font.weight: baselook.boldweight
             horizontalAlignment: Text.AlignHCenter
         }
 
@@ -101,7 +101,7 @@ Item {
 
                     PQTextL {
                         id: interval_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: The interval between images in a slideshow
                         text: em.pty+qsTranslate("slideshow", "interval") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -135,7 +135,7 @@ Item {
 
                     PQTextL {
                         id: animtype_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: This is referring to the in/out animation of images during a slideshow
                         text: em.pty+qsTranslate("slideshow", "animation") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -177,7 +177,7 @@ Item {
                     PQTextL {
                         id: trans_txt
                         verticalAlignment: Text.AlignTop
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: The speed of transitioning from one image to another during slideshows
                         text: em.pty+qsTranslate("slideshow", "animation speed") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -232,7 +232,7 @@ Item {
 
                     PQTextL {
                         id: loop_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         text: em.pty+qsTranslate("slideshow", "looping") + ":"
                         horizontalAlignment: Text.AlignRight
                         Component.onCompleted: {
@@ -259,7 +259,7 @@ Item {
 
                     PQTextL {
                         id: shuffle_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: during slideshows shuffle the order of all images
                         text: em.pty+qsTranslate("slideshow", "shuffle") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -287,7 +287,7 @@ Item {
 
                     PQTextL {
                         id: subfolders_txt
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: also include images in subfolders during slideshows
                         text: em.pty+qsTranslate("slideshow", "subfolders") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -316,7 +316,7 @@ Item {
                     PQTextL {
                         id: quick_txt
                         verticalAlignment: Text.AlignTop
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: What to do with the file details during slideshows
                         text: em.pty+qsTranslate("slideshow", "file info") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -345,7 +345,7 @@ Item {
                     PQTextL {
                         id: winbut_txt
                         verticalAlignment: Text.AlignTop
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: What to do with the window buttons during slideshows
                         text: em.pty+qsTranslate("slideshow", "window buttons") + ":"
                         horizontalAlignment: Text.AlignRight
@@ -374,7 +374,7 @@ Item {
                     PQTextL {
                         id: music_txt
                         verticalAlignment: Text.AlignTop
-                        font.bold: true
+                        font.weight: baselook.boldweight
                         //: The music that is to be played during slideshows
                         text: em.pty+qsTranslate("slideshow", "music") + ":"
                         horizontalAlignment: Text.AlignRight

@@ -30,6 +30,7 @@ CheckBox {
     text: ""
 
     font.pointSize: baselook.fontsize
+    font.weight: baselook.normalweight
 
     property alias interactive: mousearea.enabled
     property string tooltip: text
