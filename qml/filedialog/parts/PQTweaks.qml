@@ -137,6 +137,8 @@ Rectangle {
                     PQSettings.imageviewSortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
+            if(visible)
+                condensed_popup.setCurrentIndexSortBy(currentIndex)
         }
 
         Timer {
@@ -167,8 +169,11 @@ Rectangle {
                 em.pty+qsTranslate("filedialog", "All files")]
 
 
-        onCurrentIndexChanged:
+        onCurrentIndexChanged: {
             showWhichFileTypeIndex = allfiletypes[allfiles.currentIndex]
+            if(visible)
+                condensed_popup.setCurrentIndexShowFiles(currentIndex)
+        }
 
         anchors.right: remember.left
         anchors.rightMargin: 10

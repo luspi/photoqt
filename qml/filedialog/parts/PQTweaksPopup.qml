@@ -88,7 +88,7 @@ Item {
 
             PQComboBox {
 
-                id: allfiles
+                id: allfiles_condensed
 
                 width: zoomrow.width
 
@@ -103,8 +103,12 @@ Item {
                         em.pty+qsTranslate("filedialog", "All files")]
 
 
-                onCurrentIndexChanged:
-                    showWhichFileTypeIndex = allfiletypes[allfiles.currentIndex]
+                onCurrentIndexChanged: {
+                    showWhichFileTypeIndex = allfiletypes[allfiles_condensed.currentIndex]
+                    // this is the id of the non-condensed element
+                    if(!allfiles.visible)
+                        allfiles.currentIndex = currentIndex
+                }
 
                 tooltip: em.pty+qsTranslate("filedialog", "Choose which selection of files to show")
                 tooltipFollowsMouse: false
@@ -115,7 +119,7 @@ Item {
 
             PQComboBox {
 
-                id: sortby
+                id: sortby_condensed
 
                 width: zoomrow.width
 
@@ -146,6 +150,9 @@ Item {
                             PQSettings.imageviewSortImagesBy = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                         prevCurIndex = currentIndex
                     }
+                    // this is the id of the non-condensed element
+                    if(!sortby.visible)
+                        sortby.currentIndex = currentIndex
                 }
 
             }
@@ -161,7 +168,7 @@ Item {
                     id: zoomtext
 
                     color: "white"
-                    text: em.pty+qsTranslate("filedialog", "Zoom text is:")
+                    text: em.pty+qsTranslate("filedialog", "Zoom:")
                     y: (zoom.height-height)/2
 
                     PQMouseArea {
@@ -206,6 +213,13 @@ Item {
 
         }
 
+    }
+
+    function setCurrentIndexShowFiles(ind) {
+        allfiles_condensed.currentIndex = ind
+    }
+    function setCurrentIndexSortBy(ind) {
+        sortby_condensed.currentIndex = ind
     }
 
 }
