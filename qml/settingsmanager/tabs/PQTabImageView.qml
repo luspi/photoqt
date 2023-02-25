@@ -55,7 +55,7 @@ Item {
         Rectangle {
 
             x: 278
-            y: title.height+desc.height+30
+            y: desc.y+desc.height+col.spacing
             width: 2
             height: cont.contentHeight-y
             color: "#88444444"
