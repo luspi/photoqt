@@ -177,5 +177,6 @@
         <file>elements/PQTextXL.qml</file>
         <file>elements/PQTextS.qml</file>
         <file>elements/PQTextL.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQScaleCrop.qml</file>
     </qresource>
 </RCC>

@@ -168,8 +168,6 @@ Item {
 
         anchors.fill: parent
 
-        spacing: PQSettings.thumbnailsSpacing
-
         orientation: ListView.Horizontal
 
         model: PQSettings.thumbnailsDisable ? 0 : filefoldermodel.countMainView
@@ -196,7 +194,7 @@ Item {
             y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailsLiftUp
             Behavior on y { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-            width: PQSettings.thumbnailsSize
+            width: PQSettings.thumbnailsSize+PQSettings.thumbnailsSpacing
             height: PQSettings.thumbnailsSize
 
             Item {
@@ -209,7 +207,7 @@ Item {
                 id: shader
                 sourceItem: PQSettings.interfaceBlurElementsInBackground ? imageitem : empty
                 anchors.fill: parent
-                property point glob: view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                property point glob: view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
                 sourceRect: Qt.rect(glob.x-imageitem.x, glob.y-imageitem.y, deleg.width, deleg.height)
             }
 
@@ -225,17 +223,17 @@ Item {
             Connections {
                 target: view
                 onContentXChanged:
-                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                    shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
                 onContentYChanged:
-                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                    shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
             }
 
             Connections {
                 target: thumb_top
                 onXChanged:
-                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                    shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
                 onYChanged:
-                    shader.glob = view.mapToGlobal((PQSettings.thumbnailsSize*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+                    shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
             }
 
             Rectangle {
@@ -260,8 +258,11 @@ Item {
             }
 
             Image {
-                anchors.fill: parent
-                fillMode: Image.PreserveAspectFit
+                x: PQSettings.thumbnailsSpacing/2
+                y: 0
+                width: PQSettings.thumbnailsSize
+                height: PQSettings.thumbnailsSize
+                fillMode: PQSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                 source: view.excludeCurrentDirectory ? ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index])) : ((PQSettings.thumbnailsFilenameOnly||PQSettings.thumbnailsDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
 
                 visible: !PQSettings.thumbnailsFilenameOnly
@@ -285,14 +286,14 @@ Item {
                 Rectangle {
                     visible: PQSettings.thumbnailsFilename
                     color: "#aa2f2f2f"
-                    width: parent.width
+                    width: deleg.width
                     height: parent.height/3
-                    x: 0
+                    x: (parent.width-width)/2
                     y: 2*parent.height/3
                     PQText {
                         anchors.fill: parent
-                        anchors.leftMargin: 2
-                        anchors.rightMargin: 2
+                        anchors.leftMargin: 5
+                        anchors.rightMargin: 5
                         elide: Text.ElideMiddle
                         font.pointSize: PQSettings.thumbnailsFontSize
                         font.weight: baselook.boldweight

@@ -103,6 +103,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: lft.expertmodeonly }
             PQVisible { id: vis }
                 PQHorizontalLine { expertModeOnly: vis.expertmodeonly }
+            PQScaleCrop { id: scc }
+                PQHorizontalLine { expertModeOnly: scc.expertmodeonly }
             PQCenter { id: cent }
                 PQHorizontalLine { expertModeOnly: cent.expertmodeonly }
             PQPosition { id: pos }
