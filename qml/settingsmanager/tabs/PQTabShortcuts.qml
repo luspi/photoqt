@@ -142,7 +142,7 @@ Item {
                                             //: Name of shortcut action
                     ["__fitInWindow",       em.pty+qsTranslate("settingsmanager", "Toggle 'Fit in window'")],
                                             //: Name of shortcut action
-                    ["__toggleAlwaysActualSize", em.pty+qsTranslate("settingsmanager", "Toggle 'Show always actual size by default'")],
+                    ["__toggleAlwaysActualSize", em.pty+qsTranslate("settingsmanager", "Toggle: Show always actual size by default")],
                                             //: Name of shortcut action
                     ["__rotateR",           em.pty+qsTranslate("settingsmanager", "Rotate Right")],
                                             //: Name of shortcut action
