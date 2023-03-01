@@ -175,8 +175,23 @@ Item {
         property bool excludeCurrentDirectory: false
 
         ScrollBar.horizontal: PQScrollBar { id: scroll }
+        boundsBehavior: xOffset==0 ? ListView.DragOverBounds : ListView.StopAtBounds
 
         property int mouseOverItem: -1
+
+        // count continuing scroll
+        property int flickCounter: 0
+        // after stopping to scroll for a little, we reset the continuing scroll counter
+        onFlickCounterChanged:
+            resetFlickCounter.restart()
+        Timer {
+            id: resetFlickCounter
+            interval: 400
+            repeat: false
+            running: false
+            onTriggered:
+                view.flickCounter = 0
+        }
 
         highlightFollowsCurrentItem: true
         highlightMoveDuration: 0
@@ -233,6 +248,15 @@ Item {
                 onXChanged:
                     shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
                 onYChanged:
+                    shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
+            }
+
+            Timer {
+                id: forceBlur
+                repeat: false
+                running: true
+                interval: 300
+                onTriggered:
                     shader.glob = view.mapToGlobal((deleg.width*index)-view.contentX-toplevel.x, view.y+deleg.y-toplevel.y)
             }
 
@@ -389,13 +413,25 @@ Item {
     }
 
     function scrollViewFromWheel(angleDelta) {
-        // assume horizontal scrolling
-        var newx = view.contentX - angleDelta.x
-        // if scrolling was vertical
-        if(angleDelta.x == 0 && angleDelta.y != 0)
-            var newx = view.contentX - angleDelta.y
-        // set new contentX, but don't move beyond left/right end of thumbnails
-        view.contentX = Math.max(0, Math.min(newx, view.contentWidth-view.width))
+
+        // only scroll horizontally
+        var val = angleDelta.y
+        if(Math.abs(angleDelta.x) > 5)
+            val = angleDelta.x
+
+        // continuing scroll makes the scroll go faster
+        if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
+            view.flickCounter = 0
+        else if(val < 0)
+            view.flickCounter -=1
+        else if(val > 0)
+            view.flickCounter += 1
+
+        var fac = 10 + Math.min(20, Math.abs(view.flickCounter))
+
+        // flick horizontally
+        view.flick(fac*val, 0)
+
     }
 
     function toggle() {
