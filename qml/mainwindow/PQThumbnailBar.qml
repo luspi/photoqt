@@ -416,7 +416,7 @@ Item {
 
         // only scroll horizontally
         var val = angleDelta.y
-        if(Math.abs(angleDelta.x) > 5)
+        if(Math.abs(angleDelta.x) > Math.abs(angleDelta.y))
             val = angleDelta.x
 
         // continuing scroll makes the scroll go faster
