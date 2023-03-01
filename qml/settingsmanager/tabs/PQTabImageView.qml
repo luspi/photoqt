@@ -43,14 +43,8 @@ Item {
 
         ScrollBar.vertical: PQScrollBar { id: scroll }
 
-        PQMouseArea {
-            anchors.fill: parent
-            onWheel: {
-                var newy = cont.contentY - wheel.angleDelta.y
-                // set new contentY, but don't move beyond top/bottom end of view
-                cont.contentY = Math.max(0, Math.min(newy, cont.contentHeight-cont.height))
-            }
-        }
+        maximumFlickVelocity: 1500
+        boundsBehavior: Flickable.StopAtBounds
 
         Rectangle {
 
