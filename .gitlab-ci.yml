@@ -96,17 +96,3 @@ releaseappimage:
   artifacts:
     paths:
       - PhotoQt-latesttag.AppImage
-
-badges:
-
-    image: python:3.6
-
-    variables:
-        PRIVATE_TOKEN: ${ACCESS_TOKEN}
-    script:
-        - pip install badges-gitlab
-        - badges-gitlab
-    artifacts:
-        when: always
-        paths:
-        - public/badges/*.svg
