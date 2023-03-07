@@ -1,6 +1,6 @@
 ##########################################################################
 ##                                                                      ##
-## Copyright (C) 2011-2022 Lukas Spies                                  ##
+## Copyright (C) 2011-2023 Lukas Spies                                  ##
 ## Contact: https://photoqt.org                                         ##
 ##                                                                      ##
 ## This file is part of PhotoQt.                                        ##
