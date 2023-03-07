@@ -40,6 +40,10 @@ On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - 
 
 PhotoQt can work with either ImageMagick and GraphicsMagick, but due to conflicting naming schemes it is not possible to use both at the same time. By default ImageMagick will be enabled in CMake.
 
+#### NOTE
+
+Exiv2 can be compiled with support for the BMFF format. Note that there is the possibility that BMFF support may be the subject of patent rights. PhotoQt will by default opt-in to reading this format (if supported by Exiv2). If you prefer to not include support for this format in PhotoQt simply set the `EXIV2_ENABLE_BMFF` CMake option to `OFF`.
+
 ## ADDITIONAL IMAGE FORMATS
 
 These are some libraries and tools that can add additional formats to PhotoQt if installed. None of them are needed at compile time, but they can be picked up at runtime if available.

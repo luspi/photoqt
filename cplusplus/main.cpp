@@ -110,8 +110,10 @@ int main(int argc, char **argv) {
 #endif
 
 #ifdef EXIV2
-    #ifdef EXV_ENABLE_BMFF
-        Exiv2::enableBMFF(true);
+    #ifdef EXIV2_ENABLE_BMFF
+        #ifdef EXV_ENABLE_BMFF
+            Exiv2::enableBMFF(true);
+        #endif
     #endif
 #endif
 

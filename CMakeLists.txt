@@ -51,6 +51,8 @@ option(VIDEO_MPV "Enable video support through MPV" OFF)
 option(CHROMECAST "Enable Chromecast support" ON)
 option(LIBVIPS "Use libvips" OFF)
 
+option(EXIV2_ENABLE_BMFF "Enable BMFF format support in Exiv2 (if available)" ON)
+
 # name of this option changed
 # this helps to make sure nothing breaks
 if(GM)
@@ -296,6 +298,9 @@ if(EXIV2)
         target_link_libraries(${PROJECT_NAME} "exiv2lib")
         add_definitions(-DEXIV2)
         message("** Using Exiv2 ${exiv2_VERSION}")
+        if(EXIV2_ENABLE_BMFF)
+            add_definitions(-DEXIV2_ENABLE_BMFF)
+        endif()
     endif()
 elseif(OLDEXIV2)
     if(NOT ${LibExiv2_FOUND})

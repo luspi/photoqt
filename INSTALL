@@ -2,10 +2,10 @@
          Installing PhotoQt
 -------------------------------------
  
-The instructions below serve as a guide to compile and install PhotoQt from source.
-PhotoQt is available in the repositories of an increasing number of Linux distributions.
-In addition, various means of installing PhotoQt (Windows installer, Flatpak, etc.) are
-listed on the website: https://photoqt.org/down
+ The instructions below serve as a guide to compile and install PhotoQt from source.
+ PhotoQt is available in the repositories of an increasing number of Linux distributions.
+ In addition, various means of installing PhotoQt (Windows installer, Flatpak, etc.) are
+ listed on the website: https://photoqt.org/down
 
  DEPENDENCIES
 --------------
@@ -45,6 +45,13 @@ listed on the website: https://photoqt.org/down
   PhotoQt can work with either ImageMagick and GraphicsMagick, but due to
   conflicting naming schemes it is not possible to use both at the same time.
   By default GraphicsMagick will be enabled in CMake.
+
+> NOTE
+  Exiv2 can be compiled with support for the BMFF format. Note that there is the
+  possibility that BMFF support may be the subject of patent rights. PhotoQt will
+  by default opt-in to reading this format (if supported by Exiv2). If you prefer
+  to not include support for this format in PhotoQt simply set the EXIV2_ENABLE_BMFF
+  CMake option to OFF.
 
 
  ADDITIONAL IMAGE FORMATS
