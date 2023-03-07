@@ -1,6 +1,6 @@
 localization:
 
-  image: ubuntu:focal
+  image: ubuntu:jammy
 
   only:
     - schedules
@@ -98,6 +98,9 @@ releaseappimage:
       - PhotoQt-latesttag.AppImage
 
 badges:
+
+    image: ubuntu:jammy
+  
     variables:
         PRIVATE_TOKEN: ${ACCESS_TOKEN}
     script:
