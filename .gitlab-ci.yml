@@ -99,8 +99,8 @@ releaseappimage:
 
 badges:
 
-    image: ubuntu:jammy
-  
+    image: python:3.6
+
     variables:
         PRIVATE_TOKEN: ${ACCESS_TOKEN}
     script:
