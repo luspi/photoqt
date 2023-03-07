@@ -109,6 +109,13 @@ int main(int argc, char **argv) {
     std::setlocale(LC_NUMERIC, "C");
 #endif
 
+#ifdef EXIV2
+    #ifdef EXV_ENABLE_BMFF
+        Exiv2::enableBMFF(true);
+    #endif
+#endif
+
+
     // Set app information
     QApplication::setApplicationName("PhotoQt");
     QApplication::setOrganizationName("");
