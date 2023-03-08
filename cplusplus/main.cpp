@@ -24,6 +24,12 @@
 #include <QQmlContext>
 #include <QLoggingCategory>
 
+#ifdef EXIV2
+    #ifdef EXIV2_ENABLE_BMFF
+        #define EXV_ENABLE_BMFF
+    #endif
+#endif
+
 #include "logger.h"
 #include "passon.h"
 #include "startup/startup.h"
@@ -111,9 +117,7 @@ int main(int argc, char **argv) {
 
 #ifdef EXIV2
     #ifdef EXIV2_ENABLE_BMFF
-        #ifdef EXV_ENABLE_BMFF
-            Exiv2::enableBMFF(true);
-        #endif
+        Exiv2::enableBMFF(true);
     #endif
 #endif
 
