@@ -1,6 +1,28 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 3.1 - 2023-03-07
+----------------------------
+- add: 'scale and crop' preview images in file dialog
+- add: 'scale and crop' thumbnails to fill thumbnail square
+- add: option to blur elements in background
+- add: option to reset session when hiding to system tray
+- add: option to always load images at actual scale (incl. shortcut to toggle setting)
+- add: option to automatically hide status info and/or window buttons if not needed
+- add: enable BMFF meta format in Exiv2 if available and enabled
+- improve: handling of mouse wheel
+- improve: uniform context menus
+- improve: managing external shortcuts
+- improve: managing custom context menu entries
+- improve: file count in file dialog when folder icon is very light
+- improve: make splitview handle in file dialog stand out more
+- improve: breadcrumbs dropdown folder list
+- improve: file dialog layout when window is small
+- improve: specify better default Windows font
+- fix: sorting of files/folders in file dialog
+- fix: visual glitches in file dialog
+- fix: specifying font sizes throughout interface
+
 
 Release 3.0 - 2023-01-30
 ----------------------------

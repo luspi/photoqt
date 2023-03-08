@@ -4,218 +4,220 @@
   <context>
     <name>MainMenu</name>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="308"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="323"/>
       <source>Settings</source>
       <translation>Preferencias</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="232"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="235"/>
       <source>Slideshow</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Diapositiva</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="86"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="34"/>
       <source>Rename file</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Renombrar archivo</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="91"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="37"/>
       <source>Copy file</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Copiar archivo</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="96"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="40"/>
       <source>Move file</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Mover archivo</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="101"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="43"/>
       <source>Delete file</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Borrar archivo</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="114"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="53"/>
       <source>Tag faces</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Etiquetar caras</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="132"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="67"/>
       <source>Hide metadata</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Ocultar metadatos</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="132"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="67"/>
       <source>Show metadata</source>
       <translation>Mostrar metadatos</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="137"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="70"/>
       <source>Hide histogram</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Ocultar histograma</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="137"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="70"/>
       <source>Show histogram</source>
       <translation>Mostrar histograma</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="124"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="59"/>
       <source>Set as wallpaper</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="322"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="337"/>
       <source>Quit</source>
       <translation>Salir</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="119"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="56"/>
       <source>Scale image</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Escalar imagen</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="173"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="176"/>
       <source>Navigation</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Navegación</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="177"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="180"/>
       <source>Browse images</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Navegar imágenes</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="181"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="184"/>
       <source>first</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>primero</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="184"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="187"/>
       <source>last</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>último</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="193"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="196"/>
       <source>Zoom</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Aumentar/Disminuir</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="200"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="203"/>
       <source>Fit</source>
       <extracomment>This is an entry in the main menu on the right, used as in &apos;FIT image in window (reset zoom)&apos;. Please keep short!</extracomment>
-      <translation type="unfinished">Fit</translation>
+      <translation>Ajustar</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="208"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="211"/>
       <source>Rotation/Flip</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Rotación/Voltear</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="212"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="215"/>
       <source>Horizontal flip</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Voltear horizontalmente</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="216"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="219"/>
       <source>Vertical flip</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Voltear verticalmente</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="220"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="223"/>
       <source>Reset flip</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Reiniciar volteo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="224"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="227"/>
       <source>Reset rotation</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Reiniciar rotación</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="236"/>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="249"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="239"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="252"/>
       <source>Start</source>
       <extracomment>This is an entry in the main menu on the right, used as in &quot;START slideshow/sorting&quot;. Please keep short!</extracomment>
       <translation>Iniciar</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="240"/>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="253"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="243"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="256"/>
       <source>Setup</source>
       <extracomment>This is an entry in the main menu on the right, used as in &quot;SETUP slideshow/sorting&quot;. Please keep short!</extracomment>
       <translation>Configurar</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="245"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="248"/>
       <source>Advanced Sort</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Ordenamiento Avanzado</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="258"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="261"/>
       <source>Other</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Otro</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="261"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="266"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="280"/>
       <source>Filter images</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Filtrar imágenes</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="276"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="291"/>
       <source>External</source>
       <extracomment>Used as heading for a group of entries in the main menu on the right. Please keep short!</extracomment>
       <translation>Externo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="311"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="326"/>
       <source>About</source>
       <translation>Acerca de</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="319"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="334"/>
       <source>Online help</source>
       <translation>Ayuda en línea</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="124"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="127"/>
       <source>Click and drag to resize main menu</source>
       <translation>Haga clic y arrastre para redimensionar el menú principal</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="265"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="270"/>
       <source>Streaming (Chromecast)</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Transmitiendo (Chromecast)</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQContextMenu.qml" line="109"/>
+      <location filename="../qml/mainwindow/PQContextMenu.qml" line="50"/>
       <source>Copy to clipboard</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Copiar al portapapeles</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="269"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="274"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="284"/>
       <source>Open in default file manager</source>
       <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
       <translation>Abrir en el gestor de archivos predeterminado</translation>
@@ -227,8 +229,8 @@
       <translation>Menú principal</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMainMenuGroup.qml" line="100"/>
-      <location filename="../qml/menumeta/PQMainMenuGroup.qml" line="205"/>
+      <location filename="../qml/menumeta/PQMainMenuGroup.qml" line="98"/>
+      <location filename="../qml/menumeta/PQMainMenuGroup.qml" line="200"/>
       <source>You need to load an image first.</source>
       <translation>Necesitas cargar una imagen primero.</translation>
     </message>
@@ -262,189 +264,189 @@
   <context>
     <name>PQMetaData</name>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="421"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="428"/>
       <source>yes</source>
       <extracomment>This string identifies that flash was fired, stored in image metadata</extracomment>
       <translation>sí</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="423"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="430"/>
       <source>no</source>
       <extracomment>This string identifies that flash was not fired, stored in image metadata</extracomment>
       <translation>no</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="425"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="432"/>
       <source>No flash function</source>
       <extracomment>This string refers to the absense of a flash, stored in image metadata</extracomment>
       <translation>No hay función de flash</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="427"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="434"/>
       <source>strobe return light not detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>El estroboscopio indicó que no se detectó luz</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="429"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="436"/>
       <source>strobe return light detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>El estroboscopio detectó luz</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="431"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="438"/>
       <source>compulsory flash mode</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>modo de flash obligatorio</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="433"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="440"/>
       <source>auto mode</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>Automático</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="435"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="442"/>
       <source>red-eye reduction mode</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>modo de reducción de ojos rojos</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="437"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="444"/>
       <source>return light detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>luz de retorno detectada</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="439"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="446"/>
       <source>return light not detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>luz de retorno no detectada</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="487"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="494"/>
       <source>Invalid flash</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
       <translation>Flash no válido</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="498"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="505"/>
       <source>Standard</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
       <translation>Estándar</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="501"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="508"/>
       <source>Landscape</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
       <translation>Horizontal</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="504"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="511"/>
       <source>Portrait</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
       <translation>Vertical</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="507"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="514"/>
       <source>Night Scene</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
       <translation>Escena nocturna</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="510"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="517"/>
       <source>Invalid Scene Type</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
       <translation>Tipo de escena no válido</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="563"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="570"/>
       <source>Unknown</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Desconocido</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="566"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="573"/>
       <source>Daylight</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Luz natural</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="569"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="576"/>
       <source>Fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Fluorescente</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="572"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="579"/>
       <source>Tungsten (incandescent light)</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Tungsteno (luz incandescente)</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="575"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="582"/>
       <source>Flash</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Flash</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="578"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="585"/>
       <source>Fine weather</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Buen clima</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="581"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="588"/>
       <source>Cloudy Weather</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Clima nublado</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="584"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="591"/>
       <source>Shade</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Sombreado</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="587"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="594"/>
       <source>Daylight fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Fluorescente de día</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="590"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="597"/>
       <source>Day white fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Fluorescente blanca de día</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="593"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="600"/>
       <source>Cool white fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Fluorescente blanca fría</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="596"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="603"/>
       <source>White fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Fluorescente blanca</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="599"/>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="602"/>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="605"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="606"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="609"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="612"/>
       <source>Standard light</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Luz estándar</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="618"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="625"/>
       <source>Other light source</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Otra fuente de luz</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/metadata.cpp" line="621"/>
+      <location filename="../cplusplus/scripts/metadata.cpp" line="628"/>
       <source>Invalid light source</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
       <translation>Fuente de luz no válida</translation>
@@ -544,59 +546,59 @@
     <name>about</name>
     <message>
       <location filename="../qml/about/PQAbout.qml" line="52"/>
-      <location filename="../qml/about/PQAbout.qml" line="165"/>
+      <location filename="../qml/about/PQAbout.qml" line="157"/>
       <source>Close</source>
       <translation>Cerrar</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="98"/>
+      <location filename="../qml/about/PQAbout.qml" line="96"/>
       <source>Current version:</source>
       <translation>Versión actual:</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="100"/>
+      <location filename="../qml/about/PQAbout.qml" line="98"/>
       <source>Show configuration overview</source>
       <extracomment>The &apos;configuration&apos; talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions</extracomment>
       <translation>Mostrar vista general de configuración</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="110"/>
+      <location filename="../qml/about/PQAbout.qml" line="106"/>
       <source>License:</source>
       <translation>Licencia:</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="115"/>
+      <location filename="../qml/about/PQAbout.qml" line="111"/>
       <source>Open license in browser</source>
       <translation>Abrir licencia en el navegador</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="135"/>
+      <location filename="../qml/about/PQAbout.qml" line="129"/>
       <source>Open website in browser</source>
       <translation>Abrir sitio web en el navegador</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="203"/>
+      <location filename="../qml/about/PQAbout.qml" line="194"/>
       <source>Configuration</source>
       <extracomment>The &apos;configuration&apos; talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions</extracomment>
       <translation>Configuración</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="222"/>
+      <location filename="../qml/about/PQAbout.qml" line="209"/>
       <source>Copy to clipboard</source>
       <translation>Copiar al portapapeles</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="130"/>
+      <location filename="../qml/about/PQAbout.qml" line="124"/>
       <source>Website:</source>
       <translation>Sitio Web:</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="145"/>
+      <location filename="../qml/about/PQAbout.qml" line="137"/>
       <source>Contact:</source>
       <translation>Contacto:</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="150"/>
+      <location filename="../qml/about/PQAbout.qml" line="142"/>
       <source>Send an email</source>
       <translation>Envíar un correo</translation>
     </message>
@@ -610,90 +612,90 @@
   <context>
     <name>advancedsort</name>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="83"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="81"/>
       <location filename="../qml/advancedsort/PQAdvancedSortPopout.qml" line="34"/>
       <source>Advanced Image Sort</source>
       <extracomment>Window title</extracomment>
       <translation>Ordenamiento avanzado de imágenes</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="94"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="90"/>
       <source>It is possible to sort the images in the current folder by color properties. Depending on the number of images and the settings, this might take a few seconds.</source>
       <translation>Es posible ordenar las imágenes en la carpeta actual por propiedades de color. Dependiendo del número de imágenes y de la configuración, esto podría tomar algunos segundos.</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="107"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="102"/>
       <source>Sort by:</source>
       <extracomment>Used as &apos;sort by dominant/average color&apos;</extracomment>
       <translation>Ordenar por:</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="116"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="111"/>
       <source>Resolution</source>
       <extracomment>The image resolution (width/height in pixels)</extracomment>
       <translation>Resolución</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="118"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="113"/>
       <source>Dominant color</source>
       <extracomment>The color that is most common in the image</extracomment>
       <translation>Color dominante</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="120"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="115"/>
       <source>Average color</source>
       <extracomment>the average color of the image</extracomment>
       <translation>Color promedio</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="122"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="117"/>
       <source>Luminosity</source>
       <extracomment>the average color of the image</extracomment>
       <translation>Luminosidad</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="137"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="132"/>
       <source>ascending</source>
       <extracomment>sort order, i.e., &apos;ascending order&apos;</extracomment>
       <translation>ascendente</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="142"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="137"/>
       <source>descending</source>
       <extracomment>sort order, i.e., &apos;descending order&apos;</extracomment>
       <translation>descendente</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="159"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="153"/>
       <source>speed vs quality:</source>
       <extracomment>Please keep short! Sorting images by color comes with a speed vs quality tradeoff.</extracomment>
       <translation>velocidad vs calidad:</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="165"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="159"/>
       <source>low quality (fast)</source>
       <extracomment>quality and speed of sorting image by color</extracomment>
       <translation>calidad baja (rápido)</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="167"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="161"/>
       <source>medium quality</source>
       <extracomment>quality and speed of sorting image by color</extracomment>
       <translation>Calidad media</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="169"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="163"/>
       <source>high quality (slow)</source>
       <extracomment>quality and speed of sorting image by color</extracomment>
       <translation>calidad alta (lento)</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="181"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="173"/>
       <source>There is also a quickstart shortcut that immediately starts the sorting using the latest settings.</source>
       <translation>También hay un atajo de inicio rápido que inicia de forma inmediata la ordenación usando la configuración más reciente.</translation>
     </message>
     <message>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="201"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="193"/>
       <source>Sort images</source>
       <extracomment>Written on a clickable button - please keep short</extracomment>
       <translation>Ordenar imágenes</translation>
@@ -702,25 +704,25 @@
   <context>
     <name>buttongeneric</name>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="81"/>
+      <location filename="../qml/elements/PQButton.qml" line="80"/>
       <source>Ok</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Aceptar</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="83"/>
+      <location filename="../qml/elements/PQButton.qml" line="82"/>
       <source>Cancel</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Cancelar</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="85"/>
+      <location filename="../qml/elements/PQButton.qml" line="84"/>
       <source>Save</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Guardar</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="87"/>
+      <location filename="../qml/elements/PQButton.qml" line="86"/>
       <source>Close</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Cerrar</translation>
@@ -854,23 +856,23 @@
   <context>
     <name>facetagging</name>
     <message>
-      <location filename="../qml/mainwindow/image/PQFaceTagger.qml" line="203"/>
+      <location filename="../qml/mainwindow/image/PQFaceTagger.qml" line="198"/>
       <source>Who is this?</source>
       <extracomment>This question is asked in the face tagger to ask for the name of a tagged face</extracomment>
       <translation>¿Quién es?</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/image/PQFaceTagger.qml" line="210"/>
+      <location filename="../qml/mainwindow/image/PQFaceTagger.qml" line="205"/>
       <source>Enter name</source>
       <translation>Introducir nombre</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQMessage.qml" line="62"/>
+      <location filename="../qml/mainwindow/PQMessage.qml" line="61"/>
       <source>Click to exit face tagging mode</source>
       <translation>Clic para salir del modo de etiquetado de caras</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQMessage.qml" line="75"/>
+      <location filename="../qml/mainwindow/PQMessage.qml" line="73"/>
       <source>Click to tag faces, changes are saved automatically</source>
       <translation>Clic para etiquetar caras, los cambios se guardan automáticamente</translation>
     </message>
@@ -888,53 +890,53 @@
       <translation>Hacia atrás</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="98"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="97"/>
       <source>Up a level</source>
       <translation>Subir un nivel</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="124"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="123"/>
       <source>Forwards</source>
       <translation>Hacia adelante</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="199"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbsButton.qml" line="128"/>
       <source>List subfolders</source>
       <translation>Listar subcarpetas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="199"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbsButton.qml" line="128"/>
       <source>No subfolders found</source>
-      <translation type="unfinished">No subfolders found</translation>
+      <translation>No se encontraron subcarpetas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="289"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="236"/>
       <source>Enter fullscreen</source>
       <translation>Entrar en pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="290"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="237"/>
       <source>Exit fullscreen</source>
       <translation>Salir de pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="319"/>
+      <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="266"/>
       <source>Close</source>
       <translation>Cerrar</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQDevices.qml" line="109"/>
+      <location filename="../qml/filedialog/parts/PQDevices.qml" line="108"/>
       <source>Storage devices</source>
       <extracomment>This is the category title of storage devices to open (like USB keys) in the element for opening files</extracomment>
       <translation>Dispositivos de almacenamiento</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQDevices.qml" line="141"/>
+      <location filename="../qml/filedialog/parts/PQDevices.qml" line="138"/>
       <source>Detected storage devices on your system</source>
       <translation>Dispositivos de almacenamiento detectados en su sistema</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="118"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="111"/>
       <source>no supported files/folders found</source>
       <translation>no se encontraron archivos/carpetas soportados</translation>
     </message>
@@ -944,39 +946,39 @@
       <translation>Clic y arrastrar a favoritos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="360"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="353"/>
       <source># images</source>
       <translation># imágenes</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="361"/>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="380"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="354"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="373"/>
       <source>Date:</source>
       <translation>Fecha:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="362"/>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="381"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="355"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="374"/>
       <source>Time:</source>
       <translation>Hora:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="378"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="371"/>
       <source>File size:</source>
       <translation>Tamaño de archivo:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="379"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="372"/>
       <source>File type:</source>
       <translation>Tipo de archivo:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="463"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="456"/>
       <source>%1 image</source>
       <translation>%1 imagen</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQFileView.qml" line="465"/>
+      <location filename="../qml/filedialog/parts/PQFileView.qml" line="458"/>
       <source>%1 images</source>
       <translation>%1 imágenes</translation>
     </message>
@@ -987,230 +989,358 @@
       <translation>aún no se ha añadido ninguna carpeta a favoritos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="157"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="155"/>
       <source>Favorites</source>
       <extracomment>This is the category title of user-set folders (or favorites) in the file dialog</extracomment>
       <translation>Favoritos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="173"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="171"/>
       <source>Your favorites</source>
       <translation>Tus favoritos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="222"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="219"/>
       <source>Show entry</source>
       <translation>Mostrar entrada</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="222"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="219"/>
       <source>Hide entry</source>
       <translation>Ocultar entrada</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="223"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="225"/>
       <source>Remove entry</source>
       <translation>Eliminar entrada</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="224"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="231"/>
       <source>Hide hidden entries</source>
       <translation>No mostrar las entradas ocultas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="224"/>
+      <location filename="../qml/filedialog/parts/PQPlaces.qml" line="231"/>
       <source>Show hidden entries</source>
       <translation>Mostrar las entradas ocultas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="43"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="39"/>
       <source>Load this folder</source>
       <translation>Cargar esta carpeta</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="43"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="39"/>
       <source>Load this file</source>
       <translation>Cargar este archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="56"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="52"/>
       <source>Add to Favorites</source>
       <translation>Agregar a favoritos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="78"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="74"/>
       <source>Show tooltip with image details</source>
       <translation>Mostrar descripción emergente con los detalles de la imagen</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="88"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="84"/>
       <source>Visible</source>
       <extracomment>This is a context menu entry, referring to whether the large preview image is VISIBLE</extracomment>
       <translation>Visible</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="96"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="92"/>
       <source>Higher resolution</source>
       <extracomment>This is a context menu entry, referring to whether a preview image with a HIGHER RESOLUTION should be loaded</extracomment>
       <translation>Mayor resolución</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="104"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="100"/>
       <source>Blurred image</source>
       <extracomment>This is a context menu entry, selecting it will BLUR the preview IMAGE</extracomment>
       <translation>Imagen desenfocada</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="112"/>
-      <source>Muted colors</source>
-      <extracomment>This is a context menu entry, selecting it will make the COLORS of the preview image MUTED</extracomment>
-      <translation>Colores apagados</translation>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="108"/>
+      <source>Scale and crop</source>
+      <extracomment>This is a context menu entry, selecting it will crop the preview image to make it fit the available space</extracomment>
+      <translation type="unfinished">Scale and crop</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="120"/>
-      <source>Full colors</source>
-      <extracomment>This is a context menu entry, selecting it will make the COLORS of the preview image in FULL (i.e., without blur/opacity)</extracomment>
-      <translation>Colores completos</translation>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="114"/>
+      <source>Color intensity</source>
+      <translation>Intensidad de color</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="64"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="60"/>
       <source>Show hidden files</source>
       <translation>Mostrar archivos ocultos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="71"/>
+      <location filename="../qml/filedialog/parts/PQRightClickMenu.qml" line="67"/>
       <source>Show thumbnails</source>
       <translation>Mostrar miniaturas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQStandard.qml" line="103"/>
+      <location filename="../qml/filedialog/parts/PQStandard.qml" line="102"/>
       <source>Standard</source>
       <extracomment>This is the category title of user-set folders (or favorites) in the file dialog</extracomment>
       <translation>Estándar</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQStandard.qml" line="119"/>
+      <location filename="../qml/filedialog/parts/PQStandard.qml" line="118"/>
       <source>Some standard locations</source>
       <translation>Algunas ubicaciones estándar</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="48"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="57"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="170"/>
       <source>Zoom:</source>
       <translation>Acercamiento:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="57"/>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="72"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="66"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="83"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="177"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="194"/>
       <source>Adjust font size of files and folders</source>
       <translation>Ajustar tamaño de tipografía de archivos y carpetas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="73"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="84"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="195"/>
       <source>Zoom factor:</source>
       <translation>Factor de acercamiento:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="92"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="108"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="126"/>
       <source>Sort by:</source>
       <translation>Ordenar por:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="94"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="110"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="128"/>
       <source>Name</source>
       <translation>Nombre</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="95"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="111"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="129"/>
       <source>Natural Name</source>
       <translation>Nombre natural</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="96"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="112"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="130"/>
       <source>Time modified</source>
       <translation>Modificado</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="97"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="113"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="131"/>
       <source>File size</source>
       <translation>Tamaño de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="98"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="114"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="132"/>
       <source>File type</source>
       <translation>Tipo de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="99"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="115"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="133"/>
       <source>reverse order</source>
       <translation>invertir orden</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="106"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="122"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="136"/>
       <source>Choose by what to sort the files</source>
       <translation>Seleccionar por cuál propiedad se desea ordenar los archivos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="142"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="162"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="97"/>
       <source>All supported images</source>
       <translation>Todas las imágenes soportadas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="147"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="167"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="102"/>
       <source>Video files</source>
       <translation>Archivos de vídeo</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="148"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="168"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="103"/>
       <source>All files</source>
       <translation>Todos los archivos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="158"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="181"/>
+      <location filename="../qml/filedialog/parts/PQTweaksPopup.qml" line="113"/>
       <source>Choose which selection of files to show</source>
       <translation>Elegir que selección de archivos mostrar</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="178"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="201"/>
       <source>Remember loaded folder between sessions.</source>
       <translation>Recordar la carpeta cargada entre sesiones.</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="200"/>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="223"/>
       <source>Switch between list and icon view</source>
       <translation>Cambiar entre vista de lista e iconos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="230"/>
-      <source>Open global settings</source>
-      <translation type="unfinished">Open global settings</translation>
+      <location filename="../qml/filedialog/parts/PQTweaks.qml" line="253"/>
+      <source>Fine-tune file dialog</source>
+      <translation type="unfinished">Fine-tune file dialog</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="116"/>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="42"/>
+      <source>Close settings</source>
+      <extracomment>Tooltip behind filedialog settings element.</extracomment>
+      <translation>Cerrar ajustes</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="78"/>
+      <source>File Dialog Settings</source>
+      <translation type="unfinished">File Dialog Settings</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="98"/>
+      <source>Settings are automatically saved when changed.</source>
+      <translation type="unfinished">Settings are automatically saved when changed.</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="150"/>
+      <source>Files view</source>
+      <extracomment>This refers to the files listed in the file dialog. Please keep short.</extracomment>
+      <translation type="unfinished">Files view</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="174"/>
+      <source>list view</source>
+      <extracomment>This is a type of view in the file dialog</extracomment>
+      <translation>vista de lista</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="183"/>
+      <source>icon view</source>
+      <extracomment>This is a type of view in the file dialog</extracomment>
+      <translation>vista de iconos</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="194"/>
+      <source>remember last location between sessions</source>
+      <extracomment>The last location is the last location of the file dialog.</extracomment>
+      <translation type="unfinished">remember last location between sessions</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="201"/>
+      <source>show hidden files</source>
+      <translation>mostrar archivos ocultos</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="209"/>
+      <source>show thumbnails</source>
+      <extracomment>These thumbnails are the thumbnails shown in the file dialog</extracomment>
+      <translation>mostrar miniaturas</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="217"/>
+      <source>show tooltip with details</source>
+      <extracomment>This is the tooltip in the file dialog with details about the hovered file</extracomment>
+      <translation>mostrar miniaturas con detalles</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="241"/>
+      <source>Places</source>
+      <extracomment>This refers to the left column of the file dialog (standard, favorites, devices). Please keep short!</extracomment>
+      <translation>Lugares</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="263"/>
+      <source>show standard locations</source>
+      <extracomment>The standard locations are the ones that are set on the system</extracomment>
+      <translation>mostrar ubicaciones estándar</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="271"/>
+      <source>show favorites</source>
+      <extracomment>The favorites are the locations that can be customized by the user in the left column</extracomment>
+      <translation>mostrar favoritos</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="279"/>
+      <source>show devices</source>
+      <extracomment>Devices here are storage volumes/partitions/harddrives</extracomment>
+      <translation>mostrar dispositivos</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="303"/>
+      <source>Preview</source>
+      <extracomment>The preview is the image behind all files when the mouse is hovering a file. Please keep short!</extracomment>
+      <translation>Vista previa</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="324"/>
+      <source>show preview behind files</source>
+      <translation type="unfinished">show preview behind files</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="332"/>
+      <source>use higher resolution (slower)</source>
+      <extracomment>The higher resolution is used for the preview image</extracomment>
+      <translation type="unfinished">use higher resolution (slower)</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="339"/>
+      <source>blur preview</source>
+      <translation type="unfinished">blur preview</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="346"/>
+      <source>scale and crop to fill area</source>
+      <translation type="unfinished">scale and crop to fill area</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialogSettings.qml" line="426"/>
+      <source>Open global settings</source>
+      <translation>Abrir ajustes globales</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="133"/>
       <source>Hide standard locations</source>
       <translation>Ocultar ubicaciones estándar</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="116"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="133"/>
       <source>Show standard locations</source>
       <translation>Mostrar ubicaciones estándar</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="117"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="139"/>
       <source>Hide favorite locations</source>
       <translation>Ocultar ubicaciones favoritas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="117"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="139"/>
       <source>Show favorite locations</source>
       <translation>Mostrar ubicaciones favoritas</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="118"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="145"/>
       <source>Hide storage devices</source>
       <translation>Ocultar dispositivos de almacenamiento</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="118"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="145"/>
       <source>Show storage devices</source>
       <translation>Mostrar dispositivos de almacenamiento</translation>
     </message>
@@ -1224,49 +1354,49 @@
   <context>
     <name>filemanagement</name>
     <message>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="83"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="81"/>
       <location filename="../qml/filemanagement/PQDeletePopout.qml" line="34"/>
       <source>Delete file?</source>
       <extracomment>Window title</extracomment>
       <translation>¿Eliminar el archivo?</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="101"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="97"/>
       <source>An error occured, file could not be deleted!</source>
       <translation>¡Ocurrió un error, el archivo no pudo ser eliminado!</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="121"/>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="177"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="117"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="171"/>
       <source>Move to trash</source>
       <translation>Mover a la basura</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="137"/>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="180"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="133"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="174"/>
       <source>Delete permanently</source>
       <translation>Eliminar permanentemente</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQRename.qml" line="83"/>
-      <location filename="../qml/filemanagement/PQRename.qml" line="132"/>
+      <location filename="../qml/filemanagement/PQRename.qml" line="81"/>
+      <location filename="../qml/filemanagement/PQRename.qml" line="128"/>
       <location filename="../qml/filemanagement/PQRenamePopout.qml" line="34"/>
       <source>Rename file</source>
       <extracomment>Window title</extracomment>
       <translation>Renombrar archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQRename.qml" line="101"/>
+      <location filename="../qml/filemanagement/PQRename.qml" line="97"/>
       <source>An error occured, file could not be renamed!</source>
       <translation>¡Ocurrió un error, no se pudo cambiar el nombre del archivo!</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQRename.qml" line="112"/>
+      <location filename="../qml/filemanagement/PQRename.qml" line="108"/>
       <source>Enter new filename</source>
       <translation>Introduzca un nuevo nombre para el archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="82"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="80"/>
       <location filename="../qml/filemanagement/PQSaveAsPopout.qml" line="34"/>
       <source>Save file as</source>
       <extracomment>This is a title, similar to all the &apos;save as&apos; options in many programs.
@@ -1275,30 +1405,30 @@ Window title</extracomment>
       <translation>Guardar archivo como</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="105"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="101"/>
       <source>An error occured, file could not be saved!</source>
       <translation>¡Ocurrió un error, no se pudo guardar el archivo!</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="116"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="111"/>
       <source>Operation cancelled</source>
       <extracomment>&apos;Operation&apos; here is the operation of saving an image in a new format</extracomment>
       <translation>Operación cancelada</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="124"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="119"/>
       <source>Filter formats</source>
       <extracomment>This is a short hint informing the user that here they can &apos;filter all the possible file formats&apos;</extracomment>
       <translation>Filtrar formatos</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="223"/>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="230"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="215"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="221"/>
       <source>New filename</source>
       <translation>Nuevo nombre de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="251"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="242"/>
       <source>Choose location and save file</source>
       <translation>Elegir una ubicación y guardar el archivo</translation>
     </message>
@@ -1306,28 +1436,28 @@ Window title</extracomment>
   <context>
     <name>filter</name>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="90"/>
+      <location filename="../qml/filter/PQFilter.qml" line="88"/>
       <source>Filter images in current directory</source>
       <translation>Filtrar imágenes en el directorio actual</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="102"/>
+      <location filename="../qml/filter/PQFilter.qml" line="98"/>
       <source>To filter by file extension, start the term with a dot. Setting the width or height of the resolution to 0 ignores that dimension.</source>
       <translation>Para filtrar por extensión de archivo, inicie el término con un punto. Establecer el ancho o la altura de la resolución hace que se ignore esa dimensión.</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="120"/>
+      <location filename="../qml/filter/PQFilter.qml" line="116"/>
       <source>File name/extension:</source>
       <translation>Nombre/extensión de archivo:</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="132"/>
+      <location filename="../qml/filter/PQFilter.qml" line="128"/>
       <source>Enter terms</source>
       <translation>Introducir términos</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="161"/>
-      <location filename="../qml/filter/PQFilter.qml" line="213"/>
+      <location filename="../qml/filter/PQFilter.qml" line="157"/>
+      <location filename="../qml/filter/PQFilter.qml" line="209"/>
       <source>greater than</source>
       <extracomment>used as tooltip in the sense of &apos;image resolution GREATER THAN 123x123&apos;
 ----------
@@ -1335,8 +1465,8 @@ used as tooltip in the sense of &apos;file size GREATER THAN 123 KB/MB&apos;</ex
       <translation>mayor que</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="163"/>
-      <location filename="../qml/filter/PQFilter.qml" line="215"/>
+      <location filename="../qml/filter/PQFilter.qml" line="159"/>
+      <location filename="../qml/filter/PQFilter.qml" line="211"/>
       <source>less than</source>
       <extracomment>used as tooltip in the sense of &apos;image resolution LESS THAN 123x123&apos;
 ----------
@@ -1344,17 +1474,17 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <translation>menor que</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="200"/>
+      <location filename="../qml/filter/PQFilter.qml" line="196"/>
       <source>File size</source>
       <translation>Tamaño de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="260"/>
+      <location filename="../qml/filter/PQFilter.qml" line="254"/>
       <source>Please note that filtering by image resolution can take a little while, depending on the number of images in the folder.</source>
       <translation>Nótese que filtrar por resolución de imagen puede tomar algo de tiempo, dependiendo del número de imágenes en la carpeta.</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="283"/>
+      <location filename="../qml/filter/PQFilter.qml" line="277"/>
       <location filename="../qml/filter/PQFilterPopout.qml" line="34"/>
       <source>Filter</source>
       <extracomment>Written on a clickable button - please keep short
@@ -1363,7 +1493,7 @@ Window title</extracomment>
       <translation>Filtrar</translation>
     </message>
     <message>
-      <location filename="../qml/filter/PQFilter.qml" line="305"/>
+      <location filename="../qml/filter/PQFilter.qml" line="299"/>
       <source>Remove filter</source>
       <extracomment>Written on a clickable button - please keep short</extracomment>
       <translation>Eliminar filtro</translation>
@@ -1372,26 +1502,26 @@ Window title</extracomment>
   <context>
     <name>histogram</name>
     <message>
-      <location filename="../qml/histogram/PQHistogram.qml" line="143"/>
+      <location filename="../qml/histogram/PQHistogram.qml" line="138"/>
       <location filename="../qml/histogram/PQHistogramPopout.qml" line="34"/>
       <source>Histogram</source>
       <extracomment>Window title</extracomment>
       <translation>Histograma</translation>
     </message>
     <message>
-      <location filename="../qml/histogram/PQHistogram.qml" line="145"/>
+      <location filename="../qml/histogram/PQHistogram.qml" line="140"/>
       <source>Loading...</source>
       <extracomment>As in: Loading the histogram for the current image</extracomment>
       <translation>Cargando...</translation>
     </message>
     <message>
-      <location filename="../qml/histogram/PQHistogram.qml" line="175"/>
+      <location filename="../qml/histogram/PQHistogram.qml" line="168"/>
       <source>Click-and-drag to move.</source>
       <extracomment>Used for the histogram. The version refers to the type of histogram that is available (colored and greyscale)</extracomment>
       <translation>Clic y arrastrar para mover.</translation>
     </message>
     <message>
-      <location filename="../qml/histogram/PQHistogram.qml" line="175"/>
+      <location filename="../qml/histogram/PQHistogram.qml" line="168"/>
       <source>Right click to switch version.</source>
       <translation>Clic derecho para cambiar versión.</translation>
     </message>
@@ -1400,7 +1530,7 @@ Window title</extracomment>
     <name>imageprovider</name>
     <message>
       <location filename="../cplusplus/imageprovider/imageproviderfull.cpp" line="65"/>
-      <location filename="../cplusplus/imageprovider/imageproviderthumb.cpp" line="147"/>
+      <location filename="../cplusplus/imageprovider/imageproviderthumb.cpp" line="124"/>
       <source>File failed to load, it does not exist!</source>
       <translation>¡Error al cargar, no existe el archivo!</translation>
     </message>
@@ -1408,72 +1538,72 @@ Window title</extracomment>
   <context>
     <name>imgur</name>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="86"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="84"/>
       <location filename="../qml/imgur/PQImgurPopout.qml" line="34"/>
       <source>Upload to imgur.com</source>
       <extracomment>Window title</extracomment>
       <translation>Subir a imgur.com</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="97"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="93"/>
       <source>anonymous</source>
       <extracomment>Used as in: Upload image as anonymous user</extracomment>
       <translation>anónimo</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="129"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="123"/>
       <source>Obtaining image url...</source>
       <translation>Obteniendo url de la imagen...</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="140"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="133"/>
       <source>This seems to take a long time...</source>
       <translation>Parece que esto tomará mucho tiempo...</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="141"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="134"/>
       <source>There might be a problem with your internet connection or the imgur.com servers.</source>
       <translation>Puede que haya un problema con su conexión a internet o con los servidores de imgur.com.</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="152"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="144"/>
       <source>An Error occurred while uploading image!</source>
       <translation>¡Ha ocurrido un error mientras se subía la imagen!</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="153"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="145"/>
       <source>Error code:</source>
       <translation>Código de error:</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="164"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="155"/>
       <source>You do not seem to be connected to the internet...</source>
       <translation>No parece haber conexión con internet...</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="165"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="156"/>
       <source>Unable to upload!</source>
       <translation>¡No se puede subir el archivo!</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="187"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="177"/>
       <source>Access Image</source>
       <translation>Acceder a imagen</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="200"/>
-      <location filename="../qml/imgur/PQImgur.qml" line="232"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="187"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="215"/>
       <source>Click to open in browser</source>
       <translation>Clic para abrir en el navegador</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="207"/>
-      <location filename="../qml/imgur/PQImgur.qml" line="239"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="194"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="222"/>
       <source>Copy to clipboard</source>
       <translation>Copiar al portapapeles</translation>
     </message>
     <message>
-      <location filename="../qml/imgur/PQImgur.qml" line="219"/>
+      <location filename="../qml/imgur/PQImgur.qml" line="205"/>
       <source>Delete Image</source>
       <translation>Eliminar imagen</translation>
     </message>
@@ -1628,43 +1758,43 @@ Window title</extracomment>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="84"/>
       <source>Back Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Back Button</translation>
+      <translation>Botón de retroceder</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="86"/>
       <source>Forward Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Forward Button</translation>
+      <translation>Botón de avanzar</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="88"/>
       <source>Task Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Task Button</translation>
+      <translation>Botón de tarea</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="90"/>
       <source>Button #7</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #7</translation>
+      <translation>Botón #7</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="92"/>
       <source>Button #8</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #8</translation>
+      <translation>Botón #8</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="94"/>
       <source>Button #9</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #9</translation>
+      <translation>Botón #9</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="96"/>
       <source>Button #10</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #10</translation>
+      <translation>Botón #10</translation>
     </message>
     <message>
       <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="98"/>
@@ -1718,17 +1848,17 @@ Window title</extracomment>
       <translation>Bitácora</translation>
     </message>
     <message>
-      <location filename="../qml/logging/PQLogging.qml" line="109"/>
+      <location filename="../qml/logging/PQLogging.qml" line="108"/>
       <source>enable debug messages</source>
       <translation>habilitar mensajes de depuración</translation>
     </message>
     <message>
-      <location filename="../qml/logging/PQLogging.qml" line="134"/>
+      <location filename="../qml/logging/PQLogging.qml" line="133"/>
       <source>copy to clipboard</source>
       <translation>copiar al portapapeles</translation>
     </message>
     <message>
-      <location filename="../qml/logging/PQLogging.qml" line="135"/>
+      <location filename="../qml/logging/PQLogging.qml" line="134"/>
       <source>save to file</source>
       <translation>guardar en archivo</translation>
     </message>
@@ -1736,79 +1866,79 @@ Window title</extracomment>
   <context>
     <name>metadata</name>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="90"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="96"/>
       <source>File name</source>
       <extracomment>Please keep string short!</extracomment>
       <translation>Nombre del archivo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="92"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="98"/>
       <source>Dimensions</source>
       <extracomment>The dimensions of the loaded image. Please keep string short!</extracomment>
       <translation>Dimensiones</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="96"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="102"/>
       <source>File size</source>
       <extracomment>Please keep string short!</extracomment>
       <translation>Tamaño del archivo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="98"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="104"/>
       <source>File type</source>
       <extracomment>Please keep string short!</extracomment>
       <translation>Tipo de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="101"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="107"/>
       <source>Make</source>
       <extracomment>Exif image metadata: the make of the camera used to take the photo. Please keep string short!</extracomment>
       <translation>Fabricante</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="103"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="109"/>
       <source>Model</source>
       <extracomment>Exif image metadata: the model of the camera used to take the photo. Please keep string short!</extracomment>
       <translation>Modelo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="105"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="111"/>
       <source>Software</source>
       <extracomment>Exif image metadata: the software used to create the photo. Please keep string short!</extracomment>
       <translation>Software</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="108"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="114"/>
       <source>Time Photo was Taken</source>
       <extracomment>Exif image metadata: when the photo was taken. Please keep string short!</extracomment>
       <translation>Hora en la que se tomó la foto</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="110"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="116"/>
       <source>Exposure Time</source>
       <extracomment>Exif image metadata: how long the sensor was exposed to the light. Please keep string short!</extracomment>
       <translation>Tiempo de exposición</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="112"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="118"/>
       <source>Flash</source>
       <extracomment>Exif image metadata: the flash setting when the photo was taken. Please keep string short!</extracomment>
       <translation>Flash</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="115"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="121"/>
       <source>Scene Type</source>
       <extracomment>Exif image metadata: the specific scene type the camera used for the photo. Please keep string short!</extracomment>
       <translation>Tipo de escena</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="117"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="123"/>
       <source>Focal Length</source>
       <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Please keep string short!</extracomment>
       <translation>Distancia focal</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="160"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="158"/>
       <location filename="../qml/menumeta/PQMetaDataPopout.qml" line="34"/>
       <source>Metadata</source>
       <extracomment>This is the heading of the metadata element
@@ -1817,59 +1947,59 @@ Window title</extracomment>
       <translation>Metadatos</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="199"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="196"/>
       <source>No File Loaded</source>
       <translation>No se ha cargado ningún archivo</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="252"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="247"/>
       <source>Click to open GPS position with online map</source>
       <translation>Clic para abrir la posición GPS con un mapa en línea</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="353"/>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="385"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="348"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="380"/>
       <source>Click and drag to resize element</source>
       <translation>Haga clic y arrastre para redimensionar el elemento</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="121"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="127"/>
       <source>Light Source</source>
       <extracomment>Exif image metadata: What type of light the camera detected. Please keep string short!</extracomment>
       <translation>Fuente de luz</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="94"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="100"/>
       <source>Image</source>
       <extracomment>Used as in &quot;Image 3/16&quot;. The numbers (position of image in folder) are added on automatically. Please keep string short!</extracomment>
       <translation>Imagen</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="124"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="130"/>
       <source>Keywords</source>
       <extracomment>IPTC image metadata: A description of the image by the user/software. Please keep string short!</extracomment>
       <translation>Palabras Claves</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="126"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="132"/>
       <source>Location</source>
       <extracomment>IPTC image metadata: The CITY and COUNTRY the imge was taken in. Please keep string short!</extracomment>
       <translation>Ubicación</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="128"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="134"/>
       <source>Copyright</source>
       <extracomment>IPTC image metadata. Please keep string short!</extracomment>
       <translation>Copyright</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="131"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="137"/>
       <source>GPS Position</source>
       <extracomment>Exif image metadata. Please keep string short!</extracomment>
       <translation>Posición del GPS</translation>
     </message>
     <message>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="119"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="125"/>
       <source>F Number</source>
       <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/F-number . Please keep string short!</extracomment>
       <translation>Número f</translation>
@@ -1884,13 +2014,13 @@ Window title</extracomment>
     </message>
     <message>
       <location filename="../qml/mainwindow/PQNavigation.qml" line="99"/>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="71"/>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="82"/>
       <source>Navigate to previous image in folder</source>
       <translation>Navegar a la imagen anterior en la carpeta</translation>
     </message>
     <message>
       <location filename="../qml/mainwindow/PQNavigation.qml" line="128"/>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="93"/>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="104"/>
       <source>Navigate to next image in folder</source>
       <translation>Navegar a la siguiente imagen en la carpeta</translation>
     </message>
@@ -1903,7 +2033,7 @@ Window title</extracomment>
   <context>
     <name>other</name>
     <message>
-      <location filename="../qml/mainwindow/PQMessage.qml" line="76"/>
+      <location filename="../qml/mainwindow/PQMessage.qml" line="74"/>
       <source>Open a file to start</source>
       <translation>Abrir un archivo para comenzar</translation>
     </message>
@@ -1959,41 +2089,41 @@ Window title</extracomment>
   <context>
     <name>popinpopout</name>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="270"/>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="295"/>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="289"/>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="230"/>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="230"/>
-      <location filename="../qml/filemanagement/PQRename.qml" line="213"/>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="345"/>
-      <location filename="../qml/filter/PQFilter.qml" line="361"/>
-      <location filename="../qml/histogram/PQHistogram.qml" line="298"/>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="425"/>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="304"/>
-      <location filename="../qml/scale/PQScale.qml" line="329"/>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="371"/>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="532"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="403"/>
+      <location filename="../qml/about/PQAbout.qml" line="257"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="287"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="284"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="255"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="224"/>
+      <location filename="../qml/filemanagement/PQRename.qml" line="209"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="336"/>
+      <location filename="../qml/filter/PQFilter.qml" line="355"/>
+      <location filename="../qml/histogram/PQHistogram.qml" line="291"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="440"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="299"/>
+      <location filename="../qml/scale/PQScale.qml" line="319"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="369"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="510"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="396"/>
       <source>Merge into main interface</source>
       <extracomment>Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface</extracomment>
       <translation>Combinar dentro de la interfaz principal</translation>
     </message>
     <message>
-      <location filename="../qml/about/PQAbout.qml" line="272"/>
-      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="297"/>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="291"/>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="232"/>
-      <location filename="../qml/filemanagement/PQDelete.qml" line="232"/>
-      <location filename="../qml/filemanagement/PQRename.qml" line="215"/>
-      <location filename="../qml/filemanagement/PQSaveAs.qml" line="347"/>
-      <location filename="../qml/filter/PQFilter.qml" line="363"/>
-      <location filename="../qml/histogram/PQHistogram.qml" line="300"/>
-      <location filename="../qml/menumeta/PQMainMenu.qml" line="427"/>
-      <location filename="../qml/menumeta/PQMetaData.qml" line="306"/>
-      <location filename="../qml/scale/PQScale.qml" line="331"/>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="373"/>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="534"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="405"/>
+      <location filename="../qml/about/PQAbout.qml" line="259"/>
+      <location filename="../qml/advancedsort/PQAdvancedSort.qml" line="289"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="286"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="257"/>
+      <location filename="../qml/filemanagement/PQDelete.qml" line="226"/>
+      <location filename="../qml/filemanagement/PQRename.qml" line="211"/>
+      <location filename="../qml/filemanagement/PQSaveAs.qml" line="338"/>
+      <location filename="../qml/filter/PQFilter.qml" line="357"/>
+      <location filename="../qml/histogram/PQHistogram.qml" line="293"/>
+      <location filename="../qml/menumeta/PQMainMenu.qml" line="442"/>
+      <location filename="../qml/menumeta/PQMetaData.qml" line="301"/>
+      <location filename="../qml/scale/PQScale.qml" line="321"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="371"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="512"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="398"/>
       <source>Move to its own window</source>
       <extracomment>Tooltip of small button to show an element in its own window (i.e., not merged into main interface)</extracomment>
       <translation>Mover a su propia ventana</translation>
@@ -2002,73 +2132,58 @@ Window title</extracomment>
   <context>
     <name>quickinfo</name>
     <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="122"/>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="133"/>
       <source>Click here to show main menu</source>
       <translation>Haz clic aquí para mostrar el menú principal</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="151"/>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="157"/>
+      <source>Click here to not keep window in foreground</source>
+      <translation type="unfinished">Click here to not keep window in foreground</translation>
+    </message>
+    <message>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="157"/>
+      <source>Click here to keep window in foreground</source>
+      <translation type="unfinished">Click here to keep window in foreground</translation>
+    </message>
+    <message>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="187"/>
+      <source>Click here to minimize window</source>
+      <translation>Clic aquí para minimizar ventana</translation>
+    </message>
+    <message>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="219"/>
+      <source>Click here to restore window</source>
+      <translation>Clic aquí para restaurar ventana</translation>
+    </message>
+    <message>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="220"/>
+      <source>Click here to maximize window</source>
+      <translation>Clic aquí para maximizar ventana</translation>
+    </message>
+    <message>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="251"/>
       <source>Click here to enter fullscreen mode</source>
       <translation>Clic aquí para entrar en modo de pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="152"/>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="252"/>
       <source>Click here to exit fullscreen mode</source>
       <translation>Clic aquí para salir de modo de pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="190"/>
+      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="284"/>
       <source>Click here to close PhotoQt</source>
       <translation>Haga clic aquí para cerrar PhotoQt</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="213"/>
-      <source>Show counter</source>
-      <translation>Mostrar contador</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="214"/>
-      <source>Hide counter</source>
-      <translation>Ocultar contador</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="216"/>
-      <source>Show file path</source>
-      <translation>Mostrar el nombre de archivo</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="217"/>
-      <source>Hide file path</source>
-      <translation>Ocultar el nombre de archivo</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="219"/>
-      <source>Show file name</source>
-      <translation>Mostrar el nombre de archivo</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="220"/>
-      <source>Hide file name</source>
-      <translation>Ocultar el nombre de archivo</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="222"/>
-      <source>Show zoom level</source>
-      <translation>Mostrar nivel de acercamiento</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="223"/>
-      <source>Hide zoom level</source>
-      <translation>Ocultar nivel de acercamiento</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQImage.qml" line="712"/>
-      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="388"/>
+      <location filename="../qml/mainwindow/PQImage.qml" line="715"/>
+      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="389"/>
       <source>Click here to enter viewer mode</source>
       <translation>Clic aquí para entrar en modo visor</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQImage.qml" line="731"/>
+      <location filename="../qml/mainwindow/PQImage.qml" line="734"/>
       <source>Hide central &apos;viewer mode&apos; button</source>
       <translation>Ocultar botón central de &apos;modo visor&apos;</translation>
     </message>
@@ -2084,9 +2199,14 @@ Window title</extracomment>
       <translation>Conectado a:</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="387"/>
+      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="388"/>
       <source>Click here to exit viewer mode</source>
       <translation>Clic aquí para salir del modo visor</translation>
+    </message>
+    <message>
+      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="427"/>
+      <source>Reset status info position</source>
+      <translation type="unfinished">Reset status info position</translation>
     </message>
     <message>
       <location filename="../qml/mainwindow/PQStatusInfo.qml" line="342"/>
@@ -2094,17 +2214,7 @@ Window title</extracomment>
       <translation>Filtrar:</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="225"/>
-      <source>Show window buttons</source>
-      <translation>Mostrar botones de ventana</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQWindowButtons.qml" line="226"/>
-      <source>Hide window buttons</source>
-      <translation>Ocultar botones de ventana</translation>
-    </message>
-    <message>
-      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="329"/>
+      <location filename="../qml/mainwindow/PQStatusInfo.qml" line="330"/>
       <source>Click to remove filter</source>
       <translation>Clic para remover el filtro</translation>
     </message>
@@ -2112,60 +2222,60 @@ Window title</extracomment>
   <context>
     <name>scale</name>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="84"/>
+      <location filename="../qml/scale/PQScale.qml" line="82"/>
       <location filename="../qml/scale/PQScalePopout.qml" line="34"/>
       <source>Scale file</source>
       <extracomment>Window title</extracomment>
       <translation>Escalar archivo</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="94"/>
+      <location filename="../qml/scale/PQScale.qml" line="91"/>
       <source>An error occured, file could not be scaled!</source>
       <translation>¡Ocurrió un error, el archivo no pudo ser escalado!</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="104"/>
+      <location filename="../qml/scale/PQScale.qml" line="100"/>
       <source>This file format cannot (yet) be scaled with PhotoQt!</source>
       <translation>¡Este formato de archivo no puede ser escalado (aún) con PhotoQt!</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="115"/>
+      <location filename="../qml/scale/PQScale.qml" line="110"/>
       <source>New width x height:</source>
       <translation>Nueva altura x anchura:</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="188"/>
+      <location filename="../qml/scale/PQScale.qml" line="182"/>
       <source>Preserve aspect ratio</source>
       <extracomment>The aspect ratio refers to the ratio of the width to the height of the image, e.g., 16:9 for most movies</extracomment>
       <translation>Preservar la relación de aspecto</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="199"/>
+      <location filename="../qml/scale/PQScale.qml" line="191"/>
       <source>Quality:</source>
       <extracomment>This refers to the quality to be used to scale the image</extracomment>
       <translation>Calidad:</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="232"/>
-      <location filename="../qml/scale/PQScale.qml" line="302"/>
+      <location filename="../qml/scale/PQScale.qml" line="224"/>
+      <location filename="../qml/scale/PQScale.qml" line="292"/>
       <source>Scale (create new file)</source>
       <extracomment>Written on a clickable button</extracomment>
       <translation>Escalar (crear nuevo archivo)</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="260"/>
-      <location filename="../qml/scale/PQScale.qml" line="303"/>
+      <location filename="../qml/scale/PQScale.qml" line="252"/>
+      <location filename="../qml/scale/PQScale.qml" line="293"/>
       <source>Scale (change file in place)</source>
       <extracomment>Written on a clickable button</extracomment>
       <translation>Escalar (sobrescribir el archivo)</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="304"/>
+      <location filename="../qml/scale/PQScale.qml" line="294"/>
       <source>De-/Increase width and height by 10%</source>
       <translation>Reducir/aumentar anchura y altura en 10%</translation>
     </message>
     <message>
-      <location filename="../qml/scale/PQScale.qml" line="305"/>
+      <location filename="../qml/scale/PQScale.qml" line="295"/>
       <source>In-/Decrease quality by 5%</source>
       <translation>Aumentar/reducir la calidad en 5%</translation>
     </message>
@@ -2244,442 +2354,460 @@ Window title</extracomment>
       <translation>Pestaña para controlar que atajos de teclado se deben establecer</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="224"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="222"/>
       <source>advanced</source>
       <extracomment>Written on button in setting manager. A click on this button opens a menu with some advanced actions.</extracomment>
       <translation>avanzado</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="228"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="226"/>
       <source>restore defaults</source>
       <translation>restaurar predeterminados</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="229"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="227"/>
       <source>import settings</source>
       <translation>importar ajustes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="230"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="228"/>
       <source>export settings</source>
       <translation>exportar ajustes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="231"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="229"/>
       <source>disable expert mode</source>
       <translation>desactivar modo experto</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="231"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="229"/>
       <source>enable expert mode</source>
       <translation>activar modo experto</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="272"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="270"/>
       <source>Import of %1. This will replace your current settings with the ones stored in the backup.</source>
       <translation>Importar %1. Esto reemplazará sus ajustes actuales con los que están almacenados en la copia de seguridad.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="273"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="271"/>
       <source>Do you want to continue?</source>
       <translation>¿Desea continuar?</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="325"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="323"/>
       <source>Save changes and exit</source>
       <translation>Guardar cambios y salir</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="338"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="336"/>
       <source>Exit and discard changes</source>
       <translation>Salir y descartar cambios</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="179"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="171"/>
       <source>Rename File</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Cambiar nombre de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="181"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="173"/>
       <source>Delete File</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Eliminar archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabFileTypes.qml" line="76"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabFileTypes.qml" line="68"/>
       <source>Filetype settings</source>
       <translation>Ajustes de tipo de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabFileTypes.qml" line="90"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabFileTypes.qml" line="80"/>
       <source>These settings govern which file types PhotoQt should recognize and open.</source>
       <translation>Estos ajustes gobiernan que tipos de archivo deberían ser reconocidos y abiertos por PhotoQt.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabFileTypes.qml" line="90"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabFileTypes.qml" line="80"/>
       <source>Not all file types might be available, depending on your setup and what library support was enabled at compile time</source>
       <translation>No todos los tipos de archivo podrían estar disponibles dependiendo de su configuración y de que soporte de librerías fue habilitado durante la compilación del programa</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabImageView.qml" line="84"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabImageView.qml" line="76"/>
       <source>Image view settings</source>
       <translation>Ajustes de vista de imagen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabImageView.qml" line="98"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabImageView.qml" line="88"/>
       <source>These settings affect the viewing of images, how they are shown, in what order, how large a cache to use, etc.</source>
       <translation>Estos ajustes afectan la visualización de imágenes, el como deben ser mostradas, en que orden, que tan grande será la caché a utilizarse, etc.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabImageView.qml" line="98"/>
-      <location filename="../qml/settingsmanager/tabs/PQTabInterface.qml" line="100"/>
-      <location filename="../qml/settingsmanager/tabs/PQTabMetadata.qml" line="99"/>
-      <location filename="../qml/settingsmanager/tabs/PQTabThumbnails.qml" line="99"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabImageView.qml" line="88"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabInterface.qml" line="90"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabMetadata.qml" line="89"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabThumbnails.qml" line="89"/>
       <source>Some settings are only shown in expert mode.</source>
       <translation>Algunos ajustes solo se muestran en modo experto.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabInterface.qml" line="86"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabInterface.qml" line="78"/>
       <source>Interface settings</source>
       <translation>Ajustes de interfaz</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabInterface.qml" line="100"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabInterface.qml" line="90"/>
       <source>These settings affect the interface in general, how the application looks like and behaves. This includes the background, some of the labels in the main view, which elements are to be shown in their own window, and others.</source>
       <translation>Estos ajustes afectan la interfaz de usuario en general, el como se ve y se comporta la aplicación. Esto incluye el fondo, algunas etiquetas de la vista principal, que elementos deben ser mostrados en su propia ventana, entre otros.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabMetadata.qml" line="85"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabMetadata.qml" line="77"/>
       <source>Metadata settings</source>
       <translation>Ajustes de metadatos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabMetadata.qml" line="99"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabMetadata.qml" line="89"/>
       <source>These settings affect the metadata element, what information it should show and some of its behavior.</source>
       <translation>Estos ajustes afectan el elemento de metadatos, que información debería mostrarse y algunos de sus comportamientos.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="77"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="69"/>
       <source>Shortcuts</source>
       <translation>Atajos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="101"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="91"/>
       <source>Navigation</source>
       <extracomment>A shortcuts category: navigation</extracomment>
       <translation>Navegación</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="107"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="97"/>
       <source>Filter images in folder</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Filtrar las imágenes de la carpeta</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="109"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="99"/>
       <source>Next image</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Imagen siguiente</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="111"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="101"/>
       <source>Previous image</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Imagen anterior</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="113"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="103"/>
       <source>Load a random image</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Cargar una imagen aleatoria</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="117"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="107"/>
       <source>Go to first image</source>
       <extracomment>Name of shortcut action Name of shortcut action</extracomment>
       <translation>Ir a la primera imagen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="119"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="109"/>
       <source>Go to last image</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ir a la última imagen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="121"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="111"/>
       <source>Enter viewer mode</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Entrar en modo visor</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="125"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="115"/>
       <source>Close window (hides to system tray if enabled)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Cerrar ventana (ocultar a la bandeja del sistema si está habilitado)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="127"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="117"/>
       <source>Quit PhotoQt</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Salir de PhotoQt</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="135"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="125"/>
       <source>Image</source>
       <extracomment>A shortcuts category: image manipulation</extracomment>
       <translation>Imagen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="139"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="129"/>
       <source>Zoom In</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Acercar</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="141"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="131"/>
       <source>Zoom Out</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Alejar</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="143"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="133"/>
       <source>Zoom to Actual Size</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ajustar al tamaño real</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="145"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="135"/>
       <source>Reset Zoom</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Restablecer acercamiento</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="147"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="137"/>
       <source>Toggle &apos;Fit in window&apos;</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Alternar &apos;Ajustar en ventana&apos;</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="149"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="141"/>
       <source>Rotate Right</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Girar a la derecha</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="151"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="143"/>
       <source>Rotate Left</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Girar a la izquierda</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="153"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="145"/>
       <source>Reset Rotation</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Reiniciar rotación</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="155"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="147"/>
       <source>Flip Horizontally</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Voltear horizontalmente</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="157"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="149"/>
       <source>Flip Vertically</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Voltear verticalmente</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="159"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="151"/>
       <source>Scale Image</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Escalar imagen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="161"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="153"/>
       <source>Play/Pause animation/video</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Reproducir/Pausar animación/video</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="163"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="155"/>
       <source>Hide/Show face tags (stored in metadata)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ocultar/Mostrar etiquetas de cara (almacenadas en metadatos)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="167"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="159"/>
       <source>Advanced image sort (Quickstart)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ordenación avanzada de imágenes (Inicio rápido)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="215"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="207"/>
       <source>Start Slideshow (Setup)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Iniciar presentación (Configurar)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="245"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="227"/>
+      <source>Reset current session</source>
+      <extracomment>Name of shortcut action</extracomment>
+      <translation>Reiniciar sesión actual</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="229"/>
+      <source>Reset current session and hide window</source>
+      <extracomment>Name of shortcut action</extracomment>
+      <translation>Reiniciar sesión actual y ocultar ventana</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="241"/>
       <source>filename including path</source>
       <translation>nombre de archivo incluyendo ruta</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="246"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="242"/>
       <source>filename without path</source>
       <translation>nombre de archivo sin la ruta</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="247"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="243"/>
       <source>directory containing file</source>
       <translation>directorio que contiene el archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="175"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="167"/>
       <source>File</source>
       <extracomment>A shortcuts category: file management</extracomment>
       <translation>Archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="123"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="113"/>
       <source>Show floating navigation buttons</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Mostrar botones de navegación flotantes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="183"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="139"/>
+      <source>Toggle: Show always actual size by default</source>
+      <extracomment>Name of shortcut action</extracomment>
+      <translation type="unfinished">Toggle: Show always actual size by default</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="175"/>
       <source>Delete File (without confirmation)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Eliminar archivo (sin confirmación)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="185"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="177"/>
       <source>Copy File to a New Location</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Copiar un archivo a una nueva ubicación</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="187"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="179"/>
       <source>Move File to a New Location</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Mover un archivo a una nueva ubicación</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="189"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="181"/>
       <source>Copy Image to Clipboard</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Copiar imagen al portapapeles</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="193"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="185"/>
       <source>Print current photo</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Imprimir foto actual</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="201"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="193"/>
       <source>Other</source>
       <extracomment>A shortcuts category: other functions</extracomment>
       <translation>Otros</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="205"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="197"/>
       <source>Hide/Show main menu</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ocultar/Mostrar menú principal</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="207"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="199"/>
       <source>Hide/Show metadata</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ocultar/Mostrar metadatos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="209"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="201"/>
       <source>Keep metadata opened</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Mantener los metadatos abiertos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="211"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="203"/>
       <source>Hide/Show thumbnails</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ocultar/Mostrar miniaturas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="213"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="205"/>
       <source>Show Settings</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Mostrar ajustes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="217"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="209"/>
       <source>Start Slideshow (Quickstart)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Iniciar presentación (rápido)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="219"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="211"/>
       <source>About PhotoQt</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Acerca de PhotoQt</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="221"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="213"/>
       <source>Set as Wallpaper</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="223"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="215"/>
       <source>Show Histogram</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Mostrar histograma</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="225"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="217"/>
       <source>Upload to imgur.com (anonymously)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Subir a imgur.com (anónimamente)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="227"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="219"/>
       <source>Upload to imgur.com user account</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Subir a imgur.com con cuenta de usuario</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="229"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="221"/>
       <source>Stream content to Chromecast device</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Transmitir contenido al dispositivo Chromecast</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="231"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="223"/>
       <source>Show log/debug messages</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Mostrar mensajes de bitácora/depuración</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="233"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="225"/>
       <source>Toggle fullscreen mode</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Alternar modo de pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="243"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="239"/>
       <source>External</source>
       <extracomment>A shortcuts category: external shortcuts</extracomment>
       <translation>Externos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabThumbnails.qml" line="85"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabThumbnails.qml" line="77"/>
       <source>Thumbnails settings</source>
       <translation>Ajustes de miniaturas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabThumbnails.qml" line="99"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabThumbnails.qml" line="89"/>
       <source>These settings affect the thumbnails shown, by default, along the bottom edge of the screen. This includes their look, behavior, and the user&apos;s interaction with them.</source>
       <translation>Estos ajustes afectan las miniaturas mostradas, por omisión, estas se encuentran a lo largo de borde inferior de la pantalla. Esto incluye el como se ven, su comportamiento y su interacción con el usuario.</translation>
     </message>
@@ -2690,57 +2818,57 @@ Window title</extracomment>
       <translation>Gestor de ajustes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="91"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="81"/>
       <source>Here the shortcuts can be managed. Below you can add a new shortcut for any one of the available actions, both key combinations and mouse gestures are supported.</source>
       <translation>Aquí se pueden gestionar los atajos. A continuación puede añadir un nuevo acceso directo para cualquiera de las acciones disponibles, tanto las combinaciones de teclas como los gestos del ratón están soportados.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="91"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="81"/>
       <source>You can also set the same shortcut for multiple actions or multiple times for the same action. All actions for a shortcut will be executed sequentially, allowing a lot more flexibility in using PhotoQt.</source>
       <translation>También puede establecer el mismo acceso directo para múltiples acciones o múltiples veces para la misma acción. Todas las acciones para un atajo se ejecutarán secuencialmente, permitiendo mucha más flexibilidad en el uso de Photo Qt.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="105"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="95"/>
       <source>Open file (browse images)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Abrir archivo (navegar imágenes)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="165"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="157"/>
       <source>Advanced image sort (Setup)</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Ordenación avanzada de imágenes (Configurar)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="191"/>
+      <location filename="../qml/settingsmanager/tabs/PQTabShortcuts.qml" line="183"/>
       <source>Save image in another format</source>
       <extracomment>Name of shortcut action</extracomment>
       <translation>Guardar imagen en otro formato</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="72"/>
-      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="128"/>
+      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="124"/>
       <source>Restore defaults</source>
       <extracomment>As in &apos;restore the default settings and/or file formats and/or shortcuts&apos;. Please keep short!</extracomment>
       <translation>Restaurar predeterminados</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="83"/>
+      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="79"/>
       <source>Here you can restore the default configuration of PhotoQt. You can choose to restore any combination of the following three categories.</source>
       <translation>Aquí puede restaurar la configuración predeterminada de PhotoQt. Puede elegir restaurar cualquier combinación de las siguientes tres categorías.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="96"/>
+      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="92"/>
       <source>Restore default settings</source>
       <translation>Restaurar ajustes predeterminados</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="103"/>
+      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="99"/>
       <source>Restore default file formats</source>
       <translation>Restaurar formatos de archivo predeterminados</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="109"/>
+      <location filename="../qml/settingsmanager/PQRestoreDefaults.qml" line="105"/>
       <source>Restore default shortcuts</source>
       <translation>Restaurar atajos predeterminados</translation>
     </message>
@@ -2764,8 +2892,8 @@ Window title</extracomment>
       <translation>Estos son algunos ajustes adicionales para mostrar archivos PDF.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/filetypes/PQPoppler.qml" line="44"/>
-      <location filename="../qml/settingsmanager/tabs/filetypes/PQPoppler.qml" line="55"/>
+      <location filename="../qml/settingsmanager/tabs/filetypes/PQPoppler.qml" line="43"/>
+      <location filename="../qml/settingsmanager/tabs/filetypes/PQPoppler.qml" line="54"/>
       <source>Quality:</source>
       <extracomment>the quality setting to be used when loading PDFs</extracomment>
       <translation>Calidad:</translation>
@@ -2847,23 +2975,23 @@ Window title</extracomment>
       <translation>habilitar todos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="117"/>
+      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="115"/>
       <source>Currently there are %1 file formats enabled</source>
       <extracomment>The %1 will be replaced with the number of file formats, please don&apos;t forget to add it.</extracomment>
       <translation>Actualmente hay %1 archivos de formato habilitados</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="145"/>
+      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="143"/>
       <source>Search by description or file ending</source>
       <translation>Buscar por descripción o por extensión de archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="151"/>
+      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="149"/>
       <source>Search by image library or category</source>
       <translation>Buscar por librería de imágenes o por categoría</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="240"/>
+      <location filename="../qml/settingsmanager/tabs/filetypes/PQFileTypes.qml" line="238"/>
       <source>File endings:</source>
       <translation>Extensiones de archivo:</translation>
     </message>
@@ -2937,7 +3065,7 @@ Window title</extracomment>
       <translation>sin animación</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/imageview/PQAnimation.qml" line="91"/>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQAnimation.qml" line="90"/>
       <source>long animation</source>
       <extracomment>This is referring to the in/out animation of images</extracomment>
       <translation>animación larga</translation>
@@ -3025,7 +3153,7 @@ Window title</extracomment>
       <translation>Cuanto espacio mostrar entre la imagen principal y el borde de la aplicación.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/imageview/PQMargin.qml" line="44"/>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQMargin.qml" line="43"/>
       <source>none</source>
       <extracomment>As in: no margin between the main image and the window edges</extracomment>
       <translation>ninguno</translation>
@@ -3123,13 +3251,13 @@ Window title</extracomment>
       <translation>Las imágenes son acercadas a una velocidad relativa especificada por este porcentaje. Un valor más alto significa un acercamiento más rápido.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/imageview/PQZoomSpeed.qml" line="43"/>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQZoomSpeed.qml" line="42"/>
       <source>super slow</source>
       <extracomment>This refers to the zoom speed, the zoom here is the zoom of the main image</extracomment>
       <translation>super lento</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/imageview/PQZoomSpeed.qml" line="58"/>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQZoomSpeed.qml" line="56"/>
       <source>very fast</source>
       <extracomment>This refers to the zoom speed, the zoom here is the zoom of the main image</extracomment>
       <translation>muy rápido</translation>
@@ -3191,6 +3319,22 @@ Window title</extracomment>
       <location filename="../qml/settingsmanager/tabs/shortcuts/PQDoubleClick.qml" line="31"/>
       <source>Two clicks within the specified interval are interpreted as a double click. Note that too high a value will cause noticable delays in reacting to single clicks.</source>
       <translation>Dos clics dentro del intervalo especificado se interpretan como un doble clic. Tenga en cuenta que un valor demasiado alto causará retrasos notables en la reacción a un solo clic.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQAlwaysActualSize.qml" line="30"/>
+      <source>size on image load</source>
+      <extracomment>A settings title referring to whether to show images by default at actual size</extracomment>
+      <translation type="unfinished">size on image load</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQAlwaysActualSize.qml" line="31"/>
+      <source>PhotoQt by default makes sure that images are fully visible no matter their size. With this setting you can tell PhotoQt to always load images by default at full size. For images larger than the window this will then require zooming out in order to see the full image.</source>
+      <translation type="unfinished">PhotoQt by default makes sure that images are fully visible no matter their size. With this setting you can tell PhotoQt to always load images by default at full size. For images larger than the window this will then require zooming out in order to see the full image.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/imageview/PQAlwaysActualSize.qml" line="37"/>
+      <source>always show actual instead of scaled size</source>
+      <translation type="unfinished">always show actual instead of scaled size</translation>
     </message>
   </context>
   <context>
@@ -3328,13 +3472,13 @@ Window title</extracomment>
       <translation>Ajusta la sensibilidad de los bordes para mostrar elementos de la interfaz como el de metadatos o el menú principal.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQHotEdgeWidth.qml" line="40"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQHotEdgeWidth.qml" line="39"/>
       <source>small</source>
       <extracomment>used as in: small area</extracomment>
       <translation>pequeña</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQHotEdgeWidth.qml" line="57"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQHotEdgeWidth.qml" line="55"/>
       <source>large</source>
       <extracomment>used as in: large area</extracomment>
       <translation>grande</translation>
@@ -3362,13 +3506,13 @@ Window title</extracomment>
       <translation>Qué tan sensible debe ser la rueda del ratón para activar atajos, etc.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQMouseWheel.qml" line="58"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQMouseWheel.qml" line="56"/>
       <source>not sensitive</source>
       <extracomment>The sensitivity here refers to the sensitivity of the mouse wheel</extracomment>
       <translation>nada sensible</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQMouseWheel.qml" line="42"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQMouseWheel.qml" line="41"/>
       <source>very sensitive</source>
       <extracomment>The sensitivity here refers to the sensitivity of the mouse wheel</extracomment>
       <translation>muy sensible</translation>
@@ -3385,23 +3529,28 @@ Window title</extracomment>
       <translation>Este es el color que se muestra en el fondo por encima de cualquier imagen de fondo/etc.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="77"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="148"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="75"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="142"/>
       <source>click to change color</source>
       <translation>clic para cambiar color</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="122"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="117"/>
       <source>fullscreen mode</source>
       <translation>modo de pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="186"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="153"/>
+      <source>opacity</source>
+      <translation>opacidad</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="178"/>
       <source>use same color in window and fullscreen mode</source>
       <translation>usar el mismo color en ventana que en pantalla completa</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="195"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="187"/>
       <source>please choose a color</source>
       <translation>por favor elija un color</translation>
     </message>
@@ -3530,65 +3679,94 @@ Window title</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="41"/>
-      <source>Show status information</source>
-      <translation>Mostrar información de estado</translation>
+      <source>show status information</source>
+      <translation type="unfinished">show status information</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="72"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="204"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="202"/>
       <source>counter</source>
       <extracomment>Please keep short! The counter shows where we are in the folder.</extracomment>
       <translation>contador</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="76"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="208"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="206"/>
       <source>filepath</source>
       <extracomment>Please keep short!</extracomment>
       <translation>ruta del archivo</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="78"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="210"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="208"/>
       <source>resolution</source>
       <extracomment>Please keep short! This is the image resolution.</extracomment>
       <translation>resolución</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="80"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="212"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="210"/>
       <source>zoom</source>
       <extracomment>Please keep short! This is the current zoom level.</extracomment>
       <translation>acercamiento</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="82"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="214"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="212"/>
       <source>rotation</source>
       <extracomment>Please keep short! This is the rotation of the current image</extracomment>
       <translation>rotación</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="84"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="216"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="214"/>
       <source>filesize</source>
       <extracomment>Please keep short! This is the filesize of the current image.</extracomment>
       <translation>tamaño del archivo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="231"/>
-      <source>Add</source>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="229"/>
+      <source>add</source>
       <extracomment>This is written on a button that is used to add a selected block to the status info section.</extracomment>
-      <translation>Agregar</translation>
+      <translation>agregar</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="242"/>
-      <source>Font size:</source>
-      <translation>Tamaño de fuente:</translation>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="239"/>
+      <source>font size:</source>
+      <translation>tamaño de fuente:</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="260"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="75"/>
+      <source>automatically hide</source>
+      <translation>ocultar automáticamente</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="267"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="82"/>
+      <source>Show on any cursor move</source>
+      <translation type="unfinished">Show on any cursor move</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="268"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="83"/>
+      <source>Show when cursor near top edge</source>
+      <translation type="unfinished">Show when cursor near top edge</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="280"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="95"/>
+      <source>Timeout for hiding once shown:</source>
+      <translation type="unfinished">Timeout for hiding once shown:</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="300"/>
+      <source>Show status information whenever the image changes</source>
+      <translation type="unfinished">Show status information whenever the image changes</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="74"/>
-      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="206"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQStatusInfo.qml" line="204"/>
       <source>filename</source>
       <extracomment>Please keep short!</extracomment>
       <translation>nombre del archivo</translation>
@@ -3611,11 +3789,11 @@ Window title</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="50"/>
-      <source>always show &apos;x&apos;</source>
-      <translation>siempre mostrar &apos;x&apos;</translation>
+      <source>also duplicate buttons from window decoration</source>
+      <translation type="unfinished">also duplicate buttons from window decoration</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="61"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQWindowButtons.qml" line="60"/>
       <source>size of window buttons</source>
       <extracomment>the size of the window buttons (the buttons shown in the top right corner of the window)</extracomment>
       <translation>tamaño de los botones de ventana</translation>
@@ -3637,30 +3815,35 @@ Window title</extracomment>
       <translation>reabrir la última imagen al inicio</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="30"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="31"/>
       <source>tray icon</source>
       <extracomment>A settings title.</extracomment>
       <translation>icono de la bandeja del sistema</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="31"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="32"/>
       <source>If a tray icon is to be shown and, if shown, whether to hide it or not.</source>
       <translation>Si se mostrará un ícono en la bandeja del sistema y, de ser así, el ocultar el programa dentro de este o no.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="36"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="41"/>
       <source>no tray icon</source>
       <translation>sin icono en la bandeja</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="37"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="42"/>
       <source>hide to tray icon</source>
       <translation>ocultar en el icono de la bandeja</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="38"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="43"/>
       <source>show tray icon but don&apos;t hide to it</source>
       <translation>mostrar el icono de la bandeja pero no esconder el programa en el</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQTrayIcon.qml" line="55"/>
+      <source>reset session when hiding</source>
+      <translation type="unfinished">reset session when hiding</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQWindowManagement.qml" line="31"/>
@@ -3689,7 +3872,7 @@ Window title</extracomment>
       <translation>mantener sobre las demás ventanas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="54"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQOverlayColor.qml" line="53"/>
       <location filename="../qml/settingsmanager/tabs/interface/PQWindowMode.qml" line="31"/>
       <source>window mode</source>
       <extracomment>A settings title.</extracomment>
@@ -3722,74 +3905,74 @@ Window title</extracomment>
       <translation>Agrega algunas entradas personalizadas al menú contextual.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="58"/>
-      <source>Set entries for other image related applications</source>
-      <translation>Establece las entradas para otras aplicaciones relacionadas con imágenes</translation>
-    </message>
-    <message>
       <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="60"/>
       <source>This will look for some other image related applications on your computer and add an entry for any that are found.</source>
       <translation>Esto buscará otras aplicaciones relacionadas con imágenes en su computadora y agregará una entrada cualquiera que se encuentre.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="61"/>
-      <source>Note that this will replace all entries currently set and cannot be undone.</source>
-      <translation>Tenga en cuenta que esto reemplazará todas las entradas establecidas actualmente y esto no se puede deshacer.</translation>
-    </message>
-    <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="111"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="123"/>
       <source>Click to change the icon of the entry</source>
-      <translation type="unfinished">Click to change the icon of the entry</translation>
+      <translation>Clic para cambiar el ícono del elemento</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="128"/>
-      <source>what string to show for this entry</source>
-      <extracomment>this is the placeholder text inside of a text box telling the user what text they can enter here</extracomment>
-      <translation type="unfinished">what string to show for this entry</translation>
-    </message>
-    <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="150"/>
-      <source>Click here to select an executable to be used with this shortcut.</source>
-      <translation type="unfinished">Click here to select an executable to be used with this shortcut.</translation>
-    </message>
-    <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="153"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="246"/>
       <source>executable</source>
-      <extracomment>This is written on a button, used as in &apos;click this button to select an executable&apos;</extracomment>
-      <translation type="unfinished">executable</translation>
+      <extracomment>This is used as in &quot;executable binary/program&quot;</extracomment>
+      <translation>ejecutable</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="174"/>
-      <source>additional command line flags</source>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="58"/>
+      <source>Detect other image related applications</source>
+      <translation type="unfinished">Detect other image related applications</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="61"/>
+      <source>Note that this will replace all entries currently set and cannot be undone. Continue?</source>
+      <translation type="unfinished">Note that this will replace all entries currently set and cannot be undone. Continue?</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="139"/>
+      <source>entry name</source>
       <extracomment>this is the placeholder text inside of a text box telling the user what text they can enter here</extracomment>
-      <translation type="unfinished">additional command line flags</translation>
+      <translation type="unfinished">entry name</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="198"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="164"/>
       <source>quit</source>
       <extracomment>Keep string short! Used on checkbox for contextmenu, refers to option to close PhotoQt after respective command has been executed.</extracomment>
       <translation>salir</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="218"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="188"/>
       <source>move entry down</source>
       <extracomment>contextmenu settings: used as in &apos;move this entry down in the list of all entries&apos;</extracomment>
       <translation>mover entrada abajo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="231"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="200"/>
       <source>move entry up</source>
       <extracomment>contextmenu settings: used as in &apos;move this entry up in the list of all entries&apos;</extracomment>
       <translation>mover entrada arriba</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="249"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="217"/>
       <source>delete entry</source>
       <extracomment>contextmenu settings: used as in &apos;delete this entry out of the list of all entries&apos;</extracomment>
       <translation>borrar entrada</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="277"/>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="269"/>
+      <source>Click here to select the executable for this entry.</source>
+      <translation type="unfinished">Click here to select the executable for this entry.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="290"/>
+      <source>additional flags</source>
+      <extracomment>this is the placeholder text inside of a text box telling the user what text they can enter here</extracomment>
+      <translation type="unfinished">additional flags</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQContextMenu.qml" line="323"/>
       <source>Also show entries in main menu</source>
       <translation>Mostrar también las entradas en el menú principal</translation>
     </message>
@@ -3830,6 +4013,22 @@ Window title</extracomment>
       <source>pop out when application window is small</source>
       <translation>desplegar cuando la ventana de la aplicación sea pequeña</translation>
     </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQBlurElementsInBackground.qml" line="30"/>
+      <source>blur background</source>
+      <extracomment>A settings title.</extracomment>
+      <translation type="unfinished">blur background</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQBlurElementsInBackground.qml" line="31"/>
+      <source>The background of the various elements (metadata, mainmenu, etc.) can be blurred.</source>
+      <translation type="unfinished">The background of the various elements (metadata, mainmenu, etc.) can be blurred.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/interface/PQBlurElementsInBackground.qml" line="36"/>
+      <source>blur elements when behind other elements</source>
+      <translation type="unfinished">blur elements when behind other elements</translation>
+    </message>
   </context>
   <context>
     <name>settingsmanager_metadata</name>
@@ -3869,12 +4068,12 @@ Window title</extracomment>
       <translation>mostrar borde</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/metadata/PQFaceTagsBorder.qml" line="96"/>
+      <location filename="../qml/settingsmanager/tabs/metadata/PQFaceTagsBorder.qml" line="95"/>
       <source>click to change color</source>
       <translation>clic para cambiar de color</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/metadata/PQFaceTagsBorder.qml" line="110"/>
+      <location filename="../qml/settingsmanager/tabs/metadata/PQFaceTagsBorder.qml" line="109"/>
       <source>please choose a color</source>
       <translation>por favor elija un color</translation>
     </message>
@@ -4087,46 +4286,51 @@ Window title</extracomment>
   <context>
     <name>settingsmanager_shortcuts</name>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="61"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="62"/>
       <source>quit</source>
       <extracomment>checkbox in shortcuts settings, used as in: quit PhotoQt. Please keep as short as possible!</extracomment>
       <translation>salir</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="96"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="82"/>
+      <source>Click here to select an executable to be used with this shortcut.</source>
+      <translation type="unfinished">Click here to select an executable to be used with this shortcut.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="135"/>
       <source>Click to change shortcut</source>
       <translation>Clic para cambiar atajo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="130"/>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="144"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="168"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="141"/>
       <source>Click to delete shortcut</source>
       <translation>clic para borrar atajo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="89"/>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="61"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml" line="128"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="60"/>
       <source>no shortcut set</source>
       <translation>no se ha establecido atajo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="71"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="70"/>
       <source>Click to manage shortcut</source>
       <translation>Clic para gestionar el atajo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="172"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQShortcutTile.qml" line="168"/>
       <source>add new</source>
       <extracomment>Used as in &apos;add new shortcut&apos;. Please keep short!</extracomment>
       <translation>agregar nuevo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQNewShortcut.qml" line="113"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQNewShortcut.qml" line="111"/>
       <source>Add New Shortcut</source>
       <translation>Agregar atajo nuevo</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/shortcuts/PQNewShortcut.qml" line="134"/>
+      <location filename="../qml/settingsmanager/tabs/shortcuts/PQNewShortcut.qml" line="131"/>
       <source>Perform a mouse gesture here or press any key combo</source>
       <translation>Realiza un gesto del ratón aquí o presiona cualquier combinación de teclas</translation>
     </message>
@@ -4284,7 +4488,7 @@ Window title</extracomment>
       <translation>Cuantos hilos de procesamiento se deben usar para crear las miniaturas. ¡Usar demasiados hilos podrían poner lenta su computadora!</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/thumbnails/PQThreads.qml" line="50"/>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQThreads.qml" line="49"/>
       <source>Threads:</source>
       <translation>Hilos:</translation>
     </message>
@@ -4328,20 +4532,41 @@ Window title</extracomment>
       <translation>Excluir las carpetas especificadas y todas sus subcarpetas de cualquier tipo de almacenamiento en caché y precarga.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/thumbnails/PQExcludeFolders.qml" line="103"/>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQExcludeFolders.qml" line="101"/>
       <source>Do not cache these folders:</source>
       <translation>No guardar en caché estas carpetas:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/thumbnails/PQExcludeFolders.qml" line="115"/>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQExcludeFolders.qml" line="114"/>
       <source>Add folder</source>
       <extracomment>Written on a button</extracomment>
       <translation>Agregar carpeta</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/tabs/thumbnails/PQExcludeFolders.qml" line="110"/>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQExcludeFolders.qml" line="108"/>
       <source>One folder per line</source>
       <translation>Una carpeta por línea</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQScaleCrop.qml" line="33"/>
+      <source>thumbnail image</source>
+      <extracomment>A settings title. Used as in: Keep thumbnail for current main image in center.</extracomment>
+      <translation type="unfinished">thumbnail image</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQScaleCrop.qml" line="34"/>
+      <source>Whether the thumbnail image should be fit into the available thumbnail space or whether it should be scaled and cropped to fill out the entire available thumbnail space.</source>
+      <translation type="unfinished">Whether the thumbnail image should be fit into the available thumbnail space or whether it should be scaled and cropped to fill out the entire available thumbnail space.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQScaleCrop.qml" line="45"/>
+      <source>fit thumbnails</source>
+      <translation type="unfinished">fit thumbnails</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/tabs/thumbnails/PQScaleCrop.qml" line="50"/>
+      <source>scale and crop thumbnails</source>
+      <translation type="unfinished">scale and crop thumbnails</translation>
     </message>
   </context>
   <context>
@@ -4384,193 +4609,193 @@ Window title</extracomment>
       <translation>Ajustes de la presentación</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="110"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="106"/>
       <source>interval</source>
       <extracomment>The interval between images in a slideshow</extracomment>
       <translation>intervalo</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="147"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="140"/>
       <source>animation</source>
       <extracomment>This is referring to the in/out animation of images during a slideshow</extracomment>
       <translation>animación</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="159"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="152"/>
       <source>opacity</source>
       <extracomment>This is referring to the in/out animation of images during slideshows</extracomment>
       <translation>desvanecer</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="161"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="154"/>
       <source>along x-axis</source>
       <extracomment>This is referring to the in/out animation of images during slideshows</extracomment>
       <translation>Deslizar en el eje X</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="163"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="156"/>
       <source>along y-axis</source>
       <extracomment>This is referring to the in/out animation of images during slideshows</extracomment>
       <translation>Deslizar en el eje Y</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="165"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="158"/>
       <source>rotation</source>
       <extracomment>This is referring to the in/out animation of images</extracomment>
       <translation>rotación</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="167"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="160"/>
       <source>explosion</source>
       <extracomment>This is referring to the in/out animation of images</extracomment>
       <translation>explosión</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="169"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="162"/>
       <source>implosion</source>
       <extracomment>This is referring to the in/out animation of images</extracomment>
       <translation>implosión</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="171"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="164"/>
       <source>choose one at random</source>
       <extracomment>This is referring to the in/out animation of images</extracomment>
       <translation>elegir uno al azar</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="191"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="182"/>
       <source>animation speed</source>
       <extracomment>The speed of transitioning from one image to another during slideshows</extracomment>
       <translation>velocidad de animación</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="211"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="202"/>
       <source>immediately, without animation</source>
       <extracomment>This refers to a speed of transitioning from one image to another during slideshows</extracomment>
       <translation>inmediatamente, sin animación</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="214"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="205"/>
       <source>pretty fast animation</source>
       <extracomment>This refers to a speed of transitioning from one image to another during slideshows</extracomment>
       <translation>animación bastante rápida</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="217"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="208"/>
       <source>not too fast and not too slow</source>
       <extracomment>This refers to a speed of transitioning from one image to another during slideshows</extracomment>
       <translation>ni muy rápido, ni muy lento</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="219"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="210"/>
       <source>very slow animation</source>
       <extracomment>This refers to a speed of transitioning from one image to another during slideshows</extracomment>
       <translation>animación muy lenta</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="226"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="216"/>
       <source>current speed</source>
       <extracomment>This refers to the currently set speed of transitioning from one image to another during slideshows</extracomment>
       <translation>velocidad actual</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="248"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="236"/>
       <source>looping</source>
       <translation>ciclar</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="261"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="249"/>
       <source>loop over all files</source>
       <extracomment>Loop over all images during slideshows</extracomment>
       <translation>ciclar todas las imágenes</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="278"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="264"/>
       <source>shuffle</source>
       <extracomment>during slideshows shuffle the order of all images</extracomment>
       <translation>Orden aleatorio</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="291"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="277"/>
       <source>shuffle all files</source>
       <extracomment>during slideshows shuffle the order of all images</extracomment>
       <translation>Usar orden aleatorio para todos los archivos</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="308"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="292"/>
       <source>subfolders</source>
       <extracomment>also include images in subfolders during slideshows</extracomment>
       <translation>subcarpetas</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="321"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="305"/>
       <source>include images in subfolders</source>
       <extracomment>also include images in subfolders during slideshows</extracomment>
       <translation>incluir imágenes en las subcarpetas</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="339"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="321"/>
       <source>file info</source>
       <extracomment>What to do with the file details during slideshows</extracomment>
       <translation>información del archivo</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="352"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="334"/>
       <source>hide label with details about current file</source>
       <extracomment>What to do with the file details during slideshows</extracomment>
       <translation>ocultar la etiqueta con los detalles sobre el archivo actual</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="370"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="350"/>
       <source>window buttons</source>
       <extracomment>What to do with the window buttons during slideshows</extracomment>
       <translation>botones de ventana</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="383"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="363"/>
       <source>hide window buttons during slideshow</source>
       <extracomment>What to do with the window buttons during slideshows</extracomment>
       <translation>ocultar los botones de ventana durante la presentación</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="401"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="379"/>
       <source>music</source>
       <extracomment>The music that is to be played during slideshows</extracomment>
       <translation>música</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="418"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="396"/>
       <source>enable music</source>
       <extracomment>Enable music to be played during slideshows</extracomment>
       <translation>habilitar música</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="425"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="403"/>
       <source>no file selected</source>
       <translation>no se ha seleccionado archivo</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="427"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="405"/>
       <source>Click to select music file</source>
       <translation>Click para seleccionar archivo de música</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="428"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="406"/>
       <source>Click to change music file</source>
       <translation>Click para cambiar archivo de música</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="439"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="417"/>
       <source>Common music file formats</source>
       <translation>Formatos de archivo de música comunes</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="440"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="418"/>
       <source>All Files</source>
       <translation>Todos los archivos</translation>
     </message>
     <message>
-      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="475"/>
+      <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="453"/>
       <source>Start slideshow</source>
       <extracomment>Written on a clickable button</extracomment>
       <translation>Iniciar presentación</translation>
@@ -4585,19 +4810,19 @@ Window title</extracomment>
   <context>
     <name>startup</name>
     <message>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="330"/>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="332"/>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="334"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="339"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="341"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="343"/>
       <source>Edit with %1</source>
       <extracomment>Used as in &apos;Edit with [application]&apos;. %1 will be replaced with application name.</extracomment>
       <translation>Editar con %1</translation>
     </message>
     <message>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="336"/>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="338"/>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="340"/>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="342"/>
-      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="344"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="345"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="347"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="349"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="351"/>
+      <location filename="../cplusplus/scripts/handlingexternal.cpp" line="353"/>
       <source>Open in %1</source>
       <extracomment>Used as in &apos;Open with [application]&apos;. %1 will be replaced with application name.</extracomment>
       <translation>Abrir en %1</translation>
@@ -4606,31 +4831,31 @@ Window title</extracomment>
   <context>
     <name>streaming</name>
     <message>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="98"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="96"/>
       <source>Scan for devices</source>
       <extracomment>Used as tooltip for button that starts a scan for Chromecast streaming devices in the local network</extracomment>
       <translation>Escaneando dispositivos</translation>
     </message>
     <message>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="206"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="201"/>
       <source>Disconnect</source>
       <extracomment>Written on button, as in &apos;Disconnect from connected Chromecast streaming device&apos;</extracomment>
       <translation>Desconectar</translation>
     </message>
     <message>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="208"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="203"/>
       <source>Connect</source>
       <extracomment>Written on button, as in &apos;Connect to Chromecast streaming device&apos;</extracomment>
       <translation>Conectar</translation>
     </message>
     <message>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="241"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="236"/>
       <source>searching for devices...</source>
       <extracomment>status text while searching for chromecast streaming devices in the local network</extracomment>
       <translation>buscando dispositivos...</translation>
     </message>
     <message>
-      <location filename="../qml/chromecast/PQChromecast.qml" line="243"/>
+      <location filename="../qml/chromecast/PQChromecast.qml" line="238"/>
       <source>no devices found</source>
       <extracomment>result of scan for chromecast streaming devices</extracomment>
       <translation>no se encontraron dispositivos</translation>
@@ -4645,12 +4870,12 @@ Window title</extracomment>
   <context>
     <name>thumbnailbar</name>
     <message>
-      <location filename="../qml/mainwindow/PQThumbnailBar.qml" line="269"/>
+      <location filename="../qml/mainwindow/PQThumbnailBar.qml" line="344"/>
       <source>File size:</source>
       <translation>Tamaño del archivo:</translation>
     </message>
     <message>
-      <location filename="../qml/mainwindow/PQThumbnailBar.qml" line="270"/>
+      <location filename="../qml/mainwindow/PQThumbnailBar.qml" line="345"/>
       <source>File type:</source>
       <translation>Tipo del archivo:</translation>
     </message>
@@ -4658,7 +4883,7 @@ Window title</extracomment>
   <context>
     <name>unavailable</name>
     <message>
-      <location filename="../qml/unavailable/PQUnavailablePopout.qml" line="75"/>
+      <location filename="../qml/unavailable/PQUnavailablePopout.qml" line="73"/>
       <source>Sorry, but this feature is not yet available on Windows.</source>
       <translation>Lo sentimos, pero esta característica aún no está disponible en Windows.</translation>
     </message>
@@ -4669,7 +4894,7 @@ Window title</extracomment>
       <translation>Característica no disponible</translation>
     </message>
     <message>
-      <location filename="../qml/unavailable/PQUnavailable.qml" line="74"/>
+      <location filename="../qml/unavailable/PQUnavailable.qml" line="72"/>
       <source>Sorry, but this feature is not available.</source>
       <translation>Lo sentimos, esta característica no está disponible.</translation>
     </message>
@@ -4677,79 +4902,79 @@ Window title</extracomment>
   <context>
     <name>wallpaper</name>
     <message>
-      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="71"/>
+      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="68"/>
       <source>Warning: %1 module not activated</source>
       <translation>Advertencia: el módulo %1 no fue activado</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="80"/>
-      <location filename="../qml/wallpaper/ele/PQGnome.qml" line="69"/>
-      <location filename="../qml/wallpaper/ele/PQOther.qml" line="72"/>
-      <location filename="../qml/wallpaper/ele/PQOther.qml" line="81"/>
-      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="69"/>
+      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="76"/>
+      <location filename="../qml/wallpaper/ele/PQGnome.qml" line="66"/>
+      <location filename="../qml/wallpaper/ele/PQOther.qml" line="69"/>
+      <location filename="../qml/wallpaper/ele/PQOther.qml" line="77"/>
+      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="66"/>
       <source>Warning: %1 not found</source>
       <translation>Advertencia: no se encontró %1</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="102"/>
-      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="91"/>
+      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="96"/>
+      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="86"/>
       <source>Set to which screens</source>
       <extracomment>As in: Set wallpaper to which screens</extracomment>
       <translation>En cuáles pantallas establecer</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="115"/>
-      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="103"/>
+      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="109"/>
+      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="98"/>
       <source>Screen</source>
       <extracomment>Used in wallpaper element</extracomment>
       <translation>Pantalla</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="140"/>
+      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="132"/>
       <source>Set to which workspaces</source>
       <extracomment>Enlightenment desktop environment handles wallpapers per workspace (different from screen)</extracomment>
       <translation>En cuáles espacios de trabajo establecer</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="154"/>
+      <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="146"/>
       <source>Workspace:</source>
       <extracomment>Enlightenment desktop environment handles wallpapers per workspace (different from screen)</extracomment>
       <translation>Espacio de trabajo:</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQGnome.qml" line="83"/>
-      <location filename="../qml/wallpaper/ele/PQWindows.qml" line="66"/>
-      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="128"/>
+      <location filename="../qml/wallpaper/ele/PQGnome.qml" line="78"/>
+      <location filename="../qml/wallpaper/ele/PQWindows.qml" line="62"/>
+      <location filename="../qml/wallpaper/ele/PQXfce.qml" line="121"/>
       <source>Choose picture option</source>
       <extracomment>picture option refers to how to format a pictrue when setting it as wallpaper</extracomment>
       <translation>Elija opción de imagen</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQOther.qml" line="57"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="180"/>
+      <location filename="../qml/wallpaper/ele/PQOther.qml" line="55"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="175"/>
       <source>Other</source>
       <extracomment>Used as in: Other Desktop Environment</extracomment>
       <translation>Otro</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQOther.qml" line="100"/>
+      <location filename="../qml/wallpaper/ele/PQOther.qml" line="95"/>
       <source>Tool:</source>
       <extracomment>Tool refers to a program that can be executed</extracomment>
       <translation>Herramienta:</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="106"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="124"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="142"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="160"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="178"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="105"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="122"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="139"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="156"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="173"/>
       <source>Click to choose %1</source>
       <extracomment>%1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)</extracomment>
       <translation>Clic para seleccionar %1</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="207"/>
-      <location filename="../qml/wallpaper/PQWallpaper.qml" line="226"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="202"/>
+      <location filename="../qml/wallpaper/PQWallpaper.qml" line="219"/>
       <location filename="../qml/wallpaper/PQWallpaperPopout.qml" line="34"/>
       <source>Set as Wallpaper</source>
       <extracomment>Heading of wallpaper element
@@ -4760,7 +4985,7 @@ Window title</extracomment>
       <translation>Establecer como fondo de pantalla</translation>
     </message>
     <message>
-      <location filename="../qml/wallpaper/ele/PQPlasma.qml" line="67"/>
+      <location filename="../qml/wallpaper/ele/PQPlasma.qml" line="63"/>
       <source>The image will be set to all screens at the same time.</source>
       <translation>La imagen se establecerá en todas las pantallas al mismo tiempo.</translation>
     </message>
