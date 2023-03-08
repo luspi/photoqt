@@ -694,17 +694,12 @@ GridView {
             var crumbs = cleaned.split("/")
             if(!handlingGeneral.amIOnWindows())
                 crumbs[0] = "/"
-            if(1*handlingGeneral.getQtVersion().substr(2,4) > 9) {
-                crumbs = crumbs.filter(element => element);
-                breadcrumbs.pathParts = crumbs
-            } else {
-                var crumbsfiltered = []
-                for(var i = 0; i < crumbs.length; ++i) {
-                    if(crumbs[i] != "")
-                        crumbsfiltered.push(crumbs[i])
-                }
-                breadcrumbs.pathParts = crumbsfiltered
+            var crumbsfiltered = []
+            for(var i = 0; i < crumbs.length; ++i) {
+                if(crumbs[i] != "")
+                    crumbsfiltered.push(crumbs[i])
             }
+            breadcrumbs.pathParts = crumbsfiltered
         }
 
     }
