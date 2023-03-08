@@ -43,9 +43,6 @@ TextField {
 
     property string tooltipText: placeholderText
 
-    PQToolTip.text: tooltipText
-    PQToolTip.delay: 500
-
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
