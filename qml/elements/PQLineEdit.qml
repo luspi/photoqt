@@ -43,7 +43,6 @@ TextField {
 
     property string tooltipText: placeholderText
 
-    PQToolTip.visible: tooltipText=="" ? false : hovered
     PQToolTip.text: tooltipText
     PQToolTip.delay: 500
 
