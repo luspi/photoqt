@@ -54,7 +54,7 @@ Window {
     visibility: Window.Hidden
     flags: PQSettings.interfaceWindowDecoration ?
                (PQSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
-               (PQSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
+               (PQSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window) : (Qt.FramelessWindowHint|Qt.Window))
 
     minimumWidth: (variables.visibleItem==""||width<800) ? 600 : ((variables.visibleItem!="settingsmanager" || width < 1024) ? 800 : 1024)
     minimumHeight: (variables.visibleItem==""||height<600) ? 400 : ((variables.visibleItem!="settingsmanager" || height < 768) ? 600 : 768)
