@@ -444,4 +444,30 @@ Item {
 
     }
 
+    function resetAll() {
+        mainmenu.source = ""
+        metadata.source = ""
+        filedialog.source = ""
+        histogram.source = ""
+        slideshowsettings.source = ""
+        slideshowcontrols.source = ""
+        filerename.source = ""
+        filedelete.source = ""
+        scaleimage.source = ""
+        about.source = ""
+        imgur.source = ""
+        wallpaper.source = ""
+        filter.source = ""
+        settingsmanager.source = ""
+        copymove.source = ""
+        filesaveas.source = ""
+        chromecast.source = ""
+        advancedsort.source = ""
+        advancedsortbusy.source = ""
+        navigationfloating.source = ""
+        unavailable.source = ""
+        unavailablepopout.source = ""
+        logging.source = ""
+    }
+
 }

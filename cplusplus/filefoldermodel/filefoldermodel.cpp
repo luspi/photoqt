@@ -666,11 +666,10 @@ void PQFileFolderModel::advancedSortMainView() {
 
 void PQFileFolderModel::resetModel() {
 
-    delete watcherMainView;
-    watcherMainView = new QFileSystemWatcher;
-
     delete watcherFileDialog;
     watcherFileDialog = new QFileSystemWatcher;
+    delete watcherMainView;
+    watcherMainView = new QFileSystemWatcher;
     setCountMainView(0);
     m_entriesMainView.clear();
 

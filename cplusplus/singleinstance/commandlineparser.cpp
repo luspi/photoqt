@@ -27,23 +27,22 @@ PQCommandLineParser::PQCommandLineParser(QApplication &app, QObject *parent) : Q
     // install translator if help message is to be displayed
     // we can't always install the translator as this would overwrite any translator set later (i.e., the settings would be ignored)
     if(app.arguments().contains("--help") || app.arguments().contains("-h")) {
-        QTranslator *trans = new QTranslator;
         const QString langCode = QLocale::system().name();
         if(QFile(":/photoqt_" + langCode + ".qm").exists()) {
-            trans->load(":/photoqt_" + langCode);
-            qApp->installTranslator(trans);
+            trans.load(":/photoqt_" + langCode);
+            qApp->installTranslator(&trans);
         }
         if(langCode.contains("_")) {
             const QString cc = langCode.split("_").at(0);
             if(QFile(":/photoqt_" + cc + ".qm").exists()) {
-                trans->load(":/photoqt_" + cc);
-                qApp->installTranslator(trans);
+                trans.load(":/photoqt_" + cc);
+                qApp->installTranslator(&trans);
             }
         } else {
             const QString cc = QString("%1_%2").arg(langCode, langCode.toUpper());
             if(QFile(":/photoqt_" + cc + ".qm").exists()) {
-                trans->load(":/photoqt_" + cc);
-                qApp->installTranslator(trans);
+                trans.load(":/photoqt_" + cc);
+                qApp->installTranslator(&trans);
             }
         }
     }
@@ -170,4 +169,8 @@ PQCommandLineResult PQCommandLineParser::getResult() {
 
     return ret;
 
+}
+
+PQCommandLineParser::~PQCommandLineParser() {
+    qApp->removeTranslator(&trans);
 }

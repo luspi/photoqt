@@ -174,6 +174,7 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
         handleMessage(message);
 
     }
+
 }
 
 void PQSingleInstance::newConnection() {

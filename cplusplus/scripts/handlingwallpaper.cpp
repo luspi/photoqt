@@ -164,6 +164,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
                                                            this);
 
             interface->call("evaluateScript", arg);
+            interface->deleteLater();
 
         }
 

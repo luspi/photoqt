@@ -129,6 +129,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bo
 
         // The return image is loaded from the QByteArray above
         if(!image.loadFromData(img->data, img->data_size, "JPEG")) {
+            raw.dcraw_clear_mem(img);
             raw.recycle();
             errormsg = "Failed to load JPEG data!";
             LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
@@ -158,6 +159,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bo
         }
 
         if(imgData.isEmpty()) {
+            raw.dcraw_clear_mem(img);
             raw.recycle();
             errormsg = "Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + "!";
             LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
@@ -166,6 +168,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bo
 
         // The return image is loaded from the QByteArray above
         if(!image.loadFromData(imgData)) {
+            raw.dcraw_clear_mem(img);
             raw.recycle();
             errormsg = "Failed to load image from data!";
             LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
@@ -177,6 +180,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bo
     // Clean up memory
     raw.dcraw_clear_mem(img);
     raw.recycle();
+    raw.free_image();
 
     if(thumb || half)
         origSize = QSize(-1,-1);

@@ -484,9 +484,12 @@ Window {
     }
 
     function resetPhotoQt() {
+        loader.resetAll()
+        imageitem.resetImageView()
         filefoldermodel.resetQMLModel()
         filefoldermodel.resetModel()
         PQPassOn.resetSessionData()
+        gc()
     }
 
 }

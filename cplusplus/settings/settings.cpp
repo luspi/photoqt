@@ -91,12 +91,15 @@ PQSettings::PQSettings() {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){ db.commit();
-                                                        dbIsTransaction = false;
-                                                        if(db.lastError().text().trimmed().length())
-                                                            LOG << "PQSettings::commitDB: ERROR committing database: "
-                                                                << db.lastError().text().trimmed().toStdString()
-                                                                << NL; });
+    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+        dbCommitTimer->deleteLater();
+        db.commit();
+        dbIsTransaction = false;
+        if(db.lastError().text().trimmed().length())
+            LOG << "PQSettings::commitDB: ERROR committing database: "
+                << db.lastError().text().trimmed().toStdString()
+                << NL;
+    });
 
     // if a value is changed in the ui, write to database
     connect(this, &QQmlPropertyMap::valueChanged, this, &PQSettings::saveChangedValue);

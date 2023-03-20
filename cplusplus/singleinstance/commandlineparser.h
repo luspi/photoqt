@@ -63,12 +63,16 @@ class PQCommandLineParser : public QObject, public QCommandLineParser {
 public:
 
     explicit PQCommandLineParser(QApplication &app, QObject *parent = nullptr);
+    ~PQCommandLineParser();
     PQCommandLineResult getResult();
 
     QString exportFileName;
     QString importFileName;
     QString filename;
     QString shortcutSequence;
+
+private:
+    QTranslator trans;
 
 };
 

@@ -78,6 +78,7 @@ bool PQLoadImageHelper::ensureImageFitsMaxSize(QImage &img, QSize maxSize) {
 }
 
 void PQLoadImageHelper::resetData() {
+    cache->clear();
     delete cache;
     cache =  new QCache<QString,QImage>;
     cache->setMaxCost(maxcost);

@@ -849,4 +849,8 @@ Item {
         return currentVideoLength
     }
 
+    function resetImageView() {
+        repeat.model.clear()
+    }
+
 }
