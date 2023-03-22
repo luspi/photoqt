@@ -45,6 +45,7 @@ Item {
                 if(folderNew != folderOld) {
                     filefoldermodel.setFileNameOnceReloaded = path
                     filefoldermodel.fileInFolderMainView = path
+                    loader.passOn("filedialog", "newfolder", folderNew)
                 } else
                     filefoldermodel.setAsCurrent(handlingFileDir.cleanPath(path))
 

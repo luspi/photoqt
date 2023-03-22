@@ -278,7 +278,8 @@ Rectangle {
             } else if(what == "mouseevent") {
                 if(!filedialogsettings.isOpen())
                     fileview.mouseEvent(param[0], param[1])
-            }
+            } else if(what == "newfolder")
+                setCurrentDirectory(param, true)
         }
     }
 
