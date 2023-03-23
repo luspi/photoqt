@@ -105,7 +105,7 @@ Item {
 
                         id: sortby
 
-                        property var props: ["resolution", "dominantcolor", "averagecolor", "luminosity"]
+                        property var props: ["resolution", "dominantcolor", "averagecolor", "luminosity", "exifdate"]
 
                                 //: The image resolution (width/height in pixels)
                         model: [em.pty+qsTranslate("advancedsort", "Resolution"),
@@ -114,7 +114,8 @@ Item {
                                 //: the average color of the image
                                 em.pty+qsTranslate("advancedsort", "Average color"),
                                 //: the average color of the image
-                                em.pty+qsTranslate("advancedsort", "Luminosity")]
+                                em.pty+qsTranslate("advancedsort", "Luminosity"),
+                                em.pty+qsTranslate("advancedsort", "Exif date")]
                     }
 
                 }
@@ -141,7 +142,7 @@ Item {
                 Row {
                     x: (insidecont.width-width)/2
                     spacing: 10
-                    height: sortby.currentIndex>0 ? childrenRect.height : 0
+                    height: (sortby.currentIndex>0 && sortby.currentIndex!=4) ? childrenRect.height : 0
                     Behavior on height { NumberAnimation { duration: 250 } }
                     clip: true
                     PQText {
@@ -164,6 +165,112 @@ Item {
                     }
 
                 }
+
+                Column {
+                    x: (insidecont.width-width)/2
+                    spacing: 10
+                    width: childrenRect.width
+                    height: sortby.currentIndex==4 ? childrenRect.height : 0
+                    Behavior on height { NumberAnimation { duration: 250 } }
+                    clip: true
+                    PQText {
+                        enabled: sortby.currentIndex==4
+                        y: (qual.height-height)/2
+                        Behavior on color { ColorAnimation { duration: 250; } }
+                        //: Please keep short! Sorting images by color comes with a speed vs quality tradeoff.
+                        text: em.pty+qsTranslate("advancedsort", "Select the order of priority. Sometimes a date is not available in the Exif data, and then PhotoQt will try with the next item in this order.")
+                    }
+                }
+
+                ListView {
+                    id: exifdatacol
+
+                    property int checkw: 0
+                    property int cellheight: 0
+
+                    property var dataorder: [0,1,2,3]
+
+                    property var name2order: {
+                        "exiforiginal": 0,
+                        "exifdigital": 1,
+                        "filecreation": 2,
+                        "filemodification": 3
+                    }
+
+                    property var data: {0 : ["Exif tag: Original date/time", "exiforiginal"],
+                                        1 : ["Exif tag: Digitized date/time", "exifdigital"],
+                                        2 : ["file creation date", "filecreation"],
+                                        3 : ["file modification date", "filemodification"]}
+                    property var datachecked: {0: true,
+                                               1: true,
+                                               2: true,
+                                               3: true}
+
+                    orientation: ListView.Vertical
+                    x: (insidecont.width-width)/2
+                    width: insidecont.width
+                    height: sortby.currentIndex==4 ? 4*cellheight : 0
+                    Behavior on height { NumberAnimation { duration: 250 } }
+                    clip: true
+                    model: 4
+                    boundsBehavior: ListView.StopAtBounds
+                    delegate: Row {
+                        id: row
+                        x: (parent.width-width)/2
+                        width: childrenRect.width
+                        height: childrenRect.height
+                        property int dataindex: exifdatacol.dataorder[index]
+                        Component.onCompleted:
+                            exifdatacol.cellheight = height
+
+                        PQText {
+                            y: (check.height-height)/2
+                            text: (index+1)+". "
+                        }
+
+                        Item {
+                            id: check
+                            width: exifdatacol.checkw+10
+                            height: checkbox.height+10
+                            PQCheckbox {
+                                id: checkbox
+                                y: 5
+                                text: exifdatacol.data[row.dataindex][0]
+                                checked: exifdatacol.datachecked[row.dataindex]
+                                Component.onCompleted: {
+                                    if(exifdatacol.checkw < width)
+                                        exifdatacol.checkw = width
+                                }
+                                onCheckedChanged: {
+                                    exifdatacol.datachecked[row.dataindex] = checked
+                                }
+                            }
+                        }
+                        PQButton {
+                            height: check.height
+                            width: height
+                            imageButtonSource: "/filedialog/upwards.svg"
+                            onClicked: {
+                                if(index > 0) {
+                                    [exifdatacol.dataorder[index], exifdatacol.dataorder[index-1]] = [exifdatacol.dataorder[index-1], exifdatacol.dataorder[index]];
+                                    exifdatacol.dataorderChanged()
+                                }
+                            }
+                        }
+                        PQButton {
+                            height: check.height
+                            width: height
+                            imageButtonSource: "/filedialog/downwards.svg"
+                            onClicked: {
+                                if(index < 3) {
+                                    [exifdatacol.dataorder[index+1], exifdatacol.dataorder[index]] = [exifdatacol.dataorder[index], exifdatacol.dataorder[index+1]];
+                                    exifdatacol.dataorderChanged()
+                                }
+                            }
+                        }
+                    }
+                }
+
 
                 PQText {
                     x: 10
@@ -257,6 +364,15 @@ Item {
 
         qual.currentIndex = (PQSettings.imageviewAdvancedSortQuality=="low" ? 0 : (PQSettings.imageviewAdvancedSortQuality=="high" ? 2 : 1))
 
+        // load exif data settings
+        var neworder = []
+        for(var j = 0; j < PQSettings.imageviewAdvancedSortExifDateCriteria.length/2; ++j) {
+            var tmp = exifdatacol.name2order[PQSettings.imageviewAdvancedSortExifDateCriteria[2*j]]
+            neworder.push(tmp)
+            exifdatacol.datachecked[tmp] = PQSettings.imageviewAdvancedSortExifDateCriteria[2*j +1]
+        }
+        exifdatacol.dataorder = neworder
+
     }
 
     function saveSettings() {
@@ -265,6 +381,14 @@ Item {
         PQSettings.imageviewAdvancedSortAscending = asc.checked
         var opt = ["low", "medium", "high"]
         PQSettings.imageviewAdvancedSortQuality = opt[qual.currentIndex]
+
+        var savelist = []
+        for(var j = 0; j < 4; ++j) {
+            var curorder = exifdatacol.dataorder[j]
+            savelist.push(exifdatacol.data[curorder][1])
+            savelist.push(exifdatacol.datachecked[curorder] ? 1 : 0)
+        }
+        PQSettings.imageviewAdvancedSortExifDateCriteria = savelist
 
     }
 

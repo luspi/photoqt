@@ -531,6 +531,11 @@ void PQFileFolderModel::advancedSortMainView() {
 
                 key = val;
 
+            } else if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "exifdate") {
+
+                if(i == 0)
+                    qDebug() << PQSettings::get()["imageviewAdvancedSortExifDateCriteria"];
+
             } else {
 
                 QSize requestedSize = QSize(512,512);
