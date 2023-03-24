@@ -92,7 +92,6 @@ PQSettings::PQSettings() {
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
     connect(dbCommitTimer, &QTimer::timeout, this, [=](){
-        dbCommitTimer->deleteLater();
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
