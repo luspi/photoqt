@@ -140,8 +140,8 @@ Item {
         Connections {
             target: filefoldermodel
             onAdvancedSortingComplete: {
-                if(advancedsort_top.visible)
-                    butcancel.clicked()
+                advancedsort_top.opacity = 0
+                variables.visibleItem = ""
             }
         }
 

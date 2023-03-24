@@ -454,7 +454,8 @@ void PQFileFolderModel::advancedSortMainView() {
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName
             && PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == cacheAdvancedSortCriteria
-            && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified) {
+            && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified
+            && PQSettings::get()["imageviewAdvancedSortAscending"].toBool() == cacheAdvancedSortAscending) {
 
         m_entriesMainView = cacheAdvancedSortFolder;
         Q_EMIT newDataLoadedMainView();
@@ -533,8 +534,103 @@ void PQFileFolderModel::advancedSortMainView() {
 
             } else if(PQSettings::get()["imageviewAdvancedSortCriteria"].toString() == "exifdate") {
 
-                if(i == 0)
-                    qDebug() << PQSettings::get()["imageviewAdvancedSortExifDateCriteria"];
+                QVariantList order = PQSettings::get()["imageviewAdvancedSortExifDateCriteria"].toList();
+
+                bool foundvalue = false;
+
+                for(int j = 0; j < order.length()/2; ++j) {
+
+                    QString item = order.at(2*j).toString();
+                    int use = order.at(2*j+1).toInt();
+
+                    if(use == 0)
+                        continue;
+
+                    if(item == "exiforiginal" || item == "exifdigital") {
+
+#ifdef EXIV2
+#if EXIV2_TEST_VERSION(0, 28, 0)
+                        Exiv2::Image::UniquePtr image;
+#else
+                        Exiv2::Image::AutoPtr image;
+#endif
+                        try {
+                            image  = Exiv2::ImageFactory::open(m_entriesMainView[i].toStdString());
+                            image->readMetadata();
+                        } catch (Exiv2::Error& e) {
+                            // An error code of 11 means unknown file type
+                            // Since we always try to read any file's meta data, this happens a lot
+                            if(e.code() != 11)
+                                LOG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+                            else
+                                DBG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+                            continue;
+                        }
+
+
+                        /*******************
+                        * Obtain EXIF data *
+                        ********************/
+
+                        Exiv2::ExifData exifData;
+
+                        try {
+                            exifData = image->exifData();
+                        } catch(Exiv2::Error &e) {
+                            LOG << CURDATE << "PQMetaData::updateMetaData(): ERROR: Unable to read exif metadata: " << e.what() << NL;
+                            continue;
+                        }
+
+
+                        try {
+
+                            Exiv2::ExifMetadata::const_iterator iter;
+
+                            if(item == "exiforiginal")
+                                iter = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+                            else if(item == "exifdigital")
+                                iter = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeDigitized"));
+
+                            if(iter != exifData.end()) {
+                                key = QDateTime::fromString(QString::fromStdString(Exiv2::toString(iter->value()))).toMSecsSinceEpoch();//, "yyyy:MM:dd hhmm:ss");
+                                foundvalue = true;
+                            }
+
+                        } catch(Exiv2::Error &) {
+                            // ignore exception -> most likely thrown as key does not exist
+                            continue;
+                        }
+
+#endif
+
+                    } else if(item == "filecreation") {
+
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
+                        QFileInfo info(m_entriesMainView[i]);
+                        QDateTime bd = info.birthTime();
+                        if(bd.isValid()) {
+                            key = info.birthTime().toMSecsSinceEpoch();
+                            foundvalue = true;
+                        }
+#endif
+
+                    } else if(item == "filemodification") {
+
+                        QFileInfo info(m_entriesMainView[i]);
+                        key = info.lastModified().toMSecsSinceEpoch();
+                        foundvalue = true;
+
+                    } else {
+
+                        LOG << CURDATE << "PQFileFolderModel::advancedSortMainView(): ERROR unknown item: " << item.toStdString() << NL;
+                        key = i;
+
+                    }
+
+                    if(foundvalue)
+                        break;
+
+                }
 
             } else {
 
@@ -664,6 +760,7 @@ void PQFileFolderModel::advancedSortMainView() {
         cacheAdvancedSortFolderName = info.absolutePath();
         cacheAdvancedSortLastModified = info.lastModified().toMSecsSinceEpoch();
         cacheAdvancedSortCriteria = PQSettings::get()["imageviewAdvancedSortCriteria"].toString();
+        cacheAdvancedSortAscending = PQSettings::get()["imageviewAdvancedSortAscending"].toBool();
 
     });
 

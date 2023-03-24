@@ -43,6 +43,10 @@
 #include <poppler/qt5/poppler-qt5.h>
 #endif
 
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+
 class PQFileFolderModel : public QObject {
 
     Q_OBJECT
@@ -329,6 +333,7 @@ private:
     QString cacheAdvancedSortFolderName;
     QStringList cacheAdvancedSortFolder;
     qint64 cacheAdvancedSortLastModified;
+    bool cacheAdvancedSortAscending;
 
 private Q_SLOTS:
     void loadDataMainView();
