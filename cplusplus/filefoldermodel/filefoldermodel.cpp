@@ -642,45 +642,39 @@ void PQFileFolderModel::advancedSortMainView() {
 
                 QSize origSize;
                 QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);
-                PQResolutionProvider::get().saveResolution(m_entriesMainView[i], origSize);
+                if(img.format() != QImage::Format_RGB32)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+                    img.convertTo(QImage::Format_RGB32);
+#else
+                    img = img.convertToFormat(QImage::Format_RGB32);
+#endif
 
-                const int width = origSize.width();
-                const int height = origSize.height();
+                const int width = requestedSize.width();
+                const int height = requestedSize.height();
 
-                QRgb *ct;
-
+                // Prepare the lists for the levels
                 QVector<qint64> red(256);
                 QVector<qint64> green(256);
                 QVector<qint64> blue(256);
-                for(int i = 0 ; i < height; i++){
-                    ct = (QRgb *)img.scanLine(i);
-                    for(int j = 0 ; j < width; j++){
-                        red[qRed(ct[j])]+=1;
+
+                // Loop over all rows of the image
+                for(int i = 0; i < img.height(); ++i) {
+
+                    // Get the pixel data of row i of the image
+                    QRgb *rowData = (QRgb*)img.scanLine(i);
+
+                    // Loop over all columns
+                    for(int j = 0; j < img.width(); ++j) {
+
+                        // Get pixel data of pixel at column j in row i
+                        QRgb pixelData = rowData[j];
+
+                        ++red[qRed(pixelData)];
+                        ++green[qGreen(pixelData)];
+                        ++blue[qBlue(pixelData)];
+
                     }
-                }
 
-                if(!advancedSortKeepGoing) {
-                    delete imageprovider;
-                    return;
-                }
-
-                for(int i = 0 ; i < height; i++){
-                    ct = (QRgb *)img.scanLine(i);
-                    for(int j = 0 ; j < width; j++){
-                        green[qGreen(ct[j])]+=1;
-                    }
-                }
-
-                if(!advancedSortKeepGoing) {
-                    delete imageprovider;
-                    return;
-                }
-
-                for(int i = 0 ; i < height; i++){
-                    ct = (QRgb *)img.scanLine(i);
-                    for(int j = 0 ; j < width; j++){
-                        blue[qBlue(ct[j])]+=1;
-                    }
                 }
 
                 if(!advancedSortKeepGoing) {
