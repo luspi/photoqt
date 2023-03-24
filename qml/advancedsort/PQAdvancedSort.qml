@@ -178,10 +178,11 @@ Item {
                         y: (qual.height-height)/2
                         Behavior on color { ColorAnimation { duration: 250; } }
                         //: Please keep short! Sorting images by color comes with a speed vs quality tradeoff.
-                        text: em.pty+qsTranslate("advancedsort", "Select the order of priority. Sometimes a date is not available in the Exif data, and then PhotoQt will try with the next item in this order.")
+                        text: em.pty+qsTranslate("advancedsort", "Select the order of priority. If a date value cannot be found, PhotoQt will proceed to the next item in the list.")
                     }
                 }
 
+                // this is only visible when respective item is selected
                 ListView {
                     id: exifdatacol
 
@@ -197,10 +198,10 @@ Item {
                         "filemodification": 3
                     }
 
-                    property var data: {0 : ["Exif tag: Original date/time", "exiforiginal"],
-                                        1 : ["Exif tag: Digitized date/time", "exifdigital"],
-                                        2 : ["file creation date", "filecreation"],
-                                        3 : ["file modification date", "filemodification"]}
+                    property var data: {0 : [em.pty+qsTranslate("advancedsort", "Exif tag: Original date/time"), "exiforiginal"],
+                                        1 : [em.pty+qsTranslate("advancedsort", "Exif tag: Digitized date/time"), "exifdigital"],
+                                        2 : [em.pty+qsTranslate("advancedsort", "File creation date"), "filecreation"],
+                                        3 : [em.pty+qsTranslate("advancedsort", "File modification date"), "filemodification"]}
                     property var datachecked: {0: true,
                                                1: true,
                                                2: true,
@@ -243,6 +244,7 @@ Item {
                                 }
                                 onCheckedChanged: {
                                     exifdatacol.datachecked[row.dataindex] = checked
+                                    exifdatacol.datacheckedChanged()
                                 }
                             }
                         }
@@ -298,6 +300,7 @@ Item {
                             id: button_ok
                             //: Written on a clickable button - please keep short
                             text: em.pty+qsTranslate("advancedsort", "Sort images")
+                            enabled: sortby.currentIndex!=4 || exifdatacol.datachecked[0] || exifdatacol.datachecked[1] || exifdatacol.datachecked[2] || exifdatacol.datachecked[3]
                             onClicked: {
                                 saveSettings()
                                 advancedsort_top.opacity = 0

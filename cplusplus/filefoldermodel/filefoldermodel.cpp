@@ -632,6 +632,10 @@ void PQFileFolderModel::advancedSortMainView() {
 
                 }
 
+                // if no usable value was found, then we simply list them in order
+                if(!foundvalue)
+                    key = i;
+
             } else {
 
                 QSize requestedSize = QSize(512,512);
