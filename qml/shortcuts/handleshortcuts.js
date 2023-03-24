@@ -28,7 +28,7 @@ function checkComboForShortcut(combo, wheelDelta) {
         return
     }
 
-    if(combo == "Escape" && contextmenu.visible) {
+    if(combo == "Escape" && contextmenu.isOpen) {
         contextmenu.hideMenu()
         return
     }
