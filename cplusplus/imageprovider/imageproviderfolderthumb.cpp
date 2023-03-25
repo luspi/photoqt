@@ -96,15 +96,15 @@ void PQAsyncImageResponseFolderThumb::run() {
         fileinfolist = dir.entryInfoList();
         PQAsyncImageResponseFolderThumbCache::get().saveToCache(m_folder, checknum, fileinfolist);
 
-        // no images inside folder
-        if(count == 0) {
-            m_image = QImage(QSize(1,1), QImage::Format_ARGB32);
-            Q_EMIT finished();
-            return;
-        }
-
     } else
         count = fileinfolist.length();
+
+    // no images inside folder
+    if(count == 0) {
+        m_image = QImage(QSize(1,1), QImage::Format_ARGB32);
+        Q_EMIT finished();
+        return;
+    }
 
     // get current image filename
     fname = fileinfolist[(m_index-1)%count].absoluteFilePath();
