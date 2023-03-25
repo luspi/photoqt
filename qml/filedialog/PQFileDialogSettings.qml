@@ -204,6 +204,14 @@ Rectangle {
                         }
 
                         PQCheckbox {
+                            id: view_folderthumbs
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "show thumbnails inside folder")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnails = checked
+                        }
+
+                        PQCheckbox {
                             id: view_thumb
                             //: These thumbnails are the thumbnails shown in the file dialog
                             text: em.pty+qsTranslate("filedialog", "show thumbnails")
@@ -442,6 +450,7 @@ Rectangle {
         view_remember.checked = PQSettings.openfileKeepLastLocation
         view_hidden.checked = PQSettings.openfileShowHiddenFilesFolders
         view_thumb.checked = PQSettings.openfileThumbnails
+        view_folderthumbs.checked = PQSettings.openfileFolderContentThumbnails
         view_tooltip.checked = PQSettings.openfileDetailsTooltip
 
         places_standard.checked = PQSettings.openfileUserPlacesStandard

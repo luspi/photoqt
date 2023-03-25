@@ -60,6 +60,7 @@
 #include "imageprovider/imageproviderthumb.h"
 #include "imageprovider/imageproviderfull.h"
 #include "imageprovider/imageproviderhistogram.h"
+#include "imageprovider/imageproviderfolderthumb.h"
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -254,6 +255,7 @@ int main(int argc, char **argv) {
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);
     engine.addImageProvider("full",new PQImageProviderFull);
     engine.addImageProvider("hist",new PQImageProviderHistogram);
+    engine.addImageProvider("folderthumb",new PQAsyncImageProviderFolderThumb);
 
     engine.load(url);
 

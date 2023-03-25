@@ -19,17 +19,15 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#ifndef PQASYNCIMAGEPROVIDERTHUMB_H
-#define PQASYNCIMAGEPROVIDERTHUMB_H
+#ifndef PQASYNCIMAGEPROVIDERFOLDERTHUMB_H
+#define PQASYNCIMAGEPROVIDERFOLDERTHUMB_H
 
 #include <QQuickAsyncImageProvider>
 #include <QThreadPool>
 #include <QMimeDatabase>
 #include <QCryptographicHash>
-#include "../settings/imageformats.h"
-#include "loadimage.h"
 
-class PQAsyncImageProviderThumb : public QQuickAsyncImageProvider {
+class PQAsyncImageProviderFolderThumb : public QQuickAsyncImageProvider {
 
 public:
     QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
@@ -38,32 +36,25 @@ private:
     QThreadPool pool;
 };
 
-class PQAsyncImageResponseThumb : public QQuickImageResponse, public QRunnable {
+class PQAsyncImageResponseFolderThumb : public QQuickImageResponse, public QRunnable {
 
 public:
-    PQAsyncImageResponseThumb(const QString &url, const QSize &requestedSize);
-    ~PQAsyncImageResponseThumb();
+    PQAsyncImageResponseFolderThumb(const QString &url, const QSize &requestedSize);
+    ~PQAsyncImageResponseFolderThumb();
 
     QQuickTextureFactory *textureFactory() const override;
 
     void run() override;
-    void loadImage();
 
     QString m_url;
-    bool m_fixedSize;
+    QString m_folder;
+    int m_index;
     QSize m_requestedSize;
     QImage m_image;
 
 private:
     QMimeDatabase mimedb;
 
-    int foundExternalUnrar;
-
-    QString whatDoIUse(QString filename);
-
-    PQLoadImage *loader;
-    PQLoadImageErrorImage *load_err;
-
 };
 
-#endif // PQASYNCIMAGEPROVIDERTHUMB_H
+#endif // PQASYNCIMAGEPROVIDERFOLDERTHUMB_H

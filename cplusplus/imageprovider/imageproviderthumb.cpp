@@ -57,6 +57,10 @@ QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
 }
 
 void PQAsyncImageResponseThumb::run() {
+    loadImage();
+}
+
+void PQAsyncImageResponseThumb::loadImage() {
 
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
     filename = filename.replace("&#39;","'");

@@ -63,6 +63,13 @@ PQMenu {
     }
     MenuItem {
         checkable: true
+        checked: PQSettings.openfileFolderContentThumbnails
+        text: qsTranslate("filedialog", "Show thumbnails of folder contents")
+        onTriggered:
+            PQSettings.openfileFolderContentThumbnails = !PQSettings.openfileFolderContentThumbnails
+    }
+    MenuItem {
+        checkable: true
         checked: PQSettings.openfileThumbnails
         text: qsTranslate("filedialog", "Show thumbnails")
         onTriggered:

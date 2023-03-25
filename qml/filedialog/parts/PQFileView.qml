@@ -133,7 +133,7 @@ GridView {
 
             property bool mouseInside: false
             color: index < filefoldermodel.countFoldersFileDialog
-                       ? (files_grid.currentIndex==index ? "#44888899" : "#44222233")
+                       ? (files_grid.currentIndex==index ? "#448888ee" : "#44222288")
                        : (files_grid.currentIndex==index ? "#44aaaaaa" : "#44444444")
 
             border.width: 1
@@ -161,15 +161,80 @@ GridView {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // if we do not cache this image, then we keep the generic icon here
-                source: (filethumb.status==Image.Ready&&!currentFolderExcluded) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : ("IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index])))
+                source: ((filethumb.status==Image.Ready&&!currentFolderExcluded)||(index < filefoldermodel.countFoldersFileDialog&&folderthumbs.sourceSize.width>1)) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : ("IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index])))
+
+                // rotating through images inside folder and show thumbnails
+                Item {
+                    id: folderthumbs
+                    anchors.fill: parent
+
+                    // the current image id (1-based indexing)
+                    property int curnum: 0
+                    // the current sourcesize
+                    property size sourceSize: Qt.size(1,1)
+
+                    // remove all other thumbnails
+                    signal hideExcept(var n)
+
+                    Repeater {
+                        model: ListModel { id: ftmodel }
+                        delegate: Image {
+                            id: deleg
+                            anchors.fill: folderthumbs
+                            asynchronous: true
+                            visible: sourceSize.width>1
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://folderthumb/" + folder + ":://::" + num
+                            onSourceSizeChanged:
+                                folderthumbs.sourceSize = sourceSize
+                            onStatusChanged: {
+                                if(status == Image.Ready) {
+                                    if(curindex == files_grid.currentIndex)
+                                        nextfolderthumb.restart()
+                                    folderthumbs.hideExcept(num)
+                                }
+                            }
+                            Connections {
+                                target: folderthumbs
+                                onHideExcept: {
+                                    if(n != num)
+                                        deleg.source = ""
+                                }
+                            }
+                        }
+                    }
+                    Timer {
+                        id: nextfolderthumb
+                        interval: 1000
+                        repeat: false
+                        running: false
+                        onTriggered: {
+                            if(!PQSettings.openfileFolderContentThumbnails)
+                                return
+                            if(index >= filefoldermodel.countFoldersFileDialog || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
+                                return
+                            if(numberOfFilesInsideFolder.text*1 == 0)
+                                return
+                            folderthumbs.curnum = (folderthumbs.curnum%(1*numberOfFilesInsideFolder.text))+1
+                            ftmodel.append({"folder": filefoldermodel.entriesFileDialog[index], "num": folderthumbs.curnum, "curindex": index})
+                        }
+                    }
+                    Connections {
+                        target: files_grid
+                        onCurrentIndexChanged: {
+                            if(currentIndex==index)
+                                nextfolderthumb.restart()
+                        }
+                    }
+                }
 
                 Rectangle {
-                    x: (parent.width-width)/2
-                    y: (parent.height-height)/2
+                    x: parent.width-width
+                    y: 0
                     width: numberOfFilesInsideFolder.width + 20
                     height: 30
                     radius: 5
-                    color: "#66000000"
+                    color: "#000000"
                     opacity: 0.8
                     visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && numberOfFilesInsideFolder.text != ""
 
@@ -180,6 +245,26 @@ GridView {
                         font.weight: baselook.boldweight
                         elide: Text.ElideMiddle
                         text: ""
+                    }
+                }
+
+                Rectangle {
+                    x: 0
+                    y: 0
+                    width: currentNumberOfFileInsideFolder.width + 20
+                    height: 30
+                    radius: 5
+                    color: "#444444"
+                    opacity: 0.6
+                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && currentNumberOfFileInsideFolder.text != ""
+
+                    PQText {
+                        id: currentNumberOfFileInsideFolder
+                        x: 10
+                        y: (parent.height-height)/2-2
+                        font.weight: baselook.boldweight
+                        elide: Text.ElideMiddle
+                        text: folderthumbs.curnum==0 ? "" : ("#"+folderthumbs.curnum)
                     }
                 }
 
