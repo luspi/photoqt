@@ -183,6 +183,7 @@ GridView {
                             anchors.fill: folderthumbs
                             asynchronous: true
                             visible: sourceSize.width>1
+                            mipmap: true
                             fillMode: Image.PreserveAspectFit
                             source: "image://folderthumb/" + folder + ":://::" + num
                             onSourceSizeChanged:

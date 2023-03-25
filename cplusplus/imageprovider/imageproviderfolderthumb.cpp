@@ -128,7 +128,7 @@ void PQAsyncImageResponseFolderThumb::run() {
     m_image.fill(Qt::transparent);
 
     // a small border will be shown around thumbnail images of this size
-    int border = 4;
+    int border = 2;
 
     // Loop over all rows
     for(int i = 0; i < mask.height(); ++i) {
