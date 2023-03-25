@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QImage>
 #include "../settings/imageformats.h"
+#include "../settings/settings.h"
+#include "./imageproviderthumb.h"
 
 QQuickImageResponse *PQAsyncImageProviderFolderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
