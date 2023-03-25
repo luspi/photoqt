@@ -206,7 +206,12 @@ GridView {
                     }
                     Timer {
                         id: nextfolderthumb
-                        interval: 1000
+                        interval: PQSettings.openfileFolderContentThumbnailsSpeed==1 ?
+                                      2000 :
+                                      (PQSettings.openfileFolderContentThumbnailsSpeed==2 ?
+                                           1000 :
+                                           500)
+
                         repeat: false
                         running: false
                         onTriggered: {
@@ -226,6 +231,10 @@ GridView {
                             if(currentIndex==index)
                                 nextfolderthumb.restart()
                         }
+                    }
+                    Component.onCompleted: {
+                        if(ftmodel.count==0 && PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst)
+                            nextfolderthumb.restart()
                     }
                 }
 

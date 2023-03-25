@@ -63,13 +63,6 @@ PQMenu {
     }
     MenuItem {
         checkable: true
-        checked: PQSettings.openfileFolderContentThumbnails
-        text: qsTranslate("filedialog", "Show thumbnails of folder contents")
-        onTriggered:
-            PQSettings.openfileFolderContentThumbnails = !PQSettings.openfileFolderContentThumbnails
-    }
-    MenuItem {
-        checkable: true
         checked: PQSettings.openfileThumbnails
         text: qsTranslate("filedialog", "Show thumbnails")
         onTriggered:
@@ -83,7 +76,51 @@ PQMenu {
             PQSettings.openfileDetailsTooltip = !PQSettings.openfileDetailsTooltip
     }
     PQMenu {
-        title: "Preview"
+        title: qsTranslate("filedialog", "Folder content thumbnails")
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileFolderContentThumbnails
+            text: qsTranslate("filedialog", "Show rotating thumbnails")
+            onTriggered:
+                PQSettings.openfileFolderContentThumbnails = !PQSettings.openfileFolderContentThumbnails
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst
+            //: The first one refers to the first image thumbnail of the folder content
+            text: qsTranslate("filedialog", "Always load the first thumbnail")
+            onTriggered:
+                PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst = !PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst
+        }
+        PQMenu {
+            id: speed_submenu
+            title: em.pty+qsTranslate("filedialog", "Speed")
+            ExclusiveGroup { id: exlspeed }
+
+            Instantiator {
+                model: 3
+                MenuItem {
+                    checkable: true
+                    exclusiveGroup: exlspeed
+                    checked: PQSettings.openfileFolderContentThumbnailsSpeed==(index+1)
+                    text: index==0 ?
+                              "2 seconds" :
+                              (index==1 ?
+                                   "1 second" :
+                                   "half a second")
+
+                    onTriggered:
+                        PQSettings.openfileFolderContentThumbnailsSpeed = index+1
+                }
+                onObjectAdded: speed_submenu.insertItem(index, object)
+                onObjectRemoved: speed_submenu.removeItem(object)
+            }
+
+        }
+    }
+    PQMenu {
+        //: The preview is the large preview image shown in the back of the file dialog
+        title: qsTranslate("filedialog", "Preview")
         MenuItem {
             checkable: true
             checked: PQSettings.openfilePreview

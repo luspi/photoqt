@@ -204,14 +204,6 @@ Rectangle {
                         }
 
                         PQCheckbox {
-                            id: view_folderthumbs
-                            //: These thumbnails are shown as folder icon and rotate through folder contents
-                            text: em.pty+qsTranslate("filedialog", "show thumbnails inside folder")
-                            onCheckedChanged:
-                                PQSettings.openfileFolderContentThumbnails = checked
-                        }
-
-                        PQCheckbox {
                             id: view_thumb
                             //: These thumbnails are the thumbnails shown in the file dialog
                             text: em.pty+qsTranslate("filedialog", "show thumbnails")
@@ -227,6 +219,41 @@ Rectangle {
                                 PQSettings.openfileDetailsTooltip = checked
                         }
 
+                        PQCheckbox {
+                            id: view_folderthumbs
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "show thumbnails of images inside folders")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnails = checked
+                        }
+
+                        PQCheckbox {
+                            id: view_folderthumbsfirst
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "always show first thumbnail of images inside folders")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst = checked
+                        }
+
+                        Row {
+                            spacing: 15
+                            Item {
+                                width: 1
+                                height: 1
+                            }
+
+                            PQText {
+                                y: (view_folderthumbs_speed.height-height)/2
+                                text: em.pty+qsTranslate("filedialog", "speed")
+                            }
+                            PQComboBox {
+                                id: view_folderthumbs_speed
+                                model: ["2 seconds", "1 second", "half a second"]
+                                onCurrentIndexChanged: {
+                                    PQSettings.openfileFolderContentThumbnailsSpeed = currentIndex+1
+                                }
+                            }
+                        }
 
                     }
                 }
@@ -450,8 +477,10 @@ Rectangle {
         view_remember.checked = PQSettings.openfileKeepLastLocation
         view_hidden.checked = PQSettings.openfileShowHiddenFilesFolders
         view_thumb.checked = PQSettings.openfileThumbnails
-        view_folderthumbs.checked = PQSettings.openfileFolderContentThumbnails
         view_tooltip.checked = PQSettings.openfileDetailsTooltip
+        view_folderthumbs.checked = PQSettings.openfileFolderContentThumbnails
+        view_folderthumbsfirst.checked = PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst
+        view_folderthumbs_speed.currentIndex = PQSettings.openfileFolderContentThumbnailsSpeed-1
 
         places_standard.checked = PQSettings.openfileUserPlacesStandard
         places_favorites.checked = PQSettings.openfileUserPlacesUser
