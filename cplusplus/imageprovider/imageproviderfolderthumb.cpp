@@ -71,29 +71,43 @@ void PQAsyncImageResponseFolderThumb::run() {
         return;
     }
 
+
     // get folder contents
+    QString fname;
+    int count;
 
-    QDir dir(m_folder);
+    // we cache fileinfo lists to speed up subsequent lodings
+    QFileInfoList fileinfolist;
+    const int checknum = PQImageFormats::get().getEnabledFormatsNum();
+    if(!PQAsyncImageResponseFolderThumbCache::get().loadFromCache(m_folder, checknum, fileinfolist)) {
 
-    QStringList checkForTheseFormats;
-    const QStringList lst = PQImageFormats::get().getEnabledFormats();
-    for(const QString &c : lst)
-        checkForTheseFormats << QString("*.%1").arg(c);
+        QDir dir(m_folder);
 
-    dir.setNameFilters(checkForTheseFormats);
-    dir.setFilter(QDir::Files);
+        QStringList checkForTheseFormats;
+        const QStringList lst = PQImageFormats::get().getEnabledFormats();
+        for(const QString &c : lst)
+            checkForTheseFormats << QString("*.%1").arg(c);
 
-    int count = dir.count();
+        dir.setNameFilters(checkForTheseFormats);
+        dir.setFilter(QDir::Files);
 
-    // no images inside folder
-    if(count == 0) {
-        m_image = QImage(QSize(1,1), QImage::Format_ARGB32);
-        Q_EMIT finished();
-        return;
-    }
+        count = dir.count();
+
+        fileinfolist = dir.entryInfoList();
+        PQAsyncImageResponseFolderThumbCache::get().saveToCache(m_folder, checknum, fileinfolist);
+
+        // no images inside folder
+        if(count == 0) {
+            m_image = QImage(QSize(1,1), QImage::Format_ARGB32);
+            Q_EMIT finished();
+            return;
+        }
+
+    } else
+        count = fileinfolist.length();
 
     // get current image filename
-    QString fname = dir.entryInfoList()[(m_index-1)%count].absoluteFilePath();
+    fname = fileinfolist[(m_index-1)%count].absoluteFilePath();
 
     // load thumbnail
     PQAsyncImageResponseThumb loader(fname,m_requestedSize);

@@ -163,6 +163,10 @@ public:
         return magick_mimetype;
     }
 
+    Q_INVOKABLE int getEnabledFormatsNum() {
+        return formats_enabled.count();
+    }
+
     Q_INVOKABLE QVariantList getWriteableFormats();
     QVariantMap getFormatsInfo(QString endings);
 

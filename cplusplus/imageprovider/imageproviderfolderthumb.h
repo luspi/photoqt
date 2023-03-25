@@ -26,7 +26,11 @@
 #include <QThreadPool>
 #include <QMimeDatabase>
 #include <QCryptographicHash>
+#include <QFileInfo>
+#include <QDateTime>
 
+/*****************************************************/
+/*****************************************************/
 class PQAsyncImageProviderFolderThumb : public QQuickAsyncImageProvider {
 
 public:
@@ -36,6 +40,47 @@ private:
     QThreadPool pool;
 };
 
+/*****************************************************/
+/*****************************************************/
+class PQAsyncImageResponseFolderThumbCache : public QObject {
+
+    Q_OBJECT
+
+public:
+    static PQAsyncImageResponseFolderThumbCache& get() {
+        static PQAsyncImageResponseFolderThumbCache instance;
+        return instance;
+    }
+    ~PQAsyncImageResponseFolderThumbCache() {
+
+    }
+
+    PQAsyncImageResponseFolderThumbCache(PQAsyncImageResponseFolderThumbCache const&)     = delete;
+    void operator=(PQAsyncImageResponseFolderThumbCache const&) = delete;
+
+    bool loadFromCache(QString foldername, int numEnabledFormats, QFileInfoList &entries) {
+        QString key = QString("%1::%2::%3").arg(foldername).arg(numEnabledFormats).arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch());
+        if(cache.contains(key)) {
+            entries = cache.value(key);
+            return true;
+        }
+        return false;
+    }
+    void saveToCache(QString foldername, int numEnabledFormats, QFileInfoList &entries) {
+        QString key = QString("%1::%2::%3").arg(foldername).arg(numEnabledFormats).arg(QFileInfo(foldername).lastModified().toMSecsSinceEpoch());
+        cache.insert(key, entries);
+    }
+
+private:
+    PQAsyncImageResponseFolderThumbCache() {
+        cache.clear();
+    }
+    QHash<QString,QFileInfoList> cache;
+
+};
+
+/*****************************************************/
+/*****************************************************/
 class PQAsyncImageResponseFolderThumb : public QQuickImageResponse, public QRunnable {
 
 public:
@@ -51,9 +96,6 @@ public:
     int m_index;
     QSize m_requestedSize;
     QImage m_image;
-
-private:
-    QMimeDatabase mimedb;
 
 };
 
