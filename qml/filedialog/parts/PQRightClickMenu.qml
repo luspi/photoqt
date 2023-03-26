@@ -104,10 +104,10 @@ PQMenu {
                     exclusiveGroup: exlspeed
                     checked: PQSettings.openfileFolderContentThumbnailsSpeed==(index+1)
                     text: index==0 ?
-                              "2 seconds" :
+                              em.pty+qsTranslate("filedialog", "2 seconds") :
                               (index==1 ?
-                                   "1 second" :
-                                   "half a second")
+                                   em.pty+qsTranslate("filedialog", "1 second") :
+                                   em.pty+qsTranslate("filedialog", "half a second"))
 
                     onTriggered:
                         PQSettings.openfileFolderContentThumbnailsSpeed = index+1

@@ -248,7 +248,9 @@ Rectangle {
                             }
                             PQComboBox {
                                 id: view_folderthumbs_speed
-                                model: ["2 seconds", "1 second", "half a second"]
+                                model: [em.pty+qsTranslate("filedialog", "2 seconds"),
+                                        em.pty+qsTranslate("filedialog", "1 second"),
+                                        em.pty+qsTranslate("filedialog", "half a second")]
                                 onActivated: {
                                     PQSettings.openfileFolderContentThumbnailsSpeed = currentIndex+1
                                 }
