@@ -53,6 +53,7 @@ PQMenu {
         onTriggered:
             handlingFileDialog.addNewUserPlacesEntry(path, upl.model.count)
     }
+    MenuSeparator { visible: isFile || isFolder }
     MenuItem {
         visible: isFile
         text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
@@ -61,7 +62,6 @@ PQMenu {
         }
     }
     MenuItem {
-        visible: isFile
         text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Remove all file selection") : qsTranslate("filedialog", "Select all files")
         onTriggered: {
             fileview.setFilesSelection(!fileview.isCurrentFileSelected())
