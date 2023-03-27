@@ -55,14 +55,14 @@ PQMenu {
     }
     MenuItem {
         visible: isFile
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Unselect file") : qsTranslate("filedialog", "Select file")
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
         onTriggered: {
             fileview.toggleCurrentFileSelection()
         }
     }
     MenuItem {
         visible: isFile
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Unselect all files") : qsTranslate("filedialog", "Select all files")
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Remove all file selection") : qsTranslate("filedialog", "Select all files")
         onTriggered: {
             fileview.setFilesSelection(!fileview.isCurrentFileSelected())
         }
@@ -73,10 +73,10 @@ PQMenu {
         text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected file") : qsTranslate("filedialog", "Delete this file")
         onTriggered: {
             if(fileview.isCurrentFileSelected()) {
-                if(!handlingGeneral.askForConfirmation("Are you sure you want to move all selected files to the trash?", ""))
+                if(!handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move all selected files to the trash?"), ""))
                     return
             } else {
-                if(!handlingGeneral.askForConfirmation("Are you sure you want to move this file to the trash?", ""))
+                if(!handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move this file to the trash?"), ""))
                     return
             }
 
@@ -92,6 +92,8 @@ PQMenu {
         visible: isFile
         text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected file") : qsTranslate("filedialog", "Move this file")
         onTriggered: {
+            if(handlingFileDir.moveFile(path) != "")
+                files_grid.selectedFiles = ({})
         }
     }
 
