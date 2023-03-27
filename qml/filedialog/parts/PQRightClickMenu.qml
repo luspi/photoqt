@@ -53,7 +53,49 @@ PQMenu {
         onTriggered:
             handlingFileDialog.addNewUserPlacesEntry(path, upl.model.count)
     }
+    MenuItem {
+        visible: isFile
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Unselect file") : qsTranslate("filedialog", "Select file")
+        onTriggered: {
+            fileview.toggleCurrentFileSelection()
+        }
+    }
+    MenuItem {
+        visible: isFile
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Unselect all files") : qsTranslate("filedialog", "Select all files")
+        onTriggered: {
+            fileview.setFilesSelection(!fileview.isCurrentFileSelected())
+        }
+    }
     MenuSeparator { visible: isFile || isFolder }
+    MenuItem {
+        visible: isFile
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected file") : qsTranslate("filedialog", "Delete this file")
+        onTriggered: {
+            if(fileview.isCurrentFileSelected()) {
+                if(!handlingGeneral.askForConfirmation("Are you sure you want to move all selected files to the trash?", ""))
+                    return
+            } else {
+                if(!handlingGeneral.askForConfirmation("Are you sure you want to move this file to the trash?", ""))
+                    return
+            }
+
+            for (const [key, value] of Object.entries(fileview.selectedFiles)) {
+                handlingFileDir.deleteFile(path, false)
+            }
+
+            files_grid.selectedFiles = ({})
+
+        }
+    }
+    MenuItem {
+        visible: isFile
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected file") : qsTranslate("filedialog", "Move this file")
+        onTriggered: {
+        }
+    }
+
+    MenuSeparator { visible: isFile }
     MenuItem {
         checkable: true
         checked: PQSettings.openfileShowHiddenFilesFolders

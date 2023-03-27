@@ -43,6 +43,8 @@ GridView {
 
     property bool currentFolderExcluded: false
 
+    property var selectedFiles: ({})
+
     Timer {
         id: resetCurrentIndexChangedUsingKeyIgnoreMouse
         interval: 300
@@ -75,10 +77,14 @@ GridView {
     PQMouseArea {
         anchors.fill: parent
         z: -1
-        acceptedButtons: Qt.RightButton
+        acceptedButtons: Qt.RightButton|Qt.LeftButton
         onClicked: {
-            var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-            rightclickmenu_bg.popup(Qt.point(pos.x, pos.y))
+            if(mouse.button == Qt.LeftButton) {
+                files_grid.selectedFiles = ({})
+            } else {
+                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                rightclickmenu_bg.popup(Qt.point(pos.x, pos.y))
+            }
         }
     }
 
@@ -113,12 +119,16 @@ GridView {
 
     delegate: Item {
 
+        id: maindeleg
+
         width: files_grid.cellWidth
         height: files_grid.cellHeight
 
         readonly property string fpath: filefoldermodel.entriesFileDialog[index]
         readonly property string fname: handlingFileDir.getFileNameFromFullPath(fpath)
         readonly property int fsize: handlingFileDir.getFileSize(fpath)
+
+        property bool selected: files_grid.selectedFiles.hasOwnProperty(index)&&files_grid.selectedFiles[index]
 
         Rectangle {
 
@@ -132,9 +142,10 @@ GridView {
             anchors.verticalCenter: parent.verticalCenter
 
             property bool mouseInside: false
-            color: index < filefoldermodel.countFoldersFileDialog
-                       ? (files_grid.currentIndex==index ? "#448888ee" : "#44222288")
-                       : (files_grid.currentIndex==index ? "#44aaaaaa" : "#44444444")
+            color: maindeleg.selected ? "#88ffffff" :
+                        (index < filefoldermodel.countFoldersFileDialog
+                               ? (files_grid.currentIndex==index ? "#448888ee" : "#44222288")
+                               : (files_grid.currentIndex==index ? "#44aaaaaa" : "#44444444"))
 
             border.width: 1
             border.color: "#282828"
@@ -477,13 +488,10 @@ GridView {
                         }
 
                     }
-
-                    if(!currentIndexChangedUsingKeyIgnoreMouse)
-                        files_grid.currentIndex = index
                 }
-                onExited: {
-                    if(!currentIndexChangedUsingKeyIgnoreMouse)
-                        files_grid.currentIndex = -1
+                onContainsMouseChanged: {
+                    if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
+                        files_grid.currentIndex = index
                 }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
@@ -491,14 +499,44 @@ GridView {
                             if(index < filefoldermodel.countFoldersFileDialog)
                                 filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[index])
                             else {
-                                filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
-                                filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
-                                filedialog_top.hideFileDialog()
+                                if(mouse.modifiers & Qt.ControlModifier)
+                                    toggleCurrentFileSelection()
+                                else {
+                                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
+                                    filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
+                                    filedialog_top.hideFileDialog()
+                                }
                             }
                         }
                     } else {
                         var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
                         rightclickmenu.popup(Qt.point(deleg_container.x+pos.x+(PQSettings.openfileDefaultView=="icons" ? 0 : fileicon.width), deleg_container.y+pos.y))
+                    }
+                }
+            }
+
+            Image {
+                id: selectedornot
+                x: (parent.width-width)
+                y: 0
+                width: 30
+                height: 30
+                source: (maindeleg.selected ? "/filedialog/deselectfile.svg" : "/filedialog/selectfile.svg")
+                mipmap: true
+                opacity: selectmouse.containsMouse ? 1 : 0.5
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: index >= filefoldermodel.countFoldersFileDialog
+                PQMouseArea {
+                    id: selectmouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        if(files_grid.selectedFiles.hasOwnProperty(index))
+                            files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
+                        else
+                            files_grid.selectedFiles[index] = 1
+                        files_grid.selectedFilesChanged()
                     }
                 }
             }
@@ -797,6 +835,26 @@ GridView {
             breadcrumbs.pathParts = crumbsfiltered
         }
 
+        files_grid.selectedFiles = ({})
+
+    }
+
+    function isCurrentFileSelected() {
+        return files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex) && files_grid.selectedFiles[files_grid.currentIndex]==1
+    }
+
+    function toggleCurrentFileSelection() {
+        if(files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex))
+            files_grid.selectedFiles[files_grid.currentIndex] = (files_grid.selectedFiles[files_grid.currentIndex]+1)%2
+        else
+            files_grid.selectedFiles[files_grid.currentIndex] = 1
+        files_grid.selectedFilesChanged()
+    }
+
+    function setFilesSelection(selected) {
+        for(var i = 0; i < filefoldermodel.countFilesFileDialog; ++i)
+            files_grid.selectedFiles[filefoldermodel.countFoldersFileDialog+i] = selected
+        files_grid.selectedFilesChanged()
     }
 
     Connections {

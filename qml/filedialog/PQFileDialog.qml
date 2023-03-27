@@ -319,8 +319,10 @@ Rectangle {
             filedialogsettings.hide()
             return
         }
-        if(PQSettings.interfacePopoutOpenFile && PQSettings.interfacePopoutOpenFileKeepOpen)
+        if(PQSettings.interfacePopoutOpenFile && PQSettings.interfacePopoutOpenFileKeepOpen) {
+            fileview.selectedFiles = ({})
             return
+        }
         if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {
             // hide in x direction
             if(PQSettings.imageviewAnimationType == "x") {
@@ -336,6 +338,7 @@ Rectangle {
         } else
             filedialog_window.close()
 
+        fileview.selectedFiles = ({})
         variables.visibleItem = ""
     }
 
