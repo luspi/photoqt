@@ -320,7 +320,7 @@ Rectangle {
             return
         }
         if(PQSettings.interfacePopoutOpenFile && PQSettings.interfacePopoutOpenFileKeepOpen) {
-            fileview.selectedFiles = ({})
+            fileview.resetSelectedFiles()
             return
         }
         if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {
@@ -338,7 +338,7 @@ Rectangle {
         } else
             filedialog_window.close()
 
-        fileview.selectedFiles = ({})
+        fileview.resetSelectedFiles()
         variables.visibleItem = ""
     }
 

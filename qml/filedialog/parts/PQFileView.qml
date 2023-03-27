@@ -44,6 +44,7 @@ GridView {
     property bool currentFolderExcluded: false
 
     property var selectedFiles: ({})
+    property int latestIndexSelected: 0
 
     Timer {
         id: resetCurrentIndexChangedUsingKeyIgnoreMouse
@@ -80,7 +81,7 @@ GridView {
         acceptedButtons: Qt.RightButton|Qt.LeftButton
         onClicked: {
             if(mouse.button == Qt.LeftButton) {
-                files_grid.selectedFiles = ({})
+                resetSelectedFiles()
             } else {
                 var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
                 rightclickmenu_bg.popup(Qt.point(pos.x, pos.y))
@@ -488,20 +489,89 @@ GridView {
                         }
 
                     }
+
+                    if(!currentIndexChangedUsingKeyIgnoreMouse)
+                        files_grid.currentIndex = index
                 }
-                onContainsMouseChanged: {
+                onMouseXChanged: {
                     if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
                         files_grid.currentIndex = index
+                }
+                onMouseYChanged: {
+                    if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
+                        files_grid.currentIndex = index
+                }
+
+                onExited: {
+                    if(!currentIndexChangedUsingKeyIgnoreMouse)
+                        files_grid.currentIndex = -1
                 }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(!files_grid.rightclickopen) {
+
+                            // click on folder
                             if(index < filefoldermodel.countFoldersFileDialog)
+
                                 filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[index])
+
                             else {
+
+                                // Ctrl+click toggles selection
                                 if(mouse.modifiers & Qt.ControlModifier)
                                     toggleCurrentFileSelection()
-                                else {
+
+                                // Shift+click either toggles selection or selects range, depending on previous click
+                                else if(mouse.modifiers & Qt.ShiftModifier) {
+
+                                    // if a previous click happened
+                                    if(files_grid.latestIndexSelected > -1) {
+
+                                        // if the previous click was on the same item or if the currently clicked item is already selected => deselect
+                                        if(files_grid.latestIndexSelected == index || files_grid.selectedFiles[index] == 1) {
+
+                                            files_grid.selectedFiles[index] = 0
+                                            files_grid.selectedFilesChanged()
+                                            files_grid.latestIndexSelected = -1
+
+                                        // if the previous click was on a smaller index, select range to right
+                                        } else if(files_grid.latestIndexSelected < index) {
+
+                                            for(var i = files_grid.latestIndexSelected; i <= index; ++i)
+                                                files_grid.selectedFiles[i] = 1
+                                            files_grid.selectedFilesChanged()
+                                            files_grid.latestIndexSelected = index
+
+                                        // if the previous click was on a larger index, select range to left
+                                        } else {
+
+                                            for(var i = index; i <= files_grid.latestIndexSelected; ++i)
+                                                files_grid.selectedFiles[i] = 1
+                                            files_grid.selectedFilesChanged()
+                                            files_grid.latestIndexSelected = index
+
+                                        }
+
+                                    // no previous click was recorded
+                                    } else {
+
+                                        // toggle current element
+                                        if(files_grid.selectedFiles.hasOwnProperty(index))
+                                            files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
+                                        else
+                                            files_grid.selectedFiles[index] = 1
+                                        files_grid.selectedFilesChanged()
+
+                                        // store last clicked index if selected
+                                        if(files_grid.selectedFiles[index] == 1)
+                                            files_grid.latestIndexSelected = index
+                                        else
+                                            files_grid.latestIndexSelected = -1
+
+                                    }
+
+                                // simple click => load image
+                                } else {
                                     filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
                                     filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
                                     filedialog_top.hideFileDialog()
@@ -536,6 +606,12 @@ GridView {
                             files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
                         else
                             files_grid.selectedFiles[index] = 1
+
+                        if(files_grid.selectedFiles[index] == 1)
+                            files_grid.latestIndexSelected = index
+                        else
+                            files_grid.latestIndexSelected = -1
+
                         files_grid.selectedFilesChanged()
                     }
                 }
@@ -835,8 +911,13 @@ GridView {
             breadcrumbs.pathParts = crumbsfiltered
         }
 
-        files_grid.selectedFiles = ({})
+        resetSelectedFiles()
 
+    }
+
+    function resetSelectedFiles() {
+        files_grid.selectedFiles = ({})
+        files_grid.latestIndexSelected = -1
     }
 
     function isCurrentFileSelected() {
@@ -848,12 +929,21 @@ GridView {
             files_grid.selectedFiles[files_grid.currentIndex] = (files_grid.selectedFiles[files_grid.currentIndex]+1)%2
         else
             files_grid.selectedFiles[files_grid.currentIndex] = 1
+
         files_grid.selectedFilesChanged()
+
+        if(files_grid.selectedFiles[files_grid.currentIndex] == 1)
+            files_grid.latestIndexSelected = files_grid.currentIndex
+        else
+            files_grid.latestIndexSelected = -1
     }
 
     function setFilesSelection(selected) {
         for(var i = 0; i < filefoldermodel.countFilesFileDialog; ++i)
             files_grid.selectedFiles[filefoldermodel.countFoldersFileDialog+i] = selected
+
+        files_grid.latestIndexSelected = -1
+
         files_grid.selectedFilesChanged()
     }
 
