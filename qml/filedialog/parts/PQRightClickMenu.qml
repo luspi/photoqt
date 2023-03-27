@@ -96,6 +96,14 @@ PQMenu {
                 files_grid.selectedFiles = ({})
         }
     }
+    MenuItem {
+        visible: isFile
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Copy all selected file") : qsTranslate("filedialog", "Copy this file")
+        onTriggered: {
+            if(handlingFileDir.copyFile(path) != "")
+                files_grid.selectedFiles = ({})
+        }
+    }
 
     MenuSeparator { visible: isFile }
     MenuItem {
