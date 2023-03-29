@@ -45,6 +45,7 @@ GridView {
 
     property var selectedFiles: ({})
     property int latestIndexSelected: 0
+    property int rangeIndexSelected: 0
 
     Timer {
         id: resetCurrentIndexChangedUsingKeyIgnoreMouse
@@ -528,27 +529,67 @@ GridView {
                                     if(files_grid.latestIndexSelected > -1) {
 
                                         // if the previous click was on the same item or if the currently clicked item is already selected => deselect
-                                        if(files_grid.latestIndexSelected == index || files_grid.selectedFiles[index] == 1) {
+                                        if(files_grid.latestIndexSelected == index /*|| files_grid.selectedFiles[index] == 1*/) {
 
-                                            files_grid.selectedFiles[index] = 0
+                                            // first reset previous range
+                                            if(files_grid.rangeIndexSelected != -1) {
+                                                if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
+                                                    for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
+                                                        files_grid.selectedFiles[i] = 0
+                                                } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
+                                                    for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
+                                                        files_grid.selectedFiles[i] = 0
+                                                }
+                                                files_grid.rangeIndexSelected = -1
+                                            }
+
+                                            // set new range
+                                            if(files_grid.selectedFiles[index] == 0)
+                                                files_grid.selectedFiles[index] = 1
+
                                             files_grid.selectedFilesChanged()
-                                            files_grid.latestIndexSelected = -1
 
                                         // if the previous click was on a smaller index, select range to right
                                         } else if(files_grid.latestIndexSelected < index) {
 
+                                            // first reset previous range
+                                            if(files_grid.rangeIndexSelected != -1) {
+                                                if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
+                                                    for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
+                                                        files_grid.selectedFiles[i] = 0
+                                                } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
+                                                    for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
+                                                        files_grid.selectedFiles[i] = 0
+                                                }
+                                            }
+                                            files_grid.rangeIndexSelected = index
+
+                                            // set new range
                                             for(var i = files_grid.latestIndexSelected; i <= index; ++i)
                                                 files_grid.selectedFiles[i] = 1
+
                                             files_grid.selectedFilesChanged()
-                                            files_grid.latestIndexSelected = index
 
                                         // if the previous click was on a larger index, select range to left
                                         } else {
 
+                                            // first reset previous range
+                                            if(files_grid.rangeIndexSelected != -1) {
+                                                if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
+                                                    for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
+                                                        files_grid.selectedFiles[i] = 0
+                                                } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
+                                                    for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
+                                                        files_grid.selectedFiles[i] = 0
+                                                }
+                                            }
+                                            files_grid.rangeIndexSelected = index
+
+                                            // set new range
                                             for(var i = index; i <= files_grid.latestIndexSelected; ++i)
                                                 files_grid.selectedFiles[i] = 1
+
                                             files_grid.selectedFilesChanged()
-                                            files_grid.latestIndexSelected = index
 
                                         }
 
@@ -560,6 +601,7 @@ GridView {
                                             files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
                                         else
                                             files_grid.selectedFiles[index] = 1
+
                                         files_grid.selectedFilesChanged()
 
                                         // store last clicked index if selected
@@ -572,9 +614,14 @@ GridView {
 
                                 // simple click => load image
                                 } else {
-                                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
-                                    filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
-                                    filedialog_top.hideFileDialog()
+
+                                    if(index < filefoldermodel.countFoldersFileDialog)
+                                        filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[index])
+                                    else {
+                                        filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
+                                        filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
+                                        filedialog_top.hideFileDialog()
+                                    }
                                 }
                             }
                         }
@@ -936,6 +983,8 @@ GridView {
             files_grid.latestIndexSelected = files_grid.currentIndex
         else
             files_grid.latestIndexSelected = -1
+
+        files_grid.rangeIndexSelected = -1
     }
 
     function setFilesSelection(selected) {
