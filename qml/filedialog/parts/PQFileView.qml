@@ -452,6 +452,10 @@ GridView {
 
                 onEntered: {
 
+                    // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
+                    if(rightclickmenu.isOpen)
+                        return
+
                     if(!tooltipSetup) {
 
                         var fmodi = handlingFileDir.getFileModified(fpath)
