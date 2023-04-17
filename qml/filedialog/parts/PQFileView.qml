@@ -196,7 +196,7 @@ GridView {
                             anchors.fill: folderthumbs
                             asynchronous: true
                             visible: sourceSize.width>1
-                            mipmap: true
+                            mipmap: false   // setting this to true blurs too much detail in the thumbnail
                             fillMode: Image.PreserveAspectFit
                             source: "image://folderthumb/" + folder + ":://::" + num
                             onSourceSizeChanged:

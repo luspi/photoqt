@@ -120,7 +120,7 @@ void PQAsyncImageResponseFolderThumb::run() {
     QImage thumb = loader.m_image;
 
     // scale to right size
-    thumb = thumb.scaled(m_requestedSize, Qt::KeepAspectRatioByExpanding);
+    thumb = thumb.scaled(m_requestedSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
 
     // get folder image to be used as 'masking' image
     QIcon ico = QIcon::fromTheme("folder");
