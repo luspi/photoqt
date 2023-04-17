@@ -234,8 +234,10 @@ GridView {
                                 return
                             if(numberOfFilesInsideFolder.text*1 == 0)
                                 return
-                            folderthumbs.curnum = (folderthumbs.curnum%(1*numberOfFilesInsideFolder.text))+1
-                            ftmodel.append({"folder": filefoldermodel.entriesFileDialog[index], "num": folderthumbs.curnum, "curindex": index})
+                            if(files_grid.currentIndex==index) {
+                                folderthumbs.curnum = (folderthumbs.curnum%(1*numberOfFilesInsideFolder.text))+1
+                                ftmodel.append({"folder": filefoldermodel.entriesFileDialog[index], "num": folderthumbs.curnum, "curindex": index})
+                            }
                         }
                     }
                     Connections {
