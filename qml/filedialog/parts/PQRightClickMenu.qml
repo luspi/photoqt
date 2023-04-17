@@ -90,7 +90,7 @@ PQMenu {
     }
     MenuItem {
         visible: isFile
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected file") : qsTranslate("filedialog", "Move this file")
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected files") : qsTranslate("filedialog", "Move this file")
         onTriggered: {
             if(handlingFileDir.moveFile(path) != "")
                 files_grid.selectedFiles = ({})
