@@ -77,7 +77,7 @@ endif()
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql PrintSupport REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools Sql PrintSupport Concurrent REQUIRED)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 if(IMAGEMAGICK)
@@ -164,7 +164,7 @@ if(WIN32)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files})
 endif()
-target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql Qt5::PrintSupport)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql Qt5::PrintSupport Qt5::Concurrent)
 
 ######################################################
 #### CMAKE BUILD TYPE (DETERMINES COMPILER FLAGS) ####
