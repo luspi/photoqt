@@ -98,7 +98,16 @@ bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
         return file.remove();
     }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+#ifdef Q_OS_LINUX
+
+    // the native Qt function has some issues (at least on Linux):
+    // 1) doesn't encode path in trashinfo file
+    // 2) uses different convention for handling duplicate filenames
+    // 3) doesn't update the directorysizes file (for folders)
+    // For now, our custom implementation only supports Linux.
+    return moveFileToTrash(filename);
+
+#elif (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
 
     QFile file(filename);
     return file.moveToTrash();
