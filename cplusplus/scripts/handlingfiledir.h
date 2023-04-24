@@ -72,6 +72,7 @@ public:
     Q_INVOKABLE bool isRoot(QString path);
     Q_INVOKABLE QStringList listArchiveContent(QString path);
     Q_INVOKABLE QString moveFile(QString filename);
+    Q_INVOKABLE QString moveFiles(QStringList filenames);
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
     Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);
     Q_INVOKABLE void saveStringToNewFile(QString txt);

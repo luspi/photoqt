@@ -97,10 +97,16 @@ PQMenu {
         }
     }
     MenuItem {
-        visible: isFile
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected files") : qsTranslate("filedialog", "Move this file")
+        visible: isFile||isFolder
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected files/folders") : (isFile ? qsTranslate("filedialog", "Move this file") : qsTranslate("filedialog", "Move this folder"))
         onTriggered: {
-            if(handlingFileDir.moveFile(path) != "")
+            var arr = []
+            if(fileview.isCurrentFileSelected()) {
+                for(const [key, value] of Object.entries(fileview.selectedFiles))
+                    arr.push(filefoldermodel.entriesFileDialog[key])
+            } else
+                arr = [path]
+            if(handlingFileDir.moveFiles(arr)!= "")
                 files_grid.selectedFiles = ({})
         }
     }

@@ -578,6 +578,70 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
 
 }
 
+QString PQHandlingFileDir::moveFiles(QStringList filenames) {
+
+    DBG << CURDATE << "PQHandlingFileDir::moveFiles()" << NL
+        << CURDATE << "** filenames = " << filenames.join(",").toStdString() << NL;
+
+    if(filenames.length() == 0) {
+        LOG << CURDATE << "PQHandlingFileDir::moveFiles(): No filenames passed on." << NL;
+        return "";
+    }
+
+    QFileInfo firstinfo = QFileInfo(filenames.at(0));
+
+    QString curdir = firstinfo.absolutePath();
+
+    //: Title of filedialog to select new location to move files/folders to.
+    QString newfolder = QFileDialog::getExistingDirectory(0, "Move files/folders", curdir);
+
+    if(newfolder.trimmed() == "")
+        return "";
+
+    for(auto &f : qAsConst(filenames)) {
+
+
+        QFile file(f);
+        QFileInfo fileinfo(f);
+
+        QString newname = QString("%1/%2").arg(newfolder).arg(fileinfo.fileName());
+
+        bool skipfile = false;
+
+        // first check if target file exists
+        if(QFile::exists(newname)) {
+            QMessageBox msg;
+
+            msg.setText("Target file exists.");
+            msg.setInformativeText(QString("The target file %1 already exists. Do you want to overwrite this file? If not, then this file will be skipped.").arg(fileinfo.fileName()));
+            msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msg.setDefaultButton(QMessageBox::Yes);
+            msg.setWindowModality(Qt::ApplicationModal);
+
+            int ret = msg.exec();
+
+            if(ret == QMessageBox::No)
+                skipfile = true;
+            else
+                QFile::remove(newname);
+        }
+
+        if(skipfile)
+            continue;
+
+        if(!file.rename(newname)) {
+            LOG << CURDATE << "PQHandlingFileDir::moveFiles(): ERROR: The file/folder could not be moved to its new location." << NL;
+            LOG << CURDATE << "PQHandlingFileDir::moveFiles(): filename: '" << fileinfo.fileName().toStdString() << "'" << NL;
+            continue;
+        }
+
+    }
+
+    return newfolder;
+
+
+}
+
 QString PQHandlingFileDir::moveFile(QString filename) {
 
     DBG << CURDATE << "PQHandlingFileDir::moveFile()" << NL
