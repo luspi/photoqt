@@ -80,6 +80,8 @@ public:
 private:
     QMimeDatabase db;
 
+    bool moveFileToTrash(QString filename);
+
 };
 
 #endif // PQHANDLINGFILEDIR_H

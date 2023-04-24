@@ -85,6 +85,15 @@ bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
         << CURDATE << "** permanent = " << permanent << NL;
 
     if(permanent) {
+        QFileInfo info(filename);
+        if(info.isDir()) {
+            QDir dir(filename);
+            if(!dir.removeRecursively()) {
+                LOG << CURDATE << "PQHandlingFileDir::deleteFile(): Failed to delete folder recursively!" << NL;
+                return false;
+            }
+            return true;
+        }
         QFile file(filename);
         return file.remove();
     }
@@ -95,130 +104,161 @@ bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
     return file.moveToTrash();
 
 #else
+    return moveFileToTrash(filename);
+#endif
+
+}
+
+bool PQHandlingFileDir::moveFileToTrash(QString filename) {
+
 #if Q_OS_WIN
     QFile file(filename);
     return file.remove();
 #else
-    // The file to delete
-    QFile file(filename);
 
-    // Of course we only proceed if the file actually exists
-    if(file.exists()) {
+    QFileInfo info(filename);
 
-        // Create the meta .trashinfo file
-        QString info = "[Trash Info]\n";
-        info += "Path=" + QUrl(filename).toEncoded() + "\n";
-        info += "DeletionDate=" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
+    if(!info.exists()) {
+        LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: File/Folder '" << filename.toStdString() << "' doesn't exist...?" << NL;
+        return false;
+    }
 
-        // The base patzh for the Trah (files on external devices  use the external device for Trash)
-        QString baseTrash = "";
+    // Create the meta .trashinfo file
+    QString trashinfo = "[Trash Info]\n";
+    trashinfo += "Path=" + QUrl(filename).toEncoded() + "\n";
+    trashinfo += "DeletionDate=" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-        // If file lies in the home directory
-        if(QFileInfo(filename).absoluteFilePath().startsWith(QDir::homePath())) {
+    // The base path for the Trah (files on external devices  use the external device for Trash)
+    QString baseTrash = "";
 
-            // Set the base path and make sure all the dirs exist
-            baseTrash = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/";
+    // If file lies in the home directory
+    if(QFileInfo(filename).absoluteFilePath().startsWith(QDir::homePath())) {
 
-            QDir dir;
-            dir.setPath(baseTrash);
-            if(!dir.exists()) {
-                if(!dir.mkpath(baseTrash)) {
-                    LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(baseTrash) failed!";
-                    return false;
-                }
-            }
-            dir.setPath(baseTrash + "files");
-            if(!dir.exists()) {
-                if(!dir.mkdir(baseTrash + "files")) {
-                    LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(files) failed!";
-                    return false;
-                }
-            }
-            dir.setPath(baseTrash + "info");
-            if(!dir.exists()) {
-                if(!dir.mkdir(baseTrash + "info")) {
-                    LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(info) failed!";
-                    return false;
-                }
-            }
-        } else {
-            // Set the base path ...
-            for(QStorageInfo &storage : QStorageInfo::mountedVolumes()) {
-                if(!storage.isReadOnly() && storage.isValid() && filename.startsWith(storage.rootPath()) &&
-                   baseTrash.length() < storage.rootPath().length()) {
-                    baseTrash = storage.rootPath();
-                }
-            }
-            baseTrash += "/" + QString("/.Trash-%1/").arg(getuid());
-            // ... and make sure all the dirs exist
-            QDir dir;
-            dir.setPath(baseTrash);
-            if(!dir.exists()) {
-                if(!dir.mkdir(baseTrash)) {
-                    LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(baseTrash) failed!";
-                    return false;
-                }
-            }
-            dir.setPath(baseTrash + "files");
-            if(!dir.exists()) {
-                if(!dir.mkdir(baseTrash + "files")) {
-                    LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(files) failed!";
-                    return false;
-                }
-            }
-            dir.setPath(baseTrash + "info");
-            if(!dir.exists()) {
-                if(!dir.mkdir(baseTrash + "info")) {
-                    LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(info) failed!";
-                    return false;
-                }
-            }
+        // Set the base path and make sure all the dirs exist
+        baseTrash = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/";
 
-        }
-
-        // that's the new trash file
-        QString trashFile = baseTrash + "files/" + QUrl::toPercentEncoding(QFileInfo(file).fileName(),""," ");
-        QString backupTrashFile = trashFile;
-
-        // If there exists already a file with that name, we simply append the next higher number (sarting at 1)
-        QFile ensure(trashFile);
-        int j = 1;
-        while(ensure.exists()) {
-            trashFile = backupTrashFile + QString(" (%1)").arg(j++);
-            ensure.setFileName(trashFile);
-        }
-
-        // Copy the file to the Trash
-        if(file.copy(trashFile)) {
-
-            // And remove the old file
-            if(!file.remove()) {
-                LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: Old file couldn't be removed!" << NL;
+        QDir dir;
+        dir.setPath(baseTrash);
+        if(!dir.exists()) {
+            if(!dir.mkpath(baseTrash)) {
+                LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(baseTrash) failed!";
                 return false;
             }
-
-            // Write the .trashinfo file
-            QFile i(baseTrash + "info/" + QFileInfo(trashFile).fileName() + ".trashinfo");
-            if(i.open(QIODevice::WriteOnly)) {
-                QTextStream out(&i);
-                out << info;
-                i.close();
-            } else {
-                LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: *.trashinfo file couldn't be created!" << NL;
+        }
+        dir.setPath(baseTrash + "files");
+        if(!dir.exists()) {
+            if(!dir.mkdir(baseTrash + "files")) {
+                LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(files) failed!";
                 return false;
             }
+        }
+        dir.setPath(baseTrash + "info");
+        if(!dir.exists()) {
+            if(!dir.mkdir(baseTrash + "info")) {
+                LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(info) failed!";
+                return false;
+            }
+        }
+    } else {
+        // Set the base path ...
+        for(QStorageInfo &storage : QStorageInfo::mountedVolumes()) {
+            if(!storage.isReadOnly() && storage.isValid() && filename.startsWith(storage.rootPath()) && baseTrash.length() < storage.rootPath().length()) {
+                baseTrash = storage.rootPath();
+            }
+        }
+        baseTrash += "/" + QString("/.Trash-%1/").arg(getuid());
+        // ... and make sure all the dirs exist
+        QDir dir;
+        dir.setPath(baseTrash);
+        if(!dir.exists()) {
+            if(!dir.mkdir(baseTrash)) {
+                LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(baseTrash) failed!";
+                return false;
+            }
+        }
+        dir.setPath(baseTrash + "files");
+        if(!dir.exists()) {
+            if(!dir.mkdir(baseTrash + "files")) {
+                LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(files) failed!";
+                return false;
+            }
+        }
+        dir.setPath(baseTrash + "info");
+        if(!dir.exists()) {
+            if(!dir.mkdir(baseTrash + "info")) {
+                LOG << "PQHandlingFileDir::deleteFile(): ERROR: mkdir(info) failed!";
+                return false;
+            }
+        }
 
-        } else {
-            LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: File couldn't be deleted (moving file failed)" << NL;
+    }
+
+    // that's the new trash file
+    QString trashFile = baseTrash + "files/" + QUrl::toPercentEncoding(QFileInfo(filename).fileName(),""," ");
+    QString backupTrashFile = trashFile;
+
+    // If there exists already a file with that name, we simply append the next higher number (sarting at 1)
+    QFileInfo ensure(trashFile);
+    int j = 1;
+    while(ensure.exists()) {
+        trashFile = backupTrashFile + QString(" (%1)").arg(j++);
+        ensure.setFile(trashFile);
+    }
+
+    // Write the .trashinfo file
+    QFile iF(baseTrash + "info/" + QFileInfo(trashFile).fileName() + ".trashinfo");
+    if(iF.open(QIODevice::WriteOnly)) {
+        QTextStream out(&iF);
+        out << trashinfo;
+        iF.close();
+    } else {
+        LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: *.trashinfo file couldn't be created!" << NL;
+        return false;
+    }
+
+    if(info.isDir()) {
+
+        QDir dir(filename);
+        if(!dir.rename(filename, trashFile)) {
+            LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: Unable to move directory to trash, path = " << trashFile.toStdString() << NL;
+            return false;
+        }
+
+        // find directory size
+        qint64 size = 0;
+        QDirIterator it(trashFile, QDirIterator::Subdirectories);
+        while(it.hasNext()) {
+            QString cur = it.next();
+            QFileInfo curinfo(cur);
+            if(curinfo.isFile()) {
+                size += curinfo.size();
+            }
+        }
+
+        // update directorysizes files
+        QFile s(baseTrash + "/directorysizes");
+        s.open(QIODevice::WriteOnly|QIODevice::Append);
+        QTextStream out(&s);
+
+        QFileInfo trashFileInfo(iF);
+        QString line = QString("%1 %2 %3\n").arg(size).arg(trashFileInfo.lastModified().toMSecsSinceEpoch()).arg(QString(QUrl::toPercentEncoding(QFileInfo(trashFile).fileName(),""," ")));
+        out << line;
+        s.close();
+
+    } else if(info.isFile()) {
+
+        QFile file(filename);
+        if(!file.rename(trashFile)) {
+            LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: Unable to move file to trash, path = " << trashFile.toStdString() << NL;
             return false;
         }
 
     } else {
-        LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << NL;
+
+        LOG << CURDATE << "PQHandlingFileDir::deleteFile(): ERROR: File '" << filename.toStdString() << "' doesn't appear to be file nor folder" << NL;
         return false;
     }
 
-#endif
 #endif
 
     return true;

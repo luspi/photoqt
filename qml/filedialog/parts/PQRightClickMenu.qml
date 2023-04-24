@@ -55,7 +55,7 @@ PQMenu {
     }
     MenuSeparator { visible: isFile || isFolder }
     MenuItem {
-        visible: isFile
+        visible: isFile || isFolder
         text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
         onTriggered: {
             fileview.toggleCurrentFileSelection()
@@ -69,20 +69,28 @@ PQMenu {
     }
     MenuSeparator { visible: isFile || isFolder }
     MenuItem {
-        visible: isFile
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected file") : qsTranslate("filedialog", "Delete this file")
+        visible: isFile || isFolder
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected files/folders") : (isFile ? qsTranslate("filedialog", "Delete this file") : qsTranslate("filedialog", "Delete this folder"))
         onTriggered: {
             if(fileview.isCurrentFileSelected()) {
-                if(!handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move all selected files to the trash?"), ""))
-                    return
-            } else {
-                if(!handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move this file to the trash?"), ""))
-                    return
-            }
 
-            for (const [key, value] of Object.entries(fileview.selectedFiles)) {
+                if(!handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move all selected files/folders to the trash?"), ""))
+                    return
+
+                for (const [key, value] of Object.entries(fileview.selectedFiles)) {
+                    handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
+                }
+
+            } else {
+                if(isFile && !handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move this file to the trash?"), ""))
+                    return
+                if(isFolder && !handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move this folder to the trash?"), ""))
+                    return
+
                 handlingFileDir.deleteFile(path, false)
             }
+
+
 
             files_grid.selectedFiles = ({})
 
@@ -105,7 +113,7 @@ PQMenu {
         }
     }
 
-    MenuSeparator { visible: isFile }
+    MenuSeparator { visible: isFile||isFolder }
     MenuItem {
         checkable: true
         checked: PQSettings.openfileShowHiddenFilesFolders

@@ -501,133 +501,145 @@ GridView {
                         files_grid.currentIndex = index
                 }
                 onMouseXChanged: {
+
+                    // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
+                    if(rightclickmenu.isOpen)
+                        return
+
                     if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
                         files_grid.currentIndex = index
+
                 }
                 onMouseYChanged: {
+
+                    // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
+                    if(rightclickmenu.isOpen)
+                        return
+
                     if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
                         files_grid.currentIndex = index
+
                 }
 
                 onExited: {
+
+                    // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
+                    if(rightclickmenu.isOpen)
+                        return
+
                     if(!currentIndexChangedUsingKeyIgnoreMouse)
                         files_grid.currentIndex = -1
+
                 }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(!files_grid.rightclickopen) {
 
-                            // click on folder
-                            if(index < filefoldermodel.countFoldersFileDialog)
+                            // Ctrl+click toggles selection
+                            if(mouse.modifiers & Qt.ControlModifier)
+                                toggleCurrentFileSelection()
 
-                                filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[index])
+                            // Shift+click either toggles selection or selects range, depending on previous click
+                            else if(mouse.modifiers & Qt.ShiftModifier) {
 
-                            else {
+                                // if a previous click happened
+                                if(files_grid.latestIndexSelected > -1) {
 
-                                // Ctrl+click toggles selection
-                                if(mouse.modifiers & Qt.ControlModifier)
-                                    toggleCurrentFileSelection()
+                                    // if the previous click was on the same item or if the currently clicked item is already selected => deselect
+                                    if(files_grid.latestIndexSelected == index /*|| files_grid.selectedFiles[index] == 1*/) {
 
-                                // Shift+click either toggles selection or selects range, depending on previous click
-                                else if(mouse.modifiers & Qt.ShiftModifier) {
-
-                                    // if a previous click happened
-                                    if(files_grid.latestIndexSelected > -1) {
-
-                                        // if the previous click was on the same item or if the currently clicked item is already selected => deselect
-                                        if(files_grid.latestIndexSelected == index /*|| files_grid.selectedFiles[index] == 1*/) {
-
-                                            // first reset previous range
-                                            if(files_grid.rangeIndexSelected != -1) {
-                                                if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
-                                                    for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
-                                                        files_grid.selectedFiles[i] = 0
-                                                } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
-                                                    for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
-                                                        files_grid.selectedFiles[i] = 0
-                                                }
-                                                files_grid.rangeIndexSelected = -1
+                                        // first reset previous range
+                                        if(files_grid.rangeIndexSelected != -1) {
+                                            if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
+                                                for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
+                                                    files_grid.selectedFiles[i] = 0
+                                            } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
+                                                for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
+                                                    files_grid.selectedFiles[i] = 0
                                             }
-
-                                            // set new range
-                                            if(files_grid.selectedFiles[index] == 0)
-                                                files_grid.selectedFiles[index] = 1
-
-                                            files_grid.selectedFilesChanged()
-
-                                        // if the previous click was on a smaller index, select range to right
-                                        } else if(files_grid.latestIndexSelected < index) {
-
-                                            // first reset previous range
-                                            if(files_grid.rangeIndexSelected != -1) {
-                                                if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
-                                                    for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
-                                                        files_grid.selectedFiles[i] = 0
-                                                } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
-                                                    for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
-                                                        files_grid.selectedFiles[i] = 0
-                                                }
-                                            }
-                                            files_grid.rangeIndexSelected = index
-
-                                            // set new range
-                                            for(var i = files_grid.latestIndexSelected; i <= index; ++i)
-                                                files_grid.selectedFiles[i] = 1
-
-                                            files_grid.selectedFilesChanged()
-
-                                        // if the previous click was on a larger index, select range to left
-                                        } else {
-
-                                            // first reset previous range
-                                            if(files_grid.rangeIndexSelected != -1) {
-                                                if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
-                                                    for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
-                                                        files_grid.selectedFiles[i] = 0
-                                                } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
-                                                    for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
-                                                        files_grid.selectedFiles[i] = 0
-                                                }
-                                            }
-                                            files_grid.rangeIndexSelected = index
-
-                                            // set new range
-                                            for(var i = index; i <= files_grid.latestIndexSelected; ++i)
-                                                files_grid.selectedFiles[i] = 1
-
-                                            files_grid.selectedFilesChanged()
-
+                                            files_grid.rangeIndexSelected = -1
                                         }
 
-                                    // no previous click was recorded
-                                    } else {
-
-                                        // toggle current element
-                                        if(files_grid.selectedFiles.hasOwnProperty(index))
-                                            files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
-                                        else
+                                        // set new range
+                                        if(files_grid.selectedFiles[index] == 0)
                                             files_grid.selectedFiles[index] = 1
 
                                         files_grid.selectedFilesChanged()
 
-                                        // store last clicked index if selected
-                                        if(files_grid.selectedFiles[index] == 1)
-                                            files_grid.latestIndexSelected = index
-                                        else
-                                            files_grid.latestIndexSelected = -1
+                                    // if the previous click was on a smaller index, select range to right
+                                    } else if(files_grid.latestIndexSelected < index) {
+
+                                        // first reset previous range
+                                        if(files_grid.rangeIndexSelected != -1) {
+                                            if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
+                                                for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
+                                                    files_grid.selectedFiles[i] = 0
+                                            } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
+                                                for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
+                                                    files_grid.selectedFiles[i] = 0
+                                            }
+                                        }
+                                        files_grid.rangeIndexSelected = index
+
+                                        // set new range
+                                        for(var i = files_grid.latestIndexSelected; i <= index; ++i)
+                                            files_grid.selectedFiles[i] = 1
+
+                                        files_grid.selectedFilesChanged()
+
+                                    // if the previous click was on a larger index, select range to left
+                                    } else {
+
+                                        // first reset previous range
+                                        if(files_grid.rangeIndexSelected != -1) {
+                                            if(files_grid.rangeIndexSelected < files_grid.latestIndexSelected) {
+                                                for(var i = files_grid.rangeIndexSelected; i <= latestIndexSelected; ++i)
+                                                    files_grid.selectedFiles[i] = 0
+                                            } else if(files_grid.rangeIndexSelected > files_grid.latestIndexSelected) {
+                                                for(var i = files_grid.latestIndexSelected; i <= rangeIndexSelected; ++i)
+                                                    files_grid.selectedFiles[i] = 0
+                                            }
+                                        }
+                                        files_grid.rangeIndexSelected = index
+
+                                        // set new range
+                                        for(var i = index; i <= files_grid.latestIndexSelected; ++i)
+                                            files_grid.selectedFiles[i] = 1
+
+                                        files_grid.selectedFilesChanged()
 
                                     }
 
-                                // simple click => load image
+                                // no previous click was recorded
                                 } else {
 
-                                    if(index < filefoldermodel.countFoldersFileDialog)
-                                        filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[index])
-                                    else {
-                                        filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
-                                        filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
-                                        filedialog_top.hideFileDialog()
-                                    }
+                                    // toggle current element
+                                    if(files_grid.selectedFiles.hasOwnProperty(index))
+                                        files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
+                                    else
+                                        files_grid.selectedFiles[index] = 1
+
+                                    files_grid.selectedFilesChanged()
+
+                                    // store last clicked index if selected
+                                    if(files_grid.selectedFiles[index] == 1)
+                                        files_grid.latestIndexSelected = index
+                                    else
+                                        files_grid.latestIndexSelected = -1
+
+                                }
+
+                            // simple click => load image
+                            } else {
+
+                                // click on folder
+                                if(index < filefoldermodel.countFoldersFileDialog)
+                                    filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[index])
+                                // click on file
+                                else {
+                                    filefoldermodel.setFileNameOnceReloaded = filefoldermodel.entriesFileDialog[index]
+                                    filefoldermodel.fileInFolderMainView = filefoldermodel.entriesFileDialog[index]
+                                    filedialog_top.hideFileDialog()
                                 }
                             }
                         }
@@ -994,8 +1006,8 @@ GridView {
     }
 
     function setFilesSelection(selected) {
-        for(var i = 0; i < filefoldermodel.countFilesFileDialog; ++i)
-            files_grid.selectedFiles[filefoldermodel.countFoldersFileDialog+i] = selected
+        for(var i = 0; i < filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog; ++i)
+            files_grid.selectedFiles[i] = selected
 
         files_grid.latestIndexSelected = -1
 
