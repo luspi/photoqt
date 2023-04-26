@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg width="512" height="512" version="1.1" viewBox="0 0 135.47 135.47" xmlns="http://www.w3.org/2000/svg">
- <g>
-  <circle cx="67.733" cy="67.733" r="52.716" fill="#fff" fill-opacity=".75" stroke="#000" stroke-width="7.9375"/>
-  <text x="45.652725" y="57.826782" fill="#ffffff" font-size="3.175px" stroke="#000000" stroke-width="2.6458" xml:space="preserve"><tspan stroke-width="2.6458"/></text>
-  <text transform="scale(.26458)" fill="#ffffff" stroke="#000000" stroke-width="10" style="shape-inside:url(#rect952);white-space:pre" xml:space="preserve"/>
- </g>
  <rect x="37.126" y="64.378" width="61.215" height="6.7107" stroke="#000" stroke-width="6.5185"/>
 </svg>

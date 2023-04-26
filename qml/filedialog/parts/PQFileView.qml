@@ -269,7 +269,7 @@ GridView {
                 }
 
                 Rectangle {
-                    x: parent.width-width
+                    x: (parent.width-width)
                     y: 0
                     width: numberOfFilesInsideFolder.width + 20
                     height: 30
@@ -289,7 +289,7 @@ GridView {
                 }
 
                 Rectangle {
-                    x: 0
+                    x: (parent.width-width)/2
                     y: 0
                     width: currentNumberOfFileInsideFolder.width + 20
                     height: 30
@@ -665,36 +665,45 @@ GridView {
                 }
             }
 
-            Image {
+            Rectangle {
                 id: selectedornot
-                x: (parent.width-width)
-                y: 0
-                width: 30
-                height: 30
-                source: (maindeleg.selected ? "/filedialog/deselectfile.svg" : "/filedialog/selectfile.svg")
-                mipmap: true
-                opacity: selectmouse.containsMouse ? 1 : 0.5
+                x: 10
+                y: 10
+                width: 25
+                height: 25
+                radius: 5
+
+                color: "#bbbbbb"
+                opacity: (files_grid.currentIndex==index||selectmouse.containsMouse) ? 0.8 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: index >= filefoldermodel.countFoldersFileDialog
-                PQMouseArea {
-                    id: selectmouse
+
+                Image {
                     anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if(files_grid.selectedFiles.hasOwnProperty(index))
-                            files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
-                        else
-                            files_grid.selectedFiles[index] = 1
+                    source: (maindeleg.selected ? "/filedialog/deselectfile.svg" : "/filedialog/selectfile.svg")
+                    mipmap: true
+                    opacity: selectmouse.containsMouse ? 0.8 : 0.4
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    PQMouseArea {
+                        id: selectmouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            if(files_grid.selectedFiles.hasOwnProperty(index))
+                                files_grid.selectedFiles[index] = (files_grid.selectedFiles[index]+1)%2
+                            else
+                                files_grid.selectedFiles[index] = 1
 
-                        if(files_grid.selectedFiles[index] == 1)
-                            files_grid.latestIndexSelected = index
-                        else
-                            files_grid.latestIndexSelected = -1
+                            if(files_grid.selectedFiles[index] == 1)
+                                files_grid.latestIndexSelected = index
+                            else
+                                files_grid.latestIndexSelected = -1
 
-                        files_grid.selectedFilesChanged()
+                            files_grid.selectedFilesChanged()
+                        }
                     }
                 }
+
             }
 
             PQRightClickMenu {
