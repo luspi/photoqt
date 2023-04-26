@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE QString getQtVersion();
     Q_INVOKABLE QString getUniqueId();
     Q_INVOKABLE QString getVersion();
+    Q_INVOKABLE qint64 getTimestamp();
     Q_INVOKABLE bool isChromecastEnabled();
     Q_INVOKABLE bool isDevILSupportEnabled();
     Q_INVOKABLE bool isFreeImageSupportEnabled();

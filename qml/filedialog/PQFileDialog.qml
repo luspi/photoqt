@@ -284,6 +284,10 @@ Rectangle {
     }
 
     function showFileDialog() {
+
+        fileview.selectedFiles = ({})
+        fileview.cutFiles = []
+
         if(!PQSettings.interfacePopoutOpenFile && !windowsizepopup.fileDialog) {
             // show in x direction
             if(PQSettings.imageviewAnimationType == "x") {

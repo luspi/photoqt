@@ -338,6 +338,10 @@ QString PQHandlingGeneral::getVersion() {
 
 }
 
+qint64 PQHandlingGeneral::getTimestamp() {
+    return QDateTime::currentDateTime().toSecsSinceEpoch();
+}
+
 bool PQHandlingGeneral::isChromecastEnabled() {
 #ifdef CHROMECAST
     return true;

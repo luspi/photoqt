@@ -47,6 +47,17 @@ GridView {
     property int latestIndexSelected: 0
     property int rangeIndexSelected: 0
 
+    property var cutFiles: []
+    property var cutFilesTimestamp: handlingGeneral.getTimestamp()
+
+    Connections {
+        target: handlingExternal
+        onChangedClipboardData: {
+            if(Math.abs(cutFilesTimestamp - handlingGeneral.getTimestamp()) > 1)
+                fileview.cutFiles= []
+        }
+    }
+
     Timer {
         id: resetCurrentIndexChangedUsingKeyIgnoreMouse
         interval: 300
@@ -131,6 +142,7 @@ GridView {
         readonly property int fsize: handlingFileDir.getFileSize(fpath)
 
         property bool selected: files_grid.selectedFiles.hasOwnProperty(index)&&files_grid.selectedFiles[index]
+        property bool cut: files_grid.cutFiles.indexOf(fpath)!=-1
 
         Rectangle {
 
@@ -142,6 +154,9 @@ GridView {
             // these anchors make sure the item falls back into place after being dropped
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+
+            opacity: cut ? 0.6 : 1
+            Behavior on opacity { NumberAnimation { duration: 250 } }
 
             property bool mouseInside: false
             color: maindeleg.selected ? "#88ffffff" :
@@ -735,6 +750,12 @@ GridView {
                 }
             }
 
+            Rectangle {
+                anchors.fill: parent
+                color: "white"
+                opacity: cut ? 0.2 : 0
+            }
+
         }
 
     }
@@ -959,6 +980,8 @@ GridView {
 
         setNameMimeTypeFilters()
 
+        selectedFiles = ({})
+
         currentIndex = (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog > 0 ? 0 : -1)
 
         var cleaned = handlingFileDir.cleanPath(filefoldermodel.folderFileDialog)
@@ -989,7 +1012,10 @@ GridView {
         return files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex) && files_grid.selectedFiles[files_grid.currentIndex]==1
     }
     function anyFilesSelected() {
-        return Object.keys(files_grid.selectedFiles).length>0
+        var s = 0
+        for (const [key, value] of Object.entries(fileview.selectedFiles))
+            s += value
+        return s>0
     }
 
     function toggleCurrentFileSelection() {
@@ -1015,6 +1041,10 @@ GridView {
         files_grid.latestIndexSelected = -1
 
         files_grid.selectedFilesChanged()
+    }
+
+    function setCurrentFileCut() {
+        files_grid.cutFiles = [filefoldermodel.entriesFileDialog[files_grid.currentIndex]]
     }
 
     Connections {
