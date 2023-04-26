@@ -667,14 +667,14 @@ GridView {
 
             Rectangle {
                 id: selectedornot
-                x: 10
-                y: 10
+                x: PQSettings.openfileDefaultView=="list" ? (fileicon.x + (fileicon.width-width)/2) : 10
+                y: PQSettings.openfileDefaultView=="list" ? (fileicon.y + (fileicon.height-height)/2) : 10
                 width: 25
                 height: 25
                 radius: 5
 
                 color: "#bbbbbb"
-                opacity: (files_grid.currentIndex==index||selectmouse.containsMouse) ? 0.8 : (maindeleg.selected ? 0.4 : 0)
+                opacity: (selectmouse.containsMouse||maindeleg.selected) ? 0.8 : (files_grid.currentIndex==index ? (PQSettings.openfileDefaultView=="list" ? 0.4 : 0.8) : 0)
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 Image {
@@ -700,6 +700,14 @@ GridView {
                                 files_grid.latestIndexSelected = -1
 
                             files_grid.selectedFilesChanged()
+                        }
+                        onEntered: {
+                            if(!currentIndexChangedUsingKeyIgnoreMouse)
+                                files_grid.currentIndex = index
+                        }
+                        onExited: {
+                            if(!currentIndexChangedUsingKeyIgnoreMouse)
+                                files_grid.currentIndex = -1
                         }
                     }
                 }
