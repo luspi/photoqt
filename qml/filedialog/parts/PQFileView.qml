@@ -161,7 +161,7 @@ GridView {
             property bool mouseInside: false
             color: maindeleg.selected ? "#88ffffff" :
                         (index < filefoldermodel.countFoldersFileDialog
-                               ? (files_grid.currentIndex==index ? "#448888ee" : "#44222288")
+                               ? (files_grid.currentIndex==index ? "#44888899" : "#44222233")
                                : (files_grid.currentIndex==index ? "#44aaaaaa" : "#44444444"))
 
             border.width: 1
@@ -674,7 +674,7 @@ GridView {
                 radius: 5
 
                 color: "#bbbbbb"
-                opacity: (files_grid.currentIndex==index||selectmouse.containsMouse) ? 0.8 : 0
+                opacity: (files_grid.currentIndex==index||selectmouse.containsMouse) ? 0.8 : (maindeleg.selected ? 0.4 : 0)
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 Image {
