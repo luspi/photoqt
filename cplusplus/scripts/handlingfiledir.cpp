@@ -78,6 +78,26 @@ QString PQHandlingFileDir::copyFile(QString filename) {
 
 }
 
+bool PQHandlingFileDir::copyFileToHere(QString filename, QString targetdir) {
+
+    QFileInfo info(filename);
+    if(!info.exists())
+        return false;
+
+    QString targetFilename = QString("%1/%2").arg(targetdir).arg(info.fileName());
+    QFileInfo targetinfo(targetFilename);
+
+
+    if(targetinfo.exists()) {
+        QFile tf(targetFilename);
+        tf.remove();
+    }
+
+    QFile f(filename);
+    return f.copy(targetFilename);
+
+}
+
 bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
 
     DBG << CURDATE << "PQHandlingFileDir::deleteFile()" << NL
@@ -578,25 +598,24 @@ QStringList PQHandlingFileDir::listArchiveContent(QString path) {
 
 }
 
-QString PQHandlingFileDir::moveFiles(QStringList filenames) {
+bool PQHandlingFileDir::moveFiles(QStringList filenames, QString targetDir) {
 
     DBG << CURDATE << "PQHandlingFileDir::moveFiles()" << NL
         << CURDATE << "** filenames = " << filenames.join(",").toStdString() << NL;
 
     if(filenames.length() == 0) {
         LOG << CURDATE << "PQHandlingFileDir::moveFiles(): No filenames passed on." << NL;
-        return "";
+        return false;
     }
 
     QFileInfo firstinfo = QFileInfo(filenames.at(0));
 
     QString curdir = firstinfo.absolutePath();
 
-    //: Title of filedialog to select new location to move files/folders to.
-    QString newfolder = QFileDialog::getExistingDirectory(0, "Move files/folders", curdir);
+    if(targetDir.trimmed() == "")
+        return false;
 
-    if(newfolder.trimmed() == "")
-        return "";
+    targetDir = cleanPath(targetDir);
 
     for(auto &f : qAsConst(filenames)) {
 
@@ -604,7 +623,7 @@ QString PQHandlingFileDir::moveFiles(QStringList filenames) {
         QFile file(f);
         QFileInfo fileinfo(f);
 
-        QString newname = QString("%1/%2").arg(newfolder).arg(fileinfo.fileName());
+        QString newname = QString("%1/%2").arg(targetDir).arg(fileinfo.fileName());
 
         bool skipfile = false;
 
@@ -637,7 +656,7 @@ QString PQHandlingFileDir::moveFiles(QStringList filenames) {
 
     }
 
-    return newfolder;
+    return true;
 
 
 }

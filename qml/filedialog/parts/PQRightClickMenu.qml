@@ -23,6 +23,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.4
 import "../../elements"
+import "../../modal"
 
 PQMenu {
 
@@ -67,59 +68,81 @@ PQMenu {
             fileview.setFilesSelection(!fileview.isCurrentFileSelected())
         }
     }
-    MenuSeparator { visible: isFile || isFolder }
+    MenuSeparator { }
     MenuItem {
-        visible: isFile || isFolder
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected files/folders") : (isFile ? qsTranslate("filedialog", "Delete this file") : qsTranslate("filedialog", "Delete this folder"))
+        enabled: (isFile || isFolder || fileview.anyFilesSelected())
+        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected files/folders") : (isFile ? qsTranslate("filedialog", "Delete this file") : (isFolder ? qsTranslate("filedialog", "Delete this folder") : qsTranslate("filedialog", "Delete this file/folder")))
         onTriggered: {
-            if(fileview.isCurrentFileSelected()) {
+            confirmDelete.open()
+            files_grid.selectedFiles = ({})
+        }
+    }
+//    MenuItem {
+//        text: fileview.anyFilesSelected() ? qsTranslate("filedialog", "Cut selection") : qsTranslate("filedialog", "Cut file")
+//        onTriggered:
+//            moveFile.open()
+//    }
+    MenuItem {
+        enabled: (isFile || isFolder || fileview.anyFilesSelected())
+        text: fileview.anyFilesSelected() ? qsTranslate("filedialog", "Copy selection") : (isFile ? qsTranslate("filedialog", "Copy file") : (isFolder ? qsTranslate("filedialog", "Copy folder") : qsTranslate("filedialog", "Copy file/folder")))
+        onTriggered: {
 
-                if(!handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move all selected files/folders to the trash?"), ""))
-                    return
-
-                for (const [key, value] of Object.entries(fileview.selectedFiles)) {
-                    handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
-                }
-
+            if(fileview.anyFilesSelected()) {
+                var urls = []
+                for (const [key, value] of Object.entries(fileview.selectedFiles))
+                    urls.push(filefoldermodel.entriesFileDialog[key])
+                handlingExternal.copyFilesToClipboard(urls)
             } else {
-                if(isFile && !handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move this file to the trash?"), ""))
-                    return
-                if(isFolder && !handlingGeneral.askForConfirmation(qsTranslate("filedialog", "Are you sure you want to move this folder to the trash?"), ""))
-                    return
+                handlingExternal.copyFilesToClipboard([path])
+            }
+        }
+    }
+    MenuItem {
+        id: item_paste
+        text: qsTranslate("filedialog", "Paste files from clipboard")
+        onTriggered: {
 
-                handlingFileDir.deleteFile(path, false)
+            var lst = handlingExternal.getListOfFilesInClipboard()
+
+            var nonexisting = []
+            var existing = []
+
+            for(var l in lst) {
+                if(handlingFileDir.doesItExist(filefoldermodel.folderFileDialog + "/" + handlingFileDir.getFileNameFromFullPath(lst[l])))
+                    existing.push(lst[l])
+                else
+                    nonexisting.push(lst[l])
             }
 
+            if(existing.length > 0) {
+                confirmCopy.files = existing
+                confirmCopy.open()
+            }
 
+            if(nonexisting.length > 0) {
+                for(var f in nonexisting) {
+                    handlingFileDir.copyFileToHere(nonexisting[f], filefoldermodel.folderFileDialog)
+                }
+            }
 
-            files_grid.selectedFiles = ({})
+            if(existing.length == 0 && nonexisting.length == 0)
+                informUser.informUser("Nothing found", "There are no files/folders in the clipboard.")
+
 
         }
-    }
-    MenuItem {
-        visible: isFile||isFolder
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Move all selected files/folders") : (isFile ? qsTranslate("filedialog", "Move this file") : qsTranslate("filedialog", "Move this folder"))
-        onTriggered: {
-            var arr = []
-            if(fileview.isCurrentFileSelected()) {
-                for(const [key, value] of Object.entries(fileview.selectedFiles))
-                    arr.push(filefoldermodel.entriesFileDialog[key])
-            } else
-                arr = [path]
-            if(handlingFileDir.moveFiles(arr)!= "")
-                files_grid.selectedFiles = ({})
+
+        Component.onCompleted: {
+            item_paste.enabled = handlingExternal.areFilesInClipboard()
         }
     }
-    MenuItem {
-        visible: isFile
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Copy all selected file") : qsTranslate("filedialog", "Copy this file")
-        onTriggered: {
-            if(handlingFileDir.copyFile(path) != "")
-                files_grid.selectedFiles = ({})
+    Connections {
+        target: handlingExternal
+        onChangedClipboardData: {
+            item_paste.enabled = handlingExternal.areFilesInClipboard()
         }
     }
 
-    MenuSeparator { visible: isFile||isFolder }
+    MenuSeparator { }
     MenuItem {
         checkable: true
         checked: PQSettings.openfileShowHiddenFilesFolders
@@ -239,6 +262,38 @@ PQMenu {
             }
 
         }
+    }
+
+    PQModalConfirm {
+        id: confirmDelete
+        text: qsTranslate("filedialog", "Are you sure you want to move all selected files/folders to the trash?")
+        informativeText: ""
+        onConfirmedChanged: {
+            if(confirmed) {
+                if(fileview.isCurrentFileSelected()) {
+                    for (const [key, value] of Object.entries(fileview.selectedFiles))
+                        handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
+                } else
+                    handlingFileDir.deleteFile(path, false)
+            }
+        }
+    }
+
+    PQModalConfirm {
+        id: confirmCopy
+        text: qsTranslate("filedialog", "Some files already exist in the current directory.")
+        informativeText: "Do you want to overwrite the existing files?"
+        property var files: []
+        onConfirmedChanged: {
+            if(confirmed) {
+                for(var f in files)
+                    handlingFileDir.copyFileToHere(files[f], filefoldermodel.folderFileDialog)
+            }
+        }
+    }
+
+    PQModalInform {
+        id: informUser
     }
 
 }

@@ -988,6 +988,9 @@ GridView {
     function isCurrentFileSelected() {
         return files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex) && files_grid.selectedFiles[files_grid.currentIndex]==1
     }
+    function anyFilesSelected() {
+        return Object.keys(files_grid.selectedFiles).length>0
+    }
 
     function toggleCurrentFileSelection() {
         if(files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex))

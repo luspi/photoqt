@@ -24,6 +24,21 @@
 
 PQHandlingExternal::PQHandlingExternal(QObject *parent) : QObject(parent) {
     imageprovider = nullptr;
+    clipboard = qApp->clipboard();
+    connect(clipboard, &QClipboard::dataChanged, this, &PQHandlingExternal::changedClipboardData);
+}
+
+bool PQHandlingExternal::areFilesInClipboard() {
+
+    const QMimeData *mimeData = clipboard->mimeData();
+
+    if(mimeData == nullptr)
+        return false;
+
+    if(!mimeData->hasUrls())
+        return false;
+
+    return true;
 }
 
 void PQHandlingExternal::copyTextToClipboard(QString txt, bool removeHTML) {
@@ -34,7 +49,7 @@ void PQHandlingExternal::copyTextToClipboard(QString txt, bool removeHTML) {
     if(removeHTML)
         txt = QTextDocumentFragment::fromHtml(txt).toPlainText();
 
-    QApplication::clipboard()->setText(txt, QClipboard::Clipboard);
+    clipboard->setText(txt, QClipboard::Clipboard);
 
 }
 
@@ -48,12 +63,30 @@ void PQHandlingExternal::copyToClipboard(QString filename) {
 
     // Make sure image provider exists
     if(imageprovider == nullptr)
-         imageprovider = new PQImageProviderFull;
+        imageprovider = new PQImageProviderFull;
 
     // set image to clipboard
     QSize s;
     QImage img = imageprovider->requestImage(filename, &s, QSize());
-    qApp->clipboard()->setImage(img);
+    clipboard->setImage(img);
+
+}
+
+void PQHandlingExternal::copyFilesToClipboard(QStringList filenames) {
+
+    DBG << CURDATE << "PQHandlingExternal::copyManyToClipboard()" << NL
+        << CURDATE << "** filenames = " << filenames.join(",").toStdString() << NL;
+
+    if(filenames.length() == 0)
+        return;
+
+    QMimeData* mimeData = new QMimeData();
+
+    QList<QUrl> allurls;
+    for(auto &f : qAsConst(filenames))
+        allurls.push_back(QUrl::fromLocalFile(f));
+    mimeData->setUrls(allurls);
+    clipboard->setMimeData(mimeData);
 
 }
 
@@ -326,6 +359,26 @@ QVariantList PQHandlingExternal::getContextMenuEntries() {
     }
 
     query.clear();
+
+    return ret;
+
+}
+
+QStringList PQHandlingExternal::getListOfFilesInClipboard() {
+
+    const QMimeData *mimeData = clipboard->mimeData();
+
+    if(mimeData == nullptr)
+        return QStringList();
+
+    if(!mimeData->hasUrls())
+        return QStringList();
+
+    QList<QUrl> allurls = mimeData->urls();
+
+    QStringList ret;
+    for(auto &u : qAsConst(allurls))
+        ret << u.toLocalFile();
 
     return ret;
 

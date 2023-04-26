@@ -53,6 +53,7 @@ class PQHandlingFileDir : public QObject {
 public:
     Q_INVOKABLE QString cleanPath(QString path);
     Q_INVOKABLE QString copyFile(QString filename);
+    Q_INVOKABLE bool copyFileToHere(QString filename, QString targetdir);
     Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
@@ -72,7 +73,7 @@ public:
     Q_INVOKABLE bool isRoot(QString path);
     Q_INVOKABLE QStringList listArchiveContent(QString path);
     Q_INVOKABLE QString moveFile(QString filename);
-    Q_INVOKABLE QString moveFiles(QStringList filenames);
+    Q_INVOKABLE bool moveFiles(QStringList filenames, QString targetDir);
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
     Q_INVOKABLE QString replaceSuffix(QString filename, QString newSuffix);
     Q_INVOKABLE void saveStringToNewFile(QString txt);

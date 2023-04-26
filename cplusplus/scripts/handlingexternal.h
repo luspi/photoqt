@@ -44,12 +44,14 @@ public:
     PQHandlingExternal(QObject *parent = 0);
     Q_INVOKABLE void copyToClipboard(QString filename);
     Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false);
+    Q_INVOKABLE void copyFilesToClipboard(QStringList filename);
     Q_INVOKABLE void executeExternal(QString exe, QString args, QString currentfile);
     Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE QString findDropBoxFolder();
     Q_INVOKABLE QString findNextcloudFolder();
     Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QVariantList getContextMenuEntries();
+    Q_INVOKABLE QStringList getListOfFilesInClipboard();
     Q_INVOKABLE void replaceContextMenuEntriesWithAvailable();
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE static bool importConfigFrom(QString path);
@@ -57,11 +59,16 @@ public:
     Q_INVOKABLE void saveContextMenuEntries(QVariantList entries);
     Q_INVOKABLE QSize getScreenSize();
     Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
+    Q_INVOKABLE bool areFilesInClipboard();
 
     bool checkIfBinaryExists(QString exec);
 
 private:
     PQImageProviderFull *imageprovider;
+    QClipboard *clipboard;
+
+Q_SIGNALS:
+    void changedClipboardData();
 
 };
 
