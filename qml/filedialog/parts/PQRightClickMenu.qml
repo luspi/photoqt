@@ -71,16 +71,21 @@ PQMenu {
     MenuSeparator { }
     MenuItem {
         enabled: (isFile || isFolder || fileview.anyFilesSelected())
-        text: fileview.isCurrentFileSelected() ? qsTranslate("filedialog", "Delete all selected files/folders") : (isFile ? qsTranslate("filedialog", "Delete this file") : (isFolder ? qsTranslate("filedialog", "Delete this folder") : qsTranslate("filedialog", "Delete this file/folder")))
+        text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
+                    ? qsTranslate("filedialog", "Delete selection")
+                    : (isFile ? qsTranslate("filedialog", "Delete file") : (isFolder ? qsTranslate("filedialog", "Delete folder") : qsTranslate("filedialog", "Delete file/folder")))
         onTriggered: {
             confirmDelete.open()
             files_grid.selectedFiles = ({})
         }
     }
     MenuItem {
-        text: fileview.anyFilesSelected() ? qsTranslate("filedialog", "Cut selection") : (isFile ? qsTranslate("filedialog", "Cut file") : (isFolder ? qsTranslate("filedialog", "Cut folder") : qsTranslate("filedialog", "Cut file/folder")))
+        enabled: (isFile || isFolder || fileview.anyFilesSelected())
+        text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
+                    ? qsTranslate("filedialog", "Cut selection")
+                    : (isFile ? qsTranslate("filedialog", "Cut file") : (isFolder ? qsTranslate("filedialog", "Cut folder") : qsTranslate("filedialog", "Cut file/folder")))
         onTriggered: {
-            if(fileview.anyFilesSelected()) {
+            if(fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected())) {
                 var urls = []
                 for (const [key, value] of Object.entries(fileview.selectedFiles)) {
                     if(value == 1)
@@ -100,10 +105,12 @@ PQMenu {
     }
     MenuItem {
         enabled: (isFile || isFolder || fileview.anyFilesSelected())
-        text: fileview.anyFilesSelected() ? qsTranslate("filedialog", "Copy selection") : (isFile ? qsTranslate("filedialog", "Copy file") : (isFolder ? qsTranslate("filedialog", "Copy folder") : qsTranslate("filedialog", "Copy file/folder")))
+        text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
+                    ? qsTranslate("filedialog", "Copy selection")
+                    : (isFile ? qsTranslate("filedialog", "Copy file") : (isFolder ? qsTranslate("filedialog", "Copy folder") : qsTranslate("filedialog", "Copy file/folder")))
         onTriggered: {
             fileview.cutFiles = []
-            if(fileview.anyFilesSelected()) {
+            if(fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected())) {
                 var urls = []
                 for (const [key, value] of Object.entries(fileview.selectedFiles)) {
                     if(value == 1)
@@ -294,7 +301,7 @@ PQMenu {
         informativeText: ""
         onConfirmedChanged: {
             if(confirmed) {
-                if(fileview.isCurrentFileSelected()) {
+                if(fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected())) {
                     for (const [key, value] of Object.entries(fileview.selectedFiles)) {
                         if(value == 1)
                             handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
