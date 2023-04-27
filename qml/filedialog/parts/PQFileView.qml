@@ -917,7 +917,23 @@ GridView {
 
             currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
 
-        } else {
+        } else if(key == Qt.Key_C && modifiers == Qt.ControlModifier)
+
+            doCopyFiles()
+
+        else if(key == Qt.Key_X && modifiers == Qt.ControlModifier)
+
+            doCutFiles()
+
+        else if(key == Qt.Key_V && modifiers == Qt.ControlModifier)
+
+            doPasteFiles()
+
+        else if(key == Qt.Key_Delete && modifiers == Qt.NoModifier)
+
+            doDeleteFiles()
+
+        else {
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
@@ -1177,6 +1193,10 @@ GridView {
     }
 
     function doDeleteFiles() {
+
+        if(files_grid.currentIndex == -1 && !anyFilesSelected())
+            return
+
         confirmDelete.open()
         files_grid.selectedFiles = ({})
     }
