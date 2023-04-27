@@ -933,6 +933,10 @@ GridView {
 
             doDeleteFiles()
 
+        else if(key == Qt.Key_A && modifiers == Qt.ControlModifier)
+
+            setFilesSelection(1)
+
         else {
 
             currentIndexChangedUsingKeyIgnoreMouse = true
