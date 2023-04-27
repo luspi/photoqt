@@ -87,6 +87,9 @@ bool PQHandlingFileDir::copyFileToHere(QString filename, QString targetdir) {
     QString targetFilename = QString("%1/%2").arg(targetdir).arg(info.fileName());
     QFileInfo targetinfo(targetFilename);
 
+    // file copied to itself
+    if(targetFilename == filename)
+        return true;
 
     if(targetinfo.exists()) {
         QFile tf(targetFilename);
