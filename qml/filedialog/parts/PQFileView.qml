@@ -24,6 +24,7 @@ import QtQuick 2.9
 import PQFileFolderModel 1.0
 import QtQuick.Controls 2.2
 import "../../elements"
+import "../../modal"
 
 GridView {
 
@@ -91,6 +92,7 @@ GridView {
         anchors.fill: parent
         z: -1
         acceptedButtons: Qt.RightButton|Qt.LeftButton
+        hoverEnabled: true
         onClicked: {
             if(mouse.button == Qt.LeftButton) {
                 resetSelectedFiles()
@@ -98,6 +100,18 @@ GridView {
                 var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
                 rightclickmenu_bg.popup(Qt.point(pos.x, pos.y))
             }
+        }
+        onMouseXChanged: {
+            // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
+            if(rightclickmenu.isOpen)
+                return
+            files_grid.currentIndex = -1
+        }
+        onMouseYChanged: {
+            // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
+            if(rightclickmenu.isOpen)
+                return
+            files_grid.currentIndex = -1
         }
     }
 
@@ -536,16 +550,6 @@ GridView {
 
                 }
 
-                onExited: {
-
-                    // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
-                    if(rightclickmenu.isOpen)
-                        return
-
-                    if(!currentIndexChangedUsingKeyIgnoreMouse)
-                        files_grid.currentIndex = -1
-
-                }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(!files_grid.rightclickopen) {
@@ -704,10 +708,6 @@ GridView {
                         onEntered: {
                             if(!currentIndexChangedUsingKeyIgnoreMouse)
                                 files_grid.currentIndex = index
-                        }
-                        onExited: {
-                            if(!currentIndexChangedUsingKeyIgnoreMouse)
-                                files_grid.currentIndex = -1
                         }
                     }
                 }
@@ -936,6 +936,47 @@ GridView {
 
     }
 
+    PQModalConfirm {
+        id: confirmDelete
+        text: qsTranslate("filedialog", "Are you sure you want to move all selected files/folders to the trash?")
+        informativeText: ""
+        onConfirmedChanged: {
+            if(confirmed) {
+                console.log(isCurrentFileSelected(), files_grid.currentIndex, anyFilesSelected(), filefoldermodel.entriesFileDialog[files_grid.currentIndex])
+                if(isCurrentFileSelected() || (files_grid.currentIndex==-1 && anyFilesSelected())) {
+                    for (const [key, value] of Object.entries(selectedFiles)) {
+                        if(value == 1)
+                            handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
+                    }
+                } else
+                    handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[files_grid.currentIndex], false)
+            }
+        }
+    }
+
+    PQModalConfirm {
+        id: confirmCopy
+        text: qsTranslate("filedialog", "Some files already exist in the current directory.")
+        informativeText: "Do you want to overwrite the existing files?"
+        property var files: []
+        property bool clearCutFilesAtEnd: false
+        onConfirmedChanged: {
+            if(confirmed) {
+                for(var f in files) {
+                    handlingFileDir.copyFileToHere(files[f], filefoldermodel.folderFileDialog)
+                    if(cutFiles.indexOf(files[f]) != -1)
+                        handlingFileDir.deleteFile(files[f], true)
+                }
+                if(clearCutFilesAtEnd)
+                    cutFiles = []
+            }
+        }
+    }
+
+    PQModalInform {
+        id: informUser
+    }
+
     // using this timer has the following effect:
     // right click menu open, click on file/folder -> don't open file/folder but only close menu
     Timer {
@@ -1028,7 +1069,7 @@ GridView {
     }
 
     function isCurrentFileSelected() {
-        return files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex) && files_grid.selectedFiles[files_grid.currentIndex]==1
+        return files_grid.currentIndex!=-1&&files_grid.selectedFiles.hasOwnProperty(files_grid.currentIndex) && files_grid.selectedFiles[files_grid.currentIndex]==1
     }
     function anyFilesSelected() {
         var s = 0
@@ -1062,8 +1103,82 @@ GridView {
         files_grid.selectedFilesChanged()
     }
 
-    function setCurrentFileCut() {
-        files_grid.cutFiles = [filefoldermodel.entriesFileDialog[files_grid.currentIndex]]
+    function doCopyFiles() {
+
+        cutFiles = []
+        if(isCurrentFileSelected() || (files_grid.currentIndex==-1 && anyFilesSelected())) {
+            var urls = []
+            for (const [key, value] of Object.entries(selectedFiles)) {
+                if(value == 1)
+                    urls.push(filefoldermodel.entriesFileDialog[key])
+            }
+            handlingExternal.copyFilesToClipboard(urls)
+        } else {
+            handlingExternal.copyFilesToClipboard([filefoldermodel.entriesFileDialog[files_grid.currentIndex]])
+        }
+
+    }
+
+    function doCutFiles() {
+
+        if(isCurrentFileSelected() || (files_grid.currentIndex==-1 && anyFilesSelected())) {
+            var urls = []
+            for (const [key, value] of Object.entries(selectedFiles)) {
+                if(value == 1)
+                    urls.push(filefoldermodel.entriesFileDialog[key])
+            }
+            handlingExternal.copyFilesToClipboard(urls)
+            // this has to come AFTER copying files to clipboard as this resets the cutFiles variable at first
+            cutFilesTimestamp = handlingGeneral.getTimestamp()
+            cutFiles = urls
+        } else {
+            handlingExternal.copyFilesToClipboard([filefoldermodel.entriesFileDialog[files_grid.currentIndex]])
+            // this has to come AFTER copying files to clipboard as this resets the cutFiles variable at first
+            cutFilesTimestamp = handlingGeneral.getTimestamp()
+            files_grid.cutFiles = [filefoldermodel.entriesFileDialog[files_grid.currentIndex]]
+        }
+
+    }
+
+    function doPasteFiles() {
+
+        var lst = handlingExternal.getListOfFilesInClipboard()
+
+        var nonexisting = []
+        var existing = []
+
+        for(var l in lst) {
+            if(handlingFileDir.doesItExist(filefoldermodel.folderFileDialog + "/" + handlingFileDir.getFileNameFromFullPath(lst[l])))
+                existing.push(lst[l])
+            else
+                nonexisting.push(lst[l])
+        }
+
+        if(existing.length > 0) {
+            confirmCopy.files = existing
+            confirmCopy.clearCutFilesAtEnd = (nonexisting.length == 0)
+            confirmCopy.open()
+        }
+
+        if(nonexisting.length > 0) {
+            for(var f in nonexisting) {
+                if(handlingFileDir.copyFileToHere(nonexisting[f], filefoldermodel.folderFileDialog)) {
+                    if(cutFiles.indexOf(nonexisting[f]) != -1)
+                        handlingFileDir.deleteFile(nonexisting[f], true)
+                }
+            }
+            if(existing.length == 0)
+                cutFiles = []
+        }
+
+        if(existing.length == 0 && nonexisting.length == 0)
+            informUser.informUser("Nothing found", "There are no files/folders in the clipboard.")
+
+    }
+
+    function doDeleteFiles() {
+        confirmDelete.open()
+        files_grid.selectedFiles = ({})
     }
 
     Connections {

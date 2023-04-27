@@ -23,7 +23,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.4
 import "../../elements"
-import "../../modal"
 
 PQMenu {
 
@@ -74,101 +73,32 @@ PQMenu {
         text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
                     ? qsTranslate("filedialog", "Delete selection")
                     : (isFile ? qsTranslate("filedialog", "Delete file") : (isFolder ? qsTranslate("filedialog", "Delete folder") : qsTranslate("filedialog", "Delete file/folder")))
-        onTriggered: {
-            confirmDelete.open()
-            files_grid.selectedFiles = ({})
-        }
+        onTriggered:
+            fileview.doDeleteFiles()
     }
     MenuItem {
         enabled: (isFile || isFolder || fileview.anyFilesSelected())
         text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
                     ? qsTranslate("filedialog", "Cut selection")
                     : (isFile ? qsTranslate("filedialog", "Cut file") : (isFolder ? qsTranslate("filedialog", "Cut folder") : qsTranslate("filedialog", "Cut file/folder")))
-        onTriggered: {
-            if(fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected())) {
-                var urls = []
-                for (const [key, value] of Object.entries(fileview.selectedFiles)) {
-                    if(value == 1)
-                        urls.push(filefoldermodel.entriesFileDialog[key])
-                }
-                handlingExternal.copyFilesToClipboard(urls)
-                // this has to come AFTER copying files to clipboard as this resets the cutFiles variable at first
-                fileview.cutFilesTimestamp = handlingGeneral.getTimestamp()
-                fileview.cutFiles = urls
-            } else {
-                handlingExternal.copyFilesToClipboard([path])
-                // this has to come AFTER copying files to clipboard as this resets the cutFiles variable at first
-                fileview.cutFilesTimestamp = handlingGeneral.getTimestamp()
-                fileview.setCurrentFileCut()
-            }
-        }
+        onTriggered:
+            fileview.doCutFiles()
     }
     MenuItem {
         enabled: (isFile || isFolder || fileview.anyFilesSelected())
         text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
                     ? qsTranslate("filedialog", "Copy selection")
                     : (isFile ? qsTranslate("filedialog", "Copy file") : (isFolder ? qsTranslate("filedialog", "Copy folder") : qsTranslate("filedialog", "Copy file/folder")))
-        onTriggered: {
-            fileview.cutFiles = []
-            if(fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected())) {
-                var urls = []
-                for (const [key, value] of Object.entries(fileview.selectedFiles)) {
-                    if(value == 1)
-                        urls.push(filefoldermodel.entriesFileDialog[key])
-                }
-                handlingExternal.copyFilesToClipboard(urls)
-            } else {
-                handlingExternal.copyFilesToClipboard([path])
-            }
-        }
+        onTriggered:
+            fileview.doCopyFiles()
     }
     MenuItem {
         id: item_paste
         text: qsTranslate("filedialog", "Paste files from clipboard")
-        onTriggered: {
-
-            var lst = handlingExternal.getListOfFilesInClipboard()
-
-            var nonexisting = []
-            var existing = []
-
-            for(var l in lst) {
-                if(handlingFileDir.doesItExist(filefoldermodel.folderFileDialog + "/" + handlingFileDir.getFileNameFromFullPath(lst[l])))
-                    existing.push(lst[l])
-                else
-                    nonexisting.push(lst[l])
-            }
-
-            if(existing.length > 0) {
-                confirmCopy.files = existing
-                confirmCopy.clearCutFilesAtEnd = (nonexisting.length == 0)
-                confirmCopy.open()
-            }
-
-            if(nonexisting.length > 0) {
-                for(var f in nonexisting) {
-                    if(handlingFileDir.copyFileToHere(nonexisting[f], filefoldermodel.folderFileDialog)) {
-                        if(fileview.cutFiles.indexOf(nonexisting[f]) != -1)
-                            handlingFileDir.deleteFile(nonexisting[f], true)
-                    }
-                }
-                if(existing.length == 0)
-                    fileview.cutFiles = []
-            }
-
-            if(existing.length == 0 && nonexisting.length == 0)
-                informUser.informUser("Nothing found", "There are no files/folders in the clipboard.")
-
-
-        }
+        onTriggered:
+            fileview.doPasteFiles()
 
         Component.onCompleted: {
-            item_paste.enabled = handlingExternal.areFilesInClipboard()
-        }
-    }
-    Connections {
-        target: handlingExternal
-        onChangedClipboardData: {
             item_paste.enabled = handlingExternal.areFilesInClipboard()
         }
     }
@@ -294,45 +224,11 @@ PQMenu {
 
         }
     }
-
-    PQModalConfirm {
-        id: confirmDelete
-        text: qsTranslate("filedialog", "Are you sure you want to move all selected files/folders to the trash?")
-        informativeText: ""
-        onConfirmedChanged: {
-            if(confirmed) {
-                if(fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected())) {
-                    for (const [key, value] of Object.entries(fileview.selectedFiles)) {
-                        if(value == 1)
-                            handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
-                    }
-                } else
-                    handlingFileDir.deleteFile(path, false)
-            }
+    Connections {
+        target: handlingExternal
+        onChangedClipboardData: {
+            item_paste.enabled = handlingExternal.areFilesInClipboard()
         }
-    }
-
-    PQModalConfirm {
-        id: confirmCopy
-        text: qsTranslate("filedialog", "Some files already exist in the current directory.")
-        informativeText: "Do you want to overwrite the existing files?"
-        property var files: []
-        property bool clearCutFilesAtEnd: false
-        onConfirmedChanged: {
-            if(confirmed) {
-                for(var f in files) {
-                    handlingFileDir.copyFileToHere(files[f], filefoldermodel.folderFileDialog)
-                    if(fileview.cutFiles.indexOf(files[f]) != -1)
-                        handlingFileDir.deleteFile(files[f], true)
-                }
-                if(clearCutFilesAtEnd)
-                    fileview.cutFiles = []
-            }
-        }
-    }
-
-    PQModalInform {
-        id: informUser
     }
 
 }
