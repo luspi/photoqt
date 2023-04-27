@@ -991,6 +991,10 @@ GridView {
         currentFolderExcluded = handlingFileDir.isExcludeDirFromCaching(filefoldermodel.folderFileDialog)
         files_grid.model = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog
 
+        // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
+        // (re-)setting the model will always reset the currentIndex to 0
+        currentIndex = -1
+
     }
 
     function loadFolder() {
@@ -998,8 +1002,6 @@ GridView {
         setNameMimeTypeFilters()
 
         selectedFiles = ({})
-
-        currentIndex = (filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog > 0 ? 0 : -1)
 
         var cleaned = handlingFileDir.cleanPath(filefoldermodel.folderFileDialog)
         if(cleaned == "/" || (handlingGeneral.amIOnWindows() && cleaned.length == 3)) {
