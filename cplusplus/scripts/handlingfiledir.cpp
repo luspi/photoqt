@@ -158,7 +158,7 @@ bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
 
 bool PQHandlingFileDir::moveFileToTrash(QString filename) {
 
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     QFile file(filename);
     return file.remove();
 #else
