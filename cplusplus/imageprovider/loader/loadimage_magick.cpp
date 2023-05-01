@@ -54,14 +54,6 @@ QImage PQLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSize,
 
     QSize finalSize;
 
-    // We first read the image into memory
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly)) {
-        errormsg = "QFile::open() failed.";
-        LOG << CURDATE << "PQLoadImageMagick::load(): " << errormsg.toStdString() << NL;
-        return QImage();
-    }
-
     // Prepare Magick
     QString suf = QFileInfo(filename).suffix().toUpper();
     image = Magick::Image();
