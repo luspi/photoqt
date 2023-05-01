@@ -133,7 +133,22 @@ bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
 #elif (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
 
     QFile file(filename);
+#ifdef Q_OS_WIN
+    // we need to call moveToTrash on a different QFile object, otherwise the exists() check will return false
+    // even while the file isn't deleted as it is seen as opened by PhotoQt
+    QFile f(filename);
+    bool ret = f.moveToTrash();
+    int count = 0;
+    while(file.exists() && count < 20) {
+        QFile f(filename);
+        ret = f.moveToTrash();
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        ++count;
+    }
+    return ret;
+#else
     return file.moveToTrash();
+#endif
 
 #else
     return moveFileToTrash(filename);
@@ -655,6 +670,17 @@ bool PQHandlingFileDir::moveFiles(QStringList filenames, QString targetDir) {
             LOG << CURDATE << "PQHandlingFileDir::moveFiles(): ERROR: The file/folder could not be moved to its new location." << NL;
             LOG << CURDATE << "PQHandlingFileDir::moveFiles(): filename: '" << fileinfo.fileName().toStdString() << "'" << NL;
             continue;
+        } else {
+#ifdef Q_OS_WIN
+            int count = 0;
+            QFile oldfile(f);
+            while(oldfile.exists() && count < 20) {
+                QFile ff(f);
+                ff.remove();
+                std::this_thread::sleep_for(std::chrono::milliseconds(250));
+                ++count;
+            }
+#endif
         }
 
     }
