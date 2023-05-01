@@ -42,6 +42,7 @@ private:
     bool validateSettingsDatabase();
     bool validateShortcutsDatabase();
     bool validateSettingsValues();
+    bool validateDirectories();
 
 };
 

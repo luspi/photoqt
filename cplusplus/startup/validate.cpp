@@ -35,7 +35,13 @@ bool PQValidate::validate() {
 
     bool success = true;
 
-    bool ret = validateSettingsDatabase();
+    bool ret = validateDirectories();
+    if(!ret) {
+        LOG << " >> Failed: directories" << NL << NL;
+        success = false;
+    }
+
+    ret = validateSettingsDatabase();
     if(!ret) {
         LOG << " >> Failed: settings db" << NL << NL;
         success = false;
@@ -67,6 +73,19 @@ bool PQValidate::validate() {
 
     LOG << " >> Done!" << NL << NL;
     return success;
+
+}
+
+bool PQValidate::validateDirectories() {
+
+    // make sure necessary folder exist
+    QDir dir;
+    dir.mkpath(ConfigFiles::CONFIG_DIR());
+    dir.mkpath(ConfigFiles::GENERIC_DATA_DIR());
+    dir.mkpath(ConfigFiles::GENERIC_CACHE_DIR());
+    dir.mkpath(QString("%1/thumbnails/large/").arg(ConfigFiles::GENERIC_CACHE_DIR()));
+
+    return true;
 
 }
 
