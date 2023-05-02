@@ -47,7 +47,7 @@ option(POPPLER "Use Poppler library" ON)
 option(LIBARCHIVE "Enable features that require libarchive" ON)
 option(PUGIXML "Enable features that require pugixml" ON)
 option(VIDEO_QT "Enable video support through Qt" ON)
-option(VIDEO_MPV "Enable video support through MPV" OFF)
+option(VIDEO_MPV "Enable video support through MPV" ON)
 option(CHROMECAST "Enable Chromecast support" ON)
 option(LIBVIPS "Use libvips" OFF)
 
