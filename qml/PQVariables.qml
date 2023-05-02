@@ -83,6 +83,10 @@ Item {
             mousePos = pos
         }
 
+        onReceivedMouseLeave: {
+            mousePos = Qt.point(-1,-1)
+        }
+
     }
 
 }

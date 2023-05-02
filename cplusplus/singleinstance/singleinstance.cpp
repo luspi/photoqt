@@ -264,6 +264,10 @@ bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
         QMouseEvent *ev = reinterpret_cast<QMouseEvent*>(e);
         if(qmlWindowAddresses.contains(receiver))
             Q_EMIT PQKeyPressMouseChecker::get().receivedMouseMove(ev->pos());
+    } else if(e->type() == QEvent::Leave) {
+        QMouseEvent *ev = reinterpret_cast<QMouseEvent*>(e);
+        if(qmlWindowAddresses.contains(receiver))
+            Q_EMIT PQKeyPressMouseChecker::get().receivedMouseLeave();
     }
 
     return QApplication::notify(receiver, e);

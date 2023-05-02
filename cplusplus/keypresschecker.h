@@ -68,6 +68,7 @@ Q_SIGNALS:
     void receivedKeyPress(int key, int modifiers);
     void receivedMouseButtonPress(Qt::MouseButtons but, QPoint pos);
     void receivedMouseMove(QPoint pos);
+    void receivedMouseLeave();
 
 };
 
