@@ -283,6 +283,7 @@ GridView {
                 }
 
                 Rectangle {
+                    id: numberOfFilesInsideFolder_cont
                     x: (parent.width-width)
                     y: 0
                     width: numberOfFilesInsideFolder.width + 20
@@ -310,7 +311,7 @@ GridView {
                     radius: 5
                     color: "#444444"
                     opacity: 0.6
-                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && currentNumberOfFileInsideFolder.text != ""
+                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && currentNumberOfFileInsideFolder.text != "" && (parent.width-2*numberOfFilesInsideFolder_cont.width) > width
 
                     PQText {
                         id: currentNumberOfFileInsideFolder
