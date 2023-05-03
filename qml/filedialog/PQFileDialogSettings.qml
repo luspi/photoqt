@@ -55,7 +55,7 @@ Rectangle {
         border.width: 1
         border.color: "#666666"
 
-        width: Math.min(600, parent.width)
+        width: Math.min(800, parent.width)
         height: Math.min(800, parent.height)
 
         PQMouseArea {
