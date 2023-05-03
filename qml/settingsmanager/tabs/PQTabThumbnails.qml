@@ -93,7 +93,7 @@ Item {
                 PQHorizontalLine { expertModeOnly: siz.expertmodeonly }
             PQSpacing { id: spc }
                 PQHorizontalLine { expertModeOnly: spc.expertmodeonly }
-            PQLiftUp { id: lft }
+            PQHighlightAnimation { id: lft }
                 PQHorizontalLine { expertModeOnly: lft.expertmodeonly }
             PQVisible { id: vis }
                 PQHorizontalLine { expertModeOnly: vis.expertmodeonly }

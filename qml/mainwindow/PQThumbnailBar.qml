@@ -49,6 +49,8 @@ Item {
 
     property bool shouldBeVisible: false
 
+    property int currentZ: 0
+
     function checkVisibility() {
 
         if(variables.visibleItem != "") {
@@ -136,7 +138,7 @@ Item {
         checkVisibility()
 
     width: toplevel.width - xOffset*2
-    height: PQSettings.thumbnailsSize+PQSettings.thumbnailsLiftUp+scroll.height
+    height: PQSettings.thumbnailsSize+PQSettings.thumbnailsHighlightAnimationLiftUp+scroll.height
     onHeightChanged: calculateY()
 
     clip: true
@@ -206,8 +208,10 @@ Item {
             id: deleg
 
             x: 0
-            y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailsLiftUp
-            Behavior on y { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+            y: PQSettings.thumbnailsHighlightAnimationLiftUp
+            Behavior on y { NumberAnimation { duration: 200 } }
+
+            Behavior on scale { NumberAnimation { duration: 200} }
 
             width: PQSettings.thumbnailsSize+PQSettings.thumbnailsSpacing
             height: PQSettings.thumbnailsSize
@@ -261,8 +265,13 @@ Item {
             }
 
             Rectangle {
+                id: bgrect
                 anchors.fill: parent
-                color: PQSettings.interfaceBlurElementsInBackground ? "#99000000" : "#bb000000"
+                property bool inverted: false
+                color: PQSettings.interfaceBlurElementsInBackground
+                           ? (inverted ? "#99ffffff" : "#99000000")
+                           : (inverted ? "#bbffffff" : "#bb000000")
+                Behavior on color { ColorAnimation { duration: 200 } }
             }
 
             PQText {
@@ -282,10 +291,17 @@ Item {
             }
 
             Image {
+
+                id: thumbimage
+
                 x: PQSettings.thumbnailsSpacing/2
                 y: 0
                 width: PQSettings.thumbnailsSize
                 height: PQSettings.thumbnailsSize
+                Behavior on x { NumberAnimation { duration: 200 } }
+                Behavior on y { NumberAnimation { duration: 200 } }
+                Behavior on width { NumberAnimation { duration: 200 } }
+                Behavior on height { NumberAnimation { duration: 200 } }
                 fillMode: PQSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                 source: view.excludeCurrentDirectory ? ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index])) : ((PQSettings.thumbnailsFilenameOnly||PQSettings.thumbnailsDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
 
@@ -308,8 +324,11 @@ Item {
                 }
 
                 Rectangle {
+                    id: label
                     visible: PQSettings.thumbnailsFilename
-                    color: "#aa2f2f2f"
+                    color: inverted ? "#aad0d0d0" : "#aa2f2f2f"
+                    property bool inverted: false
+                    Behavior on color { ColorAnimation { duration: 200 } }
                     width: deleg.width
                     height: parent.height/3
                     x: (parent.width-width)/2
@@ -318,6 +337,8 @@ Item {
                         anchors.fill: parent
                         anchors.leftMargin: 5
                         anchors.rightMargin: 5
+                        invertColor: label.inverted
+                        Behavior on color { ColorAnimation { duration: 200 } }
                         elide: Text.ElideMiddle
                         font.pointSize: PQSettings.thumbnailsFontSize
                         font.weight: baselook.boldweight
@@ -325,6 +346,18 @@ Item {
                         horizontalAlignment: Qt.AlignHCenter
                         text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index], true)
                     }
+                }
+
+                Rectangle {
+                    id: shadow
+                    visible: opacity>0
+                    opacity: 0
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    x: (parent.width-width)/2
+                    y: parent.height-height
+                    width: deleg.width*0.75
+                    height: 5
+                    color: "white"
                 }
             }
 
@@ -358,6 +391,114 @@ Item {
                     scrollViewFromWheel(wheel.angleDelta)
             }
 
+            Connections {
+                target: view
+                onMouseOverItemChanged:
+                    deleg.updateHighlight()
+                onCurrentIndexChanged:
+                    deleg.updateHighlight()
+            }
+
+            function updateHighlight() {
+
+                // current item selected
+                if(view.currentIndex == index) {
+
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("liftup")) {
+
+                        deleg.y = 0
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("magnify")) {
+
+                        deleg.scale = 1.2
+                        deleg.y = PQSettings.thumbnailsHighlightAnimationLiftUp-deleg.height*0.1
+                        deleg.z = Qt.binding(function() { return currentZ+1; })
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("line")) {
+
+                        shadow.opacity = 1
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("invertlabel")) {
+
+                        label.inverted = true
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("invertbg")) {
+
+                        bgrect.inverted = true
+
+                    }
+
+                // current item hovered
+                } else if(view.mouseOverItem == index) {
+
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("liftup")) {
+
+                        deleg.y = 0
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("magnify")) {
+
+                        currentZ += 1
+                        deleg.scale = 1.2
+                        deleg.z = currentZ
+                        deleg.y = PQSettings.thumbnailsHighlightAnimationLiftUp-deleg.height*0.1
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("line")) {
+
+                        shadow.opacity = 1
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("invertlabel")) {
+
+                        label.inverted = true
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("invertbg")) {
+
+                        bgrect.inverted = true
+
+                    }
+
+                // current item idle
+                } else {
+
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("liftup")) {
+
+                        deleg.y = PQSettings.thumbnailsHighlightAnimationLiftUp
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("magnify")) {
+
+                        deleg.scale = 1
+                        deleg.z = currentZ-1
+                        deleg.y = PQSettings.thumbnailsHighlightAnimationLiftUp
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("line")) {
+
+                        shadow.opacity = 0
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("invertlabel")) {
+
+                        label.inverted = false
+
+                    }
+                    if(PQSettings.thumbnailsHighlightAnimation.includes("invertbg")) {
+
+                        bgrect.inverted = false
+
+                    }
+
+                }
+
+            }
+
         }
 
     }
@@ -368,6 +509,7 @@ Item {
             view.currentIndex = filefoldermodel.current
         onNewDataLoadedMainView: {
             view.model = 0
+            currentZ = 0
             if(filefoldermodel.countMainView == 0)
                 return
             view.excludeCurrentDirectory = handlingFileDir.isExcludeDirFromCaching(handlingFileDir.getFilePathFromFullPath(filefoldermodel.fileInFolderMainView))

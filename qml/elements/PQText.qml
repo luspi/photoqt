@@ -24,7 +24,9 @@ import QtQuick 2.9
 
 Text {
 
-    color: enabled ? "white" : "#666666"
+    property bool invertColor: false
+
+    color: enabled ? (invertColor ? "black" : "white") : (invertColor ? "#999999" : "#666666")
     font.pointSize: baselook.fontsize
     font.weight: baselook.normalweight
 

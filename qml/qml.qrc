@@ -98,7 +98,6 @@
         <file>settingsmanager/tabs/thumbnails/PQCache.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQCenter.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQDisable.qml</file>
-        <file>settingsmanager/tabs/thumbnails/PQLiftUp.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQPosition.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQSize.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQSpacing.qml</file>
@@ -181,5 +180,6 @@
         <file>modal/PQModalConfirm.qml</file>
         <file>modal/PQModalSelectFolder.qml</file>
         <file>modal/PQModalInform.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQHighlightAnimation.qml</file>
     </qresource>
 </RCC>
