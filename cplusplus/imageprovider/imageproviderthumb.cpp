@@ -65,6 +65,12 @@ void PQAsyncImageResponseThumb::loadImage() {
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
     filename = filename.replace("&#39;","'");
 
+    QString filenameForChecking = filename;
+    if(filenameForChecking.contains("::PQT::"))
+        filenameForChecking = filenameForChecking.split("::PQT::").at(1);
+    if(filenameForChecking.contains("::ARC::"))
+        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
+
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
     QByteArray md5 = QCryptographicHash::hash(path,QCryptographicHash::Md5).toHex();
@@ -89,7 +95,7 @@ void PQAsyncImageResponseThumb::loadImage() {
             uint mtime = p.text("Thumb::MTime").trimmed().toInt();
 
             // Use image if it's up-to-date
-            if(QFileInfo(filename).lastModified().toTime_t() == mtime) {
+            if(QFileInfo(filenameForChecking).lastModified().toTime_t() == mtime) {
 
                 if(m_fixedSize) {
                     QImage fix(266, 202, QImage::Format_ARGB32);
@@ -116,12 +122,6 @@ void PQAsyncImageResponseThumb::loadImage() {
     /**********************************************************/
 
     // If file wasn't loaded from file or database, then it doesn't exist yet (or isn't up-to-date anymore) and we have to create it
-
-    QString filenameForChecking = filename;
-    if(filenameForChecking.contains("::PQT::"))
-        filenameForChecking = filenameForChecking.split("::PQT::").at(1);
-    if(filenameForChecking.contains("::ARC::"))
-        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
 
     // We create a temporary pointer, so that we can delete it properly afterwards
     if(!QFileInfo::exists(filenameForChecking)) {
@@ -169,8 +169,8 @@ void PQAsyncImageResponseThumb::loadImage() {
 
             // Set some required (and additional) meta information
             p.setText("Thumb::URI", QString("file:///%1").arg(QString(filename)));
-            p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filename).lastModified().toTime_t()));
-            QString mime = mimedb.mimeTypeForFile(filename, QMimeDatabase::MatchContent).name();
+            p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filenameForChecking).lastModified().toTime_t()));
+            QString mime = mimedb.mimeTypeForFile(filenameForChecking, QMimeDatabase::MatchContent).name();
             // this is the default mime type if no mime type is available or file cannot be found
             if(mime != "application/octet-stream")
                 p.setText("Thumb::Mimetype", mime);
