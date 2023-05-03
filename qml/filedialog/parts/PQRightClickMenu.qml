@@ -130,17 +130,9 @@ PQMenu {
         MenuItem {
             checkable: true
             checked: PQSettings.openfileFolderContentThumbnails
-            text: qsTranslate("filedialog", "Show rotating thumbnails")
+            text: qsTranslate("filedialog", "Loop through thumbnails")
             onTriggered:
                 PQSettings.openfileFolderContentThumbnails = !PQSettings.openfileFolderContentThumbnails
-        }
-        MenuItem {
-            checkable: true
-            checked: PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst
-            //: The first one refers to the first image thumbnail of the folder content
-            text: qsTranslate("filedialog", "Always load the first thumbnail")
-            onTriggered:
-                PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst = !PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst
         }
         PQMenu {
             id: speed_submenu

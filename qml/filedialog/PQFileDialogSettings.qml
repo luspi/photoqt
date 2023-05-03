@@ -222,17 +222,9 @@ Rectangle {
                         PQCheckbox {
                             id: view_folderthumbs
                             //: These thumbnails are shown as folder icon and rotate through folder contents
-                            text: em.pty+qsTranslate("filedialog", "show thumbnails of images inside folders")
+                            text: em.pty+qsTranslate("filedialog", "loop through thumbnails of images inside folders")
                             onCheckedChanged:
                                 PQSettings.openfileFolderContentThumbnails = checked
-                        }
-
-                        PQCheckbox {
-                            id: view_folderthumbsfirst
-                            //: These thumbnails are shown as folder icon and rotate through folder contents
-                            text: em.pty+qsTranslate("filedialog", "always show first thumbnail of images inside folders")
-                            onCheckedChanged:
-                                PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst = checked
                         }
 
                         Row {
@@ -481,7 +473,6 @@ Rectangle {
         view_thumb.checked = PQSettings.openfileThumbnails
         view_tooltip.checked = PQSettings.openfileDetailsTooltip
         view_folderthumbs.checked = PQSettings.openfileFolderContentThumbnails
-        view_folderthumbsfirst.checked = PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst
         view_folderthumbs_speed.currentIndex = PQSettings.openfileFolderContentThumbnailsSpeed-1
 
         places_standard.checked = PQSettings.openfileUserPlacesStandard

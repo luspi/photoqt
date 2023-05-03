@@ -276,10 +276,6 @@ GridView {
                                 nextfolderthumb.restart()
                         }
                     }
-                    Component.onCompleted: {
-                        if(ftmodel.count==0 && PQSettings.openfileFolderContentThumbnailsAlwaysLoadFirst)
-                            nextfolderthumb.restart()
-                    }
                 }
 
                 Rectangle {
