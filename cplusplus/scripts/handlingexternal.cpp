@@ -105,9 +105,14 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
     QStringList argslist;
 
     QStringList argslist_tmp = args.split(" ");
-    if(args.isEmpty() && exe.contains(" ")) {
-        argslist_tmp = exe.split(" ");
-        exe = argslist_tmp.takeFirst();
+    if(args.isEmpty()) {
+        if(exe.contains(":://:://::")) {
+            argslist_tmp = exe.split(":://:://::")[1].split(" ");
+            exe = exe.split(":://:://::")[0];
+        } else if(exe.contains(" ")) {
+            argslist_tmp = exe.split(" ");
+            exe = argslist_tmp.takeFirst();
+        }
     }
 
 
