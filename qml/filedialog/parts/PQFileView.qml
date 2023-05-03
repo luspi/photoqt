@@ -1198,6 +1198,9 @@ GridView {
         if(files_grid.currentIndex == -1 && !anyFilesSelected())
             return
 
+        if(handlingGeneral.amIOnWindows() && !handlingGeneral.isAtLeastQt515())
+            return
+
         confirmDelete.open()
         files_grid.selectedFiles = ({})
     }

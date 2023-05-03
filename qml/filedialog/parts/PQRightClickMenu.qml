@@ -69,6 +69,7 @@ PQMenu {
     }
     MenuSeparator { }
     MenuItem {
+        visible: !handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515()
         enabled: (isFile || isFolder || fileview.anyFilesSelected())
         text: (fileview.isCurrentFileSelected() || (!isFile && !isFolder && fileview.anyFilesSelected()))
                     ? qsTranslate("filedialog", "Delete selection")
