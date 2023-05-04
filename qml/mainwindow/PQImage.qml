@@ -203,10 +203,9 @@ Item {
                 onStopped: {
                     if(handleStoppedAni) {
                         if(!showing) {
-                            if(image_model.count == 1)
-                                image_model.remove(0,image_model.count)
-                            else
-                                image_model.remove(0,image_model.count-1)
+                            // we always leave the current and previous image in the model to allow for animations
+                            if(image_model.count > 2)
+                                image_model.remove(0,image_model.count-2)
                         } else if(continueToDeleteAfterShowing) {
                             showing = false
                             startAni()
@@ -460,25 +459,27 @@ Item {
 
             function hideShow(showing) {
 
-                if(PQSettings.imageviewAnimationType == "opacity")
+                var anim = PQSettings.imageviewAnimationType
+
+                if(anim == "opacity")
                     hideShowExecOpacity(showing)
 
-                if(PQSettings.imageviewAnimationType == "x")
+                if(anim == "x")
                     hideShowExecX(showing)
 
-                if(PQSettings.imageviewAnimationType == "y")
+                if(anim == "y")
                     hideShowExecY(showing)
 
-                if(PQSettings.imageviewAnimationType == "explosion")
+                if(anim == "explosion")
                     hideShowExecExplosion(showing)
 
-                if(PQSettings.imageviewAnimationType == "implosion")
+                if(anim == "implosion")
                     hideShowExecImplosion(showing)
 
-                if(PQSettings.imageviewAnimationType == "rotation")
+                if(anim == "rotation")
                     hideShowExecRotation(showing)
 
-                if(PQSettings.imageviewAnimationType == "random") {
+                if(anim == "random") {
 
                     if(currentTransition == "opacity")
                         hideShowExecOpacity(showing)
