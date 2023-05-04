@@ -64,7 +64,7 @@ Item {
         id: videoelem
 
         // Windows complains about missing '/' at the start, we need 3 (!) here for video files to play
-        source: "file:///" + src
+        source: "file:///" + handlingGeneral.toPercentEncoding(src)
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2

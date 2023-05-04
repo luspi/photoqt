@@ -56,7 +56,7 @@ Item {
         asynchronous: true
         autoTransform: false
 
-        source: "image://full/" + src
+        source: "image://full/" + handlingGeneral.toPercentEncoding(src)
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 

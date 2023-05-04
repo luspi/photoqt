@@ -57,7 +57,7 @@ Item {
 
         property bool storePlaying: playing
 
-        source: "file:///" + src
+        source: "file:///" + handlingGeneral.toPercentEncoding(src)
 
         mirror: useStoredData ? variables.zoomRotationMirror[src][3] : false
 
