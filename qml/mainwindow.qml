@@ -454,6 +454,10 @@ Window {
 
     function handleBeforeClosing() {
 
+        // helps with deleting temporary animated image files on Windows at the end of function
+        if(handlingGeneral.amIOnWindows())
+            imageitem.resetImageView()
+
         if(variables.chromecastConnected)
             handlingchromecast.disconnectFromDevice()
 
@@ -471,6 +475,9 @@ Window {
         else
             handlingGeneral.deleteLastLoadedImage()
         handlingGeneral.cleanUpScreenshotsTakenAtStartup()
+
+        if(handlingGeneral.amIOnWindows())
+            handlingFileDir.deleteTemporaryAnimatedImageFiles()
 
     }
 

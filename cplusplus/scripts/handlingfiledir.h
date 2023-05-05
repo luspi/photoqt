@@ -51,11 +51,14 @@ class PQHandlingFileDir : public QObject {
     Q_OBJECT
 
 public:
+    explicit PQHandlingFileDir();
+
     Q_INVOKABLE QString cleanPath(QString path);
     Q_INVOKABLE QString copyFile(QString filename);
     Q_INVOKABLE bool copyFileToHere(QString filename, QString targetdir);
     Q_INVOKABLE QString copyFileToCacheDir(QString filename);
     Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
+    Q_INVOKABLE void deleteTemporaryAnimatedImageFiles();
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
@@ -84,6 +87,9 @@ private:
     QMimeDatabase db;
 
     bool moveFileToTrash(QString filename);
+
+    int animatedImageTemporaryCounter;
+    QStringList animatedImagesTemporaryList;
 
 };
 

@@ -22,6 +22,11 @@
 
 #include "handlingfiledir.h"
 
+PQHandlingFileDir::PQHandlingFileDir() {
+    animatedImageTemporaryCounter = 0;
+    animatedImagesTemporaryList.clear();
+}
+
 QString PQHandlingFileDir::cleanPath(QString path) {
 
     DBG << CURDATE << "PQHandlingFileDir::cleanPath()" << NL
@@ -118,8 +123,12 @@ QString PQHandlingFileDir::copyFileToCacheDir(QString filename) {
     if(info.size() > 1024*1024*256)
         return "";
 
-    QString targetFilename = QString("%1/%2.%3").arg(ConfigFiles::CACHE_DIR()).arg("temp").arg(info.suffix());
+    QString targetFilename = QString("%1/%2%3.%4").arg(ConfigFiles::CACHE_DIR()).arg("temp").arg(animatedImageTemporaryCounter).arg(info.suffix());
     QFileInfo targetinfo(targetFilename);
+
+    animatedImageTemporaryCounter = (animatedImageTemporaryCounter+1)%3;
+    if(!animatedImagesTemporaryList.contains(targetFilename))
+        animatedImagesTemporaryList.append(targetFilename);
 
     // file copied to itself
     if(targetFilename == filename)
@@ -193,7 +202,22 @@ bool PQHandlingFileDir::deleteFile(QString filename, bool permanent) {
 
 }
 
+void PQHandlingFileDir::deleteTemporaryAnimatedImageFiles() {
+
+    DBG << CURDATE << "PQHandlingFileDir::deleteTemporaryAnimatedImageFiles()" << NL;
+
+    for(const auto &f : qAsConst(animatedImagesTemporaryList)) {
+        qDebug() << "deleting:" << f;
+        QFile file(f);
+        file.remove();
+    }
+
+}
+
 bool PQHandlingFileDir::moveFileToTrash(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFileDir::moveFileToTrash()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
 
 #ifdef Q_OS_WIN
     QFile file(filename);
