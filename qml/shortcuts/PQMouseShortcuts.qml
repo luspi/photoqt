@@ -203,8 +203,10 @@ Item {
             // click outside of container
             if(combo == "Left Button") {
                 if(PQSettings.interfaceCloseOnEmptyBackground) {
-                    toplevel.close()
-                    return
+                    if(!emptymessage.visible) {
+                        toplevel.close()
+                        return
+                    }
                 } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground && !emptymessage.visible) {
                     PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
                     return
