@@ -1,87 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="256"
-   height="256"
-   viewBox="0 0 128 128"
-   fill="none"
-   version="1.1"
-   id="svg19"
-   sodipodi:docname="user-home.svg"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview21"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     showgrid="false"
-     inkscape:zoom="2.4058203"
-     inkscape:cx="169.58872"
-     inkscape:cy="152.54672"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg19" />
-  <g
-     id="g255"
-     transform="matrix(0.99212598,0,0,1,0.00787402,0)">
-    <rect
-       x="1"
-       y="97"
-       width="127"
-       height="17"
-       rx="4"
-       fill="#e1a52c"
-       id="rect2" />
-    <path
-       fill-rule="evenodd"
-       clip-rule="evenodd"
-       d="m 10,14 c -4.97056,0 -9,4.0294 -9,9 v 19 h 39 2 V 41.8917 C 47.9452,41.243 52.8774,37.7403 54.9494,33 H 115.174 C 115.06,33.4815 115,33.9837 115,34.5 c 0,3.5899 2.91,6.5 6.5,6.5 3.59,0 6.5,-2.9101 6.5,-6.5 0,-3.5899 -2.91,-6.5 -6.5,-6.5 -0.168,0 -0.335,0.0064 -0.5,0.0189 V 28 H 56 C 56,20.8607 49.8926,14.9695 42,14.1083 V 14 h -2 z"
-       fill="#fbbc1a"
-       id="path4" />
-    <path
-       fill-rule="evenodd"
-       clip-rule="evenodd"
-       d="M 41,37 H 5 c -2.20914,0 -4,1.7909 -4,4 v 66 c 0,2.209 1.79086,4 4,4 h 119 c 2.209,0 4,-1.791 4,-4 V 74 37 35 c 0,-2.2091 -1.791,-4 -4,-4 H 54.4166 C 51.1207,34.6825 46.331,37 41,37 Z"
-       fill="url(#paint0_linear_130_237)"
-       id="path6"
-       style="fill:url(#paint0_linear_130_237)" />
-    <circle
-       cx="64.5"
-       cy="56.5"
-       r="14.5"
-       fill="#a57000"
-       id="circle8" />
-    <path
-       d="M 37,84.6667 C 37,79.3279 41.3279,75 46.6667,75 H 83.3333 C 88.6721,75 93,79.3279 93,84.6667 93,95.3442 84.3442,104 73.6667,104 H 56.3333 C 45.6558,104 37,95.3442 37,84.6667 Z"
-       fill="#a57000"
-       id="path10" />
-  </g>
-  <defs
-     id="defs17">
-    <linearGradient
-       id="paint0_linear_130_237"
-       x1="64.5"
-       y1="31"
-       x2="64.5"
-       y2="111"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         stop-color="#FFDC7A"
-         id="stop12" />
-      <stop
-         offset="1"
-         stop-color="#FFCC41"
-         id="stop14" />
-    </linearGradient>
-  </defs>
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="97" width="127" height="17" rx="4" fill="#E1A52C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10 14C5.02944 14 1 18.0294 1 23V42H40C46.8233 42 52.649 38.2627 54.9494 33H115.174C115.06 33.4815 115 33.9837 115 34.5C115 38.0899 117.91 41 121.5 41C125.09 41 128 38.0899 128 34.5C128 30.9101 125.09 28 121.5 28C121.332 28 121.165 28.0064 121 28.0189V28H56C56 20.268 48.8366 14 40 14H10Z" fill="#FBBC1A"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M41 37H5C2.79086 37 1 38.7909 1 41V107C1 109.209 2.79086 111 5 111H124C126.209 111 128 109.209 128 107V74V37V35C128 32.7909 126.209 31 124 31H54.4166C51.1207 34.6825 46.331 37 41 37Z" fill="url(#paint0_linear_130_237)"/>
+<circle cx="64.5" cy="56.5" r="14.5" fill="#A57000"/>
+<path d="M37 84.6667C37 79.3279 41.3279 75 46.6667 75H83.3333C88.6721 75 93 79.3279 93 84.6667C93 95.3442 84.3442 104 73.6667 104H56.3333C45.6558 104 37 95.3442 37 84.6667Z" fill="#A57000"/>
+<defs>
+<linearGradient id="paint0_linear_130_237" x1="64.5" y1="31" x2="64.5" y2="111" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFDC7A"/>
+<stop offset="1" stop-color="#FFCC41"/>
+</linearGradient>
+</defs>
 </svg>
