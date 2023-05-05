@@ -22,8 +22,14 @@
 
 #include "imageproperties.h"
 
-PQImageProperties::PQImageProperties(QObject *parent) : QObject(parent) { }
+PQImageProperties::PQImageProperties(QObject *parent) : QObject(parent) {
+    loader = nullptr;
+}
 
+PQImageProperties::~PQImageProperties() {
+    if(loader != nullptr)
+        delete loader;
+}
 
 bool PQImageProperties::isAnimated(QString path) {
 
@@ -100,5 +106,17 @@ int PQImageProperties::getDocumentPages(QString path) {
         return document->numPages();
 #endif
     return 0;
+
+}
+
+QSize PQImageProperties::getImageResolution(QString path) {
+
+    DBG << CURDATE << "PQImageProperties::getImageResolution()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    if(loader == nullptr)
+        loader = new PQLoadImage;
+
+    return loader->loadSize(path);
 
 }

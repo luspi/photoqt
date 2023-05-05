@@ -28,6 +28,7 @@
 #include <QUrl>
 #include "../logger.h"
 #include "../settings/imageformats.h"
+#include "../imageprovider/loadimage.h"
 
 #ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
@@ -39,12 +40,17 @@ class PQImageProperties : public QObject {
 
 public:
     explicit PQImageProperties(QObject *parent = nullptr);
+    ~PQImageProperties();
 
     Q_INVOKABLE bool isAnimated(QString path);
     Q_INVOKABLE bool isPopplerDocument(QString path);
     Q_INVOKABLE bool isArchive(QString path);
     Q_INVOKABLE bool isVideo(QString path);
     Q_INVOKABLE int getDocumentPages(QString path);
+    Q_INVOKABLE QSize getImageResolution(QString path);
+
+private:
+    PQLoadImage *loader;
 
 };
 
