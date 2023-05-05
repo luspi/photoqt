@@ -37,24 +37,29 @@ Item {
     Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.imageviewAnimationDuration*100 } }
     Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.imageviewAnimationDuration*100 } }
 
-    MouseArea {
-        anchors.fill: parent
-        onPressed: {
-            if(PQSettings.interfaceCloseOnEmptyBackground || PQSettings.interfaceNavigateOnEmptyBackground) {
-                var paintedX = (container.width-videoelem.width)/2
-                var paintedY = (container.height-videoelem.height)/2
-                if(mouse.x < paintedX || mouse.x > paintedX+videoelem.width ||
-                   mouse.y < paintedY || mouse.y > paintedY+videoelem.height) {
-                    if(PQSettings.interfaceCloseOnEmptyBackground)
-                        toplevel.close()
-                    else if(PQSettings.interfaceNavigateOnEmptyBackground) {
-                        if(mouse.x < width/2)
-                            imageitem.loadPrevImage()
-                        else
-                            imageitem.loadNextImage()
-                    }
-                }
-            }
+    PQMouseArea {
+        id: bgmouse
+        x: -elem.x
+        y: -elem.y
+        width: container.width
+        height: container.height
+        hoverEnabled: false
+        onClicked: {
+            // a double click on the image also fires this signal
+            // we must check the location of this click on ignore it if inside image
+            var imgpos = videoelem.mapFromItem(bgmouse, mouse.x, mouse.y)
+            if((imgpos.x >= 0 && imgpos.x <= videoelem.metaData.resolution.width+videoelem.scale) &&
+                    (imgpos.y >= 0 && imgpos.y <= videoelem.metaData.resolution.height+videoelem.scale))
+                return
+            if(PQSettings.interfaceCloseOnEmptyBackground)
+                toplevel.close()
+            else if(PQSettings.interfaceNavigateOnEmptyBackground) {
+                if(mouse.x < width/2)
+                    imageitem.loadPrevImage()
+                else
+                    imageitem.loadNextImage()
+            } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground)
+                PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
         }
     }
 
@@ -88,7 +93,7 @@ Item {
                     videoelem.play()
                 else
                     videoelem.pause()
-                cont.parent.imageDimensions = Qt.size(-1,-1)
+                elem.parent.imageDimensions = Qt.size(-1,-1)
             }
         }
 

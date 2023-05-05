@@ -141,12 +141,19 @@ Item {
     }
 
     PQMouseArea {
+        id: bgmouse
         x: -cont.x
         y: -cont.y
         width: container.width
         height: container.height
         hoverEnabled: false
         onClicked: {
+            // a double click on the image also fires this signal
+            // we must check the location of this click on ignore it if inside image
+            var imgpos = theimage.mapFromItem(bgmouse, mouse.x, mouse.y)
+            if((imgpos.x >= 0 && imgpos.x <= theimage.paintedWidth) &&
+                    (imgpos.y >= 0 && imgpos.y <= theimage.paintedHeight))
+                return
             if(PQSettings.interfaceCloseOnEmptyBackground)
                 toplevel.close()
             else if(PQSettings.interfaceNavigateOnEmptyBackground) {
