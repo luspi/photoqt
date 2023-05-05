@@ -80,6 +80,10 @@ QString PQHandlingFileDir::copyFile(QString filename) {
 
 bool PQHandlingFileDir::copyFileToHere(QString filename, QString targetdir) {
 
+    DBG << CURDATE << "PQHandlingFileDir::copyFileToHere()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** targetdir = " << targetdir.toStdString() << NL;
+
     QFileInfo info(filename);
     if(!info.exists())
         return false;
@@ -98,6 +102,39 @@ bool PQHandlingFileDir::copyFileToHere(QString filename, QString targetdir) {
 
     QFile f(filename);
     return f.copy(targetFilename);
+
+}
+
+QString PQHandlingFileDir::copyFileToCacheDir(QString filename) {
+
+    DBG << CURDATE << "PQHandlingFileDir::copyFileToTmpDir()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
+    QFileInfo info(filename);
+    if(!info.exists())
+        return "";
+
+    // if the image is larger than 256 MB we don't copy this
+    if(info.size() > 1024*1024*256)
+        return "";
+
+    QString targetFilename = QString("%1/%2.%3").arg(ConfigFiles::CACHE_DIR()).arg("temp").arg(info.suffix());
+    QFileInfo targetinfo(targetFilename);
+
+    // file copied to itself
+    if(targetFilename == filename)
+        return "";
+
+    if(targetinfo.exists()) {
+        QFile tf(targetFilename);
+        tf.remove();
+    }
+
+    QFile f(filename);
+    if(f.copy(targetFilename))
+        return targetFilename;
+
+    return "";
 
 }
 

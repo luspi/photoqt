@@ -137,6 +137,11 @@ Item {
                     imageloader.source = "image/PQMPV.qml"
                     variables.videoControlsVisible = true
                 } else if(imageproperties.isAnimated(src)) {
+                    if(handlingGeneral.amIOnWindows()) {
+                        var s = handlingFileDir.copyFileToCacheDir(src)
+                        if(s != "")
+                            src = s
+                    }
                     imageloader.source = "image/PQImageAnimated.qml"
                     variables.videoControlsVisible = false
                 } else {

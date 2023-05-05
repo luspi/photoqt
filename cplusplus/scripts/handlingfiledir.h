@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE QString cleanPath(QString path);
     Q_INVOKABLE QString copyFile(QString filename);
     Q_INVOKABLE bool copyFileToHere(QString filename, QString targetdir);
+    Q_INVOKABLE QString copyFileToCacheDir(QString filename);
     Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
