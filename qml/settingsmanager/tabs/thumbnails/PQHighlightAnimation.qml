@@ -28,7 +28,7 @@ import "../../../elements"
 PQSetting {
     //: A settings title. This refers to the way and emphasis with which thumbnails are highlight when active/hovered.
     title: em.pty+qsTranslate("settingsmanager_thumbnails", "highlight animation")
-    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Which animation to use for highlighting thumbnails and how much emphasis should be put on it.")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Which animation to use for highlighting thumbnails.")
     content: [
 
         Column {
