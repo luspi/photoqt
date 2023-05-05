@@ -103,6 +103,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: cent.expertmodeonly }
             PQPosition { id: pos }
                 PQHorizontalLine { expertModeOnly: pos.expertmodeonly }
+            PQShowTooltip { id: tlt }
+                PQHorizontalLine { expertModeOnly: tlt.expertmodeonly }
             PQFilenameLabel { id: fnl }
                 PQHorizontalLine { expertModeOnly: fnl.expertmodeonly }
             PQFilenameOnly { id: fno }

@@ -138,7 +138,7 @@ Item {
         checkVisibility()
 
     width: toplevel.width - xOffset*2
-    height: PQSettings.thumbnailsSize+PQSettings.thumbnailsHighlightAnimationLiftUp+scroll.height
+    height: PQSettings.thumbnailsSize+PQSettings.thumbnailsHighlightAnimationLiftUp+scroll.height+20
     onHeightChanged: calculateY()
 
     clip: true
@@ -169,6 +169,7 @@ Item {
         id: view
 
         anchors.fill: parent
+        anchors.topMargin: 20
 
         orientation: ListView.Horizontal
 
@@ -369,17 +370,22 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
                 onEntered: {
 
-                    if(!tooltipSetup) {
+                    if(PQSettings.thumbnailsTooltip) {
 
-                        var fpath = filefoldermodel.entriesMainView[index]
+                        if(!tooltipSetup) {
 
-                        tooltip = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(handlingFileDir.getFileNameFromFullPath(fpath, true)) + "</span></b><br><br>" +
-                                 em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(fpath)) + "<br>" +
-                                 em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(fpath)
+                            var fpath = filefoldermodel.entriesMainView[index]
 
-                        tooltipSetup = true
+                            tooltip = "<b><span style=\"font-size: x-large\">" + handlingGeneral.escapeHTML(handlingFileDir.getFileNameFromFullPath(fpath, true)) + "</span></b><br><br>" +
+                                     em.pty+qsTranslate("thumbnailbar", "File size:") + " " + handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(fpath)) + "<br>" +
+                                     em.pty+qsTranslate("thumbnailbar", "File type:" ) + " " + handlingFileDir.getFileType(fpath)
 
-                    }
+                            tooltipSetup = true
+
+                        }
+
+                    } else
+                        tooltip = ""
 
                     view.mouseOverItem = index
                 }
