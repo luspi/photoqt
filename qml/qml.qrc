@@ -178,7 +178,6 @@
         <file>elements/PQTextL.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQScaleCrop.qml</file>
         <file>modal/PQModalConfirm.qml</file>
-        <file>modal/PQModalSelectFolder.qml</file>
         <file>modal/PQModalInform.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQHighlightAnimation.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQShowTooltip.qml</file>
