@@ -131,7 +131,10 @@ Item {
                     reloadingImage = false
                 } else
                     theimage_load.restart()
-                cont.parent.imageDimensions = sourceSize
+                if(sourceSize.width > 0 && sourceSize.height > 0)
+                    cont.parent.imageDimensions = sourceSize
+                else
+                    cont.parent.imageDimensions = imageproperties.getImageResolution(src)
             }
         }
 
