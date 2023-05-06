@@ -155,7 +155,7 @@ Item {
         Component.onCompleted: {
             volume = PQSettings.filetypesVideoVolume
             renderer.setProperty("volume", volume)
-            cont.parent.imageDimensions = Qt.size(-1,-1)
+            elem.parent.imageDimensions = Qt.size(-1,-1)
         }
 
     }
@@ -177,6 +177,13 @@ Item {
         repeat: false
         running: false
         onTriggered: {
+            // check whether the file has fully loaded yet
+            // depending on the Qt version there will be a comma at the end of the error message string
+            var tmp = renderer.getProperty("width")+""
+            if(tmp == "QVariant(mpv::qt::ErrorReturn)" || tmp == "QVariant(mpv::qt::ErrorReturn, )") {
+                getProps.restart()
+                return
+            }
             if(!PQSettings.filetypesVideoAutoplay) {
                 renderer.playing = false
                 renderer.command(["cycle", "pause"])
