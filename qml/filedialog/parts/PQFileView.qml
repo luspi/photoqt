@@ -959,14 +959,14 @@ GridView {
         informativeText: ""
         onConfirmedChanged: {
             if(confirmed) {
-                console.log(isCurrentFileSelected(), files_grid.currentIndex, anyFilesSelected(), filefoldermodel.entriesFileDialog[files_grid.currentIndex])
                 if(isCurrentFileSelected() || (files_grid.currentIndex==-1 && anyFilesSelected())) {
-                    for (const [key, value] of Object.entries(selectedFiles)) {
-                        if(value == 1)
+                    for(var key in selectedFiles) {
+                        if(selectedFiles[key] == 1)
                             handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[key], false)
                     }
                 } else
                     handlingFileDir.deleteFile(filefoldermodel.entriesFileDialog[files_grid.currentIndex], false)
+                files_grid.selectedFiles = ({})
             }
         }
     }
@@ -1090,8 +1090,8 @@ GridView {
     }
     function anyFilesSelected() {
         var s = 0
-        for (const [key, value] of Object.entries(fileview.selectedFiles))
-            s += value
+        for(var key in selectedFiles) {
+            s += selectedFiles[key]
         return s>0
     }
 
@@ -1125,8 +1125,8 @@ GridView {
         cutFiles = []
         if(isCurrentFileSelected() || (files_grid.currentIndex==-1 && anyFilesSelected())) {
             var urls = []
-            for (const [key, value] of Object.entries(selectedFiles)) {
-                if(value == 1)
+            for(var key in selectedFiles) {
+                if(selectedFiles[key] == 1)
                     urls.push(filefoldermodel.entriesFileDialog[key])
             }
             handlingExternal.copyFilesToClipboard(urls)
@@ -1140,8 +1140,8 @@ GridView {
 
         if(isCurrentFileSelected() || (files_grid.currentIndex==-1 && anyFilesSelected())) {
             var urls = []
-            for (const [key, value] of Object.entries(selectedFiles)) {
-                if(value == 1)
+            for(var key in selectedFiles) {
+                if(selectedFiles[key] == 1)
                     urls.push(filefoldermodel.entriesFileDialog[key])
             }
             handlingExternal.copyFilesToClipboard(urls)
@@ -1202,7 +1202,7 @@ GridView {
             return
 
         confirmDelete.open()
-        files_grid.selectedFiles = ({})
+
     }
 
     Connections {
