@@ -126,7 +126,7 @@ Item {
 
         } else {
 
-            posVisible = toplevel.height-height-(variables.videoControlsVisible ? 100 : 0)
+            posVisible = toplevel.height-height
             posHidden = toplevel.height
 
         }

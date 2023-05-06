@@ -244,7 +244,7 @@ Item {
 
         id: controls
 
-        parent: container
+        parent: renderer
 
         color: "#ee000000"
 
@@ -323,7 +323,8 @@ Item {
                         resetMouseHasBeenMovedRecently.restart()
                         if(renderer.getProperty("eof-reached"))
                             renderer.command(["loadfile", src])
-                        renderer.command(["seek", value, "absolute"])
+                        seekTimeout.setValue = value
+                        seekTimeout.restart()
                         videopos_slider.value = value
                         sliderAni.duration = Qt.binding(function() { return getPosition.interval })
                         resetPropBinding.start()
@@ -336,6 +337,15 @@ Item {
                     running: false
                     onTriggered:
                         videopos_slider.value = Qt.binding(function() { return renderer.currentPosition })
+                }
+
+                Timer {
+                    id: seekTimeout
+                    interval: 100
+                    running: false
+                    property int setValue: 0
+                    onTriggered:
+                        renderer.command(["seek", setValue, "absolute"])
                 }
 
                 Behavior on value { NumberAnimation { id: sliderAni; duration: getPosition.interval } }

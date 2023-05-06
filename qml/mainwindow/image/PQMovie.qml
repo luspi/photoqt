@@ -209,7 +209,7 @@ Item {
 
             id: controls
 
-            parent: container
+            parent: videoelem
 
             color: "#ee000000"
 
