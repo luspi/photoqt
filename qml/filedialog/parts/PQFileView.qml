@@ -416,9 +416,7 @@ GridView {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: decodeURIComponent(fname)
-                    maximumLineCount: 2
                     elide: Text.ElideMiddle
-                    wrapMode: Text.Wrap
                     font.weight: baselook.boldweight
 
                 }
