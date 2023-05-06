@@ -35,10 +35,16 @@ MessageDialog {
     property bool confirmed: false
 
     onYes: {
-        confirmed = true
+        if(!confirmed)
+            confirmed = true
+        else
+            confirmedChanged()
     }
     onNo: {
-        confirmed = false
+        if(confirmed)
+            confirmed = false
+        else
+            confirmedChanged()
     }
 
     function askForConfirmation(text, informativeText) {
