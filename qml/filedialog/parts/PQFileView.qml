@@ -1090,7 +1090,7 @@ GridView {
     }
     function anyFilesSelected() {
         var s = 0
-        for(var key in selectedFiles) {
+        for(var key in selectedFiles)
             s += selectedFiles[key]
         return s>0
     }
