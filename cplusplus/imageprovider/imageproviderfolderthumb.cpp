@@ -147,38 +147,38 @@ void PQAsyncImageResponseFolderThumb::run() {
             // Get pixel data of pixel at column j in row i
             QRgb pixelData = rowData[j];
 
-            // If there is something in this pixel, se thumbnail value
             if(qAlpha(pixelData) != 0) {
-                m_image.setPixelColor(j,i,thumb.pixelColor(j, i));
 
-            // otherwise we check if we are within some margin around thumbnail
-            } else {
+                // see if we're close to the edge
+                const int istart = qMax(0,i-border);
+                const int iend = qMin(mask.height()-1,i+border+1);
+                const int jstart = qMax(0,j-border);
+                const int jend = qMin(mask.width()-1,j+border+1);
 
-                int istart = qMax(0,i-border);
-                int iend = qMin(mask.height()-1,i+border);
-                int jstart = qMax(0,j-border);
-                int jend = qMin(mask.width()-1,j+border);
-
-                bool set = false;
+                bool closeToEdge = false;
 
                 for(int ii = istart; ii < iend; ++ii) {
                     QRgb *rowData = (QRgb*)mask.scanLine(ii);
                     for(int jj = jstart; jj < jend; ++jj) {
                         QRgb pixelData = rowData[jj];
-                        //
-                        if(qAlpha(pixelData) != 0) {
-                            set = true;
+                        // if close to edge
+                        if(qAlpha(pixelData) == 0) {
+                            closeToEdge = true;
                             break;
                         }
                     }
-                    if(set)
+                    if(closeToEdge)
                         break;
                 }
 
-                // inside border, set border color
-                if(set)
-                    m_image.setPixelColor(j,i,Qt::white);
+                // close to edge (or at icon boundary) set border
+                if(closeToEdge || (j == 0 || j == mask.width()-1 || i == 0 || i == mask.height()-1))
+                    m_image.setPixelColor(j,i,QColor(255,255,255,255));
+                else
+                    m_image.setPixelColor(j,i,thumb.pixelColor(j, i));
+
             }
+
         }
 
     }
