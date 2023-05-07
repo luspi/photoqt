@@ -131,9 +131,25 @@ PQMenu {
         MenuItem {
             checkable: true
             checked: PQSettings.openfileFolderContentThumbnails
-            text: qsTranslate("filedialog", "Loop through thumbnails")
+            text: qsTranslate("filedialog", "Show thumbnails")
             onTriggered:
                 PQSettings.openfileFolderContentThumbnails = !PQSettings.openfileFolderContentThumbnails
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileFolderContentThumbnailsAutoload
+            enabled: PQSettings.openfileFolderContentThumbnails
+            text: qsTranslate("filedialog", "Automatically start loading")
+            onTriggered:
+                PQSettings.openfileFolderContentThumbnailsAutoload = !PQSettings.openfileFolderContentThumbnailsAutoload
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileFolderContentThumbnailsLoop
+            enabled: PQSettings.openfileFolderContentThumbnails
+            text: qsTranslate("filedialog", "Loop through thumbnails")
+            onTriggered:
+                PQSettings.openfileFolderContentThumbnailsLoop = !PQSettings.openfileFolderContentThumbnailsLoop
         }
         PQMenu {
             id: speed_submenu
@@ -145,6 +161,7 @@ PQMenu {
                 MenuItem {
                     checkable: true
                     exclusiveGroup: exlspeed
+                    enabled: PQSettings.openfileFolderContentThumbnails
                     checked: PQSettings.openfileFolderContentThumbnailsSpeed==(index+1)
                     text: index==0 ?
                               em.pty+qsTranslate("filedialog", "2 seconds") :

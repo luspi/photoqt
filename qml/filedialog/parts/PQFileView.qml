@@ -254,8 +254,8 @@ GridView {
                                            1000 :
                                            500)
 
-                        repeat: false
-                        running: false
+                        repeat: false||PQSettings.openfileFolderContentThumbnailsAutoload
+                        running: false||PQSettings.openfileFolderContentThumbnailsAutoload
                         onTriggered: {
                             if(!PQSettings.openfileFolderContentThumbnails)
                                 return
@@ -263,7 +263,7 @@ GridView {
                                 return
                             if(numberOfFilesInsideFolder.text*1 == 0)
                                 return
-                            if(files_grid.currentIndex==index) {
+                            if((files_grid.currentIndex==index || PQSettings.openfileFolderContentThumbnailsAutoload) && (PQSettings.openfileFolderContentThumbnailsLoop || folderthumbs.curnum == 0)) {
                                 folderthumbs.curnum = (folderthumbs.curnum%(1*numberOfFilesInsideFolder.text))+1
                                 ftmodel.append({"folder": filefoldermodel.entriesFileDialog[index], "num": folderthumbs.curnum, "curindex": index})
                             }
@@ -307,7 +307,7 @@ GridView {
                     radius: 5
                     color: "#444444"
                     opacity: 0.6
-                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && currentNumberOfFileInsideFolder.text != "" && (parent.width-2*numberOfFilesInsideFolder_cont.width) > width
+                    visible: PQSettings.openfileDefaultView=="icons" && index < filefoldermodel.countFoldersFileDialog && currentNumberOfFileInsideFolder.text != "" && (parent.width-2*numberOfFilesInsideFolder_cont.width) > width && PQSettings.openfileFolderContentThumbnailsLoop
 
                     PQText {
                         id: currentNumberOfFileInsideFolder
