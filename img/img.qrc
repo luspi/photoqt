@@ -108,5 +108,6 @@
         <file>filedialog/breadcrumb.svg</file>
         <file>filedialog/deselectfile.svg</file>
         <file>filedialog/selectfile.svg</file>
+        <file>filedialog/folder.svg</file>
     </qresource>
 </RCC>

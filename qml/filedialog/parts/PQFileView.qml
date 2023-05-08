@@ -187,10 +187,10 @@ GridView {
 
                 id: fileicon
 
-                x: PQSettings.openfileDefaultView=="icons" ? 17.5 : 5
-                y: 5
-                width: PQSettings.openfileDefaultView=="icons" ? parent.width-10-25 : parent.height-10
-                height: parent.height-10 - (PQSettings.openfileDefaultView=="icons" ? 25 : 0)
+                x: PQSettings.openfileDefaultView=="icons" ? 0 : 5
+                y: PQSettings.openfileDefaultView=="icons" ? 0 : 5
+                width: PQSettings.openfileDefaultView=="icons" ? parent.width : parent.height-10
+                height: parent.height - (PQSettings.openfileDefaultView=="icons" ? 0 : 10)
 
                 asynchronous: true
 
@@ -230,15 +230,6 @@ GridView {
                             source: "image://folderthumb/" + folder + ":://::" + num
                             onSourceSizeChanged:
                                 folderthumbs.sourceSize = sourceSize
-                            Image {
-                                source: "image://icon/folder"
-                                anchors.fill: parent
-                                anchors.margins: folderthumbs.width/4
-                                smooth: true
-                                mipmap: true
-                                fillMode: Image.PreserveAspectFit
-                                asynchronous: true
-                            }
 
                             onStatusChanged: {
                                 if(status == Image.Ready) {
@@ -290,8 +281,8 @@ GridView {
 
                 Rectangle {
                     id: numberOfFilesInsideFolder_cont
-                    x: (parent.width-width)
-                    y: 0
+                    x: (parent.width-width)-5
+                    y: 5
                     width: numberOfFilesInsideFolder.width + 20
                     height: 30
                     radius: 5
@@ -311,7 +302,7 @@ GridView {
 
                 Rectangle {
                     x: (parent.width-width)/2
-                    y: 0
+                    y: 5
                     width: currentNumberOfFileInsideFolder.width + 20
                     height: 30
                     radius: 5
@@ -416,7 +407,7 @@ GridView {
                 opacity: PQSettings.openfileDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                color: "#aa2f2f2f"
+                color: index < filefoldermodel.countFoldersFileDialog ? "#aa00002f" : "#aa2f2f2f"
 
                 PQTextS {
 
@@ -429,6 +420,18 @@ GridView {
                     elide: Text.ElideMiddle
                     font.weight: baselook.boldweight
 
+                }
+
+                Image {
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.margins: 5
+                    source: "/filedialog/folder.svg"
+                    height: 16
+                    mipmap: true
+                    width: height
+                    opacity: 0.75
+                    visible: index < filefoldermodel.countFoldersFileDialog
                 }
 
             }
@@ -676,10 +679,10 @@ GridView {
 
             Rectangle {
                 id: selectedornot
-                x: PQSettings.openfileDefaultView=="list" ? (fileicon.x + (fileicon.width-width)/2) : 10
-                y: PQSettings.openfileDefaultView=="list" ? (fileicon.y + (fileicon.height-height)/2) : 10
-                width: 25
-                height: 25
+                x: PQSettings.openfileDefaultView=="list" ? (fileicon.x + (fileicon.width-width)/2) : 5
+                y: PQSettings.openfileDefaultView=="list" ? (fileicon.y + (fileicon.height-height)/2) : 5
+                width: 30
+                height: 30
                 radius: 5
 
                 color: "#bbbbbb"
