@@ -138,7 +138,7 @@ Rectangle {
 
                 property int leftcolwidth: 100
 
-                // DefaultView
+                // Files View
                 Row {
 
                     spacing: 25
@@ -204,6 +204,79 @@ Rectangle {
                         }
 
                         PQCheckbox {
+                            id: view_tooltip
+                            //: This is the tooltip in the file dialog with details about the hovered file
+                            text: em.pty+qsTranslate("filedialog", "show tooltip with details")
+                            onCheckedChanged:
+                                PQSettings.openfileDetailsTooltip = checked
+                        }
+
+                        Row {
+                            spacing: 15
+                            Item {
+                                width: 1
+                                height: 1
+                            }
+
+                            PQText {
+                                y: (view_padding.height-height)/2
+                                text: em.pty+qsTranslate("filedialog", "padding:")
+                            }
+                            PQText {
+                                text: "0%"
+                            }
+
+                            PQSlider {
+                                id: view_padding
+                                from: 0
+                                to: 10
+                                toolTipSuffix: "%"
+                                onValueChanged: {
+                                    PQSettings.openfileElementPadding = value
+                                }
+                            }
+                            PQText {
+                                text: "10%"
+                            }
+                        }
+
+                    }
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: 1
+                    color: "#888888"
+                }
+
+                // Thumbnails
+                Row {
+
+                    spacing: 25
+
+                    PQTextL {
+                        font.weight: baselook.boldweight
+                        //: This refers to the left column of the file dialog (standard, favorites, devices). Please keep short!
+                        text: em.pty+qsTranslate("filedialog", "Thumbnails")
+                        horizontalAlignment: Text.AlignRight
+
+                        height: thumbcol.height
+                        verticalAlignment: Text.AlignVCenter
+
+                        Component.onCompleted: {
+                            if(width > col.leftcolwidth)
+                                col.leftcolwidth = width
+                            width = Qt.binding(function() { return col.leftcolwidth; })
+                        }
+                    }
+
+                    Column {
+
+                        id: thumbcol
+
+                        spacing: 15
+
+                        PQCheckbox {
                             id: view_thumb
                             //: These thumbnails are the thumbnails shown in the file dialog
                             text: em.pty+qsTranslate("filedialog", "show thumbnails")
@@ -217,14 +290,6 @@ Rectangle {
                             text: em.pty+qsTranslate("filedialog", "scale and crop thumbnails")
                             onCheckedChanged:
                                 PQSettings.openfileThumbnailsScaleCrop = checked
-                        }
-
-                        PQCheckbox {
-                            id: view_tooltip
-                            //: This is the tooltip in the file dialog with details about the hovered file
-                            text: em.pty+qsTranslate("filedialog", "show tooltip with details")
-                            onCheckedChanged:
-                                PQSettings.openfileDetailsTooltip = checked
                         }
 
                         PQCheckbox {
@@ -282,6 +347,7 @@ Rectangle {
                         }
 
                     }
+
                 }
 
                 Rectangle {
@@ -290,13 +356,12 @@ Rectangle {
                     color: "#888888"
                 }
 
-                // DefaultView
+                // Places
                 Row {
 
                     spacing: 25
 
                     PQTextL {
-                        id: rightcol_txt
                         font.weight: baselook.boldweight
                         //: This refers to the left column of the file dialog (standard, favorites, devices). Please keep short!
                         text: em.pty+qsTranslate("filedialog", "Places")
@@ -502,6 +567,7 @@ Rectangle {
         view_list.checked = (PQSettings.openfileDefaultView=="list")
         view_remember.checked = PQSettings.openfileKeepLastLocation
         view_hidden.checked = PQSettings.openfileShowHiddenFilesFolders
+        view_padding.value = PQSettings.openfileElementPadding
         view_thumb.checked = PQSettings.openfileThumbnails
         view_thumbscalecrop.checked = PQSettings.openfileThumbnailsScaleCrop
         view_tooltip.checked = PQSettings.openfileDetailsTooltip

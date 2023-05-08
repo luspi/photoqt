@@ -187,10 +187,10 @@ GridView {
 
                 id: fileicon
 
-                x: PQSettings.openfileDefaultView=="icons" ? 0 : 5
-                y: PQSettings.openfileDefaultView=="icons" ? 0 : 5
-                width: PQSettings.openfileDefaultView=="icons" ? parent.width : parent.height-10
-                height: parent.height - (PQSettings.openfileDefaultView=="icons" ? 0 : 10)
+                x: PQSettings.openfileDefaultView=="icons" ? (parent.width-width)/2 : 5
+                y: PQSettings.openfileDefaultView=="icons" ? (parent.height-height)/2 : 5
+                width: PQSettings.openfileDefaultView=="icons" ? parent.width*(100-PQSettings.openfileElementPadding)/100 : parent.width-10
+                height: PQSettings.openfileDefaultView=="icons" ? parent.height*(100-PQSettings.openfileElementPadding)/100 : parent.height-10
 
                 asynchronous: true
 
