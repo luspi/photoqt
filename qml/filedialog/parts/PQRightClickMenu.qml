@@ -114,17 +114,27 @@ PQMenu {
     }
     MenuItem {
         checkable: true
-        checked: PQSettings.openfileThumbnails
-        text: qsTranslate("filedialog", "Show thumbnails")
-        onTriggered:
-            PQSettings.openfileThumbnails = !PQSettings.openfileThumbnails
-    }
-    MenuItem {
-        checkable: true
         checked: PQSettings.openfileDetailsTooltip
         text: qsTranslate("filedialog", "Show tooltip with image details")
         onTriggered:
             PQSettings.openfileDetailsTooltip = !PQSettings.openfileDetailsTooltip
+    }
+    PQMenu {
+        title: qsTranslate("filedialog", "Thumbnails")
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileFolderContentThumbnails
+            text: qsTranslate("filedialog", "Show thumbnails")
+            onTriggered:
+                PQSettings.openfileThumbnails = !PQSettings.openfileThumbnails
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileThumbnailsScaleCrop
+            text: qsTranslate("filedialog", "Scale and crop")
+            onTriggered:
+                PQSettings.openfileThumbnailsScaleCrop = !PQSettings.openfileThumbnailsScaleCrop
+        }
     }
     PQMenu {
         title: qsTranslate("filedialog", "Folder content thumbnails")
@@ -150,6 +160,13 @@ PQMenu {
             text: qsTranslate("filedialog", "Loop through thumbnails")
             onTriggered:
                 PQSettings.openfileFolderContentThumbnailsLoop = !PQSettings.openfileFolderContentThumbnailsLoop
+        }
+        MenuItem {
+            checkable: true
+            checked: PQSettings.openfileFolderContentThumbnailsScaleCrop
+            text: qsTranslate("filedialog", "Scale and crop")
+            onTriggered:
+                PQSettings.openfileFolderContentThumbnailsScaleCrop = !PQSettings.openfileFolderContentThumbnailsScaleCrop
         }
         PQMenu {
             id: speed_submenu

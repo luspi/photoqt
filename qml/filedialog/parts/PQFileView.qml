@@ -230,6 +230,16 @@ GridView {
                             source: "image://folderthumb/" + folder + ":://::" + num
                             onSourceSizeChanged:
                                 folderthumbs.sourceSize = sourceSize
+                            Image {
+                                source: "image://icon/folder"
+                                anchors.fill: parent
+                                anchors.margins: folderthumbs.width/4
+                                smooth: true
+                                mipmap: true
+                                fillMode: Image.PreserveAspectFit
+                                asynchronous: true
+                            }
+
                             onStatusChanged: {
                                 if(status == Image.Ready) {
                                     if(curindex == files_grid.currentIndex)
@@ -329,7 +339,7 @@ GridView {
 
                     sourceSize: Qt.size(256, 256)
 
-                    fillMode: Image.PreserveAspectFit
+                    fillMode: PQSettings.openfileThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
                     // mipmap does not look good, use only smooth
                     smooth: true

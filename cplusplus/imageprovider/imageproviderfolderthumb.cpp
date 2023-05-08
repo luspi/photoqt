@@ -46,7 +46,6 @@ PQAsyncImageResponseFolderThumb::PQAsyncImageResponseFolderThumb(const QString &
         m_requestedSize.setWidth(256);
         m_requestedSize.setHeight(256);
     }
-
     m_index = url.split(":://::")[1].toInt();
     m_folder = url.split(":://::")[0];
 
@@ -120,68 +119,13 @@ void PQAsyncImageResponseFolderThumb::run() {
     QImage thumb = loader.m_image;
 
     // scale to right size
-    thumb = thumb.scaled(m_requestedSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-
-    // get folder image to be used as 'masking' image
-    QIcon ico = QIcon::fromTheme("folder");
-    QImage mask = QImage(ico.pixmap(m_requestedSize).toImage());
-    if(mask.isNull())
-        mask = QIcon(QString(":/filedialog/backupicons/folder.svg")).pixmap(m_requestedSize).toImage();
-
-    // prepare return image
-    m_image = QImage(mask.size(), QImage::Format_ARGB32);
-    m_image.fill(Qt::transparent);
-
-    // a small border will be shown around thumbnail images of this size
-    int border = 2;
-
-    // Loop over all rows
-    for(int i = 0; i < mask.height(); ++i) {
-
-        // Get the pixel data of row i of the image
-        QRgb *rowData = (QRgb*)mask.scanLine(i);
-
-        // Loop over all columns
-        for(int j = 0; j < mask.width(); ++j) {
-
-            // Get pixel data of pixel at column j in row i
-            QRgb pixelData = rowData[j];
-
-            if(qAlpha(pixelData) != 0) {
-
-                // see if we're close to the edge
-                const int istart = qMax(0,i-border);
-                const int iend = qMin(mask.height()-1,i+border+1);
-                const int jstart = qMax(0,j-border);
-                const int jend = qMin(mask.width()-1,j+border+1);
-
-                bool closeToEdge = false;
-
-                for(int ii = istart; ii < iend; ++ii) {
-                    QRgb *rowData = (QRgb*)mask.scanLine(ii);
-                    for(int jj = jstart; jj < jend; ++jj) {
-                        QRgb pixelData = rowData[jj];
-                        // if close to edge
-                        if(qAlpha(pixelData) == 0) {
-                            closeToEdge = true;
-                            break;
-                        }
-                    }
-                    if(closeToEdge)
-                        break;
-                }
-
-                // close to edge (or at icon boundary) set border
-                if(closeToEdge || (j == 0 || j == mask.width()-1 || i == 0 || i == mask.height()-1))
-                    m_image.setPixelColor(j,i,QColor(255,255,255,255));
-                else
-                    m_image.setPixelColor(j,i,thumb.pixelColor(j, i));
-
-            }
-
-        }
-
-    }
+    if(PQSettings::get()["openfileFolderContentThumbnailsScaleCrop"].toBool()) {
+        thumb = thumb.scaled(m_requestedSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        const int xoff = (thumb.width()-m_requestedSize.width())/2;
+        const int yoff = (thumb.height()-m_requestedSize.height())/2;
+        m_image = thumb.copy(xoff, yoff, m_requestedSize.width(), m_requestedSize.height());
+    } else
+        m_image = thumb;
 
     Q_EMIT finished();
 

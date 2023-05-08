@@ -212,6 +212,14 @@ Rectangle {
                         }
 
                         PQCheckbox {
+                            id: view_thumbscalecrop
+                            //: These thumbnails are the thumbnails shown in the file dialog
+                            text: em.pty+qsTranslate("filedialog", "scale and crop thumbnails")
+                            onCheckedChanged:
+                                PQSettings.openfileThumbnailsScaleCrop = checked
+                        }
+
+                        PQCheckbox {
                             id: view_tooltip
                             //: This is the tooltip in the file dialog with details about the hovered file
                             text: em.pty+qsTranslate("filedialog", "show tooltip with details")
@@ -222,9 +230,33 @@ Rectangle {
                         PQCheckbox {
                             id: view_folderthumbs
                             //: These thumbnails are shown as folder icon and rotate through folder contents
-                            text: em.pty+qsTranslate("filedialog", "loop through thumbnails of images inside folders")
+                            text: em.pty+qsTranslate("filedialog", "folders: show thumbnails of images inside")
                             onCheckedChanged:
                                 PQSettings.openfileFolderContentThumbnails = checked
+                        }
+
+                        PQCheckbox {
+                            id: view_folderthumbsloop
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "folders: loop through thumbnails ")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnailsLoop = checked
+                        }
+
+                        PQCheckbox {
+                            id: view_folderthumbsscalecrop
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "folders: scale and crop thumbnails")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnailsScaleCrop = checked
+                        }
+
+                        PQCheckbox {
+                            id: view_folderthumbsautoload
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "folders: automatically load thumbnail")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnailsAutoload = checked
                         }
 
                         Row {
@@ -471,8 +503,12 @@ Rectangle {
         view_remember.checked = PQSettings.openfileKeepLastLocation
         view_hidden.checked = PQSettings.openfileShowHiddenFilesFolders
         view_thumb.checked = PQSettings.openfileThumbnails
+        view_thumbscalecrop.checked = PQSettings.openfileThumbnailsScaleCrop
         view_tooltip.checked = PQSettings.openfileDetailsTooltip
         view_folderthumbs.checked = PQSettings.openfileFolderContentThumbnails
+        view_folderthumbsloop.checked = PQSettings.openfileFolderContentThumbnailsLoop
+        view_folderthumbsscalecrop.checked = PQSettings.openfileFolderContentThumbnailsScaleCrop
+        view_folderthumbsautoload.checked = PQSettings.openfileFolderContentThumbnailsAutoload
         view_folderthumbs_speed.currentIndex = PQSettings.openfileFolderContentThumbnailsSpeed-1
 
         places_standard.checked = PQSettings.openfileUserPlacesStandard
