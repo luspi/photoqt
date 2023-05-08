@@ -275,6 +275,8 @@ Rectangle {
             else if(what == "keyevent") {
                 if(!filedialogsettings.isOpen())
                     fileview.keyEvent(param[0], param[1])
+                else
+                    filedialogsettings.keyEvent(param[0], param[1])
             } else if(what == "mouseevent") {
                 if(!filedialogsettings.isOpen())
                     fileview.mouseEvent(param[0], param[1])

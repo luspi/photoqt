@@ -561,6 +561,13 @@ Rectangle {
 
     }
 
+    function keyEvent(key, modifiers) {
+
+        if(key == Qt.Key_Escape && modifiers == Qt.NoModifier)
+            hide()
+
+    }
+
     function load() {
 
         view_icon.checked = (PQSettings.openfileDefaultView=="icons")
