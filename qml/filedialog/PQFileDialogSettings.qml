@@ -223,20 +223,20 @@ Rectangle {
                                 text: em.pty+qsTranslate("filedialog", "padding:")
                             }
                             PQText {
-                                text: "0%"
+                                text: "0px"
                             }
 
                             PQSlider {
                                 id: view_padding
                                 from: 0
                                 to: 10
-                                toolTipSuffix: "%"
+                                toolTipSuffix: "px"
                                 onValueChanged: {
                                     PQSettings.openfileElementPadding = value
                                 }
                             }
                             PQText {
-                                text: "10%"
+                                text: "50px"
                             }
                         }
 
