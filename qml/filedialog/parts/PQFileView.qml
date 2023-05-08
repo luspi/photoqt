@@ -88,6 +88,9 @@ GridView {
     cellWidth: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : width-scroll.width
     cellHeight: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : PQSettings.openfileZoomLevel*2
 
+    Behavior on cellWidth { NumberAnimation { duration: 100 } }
+    Behavior on cellHeight { NumberAnimation { duration: 100 } }
+
     PQMouseArea {
         anchors.fill: parent
         z: -1
