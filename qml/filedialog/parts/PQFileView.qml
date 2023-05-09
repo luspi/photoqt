@@ -256,11 +256,13 @@ GridView {
                     }
                     Timer {
                         id: nextfolderthumb
-                        interval: PQSettings.openfileFolderContentThumbnailsSpeed==1 ?
-                                      2000 :
-                                      (PQSettings.openfileFolderContentThumbnailsSpeed==2 ?
-                                           1000 :
-                                           500)
+                        interval: PQSettings.openfileFolderContentThumbnailsLoop
+                                        ? (PQSettings.openfileFolderContentThumbnailsSpeed==1
+                                                ? 2000
+                                                : (PQSettings.openfileFolderContentThumbnailsSpeed==2
+                                                        ? 1000
+                                                        : 500))
+                                        : 1
 
                         repeat: false||PQSettings.openfileFolderContentThumbnailsAutoload
                         running: false||PQSettings.openfileFolderContentThumbnailsAutoload
