@@ -368,5 +368,6 @@
         <file>filetypes/square/zip.ico</file>
         <file>filetypes/folder.ico</file>
         <file>filetypes/square/folder.ico</file>
+        <file>filetypes/square/folder_listicon.ico</file>
     </qresource>
 </RCC>

@@ -209,7 +209,7 @@ GridView {
                 source: ((filethumb.status==Image.Ready&&!currentFolderExcluded)||(index < filefoldermodel.countFoldersFileDialog&&folderthumbs.sourceSize.width>1))
                             ? ""
                             : ("image://icon/"+(index < filefoldermodel.countFoldersFileDialog
-                                                    ? "::squared::folder"
+                                                    ? "::squared::" + (PQSettings.openfileDefaultView=="icons" ? "folder" : "folder_listicon")
                                                     : ("::squared::"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]))))
 
                 // rotating through images inside folder and show thumbnails
@@ -407,6 +407,8 @@ GridView {
 
             Rectangle {
 
+                id: icn
+
                 width: parent.width
                 height: files_grid.currentIndex == index ? parent.height/2 : parent.height/3.5
                 y: parent.height-height
@@ -445,9 +447,24 @@ GridView {
 
             }
 
+            Image {
+                id: fldr
+                source: "/filedialog/folder.svg"
+                anchors.left: fileicon.right
+                anchors.leftMargin: 5
+                y: (parent.height-height)/2
+                width: height
+                height: parent.height*0.35
+                visible: index < filefoldermodel.countFoldersFileDialog && PQSettings.openfileFolderContentThumbnails
+
+            }
+
             PQText {
-                anchors.fill: parent
-                anchors.leftMargin: fileicon.width+10
+                anchors.left: (index < filefoldermodel.countFoldersFileDialog && PQSettings.openfileFolderContentThumbnails) ? fldr.right : fileicon.right
+                anchors.right: filesizenum.left
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                height: parent.height
 
                 opacity: PQSettings.openfileDefaultView=="list" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
