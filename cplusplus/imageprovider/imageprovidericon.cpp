@@ -41,62 +41,74 @@ QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, c
         origSize->setHeight(requestedSize.width());
     }
 
+    QString suf = const_cast<QString&>(icon);
 
-    // get filetype icon
-    if(icon.startsWith("IMAGE////")) {
+    if(suf.startsWith("::theme::")) {
 
-        QString i = const_cast<QString&>(icon);
-        QString suf = i.remove(0,9);
+        suf = suf.remove(0,9);
 
-        bool fixed = false;
-        if(suf.startsWith("::fixedsize::")) {
-            suf = suf.remove(0,13);
-            fixed = true;
+        // Attempt to load icon from current theme
+        QIcon ico = QIcon::fromTheme(suf);
+        QImage ret = QImage(ico.pixmap(use).toImage());
+
+        // If icon is not available or if on Windows, choose from a small selection of custom provided icons
+        // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
+        if(ret.isNull()) {
+            LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << suf.toStdString() << NL;
+            if(QFile(QString(":/filedialog/backupicons/%1.svg").arg(suf)).exists())
+                return QIcon(QString(":/filedialog/backupicons/%1.svg").arg(suf)).pixmap(use).toImage();
+            else if(suf.contains("folder") || suf.contains("directory"))
+                return QIcon(":/filedialog/backupicons/folder.svg").pixmap(use).toImage();
+            else if(suf.contains("image"))
+                return QIcon(":/filedialog/backupicons/image.svg").pixmap(use).toImage();
+            else
+                return QIcon(":/filedialog/backupicons/unknown.svg").pixmap(use).toImage();
         }
 
-        QImage ret;
+        return ret;
 
+    }
+
+    bool fixed = false;
+    if(suf.startsWith("::fixedsize::")) {
+        suf = suf.remove(0,13);
+        fixed = true;
+    }
+
+    bool squared = false;
+    if(suf.startsWith("::squared::")) {
+        suf = suf.remove(0,11);
+        squared = true;
+    }
+
+    QImage ret;
+
+    if(squared) {
+        if(QFile::exists(QString(":/filetypes/square/%1.ico").arg(suf.toLower())))
+            ret = QImage(QString(":/filetypes/square/%1.ico").arg(suf.toLower()));
+        else
+            ret = QImage(":/filetypes/square/unknown.ico");
+    } else {
         if(QFile::exists(QString(":/filetypes/%1.ico").arg(suf.toLower())))
             ret = QImage(QString(":/filetypes/%1.ico").arg(suf.toLower()));
         else
             ret = QImage(":/filetypes/unknown.ico");
-
-        if(fixed) {
-
-            QImage fix(266, 266, QImage::Format_ARGB32);
-            fix.fill(qRgba(255,255,255,8));
-            QPainter painter(&fix);
-            ret = ret.scaled(256,256,Qt::KeepAspectRatio);
-            painter.drawImage((266-ret.width())/2, (266-ret.height())/2, ret);
-            painter.setPen(qRgba(255,255,255,175));
-            painter.drawLine(0, 265, 266, 265);
-            painter.end();
-
-            return fix;
-
-        } else
-            return ret;
-
     }
 
-    // Attempt to load icon from current theme
-    QIcon ico = QIcon::fromTheme(icon);
-    QImage ret = QImage(ico.pixmap(use).toImage());
+    if(fixed) {
 
-    // If icon is not available or if on Windows, choose from a small selection of custom provided icons
-    // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
-    if(ret.isNull()) {
-        LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
-        if(QFile(QString(":/filedialog/backupicons/%1.svg").arg(icon)).exists())
-            return QIcon(QString(":/filedialog/backupicons/%1.svg").arg(icon)).pixmap(use).toImage();
-        else if(icon.contains("folder") || icon.contains("directory"))
-            return QIcon(":/filedialog/backupicons/folder.svg").pixmap(use).toImage();
-        else if(icon.contains("image"))
-            return QIcon(":/filedialog/backupicons/image.svg").pixmap(use).toImage();
-        else
-            return QIcon(":/filedialog/backupicons/unknown.svg").pixmap(use).toImage();
-    }
+        QImage fix(266, 266, QImage::Format_ARGB32);
+        fix.fill(qRgba(255,255,255,8));
+        QPainter painter(&fix);
+        ret = ret.scaled(256,256,Qt::KeepAspectRatio);
+        painter.drawImage((266-ret.width())/2, (266-ret.height())/2, ret);
+        painter.setPen(qRgba(255,255,255,175));
+        painter.drawLine(0, 265, 266, 265);
+        painter.end();
 
-    return ret;
+        return fix;
+
+    } else
+        return ret;
 
 }

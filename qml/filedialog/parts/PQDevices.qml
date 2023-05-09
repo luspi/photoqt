@@ -80,7 +80,7 @@ ListView {
                     visible: index>0
 
                     // the location icon taken from image loader (i.e., from system theme if available)
-                    source: ((icon!==undefined&&icon!="") ? ("image://icon/" + icon) : "")
+                    source: ((icon!==undefined&&icon!="") ? ("image://icon/::theme::" + icon) : "")
 
                 }
 

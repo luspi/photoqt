@@ -107,8 +107,6 @@ Item {
                 PQHorizontalLine { expertModeOnly: tlt.expertmodeonly }
             PQFilenameLabel { id: fnl }
                 PQHorizontalLine { expertModeOnly: fnl.expertmodeonly }
-            PQFilenameOnly { id: fno }
-                PQHorizontalLine { expertModeOnly: fno.expertmodeonly }
             PQDisable { id: dis }
                 PQHorizontalLine { expertModeOnly: dis.expertmodeonly }
             PQCache { id: cac }

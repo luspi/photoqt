@@ -227,18 +227,22 @@ if which == 'all' or which == 'filetypes':
                     global e
                     if size < 64:
                         os.system(f"convert -background none -gravity center -compress zip {fname_small} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
+                        os.system(f"convert -background '{color}' -gravity center -compress zip {fname_small} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}_square.png")
                     else:
                         os.system(f"convert -background none -gravity center -compress zip {fname_large} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
+                        os.system(f"convert -background '{color}' -gravity center -compress zip {fname_large} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}_square.png")
                     os.system(f"optipng -o7 -strip all output/tmp/{e}{size}.png")
                                 
                 pool_obj = multiprocessing.Pool()
                 pool_obj.map(convert,[256,128,64,48,32,16])
+                
+                for suf in ['','_square']:
 
-                exe = "go-png2ico "
-                for sze in [256,128,64,48,32,16]:
-                    exe += f"output/tmp/{e}{sze}.png "
-                exe += f"output/ico/{e}.ico"
-                os.system(exe)
+                    exe = "go-png2ico "
+                    for sze in [256,128,64,48,32,16]:
+                        exe += f"output/tmp/{e}{sze}{suf}.png "
+                    exe += f"output/ico/{e}{suf}.ico"
+                    os.system(exe)
                 
             if generateHowMany == 0:
                 print(f"  > {e} already up to date")

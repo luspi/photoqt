@@ -206,7 +206,11 @@ GridView {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // if we do not cache this image, then we keep the generic icon here
-                source: ((filethumb.status==Image.Ready&&!currentFolderExcluded)||(index < filefoldermodel.countFoldersFileDialog&&folderthumbs.sourceSize.width>1)) ? "" : "image://icon/" + (index < filefoldermodel.countFoldersFileDialog ? "folder" : ("IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index])))
+                source: ((filethumb.status==Image.Ready&&!currentFolderExcluded)||(index < filefoldermodel.countFoldersFileDialog&&folderthumbs.sourceSize.width>1))
+                            ? ""
+                            : ("image://icon/"+(index < filefoldermodel.countFoldersFileDialog
+                                                    ? "::squared::folder"
+                                                    : ("::squared::"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]))))
 
                 // rotating through images inside folder and show thumbnails
                 Item {
@@ -229,7 +233,7 @@ GridView {
                             asynchronous: true
                             visible: sourceSize.width>1
                             mipmap: false   // setting this to true blurs too much detail in the thumbnail
-                            fillMode: Image.PreserveAspectFit
+                            fillMode: PQSettings.openfileFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                             source: "image://folderthumb/" + folder + ":://::" + num
                             onSourceSizeChanged:
                                 folderthumbs.sourceSize = sourceSize
@@ -516,7 +520,7 @@ GridView {
 
                             // if we do not cache this directory, we do not show a thumbnail image
                             if(currentFolderExcluded || fileicon.source != "")
-                                str += "<img src=\"image://icon/IMAGE////::fixedsize::" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
+                                str += "<img src=\"image://icon/::fixedsize::" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
                             else
                                 str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
 

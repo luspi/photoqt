@@ -75,7 +75,7 @@ ListView {
                 visible: index>0
 
                 // the image icon is taken from image loader (i.e., from system theme if available)
-                source: ((locs[(index-1)*3 + 2]!==undefined) ? ("image://icon/" + locs[(index-1)*3 + 2]) : "")
+                source: ((locs[(index-1)*3 + 2]!==undefined) ? ("image://icon/::theme::" + locs[(index-1)*3 + 2]) : "")
 
             }
 

@@ -301,14 +301,6 @@ Rectangle {
                         }
 
                         PQCheckbox {
-                            id: view_folderthumbsloop
-                            //: These thumbnails are shown as folder icon and rotate through folder contents
-                            text: em.pty+qsTranslate("filedialog", "folders: loop through thumbnails ")
-                            onCheckedChanged:
-                                PQSettings.openfileFolderContentThumbnailsLoop = checked
-                        }
-
-                        PQCheckbox {
                             id: view_folderthumbsscalecrop
                             //: These thumbnails are shown as folder icon and rotate through folder contents
                             text: em.pty+qsTranslate("filedialog", "folders: scale and crop thumbnails")
@@ -324,6 +316,14 @@ Rectangle {
                                 PQSettings.openfileFolderContentThumbnailsAutoload = checked
                         }
 
+                        PQCheckbox {
+                            id: view_folderthumbsloop
+                            //: These thumbnails are shown as folder icon and rotate through folder contents
+                            text: em.pty+qsTranslate("filedialog", "folders: loop through thumbnails ")
+                            onCheckedChanged:
+                                PQSettings.openfileFolderContentThumbnailsLoop = checked
+                        }
+
                         Row {
                             spacing: 15
                             Item {
@@ -334,9 +334,11 @@ Rectangle {
                             PQText {
                                 y: (view_folderthumbs_speed.height-height)/2
                                 text: em.pty+qsTranslate("filedialog", "speed")
+                                enabled: view_folderthumbsloop.checked
                             }
                             PQComboBox {
                                 id: view_folderthumbs_speed
+                                enabled: view_folderthumbsloop.checked
                                 model: [em.pty+qsTranslate("filedialog", "2 seconds"),
                                         em.pty+qsTranslate("filedialog", "1 second"),
                                         em.pty+qsTranslate("filedialog", "half a second")]

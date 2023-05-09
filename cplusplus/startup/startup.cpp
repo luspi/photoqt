@@ -296,6 +296,8 @@ bool PQStartup::renameSettings() {
     rename ["LabelsWindowButtonsSize"] = QStringList() << "WindowButtonsSize" << "interface";   // 3.1
     rename ["LabelsManageWindow"] = QStringList() << "StatusInfoManageWindow" << "interface";   // 3.1
     rename ["LiftUp"] = QStringList() << "HighlightAnimationLiftUp" << "thumbnails";            // 3.2
+    rename ["FilenameOnly"] = QStringList() << "IconsOnly" << "thumbnails";                     // 3.2
+    rename ["FilenameOnlyFontSize"] = QStringList() << "" << "thumbnails";                      // 3.2
     QMapIterator<QString, QStringList> i(rename);
     while(i.hasNext()) {
         i.next();
@@ -304,16 +306,34 @@ bool PQStartup::renameSettings() {
         QString newname = i.value().value(0);
         QString table = i.value().value(1);
 
-        QSqlQuery query(db);
-        query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
-        query.bindValue(":new", newname);
-        query.bindValue(":old", oldname);
-        if(!query.exec()) {
-            LOG << CURDATE << "PQValidate::renameSettings(): Error updating setting name (" << oldname.toStdString() << " -> " << newname.toStdString() << "): " << query.lastError().text().trimmed().toStdString() << NL;
+        // delete old setting
+        if(newname == "") {
+
+            QSqlQuery query(db);
+            query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
+            query.bindValue(":old", oldname);
+            if(!query.exec()) {
+                LOG << CURDATE << "PQValidate::renameSettings(): Error removing old setting name (" << oldname.toStdString() << "): " << query.lastError().text().trimmed().toStdString() << NL;
+                query.clear();
+                return false;
+            }
             query.clear();
-            return false;
+
+        // rename old setting
+        } else {
+
+            QSqlQuery query(db);
+            query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
+            query.bindValue(":new", newname);
+            query.bindValue(":old", oldname);
+            if(!query.exec()) {
+                LOG << CURDATE << "PQValidate::renameSettings(): Error updating setting name (" << oldname.toStdString() << " -> " << newname.toStdString() << "): " << query.lastError().text().trimmed().toStdString() << NL;
+                query.clear();
+                return false;
+            }
+            query.clear();
+
         }
-        query.clear();
     }
 
     return true;

@@ -26,13 +26,20 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: em.pty+qsTranslate("settingsmanager_thumbnails", "disable thumbnails")
-    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Disable thumbnails in case no thumbnails are desired whatsoever.")
+    title: em.pty+qsTranslate("settingsmanager_thumbnails", "what to show")
+    helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Whether to show thumbnail images and/or thumbnail bar.")
     content: [
-
-        PQCheckbox {
-            id: thb_disable
-            text: em.pty+qsTranslate("settingsmanager_thumbnails", "disable all thumbnails")
+        Flow {
+            spacing: 10
+            width: set.contwidth
+            PQCheckbox {
+                id: thb_icnonly
+                text: em.pty+qsTranslate("settingsmanager_thumbnails", "show only icons")
+            }
+            PQCheckbox {
+                id: thb_disable
+                text: em.pty+qsTranslate("settingsmanager_thumbnails", "disable thumbnail bar")
+            }
         }
 
     ]
@@ -47,6 +54,7 @@ PQSetting {
 
         onSaveAllSettings: {
             PQSettings.thumbnailsDisable = thb_disable.checked
+            PQSettings.thumbnailsIconsOnly = thb_icnonly.checked
         }
 
     }
@@ -57,6 +65,7 @@ PQSetting {
 
     function load() {
         thb_disable.checked = PQSettings.thumbnailsDisable
+        thb_icnonly.checked = PQSettings.thumbnailsIconsOnly
     }
 
 }

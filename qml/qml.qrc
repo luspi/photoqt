@@ -104,7 +104,6 @@
         <file>settingsmanager/tabs/thumbnails/PQThreads.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQVisible.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQFilenameLabel.qml</file>
-        <file>settingsmanager/tabs/thumbnails/PQFilenameOnly.qml</file>
         <file>elements/PQTile.qml</file>
         <file>settingsmanager/tabs/metadata/PQGPSMap.qml</file>
         <file>settingsmanager/tabs/metadata/PQMetaData.qml</file>

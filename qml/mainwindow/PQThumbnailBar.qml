@@ -275,22 +275,6 @@ Item {
                 Behavior on color { ColorAnimation { duration: 200 } }
             }
 
-            PQText {
-
-                anchors.fill: parent
-                anchors.margins: 5
-
-                visible: PQSettings.thumbnailsFilenameOnly
-
-                text: handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesMainView[index])
-                font.pointSize: PQSettings.thumbnailsFilenameOnlyFontSize
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignHCenter
-
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-
-            }
-
             Image {
 
                 id: thumbimage
@@ -304,9 +288,13 @@ Item {
                 Behavior on width { NumberAnimation { duration: 200 } }
                 Behavior on height { NumberAnimation { duration: 200 } }
                 fillMode: PQSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-                source: view.excludeCurrentDirectory ? ("image://icon/IMAGE////"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index])) : ((PQSettings.thumbnailsFilenameOnly||PQSettings.thumbnailsDisable) ? "" : "image://thumb/" + filefoldermodel.entriesMainView[index])
+                source: (view.excludeCurrentDirectory || PQSettings.thumbnailsIconsOnly)
+                            ? ("image://icon/::squared::"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index]))
+                            : (PQSettings.thumbnailsDisable
+                                ? ""
+                                : ("image://thumb/" + filefoldermodel.entriesMainView[index]))
 
-                visible: !PQSettings.thumbnailsFilenameOnly
+                visible: !PQSettings.thumbnailsDisable
 
                 Image {
 

@@ -116,16 +116,7 @@ void PQAsyncImageResponseFolderThumb::run() {
     // load thumbnail
     PQAsyncImageResponseThumb loader(fname,m_requestedSize);
     loader.loadImage();
-    QImage thumb = loader.m_image;
-
-    // scale to right size
-    if(PQSettings::get()["openfileFolderContentThumbnailsScaleCrop"].toBool()) {
-        thumb = thumb.scaled(m_requestedSize, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-        const int xoff = (thumb.width()-m_requestedSize.width())/2;
-        const int yoff = (thumb.height()-m_requestedSize.height())/2;
-        m_image = thumb.copy(xoff, yoff, m_requestedSize.width(), m_requestedSize.height());
-    } else
-        m_image = thumb;
+    m_image = loader.m_image;
 
     Q_EMIT finished();
 
