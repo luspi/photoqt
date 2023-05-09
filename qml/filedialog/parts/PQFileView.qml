@@ -234,7 +234,7 @@ GridView {
                             visible: sourceSize.width>1
                             mipmap: false   // setting this to true blurs too much detail in the thumbnail
                             fillMode: PQSettings.openfileFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-                            source: "image://folderthumb/" + folder + ":://::" + num
+                            source: PQSettings.openfileFolderContentThumbnails ? ("image://folderthumb/" + folder + ":://::" + num) : ""
                             onSourceSizeChanged:
                                 folderthumbs.sourceSize = sourceSize
 
