@@ -88,9 +88,6 @@ GridView {
     cellWidth: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : width-scroll.width
     cellHeight: PQSettings.openfileDefaultView=="icons" ? PQSettings.openfileZoomLevel*6 : PQSettings.openfileZoomLevel*2
 
-    Behavior on cellWidth { NumberAnimation { duration: 100 } }
-    Behavior on cellHeight { NumberAnimation { duration: 100 } }
-
     PQMouseArea {
         anchors.fill: parent
         z: -1
@@ -438,7 +435,7 @@ GridView {
                     anchors.bottom: parent.bottom
                     anchors.margins: 5
                     source: "/filedialog/folder.svg"
-                    height: 16
+                    height: 12
                     mipmap: true
                     width: height
                     opacity: 0.75
@@ -474,9 +471,9 @@ GridView {
                 font.weight: baselook.boldweight
 
                 text: decodeURIComponent(fname)
-                maximumLineCount: 2
                 elide: Text.ElideMiddle
-                wrapMode: Text.Wrap
+                textFormat: Text.PlainText
+
             }
 
             PQText {
