@@ -509,11 +509,17 @@ GridView {
 
                         if(index < filefoldermodel.countFoldersFileDialog) {
 
-                            tooltipStr = "<b>" + handlingFileDialog.createTooltipFilename(fname) + "</b><br><br>" +
-                                         (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
-                                         em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                                         em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
+                            var str = ""
 
+                            if(PQSettings.openfileFolderContentThumbnails)
+                                str += "<img src=\"image://folderthumb/" + filefoldermodel.entriesFileDialog[index] + ":://::" + folderthumbs.curnum + "\"><br><br>"
+
+                            str += "<b>" + handlingFileDialog.createTooltipFilename(fname) + "</b><br><br>" +
+                                   (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
+                                    em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
+                                    em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
+
+                            tooltipStr = str
                             tooltipSetup = true
 
                         } else {
@@ -546,6 +552,14 @@ GridView {
                     if(!currentIndexChangedUsingKeyIgnoreMouse)
                         files_grid.currentIndex = index
                 }
+
+                Connections {
+                    target: PQSettings
+                    onOpenfileFolderContentThumbnailsChanged: {
+                        mouseArea.tooltipSetup = false
+                    }
+                }
+
                 onMouseXChanged: {
 
                     // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
