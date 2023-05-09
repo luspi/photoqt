@@ -452,7 +452,7 @@ GridView {
                 y: (parent.height-height)/2
                 width: height
                 height: parent.height*0.35
-                visible: index < filefoldermodel.countFoldersFileDialog && PQSettings.openfileFolderContentThumbnails
+                visible: index < filefoldermodel.countFoldersFileDialog && PQSettings.openfileFolderContentThumbnails && PQSettings.openfileDefaultView!="icons"
 
             }
 
