@@ -527,9 +527,7 @@ GridView {
                             var str = ""
 
                             // if we do not cache this directory, we do not show a thumbnail image
-                            if(currentFolderExcluded || fileicon.source != "")
-                                str += "<img src=\"image://icon/::fixedsize::" + handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
-                            else
+                            if(!currentFolderExcluded && fileicon.source == "")
                                 str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
 
                             // add details
@@ -556,6 +554,9 @@ GridView {
                 Connections {
                     target: PQSettings
                     onOpenfileFolderContentThumbnailsChanged: {
+                        mouseArea.tooltipSetup = false
+                    }
+                    onOpenfileThumbnailsChanged: {
                         mouseArea.tooltipSetup = false
                     }
                 }
