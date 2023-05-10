@@ -327,6 +327,7 @@ Item {
                         anchors.leftMargin: 5
                         anchors.rightMargin: 5
                         invertColor: label.inverted
+                        renderType: Text.QtRendering
                         Behavior on color { ColorAnimation { duration: 200 } }
                         elide: Text.ElideMiddle
                         font.pointSize: PQSettings.thumbnailsFontSize
