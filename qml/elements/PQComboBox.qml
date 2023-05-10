@@ -123,6 +123,13 @@ ComboBox {
         Behavior on color { ColorAnimation { duration: 250; } }
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
+        // this is called by kde's ComboBox implementation for positioning a mobile cursor:
+        // typically located at /usr/lib/qt/qml/QtQuick/Controls.2/org.kde.desktop/ComboBox.qml
+        // we don't use this, but this is printing an error message every time
+        // defining a dummy function here disables that error
+        function positionToRectangle(pos) {
+            return Qt.rect(x,y,width,height)
+        }
     }
 
     background: Rectangle {

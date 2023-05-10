@@ -212,7 +212,7 @@ Item {
             y: PQSettings.thumbnailsHighlightAnimationLiftUp
             Behavior on y { NumberAnimation { duration: 200 } }
 
-            Behavior on scale { NumberAnimation { duration: 200} }
+            Behavior on scale { NumberAnimation { duration: 200 } }
 
             width: PQSettings.thumbnailsSize+(PQSettings.thumbnailsSpacing == 1 ? 2 : PQSettings.thumbnailsSpacing)
             height: PQSettings.thumbnailsSize

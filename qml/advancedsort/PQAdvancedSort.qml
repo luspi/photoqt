@@ -243,8 +243,10 @@ Item {
                                         exifdatacol.checkw = width
                                 }
                                 onCheckedChanged: {
-                                    exifdatacol.datachecked[row.dataindex] = checked
-                                    exifdatacol.datacheckedChanged()
+                                    if(exifdatacol.datachecked[row.dataindex] != checked) {
+                                        exifdatacol.datachecked[row.dataindex] = checked
+                                        exifdatacol.datacheckedChanged()
+                                    }
                                 }
                             }
                         }

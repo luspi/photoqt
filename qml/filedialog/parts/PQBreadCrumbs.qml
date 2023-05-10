@@ -137,13 +137,11 @@ Item {
     PQText {
         id: dotdotdot
         anchors.left: sep1.right
-        anchors.leftMargin: visible ? 10 : 0
-        text: visible ? "..." : ""
+        text: "..."
         height: bread_top.height
         verticalAlignment: Text.AlignVCenter
-        opacity: 0.5
         font.weight: baselook.boldweight
-        visible: path.contentWidth > path.width
+        opacity: (path.contentWidth > path.width) ? 0.5 : 0
     }
 
     ListView {
@@ -151,7 +149,7 @@ Item {
         id: path
 
         anchors.left: dotdotdot.right
-        anchors.leftMargin: 10
+        anchors.leftMargin: 5
         anchors.right: sep2.left
         anchors.rightMargin: 10
 

@@ -22,6 +22,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import "../../elements"
 
 ListView {
@@ -39,7 +40,8 @@ ListView {
     property int hoverIndex: -1
 
     visible: PQSettings.openfileUserPlacesUser
-    height: childrenRect.height
+
+    ScrollBar.vertical: PQScrollBar { id: scroll }
 
     PQTextL {
         anchors.fill: parent

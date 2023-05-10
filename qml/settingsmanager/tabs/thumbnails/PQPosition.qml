@@ -33,7 +33,6 @@ PQSetting {
 
         PQComboBox {
             id: edge
-            y: (parent.height-height)/2
             //: The upper edge of PhotoQt
             model: [em.pty+qsTranslate("settingsmanager_thumbnails", "upper edge"),
                     //: The lower edge of PhotoQt

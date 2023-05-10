@@ -26,6 +26,9 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+
+    id: set
+
     title: em.pty+qsTranslate("settingsmanager_thumbnails", "what to show")
     helptext: em.pty+qsTranslate("settingsmanager_thumbnails", "Whether to show thumbnail images and/or thumbnail bar.")
     content: [
