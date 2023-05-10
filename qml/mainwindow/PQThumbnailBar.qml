@@ -214,7 +214,7 @@ Item {
 
             Behavior on scale { NumberAnimation { duration: 200} }
 
-            width: PQSettings.thumbnailsSize+PQSettings.thumbnailsSpacing
+            width: PQSettings.thumbnailsSize+(PQSettings.thumbnailsSpacing == 1 ? 2 : PQSettings.thumbnailsSpacing)
             height: PQSettings.thumbnailsSize
 
             Item {
@@ -279,7 +279,7 @@ Item {
 
                 id: thumbimage
 
-                x: PQSettings.thumbnailsSpacing/2
+                x: (PQSettings.thumbnailsSpacing == 1 ? 1 : PQSettings.thumbnailsSpacing/2)
                 y: 0
                 width: PQSettings.thumbnailsSize
                 height: PQSettings.thumbnailsSize
