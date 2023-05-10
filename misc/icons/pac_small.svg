@@ -1,57 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="3000"
-   height="4000"
-   viewBox="0 0 793.75 1058.3333"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="pac_small.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#000000"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:zoom="0.14347369"
-     inkscape:cx="1425.3484"
-     inkscape:cy="1031.548"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
-     showguides="false" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:92.8229;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-       id="rect790"
-       width="700.92712"
-       height="965.51038"
-       x="46.411449"
-       y="46.411449"
-       rx="91.823669"
-       ry="101.97951" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke-width:16.2187"
-       d="m 413.09353,579.71056 v -32.43762 h 32.43761 V 514.8359 h -32.43761 v -32.43761 h 32.43761 v -32.4376 h -32.43761 v -32.43702 h 32.43761 v -32.43762 h -32.43761 v -32.43763 h 32.43761 v -32.43703 h -32.43761 v -32.4376 h -32.43701 v 32.4376 h -32.43764 v 32.43703 h 32.43764 v 32.43763 h -32.43764 v 32.43762 h 32.43764 v 32.43702 h -32.43764 v 32.4376 h 32.43764 v 32.43761 h -32.43764 v 32.43704 h 32.43764 v 32.43762 h -64.87525 v 81.09375 c 0,44.7146 36.37916,81.09314 81.09375,81.09314 44.7152,0 81.09374,-36.37854 81.09374,-81.09314 v -81.09375 z m 32.43761,81.09375 c 0,26.82568 -21.83042,48.65612 -48.65612,48.65612 -26.82569,0 -48.65614,-21.83044 -48.65614,-48.65612 V 612.1482 h 97.31226 z"
-       id="path16" />
-  </g>
+<svg width="3e3" height="4e3" version="1.1" viewBox="0 0 793.75 1058.3" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <rect x="46.411" y="46.411" width="700.93" height="965.51" rx="91.824" ry="101.98" fill="#f00" stroke="#f00" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="92.823" style="paint-order:stroke fill markers"/>
+  <path d="m413.09 579.71v-32.438h32.438v-32.437h-32.438v-32.438h32.438v-32.438h-32.438v-32.437h32.438v-32.438h-32.438v-32.438h32.438v-32.437h-32.438v-32.438h-32.437v32.438h-32.438v32.437h32.438v32.438h-32.438v32.438h32.438v32.437h-32.438v32.438h32.438v32.438h-32.438v32.437h32.438v32.438h-64.875v81.094c0 44.715 36.379 81.093 81.094 81.093 44.715 0 81.094-36.379 81.094-81.093v-81.094zm32.438 81.094c0 26.826-21.83 48.656-48.656 48.656-26.826 0-48.656-21.83-48.656-48.656v-48.656h97.312z" fill="#fff" stroke-width="16.219"/>
+ </g>
 </svg>

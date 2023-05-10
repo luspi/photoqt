@@ -115,6 +115,7 @@ if which == 'all' or which == 'filetypes':
     os.makedirs('output/svg', exist_ok=True)
     os.makedirs('output/svg/large', exist_ok=True)
     os.makedirs('output/svg/small', exist_ok=True)
+    os.makedirs('output/svg/squared', exist_ok=True)
     os.makedirs('output/ico', exist_ok=True)
     os.makedirs('output/tmp', exist_ok=True)
     files = glob.glob('./output/tmp/*')
@@ -184,6 +185,7 @@ if which == 'all' or which == 'filetypes':
             
             fname_large = f"output/svg/large/{e}.svg"
             fname_small = f"output/svg/small/{e}.svg"
+            fname_squared = f"output/svg/squared/{e}.svg"
             
             generateHowMany = 0
             
@@ -194,7 +196,7 @@ if which == 'all' or which == 'filetypes':
                 print(f"  > large SVG: {e}")
                                       
                 icn_large = open(f"icons/{category}.svg").read()
-                icn_large = icn_large.replace("#ff0000", color)
+                icn_large = icn_large.replace("#f00", color)
                 icn_large = icn_large.replace("ZZZ", "?" if (e=="unknown") else e.upper())
                 icn_large = icn_large.replace("font-size:167.569px", f"font-size:{fontsizes[l-1]}px")
                 icn_large = icn_large.replace('x="246.16951"', f'x="{xy[l-1][0]}"')
@@ -202,6 +204,22 @@ if which == 'all' or which == 'filetypes':
                 f_large = open(fname_large, "w")
                 f_large.write(icn_large)
                 f_large.close()
+            
+            if not os.path.exists(fname_squared):
+                
+                generateHowMany += 1
+                
+                print(f"  > square SVG: {e}")
+                                      
+                icn_squared = open(f"icons/{category}_squared.svg").read()
+                icn_squared = icn_squared.replace("#f00", color)
+                icn_squared = icn_squared.replace("ZZZ", "?" if (e=="unknown") else e.upper())
+                icn_squared = icn_squared.replace("font-size:167.569px", f"font-size:{fontsizes[l-1]}px")
+                icn_squared = icn_squared.replace('x="378.4613"', f'x="{2*66.145895+xy[l-1][0]}"')
+                icn_squared = icn_squared.replace('y="827.80219"', f'y="{xy[l-1][1]}"')
+                f_squared = open(fname_squared, "w")
+                f_squared.write(icn_squared)
+                f_squared.close()
                 
             if not os.path.exists(fname_small):
                 
@@ -210,7 +228,7 @@ if which == 'all' or which == 'filetypes':
                 print(f"  > small SVG: {e}")
             
                 icn_small = open(f"icons/{category}_small.svg").read()
-                icn_small = icn_small.replace("#ff0000", color)
+                icn_small = icn_small.replace("#f00", color)
                 f_small = open(fname_small, "w")
                 f_small.write(icn_small)
                 f_small.close()
@@ -227,22 +245,18 @@ if which == 'all' or which == 'filetypes':
                     global e
                     if size < 64:
                         os.system(f"convert -background none -gravity center -compress zip {fname_small} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
-                        os.system(f"convert -background '{color}' -gravity center -compress zip {fname_small} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}_square.png")
                     else:
                         os.system(f"convert -background none -gravity center -compress zip {fname_large} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
-                        os.system(f"convert -background '{color}' -gravity center -compress zip {fname_large} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}_square.png")
                     os.system(f"optipng -o7 -strip all output/tmp/{e}{size}.png")
                                 
                 pool_obj = multiprocessing.Pool()
                 pool_obj.map(convert,[256,128,64,48,32,16])
                 
-                for suf in ['','_square']:
-
-                    exe = "go-png2ico "
-                    for sze in [256,128,64,48,32,16]:
-                        exe += f"output/tmp/{e}{sze}{suf}.png "
-                    exe += f"output/ico/{e}{suf}.ico"
-                    os.system(exe)
+                exe = "go-png2ico "
+                for sze in [256,128,64,48,32,16]:
+                    exe += f"output/tmp/{e}{sze}.png "
+                exe += f"output/ico/{e}.ico"
+                os.system(exe)
                 
             if generateHowMany == 0:
                 print(f"  > {e} already up to date")

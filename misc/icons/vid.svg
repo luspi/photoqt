@@ -1,78 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="3000"
-   height="4000"
-   viewBox="0 0 793.75 1058.3333"
-   version="1.1"
-   id="svg5"
-   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
-   sodipodi:docname="vid.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#000000"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:zoom="0.15480994"
-     inkscape:cx="-888.18586"
-     inkscape:cy="988.30863"
-     inkscape:window-width="1920"
-     inkscape:window-height="1051"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:92.8229;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-       id="rect790"
-       width="700.92712"
-       height="965.51038"
-       x="46.411449"
-       y="46.411449"
-       rx="91.823669"
-       ry="101.97951" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:167.569px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="246.16951"
-       y="827.80219"
-       id="text1657"><tspan
-         sodipodi:role="line"
-         id="tspan1655"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:167.569px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
-         x="246.16951"
-         y="827.80219">ZZZ</tspan></text>
-    <ellipse
-       style="opacity:1;fill:#ffffff;fill-opacity:0;stroke:#ffffff;stroke-width:42.7353;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-opacity:1;paint-order:stroke fill markers"
-       id="path2871"
-       cx="396.87503"
-       cy="390.52588"
-       rx="152.29709"
-       ry="152.29707" />
-    <path
-       d="m 453.93946,377.9243 -91.22357,-45.61248 c -11.24197,-5.62099 -24.46919,2.55377 -24.46919,15.12271 v 86.18393 c 0,12.56811 13.22722,20.74301 24.46919,15.12259 l 91.22357,-45.61291 c 10.38558,-5.1921 10.38558,-20.01175 0,-25.20384 z"
-       stroke="#33363f"
-       stroke-width="0"
-       stroke-linecap="round"
-       stroke-linejoin="round"
-       id="path5237"
-       style="fill:#ffffff;fill-opacity:1;stroke:#f7f7f7;stroke-width:0;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill;opacity:1" />
-  </g>
+<svg width="3e3" height="4e3" version="1.1" viewBox="0 0 793.75 1058.3" xmlns="http://www.w3.org/2000/svg">
+ <rect x="46.411" y="46.411" width="700.93" height="965.51" rx="91.824" ry="101.98" fill="#f00" stroke="#f00" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="92.823" style="paint-order:stroke fill markers"/>
+ <text x="246.16951" y="827.80219" fill="#000000" font-family="sans-serif" font-size="167.57px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="246.16951" y="827.80219" fill="#ffffff" font-family="'DejaVu Sans Mono'" font-size="167.57px" font-weight="bold" stroke-width=".26458">ZZZ</tspan></text>
+ <ellipse cx="396.88" cy="390.53" rx="152.3" ry="152.3" fill-opacity="0" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="42.735" style="paint-order:stroke fill markers"/>
+ <path d="m453.94 377.92-91.224-45.612c-11.242-5.621-24.469 2.5538-24.469 15.123v86.184c0 12.568 13.227 20.743 24.469 15.123l91.224-45.613c10.386-5.1921 10.386-20.012 0-25.204z" fill="#fff" stroke="#33363f" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" style="paint-order:markers stroke fill"/>
 </svg>

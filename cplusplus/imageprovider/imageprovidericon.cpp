@@ -22,6 +22,7 @@
 
 #include "imageprovidericon.h"
 #include <QPainter>
+#include <QSvgRenderer>
 
 QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, const QSize &requestedSize) {
 
@@ -69,46 +70,48 @@ QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, c
 
     }
 
-    bool fixed = false;
-    if(suf.startsWith("::fixedsize::")) {
-        suf = suf.remove(0,13);
-        fixed = true;
-    }
-
     bool squared = false;
     if(suf.startsWith("::squared::")) {
         suf = suf.remove(0,11);
         squared = true;
     }
 
-    QImage ret;
+    QString iconname = "";
 
     if(squared) {
-        if(QFile::exists(QString(":/filetypes/square/%1.ico").arg(suf.toLower())))
-            ret = QImage(QString(":/filetypes/square/%1.ico").arg(suf.toLower()));
+        if(QFile::exists(QString(":/filetypes/squared/%1.svg").arg(suf.toLower())))
+            iconname = QString(":/filetypes/squared/%1.svg").arg(suf.toLower());
         else
-            ret = QImage(":/filetypes/square/unknown.ico");
+            iconname = ":/filetypes/squared/unknown.svg";
     } else {
-        if(QFile::exists(QString(":/filetypes/%1.ico").arg(suf.toLower())))
-            ret = QImage(QString(":/filetypes/%1.ico").arg(suf.toLower()));
+        if(QFile::exists(QString(":/filetypes/normal/%1.svg").arg(suf.toLower())))
+            iconname = QString(":/filetypes/normal/%1.svg").arg(suf.toLower());
         else
-            ret = QImage(":/filetypes/unknown.ico");
+            iconname = ":/filetypes/normal/unknown.svg";
     }
 
-    if(fixed) {
+    QSvgRenderer svg;
+    QImage ret;
 
-        QImage fix(266, 266, QImage::Format_ARGB32);
-        fix.fill(qRgba(255,255,255,8));
-        QPainter painter(&fix);
-        ret = ret.scaled(256,256,Qt::KeepAspectRatio);
-        painter.drawImage((266-ret.width())/2, (266-ret.height())/2, ret);
-        painter.setPen(qRgba(255,255,255,175));
-        painter.drawLine(0, 265, 266, 265);
-        painter.end();
+    // Loading SVG file
+    svg.load(iconname);
 
-        return fix;
-
-    } else
+    // Invalid vector graphic
+    if(!svg.isValid()) {
+        LOG << CURDATE << "PQImageProviderIcon: reader svg - Error: invalid svg file" << NL;
         return ret;
+    }
+
+    // Render SVG into pixmap
+    if(requestedSize.width() > 10 && requestedSize.height() > 10)
+        ret = QImage(requestedSize, QImage::Format_ARGB32);
+    else
+        ret = QImage(512,512, QImage::Format_ARGB32);
+    ret.fill(::Qt::transparent);
+    QPainter painter(&ret);
+    svg.render(&painter);
+    painter.end();
+
+    return ret;
 
 }

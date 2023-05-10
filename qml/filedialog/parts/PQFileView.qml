@@ -197,7 +197,7 @@ GridView {
                 fillMode: Image.PreserveAspectFit
 
                 smooth: true
-                mipmap: true
+                mipmap: false
 
                 opacity: 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
