@@ -93,7 +93,7 @@ Item {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            enabled: curCat=="plasma"
+                            color: curCat=="plasma" ? "white" : "#666666"
                             Behavior on color { ColorAnimation { duration: 150 } }
                             font.weight: baselook.boldweight
                             text: "Plasma 5"
@@ -110,7 +110,7 @@ Item {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            enabled: curCat=="gnome"
+                            color: curCat=="gnome" ? "white" : "#666666"
                             Behavior on color { ColorAnimation { duration: 150 } }
                             font.weight: baselook.boldweight
                             text: "Gnome<br>Unity<br>Cinnamon"
@@ -127,7 +127,7 @@ Item {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            enabled: curCat=="xfce"
+                            color: curCat=="xfce" ? "white" : "#666666"
                             Behavior on color { ColorAnimation { duration: 150 } }
                             font.weight: baselook.boldweight
                             text: "XFCE4"
@@ -144,7 +144,7 @@ Item {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            enabled: curCat=="enlightenment"
+                            color: curCat=="enlightenment" ? "white" : "#666666"
                             Behavior on color { ColorAnimation { duration: 150 } }
                             font.weight: baselook.boldweight
                             text: "Enlightenment"
@@ -161,7 +161,7 @@ Item {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            enabled: curCat=="other"
+                            color: curCat=="other" ? "white" : "#666666"
                             Behavior on color { ColorAnimation { duration: 150 } }
                             font.weight: baselook.boldweight
                             text: "Other"
