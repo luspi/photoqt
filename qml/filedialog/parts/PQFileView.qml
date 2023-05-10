@@ -363,6 +363,18 @@ GridView {
 
                 }
 
+
+
+                Rectangle {
+
+                    anchors.fill: parent
+                    opacity: maindeleg.selected ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    visible: opacity > 0
+                    color: "#88ffffff"
+
+                }
+
                 PQMouseArea {
 
                     id: dragArea
@@ -415,7 +427,8 @@ GridView {
                 opacity: PQSettings.openfileDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                color: index < filefoldermodel.countFoldersFileDialog ? "#aa00002f" : "#aa2f2f2f"
+                color: maindeleg.selected ? "#aa888888" : (index < filefoldermodel.countFoldersFileDialog ? "#aa00002f" : "#aa2f2f2f")
+                Behavior on color { ColorAnimation { duration: 200 } }
 
                 PQTextS {
 
