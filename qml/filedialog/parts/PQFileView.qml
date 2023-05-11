@@ -1015,7 +1015,7 @@ GridView {
 
             for(var i = tmp; i < filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog; ++i) {
 
-                if(handlingShortcuts.convertCharacterToKeyCode(handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesFileDialog[currentIndex][0])) == key) {
+                if(handlingShortcuts.convertCharacterToKeyCode(handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesFileDialog[i])[0]) == key) {
                     currentIndex = i
                     break;
                 }
