@@ -838,6 +838,54 @@ GridView {
 
     }
 
+    Rectangle {
+        id: floatingString
+        width: floatingStringLabel.width+20
+        height: floatingStringLabel.height+10
+        color: "black"
+        opacity: 0
+        visible: opacity>0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        radius: 5
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            rightMargin: 10
+            bottomMargin: 10
+        }
+        Text {
+            id: floatingStringLabel
+            x: 10
+            y: 5
+            verticalAlignment: Text.AlignVCenter
+            text: ""
+            color: "white"
+            font.weight: baselook.boldweight
+            Connections {
+                target: files_grid
+                onNavigateToFileStartingWithChanged: {
+                    if(files_grid.navigateToFileStartingWith.length == 0) {
+                        floatingString.opacity = 0
+                        return
+                    }
+
+                    floatingString.opacity = 0.8
+
+                    var s = ""
+                    for(var i = 0; i < files_grid.navigateToFileStartingWith.length; ++i) {
+                        var n = handlingShortcuts.convertKeyCodeToText(files_grid.navigateToFileStartingWith[i]).toLowerCase()
+                        if(n == "space")
+                            s += " "
+                        else if(n != "shift")
+                            s += n
+                    }
+                    floatingStringLabel.text = s
+                }
+            }
+
+        }
+    }
+
     Connections {
         target: variables
         onMousePosChanged: {
@@ -1047,28 +1095,44 @@ GridView {
 
         } else {
 
+            // ignore modifiers as characters
+            if(key > 16000000)
+                return
+
+            // ignore modifier modified combos (except for capitalization)
+            if(modifiers == Qt.ShiftModifier)
+                modifiers = 0
+            else if(modifiers != 0)
+                return
+
+            // add new key to list
             files_grid.navigateToFileStartingWith.push(key)
+            files_grid.navigateToFileStartingWithChanged()
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
+            // find starting index
             var tmp = (currentIndex==-1 ? 0 : currentIndex)
 
+            // loop over all indices
             for(var i = tmp; i < tmp+filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog; ++i) {
 
+                // we loop around to the beginning
                 var use = i%(filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog)
 
-                // check start of string
+                // filename
+                var fname = handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesFileDialog[use])
+
+                // check start of filename
                 var thisIsIt = true
                 for(var j = 0; j < files_grid.navigateToFileStartingWith.length; ++j) {
-
-                    var fname = handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesFileDialog[use])
 
                     if(j >= fname.length) {
                         thisIsIt = false
                         break
                     }
 
-
+                    // found mismatch
                     if(handlingShortcuts.convertCharacterToKeyCode(fname[j]) != files_grid.navigateToFileStartingWith[j]) {
                         thisIsIt = false
                         break
@@ -1076,6 +1140,7 @@ GridView {
 
                 }
 
+                // done
                 if(thisIsIt) {
                     currentIndex = use
                     break
@@ -1083,6 +1148,7 @@ GridView {
 
             }
 
+            // restart resetting variable
             resetNavigateToFileStartingWith.restart()
 
         }
