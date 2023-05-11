@@ -10,7 +10,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="dev")
+add_definitions(-DVERSION="3.2")
 
 
 ########################################
@@ -39,8 +39,8 @@ include(CMake/ListFilesResources.cmake)
 option(RAW "Use libraw library" ON)
 option(EXIV2 "Use exiv2 library" ON)
 option(OLDEXIV2 "Use exiv2 library (v0.25 or older)" OFF)
-option(GRAPHICSMAGICK "Use GraphicsMagick library" ON)
-option(IMAGEMAGICK "Use ImageMagick library" OFF)
+option(GRAPHICSMAGICK "Use GraphicsMagick library" OFF)
+option(IMAGEMAGICK "Use ImageMagick library" ON)
 option(DEVIL "Use DevIL library" ON)
 option(FREEIMAGE "Use FreeImage library" ON)
 option(POPPLER "Use Poppler library" ON)

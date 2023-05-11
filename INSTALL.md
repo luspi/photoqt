@@ -22,12 +22,12 @@ Dependencies that are needed by default, but can be disabled via CMake:
 - FreeImage
 - DevIL
 - pugixml
+- libmpv
 - Python (incl. pychromecast package)
 
 Dependencies that are disabled by default, but can be enabled via CMake:
 
 - libvips
-- libmpv
 
 
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.

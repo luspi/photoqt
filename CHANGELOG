@@ -1,6 +1,38 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 3.2 - 2023-05-11
+----------------------------
+- add: advanced sorting by dates stored in exif meta data
+- add: more options for highlighting thumbnails in thumbnail bar
+- add: option to disable thumbnail tooltips
+- add: file dialog: looping thumbnails of images inside subfolders
+- add: file dialog: select files and folders, add file operations using global clipboard (incl. shortcuts)
+- add: file dialog: thumbnails are by default shown scaled and cropped to fit
+- add: file dialog: typing a string finds next matching file
+- improve: more aggressive freeing of memory when resetting PhotoQt
+- improve: validation check also checks directories
+- improve: detect mouse leaving application window and hide elements (main menu, meta data, etc.)
+- improve: reliability of loading and displaying image resolution
+- improve: trash handling on Linux following freedesktop.org standard
+- improve: enable MPV support by default, prefer MPV over QtMultimedia by default
+- improve: Exiv2: managing BMFF support
+- improve: file dialog: folder follows main image folder when image opened from command line
+- improve: file dialog: do not select first entry by default after new folder has been loaded
+- improve: file dialog: elide long filenames in the middle
+- improve: file dialog: when mouse cursor leaves fileview reset current index
+- improve: find and link to 'Concurrent' module
+- improve: Windows: window handling when window decoration disabled keeps window accessible
+- fix: handling of Escape key
+- fix: execution of external shortcuts
+- fix: caching thumbnails of images inside archives
+- fix: correctly removing old animated images from model (freeing up memory)
+- fix: double click on image no longer triggers background action
+- fix: window manager titles in wallpaper element were unclickable
+- fix: Windows: disable Trash feature when using Qt < 5.15
+- fix: Windows: deleting/moving animated images avoiding file locking issues
+
+
 Release 3.1 - 2023-03-07
 ----------------------------
 - add: 'scale and crop' preview images in file dialog
