@@ -836,6 +836,17 @@ GridView {
 
     }
 
+    Connections {
+        target: variables
+        onMousePosChanged: {
+            if(files_grid.currentIndex == -1)
+                return
+            var pos = files_grid.mapFromGlobal(variables.mousePos)
+            if(pos.x < 0 || pos.x > files_grid.width || pos.y < 0 || pos.y > files_grid.height)
+                files_grid.currentIndex = -1
+        }
+    }
+
     function mouseEvent(button, modifiers) {
 
         if(button == Qt.BackButton)
