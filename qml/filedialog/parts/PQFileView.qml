@@ -51,6 +51,8 @@ GridView {
     property var cutFiles: []
     property var cutFilesTimestamp: handlingGeneral.getTimestamp()
 
+    property var navigateToFileStartingWith: []
+
     Connections {
         target: handlingExternal
         onChangedClipboardData: {
@@ -860,6 +862,8 @@ GridView {
 
         if(key == Qt.Key_Down) {
 
+            files_grid.navigateToFileStartingWith = []
+
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(modifiers == Qt.NoModifier) {
@@ -880,6 +884,8 @@ GridView {
                 currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
 
         } else if(key == Qt.Key_Up) {
+
+            files_grid.navigateToFileStartingWith = []
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
@@ -904,6 +910,8 @@ GridView {
 
         } else if(key == Qt.Key_Left) {
 
+            files_grid.navigateToFileStartingWith = []
+
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(modifiers == Qt.AltModifier)
@@ -918,6 +926,8 @@ GridView {
 
         } else if(key == Qt.Key_Right) {
 
+            files_grid.navigateToFileStartingWith = []
+
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(modifiers == Qt.AltModifier)
@@ -931,6 +941,8 @@ GridView {
 
         } else if(key == Qt.Key_PageUp && modifiers == Qt.NoModifier) {
 
+            files_grid.navigateToFileStartingWith = []
+
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(PQSettings.openfileDefaultView=="list")
@@ -941,6 +953,8 @@ GridView {
 
         } else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier) {
 
+            files_grid.navigateToFileStartingWith = []
+
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             if(PQSettings.openfileDefaultView=="list")
@@ -950,6 +964,8 @@ GridView {
 
         } else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
+            files_grid.navigateToFileStartingWith = []
+
             if(currentIndex < filefoldermodel.countFoldersFileDialog) {
                 filedialog_top.setCurrentDirectory(filefoldermodel.entriesFileDialog[currentIndex])
             } else {
@@ -958,24 +974,34 @@ GridView {
                 filedialog_top.hideFileDialog()
             }
 
-        } else if((key == Qt.Key_Plus || key == Qt.Key_Equal) && modifiers == Qt.ControlModifier)
+        } else if((key == Qt.Key_Plus || key == Qt.Key_Equal) && modifiers == Qt.ControlModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             tweaks.zoomIn()
 
-        else if(key == Qt.Key_Minus && modifiers == Qt.ControlModifier)
+        } else if(key == Qt.Key_Minus && modifiers == Qt.ControlModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             tweaks.zoomOut()
 
-        else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && modifiers == Qt.AltModifier)) {
+        } else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && modifiers == Qt.AltModifier)) {
+
+            files_grid.navigateToFileStartingWith = []
 
             var old = PQSettings.openfileShowHiddenFilesFolders
             PQSettings.openfileShowHiddenFilesFolders = !old
 
-        } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier)
+        } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             filedialog_top.hideFileDialog()
 
-        else if(key == Qt.Key_Home && modifiers == Qt.NoModifier) {
+        } else if(key == Qt.Key_Home && modifiers == Qt.NoModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
@@ -983,47 +1009,93 @@ GridView {
 
         } else if(key == Qt.Key_End && modifiers == Qt.NoModifier) {
 
+            files_grid.navigateToFileStartingWith = []
+
             currentIndexChangedUsingKeyIgnoreMouse = true
 
             currentIndex = filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog-1
 
-        } else if(key == Qt.Key_C && modifiers == Qt.ControlModifier)
+        } else if(key == Qt.Key_C && modifiers == Qt.ControlModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             doCopyFiles()
 
-        else if(key == Qt.Key_X && modifiers == Qt.ControlModifier)
+        } else if(key == Qt.Key_X && modifiers == Qt.ControlModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             doCutFiles()
 
-        else if(key == Qt.Key_V && modifiers == Qt.ControlModifier)
+        } else if(key == Qt.Key_V && modifiers == Qt.ControlModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             doPasteFiles()
 
-        else if(key == Qt.Key_Delete && modifiers == Qt.NoModifier)
+        } else if(key == Qt.Key_Delete && modifiers == Qt.NoModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             doDeleteFiles()
 
-        else if(key == Qt.Key_A && modifiers == Qt.ControlModifier)
+        } else if(key == Qt.Key_A && modifiers == Qt.ControlModifier) {
+
+            files_grid.navigateToFileStartingWith = []
 
             setFilesSelection(1)
 
-        else {
+        } else {
+
+            files_grid.navigateToFileStartingWith.push(key)
 
             currentIndexChangedUsingKeyIgnoreMouse = true
 
-            var tmp = (currentIndex==-1 ? 0 : currentIndex+1)
+            var tmp = (currentIndex==-1 ? 0 : currentIndex)
 
-            for(var i = tmp; i < filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog; ++i) {
+            for(var i = tmp; i < tmp+filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog; ++i) {
 
-                if(handlingShortcuts.convertCharacterToKeyCode(handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesFileDialog[i])[0]) == key) {
-                    currentIndex = i
-                    break;
+                var use = i%(filefoldermodel.countFoldersFileDialog+filefoldermodel.countFilesFileDialog)
+
+                // check start of string
+                var thisIsIt = true
+                for(var j = 0; j < files_grid.navigateToFileStartingWith.length; ++j) {
+
+                    var fname = handlingFileDir.getFileNameFromFullPath(filefoldermodel.entriesFileDialog[use])
+
+                    if(j >= fname.length) {
+                        thisIsIt = false
+                        break
+                    }
+
+
+                    if(handlingShortcuts.convertCharacterToKeyCode(fname[j]) != files_grid.navigateToFileStartingWith[j]) {
+                        thisIsIt = false
+                        break
+                    }
+
+                }
+
+                if(thisIsIt) {
+                    currentIndex = use
+                    break
                 }
 
             }
 
+            resetNavigateToFileStartingWith.restart()
+
         }
 
+    }
+
+    Timer {
+        id: resetNavigateToFileStartingWith
+        interval: 2000
+        repeat: false
+        running: false
+        onTriggered:
+            files_grid.navigateToFileStartingWith = []
     }
 
     PQModalConfirm {
@@ -1126,6 +1198,8 @@ GridView {
         // (re-)setting the model will always reset the currentIndex to 0
         currentIndex = -1
 
+        files_grid.navigateToFileStartingWith = []
+
     }
 
     function loadFolder() {
@@ -1150,6 +1224,8 @@ GridView {
         }
 
         resetSelectedFiles()
+
+        files_grid.navigateToFileStartingWith = []
 
     }
 
