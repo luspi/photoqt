@@ -29,7 +29,7 @@ import "../../../elements"
 PQSetting {
     id: set
     //: A settings title referring to the background of PhotoQt (behind any image/element)
-    title: em.pty+qsTranslate("settingsmanager_interface", "OpenGL")
+    title: "OpenGL"
     helptext: em.pty+qsTranslate("settingsmanager_interface", "What OpenGL backend should be used (if available). A restart of PhotoQt is required for changes to take effect.")
     expertmodeonly: true
     content: [
