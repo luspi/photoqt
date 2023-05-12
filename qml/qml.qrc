@@ -180,5 +180,6 @@
         <file>modal/PQModalInform.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQHighlightAnimation.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQShowTooltip.qml</file>
+        <file>settingsmanager/tabs/interface/PQOpenGL.qml</file>
     </qresource>
 </RCC>

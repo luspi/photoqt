@@ -52,6 +52,8 @@ public:
     Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QVariantList getContextMenuEntries();
     Q_INVOKABLE QStringList getListOfFilesInClipboard();
+    Q_INVOKABLE QString getOpenGL();
+    Q_INVOKABLE void setOpenGL(QString opengl);
     Q_INVOKABLE void replaceContextMenuEntriesWithAvailable();
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE static bool importConfigFrom(QString path);

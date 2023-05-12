@@ -389,6 +389,36 @@ QStringList PQHandlingExternal::getListOfFilesInClipboard() {
 
 }
 
+QString PQHandlingExternal::getOpenGL() {
+
+    QFile file(ConfigFiles::CONFIG_DIR() + "/OpenGL");
+    if(!file.exists() || !file.open(QIODevice::ReadOnly))
+        return "auto";
+
+    QTextStream in(&file);
+    return in.readAll().trimmed();
+
+}
+
+void PQHandlingExternal::setOpenGL(QString opengl) {
+
+    QFile file(ConfigFiles::CONFIG_DIR() + "/OpenGL");
+
+    if(opengl == "auto") {
+        if(file.exists())
+            file.remove();
+        return;
+    }
+
+    if(!file.open(QIODevice::WriteOnly))
+        return;
+
+    QTextStream out(&file);
+    out << opengl;
+    file.close();
+
+}
+
 void PQHandlingExternal::replaceContextMenuEntriesWithAvailable() {
 
     // These are the possible entries

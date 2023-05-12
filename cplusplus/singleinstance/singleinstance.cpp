@@ -24,9 +24,6 @@
 
 PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
-    setApplicationName("photoqt");
-    setApplicationVersion(VERSION);
-
     // Parse the command line arguments
     PQCommandLineParser parser(*this);
     PQCommandLineResult result = parser.getResult();

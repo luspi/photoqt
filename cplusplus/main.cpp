@@ -91,12 +91,28 @@ int main(int argc, char **argv) {
     qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
 #endif
 
+    // Set app information
+    QApplication::setApplicationName("PhotoQt");
+    QApplication::setOrganizationName("");
+    QApplication::setOrganizationDomain("photoqt.org");
+    QApplication::setApplicationVersion(VERSION);
+    QApplication::setQuitOnLastWindowClosed(true);
+
     // needs to be set before Q*Application is created
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#ifdef Q_OS_WIN
-    // This appears to avoid some glitches with OpenGL and fullscreen mode on Windows
-    QApplication::setAttribute(Qt::AA_UseOpenGLES);
-#endif
+    QFile opengl(ConfigFiles::CONFIG_DIR()+"/OpenGL");
+    if(opengl.exists()) {
+        if(opengl.open(QIODevice::ReadOnly)) {
+            QTextStream in (&opengl);
+            QString ogl = in.readAll().trimmed();
+            if(ogl == "opengles")
+                QApplication::setAttribute(Qt::AA_UseOpenGLES);
+            else if(ogl == "desktopopengl")
+                QApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+            else if(ogl == "softwareopengl")
+                QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+        }
+    }
 
 #ifdef Q_OS_WIN
     // On Windows Qt uses and old and long deprecated font as default
@@ -121,14 +137,6 @@ int main(int argc, char **argv) {
         Exiv2::enableBMFF(true);
     #endif
 #endif
-
-
-    // Set app information
-    QApplication::setApplicationName("PhotoQt");
-    QApplication::setOrganizationName("");
-    QApplication::setOrganizationDomain("photoqt.org");
-    QApplication::setApplicationVersion(VERSION);
-    QApplication::setQuitOnLastWindowClosed(true);
 
     PQStartup startup;
     PQValidate validate;

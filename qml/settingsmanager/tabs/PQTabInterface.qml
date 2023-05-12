@@ -102,6 +102,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: nav.expertmodeonly }
             PQTrayIcon { id: tic }
                 PQHorizontalLine { expertModeOnly: tic.expertmodeonly }
+            PQOpenGL { id: ogl }
+                PQHorizontalLine { expertModeOnly: ogl.expertmodeonly }
             PQBackground { id: bck }
                 PQHorizontalLine { expertModeOnly: bck.expertmodeonly }
             PQOverlayColor { id: ovc }
