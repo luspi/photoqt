@@ -359,7 +359,7 @@ PQSetting {
         id: selectIcon
         modality: Qt.ApplicationModal
         fileMode: FileDialog.OpenFile
-        nameFilters: ["Images (*.jpg *.jpeg *.png *.bmp *.tiff *.webp *.icns *.icn)", "All files (*.*)"]
+        nameFilters: ["Images (*."+PQImageFormats.getEnabledFormatsQt().join(" *.")+")", "All files (*.*)"]
         property int currentIndex: -1
         onAccepted: {
 
