@@ -23,6 +23,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QLoggingCategory>
+#include <QtPlatformHeaders/QWindowsWindowFunctions>
 
 #ifdef EXIV2
     #ifdef EXIV2_ENABLE_BMFF
@@ -125,6 +126,13 @@ int main(int argc, char **argv) {
 
     // only a single instance (by default)
     PQSingleInstance app(argc, argv);
+
+#ifdef Q_OS_WIN
+    // 'Fix' for known issue with fullscreen applications
+    // https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
+    // -> has to come after construction of PQSingleInstance() but before first window is shown
+    QWindowsWindowFunctions::setHasBorderInFullScreenDefault(true);
+#endif
 
 #ifdef VIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
