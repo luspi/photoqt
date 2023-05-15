@@ -663,7 +663,7 @@ bool PQValidate::validateShortcutsDatabase() {
 
     /****************************************************/
     // First update external table
-
+/*
     QSqlQuery queryCol(dbinstalled);
     if(!queryCol.exec("SELECT count() FROM PRAGMA_TABLE_INFO('external')")) {
         LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error validating 'external' columns: " << queryCol.lastError().text().trimmed().toStdString() << NL;
@@ -744,10 +744,10 @@ bool PQValidate::validateShortcutsDatabase() {
         }
 
     }
-
+*/
     /****************************************************/
     // Validate with default data
-
+/*
     // open database
     QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     QFile::copy(":/shortcuts.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
@@ -858,7 +858,7 @@ bool PQValidate::validateShortcutsDatabase() {
     QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
     if(!file.remove())
         LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to remove ref db: " << file.errorString().toStdString() << NL;
-
+*/
     return true;
 
 }

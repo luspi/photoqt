@@ -48,7 +48,7 @@ public:
 
     Q_INVOKABLE void setDefault();
 
-    Q_INVOKABLE QStringList getCommandForShortcut(QString sh);
+    Q_INVOKABLE QVariantList getCommandsForShortcut(QString combo);
     Q_INVOKABLE QStringList getShortcutsForCommand(QString cmd);
     Q_INVOKABLE QVariantList getAllExternalShortcuts();
     Q_INVOKABLE void deleteAllExternalShortcuts();
@@ -62,7 +62,7 @@ public Q_SLOTS:
 private:
     PQShortcuts();
 
-    QMap<QString,QStringList> shortcuts;
+    QMap<QString,QVariantList> shortcuts;
     QMap<QString,QStringList> externalShortcuts;
 
     QSqlDatabase db;

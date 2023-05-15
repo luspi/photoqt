@@ -33,19 +33,42 @@ function checkComboForShortcut(combo, wheelDelta) {
         return
     }
 
-    whatToDoWithFoundShortcut(PQShortcuts.getCommandForShortcut(combo), wheelDelta)
+    var data = PQShortcuts.getCommandsForShortcut(combo)
+
+    if(data.length != 4)
+        return
+
+    var commands = data[0]
+    var cycle = data[1]*1
+    var cycletimeout = data[2]*1
+    var simultaneous = data[3]*1
+
+    if(simultaneous == 1) {
+
+        for(var c in commands) {
+            var cmd = commands[c]
+            if(cmd[0] == "_" && cmd[1] == "_")
+                executeInternalFunction(cmd)
+            else {
+                // TODO: exececuteExternal
+            }
+        }
+
+    } else {
+
+        var index = handlingShortcuts.getNextCommandInCycle(combo, cycletimeout, commands.length)
+        var cmd = commands[index]
+        if(cmd[0] == "_" && cmd[1] == "_")
+            executeInternalFunction(cmd)
+        else {
+            // TODO: exececuteExternal
+        }
+
+    }
 
 }
 
-function executeInternalFunction(func, args) {
-    whatToDoWithFoundShortcut(["",func,args])
-}
-
-function whatToDoWithFoundShortcut(sh, wheelDelta) {
-
-    var close = sh[0]
-    var cmd = sh[1]
-    var args = sh[2]
+function executeInternalFunction(cmd) {
 
     if(cmd === "__quit")
         toplevel.quitPhotoQt()
@@ -175,10 +198,5 @@ function whatToDoWithFoundShortcut(sh, wheelDelta) {
                 PQSettings.interfaceTrayIcon = 1
             toplevel.closePhotoQt()
         }
-    } else {
-        handlingExternal.executeExternal(cmd, args, filefoldermodel.currentFilePath)
-        if(close === "1")
-            toplevel.closePhotoQt()
     }
-
 }

@@ -111,7 +111,7 @@ bool PQShortcuts::backupDatabase() {
 void PQShortcuts::setDefault() {
 
     DBG << CURDATE << "PQShortcuts::setDefault()" << NL;
-
+/*
     if(readonly)
         return;
 
@@ -146,29 +146,28 @@ void PQShortcuts::setDefault() {
         LOG << "PQShortcuts::setDefault: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
 
     readDB();
-
+*/
 }
 
-QStringList PQShortcuts::getCommandForShortcut(QString sh) {
+QVariantList PQShortcuts::getCommandsForShortcut(QString combo) {
 
     DBG << CURDATE << "PQShortcuts::getCommandForShortcut()" << NL
-        << CURDATE << "** sh = " << sh.toStdString() << NL;
+        << CURDATE << "** combo = " << combo.toStdString() << NL;
 
-    QMapIterator<QString, QStringList> iter(shortcuts);
+    QMapIterator<QString, QVariantList> iter(shortcuts);
     while(iter.hasNext()) {
         iter.next();
-        if(iter.value().contains(sh))
-            return QStringList() << "0" << iter.key();
+        if(iter.key() == combo)
+            return iter.value();
     }
 
-    QMapIterator<QString, QStringList> iter2(externalShortcuts);
-    while(iter2.hasNext()) {
-        iter2.next();
-        if(iter2.value().mid(1).contains(sh))
-            return QStringList() << iter2.value().at(0) << iter2.key();
-    }
-
-    return QStringList() << "" << "";
+//    QMapIterator<QString, QStringList> iter2(externalShortcuts);
+//    while(iter2.hasNext()) {
+//        iter2.next();
+//        if(iter2.value().mid(1).contains(sh))
+//            return QStringList() << iter2.value().at(0) << iter2.key();
+//    }
+    return QVariantList();
 
 }
 
@@ -176,12 +175,12 @@ QStringList PQShortcuts::getShortcutsForCommand(QString cmd) {
 
     DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
         << CURDATE << "** cmd = " << cmd.toStdString() << NL;
-
+/*
     if(shortcuts.contains(cmd))
         return QStringList() << "0" << shortcuts[cmd];
     else if(externalShortcuts.contains(cmd))
         return externalShortcuts[cmd];
-
+*/
     return QStringList();
 
 }
@@ -191,13 +190,13 @@ QVariantList PQShortcuts::getAllExternalShortcuts() {
     DBG << CURDATE << "PQShortcuts::getAllExternalShortcuts()" << NL;
 
     QVariantList ret;
-
+/*
     QMapIterator<QString, QStringList> iter(externalShortcuts);
     while(iter.hasNext()) {
         iter.next();
         ret.append(QStringList() << iter.key() << iter.value());
     }
-
+*/
     return ret;
 
 }
@@ -207,7 +206,7 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
     DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
         << CURDATE << "** cmd = " << cmd.toStdString() << NL
         << CURDATE << "** sh = " << sh.join(", ").toStdString() << NL;
-
+/*
     if(readonly)
         return;
 
@@ -259,7 +258,7 @@ void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
     }
 
     dbCommitTimer->start();
-
+*/
 }
 
 void PQShortcuts::readDB() {
@@ -267,67 +266,33 @@ void PQShortcuts::readDB() {
     DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
 
     QSqlQuery query(db);
-    query.prepare("SELECT command, shortcuts FROM builtin");
-    if(!query.exec()) {
+    if(!query.exec("SELECT `combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous` FROM 'shortcuts'")) {
         LOG << CURDATE << "PQShortcuts::readDB() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;
     }
 
     while(query.next()) {
 
-        const QString cmd = query.record().value(0).toString();
-        QString sh = query.record().value(1).toString();
+        const QString combo = query.record().value(0).toString();
+        const QStringList commands = query.record().value(1).toString().split(":://::");
+        const int cycle = query.record().value(2).toInt();
+        const int cycletimeout = query.record().value(3).toInt();
+        const int simultaneous = query.record().value(4).toInt();
 
-        QStringList sh_parts;
-        if(sh == ",")
-            sh_parts << ",";
-        else if(sh != "") {
-            sh = sh.replace(",,","COMMA,");
-            if(sh.endsWith(", ,"))
-                sh.replace(sh.length()-3, sh.length(), ", COMMA");
-            const QStringList tmp = sh.split(",");
-            for(auto p : qAsConst(tmp))
-                sh_parts << p.replace("COMMA",",").trimmed();
-        }
-
-        shortcuts[cmd] = sh_parts;
+        shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
 
     }
 
     query.clear();
-    query.prepare("SELECT command, arguments, shortcuts, close FROM external");
-    if(!query.exec()) {
-        LOG << CURDATE << "PQShortcuts::readDB() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-        return;
-    }
 
-    while(query.next()) {
-
-        const QString cmd = query.record().value(0).toString();
-        const QString args = query.record().value(1).toString();
-        QString sh = query.record().value(2).toString();
-        const QString close = query.record().value(3).toString();
-
-        QStringList sh_parts;
-        sh_parts << close;
-        if(sh == ",")
-            sh_parts << ",";
-        else {
-            QStringList tmp = sh.replace(",,","COMMA,").split(",");
-            for(auto p : qAsConst(tmp))
-                sh_parts << p.replace("COMMA",",").trimmed();
-        }
-
-        externalShortcuts[QString("%1:://:://::%2").arg(cmd, args)] = sh_parts;
-
-    }
+    // TODO: read external shortcuts
 
 }
 
 void PQShortcuts::deleteAllExternalShortcuts() {
 
     DBG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts()" << NL;
-
+/*
     if(readonly)
         return;
 
@@ -344,5 +309,5 @@ void PQShortcuts::deleteAllExternalShortcuts() {
         LOG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts(): SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
 
     dbCommitTimer->start();
-
+*/
 }
