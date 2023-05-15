@@ -212,11 +212,11 @@ Item {
     }
 
     property var entries: [
-        ["R", ["__rotateL","__rotateR"],1,0,0],
-        ["P", ["__settings"],1,0,0],
-        ["O", ["__open"],1,0,0],
-        ["F", ["__flipH","__flipV","__rotateL","__rotateR"], 1,2,0],
-        ["S", ["__rotateL","__zoomActual"],0,0,1],
+        [["R"], ["__rotateL","__rotateR"],1,0,0],
+        [["P"], ["__settings"],1,0,0],
+        [["O","Ctrl+O","Open","Shift+Open"], ["__open"],1,0,0],
+        [["F"], ["__flipH","__flipV","__rotateL","__rotateR"], 1,2,0],
+        [["S"], ["__rotateL","__zoomActual"],0,0,1],
     ]
 
     Flickable {
@@ -289,108 +289,191 @@ Item {
                     id: deleg
 
                     width: cont.width
-                    height: ontheright.height+behaviorcont.height
+                    height: Math.max(ontheleft.height, ontheright.height)+behaviorcont.height
 
-                    // LEFT COLUMN
+                    property var combos: tab_shortcuts.entries[index][0]
+                    property var commands: tab_shortcuts.entries[index][1]
+                    property int cycle: tab_shortcuts.entries[index][2]
+                    property int cycletimeout: tab_shortcuts.entries[index][3]
+                    property int simultaneous: tab_shortcuts.entries[index][4]
+
+                    /************************/
+                    // SHORTCUT COMBOS
                     Column {
                         id: ontheleft
-
-                        y: (ontheright.height-height)/2
+                        y: (ontheright.height>height ? ((ontheright.height-height)/2) : 0)
                         width: 300
 
                         spacing: 5
 
-                        Item {
-                            width: 1
-                            height: 20
-                        }
+                        // key combo strings
+                        Flow {
 
-                        Rectangle {
+                            width: parent.width
 
-                            x: (parent.width-width)/2
-                            height: 50
-                            width: combolabel.width+50
+                            padding: 5
 
-                            color: "#2f2f2f"
+                            Repeater {
+                                model: deleg.combos.length
+                                delegate:
 
-                            radius: 10
+                                    Item {
 
-                            // key combo string
-                            PQTextL {
-                                id: combolabel
-                                x: (parent.width-width)/2
-                                y: (parent.height-height)/2
-                                font.weight: baselook.boldweight
-                                text: tab_shortcuts.entries[index][0]
+                                        x: (parent.width-width)/2
+                                        height: 60
+                                        width: comborect.width+10
+
+                                        Rectangle {
+
+                                            id: comborect
+
+                                            x: 5
+                                            y: 5
+                                            height: 50
+                                            width: combolabel.width+50
+
+                                            color: "#2f2f2f"
+
+                                            radius: 10
+                                            PQText {
+                                                id: combolabel
+                                                x: (parent.width-width)/2
+                                                y: (parent.height-height)/2
+                                                font.weight: baselook.boldweight
+                                                text: deleg.combos[index]
+                                            }
+
+                                            PQMouseArea {
+
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                tooltip: "Click to change key combination"
+
+                                            }
+                                        }
+                                    }
                             }
-
-                            PQMouseArea {
-
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                tooltip: "Click to change key combination"
-
-                            }
-
-                        }
-
-                        Item {
-                            width: 1
-                            height: 20
-                        }
-
-                    }
-
-                    // add button as white divider
-                    PQButton {
-                        id: addbutton
-                        x: ontheleft.width
-                        height: ontheright.height
-                        color: "#555555"
-                        text: "+"
-                    }
-
-                    // RIGHT COLUMN
-                    Column {
-                        id: ontheright
-                        x: ontheleft.width+addbutton.width+20
-                        width: cont.width-x
-
-                        spacing: 5
-
-                        property var cmds: tab_shortcuts.entries[index][1]
-
-                        // show all shortcut actions
-                        Repeater {
-                            model: ontheright.cmds.length
 
                             Item {
 
-                                width: parent.width
-                                height: ontheright.cmds.length==1 ? 2*c.height+20 : c.height+10
+                                height: 50
+                                width: addcombocont.width+6
 
-                                // shortcut action
-                                PQText {
-                                    id: c
-                                    y: (parent.height-height)/2
-                                    text: tab_shortcuts.strings[ontheright.cmds[index]][0]
+                                Rectangle {
+                                    id: addcombocont
+                                    x: 3
+                                    y: parent.height-height
+                                    width: addcombo.width+6
+                                    height: addcombo.height+6
+                                    color: "#2f2f2f"
+                                    radius: 5
+                                    PQTextS {
+                                        id: addcombo
+                                        x: 3
+                                        y: 3
+                                        text: "ADD"
+                                    }
+
+                                    PQMouseArea {
+
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        tooltip: "Click to add new key combination"
+
+                                    }
                                 }
 
                             }
 
                         }
 
+                    }
+
+                    /************************/
+                    // white divider
+                    Rectangle {
+                        x: ontheleft.width
+                        width: 1
+                        height: Math.max(ontheleft.height, ontheright.height)
+                        color: "#555555"
+                    }
+
+                    /************************/
+                    // SHORTCUT ACTIONS
+                    Column {
+                        id: ontheright
+                        y: (ontheleft.height>height ? ((ontheleft.height-height)/2) : 0)
+                        x: ontheleft.width+20
+                        width: cont.width-x
+
+                        spacing: 5
+
+                        // show all shortcut actions
+                        Repeater {
+                            model: deleg.commands.length
+
+                            Item {
+
+                                width: parent.width
+                                height: c.height+10
+
+                                // shortcut action
+                                PQText {
+                                    id: c
+                                    y: (parent.height-height)/2
+                                    text: tab_shortcuts.strings[deleg.commands[index]][0]
+                                }
+
+                            }
+
+                        }
+
+                        Item {
+
+                            height: addactioncont.height+10
+                            width: addactioncont.width+6
+
+                            Rectangle {
+                                id: addactioncont
+                                x: 3
+                                y: 3
+                                width: addaction.width+6
+                                height: addaction.height+6
+                                color: "#2f2f2f"
+                                radius: 5
+                                PQTextS {
+                                    id: addaction
+                                    x: 3
+                                    y: 3
+                                    text: "ADD"
+                                }
+
+                                PQMouseArea {
+
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    tooltip: "Click to add new shortcut action"
+
+                                }
+                            }
+
+                        }
+
 
                     }
 
+                    /************************/
+                    // What to do with multiple actions
                     Rectangle {
 
                         id: behaviorcont
 
-                        y: ontheright.height
+                        y: Math.max(ontheleft.height, ontheright.height)
                         width: cont.width
-                        height: ontheright.cmds.length>1 ? behavior.height+20 : 0
+                        height: deleg.commands.length>1 ? behavior.height+20 : 0
 
                         visible: height>0
                         clip: true
@@ -420,18 +503,34 @@ Item {
                                 ButtonGroup.group: radioGroup
                             }
 
-                            PQCheckbox {
-                                id: timeout_check
-                                text: "reset cycle timeout (in seconds):"
-                                font.pointSize: baselook.fontsize_s
+                            Item {
+                                width: timeout_check.width
+                                height: radio_cycle.height
+                                enabled: radio_cycle.checked
+                                PQCheckbox {
+                                    id: timeout_check
+                                    y: (parent.height-height)/2
+                                    boxWidth: 15
+                                    boxHeight: 15
+                                    text: "reset cycle timeout:"
+                                    font.pointSize: baselook.fontsize_s
+                                }
                             }
-                            PQSpinBox {
-                                id: timeout_spin
-                                enabled: timeout_check.checked
-                                width: 75
-                                height: timeout_check.height
-                                font.pointSize: baselook.fontsize_s
-                                value: 2
+
+                            Item {
+                                width: cycletimeout_slider.width
+                                height: radio_cycle.height
+                                PQSlider {
+                                    id: cycletimeout_slider
+                                    y: (parent.height-height)/2
+                                    overrideBackgroundHeight: 4
+                                    handleWidth: 15
+                                    handleHeight: 15
+                                    from: 0
+                                    to: 10
+                                    enabled: timeout_check.checked&&radio_cycle.checked
+                                    tooltip: "Timeout: " + (value==0 ? "none" : (value+"s"))
+                                }
                             }
 
                             PQRadioButton {

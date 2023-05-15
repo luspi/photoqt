@@ -32,6 +32,9 @@ CheckBox {
     font.pointSize: baselook.fontsize
     font.weight: baselook.normalweight
 
+    property int boxWidth: 20
+    property int boxHeight: 20
+
     property alias interactive: mousearea.enabled
     property string tooltip: text
     property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
@@ -46,8 +49,8 @@ CheckBox {
 
     indicator: Rectangle {
 
-        implicitWidth: 20
-        implicitHeight: 20
+        implicitWidth: control.boxWidth
+        implicitHeight: control.boxHeight
         x: control.leftPadding
         y: parent.height / 2 - height / 2
         radius: 3
