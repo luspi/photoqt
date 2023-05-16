@@ -129,6 +129,7 @@ if(LIBVIPS)
 endif()
 if(VIDEO_MPV)
     find_package(Libmpv)
+    set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_libmpv_SOURCES})
 endif()
 
 # Since Python might be imported we have to avoid using Qt keywords (like 'slots') to avoid naming conflicts
@@ -162,13 +163,7 @@ composeLangResourceFile()
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
 elseif(NOT WIN32)
-    # The below is due to some odd behavior on Debian systems (and derivatives like Ubuntu).
-    # If the mpv related files are not listed right here, then the linking will fail the first time it is run.
-    if(VIDEO_MPV)
-        add_executable(${PROJECT_NAME} ${photoqt_SOURCES} "cplusplus/libmpv/mpvqthelper.h" "cplusplus/libmpv/mpvobject.cpp" ${photoqt_RESOURCES} ${qm_files})
-    else()
-        add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_RESOURCES} ${qm_files})
-    endif()
+    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_RESOURCES} ${qm_files})
 endif()
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::Sql Qt5::PrintSupport Qt5::Concurrent)
 

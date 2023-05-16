@@ -2,6 +2,8 @@
 #### C++ SOURCES ####
 #####################
 
+SET(photoqt_SOURCES "")
+
 SET(d "cplusplus")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/logger.h ${d}/configfiles.h ${d}/keypresschecker.h ${d}/passon.h)
 
@@ -39,7 +41,5 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqpy.h)
 SET(d "cplusplus/print")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tabimageoptions.cpp ${d}/tabimagepositiontile.cpp ${d}/printsupport.cpp)
 
-if(VIDEO_MPV)
-    SET(d "cplusplus/libmpv")
-    SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mpvqthelper.h ${d}/mpvobject.cpp)
-endif()
+SET(d "cplusplus/libmpv")
+SET(photoqt_libmpv_SOURCES ${d}/mpvqthelper.h ${d}/mpvobject.cpp)
