@@ -40,6 +40,8 @@ Rectangle {
     visible: opacity > 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
+    signal addAction(var sh)
+
     property var categories: [
         "viewingimages",
         "currentimage",
@@ -64,13 +66,13 @@ Rectangle {
         "other" : em.pty+qsTranslate("settingsmanager", "Other")
     }
 
-    property var descriptions: {
-        "viewingimages" : "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images, and manipulating the current image (zoom, flip, rotation). Multiple actions can be combined for the same shortcut.",
-        "currentimage" : "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images. Multiple actions can be combined for the same shortcut.",
-        "currentfolder" : "These are actions affecting the currently loaded folder as a whole and not just single images. Multiple actions can be combined for the same shortcut.",
-        "interface" : "These affect the status and behaviour of various interface elements, regardless of the image loaded, or whether anything is loaded at all.",
-        "other" : "These ations quite simply don't really fit into any other category."
-    }
+    property var descriptions: [
+        "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images, and manipulating the current image (zoom, flip, rotation). Multiple actions can be combined for the same shortcut.",
+        "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images. Multiple actions can be combined for the same shortcut.",
+        "These are actions affecting the currently loaded folder as a whole and not just single images. Multiple actions can be combined for the same shortcut.",
+        "These affect the status and behaviour of various interface elements, regardless of the image loaded, or whether anything is loaded at all.",
+        "These ations quite simply don't really fit into any other category."
+    ]
 
     property var actionsByCategory: [[], [], [], [], []]
 
@@ -96,6 +98,8 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        onClicked:
+            hide()
     }
 
     PQTextL {
@@ -116,65 +120,80 @@ Rectangle {
         width: Math.min(800, parent.width)
         height: Math.min(600, parent.height-titletxt.height-butcont.height-40)
 
-        color: "#220000"
-        border.width: 1
-        border.color: "#330000"
+        color: "#000000"
 
-        Rectangle {
-            color: "blue"
+        ListView {
 
-            width: 300
-            height: parent.height
+            id: cattabs
 
-            ListView {
+            orientation: ListView.Vertical
+            interactive: false
 
-                orientation: ListView.Vertical
-                interactive: false
+            y: (parent.height-height)/2
 
-                y: (parent.height-height)/2
+            width: 200
+            height: insidecont.height
 
-                width: parent.width
-                height: insidecont.height
+            model: 5
 
-                model: 5
+            delegate:
+                Rectangle {
+                    width: parent.width
+                    height: insidecont.height/5
 
-                delegate:
-                    Rectangle {
-                        width: parent.width
-                        height: insidecont.height/5
-                        color: "green"
-                        PQTextL {
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            font.weight: baselook.boldweight
-                            text: categoryTitles[categories[index]]
-                        }
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                newaction_top.selectedCategory = index
-                            }
-                        }
+                    border {
+                        width: 1
+                        color: "#555555"
                     }
 
-            }
+                    color: selectedCategory==index
+                                ? "#555555"
+                                : (mouse.containsPress
+                                   ? "#444444"
+                                   : (mouse.containsMouse
+                                      ? "#3a3a3a"
+                                      : "#333333"))
 
+                    PQText {
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.weight: baselook.boldweight
+                        text: categoryTitles[categories[index]]
+                    }
+                    PQMouseArea {
+                        id: mouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            newaction_top.selectedCategory = index
+                        }
+                    }
+                }
         }
 
         Rectangle {
-            color: "yellow"
+            color: "#181818"
 
-            x: 300
-            width: parent.width-300
+            x: cattabs.width
+            width: parent.width-cattabs.width
             height: parent.height
+
+            PQText {
+                id: desclabel
+                x: 10
+                y: 10
+                width: parent.width-20
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: descriptions[selectedCategory]
+            }
 
             ListView {
                 id: actionsview
+                y: desclabel.height+20
                 width: parent.width
-                height: parent.height
+                height: parent.height-desclabel.height-20
                 orientation: ListView.Vertical
                 model: actionsByCategory[selectedCategory].length
                 spacing: 4
@@ -184,7 +203,8 @@ Rectangle {
                     Rectangle {
                         width: actionsview.width-(scroll.visible ? scroll.width : 0)
                         height: dsclabel.height+10
-                        color: "orange"
+                        color: actionmouse.containsMouse ? "#444444" : "#333333"
+                        Behavior on color { ColorAnimation { duration: 200 } }
                         PQText {
                             id: dsclabel
                             x: 5
@@ -193,11 +213,14 @@ Rectangle {
                             text: actionsByCategory[selectedCategory][index][1]
                         }
                         PQMouseArea {
+                            id: actionmouse
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 console.log("add action:", actionsByCategory[selectedCategory][index][0])
+                                addAction(actionsByCategory[selectedCategory][index][0])
+                                hide()
                             }
                         }
                     }
@@ -223,24 +246,38 @@ Rectangle {
                 id: savebut
                 text: genericStringSave
                 onClicked: {
-
+                    hide()
                 }
             }
             PQButton {
                 id: cancelbut
                 text: genericStringCancel
                 onClicked: {
-
+                    hide()
                 }
             }
         }
 
     }
 
+    Connections {
+        target: settingsmanager_top
+        onCloseModalWindow: {
+            hide()
+        }
+    }
+
     function show() {
 
         newaction_top.opacity = 1
         settingsmanager_top.modalWindowOpen = true
+    }
+
+    function hide() {
+
+        newaction_top.opacity = 0
+        settingsmanager_top.modalWindowOpen = false
+
     }
 
 }
