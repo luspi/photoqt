@@ -159,13 +159,7 @@ Item {
 
     }
 
-    property var entries: [
-        [["R"], ["__rotateL","__rotateR"],1,0,0],
-        [["P"], ["__settings"],1,0,0],
-        [["O","Ctrl+O","Open","Shift+Open"], ["__open"],1,0,0],
-        [["F"], ["__flipH","__flipV","__rotateL","__rotateR"], 1,2,0],
-        [["S"], ["__rotateL","__zoomActual"],0,0,1],
-    ]
+    property var entries: []
 
     signal highlightEntry(var idx)
 
@@ -291,6 +285,8 @@ Item {
 
                                     Item {
 
+                                        id: combodeleg
+
                                         x: (parent.width-width)/2
                                         height: 60
                                         width: comborect.width+10
@@ -304,7 +300,8 @@ Item {
                                             height: 50
                                             width: combolabel.width+50
 
-                                            color: "#2f2f2f"
+                                            color: combomouse.containsMouse ? "#484848" : "#2f2f2f"
+                                            Behavior on color { ColorAnimation { duration: 200 } }
 
                                             radius: 10
                                             PQText {
@@ -317,14 +314,15 @@ Item {
 
                                             PQMouseArea {
 
+                                                id: combomouse
+
                                                 anchors.fill: parent
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
                                                 tooltip: "Click to change key combination"
 
-                                                onClicked: {
+                                                onClicked:
                                                     newshortcut.show(deleg.currentShortcutIndex, index)
-                                                }
 
                                             }
                                         }
@@ -349,6 +347,7 @@ Item {
                                                 anchors.fill: parent
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
+                                                tooltip: "Click to delete shortcut combo"
                                                 onEntered:
                                                     parent.opacity = 0.8
                                                 onExited:
@@ -366,6 +365,7 @@ Item {
                                                 }
                                             }
                                         }
+
                                     }
                             }
 
@@ -430,7 +430,7 @@ Item {
 
                         Item {
                             width: 1
-                            height: 1
+                            height: 5
                         }
 
                         Item {
@@ -454,19 +454,23 @@ Item {
                         Repeater {
                             model: deleg.commands.length
 
-                            Item {
+                            Rectangle {
 
                                 width: ontheright.width
-                                height: c.height+10
+                                height: c2.height+10
+                                radius: 5
+
+                                color: "#222222"
 
                                 // shortcut action
                                 PQText {
-                                    id: c
+                                    id: c2
                                     x: 5
                                     y: (parent.height-height)/2
                                     text: tab_shortcuts.actions[deleg.commands[index]][0]
                                 }
 
+                                // delete action
                                 Rectangle {
                                     id: delrect
                                     anchors.fill: parent
@@ -475,6 +479,12 @@ Item {
                                     Behavior on opacity { NumberAnimation { duration: 200 } }
                                     opacity: 0
                                     visible: opacity>0
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: "x"
+                                        color: "white"
+                                        font.bold: true
+                                    }
                                 }
                                 PQMouseArea {
                                     anchors.fill: parent
@@ -520,7 +530,7 @@ Item {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    tooltip: "Click to add new shortcut action"
+                                    tooltip: "Click to add new action"
                                     onClicked: {
                                         newaction.show(deleg.currentShortcutIndex)
                                     }
@@ -542,6 +552,7 @@ Item {
                         y: Math.max(ontheleft.height, ontheright.height)
                         width: cont.width
                         height: deleg.commands.length>1 ? behavior.height+20 : 0
+                        Behavior on height { NumberAnimation { duration: 200 } }
 
                         visible: height>0
                         clip: true
@@ -567,7 +578,7 @@ Item {
                                 id: radio_cycle
                                 text: "cycle through commands one by one"
                                 font.pointSize: baselook.fontsize_s
-                                checked: true
+                                checked: deleg.cycle
                                 ButtonGroup.group: radioGroup
                             }
 
@@ -580,6 +591,7 @@ Item {
                                     y: (parent.height-height)/2
                                     boxWidth: 15
                                     boxHeight: 15
+                                    checked: deleg.cycletimeout>0
                                     text: "timeout for resetting cycle:"
                                     font.pointSize: baselook.fontsize_s
                                 }
@@ -596,6 +608,7 @@ Item {
                                     handleHeight: 15
                                     from: 0
                                     to: 10
+                                    value: deleg.cycletimeout
                                     enabled: timeout_check.checked&&radio_cycle.checked
                                     tooltip: "Timeout: " + (value==0 ? "none" : (value+"s"))
                                 }
@@ -606,6 +619,7 @@ Item {
                                 text: "run all commands at the same time"
                                 font.pointSize: baselook.fontsize_s
                                 ButtonGroup.group: radioGroup
+                                checked: deleg.simultaneous
                             }
                         }
 
@@ -692,6 +706,27 @@ Item {
 
     PQModalInform {
         id: informExisting
+    }
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            load()
+        }
+
+        onSaveAllSettings: {
+        }
+
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        tab_shortcuts.entries = PQShortcuts.getAllCurrentShortcuts()
     }
 
 }

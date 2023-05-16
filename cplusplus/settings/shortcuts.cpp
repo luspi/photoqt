@@ -161,27 +161,7 @@ QVariantList PQShortcuts::getCommandsForShortcut(QString combo) {
             return iter.value();
     }
 
-//    QMapIterator<QString, QStringList> iter2(externalShortcuts);
-//    while(iter2.hasNext()) {
-//        iter2.next();
-//        if(iter2.value().mid(1).contains(sh))
-//            return QStringList() << iter2.value().at(0) << iter2.key();
-//    }
     return QVariantList();
-
-}
-
-QStringList PQShortcuts::getShortcutsForCommand(QString cmd) {
-
-    DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL;
-/*
-    if(shortcuts.contains(cmd))
-        return QStringList() << "0" << shortcuts[cmd];
-    else if(externalShortcuts.contains(cmd))
-        return externalShortcuts[cmd];
-*/
-    return QStringList();
 
 }
 
@@ -286,6 +266,42 @@ void PQShortcuts::readDB() {
     query.clear();
 
     // TODO: read external shortcuts
+
+}
+
+QVariantList PQShortcuts::getAllCurrentShortcuts() {
+
+    QVariantList ret;
+
+    // first group combos together
+    QMap<QString, QStringList> collectCombos;
+    QMapIterator<QString, QVariantList> i(shortcuts);
+    while(i.hasNext()) {
+        i.next();
+        const QString key = i.value()[0].toStringList().join(":://::");
+        if(collectCombos.keys().contains(key))
+            collectCombos[key].push_back(i.key());
+        else
+            collectCombos.insert(key, QStringList() << i.key());
+    }
+
+    // loop over groups and compose variantlist for settings
+    QMapIterator<QString, QStringList> j(collectCombos);
+    while(j.hasNext()) {
+        j.next();
+
+        QVariantList entry;
+        entry.append(j.value());
+        entry.append(shortcuts[j.value()[0]][0]);
+        entry.append(shortcuts[j.value()[0]][1]);
+        entry.append(shortcuts[j.value()[0]][2]);
+        entry.append(shortcuts[j.value()[0]][3]);
+
+        ret.push_back(entry);
+
+    }
+
+    return ret;
 
 }
 

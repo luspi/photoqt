@@ -49,10 +49,11 @@ public:
     Q_INVOKABLE void setDefault();
 
     Q_INVOKABLE QVariantList getCommandsForShortcut(QString combo);
-    Q_INVOKABLE QStringList getShortcutsForCommand(QString cmd);
     Q_INVOKABLE QVariantList getAllExternalShortcuts();
     Q_INVOKABLE void deleteAllExternalShortcuts();
     Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
+
+    Q_INVOKABLE QVariantList getAllCurrentShortcuts();
 
     bool backupDatabase();
 

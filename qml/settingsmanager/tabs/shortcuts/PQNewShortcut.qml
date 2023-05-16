@@ -111,7 +111,7 @@ Rectangle {
         width: parent.width
         font.weight: baselook.boldweight
         horizontalAlignment: Text.AlignHCenter
-        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut")
+        text: (newshortcut_top.currentSubIndex==-1 ? em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut") : em.pty+qsTranslate("settingsmanager_shortcuts", "Set new shortcut"))
     }
 
     Rectangle {
