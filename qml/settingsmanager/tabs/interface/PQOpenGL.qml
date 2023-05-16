@@ -50,9 +50,6 @@ PQSetting {
 
         target: settingsmanager_top
 
-        onCloseModalWindow:
-            fileDialog.close()
-
         onLoadAllSettings: {
             var ogl = handlingExternal.getOpenGL()
             if(ogl == "opengles")
