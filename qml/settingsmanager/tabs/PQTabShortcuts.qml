@@ -23,191 +23,138 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
-import "./shortcutsold"
+import "./shortcuts"
 import "../../elements"
 
 Item {
 
     id: tab_shortcuts
 
-    property var strings: {
+    property var actions: {
 
-        // NAVIGATION
+        // IMAGE VIEWING
 
-                                //: Name of shortcut action
-        "__open":               [em.pty+qsTranslate("settingsmanager", "Open file (browse images)"),
-                                 //: A shortcuts category: navigation
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__filterImages":       [em.pty+qsTranslate("settingsmanager", "Filter images in folder"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__next":               [em.pty+qsTranslate("settingsmanager", "Next image"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__prev":               [em.pty+qsTranslate("settingsmanager", "Previous image"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__loadRandom":         [em.pty+qsTranslate("settingsmanager", "Load a random image"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__contextMenu":        [em.pty+qsTranslate("settingsmanager", "Show Context Menu"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__goToFirst":          [em.pty+qsTranslate("settingsmanager", "Go to first image"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__goToLast":           [em.pty+qsTranslate("settingsmanager", "Go to last image"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__viewerMode":         [em.pty+qsTranslate("settingsmanager", "Enter viewer mode"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__navigationFloating": [em.pty+qsTranslate("settingsmanager", "Show floating navigation buttons"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__close":              [em.pty+qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-                                //: Name of shortcut action
-        "__quit":               [em.pty+qsTranslate("settingsmanager", "Quit PhotoQt"),
-                                 em.pty+qsTranslate("settingsmanager", "Navigation")],
-
-
-        // IMAGE
-
-                                //: Name of shortcut action
-        "__zoomIn":             [em.pty+qsTranslate("settingsmanager", "Zoom In"),
-                                 //: A shortcuts category: image manipulation
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__zoomOut":            [em.pty+qsTranslate("settingsmanager", "Zoom Out"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__zoomActual":         [em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__zoomReset":          [em.pty+qsTranslate("settingsmanager", "Reset Zoom"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__fitInWindow":        [em.pty+qsTranslate("settingsmanager", "Toggle 'Fit in window'"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__toggleAlwaysActualSize": [em.pty+qsTranslate("settingsmanager", "Toggle: Show always actual size by default"),
-                                     em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__rotateR":            [em.pty+qsTranslate("settingsmanager", "Rotate Right"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__rotateL":            [em.pty+qsTranslate("settingsmanager", "Rotate Left"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__rotate0":            [em.pty+qsTranslate("settingsmanager", "Reset Rotation"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__flipH":              [em.pty+qsTranslate("settingsmanager", "Flip Horizontally"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__flipV":              [em.pty+qsTranslate("settingsmanager", "Flip Vertically"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__scale":              [em.pty+qsTranslate("settingsmanager", "Scale Image"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__playPauseAni":       [em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__showFaceTags":       [em.pty+qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__advancedSort":       [em.pty+qsTranslate("settingsmanager", "Advanced image sort (Setup)"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
-                                //: Name of shortcut action
-        "__advancedSortQuick":  [em.pty+qsTranslate("settingsmanager", "Advanced image sort (Quickstart)"),
-                                 em.pty+qsTranslate("settingsmanager", "Image")],
+                                 //: Name of shortcut action
+        "__next":               [em.pty+qsTranslate("settingsmanager", "Next image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__prev":               [em.pty+qsTranslate("settingsmanager", "Previous image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__goToFirst":          [em.pty+qsTranslate("settingsmanager", "Go to first image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__goToLast":           [em.pty+qsTranslate("settingsmanager", "Go to last image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__zoomIn":             [em.pty+qsTranslate("settingsmanager", "Zoom In"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__zoomOut":            [em.pty+qsTranslate("settingsmanager", "Zoom Out"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__zoomActual":         [em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__zoomReset":          [em.pty+qsTranslate("settingsmanager", "Reset Zoom"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__rotateR":            [em.pty+qsTranslate("settingsmanager", "Rotate Right"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__rotateL":            [em.pty+qsTranslate("settingsmanager", "Rotate Left"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__rotate0":            [em.pty+qsTranslate("settingsmanager", "Reset Rotation"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__flipH":              [em.pty+qsTranslate("settingsmanager", "Flip Horizontally"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__flipV":              [em.pty+qsTranslate("settingsmanager", "Flip Vertically"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__loadRandom":         [em.pty+qsTranslate("settingsmanager", "Load a random image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__showFaceTags":       [em.pty+qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__fitInWindow":        [em.pty+qsTranslate("settingsmanager", "Toggle 'Fit in window'"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__toggleAlwaysActualSize": [em.pty+qsTranslate("settingsmanager", "Toggle: Show always actual size by default"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__chromecast":         [em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device"), "viewingimages"],
 
 
-        // FILE
+        // SPECIAL ACTION WITH CURRENT IMAGE
+
+                                 //: Name of shortcut action
+        "__histogram":          [em.pty+qsTranslate("settingsmanager", "Show Histogram"), "currentimage"],
+                                 //: Name of shortcut action
+        "__viewerMode":         [em.pty+qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
+                                 //: Name of shortcut action
+        "__scale":              [em.pty+qsTranslate("settingsmanager", "Scale Image"), "currentimage"],
+                                 //: Name of shortcut action
+        "__rename":             [em.pty+qsTranslate("settingsmanager", "Rename File"), "currentimage"],
+                                 //: Name of shortcut action
+        "__delete":             [em.pty+qsTranslate("settingsmanager", "Delete File"), "currentimage"],
+                                 //: Name of shortcut action
+        "__deletePermanent":    [em.pty+qsTranslate("settingsmanager", "Delete File (without confirmation)"), "currentimage"],
+                                 //: Name of shortcut action
+        "__copy":               [em.pty+qsTranslate("settingsmanager", "Copy File to a New Location"), "currentimage"],
+                                 //: Name of shortcut action
+        "__move":               [em.pty+qsTranslate("settingsmanager", "Move File to a New Location"), "currentimage"],
+                                 //: Name of shortcut action
+        "__clipboard":          [em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard"), "currentimage"],
+                                 //: Name of shortcut action
+        "__saveAs":             [em.pty+qsTranslate("settingsmanager", "Save image in another format"), "currentimage"],
+                                 //: Name of shortcut action
+        "__print":              [em.pty+qsTranslate("settingsmanager", "Print current photo"), "currentimage"],
+                                 //: Name of shortcut action
+        "__wallpaper":          [em.pty+qsTranslate("settingsmanager", "Set as Wallpaper"), "currentimage"],
+                                 //: Name of shortcut action
+        "__imgurAnonym":        [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "currentimage"],
+                                 //: Name of shortcut action
+        "__imgur":              [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account"), "currentimage"],
+                                 //: Name of shortcut action
+        "__playPauseAni":       [em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video"), "currentimage"],
+
+
+        // ACTION WITH CURRENT FOLDER
 
                                 //: Name of shortcut action
-        "__rename":             [em.pty+qsTranslate("settingsmanager", "Rename File"),
-                                 //: A shortcuts category: file management
-                                 em.pty+qsTranslate("settingsmanager", "File")],
+        "__open":               [em.pty+qsTranslate("settingsmanager", "Open file (browse images)"), "currentfolder"],
                                 //: Name of shortcut action
-        "__delete":             [em.pty+qsTranslate("settingsmanager", "Delete File"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
-                                //: Name of shortcut action
-        "__deletePermanent":    [em.pty+qsTranslate("settingsmanager", "Delete File (without confirmation)"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
-                                //: Name of shortcut action
-        "__copy":               [em.pty+qsTranslate("settingsmanager", "Copy File to a New Location"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
-                                //: Name of shortcut action
-        "__move":               [em.pty+qsTranslate("settingsmanager", "Move File to a New Location"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
-                                //: Name of shortcut action
-        "__clipboard":          [em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
-                                //: Name of shortcut action
-        "__saveAs":             [em.pty+qsTranslate("settingsmanager", "Save image in another format"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
-                                //: Name of shortcut action
-        "__print":              [em.pty+qsTranslate("settingsmanager", "Print current photo"),
-                                 em.pty+qsTranslate("settingsmanager", "File")],
+        "__filterImages":       [em.pty+qsTranslate("settingsmanager", "Filter images in folder"), "currentfolder"],
+                                 //: Name of shortcut action
+        "__advancedSort":       [em.pty+qsTranslate("settingsmanager", "Advanced image sort (Setup)"), "currentfolder"],
+                                 //: Name of shortcut action
+        "__advancedSortQuick":  [em.pty+qsTranslate("settingsmanager", "Advanced image sort (Quickstart)"), "currentfolder"],
+                                 //: Name of shortcut action
+        "__slideshow":          [em.pty+qsTranslate("settingsmanager", "Start Slideshow (Setup)"), "currentfolder"],
+                                 //: Name of shortcut action
+        "__slideshowQuick":     [em.pty+qsTranslate("settingsmanager", "Start Slideshow (Quickstart)"), "currentfolder"],
 
-        // OTHER
+
+        // INTERFACE
+
+                                 //: Name of shortcut action
+        "__contextMenu":        [em.pty+qsTranslate("settingsmanager", "Show Context Menu"), "interface"],
+                                 //: Name of shortcut action
+        "__showMainMenu":       [em.pty+qsTranslate("settingsmanager", "Hide/Show main menu"), "interface"],
+                                 //: Name of shortcut action
+        "__showMetaData":       [em.pty+qsTranslate("settingsmanager", "Hide/Show metadata"), "interface"],
+                                 //: Name of shortcut action
+        "__showThumbnails":     [em.pty+qsTranslate("settingsmanager", "Hide/Show thumbnails"), "interface"],
+                                 //: Name of shortcut action
+        "__navigationFloating": [em.pty+qsTranslate("settingsmanager", "Show floating navigation buttons"), "interface"],
+                                 //: Name of shortcut action
+        "__fullscreenToggle":   [em.pty+qsTranslate("settingsmanager", "Toggle fullscreen mode"), "interface"],
+                                 //: Name of shortcut action
+        "__close":              [em.pty+qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"), "interface"],
+                                 //: Name of shortcut action
+        "__quit":               [em.pty+qsTranslate("settingsmanager", "Quit PhotoQt"), "interface"],
+
+
+
+        // OTHER ELEMENTS
 
                                 //: Name of shortcut action
-        "__showMainMenu":       [em.pty+qsTranslate("settingsmanager", "Hide/Show main menu"),
-                                 //: A shortcuts category: other functions
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
+        "__settings":           [em.pty+qsTranslate("settingsmanager", "Show Settings"), "other"],
                                 //: Name of shortcut action
-        "__showMetaData":       [em.pty+qsTranslate("settingsmanager", "Hide/Show metadata"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
+        "__about":              [em.pty+qsTranslate("settingsmanager", "About PhotoQt"), "other"],
                                 //: Name of shortcut action
-        "__keepMetaData":       [em.pty+qsTranslate("settingsmanager", "Keep metadata opened"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
+        "__logging":            [em.pty+qsTranslate("settingsmanager", "Show log/debug messages"), "other"],
                                 //: Name of shortcut action
-        "__showThumbnails":     [em.pty+qsTranslate("settingsmanager", "Hide/Show thumbnails"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
+        "__resetSession":       [em.pty+qsTranslate("settingsmanager", "Reset current session"), "other"],
                                 //: Name of shortcut action
-        "__settings":           [em.pty+qsTranslate("settingsmanager", "Show Settings"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__slideshow":          [em.pty+qsTranslate("settingsmanager", "Start Slideshow (Setup)"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__slideshowQuick":     [em.pty+qsTranslate("settingsmanager", "Start Slideshow (Quickstart)"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__about":              [em.pty+qsTranslate("settingsmanager", "About PhotoQt"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__wallpaper":          [em.pty+qsTranslate("settingsmanager", "Set as Wallpaper"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__histogram":          [em.pty+qsTranslate("settingsmanager", "Show Histogram"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__imgurAnonym":        [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__imgur":              [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__chromecast":         [em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__logging":            [em.pty+qsTranslate("settingsmanager", "Show log/debug messages"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__fullscreenToggle":   [em.pty+qsTranslate("settingsmanager", "Toggle fullscreen mode"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__resetSession":       [em.pty+qsTranslate("settingsmanager", "Reset current session"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")],
-                                //: Name of shortcut action
-        "__resetSessionAndHide":[em.pty+qsTranslate("settingsmanager", "Reset current session and hide window"),
-                                 em.pty+qsTranslate("settingsmanager", "Other")]
+        "__resetSessionAndHide":[em.pty+qsTranslate("settingsmanager", "Reset current session and hide window"), "other"],
 
     }
 
@@ -423,7 +370,7 @@ Item {
                                 PQText {
                                     id: c
                                     y: (parent.height-height)/2
-                                    text: tab_shortcuts.strings[deleg.commands[index]][0]
+                                    text: tab_shortcuts.actions[deleg.commands[index]][0]
                                 }
 
                             }
@@ -456,6 +403,9 @@ Item {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     tooltip: "Click to add new shortcut action"
+                                    onClicked: {
+                                        newaction.show()
+                                    }
 
                                 }
                             }
@@ -564,6 +514,10 @@ Item {
 
         }
 
+    }
+
+    PQNewAction {
+        id: newaction
     }
 
 }
