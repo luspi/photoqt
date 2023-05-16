@@ -25,6 +25,7 @@ import QtQuick.Controls 2.2
 
 import "./shortcuts"
 import "../../elements"
+import "../../modal"
 
 Item {
 
@@ -166,6 +167,8 @@ Item {
         [["S"], ["__rotateL","__zoomActual"],0,0,1],
     ]
 
+    signal highlightEntry(var idx)
+
     Flickable {
 
         id: cont
@@ -223,6 +226,8 @@ Item {
 
             ListView {
 
+                id: entriesview
+
                 width: cont.width
                 height: childrenRect.height
 
@@ -231,7 +236,7 @@ Item {
 
                 model: tab_shortcuts.entries.length
 
-                delegate: Item {
+                delegate: Rectangle {
 
                     id: deleg
 
@@ -243,6 +248,26 @@ Item {
                     property int cycle: tab_shortcuts.entries[index][2]
                     property int cycletimeout: tab_shortcuts.entries[index][3]
                     property int simultaneous: tab_shortcuts.entries[index][4]
+
+                    property int currentShortcutIndex: index
+
+                    color: "#00000000"
+                    Behavior on color {
+                        SequentialAnimation {
+                            loops: 5
+                            ColorAnimation { from: "#00ffffff"; to: "#44ffffff"; duration: 500 }
+                            ColorAnimation { from: "#44ffffff"; to: "#00ffffff"; duration: 500 }
+                        }
+                    }
+
+                    Connections {
+                        target: tab_shortcuts
+                        onHighlightEntry: {
+                            if(idx == deleg.currentShortcutIndex) {
+                                deleg.color = "#44ffffff"
+                            }
+                        }
+                    }
 
                     /************************/
                     // SHORTCUT COMBOS
@@ -297,6 +322,48 @@ Item {
                                                 cursorShape: Qt.PointingHandCursor
                                                 tooltip: "Click to change key combination"
 
+                                                onClicked: {
+                                                    newshortcut.show(deleg.currentShortcutIndex, index)
+                                                }
+
+                                            }
+                                        }
+
+                                        // deleetion 'x' for shortcut
+                                        Rectangle {
+                                            x: 0
+                                            y: 0
+                                            width: 20
+                                            height: 20
+                                            color: "#ff0000"
+                                            radius: 5
+                                            opacity: 0.2
+                                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                                            Text {
+                                                anchors.centerIn: parent
+                                                font.weight: baselook.boldweight
+                                                color: "white"
+                                                text: "x"
+                                            }
+                                            PQMouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onEntered:
+                                                    parent.opacity = 0.8
+                                                onExited:
+                                                    parent.opacity = 0.2
+                                                onClicked: {
+                                                    tab_shortcuts.entries[deleg.currentShortcutIndex][0].splice(index,1)
+
+                                                    if(tab_shortcuts.entries[deleg.currentShortcutIndex][0].length == 0) {
+                                                        confirmEmptyDelete.hideIndex = deleg.currentShortcutIndex
+                                                        confirmEmptyDelete.askForConfirmation("There is currently no shortcut set. If no shortcut is set before saving, then this entry will be deleted.",
+                                                                                              "Do you already want to hide it from the view now?")
+                                                    }
+                                                    tab_shortcuts.entriesChanged()
+
+                                                }
                                             }
                                         }
                                     }
@@ -329,6 +396,10 @@ Item {
                                         cursorShape: Qt.PointingHandCursor
                                         tooltip: "Click to add new key combination"
 
+                                        onClicked: {
+                                            newshortcut.show(deleg.currentShortcutIndex, -1)
+                                        }
+
                                     }
                                 }
 
@@ -353,9 +424,31 @@ Item {
                         id: ontheright
                         y: (ontheleft.height>height ? ((ontheleft.height-height)/2) : 0)
                         x: ontheleft.width+20
-                        width: cont.width-x
+                        width: deleg.width-ontheleft.width-40
 
                         spacing: 5
+
+                        Item {
+                            width: 1
+                            height: 1
+                        }
+
+                        Item {
+
+                            width: ontheright.width
+                            height: c.height+10
+                            visible: deleg.commands.length==0
+
+                            // no shortcut action selected
+                            PQText {
+                                id: c
+                                x: 5
+                                y: (parent.height-height)/2
+                                text: "no action selected"
+                                opacity: 0.4
+                                font.italic: true
+                            }
+                        }
 
                         // show all shortcut actions
                         Repeater {
@@ -363,14 +456,39 @@ Item {
 
                             Item {
 
-                                width: parent.width
+                                width: ontheright.width
                                 height: c.height+10
 
                                 // shortcut action
                                 PQText {
                                     id: c
+                                    x: 5
                                     y: (parent.height-height)/2
                                     text: tab_shortcuts.actions[deleg.commands[index]][0]
+                                }
+
+                                Rectangle {
+                                    id: delrect
+                                    anchors.fill: parent
+                                    radius: 5
+                                    color: "#88ff0000"
+                                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                                    opacity: 0
+                                    visible: opacity>0
+                                }
+                                PQMouseArea {
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    tooltip: "Click to delete action"
+                                    onEntered:
+                                        delrect.opacity = 1
+                                    onExited:
+                                        delrect.opacity = 0
+                                    onClicked: {
+                                        tab_shortcuts.entries[deleg.currentShortcutIndex][1].splice(index,1)
+                                        tab_shortcuts.entriesChanged()
+                                    }
                                 }
 
                             }
@@ -404,7 +522,7 @@ Item {
                                     cursorShape: Qt.PointingHandCursor
                                     tooltip: "Click to add new shortcut action"
                                     onClicked: {
-                                        newaction.show()
+                                        newaction.show(deleg.currentShortcutIndex)
                                     }
 
                                 }
@@ -462,7 +580,7 @@ Item {
                                     y: (parent.height-height)/2
                                     boxWidth: 15
                                     boxHeight: 15
-                                    text: "reset cycle timeout:"
+                                    text: "timeout for resetting cycle:"
                                     font.pointSize: baselook.fontsize_s
                                 }
                             }
@@ -485,7 +603,7 @@ Item {
 
                             PQRadioButton {
                                 x: 40
-                                text: "run all commands simultaneously"
+                                text: "run all commands at the same time"
                                 font.pointSize: baselook.fontsize_s
                                 ButtonGroup.group: radioGroup
                             }
@@ -517,7 +635,63 @@ Item {
     }
 
     PQNewAction {
+
         id: newaction
+
+        onAddAction: {
+
+            tab_shortcuts.entries[idx][1].push(act)
+            tab_shortcuts.entriesChanged()
+
+        }
+
+    }
+
+    PQNewShortcut {
+        id: newshortcut
+        onNewCombo: {
+
+            // first we need to check if that shortcut is already used somewhere
+            var usedIndex = -1
+            for(var i in tab_shortcuts.entries) {
+                var combos = tab_shortcuts.entries[i][0]
+                if(combos.includes(combo)) {
+                    usedIndex = i
+                    break
+                }
+            }
+
+            if(usedIndex != -1) {
+
+                informExisting.informUser("Duplicate shortcut", "The shortcut is already set somewhere else.", "It needs to be deleted there before it can be added here.")
+                entriesview.positionViewAtIndex(usedIndex, ListView.Contain)
+                tab_shortcuts.highlightEntry(usedIndex)
+
+            } else {
+
+                if(subindex == -1)
+                    tab_shortcuts.entries[index][0].push(combo)
+                else
+                    tab_shortcuts.entries[index][0][subindex] = combo
+                tab_shortcuts.entriesChanged()
+            }
+
+        }
+    }
+
+    PQModalConfirm {
+        id: confirmEmptyDelete
+        property int hideIndex: -1
+        onYes: {
+            if(hideIndex == -1)
+                return
+            tab_shortcuts.entries.splice(hideIndex,1)
+            tab_shortcuts.entriesChanged()
+        }
+    }
+
+    PQModalInform {
+        id: informExisting
     }
 
 }

@@ -32,9 +32,10 @@ MessageDialog {
 
     modality: Qt.WindowModal
 
-    function informUser(title, text) {
+    function informUser(title, text, informativeText) {
         top.title = title
         top.text = text
+        top.informativeText = informativeText
         top.open()
     }
 

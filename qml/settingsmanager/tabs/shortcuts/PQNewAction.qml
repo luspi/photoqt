@@ -40,7 +40,7 @@ Rectangle {
     visible: opacity > 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-    signal addAction(var sh)
+    signal addAction(var idx, var act)
 
     property var categories: [
         "viewingimages",
@@ -76,24 +76,9 @@ Rectangle {
 
     property var actionsByCategory: [[], [], [], [], []]
 
-    Component.onCompleted: {
-        //: A shortcuts category: actions with current folder
-
-        for(var cmd in tab_shortcuts.actions) {
-
-            var cat = tab_shortcuts.actions[cmd][1]
-            var idx = categoriesToIndex[cat]
-            var dsc = tab_shortcuts.actions[cmd][0]
-
-            actionsByCategory[idx].push([cmd,dsc])
-
-        }
-
-        actionsByCategoryChanged()
-
-    }
-
     property int selectedCategory: 0
+
+    property int currentShortcutIndex: -1
 
     MouseArea {
         anchors.fill: parent
@@ -218,8 +203,7 @@ Rectangle {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                console.log("add action:", actionsByCategory[selectedCategory][index][0])
-                                addAction(actionsByCategory[selectedCategory][index][0])
+                                addAction(newaction_top.currentShortcutIndex, actionsByCategory[selectedCategory][index][0])
                                 hide()
                             }
                         }
@@ -260,6 +244,23 @@ Rectangle {
 
     }
 
+    Component.onCompleted: {
+        //: A shortcuts category: actions with current folder
+
+        for(var cmd in tab_shortcuts.actions) {
+
+            var cat = tab_shortcuts.actions[cmd][1]
+            var idx = categoriesToIndex[cat]
+            var dsc = tab_shortcuts.actions[cmd][0]
+
+            actionsByCategory[idx].push([cmd,dsc])
+
+        }
+
+        actionsByCategoryChanged()
+
+    }
+
     Connections {
         target: settingsmanager_top
         onCloseModalWindow: {
@@ -267,10 +268,11 @@ Rectangle {
         }
     }
 
-    function show() {
+    function show(index) {
 
         newaction_top.opacity = 1
         settingsmanager_top.modalWindowOpen = true
+        newaction_top.currentShortcutIndex = index
     }
 
     function hide() {

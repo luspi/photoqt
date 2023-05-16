@@ -184,5 +184,6 @@
         <file>settingsmanager/tabs/PQTabShortcuts.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQNewAction.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQNewShortcut.qml</file>
     </qresource>
 </RCC>
