@@ -640,7 +640,7 @@ Item {
                                     x: 30
                                     y: (parent.height-height)/2
                                     text: cmd.startsWith("__")
-                                                ? (tab_shortcuts.actions[cmd][0])
+                                                ? (cmd in tab_shortcuts.actions ? tab_shortcuts.actions[cmd][0] : cmd)
                                                   //: This is an identifier in the shortcuts settings used to identify an external shortcut.
                                                 : ("<i>" + em.pty+qsTranslate("settingsmanager_shortcuts", "external") + "</i>: " +
                                                    cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] +

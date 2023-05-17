@@ -342,7 +342,17 @@ bool PQStartup::renameSettings() {
 
 bool PQStartup::renameShortcuts() {
 
-    // nothing right now
+    QSqlDatabase db = QSqlDatabase::database("shortcuts");
+
+    // delete old entries
+    QSqlQuery query(db);
+    if(!query.exec("DELETE FROM shortcuts WHERE commands like '__keepMetaData'")) {
+        LOG << CURDATE << "PQValidate::renameShortcuts(): Error removing old shortcut '__keepMetaData': " << query.lastError().text().trimmed().toStdString() << NL;
+        query.clear();
+        return false;
+    }
+
+    query.clear();
 
     return true;
 
