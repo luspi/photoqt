@@ -937,8 +937,6 @@ bool PQValidate::validateSettingsValues() {
     for(int i = 0; i < toUpdate.size(); ++i) {
         QList<QVariant> lst = toUpdate.at(i);
 
-        qDebug() << "updating:" << lst;
-
         QSqlQuery query(dbinstalled);
 
         query.prepare(QString("UPDATE %1 SET value=:val WHERE name=:name").arg(lst.at(0).toString()));
