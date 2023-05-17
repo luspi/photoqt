@@ -165,82 +165,6 @@ QVariantList PQShortcuts::getCommandsForShortcut(QString combo) {
 
 }
 
-QVariantList PQShortcuts::getAllExternalShortcuts() {
-
-    DBG << CURDATE << "PQShortcuts::getAllExternalShortcuts()" << NL;
-
-    QVariantList ret;
-/*
-    QMapIterator<QString, QStringList> iter(externalShortcuts);
-    while(iter.hasNext()) {
-        iter.next();
-        ret.append(QStringList() << iter.key() << iter.value());
-    }
-*/
-    return ret;
-
-}
-
-void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
-
-    DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL
-        << CURDATE << "** sh = " << sh.join(", ").toStdString() << NL;
-/*
-    if(readonly)
-        return;
-
-    dbCommitTimer->stop();
-    if(!dbIsTransaction) {
-        db.transaction();
-        dbIsTransaction = true;
-    }
-
-    if(cmd.startsWith("__")) {
-
-        shortcuts[cmd] = sh;
-
-        QSqlQuery query(db);
-        query.prepare("UPDATE builtin SET shortcuts=:sh WHERE command=:cmd");
-        query.bindValue(":sh", sh.join(", "));
-        query.bindValue(":cmd", cmd);
-        if(!query.exec())
-            LOG << CURDATE << "PQShortcuts::setShortcut() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-    } else {
-
-        if(externalShortcuts.contains(cmd)) {
-
-            externalShortcuts[cmd] = sh;
-
-            QSqlQuery query(db);
-            query.prepare("UPDATE external SET shortcuts=:sh,close=:cl WHERE command=:cmd");
-            query.bindValue(":cl", sh[0]);
-            query.bindValue(":sh", sh.mid(1).join(", "));
-            query.bindValue(":cmd", cmd);
-            if(!query.exec())
-                LOG << CURDATE << "PQShortcuts::setShortcut() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-        } else {
-
-            externalShortcuts[cmd] = sh;
-
-            QSqlQuery query(db);
-            query.prepare("INSERT INTO external (command,shortcuts,close) VALUES(:cmd, :sh, :cl)");
-            query.bindValue(":cl", sh[0]);
-            query.bindValue(":sh", sh.mid(1).join(", "));
-            query.bindValue(":cmd", cmd);
-            if(!query.exec())
-                LOG << CURDATE << "PQShortcuts::setShortcut() [3]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-        }
-
-    }
-
-    dbCommitTimer->start();
-*/
-}
-
 void PQShortcuts::readDB() {
 
     DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
@@ -264,8 +188,6 @@ void PQShortcuts::readDB() {
     }
 
     query.clear();
-
-    // TODO: read external shortcuts
 
 }
 
@@ -335,27 +257,4 @@ void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
 
     }
 
-}
-
-void PQShortcuts::deleteAllExternalShortcuts() {
-
-    DBG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts()" << NL;
-/*
-    if(readonly)
-        return;
-
-    dbCommitTimer->stop();
-    if(!dbIsTransaction) {
-        db.transaction();
-        dbIsTransaction = true;
-    }
-
-    externalShortcuts.clear();
-    QSqlQuery query(db);
-    query.prepare("DELETE FROM external");
-    if(!query.exec())
-        LOG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts(): SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-    dbCommitTimer->start();
-*/
 }
