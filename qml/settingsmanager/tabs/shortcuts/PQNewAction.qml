@@ -41,6 +41,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
     signal addAction(var idx, var act)
+    signal updateAction(var idx, var subidx, var act)
 
     property var categories: [
         "viewingimages",
@@ -219,7 +220,10 @@ Rectangle {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                addAction(newaction_top.currentShortcutIndex, actionsByCategory[selectedCategory][index][0])
+                                if(newaction_top.currentShortcutSubIndex == -1)
+                                    addAction(newaction_top.currentShortcutIndex, actionsByCategory[selectedCategory][index][0])
+                                else
+                                    updateAction(newaction_top.currentShortcutIndex, newaction_top.currentShortcutSubIndex, actionsByCategory[selectedCategory][index][0])
                                 hide()
                             }
                         }
@@ -327,7 +331,10 @@ Rectangle {
                         text: "Save external command"
                         onClicked: {
                             var act = ext_exe.text + ":/:/:" + ext_flags.text + ":/:/:" + (ext_quit.checked ? 1 : 0)
-                            addAction(newaction_top.currentShortcutIndex, act)
+                            if(newaction_top.currentShortcutSubIndex == -1)
+                                addAction(newaction_top.currentShortcutIndex, act)
+                            else
+                                updateAction(newaction_top.currentShortcutIndex, newaction_top.currentShortcutSubIndex, act)
                             hide()
                         }
                     }

@@ -709,6 +709,13 @@ Item {
 
         }
 
+        onUpdateAction: {
+
+            tab_shortcuts.entries[idx][1][subidx] = act
+            tab_shortcuts.entriesChanged()
+
+        }
+
     }
 
     PQNewShortcut {
