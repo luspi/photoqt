@@ -105,6 +105,8 @@ Item {
         "__imgur":              [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account"), "currentimage"],
                                  //: Name of shortcut action
         "__playPauseAni":       [em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video"), "currentimage"],
+                                 //: Name of shortcut action
+        "__tagFaces":           [em.pty+qsTranslate("settingsmanager", "Start tagging faces"), "currentimage"],
 
 
         // ACTION WITH CURRENT FOLDER
