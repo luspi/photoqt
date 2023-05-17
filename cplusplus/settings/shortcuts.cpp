@@ -305,6 +305,38 @@ QVariantList PQShortcuts::getAllCurrentShortcuts() {
 
 }
 
+void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
+
+    for (int i = 0; i < list.size(); ++i) {
+
+        QVariantList cur = list.at(i).toList();
+
+        const QStringList combos = cur[0].toStringList();
+        const QStringList cmds = cur[1].toStringList();
+        const int cycle = cur[2].toInt();
+        const int cycletimeout = cur[3].toInt();
+        const int simultaneous = cur[4].toInt();
+
+        QSqlQuery query(db);
+
+        for(const auto &c : combos) {
+            query.prepare("INSERT OR REPLACE INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :cmds, :cycle, :cycletimeout, :simultaneous)");
+            query.bindValue(":combo", c);
+            query.bindValue(":cmds", cmds.join(":://::"));
+            query.bindValue(":cycle", cycle);
+            query.bindValue(":cycletimeout", cycletimeout);
+            query.bindValue(":simultaneous", simultaneous);
+            if(!query.exec()) {
+                LOG << CURDATE << "PQShortcuts::saveAllCurrentShortcuts: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+                return;
+            }
+            query.clear();
+        }
+
+    }
+
+}
+
 void PQShortcuts::deleteAllExternalShortcuts() {
 
     DBG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts()" << NL;

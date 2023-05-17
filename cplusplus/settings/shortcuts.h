@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE void setShortcut(QString cmd, QStringList shortcuts);
 
     Q_INVOKABLE QVariantList getAllCurrentShortcuts();
+    Q_INVOKABLE void saveAllCurrentShortcuts(QVariantList list);
 
     bool backupDatabase();
 

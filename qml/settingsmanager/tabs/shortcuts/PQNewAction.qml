@@ -47,7 +47,8 @@ Rectangle {
         "currentimage",
         "currentfolder",
         "interface",
-        "other"
+        "other",
+        "external"
     ]
 
     property var categoriesToIndex: {
@@ -55,7 +56,8 @@ Rectangle {
         "currentimage" : 1,
         "currentfolder" : 2,
         "interface" : 3,
-        "other" : 4
+        "other" : 4,
+        "external" : 4
     }
 
     property var categoryTitles: {
@@ -63,7 +65,8 @@ Rectangle {
         "currentimage" : em.pty+qsTranslate("settingsmanager", "Current image"),
         "currentfolder" : em.pty+qsTranslate("settingsmanager", "Current folder"),
         "interface" : em.pty+qsTranslate("settingsmanager", "Interface"),
-        "other" : em.pty+qsTranslate("settingsmanager", "Other")
+        "other" : em.pty+qsTranslate("settingsmanager", "Other"),
+        "external" : em.pty+qsTranslate("settingsmanager", "External")
     }
 
     property var descriptions: [
@@ -71,10 +74,11 @@ Rectangle {
         "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images. Multiple actions can be combined for the same shortcut.",
         "These are actions affecting the currently loaded folder as a whole and not just single images. Multiple actions can be combined for the same shortcut.",
         "These affect the status and behaviour of various interface elements, regardless of the image loaded, or whether anything is loaded at all.",
-        "These ations quite simply don't really fit into any other category."
+        "These ations quite simply don't really fit into any other category.",
+        "Here you can select any external executable and any additional flags you want to have passed on to it. You can use the button with the three dots to select an executable using a file dialog."
     ]
 
-    property var actionsByCategory: [[], [], [], [], []]
+    property var actionsByCategory: [[], [], [], [], [],[]]
 
     property int selectedCategory: 0
 
@@ -107,6 +111,12 @@ Rectangle {
 
         color: "#000000"
 
+        MouseArea {
+            anchors.fill: parent
+            anchors.margins: -10
+            hoverEnabled: true
+        }
+
         ListView {
 
             id: cattabs
@@ -119,12 +129,12 @@ Rectangle {
             width: 200
             height: insidecont.height
 
-            model: 5
+            model: 6
 
             delegate:
                 Rectangle {
                     width: parent.width
-                    height: insidecont.height/5
+                    height: insidecont.height/6
 
                     border {
                         width: 1
@@ -174,11 +184,13 @@ Rectangle {
                 text: descriptions[selectedCategory]
             }
 
+            // these are categories 1-5, all except external shortcuts
             ListView {
                 id: actionsview
                 y: desclabel.height+20
                 width: parent.width
-                height: parent.height-desclabel.height-20
+                height: parent.height-desclabel.height-25
+                visible: selectedCategory<5
                 orientation: ListView.Vertical
                 model: actionsByCategory[selectedCategory].length
                 spacing: 4
@@ -186,8 +198,10 @@ Rectangle {
                 ScrollBar.vertical: PQScrollBar { id: scroll }
                 delegate:
                     Rectangle {
-                        width: actionsview.width-(scroll.visible ? scroll.width : 0)
+                        x: 5
+                        width: actionsview.width-10-(scroll.visible ? scroll.width : 0)
                         height: dsclabel.height+10
+                        radius: 5
                         color: actionmouse.containsMouse ? "#444444" : "#333333"
                         Behavior on color { ColorAnimation { duration: 200 } }
                         PQText {
@@ -210,6 +224,108 @@ Rectangle {
                     }
             }
 
+            // This is category 6, external shortcuts
+            Item {
+
+                id: externalview
+                y: desclabel.height+20
+                width: parent.width
+                height: parent.height-desclabel.height-20
+                visible: selectedCategory==5
+
+                Column {
+
+                    x: 20
+                    width: parent.width-40
+
+                    spacing: 10
+
+                    Item {
+                        width: 1
+                        height: 1
+                    }
+
+
+                    PQText {
+                        text: "Set executable"
+                        font.weight: baselook.boldweight
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    }
+
+                    Row {
+
+                        spacing: 5
+
+                        PQLineEdit {
+                            id: ext_exe
+                            width: 300
+                            placeholderText: "executable"
+                        }
+
+                        PQButton {
+                            id: exebut
+                            text: "..."
+                            tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click here to select an executable to be used with this shortcut.")
+                        }
+
+                    }
+
+                    Item {
+                        width: 1
+                        height: 1
+                    }
+
+                    PQText {
+                        text: "Additional flags to be passed on:"
+                        font.weight: baselook.boldweight
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    }
+
+
+                    PQLineEdit {
+                        id: ext_flags
+                        width: 300
+                        placeholderText: "additional flags"
+                        tooltipText: text=="" ? placeholderText : (placeholderText + ": " + text)
+                    }
+
+                    PQText {
+                        text: "You can use the following placeholders as part of the additional flags:" + "\n" +
+                              "%f = " + em.pty+qsTranslate("settingsmanager", "filename including path") + "\n" +
+                              "%u = " + em.pty+qsTranslate("settingsmanager", "filename without path") + "\n" +
+                              "%d = " + em.pty+qsTranslate("settingsmanager", "directory containing file")
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+                    }
+
+                    Item {
+                        width: 1
+                        height: 10
+                    }
+
+                    PQCheckbox {
+                        id: ext_quit
+                        text: "quit PhotoQt after execution"
+                    }
+
+                    Item {
+                        width: 1
+                        height: 10
+                    }
+
+                    PQButton {
+                        text: "Save external command"
+                        onClicked: {
+                            var act = ext_exe.text + ":/:/:" + ext_flags.text + ":/:/:" + (ext_quit.checked ? 1 : 0)
+                            addAction(newaction_top.currentShortcutIndex, act)
+                            hide()
+                        }
+                    }
+
+                }
+
+            }
+
         }
 
     }
@@ -228,14 +344,7 @@ Rectangle {
             spacing: 10
             PQButton {
                 id: savebut
-                text: genericStringSave
-                onClicked: {
-                    hide()
-                }
-            }
-            PQButton {
-                id: cancelbut
-                text: genericStringCancel
+                text: genericStringClose
                 onClicked: {
                     hide()
                 }

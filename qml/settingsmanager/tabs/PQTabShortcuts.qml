@@ -161,6 +161,8 @@ Item {
 
     property var entries: []
 
+    property var entriesHeights: []
+
     signal highlightEntry(var idx)
 
     Flickable {
@@ -214,6 +216,14 @@ Item {
 //                text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be managed. Below you can add a new shortcut for any one of the available actions, both key combinations and mouse gestures are supported.") + "\n" + em.pty+qsTranslate("settingsmanager", "You can also set the same shortcut for multiple actions or multiple times for the same action. All actions for a shortcut will be executed sequentially, allowing a lot more flexibility in using PhotoQt.")
 //            }
 
+            PQButton {
+                text: "Add new shortcuts group"
+                onClicked: {
+                    tab_shortcuts.entries.push([[],[],1,0,0])
+                    tab_shortcuts.entriesChanged()
+                }
+            }
+
             PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
             PQDoubleClick { id: dblclk }
             PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
@@ -261,6 +271,13 @@ Item {
                                 deleg.color = "#44ffffff"
                             }
                         }
+                    }
+
+                    Component.onCompleted: {
+                        tab_shortcuts.entriesHeights[index] = height
+                    }
+                    onHeightChanged: {
+                        tab_shortcuts.entriesHeights[index] = height
                     }
 
                     /************************/
@@ -353,14 +370,10 @@ Item {
                                                 onExited:
                                                     parent.opacity = 0.2
                                                 onClicked: {
-                                                    tab_shortcuts.entries[deleg.currentShortcutIndex][0].splice(index,1)
 
-                                                    if(tab_shortcuts.entries[deleg.currentShortcutIndex][0].length == 0) {
-                                                        confirmEmptyDelete.hideIndex = deleg.currentShortcutIndex
-                                                        confirmEmptyDelete.askForConfirmation("There is currently no shortcut set. If no shortcut is set before saving, then this entry will be deleted.",
-                                                                                              "Do you already want to hide it from the view now?")
-                                                    }
-                                                    tab_shortcuts.entriesChanged()
+                                                    confirmDeleteShortcut.index = deleg.currentShortcutIndex
+                                                    confirmDeleteShortcut.subindex = index
+                                                    confirmDeleteShortcut.askForConfirmation("Are you sure you want to delete this shortcut combo?", "")
 
                                                 }
                                             }
@@ -456,6 +469,10 @@ Item {
 
                             Rectangle {
 
+                                id: cmddeleg
+
+                                property string cmd: deleg.commands[index]
+
                                 width: ontheright.width
                                 height: c2.height+10
                                 radius: 5
@@ -467,7 +484,7 @@ Item {
                                     id: c2
                                     x: 5
                                     y: (parent.height-height)/2
-                                    text: tab_shortcuts.actions[deleg.commands[index]][0]
+                                    text: cmd.startsWith("__") ? (tab_shortcuts.actions[cmd][0]) : ("<i>external</i>: " + cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
                                 }
 
                                 // delete action
@@ -496,8 +513,9 @@ Item {
                                     onExited:
                                         delrect.opacity = 0
                                     onClicked: {
-                                        tab_shortcuts.entries[deleg.currentShortcutIndex][1].splice(index,1)
-                                        tab_shortcuts.entriesChanged()
+                                        confirmDeleteAction.index = deleg.currentShortcutIndex
+                                        confirmDeleteAction.subindex = index
+                                        confirmDeleteAction.askForConfirmation("Are you sure you want to delete this action?", "")
                                     }
                                 }
 
@@ -561,7 +579,7 @@ Item {
 
                         ButtonGroup { id: radioGroup }
 
-                        Flow {
+                        Column {
                             id: behavior
                             x: 20
                             y: 10
@@ -569,57 +587,74 @@ Item {
 
                             spacing: 10
 
-                            Item {
-                                width: 10
-                                height: 1
-                            }
+                            Row {
 
-                            PQRadioButton {
-                                id: radio_cycle
-                                text: "cycle through commands one by one"
-                                font.pointSize: baselook.fontsize_s
-                                checked: deleg.cycle
-                                ButtonGroup.group: radioGroup
-                            }
+                                spacing: 10
 
-                            Item {
-                                width: timeout_check.width
-                                height: radio_cycle.height
-                                enabled: radio_cycle.checked
-                                PQCheckbox {
-                                    id: timeout_check
-                                    y: (parent.height-height)/2
-                                    boxWidth: 15
-                                    boxHeight: 15
-                                    checked: deleg.cycletimeout>0
-                                    text: "timeout for resetting cycle:"
+                                Item {
+                                    width: 1
+                                    height: 1
+                                }
+
+                                PQRadioButton {
+                                    id: radio_cycle
+                                    text: "cycle through commands one by one"
                                     font.pointSize: baselook.fontsize_s
+                                    checked: deleg.cycle
+                                    ButtonGroup.group: radioGroup
                                 }
+
+                                Item {
+                                    width: timeout_check.width
+                                    height: radio_cycle.height
+                                    enabled: radio_cycle.checked
+                                    PQCheckbox {
+                                        id: timeout_check
+                                        y: (parent.height-height)/2
+                                        boxWidth: 15
+                                        boxHeight: 15
+                                        checked: deleg.cycletimeout>0
+                                        text: "timeout for resetting cycle:"
+                                        font.pointSize: baselook.fontsize_s
+                                    }
+                                }
+
+                                Item {
+                                    width: cycletimeout_slider.width
+                                    height: radio_cycle.height
+                                    PQSlider {
+                                        id: cycletimeout_slider
+                                        y: (parent.height-height)/2
+                                        overrideBackgroundHeight: 4
+                                        handleWidth: 15
+                                        handleHeight: 15
+                                        from: 0
+                                        to: 10
+                                        value: deleg.cycletimeout
+                                        enabled: timeout_check.checked&&radio_cycle.checked
+                                        tooltip: "Timeout: " + (value==0 ? "none" : (value+"s"))
+                                    }
+                                }
+
                             }
 
-                            Item {
-                                width: cycletimeout_slider.width
-                                height: radio_cycle.height
-                                PQSlider {
-                                    id: cycletimeout_slider
-                                    y: (parent.height-height)/2
-                                    overrideBackgroundHeight: 4
-                                    handleWidth: 15
-                                    handleHeight: 15
-                                    from: 0
-                                    to: 10
-                                    value: deleg.cycletimeout
-                                    enabled: timeout_check.checked&&radio_cycle.checked
-                                    tooltip: "Timeout: " + (value==0 ? "none" : (value+"s"))
-                                }
-                            }
+                            Row {
 
-                            PQRadioButton {
-                                x: 40
-                                text: "run all commands at the same time"
-                                font.pointSize: baselook.fontsize_s
-                                ButtonGroup.group: radioGroup
-                                checked: deleg.simultaneous
+                                spacing: 10
+
+                                Item {
+                                    width: 1
+                                    height: 1
+                                }
+
+                                PQRadioButton {
+                                    x: 40
+                                    text: "run all commands at the same time"
+                                    font.pointSize: baselook.fontsize_s
+                                    ButtonGroup.group: radioGroup
+                                    checked: deleg.simultaneous
+                                }
+
                             }
                         }
 
@@ -678,7 +713,18 @@ Item {
             if(usedIndex != -1) {
 
                 informExisting.informUser("Duplicate shortcut", "The shortcut is already set somewhere else.", "It needs to be deleted there before it can be added here.")
-                entriesview.positionViewAtIndex(usedIndex, ListView.Contain)
+
+                var offset = 0
+                for(var idx = 0; idx < usedIndex; ++idx)
+                    offset += tab_shortcuts.entriesHeights[idx]
+
+                var cy_top = Math.min(entriesview.y + offset, cont.contentHeight-cont.height)
+                var cy_bot = Math.min(entriesview.y + offset-cont.height+tab_shortcuts.entriesHeights[usedIndex], cont.contentHeight-cont.height)
+                console.log(cy_top, cy_bot, cont.contentY)
+                if(cont.contentY > cy_top)
+                    cont.contentY = cy_top
+                else if(cont.contentY < cy_bot)
+                    cont.contentY = cy_bot
                 tab_shortcuts.highlightEntry(usedIndex)
 
             } else {
@@ -690,6 +736,32 @@ Item {
                 tab_shortcuts.entriesChanged()
             }
 
+        }
+    }
+
+    PQModalConfirm {
+        id: confirmDeleteAction
+        property int index: -1
+        property int subindex: -1
+        onYes: {
+            tab_shortcuts.entries[index][1].splice(subindex,1)
+            tab_shortcuts.entriesChanged()
+        }
+    }
+
+    PQModalConfirm {
+        id: confirmDeleteShortcut
+        property int index: -1
+        property int subindex: -1
+        onYes: {
+            tab_shortcuts.entries[index][0].splice(subindex,1)
+
+            if(tab_shortcuts.entries[index][0].length == 0) {
+                confirmEmptyDelete.hideIndex = index
+                confirmEmptyDelete.askForConfirmation("There is currently no shortcut set. If no shortcut is set before saving, then this entry will be deleted.",
+                                                      "Do you want to hide it from the view now?")
+            }
+            tab_shortcuts.entriesChanged()
         }
     }
 
@@ -717,6 +789,7 @@ Item {
         }
 
         onSaveAllSettings: {
+            PQShortcuts.saveAllCurrentShortcuts(tab_shortcuts.entries)
         }
 
     }
