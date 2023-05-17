@@ -59,7 +59,7 @@ Rectangle {
         "currentfolder" : 2,
         "interface" : 3,
         "other" : 4,
-        "external" : 4
+        "external" : 5
     }
 
     property var categoryTitles: {

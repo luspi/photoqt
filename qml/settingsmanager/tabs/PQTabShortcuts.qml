@@ -982,7 +982,27 @@ Item {
     }
 
     function load() {
-        tab_shortcuts.entries = PQShortcuts.getAllCurrentShortcuts()
+        var tmp = PQShortcuts.getAllCurrentShortcuts()
+
+        var ent = [[],[],[],[],[],[]]
+
+        var order = {
+            "viewingimages" : 0,
+            "currentimage" : 1,
+            "currentfolder" : 2,
+            "interface" : 3,
+            "other" : 4,
+            "external" : 5
+        }
+
+        for(var i in tmp) {
+            var cur = 5
+            if(tmp[i][1][0] in tab_shortcuts.actions)
+                cur = order[tab_shortcuts.actions[tmp[i][1][0]][1]]
+            ent[cur].push(tmp[i])
+        }
+
+        tab_shortcuts.entries = ent[0].concat(ent[1]).concat(ent[2]).concat(ent[3]).concat(ent[4]).concat(ent[5])
     }
 
     function ensureVisible(index) {
