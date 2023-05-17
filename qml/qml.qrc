@@ -113,7 +113,6 @@
         <file>settingsmanager/tabs/metadata/PQFaceTagsFontSize.qml</file>
         <file>settingsmanager/tabs/metadata/PQFaceTagsBorder.qml</file>
         <file>elements/PQHorizontalLine.qml</file>
-        <file>settingsmanager/tabs/PQTabShortcutsOld.qml</file>
         <file>settingsmanager/tabs/PQTabFileTypes.qml</file>
         <file>shortcuts/mouseshortcuts.js</file>
         <file>filemanagement/PQCopyMove.qml</file>
@@ -175,12 +174,6 @@
         <file>settingsmanager/tabs/thumbnails/PQHighlightAnimation.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQShowTooltip.qml</file>
         <file>settingsmanager/tabs/interface/PQOpenGL.qml</file>
-        <file>settingsmanager/tabs/shortcutsold/PQContainer.qml</file>
-        <file>settingsmanager/tabs/shortcutsold/PQDoubleClick.qml</file>
-        <file>settingsmanager/tabs/shortcutsold/PQExternalContainer.qml</file>
-        <file>settingsmanager/tabs/shortcutsold/PQExternalShortcutTile.qml</file>
-        <file>settingsmanager/tabs/shortcutsold/PQNewShortcut.qml</file>
-        <file>settingsmanager/tabs/shortcutsold/PQShortcutTile.qml</file>
         <file>settingsmanager/tabs/PQTabShortcuts.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQNewAction.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
