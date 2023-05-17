@@ -63,21 +63,27 @@ Rectangle {
     }
 
     property var categoryTitles: {
-        "viewingimages" : em.pty+qsTranslate("settingsmanager", "Viewing images"),
-        "currentimage" : em.pty+qsTranslate("settingsmanager", "Current image"),
-        "currentfolder" : em.pty+qsTranslate("settingsmanager", "Current folder"),
-        "interface" : em.pty+qsTranslate("settingsmanager", "Interface"),
-        "other" : em.pty+qsTranslate("settingsmanager", "Other"),
-        "external" : em.pty+qsTranslate("settingsmanager", "External")
+                          //: This is a shortcut category
+        "viewingimages" : em.pty+qsTranslate("settingsmanager_shortcuts", "Viewing images"),
+                          //: This is a shortcut category
+        "currentimage"  : em.pty+qsTranslate("settingsmanager_shortcuts", "Current image"),
+                          //: This is a shortcut category
+        "currentfolder" : em.pty+qsTranslate("settingsmanager_shortcuts", "Current folder"),
+                          //: This is a shortcut category
+        "interface"     : em.pty+qsTranslate("settingsmanager_shortcuts", "Interface"),
+                          //: This is a shortcut category
+        "other"         : em.pty+qsTranslate("settingsmanager_shortcuts", "Other"),
+                          //: This is a shortcut category
+        "external"      : em.pty+qsTranslate("settingsmanager_shortcuts", "External")
     }
 
     property var descriptions: [
-        "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images, and manipulating the current image (zoom, flip, rotation).",
-        "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images.",
-        "These are actions affecting the currently loaded folder as a whole and not just single images.",
-        "These affect the status and behaviour of various interface elements, regardless of the image loaded, or whether anything is loaded at all.",
-        "These ations quite simply don't really fit into any other category.",
-        "Here you can select any external executable and any additional flags you want to have passed on to it. You can use the button with the three dots to select an executable using a file dialog."
+        em.pty+qsTranslate("settingsmanager_shortcuts", "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images and manipulating the current image (zoom, flip, rotation) amongst others."),
+        em.pty+qsTranslate("settingsmanager_shortcuts", "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images."),
+        em.pty+qsTranslate("settingsmanager_shortcuts", "These actions affect the currently loaded folder as a whole and not just single images."),
+        em.pty+qsTranslate("settingsmanager_shortcuts", "These actions affect the status and behavior of various interface elements regardless of the status of any possibly loaded image."),
+        em.pty+qsTranslate("settingsmanager_shortcuts", "These actions do not fit into any other category."),
+        em.pty+qsTranslate("settingsmanager_shortcuts", "Here any external executable can be set as shortcut action. The button with the three dots can be used to select an executable with a file dialog.")
     ]
 
     property var actionsByCategory: [[], [], [], [], [],[]]
@@ -259,7 +265,7 @@ Rectangle {
 
 
                     PQText {
-                        text: "Set executable"
+                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Select an executable")
                         font.weight: baselook.boldweight
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
@@ -277,7 +283,7 @@ Rectangle {
                         PQButton {
                             id: exebut
                             text: "..."
-                            tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click here to select an executable to be used with this shortcut.")
+                            tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click here to select an executable.")
                             onClicked: {
                                 selectExec.folder = "file:///"+(ext_exe.text.slice(0,1) == "/"
                                                                ? handlingFileDir.getDirectory(ext_exe.text)
@@ -297,7 +303,7 @@ Rectangle {
 
                     PQText {
                         width: parent.width
-                        text: "Additional flags to be passed on:"
+                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Additional flags and options to pass on:")
                         font.weight: baselook.boldweight
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
@@ -312,11 +318,11 @@ Rectangle {
 
                     PQText {
                         width: parent.width
-                        text: "Note that relative file paths are not supported, however, you can use the following placeholders:" + "\n" +
-                              "%f = " + em.pty+qsTranslate("settingsmanager", "filename including path") + "\n" +
-                              "%u = " + em.pty+qsTranslate("settingsmanager", "filename without path") + "\n" +
-                              "%d = " + em.pty+qsTranslate("settingsmanager", "directory containing file") + "\n\n" +
-                              "If you type out a path, make sure to escape spaces accordingly by prepending a backslash: '\\ '"
+                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Note that relative file paths are not supported, however, you can use the following placeholders:") + "\n" +
+                              "%f = " + em.pty+qsTranslate("settingsmanager_shortcuts", "filename including path") + "\n" +
+                              "%u = " + em.pty+qsTranslate("settingsmanager_shortcuts", "filename without path") + "\n" +
+                              "%d = " + em.pty+qsTranslate("settingsmanager_shortcuts", "directory containing file") + "\n\n" +
+                              em.pty+qsTranslate("settingsmanager_shortcuts", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
                     }
@@ -328,7 +334,7 @@ Rectangle {
 
                     PQCheckbox {
                         id: ext_quit
-                        text: "quit PhotoQt after execution"
+                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "quit after calling executable")
                     }
 
                     Item {
@@ -337,7 +343,7 @@ Rectangle {
                     }
 
                     PQButton {
-                        text: "Save external command"
+                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Save external action")
                         onClicked: {
                             var act = ext_exe.text + ":/:/:" + ext_flags.text + ":/:/:" + (ext_quit.checked ? 1 : 0)
                             if(newaction_top.currentShortcutSubIndex == -1)

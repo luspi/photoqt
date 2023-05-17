@@ -36,128 +36,128 @@ Item {
         // IMAGE VIEWING
 
                                  //: Name of shortcut action
-        "__next":               [em.pty+qsTranslate("settingsmanager", "Next image"), "viewingimages"],
+        "__next":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Next image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__prev":               [em.pty+qsTranslate("settingsmanager", "Previous image"), "viewingimages"],
+        "__prev":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Previous image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToFirst":          [em.pty+qsTranslate("settingsmanager", "Go to first image"), "viewingimages"],
+        "__goToFirst":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Go to first image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToLast":           [em.pty+qsTranslate("settingsmanager", "Go to last image"), "viewingimages"],
+        "__goToLast":           [em.pty+qsTranslate("settingsmanager_shortcuts", "Go to last image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomIn":             [em.pty+qsTranslate("settingsmanager", "Zoom In"), "viewingimages"],
+        "__zoomIn":             [em.pty+qsTranslate("settingsmanager_shortcuts", "Zoom In"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomOut":            [em.pty+qsTranslate("settingsmanager", "Zoom Out"), "viewingimages"],
+        "__zoomOut":            [em.pty+qsTranslate("settingsmanager_shortcuts", "Zoom Out"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomActual":         [em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size"), "viewingimages"],
+        "__zoomActual":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Zoom to Actual Size"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomReset":          [em.pty+qsTranslate("settingsmanager", "Reset Zoom"), "viewingimages"],
+        "__zoomReset":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Reset Zoom"), "viewingimages"],
                                  //: Name of shortcut action
-        "__rotateR":            [em.pty+qsTranslate("settingsmanager", "Rotate Right"), "viewingimages"],
+        "__rotateR":            [em.pty+qsTranslate("settingsmanager_shortcuts", "Rotate Right"), "viewingimages"],
                                  //: Name of shortcut action
-        "__rotateL":            [em.pty+qsTranslate("settingsmanager", "Rotate Left"), "viewingimages"],
+        "__rotateL":            [em.pty+qsTranslate("settingsmanager_shortcuts", "Rotate Left"), "viewingimages"],
                                  //: Name of shortcut action
-        "__rotate0":            [em.pty+qsTranslate("settingsmanager", "Reset Rotation"), "viewingimages"],
+        "__rotate0":            [em.pty+qsTranslate("settingsmanager_shortcuts", "Reset Rotation"), "viewingimages"],
                                  //: Name of shortcut action
-        "__flipH":              [em.pty+qsTranslate("settingsmanager", "Flip Horizontally"), "viewingimages"],
+        "__flipH":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Flip Horizontally"), "viewingimages"],
                                  //: Name of shortcut action
-        "__flipV":              [em.pty+qsTranslate("settingsmanager", "Flip Vertically"), "viewingimages"],
+        "__flipV":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Flip Vertically"), "viewingimages"],
                                  //: Name of shortcut action
-        "__loadRandom":         [em.pty+qsTranslate("settingsmanager", "Load a random image"), "viewingimages"],
+        "__loadRandom":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Load a random image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__showFaceTags":       [em.pty+qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)"), "viewingimages"],
+        "__showFaceTags":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Hide/Show face tags (stored in metadata)"), "viewingimages"],
                                  //: Name of shortcut action
-        "__fitInWindow":        [em.pty+qsTranslate("settingsmanager", "Toggle 'Fit in window'"), "viewingimages"],
+        "__fitInWindow":        [em.pty+qsTranslate("settingsmanager_shortcuts", "Toggle: Fit in window"), "viewingimages"],
                                  //: Name of shortcut action
-        "__toggleAlwaysActualSize": [em.pty+qsTranslate("settingsmanager", "Toggle: Show always actual size by default"), "viewingimages"],
+        "__toggleAlwaysActualSize": [em.pty+qsTranslate("settingsmanager_shortcuts", "Toggle: Show always actual size by default"), "viewingimages"],
                                  //: Name of shortcut action
-        "__chromecast":         [em.pty+qsTranslate("settingsmanager", "Stream content to Chromecast device"), "viewingimages"],
+        "__chromecast":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Stream content to Chromecast device"), "viewingimages"],
 
 
         // SPECIAL ACTION WITH CURRENT IMAGE
 
                                  //: Name of shortcut action
-        "__histogram":          [em.pty+qsTranslate("settingsmanager", "Show Histogram"), "currentimage"],
+        "__histogram":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Show Histogram"), "currentimage"],
                                  //: Name of shortcut action
-        "__viewerMode":         [em.pty+qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
+        "__viewerMode":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Enter viewer mode"), "currentimage"],
                                  //: Name of shortcut action
-        "__scale":              [em.pty+qsTranslate("settingsmanager", "Scale Image"), "currentimage"],
+        "__scale":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Scale Image"), "currentimage"],
                                  //: Name of shortcut action
-        "__rename":             [em.pty+qsTranslate("settingsmanager", "Rename File"), "currentimage"],
+        "__rename":             [em.pty+qsTranslate("settingsmanager_shortcuts", "Rename File"), "currentimage"],
                                  //: Name of shortcut action
-        "__delete":             [em.pty+qsTranslate("settingsmanager", "Delete File"), "currentimage"],
+        "__delete":             [em.pty+qsTranslate("settingsmanager_shortcuts", "Delete File"), "currentimage"],
                                  //: Name of shortcut action
-        "__deletePermanent":    [em.pty+qsTranslate("settingsmanager", "Delete File (without confirmation)"), "currentimage"],
+        "__deletePermanent":    [em.pty+qsTranslate("settingsmanager_shortcuts", "Delete File (without confirmation)"), "currentimage"],
                                  //: Name of shortcut action
-        "__copy":               [em.pty+qsTranslate("settingsmanager", "Copy File to a New Location"), "currentimage"],
+        "__copy":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Copy File to a New Location"), "currentimage"],
                                  //: Name of shortcut action
-        "__move":               [em.pty+qsTranslate("settingsmanager", "Move File to a New Location"), "currentimage"],
+        "__move":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Move File to a New Location"), "currentimage"],
                                  //: Name of shortcut action
-        "__clipboard":          [em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard"), "currentimage"],
+        "__clipboard":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Copy Image to Clipboard"), "currentimage"],
                                  //: Name of shortcut action
-        "__saveAs":             [em.pty+qsTranslate("settingsmanager", "Save image in another format"), "currentimage"],
+        "__saveAs":             [em.pty+qsTranslate("settingsmanager_shortcuts", "Save image in another format"), "currentimage"],
                                  //: Name of shortcut action
-        "__print":              [em.pty+qsTranslate("settingsmanager", "Print current photo"), "currentimage"],
+        "__print":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Print current photo"), "currentimage"],
                                  //: Name of shortcut action
-        "__wallpaper":          [em.pty+qsTranslate("settingsmanager", "Set as Wallpaper"), "currentimage"],
+        "__wallpaper":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Set as Wallpaper"), "currentimage"],
                                  //: Name of shortcut action
-        "__imgurAnonym":        [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "currentimage"],
+        "__imgurAnonym":        [em.pty+qsTranslate("settingsmanager_shortcuts", "Upload to imgur.com (anonymously)"), "currentimage"],
                                  //: Name of shortcut action
-        "__imgur":              [em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account"), "currentimage"],
+        "__imgur":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Upload to imgur.com user account"), "currentimage"],
                                  //: Name of shortcut action
-        "__playPauseAni":       [em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video"), "currentimage"],
+        "__playPauseAni":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Play/Pause animation/video"), "currentimage"],
                                  //: Name of shortcut action
-        "__tagFaces":           [em.pty+qsTranslate("settingsmanager", "Start tagging faces"), "currentimage"],
+        "__tagFaces":           [em.pty+qsTranslate("settingsmanager_shortcuts", "Start tagging faces"), "currentimage"],
 
 
         // ACTION WITH CURRENT FOLDER
 
                                 //: Name of shortcut action
-        "__open":               [em.pty+qsTranslate("settingsmanager", "Open file (browse images)"), "currentfolder"],
+        "__open":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Open file (browse images)"), "currentfolder"],
                                 //: Name of shortcut action
-        "__filterImages":       [em.pty+qsTranslate("settingsmanager", "Filter images in folder"), "currentfolder"],
+        "__filterImages":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Filter images in folder"), "currentfolder"],
                                  //: Name of shortcut action
-        "__advancedSort":       [em.pty+qsTranslate("settingsmanager", "Advanced image sort (Setup)"), "currentfolder"],
+        "__advancedSort":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Advanced image sort (Setup)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__advancedSortQuick":  [em.pty+qsTranslate("settingsmanager", "Advanced image sort (Quickstart)"), "currentfolder"],
+        "__advancedSortQuick":  [em.pty+qsTranslate("settingsmanager_shortcuts", "Advanced image sort (Quickstart)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__slideshow":          [em.pty+qsTranslate("settingsmanager", "Start Slideshow (Setup)"), "currentfolder"],
+        "__slideshow":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Start Slideshow (Setup)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__slideshowQuick":     [em.pty+qsTranslate("settingsmanager", "Start Slideshow (Quickstart)"), "currentfolder"],
+        "__slideshowQuick":     [em.pty+qsTranslate("settingsmanager_shortcuts", "Start Slideshow (Quickstart)"), "currentfolder"],
 
 
         // INTERFACE
 
                                  //: Name of shortcut action
-        "__contextMenu":        [em.pty+qsTranslate("settingsmanager", "Show Context Menu"), "interface"],
+        "__contextMenu":        [em.pty+qsTranslate("settingsmanager_shortcuts", "Show Context Menu"), "interface"],
                                  //: Name of shortcut action
-        "__showMainMenu":       [em.pty+qsTranslate("settingsmanager", "Hide/Show main menu"), "interface"],
+        "__showMainMenu":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Hide/Show main menu"), "interface"],
                                  //: Name of shortcut action
-        "__showMetaData":       [em.pty+qsTranslate("settingsmanager", "Hide/Show metadata"), "interface"],
+        "__showMetaData":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Hide/Show metadata"), "interface"],
                                  //: Name of shortcut action
-        "__showThumbnails":     [em.pty+qsTranslate("settingsmanager", "Hide/Show thumbnails"), "interface"],
+        "__showThumbnails":     [em.pty+qsTranslate("settingsmanager_shortcuts", "Hide/Show thumbnails"), "interface"],
                                  //: Name of shortcut action
-        "__navigationFloating": [em.pty+qsTranslate("settingsmanager", "Show floating navigation buttons"), "interface"],
+        "__navigationFloating": [em.pty+qsTranslate("settingsmanager_shortcuts", "Show floating navigation buttons"), "interface"],
                                  //: Name of shortcut action
-        "__fullscreenToggle":   [em.pty+qsTranslate("settingsmanager", "Toggle fullscreen mode"), "interface"],
+        "__fullscreenToggle":   [em.pty+qsTranslate("settingsmanager_shortcuts", "Toggle fullscreen mode"), "interface"],
                                  //: Name of shortcut action
-        "__close":              [em.pty+qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"), "interface"],
+        "__close":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Close window (hides to system tray if enabled)"), "interface"],
                                  //: Name of shortcut action
-        "__quit":               [em.pty+qsTranslate("settingsmanager", "Quit PhotoQt"), "interface"],
+        "__quit":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Quit PhotoQt"), "interface"],
 
 
 
         // OTHER ELEMENTS
 
                                 //: Name of shortcut action
-        "__settings":           [em.pty+qsTranslate("settingsmanager", "Show Settings"), "other"],
+        "__settings":           [em.pty+qsTranslate("settingsmanager_shortcuts", "Show Settings"), "other"],
                                 //: Name of shortcut action
-        "__about":              [em.pty+qsTranslate("settingsmanager", "About PhotoQt"), "other"],
+        "__about":              [em.pty+qsTranslate("settingsmanager_shortcuts", "About PhotoQt"), "other"],
                                 //: Name of shortcut action
-        "__logging":            [em.pty+qsTranslate("settingsmanager", "Show log/debug messages"), "other"],
+        "__logging":            [em.pty+qsTranslate("settingsmanager_shortcuts", "Show log/debug messages"), "other"],
                                 //: Name of shortcut action
-        "__resetSession":       [em.pty+qsTranslate("settingsmanager", "Reset current session"), "other"],
+        "__resetSession":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Reset current session"), "other"],
                                 //: Name of shortcut action
-        "__resetSessionAndHide":[em.pty+qsTranslate("settingsmanager", "Reset current session and hide window"), "other"],
+        "__resetSessionAndHide":[em.pty+qsTranslate("settingsmanager_shortcuts", "Reset current session and hide window"), "other"],
 
     }
 
@@ -215,7 +215,7 @@ Item {
                 id: desc
                 width: cont.width-30
                 wrapMode: Text.WordWrap
-                text: "Here the shortcuts can be managed. Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of ycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning. Any entry group that has no key combinations set will be deleted when saved."
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "Here the shortcuts are managed. Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of cycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning. Any group that has no key combinations set will be deleted when the settings are saved.")
             }
 
             PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
@@ -223,7 +223,7 @@ Item {
             PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
 
             PQButton {
-                text: "Add new shortcuts group"
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add new shortcuts group")
                 onClicked: {
                     tab_shortcuts.entries.unshift([[],[],1,0,0])
                     tab_shortcuts.entriesChanged()
@@ -243,7 +243,7 @@ Item {
 
             PQText {
                 width: cont.width-30
-                text: "Both the key cobinations and shortcut actions can be filtered. By default, PhotoQt will check if any action or key combination includes whatever string is entered. Adding a '$' at the start or end of the search term forces a match to be either at the start or the end of a key combination or action."
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "The shortcuts can be filtered by either the key combinations or shortcut actions, or both. By default, PhotoQt will check if any action or key combination includes whatever string is entered. Adding a dollar sign ($) at the start or end of the search term forces a match to be either at the start or the end of a key combination or action.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
@@ -254,13 +254,13 @@ Item {
                 PQLineEdit {
                     id: filter_combo
                     width: 400
-                    placeholderText: "Filter for key combination"
+                    placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter key combinations")
                 }
 
                 PQLineEdit {
                     id: filter_action
                     width: col.width-400-25
-                    placeholderText: "Filter for shortcut action"
+                    placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter shortcut actions")
                 }
 
             }
@@ -275,7 +275,7 @@ Item {
                     font.italic: true
                     font.weight: baselook.boldweight
                     opacity: 0.4
-                    text: entries.length == 0 ? "no shortcuts set" : "no shortcuts found"
+                    text: entries.length == 0 ? em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcuts set") : em.pty+qsTranslate("settingsmanager_shortcuts", "no shortcuts found")
                 }
             }
 
@@ -442,7 +442,7 @@ Item {
                                     id: n
                                     x: 5
                                     y: 10
-                                    text: "no key combination set"
+                                    text: em.pty+qsTranslate("settingsmanager_shortcuts", "no key combination set")
                                     opacity: 0.4
                                     font.italic: true
                                 }
@@ -488,7 +488,7 @@ Item {
                                                 anchors.fill: parent
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
-                                                tooltip: "Click to change key combination"
+                                                tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to change key combination")
 
                                                 onClicked:
                                                     newshortcut.show(deleg.currentShortcutIndex, index)
@@ -516,7 +516,7 @@ Item {
                                                 anchors.fill: parent
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
-                                                tooltip: "Click to delete shortcut combo"
+                                                tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to delete key combination")
                                                 onEntered:
                                                     parent.opacity = 0.8
                                                 onExited:
@@ -525,7 +525,7 @@ Item {
 
                                                     confirmDeleteShortcut.index = deleg.currentShortcutIndex
                                                     confirmDeleteShortcut.subindex = index
-                                                    confirmDeleteShortcut.askForConfirmation("Are you sure you want to delete this shortcut combo?", "")
+                                                    confirmDeleteShortcut.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this key combination?"), "")
 
                                                 }
                                             }
@@ -551,7 +551,8 @@ Item {
                                         id: addcombo
                                         x: 3
                                         y: 3
-                                        text: "ADD"
+                                        //: Written on small button, used as in: add new key combination. Please keep short!
+                                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "ADD")
                                     }
 
                                     PQMouseArea {
@@ -559,7 +560,7 @@ Item {
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: Qt.PointingHandCursor
-                                        tooltip: "Click to add new key combination"
+                                        tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to add new key combination")
 
                                         onClicked: {
                                             newshortcut.show(deleg.currentShortcutIndex, -1)
@@ -609,7 +610,8 @@ Item {
                                 id: c
                                 x: 5
                                 y: (parent.height-height)/2
-                                text: "no action selected"
+                                //: The action here is a shortcut action
+                                text: em.pty+qsTranslate("settingsmanager_shortcuts", "no action selected")
                                 opacity: 0.4
                                 font.italic: true
                             }
@@ -637,7 +639,13 @@ Item {
                                     id: c2
                                     x: 30
                                     y: (parent.height-height)/2
-                                    text: cmd.startsWith("__") ? (tab_shortcuts.actions[cmd][0]) : ("<i>external</i>: " + cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
+                                    text: cmd.startsWith("__")
+                                                ? (tab_shortcuts.actions[cmd][0])
+                                                  //: This is an identifier in the shortcuts settings used to identify an external shortcut.
+                                                : ("<i>" + em.pty+qsTranslate("settingsmanager_shortcuts", "external") + "</i>: " +
+                                                   cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] +
+                                                   //: This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked
+                                                   (cmd.split(":/:/:")[2]*1==1 ? " (" + em.pty+qsTranslate("settingsmanager_shortcuts", "quit after") + ")" : ""))
                                 }
 
                                 PQMouseArea {
@@ -645,7 +653,7 @@ Item {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    tooltip: "Click to change shortcut action"
+                                    tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to change shortcut action")
                                     onClicked: {
                                         newaction.change(deleg.currentShortcutIndex, index)
                                     }
@@ -671,7 +679,7 @@ Item {
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: Qt.PointingHandCursor
-                                        tooltip: "Click to delete shortcut action"
+                                        tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to delete shortcut action")
                                         onEntered:
                                             parent.opacity = 0.8
                                         onExited:
@@ -679,7 +687,7 @@ Item {
                                         onClicked: {
                                             confirmDeleteAction.index = deleg.currentShortcutIndex
                                             confirmDeleteAction.subindex = index
-                                            confirmDeleteAction.askForConfirmation("Are you sure you want to delete this action?", "")
+                                            confirmDeleteAction.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this shortcut action?"), "")
                                         }
                                     }
                                 }
@@ -705,7 +713,8 @@ Item {
                                     id: addaction
                                     x: 3
                                     y: 3
-                                    text: "ADD"
+                                    //: Written on small button, used as in: add new shortcut action. Please keep short!
+                                    text: em.pty+qsTranslate("settingsmanager_shortcuts", "ADD")
                                 }
 
                                 PQMouseArea {
@@ -713,7 +722,8 @@ Item {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    tooltip: "Click to add new action"
+                                    //: The action here is a shortcut action
+                                    tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to add new action")
                                     onClicked: {
                                         newaction.show(deleg.currentShortcutIndex)
                                     }
@@ -763,7 +773,8 @@ Item {
 
                                 PQRadioButton {
                                     id: radio_cycle
-                                    text: "cycle through commands one by one"
+                                    //: The actions here are shortcut actions
+                                    text: em.pty+qsTranslate("settingsmanager_shortcuts", "cycle through actions one by one")
                                     font.pointSize: baselook.fontsize_s
                                     checked: deleg.cycle
                                     ButtonGroup.group: radioGroup
@@ -779,7 +790,8 @@ Item {
                                         boxWidth: 15
                                         boxHeight: 15
                                         checked: deleg.cycletimeout>0
-                                        text: "timeout for resetting cycle:"
+                                        //: The cycle here is the act of cycling through shortcut actions one by one
+                                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "timeout for resetting cycle:")
                                         font.pointSize: baselook.fontsize_s
                                     }
                                 }
@@ -797,7 +809,11 @@ Item {
                                         to: 10
                                         value: deleg.cycletimeout
                                         enabled: timeout_check.checked&&radio_cycle.checked
-                                        tooltip: "Timeout: " + (value==0 ? "none" : (value+"s"))
+                                        tooltip: (value==0
+                                                      //: Used in tooltip for slider in shortcuts settings
+                                                    ? em.pty+qsTranslate("settingsmanager_shortcuts", "Timeout: none")
+                                                       //: Used in tooltip for slider in shortcuts settings
+                                                    : (em.pty+qsTranslate("settingsmanager_shortcuts", "Timeout in seconds:")+" "+value))
                                     }
                                 }
 
@@ -814,7 +830,8 @@ Item {
 
                                 PQRadioButton {
                                     x: 40
-                                    text: "run all commands at the same time"
+                                    //: The actions here are shortcut actions
+                                    text: em.pty+qsTranslate("settingsmanager_shortcuts", "run all actions at once")
                                     font.pointSize: baselook.fontsize_s
                                     ButtonGroup.group: radioGroup
                                     checked: deleg.simultaneous
@@ -884,7 +901,10 @@ Item {
 
             if(usedIndex != -1) {
 
-                informExisting.informUser("Duplicate shortcut", "The shortcut is already set somewhere else.", "It needs to be deleted there before it can be added here.")
+                                          //: This is the title of a popup box for informing the user of a duplicate key combination
+                informExisting.informUser(em.pty+qsTranslate("settingsmanager_shortcuts", "Duplicate key combination"),
+                                          em.pty+qsTranslate("settingsmanager_shortcuts", "This key combination is already used for another shortcut."),
+                                          em.pty+qsTranslate("settingsmanager_shortcuts", "It first needs to be deleted there before it can be added here."))
 
                 ensureVisible(usedIndex)
 
@@ -919,8 +939,10 @@ Item {
 
             if(tab_shortcuts.entries[index][0].length == 0) {
                 confirmEmptyDelete.hideIndex = index
-                confirmEmptyDelete.askForConfirmation("There is currently no shortcut set. If no shortcut is set before saving, then this entry will be deleted.",
-                                                      "Do you want to hide it from the view now?")
+                                                      //: The group here is a shortcut group
+                confirmEmptyDelete.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "There is currently no key combination set. If no key combination is set before saving, then this group will be deleted."),
+                                                      //: The group here is a shortcut group
+                                                      em.pty+qsTranslate("settingsmanager_shortcuts", "Do you want to hide this group from the view now?"))
             }
             tab_shortcuts.entriesChanged()
         }
