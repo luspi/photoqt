@@ -221,8 +221,19 @@ Item {
             PQButton {
                 text: "Add new shortcuts group"
                 onClicked: {
-                    tab_shortcuts.entries.push([[],[],1,0,0])
+                    tab_shortcuts.entries.unshift([[],[],1,0,0])
                     tab_shortcuts.entriesChanged()
+                    highlightNew.restart()
+                }
+            }
+            // We use a short timeout to make sure the newly added item has been added and heights updated
+            Timer {
+                id: highlightNew
+                interval: 50
+                repeat: false
+                running: false
+                onTriggered: {
+                    ensureVisible(0)
                 }
             }
 
@@ -260,9 +271,9 @@ Item {
                     color: "#00000000"
                     Behavior on color {
                         SequentialAnimation {
-                            loops: 5
-                            ColorAnimation { from: "#00ffffff"; to: "#44ffffff"; duration: 500 }
-                            ColorAnimation { from: "#44ffffff"; to: "#00ffffff"; duration: 500 }
+                            loops: 4
+                            ColorAnimation { from: "#00ffffff"; to: "#44ffffff"; duration: 400 }
+                            ColorAnimation { from: "#44ffffff"; to: "#00ffffff"; duration: 400 }
                         }
                     }
 
@@ -736,18 +747,7 @@ Item {
 
                 informExisting.informUser("Duplicate shortcut", "The shortcut is already set somewhere else.", "It needs to be deleted there before it can be added here.")
 
-                var offset = 0
-                for(var idx = 0; idx < usedIndex; ++idx)
-                    offset += tab_shortcuts.entriesHeights[idx]
-
-                var cy_top = Math.min(entriesview.y + offset, cont.contentHeight-cont.height)
-                var cy_bot = Math.min(entriesview.y + offset-cont.height+tab_shortcuts.entriesHeights[usedIndex], cont.contentHeight-cont.height)
-                console.log(cy_top, cy_bot, cont.contentY)
-                if(cont.contentY > cy_top)
-                    cont.contentY = cy_top
-                else if(cont.contentY < cy_bot)
-                    cont.contentY = cy_bot
-                tab_shortcuts.highlightEntry(usedIndex)
+                ensureVisible(usedIndex)
 
             } else {
 
@@ -822,6 +822,22 @@ Item {
 
     function load() {
         tab_shortcuts.entries = PQShortcuts.getAllCurrentShortcuts()
+    }
+
+    function ensureVisible(index) {
+
+        var offset = 0
+        for(var idx = 0; idx < index; ++idx)
+            offset += tab_shortcuts.entriesHeights[idx]
+
+        var cy_top = Math.min(entriesview.y + offset, cont.contentHeight-cont.height)
+        var cy_bot = Math.min(entriesview.y + offset-cont.height+tab_shortcuts.entriesHeights[index], cont.contentHeight-cont.height)
+        if(cont.contentY > cy_top)
+            cont.contentY = cy_top
+        else if(cont.contentY < cy_bot)
+            cont.contentY = cy_bot
+        tab_shortcuts.highlightEntry(index)
+
     }
 
 }
