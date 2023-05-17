@@ -50,7 +50,14 @@ function checkComboForShortcut(combo, wheelDelta) {
             if(cmd[0] == "_" && cmd[1] == "_")
                 executeInternalFunction(cmd)
             else {
-                // TODO: exececuteExternal
+                if(filefoldermodel.countMainView == 0)
+                    return
+                var parts = cmd.split(":/:/:")
+                if(parts.length != 3)
+                    return
+                handlingExternal.executeExternal(parts[0], parts[1], filefoldermodel.currentFilePath)
+                if(parts[2]*1 === 1)
+                    toplevel.closePhotoQt()
             }
         }
 
@@ -61,7 +68,14 @@ function checkComboForShortcut(combo, wheelDelta) {
         if(cmd[0] == "_" && cmd[1] == "_")
             executeInternalFunction(cmd)
         else {
-            // TODO: exececuteExternal
+            if(filefoldermodel.countMainView == 0)
+                return
+            var parts = cmd.split(":/:/:")
+            if(parts.length != 3)
+                return
+            handlingExternal.executeExternal(parts[0], parts[1], filefoldermodel.currentFilePath)
+            if(parts[2]*1 === 1)
+                toplevel.closePhotoQt()
         }
 
     }

@@ -227,15 +227,20 @@ Rectangle {
             }
 
             // This is category 6, external shortcuts
-            Item {
+            Flickable {
 
                 id: externalview
                 y: desclabel.height+20
-                width: parent.width
+                width: parent.width - (extscroll.visible ? extscroll.width : 0)
                 height: parent.height-desclabel.height-20
+                contentHeight: extcol.height
+                clip: true
                 visible: selectedCategory==5
+                ScrollBar.vertical: PQScrollBar { id: extscroll }
 
                 Column {
+
+                    id: extcol
 
                     x: 20
                     width: parent.width-40
@@ -278,6 +283,7 @@ Rectangle {
                     }
 
                     PQText {
+                        width: parent.width
                         text: "Additional flags to be passed on:"
                         font.weight: baselook.boldweight
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -292,10 +298,12 @@ Rectangle {
                     }
 
                     PQText {
-                        text: "You can use the following placeholders as part of the additional flags:" + "\n" +
+                        width: parent.width
+                        text: "Note that relative file paths are not supported, however, you can use the following placeholders:" + "\n" +
                               "%f = " + em.pty+qsTranslate("settingsmanager", "filename including path") + "\n" +
                               "%u = " + em.pty+qsTranslate("settingsmanager", "filename without path") + "\n" +
-                              "%d = " + em.pty+qsTranslate("settingsmanager", "directory containing file")
+                              "%d = " + em.pty+qsTranslate("settingsmanager", "directory containing file") + "\n\n" +
+                              "If you type out a path, make sure to escape spaces accordingly by prepending a backslash: '\\ '"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
                     }

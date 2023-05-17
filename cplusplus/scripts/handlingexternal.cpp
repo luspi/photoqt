@@ -101,20 +101,12 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
         return;
 
     QFileInfo info(currentfile);
-
     QStringList argslist;
 
-    QStringList argslist_tmp = args.split(" ");
-    if(args.isEmpty()) {
-        if(exe.contains(":://:://::")) {
-            argslist_tmp = exe.split(":://:://::")[1].split(" ");
-            exe = exe.split(":://:://::")[0];
-        } else if(exe.contains(" ")) {
-            argslist_tmp = exe.split(" ");
-            exe = argslist_tmp.takeFirst();
-        }
-    }
+    args = args.replace("\\space\\", "\\spa|ce\\");
+    args = args.replace("\\ ", "\\space\\");
 
+    QStringList argslist_tmp = args.split(" ");
 
 #ifdef Q_OS_WIN
     for(auto &a : argslist_tmp) {
@@ -124,6 +116,8 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
             a = a.replace("%u", info.fileName().replace("/","\\"));
         if(a.contains("%d"))
             a = a.replace("%d", info.absolutePath().replace("/","\\"));
+        a = a.replace("\\space\\", "\\ ");
+        a = a.replace("\\spa|ce\\", "\\space\\");
         argslist << a;
     }
 #else
@@ -134,6 +128,8 @@ void PQHandlingExternal::executeExternal(QString exe, QString args, QString curr
             a = a.replace("%u", info.fileName());
         if(a.contains("%d"))
             a = a.replace("%d", info.absolutePath());
+        a = a.replace("\\space\\", " ");
+        a = a.replace("\\spa|ce\\", "\\space\\");
         argslist << a;
     }
 #endif
