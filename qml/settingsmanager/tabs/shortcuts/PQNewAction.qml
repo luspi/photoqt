@@ -83,6 +83,8 @@ Rectangle {
     property int selectedCategory: 0
 
     property int currentShortcutIndex: -1
+    property int currentShortcutSubIndex: -1
+    property string currentShortcutAction: ""
 
     MouseArea {
         anchors.fill: parent
@@ -202,7 +204,7 @@ Rectangle {
                         width: actionsview.width-10-(scroll.visible ? scroll.width : 0)
                         height: dsclabel.height+10
                         radius: 5
-                        color: actionmouse.containsMouse ? "#444444" : "#333333"
+                        color: actionmouse.containsMouse ? "#555555" : (newaction_top.currentShortcutAction==actionsByCategory[selectedCategory][index][0] ? "#444444" : "#333333")
                         Behavior on color { ColorAnimation { duration: 200 } }
                         PQText {
                             id: dsclabel
@@ -377,11 +379,44 @@ Rectangle {
         }
     }
 
+    function change(index, subindex) {
+
+        var cur = tab_shortcuts.entries[index][1][subindex]
+
+        if(cur.startsWith("__")) {
+
+            var cat = categoriesToIndex[tab_shortcuts.actions[cur][1]]
+            selectedCategory = cat
+
+        } else {
+
+            selectedCategory = 5
+
+            var parts = cur.split(":/:/:")
+            ext_exe.text = parts[0]
+            ext_flags.text = parts[1]
+            ext_quit.checked = (parts[2]*1==1)
+
+        }
+
+        newaction_top.opacity = 1
+        settingsmanager_top.modalWindowOpen = true
+        newaction_top.currentShortcutIndex = index
+        newaction_top.currentShortcutSubIndex = subindex
+        newaction_top.currentShortcutAction = cur
+
+    }
+
     function show(index) {
 
         newaction_top.opacity = 1
         settingsmanager_top.modalWindowOpen = true
         newaction_top.currentShortcutIndex = index
+        newaction_top.currentShortcutSubIndex = -1
+        newaction_top.currentShortcutAction = ""
+        ext_exe.text = ""
+        ext_flags.text = ""
+        ext_quit.checked = false
     }
 
     function hide() {

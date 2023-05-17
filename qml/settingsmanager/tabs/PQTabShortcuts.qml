@@ -209,12 +209,12 @@ Item {
                 height: 1
             }
 
-//            PQText {
-//                id: desc
-//                width: cont.width-30
-//                wrapMode: Text.WordWrap
-//                text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be managed. Below you can add a new shortcut for any one of the available actions, both key combinations and mouse gestures are supported.") + "\n" + em.pty+qsTranslate("settingsmanager", "You can also set the same shortcut for multiple actions or multiple times for the same action. All actions for a shortcut will be executed sequentially, allowing a lot more flexibility in using PhotoQt.")
-//            }
+            PQText {
+                id: desc
+                width: cont.width-30
+                wrapMode: Text.WordWrap
+                text: "Here the shortcuts can be managed. Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of ycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning."
+            }
 
             PQButton {
                 text: "Add new shortcuts group"
@@ -344,7 +344,7 @@ Item {
                                             }
                                         }
 
-                                        // deleetion 'x' for shortcut
+                                        // deletion 'x' for shortcut
                                         Rectangle {
                                             x: 0
                                             y: 0
@@ -477,45 +477,58 @@ Item {
                                 height: c2.height+10
                                 radius: 5
 
-                                color: "#222222"
+                                color: actmouse.containsMouse ? "#484848" : "#2f2f2f"
+                                Behavior on color { ColorAnimation { duration: 200 } }
 
                                 // shortcut action
                                 PQText {
                                     id: c2
-                                    x: 5
+                                    x: 30
                                     y: (parent.height-height)/2
                                     text: cmd.startsWith("__") ? (tab_shortcuts.actions[cmd][0]) : ("<i>external</i>: " + cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
                                 }
 
-                                // delete action
-                                Rectangle {
-                                    id: delrect
-                                    anchors.fill: parent
-                                    radius: 5
-                                    color: "#88ff0000"
-                                    Behavior on opacity { NumberAnimation { duration: 200 } }
-                                    opacity: 0
-                                    visible: opacity>0
-                                    Text {
-                                        anchors.centerIn: parent
-                                        text: "x"
-                                        color: "white"
-                                        font.bold: true
-                                    }
-                                }
                                 PQMouseArea {
+                                    id: actmouse
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    tooltip: "Click to delete action"
-                                    onEntered:
-                                        delrect.opacity = 1
-                                    onExited:
-                                        delrect.opacity = 0
+                                    tooltip: "Click to change shortcut action"
                                     onClicked: {
-                                        confirmDeleteAction.index = deleg.currentShortcutIndex
-                                        confirmDeleteAction.subindex = index
-                                        confirmDeleteAction.askForConfirmation("Are you sure you want to delete this action?", "")
+                                        newaction.change(deleg.currentShortcutIndex, index)
+                                    }
+                                }
+
+                                // deletion 'x' for action
+                                Rectangle {
+                                    x: 5
+                                    y: (parent.height-height)/2
+                                    width: 20
+                                    height: 20
+                                    color: "#ff0000"
+                                    radius: 5
+                                    opacity: 0.2
+                                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                                    Text {
+                                        anchors.centerIn: parent
+                                        font.weight: baselook.boldweight
+                                        color: "white"
+                                        text: "x"
+                                    }
+                                    PQMouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        tooltip: "Click to delete shortcut action"
+                                        onEntered:
+                                            parent.opacity = 0.8
+                                        onExited:
+                                            parent.opacity = 0.2
+                                        onClicked: {
+                                            confirmDeleteAction.index = deleg.currentShortcutIndex
+                                            confirmDeleteAction.subindex = index
+                                            confirmDeleteAction.askForConfirmation("Are you sure you want to delete this action?", "")
+                                        }
                                     }
                                 }
 
