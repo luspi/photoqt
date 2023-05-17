@@ -105,9 +105,9 @@ Rectangle {
         hoverEnabled: true
     }
 
-    PQTextL {
+    PQTextXL {
         id: titletxt
-        y: 10
+        y: insidecont.y-2*height
         width: parent.width
         font.weight: baselook.boldweight
         horizontalAlignment: Text.AlignHCenter
@@ -116,10 +116,12 @@ Rectangle {
 
     Rectangle {
 
+        id: insidecont
+
         x: (parent.width-width)/2
         y: (parent.height-height)/2-10
         width: Math.min(800, parent.width)
-        height: Math.min(600, parent.height-titletxt.height-butcont.height-40)
+        height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
         color: "#220000"
         border.width: 1
@@ -283,7 +285,7 @@ Rectangle {
 
         id: butcont
         x: (parent.width-width)/2
-        y: parent.height-height-20
+        y: insidecont.y+insidecont.height+height
         width: row.width
         height: row.height
 

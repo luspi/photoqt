@@ -22,6 +22,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import Qt.labs.platform 1.0
 
 import "../../../elements"
 import "../../../shortcuts/mouseshortcuts.js" as PQAnalyseMouse
@@ -71,9 +72,9 @@ Rectangle {
     }
 
     property var descriptions: [
-        "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images, and manipulating the current image (zoom, flip, rotation). Multiple actions can be combined for the same shortcut.",
-        "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images. Multiple actions can be combined for the same shortcut.",
-        "These are actions affecting the currently loaded folder as a whole and not just single images. Multiple actions can be combined for the same shortcut.",
+        "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images, and manipulating the current image (zoom, flip, rotation).",
+        "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images.",
+        "These are actions affecting the currently loaded folder as a whole and not just single images.",
         "These affect the status and behaviour of various interface elements, regardless of the image loaded, or whether anything is loaded at all.",
         "These ations quite simply don't really fit into any other category.",
         "Here you can select any external executable and any additional flags you want to have passed on to it. You can use the button with the three dots to select an executable using a file dialog."
@@ -94,13 +95,13 @@ Rectangle {
             hide()
     }
 
-    PQTextL {
+    PQTextXL {
         id: titletxt
-        y: 10
+        y: insidecont.y-2*height
         width: parent.width
         font.weight: baselook.boldweight
         horizontalAlignment: Text.AlignHCenter
-        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add new action")
+        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Shortcut actions")
     }
 
     Rectangle {
@@ -110,7 +111,7 @@ Rectangle {
         x: (parent.width-width)/2
         y: (parent.height-height)/2-10
         width: Math.min(800, parent.width)
-        height: Math.min(600, parent.height-titletxt.height-butcont.height-40)
+        height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
         color: "#000000"
 
@@ -277,6 +278,14 @@ Rectangle {
                             id: exebut
                             text: "..."
                             tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click here to select an executable to be used with this shortcut.")
+                            onClicked: {
+                                selectExec.folder = "file:///"+(ext_exe.text.slice(0,1) == "/"
+                                                               ? handlingFileDir.getDirectory(ext_exe.text)
+                                                               : (handlingGeneral.amIOnWindows()
+                                                                  ? handlingFileDir.getHomeDir()
+                                                                  : "/usr/bin/"))
+                                selectExec.visible = true
+                            }
                         }
 
                     }
@@ -352,7 +361,7 @@ Rectangle {
 
         id: butcont
         x: (parent.width-width)/2
-        y: parent.height-height-20
+        y: insidecont.y+insidecont.height+height
         width: row.width
         height: row.height
 
@@ -361,13 +370,32 @@ Rectangle {
             spacing: 10
             PQButton {
                 id: savebut
-                text: genericStringClose
+                text: genericStringCancel
                 onClicked: {
                     hide()
                 }
             }
         }
 
+    }
+
+    FileDialog {
+        id: selectExec
+        modality: Qt.ApplicationModal
+        fileMode: FileDialog.OpenFile
+        onAccepted: {
+
+            if(selectExec.file == "")
+                return
+
+            var fname = handlingFileDir.getFileNameFromFullPath(selectExec.file)
+
+            if(StandardPaths.findExecutable(fname) == selectExec.file)
+                ext_exe.text = fname
+            else
+                ext_exe.text = handlingFileDir.cleanPath(selectExec.file)
+
+        }
     }
 
     Component.onCompleted: {
