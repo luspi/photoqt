@@ -180,8 +180,11 @@ void PQShortcuts::readDB() {
         const QString combo = query.record().value(0).toString();
         const QStringList commands = query.record().value(1).toString().split(":://::");
         const int cycle = query.record().value(2).toInt();
-        const int cycletimeout = query.record().value(3).toInt();
+        int cycletimeout = query.record().value(3).toInt();
         const int simultaneous = query.record().value(4).toInt();
+
+        if(cycle == 0 && simultaneous == 0)
+            cycletimeout = 1;
 
         shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
 
