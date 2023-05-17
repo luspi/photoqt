@@ -111,7 +111,7 @@ bool PQShortcuts::backupDatabase() {
 void PQShortcuts::setDefault() {
 
     DBG << CURDATE << "PQShortcuts::setDefault()" << NL;
-/*
+
     if(readonly)
         return;
 
@@ -121,23 +121,72 @@ void PQShortcuts::setDefault() {
 
     QSqlQuery query(db);
 
-    // set default builtin
-    query.prepare("UPDATE builtin SET shortcuts = defaultshortcuts");
-    if(!query.exec()) {
+    if(!query.exec("DELETE FROM shortcuts")) {
         LOG << CURDATE << "PQShortcuts::setDefault [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;
     }
-    shortcuts.clear();
 
     query.clear();
 
-    // remove external shortcuts
-    query.prepare("DELETE FROM external");
-    if(!query.exec()) {
-        LOG << CURDATE << "PQShortcuts::setDefault [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+    // open database
+    QSqlDatabase dbdefault;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        dbdefault = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsrestoredefault");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbdefault = QSqlDatabase::addDatabase("QSQLITE", "shortcutsrestoredefault");
+    else {
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): PhotoQt cannot function without SQLite available." << NL;
         return;
     }
-    externalShortcuts.clear();
+
+    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/shortcuts.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                          QFileDevice::ReadGroup);
+    dbdefault.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    if(!dbdefault.open()) {
+        LOG << CURDATE << "PQShortcuts::setDefault() [2]: SQL error: " << dbdefault.lastError().text().trimmed().toStdString() << NL;
+        dbdefault.close();
+        return;
+    }
+
+    QSqlQuery queryDefault(dbdefault);
+    if(!queryDefault.exec("SELECT `combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous` FROM 'shortcuts'")) {
+        LOG << CURDATE << "PQShortcuts::setDefault() [3]: SQL error: " << queryDefault.lastError().text().trimmed().toStdString() << NL;
+        queryDefault.clear();
+        dbdefault.close();
+        return;
+    }
+
+    while(queryDefault.next()) {
+
+        const QString combo = queryDefault.value(0).toString();
+        const QString commands = queryDefault.value(1).toString();
+        const int cycle = queryDefault.value(2).toInt();
+        const int cycletimeout = queryDefault.value(3).toInt();
+        const int simultaneous = queryDefault.value(4).toInt();
+
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :commands, :cycle, :cycletimeout, :simultaneous)");
+        query.bindValue(":combo", combo);
+        query.bindValue(":commands", commands);
+        query.bindValue(":cycle", cycle);
+        query.bindValue(":cycletimeout", cycletimeout);
+        query.bindValue(":simultaneous", simultaneous);
+        if(!query.exec()) {
+            LOG << CURDATE << "PQShortcuts::setDefault() [4]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            dbdefault.close();
+            return;
+        }
+        query.clear();
+
+    }
+
+    queryDefault.clear();
+    dbdefault.close();
 
     // we need to write changes to the database so we can read them right after
     db.commit();
@@ -145,8 +194,9 @@ void PQShortcuts::setDefault() {
     if(db.lastError().text().trimmed().length())
         LOG << "PQShortcuts::setDefault: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
 
+
     readDB();
-*/
+
 }
 
 QVariantList PQShortcuts::getCommandsForShortcut(QString combo) {

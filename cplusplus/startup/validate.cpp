@@ -766,8 +766,6 @@ bool PQValidate::validateShortcutsDatabase() {
 
         }
 
-        qDebug() << data;
-
         dbinstalled.transaction();
 
         QMapIterator<QString, QStringList> iter(data);
