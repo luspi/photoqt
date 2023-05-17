@@ -265,6 +265,20 @@ Item {
 
             }
 
+            Item {
+                id: nothingfound
+                width: col.width
+                height: 100
+                visible: entriesview.contentHeight==0
+                PQTextL {
+                    anchors.centerIn: parent
+                    font.italic: true
+                    font.weight: baselook.boldweight
+                    opacity: 0.4
+                    text: entries.length == 0 ? "no shortcuts set" : "no shortcuts found"
+                }
+            }
+
             ListView {
 
                 id: entriesview
@@ -417,6 +431,23 @@ Item {
 
                             padding: 5
 
+                            Item {
+
+                                width: ontheleft.width
+                                height: n.height+20
+                                visible: deleg.combos.length==0
+
+                                // no key combination selected
+                                PQText {
+                                    id: n
+                                    x: 5
+                                    y: 10
+                                    text: "no key combination set"
+                                    opacity: 0.4
+                                    font.italic: true
+                                }
+                            }
+
                             Repeater {
                                 model: deleg.combos.length
                                 delegate:
@@ -505,7 +536,7 @@ Item {
 
                             Item {
 
-                                height: 50
+                                height: deleg.combos.length==0 ? addcombocont.height : 50
                                 width: addcombocont.width+6
 
                                 Rectangle {
@@ -934,16 +965,21 @@ Item {
 
     function ensureVisible(index) {
 
-        var offset = 0
-        for(var idx = 0; idx < index; ++idx)
-            offset += tab_shortcuts.entriesHeights[idx]
+        if(cont.contentHeight > cont.height) {
 
-        var cy_top = Math.min(entriesview.y + offset, cont.contentHeight-cont.height)
-        var cy_bot = Math.min(entriesview.y + offset-cont.height+tab_shortcuts.entriesHeights[index], cont.contentHeight-cont.height)
-        if(cont.contentY > cy_top)
-            cont.contentY = cy_top
-        else if(cont.contentY < cy_bot)
-            cont.contentY = cy_bot
+            var offset = 0
+            for(var idx = 0; idx < index; ++idx)
+                offset += tab_shortcuts.entriesHeights[idx]
+
+            var cy_top = Math.min(entriesview.y + offset, cont.contentHeight-cont.height)
+            var cy_bot = Math.min(entriesview.y + offset-cont.height+tab_shortcuts.entriesHeights[index], cont.contentHeight-cont.height)
+            if(cont.contentY > cy_top)
+                cont.contentY = cy_top
+            else if(cont.contentY < cy_bot)
+                cont.contentY = cy_bot
+
+        }
+
         tab_shortcuts.highlightEntry(index)
 
     }
