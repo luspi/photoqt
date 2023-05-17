@@ -229,6 +229,16 @@ QVariantList PQShortcuts::getAllCurrentShortcuts() {
 
 void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
 
+    shortcuts.clear();
+
+    // remove old shortcuts
+    QSqlQuery query(db);
+    if(!query.exec("DELETE FROM 'shortcuts'")) {
+        LOG << CURDATE << "PQShortcuts::saveAllCurrentShortcuts [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
+    query.clear();
+
     for (int i = 0; i < list.size(); ++i) {
 
         QVariantList cur = list.at(i).toList();
@@ -248,11 +258,12 @@ void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
             query.bindValue(":cycle", cycle);
             query.bindValue(":cycletimeout", cycletimeout);
             query.bindValue(":simultaneous", simultaneous);
-            if(!query.exec()) {
-                LOG << CURDATE << "PQShortcuts::saveAllCurrentShortcuts: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-                return;
-            }
+            if(!query.exec())
+                LOG << CURDATE << "PQShortcuts::saveAllCurrentShortcuts [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
             query.clear();
+
+            shortcuts[c] = QVariantList() << cmds << cycle << cycletimeout << simultaneous;
+
         }
 
     }
