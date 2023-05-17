@@ -215,8 +215,12 @@ Item {
                 id: desc
                 width: cont.width-30
                 wrapMode: Text.WordWrap
-                text: "Here the shortcuts can be managed. Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of ycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning."
+                text: "Here the shortcuts can be managed. Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of ycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning. Any entry group that has no key combinations set will be deleted when saved."
             }
+
+            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
+            PQDoubleClick { id: dblclk }
+            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
 
             PQButton {
                 text: "Add new shortcuts group"
@@ -237,9 +241,29 @@ Item {
                 }
             }
 
-            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
-            PQDoubleClick { id: dblclk }
-            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
+            PQText {
+                width: cont.width-30
+                text: "Both the key cobinations and shortcut actions can be filtered. By default, PhotoQt will check if any action or key combination includes whatever string is entered. Adding a '$' at the start or end of the search term forces a match to be either at the start or the end of a key combination or action."
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            }
+
+            Row {
+
+                spacing: 5
+
+                PQLineEdit {
+                    id: filter_combo
+                    width: 400
+                    placeholderText: "Filter for key combination"
+                }
+
+                PQLineEdit {
+                    id: filter_action
+                    width: col.width-400-25
+                    placeholderText: "Filter for shortcut action"
+                }
+
+            }
 
             ListView {
 
@@ -258,7 +282,6 @@ Item {
                     id: deleg
 
                     width: cont.width
-                    height: Math.max(ontheleft.height, ontheright.height)+behaviorcont.height
 
                     property var combos: tab_shortcuts.entries[index][0]
                     property var commands: tab_shortcuts.entries[index][1]
@@ -267,6 +290,91 @@ Item {
                     property int simultaneous: tab_shortcuts.entries[index][4]
 
                     property int currentShortcutIndex: index
+
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    height: opacity>0 ? Math.max(ontheleft.height, ontheright.height)+behaviorcont.height : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+
+                    visible: height>0
+
+                    Connections {
+                        target: filter_combo
+                        onTextChanged:
+                            performFilter()
+                    }
+                    Connections {
+                        target: filter_action
+                        onTextChanged:
+                            performFilter()
+                    }
+
+                    function performFilter() {
+
+                        if((filter_combo.text == "" || filter_combo.text == "$") && (filter_action.text == "" || filter_action.text == "$")) {
+                            deleg.opacity = 1
+                            return
+                        }
+
+                        var longcommands = []
+                        for(var i in commands) {
+                            var cmd = commands[i]
+                            if(cmd.startsWith("__"))
+                                longcommands.push(tab_shortcuts.actions[cmd][0])
+                            else
+                                longcommands.push(cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
+                        }
+
+                        var vis = true
+
+                        if(filter_combo.text != "") {
+                            var c = filter_combo.text.toLowerCase()
+                            var yes = false
+                            for(var i = 0; i < combos.length; ++i) {
+                                if(c.startsWith("$") && !c.endsWith("$")) {
+                                    if(combos[i].toLowerCase().startsWith(c.substring(1)))
+                                        yes = true
+                                } else if(!c.startsWith("$") && c.endsWith("$")) {
+                                    if(combos[i].toLowerCase().endsWith(c.substring(0,c.length-1)))
+                                        yes = true
+                                } else if(c.startsWith("$") && c.endsWith("$")) {
+                                    if(combos[i].toLowerCase() == c.substring(1,c.length-1))
+                                        yes = true
+                                } else {
+                                    if(combos[i].toLowerCase().includes(c))
+                                        yes = true
+                                }
+                            }
+                            if(!yes)
+                                vis = false
+                        }
+
+                        if(filter_action.text != "") {
+                            var c = filter_action.text.toLowerCase()
+                            var yes = false
+                            for(var i = 0; i < longcommands.length; ++i) {
+                                if(c.startsWith("$") && !c.endsWith("$")) {
+                                    if(longcommands[i].toLowerCase().startsWith(c.substring(1)))
+                                        yes = true
+                                } else if(!c.startsWith("$") && c.endsWith("$")) {
+                                    if(longcommands[i].toLowerCase().endsWith(c.substring(0,c.length-1)))
+                                        yes = true
+                                } else if(c.startsWith("$") && c.endsWith("$")) {
+                                    if(longcommands[i].toLowerCase() == c.substring(1,c.length-1))
+                                        yes = true
+                                } else {
+                                    if(longcommands[i].toLowerCase().includes(c))
+                                        yes = true
+                                }
+                            }
+                            if(!yes)
+                                vis = false
+                        }
+
+                        deleg.opacity = (vis ? 1 : 0)
+                    }
+
+                    clip: true
 
                     color: "#00000000"
                     Behavior on color {
@@ -298,7 +406,7 @@ Item {
                     Column {
                         id: ontheleft
                         y: (ontheright.height>height ? ((ontheright.height-height)/2) : 0)
-                        width: 300
+                        width: 400
 
                         spacing: 5
 
