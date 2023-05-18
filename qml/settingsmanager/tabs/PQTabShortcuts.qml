@@ -315,110 +315,28 @@ Item {
                     property int cycle: tab_shortcuts.entries[index][2]
                     property int cycletimeout: tab_shortcuts.entries[index][3]
                     property int simultaneous: tab_shortcuts.entries[index][4]
-
                     property int currentShortcutIndex: index
 
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     height: opacity>0 ? Math.max(ontheleft.height, ontheright.height)+behaviorcont.height : 0
                     Behavior on height { NumberAnimation { duration: 200 } }
-
                     visible: height>0
 
-                    Connections {
-                        target: filter_combo
-                        onTextChanged:
-                            performFilter()
-                    }
-                    Connections {
-                        target: filter_action
-                        onTextChanged:
-                            performFilter()
-                    }
-                    Connections {
-                        target: filter_category
-                        onCurrentIndexChanged:
-                            performFilter()
-                    }
-
-                    function performFilter() {
-
-                        if((filter_combo.text == "" || filter_combo.text == "$") && (filter_action.text == "" || filter_action.text == "$") && filter_category.currentIndex==0) {
-                            deleg.opacity = 1
+                    property bool deleteMe: false
+                    onOpacityChanged: {
+                        if(!deleteMe || opacity > 0)
                             return
-                        }
+                        height = 0
+                    }
 
-                        var longcommands = []
-                        for(var i in commands) {
-                            var cmd = commands[i]
-                            if(cmd.startsWith("__"))
-                                longcommands.push(tab_shortcuts.actions[cmd][0])
-                            else
-                                longcommands.push(cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
-                        }
+                    onHeightChanged: {
+                        tab_shortcuts.entriesHeights[index] = height
 
-                        var vis = true
-
-                        if(filter_combo.text != "") {
-                            var c = filter_combo.text.toLowerCase()
-                            var yes = false
-                            for(var i = 0; i < combos.length; ++i) {
-                                if(c.startsWith("$") && !c.endsWith("$")) {
-                                    if(combos[i].toLowerCase().startsWith(c.substring(1)))
-                                        yes = true
-                                } else if(!c.startsWith("$") && c.endsWith("$")) {
-                                    if(combos[i].toLowerCase().endsWith(c.substring(0,c.length-1)))
-                                        yes = true
-                                } else if(c.startsWith("$") && c.endsWith("$")) {
-                                    if(combos[i].toLowerCase() == c.substring(1,c.length-1))
-                                        yes = true
-                                } else {
-                                    if(combos[i].toLowerCase().includes(c))
-                                        yes = true
-                                }
-                            }
-                            if(!yes)
-                                vis = false
-                        }
-
-                        if(filter_action.text != "") {
-                            var c = filter_action.text.toLowerCase()
-                            var yes = false
-                            for(var i = 0; i < longcommands.length; ++i) {
-                                if(c.startsWith("$") && !c.endsWith("$")) {
-                                    if(longcommands[i].toLowerCase().startsWith(c.substring(1)))
-                                        yes = true
-                                } else if(!c.startsWith("$") && c.endsWith("$")) {
-                                    if(longcommands[i].toLowerCase().endsWith(c.substring(0,c.length-1)))
-                                        yes = true
-                                } else if(c.startsWith("$") && c.endsWith("$")) {
-                                    if(longcommands[i].toLowerCase() == c.substring(1,c.length-1))
-                                        yes = true
-                                } else {
-                                    if(longcommands[i].toLowerCase().includes(c))
-                                        yes = true
-                                }
-                            }
-                            if(!yes)
-                                vis = false
-                        }
-
-                        if(filter_category.currentIndex != 0) {
-
-                            var categories = ["viewingimages","currentimage","currentfolder","interface","other","external"]
-                            var filtercat = categories[filter_category.currentIndex-1]
-
-                            var yes = false
-                            for(var i = 0; i < commands.length; ++i) {
-                                if(tab_shortcuts.actions[commands[i]][1] == filtercat)
-                                    yes = true
-                            }
-                            if(!yes)
-                                vis = false
-
-                        }
-
-                        deleg.opacity = (vis ? 1 : 0)
+                        if(!deleteMe || height > 0)
+                            return
+                        tab_shortcuts.entries.splice(deleg.currentShortcutIndex,1)
+                        tab_shortcuts.entriesChanged()
                     }
 
                     clip: true
@@ -430,22 +348,6 @@ Item {
                             ColorAnimation { from: "#00ffffff"; to: "#44ffffff"; duration: 400 }
                             ColorAnimation { from: "#44ffffff"; to: "#00ffffff"; duration: 400 }
                         }
-                    }
-
-                    Connections {
-                        target: tab_shortcuts
-                        onHighlightEntry: {
-                            if(idx == deleg.currentShortcutIndex) {
-                                deleg.color = "#44ffffff"
-                            }
-                        }
-                    }
-
-                    Component.onCompleted: {
-                        tab_shortcuts.entriesHeights[index] = height
-                    }
-                    onHeightChanged: {
-                        tab_shortcuts.entriesHeights[index] = height
                     }
 
                     /************************/
@@ -467,8 +369,12 @@ Item {
                             Item {
 
                                 width: ontheleft.width
-                                height: n.height+20
-                                visible: deleg.combos.length==0
+                                height: deleg.combos.length==0 ? (n.height+20) : 0
+                                visible: height > 0
+                                opacity: height==(n.height+20) ? 1 : 0
+
+                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                Behavior on height { NumberAnimation { duration: 200 } }
 
                                 // no key combination selected
                                 PQText {
@@ -492,6 +398,34 @@ Item {
                                         x: (parent.width-width)/2
                                         height: 60
                                         width: comborect.width+10
+
+                                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                                        Behavior on width { NumberAnimation { duration: 200 } }
+
+                                        property bool deleteMe: false
+                                        onOpacityChanged: {
+                                            if(deleteMe && opacity == 0)
+                                                width = 0
+                                        }
+
+                                        onWidthChanged: {
+
+                                            if(!deleteMe || width>0)
+                                                return
+
+                                            tab_shortcuts.entries[deleg.currentShortcutIndex][0].splice(index,1)
+
+                                            if(tab_shortcuts.entries[deleg.currentShortcutIndex][0].length == 0) {
+                                                                                      //: The group here is a shortcut group
+                                                confirmEmptyDelete.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "There is currently no key combination set. If no key combination is set before saving, then this group will be deleted."),
+                                                                                      //: The group here is a shortcut group
+                                                                                      em.pty+qsTranslate("settingsmanager_shortcuts", "Do you want to hide this group from the view now?"))
+                                            }
+                                            // this needs to come at the end as there's otherwise a race condition with the if statement above
+                                            // causing an error as to tab_shortcuts not being defined
+                                            tab_shortcuts.entriesChanged()
+
+                                        }
 
                                         Rectangle {
 
@@ -555,12 +489,16 @@ Item {
                                                 onExited:
                                                     parent.opacity = 0.2
                                                 onClicked: {
-
-                                                    confirmDeleteShortcut.index = deleg.currentShortcutIndex
-                                                    confirmDeleteShortcut.subindex = index
                                                     confirmDeleteShortcut.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this key combination?"), "")
-
                                                 }
+                                            }
+                                        }
+
+                                        PQModalConfirm {
+                                            id: confirmDeleteShortcut
+                                            onYes: {
+                                                combodeleg.deleteMe = true
+                                                combodeleg.opacity = 0
                                             }
                                         }
 
@@ -635,8 +573,12 @@ Item {
                         Item {
 
                             width: ontheright.width
-                            height: c.height+10
-                            visible: deleg.commands.length==0
+                            height: deleg.commands.length==0 ? (c.height+10) : 0
+                            visible: opacity > 0
+                            opacity: height>0 ? 1 : 0
+
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            Behavior on height { NumberAnimation { duration: 200 } }
 
                             // no shortcut action selected
                             PQText {
@@ -666,6 +608,22 @@ Item {
 
                                 color: actmouse.containsMouse ? "#484848" : "#2f2f2f"
                                 Behavior on color { ColorAnimation { duration: 200 } }
+
+                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                Behavior on height { NumberAnimation { duration: 200 } }
+
+                                property bool deleteMe: false
+                                onOpacityChanged: {
+                                    if(!deleteMe || opacity > 0)
+                                        return
+                                    height = 0
+                                }
+                                onHeightChanged: {
+                                    if(!deleteMe || height > 0)
+                                        return
+                                    tab_shortcuts.entries[deleg.currentShortcutIndex][1].splice(index,1)
+                                    tab_shortcuts.entriesChanged()
+                                }
 
                                 // shortcut action
                                 PQText {
@@ -717,11 +675,18 @@ Item {
                                             parent.opacity = 0.8
                                         onExited:
                                             parent.opacity = 0.2
-                                        onClicked: {
-                                            confirmDeleteAction.index = deleg.currentShortcutIndex
-                                            confirmDeleteAction.subindex = index
+                                        onClicked:
                                             confirmDeleteAction.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this shortcut action?"), "")
-                                        }
+                                    }
+                                }
+
+                                PQModalConfirm {
+                                    id: confirmDeleteAction
+                                    property int index: -1
+                                    property int subindex: -1
+                                    onYes: {
+                                        cmddeleg.deleteMe = true
+                                        cmddeleg.opacity = 0
                                     }
                                 }
 
@@ -883,6 +848,123 @@ Item {
                         color: "white"
                     }
 
+                    PQModalConfirm {
+                        id: confirmEmptyDelete
+                        onYes: {
+                            deleg.deleteMe = true
+                            deleg.opacity = 0
+                        }
+                    }
+
+                    Connections {
+                        target: filter_combo
+                        onTextChanged:
+                            performFilter()
+                    }
+                    Connections {
+                        target: filter_action
+                        onTextChanged:
+                            performFilter()
+                    }
+                    Connections {
+                        target: filter_category
+                        onCurrentIndexChanged:
+                            performFilter()
+                    }
+
+                    Connections {
+                        target: tab_shortcuts
+                        onHighlightEntry: {
+                            if(idx == deleg.currentShortcutIndex) {
+                                deleg.color = "#44ffffff"
+                            }
+                        }
+                    }
+
+                    Component.onCompleted: {
+                        tab_shortcuts.entriesHeights[index] = height
+                    }
+
+                    function performFilter() {
+
+                        if((filter_combo.text == "" || filter_combo.text == "$") && (filter_action.text == "" || filter_action.text == "$") && filter_category.currentIndex==0) {
+                            deleg.opacity = 1
+                            return
+                        }
+
+                        var longcommands = []
+                        for(var i in commands) {
+                            var cmd = commands[i]
+                            if(cmd.startsWith("__"))
+                                longcommands.push(tab_shortcuts.actions[cmd][0])
+                            else
+                                longcommands.push(cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
+                        }
+
+                        var vis = true
+
+                        if(filter_combo.text != "") {
+                            var c = filter_combo.text.toLowerCase()
+                            var yes = false
+                            for(var i = 0; i < combos.length; ++i) {
+                                if(c.startsWith("$") && !c.endsWith("$")) {
+                                    if(combos[i].toLowerCase().startsWith(c.substring(1)))
+                                        yes = true
+                                } else if(!c.startsWith("$") && c.endsWith("$")) {
+                                    if(combos[i].toLowerCase().endsWith(c.substring(0,c.length-1)))
+                                        yes = true
+                                } else if(c.startsWith("$") && c.endsWith("$")) {
+                                    if(combos[i].toLowerCase() == c.substring(1,c.length-1))
+                                        yes = true
+                                } else {
+                                    if(combos[i].toLowerCase().includes(c))
+                                        yes = true
+                                }
+                            }
+                            if(!yes)
+                                vis = false
+                        }
+
+                        if(filter_action.text != "") {
+                            var c = filter_action.text.toLowerCase()
+                            var yes = false
+                            for(var i = 0; i < longcommands.length; ++i) {
+                                if(c.startsWith("$") && !c.endsWith("$")) {
+                                    if(longcommands[i].toLowerCase().startsWith(c.substring(1)))
+                                        yes = true
+                                } else if(!c.startsWith("$") && c.endsWith("$")) {
+                                    if(longcommands[i].toLowerCase().endsWith(c.substring(0,c.length-1)))
+                                        yes = true
+                                } else if(c.startsWith("$") && c.endsWith("$")) {
+                                    if(longcommands[i].toLowerCase() == c.substring(1,c.length-1))
+                                        yes = true
+                                } else {
+                                    if(longcommands[i].toLowerCase().includes(c))
+                                        yes = true
+                                }
+                            }
+                            if(!yes)
+                                vis = false
+                        }
+
+                        if(filter_category.currentIndex != 0) {
+
+                            var categories = ["viewingimages","currentimage","currentfolder","interface","other","external"]
+                            var filtercat = categories[filter_category.currentIndex-1]
+
+                            var yes = false
+                            for(var i = 0; i < commands.length; ++i) {
+                                if(tab_shortcuts.actions[commands[i]][1] == filtercat)
+                                    yes = true
+                            }
+                            if(!yes)
+                                vis = false
+
+                        }
+
+                        deleg.opacity = (vis ? 1 : 0)
+                    }
+
                 }
 
 
@@ -950,45 +1032,6 @@ Item {
                 tab_shortcuts.entriesChanged()
             }
 
-        }
-    }
-
-    PQModalConfirm {
-        id: confirmDeleteAction
-        property int index: -1
-        property int subindex: -1
-        onYes: {
-            tab_shortcuts.entries[index][1].splice(subindex,1)
-            tab_shortcuts.entriesChanged()
-        }
-    }
-
-    PQModalConfirm {
-        id: confirmDeleteShortcut
-        property int index: -1
-        property int subindex: -1
-        onYes: {
-            tab_shortcuts.entries[index][0].splice(subindex,1)
-
-            if(tab_shortcuts.entries[index][0].length == 0) {
-                confirmEmptyDelete.hideIndex = index
-                                                      //: The group here is a shortcut group
-                confirmEmptyDelete.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "There is currently no key combination set. If no key combination is set before saving, then this group will be deleted."),
-                                                      //: The group here is a shortcut group
-                                                      em.pty+qsTranslate("settingsmanager_shortcuts", "Do you want to hide this group from the view now?"))
-            }
-            tab_shortcuts.entriesChanged()
-        }
-    }
-
-    PQModalConfirm {
-        id: confirmEmptyDelete
-        property int hideIndex: -1
-        onYes: {
-            if(hideIndex == -1)
-                return
-            tab_shortcuts.entries.splice(hideIndex,1)
-            tab_shortcuts.entriesChanged()
         }
     }
 
