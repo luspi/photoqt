@@ -243,7 +243,7 @@ Item {
 
             PQText {
                 width: cont.width-30
-                text: em.pty+qsTranslate("settingsmanager_shortcuts", "The shortcuts can be filtered by either the key combinations or shortcut actions, or both. By default, PhotoQt will check if any action or key combination includes whatever string is entered. Adding a dollar sign ($) at the start or end of the search term forces a match to be either at the start or the end of a key combination or action.")
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "The shortcuts can be filtered by either the key combinations, shortcut actions, category, or all three. For the string search, PhotoQt will by default check if any action/key combination includes whatever string is entered. Adding a dollar sign ($) at the start or end of the search term forces a match to be either at the start or the end of a key combination or action.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
@@ -259,8 +259,21 @@ Item {
 
                 PQLineEdit {
                     id: filter_action
-                    width: col.width-400-25
+                    width: (col.width-400)/2-20
                     placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter shortcut actions")
+                }
+
+                PQComboBox {
+                    id: filter_category
+                    width: (col.width-400)/2-20
+                    height: filter_action.height
+                    model: [em.pty+qsTranslate("settingsmanager_shortcuts", "Show all categories"),
+                            em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "Viewing images"),
+                            em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "Current image"),
+                            em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "Current folder"),
+                            em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "Interface"),
+                            em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "Other"),
+                            em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "External")]
                 }
 
             }
@@ -322,10 +335,15 @@ Item {
                         onTextChanged:
                             performFilter()
                     }
+                    Connections {
+                        target: filter_category
+                        onCurrentIndexChanged:
+                            performFilter()
+                    }
 
                     function performFilter() {
 
-                        if((filter_combo.text == "" || filter_combo.text == "$") && (filter_action.text == "" || filter_action.text == "$")) {
+                        if((filter_combo.text == "" || filter_combo.text == "$") && (filter_action.text == "" || filter_action.text == "$") && filter_category.currentIndex==0) {
                             deleg.opacity = 1
                             return
                         }
@@ -383,6 +401,21 @@ Item {
                             }
                             if(!yes)
                                 vis = false
+                        }
+
+                        if(filter_category.currentIndex != 0) {
+
+                            var categories = ["viewingimages","currentimage","currentfolder","interface","other","external"]
+                            var filtercat = categories[filter_category.currentIndex-1]
+
+                            var yes = false
+                            for(var i = 0; i < commands.length; ++i) {
+                                if(tab_shortcuts.actions[commands[i]][1] == filtercat)
+                                    yes = true
+                            }
+                            if(!yes)
+                                vis = false
+
                         }
 
                         deleg.opacity = (vis ? 1 : 0)
@@ -982,27 +1015,10 @@ Item {
     }
 
     function load() {
-        var tmp = PQShortcuts.getAllCurrentShortcuts()
-
-        var ent = [[],[],[],[],[],[]]
-
-        var order = {
-            "viewingimages" : 0,
-            "currentimage" : 1,
-            "currentfolder" : 2,
-            "interface" : 3,
-            "other" : 4,
-            "external" : 5
-        }
-
-        for(var i in tmp) {
-            var cur = 5
-            if(tmp[i][1][0] in tab_shortcuts.actions)
-                cur = order[tab_shortcuts.actions[tmp[i][1][0]][1]]
-            ent[cur].push(tmp[i])
-        }
-
-        tab_shortcuts.entries = ent[0].concat(ent[1]).concat(ent[2]).concat(ent[3]).concat(ent[4]).concat(ent[5])
+        filter_action.text = ""
+        filter_combo.text = ""
+        filter_category.currentIndex = 0
+        tab_shortcuts.entries = PQShortcuts.getAllCurrentShortcuts()
     }
 
     function ensureVisible(index) {

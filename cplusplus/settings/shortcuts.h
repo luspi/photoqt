@@ -60,8 +60,8 @@ public Q_SLOTS:
 private:
     PQShortcuts();
 
+    QStringList shortcutsOrder;
     QMap<QString,QVariantList> shortcuts;
-    QMap<QString,QStringList> externalShortcuts;
 
     QSqlDatabase db;
     bool readonly;

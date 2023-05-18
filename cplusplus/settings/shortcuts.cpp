@@ -219,6 +219,9 @@ void PQShortcuts::readDB() {
 
     DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
 
+    shortcuts.clear();
+    shortcutsOrder.clear();
+
     QSqlQuery query(db);
     if(!query.exec("SELECT `combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous` FROM 'shortcuts'")) {
         LOG << CURDATE << "PQShortcuts::readDB() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
@@ -227,16 +230,17 @@ void PQShortcuts::readDB() {
 
     while(query.next()) {
 
-        const QString combo = query.record().value(0).toString();
-        const QStringList commands = query.record().value(1).toString().split(":://::");
-        const int cycle = query.record().value(2).toInt();
-        int cycletimeout = query.record().value(3).toInt();
-        const int simultaneous = query.record().value(4).toInt();
+        const QString combo = query.value(0).toString();
+        const QStringList commands = query.value(1).toString().split(":://::");
+        const int cycle = query.value(2).toInt();
+        int cycletimeout = query.value(3).toInt();
+        const int simultaneous = query.value(4).toInt();
 
         if(cycle == 0 && simultaneous == 0)
             cycletimeout = 1;
 
         shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
+        shortcutsOrder.push_back(combo);
 
     }
 
@@ -246,31 +250,48 @@ void PQShortcuts::readDB() {
 
 QVariantList PQShortcuts::getAllCurrentShortcuts() {
 
+    // we sort the entries by alphabetical key combo
+    // if multiple key combos are used for the same shortcut, then we use the first combo alphabetical in that list
     QVariantList ret;
 
-    // first group combos together
-    QMap<QString, QStringList> collectCombos;
-    QMapIterator<QString, QVariantList> i(shortcuts);
-    while(i.hasNext()) {
-        i.next();
-        const QString key = i.value()[0].toStringList().join(":://::");
-        if(collectCombos.keys().contains(key))
-            collectCombos[key].push_back(i.key());
+    // first group cmds together
+    QMap<QString, QStringList> collectCmds;
+    QMapIterator<QString, QVariantList> iterSh(shortcuts);
+    while(iterSh.hasNext()) {
+        iterSh.next();
+        const QString key = iterSh.value()[0].toStringList().join(":://::");
+        if(collectCmds.keys().contains(key))
+            collectCmds[key].push_back(iterSh.key());
         else
-            collectCombos.insert(key, QStringList() << i.key());
+            collectCmds.insert(key, QStringList() << iterSh.key());
     }
 
-    // loop over groups and compose variantlist for settings
-    QMapIterator<QString, QStringList> j(collectCombos);
-    while(j.hasNext()) {
-        j.next();
+    // create list with individual keys as key and cmds as value
+    QMap<QString, QString> collectCombos;
+    QMapIterator<QString, QStringList> iterCmds(collectCmds);
+    while(iterCmds.hasNext()) {
+        iterCmds.next();
+        for(const auto &k : qAsConst(iterCmds.value()))
+            collectCombos[k] = iterCmds.key();
+    }
 
+    // loop over order and construct return list
+    QStringList processed;
+    for(const QString &o : qAsConst(shortcutsOrder)) {
+
+        if(processed.contains(o))
+            continue;
+
+        const QString cmd = collectCombos[o];
+        const QStringList allkeys = collectCmds[cmd];
+        for(const auto &a : allkeys)
+            processed.push_back(a);
         QVariantList entry;
-        entry.append(j.value());
-        entry.append(shortcuts[j.value()[0]][0]);
-        entry.append(shortcuts[j.value()[0]][1]);
-        entry.append(shortcuts[j.value()[0]][2]);
-        entry.append(shortcuts[j.value()[0]][3]);
+        entry.append(allkeys);
+        entry.append(shortcuts[o][0]);
+        entry.append(shortcuts[o][1]);
+        entry.append(shortcuts[o][2]);
+        entry.append(shortcuts[o][3]);
 
         ret.push_back(entry);
 
