@@ -275,6 +275,9 @@ QVariantList PQShortcuts::getAllCurrentShortcuts() {
             collectCombos[k] = iterCmds.key();
     }
 
+    // make sure shortcuts are sorted alphabetically
+    shortcutsOrder.sort();
+
     // loop over order and construct return list
     QStringList processed;
     for(const QString &o : qAsConst(shortcutsOrder)) {
