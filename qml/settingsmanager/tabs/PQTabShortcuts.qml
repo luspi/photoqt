@@ -895,9 +895,11 @@ Item {
                         var longcommands = []
                         for(var i in commands) {
                             var cmd = commands[i]
-                            if(cmd.startsWith("__"))
-                                longcommands.push(tab_shortcuts.actions[cmd][0])
-                            else
+                            if(cmd.startsWith("__")) {
+                                if(cmd in tab_shortcuts.actions)
+                                    longcommands.push(tab_shortcuts.actions[cmd][0])
+                                longcommands.push(cmd)
+                            } else
                                 longcommands.push(cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] + (cmd.split(":/:/:")[2]*1==1 ? " (quit after)" : ""))
                         }
 
