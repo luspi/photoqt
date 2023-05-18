@@ -121,23 +121,72 @@ void PQShortcuts::setDefault() {
 
     QSqlQuery query(db);
 
-    // set default builtin
-    query.prepare("UPDATE builtin SET shortcuts = defaultshortcuts");
-    if(!query.exec()) {
+    if(!query.exec("DELETE FROM shortcuts")) {
         LOG << CURDATE << "PQShortcuts::setDefault [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;
     }
-    shortcuts.clear();
 
     query.clear();
 
-    // remove external shortcuts
-    query.prepare("DELETE FROM external");
-    if(!query.exec()) {
-        LOG << CURDATE << "PQShortcuts::setDefault [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+    // open database
+    QSqlDatabase dbdefault;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        dbdefault = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsrestoredefault");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbdefault = QSqlDatabase::addDatabase("QSQLITE", "shortcutsrestoredefault");
+    else {
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): PhotoQt cannot function without SQLite available." << NL;
         return;
     }
-    externalShortcuts.clear();
+
+    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/shortcuts.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                          QFileDevice::ReadGroup);
+    dbdefault.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    if(!dbdefault.open()) {
+        LOG << CURDATE << "PQShortcuts::setDefault() [2]: SQL error: " << dbdefault.lastError().text().trimmed().toStdString() << NL;
+        dbdefault.close();
+        return;
+    }
+
+    QSqlQuery queryDefault(dbdefault);
+    if(!queryDefault.exec("SELECT `combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous` FROM 'shortcuts'")) {
+        LOG << CURDATE << "PQShortcuts::setDefault() [3]: SQL error: " << queryDefault.lastError().text().trimmed().toStdString() << NL;
+        queryDefault.clear();
+        dbdefault.close();
+        return;
+    }
+
+    while(queryDefault.next()) {
+
+        const QString combo = queryDefault.value(0).toString();
+        const QString commands = queryDefault.value(1).toString();
+        const int cycle = queryDefault.value(2).toInt();
+        const int cycletimeout = queryDefault.value(3).toInt();
+        const int simultaneous = queryDefault.value(4).toInt();
+
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :commands, :cycle, :cycletimeout, :simultaneous)");
+        query.bindValue(":combo", combo);
+        query.bindValue(":commands", commands);
+        query.bindValue(":cycle", cycle);
+        query.bindValue(":cycletimeout", cycletimeout);
+        query.bindValue(":simultaneous", simultaneous);
+        if(!query.exec()) {
+            LOG << CURDATE << "PQShortcuts::setDefault() [4]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            dbdefault.close();
+            return;
+        }
+        query.clear();
+
+    }
+
+    queryDefault.clear();
+    dbdefault.close();
 
     // we need to write changes to the database so we can read them right after
     db.commit();
@@ -145,120 +194,24 @@ void PQShortcuts::setDefault() {
     if(db.lastError().text().trimmed().length())
         LOG << "PQShortcuts::setDefault: ERROR committing database: " << db.lastError().text().trimmed().toStdString() << NL;
 
+
     readDB();
 
 }
 
-QStringList PQShortcuts::getCommandForShortcut(QString sh) {
+QVariantList PQShortcuts::getCommandsForShortcut(QString combo) {
 
     DBG << CURDATE << "PQShortcuts::getCommandForShortcut()" << NL
-        << CURDATE << "** sh = " << sh.toStdString() << NL;
+        << CURDATE << "** combo = " << combo.toStdString() << NL;
 
-    QMapIterator<QString, QStringList> iter(shortcuts);
+    QMapIterator<QString, QVariantList> iter(shortcuts);
     while(iter.hasNext()) {
         iter.next();
-        if(iter.value().contains(sh))
-            return QStringList() << "0" << iter.key();
+        if(iter.key() == combo)
+            return iter.value();
     }
 
-    QMapIterator<QString, QStringList> iter2(externalShortcuts);
-    while(iter2.hasNext()) {
-        iter2.next();
-        if(iter2.value().mid(1).contains(sh))
-            return QStringList() << iter2.value().at(0) << iter2.key();
-    }
-
-    return QStringList() << "" << "";
-
-}
-
-QStringList PQShortcuts::getShortcutsForCommand(QString cmd) {
-
-    DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL;
-
-    if(shortcuts.contains(cmd))
-        return QStringList() << "0" << shortcuts[cmd];
-    else if(externalShortcuts.contains(cmd))
-        return externalShortcuts[cmd];
-
-    return QStringList();
-
-}
-
-QVariantList PQShortcuts::getAllExternalShortcuts() {
-
-    DBG << CURDATE << "PQShortcuts::getAllExternalShortcuts()" << NL;
-
-    QVariantList ret;
-
-    QMapIterator<QString, QStringList> iter(externalShortcuts);
-    while(iter.hasNext()) {
-        iter.next();
-        ret.append(QStringList() << iter.key() << iter.value());
-    }
-
-    return ret;
-
-}
-
-void PQShortcuts::setShortcut(QString cmd, QStringList sh) {
-
-    DBG << CURDATE << "PQShortcuts::getShortcutsForCommand()" << NL
-        << CURDATE << "** cmd = " << cmd.toStdString() << NL
-        << CURDATE << "** sh = " << sh.join(", ").toStdString() << NL;
-
-    if(readonly)
-        return;
-
-    dbCommitTimer->stop();
-    if(!dbIsTransaction) {
-        db.transaction();
-        dbIsTransaction = true;
-    }
-
-    if(cmd.startsWith("__")) {
-
-        shortcuts[cmd] = sh;
-
-        QSqlQuery query(db);
-        query.prepare("UPDATE builtin SET shortcuts=:sh WHERE command=:cmd");
-        query.bindValue(":sh", sh.join(", "));
-        query.bindValue(":cmd", cmd);
-        if(!query.exec())
-            LOG << CURDATE << "PQShortcuts::setShortcut() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-    } else {
-
-        if(externalShortcuts.contains(cmd)) {
-
-            externalShortcuts[cmd] = sh;
-
-            QSqlQuery query(db);
-            query.prepare("UPDATE external SET shortcuts=:sh,close=:cl WHERE command=:cmd");
-            query.bindValue(":cl", sh[0]);
-            query.bindValue(":sh", sh.mid(1).join(", "));
-            query.bindValue(":cmd", cmd);
-            if(!query.exec())
-                LOG << CURDATE << "PQShortcuts::setShortcut() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-        } else {
-
-            externalShortcuts[cmd] = sh;
-
-            QSqlQuery query(db);
-            query.prepare("INSERT INTO external (command,shortcuts,close) VALUES(:cmd, :sh, :cl)");
-            query.bindValue(":cl", sh[0]);
-            query.bindValue(":sh", sh.mid(1).join(", "));
-            query.bindValue(":cmd", cmd);
-            if(!query.exec())
-                LOG << CURDATE << "PQShortcuts::setShortcut() [3]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-
-        }
-
-    }
-
-    dbCommitTimer->start();
+    return QVariantList();
 
 }
 
@@ -266,83 +219,130 @@ void PQShortcuts::readDB() {
 
     DBG << CURDATE << "PQShortcuts::readShortcuts()" << NL;
 
+    shortcuts.clear();
+    shortcutsOrder.clear();
+
     QSqlQuery query(db);
-    query.prepare("SELECT command, shortcuts FROM builtin");
-    if(!query.exec()) {
+    if(!query.exec("SELECT `combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous` FROM 'shortcuts'")) {
         LOG << CURDATE << "PQShortcuts::readDB() [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
         return;
     }
 
     while(query.next()) {
 
-        const QString cmd = query.record().value(0).toString();
-        QString sh = query.record().value(1).toString();
+        const QString combo = query.value(0).toString();
+        const QStringList commands = query.value(1).toString().split(":://::");
+        const int cycle = query.value(2).toInt();
+        int cycletimeout = query.value(3).toInt();
+        const int simultaneous = query.value(4).toInt();
 
-        QStringList sh_parts;
-        if(sh == ",")
-            sh_parts << ",";
-        else if(sh != "") {
-            sh = sh.replace(",,","COMMA,");
-            if(sh.endsWith(", ,"))
-                sh.replace(sh.length()-3, sh.length(), ", COMMA");
-            const QStringList tmp = sh.split(",");
-            for(auto p : qAsConst(tmp))
-                sh_parts << p.replace("COMMA",",").trimmed();
-        }
+        if(cycle == 0 && simultaneous == 0)
+            cycletimeout = 1;
 
-        shortcuts[cmd] = sh_parts;
+        shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
+        shortcutsOrder.push_back(combo);
 
     }
 
     query.clear();
-    query.prepare("SELECT command, arguments, shortcuts, close FROM external");
-    if(!query.exec()) {
-        LOG << CURDATE << "PQShortcuts::readDB() [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
-        return;
-    }
-
-    while(query.next()) {
-
-        const QString cmd = query.record().value(0).toString();
-        const QString args = query.record().value(1).toString();
-        QString sh = query.record().value(2).toString();
-        const QString close = query.record().value(3).toString();
-
-        QStringList sh_parts;
-        sh_parts << close;
-        if(sh == ",")
-            sh_parts << ",";
-        else {
-            QStringList tmp = sh.replace(",,","COMMA,").split(",");
-            for(auto p : qAsConst(tmp))
-                sh_parts << p.replace("COMMA",",").trimmed();
-        }
-
-        externalShortcuts[QString("%1:://:://::%2").arg(cmd, args)] = sh_parts;
-
-    }
 
 }
 
-void PQShortcuts::deleteAllExternalShortcuts() {
+QVariantList PQShortcuts::getAllCurrentShortcuts() {
 
-    DBG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts()" << NL;
+    // we sort the entries by alphabetical key combo
+    // if multiple key combos are used for the same shortcut, then we use the first combo alphabetical in that list
+    QVariantList ret;
 
-    if(readonly)
-        return;
-
-    dbCommitTimer->stop();
-    if(!dbIsTransaction) {
-        db.transaction();
-        dbIsTransaction = true;
+    // first group cmds together
+    QMap<QString, QStringList> collectCmds;
+    QMapIterator<QString, QVariantList> iterSh(shortcuts);
+    while(iterSh.hasNext()) {
+        iterSh.next();
+        const QString key = iterSh.value()[0].toStringList().join(":://::");
+        if(collectCmds.keys().contains(key))
+            collectCmds[key].push_back(iterSh.key());
+        else
+            collectCmds.insert(key, QStringList() << iterSh.key());
     }
 
-    externalShortcuts.clear();
-    QSqlQuery query(db);
-    query.prepare("DELETE FROM external");
-    if(!query.exec())
-        LOG << CURDATE << "PQShortcuts::deleteAllExternalShortcuts(): SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+    // create list with individual keys as key and cmds as value
+    QMap<QString, QString> collectCombos;
+    QMapIterator<QString, QStringList> iterCmds(collectCmds);
+    while(iterCmds.hasNext()) {
+        iterCmds.next();
+        for(const auto &k : qAsConst(iterCmds.value()))
+            collectCombos[k] = iterCmds.key();
+    }
 
-    dbCommitTimer->start();
+    // make sure shortcuts are sorted alphabetically
+    shortcutsOrder.sort();
+
+    // loop over order and construct return list
+    QStringList processed;
+    for(const QString &o : qAsConst(shortcutsOrder)) {
+
+        if(processed.contains(o))
+            continue;
+
+        const QString cmd = collectCombos[o];
+        const QStringList allkeys = collectCmds[cmd];
+        for(const auto &a : allkeys)
+            processed.push_back(a);
+        QVariantList entry;
+        entry.append(allkeys);
+        entry.append(shortcuts[o][0]);
+        entry.append(shortcuts[o][1]);
+        entry.append(shortcuts[o][2]);
+        entry.append(shortcuts[o][3]);
+
+        ret.push_back(entry);
+
+    }
+
+    return ret;
+
+}
+
+void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
+
+    shortcuts.clear();
+
+    // remove old shortcuts
+    QSqlQuery query(db);
+    if(!query.exec("DELETE FROM 'shortcuts'")) {
+        LOG << CURDATE << "PQShortcuts::saveAllCurrentShortcuts [1]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
+    query.clear();
+
+    for (int i = 0; i < list.size(); ++i) {
+
+        QVariantList cur = list.at(i).toList();
+
+        const QStringList combos = cur[0].toStringList();
+        const QStringList cmds = cur[1].toStringList();
+        const int cycle = cur[2].toInt();
+        const int cycletimeout = cur[3].toInt();
+        const int simultaneous = cur[4].toInt();
+
+        QSqlQuery query(db);
+
+        for(const auto &c : combos) {
+            query.prepare("INSERT OR REPLACE INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :cmds, :cycle, :cycletimeout, :simultaneous)");
+            query.bindValue(":combo", c);
+            query.bindValue(":cmds", cmds.join(":://::"));
+            query.bindValue(":cycle", cycle);
+            query.bindValue(":cycletimeout", cycletimeout);
+            query.bindValue(":simultaneous", simultaneous);
+            if(!query.exec())
+                LOG << CURDATE << "PQShortcuts::saveAllCurrentShortcuts [2]: SQL error: " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+
+            shortcuts[c] = QVariantList() << cmds << cycle << cycletimeout << simultaneous;
+
+        }
+
+    }
 
 }

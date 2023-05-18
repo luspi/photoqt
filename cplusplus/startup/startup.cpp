@@ -344,29 +344,17 @@ bool PQStartup::renameShortcuts() {
 
     QSqlDatabase db = QSqlDatabase::database("shortcuts");
 
-    QMap<QString,QStringList> rename;
-    rename["__quickNavigation"] = QStringList() << "__navigationFloating" << "navigation";
+    // delete old entries
+    QSqlQuery query(db);
 
-    QMapIterator<QString, QStringList> i(rename);
-    while(i.hasNext()) {
-        i.next();
-
-        QString oldname = i.key();
-        QString newname = i.value().value(0);
-        QString cat = i.value().value(1);
-
-        QSqlQuery query(db);
-        query.prepare("UPDATE 'builtin' SET command=:new WHERE command=:old AND category=:cat");
-        query.bindValue(":new", newname);
-        query.bindValue(":old", oldname);
-        query.bindValue(":cat", cat);
-        if(!query.exec()) {
-            LOG << CURDATE << "PQValidate::renameShortcuts(): Error updating shortcuts command (" << oldname.toStdString() << " -> " << newname.toStdString() << "): " << query.lastError().text().trimmed().toStdString() << NL;
-            query.clear();
-            return false;
-        }
+    // required for transition to v3.3
+    if(!query.exec("DELETE FROM builtin WHERE command like '__keepMetaData'")) {
+        LOG << CURDATE << "PQValidate::renameShortcuts(): Error removing old shortcut '__keepMetaData': " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
+        return false;
     }
+
+    query.clear();
 
     return true;
 

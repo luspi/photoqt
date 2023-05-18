@@ -304,3 +304,23 @@ QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
     return ret;
 
 }
+
+int PQHandlingShortcuts::getNextCommandInCycle(QString combo, int timeout, int maxCmd) {
+
+    if(commandCycle.contains(combo)) {
+        const qint64 cur = QDateTime::currentSecsSinceEpoch();
+            if(timeout > 0 && abs(commandCycle[combo][1]-cur) >= timeout)
+            commandCycle[combo] = QList<qint64>() << 0 << QDateTime::currentSecsSinceEpoch();
+        else {
+            commandCycle[combo][0] = (commandCycle[combo][0]+1)%maxCmd;
+            commandCycle[combo][1] = cur;
+        }
+    } else
+        commandCycle[combo] = QList<qint64>() << 0 << QDateTime::currentSecsSinceEpoch();
+    return commandCycle[combo][0];
+
+}
+
+void PQHandlingShortcuts::resetCommandCycle(QString combo) {
+    commandCycle.remove(combo);
+}

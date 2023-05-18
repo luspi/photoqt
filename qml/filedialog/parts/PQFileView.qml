@@ -1404,7 +1404,7 @@ GridView {
         }
 
         if(existing.length == 0 && nonexisting.length == 0)
-            informUser.informUser("Nothing found", "There are no files/folders in the clipboard.")
+            informUser.informUser("Nothing found", "There are no files/folders in the clipboard.", "")
 
     }
 

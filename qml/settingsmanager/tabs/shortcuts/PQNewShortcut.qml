@@ -48,7 +48,10 @@ Rectangle {
     property var keyComboMods: []
     property string keyComboKey: ""
 
-    signal newCombo(var combo)
+    property int currentIndex: -1
+    property int currentSubIndex: -1
+
+    signal newCombo(var index, var subindex, var combo)
 
     function assembleKeyCombo() {
 
@@ -102,21 +105,23 @@ Rectangle {
         hoverEnabled: true
     }
 
-    PQTextL {
+    PQTextXL {
         id: titletxt
-        y: 10
+        y: insidecont.y-2*height
         width: parent.width
         font.weight: baselook.boldweight
         horizontalAlignment: Text.AlignHCenter
-        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut")
+        text: (newshortcut_top.currentSubIndex==-1 ? em.pty+qsTranslate("settingsmanager_shortcuts", "Add New Shortcut") : em.pty+qsTranslate("settingsmanager_shortcuts", "Set new shortcut"))
     }
 
     Rectangle {
 
+        id: insidecont
+
         x: (parent.width-width)/2
         y: (parent.height-height)/2-10
         width: Math.min(800, parent.width)
-        height: Math.min(600, parent.height-titletxt.height-butcont.height-40)
+        height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
         color: "#220000"
         border.width: 1
@@ -280,7 +285,7 @@ Rectangle {
 
         id: butcont
         x: (parent.width-width)/2
-        y: parent.height-height-20
+        y: insidecont.y+insidecont.height+height
         width: row.width
         height: row.height
 
@@ -314,7 +319,7 @@ Rectangle {
                             combo += mouseComboDirection.join("")
                         }
                     }
-                    tile_top.addNewCombo(combo)
+                    newCombo(currentIndex, currentSubIndex, combo)
                 }
             }
             PQButton {
@@ -368,22 +373,25 @@ Rectangle {
 
     }
 
-    Connections {
-        target: tile_top
-        onShowNewShortcut: {
+    function show(index, subindex) {
 
-            mouseComboMods = []
-            mouseComboButton = ""
-            mouseComboDirection = []
-            keyComboKey = ""
-            keyComboMods = []
+        mouseComboMods = []
+        mouseComboButton = ""
+        mouseComboDirection = []
+        keyComboKey = ""
+        keyComboMods = []
 
-            restartCancelTimer()
+        combo_txt.text = ""
 
-            newshortcut_top.opacity = 1
-            settingsmanager_top.modalWindowOpen = true
-            settingsmanager_top.detectingShortcutCombo = true
-        }
+        restartCancelTimer()
+
+        newshortcut_top.opacity = 1
+        settingsmanager_top.modalWindowOpen = true
+        settingsmanager_top.detectingShortcutCombo = true
+
+        newshortcut_top.currentIndex = index
+        newshortcut_top.currentSubIndex = subindex
+
     }
 
     function restartCancelTimer() {

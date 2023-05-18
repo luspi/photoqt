@@ -664,200 +664,147 @@ bool PQValidate::validateShortcutsDatabase() {
     /****************************************************/
     // First update external table
 
-    QSqlQuery queryCol(dbinstalled);
-    if(!queryCol.exec("SELECT count() FROM PRAGMA_TABLE_INFO('external')")) {
-        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error validating 'external' columns: " << queryCol.lastError().text().trimmed().toStdString() << NL;
-        queryCol.clear();
-        return false;
-    }
-
-    queryCol.next();
-    int c = queryCol.value(0).toInt();
-    queryCol.clear();
-
-    // If database needs to be migrated
-    if(c == 3) {
-
-        // backup old database
-        QFile f(ConfigFiles::SHORTCUTS_DB());
-        if(QFileInfo::exists(ConfigFiles::SHORTCUTS_DB() + ".bak"))
-            QFile::remove(ConfigFiles::SHORTCUTS_DB()+".bak");
-        if(!f.copy(ConfigFiles::SHORTCUTS_DB() + ".bak"))
-            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to backup old database, copying failed" << NL;
-
-        // add new column
-        if(!queryCol.exec("ALTER TABLE external ADD COLUMN arguments TEXT")) {
-            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error adding 'arguments' columns to 'external' table: " << queryCol.lastError().text().trimmed().toStdString() << NL;
-            queryCol.clear();
-            return false;
-        }
-
-        // Loop over existing data and update with new format
-        queryCol.clear();
-
-        if(!queryCol.exec("SELECT command,shortcuts,close FROM external")) {
-            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to migrate external shortcuts: " << queryCol.lastError().text().trimmed().toStdString() << NL;
-            queryCol.clear();
-            return false;
-        }
-
-        // save migrated data in list
-        QList<QStringList> lst;
-        while(queryCol.next()) {
-
-            QStringList oldexe = queryCol.value(0).toString().split(" ");
-            QString exec = oldexe.takeFirst();
-            QString args = oldexe.join(" ");
-
-            lst.append({exec, args, queryCol.value(1).toString(), queryCol.value(2).toString()});
-
-        }
-        queryCol.clear();
-
-        // if external shortcuts were set
-        if(lst.length() > 0) {
-
-            // delete old data
-            if(!queryCol.exec("DELETE FROM external")) {
-                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to remove old external shortcuts to fill in migrated data: " << queryCol.lastError().text().trimmed().toStdString() << NL;
-                queryCol.clear();
-                return false;
-            }
-            queryCol.clear();
-
-            // insert migrated data
-            for(const auto &l : qAsConst(lst)) {
-
-                QSqlQuery queryNew(dbinstalled);
-                queryNew.prepare("INSERT INTO external (command, arguments, shortcuts, close) VALUES (:cmd, :arg, :sh, :cl)");
-                queryNew.bindValue(":cmd", l[0]);
-                queryNew.bindValue(":arg", l[1]);
-                queryNew.bindValue(":sh", l[2]);
-                queryNew.bindValue(":cl", l[3]);
-                if(!queryNew.exec()) {
-                    LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Unable to insert migrated data, old data might be lost: " << queryNew.lastError().text().trimmed().toStdString() << NL;
-                    queryNew.clear();
-                    return false;
-                }
-            }
-
-        }
-
-    }
-
-    /****************************************************/
-    // Validate with default data
-
-    // open database
-    QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    QFile::copy(":/shortcuts.db", ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    QFile::setPermissions(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
-                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
-                          QFileDevice::ReadGroup);
-    dbdefault.setDatabaseName(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    if(!dbdefault.open())
-        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error opening default database: " << dbdefault.lastError().text().trimmed().toStdString() << NL;
-
-    QSqlQuery query(dbdefault);
-
-    // get reference data
-    query.prepare("SELECT category,command,shortcuts,defaultshortcuts FROM 'builtin'");
-    if(!query.exec()) {
-        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error getting default data: " << query.lastError().text().trimmed().toStdString() << NL;
+    QSqlQuery query(dbinstalled);
+    if(!query.exec("SELECT count() FROM PRAGMA_TABLE_INFO('shortcuts')")) {
+        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error checking for 'shortcuts' columns: " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
-        QFile::remove(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
-    // loop over reference data
-    while(query.next()) {
-
-        const QString category = query.value(0).toString();
-        const QString command = query.value(1).toString();
-        QString shortcuts = query.value(2).toString();
-        const QString defaultshortcuts = query.value(3).toString();
-
-        // check whether an entry with that name exists in the in-production database
-        QSqlQuery check(dbinstalled);
-        check.prepare("SELECT count(category) FROM builtin WHERE command=:command");
-        check.bindValue(":command", command);
-        if(!check.exec()) {
-            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error checking entry: " << command.toStdString() << ": " << check.lastError().text().trimmed().toStdString() << NL;
-            continue;
-        }
-        check.next();
-        int count = check.value(0).toInt();
-
-        check.clear();
-
-        // if there are multiples, we first get and store the possible desired value and then remove all of them
-        if(count > 1) {
-
-            QSqlQuery rem(dbinstalled);
-            rem.prepare("SELECT shortcuts FROM builtin WHERE command=:cmd AND shortcuts!=''");
-            rem.bindValue(":cmd", command);
-            if(!rem.exec()) {
-                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR getting value of multiples " << command.toStdString() << ": " << rem.lastError().text().trimmed().toStdString() << NL;
-                continue;
-            }
-            if(rem.next())
-                shortcuts = rem.value(0).toString();
-            else
-                shortcuts = "";
-
-            rem.clear();
-
-            rem.prepare("DELETE FROM builtin WHERE command=:cmd");
-            rem.bindValue(":cmd", command);
-            if(!rem.exec()) {
-                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR removing multiples " << command.toStdString() << ": " << rem.lastError().text().trimmed().toStdString() << NL;
-                continue;
-            }
-            rem.clear();
-
-            count = 0;
-        }
-
-        // if entry does not exist, add it
-        if(count == 0) {
-
-            QSqlQuery insquery(dbinstalled);
-            insquery.prepare("INSERT INTO builtin (category,command,shortcuts,defaultshortcuts) VALUES(:cat,:cmd,:sh,:def)");
-            insquery.bindValue(":cat", category);
-            insquery.bindValue(":cmd", command);
-            insquery.bindValue(":sh", shortcuts);
-            insquery.bindValue(":def", defaultshortcuts);
-
-            if(!insquery.exec()) {
-                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR inserting missing entry " << command.toStdString() << ": " << insquery.lastError().text().trimmed().toStdString() << NL;
-                continue;
-            }
-
-        // if entry does exist, make sure category and defaultshortcuts is valid
-        } else {
-
-            QSqlQuery check(dbinstalled);
-            check.prepare("UPDATE builtin SET category=:cat,defaultshortcuts=:def WHERE command=:cmd");
-            check.bindValue(":cat", category);
-            check.bindValue(":def", defaultshortcuts);
-            check.bindValue(":cmd", command);
-            if(!check.exec()) {
-                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error updating defaultvalue and datatype: " << command.toStdString() << ": " << check.lastError().text().trimmed().toStdString() << NL;
-                continue;
-            }
-            check.clear();
-
-        }
-
-    }
-
+    query.next();
+    int c = query.value(0).toInt();
     query.clear();
 
-    dbdefault.close();
+    // c==0 means that there is no shortcuts table yet
+    // and this implies the database still needs to be converted
+    if(c == 0) {
 
-    QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    if(!file.remove())
-        LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to remove ref db: " << file.errorString().toStdString() << NL;
+        // converting the old database to the new format is relatively straight forward
+        // as we can keep the old two tables around since the new table is called something different
+
+        // create new table
+        QSqlQuery query(dbinstalled);
+        if(!query.exec("CREATE TABLE 'shortcuts' (`combo` TEXT UNIQUE,`commands` TEXT,`cycle` INTEGER,`cycletimeout` INTEGER,`simultaneous` INTEGER)")) {
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to create new shortcuts table: " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            return false;
+        }
+
+        // then we load the old data into a map
+        QMap<QString, QStringList> data;
+
+        // first the builtin data
+        if(!query.exec("SELECT command,shortcuts FROM builtin")) {
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to read old builtin data: " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            return false;
+        }
+
+        while(query.next()) {
+
+            const QString cmd = query.value(0).toString();
+            const QStringList sh = query.value(1).toString().split(", ");
+
+            for(const QString &s : sh) {
+
+                if(s == "")
+                    continue;
+
+                // The default database does not have a space after the comma in this one case
+                if(s == "Escape,O") {
+                    if(data.keys().contains("Escape"))
+                        data["Escape"].push_back(cmd);
+                    else
+                        data["Escape"] = QStringList() << cmd;
+                    if(data.keys().contains("O"))
+                        data["O"].push_back(cmd);
+                    else
+                        data["O"] = QStringList() << cmd;
+                } else {
+
+                    if(data.keys().contains(s))
+                        data[s.trimmed()].push_back(cmd);
+                    else
+                        data[s.trimmed()] = QStringList() << cmd;
+
+                }
+
+            }
+
+        }
+
+        query.clear();
+
+        // then the external data
+        if(!query.exec("SELECT command,arguments,shortcuts,close FROM external")) {
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to read old external data: " << query.lastError().text().trimmed().toStdString() << NL;
+            query.clear();
+            return false;
+        }
+
+        while(query.next()) {
+
+            QString cmd = query.value(0).toString();
+            QString args = query.value(1).toString();
+            const QString sh = query.value(2).toString();
+            const int close = query.value(3).toInt();
+
+            if(sh == "")
+                continue;
+
+            if(args.trimmed() == "" && cmd.contains(":://:://::")) {
+                args = cmd.split(":://:://::")[1];
+                cmd = cmd.split(":://:://::")[0];
+            }
+
+            QString val = QString("%1:/:/:%2:/:/:%3").arg(cmd).arg(args).arg(close);
+
+            if(data.keys().contains(sh))
+                data[sh.trimmed()].push_back(val);
+            else
+                data[sh.trimmed()] = QStringList() << val;
+
+        }
+
+        dbinstalled.transaction();
+
+        QMapIterator<QString, QStringList> iter(data);
+        while (iter.hasNext()) {
+            iter.next();
+
+            QSqlQuery query(dbinstalled);
+
+            const QString sh = iter.key();
+            const QStringList cmd = iter.value();
+            if(cmd.length() == 0)
+                continue;
+            else if(cmd.length() == 1)
+                query.prepare("INSERT INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :cmd, 1, 0, 0)");
+            else
+                query.prepare("INSERT INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :cmd, 0, 0, 1)");
+
+            query.bindValue(":combo", sh);
+            query.bindValue(":cmd", cmd);
+
+            if(!query.exec()) {
+                LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): ERROR: Unable to write new data: " << query.lastError().text().trimmed().toStdString() << NL;
+                query.clear();
+                return false;
+            }
+
+            query.clear();
+
+        }
+
+        dbinstalled.commit();
+        if(dbinstalled.lastError().text().trimmed().length()) {
+            LOG << "PQValidate::validateShortcutsDatabase(): ERROR committing database: "
+                << dbinstalled.lastError().text().trimmed().toStdString()
+                << NL;
+            return false;
+        }
+
+    }
 
     return true;
 
@@ -936,8 +883,6 @@ bool PQValidate::validateSettingsValues() {
     // update what needs fixing
     for(int i = 0; i < toUpdate.size(); ++i) {
         QList<QVariant> lst = toUpdate.at(i);
-
-        qDebug() << "updating:" << lst;
 
         QSqlQuery query(dbinstalled);
 

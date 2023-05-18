@@ -34,6 +34,8 @@ Slider {
     hoverEnabled: true
 
     implicitHeight: 20
+    property int handleHeight: 20
+    property int handleWidth: 20
 
     font.pointSize: baselook.fontsize
     font.weight: baselook.normalweight
@@ -90,9 +92,9 @@ Slider {
     handle: Rectangle {
         x: control.leftPadding + control.visualPosition * (control.availableWidth - width)
         y: control.topPadding + control.availableHeight / 2 - height / 2
-        implicitWidth: 20
-        implicitHeight: 20
-        radius: 10
+        implicitWidth: control.handleWidth
+        implicitHeight: control.handleHeight
+        radius: control.handleWidth/2
         color: control.enabled ? (control.pressed ? "#f0f0f0" : "#f6f6f6") : "#777777"
         border.color: "#bdbebf"
         MouseArea {

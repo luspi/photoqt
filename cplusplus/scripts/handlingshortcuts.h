@@ -39,6 +39,12 @@ public:
     Q_INVOKABLE int convertCharacterToKeyCode(QString key);
     Q_INVOKABLE QString convertKeyCodeToText(int id);
 
+    Q_INVOKABLE int getNextCommandInCycle(QString combo, int timeout, int maxCmd);
+    Q_INVOKABLE void resetCommandCycle(QString combo);
+
+private:
+    QMap<QString, QList<qint64>> commandCycle;
+
 };
 
 

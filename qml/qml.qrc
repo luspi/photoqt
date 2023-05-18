@@ -113,9 +113,7 @@
         <file>settingsmanager/tabs/metadata/PQFaceTagsFontSize.qml</file>
         <file>settingsmanager/tabs/metadata/PQFaceTagsBorder.qml</file>
         <file>elements/PQHorizontalLine.qml</file>
-        <file>settingsmanager/tabs/PQTabShortcuts.qml</file>
         <file>settingsmanager/tabs/PQTabFileTypes.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQContainer.qml</file>
         <file>shortcuts/mouseshortcuts.js</file>
         <file>filemanagement/PQCopyMove.qml</file>
         <file>mainwindow/PQLoading.qml</file>
@@ -135,10 +133,6 @@
         <file>mainwindow/image/PQFaceTagsUnsupported.qml</file>
         <file>PQTrayIcon.qml</file>
         <file>PQCmdReceived.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQExternalContainer.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQExternalShortcutTile.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQNewShortcut.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQShortcutTile.qml</file>
         <file>settingsmanager/PQRestoreDefaults.qml</file>
         <file>mainwindow/PQContextMenu.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQExcludeFolders.qml</file>
@@ -155,7 +149,6 @@
         <file>menumeta/PQMainMenuGroup.qml</file>
         <file>settingsmanager/tabs/imageview/PQZoomToFrom.qml</file>
         <file>settingsmanager/tabs/imageview/PQZoomMinMax.qml</file>
-        <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
         <file>PQWindowSizePopupManager.qml</file>
         <file>settingsmanager/tabs/interface/PQPopoutWhenSmall.qml</file>
         <file>wallpaper/ele/PQWindows.qml</file>
@@ -181,5 +174,9 @@
         <file>settingsmanager/tabs/thumbnails/PQHighlightAnimation.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQShowTooltip.qml</file>
         <file>settingsmanager/tabs/interface/PQOpenGL.qml</file>
+        <file>settingsmanager/tabs/PQTabShortcuts.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQNewAction.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQNewShortcut.qml</file>
     </qresource>
 </RCC>
