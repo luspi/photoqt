@@ -630,8 +630,8 @@ Item {
                                     id: c2
                                     x: 30
                                     y: (parent.height-height)/2
-                                    text: cmd.startsWith("__")
-                                                ? (cmd in tab_shortcuts.actions ? tab_shortcuts.actions[cmd][0] : cmd)
+                                    text: cmd.startsWith("__")                                                     //: The unknown here refers to an unknown internal action that was set as shortcut
+                                                ? (cmd in tab_shortcuts.actions ? tab_shortcuts.actions[cmd][0] : ("<i>"+em.pty+qsTranslate("settingsmanager_shortcuts", "unknown:")+"</i> "+cmd))
                                                   //: This is an identifier in the shortcuts settings used to identify an external shortcut.
                                                 : ("<i>" + em.pty+qsTranslate("settingsmanager_shortcuts", "external") + "</i>: " +
                                                    cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] +
