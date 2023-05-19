@@ -68,10 +68,29 @@ Item {
 
         id: renderer
 
+        // we reverse this conection when the image is moved with shortcuts
+        // this ensures that there is no animation set on x/y at image load
+        // to avoid unnecessary movement of item at load
+        // but adds animation when wanted
+        property real curX: x
+        property real curY: y
+        Behavior on curX { NumberAnimation { duration: 200 } }
+        Behavior on curY { NumberAnimation { duration: 200 } }
+
         x: (parent.width-width)/2
         y: (parent.height-height)/2
         width: Math.min(mediaInfoWidth, parent.width)
         height: Math.min(mediaInfoHeight, parent.height)
+
+        function addx(x) {
+            renderer.x = Qt.binding(function() { return curX; })
+            curX = renderer.x+x
+        }
+
+        function addy(y) {
+            renderer.y = Qt.binding(function() { return curY; })
+            curY = renderer.y+y
+        }
 
         // this is set to true after 100ms after calling loadFile
         visible: false
@@ -489,6 +508,18 @@ Item {
                 renderer.command(["loadfile", src])
             else
                 renderer.command(["seek", "0", "absolute"])
+        }
+        onMoveViewLeft: {
+            renderer.addx(100)
+        }
+        onMoveViewRight: {
+            renderer.addx(-100)
+        }
+        onMoveViewUp: {
+            renderer.addy(100)
+        }
+        onMoveViewDown: {
+            renderer.addy(-100)
         }
     }
 

@@ -71,10 +71,29 @@ Item {
         // Windows complains about missing '/' at the start, we need 3 (!) here for video files to play
         source: "file:///" + handlingGeneral.toPercentEncoding(src)
 
+        // we reverse this conection when the image is moved with shortcuts
+        // this ensures that there is no animation set on x/y at image load
+        // to avoid unnecessary movement of item at load
+        // but adds animation when wanted
+        property real curX: x
+        property real curY: y
+        Behavior on curX { NumberAnimation { duration: 200 } }
+        Behavior on curY { NumberAnimation { duration: 200 } }
+
         x: (parent.width-width)/2
         y: (parent.height-height)/2
         width: PQSettings.imageviewFitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
         height: PQSettings.imageviewFitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
+
+        function addx(x) {
+            videoelem.x = Qt.binding(function() { return curX; })
+            curX = videoelem.x+x
+        }
+
+        function addy(y) {
+            videoelem.y = Qt.binding(function() { return curY; })
+            curY = videoelem.y+y
+        }
 
         volume: PQSettings.filetypesVideoVolume/100
 
@@ -415,6 +434,18 @@ Item {
         }
         onRestartAnim: {
             videoelem.seek(0)
+        }
+        onMoveViewLeft: {
+            videoelem.addx(100)
+        }
+        onMoveViewRight: {
+            videoelem.addx(-100)
+        }
+        onMoveViewUp: {
+            videoelem.addy(100)
+        }
+        onMoveViewDown: {
+            videoelem.addy(-100)
         }
     }
 

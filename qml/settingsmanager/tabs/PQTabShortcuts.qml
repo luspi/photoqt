@@ -71,6 +71,22 @@ Item {
         "__toggleAlwaysActualSize": [em.pty+qsTranslate("settingsmanager_shortcuts", "Toggle: Show always actual size by default"), "viewingimages"],
                                  //: Name of shortcut action
         "__chromecast":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Stream content to Chromecast device"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__moveViewLeft":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Move view left"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__moveViewRight":      [em.pty+qsTranslate("settingsmanager_shortcuts", "Move view right"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__moveViewUp":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Move view up"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__moveViewDown":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Move view down"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__goToLeftEdge":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Go to left edge of image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__goToRightEdge":      [em.pty+qsTranslate("settingsmanager_shortcuts", "Go to right edge of image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__goToTopEdge":        [em.pty+qsTranslate("settingsmanager_shortcuts", "Go to top edge of image"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__goToBottomEdge":     [em.pty+qsTranslate("settingsmanager_shortcuts", "Go to bottom edge of image"), "viewingimages"],
 
 
         // SPECIAL ACTION WITH CURRENT IMAGE

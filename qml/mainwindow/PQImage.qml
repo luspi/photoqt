@@ -55,6 +55,16 @@ Item {
     signal mirrorV()
     signal mirrorReset()
 
+    signal moveViewLeft()
+    signal moveViewRight()
+    signal moveViewUp()
+    signal moveViewDown()
+
+    signal goToLeftEdge()
+    signal goToRightEdge()
+    signal goToTopEdge()
+    signal goToBottomEdge()
+
     signal playPauseAnim()
     signal playAnim()
     signal pauseAnim()

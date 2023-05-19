@@ -391,6 +391,38 @@ Item {
         onPlayPauseAnim: {
             theimage.playing = !theimage.playing
         }
+        onMoveViewLeft: {
+            theimage.curX += 100
+        }
+        onMoveViewRight: {
+            theimage.curX -= 100
+        }
+        onMoveViewUp: {
+            theimage.curY += 100
+        }
+        onMoveViewDown: {
+            theimage.curY -= 100
+        }
+        onGoToLeftEdge: {
+            if(theimage.paintedWidth*theimage.curScale <= container.width)
+                return
+            theimage.curX = (theimage.width/2)*theimage.curScale - ((container.width-2*PQSettings.imageviewMargin)/2)
+        }
+        onGoToRightEdge: {
+            if(theimage.paintedWidth*theimage.curScale <= container.width)
+                return
+            theimage.curX = -(theimage.width/2)*theimage.curScale + ((container.width-PQSettings.imageviewMargin)/2)
+        }
+        onGoToTopEdge: {
+            if(theimage.paintedHeight*theimage.curScale <= container.height)
+                return
+            theimage.curY = (theimage.height/2)*theimage.curScale - ((container.height-2*PQSettings.imageviewMargin)/2)
+        }
+        onGoToBottomEdge: {
+            if(theimage.paintedHeight*theimage.curScale <= container.height)
+                return
+            theimage.curY = -(theimage.height/2)*theimage.curScale + ((container.height-PQSettings.imageviewMargin)/2)
+        }
     }
 
     Connections {

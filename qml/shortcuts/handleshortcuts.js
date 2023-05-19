@@ -210,5 +210,20 @@ function executeInternalFunction(cmd, wheelDelta) {
                 PQSettings.interfaceTrayIcon = 1
             toplevel.closePhotoQt()
         }
-    }
+    } else if(cmd == "__moveViewLeft")
+        imageitem.moveViewLeft()
+    else if(cmd == "__moveViewRight")
+        imageitem.moveViewRight()
+    else if(cmd == "__moveViewUp")
+        imageitem.moveViewUp()
+    else if(cmd == "__moveViewDown")
+        imageitem.moveViewDown()
+    else if(cmd == "__goToLeftEdge")
+        imageitem.goToLeftEdge()
+    else if(cmd == "__goToRightEdge")
+        imageitem.goToRightEdge()
+    else if(cmd == "__goToTopEdge")
+        imageitem.goToTopEdge()
+    else if(cmd == "__goToBottomEdge")
+        imageitem.goToBottomEdge()
 }
