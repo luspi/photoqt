@@ -254,12 +254,14 @@ Item {
                 PQLineEdit {
                     id: filter_combo
                     width: 400
+                    enabled: (newaction.opacity!=1 && newshortcut.opacity!=1)
                     placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter key combinations")
                 }
 
                 PQLineEdit {
                     id: filter_action
                     width: (col.width-400)/2-20
+                    enabled: (newaction.opacity!=1 && newshortcut.opacity!=1)
                     placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter shortcut actions")
                 }
 
