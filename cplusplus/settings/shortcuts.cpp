@@ -307,6 +307,7 @@ QVariantList PQShortcuts::getAllCurrentShortcuts() {
 void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
 
     shortcuts.clear();
+    shortcutsOrder.clear();
 
     // remove old shortcuts
     QSqlQuery query(db);
@@ -340,6 +341,7 @@ void PQShortcuts::saveAllCurrentShortcuts(QVariantList list) {
             query.clear();
 
             shortcuts[c] = QVariantList() << cmds << cycle << cycletimeout << simultaneous;
+            shortcutsOrder.push_back(c);
 
         }
 
