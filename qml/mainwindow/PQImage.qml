@@ -60,6 +60,8 @@ Item {
     signal moveViewUp()
     signal moveViewDown()
 
+    signal moveImageByMouse(var angleDelta)
+
     signal goToLeftEdge()
     signal goToRightEdge()
     signal goToTopEdge()

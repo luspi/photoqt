@@ -30,6 +30,8 @@ Item {
 
     MouseArea {
 
+        id: mousearea
+
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
 
@@ -44,6 +46,11 @@ Item {
 
             if(variables.visibleItem!="")
                 return
+
+            if(PQSettings.imageviewUseMouseWheelForImageMove && wheel.modifiers==Qt.NoModifier) {
+                imageitem.moveImageByMouse(wheel.angleDelta)
+                return
+            }
 
             var combo = ""
 
@@ -102,49 +109,7 @@ Item {
         property bool pressed: false
 
         onPressed: {
-
-            prevPos = Qt.point(mouse.x, mouse.y)
-            lastDirection = ""
-            path = []
-            modifiers = []
-            buttons = []
-            if(variables.visibleItem=="")
-                pressed = true
-            else
-                loader.passMouseEvent(variables.visibleItem, mouse.button, mouse.modifiers)
-
-            if(mouse.buttons & Qt.LeftButton)
-                buttons.push("Left Button")
-            if(mouse.buttons & Qt.MiddleButton)
-                buttons.push("Middle Button")
-            if(mouse.buttons & Qt.RightButton)
-                buttons.push("Right Button")
-            if(mouse.buttons & Qt.ForwardButton)
-                buttons.push("Forward Button")
-            if(mouse.buttons & Qt.BackButton)
-                buttons.push("Back Button")
-            if(mouse.buttons & Qt.TaskButton)
-                buttons.push("Task Button")
-            if(mouse.buttons & Qt.ExtraButton4)
-                buttons.push("Button #7")
-            if(mouse.buttons & Qt.ExtraButton5)
-                buttons.push("Button #8")
-            if(mouse.buttons & Qt.ExtraButton6)
-                buttons.push("Button #9")
-            if(mouse.buttons & Qt.ExtraButton7)
-                buttons.push("Button #10")
-
-            if(mouse.modifiers & Qt.ControlModifier)
-                modifiers.push("Ctrl")
-            if(mouse.modifiers & Qt.AltModifier)
-                modifiers.push("Alt")
-            if(mouse.modifiers & Qt.ShiftModifier)
-                modifiers.push("Shift")
-            if(mouse.modifiers & Qt.MetaModifier)
-                modifiers.push("Meta")
-            if(mouse.modifiers & Qt.KeypadModifier)
-                modifiers.push("Keypad")
-
+            processPressed(mouse)
         }
 
         onDoubleClicked:
@@ -186,40 +151,90 @@ Item {
         }
 
         onReleased: {
+            processReleased()
+        }
 
-            if(variables.visibleItem!="")
-                return
+    }
 
-            var combo = modifiers.join("+")
-            if(combo != "")
-                combo += "+"
-            combo += buttons.join("+")
-            if(path.length > 0)
-                combo += "+"
-            combo += path.join("")
+    function processPressed(mouse) {
 
-            pressed = false
+        mousearea.prevPos = Qt.point(mouse.x, mouse.y)
+        mousearea.lastDirection = ""
+        mousearea.path = []
+        mousearea.modifiers = []
+        mousearea.buttons = []
+        if(variables.visibleItem=="")
+            mousearea.pressed = true
+        else
+            loader.passMouseEvent(variables.visibleItem, mouse.button, mouse.modifiers)
 
-            // click outside of container
-            if(combo == "Left Button") {
-                if(PQSettings.interfaceCloseOnEmptyBackground) {
-                    if(!emptymessage.visible) {
-                        toplevel.close()
-                        return
-                    }
-                } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground && !emptymessage.visible) {
-                    PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
+        if(mouse.buttons & Qt.LeftButton)
+            mousearea.buttons.push("Left Button")
+        if(mouse.buttons & Qt.MiddleButton)
+            mousearea.buttons.push("Middle Button")
+        if(mouse.buttons & Qt.RightButton)
+            mousearea.buttons.push("Right Button")
+        if(mouse.buttons & Qt.ForwardButton)
+            mousearea.buttons.push("Forward Button")
+        if(mouse.buttons & Qt.BackButton)
+            mousearea.buttons.push("Back Button")
+        if(mouse.buttons & Qt.TaskButton)
+            mousearea.buttons.push("Task Button")
+        if(mouse.buttons & Qt.ExtraButton4)
+            mousearea.buttons.push("Button #7")
+        if(mouse.buttons & Qt.ExtraButton5)
+            mousearea.buttons.push("Button #8")
+        if(mouse.buttons & Qt.ExtraButton6)
+            mousearea.buttons.push("Button #9")
+        if(mouse.buttons & Qt.ExtraButton7)
+            mousearea.buttons.push("Button #10")
+
+        if(mouse.modifiers & Qt.ControlModifier)
+            mousearea.modifiers.push("Ctrl")
+        if(mouse.modifiers & Qt.AltModifier)
+            mousearea.modifiers.push("Alt")
+        if(mouse.modifiers & Qt.ShiftModifier)
+            mousearea.modifiers.push("Shift")
+        if(mouse.modifiers & Qt.MetaModifier)
+            mousearea.modifiers.push("Meta")
+        if(mouse.modifiers & Qt.KeypadModifier)
+            mousearea.modifiers.push("Keypad")
+
+    }
+
+    function processReleased() {
+
+        if(variables.visibleItem!="")
+            return
+
+        var combo = mousearea.modifiers.join("+")
+        if(combo != "")
+            combo += "+"
+        combo += mousearea.buttons.join("+")
+        if(mousearea.path.length > 0)
+            combo += "+"
+        combo += mousearea.path.join("")
+
+        mousearea.pressed = false
+
+        // click outside of container
+        if(combo == "Left Button") {
+            if(PQSettings.interfaceCloseOnEmptyBackground) {
+                if(!emptymessage.visible) {
+                    toplevel.close()
                     return
                 }
+            } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground && !emptymessage.visible) {
+                PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
+                return
             }
-
-            // a click on the empty background when no image is loaded shows filedialog
-            if(emptymessage.visible && combo == "Left Button")
-                loader.show("filedialog")
-            else
-                HandleShortcuts.checkComboForShortcut(combo)
-
         }
+
+        // a click on the empty background when no image is loaded shows filedialog
+        if(emptymessage.visible && combo == "Left Button")
+            loader.show("filedialog")
+        else
+            HandleShortcuts.checkComboForShortcut(combo)
 
     }
 

@@ -247,9 +247,19 @@ Item {
 
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
 
+            propagateComposedEvents: true
+
             onPressAndHold: {
                 variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
                 contextmenu.showMenu()
+            }
+
+            onWheel: {
+                if(PQSettings.imageviewUseMouseWheelForImageMove && wheel.modifiers==Qt.NoModifier) {
+                    theimage.curX += wheel.angleDelta.x
+                    theimage.curY += wheel.angleDelta.y
+                } else
+                    wheel.accepted = false
             }
 
             onClicked:
@@ -423,6 +433,12 @@ Item {
         onMirrorReset: {
             theimage.mirror = false
         }
+
+        onMoveImageByMouse: {
+            theimage.curX += angleDelta.x
+            theimage.curY += angleDelta.y
+        }
+
         onMoveViewLeft: {
             theimage.curX += 100
         }

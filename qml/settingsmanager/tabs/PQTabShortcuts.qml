@@ -234,7 +234,9 @@ Item {
                 text: em.pty+qsTranslate("settingsmanager_shortcuts", "Here the shortcuts are managed. Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of cycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning. Any group that has no key combinations set will be deleted when the settings are saved.")
             }
 
-            PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
+            PQHorizontalLine { expertModeOnly: msmve.expertmodeonly }
+            PQMouseWheelMoveImage { id: msmve }
+            PQHorizontalLine { expertModeOnly: msmve.expertmodeonly }
             PQDoubleClick { id: dblclk }
             PQHorizontalLine { expertModeOnly: dblclk.expertmodeonly }
 
