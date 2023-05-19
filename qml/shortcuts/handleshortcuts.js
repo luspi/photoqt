@@ -48,7 +48,7 @@ function checkComboForShortcut(combo, wheelDelta) {
         for(var c in commands) {
             var cmd = commands[c]
             if(cmd[0] == "_" && cmd[1] == "_")
-                executeInternalFunction(cmd)
+                executeInternalFunction(cmd, wheelDelta)
             else {
                 if(filefoldermodel.countMainView == 0)
                     return
@@ -66,7 +66,7 @@ function checkComboForShortcut(combo, wheelDelta) {
         var index = handlingShortcuts.getNextCommandInCycle(combo, cycletimeout, commands.length)
         var cmd = commands[index]
         if(cmd[0] == "_" && cmd[1] == "_")
-            executeInternalFunction(cmd)
+            executeInternalFunction(cmd, wheelDelta)
         else {
             if(filefoldermodel.countMainView == 0)
                 return

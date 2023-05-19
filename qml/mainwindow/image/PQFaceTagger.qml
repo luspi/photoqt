@@ -79,6 +79,41 @@ Item {
 
         }
 
+        onMouseXChanged: {
+            if(mouseDown) {
+                var pos = facetagger_top.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                handleMouseMove(pos)
+            }
+        }
+
+        onMouseYChanged: {
+            if(mouseDown) {
+                var pos = facetagger_top.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                handleMouseMove(pos)
+            }
+        }
+
+    }
+
+    function handleMouseMove(pos) {
+        if(newtag.visible && !namecont.visible) {
+
+            var p = facetagger_top.mapFromItem(bgimage, pos.x, pos.y)
+
+            var newWidth = p.x-newtag.setX
+            var newHeight = p.y-newtag.setY
+
+            if(newtag.setX+newWidth > facetagger_top.width)
+                newWidth = facetagger_top.width-newtag.setX
+            newtag.setWidth = newWidth
+
+            if(newtag.setY+newHeight > facetagger_top.height)
+                newHeight = facetagger_top.height-newtag.setY
+            newtag.setHeight = newHeight
+
+            updateNewtagPos()
+
+        }
     }
 
     Repeater {
@@ -229,34 +264,6 @@ Item {
                 }
             }
         }
-    }
-
-    // react to mouse movements
-    Connections {
-
-        target: variables
-
-        onMousePosChanged: {
-            if(newtag.visible && !namecont.visible) {
-
-                var p = facetagger_top.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y)
-
-                var newWidth = p.x-newtag.setX
-                var newHeight = p.y-newtag.setY
-
-                if(newtag.setX+newWidth > facetagger_top.width)
-                    newWidth = facetagger_top.width-newtag.setX
-                newtag.setWidth = newWidth
-
-                if(newtag.setY+newHeight > facetagger_top.height)
-                    newHeight = facetagger_top.height-newtag.setY
-                newtag.setHeight = newHeight
-
-                updateNewtagPos()
-
-            }
-        }
-
     }
 
     Connections {

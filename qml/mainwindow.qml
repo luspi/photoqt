@@ -262,7 +262,7 @@ Window {
 
     // this needs to come BEFORE some of the following items
     // otherwise they will not be able to receive mouse events at all
-    PQMouseShortcuts { id: mouseshortcuts }
+    PQMainMouseArea { id: mainmousearea }
 
     PQImage { id: imageitem }
     PQStatusInfo { id: statusinfo }

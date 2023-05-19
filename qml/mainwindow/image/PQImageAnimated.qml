@@ -228,7 +228,7 @@ Item {
                 contextmenu.hideMenu()
 
             onDoubleClicked:
-                mouseshortcuts.gotDoubleClick(mouse)
+                mainmousearea.gotDoubleClick(mouse)
 
             onReleased: {
                 theimage.curX = theimage.x
@@ -262,8 +262,12 @@ Item {
                 interval: 1000
                 repeat: false
                 running: true
-                onTriggered:
-                    mousearea.cursorShape = Qt.BlankCursor
+                onTriggered: {
+                    if(contextmenu.isOpen)
+                        hidecursor.restart()
+                    else
+                        mousearea.cursorShape = Qt.BlankCursor
+                }
             }
 
         }

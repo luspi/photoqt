@@ -14,7 +14,7 @@
         <file>elements/PQScrollBar.qml</file>
         <file>PQLoader.qml</file>
         <file>PQVariables.qml</file>
-        <file>shortcuts/PQMouseShortcuts.qml</file>
+        <file>shortcuts/PQMainMouseArea.qml</file>
         <file>shortcuts/handleshortcuts.js</file>
         <file>shortcuts/PQKeyShortcuts.qml</file>
         <file>mainwindow/PQThumbnailBar.qml</file>

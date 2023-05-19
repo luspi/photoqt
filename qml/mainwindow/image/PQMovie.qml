@@ -190,7 +190,7 @@ Item {
                 cursorShape: controls.mouseHasBeenMovedRecently ? Qt.ArrowCursor : Qt.BlankCursor
 
                 onPressAndHold: {
-                    variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                    variables.mousePos = videomouse.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
                     contextmenu.showMenu()
                 }
 
