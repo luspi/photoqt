@@ -82,7 +82,7 @@ function checkComboForShortcut(combo, wheelDelta) {
 
 }
 
-function executeInternalFunction(cmd) {
+function executeInternalFunction(cmd, wheelDelta) {
 
     if(cmd === "__quit")
         toplevel.quitPhotoQt()
