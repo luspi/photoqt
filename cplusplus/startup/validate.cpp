@@ -648,6 +648,9 @@ bool PQValidate::validateSettingsDatabase() {
 
 bool PQValidate::validateShortcutsDatabase() {
 
+    // This is also called in PQStartup::migrateShortcutsToDb()
+    // and PQHandlingExternal::importConfigFrom()
+
     QSqlDatabase dbinstalled = QSqlDatabase::database("shortcuts");
 
     QSqlDatabase dbdefault;
@@ -661,9 +664,7 @@ bool PQValidate::validateShortcutsDatabase() {
         return false;
     }
 
-    /****************************************************/
-    // First update external table
-
+    // check for status of database
     QSqlQuery query(dbinstalled);
     if(!query.exec("SELECT count() FROM PRAGMA_TABLE_INFO('shortcuts')")) {
         LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): Error checking for 'shortcuts' columns: " << query.lastError().text().trimmed().toStdString() << NL;

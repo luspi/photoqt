@@ -442,7 +442,7 @@ bool PQStartup::migrateContextmenuToDb() {
 
     if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::CONTEXTMENU_FILE())))
         if(!QFile::remove(ConfigFiles::CONTEXTMENU_FILE()))
-            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to remove old contextmenu file" << NL;
+            LOG << CURDATE << "PQStartup::migrateContextmenuToDb(): Failed to remove old contextmenu file" << NL;
 
     return true;
 
@@ -450,183 +450,23 @@ bool PQStartup::migrateContextmenuToDb() {
 
 bool PQStartup::migrateShortcutsToDb() {
 
-    QFile file(ConfigFiles::SHORTCUTS_FILE());
     QFile dbfile(ConfigFiles::SHORTCUTS_DB());
 
     // if the database doesn't exist, we always need to create it
     if(!dbfile.exists()) {
-        if(!QFile::copy(":/shortcuts.db", ConfigFiles::SHORTCUTS_DB()))
+        if(!QFile::copy(":/shortcuts.db", ConfigFiles::SHORTCUTS_DB())) {
             LOG << CURDATE << "PQStartup::migrateShortcutsToDb: unable to create shortcuts database" << NL;
-        else {
+            return false;
+        } else {
             QFile file(ConfigFiles::SHORTCUTS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+            return true;
         }
     }
 
-    // nothing to migrate -> we're done
-    if(!file.exists())
-        return true;
-
-
-    // access database
-    QSqlDatabase db = QSqlDatabase::database("shortcuts");
-
-    // open database
-    if(!db.open()) {
-        LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Error opening database: " << db.lastError().text().trimmed().toStdString() << NL;
-        return false;
-    }
-
-    if(!file.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to open old shortcuts file" << NL;
-        return false;
-    }
-
-    QTextStream in(&file);
-    QString txt = file.readAll();
-
-    // before 2.3, we used an old format
-    // for 2.3 and 2.4, the format was already better
-    bool oldFormat = false;
-    if(txt.contains("Version=") && !txt.contains("Version=dev")) {
-        double oldVersion = txt.split("Version=").at(1).split("\n").at(0).toDouble();
-        if(oldVersion < 2.3)
-            oldFormat = true;
-    }
-
-    // old pre-2.3 format
-    if(oldFormat) {
-
-        // first we need to collect the shortcuts set for each command
-        QMap<QString, QStringList> newShortcuts;
-
-        const QStringList parts = txt.split("\n");
-        for(const QString &p : parts) {
-
-            if(!p.contains("::"))
-                continue;
-
-            const QStringList entries = p.split("::");
-            if(entries.count() > 3 || entries.at(1) == "__")
-                continue;
-
-            const QString cmd = QString("%1::%2").arg(entries.at(0), entries.at(2));
-            const QString sh = entries.at(1);
-
-            if(newShortcuts.contains(cmd))
-                newShortcuts[cmd].append(sh);
-            else
-                newShortcuts.insert(cmd, QStringList() << sh);
-
-        }
-
-        db.transaction();
-
-        // write shortcuts to database
-        QMap<QString, QStringList>::const_iterator iter = newShortcuts.constBegin();
-        while(iter != newShortcuts.constEnd()) {
-
-            const QString close = iter.key().split("::").at(0);
-            const QString cmd = iter.key().split("::").at(1);
-            const QString sh = iter.value().join(", ");
-
-            if(cmd.startsWith("__")) {
-
-                QSqlQuery query(db);
-                query.prepare("UPDATE builtin SET shortcuts=:sh WHERE command=:cmd");
-                query.bindValue(":sh", sh);
-                query.bindValue(":cmd", cmd);
-                if(!query.exec())
-                    LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error [1]: " << query.lastError().text().trimmed().toStdString() << NL;
-
-            } else {
-
-                QSqlQuery query(db);
-                query.prepare("INSERT INTO external (command,shortcuts,close) VALUES(:cmd,:sh,:cl)");
-                query.bindValue(":sh", sh);
-                query.bindValue(":cl", close);
-                query.bindValue(":cmd", cmd);
-                if(!query.exec())
-                    LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error [2]: " << query.lastError().text().trimmed().toStdString() << NL;
-
-            }
-
-            ++iter;
-
-        }
-
-        db.commit();
-
-    // format of 2.3 and 2.4
-    } else {
-
-        const QStringList parts = txt.split("\n");
-
-        db.transaction();
-
-        for(const auto &line : parts) {
-
-            if(line.startsWith("Version="))
-                continue;
-
-            QStringList p = line.split("::");
-            if(p.length() < 3)
-                continue;
-
-            const QString close = p.at(0);
-            const QString cmd = p.at(1);
-            const QString sh = p.mid(2).join(", ");
-
-            if(cmd.startsWith("__")) {
-
-                QSqlQuery query(db);
-                query.prepare("UPDATE builtin SET shortcuts=:sh WHERE command=:cmd");
-                query.bindValue(":sh", sh);
-                query.bindValue(":cmd", cmd);
-                if(!query.exec())
-                    LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error [3]: " << query.lastError().text().trimmed().toStdString() << NL;
-
-            } else {
-
-                QSqlQuery query(db);
-                query.prepare("INSERT INTO external (command,shortcuts,close) VALUES(:cmd,:sh,:cl)");
-                query.bindValue(":sh", sh);
-                query.bindValue(":cl", close);
-                query.bindValue(":cmd", cmd);
-                if(!query.exec())
-                    LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error [4]: " << query.lastError().text().trimmed().toStdString() << NL;
-
-            }
-
-        }
-
-        // add __chromecast as shortcut (no default set)
-        QSqlQuery query(db);
-        query.prepare("INSERT OR IGNORE INTO builtin (category, command, shortcuts, defaultshortcuts) VALUES(:cat, :cmd, :sh, :def)");
-        query.bindValue(":cat", "other");
-        query.bindValue(":cmd", "__chromecast");
-        query.bindValue(":sh", "");
-        query.bindValue(":def", "");
-        if(!query.exec())
-            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): SQL Error, insert new: " << query.lastError().text().trimmed().toStdString() << NL;
-
-        db.commit();
-
-    }
-
-    QString oldfile = QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE());
-    if(!QFile::exists(oldfile)) {
-        if(!QFile::copy(ConfigFiles::SHORTCUTS_FILE(), oldfile))
-            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to copy old shortcuts file to 'shortcuts.pre-v2.5' filename" << NL;
-        QFile file(oldfile);
-        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-    }
-
-    if(QFile::exists(QString("%1.pre-v2.5").arg(ConfigFiles::SHORTCUTS_FILE())))
-        if(!QFile::remove(ConfigFiles::SHORTCUTS_FILE()))
-            LOG << CURDATE << "PQStartup::migrateShortcutsToDb(): Failed to remove old shortcuts file" << NL;
-
-    return true;
+    // we already do the potential migration there, do again here
+    PQValidate validate;
+    return validate.validateShortcutsDatabase();
 
 }
 
