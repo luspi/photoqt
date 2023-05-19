@@ -100,6 +100,10 @@ Item {
         "wheel up" : em.pty+qsTranslate("keymouse", "Wheel Up"),
         //: Refers to the mouse wheel
         "wheel down" : em.pty+qsTranslate("keymouse", "Wheel Down"),
+        //: Refers to the mouse wheel
+        "wheel left" : em.pty+qsTranslate("keymouse", "Wheel Left"),
+        //: Refers to the mouse wheel
+        "wheel right" : em.pty+qsTranslate("keymouse", "Wheel Right"),
         //: Refers to a direction of the mouse when performing a mouse gesture
         "east" : em.pty+qsTranslate("keymouse", "East"),
         //: Refers to a direction of the mouse when performing a mouse gesture

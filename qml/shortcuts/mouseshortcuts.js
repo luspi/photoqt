@@ -82,10 +82,14 @@ function analyseMouseWheelAction(currentCombo, angleDelta, modifiers, ignoreModi
             combo += "Keypad+";
     }
 
-    if(angleDelta.y < 0)
+    if(angleDelta.y < -10)
         combo += "Wheel Up"
-    else if(angleDelta.y > 0)
+    else if(angleDelta.y > 10)
         combo += "Wheel Down"
+    else if(angleDelta.x < -10)
+        combo += "Wheel Left"
+    else if(angleDelta.x > 10)
+        combo += "Wheel Right"
     else
         // at the end of a wheel move there usually is a wheel event with angleDelta being zero
         // we want to ignore that
