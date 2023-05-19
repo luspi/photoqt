@@ -1026,6 +1026,13 @@ Item {
         id: newshortcut
         onNewCombo: {
 
+            if(combo.startsWith("Left Button")) {
+                informExisting.informUser(em.pty+qsTranslate("settingsmanager_shortcuts", "Left Button"),
+                                          em.pty+qsTranslate("settingsmanager_shortcuts", "The left button is used for moving the main image around."),
+                                          em.pty+qsTranslate("settingsmanager_shortcuts", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.)."))
+                return
+            }
+
             // first we need to check if that shortcut is already used somewhere
             var usedIndex = -1
             for(var i in tab_shortcuts.entries) {
