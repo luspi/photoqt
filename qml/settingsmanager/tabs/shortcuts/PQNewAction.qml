@@ -434,8 +434,10 @@ Rectangle {
 
         if(cur.startsWith("__")) {
 
-            var cat = categoriesToIndex[tab_shortcuts.actions[cur][1]]
-            selectedCategory = cat
+            if(cur in tab_shortcuts.actions) {
+                var cat = categoriesToIndex[tab_shortcuts.actions[cur][1]]
+                selectedCategory = cat
+            }
 
         } else {
 
