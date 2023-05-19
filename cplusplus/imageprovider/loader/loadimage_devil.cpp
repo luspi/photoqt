@@ -156,6 +156,7 @@ QImage PQLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize, 
 
 #endif
 
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load image, DevIL not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImageDevIL::load(): " << errormsg.toStdString() << NL;
     return QImage();

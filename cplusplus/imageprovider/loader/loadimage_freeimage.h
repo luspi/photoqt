@@ -30,11 +30,6 @@
 
 #include "../../logger.h"
 
-#ifdef FREEIMAGE
-static char freeImageErrorMessage;
-static FREE_IMAGE_FORMAT freeImageErrorFormat;
-#endif
-
 class PQLoadImageFreeImage {
 
 public:

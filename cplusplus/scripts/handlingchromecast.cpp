@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "handlingchromecast.h"
+#include "../logger.h"
 #include <QtDebug>
 #include <QFutureWatcher>
 
@@ -89,6 +90,8 @@ PQHandlingChromecast::~PQHandlingChromecast() {
 
 void PQHandlingChromecast::getListOfChromecastDevices() {
 
+    DBG << CURDATE << "PQHandlingChromecast::getListOfChromecastDevices()" << NL;
+
 #ifdef CHROMECAST
 
     if(!QFile::exists(QString("%1/photoqt_chromecast.py").arg(QDir::tempPath())))
@@ -113,6 +116,8 @@ void PQHandlingChromecast::getListOfChromecastDevices() {
 }
 
 QVariantList PQHandlingChromecast::_getListOfChromecastDevices() {
+
+    DBG << CURDATE << "PQHandlingChromecast::_getListOfChromecastDevices()" << NL;
 
     QVariantList ret;
 
@@ -186,6 +191,9 @@ void PQHandlingChromecast::cancelScanForChromecast() {
 
 bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
 
+    DBG << CURDATE << "PQHandlingChromecast::connectToDevice()" << NL
+        << CURDATE << "** friendlyname = " << friendlyname.toStdString() << NL;
+
 #ifdef CHROMECAST
 
     PyObject *sys_path = PySys_GetObject("path");
@@ -258,6 +266,8 @@ bool PQHandlingChromecast::connectToDevice(QString friendlyname) {
 
 bool PQHandlingChromecast::disconnectFromDevice() {
 
+    DBG << CURDATE << "PQHandlingChromecast::disconnectFromDevice()" << NL;
+
 #ifdef CHROMECAST
 
     PyObject *sys_path = PySys_GetObject("path");
@@ -300,6 +310,9 @@ bool PQHandlingChromecast::disconnectFromDevice() {
 }
 
 void PQHandlingChromecast::streamOnDevice(QString src) {
+
+    DBG << CURDATE << "PQHandlingChromecast::streamOnDevice()" << NL
+        << CURDATE << "** src = " << src.toStdString() << NL;
 
 #ifdef CHROMECAST
 

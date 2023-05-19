@@ -122,21 +122,39 @@ void PQImageFormats::readFromDatabase() {
         const QString cat = query.record().value("category").toString();
         const int enabled = query.record().value("enabled").toInt();
         const int qt = query.record().value("qt").toInt();
+#ifdef LIBVIPS
         const int libvips = query.record().value("libvips").toInt();
+#endif
 #ifdef IMAGEMAGICK
         const int imgmmagick = query.record().value("imagemagick").toInt();
 #elif defined(GRAPHICSMAGICK)
         const int imgmmagick = query.record().value("graphicsmagick").toInt();
 #endif
+#ifdef RAW
         const int libraw = query.record().value("libraw").toInt();
+#endif
+#ifdef POPPLER
         const int poppler = query.record().value("poppler").toInt();
+#endif
         const int xcftools = query.record().value("xcftools").toInt();
+#ifdef DEVIL
         const int devil = query.record().value("devil").toInt();
+#endif
+#ifdef FREEIMAGE
         const int freeimage = query.record().value("freeimage").toInt();
+#endif
+#ifdef LIBARCHIVE
         const int archive = query.record().value("archive").toInt();
+#endif
+#ifdef VIDEOQT
         const int video = query.record().value("video").toInt();
+#endif
+#ifdef VIDEOMPV
         const int libmpv = query.record().value("libmpv").toInt();
+#endif
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
         const QString im_gm_magick = query.record().value("im_gm_magick").toString();
+#endif
         const QString qt_formatname = query.record().value("qt_formatname").toString();
 
         bool supportedByAnyLibrary = false;

@@ -156,7 +156,8 @@ QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
 void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
 
     DBG << CURDATE << "PQHandlingFaceTags::setFaceTags()" << NL
-        << CURDATE << "** filename = " << filename.toStdString() << NL;
+        << CURDATE << "** filename = " << filename.toStdString() << NL
+        << CURDATE << "** # tags = " << tags.length() << NL;
 
 #ifdef EXIV2
 

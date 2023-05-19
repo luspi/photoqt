@@ -22,6 +22,11 @@
 
 #include "loadimage_freeimage.h"
 
+#ifdef FREEIMAGE
+static char freeImageErrorMessage;
+static FREE_IMAGE_FORMAT freeImageErrorFormat;
+#endif
+
 PQLoadImageFreeImage::PQLoadImageFreeImage() {
     errormsg = "";
 #ifdef FREEIMAGE
@@ -175,6 +180,8 @@ QImage PQLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &origSi
     return img;
 
 #endif
+
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load image, FreeImage not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImageFreeImage::load(): " << errormsg.toStdString() << NL;
     return QImage();

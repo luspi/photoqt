@@ -31,6 +31,9 @@ PQLoadImageMagick::PQLoadImageMagick() {
 
 QSize PQLoadImageMagick::loadSize(QString filename) {
 
+    DBG << CURDATE << "PQLoadImageMagick::loadSize()" << NL
+        << CURDATE << "** filename = " << filename.toStdString() << NL;
+
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
     QSize s;
     load(filename, QSize(), s, true);
@@ -167,6 +170,7 @@ QImage PQLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSize,
 
 #endif
 
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load image, ImageMagick/GraphicsMagick not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImageMagick::load(): " << errormsg.toStdString() << NL;
     return QImage();

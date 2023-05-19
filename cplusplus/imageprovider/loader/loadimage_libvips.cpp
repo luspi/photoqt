@@ -80,6 +80,7 @@ QImage PQLoadImageLibVips::load(QString filename, QSize, QSize &origSize, bool s
     return img;
 
 #endif
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load image, libvips not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImageLibVips::load(): " << errormsg.toStdString() << NL;
     return QImage();

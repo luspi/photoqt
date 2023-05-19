@@ -653,9 +653,6 @@ void PQFileFolderModel::advancedSortMainView() {
                     img = img.convertToFormat(QImage::Format_RGB32);
 #endif
 
-                const int width = requestedSize.width();
-                const int height = requestedSize.height();
-
                 // Prepare the lists for the levels
                 QVector<qint64> red(256);
                 QVector<qint64> green(256);

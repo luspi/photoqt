@@ -191,6 +191,7 @@ QImage PQLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, bo
 
 #endif
 
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load image, LibRaw not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImageRAW::load(): " << errormsg.toStdString() << NL;
     return QImage();

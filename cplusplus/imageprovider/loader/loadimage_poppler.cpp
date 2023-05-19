@@ -91,6 +91,7 @@ QImage PQLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSize
 
 #endif
 
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load image, Poppler not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImagePoppler::load(): " << errormsg.toStdString() << NL;
     return QImage();

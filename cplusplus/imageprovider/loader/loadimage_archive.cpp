@@ -131,6 +131,7 @@ QImage PQLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSize
 
 #else
 
+    origSize = QSize(-1,-1);
     errormsg = "Failed to load archive, LibArchive not supported by this build of PhotoQt!";
     LOG << CURDATE << "PQLoadImageArchive::load(): " << errormsg.toStdString() << NL;
     return QImage();
