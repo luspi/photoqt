@@ -79,10 +79,6 @@ Item {
 
         target: PQKeyPressMouseChecker
 
-        onReceivedMouseMove: {
-            mousePos = pos
-        }
-
         onReceivedMouseLeave: {
             mousePos = Qt.point(-1,-1)
         }
