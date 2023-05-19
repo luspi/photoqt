@@ -240,7 +240,8 @@ Item {
             Connections {
                 target: variables
                 onMousePosChanged: {
-                    hidecursor.restart()
+                    if(PQSettings.imageviewHideCursorTimeout > 0)
+                        hidecursor.restart()
                     mousearea.cursorShape = Qt.ArrowCursor
                 }
                 onVisibleItemChanged: {
@@ -250,7 +251,8 @@ Item {
                         theimage.storePlaying = theimage.playing
                         theimage.playing = false
                     } else {
-                        hidecursor.restart()
+                        if(PQSettings.imageviewHideCursorTimeout > 0)
+                            hidecursor.restart()
                         mousearea.cursorShape = Qt.ArrowCursor
                         theimage.playing = theimage.storePlaying
                     }
@@ -259,10 +261,12 @@ Item {
 
             Timer {
                 id: hidecursor
-                interval: 1000
+                interval: PQSettings.imageviewHideCursorTimeout*1000
                 repeat: false
                 running: true
                 onTriggered: {
+                    if(PQSettings.imageviewHideCursorTimeout == 0)
+                        return
                     if(contextmenu.isOpen)
                         hidecursor.restart()
                     else

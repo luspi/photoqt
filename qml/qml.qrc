@@ -179,5 +179,6 @@
         <file>settingsmanager/tabs/shortcuts/PQDoubleClick.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQNewShortcut.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQMouseWheelMoveImage.qml</file>
+        <file>settingsmanager/tabs/imageview/PQHideMouseTimeout.qml</file>
     </qresource>
 </RCC>

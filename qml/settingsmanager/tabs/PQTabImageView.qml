@@ -92,6 +92,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: srt.expertmodeonly }
             PQTransparencyMarker { id: trn }
                 PQHorizontalLine { expertModeOnly: trn.expertmodeonly }
+            PQHideMouseTimeout { id: hdm }
+                PQHorizontalLine { expertModeOnly: hdm.expertmodeonly }
             PQFitInWindow { id: fiw }
                 PQHorizontalLine { expertModeOnly: fiw.expertmodeonly }
             PQAlwaysActualSize { id: act }
