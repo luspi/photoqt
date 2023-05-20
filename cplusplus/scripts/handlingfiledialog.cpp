@@ -69,7 +69,7 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
         // <bookmark>
         newnode.set_name("bookmark");
         newnode.append_attribute("href");
-        newnode.attribute("href").set_value(QString("file:///%1").arg(path).toStdString().c_str());
+        newnode.attribute("href").set_value(QString("file:///%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
@@ -122,7 +122,7 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
                 // <bookmark>
                 newnode.set_name("bookmark");
                 newnode.append_attribute("href");
-                newnode.attribute("href").set_value(QString("file:///%1").arg(path).toStdString().c_str());
+                newnode.attribute("href").set_value(QString("file:///%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
 
                 // <title>
                 pugi::xml_node title = newnode.append_child("title");
@@ -309,7 +309,7 @@ QString PQHandlingFileDialog::getNewUniqueId() {
     for(pugi::xpath_node node : bookmarks) {
         pugi::xml_node cur = node.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
-        QString curPath = cur.attribute("href").value();
+        QString curPath = QUrl::fromPercentEncoding(cur.attribute("href").value());
         if(curPath.startsWith("file:/") || curPath == "trash:/")
             allIds.append(curId);
     }
@@ -366,7 +366,7 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
         pugi::xml_node bm = node.node();
 
-        QString path = bm.attribute("href").value();
+        QString path = QUrl::fromPercentEncoding(bm.attribute("href").value());
 
         // we need to check for the old (wrong) syntax of two slashes
         // and for the new right synbtax of three slashes after file:
@@ -508,7 +508,7 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
     for(pugi::xpath_node node : bookmarks) {
         pugi::xml_node cur = node.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
-        QString curPath = cur.attribute("href").value();
+        QString curPath = QUrl::fromPercentEncoding(cur.attribute("href").value());
         if(curPath.startsWith("file:/") || curPath == "trash:/")
             allIds.append(curId);
     }
