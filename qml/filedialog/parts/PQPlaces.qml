@@ -197,11 +197,10 @@ ListView {
                     if(mouse.button == Qt.LeftButton && index > 0)
                         filedialog_top.setCurrentDirectory(path)
                     else if(mouse.button == Qt.RightButton) {
-                        if(index == 0) {
-                            var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                        if(index == 0)
                             filedialog_top.leftPanelPopupGenericRightClickMenu()
-                        } else
-                            contextmenu.popup()
+                        else
+                            filedialog_top.leftPanelPopupPlacesRightClickMenu(id, hidden)
                     }
                 }
 
@@ -210,30 +209,6 @@ ListView {
                 onExited:
                     if(userplaces_top.hoverIndex == index)
                         userplaces_top.hoverIndex = -1
-
-            }
-
-            PQMenu {
-
-                id: contextmenu
-
-                MenuItem {
-                    text: (hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry")))
-                    onTriggered:
-                        handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
-                }
-
-                MenuItem {
-                    text: (em.pty+qsTranslate("filedialog", "Remove entry"))
-                    onTriggered:
-                        handlingFileDialog.removeUserPlacesEntry(id)
-                }
-
-                MenuItem {
-                    text: (userplaces_top.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))
-                    onTriggered:
-                        userplaces_top.showHiddenEntries = !userplaces_top.showHiddenEntries
-                }
 
             }
 

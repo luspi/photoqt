@@ -149,6 +149,34 @@ Rectangle {
 
             }
 
+
+            PQMenu {
+
+                id: places_rightclickmenu
+
+                property string id: ""
+                property string hidden: ""
+
+                MenuItem {
+                    text: (places_rightclickmenu.hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry")))
+                    onTriggered:
+                        handlingFileDialog.hideUserPlacesEntry(places_rightclickmenu.id, places_rightclickmenu.hidden=="false")
+                }
+
+                MenuItem {
+                    text: (em.pty+qsTranslate("filedialog", "Remove entry"))
+                    onTriggered:
+                        handlingFileDialog.removeUserPlacesEntry(places_rightclickmenu.id)
+                }
+
+                MenuItem {
+                    text: (upl.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))
+                    onTriggered:
+                        upl.showHiddenEntries = !upl.showHiddenEntries
+                }
+
+            }
+
             PQStandard {
                 id: std
                 anchors {
@@ -350,6 +378,12 @@ Rectangle {
 
     function leftPanelPopupGenericRightClickMenu() {
         rightclickmenu.popup()
+    }
+
+    function leftPanelPopupPlacesRightClickMenu(id, hidden) {
+        places_rightclickmenu.id = id
+        places_rightclickmenu.hidden = hidden
+        places_rightclickmenu.popup()
     }
 
 }
