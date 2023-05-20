@@ -27,7 +27,7 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager_imageview", "Double Click Threshold")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "double click threshold")
     helptext: em.pty+qsTranslate("settingsmanager_imageview", "Two clicks within the specified interval are interpreted as a double click. Note that too high a value will cause noticable delays in reacting to single clicks.")
     expertmodeonly: true
     content: [

@@ -27,7 +27,7 @@ import "../../../elements"
 
 PQSetting {
     //: A settings title
-    title: em.pty+qsTranslate("settingsmanager_imageview", "Mouse Wheel")
+    title: em.pty+qsTranslate("settingsmanager_imageview", "mouse wheel")
     helptext: em.pty+qsTranslate("settingsmanager_imageview", "Here the handling of the mouse wheeel can be specified. It can either be used to move the image around or for shortcuts. Wheel gestures coupled with modifier buttons are available for shortcuts independent of this setting.")
     content: [
 
