@@ -53,6 +53,8 @@ Item {
 
     property size currentImageResolution: Qt.size(-1,-1)
 
+    property bool viewChanged: false
+
     Connections {
 
         target: PQSettings

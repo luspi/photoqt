@@ -266,6 +266,7 @@ Window {
 
     PQImage { id: imageitem }
     PQStatusInfo { id: statusinfo }
+    PQResetView { id: resetview }
     PQMessage { id: message }
     PQWindowButtons { id: windowbuttons }
     PQWindowButtons { id: windowsbuttons_ontop; visibleAlways: true }

@@ -135,6 +135,7 @@ Item {
 
                 }
                 cont.visible = true
+                variables.viewChanged = false
             }
         }
 
@@ -178,6 +179,7 @@ Item {
         // the actual scale factor from a pinch event is the initial scale multiplied by Pinch.scale
         property real initialScale
         onPinchStarted: {
+            variables.viewChanged = true
             initialScale = theimage.curScale
             contextmenu.hideMenu()
         }
@@ -206,6 +208,8 @@ Item {
             doubleClickThreshold: PQSettings.interfaceDoubleClickThreshold
 
             drag.target: theimage
+            drag.onActiveChanged:
+                variables.viewChanged = true
 
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
 
@@ -218,6 +222,7 @@ Item {
 
             onWheel: {
                 if(PQSettings.imageviewUseMouseWheelForImageMove && wheel.modifiers==Qt.NoModifier) {
+                    variables.viewChanged = true
                     theimage.curX += wheel.angleDelta.x
                     theimage.curY += wheel.angleDelta.y
                 } else
@@ -376,6 +381,7 @@ Item {
 
         }
         onRotate: {
+            variables.viewChanged = true
             theimage.rotateTo += deg
         }
         onRotateReset: {
@@ -391,12 +397,16 @@ Item {
                 else
                     theimage.rotateTo -= (old+360)
             }
+            if(theimage.curX == 0 && theimage.curY == 0 && theimage.curScale == defaultScale)
+                variables.viewChanged = false
         }
         onMirrorH: {
+            variables.viewChanged = true
             var old = theimage.mirror
             theimage.mirror = !old
         }
         onMirrorV: {
+            variables.viewChanged = true
             var old = theimage.mirror
             theimage.mirror = !old
             rotani.duration = 0
@@ -411,38 +421,47 @@ Item {
         }
 
         onMoveImageByMouse: {
+            variables.viewChanged = true
             theimage.curX += angleDelta.x
             theimage.curY += angleDelta.y
         }
 
         onMoveViewLeft: {
+            variables.viewChanged = true
             theimage.curX += 100
         }
         onMoveViewRight: {
+            variables.viewChanged = true
             theimage.curX -= 100
         }
         onMoveViewUp: {
+            variables.viewChanged = true
             theimage.curY += 100
         }
         onMoveViewDown: {
+            variables.viewChanged = true
             theimage.curY -= 100
         }
         onGoToLeftEdge: {
+            variables.viewChanged = true
             if(theimage.paintedWidth*theimage.curScale <= container.width)
                 return
             theimage.curX = (theimage.width/2)*theimage.curScale - ((container.width-2*PQSettings.imageviewMargin)/2)
         }
         onGoToRightEdge: {
+            variables.viewChanged = true
             if(theimage.paintedWidth*theimage.curScale <= container.width)
                 return
             theimage.curX = -(theimage.width/2)*theimage.curScale + ((container.width-PQSettings.imageviewMargin)/2)
         }
         onGoToTopEdge: {
+            variables.viewChanged = true
             if(theimage.paintedHeight*theimage.curScale <= container.height)
                 return
             theimage.curY = (theimage.height/2)*theimage.curScale - ((container.height-2*PQSettings.imageviewMargin)/2)
         }
         onGoToBottomEdge: {
+            variables.viewChanged = true
             if(theimage.paintedHeight*theimage.curScale <= container.height)
                 return
             theimage.curY = -(theimage.height/2)*theimage.curScale + ((container.height-PQSettings.imageviewMargin)/2)
@@ -463,6 +482,8 @@ Item {
     }
 
     function performZoom(pos, wheelDelta, zoom_in, zoom_actual, zoom_pinch, zoom_pinchfactor) {
+
+        variables.viewChanged = true
 
         // adjust for transformOrigin being Center and not TopLeft
         // for some reason (bug?), setting the transformOrigin causes some slight blurriness
@@ -613,6 +634,9 @@ Item {
             variables.currentZoomLevel = useThisScale*100
             variables.currentPaintedZoomLevel = useThisScale
         }
+
+        if(scaling && position && theimage.rotateTo == 0)
+            variables.viewChanged = false
 
     }
 

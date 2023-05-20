@@ -180,5 +180,7 @@
         <file>settingsmanager/tabs/shortcuts/PQNewShortcut.qml</file>
         <file>settingsmanager/tabs/shortcuts/PQMouseWheelMoveImage.qml</file>
         <file>settingsmanager/tabs/imageview/PQHideMouseTimeout.qml</file>
+        <file>mainwindow/PQResetView.qml</file>
+        <file>settingsmanager/tabs/imageview/PQResetView.qml</file>
     </qresource>
 </RCC>
