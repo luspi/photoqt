@@ -48,7 +48,7 @@ PQMenu {
         }
     }
     MenuItem {
-        visible: isFolder
+        visible: isFolder && handlingGeneral.isPugixmlSupportEnabled()
         text: (em.pty+qsTranslate("filedialog", "Add to Favorites"))
         onTriggered:
             handlingFileDialog.addNewUserPlacesEntry(path, upl.model.count)
