@@ -1035,9 +1035,12 @@ GridView {
 
         } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier) {
 
-            files_grid.navigateToFileStartingWith = []
-
-            filedialog_top.hideFileDialog()
+            if(anyFilesSelected())
+                setFilesSelection(false)
+            else  {
+                files_grid.navigateToFileStartingWith = []
+                filedialog_top.hideFileDialog()
+            }
 
         } else if(key == Qt.Key_Home && modifiers == Qt.NoModifier) {
 
