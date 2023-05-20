@@ -63,7 +63,7 @@ Rectangle {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
             hoverEnabled: true
-            tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
+            tooltip: em.pty+qsTranslate("filedialog", "Adjust size of files and folders")
             tooltipFollowsMouse: false
         }
 
@@ -80,7 +80,7 @@ Rectangle {
         value: PQSettings.openfileZoomLevel
 
         divideToolTipValue: 10
-        tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
+        tooltip: em.pty+qsTranslate("filedialog", "Adjust size of files and folders")
         toolTipPrefix: em.pty+qsTranslate("filedialog", "Zoom factor:") + " "
 
         anchors.left: zoomtext.right
