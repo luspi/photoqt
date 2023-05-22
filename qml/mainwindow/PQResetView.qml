@@ -33,7 +33,7 @@ Item {
 
     Behavior on y { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
 
-    width: resetimg.width+15
+    width: resetimg.width+10
     height: resetimg.height+10
 
     visible: y>-height&&PQSettings.imageviewResetViewShow
@@ -44,8 +44,18 @@ Item {
     PQBlurBackground {
         thisis: resetview
         reacttoxy: resetview_top
-        radius: 10
+        radius: parent.width/2
         opacity: 0.5
+    }
+
+    RotationAnimation {
+        id: rotani
+        target: resetview_top
+        from: 360
+        to: 0
+        duration: 1000
+        loops: Animation.Infinite
+        direction: RotationAnimation.Counterclockwise
     }
 
     Image {
@@ -64,10 +74,16 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onEntered: parent.opacity = 1
-        onExited: parent.opacity = 0.5
-        //: This is the tooltip for a small button that is shown when the image has been changed allowing the user to reset everything to their defaults with one click
-        tooltip: em.pty+qsTranslate("imageview", "Click to reset view to default")
+        onEntered: {
+            rotani.from = resetview_top.rotation
+            rotani.to = rotani.from-360
+            rotani.start()
+            parent.opacity = 1
+        }
+        onExited: {
+            rotani.stop()
+            parent.opacity = 0.5
+        }
         onClicked: {
             imageitem.zoomReset()
             imageitem.rotateReset()
