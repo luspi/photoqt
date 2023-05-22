@@ -215,7 +215,14 @@ Item {
 
             propagateComposedEvents: true
 
+            property point pressedPos
+
+            onPressed:
+                pressedPos = Qt.point(mouse.x, mouse.y)
+
             onPressAndHold: {
+                if(Math.sqrt(Math.pow(mouse.x-pressedPos.x, 2) + Math.pow(mouse.y-pressedPos.y)) > 50)
+                    return
                 variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
                 contextmenu.showMenu()
             }
