@@ -271,21 +271,21 @@ Item {
 
                 PQLineEdit {
                     id: filter_combo
-                    width: 400
+                    width: Math.min(800, parent.width/2)
                     enabled: (newaction.opacity!=1 && newshortcut.opacity!=1)
                     placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter key combinations")
                 }
 
                 PQLineEdit {
                     id: filter_action
-                    width: (col.width-400)/2-20
+                    width: (col.width-filter_combo.width)/2-20
                     enabled: (newaction.opacity!=1 && newshortcut.opacity!=1)
                     placeholderText: em.pty+qsTranslate("settingsmanager_shortcuts", "Filter shortcut actions")
                 }
 
                 PQComboBox {
                     id: filter_category
-                    width: (col.width-400)/2-20
+                    width: (col.width-filter_combo.width)/2-20
                     height: filter_action.height
                     model: [em.pty+qsTranslate("settingsmanager_shortcuts", "Show all categories"),
                             em.pty+qsTranslate("settingsmanager_shortcuts", "Category:") + " " + em.pty+qsTranslate("settingsmanager_shortcuts", "Viewing images"),
@@ -375,7 +375,7 @@ Item {
                     Column {
                         id: ontheleft
                         y: (ontheright.height>height ? ((ontheright.height-height)/2) : 0)
-                        width: 400
+                        width: Math.min(800, parent.width/2)
 
                         spacing: 5
 
@@ -454,15 +454,34 @@ Item {
                                             x: 5
                                             y: 5
                                             height: 50
-                                            width: combolabel.width+50
+                                            width: 2*delrect.width+combolabel.width+35
+                                            radius: 10
 
                                             color: combomouse.containsMouse ? "#484848" : "#2f2f2f"
                                             Behavior on color { ColorAnimation { duration: 200 } }
 
-                                            radius: 10
+                                            // deletion 'x' for shortcut
+                                            Rectangle {
+                                                id: delrect
+                                                x: 15
+                                                y: (parent.height-height)/2
+                                                width: 20
+                                                height: 20
+                                                color: "#ff0000"
+                                                radius: 5
+                                                opacity: 0.2
+                                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                                Text {
+                                                    anchors.centerIn: parent
+                                                    font.weight: baselook.boldweight
+                                                    color: "white"
+                                                    text: "x"
+                                                }
+                                            }
+
                                             PQText {
                                                 id: combolabel
-                                                x: (parent.width-width)/2
+                                                x: delrect.width+20
                                                 y: (parent.height-height)/2
                                                 font.weight: baselook.boldweight
                                                 text: deleg.combos[index]
@@ -481,33 +500,16 @@ Item {
                                                     newshortcut.show(deleg.currentShortcutIndex, index)
 
                                             }
-                                        }
 
-                                        // deletion 'x' for shortcut
-                                        Rectangle {
-                                            x: 0
-                                            y: 0
-                                            width: 20
-                                            height: 20
-                                            color: "#ff0000"
-                                            radius: 5
-                                            opacity: 0.2
-                                            Behavior on opacity { NumberAnimation { duration: 200 } }
-                                            Text {
-                                                anchors.centerIn: parent
-                                                font.weight: baselook.boldweight
-                                                color: "white"
-                                                text: "x"
-                                            }
                                             PQMouseArea {
-                                                anchors.fill: parent
+                                                anchors.fill: delrect
                                                 hoverEnabled: true
                                                 cursorShape: Qt.PointingHandCursor
                                                 tooltip: em.pty+qsTranslate("settingsmanager_shortcuts", "Click to delete key combination")
                                                 onEntered:
-                                                    parent.opacity = 0.8
+                                                    delrect.opacity = 0.8
                                                 onExited:
-                                                    parent.opacity = 0.2
+                                                    delrect.opacity = 0.2
                                                 onClicked: {
                                                     confirmDeleteShortcut.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this key combination?"), "")
                                                 }
@@ -527,13 +529,13 @@ Item {
 
                             Item {
 
-                                height: deleg.combos.length==0 ? addcombocont.height : 50
+                                height: 60
                                 width: addcombocont.width+6
 
                                 Rectangle {
                                     id: addcombocont
                                     x: 3
-                                    y: parent.height-height
+                                    y: (parent.height-height)/2
                                     width: addcombo.width+6
                                     height: addcombo.height+6
                                     color: "#2f2f2f"
