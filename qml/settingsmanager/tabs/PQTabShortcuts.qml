@@ -454,7 +454,7 @@ Item {
                                             x: 5
                                             y: 5
                                             height: 50
-                                            width: 2*delrect.width+combolabel.width+35
+                                            width: delrect.width+combolabel.width+35
                                             radius: 10
 
                                             color: combomouse.containsMouse ? "#484848" : "#2f2f2f"
