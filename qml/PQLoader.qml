@@ -29,6 +29,7 @@ Item {
     signal mainmenuPassOn(var what, var param)
     signal metadataPassOn(var what, var param)
     signal filedialogPassOn(var what, var param)
+    signal mapViewPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
@@ -126,6 +127,9 @@ Item {
         else if(ele == "advancedsortbusy")
             advancedSortBusyPassOn("show", undefined)
 
+        else if(ele == "mapview")
+            mapViewPassOn("show", undefined)
+
     }
 
     function passOn(ele, what, param) {
@@ -192,6 +196,9 @@ Item {
 
         else if(ele == "advancedsortbusy")
             advancedSortBusyPassOn(what, param)
+
+        else if(ele == "mapview")
+            mapViewPassOn(what, param)
 
     }
 
@@ -273,6 +280,9 @@ Item {
 
         else if(ele == "advancedsortbusy")
             advancedSortBusyPassOn("keyevent", [key, mod])
+
+        else if(ele == "mapview")
+            mapViewPassOn("keyevent", [key, mod])
 
     }
 
@@ -419,6 +429,10 @@ Item {
             else if(!windowsizepopup.advancedSort && !PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
                 advancedsort.source = "advancedsort/PQAdvancedSort.qml"
 
+        } else if(ele == "mapview") {
+
+                mapview.source = "map/PQMapView.qml"
+
         } else if(ele == "advancedsortbusy") {
 
             if(advancedsortbusy.source != "advancedsort/PQAdvancedSortBusy.qml")
@@ -468,6 +482,7 @@ Item {
         unavailable.source = ""
         unavailablepopout.source = ""
         logging.source = ""
+        mapview.source = ""
     }
 
 }

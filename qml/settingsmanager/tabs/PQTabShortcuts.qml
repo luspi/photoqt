@@ -129,6 +129,8 @@ Item {
 
                                 //: Name of shortcut action
         "__open":               [em.pty+qsTranslate("settingsmanager_shortcuts", "Open file (browse images)"), "currentfolder"],
+                                 //: Name of shortcut action
+        "__showMapView":        [em.pty+qsTranslate("settingsmanager_shortcuts", "Show map view"), "currentfolder"],
                                 //: Name of shortcut action
         "__filterImages":       [em.pty+qsTranslate("settingsmanager_shortcuts", "Filter images in folder"), "currentfolder"],
                                  //: Name of shortcut action

@@ -211,6 +211,8 @@ public:
         }
     }
 
+    Q_INVOKABLE QPointF getGPSDataOnly(QString fname);
+
 private:
 
     void setEmptyExivData();
