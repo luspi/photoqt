@@ -32,6 +32,8 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
+    property int currentDetailLevel: -1
+
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
@@ -39,34 +41,33 @@ Item {
 
     Plugin {
         id: mapPlugin
-        name: "osm" // "mapboxgl", "esri", ...
-        // specify plugin parameters if necessary
-        // PluginParameter {
-        //     name:
-
-        //     value:
-        // }
+        name: "osm"
     }
 
     Map {
+
+        id: map
+
         anchors.fill: parent
         plugin: mapPlugin
         center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
         zoomLevel: 1
 
-        Repeater {
-            id: rpt
+        onZoomLevelChanged:
+            loadImages()
 
-            model: filefoldermodel.countMainView
+        MapItemView {
 
-            MapQuickItem {
-                id: marker
+            model: ListModel { id: mdl }
+
+            delegate: MapQuickItem {
+
                 anchorPoint.x: image.width/2
                 anchorPoint.y: image.height/2
 
-                visible: false
+                visible: true
 
-//                coordinate: QtPositioning.coordinate(59.91, 10.75)
+                coordinate: QtPositioning.coordinate(latitude, longitude)
 
                 sourceItem: Image {
                     id: image
@@ -74,14 +75,11 @@ Item {
                     height: 64
                     sourceSize.width: width
                     sourceSize.height: height
-                    source: "image://full/" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesMainView[index])
-                }
-
-                Component.onCompleted: {
-                    var pos = cppmetadata.getGPSDataOnly(filefoldermodel.entriesMainView[index])
-                    console.log(pos)
-                    coordinate = QtPositioning.coordinate(pos.x, pos.y)
-                    visible = true
+                    source: "image://full/" + handlingGeneral.toPercentEncoding(filename)
+                    Text {
+                        anchors.centerIn: parent
+                        text: howmany
+                    }
                 }
 
             }
@@ -96,7 +94,6 @@ Item {
             if(what == "show") {
                 opacity = 1
                 variables.visibleItem = "mapview"
-                showCurrentFolderOnMap()
             } else if(what == "hide") {
                 opacity = 0
             } else if(what == "keyevent") {
@@ -108,10 +105,37 @@ Item {
         }
     }
 
-    function showCurrentFolderOnMap() {
-        
-//        cppmetadata.getGPSDataOnly(filefoldermodel.currentFilePath)
-//        rpt.
+    function loadImages() {
+
+        console.log(map.zoomLevel, map.maximumZoomLevel)
+
+        // There are four steps
+        var levels = [1,5,8,10]
+
+        var detaillevel = 1
+        if(map.zoomLevel > map.maximumZoomLevel-levels[levels.length-1]) {
+            for(var l in levels) {
+                var diff = map.maximumZoomLevel-levels[l]
+                if(map.zoomLevel > diff) {
+                    detaillevel = levels.length-l
+                    break
+                }
+            }
+        }
+
+        if(detaillevel == currentDetailLevel)
+            return
+        currentDetailLevel = detaillevel
+
+        var dat = PQLocation.getImages(detaillevel)
+
+        mdl.clear()
+
+        for(var i in dat)
+        mdl.append({latitude: dat[i][0],
+                    longitude: dat[i][1],
+                    howmany: dat[i][2],
+                    filename: dat[i][3]})
 
     }
 

@@ -20,28 +20,32 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQPOSITIONS_H
-#define PQPOSITIONS_H
+#ifndef PQLOCATION_H
+#define PQLOCATION_H
 
 #include <QObject>
 #include <QtSql>
 #include "../logger.h"
 
-class PQPositions : public QObject {
+class PQLocation : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQPositions& get() {
-        static PQPositions instance;
+    static PQLocation& get() {
+        static PQLocation instance;
         return instance;
     }
-    ~PQPositions();
+    ~PQLocation();
 
-    Q_INVOKABLE void storePosition(QString path, QPointF gps);
+    void storeLocation(const QString path, const QPointF gps);
+
+    Q_INVOKABLE QVariantList getImages(const int detailLevel);
+
+    void processSummary();
 
 private:
-    PQPositions();
+    PQLocation();
 
     QSqlDatabase db;
     bool dbIsTransaction;
@@ -49,4 +53,4 @@ private:
 
 };
 
-#endif // PQPOSITIONS_H
+#endif // PQLOCATION_H

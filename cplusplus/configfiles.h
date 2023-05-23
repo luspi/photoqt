@@ -118,8 +118,8 @@ public:
         return QString("%1/colors").arg(CONFIG_DIR());
     }
 
-    static const QString POSITIONS_DB() {
-        return QString("%1/positions.db").arg(CONFIG_DIR());
+    static const QString LOCATION_DB() {
+        return QString("%1/location.db").arg(CONFIG_DIR());
     }
 
 };

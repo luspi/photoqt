@@ -71,9 +71,9 @@ bool PQValidate::validate() {
         success = false;
     }
 
-    ret = validatePositionsDatabase();
+    ret = validateLocationDatabase();
     if(!ret) {
-        LOG << " >> Failed: positions db" << NL << NL;
+        LOG << " >> Failed: location db" << NL << NL;
         success = false;
     }
 
@@ -963,14 +963,14 @@ bool PQValidate::validateSettingsValues() {
 
 }
 
-bool PQValidate::validatePositionsDatabase() {
+bool PQValidate::validateLocationDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(ConfigFiles::POSITIONS_DB())) {
-        if(!QFile::copy(":/positions.db", ConfigFiles::POSITIONS_DB()))
-            LOG << CURDATE << "PQValidate::validatePositionsDatabase(): unable to (re-)create default positions database" << NL;
+    if(!QFile::exists(ConfigFiles::LOCATION_DB())) {
+        if(!QFile::copy(":/location.db", ConfigFiles::LOCATION_DB()))
+            LOG << CURDATE << "PQValidate::validateLocationDatabase(): unable to (re-)create default location database" << NL;
         else {
-            QFile file(ConfigFiles::POSITIONS_DB());
+            QFile file(ConfigFiles::LOCATION_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }

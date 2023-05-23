@@ -42,7 +42,7 @@ public:
     bool validateShortcutsDatabase();
     bool validateSettingsValues();
     bool validateDirectories();
-    bool validatePositionsDatabase();
+    bool validateLocationDatabase();
 
 };
 

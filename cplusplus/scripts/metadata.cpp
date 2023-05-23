@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include "metadata.h"
-#include "positions.h"
+#include "location.h"
 
 PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
@@ -312,7 +312,7 @@ void PQMetaData::updateMetadata(QString path) {
     }
 
     if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
-        PQPositions::get().storePosition(path, convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
+        PQLocation::get().storeLocation(path, convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
         setExifGPS(analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     } else
         setExifGPS("");
