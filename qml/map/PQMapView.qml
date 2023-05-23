@@ -23,6 +23,7 @@
 import QtQuick 2.9
 import QtLocation 5.12
 import QtPositioning 5.12
+import "../elements"
 
 Item {
 
@@ -39,6 +40,8 @@ Item {
     visible: opacity!=0
     enabled: visible
 
+    property bool finishShow: false
+
     Plugin {
         id: mapPlugin
         name: "osm"
@@ -53,8 +56,18 @@ Item {
         center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
         zoomLevel: 1
 
-        onZoomLevelChanged:
+        property int curZ: 0
+
+        onZoomLevelChanged: {
             loadImages()
+            if(finishShow)
+                PQLocation.storeMapState(map.zoomLevel, map.center.latitude, map.center.longitude)
+        }
+
+        onCenterChanged: {
+            if(finishShow)
+                PQLocation.storeMapState(map.zoomLevel, map.center.latitude, map.center.longitude)
+        }
 
         MapItemView {
 
@@ -62,25 +75,57 @@ Item {
 
             delegate: MapQuickItem {
 
-                anchorPoint.x: image.width/2
-                anchorPoint.y: image.height/2
+                id: deleg
+
+                anchorPoint.x: container.width/2
+                anchorPoint.y: container.height/2
 
                 visible: true
 
                 coordinate: QtPositioning.coordinate(latitude, longitude)
 
-                sourceItem: Image {
-                    id: image
-                    width: 64
-                    height: 64
-                    sourceSize.width: width
-                    sourceSize.height: height
-                    source: "image://full/" + handlingGeneral.toPercentEncoding(filename)
-                    Text {
-                        anchors.centerIn: parent
-                        text: howmany
+                sourceItem:
+                    Rectangle {
+                        id: container
+                        width: 68
+                        height: 68
+                        color: "white"
+                        Image {
+                            id: image
+                            x: 2
+                            y: 2
+                            width: 64
+                            height: 64
+                            fillMode: Image.PreserveAspectCrop
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            mipmap: true
+                            source: "image://thumb/" + handlingGeneral.toPercentEncoding(filename)
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: numlabel.width+8
+                                height: numlabel.height+4
+                                color: "#88000000"
+                                visible: howmany>1
+                                PQText {
+                                    x: 4
+                                    y: 2
+                                    id: numlabel
+                                    font.weight: baselook.boldweight
+                                    anchors.centerIn: parent
+                                    text: howmany
+                                }
+                            }
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    map.curZ += 1
+                                    deleg.z = map.curZ
+                                }
+                            }
+                        }
                     }
-                }
 
             }
 
@@ -92,8 +137,16 @@ Item {
         target: loader
         onMapViewPassOn: {
             if(what == "show") {
+                map.curZ = 0
                 opacity = 1
                 variables.visibleItem = "mapview"
+
+                var dat = PQLocation.getMapState()
+                console.log(dat)
+                map.zoomLevel = dat[0]
+                map.center.latitude = dat[1]
+                map.center.longitude = dat[2]
+                finishShow = true
             } else if(what == "hide") {
                 opacity = 0
             } else if(what == "keyevent") {
@@ -106,8 +159,6 @@ Item {
     }
 
     function loadImages() {
-
-        console.log(map.zoomLevel, map.maximumZoomLevel)
 
         // There are four steps
         var levels = [1,5,8,10]

@@ -27,6 +27,12 @@ PQLocation::PQLocation() {
 
     db = QSqlDatabase::database("location");
 
+    if(!db.isOpen()) {
+        if(!db.open()) {
+            LOG << CURDATE << "PQLocation::PQLocation(): ERROR opening location database: " << db.lastError().text().trimmed().toStdString() << NL;
+        }
+    }
+
     dbIsTransaction = false;
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
@@ -52,13 +58,6 @@ void PQLocation::storeLocation(const QString path, const QPointF gps) {
     if(!info.exists()) {
         LOG << CURDATE << "PQLocation::storePosition(): File does not exist: " << path.toStdString() << NL;
         return;
-    }
-
-    if(!db.isOpen()) {
-        if(!db.open()) {
-            LOG << CURDATE << "PQLocation::storePosition(): ERROR opening location database: " << db.lastError().text().trimmed().toStdString() << NL;
-            return;
-        }
     }
 
     dbCommitTimer->stop();
@@ -117,6 +116,9 @@ void PQLocation::processSummary() {
         }
 
         query.clear();
+
+        if(collect.isEmpty())
+            continue;
 
         db.transaction();
 
@@ -184,5 +186,66 @@ QVariantList PQLocation::getImages(const int detailLevel) {
     query.clear();
 
     return ret;
+
+}
+
+void PQLocation::storeMapState(const double zoomlevel, const double latitude, const double longitude) {
+
+//    dbCommitTimer->stop();
+
+//    if(!dbIsTransaction) {
+//        db.transaction();
+//        dbIsTransaction = true;
+//    }
+
+    QSqlQuery query(db);
+
+    query.prepare("REPLACE INTO `metainfo` (`key`,`value`) VALUES ('zoomlevel', :val)");
+    query.bindValue(":val", zoomlevel);
+    if(!query.exec())
+        LOG << CURDATE << "PQLocation::storeMapState(): ERROR storing zoom level: " << query.lastError().text().trimmed().toStdString() << NL;
+    query.clear();
+
+    query.prepare("REPLACE INTO `metainfo` (`key`,`value`) VALUES ('latitude', :val)");
+    query.bindValue(":val", latitude);
+    if(!query.exec())
+        LOG << CURDATE << "PQLocation::storeMapState(): ERROR storing latitude: " << query.lastError().text().trimmed().toStdString() << NL;
+    query.clear();
+
+    query.prepare("REPLACE INTO `metainfo` (`key`,`value`) VALUES ('longitude', :val)");
+    query.bindValue(":val", longitude);
+    if(!query.exec())
+        LOG << CURDATE << "PQLocation::storeMapState(): ERROR storing longitude: " << query.lastError().text().trimmed().toStdString() << NL;
+    query.clear();
+
+//    dbCommitTimer->start();
+
+}
+
+QVariantList PQLocation::getMapState() {
+
+    QSqlQuery query(db);
+    if(!query.exec("SELECT `key`,`value` FROM `metainfo`")) {
+        LOG << CURDATE << "PQLocation::getMapState(): Unable to get data from db: " << query.lastError().text().trimmed().toStdString() << NL;
+        return QVariantList();
+    }
+
+    double zoomLevel = 0;
+    double latitude = 0;
+    double longitude = 0;
+
+    while(query.next()) {
+
+        const QString key = query.value(0).toString();
+        if(key == "zoomlevel")
+            zoomLevel = query.value(1).toString().toDouble();
+        else if(key == "latitude")
+            latitude = query.value(1).toString().toDouble();
+        else if(key == "longitude")
+            longitude = query.value(1).toString().toDouble();
+
+    }
+
+    return QVariantList() << zoomLevel << latitude << longitude;
 
 }

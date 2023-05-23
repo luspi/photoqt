@@ -42,6 +42,9 @@ public:
 
     Q_INVOKABLE QVariantList getImages(const int detailLevel);
 
+    Q_INVOKABLE void storeMapState(const double zoomlevel, const double latitude, const double longitude);
+    Q_INVOKABLE QVariantList getMapState();
+
     void processSummary();
 
 private:
