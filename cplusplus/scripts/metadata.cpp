@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "metadata.h"
+#include "positions.h"
 
 PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
@@ -310,9 +311,10 @@ void PQMetaData::updateMetadata(QString path) {
         // ignore exception -> most likely thrown as key does not exist
     }
 
-    if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "")
+    if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
+        PQPositions::get().storePosition(path, convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
         setExifGPS(analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
-    else
+    } else
         setExifGPS("");
 
 
@@ -704,6 +706,8 @@ QString PQMetaData::analyzeGPS(QString latRef, QString lat, QString lonRef, QStr
     else if(split.length() == 1)
         lon = split.at(0) + "°0'0''";
 
+
+
     return lat + " " + latRef + ", " + lon + " " + lonRef;
 
 }
@@ -768,12 +772,20 @@ QPointF PQMetaData::getGPSDataOnly(QString fname) {
         // ignore exception -> most likely thrown as key does not exist
     }
 
+    return convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon);
+
+#endif
+
+    return QPointF();
+
+}
+
+QPointF PQMetaData::convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QString gpsLonRef, QString gpsLon) {
+
     const QStringList lat = gpsLat.split(" ");
     const QStringList lon = gpsLon.split(" ");
     if(lat.length() != 3 || lon.length() != 3)
         return QPointF();
-
-    qDebug() << lat << "/" << lon;
 
     double x = 0, y = 0;
 
@@ -822,9 +834,5 @@ QPointF PQMetaData::getGPSDataOnly(QString fname) {
         y *= -1;
 
     return QPointF(x,y);
-
-#endif
-
-    return QPointF();
 
 }

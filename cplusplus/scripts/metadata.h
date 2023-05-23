@@ -249,6 +249,7 @@ private:
     QString analyzeFNumber(const QString val);
     QString analyzeLightSource(const QString val);
     QString analyzeGPS(QString latRef, QString lat, QString lonRef, QString lon);
+    QPointF convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QString gpsLonRef, QString gpsLon);
 
 Q_SIGNALS:
     void validFileChanged();

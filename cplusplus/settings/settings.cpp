@@ -88,6 +88,7 @@ PQSettings::PQSettings() {
 
     readDB();
 
+    dbIsTransaction = false;
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);

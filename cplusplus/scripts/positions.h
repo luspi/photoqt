@@ -20,30 +20,33 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQVALIDATE_H
-#define PQVALIDATE_H
+#ifndef PQPOSITIONS_H
+#define PQPOSITIONS_H
 
 #include <QObject>
 #include <QtSql>
 #include "../logger.h"
 
-class PQValidate : public QObject {
+class PQPositions : public QObject {
 
     Q_OBJECT
 
 public:
-    PQValidate(QObject *parent = nullptr);
+    static PQPositions& get() {
+        static PQPositions instance;
+        return instance;
+    }
+    ~PQPositions();
 
-    bool validate();
+    Q_INVOKABLE void storePosition(QString path, QPointF gps);
 
-    bool validateContextMenuDatabase();
-    bool validateImageFormatsDatabase();
-    bool validateSettingsDatabase();
-    bool validateShortcutsDatabase();
-    bool validateSettingsValues();
-    bool validateDirectories();
-    bool validatePositionsDatabase();
+private:
+    PQPositions();
+
+    QSqlDatabase db;
+    bool dbIsTransaction;
+    QTimer *dbCommitTimer;
 
 };
 
-#endif // PQVALIDATE_H
+#endif // PQPOSITIONS_H

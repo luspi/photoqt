@@ -71,6 +71,12 @@ bool PQValidate::validate() {
         success = false;
     }
 
+    ret = validatePositionsDatabase();
+    if(!ret) {
+        LOG << " >> Failed: positions db" << NL << NL;
+        success = false;
+    }
+
     LOG << " >> Done!" << NL << NL;
     return success;
 
@@ -90,6 +96,17 @@ bool PQValidate::validateDirectories() {
 }
 
 bool PQValidate::validateContextMenuDatabase() {
+
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::CONTEXTMENU_DB())) {
+        if(!QFile::copy(":/contextmenu.db", ConfigFiles::CONTEXTMENU_DB()))
+            LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): unable to (re-)create default contextmenu database" << NL;
+        else {
+            QFile file(ConfigFiles::CONTEXTMENU_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
 
     QSqlDatabase dbinstalled = QSqlDatabase::database("contextmenu");
 
@@ -203,6 +220,17 @@ bool PQValidate::validateContextMenuDatabase() {
 }
 
 bool PQValidate::validateImageFormatsDatabase() {
+
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::IMAGEFORMATS_DB())) {
+        if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
+            LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): unable to (re-)create default imageformats database" << NL;
+        else {
+            QFile file(ConfigFiles::IMAGEFORMATS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
 
     // here we check all the image formats
     // we do so automatically by loading the default imageformats database and check that all items there are present in the actual one
@@ -475,6 +503,17 @@ bool PQValidate::validateImageFormatsDatabase() {
 
 bool PQValidate::validateSettingsDatabase() {
 
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::SETTINGS_DB())) {
+        if(!QFile::copy(":/settings.db", ConfigFiles::SETTINGS_DB()))
+            LOG << CURDATE << "PQValidate::validateSettingsDatabase(): unable to (re-)create default settings database" << NL;
+        else {
+            QFile file(ConfigFiles::SETTINGS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
+
     // first we check all the settings
     // we do so automatically by loading the default settings database and check that all items there are present in the actual one
 
@@ -650,6 +689,17 @@ bool PQValidate::validateShortcutsDatabase() {
 
     // This is also called in PQStartup::migrateShortcutsToDb()
     // and PQHandlingExternal::importConfigFrom()
+
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::SHORTCUTS_DB())) {
+        if(!QFile::copy(":/shortcuts.db", ConfigFiles::SHORTCUTS_DB()))
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): unable to (re-)create default shortcuts database" << NL;
+        else {
+            QFile file(ConfigFiles::SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
 
     QSqlDatabase dbinstalled = QSqlDatabase::database("shortcuts");
 
@@ -908,6 +958,22 @@ bool PQValidate::validateSettingsValues() {
     QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
     if(!file.remove())
         LOG << CURDATE << "PQCheckSettings::check(): ERROR: Unable to remove check db: " << file.errorString().toStdString() << NL;
+
+    return true;
+
+}
+
+bool PQValidate::validatePositionsDatabase() {
+
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::POSITIONS_DB())) {
+        if(!QFile::copy(":/positions.db", ConfigFiles::POSITIONS_DB()))
+            LOG << CURDATE << "PQValidate::validatePositionsDatabase(): unable to (re-)create default positions database" << NL;
+        else {
+            QFile file(ConfigFiles::POSITIONS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
 
     return true;
 
