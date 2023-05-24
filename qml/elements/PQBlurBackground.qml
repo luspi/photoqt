@@ -29,7 +29,7 @@ Item {
     anchors.fill: parent
     id: blurtop
 
-    property var items: [imageitem, thumbnails, statusinfo, resetview, histogram, mainmenu, metadata]
+    property var items: [imageitem, thumbnails, statusinfo, resetview, histogram, mapcurrent, mainmenu, metadata]
     property var thisis: undefined
     property int bluruntil: thisis!=undefined ? items.indexOf(thisis) : items.length-1
     property var reacttoxy: parent

@@ -446,8 +446,11 @@ Item {
 
         } else if(ele == "mapcurrent") {
 
-            if(mapview.source != "map/PQMapCurrent.qml")
-                mapview.source = "map/PQMapCurrent.qml"
+            if(PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "map/PQMapCurrentPopout.qml")
+                mapcurrent.source = "map/PQMapCurrentPopout.qml"
+
+            else if(!PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "map/PQMapCurrent.qml")
+                mapcurrent.source = "map/PQMapCurrent.qml"
 
         } else if(ele == "advancedsortbusy") {
 

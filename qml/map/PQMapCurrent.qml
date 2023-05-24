@@ -29,11 +29,11 @@ Item {
 
     id: map_top
 
-//    PQBlurBackground {
-//        thisis: histogram
-//        radius: 10
-//        isPoppedOut: PQSettings.interfacePopoutHistogram
-//    }
+    PQBlurBackground {
+        thisis: mapcurrent
+        radius: 10
+        isPoppedOut: PQSettings.interfacePopoutMapCurrent
+    }
 
     x: PQSettings.interfacePopoutMapCurrent ? 0 : PQSettings.mapviewCurrentPosition.x
     y: PQSettings.interfacePopoutMapCurrent ? 0 : PQSettings.mapviewCurrentPosition.y
@@ -55,7 +55,7 @@ Item {
     onHeightChanged:
         saveGeometryTimer.restart()
 
-    opacity: (PQSettings.interfacePopoutMapCurrent||(PQSettings.mapviewCurrentVisible && variables.visibleItem=="")) ? 1 : 0
+    opacity: (PQSettings.interfacePopoutMapCurrent||(PQSettings.mapviewCurrentVisible)) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     onVisibleChanged:
@@ -65,31 +65,10 @@ Item {
     property real latitude: 49.00937
     property real longitude: 8.40444
 
-    onNoLocationChanged: {
-        if(noLocation) {
-            map.zoomLevel = 1
-        } else {
-            map.zoomLevel = map.saveZoomLevel
-        }
-    }
-
     Rectangle {
         anchors.fill: parent
         color: "#88000000"
         radius: 10
-    }
-
-    PQMouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        drag.target: parent
-        cursorShape: Qt.SizeAllCursor
-    }
-
-    PQMouseArea {
-        anchors.fill: parent
-        anchors.margins: map.anchors.margins
-        hoverEnabled: true
     }
 
     Map {
@@ -97,7 +76,9 @@ Item {
         id: map
 
         anchors.fill: parent
-        anchors.margins: 15
+        anchors.margins: PQSettings.interfacePopoutMapCurrent ? 0 : 10
+
+        visible: !noLocation
 
         plugin:
             Plugin {
@@ -110,13 +91,18 @@ Item {
             longitude: longitude
         }
 
+        gesture.enabled: false
+
         Behavior on center.latitude { NumberAnimation { duration: 500 } }
         Behavior on center.longitude { NumberAnimation { duration: 500 } }
 
         zoomLevel: 12
-        property int saveZoomLevel: (zoomLevel > 1 ? zoomLevel : saveZoomLevel)
+        Behavior on zoomLevel { NumberAnimation { duration: 100 } }
 
         MapQuickItem {
+
+            id: marker
+
             anchorPoint.x: container.width*(61/256)
             anchorPoint.y: container.height*(198/201)
 
@@ -133,6 +119,26 @@ Item {
                 }
         }
 
+    }
+
+    PQTextL {
+        anchors.centerIn: parent
+        visible: noLocation
+        text: "No location data"
+    }
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        drag.target: PQSettings.interfacePopoutMapCurrent ? undefined : parent
+        cursorShape: Qt.SizeAllCursor
+        onWheel: {
+            if(noLocation) return
+            if(wheel.angleDelta.y < 0)
+                map.zoomLevel = Math.max(map.minimumZoomLevel, map.zoomLevel-0.5)
+            else
+                map.zoomLevel = Math.min(map.maximumZoomLevel, map.zoomLevel+0.5)
+        }
     }
 
     Image {
@@ -189,10 +195,38 @@ Item {
 
     }
 
+    Image {
+        x: (PQSettings.interfacePopoutMapCurrent ? 5 : 0)
+        y: PQSettings.interfacePopoutMapCurrent ? 5 : 0
+        width: 15
+        height: 15
+        source: "/popin.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            tooltip: PQSettings.interfacePopoutMapCurrent ?
+                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
+                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                         em.pty+qsTranslate("popinpopout", "Move to its own window")
+            onClicked: {
+                if(PQSettings.interfacePopoutMapCurrent)
+                    mapcurrent_window.storeGeometry()
+                PQSettings.interfacePopoutMapCurrent = !PQSettings.interfacePopoutMapCurrent
+                loader.ensureItIsReady("mapcurrent")
+            }
+        }
+    }
+
     Connections {
         target: filefoldermodel
         onCurrentFilePathChanged:
-            map_timer.restart()
+            updateMap()
     }
 
     // this makes sure that a change in the window geometry does not leeds to the element being outside the visible area
@@ -225,14 +259,6 @@ Item {
         interval: 250
         onTriggered:
             startupDelay = false
-    }
-
-    Timer {
-        id: map_timer
-        repeat: false
-        running: false
-        interval: 200
-        onTriggered: updateMap()
     }
 
     Timer {

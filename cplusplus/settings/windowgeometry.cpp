@@ -105,6 +105,10 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     w = 1024; h = 768;
     m_advancedSortWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
+    m_mapCurrentWindowMaximized = false;
+    w = 400; h = 300;
+    m_mapCurrentWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -219,6 +223,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("advancedSortWindowMaximized"))
         m_advancedSortWindowMaximized = settings->value("advancedSortWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("mapCurrentWindowGeometry"))
+        m_mapCurrentWindowGeometry = settings->value("mapCurrentWindowGeometry").toRect();
+    if(settings->allKeys().contains("mapCurrentWindowMaximized"))
+        m_mapCurrentWindowMaximized = settings->value("mapCurrentWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -284,5 +293,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("advancedSortWindowGeometry", m_advancedSortWindowGeometry);
     settings->setValue("advancedSortWindowMaximized", m_advancedSortWindowMaximized);
+
+    settings->setValue("mapCurrentWindowGeometry", m_mapCurrentWindowGeometry);
+    settings->setValue("mapCurrentWindowMaximized", m_mapCurrentWindowMaximized);
 
 }

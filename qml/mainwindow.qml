@@ -46,6 +46,7 @@ import "./menumeta"
 import "./histogram"
 import "./slideshow"
 import "./settingsmanager"
+import "./map"
 
 Window {
 
