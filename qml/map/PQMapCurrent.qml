@@ -68,7 +68,6 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: "#88000000"
-        radius: 10
     }
 
     Map {
@@ -76,9 +75,11 @@ Item {
         id: map
 
         anchors.fill: parent
-        anchors.margins: PQSettings.interfacePopoutMapCurrent ? 0 : 10
+        anchors.margins: PQSettings.interfacePopoutMapCurrent ? 0 : 2
 
-        visible: !noLocation
+        opacity: noLocation ? 0 : 1
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        visible: opacity>0
 
         plugin:
             Plugin {
@@ -123,8 +124,11 @@ Item {
 
     PQTextL {
         anchors.centerIn: parent
-        visible: noLocation
         text: "No location data"
+
+        opacity: noLocation ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        visible: opacity>0
     }
 
     PQMouseArea {
