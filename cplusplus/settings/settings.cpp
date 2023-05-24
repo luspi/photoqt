@@ -39,7 +39,8 @@ PQSettings::PQSettings() {
                              << "filetypes"
                              << "openfile"
                              << "slideshow"
-                             << "histogram";
+                             << "histogram"
+                             << "mapview";
 
     readonly = false;
 

@@ -733,7 +733,7 @@ QPointF PQMetaData::getGPSDataOnly(QString fname) {
             LOG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
         else
             DBG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
-        return QPointF();
+        return QPointF(9999,9999);
     }
 
 
@@ -747,7 +747,7 @@ QPointF PQMetaData::getGPSDataOnly(QString fname) {
         exifData = image->exifData();
     } catch(Exiv2::Error &e) {
         LOG << CURDATE << "PQMetaData::updateMetaData(): ERROR: Unable to read exif metadata: " << e.what() << NL;
-        return QPointF();
+        return QPointF(9999,9999);
     }
 
     QString gpsLatRef = "", gpsLat = "", gpsLonRef = "", gpsLon = "";
@@ -772,11 +772,14 @@ QPointF PQMetaData::getGPSDataOnly(QString fname) {
         // ignore exception -> most likely thrown as key does not exist
     }
 
+    if(gpsLatRef == "" && gpsLat == "" && gpsLonRef == "" && gpsLon == "")
+        return QPointF(9999,9999);
+
     return convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon);
 
 #endif
 
-    return QPointF();
+    return QPointF(9999,9999);
 
 }
 
@@ -785,7 +788,7 @@ QPointF PQMetaData::convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QStri
     const QStringList lat = gpsLat.split(" ");
     const QStringList lon = gpsLon.split(" ");
     if(lat.length() != 3 || lon.length() != 3)
-        return QPointF();
+        return QPointF(9999,9999);
 
     double x = 0, y = 0;
 

@@ -110,5 +110,6 @@
         <file>filedialog/selectfile.svg</file>
         <file>filedialog/folder.svg</file>
         <file>mainwindow/reset.svg</file>
+        <file>image/mapmarker.png</file>
     </qresource>
 </RCC>

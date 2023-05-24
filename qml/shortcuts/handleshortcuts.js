@@ -228,4 +228,8 @@ function executeInternalFunction(cmd, wheelDelta) {
         imageitem.goToBottomEdge()
     else if(cmd == "__showMapView")
         loader.show("mapview")
+    else if(cmd == "__showMapCurrent") {
+        loader.ensureItIsReady("mapcurrent")
+        PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
+    }
 }

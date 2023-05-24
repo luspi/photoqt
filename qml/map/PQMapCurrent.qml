@@ -1,0 +1,273 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2023 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.9
+import QtLocation 5.12
+import QtPositioning 5.12
+import "../elements"
+
+Item {
+
+    id: map_top
+
+//    PQBlurBackground {
+//        thisis: histogram
+//        radius: 10
+//        isPoppedOut: PQSettings.interfacePopoutHistogram
+//    }
+
+    x: PQSettings.interfacePopoutMapCurrent ? 0 : PQSettings.mapviewCurrentPosition.x
+    y: PQSettings.interfacePopoutMapCurrent ? 0 : PQSettings.mapviewCurrentPosition.y
+    width: PQSettings.interfacePopoutMapCurrent ? parentWidth : PQSettings.mapviewCurrentSize.width
+    height: PQSettings.interfacePopoutMapCurrent ? parentHeight : PQSettings.mapviewCurrentSize.height
+
+    property int parentWidth: 0
+    property int parentHeight: 0
+
+    // at startup toplevel width/height is zero causing the x/y of the map to be set to 0
+    property bool startupDelay: true
+
+    onXChanged:
+        saveGeometryTimer.restart()
+    onYChanged:
+        saveGeometryTimer.restart()
+    onWidthChanged:
+        saveGeometryTimer.restart()
+    onHeightChanged:
+        saveGeometryTimer.restart()
+
+    opacity: (PQSettings.interfacePopoutMapCurrent||(PQSettings.mapviewCurrentVisible && variables.visibleItem=="")) ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
+    visible: opacity!=0
+    onVisibleChanged:
+        updateMap()
+
+    property bool noLocation: true
+    property real latitude: 49.00937
+    property real longitude: 8.40444
+
+    onNoLocationChanged: {
+        if(noLocation) {
+            map.zoomLevel = 1
+        } else {
+            map.zoomLevel = map.saveZoomLevel
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#88000000"
+        radius: 10
+    }
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        drag.target: parent
+        cursorShape: Qt.SizeAllCursor
+    }
+
+    PQMouseArea {
+        anchors.fill: parent
+        anchors.margins: map.anchors.margins
+        hoverEnabled: true
+    }
+
+    Map {
+
+        id: map
+
+        anchors.fill: parent
+        anchors.margins: 15
+
+        plugin:
+            Plugin {
+                id: mapPlugin
+                name: "osm"
+            }
+
+        center {
+            latitude: latitude
+            longitude: longitude
+        }
+
+        Behavior on center.latitude { NumberAnimation { duration: 500 } }
+        Behavior on center.longitude { NumberAnimation { duration: 500 } }
+
+        zoomLevel: 12
+        property int saveZoomLevel: (zoomLevel > 1 ? zoomLevel : saveZoomLevel)
+
+        MapQuickItem {
+            anchorPoint.x: container.width*(61/256)
+            anchorPoint.y: container.height*(198/201)
+
+            visible: true
+
+            coordinate: QtPositioning.coordinate(latitude, longitude)
+
+            sourceItem:
+                Image {
+                    id: container
+                    width: 64
+                    height: 50
+                    source: "/image/mapmarker.png"
+                }
+        }
+
+    }
+
+    Image {
+
+        x: parent.width-width+5
+        y: -5
+        width: 25
+        height: 25
+
+        visible: !PQSettings.interfacePopoutMapCurrent
+
+        source: "/other/close.svg"
+        sourceSize: Qt.size(width, height)
+
+        opacity: closemouse.containsMouse ? 0.8 : 0
+        Behavior on opacity { NumberAnimation { duration: 150 } }
+
+        PQMouseArea {
+            id: closemouse
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onClicked:
+                PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
+        }
+
+    }
+
+    PQMouseArea {
+
+        id: resizeBotRight
+
+        enabled: !PQSettings.interfacePopoutMapCurrent
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+        }
+        width: 10
+        height: 10
+        cursorShape: Qt.SizeFDiagCursor
+
+        onPositionChanged: {
+            if(pressed) {
+                map_top.width += (mouse.x-resizeBotRight.width)
+                map_top.height += (mouse.y-resizeBotRight.height)
+                if(map_top.width < 100)
+                    map_top.width = 100
+                if(map_top.height < 100)
+                    map_top.height = 100
+
+            }
+        }
+
+    }
+
+    Connections {
+        target: filefoldermodel
+        onCurrentFilePathChanged:
+            map_timer.restart()
+    }
+
+    // this makes sure that a change in the window geometry does not leeds to the element being outside the visible area
+    Connections {
+        target: toplevel
+        onWidthChanged: {
+            if(map_top.x < 0)
+                map_top.x = 0
+            else if(map_top.x > toplevel.width-map_top.width)
+                map_top.x = toplevel.width-map_top.width
+        }
+        onHeightChanged: {
+            if(map_top.y < 0)
+                map_top.y = 0
+            else if(map_top.y > toplevel.height-map_top.height)
+                map_top.y = toplevel.height-map_top.height
+        }
+    }
+
+    Connections {
+        target: PQSettings
+        onMapviewCurrentVisibleChanged:
+            updateMap()
+    }
+
+    Timer {
+        // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+        running: true
+        repeat: false
+        interval: 250
+        onTriggered:
+            startupDelay = false
+    }
+
+    Timer {
+        id: map_timer
+        repeat: false
+        running: false
+        interval: 200
+        onTriggered: updateMap()
+    }
+
+    Timer {
+        id: saveGeometryTimer
+        interval: 500
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!PQSettings.interfacePopoutMapCurrent && !startupDelay) {
+                PQSettings.mapviewCurrentPosition = Qt.point(Math.max(0, Math.min(map_top.x, toplevel.width-map_top.width)), Math.max(0, Math.min(map_top.y, toplevel.height-map_top.height)))
+                PQSettings.mapviewCurrentSize = Qt.size(map_top.width, map_top.height)
+            }
+        }
+    }
+
+    Component.onCompleted:
+        updateMap()
+
+    function updateMap() {
+
+        // map is disabled
+        if(!PQSettings.mapviewCurrentVisible || filefoldermodel.current == -1)
+            return
+
+        var pos = cppmetadata.getGPSDataOnly(filefoldermodel.currentFilePath)
+
+        // this value means: no gps data
+        if(pos.x == 9999 || pos.y == 9999) {
+            noLocation = true
+            return
+        }
+
+        latitude = pos.x
+        longitude = pos.y
+        noLocation = false
+    }
+
+}

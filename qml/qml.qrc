@@ -183,5 +183,6 @@
         <file>mainwindow/PQResetView.qml</file>
         <file>settingsmanager/tabs/imageview/PQResetView.qml</file>
         <file>map/PQMapView.qml</file>
+        <file>map/PQMapCurrent.qml</file>
     </qresource>
 </RCC>

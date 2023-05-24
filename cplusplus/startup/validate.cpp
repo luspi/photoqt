@@ -551,11 +551,44 @@ bool PQValidate::validateSettingsDatabase() {
         return false;
     }
 
+    QStringList whichTablesToAdd;
+
     // iterate over all tables
-    while(queryTables.next())
-        tables << queryTables.value(0).toString();
+    while(queryTables.next()) {
+        const QString tab = queryTables.value(0).toString();
+        tables << tab;
+
+        // make sure all tables exist in installed db
+
+        QSqlQuery queryTabIns(dbinstalled);
+        if(!queryTabIns.exec(QString("SELECT COUNT(name) as cnt FROM sqlite_master WHERE type='table' AND name='%1'").arg(tab))) {
+            LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error checking table '" << tab.toStdString() << "' existence: " << queryTabIns.lastError().text().toStdString() << NL;
+            continue;
+        }
+
+        queryTabIns.next();
+
+        int cnt = queryTabIns.value(0).toInt();
+        if(cnt == 0)
+            whichTablesToAdd << tab;
+
+        queryTabIns.clear();
+    }
 
     queryTables.clear();
+
+    // add missing tables
+    if(whichTablesToAdd.length() > 0) {
+
+        for(const QString &tab : qAsConst(whichTablesToAdd)) {
+
+            QSqlQuery queryTabIns(dbinstalled);
+            if(!queryTabIns.exec(QString("CREATE TABLE `%1` (`name` TEXT UNIQUE, `value` TEXT, `defaultvalue` TEXT, `datatype` TEXT)").arg(tab)))
+                LOG << CURDATE << "PQValidate::validateSettingsDatabase(): ERROR adding missing table '" << tab.toStdString() << "': " << queryTabIns.lastError().text().toStdString() << NL;
+            queryTabIns.clear();
+        }
+
+    }
 
     QSqlQuery query(dbdefault);
 

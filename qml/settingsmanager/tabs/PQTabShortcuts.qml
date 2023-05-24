@@ -94,6 +94,8 @@ Item {
                                  //: Name of shortcut action
         "__histogram":          [em.pty+qsTranslate("settingsmanager_shortcuts", "Show Histogram"), "currentimage"],
                                  //: Name of shortcut action
+        "__showMapCurrent":     [em.pty+qsTranslate("settingsmanager_shortcuts", "Show Image on Map"), "currentimage"],
+                                 //: Name of shortcut action
         "__viewerMode":         [em.pty+qsTranslate("settingsmanager_shortcuts", "Enter viewer mode"), "currentimage"],
                                  //: Name of shortcut action
         "__scale":              [em.pty+qsTranslate("settingsmanager_shortcuts", "Scale Image"), "currentimage"],

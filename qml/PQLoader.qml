@@ -30,6 +30,7 @@ Item {
     signal metadataPassOn(var what, var param)
     signal filedialogPassOn(var what, var param)
     signal mapViewPassOn(var what, var param)
+    signal mapCurrentPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
@@ -130,6 +131,9 @@ Item {
         else if(ele == "mapview")
             mapViewPassOn("show", undefined)
 
+        else if(ele == "mapcurrent")
+            mapCurrentPassOn("show", undefined)
+
     }
 
     function passOn(ele, what, param) {
@@ -199,6 +203,9 @@ Item {
 
         else if(ele == "mapview")
             mapViewPassOn(what, param)
+
+        else if(ele == "mapcurrent")
+            mapCurrentPassOn(what, param)
 
     }
 
@@ -283,6 +290,9 @@ Item {
 
         else if(ele == "mapview")
             mapViewPassOn("keyevent", [key, mod])
+
+        else if(ele == "mapcurrent")
+            mapCurrentPassOn("keyevent", [key, mod])
 
     }
 
@@ -431,7 +441,13 @@ Item {
 
         } else if(ele == "mapview") {
 
+            if(mapview.source != "map/PQMapView.qml")
                 mapview.source = "map/PQMapView.qml"
+
+        } else if(ele == "mapcurrent") {
+
+            if(mapview.source != "map/PQMapCurrent.qml")
+                mapview.source = "map/PQMapCurrent.qml"
 
         } else if(ele == "advancedsortbusy") {
 
@@ -483,6 +499,7 @@ Item {
         unavailablepopout.source = ""
         logging.source = ""
         mapview.source = ""
+        mapcurrent.source = ""
     }
 
 }
