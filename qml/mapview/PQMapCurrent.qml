@@ -124,7 +124,7 @@ Item {
 
     PQTextL {
         anchors.centerIn: parent
-        text: "No location data"
+        text: em.pty+qsTranslate("mapcurrent", "No location data")
 
         opacity: noLocation ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
