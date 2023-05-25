@@ -149,7 +149,7 @@ Item {
                 }
             } else {
 
-                variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                variables.mousePos = mousearea.mapToItem(bgimage, mouse.x, mouse.y)
 
             }
         }
