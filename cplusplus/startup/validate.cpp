@@ -91,6 +91,17 @@ bool PQValidate::validateDirectories() {
 
 bool PQValidate::validateContextMenuDatabase() {
 
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::CONTEXTMENU_DB())) {
+        if(!QFile::copy(":/contextmenu.db", ConfigFiles::CONTEXTMENU_DB()))
+            LOG << CURDATE << "PQValidate::validateContextMenuDatabase(): unable to (re-)create default contextmenu database" << NL;
+        else {
+            QFile file(ConfigFiles::CONTEXTMENU_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
+
     QSqlDatabase dbinstalled = QSqlDatabase::database("contextmenu");
 
     if(!dbinstalled.open())
@@ -203,6 +214,17 @@ bool PQValidate::validateContextMenuDatabase() {
 }
 
 bool PQValidate::validateImageFormatsDatabase() {
+
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::IMAGEFORMATS_DB())) {
+        if(!QFile::copy(":/imageformats.db", ConfigFiles::IMAGEFORMATS_DB()))
+            LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): unable to (re-)create default imageformats database" << NL;
+        else {
+            QFile file(ConfigFiles::IMAGEFORMATS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
 
     // here we check all the image formats
     // we do so automatically by loading the default imageformats database and check that all items there are present in the actual one
@@ -475,6 +497,17 @@ bool PQValidate::validateImageFormatsDatabase() {
 
 bool PQValidate::validateSettingsDatabase() {
 
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::SETTINGS_DB())) {
+        if(!QFile::copy(":/settings.db", ConfigFiles::SETTINGS_DB()))
+            LOG << CURDATE << "PQValidate::validateSettingsDatabase(): unable to (re-)create default settings database" << NL;
+        else {
+            QFile file(ConfigFiles::SETTINGS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
+
     // first we check all the settings
     // we do so automatically by loading the default settings database and check that all items there are present in the actual one
 
@@ -512,11 +545,44 @@ bool PQValidate::validateSettingsDatabase() {
         return false;
     }
 
+    QStringList whichTablesToAdd;
+
     // iterate over all tables
-    while(queryTables.next())
-        tables << queryTables.value(0).toString();
+    while(queryTables.next()) {
+        const QString tab = queryTables.value(0).toString();
+        tables << tab;
+
+        // make sure all tables exist in installed db
+
+        QSqlQuery queryTabIns(dbinstalled);
+        if(!queryTabIns.exec(QString("SELECT COUNT(name) as cnt FROM sqlite_master WHERE type='table' AND name='%1'").arg(tab))) {
+            LOG << CURDATE << "PQValidate::validateSettingsDatabase(): Error checking table '" << tab.toStdString() << "' existence: " << queryTabIns.lastError().text().toStdString() << NL;
+            continue;
+        }
+
+        queryTabIns.next();
+
+        int cnt = queryTabIns.value(0).toInt();
+        if(cnt == 0)
+            whichTablesToAdd << tab;
+
+        queryTabIns.clear();
+    }
 
     queryTables.clear();
+
+    // add missing tables
+    if(whichTablesToAdd.length() > 0) {
+
+        for(const QString &tab : qAsConst(whichTablesToAdd)) {
+
+            QSqlQuery queryTabIns(dbinstalled);
+            if(!queryTabIns.exec(QString("CREATE TABLE `%1` (`name` TEXT UNIQUE, `value` TEXT, `defaultvalue` TEXT, `datatype` TEXT)").arg(tab)))
+                LOG << CURDATE << "PQValidate::validateSettingsDatabase(): ERROR adding missing table '" << tab.toStdString() << "': " << queryTabIns.lastError().text().toStdString() << NL;
+            queryTabIns.clear();
+        }
+
+    }
 
     QSqlQuery query(dbdefault);
 
@@ -650,6 +716,17 @@ bool PQValidate::validateShortcutsDatabase() {
 
     // This is also called in PQStartup::migrateShortcutsToDb()
     // and PQHandlingExternal::importConfigFrom()
+
+    // the db does not exist -> create it and finish
+    if(!QFile::exists(ConfigFiles::SHORTCUTS_DB())) {
+        if(!QFile::copy(":/shortcuts.db", ConfigFiles::SHORTCUTS_DB()))
+            LOG << CURDATE << "PQValidate::validateShortcutsDatabase(): unable to (re-)create default shortcuts database" << NL;
+        else {
+            QFile file(ConfigFiles::SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
 
     QSqlDatabase dbinstalled = QSqlDatabase::database("shortcuts");
 

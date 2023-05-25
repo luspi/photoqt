@@ -46,6 +46,7 @@ import "./menumeta"
 import "./histogram"
 import "./slideshow"
 import "./settingsmanager"
+import "./mapview"
 
 Window {
 
@@ -278,6 +279,7 @@ Window {
     PQModel { id: filefoldermodel }
 
     Loader { id: histogram }
+    Loader { id: mapcurrent }
 
     Loader { id: metadata }
     Loader { id: navigationfloating }
@@ -410,6 +412,9 @@ Window {
 
         if(PQSettings.histogramVisible)
             loader.ensureItIsReady("histogram")
+
+        if(PQSettings.mapviewCurrentVisible)
+            loader.ensureItIsReady("mapcurrent")
 
         if(PQSettings.interfaceNavigationFloating)
             loader.ensureItIsReady("navigationfloating")

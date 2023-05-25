@@ -704,6 +704,136 @@ QString PQMetaData::analyzeGPS(QString latRef, QString lat, QString lonRef, QStr
     else if(split.length() == 1)
         lon = split.at(0) + "°0'0''";
 
+
+
     return lat + " " + latRef + ", " + lon + " " + lonRef;
+
+}
+
+QPointF PQMetaData::getGPSDataOnly(QString fname) {
+
+#ifdef EXIV2
+
+// Obtain METADATA
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+    try {
+        image  = Exiv2::ImageFactory::open(fname.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        // An error code of 11 means unknown file type
+        // Since we always try to read any file's meta data, this happens a lot
+        if(e.code() != 11)
+            LOG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+        else
+            DBG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+        return QPointF(9999,9999);
+    }
+
+
+    /*******************
+    * Obtain EXIF data *
+    ********************/
+
+    Exiv2::ExifData exifData;
+
+    try {
+        exifData = image->exifData();
+    } catch(Exiv2::Error &e) {
+        LOG << CURDATE << "PQMetaData::updateMetaData(): ERROR: Unable to read exif metadata: " << e.what() << NL;
+        return QPointF(9999,9999);
+    }
+
+    QString gpsLatRef = "", gpsLat = "", gpsLonRef = "", gpsLon = "";
+
+    try {
+        Exiv2::ExifMetadata::const_iterator iter = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLatitudeRef"));
+        if(iter != exifData.end())
+            gpsLatRef = QString::fromStdString(Exiv2::toString(iter->value()));
+
+        iter = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLatitude"));
+        if(iter != exifData.end())
+            gpsLat = QString::fromStdString(Exiv2::toString(iter->value()));
+
+        iter = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLongitudeRef"));
+        if(iter != exifData.end())
+            gpsLonRef = QString::fromStdString(Exiv2::toString(iter->value()));
+
+        iter = exifData.findKey(Exiv2::ExifKey("Exif.GPSInfo.GPSLongitude"));
+        if(iter != exifData.end())
+            gpsLon = QString::fromStdString(Exiv2::toString(iter->value()));
+    } catch(Exiv2::Error &) {
+        // ignore exception -> most likely thrown as key does not exist
+    }
+
+    if(gpsLatRef == "" && gpsLat == "" && gpsLonRef == "" && gpsLon == "")
+        return QPointF(9999,9999);
+
+    return convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon);
+
+#endif
+
+    return QPointF(9999,9999);
+
+}
+
+QPointF PQMetaData::convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QString gpsLonRef, QString gpsLon) {
+
+    const QStringList lat = gpsLat.split(" ");
+    const QStringList lon = gpsLon.split(" ");
+    if(lat.length() != 3 || lon.length() != 3)
+        return QPointF(9999,9999);
+
+    double x = 0, y = 0;
+
+    const QList<double> div = {1, 60, 3600};
+
+    for(int i = 0; i < 3; ++i) {
+
+        double xval = 0;
+
+        if(lat.at(i).contains("/")) {
+            const QStringList p = lat.at(i).split("/");
+            const double one = p.at(0).toDouble();
+            const double two = p.at(1).toDouble();
+
+            xval = one;
+            if(two != 0)
+                xval /= two;
+
+        } else
+            xval = lat.at(i).toDouble();
+
+        x += xval/div.at(i);
+
+        double yval = 0;
+
+        if(lon.at(i).contains("/")) {
+            const QStringList p = lon.at(i).split("/");
+            const double one = p.at(0).toDouble();
+            const double two = p.at(1).toDouble();
+
+            yval = one;
+            if(two != 0)
+                yval /= two;
+
+        } else
+            yval = lon.at(i).toDouble();
+
+        y += yval/div.at(i);
+
+    }
+
+    if(gpsLatRef.toLower() == "s")
+        x *= -1;
+
+    if(gpsLonRef.toLower() == "w")
+        y *= -1;
+
+    return QPointF(x,y);
 
 }

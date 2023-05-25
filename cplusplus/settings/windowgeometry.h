@@ -439,6 +439,26 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect mapCurrentWindowGeometry READ getMapCurrentWindowGeometry WRITE setMapCurrentWindowGeometry NOTIFY mapCurrentWindowGeometryChanged)
+    QRect getMapCurrentWindowGeometry() { return m_mapCurrentWindowGeometry; }
+    void setMapCurrentWindowGeometry(QRect rect) {
+        if(rect != m_mapCurrentWindowGeometry) {
+            m_mapCurrentWindowGeometry = rect;
+            Q_EMIT mapCurrentWindowGeometryChanged();
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool mapCurrentWindowMaximized READ getMapCurrentWindowMaximized WRITE setMapCurrentWindowMaximized NOTIFY mapCurrentWindowMaximizedChanged)
+    bool getMapCurrentWindowMaximized() { return m_mapCurrentWindowMaximized; }
+    void setMapCurrentWindowMaximized(bool maximized) {
+        if(maximized != m_mapCurrentWindowMaximized) {
+            m_mapCurrentWindowMaximized = maximized;
+            Q_EMIT mapCurrentWindowMaximizedChanged();
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -500,6 +520,9 @@ private:
     QRect m_advancedSortWindowGeometry;
     bool  m_advancedSortWindowMaximized;
 
+    QRect m_mapCurrentWindowGeometry;
+    bool  m_mapCurrentWindowMaximized;
+
     QSettings *settings;
     PQHandlingExternal handlingExternal;
 
@@ -549,6 +572,8 @@ Q_SIGNALS:
     void loggingWindowMaximizedChanged();
     void advancedSortWindowGeometryChanged();
     void advancedSortWindowMaximizedChanged();
+    void mapCurrentWindowGeometryChanged();
+    void mapCurrentWindowMaximizedChanged();
 
 };
 

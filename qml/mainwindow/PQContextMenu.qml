@@ -67,7 +67,10 @@ PQMenu {
         ["metadata.svg", PQSettings.metadataElementVisible ? (em.pty+qsTranslate("MainMenu", "Hide metadata")) : (em.pty+qsTranslate("MainMenu", "Show metadata")), "__showMetaData"],
 
         //: This is an entry in the main menu on the right. Please keep short!
-        ["histogram.svg", PQSettings.histogramVisible ? (em.pty+qsTranslate("MainMenu", "Hide histogram")) : (em.pty+qsTranslate("MainMenu", "Show histogram")), "__histogram"]
+        ["histogram.svg", PQSettings.histogramVisible ? (em.pty+qsTranslate("MainMenu", "Hide histogram")) : (em.pty+qsTranslate("MainMenu", "Show histogram")), "__histogram"],
+
+        //: This is an entry in the main menu on the right. Please keep short!
+        ["mapmarker.svg", PQSettings.mapviewCurrentVisible ? (em.pty+qsTranslate("MainMenu", "Hide map (current image)")) : (em.pty+qsTranslate("MainMenu", "Show map (current image)")), "__showMapCurrent"]
 
     ]
 

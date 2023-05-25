@@ -182,5 +182,7 @@
         <file>settingsmanager/tabs/imageview/PQHideMouseTimeout.qml</file>
         <file>mainwindow/PQResetView.qml</file>
         <file>settingsmanager/tabs/imageview/PQResetView.qml</file>
+        <file>mapview/PQMapCurrent.qml</file>
+        <file>mapview/PQMapCurrentPopout.qml</file>
     </qresource>
 </RCC>
