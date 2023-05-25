@@ -70,6 +70,39 @@ Item {
         color: "#88000000"
     }
 
+    Plugin {
+        id: osmPlugin
+        name: "osm"//PQSettings.mapviewProvider
+        parameters: [
+            PluginParameter {
+                name: "osm.useragent"
+                value: "PhotoQt Image Viewer"
+            }
+        ]
+    }
+
+    Plugin {
+        id: googlePlugin
+        name: "googlemaps"
+        parameters: [
+            PluginParameter {
+                name: "googlemaps.maps.apikey"
+                value: (PQSettings.mapviewProviderGoogleMapsToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderGoogleMapsToken))
+            }
+        ]
+    }
+
+    Plugin {
+        id: esriPlugin
+        name: "esri"
+        parameters: [
+            PluginParameter {
+                name: "esri.token"
+                value: (PQSettings.mapviewProviderEsriAPIKey=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderEsriAPIKey))
+            }
+        ]
+    }
+
     Map {
 
         id: map
@@ -81,11 +114,7 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
 
-        plugin:
-            Plugin {
-                id: mapPlugin
-                name: "osm"
-            }
+        plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
 
         center {
             latitude: latitude

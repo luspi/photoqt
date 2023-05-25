@@ -106,6 +106,8 @@ Item {
                 PQHorizontalLine { expertModeOnly: pix.expertmodeonly }
             PQAnimation { id: ani }
                 PQHorizontalLine { expertModeOnly: ani.expertmodeonly }
+            PQMapView { id: map }
+                PQHorizontalLine { expertModeOnly: map.expertmodeonly }
             PQResetView { id: rst }
                 PQHorizontalLine { expertModeOnly: rst.expertmodeonly }
             PQInterpolation { id: itp }
