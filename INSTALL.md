@@ -56,6 +56,10 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar
 
+## ADDITIONAL MAP PROVIDERS
+
+PhotoQt can show image locations on an embedded map. By default it chooses OpenStreetMap, but Esri and Google Maps are also offered as an option. Esri support is currently built-in to Qt, but in order to support Google Maps this plugin for QtLocation needs to be installed: https://github.com/vladest/googlemaps
+
 ## BUILDING AND INSTALLING
 
 1. _mkdir build && cd build/_
