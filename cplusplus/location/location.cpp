@@ -68,10 +68,12 @@ void PQLocation::storeLocation(const QString path, const QPointF gps) {
     }
 
     QSqlQuery query(db);
-    query.prepare("REPLACE INTO location (filename,latitude,longitude,lastmodified) VALUES (:fn, :lat, :lon, :mod)");
-    query.bindValue(":fn", path);
-    query.bindValue(":lat", QString("%1").arg(gps.x()));
-    query.bindValue(":lon", QString("%1").arg(gps.y()));
+    query.prepare("REPLACE INTO location (`id`,`folder`,`filename`,`latitude`,`longitude`,`lastmodified`) VALUES (:id, :folder, :fn, :lat, :lon, :mod)");
+    query.bindValue(":id", QCryptographicHash::hash(path.toUtf8(),QCryptographicHash::Md5).toHex());
+    query.bindValue(":folder", info.absolutePath());
+    query.bindValue(":fn", info.fileName());
+    query.bindValue(":lat", QString::number(gps.x(), 'f', 8));
+    query.bindValue(":lon", QString::number(gps.y(), 'f', 8));
     query.bindValue(":mod", info.lastModified().toSecsSinceEpoch());
     if(!query.exec()) {
         LOG << "PQLocation::storePosition(): ERROR inserting/replacing location data: " << query.lastError().text().toStdString() << NL;
@@ -83,7 +85,7 @@ void PQLocation::storeLocation(const QString path, const QPointF gps) {
 }
 
 void PQLocation::processSummary() {
-
+/*
     QSqlQuery queryDel(db);
     if(!queryDel.exec("DELETE FROM summary"))
         LOG << CURDATE << "PQLocation::processSummary(): ERROR removing old data, some data might be obsolete: " << queryDel.lastError().text().trimmed().toStdString() << NL;
@@ -148,14 +150,14 @@ void PQLocation::processSummary() {
         db.commit();
 
     }
-
+*/
 
 }
 
-QVariantList PQLocation::getImages(const int detailLevel) {
+QVariantList PQLocation::getImages(const int detailLevel, QString folder, bool includeSubFolder) {
 
     QVariantList ret;
-
+/*
     processSummary();
 
     QSqlQuery query(db);
@@ -184,19 +186,12 @@ QVariantList PQLocation::getImages(const int detailLevel) {
     }
 
     query.clear();
-
+*/
     return ret;
 
 }
 
 void PQLocation::storeMapState(const double zoomlevel, const double latitude, const double longitude) {
-
-//    dbCommitTimer->stop();
-
-//    if(!dbIsTransaction) {
-//        db.transaction();
-//        dbIsTransaction = true;
-//    }
 
     QSqlQuery query(db);
 
@@ -217,8 +212,6 @@ void PQLocation::storeMapState(const double zoomlevel, const double latitude, co
     if(!query.exec())
         LOG << CURDATE << "PQLocation::storeMapState(): ERROR storing longitude: " << query.lastError().text().trimmed().toStdString() << NL;
     query.clear();
-
-//    dbCommitTimer->start();
 
 }
 

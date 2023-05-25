@@ -71,7 +71,7 @@ Item {
 
         MapItemView {
 
-            model: ListModel { id: mdl }
+            model: locationmodel
 
             delegate: MapQuickItem {
 
@@ -159,10 +159,11 @@ Item {
     }
 
     function loadImages() {
-
+/*
         // There are four steps
         var levels = [1,5,8,10]
 
+        // find the appropriate detail level for the current setting
         var detaillevel = 1
         if(map.zoomLevel > map.maximumZoomLevel-levels[levels.length-1]) {
             for(var l in levels) {
@@ -187,7 +188,7 @@ Item {
                     longitude: dat[i][1],
                     howmany: dat[i][2],
                     filename: dat[i][3]})
-
+*/
     }
 
 }

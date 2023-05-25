@@ -20,40 +20,12 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQLOCATION_H
-#define PQLOCATION_H
+#include "locationmodel.h"
 
-#include <QObject>
-#include <QtSql>
-#include "../logger.h"
+PQLocationModel::PQLocationModel(QObject *parent) : QSqlTableModel(parent, QSqlDatabase::database("location")) {
 
-class PQLocation : public QObject {
+    setTable("location");
+    setEditStrategy(QSqlTableModel::OnManualSubmit);
+    select();
 
-    Q_OBJECT
-
-public:
-    static PQLocation& get() {
-        static PQLocation instance;
-        return instance;
-    }
-    ~PQLocation();
-
-    void storeLocation(const QString path, const QPointF gps);
-
-    Q_INVOKABLE QVariantList getImages(const int detailLevel);
-
-    Q_INVOKABLE void storeMapState(const double zoomlevel, const double latitude, const double longitude);
-    Q_INVOKABLE QVariantList getMapState();
-
-    void processSummary();
-
-private:
-    PQLocation();
-
-    QSqlDatabase db;
-    bool dbIsTransaction;
-    QTimer *dbCommitTimer;
-
-};
-
-#endif // PQLOCATION_H
+}

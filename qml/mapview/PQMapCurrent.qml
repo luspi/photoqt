@@ -145,7 +145,17 @@ Item {
         }
     }
 
+    Rectangle {
+        anchors.fill: closeimage
+//        anchors.margins: -2
+        radius: width/2
+        color: "#88000000"
+        opacity: closeimage.opacity
+    }
+
     Image {
+
+        id: closeimage
 
         x: parent.width-width+5
         y: -5
@@ -199,7 +209,16 @@ Item {
 
     }
 
+    Rectangle {
+        anchors.fill: popinimage
+        anchors.margins: -2
+        radius: 2
+        color: "#88000000"
+        opacity: popinimage.opacity
+    }
+
     Image {
+        id: popinimage
         x: (PQSettings.interfacePopoutMapCurrent ? 5 : 0)
         y: PQSettings.interfacePopoutMapCurrent ? 5 : 0
         width: 15

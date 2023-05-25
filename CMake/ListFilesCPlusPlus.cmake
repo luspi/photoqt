@@ -16,7 +16,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filewatcher.cpp ${d}/handlinggeneral
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingexternal.cpp ${d}/metadata.cpp ${d}/handlingfiledir.cpp ${d}/handlingmanipulation.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingshareimgur.cpp ${d}/replytimeout.h ${d}/simplecrypt.cpp ${d}/handlingwallpaper.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfacetags.cpp ${d}/handlingchromecast.cpp ${d}/httpserver.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/location.cpp)
 
 SET(d "cplusplus/imageprovider")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumb.cpp ${d}/imageprovidericon.cpp ${d}/imageproviderhistogram.cpp ${d}/loadimage.cpp ${d}/resolutionprovider.cpp)
@@ -44,3 +43,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tabimageoptions.cpp ${d}/tabimagepos
 
 SET(d "cplusplus/libmpv")
 SET(photoqt_libmpv_SOURCES ${d}/mpvqthelper.h ${d}/mpvobject.cpp)
+
+SET(d "cplusplus/location")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/location.cpp ${d}/locationmodel.cpp)

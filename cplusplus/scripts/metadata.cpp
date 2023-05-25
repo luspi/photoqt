@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include "metadata.h"
-#include "location.h"
+#include "../location/location.h"
 
 PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 

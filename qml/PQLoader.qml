@@ -441,16 +441,16 @@ Item {
 
         } else if(ele == "mapview") {
 
-            if(mapview.source != "map/PQMapView.qml")
-                mapview.source = "map/PQMapView.qml"
+            if(mapview.source != "mapview/PQMapExplorer.qml")
+                mapview.source = "mapview/PQMapExplorer.qml"
 
         } else if(ele == "mapcurrent") {
 
-            if(PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "map/PQMapCurrentPopout.qml")
-                mapcurrent.source = "map/PQMapCurrentPopout.qml"
+            if(PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "mapview/PQMapCurrentPopout.qml")
+                mapcurrent.source = "mapview/PQMapCurrentPopout.qml"
 
-            else if(!PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "map/PQMapCurrent.qml")
-                mapcurrent.source = "map/PQMapCurrent.qml"
+            else if(!PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "mapview/PQMapCurrent.qml")
+                mapcurrent.source = "mapview/PQMapCurrent.qml"
 
         } else if(ele == "advancedsortbusy") {
 
