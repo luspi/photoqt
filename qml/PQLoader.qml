@@ -52,91 +52,9 @@ Item {
     signal advancedSortPassOn(var what, var param)
     signal advancedSortBusyPassOn(var what, var param)
 
-    function show(ele) {
-
-        if(ele == "chromecast" && !handlingGeneral.isChromecastEnabled()) {
-            ensureItIsReady("unavailable")
-            unavailablePassOn("show", undefined)
-            return
-        }
+    function passOn(ele, what, param) {
 
         ensureItIsReady(ele)
-
-        if(ele == "filedialog")
-            filedialogPassOn("show", undefined)
-
-        else if(ele == "mainmenu")
-            mainmenuPassOn("show", undefined)
-
-        else if(ele == "metadata")
-            metadataPassOn("show", undefined)
-
-        else if(ele == "slideshowsettings")
-            slideshowPassOn("show", undefined)
-
-        else if(ele == "slideshowcontrols")
-            slideshowControlsPassOn("show", undefined)
-
-        else if(ele == "filerename")
-            fileRenamePassOn("show", undefined)
-
-        else if(ele == "filedelete")
-            fileDeletePassOn("show", undefined)
-
-        else if(ele == "scale")
-            scalePassOn("show", undefined)
-
-        else if(ele == "about")
-            aboutPassOn("show", undefined)
-
-        else if(ele == "imgur")
-            imgurPassOn("show", undefined)
-
-        else if(ele == "imguranonym")
-            imgurPassOn("show_anonym", undefined)
-
-        else if(ele == "wallpaper")
-            wallpaperPassOn("show", undefined)
-
-        else if(ele == "filter")
-            filterPassOn("show", undefined)
-
-        else if(ele == "settingsmanager")
-            settingsManagerPassOn("show", undefined)
-
-        else if(ele == "filesaveas")
-            fileSaveAsPassOn("show", undefined)
-
-        else if(ele == "unavailable")
-            unavailablePassOn("show", undefined)
-
-        else if(ele == "unavailablepopout")
-            unavailablePopoutPassOn("show", undefined)
-
-        else if(ele == "navigationfloating")
-            navigationFloatingPassOn("show", undefined)
-
-        else if(ele == "chromecast")
-            chromecastPassOn("show", undefined)
-
-        else if(ele == "logging")
-            loggingPassOn("show", undefined)
-
-        else if(ele == "advancedsort")
-            advancedSortPassOn("show", undefined)
-
-        else if(ele == "advancedsortbusy")
-            advancedSortBusyPassOn("show", undefined)
-
-        else if(ele == "mapview")
-            mapViewPassOn("show", undefined)
-
-        else if(ele == "mapcurrent")
-            mapCurrentPassOn("show", undefined)
-
-    }
-
-    function passOn(ele, what, param) {
 
         if(ele == "mainmenu")
             mainmenuPassOn(what, param)
@@ -209,90 +127,27 @@ Item {
 
     }
 
+    function show(ele) {
+
+        if(ele == "chromecast" && !handlingGeneral.isChromecastEnabled()) {
+            ensureItIsReady("unavailable")
+            unavailablePassOn("show", undefined)
+            return
+        }
+
+        passOn(ele, "show", undefined)
+
+    }
+
     function passMouseEvent(ele, buttons, mod) {
 
-        ensureItIsReady(ele)
-
-        if(ele == "filedialog")
-            filedialogPassOn("mouseevent", [buttons, mod])
+        passOn(ele, "mouseevent", [buttons, mod])
 
     }
 
     function passKeyEvent(ele, key, mod) {
 
-        ensureItIsReady(ele)
-
-        if(ele == "mainmenu")
-            mainmenuPassOn("keyevent", [key, mod])
-
-        else if(ele == "metadata")
-            metadataPassOn("keyevent", [key, mod])
-
-        else if(ele == "filedialog")
-            filedialogPassOn("keyevent", [key, mod])
-
-        else if(ele == "slideshowsettings")
-            slideshowPassOn("keyevent", [key, mod])
-
-        else if(ele == "slideshowcontrols")
-            slideshowControlsPassOn("keyevent", [key, mod])
-
-        else if(ele == "filedelete")
-            fileDeletePassOn("keyevent", [key, mod])
-
-        else if(ele == "filerename")
-            fileRenamePassOn("keyevent", [key, mod])
-
-        else if(ele == "scale")
-            scalePassOn("keyevent", [key, mod])
-
-        else if(ele == "about")
-            aboutPassOn("keyevent", [key, mod])
-
-        else if(ele == "imgur" || ele == "imguranonym")
-            imgurPassOn("keyevent", [key, mod])
-
-        else if(ele == "wallpaper")
-            wallpaperPassOn("keyevent", [key, mod])
-
-        else if(ele == "filter")
-            filterPassOn("keyevent", [key, mod])
-
-        else if(ele == "facetagger")
-            faceTaggerPassOn("keyevent", [key, mod])
-
-        else if(ele == "settingsmanager")
-            settingsManagerPassOn("keyevent", [key, mod])
-
-        else if(ele == "filesaveas")
-            fileSaveAsPassOn("keyevent", [key, mod])
-
-        else if(ele == "unavailable")
-            unavailablePassOn("keyevent", [key, mod])
-
-        else if(ele == "unavailablepopout")
-            unavailablePopoutPassOn("keyevent", [key, mod])
-
-        else if(ele == "navigationfloating")
-            navigationFloatingPassOn("keyevent", [key, mod])
-
-        else if(ele == "chromecast")
-            chromecastPassOn("keyevent", [key, mod])
-
-        else if(ele == "logging")
-            loggingPassOn("keyevent", [key, mod])
-
-        else if(ele == "advancedsort")
-            advancedSortPassOn("keyevent", [key, mod])
-
-        else if(ele == "advancedsortbusy")
-            advancedSortBusyPassOn("keyevent", [key, mod])
-
-        else if(ele == "mapview")
-            mapViewPassOn("keyevent", [key, mod])
-
-        else if(ele == "mapcurrent")
-            mapCurrentPassOn("keyevent", [key, mod])
+        passOn(ele, "keyevent", [key, mod])
 
     }
 
