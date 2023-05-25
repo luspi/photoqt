@@ -34,25 +34,26 @@ Modified for use in PhotoQt by Lukas Spies.
 #include <QCryptographicHash>
 #include <QDataStream>
 
-SimpleCrypt::SimpleCrypt():
-    m_key(0),
-    m_compressionMode(CompressionAuto),
-    m_protectionMode(ProtectionChecksum),
-    m_lastError(ErrorNoError)
-{
-#if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
-    qsrand(uint(QDateTime::currentMSecsSinceEpoch() & 0xFFFF));
-#else
-    randgen.seed(uint(QDateTime::currentMSecsSinceEpoch() & 0xFFFF));
-#endif
-}
+SimpleCrypt::SimpleCrypt() {
 
-SimpleCrypt::SimpleCrypt(quint64 key):
-    m_key(key),
-    m_compressionMode(CompressionAuto),
-    m_protectionMode(ProtectionChecksum),
-    m_lastError(ErrorNoError)
-{
+    // Generate a default encryption key based on the current machine name
+    quint64 key = 0;
+    QString hostname = QSysInfo::machineHostName();
+    if(hostname.length() < 4)
+        key = 63871234;
+    else {
+        hostname = hostname.remove(5, hostname.length()+1);
+        int p = 1;
+        for(const auto &character : qAsConst(hostname)) {
+            key += character.unicode()*p;
+            p *= 10;
+        }
+    }
+    m_key = key;
+    m_compressionMode = CompressionAuto;
+    m_protectionMode = ProtectionChecksum;
+    m_lastError = ErrorNoError;
+
 #if QT_VERSION < QT_VERSION_CHECK(5, 10, 0)
     qsrand(uint(QDateTime::currentMSecsSinceEpoch() & 0xFFFF));
 #else

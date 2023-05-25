@@ -46,21 +46,6 @@ PQHandlingShareImgur::PQHandlingShareImgur(QObject *parent) : QObject(parent) {
     QDir dir;
     dir.mkpath(info.absolutePath());
 
-    // The cryptkey is based on the hostname of the machine. This way this value is preserved much more reliably.
-    int key = 0;
-    QString hostname = QSysInfo::machineHostName();
-    if(hostname.length() < 4)
-        key = 63871234;
-    else {
-        hostname = hostname.remove(5, hostname.length()+1);
-        int p = 1;
-        for(const auto &character : qAsConst(hostname)) {
-            key += character.unicode()*p;
-            p *= 10;
-        }
-    }
-    crypt = SimpleCrypt(key);
-
 }
 
 PQHandlingShareImgur::~PQHandlingShareImgur() {

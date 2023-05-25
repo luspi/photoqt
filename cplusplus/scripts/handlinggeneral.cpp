@@ -484,3 +484,11 @@ void PQHandlingGeneral::setDefaultSettings(bool ignoreLanguage) {
 QString PQHandlingGeneral::toPercentEncoding(QString str) {
     return QUrl::toPercentEncoding(str);
 }
+
+QString PQHandlingGeneral::encryptString(QString str) {
+    return crypt.encryptToString(str);
+}
+
+QString PQHandlingGeneral::decryptString(QString str) {
+    return crypt.decryptToString(str);
+}

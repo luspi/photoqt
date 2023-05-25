@@ -99,15 +99,9 @@ public:
     /**
       Constructor.
 
-      Constructs a SimpleCrypt instance without a valid key set on it.
+      Constructs a SimpleCrypt instance and initializes it with the default key for this machine.
      */
-    SimpleCrypt();
-    /**
-      Constructor.
-
-      Constructs a SimpleCrypt instance and initializes it with the given @arg key.
-     */
-    explicit SimpleCrypt(quint64 key);
+    explicit SimpleCrypt();
 
     /**
       (Re-) initializes the key with the given @arg key.

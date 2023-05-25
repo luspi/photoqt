@@ -34,6 +34,7 @@
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 #include "../singleinstance/singleinstance.h"
+#include "simplecrypt.h"
 #ifdef POPPLER
 #include <poppler/qt5/poppler-version.h>
 #endif
@@ -76,11 +77,14 @@ public:
     Q_INVOKABLE void storeQmlWindowMemoryAddress(QString objName);
     Q_INVOKABLE void setDefaultSettings(bool ignoreLanguage = false);
     Q_INVOKABLE QString toPercentEncoding(QString str);
+    Q_INVOKABLE QString encryptString(QString str);
+    Q_INVOKABLE QString decryptString(QString str);
 
 
 private:
     PQImageProviderFull *imageprovider;
     QMimeDatabase mimedb;
+    SimpleCrypt crypt;
 
 };
 
