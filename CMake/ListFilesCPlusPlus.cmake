@@ -43,3 +43,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tabimageoptions.cpp ${d}/tabimagepos
 
 SET(d "cplusplus/libmpv")
 SET(photoqt_libmpv_SOURCES ${d}/mpvqthelper.h ${d}/mpvobject.cpp)
+
+SET(d "cplusplus/location")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/location.cpp ${d}/locationmodel.cpp)

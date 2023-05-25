@@ -20,30 +20,40 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQVALIDATE_H
-#define PQVALIDATE_H
+#ifndef PQLOCATION_H
+#define PQLOCATION_H
 
 #include <QObject>
 #include <QtSql>
 #include "../logger.h"
 
-class PQValidate : public QObject {
+class PQLocation : public QObject {
 
     Q_OBJECT
 
 public:
-    PQValidate(QObject *parent = nullptr);
+    static PQLocation& get() {
+        static PQLocation instance;
+        return instance;
+    }
+    ~PQLocation();
 
-    bool validate();
+    void storeLocation(const QString path, const QPointF gps);
 
-    bool validateContextMenuDatabase();
-    bool validateImageFormatsDatabase();
-    bool validateSettingsDatabase();
-    bool validateShortcutsDatabase();
-    bool validateSettingsValues();
-    bool validateDirectories();
-    bool validateLocationDatabase();
+    Q_INVOKABLE QVariantList getImages(const int detailLevel, QString folder, bool includeSubFolder);
+
+    Q_INVOKABLE void storeMapState(const double zoomlevel, const double latitude, const double longitude);
+    Q_INVOKABLE QVariantList getMapState();
+
+    void processSummary();
+
+private:
+    PQLocation();
+
+    QSqlDatabase db;
+    bool dbIsTransaction;
+    QTimer *dbCommitTimer;
 
 };
 
-#endif // PQVALIDATE_H
+#endif // PQLOCATION_H

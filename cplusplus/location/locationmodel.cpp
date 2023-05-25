@@ -20,30 +20,12 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQVALIDATE_H
-#define PQVALIDATE_H
+#include "locationmodel.h"
 
-#include <QObject>
-#include <QtSql>
-#include "../logger.h"
+PQLocationModel::PQLocationModel(QObject *parent) : QSqlTableModel(parent, QSqlDatabase::database("location")) {
 
-class PQValidate : public QObject {
+    setTable("location");
+    setEditStrategy(QSqlTableModel::OnManualSubmit);
+    select();
 
-    Q_OBJECT
-
-public:
-    PQValidate(QObject *parent = nullptr);
-
-    bool validate();
-
-    bool validateContextMenuDatabase();
-    bool validateImageFormatsDatabase();
-    bool validateSettingsDatabase();
-    bool validateShortcutsDatabase();
-    bool validateSettingsValues();
-    bool validateDirectories();
-    bool validateLocationDatabase();
-
-};
-
-#endif // PQVALIDATE_H
+}
