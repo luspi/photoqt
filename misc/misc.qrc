@@ -5,6 +5,5 @@
         <file>shortcuts.db</file>
         <file>contextmenu.db</file>
         <file>checksettings.db</file>
-        <file>location.db</file>
     </qresource>
 </RCC>

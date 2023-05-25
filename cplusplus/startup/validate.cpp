@@ -71,12 +71,6 @@ bool PQValidate::validate() {
         success = false;
     }
 
-    ret = validateLocationDatabase();
-    if(!ret) {
-        LOG << " >> Failed: location db" << NL << NL;
-        success = false;
-    }
-
     LOG << " >> Done!" << NL << NL;
     return success;
 
@@ -991,22 +985,6 @@ bool PQValidate::validateSettingsValues() {
     QFile file(ConfigFiles::CACHE_DIR()+"/photoqt_check.db");
     if(!file.remove())
         LOG << CURDATE << "PQCheckSettings::check(): ERROR: Unable to remove check db: " << file.errorString().toStdString() << NL;
-
-    return true;
-
-}
-
-bool PQValidate::validateLocationDatabase() {
-
-    // the db does not exist -> create it and finish
-    if(!QFile::exists(ConfigFiles::LOCATION_DB())) {
-        if(!QFile::copy(":/location.db", ConfigFiles::LOCATION_DB()))
-            LOG << CURDATE << "PQValidate::validateLocationDatabase(): unable to (re-)create default location database" << NL;
-        else {
-            QFile file(ConfigFiles::LOCATION_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-        }
-    }
 
     return true;
 

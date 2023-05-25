@@ -439,11 +439,6 @@ Item {
             else if(!windowsizepopup.advancedSort && !PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
                 advancedsort.source = "advancedsort/PQAdvancedSort.qml"
 
-        } else if(ele == "mapview") {
-
-            if(mapview.source != "mapview/PQMapExplorer.qml")
-                mapview.source = "mapview/PQMapExplorer.qml"
-
         } else if(ele == "mapcurrent") {
 
             if(PQSettings.interfacePopoutMapCurrent && mapcurrent.source != "mapview/PQMapCurrentPopout.qml")

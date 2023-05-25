@@ -288,7 +288,6 @@ Window {
     Loader { id: slideshowsettings }
     Loader { id: slideshowcontrols }
     Loader { id: filedialog }
-    Loader { id: mapview }
 
     Loader { id: filerename }
     Loader { id: filedelete }
