@@ -92,7 +92,7 @@ Item {
             longitude: longitude
         }
 
-        gesture.enabled: false
+        gesture.enabled: PQSettings.interfacePopoutMapCurrent
 
         Behavior on center.latitude { NumberAnimation { duration: 500 } }
         Behavior on center.longitude { NumberAnimation { duration: 500 } }
@@ -133,8 +133,9 @@ Item {
 
     PQMouseArea {
         anchors.fill: parent
+        enabled: !PQSettings.interfacePopoutMapCurrent
         hoverEnabled: true
-        drag.target: PQSettings.interfacePopoutMapCurrent ? undefined : parent
+        drag.target: parent
         cursorShape: Qt.SizeAllCursor
         onWheel: {
             if(noLocation) return
@@ -147,7 +148,6 @@ Item {
 
     Rectangle {
         anchors.fill: closeimage
-//        anchors.margins: -2
         radius: width/2
         color: "#88000000"
         opacity: closeimage.opacity

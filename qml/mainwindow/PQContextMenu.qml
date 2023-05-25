@@ -30,32 +30,32 @@ PQMenu {
 
     property var allitems_file: [
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["rename.svg", em.pty+qsTranslate("MainMenu", "Rename file"), "__rename"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["copy.svg", em.pty+qsTranslate("MainMenu", "Copy file"), "__copy"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["move.svg", em.pty+qsTranslate("MainMenu", "Move file"), "__move"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["delete.svg", em.pty+qsTranslate("MainMenu", "Delete file"), "__delete"]
 
     ]
 
     property var allitems_image: [
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["clipboard.svg", em.pty+qsTranslate("MainMenu", "Copy to clipboard"), "__clipboard"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["faces.svg", em.pty+qsTranslate("MainMenu", "Tag faces"), "__tagFaces"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["scale.svg", em.pty+qsTranslate("MainMenu", "Scale image"), "__scale"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["wallpaper.svg", em.pty+qsTranslate("MainMenu", "Set as wallpaper"), "__wallpaper"]
 
 
@@ -63,14 +63,14 @@ PQMenu {
 
     property var allitems_interface: [
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["metadata.svg", PQSettings.metadataElementVisible ? (em.pty+qsTranslate("MainMenu", "Hide metadata")) : (em.pty+qsTranslate("MainMenu", "Show metadata")), "__showMetaData"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
+        //: This is an entry in the main context menu. Please keep short!
         ["histogram.svg", PQSettings.histogramVisible ? (em.pty+qsTranslate("MainMenu", "Hide histogram")) : (em.pty+qsTranslate("MainMenu", "Show histogram")), "__histogram"],
 
-        //: This is an entry in the main menu on the right. Please keep short!
-        ["mapmarker.svg", PQSettings.mapviewCurrentVisible ? (em.pty+qsTranslate("MainMenu", "Hide map (current image)")) : (em.pty+qsTranslate("MainMenu", "Show map (current image)")), "__showMapCurrent"]
+        //: This is an entry in the main context menu. Please keep short!
+        ["mapmarker.svg", PQSettings.mapviewCurrentVisible ? (em.pty+qsTranslate("MainMenu", "Hide map")) : (em.pty+qsTranslate("MainMenu", "Show on map")), "__showMapCurrent"]
 
     ]
 

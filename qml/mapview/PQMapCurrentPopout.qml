@@ -31,7 +31,7 @@ Window {
     id: mapcurrent_window
 
     //: Window title
-    title: em.pty+qsTranslate("histogram", "Map (Current Image)")
+    title: em.pty+qsTranslate("mapcurrent", "Map (Current Image)")
 
     Component.onCompleted: {
         mapcurrent_window.x = windowgeometry.mapCurrentWindowGeometry.x
