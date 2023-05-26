@@ -61,11 +61,6 @@ PQLocation::PQLocation() {
     steps.append(QList<double>() << 8 << 3.5);
     steps.append(QList<double>() << 12 << 1);
 
-    m_detailLevel = 0;
-
-    for(int det = 0; det < steps.length(); ++det)
-        m_imageList.append(QVariantList());
-
 }
 
 PQLocation::~PQLocation() {
@@ -160,19 +155,20 @@ void PQLocation::scanForLocations(QStringList files) {
 
 void PQLocation::processSummary(QString folder) {
 
-    for(int det = 0; det < steps.length(); ++det) {
+    QSqlQuery query(db);
+    query.prepare("SELECT `folder`,`filename`,`latitude`,`longitude` FROM location WHERE `folder`=:fld");
+    query.bindValue(":fld", folder);
+    if(!query.exec()) {
+        LOG << CURDATE << "PQLocation::processSummary(): ERROR getting data: " << query.lastError().text().trimmed().toStdString() << NL;
+        return;
+    }
 
-        QSqlQuery query(db);
-        query.prepare("SELECT `folder`,`filename`,`latitude`,`longitude` FROM location WHERE `folder`=:fld");
-        query.bindValue(":fld", folder);
-        if(!query.exec()) {
-            LOG << CURDATE << "PQLocation::processSummary(): ERROR getting data: " << query.lastError().text().trimmed().toStdString() << NL;
-            return;
-        }
+    QVariantMap labels;
+    QVariantMap items;
 
-        QMap<QString, QVariantList> collect;
+    while(query.next()) {
 
-        while(query.next()) {
+        for(int det = 0; det < steps.length(); ++det) {
 
             const QString folder = query.value(0).toString();
             const QString filename = query.value(1).toString();
@@ -182,91 +178,78 @@ void PQLocation::processSummary(QString folder) {
 
             const double latitude = query.value(2).toDouble();
             const double longitude = query.value(3).toDouble();
-            const double step = steps[det][0];
 
+            const double step = steps[det][0];
             const double key_lat = qRound64(latitude/step)*step;
             const double key_lon = qRound64(longitude/step)*step;
 
 
-            QString key = QString::number(key_lat, 'f', 8) + "::" + QString::number(key_lon, 'f', 8);
+            QString item_key = QString::number(key_lat, 'f', 8) + "::" + QString::number(key_lon, 'f', 8);
+            QString label_key = QString("%1").arg(det) + "::" + item_key;
 
-            if(collect.contains(key))
-                collect[key][0] = collect[key][0].toInt()+1;
-            else
-                collect.insert(key, (QVariantList() << 1 << QString("%1/%2").arg(folder, filename)));
+            if(labels.contains(label_key)) {
+                int val = labels[label_key].toInt() +1;
+                labels[label_key] = val;
+            } else
+                labels.insert(label_key, 1);
 
-        }
+            if(items.contains(item_key)) {
+                if(!items[item_key].toList().contains(det)) {
+                    QVariantList val = items[item_key].toList();
+                    val.append(det);
+                    items[item_key] = val;
+                }
+            } else {
 
-        query.clear();
+                QVariantList val;
+                val.append(QString("%1/%2").arg(folder).arg(filename));
+                val.append(det);
 
-        m_imageList[det].clear();
-
-        if(collect.isEmpty())
-            continue;
-
-        QMapIterator<QString, QVariantList> iter(collect);
-        while(iter.hasNext()) {
-            iter.next();
-
-            const double lat = iter.key().split("::")[0].toDouble();
-            const double lon = iter.key().split("::")[1].toDouble();
-            const int num = iter.value()[0].toInt();
-            const QString filename = iter.value()[1].toString();
-
-            QVariantList entry;
-            entry << lat
-                  << lon
-                  << num
-                  << filename;
-
-            m_imageList[det].push_back(entry);
+                items.insert(item_key, val);
+            }
 
         }
-
-    }
-
-    imageListChanged();
-
-}
-
-/*
-QVariantList PQLocation::getImages(const int detailLevel, QString folder, bool includeSubFolder) {
-
-    QVariantList ret;
-
-    processSummary();
-
-    QSqlQuery query(db);
-    query.prepare("SELECT `latitude`,`longitude`,`howmany`,`filename` FROM 'summary' WHERE detaillevel=:det");
-    query.bindValue(":det", detailLevel);
-    if(!query.exec()) {
-        LOG << CURDATE << "PQLocation::getImages(): ERROR getting images: " << query.lastError().text().trimmed().toStdString() << NL;
-        return ret;
-    }
-
-    while(query.next()) {
-
-        const double latitude = query.value(0).toString().toDouble();
-        const double longitude = query.value(1).toString().toDouble();
-        const int howmany = query.value(2).toInt();
-        const QString filename = query.value(3).toString();
-
-        QVariantList entry;
-        entry << latitude
-              << longitude
-              << howmany
-              << filename;
-
-        ret.push_back(entry);
 
     }
 
     query.clear();
 
-    return ret;
+//    qDebug() << items;
+
+    m_imageList = items;
+    m_labelList = labels;
+
+//        m_imageList[det].clear();
+
+//        if(collect.isEmpty())
+//            continue;
+
+//        QMapIterator<QString, QVariantList> iter(collect);
+//        while(iter.hasNext()) {
+//            iter.next();
+
+//            const double lat = iter.key().split("::")[0].toDouble();
+//            const double lon = iter.key().split("::")[1].toDouble();
+//            const int num = iter.value()[0].toInt();
+//            const QString filename = iter.value()[1].toString();
+
+//            QVariantList entry;
+//            entry << lat
+//                  << lon
+//                  << num
+//                  << filename;
+
+//            m_imageList[det].push_back(entry);
+
+//        }
+
+//    }
+
+//    query.clear();
+
+    imageListChanged();
 
 }
-*/
 
 void PQLocation::storeMapState(const double zoomlevel, const double latitude, const double longitude) {
 

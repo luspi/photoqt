@@ -44,21 +44,21 @@ public:
     Q_INVOKABLE QVariantList getMapState();
 
 
-    Q_PROPERTY(QVariantList imageList READ getImageList WRITE setImageList NOTIFY imageListChanged)
-    QVariantList getImageList() { return m_imageList[m_detailLevel]; }
-    void setImageList(QVariantList lst) {
-        if(lst != m_imageList[m_detailLevel]) {
-            m_imageList[m_detailLevel] = lst;
+    Q_PROPERTY(QVariantMap imageList READ getImageList WRITE setImageList NOTIFY imageListChanged)
+    QVariantMap getImageList() { return m_imageList; }
+    void setImageList(QVariantMap lst) {
+        if(lst != m_imageList) {
+            m_imageList = lst;
             Q_EMIT imageListChanged();
         }
     }
 
-    Q_PROPERTY(int detailLevel READ getDetailLevel WRITE setDetailLevel NOTIFY detailLevelChanged)
-    int getDetailLevel() { return m_detailLevel; }
-    void setDetailLevel(int det) {
-        if(det != m_detailLevel) {
-            m_detailLevel = det;
-            Q_EMIT detailLevelChanged();
+    Q_PROPERTY(QVariantMap labelList READ getLabelList WRITE setLabelList NOTIFY labelListChanged)
+    QVariantMap getLabelList() { return m_labelList; }
+    void setLabelList(QVariantMap lst) {
+        if(lst != m_labelList) {
+            m_labelList = lst;
+            Q_EMIT labelListChanged();
         }
     }
 
@@ -77,14 +77,14 @@ public:
 
 Q_SIGNALS:
     void imageListChanged();
-    void detailLevelChanged();
+    void labelListChanged();
     void includeSubfolderChanged();
 
 private:
     PQLocation();
 
-    QList<QVariantList> m_imageList;
-    int m_detailLevel;
+    QVariantMap m_imageList;
+    QVariantMap m_labelList;
     bool m_includeSubfolder;
 
     QSqlDatabase db;

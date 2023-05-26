@@ -79,7 +79,9 @@ Item {
 
         id: map
 
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+
         center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
         zoomLevel: 1
 
@@ -132,9 +134,11 @@ Item {
                 anchorPoint.x: container.width/2
                 anchorPoint.y: container.height/2
 
-                visible: (x > -width && x < map.width && y > -height && y < map.height) && map.detaillevel==details
+                visible: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map.detaillevel) != -1)
 
                 coordinate: QtPositioning.coordinate(latitude, longitude)
+
+                property var lvls
 
                 sourceItem:
                     Rectangle {
@@ -142,6 +146,7 @@ Item {
                         width: 68
                         height: 68
                         color: "white"
+                        property var keys: Object.keys(labels)
                         Image {
                             id: image
                             x: 2
@@ -155,32 +160,43 @@ Item {
                             cache: true
                             asynchronous: true
                             source: "image://thumb/" + handlingGeneral.toPercentEncoding(filename)
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onEntered: {
-                                    map.curZ += 1
-                                    deleg.z = map.curZ
+                        }
+                        Repeater {
+                            model: container.keys.length
+                            Rectangle {
+                                x: parent.width-width*0.8
+                                y: -height*0.2
+                                width: numlabel.width+20
+                                height: numlabel.height+4
+                                color: "#0088ff"
+                                radius: height/4
+                                visible: labels[container.keys[index]]>1 && map.detaillevel==container.keys[index]
+                                PQText {
+                                    id: numlabel
+                                    x: 10
+                                    y: 2
+                                    font.weight: baselook.boldweight
+                                    anchors.centerIn: parent
+                                    text: labels[container.keys[index]]
                                 }
                             }
                         }
-                        Rectangle {
-                            x: parent.width-width*0.8
-                            y: -height*0.2
-                            width: numlabel.width+14
-                            height: numlabel.height+4
-                            color: "#0088ff"
-                            radius: height/2
-                            visible: howmany>1
-                            PQText {
-                                x: 7
-                                y: 2
-                                id: numlabel
-                                font.weight: baselook.boldweight
-                                anchors.centerIn: parent
-                                text: howmany
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            tooltip: "<img src='" + image.source + "'><br><br>" +
+                                     " <b>" + handlingFileDir.getFileNameFromFullPath(filename) + "</b>" +
+                                     (labels[map.detaillevel]>1 ? (" + " + (labels[map.detaillevel]-1) + "") : "")
+                            onEntered: {
+                                map.curZ += 1
+                                deleg.z = map.curZ
                             }
                         }
+
+                        Component.onCompleted: {
+                            lvls = levels.split("_")
+                        }
+
                     }
 
             }
@@ -208,7 +224,6 @@ Item {
                 map.center.latitude = dat[1]
                 map.center.longitude = dat[2]
                 finishShow = true
-                PQLocation.detailLevel = 0
                 PQLocation.scanForLocations(filefoldermodel.entriesMainView)
                 PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
                 loadImageBG.start()
@@ -234,49 +249,36 @@ Item {
 
     function loadImages() {
 
-//        var steps = [
-//            [0.001, 16.5],
-//            [0.005, 14],
-//            [0.01, 13],
-//            [0.02, 12],
-//            [0.05, 11],
-//            [0.1, 10],
-//            [0.2, 9],
-//            [0.5, 7.5],
-//            [1, 6.5],
-//            [2, 5.5],
-//            [4, 4.5],
-//            [8, 3.5],
-//            [12, 1],
-//        ]
-
-//        var detaillevel = steps.length-1
-//        for(var i = 0; i < steps.length; ++i) {
-//            if(map.zoomLevel > steps[i][1]) {
-//                detaillevel = i
-//                break
-//            }
-//        }
-
-//        if(detaillevel == currentDetailLevel)
-//            return
-
-//        currentDetailLevel = detaillevel
-
+        var items = PQLocation.imageList
+        var labels = PQLocation.labelList
 
         mdl.clear()
 
-        for(var det = 0; det < 13; ++det) {
-            PQLocation.detailLevel = det
-            var tmp = PQLocation.imageList;
-            for(var i in tmp) {
-                var dat = tmp[i]
-                mdl.append({latitude: dat[0],
-                            longitude: dat[1],
-                            howmany: dat[2],
-                            filename: dat[3],
-                            details: det})
+        for(var key in items) {
+
+            var item_labels = {}
+
+            for(var det = 0; det < 13; ++det) {
+                var labelkey = det + "::" + key;
+                if(labelkey in labels) {
+                    item_labels[det] = labels[labelkey]
+                }
             }
+
+            var _latitude = ""+key.split("::")[0]
+            var _longitude = ""+key.split("::")[1]
+            var _filename = ""+items[key][0]
+            var _detaillevels = items[key]
+            _detaillevels.shift()
+            _detaillevels = _detaillevels.join("_")
+
+            mdl.append({"latitude": _latitude,
+                        "longitude": _longitude,
+                        "filename": _filename,
+                        "levels": _detaillevels,
+                        "labels": item_labels
+                       })
+
         }
 
     }
