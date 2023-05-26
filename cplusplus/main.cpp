@@ -57,7 +57,6 @@
 #include "scripts/handlingchromecast.h"
 #include "print/printsupport.h"
 #include "location/location.h"
-#include "location/locationmodel.h"
 
 
 #include "imageprovider/imageprovidericon.h"
@@ -270,7 +269,6 @@ int main(int argc, char **argv) {
     engine.rootContext()->setContextProperty("PQDebugLog", &PQDebugLog::get());
     engine.rootContext()->setContextProperty("PQLogDebugMessage", &PQLogDebugMessage::get());
     engine.rootContext()->setContextProperty("PQLocation", &PQLocation::get());
-    engine.rootContext()->setContextProperty("locationmodel", new PQLocationModel);
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);

@@ -100,7 +100,7 @@ Item {
 
         MapItemView {
 
-            model: 0//locationmodel
+            model: ListModel { id: mdl }
 
             delegate: MapQuickItem {
 
@@ -169,13 +169,12 @@ Item {
                 map.curZ = 0
                 opacity = 1
                 variables.visibleItem = "mapexplorer"
-
                 var dat = PQLocation.getMapState()
-                console.log(dat)
                 map.zoomLevel = dat[0]
                 map.center.latitude = dat[1]
                 map.center.longitude = dat[2]
                 finishShow = true
+                loadImages()
             } else if(what == "hide") {
                 opacity = 0
             } else if(what == "keyevent") {
@@ -188,17 +187,17 @@ Item {
     }
 
     function loadImages() {
-/*
+
         // There are four steps
-        var levels = [1,5,8,10]
+        var levels = [1,5,8,10, 12]
 
         // find the appropriate detail level for the current setting
-        var detaillevel = 1
+        var detaillevel = 0
         if(map.zoomLevel > map.maximumZoomLevel-levels[levels.length-1]) {
             for(var l in levels) {
                 var diff = map.maximumZoomLevel-levels[l]
                 if(map.zoomLevel > diff) {
-                    detaillevel = levels.length-l
+                    detaillevel = levels.length-l-1
                     break
                 }
             }
@@ -206,18 +205,25 @@ Item {
 
         if(detaillevel == currentDetailLevel)
             return
+
+        console.log("loading data")
+
         currentDetailLevel = detaillevel
 
-        var dat = PQLocation.getImages(detaillevel)
+        PQLocation.detailLevel = currentDetailLevel
+        PQLocation.scanForLocations(filefoldermodel.entriesMainView)
+        PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
 
         mdl.clear()
 
-        for(var i in dat)
-        mdl.append({latitude: dat[i][0],
-                    longitude: dat[i][1],
-                    howmany: dat[i][2],
-                    filename: dat[i][3]})
-*/
+        for(var i in PQLocation.imageList) {
+            var dat = PQLocation.imageList[i]
+            mdl.append({latitude: dat[0],
+                        longitude: dat[1],
+                        howmany: dat[2],
+                        filename: dat[3]})
+        }
+
     }
 
 }

@@ -40,15 +40,52 @@ public:
 
     void storeLocation(const QString path, const QPointF gps);
 
-    Q_INVOKABLE QVariantList getImages(const int detailLevel, QString folder, bool includeSubFolder);
-
     Q_INVOKABLE void storeMapState(const double zoomlevel, const double latitude, const double longitude);
     Q_INVOKABLE QVariantList getMapState();
 
-    void processSummary();
+
+    Q_PROPERTY(QVariantList imageList READ getImageList WRITE setImageList NOTIFY imageListChanged)
+    QVariantList getImageList() { return m_imageList[m_detailLevel]; }
+    void setImageList(QVariantList lst) {
+        if(lst != m_imageList[m_detailLevel]) {
+            m_imageList[m_detailLevel] = lst;
+            Q_EMIT imageListChanged();
+        }
+    }
+
+    Q_PROPERTY(int detailLevel READ getDetailLevel WRITE setDetailLevel NOTIFY detailLevelChanged)
+    int getDetailLevel() { return m_detailLevel; }
+    void setDetailLevel(int det) {
+        if(det != m_detailLevel) {
+            m_detailLevel = det;
+            Q_EMIT detailLevelChanged();
+        }
+    }
+
+    Q_PROPERTY(bool includeSubfolder READ getIncludeSubfolder WRITE setIncludeSubfolder NOTIFY includeSubfolderChanged)
+    bool getIncludeSubfolder() { return m_includeSubfolder; }
+    void setIncludeSubfolder(bool sub) {
+        if(sub != m_includeSubfolder) {
+            m_includeSubfolder = sub;;
+            Q_EMIT includeSubfolderChanged();
+        }
+    }
+
+    Q_INVOKABLE void scanForLocations(QStringList files);
+    Q_INVOKABLE void processSummary(QString folder);
+
+
+Q_SIGNALS:
+    void imageListChanged();
+    void detailLevelChanged();
+    void includeSubfolderChanged();
 
 private:
     PQLocation();
+
+    QList<QVariantList> m_imageList;
+    int m_detailLevel;
+    bool m_includeSubfolder;
 
     QSqlDatabase db;
     bool dbIsTransaction;

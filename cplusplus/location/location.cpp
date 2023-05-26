@@ -22,6 +22,7 @@
 
 #include "location.h"
 #include <iomanip>
+#include "../scripts/metadata.h"
 
 PQLocation::PQLocation() {
 
@@ -45,6 +46,10 @@ PQLocation::PQLocation() {
                 << db.lastError().text().trimmed().toStdString()
                 << NL;
     });
+
+    m_detailLevel = 0;
+    for(int i = 0; i < 5; ++i)
+        m_imageList.append(QVariantList());
 
 }
 
@@ -84,16 +89,69 @@ void PQLocation::storeLocation(const QString path, const QPointF gps) {
 
 }
 
-void PQLocation::processSummary() {
-/*
-    QSqlQuery queryDel(db);
-    if(!queryDel.exec("DELETE FROM summary"))
-        LOG << CURDATE << "PQLocation::processSummary(): ERROR removing old data, some data might be obsolete: " << queryDel.lastError().text().trimmed().toStdString() << NL;
+void PQLocation::scanForLocations(QStringList files) {
 
-    for(int det = 0; det < 4; ++det) {
+    QFileInfo info(files[0]);
+
+    QString folder = info.absolutePath();
+
+    PQMetaData meta;
+
+    QMap<QString,int> existing;
+
+    QSqlQuery query(db);
+    query.prepare("SELECT `filename`,`lastmodified` FROM `location` WHERE `folder`=:fld");
+    query.bindValue(":fld", folder);
+    if(!query.exec())
+        LOG << CURDATE << "PQLocation::scanForLocations(): ERROR getting existing location data: " << query.lastError().text().toStdString() << NL;
+    else {
+        while(query.next())
+            existing.insert(query.value(0).toString(), query.value(1).toInt());
+    }
+
+    query.clear();
+
+    db.transaction();
+
+    for(const QString &f : qAsConst(files)) {
+
+        QFileInfo info(f);
+
+        if(!existing.contains(info.fileName()) || existing[info.fileName()] != info.lastModified().toSecsSinceEpoch()) {
+
+
+            QPointF gps = meta.getGPSDataOnly(f);
+
+            if(gps.x() == 9999 || gps.y() == 9999)
+                continue;
+
+            QSqlQuery querynew(db);
+            querynew.prepare("REPLACE INTO `location` (`id`,`folder`,`filename`,`latitude`,`longitude`,`lastmodified`) VALUES (:id, :fld, :fn, :lat, :lon, :mod)");
+            querynew.bindValue(":id", QCryptographicHash::hash(f.toUtf8(),QCryptographicHash::Md5).toHex());
+            querynew.bindValue(":fld", info.absolutePath());
+            querynew.bindValue(":fn", info.fileName());
+            querynew.bindValue(":lat", QString::number(gps.x(), 'f', 8));
+            querynew.bindValue(":lon", QString::number(gps.y(), 'f', 8));
+            querynew.bindValue(":mod", info.lastModified().toSecsSinceEpoch());
+            if(!querynew.exec())
+                LOG << CURDATE << "PQLocation::scanForLocations(): ERROR inserting new data: " << querynew.lastError().text().trimmed().toStdString() << NL;
+
+        }
+
+    }
+
+    db.commit();
+
+}
+
+void PQLocation::processSummary(QString folder) {
+
+    for(int det = 0; det < 5; ++det) {
 
         QSqlQuery query(db);
-        if(!query.exec("SELECT `filename`,`latitude`,`longitude` FROM location")) {
+        query.prepare("SELECT `folder`,`filename`,`latitude`,`longitude` FROM location WHERE `folder`=:fld");
+        query.bindValue(":fld", folder);
+        if(!query.exec()) {
             LOG << CURDATE << "PQLocation::processSummary(): ERROR getting data: " << query.lastError().text().trimmed().toStdString() << NL;
             return;
         }
@@ -102,27 +160,28 @@ void PQLocation::processSummary() {
 
         while(query.next()) {
 
-            const QString filename = query.value(0).toString();
-            const QString _latitude = query.value(1).toString();
-            const QString _longitude = query.value(2).toString();
+            const QString folder = query.value(0).toString();
+            const QString filename = query.value(1).toString();
+            const QString _latitude = query.value(2).toString();
+            const QString _longitude = query.value(3).toString();
             const double latitude = _latitude.toDouble();
             const double longitude = _longitude.toDouble();
 
-            const QString key = QString::number(latitude, 'f', det+1) + "::" + QString::number(longitude, 'f', det+1);
+            const QString key = QString::number(latitude, 'f', det) + "::" + QString::number(longitude, 'f', det);
 
             if(collect.contains(key))
                 collect[key][0] = collect[key][0].toInt()+1;
             else
-                collect.insert(key, (QVariantList() << 1 << filename));
+                collect.insert(key, (QVariantList() << 1 << QString("%1/%2").arg(folder, filename)));
 
         }
 
         query.clear();
 
+        m_imageList[det].clear();
+
         if(collect.isEmpty())
             continue;
-
-        db.transaction();
 
         QMapIterator<QString, QVariantList> iter(collect);
         while(iter.hasNext()) {
@@ -133,31 +192,27 @@ void PQLocation::processSummary() {
             const int num = iter.value()[0].toInt();
             const QString filename = iter.value()[1].toString();
 
-            QSqlQuery queryDet(db);
-            queryDet.prepare("INSERT INTO `summary` (`detaillevel`,`latitude`,`longitude`,`howmany`,`filename`) VALUES(:det, :lat, :lon, :cnt, :fn)");
-            queryDet.bindValue(":det", det+1);
-            queryDet.bindValue(":lat", lat);
-            queryDet.bindValue(":lon", lon);
-            queryDet.bindValue(":cnt", num);
-            queryDet.bindValue(":fn", filename);
-            if(!queryDet.exec()) {
-                LOG << CURDATE << "PQLocation::processSummary(): ERROR inserting summary: " << queryDet.lastError().text().trimmed().toStdString() << NL;
-                continue;
-            }
+            QVariantList entry;
+            entry << lat
+                  << lon
+                  << num
+                  << filename;
+
+            m_imageList[det].push_back(entry);
 
         }
 
-        db.commit();
-
     }
-*/
+
+    imageListChanged();
 
 }
 
+/*
 QVariantList PQLocation::getImages(const int detailLevel, QString folder, bool includeSubFolder) {
 
     QVariantList ret;
-/*
+
     processSummary();
 
     QSqlQuery query(db);
@@ -186,10 +241,11 @@ QVariantList PQLocation::getImages(const int detailLevel, QString folder, bool i
     }
 
     query.clear();
-*/
+
     return ret;
 
 }
+*/
 
 void PQLocation::storeMapState(const double zoomlevel, const double latitude, const double longitude) {
 
