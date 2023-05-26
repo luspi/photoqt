@@ -47,8 +47,23 @@ PQLocation::PQLocation() {
                 << NL;
     });
 
+    steps.append(QList<double>() << 0.001 << 16.5);
+    steps.append(QList<double>() << 0.005 << 14);
+    steps.append(QList<double>() << 0.01 << 13);
+    steps.append(QList<double>() << 0.02 << 12);
+    steps.append(QList<double>() << 0.05 << 11);
+    steps.append(QList<double>() << 0.1 << 10);
+    steps.append(QList<double>() << 0.2 << 9);
+    steps.append(QList<double>() << 0.5 << 7.5);
+    steps.append(QList<double>() << 1 << 6.5);
+    steps.append(QList<double>() << 2 << 5.5);
+    steps.append(QList<double>() << 4 << 4.5);
+    steps.append(QList<double>() << 8 << 3.5);
+    steps.append(QList<double>() << 12 << 1);
+
     m_detailLevel = 0;
-    for(int i = 0; i < 5; ++i)
+
+    for(int det = 0; det < steps.length(); ++det)
         m_imageList.append(QVariantList());
 
 }
@@ -119,7 +134,6 @@ void PQLocation::scanForLocations(QStringList files) {
 
         if(!existing.contains(info.fileName()) || existing[info.fileName()] != info.lastModified().toSecsSinceEpoch()) {
 
-
             QPointF gps = meta.getGPSDataOnly(f);
 
             if(gps.x() == 9999 || gps.y() == 9999)
@@ -146,7 +160,7 @@ void PQLocation::scanForLocations(QStringList files) {
 
 void PQLocation::processSummary(QString folder) {
 
-    for(int det = 0; det < 5; ++det) {
+    for(int det = 0; det < steps.length(); ++det) {
 
         QSqlQuery query(db);
         query.prepare("SELECT `folder`,`filename`,`latitude`,`longitude` FROM location WHERE `folder`=:fld");
@@ -162,12 +176,19 @@ void PQLocation::processSummary(QString folder) {
 
             const QString folder = query.value(0).toString();
             const QString filename = query.value(1).toString();
-            const QString _latitude = query.value(2).toString();
-            const QString _longitude = query.value(3).toString();
-            const double latitude = _latitude.toDouble();
-            const double longitude = _longitude.toDouble();
 
-            const QString key = QString::number(latitude, 'f', det) + "::" + QString::number(longitude, 'f', det);
+            if(!QFileInfo::exists(folder+"/"+filename))
+                continue;
+
+            const double latitude = query.value(2).toDouble();
+            const double longitude = query.value(3).toDouble();
+            const double step = steps[det][0];
+
+            const double key_lat = qRound64(latitude/step)*step;
+            const double key_lon = qRound64(longitude/step)*step;
+
+
+            QString key = QString::number(key_lat, 'f', 8) + "::" + QString::number(key_lon, 'f', 8);
 
             if(collect.contains(key))
                 collect[key][0] = collect[key][0].toInt()+1;

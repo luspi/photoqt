@@ -91,6 +91,8 @@ private:
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
+    QList<QList<double> > steps;
+
 };
 
 #endif // PQLOCATION_H

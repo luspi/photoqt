@@ -88,15 +88,38 @@ Item {
         plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
 
         onZoomLevelChanged: {
-            loadImages()
             if(finishShow)
                 PQLocation.storeMapState(map.zoomLevel, map.center.latitude, map.center.longitude)
+            for(var i = 0; i < steps.length; ++i) {
+                if(map.zoomLevel > steps[i][1]) {
+                    detaillevel = i
+                    break
+                }
+            }
         }
 
         onCenterChanged: {
             if(finishShow)
                 PQLocation.storeMapState(map.zoomLevel, map.center.latitude, map.center.longitude)
         }
+
+        property var steps: [
+            [0.001, 16.5],
+            [0.005, 14],
+            [0.01, 13],
+            [0.02, 12],
+            [0.05, 11],
+            [0.1, 10],
+            [0.2, 9],
+            [0.5, 7.5],
+            [1, 6.5],
+            [2, 5.5],
+            [4, 4.5],
+            [8, 3.5],
+            [12, 1],
+        ]
+
+        property int detaillevel: 0
 
         MapItemView {
 
@@ -109,7 +132,7 @@ Item {
                 anchorPoint.x: container.width/2
                 anchorPoint.y: container.height/2
 
-                visible: true
+                visible: (x > -width && x < map.width && y > -height && y < map.height) && map.detaillevel==details
 
                 coordinate: QtPositioning.coordinate(latitude, longitude)
 
@@ -129,22 +152,9 @@ Item {
                             sourceSize.width: width
                             sourceSize.height: height
                             mipmap: true
+                            cache: true
+                            asynchronous: true
                             source: "image://thumb/" + handlingGeneral.toPercentEncoding(filename)
-                            Rectangle {
-                                anchors.centerIn: parent
-                                width: numlabel.width+8
-                                height: numlabel.height+4
-                                color: "#88000000"
-                                visible: howmany>1
-                                PQText {
-                                    x: 4
-                                    y: 2
-                                    id: numlabel
-                                    font.weight: baselook.boldweight
-                                    anchors.centerIn: parent
-                                    text: howmany
-                                }
-                            }
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -154,12 +164,36 @@ Item {
                                 }
                             }
                         }
+                        Rectangle {
+                            x: parent.width-width*0.8
+                            y: -height*0.2
+                            width: numlabel.width+14
+                            height: numlabel.height+4
+                            color: "#0088ff"
+                            radius: height/2
+                            visible: howmany>1
+                            PQText {
+                                x: 7
+                                y: 2
+                                id: numlabel
+                                font.weight: baselook.boldweight
+                                anchors.centerIn: parent
+                                text: howmany
+                            }
+                        }
                     }
 
             }
 
         }
 
+    }
+
+    Text {
+        x: (parent.width-width)-10
+        y: 10
+        font.bold: true
+        text: "Zoom: " + map.zoomLevel
     }
 
     Connections {
@@ -174,7 +208,10 @@ Item {
                 map.center.latitude = dat[1]
                 map.center.longitude = dat[2]
                 finishShow = true
-                loadImages()
+                PQLocation.detailLevel = 0
+                PQLocation.scanForLocations(filefoldermodel.entriesMainView)
+                PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
+                loadImageBG.start()
             } else if(what == "hide") {
                 opacity = 0
             } else if(what == "keyevent") {
@@ -186,42 +223,60 @@ Item {
         }
     }
 
+    Timer {
+        id: loadImageBG
+        interval: 250
+        repeat: false
+        running: false
+        onTriggered:
+            loadImages()
+    }
+
     function loadImages() {
 
-        // There are four steps
-        var levels = [1,5,8,10, 12]
+//        var steps = [
+//            [0.001, 16.5],
+//            [0.005, 14],
+//            [0.01, 13],
+//            [0.02, 12],
+//            [0.05, 11],
+//            [0.1, 10],
+//            [0.2, 9],
+//            [0.5, 7.5],
+//            [1, 6.5],
+//            [2, 5.5],
+//            [4, 4.5],
+//            [8, 3.5],
+//            [12, 1],
+//        ]
 
-        // find the appropriate detail level for the current setting
-        var detaillevel = 0
-        if(map.zoomLevel > map.maximumZoomLevel-levels[levels.length-1]) {
-            for(var l in levels) {
-                var diff = map.maximumZoomLevel-levels[l]
-                if(map.zoomLevel > diff) {
-                    detaillevel = levels.length-l-1
-                    break
-                }
-            }
-        }
+//        var detaillevel = steps.length-1
+//        for(var i = 0; i < steps.length; ++i) {
+//            if(map.zoomLevel > steps[i][1]) {
+//                detaillevel = i
+//                break
+//            }
+//        }
 
-        if(detaillevel == currentDetailLevel)
-            return
+//        if(detaillevel == currentDetailLevel)
+//            return
 
-        console.log("loading data")
+//        currentDetailLevel = detaillevel
 
-        currentDetailLevel = detaillevel
-
-        PQLocation.detailLevel = currentDetailLevel
-        PQLocation.scanForLocations(filefoldermodel.entriesMainView)
-        PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
 
         mdl.clear()
 
-        for(var i in PQLocation.imageList) {
-            var dat = PQLocation.imageList[i]
-            mdl.append({latitude: dat[0],
-                        longitude: dat[1],
-                        howmany: dat[2],
-                        filename: dat[3]})
+        for(var det = 0; det < 13; ++det) {
+            PQLocation.detailLevel = det
+            var tmp = PQLocation.imageList;
+            for(var i in tmp) {
+                var dat = tmp[i]
+                mdl.append({latitude: dat[0],
+                            longitude: dat[1],
+                            howmany: dat[2],
+                            filename: dat[3],
+                            details: det})
+            }
         }
 
     }
