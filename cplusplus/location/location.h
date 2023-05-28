@@ -40,10 +40,6 @@ public:
 
     void storeLocation(const QString path, const QPointF gps);
 
-    Q_INVOKABLE void storeMapState(const double zoomlevel, const double latitude, const double longitude);
-    Q_INVOKABLE QVariantList getMapState();
-
-
     Q_PROPERTY(QVariantMap imageList READ getImageList WRITE setImageList NOTIFY imageListChanged)
     QVariantMap getImageList() { return m_imageList; }
     void setImageList(QVariantMap lst) {
@@ -80,6 +76,11 @@ public:
         }
     }
 
+    Q_PROPERTY(QPointF minimumLocation READ getMinimumLocation NOTIFY minimumLocationChanged)
+    QPointF getMinimumLocation() { return m_minimumLocation; }
+    Q_PROPERTY(QPointF maximumLocation READ getMaximumLocation NOTIFY maximumLocationChanged)
+    QPointF getMaximumLocation() { return m_maximumLocation; }
+
     Q_INVOKABLE void scanForLocations(QStringList files);
     Q_INVOKABLE void processSummary(QString folder);
 
@@ -89,6 +90,8 @@ Q_SIGNALS:
     void labelListChanged();
     void allImagesChanged();
     void includeSubfolderChanged();
+    void minimumLocationChanged();
+    void maximumLocationChanged();
 
 private:
     PQLocation();
@@ -97,6 +100,8 @@ private:
     QVariantMap m_imageList;
     QVariantMap m_labelList;
     bool m_includeSubfolder;
+    QPointF m_minimumLocation;
+    QPointF m_maximumLocation;
 
     QSqlDatabase db;
     bool dbIsTransaction;

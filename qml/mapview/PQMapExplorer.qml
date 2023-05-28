@@ -84,25 +84,19 @@ SplitView {
 
         id: map
 
-        width: parent.width-visibleimages.width
+        width: parent.width/2
         height: parent.height
 
         center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
-        zoomLevel: 1
+        zoomLevel: 10
 
         property int curZ: 0
 
         plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
 
         onZoomLevelChanged: {
-            if(finishShow)
-                PQLocation.storeMapState(map.zoomLevel, map.center.latitude, map.center.longitude)
-            for(var i = 0; i < steps.length; ++i) {
-                if(map.zoomLevel > steps[i][1]) {
-                    detaillevel = i
-                    break
-                }
-            }
+            if(!finishShow) return
+            computeDetailLevel()
         }
 
         property real visibleLatitudeLeft: -180
@@ -123,11 +117,6 @@ SplitView {
             }
         }
 
-        onCenterChanged: {
-            if(finishShow)
-                PQLocation.storeMapState(map.zoomLevel, map.center.latitude, map.center.longitude)
-        }
-
         property var steps: [
             [0.001, 16.5],
             [0.005, 14],
@@ -145,6 +134,15 @@ SplitView {
         ]
 
         property int detaillevel: 0
+
+        function computeDetailLevel() {
+            for(var i = 0; i < steps.length; ++i) {
+                if(map.zoomLevel > steps[i][1]) {
+                    detaillevel = i
+                    break
+                }
+            }
+        }
 
         MapItemView {
 
@@ -239,14 +237,13 @@ SplitView {
 
         color: "#333333"
 
-//        Component.onCompleted:
-//            console.log(map.visibleRegion.contains())
-
         Flow {
 
             id: files_grid
 
             anchors.fill: parent
+
+            property int currentIndex: -1
 
             Repeater {
 
@@ -260,9 +257,6 @@ SplitView {
                     height: 100
 
                     Behavior on width { NumberAnimation { duration: 200 } }
-
-    //                Component.onCompleted:
-    //                    console.log("index =", imagesWithLocation[index])
 
                     readonly property string fpath: imagesWithLocation[3*index+0]
                     readonly property real latitude: imagesWithLocation[3*index+1]
@@ -322,7 +316,7 @@ SplitView {
 
                                 sourceSize: Qt.size(256, 256)
 
-                                fillMode: Image.PreserveAspectCrop
+                                fillMode: PQSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
                                 // mipmap does not look good, use only smooth
                                 smooth: true
@@ -334,7 +328,46 @@ SplitView {
                             }
 
                         }
+
+                        Rectangle {
+
+                            id: icn
+
+                            width: parent.width
+                            height: files_grid.currentIndex == index ? parent.height/2 : parent.height/3.5
+                            y: parent.height-height
+
+                            Behavior on height { NumberAnimation { duration: 100 } }
+
+                            color: "#aa2f2f2f"
+
+                            PQTextS {
+
+                                width: parent.width-20
+                                height: parent.height
+                                x: 10
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: decodeURIComponent(maindeleg.fname)
+                                elide: Text.ElideMiddle
+                                font.weight: baselook.boldweight
+
+                            }
+
+                        }
+
                     }
+
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered:
+                            files_grid.currentIndex = index
+                        onExited:
+                            files_grid.currentIndex = -1
+                    }
+
                 }
 
             }
@@ -352,14 +385,11 @@ SplitView {
                 map.curZ = 0
                 opacity = 1
                 variables.visibleItem = "mapexplorer"
-                var dat = PQLocation.getMapState()
-                map.zoomLevel = dat[0]
-                map.center.latitude = dat[1]
-                map.center.longitude = dat[2]
                 finishShow = true
                 PQLocation.scanForLocations(filefoldermodel.entriesMainView)
                 PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
-                loadImageBG.start()
+                loadImages()
+                map.computeDetailLevel()
             } else if(what == "hide") {
                 opacity = 0
             } else if(what == "keyevent") {
@@ -373,11 +403,12 @@ SplitView {
 
     Timer {
         id: loadImageBG
-        interval: 250
+        interval: 0
         repeat: false
         running: false
-        onTriggered:
+        onTriggered: {
             loadImages()
+        }
     }
 
     function loadImages() {
@@ -398,25 +429,26 @@ SplitView {
                     item_labels[det] = labels[labelkey]
             }
 
-            var _latitude = ""+key.split("::")[0]
-            var _longitude = ""+key.split("::")[1]
-            var _filename = ""+items[key][0]
-            var _detaillevels = items[key]
-            _detaillevels.shift()
-            _detaillevels = _detaillevels.join("_")
+            var latitude = ""+key.split("::")[0]
+            var longitude = ""+key.split("::")[1]
+            var filename = ""+items[key][0]
+            var detaillevels = items[key]
+            detaillevels.shift()
+            detaillevels = detaillevels.join("_")
 
-            mdl.append({"latitude": _latitude,
-                        "longitude": _longitude,
-                        "filename": _filename,
-                        "levels": _detaillevels,
+            mdl.append({"latitude": latitude,
+                        "longitude": longitude,
+                        "filename": filename,
+                        "levels": detaillevels,
                         "labels": item_labels
                        })
 
         }
 
-        console.log(PQLocation.allImages.length)
-        console.log(PQLocation.allImages[0])
         imagesWithLocation = PQLocation.allImages
+
+        map.center.latitude = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
+        map.center.longitude = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
 
     }
 
