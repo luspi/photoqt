@@ -23,9 +23,12 @@
 import QtQuick 2.9
 import QtLocation 5.12
 import QtPositioning 5.12
+import QtQuick.Controls 1.4
 import "../elements"
 
-Item {
+SplitView {
+
+    id: mapexplorer_top
 
     width: parentWidth
     height: parentHeight
@@ -41,6 +44,8 @@ Item {
     enabled: visible
 
     property bool finishShow: false
+
+    property var imagesWithLocation: []
 
     Plugin {
         id: osmPlugin
@@ -79,7 +84,7 @@ Item {
 
         id: map
 
-        width: parent.width
+        width: parent.width-visibleimages.width
         height: parent.height
 
         center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
@@ -97,6 +102,24 @@ Item {
                     detaillevel = i
                     break
                 }
+            }
+        }
+
+        property real visibleLatitudeLeft: -180
+        property real visibleLatitudeRight: 180
+        property real visibleLongitudeLeft: -180
+        property real visibleLongitudeRight: 180
+
+        Timer {
+            id: updateVisibleRegion
+            interval: 500
+            repeat: true
+            running: mapexplorer_top.visible
+            onTriggered: {
+                map.visibleLatitudeLeft = map.visibleRegion.boundingGeoRectangle().topLeft.latitude
+                map.visibleLongitudeLeft = map.visibleRegion.boundingGeoRectangle().topLeft.longitude
+                map.visibleLatitudeRight = map.visibleRegion.boundingGeoRectangle().bottomRight.latitude
+                map.visibleLongitudeRight= map.visibleRegion.boundingGeoRectangle().bottomRight.longitude
             }
         }
 
@@ -159,7 +182,7 @@ Item {
                             mipmap: true
                             cache: true
                             asynchronous: true
-                            source: "image://thumb/" + handlingGeneral.toPercentEncoding(filename)
+                            source: (!visible && source=="") ? "" : ("image://thumb/" + handlingGeneral.toPercentEncoding(filename))
                         }
                         Repeater {
                             model: container.keys.length
@@ -205,12 +228,122 @@ Item {
 
     }
 
-    Text {
-        x: (parent.width-width)-10
-        y: 10
-        font.bold: true
-        text: "Zoom: " + map.zoomLevel
+
+    Rectangle {
+
+        id: visibleimages
+
+        x: (parent.width-width)
+        width: parent.width/2
+        height: parent.height
+
+        color: "#333333"
+
+//        Component.onCompleted:
+//            console.log(map.visibleRegion.contains())
+
+        Flow {
+
+            id: files_grid
+
+            anchors.fill: parent
+
+            Repeater {
+
+                model: imagesWithLocation.length/3
+
+                delegate: Item {
+
+                    id: maindeleg
+
+                    width: opacity!=0 ? 100 : 0
+                    height: 100
+
+                    Behavior on width { NumberAnimation { duration: 200 } }
+
+    //                Component.onCompleted:
+    //                    console.log("index =", imagesWithLocation[index])
+
+                    readonly property string fpath: imagesWithLocation[3*index+0]
+                    readonly property real latitude: imagesWithLocation[3*index+1]
+                    readonly property real longitude: imagesWithLocation[3*index+2]
+                    readonly property string fname: handlingFileDir.getFileNameFromFullPath(fpath)
+
+                    opacity: (latitude>map.visibleLatitudeRight &&
+                             latitude<map.visibleLatitudeLeft &&
+                             longitude>map.visibleLongitudeLeft &&
+                             longitude<map.visibleLongitudeRight) ? 1 : 0
+
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    Rectangle {
+
+                        id: deleg_container
+
+                        width: maindeleg.width
+                        height: maindeleg.height
+
+                        opacity: 1
+
+
+                        color: "#44aaaaaa"
+
+                        border.width: 1
+                        border.color: "#282828"
+
+                        Image {
+
+                            id: fileicon
+
+                            x: (parent.width-width)/2
+                            y: (parent.height-height)/2
+                            width: parent.width-2*PQSettings.openfileElementPadding
+                            height: parent.height-2*PQSettings.openfileElementPadding
+
+                            asynchronous: true
+
+                            fillMode: Image.PreserveAspectFit
+
+                            smooth: true
+                            mipmap: false
+
+                            opacity: 1
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                            // if we do not cache this image, then we keep the generic icon here
+                            source: filethumb.status==Image.Ready ? "" : "image://icon/::squared::"+handlingFileDir.getSuffix(maindeleg.fname)
+
+                            Image {
+
+                                id: filethumb
+                                anchors.fill: parent
+
+                                cache: false
+
+                                sourceSize: Qt.size(256, 256)
+
+                                fillMode: Image.PreserveAspectCrop
+
+                                // mipmap does not look good, use only smooth
+                                smooth: true
+                                asynchronous: true
+
+                                // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
+                                source: "image://thumb/" + maindeleg.fpath
+
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+
     }
+
 
     Connections {
         target: loader
@@ -256,13 +389,13 @@ Item {
 
         for(var key in items) {
 
+
             var item_labels = {}
 
             for(var det = 0; det < 13; ++det) {
                 var labelkey = det + "::" + key;
-                if(labelkey in labels) {
+                if(labelkey in labels)
                     item_labels[det] = labels[labelkey]
-                }
             }
 
             var _latitude = ""+key.split("::")[0]
@@ -280,6 +413,10 @@ Item {
                        })
 
         }
+
+        console.log(PQLocation.allImages.length)
+        console.log(PQLocation.allImages[0])
+        imagesWithLocation = PQLocation.allImages
 
     }
 

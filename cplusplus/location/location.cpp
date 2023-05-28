@@ -163,21 +163,26 @@ void PQLocation::processSummary(QString folder) {
         return;
     }
 
+    QVariantList images;
     QVariantMap labels;
     QVariantMap items;
 
     while(query.next()) {
 
+        const QString folder = query.value(0).toString();
+        const QString filename = query.value(1).toString();
+
+        if(!QFileInfo::exists(folder+"/"+filename))
+            continue;
+
+        const double latitude = query.value(2).toDouble();
+        const double longitude = query.value(3).toDouble();
+
+        images << (folder+"/"+filename)
+               << latitude
+               << longitude;
+
         for(int det = 0; det < steps.length(); ++det) {
-
-            const QString folder = query.value(0).toString();
-            const QString filename = query.value(1).toString();
-
-            if(!QFileInfo::exists(folder+"/"+filename))
-                continue;
-
-            const double latitude = query.value(2).toDouble();
-            const double longitude = query.value(3).toDouble();
 
             const double step = steps[det][0];
             const double key_lat = qRound64(latitude/step)*step;
@@ -214,40 +219,13 @@ void PQLocation::processSummary(QString folder) {
 
     query.clear();
 
-//    qDebug() << items;
-
     m_imageList = items;
     m_labelList = labels;
-
-//        m_imageList[det].clear();
-
-//        if(collect.isEmpty())
-//            continue;
-
-//        QMapIterator<QString, QVariantList> iter(collect);
-//        while(iter.hasNext()) {
-//            iter.next();
-
-//            const double lat = iter.key().split("::")[0].toDouble();
-//            const double lon = iter.key().split("::")[1].toDouble();
-//            const int num = iter.value()[0].toInt();
-//            const QString filename = iter.value()[1].toString();
-
-//            QVariantList entry;
-//            entry << lat
-//                  << lon
-//                  << num
-//                  << filename;
-
-//            m_imageList[det].push_back(entry);
-
-//        }
-
-//    }
-
-//    query.clear();
+    m_allImages = images;
 
     imageListChanged();
+    labelListChanged();
+    allImagesChanged();
 
 }
 

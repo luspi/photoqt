@@ -62,6 +62,15 @@ public:
         }
     }
 
+    Q_PROPERTY(QVariantList allImages READ getAllImages WRITE setAllImages NOTIFY allImagesChanged)
+    QVariantList getAllImages() { return m_allImages; }
+    void setAllImages(QVariantList lst) {
+        if(lst != m_allImages) {
+            m_allImages = lst;
+            Q_EMIT allImagesChanged();
+        }
+    }
+
     Q_PROPERTY(bool includeSubfolder READ getIncludeSubfolder WRITE setIncludeSubfolder NOTIFY includeSubfolderChanged)
     bool getIncludeSubfolder() { return m_includeSubfolder; }
     void setIncludeSubfolder(bool sub) {
@@ -78,11 +87,13 @@ public:
 Q_SIGNALS:
     void imageListChanged();
     void labelListChanged();
+    void allImagesChanged();
     void includeSubfolderChanged();
 
 private:
     PQLocation();
 
+    QVariantList m_allImages;
     QVariantMap m_imageList;
     QVariantMap m_labelList;
     bool m_includeSubfolder;
