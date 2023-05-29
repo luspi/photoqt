@@ -561,7 +561,7 @@ void PQFileFolderModel::advancedSortMainView() {
                             // An error code of 11 means unknown file type
                             // Since we always try to read any file's meta data, this happens a lot
 #if EXIV2_TEST_VERSION(0, 28, 0)
-                            if(e.code() != Exiv2::ErrorCode::kerUnsupportedImageType)
+                            if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
 #else
                             if(e.code() != 11)
 #endif
