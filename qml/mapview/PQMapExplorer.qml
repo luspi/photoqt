@@ -290,6 +290,84 @@ SplitView {
 
         }
 
+        Image {
+            id: zoomInButton
+            x: (parent.width-width-zoomOutButton.width-20)
+            y: 10
+            width: 32
+            height: 32
+            sourceSize.width: 32
+            sourceSize.height: 32
+            source: "/mainmenu/zoomin.svg"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: "Zoom in"
+                onClicked: {
+                    smoothZoom.from = map.zoomLevel
+                    smoothZoom.to = Math.min(map.maximumZoomLevel, map.zoomLevel+0.5)
+                    smoothZoom.start()
+                }
+            }
+        }
+
+        Image {
+            id: zoomOutButton
+            x: (parent.width-width-10)
+            y: 10
+            width: 32
+            height: 32
+            sourceSize.width: 32
+            sourceSize.height: 32
+            source: "/mainmenu/zoomout.svg"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: "Zoom out"
+                onClicked: {
+                    smoothZoom.from = map.zoomLevel
+                    smoothZoom.to = Math.max(map.minimumZoomLevel, map.zoomLevel-0.5)
+                    smoothZoom.start()
+                }
+            }
+        }
+
+        Image {
+            id: resetButton
+            x: 10
+            y: 10
+            width: 32
+            height: 32
+            sourceSize.width: 32
+            sourceSize.height: 32
+            source: "/mainwindow/reset.svg"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: "Reset view"
+                onClicked: {
+
+                    smoothCenterLat.from = map.center.latitude
+                    smoothCenterLat.to = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
+
+                    smoothCenterLon.from = map.center.longitude
+                    smoothCenterLon.to = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
+
+                    smoothZoom.from = map.zoomLevel
+                    smoothZoom.to = 10
+
+                    smoothZoom.start()
+                    smoothCenterLat.start()
+                    smoothCenterLon.start()
+
+                }
+            }
+
+        }
+
         NumberAnimation {
             id: smoothZoom
             duration: 200
