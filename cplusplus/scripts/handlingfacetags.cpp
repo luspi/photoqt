@@ -57,7 +57,11 @@ QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
         image->readMetadata();
     } catch (Exiv2::Error& e) {
         // An error code of 11 means image not supported. This is much more reliable than, e.g., checking a file ending
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerUnsupportedImageType)
+#else
         if(e.code() != 11)
+#endif
             LOG << CURDATE << "PQHandlingFaceTags::getFaceTags() - ERROR reading metadata (caught exception): " << e << NL;
         else
             DBG << CURDATE << "PQHandlingFaceTags::getFaceTags() - ERROR reading metadata (caught exception): " << e << NL;

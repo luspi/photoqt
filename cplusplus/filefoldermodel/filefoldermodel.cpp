@@ -560,7 +560,11 @@ void PQFileFolderModel::advancedSortMainView() {
                         } catch (Exiv2::Error& e) {
                             // An error code of 11 means unknown file type
                             // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+                            if(e.code() != Exiv2::ErrorCode::kerUnsupportedImageType)
+#else
                             if(e.code() != 11)
+#endif
                                 LOG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
                             else
                                 DBG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
