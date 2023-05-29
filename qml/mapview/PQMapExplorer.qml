@@ -112,6 +112,9 @@ SplitView {
             repeat: true
             running: mapexplorer_top.visible
             onTriggered: {
+                execute()
+            }
+            function execute() {
                 map.visibleLatitudeLeft = map.visibleRegion.boundingGeoRectangle().topLeft.latitude
                 map.visibleLongitudeLeft = map.visibleRegion.boundingGeoRectangle().topLeft.longitude
                 map.visibleLatitudeRight = map.visibleRegion.boundingGeoRectangle().bottomRight.latitude
@@ -588,6 +591,8 @@ SplitView {
 
         folderLoaded[0] = path
         folderLoaded[1] = mod
+
+        updateVisibleRegion.execute()
 
     }
 
