@@ -47,6 +47,8 @@ SplitView {
 
     property var imagesWithLocation: []
 
+    property var folderLoaded: []
+
     Plugin {
         id: osmPlugin
         name: "osm"//PQSettings.mapviewProvider
@@ -144,9 +146,51 @@ SplitView {
             }
         }
 
+        MapQuickItem {
+
+            id: highlightMarker
+
+            anchorPoint.x: highlightImage.width*(61/256)
+            anchorPoint.y: highlightImage.height*(198/201)
+
+            opacity: 0
+            Behavior on opacity { NumberAnimation { duration: 100 } }
+            visible: opacity>0
+
+            property real latitude
+            property real longitude
+            Behavior on latitude { NumberAnimation { duration: 100 } }
+            Behavior on longitude { NumberAnimation { duration: 100 } }
+            coordinate: QtPositioning.coordinate(latitude, longitude)
+
+            z: map.curZ+1
+
+            sourceItem:
+                Image {
+                    id: highlightImage
+                    width: 64
+                    height: 50
+                    source: "/image/mapmarker.png"
+                }
+
+            function showAt(lat, lon) {
+                highlightMarker.latitude = lat
+                highlightMarker.longitude = lon
+                highlightMarker.opacity = 1
+            }
+
+            function hide() {
+                highlightMarker.opacity = 0
+            }
+
+        }
+
         MapItemView {
 
             model: ListModel { id: mdl }
+
+            opacity: highlightMarker.visible ? 0.5 : 1
+            Behavior on opacity { NumberAnimation { duration: 100 } }
 
             delegate: MapQuickItem {
 
@@ -155,7 +199,9 @@ SplitView {
                 anchorPoint.x: container.width/2
                 anchorPoint.y: container.height/2
 
-                visible: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map.detaillevel) != -1)
+                opacity: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map.detaillevel) != -1) ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
 
                 coordinate: QtPositioning.coordinate(latitude, longitude)
 
@@ -205,12 +251,29 @@ SplitView {
                         PQMouseArea {
                             anchors.fill: parent
                             hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
                             tooltip: "<img src='" + image.source + "'><br><br>" +
                                      " <b>" + handlingFileDir.getFileNameFromFullPath(filename) + "</b>" +
                                      (labels[map.detaillevel]>1 ? (" + " + (labels[map.detaillevel]-1) + "") : "")
                             onEntered: {
                                 map.curZ += 1
                                 deleg.z = map.curZ
+                            }
+                            onClicked: {
+
+                                smoothCenterLat.from = map.center.latitude
+                                smoothCenterLat.to = latitude
+
+                                smoothCenterLon.from = map.center.longitude
+                                smoothCenterLon.to = longitude
+
+                                smoothZoom.from = map.zoomLevel
+                                smoothZoom.to = Math.min(map.zoomLevel+1, map.maximumZoomLevel)
+
+                                smoothZoom.start()
+                                smoothCenterLat.start()
+                                smoothCenterLon.start()
+
                             }
                         }
 
@@ -222,6 +285,27 @@ SplitView {
 
             }
 
+        }
+
+        NumberAnimation {
+            id: smoothZoom
+            duration: 200
+            target: map
+            property: "zoomLevel"
+        }
+
+        NumberAnimation {
+            id: smoothCenterLat
+            duration: 200
+            target: map
+            property: "center.latitude"
+        }
+
+        NumberAnimation {
+            id: smoothCenterLon
+            duration: 200
+            target: map
+            property: "center.longitude"
         }
 
     }
@@ -247,7 +331,7 @@ SplitView {
 
             Repeater {
 
-                model: imagesWithLocation.length/3
+                model: imagesWithLocation.length
 
                 delegate: Item {
 
@@ -258,9 +342,9 @@ SplitView {
 
                     Behavior on width { NumberAnimation { duration: 200 } }
 
-                    readonly property string fpath: imagesWithLocation[3*index+0]
-                    readonly property real latitude: imagesWithLocation[3*index+1]
-                    readonly property real longitude: imagesWithLocation[3*index+2]
+                    readonly property string fpath: imagesWithLocation[index][0]
+                    readonly property real latitude: imagesWithLocation[index][1]
+                    readonly property real longitude: imagesWithLocation[index][2]
                     readonly property string fname: handlingFileDir.getFileNameFromFullPath(fpath)
 
                     opacity: (latitude>map.visibleLatitudeRight &&
@@ -362,10 +446,54 @@ SplitView {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        onEntered:
+
+                        tooltipWidth: 282
+                        tooltipSomeTransparency: false
+                        property bool tooltipSetup: false
+
+                        onEntered: {
+
                             files_grid.currentIndex = index
-                        onExited:
+
+                            highlightMarker.showAt(maindeleg.latitude, maindeleg.longitude)
+
+                            if(!tooltipSetup) {
+
+                                var fmodi = handlingFileDir.getFileModified(maindeleg.fpath)
+                                var ftype = handlingFileDir.getFileType(maindeleg.fpath)
+                                var fsize = handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(maindeleg.fpath))
+
+                                var str = ""
+
+                                // if we do not cache this directory, we do not show a thumbnail image
+                                if(fileicon.source == "")
+                                    str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
+
+                                // add details
+                                str += "<b>" + handlingFileDialog.createTooltipFilename(maindeleg.fname) + "</b>" + "<br><br>" +
+                                          em.pty+qsTranslate("filedialog", "File size:")+" <b>" + fsize + "</b><br>" +
+                                          em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
+                                          em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
+                                          em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b><br>" +
+                                          em.pty+qsTranslate("filedialog", "Location:")+" <b>" + (maindeleg.latitude>0 ? "+" : "") + Math.round(maindeleg.latitude*100)/100 + " " + (maindeleg.longitude>0 ? "+" : "") + Math.round(maindeleg.longitude*100)/100 + "</b>"
+
+                                tooltip = str
+
+                                // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
+                                if(fileicon.source == "")
+                                    tooltipSetup = true
+
+                            }
+
+                        }
+                        onExited: {
+                            highlightMarker.hide()
                             files_grid.currentIndex = -1
+                        }
+
+                        onClicked: {
+                            clickOnImage(index)
+                        }
                     }
 
                 }
@@ -382,33 +510,19 @@ SplitView {
         target: loader
         onMapExplorerPassOn: {
             if(what == "show") {
-                map.curZ = 0
-                opacity = 1
-                variables.visibleItem = "mapexplorer"
-                finishShow = true
-                PQLocation.scanForLocations(filefoldermodel.entriesMainView)
-                PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
-                loadImages()
-                map.computeDetailLevel()
+                showExplorer()
             } else if(what == "hide") {
-                opacity = 0
+                hideExplorer()
             } else if(what == "keyevent") {
-//                if(param[0] == Qt.Key_Escape)
-//                    button_cancel.clicked()
-//                else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
-//                    button_start.clicked()
+                if(param[0] == Qt.Key_Escape)
+                    hideExplorer()
             }
         }
     }
 
-    Timer {
-        id: loadImageBG
-        interval: 0
-        repeat: false
-        running: false
-        onTriggered: {
-            loadImages()
-        }
+    function clickOnImage(index) {
+        filefoldermodel.setAsCurrent(imagesWithLocation[index][0])
+        hideExplorer()
     }
 
     function loadImages() {
@@ -417,6 +531,7 @@ SplitView {
         var labels = PQLocation.labelList
 
         mdl.clear()
+        imagesWithLocation = []
 
         for(var key in items) {
 
@@ -449,6 +564,37 @@ SplitView {
 
         map.center.latitude = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
         map.center.longitude = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
+
+    }
+
+    function showExplorer() {
+
+        map.curZ = 0
+        opacity = 1
+        variables.visibleItem = "mapexplorer"
+        finishShow = true
+
+        var path = handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath)
+        var mod = handlingFileDir.getFileModified(path).getTime()
+
+        if(folderLoaded.length == 0 || folderLoaded[0] != path || folderLoaded[1] != mod) {
+
+            PQLocation.scanForLocations(filefoldermodel.entriesMainView)
+            PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
+            loadImages()
+            map.computeDetailLevel()
+
+        }
+
+        folderLoaded[0] = path
+        folderLoaded[1] = mod
+
+    }
+
+    function hideExplorer() {
+
+        opacity = 0
+        variables.visibleItem = ""
 
     }
 

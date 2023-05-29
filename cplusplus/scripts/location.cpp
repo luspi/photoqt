@@ -181,9 +181,7 @@ void PQLocation::processSummary(QString folder) {
         const double latitude = query.value(2).toDouble();
         const double longitude = query.value(3).toDouble();
 
-        images << (folder+"/"+filename)
-               << latitude
-               << longitude;
+        images << QVariant::fromValue(QVariantList() << (folder+"/"+filename) << latitude << longitude);
 
         if(latitude < m_minimumLocation.x())
             m_minimumLocation.setX(latitude);
@@ -231,6 +229,10 @@ void PQLocation::processSummary(QString folder) {
     }
 
     query.clear();
+
+    QCollator collator;
+    collator.setNumericMode(true);
+    std::sort(images.begin(), images.end(), [&collator](const QVariant &file1, const QVariant &file2) { return collator.compare(file1.toList()[0].toString(), file2.toList()[0].toString()) < 0; });
 
     m_imageList = items;
     m_labelList = labels;

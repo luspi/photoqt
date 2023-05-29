@@ -56,7 +56,7 @@
 #include "settings/shortcuts.h"
 #include "scripts/handlingchromecast.h"
 #include "print/printsupport.h"
-#include "location/location.h"
+#include "scripts/location.h"
 
 
 #include "imageprovider/imageprovidericon.h"

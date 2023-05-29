@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include "metadata.h"
-#include "../location/location.h"
+#include "location.h"
 
 PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
@@ -837,5 +837,29 @@ QPointF PQMetaData::convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QStri
         y *= -1;
 
     return QPointF(x,y);
+
+}
+
+QString PQMetaData::convertGPSDecimalToString(double latitude, double longitude) {
+
+    QString ret;
+
+    double absLat = qAbs(latitude);
+    int floorLat = static_cast<int>(latitude);
+    double minLat = 60*(absLat-floorLat);
+    double secLat = 3600*(absLat-floorLat) - 60*minLat;
+
+    ret += QString("%1° %2' %3'' %4").arg(floorLat).arg(minLat).arg(secLat).arg(latitude>0 ? "N" : "S");
+
+    ret += " ";
+
+    double absLon = qAbs(longitude);
+    int floorLon = static_cast<int>(longitude);
+    double minLon = 60*(absLon-floorLon);
+    double secLon = 3600*(absLon-floorLon) - 60*minLon;
+
+    ret += QString("%1° %2' %3'' %4").arg(floorLon).arg(minLon).arg(secLon).arg(longitude>0 ? "E" : "W");
+
+    return ret;
 
 }
