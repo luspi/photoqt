@@ -96,6 +96,8 @@ SplitView {
 
         plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
 
+        gesture.acceptedGestures: MapGestureArea.PinchGesture|MapGestureArea.PanGesture|MapGestureArea.FlickGesture
+
         onZoomLevelChanged: {
             if(!finishShow) return
             computeDetailLevel()
