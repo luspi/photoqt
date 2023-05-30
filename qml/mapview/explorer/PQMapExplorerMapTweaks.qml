@@ -37,6 +37,8 @@ Rectangle {
 
         PQText {
 
+            y: (resetbutton.height-height)/2
+
             id: zoomtext
 
             text: em.pty+qsTranslate("filedialog", "Zoom:")
@@ -45,29 +47,36 @@ Rectangle {
 
         PQSlider {
 
-            from: 10
-            to: 50
-            value: PQSettings.mapviewExplorerImagesZoomLevel
+            y: (resetbutton.height-height)/2
+
+            from: map.getMinMaxZoomLevel()[0]
+            to: map.getMinMaxZoomLevel()[1]
+            stepSize: 0.1
+            value: mapexplorer_top.mapZoomLevel
+            tooltip: Math.round(100*((value-from)/(to-from)))
+            toolTipSuffix: "%"
 
             onValueChanged: {
-                PQSettings.mapviewExplorerImagesZoomLevel = value
+                mapexplorer_top.mapZoomLevel = value
                 // we set the focus to some random element (one that doesn't aid in catching key events (otherwise we catch them twice))
                 // this avoids the case where left/right arrow would cause inadvertently a zoom in/out event
                 variables.forceActiveFocus()
             }
         }
 
-        Item {
-            width: 10
-            height: 1
+        PQButton {
+            id: resetbutton
+            imageButtonSource: "/mapview/reset.svg"
+            onClicked:
+                map.resetMap()
         }
 
-        PQCheckbox {
-            text: "scale and crop images"
-            checked: PQSettings.mapviewExplorerThumbnailsScaleCrop
-            onCheckedChanged:
-                PQSettings.mapviewExplorerThumbnailsScaleCrop = checked
-        }
+//        PQCheckbox {
+//            text: "scale and crop images"
+//            checked: PQSettings.mapviewExplorerThumbnailsScaleCrop
+//            onCheckedChanged:
+//                PQSettings.mapviewExplorerThumbnailsScaleCrop = checked
+//        }
 
     }
 

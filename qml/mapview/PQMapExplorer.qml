@@ -51,6 +51,8 @@ SplitView {
 
     property var folderLoaded: []
 
+    property real mapZoomLevel: 10
+
     orientation: PQSettings.mapviewExplorerLayoutLeftRight ? Qt.Horizontal : Qt.Vertical
 
     handleDelegate: Rectangle {
@@ -70,12 +72,26 @@ SplitView {
 
     }
 
-    PQMapExplorerMap {
-        id: map
+    Item {
+
         width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
         height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
         Layout.minimumWidth: 600
         Layout.minimumHeight: 600
+
+        PQMapExplorerMap {
+            id: map
+            width: parent.width
+            height: parent.height-maptweaks.height
+        }
+
+        PQMapExplorerMapTweaks {
+            id: maptweaks
+            y: parent.height-height
+            width: map.width
+            height: 50
+        }
+
     }
 
     Item {
@@ -94,7 +110,7 @@ SplitView {
             height: parent.height-explorertweaks.height
         }
 
-        PQMapExplorerTweaks {
+        PQMapExplorerImagesTweaks {
             id: explorertweaks
             y: parent.height-height
             width: visibleimages.width

@@ -188,6 +188,7 @@
         <file>mapview/PQMapExplorer.qml</file>
         <file>mapview/explorer/PQMapExplorerImages.qml</file>
         <file>mapview/explorer/PQMapExplorerMap.qml</file>
-        <file>mapview/explorer/PQMapExplorerTweaks.qml</file>
+        <file>mapview/explorer/PQMapExplorerImagesTweaks.qml</file>
+        <file>mapview/explorer/PQMapExplorerMapTweaks.qml</file>
     </qresource>
 </RCC>

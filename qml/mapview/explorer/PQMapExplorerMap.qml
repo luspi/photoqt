@@ -30,7 +30,7 @@ Map {
     id: map
 
     center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
-    zoomLevel: 10
+    zoomLevel: mapexplorer_top.mapZoomLevel
 
     property int curZ: 0
 
@@ -68,8 +68,6 @@ Map {
     }
 
     plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
-
-    gesture.acceptedGestures: MapGestureArea.PinchGesture|MapGestureArea.PanGesture|MapGestureArea.FlickGesture
 
     onZoomLevelChanged: {
         if(!finishShow) return
@@ -256,89 +254,11 @@ Map {
 
     }
 
-    Image {
-        id: zoomInButton
-        x: (parent.width-width-zoomOutButton.width-20)
-        y: 10
-        width: 32
-        height: 32
-        sourceSize.width: 32
-        sourceSize.height: 32
-        source: "/mapview/zoomin.svg"
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: "Zoom in"
-            onClicked: {
-                smoothZoom.from = map.zoomLevel
-                smoothZoom.to = Math.min(map.maximumZoomLevel, map.zoomLevel+0.5)
-                smoothZoom.start()
-            }
-        }
-    }
-
-    Image {
-        id: zoomOutButton
-        x: (parent.width-width-10)
-        y: 10
-        width: 32
-        height: 32
-        sourceSize.width: 32
-        sourceSize.height: 32
-        source: "/mapview/zoomout.svg"
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: "Zoom out"
-            onClicked: {
-                smoothZoom.from = map.zoomLevel
-                smoothZoom.to = Math.max(map.minimumZoomLevel, map.zoomLevel-0.5)
-                smoothZoom.start()
-            }
-        }
-    }
-
-    Image {
-        id: resetButton
-        x: 10
-        y: 10
-        width: 32
-        height: 32
-        sourceSize.width: 32
-        sourceSize.height: 32
-        source: "/mapview/reset.svg"
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: "Reset view"
-            onClicked: {
-
-                smoothCenterLat.from = map.center.latitude
-                smoothCenterLat.to = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
-
-                smoothCenterLon.from = map.center.longitude
-                smoothCenterLon.to = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
-
-                smoothZoom.from = map.zoomLevel
-                smoothZoom.to = 10
-
-                smoothZoom.start()
-                smoothCenterLat.start()
-                smoothCenterLon.start()
-
-            }
-        }
-
-    }
-
     NumberAnimation {
         id: smoothZoom
         duration: 200
-        target: map
-        property: "zoomLevel"
+        target: mapexplorer_top
+        property: "mapZoomLevel"
     }
 
     NumberAnimation {
@@ -353,6 +273,24 @@ Map {
         duration: 200
         target: map
         property: "center.longitude"
+    }
+
+    NumberAnimation {
+        id: smoothRotation
+        duration: 200
+        target: map
+        property: "bearing"
+    }
+
+    NumberAnimation {
+        id: smoothTilt
+        duration: 200
+        target: map
+        property: "tilt"
+    }
+
+    function getMinMaxZoomLevel() {
+        return [map.minimumZoomLevel, map.maximumZoomLevel]
     }
 
     function computeDetailLevel() {
@@ -370,6 +308,29 @@ Map {
 
     function resetCurZ() {
         curZ = 0
+    }
+
+    function resetMap() {
+        smoothCenterLat.from = map.center.latitude
+        smoothCenterLat.to = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
+
+        smoothCenterLon.from = map.center.longitude
+        smoothCenterLon.to = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
+
+        smoothZoom.from = map.zoomLevel
+        smoothZoom.to = 10
+
+        smoothRotation.from = map.bearing
+        smoothRotation.to = 0
+
+        smoothTilt.from = map.tilt
+        smoothTilt.to = 0
+
+        smoothZoom.start()
+        smoothCenterLat.start()
+        smoothCenterLon.start()
+        smoothRotation.start()
+        smoothTilt.start()
     }
 
     function addItem(lat, lon, fn, lvl, lbl) {

@@ -47,8 +47,8 @@ Rectangle {
 
                 id: maindeleg
 
-                width: opacity!=0 ? PQSettings.mapviewExplorerImagesZoomLevel*6 : 0
-                height: PQSettings.mapviewExplorerImagesZoomLevel*6
+                width: opacity!=0 ? PQSettings.mapviewExplorerThumbnailsZoomLevel*6 : 0
+                height: PQSettings.mapviewExplorerThumbnailsZoomLevel*6
 
                 Behavior on width { NumberAnimation { duration: 200 } }
 
