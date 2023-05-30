@@ -99,15 +99,25 @@ Item {
                 height: 50
             }
 
-            Image {
-                x: 5
-                y: 5
-                width: 15
-                height: 15
+            Rectangle {
+
+                x: 0
+                y: 0
+                width: 25
+                height: 25
+
+                color: "#88000000"
+
                 opacity: popinmouse.containsMouse ? 1 : 0.2
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                source: "/popin.svg"
-                sourceSize: Qt.size(width, height)
+
+                Image {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    source: "/popin.svg"
+                    sourceSize: Qt.size(width, height)
+                }
+
                 PQMouseArea {
                     id: popinmouse
                     anchors.fill: parent
@@ -126,6 +136,7 @@ Item {
                         HandleShortcuts.executeInternalFunction("__showMapExplorer")
                     }
                 }
+
             }
 
             Item {
