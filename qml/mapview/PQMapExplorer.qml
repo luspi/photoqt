@@ -24,6 +24,7 @@ import QtQuick 2.9
 import QtLocation 5.12
 import QtPositioning 5.12
 import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.15
 import "../elements"
 import "./explorer"
 
@@ -73,6 +74,8 @@ SplitView {
         id: map
         width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
         height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
+        Layout.minimumWidth: 600
+        Layout.minimumHeight: 600
     }
 
     Item {
@@ -81,6 +84,9 @@ SplitView {
 
         width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
         height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
+
+        Layout.minimumWidth: 600
+        Layout.minimumHeight: 600
 
         PQMapExplorerImages {
             id: visibleimages
