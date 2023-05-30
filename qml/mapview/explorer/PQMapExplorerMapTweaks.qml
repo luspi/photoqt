@@ -71,59 +71,6 @@ Rectangle {
                 map.resetMap()
         }
 
-//        PQCheckbox {
-//            text: "scale and crop images"
-//            checked: PQSettings.mapviewExplorerThumbnailsScaleCrop
-//            onCheckedChanged:
-//                PQSettings.mapviewExplorerThumbnailsScaleCrop = checked
-//        }
-
-    }
-
-    Row {
-
-        x: parent.width-width-10
-        y: (parent.height-height)/2
-
-        Image {
-            id: leftright
-            width: 30
-            height: 30
-            sourceSize.width: width
-            sourceSize.height: height
-            source: "/mapview/leftright.svg"
-            opacity: PQSettings.mapviewExplorerLayoutLeftRight ? 1 : 0.3
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    PQSettings.mapviewExplorerLayoutLeftRight = 1
-                    mapexplorer_top.resetWidthHeight()
-                }
-            }
-        }
-        Image {
-            id: topbottom
-            width: 30
-            height: 30
-            sourceSize.width: width
-            sourceSize.height: height
-            source: "/mapview/topbottom.svg"
-            opacity: PQSettings.mapviewExplorerLayoutLeftRight ? 0.3 : 1
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    PQSettings.mapviewExplorerLayoutLeftRight = 0
-                    mapexplorer_top.resetWidthHeight()
-                }
-            }
-        }
-
     }
 
 }

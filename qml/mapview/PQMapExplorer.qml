@@ -53,19 +53,17 @@ SplitView {
 
     property real mapZoomLevel: 10
 
-    orientation: PQSettings.mapviewExplorerLayoutLeftRight ? Qt.Horizontal : Qt.Vertical
-
     handleDelegate: Rectangle {
 
-        width: PQSettings.mapviewExplorerLayoutLeftRight ? 8 : parent.width
-        height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : 8
+        width: 8
+        height: parent.height
         color: styleData.hovered ? "#888888" : "#666666"
         Behavior on color { ColorAnimation { duration: 100 } }
 
         Image {
-            x: PQSettings.mapviewExplorerLayoutLeftRight ? 0 : (parent.width-width)/2
-            y: PQSettings.mapviewExplorerLayoutLeftRight ? (parent.height-height)/2 : 0
-            width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width : parent.height
+            x: 0
+            y: (parent.height-height)/2
+            width: parent.width
             height: width
             source: "/filedialog/handle.svg"
         }
@@ -74,10 +72,10 @@ SplitView {
 
     Item {
 
-        width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
-        height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
+        width: parent.width/2
+        height: parent.height
         Layout.minimumWidth: 600
-        Layout.minimumHeight: 600
+        Layout.minimumHeight: 300
 
         PQMapExplorerMap {
             id: map
@@ -98,11 +96,11 @@ SplitView {
 
         id: imagestweaks
 
-        width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
-        height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
+        width: parent.width/2
+        height: parent.height
 
         Layout.minimumWidth: 600
-        Layout.minimumHeight: 600
+        Layout.minimumHeight: 300
 
         PQMapExplorerImages {
             id: visibleimages
@@ -134,10 +132,10 @@ SplitView {
     }
 
     function resetWidthHeight() {
-        map.width = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.width/2 : mapexplorer_top.width
-        map.height = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.height : mapexplorer_top.height/2
-        imagestweaks.width = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.width/2 : mapexplorer_top.width
-        imagestweaks.height = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.height : mapexplorer_top.height/2
+        map.width = mapexplorer_top.width/2
+        map.height = mapexplorer_top.height
+        imagestweaks.width = mapexplorer_top.width/2
+        imagestweaks.height = mapexplorer_top.height
     }
 
     function clickOnImage(index) {
