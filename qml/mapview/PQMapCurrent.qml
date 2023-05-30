@@ -103,6 +103,17 @@ Item {
         ]
     }
 
+    Plugin {
+        id: mapboxglPlugin
+        name: "mapboxgl"
+        parameters: [
+            PluginParameter {
+                name: "mapboxgl.access_token"
+                value: (PQSettings.mapviewProviderMapboxAccessToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderMapboxAccessToken))
+            }
+        ]
+    }
+
     Map {
 
         id: map
@@ -114,7 +125,13 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
 
-        plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
+        plugin: (PQSettings.mapviewProvider=="googlemaps"
+                    ? googlePlugin
+                    : (PQSettings.mapviewProvider=="esri"
+                            ? esriPlugin
+                            : (PQSettings.mapviewProvider=="mapboxgl"
+                                    ? mapboxglPlugin
+                                    : osmPlugin)))
 
         center {
             latitude: latitude

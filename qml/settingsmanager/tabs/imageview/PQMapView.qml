@@ -29,8 +29,7 @@ PQSetting {
     id: set
     //: A settings title
     title: em.pty+qsTranslate("settingsmanager_imageview", "map provider")
-    helptext: em.pty+qsTranslate("settingsmanager_imageview", "The location of images can be shown on an embedded map. By default OpenStreetMap is used, but there are also other providers available, some of which require special setup.") + "<br><br>" +
-              "<b>" + em.pty+qsTranslate("settingsmanager_imageview", "Note that a restart is required for the map change to take effect.") + "</b>"
+    helptext: em.pty+qsTranslate("settingsmanager_imageview", "The location of images can be shown on an embedded map. By default OpenStreetMap is used, but there are also other providers available, some of which require special setup.") + "<br><br>"
     content: [
 
         Flow  {
@@ -47,7 +46,8 @@ PQSetting {
                     y: (parent.height-height)/2
                     model: ["OpenStreeMap",
                             "Google Maps",
-                            "Esri: ArcGIS"]
+                            "Esri: ArcGIS",
+                            "Mapbox GL"]
                 }
             }
 
@@ -63,14 +63,6 @@ PQSetting {
                     visible: maps_combo.currentIndex==1
                 }
 
-                PQText {
-                    y: (google_token.height-height)/2
-                    //: This is the language used by Esri for authenticating with its API, they call it a key.
-                    text: em.pty+qsTranslate("settingsmanager_imageview", "API key:")
-                    enabled: visible
-                    visible: maps_combo.currentIndex==2
-                }
-
                 PQLineEdit {
                     id: google_token
                     width:  400
@@ -78,6 +70,16 @@ PQSetting {
                     placeholderText: ""
                     passwordCharacter: "*"
                     echoMode: TextField.Password
+                }
+
+                /////////////////////////////////////////////////////
+
+                PQText {
+                    y: (google_token.height-height)/2
+                    //: This is the language used by Esri for authenticating with its API, they call it a key.
+                    text: em.pty+qsTranslate("settingsmanager_imageview", "API key:")
+                    enabled: visible
+                    visible: maps_combo.currentIndex==2
                 }
 
                 PQLineEdit {
@@ -89,13 +91,36 @@ PQSetting {
                     echoMode: TextField.Password
                 }
 
+                /////////////////////////////////////////////////////
+
+                PQText {
+                    y: (mapbox_token.height-height)/2
+                    //: This is the language used by Esri for authenticating with its API, they call it a key.
+                    text: em.pty+qsTranslate("settingsmanager_imageview", "Access Token:")
+                    enabled: visible
+                    visible: maps_combo.currentIndex==3
+                }
+
+                PQLineEdit {
+                    id: mapbox_token
+                    width:  400
+                    visible: maps_combo.currentIndex==3
+                    placeholderText: ""
+                    passwordCharacter: "*"
+                    echoMode: TextField.Password
+                }
+
+                /////////////////////////////////////////////////////
+
                 PQButton {
 
                     text: maps_combo.currentIndex == 0
                             ? "Open website"
                             : (maps_combo.currentIndex == 1
                                     ? "Get token"
-                                    : "Get API key")
+                                    : (maps_combo.currentIndex == 2
+                                            ? "Get API key"
+                                            : "Get Access Token"))
 
                     scale: 0.8
 
@@ -106,6 +131,8 @@ PQSetting {
                             Qt.openUrlExternally("https://console.cloud.google.com/")
                         else if(maps_combo.currentIndex == 2)
                             Qt.openUrlExternally("https://developers.arcgis.com/sign-up/")
+                       else if(maps_combo.currentIndex == 3)
+                           Qt.openUrlExternally("https://www.mapbox.com/pricing")
                     }
                 }
 
@@ -131,10 +158,13 @@ PQSetting {
                 PQSettings.mapviewProvider = "googlemaps"
             } else if(maps_combo.currentIndex == 2) {
                 PQSettings.mapviewProvider = "esri"
+            } else if(maps_combo.currentIndex == 3) {
+                PQSettings.mapviewProvider = "mapboxgl"
             }
 
             PQSettings.mapviewProviderGoogleMapsToken = (google_token.text=="" ? "" : handlingGeneral.encryptString(google_token.text))
             PQSettings.mapviewProviderEsriAPIKey = (esri_token.text=="" ? "" : handlingGeneral.encryptString(esri_token.text))
+            PQSettings.mapviewProviderMapboxAccessToken = (mapbox_token.text=="" ? "" : handlingGeneral.encryptString(mapbox_token.text))
 
         }
 
@@ -150,6 +180,8 @@ PQSetting {
             maps_combo.currentIndex = 1
         else if(PQSettings.mapviewProvider == "esri")
             maps_combo.currentIndex = 2
+        else if(PQSettings.mapviewProvider == "mapboxgl")
+            maps_combo.currentIndex = 3
         else
             maps_combo.currentIndex = 0
 
@@ -160,6 +192,10 @@ PQSetting {
         esri_token.text = ""
         if(PQSettings.mapviewProviderEsriAPIKey != "")
             esri_token.text = handlingGeneral.decryptString(PQSettings.mapviewProviderEsriAPIKey)
+
+        mapbox_token.text = ""
+        if(PQSettings.mapviewProviderMapboxAccessToken != "")
+            mapbox_token.text = handlingGeneral.decryptString(PQSettings.mapviewProviderMapboxAccessToken)
 
     }
 

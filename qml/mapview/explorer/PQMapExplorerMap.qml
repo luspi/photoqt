@@ -67,7 +67,24 @@ Map {
         ]
     }
 
-    plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
+    Plugin {
+        id: mapboxglPlugin
+        name: "mapboxgl"
+        parameters: [
+            PluginParameter {
+                name: "mapboxgl.access_token"
+                value: (PQSettings.mapviewProviderMapboxAccessToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderMapboxAccessToken))
+            }
+        ]
+    }
+
+    plugin: (PQSettings.mapviewProvider=="googlemaps"
+                ? googlePlugin
+                : (PQSettings.mapviewProvider=="esri"
+                        ? esriPlugin
+                        : (PQSettings.mapviewProvider=="mapbox"
+                                ? mapboxglPlugin
+                                : osmPlugin)))
 
     onZoomLevelChanged: {
         if(!finishShow) return
