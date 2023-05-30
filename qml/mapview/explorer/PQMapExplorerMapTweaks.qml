@@ -41,7 +41,7 @@ Rectangle {
 
             id: zoomtext
 
-            text: em.pty+qsTranslate("filedialog", "Zoom:")
+            text: em.pty+qsTranslate("mapexplorer", "Zoom:")
 
         }
 
@@ -71,7 +71,8 @@ Rectangle {
         x: parent.width-width-closebutton.width/2
         y: (parent.height-height)/2
         imageButtonSource: "/mapview/reset.svg"
-        tooltip: "Reset view"
+        //: The view here is the map layout in the map explorer
+        tooltip: em.pty+qsTranslate("mapexplorer", "Reset view")
         onClicked: {
             map.resetMap()
             mapexplorer_top.resetWidth()

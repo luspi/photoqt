@@ -41,7 +41,7 @@ Rectangle {
 
             id: zoomtext
 
-            text: em.pty+qsTranslate("filedialog", "Zoom:")
+            text: em.pty+qsTranslate("mapexplorer", "Zoom:")
 
         }
 
@@ -68,7 +68,7 @@ Rectangle {
         }
 
         PQCheckbox {
-            text: "scale and crop thumbnails"
+            text: em.pty+qsTranslate("mapexplorer", "scale and crop thumbnails")
             checked: PQSettings.mapviewExplorerThumbnailsScaleCrop
             onCheckedChanged:
                 PQSettings.mapviewExplorerThumbnailsScaleCrop = checked

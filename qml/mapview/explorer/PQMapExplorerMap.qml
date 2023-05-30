@@ -29,7 +29,7 @@ Map {
 
     id: map
 
-    center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
+    center: QtPositioning.coordinate(49.01, 8.40)
     zoomLevel: mapexplorer_top.mapZoomLevel
 
     property int curZ: 0

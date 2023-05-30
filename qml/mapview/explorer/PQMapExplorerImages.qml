@@ -195,6 +195,7 @@ Rectangle {
                                     str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
 
                                 // add details
+                                // we keep the string context here as 'filedialog' since the strings are the exact same there and only need to be translated once
                                 str += "<b>" + handlingFileDialog.createTooltipFilename(maindeleg.fname) + "</b>" + "<br><br>" +
                                           em.pty+qsTranslate("filedialog", "File size:")+" <b>" + fsize + "</b><br>" +
                                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
@@ -237,7 +238,8 @@ Rectangle {
         opacity: (countVisible==-imagesWithLocation.length&&!nolocation.visible) ? 0.75 : 0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
-        text: "no images in currently visible area"
+        //: the currently visible area refers to the latitude/longitude selection in the map explorer
+        text: em.pty+qsTranslate("mapexplorer", "no images in currently visible area")
     }
 
     PQTextL {
@@ -248,7 +250,7 @@ Rectangle {
         opacity: imagesWithLocation.length==0 ? 0.75 : 0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
-        text: "no images with location data in current folder"
+        text: em.pty+qsTranslate("mapexplorer", "no images with location data in current folder")
     }
 
 }
