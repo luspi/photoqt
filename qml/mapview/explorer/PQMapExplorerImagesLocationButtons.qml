@@ -57,7 +57,7 @@ Rectangle {
             backgroundColorHover: "#5a5a5a"
             backgroundColorActive: "#555555"
 
-            text: genericStringCancel
+            text: genericStringClose
 
             onClicked:
                 mapexplorer_top.hideExplorer()
