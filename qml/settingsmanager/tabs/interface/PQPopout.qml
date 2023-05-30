@@ -34,6 +34,8 @@ PQSetting {
     //: Used as identifying name for one of the elements in the interface
     property var pops: [["interfacePopoutOpenFile", em.pty+qsTranslate("settingsmanager_interface", "File dialog"), "interfacePopoutOpenFileKeepOpen", em.pty+qsTranslate("settingsmanager_interface", "keep open")],
                         //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutMapExplorer", em.pty+qsTranslate("settingsmanager_interface", "Map Explorer")],
+                        //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutSettingsManager", em.pty+qsTranslate("settingsmanager_interface", "Settings Manager")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutMainMenu", em.pty+qsTranslate("settingsmanager_interface", "Main Menu")],

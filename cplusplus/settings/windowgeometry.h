@@ -459,6 +459,26 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect mapExplorerWindowGeometry READ getMapExplorerWindowGeometry WRITE setMapExplorerWindowGeometry NOTIFY mapExplorerWindowGeometryChanged)
+    QRect getMapExplorerWindowGeometry() { return m_mapExplorerWindowGeometry; }
+    void setMapExplorerWindowGeometry(QRect rect) {
+        if(rect != m_mapExplorerWindowGeometry) {
+            m_mapExplorerWindowGeometry = rect;
+            Q_EMIT mapExplorerWindowGeometryChanged();
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool mapExplorerWindowMaximized READ getMapExplorerWindowMaximized WRITE setMapExplorerWindowMaximized NOTIFY mapExplorerWindowMaximizedChanged)
+    bool getMapExplorerWindowMaximized() { return m_mapExplorerWindowMaximized; }
+    void setMapExplorerWindowMaximized(bool maximized) {
+        if(maximized != m_mapExplorerWindowMaximized) {
+            m_mapExplorerWindowMaximized = maximized;
+            Q_EMIT mapExplorerWindowMaximizedChanged();
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -523,6 +543,9 @@ private:
     QRect m_mapCurrentWindowGeometry;
     bool  m_mapCurrentWindowMaximized;
 
+    QRect m_mapExplorerWindowGeometry;
+    bool  m_mapExplorerWindowMaximized;
+
     QSettings *settings;
     PQHandlingExternal handlingExternal;
 
@@ -574,6 +597,8 @@ Q_SIGNALS:
     void advancedSortWindowMaximizedChanged();
     void mapCurrentWindowGeometryChanged();
     void mapCurrentWindowMaximizedChanged();
+    void mapExplorerWindowGeometryChanged();
+    void mapExplorerWindowMaximizedChanged();
 
 };
 

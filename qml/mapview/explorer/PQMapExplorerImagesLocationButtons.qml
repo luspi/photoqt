@@ -77,7 +77,6 @@ Rectangle {
             Image {
 
                 anchors.fill: parent
-//                    anchors.margins: 5
 
                 sourceSize: Qt.size(width, height)
 

@@ -27,6 +27,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.15
 import "../elements"
 import "./explorer"
+import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
 SplitView {
 
@@ -40,7 +41,7 @@ SplitView {
 
     property int currentDetailLevel: -1
 
-    opacity: 0
+    opacity: PQSettings.interfacePopoutMapExplorer ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
@@ -78,6 +79,7 @@ SplitView {
         height: parent.height
         Layout.minimumWidth: 600
         Layout.minimumHeight: 300
+        Layout.fillWidth: true
 
         PQMapExplorerMap {
             id: map
@@ -92,6 +94,35 @@ SplitView {
             height: 50
         }
 
+        Image {
+            x: 5
+            y: 5
+            width: 15
+            height: 15
+            opacity: popinmouse.containsMouse ? 1 : 0.2
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            source: "/popin.svg"
+            sourceSize: Qt.size(width, height)
+            PQMouseArea {
+                id: popinmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: PQSettings.interfacePopoutMapExplorer ?
+                             //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                             em.pty+qsTranslate("popinpopout", "Merge into main interface") :
+                             //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                             em.pty+qsTranslate("popinpopout", "Move to its own window")
+                onClicked: {
+                    if(PQSettings.interfacePopoutMapExplorer)
+                        mapexplorer_window.storeGeometry()
+                    hideExplorer()
+                    PQSettings.interfacePopoutMapExplorer = !PQSettings.interfacePopoutMapExplorer
+                    HandleShortcuts.executeInternalFunction("__showMapExplorer")
+                }
+            }
+        }
+
     }
 
     Item {
@@ -103,6 +134,7 @@ SplitView {
 
         Layout.minimumWidth: 600
         Layout.minimumHeight: 300
+        Layout.fillWidth: true
 
         PQMapExplorerImagesLocationButtons {
             id: locbut
@@ -197,8 +229,12 @@ SplitView {
 
     function showExplorer() {
 
+        if(PQSettings.interfacePopoutMapExplorer)
+            mapexplorer_window.visible = true
+        else
+            opacity = 1
+
         map.resetCurZ()
-        opacity = 1
         variables.visibleItem = "mapexplorer"
         finishShow = true
 
@@ -224,7 +260,10 @@ SplitView {
 
     function hideExplorer() {
 
-        opacity = 0
+        if(PQSettings.interfacePopoutMapExplorer)
+            mapexplorer_window.close()
+        else
+            opacity = 0
         variables.visibleItem = ""
 
     }
