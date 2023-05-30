@@ -31,7 +31,9 @@ Rectangle {
 
     Row {
 
-        x: 10
+        id: row
+
+        x: 10+closebutton.width/2
         y: (parent.height-height)/2
         spacing: 10
 

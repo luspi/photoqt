@@ -29,7 +29,7 @@ import "../elements"
 import "./explorer"
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-SplitView {
+Item {
 
     id: mapexplorer_top
 
@@ -54,108 +54,140 @@ SplitView {
 
     property real mapZoomLevel: 10
 
-    handleDelegate: Rectangle {
+    SplitView {
 
-        width: 8
+        width: parent.width
         height: parent.height
-        color: styleData.hovered ? "#888888" : "#666666"
-        Behavior on color { ColorAnimation { duration: 100 } }
 
-        Image {
-            x: 0
-            y: (parent.height-height)/2
-            width: parent.width
-            height: width
-            source: "/filedialog/handle.svg"
+        handleDelegate: Rectangle {
+
+            width: 8
+            height: parent.height
+            color: styleData.hovered ? "#888888" : "#666666"
+            Behavior on color { ColorAnimation { duration: 100 } }
+
+            Image {
+                x: 0
+                y: (parent.height-height)/2
+                width: parent.width
+                height: width
+                source: "/filedialog/handle.svg"
+            }
+
         }
 
-    }
+        Item {
 
-    Item {
+            id: mapcont
 
-        id: mapcont
+            width: parent.width/2
+            height: parent.height
+            Layout.minimumWidth: 600
+            Layout.minimumHeight: 300
+            Layout.fillWidth: true
 
-        width: parent.width/2
-        height: parent.height
-        Layout.minimumWidth: 600
-        Layout.minimumHeight: 300
-        Layout.fillWidth: true
+            PQMapExplorerMap {
+                id: map
+                width: parent.width
+                height: parent.height-maptweaks.height
+            }
 
-        PQMapExplorerMap {
-            id: map
-            width: parent.width
-            height: parent.height-maptweaks.height
-        }
+            PQMapExplorerMapTweaks {
+                id: maptweaks
+                y: parent.height-height
+                width: map.width
+                height: 50
+            }
 
-        PQMapExplorerMapTweaks {
-            id: maptweaks
-            y: parent.height-height
-            width: map.width
-            height: 50
-        }
-
-        Image {
-            x: 5
-            y: 5
-            width: 15
-            height: 15
-            opacity: popinmouse.containsMouse ? 1 : 0.2
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            source: "/popin.svg"
-            sourceSize: Qt.size(width, height)
-            PQMouseArea {
-                id: popinmouse
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: PQSettings.interfacePopoutMapExplorer ?
-                             //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                             em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                             //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                             em.pty+qsTranslate("popinpopout", "Move to its own window")
-                onClicked: {
-                    if(PQSettings.interfacePopoutMapExplorer)
-                        mapexplorer_window.storeGeometry()
-                    hideExplorer()
-                    PQSettings.interfacePopoutMapExplorer = !PQSettings.interfacePopoutMapExplorer
-                    HandleShortcuts.executeInternalFunction("__showMapExplorer")
+            Image {
+                x: 5
+                y: 5
+                width: 15
+                height: 15
+                opacity: popinmouse.containsMouse ? 1 : 0.2
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                source: "/popin.svg"
+                sourceSize: Qt.size(width, height)
+                PQMouseArea {
+                    id: popinmouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    tooltip: PQSettings.interfacePopoutMapExplorer ?
+                                 //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                                 em.pty+qsTranslate("popinpopout", "Merge into main interface") :
+                                 //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                                 em.pty+qsTranslate("popinpopout", "Move to its own window")
+                    onClicked: {
+                        if(PQSettings.interfacePopoutMapExplorer)
+                            mapexplorer_window.storeGeometry()
+                        hideExplorer()
+                        PQSettings.interfacePopoutMapExplorer = !PQSettings.interfacePopoutMapExplorer
+                        HandleShortcuts.executeInternalFunction("__showMapExplorer")
+                    }
                 }
             }
+
+            Item {
+                width: closebutton.width/2
+                height: 1
+            }
+
+        }
+
+        Item {
+
+            id: imagestweaks
+
+            width: parent.width/2
+            height: parent.height
+
+            Layout.minimumWidth: 600
+            Layout.minimumHeight: 300
+            Layout.fillWidth: true
+
+            PQMapExplorerImages {
+                id: visibleimages
+                width: parent.width
+                height: parent.height-explorertweaks.height
+            }
+
+            PQMapExplorerImagesTweaks {
+                id: explorertweaks
+                y: parent.height-height
+                width: visibleimages.width
+                height: 50
+            }
+
         }
 
     }
 
-    Item {
+    PQButton {
+        id: closebutton
+        text: genericStringClose
+        font.weight: baselook.boldweight
+        x: mapcont.width-width/2
+        y: parent.height-50 + 1
+        height: 49
+        leftRightTextSpacing: 20
+        onClicked:
+            hideExplorer()
 
-        id: imagestweaks
-
-        width: parent.width/2
-        height: parent.height
-
-        Layout.minimumWidth: 600
-        Layout.minimumHeight: 300
-        Layout.fillWidth: true
-
-        PQMapExplorerImagesLocationButtons {
-            id: locbut
-            width: parent.width
-            height: 50
+        Rectangle {
+            x: 0
+            width: 1
+            height: parent.height
+            color: "#888888"
         }
 
-        PQMapExplorerImages {
-            id: visibleimages
-            y: locbut.height
-            width: parent.width
-            height: parent.height-explorertweaks.height-locbut.height
-        }
 
-        PQMapExplorerImagesTweaks {
-            id: explorertweaks
-            y: parent.height-height
-            width: visibleimages.width
-            height: 50
+        Rectangle {
+            x: parent.width-1
+            width: 1
+            height: parent.height
+            color: "#888888"
         }
-
     }
 
     Connections {

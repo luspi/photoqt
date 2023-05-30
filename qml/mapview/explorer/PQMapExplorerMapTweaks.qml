@@ -68,7 +68,7 @@ Rectangle {
 
     PQButton {
         id: resetbutton
-        x: parent.width-width
+        x: parent.width-width-closebutton.width/2
         y: (parent.height-height)/2
         imageButtonSource: "/mapview/reset.svg"
         tooltip: "Reset view"
