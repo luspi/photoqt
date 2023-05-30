@@ -36,6 +36,7 @@ Item {
     property bool saveAs: false
     property bool chromecast: false
     property bool advancedSort: false
+    property bool mapExplorer: false
 
     Connections {
 
@@ -78,6 +79,7 @@ Item {
         saveAs = forcepopout_small
         chromecast = forcepopout_small
         advancedSort = forcepopout_small
+        mapExplorer = forcepopout_small
 
     }
 

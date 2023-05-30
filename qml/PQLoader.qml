@@ -300,7 +300,7 @@ Item {
 
         } else if(ele == "mapexplorer") {
 
-            if(PQSettings.interfacePopoutMapExplorer && mapexplorer.source != "mapview/PQMapExplorerPopout.qml")
+            if((windowsizepopup.mapExplorer || PQSettings.interfacePopoutMapExplorer) && mapexplorer.source != "mapview/PQMapExplorerPopout.qml")
                 mapexplorer.source = "mapview/PQMapExplorerPopout.qml"
 
             else if(!PQSettings.interfacePopoutMapExplorer && mapexplorer.source != "mapview/PQMapExplorer.qml")

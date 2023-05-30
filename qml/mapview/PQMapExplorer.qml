@@ -41,7 +41,7 @@ Item {
 
     property int currentDetailLevel: -1
 
-    opacity: PQSettings.interfacePopoutMapExplorer ? 1 : 0
+    opacity: (windowsizepopup.mapExplorer || PQSettings.interfacePopoutMapExplorer) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
     enabled: visible
@@ -82,7 +82,7 @@ Item {
 
             width: parent.width/2
             height: parent.height
-            Layout.minimumWidth: 600
+            Layout.minimumWidth: 400
             Layout.minimumHeight: 300
             Layout.fillWidth: true
 
@@ -142,7 +142,7 @@ Item {
             width: parent.width/2
             height: parent.height
 
-            Layout.minimumWidth: 600
+            Layout.minimumWidth: 400
             Layout.minimumHeight: 300
             Layout.fillWidth: true
 
@@ -261,13 +261,14 @@ Item {
 
     function showExplorer() {
 
-        if(PQSettings.interfacePopoutMapExplorer)
+        if(PQSettings.interfacePopoutMapExplorer || windowsizepopup.mapExplorer)
             mapexplorer_window.visible = true
         else
             opacity = 1
 
         map.resetCurZ()
-        variables.visibleItem = "mapexplorer"
+        if((!PQSettings.interfacePopoutMapExplorer && !windowsizepopup.mapExplorer) || !PQSettings.interfacePopoutMapExplorerKeepOpen)
+            variables.visibleItem = "mapexplorer"
         finishShow = true
 
         var path = handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath)
@@ -292,7 +293,10 @@ Item {
 
     function hideExplorer() {
 
-        if(PQSettings.interfacePopoutMapExplorer)
+        if(PQSettings.interfacePopoutMapExplorer && PQSettings.interfacePopoutMapExplorerKeepOpen)
+            return
+
+        if(PQSettings.interfacePopoutMapExplorer || windowsizepopup.mapExplorer)
             mapexplorer_window.close()
         else
             opacity = 0

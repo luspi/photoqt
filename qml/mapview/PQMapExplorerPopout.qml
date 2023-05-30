@@ -36,7 +36,7 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
-    modality: Qt.ApplicationModal
+    modality: (PQSettings.interfacePopoutMapExplorer||windowsizepopup.mapExplorer) ? Qt.NonModal : Qt.ApplicationModal
     flags: Qt.WindowStaysOnTopHint
 
     color: "#88000000"
