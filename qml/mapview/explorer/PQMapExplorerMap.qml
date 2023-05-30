@@ -72,6 +72,8 @@ Map {
     onZoomLevelChanged: {
         if(!finishShow) return
         computeDetailLevel()
+        if(zoomLevel != mapexplorer_top.mapZoomLevel)
+            mapexplorer_top.mapZoomLevel = zoomLevel
     }
 
     property real visibleLatitudeLeft: -180
