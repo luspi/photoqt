@@ -109,6 +109,10 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     w = 400; h = 300;
     m_mapCurrentWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
 
+    m_mapExplorerWindowMaximized = false;
+    w = 1200; h = 800;
+    m_mapExplorerWindowGeometry = QRect((sw-w)/2.0, (sh-h)/2.0, w, h);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -228,6 +232,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("mapCurrentWindowMaximized"))
         m_mapCurrentWindowMaximized = settings->value("mapCurrentWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("mapExplorerWindowGeometry"))
+        m_mapExplorerWindowGeometry = settings->value("mapExplorerWindowGeometry").toRect();
+    if(settings->allKeys().contains("mapExplorerWindowMaximized"))
+        m_mapExplorerWindowMaximized = settings->value("mapExplorerWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -296,5 +305,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("mapCurrentWindowGeometry", m_mapCurrentWindowGeometry);
     settings->setValue("mapCurrentWindowMaximized", m_mapCurrentWindowMaximized);
+
+    settings->setValue("mapExplorerWindowGeometry", m_mapExplorerWindowGeometry);
+    settings->setValue("mapExplorerWindowMaximized", m_mapExplorerWindowMaximized);
 
 }

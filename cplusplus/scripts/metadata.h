@@ -212,6 +212,7 @@ public:
     }
 
     Q_INVOKABLE QPointF getGPSDataOnly(QString fname);
+    Q_INVOKABLE QString convertGPSDecimalToString(double latitude, double longitude);
 
 private:
 

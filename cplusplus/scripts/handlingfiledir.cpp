@@ -407,6 +407,15 @@ QString PQHandlingFileDir::getDirectory(QString path, bool lowerCase) {
 
 }
 
+QString PQHandlingFileDir::getDirectoryBaseName(QString path) {
+
+    DBG << CURDATE << "PQHandlingFileDir::getDirectoryBaseName()" << NL
+        << CURDATE << "** path = " << path.toStdString() << NL;
+
+    return QDir(path).dirName();
+
+}
+
 QString PQHandlingFileDir::getExistingDirectory(QString startDir) {
 
     DBG << CURDATE << "PQHandlingFileDir::getExistingDirectory()" << NL

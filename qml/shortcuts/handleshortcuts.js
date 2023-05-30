@@ -226,10 +226,9 @@ function executeInternalFunction(cmd, wheelDelta) {
         imageitem.goToTopEdge()
     else if(cmd == "__goToBottomEdge")
         imageitem.goToBottomEdge()
-    else if(cmd == "__showMapView")
-        loader.show("mapview")
     else if(cmd == "__showMapCurrent") {
         loader.ensureItIsReady("mapcurrent")
         PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
-    }
+    } else if(cmd == "__showMapExplorer")
+        loader.show("mapexplorer")
 }

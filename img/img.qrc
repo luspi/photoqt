@@ -110,7 +110,12 @@
         <file>filedialog/selectfile.svg</file>
         <file>filedialog/folder.svg</file>
         <file>mainwindow/reset.svg</file>
-        <file>image/mapmarker.png</file>
         <file>mainmenu/mapmarker.svg</file>
+        <file>mapview/leftright.svg</file>
+        <file>mapview/mapmarker.png</file>
+        <file>mapview/reset.svg</file>
+        <file>mapview/topbottom.svg</file>
+        <file>mapview/zoomin.svg</file>
+        <file>mapview/zoomout.svg</file>
     </qresource>
 </RCC>

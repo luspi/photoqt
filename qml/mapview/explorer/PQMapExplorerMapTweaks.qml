@@ -21,66 +21,73 @@
  **************************************************************************/
 
 import QtQuick 2.9
+import "../../elements"
 
-Item {
+Rectangle {
 
-    id: manager
+    id: explorertweaks
 
-    property bool fileDialog: false
-    property bool settingsManager: false
-    property bool slideShowSettings: false
-    property bool scaleImage: false
-    property bool about: false
-    property bool wallpaper: false
-    property bool filter: false
-    property bool saveAs: false
-    property bool chromecast: false
-    property bool advancedSort: false
-    property bool mapExplorer: false
+    color: "#333333"
 
-    Connections {
+    Row {
 
-        target: PQSettings
+        x: 10
+        y: (parent.height-height)/2
+        spacing: 10
 
-        onInterfacePopoutWhenWindowIsSmallChanged:
-            checkWindowSize()
+        PQText {
 
-    }
+            y: (parent.height-height)/2
 
-    Connections {
+            id: zoomtext
 
-        target: toplevel
+            text: em.pty+qsTranslate("mapexplorer", "Zoom:")
 
-        onWidthChanged:
-            checkWindowSize()
-        onHeightChanged:
-            checkWindowSize()
-
-    }
-
-    function checkWindowSize() {
-
-        var forcepopout_small = (toplevel.width < 800 || toplevel.height < 600)
-        var forcepopout_large = (toplevel.width < 1024 || toplevel.height < 768)
-
-        if(!PQSettings.interfacePopoutWhenWindowIsSmall) {
-            forcepopout_small = false
-            forcepopout_large = false
         }
 
-        settingsManager = forcepopout_large
+        PQSlider {
 
-        fileDialog = forcepopout_small
-        slideShowSettings = forcepopout_small
-        scaleImage = forcepopout_small
-        about = forcepopout_small
-        wallpaper = forcepopout_small
-        filter = forcepopout_small
-        saveAs = forcepopout_small
-        chromecast = forcepopout_small
-        advancedSort = forcepopout_small
-        mapExplorer = forcepopout_small
+            y: (parent.height-height)/2
 
+            from: map.getMinMaxZoomLevel()[0]
+            to: map.getMinMaxZoomLevel()[1]
+            stepSize: 0.1
+            value: mapexplorer_top.mapZoomLevel
+            tooltip: Math.round(100*((value-from)/(to-from)))
+            toolTipSuffix: "%"
+
+            onValueChanged: {
+                mapexplorer_top.mapZoomLevel = value
+                // we set the focus to some random element (one that doesn't aid in catching key events (otherwise we catch them twice))
+                // this avoids the case where left/right arrow would cause inadvertently a zoom in/out event
+                variables.forceActiveFocus()
+            }
+        }
+
+    }
+
+    PQButton {
+        id: resetbutton
+        x: parent.width-width-closebutton.width/2
+        y: (parent.height-height)/2
+        imageButtonSource: "/mapview/reset.svg"
+        //: The view here is the map layout in the map explorer
+        tooltip: em.pty+qsTranslate("mapexplorer", "Reset view")
+        onClicked: {
+            map.resetMap()
+            mapexplorer_top.resetWidth()
+        }
+    }
+
+    Rectangle {
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        height: 1
+        color: "#aaaaaa"
     }
 
 }

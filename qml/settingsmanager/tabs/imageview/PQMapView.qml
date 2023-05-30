@@ -39,6 +39,7 @@ PQSetting {
             width: set.contwidth
 
             Item {
+                id: maps_combo_cont
                 width: maps_combo.width
                 height: google_token.height
                 PQComboBox {
@@ -46,7 +47,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     model: ["OpenStreeMap",
                             "Google Maps",
-                            "Esri"]
+                            "Esri: ArcGIS"]
                 }
             }
 
@@ -86,6 +87,26 @@ PQSetting {
                     placeholderText: ""
                     passwordCharacter: "*"
                     echoMode: TextField.Password
+                }
+
+                PQButton {
+
+                    text: maps_combo.currentIndex == 0
+                            ? "Open website"
+                            : (maps_combo.currentIndex == 1
+                                    ? "Get token"
+                                    : "Get API key")
+
+                    scale: 0.8
+
+                    onClicked: {
+                        if(maps_combo.currentIndex == 0)
+                            Qt.openUrlExternally("https://www.openstreetmap.org/")
+                        else if(maps_combo.currentIndex == 1)
+                            Qt.openUrlExternally("https://console.cloud.google.com/")
+                        else if(maps_combo.currentIndex == 2)
+                            Qt.openUrlExternally("https://developers.arcgis.com/sign-up/")
+                    }
                 }
 
             }

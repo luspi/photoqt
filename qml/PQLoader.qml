@@ -31,6 +31,7 @@ Item {
     signal filedialogPassOn(var what, var param)
     signal mapViewPassOn(var what, var param)
     signal mapCurrentPassOn(var what, var param)
+    signal mapExplorerPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
@@ -124,6 +125,9 @@ Item {
 
         else if(ele == "mapcurrent")
             mapCurrentPassOn(what, param)
+
+        else if(ele == "mapexplorer")
+            mapExplorerPassOn(what, param)
 
     }
 
@@ -293,6 +297,14 @@ Item {
 
             else if(!windowsizepopup.advancedSort && !PQSettings.interfacePopoutAdvancedSort && advancedsort.source != "advancedsort/PQAdvancedSort.qml")
                 advancedsort.source = "advancedsort/PQAdvancedSort.qml"
+
+        } else if(ele == "mapexplorer") {
+
+            if((windowsizepopup.mapExplorer || PQSettings.interfacePopoutMapExplorer) && mapexplorer.source != "mapview/PQMapExplorerPopout.qml")
+                mapexplorer.source = "mapview/PQMapExplorerPopout.qml"
+
+            else if(!PQSettings.interfacePopoutMapExplorer && mapexplorer.source != "mapview/PQMapExplorer.qml")
+                mapexplorer.source = "mapview/PQMapExplorer.qml"
 
         } else if(ele == "mapcurrent") {
 

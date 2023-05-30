@@ -36,6 +36,7 @@ int PQStartup::check(bool onlyCreateDatabase) {
     QSqlDatabase db_shortcuts;
     QSqlDatabase db_context;
     QSqlDatabase db_imageformats;
+    QSqlDatabase db_location;
 
     // check if sqlite is available
     // this is a hard requirement now and we wont launch PhotoQt without it
@@ -44,11 +45,13 @@ int PQStartup::check(bool onlyCreateDatabase) {
         db_shortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
         db_context = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
         db_imageformats = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
+        db_location = QSqlDatabase::addDatabase("QSQLITE3", "location");
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
         db_settings = QSqlDatabase::addDatabase("QSQLITE", "settings");
         db_shortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
         db_context = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
         db_imageformats = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
+        db_location = QSqlDatabase::addDatabase("QSQLITE", "location");
     } else {
         LOG << CURDATE << "PQStartup::check(): ERROR: SQLite driver not available. Available drivers are: " << QSqlDatabase::drivers().join(",").toStdString() << NL;
         LOG << CURDATE << "PQStartup::check(): PhotoQt cannot function without SQLite available." << NL;
@@ -67,6 +70,7 @@ int PQStartup::check(bool onlyCreateDatabase) {
         db_shortcuts.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
         db_context.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
         db_imageformats.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
+        db_location.setDatabaseName(ConfigFiles::LOCATION_DB());
 
         return 2;
     }
@@ -75,6 +79,7 @@ int PQStartup::check(bool onlyCreateDatabase) {
     db_shortcuts.setDatabaseName(ConfigFiles::SHORTCUTS_DB());
     db_context.setDatabaseName(ConfigFiles::CONTEXTMENU_DB());
     db_imageformats.setDatabaseName(ConfigFiles::IMAGEFORMATS_DB());
+    db_location.setDatabaseName(ConfigFiles::LOCATION_DB());
 
     /******************************************************************************************************/
     // If we perform an action like export/import/check/... we need access to the db but no more than that
@@ -175,6 +180,15 @@ void PQStartup::setupFresh(int defaultPopout) {
         LOG << CURDATE << "PQStartup::setupFresh(): unable to create settings database" << NL;
     else {
         QFile file(ConfigFiles::SETTINGS_DB());
+        file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+    }
+
+    /**************************************************************/
+    // create default location database
+    if(!QFile::copy(":/location.db", ConfigFiles::LOCATION_DB()))
+        LOG << CURDATE << "PQStartup::setupFresh(): unable to create location database" << NL;
+    else {
+        QFile file(ConfigFiles::LOCATION_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 

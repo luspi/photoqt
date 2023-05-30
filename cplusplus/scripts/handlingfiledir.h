@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
     Q_INVOKABLE QString getDirectory(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getDirectoryBaseName(QString path);
     Q_INVOKABLE QString getExistingDirectory(QString startDir = QDir::homePath());
     Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);

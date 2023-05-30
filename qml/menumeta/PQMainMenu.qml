@@ -179,6 +179,10 @@ Item {
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Browse images"), "__open", true, false]],
 
+                          [["img", "mapmarker.svg",                                 "__showMapExplorer", true, false],
+                                   //: This is an entry in the main menu on the right. Please keep short!
+                           ["txt", em.pty+qsTranslate("MainMenu", "Map Explorer"), "__showMapExplorer", true, false]],
+
                           [["img", "first.svg",                             "__goToFirst", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "first"), "__goToFirst", false, true],
