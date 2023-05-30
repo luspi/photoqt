@@ -49,6 +49,9 @@ Rectangle {
             to: 50
             value: PQSettings.mapviewExplorerThumbnailsZoomLevel
 
+            tooltip: Math.round(100*((value-from)/(to-from)))
+            toolTipSuffix: "%"
+
             onValueChanged: {
                 PQSettings.mapviewExplorerThumbnailsZoomLevel = value
                 // we set the focus to some random element (one that doesn't aid in catching key events (otherwise we catch them twice))
@@ -63,7 +66,7 @@ Rectangle {
         }
 
         PQCheckbox {
-            text: "scale and crop images"
+            text: "scale and crop thumbnails"
             checked: PQSettings.mapviewExplorerThumbnailsScaleCrop
             onCheckedChanged:
                 PQSettings.mapviewExplorerThumbnailsScaleCrop = checked

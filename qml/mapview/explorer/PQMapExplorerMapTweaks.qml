@@ -37,7 +37,7 @@ Rectangle {
 
         PQText {
 
-            y: (resetbutton.height-height)/2
+            y: (parent.height-height)/2
 
             id: zoomtext
 
@@ -47,7 +47,7 @@ Rectangle {
 
         PQSlider {
 
-            y: (resetbutton.height-height)/2
+            y: (parent.height-height)/2
 
             from: map.getMinMaxZoomLevel()[0]
             to: map.getMinMaxZoomLevel()[1]
@@ -64,13 +64,18 @@ Rectangle {
             }
         }
 
-        PQButton {
-            id: resetbutton
-            imageButtonSource: "/mapview/reset.svg"
-            onClicked:
-                map.resetMap()
-        }
+    }
 
+    PQButton {
+        id: resetbutton
+        x: parent.width-width
+        y: (parent.height-height)/2
+        imageButtonSource: "/mapview/reset.svg"
+        tooltip: "Reset view"
+        onClicked: {
+            map.resetMap()
+            mapexplorer_top.resetWidth()
+        }
     }
 
 }

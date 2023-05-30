@@ -72,6 +72,8 @@ SplitView {
 
     Item {
 
+        id: mapcont
+
         width: parent.width/2
         height: parent.height
         Layout.minimumWidth: 600
@@ -102,10 +104,17 @@ SplitView {
         Layout.minimumWidth: 600
         Layout.minimumHeight: 300
 
+        PQMapExplorerImagesLocationButtons {
+            id: locbut
+            width: parent.width
+            height: 50
+        }
+
         PQMapExplorerImages {
             id: visibleimages
+            y: locbut.height
             width: parent.width
-            height: parent.height-explorertweaks.height
+            height: parent.height-explorertweaks.height-locbut.height
         }
 
         PQMapExplorerImagesTweaks {
@@ -131,11 +140,17 @@ SplitView {
         }
     }
 
-    function resetWidthHeight() {
-        map.width = mapexplorer_top.width/2
-        map.height = mapexplorer_top.height
-        imagestweaks.width = mapexplorer_top.width/2
-        imagestweaks.height = mapexplorer_top.height
+    NumberAnimation {
+        id: smoothWidth
+        target: mapcont
+        property: "width"
+        duration: 200
+    }
+
+    function resetWidth() {
+        smoothWidth.from = mapcont.width
+        smoothWidth.to = mapexplorer_top.width/2
+        smoothWidth.start()
     }
 
     function clickOnImage(index) {
@@ -201,6 +216,7 @@ SplitView {
 
         folderLoaded[0] = path
         folderLoaded[1] = mod
+        folderLoadedChanged()
 
         map.updateVisibleRegionNow()
 
