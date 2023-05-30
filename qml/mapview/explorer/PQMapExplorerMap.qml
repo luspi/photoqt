@@ -82,7 +82,7 @@ Map {
                 ? googlePlugin
                 : (PQSettings.mapviewProvider=="esri"
                         ? esriPlugin
-                        : (PQSettings.mapviewProvider=="mapbox"
+                        : (PQSettings.mapviewProvider=="mapboxgl"
                                 ? mapboxglPlugin
                                 : osmPlugin)))
 
