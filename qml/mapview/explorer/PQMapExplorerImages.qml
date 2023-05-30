@@ -32,6 +32,8 @@ Rectangle {
 
     clip: true
 
+    property int countVisible: 0
+
     Flickable {
 
         anchors.fill: parent
@@ -71,6 +73,11 @@ Rectangle {
                              longitude<(map.visibleLongitudeRight+0.1)) ? 1 : 0
 
                     Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    visible: opacity>0
+
+                    onVisibleChanged:
+                        countVisible += (visible ? 1 : -1)
 
                     Rectangle {
 
@@ -220,6 +227,28 @@ Rectangle {
 
         }
 
+    }
+
+    PQTextL {
+        id: nothingvisible
+        y: (parent.height-height)/2
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        opacity: (countVisible==-imagesWithLocation.length&&!nolocation.visible) ? 0.75 : 0
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        font.italic: true
+        text: "no images in currently visible area"
+    }
+
+    PQTextL {
+        id: nolocation
+        y: (parent.height-height)/2
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        opacity: imagesWithLocation.length==0 ? 0.75 : 0
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        font.italic: true
+        text: "no images with location data in current folder"
     }
 
 }
