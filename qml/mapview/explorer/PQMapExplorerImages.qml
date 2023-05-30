@@ -141,7 +141,7 @@ Rectangle {
 
                             Behavior on height { NumberAnimation { duration: 100 } }
 
-                            color: "#aa2f2f2f"
+                            color: fpath==filefoldermodel.currentFilePath ? "#aa888888" : "#aa2f2f2f"
 
                             PQTextS {
 
