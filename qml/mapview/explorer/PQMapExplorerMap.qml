@@ -139,6 +139,8 @@ Map {
                 id: highlightImage
                 width: 64
                 height: 50
+                mipmap: true
+                smooth: false
                 source: "/mapview/mapmarker.png"
             }
 
