@@ -326,7 +326,7 @@ Map {
         smoothCenterLon.to = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
 
         smoothZoom.from = map.zoomLevel
-        smoothZoom.to = (mdl.count>0 ? 10 : map.minimumZoomLevel)
+        smoothZoom.to = (mdl.count>0 ? ((map.maximumZoomLevel-map.minimumZoomLevel)*0.3) : map.minimumZoomLevel)
 
         smoothRotation.from = map.bearing
         smoothRotation.to = 0
@@ -339,6 +339,7 @@ Map {
         smoothCenterLon.start()
         smoothRotation.start()
         smoothTilt.start()
+
     }
 
     function addItem(lat, lon, fn, lvl, lbl) {
