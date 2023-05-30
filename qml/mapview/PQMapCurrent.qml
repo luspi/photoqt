@@ -72,7 +72,7 @@ Item {
 
     Plugin {
         id: osmPlugin
-        name: "osm"//PQSettings.mapviewProvider
+        name: "osm"
         parameters: [
             PluginParameter {
                 name: "osm.useragent"
@@ -145,7 +145,7 @@ Item {
                     id: container
                     width: 64
                     height: 50
-                    source: "/image/mapmarker.png"
+                    source: "/mapview/mapmarker.png"
                 }
         }
 

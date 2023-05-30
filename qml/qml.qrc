@@ -186,5 +186,8 @@
         <file>mapview/PQMapCurrentPopout.qml</file>
         <file>settingsmanager/tabs/imageview/PQMapView.qml</file>
         <file>mapview/PQMapExplorer.qml</file>
+        <file>mapview/explorer/PQMapExplorerImages.qml</file>
+        <file>mapview/explorer/PQMapExplorerMap.qml</file>
+        <file>mapview/explorer/PQMapExplorerTweaks.qml</file>
     </qresource>
 </RCC>

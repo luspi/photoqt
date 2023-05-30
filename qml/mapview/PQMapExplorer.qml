@@ -25,6 +25,7 @@ import QtLocation 5.12
 import QtPositioning 5.12
 import QtQuick.Controls 1.4
 import "../elements"
+import "./explorer"
 
 SplitView {
 
@@ -49,545 +50,52 @@ SplitView {
 
     property var folderLoaded: []
 
-    Plugin {
-        id: osmPlugin
-        name: "osm"//PQSettings.mapviewProvider
-        parameters: [
-            PluginParameter {
-                name: "osm.useragent"
-                value: "PhotoQt Image Viewer"
-            }
-        ]
+    orientation: PQSettings.mapviewExplorerLayoutLeftRight ? Qt.Horizontal : Qt.Vertical
+
+    handleDelegate: Rectangle {
+
+        width: PQSettings.mapviewExplorerLayoutLeftRight ? 8 : parent.width
+        height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : 8
+        color: styleData.hovered ? "#888888" : "#666666"
+        Behavior on color { ColorAnimation { duration: 100 } }
+
+        Image {
+            x: PQSettings.mapviewExplorerLayoutLeftRight ? 0 : (parent.width-width)/2
+            y: PQSettings.mapviewExplorerLayoutLeftRight ? (parent.height-height)/2 : 0
+            width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width : parent.height
+            height: width
+            source: "/filedialog/handle.svg"
+        }
+
     }
 
-    Plugin {
-        id: googlePlugin
-        name: "googlemaps"
-        parameters: [
-            PluginParameter {
-                name: "googlemaps.maps.apikey"
-                value: (PQSettings.mapviewProviderGoogleMapsToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderGoogleMapsToken))
-            }
-        ]
-    }
-
-    Plugin {
-        id: esriPlugin
-        name: "esri"
-        parameters: [
-            PluginParameter {
-                name: "esri.token"
-                value: (PQSettings.mapviewProviderEsriAPIKey=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderEsriAPIKey))
-            }
-        ]
-    }
-
-    Map {
-
+    PQMapExplorerMap {
         id: map
+        width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
+        height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
+    }
 
-        width: parent.width/2
-        height: parent.height
+    Item {
 
-        center: QtPositioning.coordinate(49.01, 8.40) // Karlsruhe
-        zoomLevel: 10
+        id: imagestweaks
 
-        property int curZ: 0
+        width: PQSettings.mapviewExplorerLayoutLeftRight ? parent.width/2 : parent.width
+        height: PQSettings.mapviewExplorerLayoutLeftRight ? parent.height : parent.height/2
 
-        plugin: (PQSettings.mapviewProvider=="googlemaps" ? googlePlugin : (PQSettings.mapviewProvider=="esri" ? esriPlugin : osmPlugin))
-
-        gesture.acceptedGestures: MapGestureArea.PinchGesture|MapGestureArea.PanGesture|MapGestureArea.FlickGesture
-
-        onZoomLevelChanged: {
-            if(!finishShow) return
-            computeDetailLevel()
+        PQMapExplorerImages {
+            id: visibleimages
+            width: parent.width
+            height: parent.height-explorertweaks.height
         }
 
-        property real visibleLatitudeLeft: -180
-        property real visibleLatitudeRight: 180
-        property real visibleLongitudeLeft: -180
-        property real visibleLongitudeRight: 180
-
-        Timer {
-            id: updateVisibleRegion
-            interval: 500
-            repeat: true
-            running: mapexplorer_top.visible
-            onTriggered: {
-                execute()
-            }
-            function execute() {
-                map.visibleLatitudeLeft = map.visibleRegion.boundingGeoRectangle().topLeft.latitude
-                map.visibleLongitudeLeft = map.visibleRegion.boundingGeoRectangle().topLeft.longitude
-                map.visibleLatitudeRight = map.visibleRegion.boundingGeoRectangle().bottomRight.latitude
-                map.visibleLongitudeRight= map.visibleRegion.boundingGeoRectangle().bottomRight.longitude
-            }
-        }
-
-        property var steps: [
-            [0.001, 16.5],
-            [0.005, 14],
-            [0.01, 13],
-            [0.02, 12],
-            [0.05, 11],
-            [0.1, 10],
-            [0.2, 9],
-            [0.5, 7.5],
-            [1, 6.5],
-            [2, 5.5],
-            [4, 4.5],
-            [8, 3.5],
-            [12, 1],
-        ]
-
-        property int detaillevel: 0
-
-        function computeDetailLevel() {
-            for(var i = 0; i < steps.length; ++i) {
-                if(map.zoomLevel > steps[i][1]) {
-                    detaillevel = i
-                    break
-                }
-            }
-        }
-
-        MapQuickItem {
-
-            id: highlightMarker
-
-            anchorPoint.x: highlightImage.width*(61/256)
-            anchorPoint.y: highlightImage.height*(198/201)
-
-            opacity: 0
-            Behavior on opacity { NumberAnimation { duration: 100 } }
-            visible: opacity>0
-
-            property real latitude
-            property real longitude
-            Behavior on latitude { NumberAnimation { duration: 100 } }
-            Behavior on longitude { NumberAnimation { duration: 100 } }
-            coordinate: QtPositioning.coordinate(latitude, longitude)
-
-            z: map.curZ+1
-
-            sourceItem:
-                Image {
-                    id: highlightImage
-                    width: 64
-                    height: 50
-                    source: "/image/mapmarker.png"
-                }
-
-            function showAt(lat, lon) {
-                highlightMarker.latitude = lat
-                highlightMarker.longitude = lon
-                highlightMarker.opacity = 1
-            }
-
-            function hide() {
-                highlightMarker.opacity = 0
-            }
-
-        }
-
-        MapItemView {
-
-            model: ListModel { id: mdl }
-
-            opacity: highlightMarker.visible ? 0.5 : 1
-            Behavior on opacity { NumberAnimation { duration: 100 } }
-
-            delegate: MapQuickItem {
-
-                id: deleg
-
-                anchorPoint.x: container.width/2
-                anchorPoint.y: container.height/2
-
-                opacity: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map.detaillevel) != -1) ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-
-                coordinate: QtPositioning.coordinate(latitude, longitude)
-
-                property var lvls
-
-                sourceItem:
-                    Rectangle {
-                        id: container
-                        width: 68
-                        height: 68
-                        color: "white"
-                        property var keys: Object.keys(labels)
-                        Image {
-                            id: image
-                            x: 2
-                            y: 2
-                            width: 64
-                            height: 64
-                            fillMode: Image.PreserveAspectCrop
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            mipmap: true
-                            cache: true
-                            asynchronous: true
-                            source: (!visible && source=="") ? "" : ("image://thumb/" + handlingGeneral.toPercentEncoding(filename))
-                        }
-                        Repeater {
-                            model: container.keys.length
-                            Rectangle {
-                                x: parent.width-width*0.8
-                                y: -height*0.2
-                                width: numlabel.width+20
-                                height: numlabel.height+4
-                                color: "#0088ff"
-                                radius: height/4
-                                visible: labels[container.keys[index]]>1 && map.detaillevel==container.keys[index]
-                                PQText {
-                                    id: numlabel
-                                    x: 10
-                                    y: 2
-                                    font.weight: baselook.boldweight
-                                    anchors.centerIn: parent
-                                    text: labels[container.keys[index]]
-                                }
-                            }
-                        }
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            tooltip: "<img src='" + image.source + "'><br><br>" +
-                                     " <b>" + handlingFileDir.getFileNameFromFullPath(filename) + "</b>" +
-                                     (labels[map.detaillevel]>1 ? (" + " + (labels[map.detaillevel]-1) + "") : "")
-                            onEntered: {
-                                map.curZ += 1
-                                deleg.z = map.curZ
-                            }
-                            onClicked: {
-
-                                smoothCenterLat.from = map.center.latitude
-                                smoothCenterLat.to = latitude
-
-                                smoothCenterLon.from = map.center.longitude
-                                smoothCenterLon.to = longitude
-
-                                smoothZoom.from = map.zoomLevel
-                                smoothZoom.to = Math.min(map.zoomLevel+1, map.maximumZoomLevel)
-
-                                smoothZoom.start()
-                                smoothCenterLat.start()
-                                smoothCenterLon.start()
-
-                            }
-                        }
-
-                        Component.onCompleted: {
-                            lvls = levels.split("_")
-                        }
-
-                    }
-
-            }
-
-        }
-
-        Image {
-            id: zoomInButton
-            x: (parent.width-width-zoomOutButton.width-20)
-            y: 10
-            width: 32
-            height: 32
-            sourceSize.width: 32
-            sourceSize.height: 32
-            source: "/mainmenu/zoomin.svg"
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: "Zoom in"
-                onClicked: {
-                    smoothZoom.from = map.zoomLevel
-                    smoothZoom.to = Math.min(map.maximumZoomLevel, map.zoomLevel+0.5)
-                    smoothZoom.start()
-                }
-            }
-        }
-
-        Image {
-            id: zoomOutButton
-            x: (parent.width-width-10)
-            y: 10
-            width: 32
-            height: 32
-            sourceSize.width: 32
-            sourceSize.height: 32
-            source: "/mainmenu/zoomout.svg"
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: "Zoom out"
-                onClicked: {
-                    smoothZoom.from = map.zoomLevel
-                    smoothZoom.to = Math.max(map.minimumZoomLevel, map.zoomLevel-0.5)
-                    smoothZoom.start()
-                }
-            }
-        }
-
-        Image {
-            id: resetButton
-            x: 10
-            y: 10
-            width: 32
-            height: 32
-            sourceSize.width: 32
-            sourceSize.height: 32
-            source: "/mainwindow/reset.svg"
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: "Reset view"
-                onClicked: {
-
-                    smoothCenterLat.from = map.center.latitude
-                    smoothCenterLat.to = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
-
-                    smoothCenterLon.from = map.center.longitude
-                    smoothCenterLon.to = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
-
-                    smoothZoom.from = map.zoomLevel
-                    smoothZoom.to = 10
-
-                    smoothZoom.start()
-                    smoothCenterLat.start()
-                    smoothCenterLon.start()
-
-                }
-            }
-
-        }
-
-        NumberAnimation {
-            id: smoothZoom
-            duration: 200
-            target: map
-            property: "zoomLevel"
-        }
-
-        NumberAnimation {
-            id: smoothCenterLat
-            duration: 200
-            target: map
-            property: "center.latitude"
-        }
-
-        NumberAnimation {
-            id: smoothCenterLon
-            duration: 200
-            target: map
-            property: "center.longitude"
+        PQMapExplorerTweaks {
+            id: explorertweaks
+            y: parent.height-height
+            width: visibleimages.width
+            height: 50
         }
 
     }
-
-
-    Rectangle {
-
-        id: visibleimages
-
-        x: (parent.width-width)
-        width: parent.width/2
-        height: parent.height
-
-        color: "#333333"
-
-        Flow {
-
-            id: files_grid
-
-            anchors.fill: parent
-
-            property int currentIndex: -1
-
-            Repeater {
-
-                model: imagesWithLocation.length
-
-                delegate: Item {
-
-                    id: maindeleg
-
-                    width: opacity!=0 ? 100 : 0
-                    height: 100
-
-                    Behavior on width { NumberAnimation { duration: 200 } }
-
-                    readonly property string fpath: imagesWithLocation[index][0]
-                    readonly property real latitude: imagesWithLocation[index][1]
-                    readonly property real longitude: imagesWithLocation[index][2]
-                    readonly property string fname: handlingFileDir.getFileNameFromFullPath(fpath)
-
-                    opacity: (latitude>map.visibleLatitudeRight &&
-                             latitude<map.visibleLatitudeLeft &&
-                             longitude>map.visibleLongitudeLeft &&
-                             longitude<map.visibleLongitudeRight) ? 1 : 0
-
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                    Rectangle {
-
-                        id: deleg_container
-
-                        width: maindeleg.width
-                        height: maindeleg.height
-
-                        opacity: 1
-
-
-                        color: "#44aaaaaa"
-
-                        border.width: 1
-                        border.color: "#282828"
-
-                        Image {
-
-                            id: fileicon
-
-                            x: (parent.width-width)/2
-                            y: (parent.height-height)/2
-                            width: parent.width-2*PQSettings.openfileElementPadding
-                            height: parent.height-2*PQSettings.openfileElementPadding
-
-                            asynchronous: true
-
-                            fillMode: Image.PreserveAspectFit
-
-                            smooth: true
-                            mipmap: false
-
-                            opacity: 1
-                            Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                            // if we do not cache this image, then we keep the generic icon here
-                            source: filethumb.status==Image.Ready ? "" : "image://icon/::squared::"+handlingFileDir.getSuffix(maindeleg.fname)
-
-                            Image {
-
-                                id: filethumb
-                                anchors.fill: parent
-
-                                cache: false
-
-                                sourceSize: Qt.size(256, 256)
-
-                                fillMode: PQSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-
-                                // mipmap does not look good, use only smooth
-                                smooth: true
-                                asynchronous: true
-
-                                // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
-                                source: "image://thumb/" + maindeleg.fpath
-
-                            }
-
-                        }
-
-                        Rectangle {
-
-                            id: icn
-
-                            width: parent.width
-                            height: files_grid.currentIndex == index ? parent.height/2 : parent.height/3.5
-                            y: parent.height-height
-
-                            Behavior on height { NumberAnimation { duration: 100 } }
-
-                            color: "#aa2f2f2f"
-
-                            PQTextS {
-
-                                width: parent.width-20
-                                height: parent.height
-                                x: 10
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                text: decodeURIComponent(maindeleg.fname)
-                                elide: Text.ElideMiddle
-                                font.weight: baselook.boldweight
-
-                            }
-
-                        }
-
-                    }
-
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-
-                        tooltipWidth: 282
-                        tooltipSomeTransparency: false
-                        property bool tooltipSetup: false
-
-                        onEntered: {
-
-                            files_grid.currentIndex = index
-
-                            highlightMarker.showAt(maindeleg.latitude, maindeleg.longitude)
-
-                            if(!tooltipSetup) {
-
-                                var fmodi = handlingFileDir.getFileModified(maindeleg.fpath)
-                                var ftype = handlingFileDir.getFileType(maindeleg.fpath)
-                                var fsize = handlingGeneral.convertBytesToHumanReadable(handlingFileDir.getFileSize(maindeleg.fpath))
-
-                                var str = ""
-
-                                // if we do not cache this directory, we do not show a thumbnail image
-                                if(fileicon.source == "")
-                                    str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
-
-                                // add details
-                                str += "<b>" + handlingFileDialog.createTooltipFilename(maindeleg.fname) + "</b>" + "<br><br>" +
-                                          em.pty+qsTranslate("filedialog", "File size:")+" <b>" + fsize + "</b><br>" +
-                                          em.pty+qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
-                                          em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                                          em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b><br>" +
-                                          em.pty+qsTranslate("filedialog", "Location:")+" <b>" + (maindeleg.latitude>0 ? "+" : "") + Math.round(maindeleg.latitude*100)/100 + " " + (maindeleg.longitude>0 ? "+" : "") + Math.round(maindeleg.longitude*100)/100 + "</b>"
-
-                                tooltip = str
-
-                                // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
-                                if(fileicon.source == "")
-                                    tooltipSetup = true
-
-                            }
-
-                        }
-                        onExited: {
-                            highlightMarker.hide()
-                            files_grid.currentIndex = -1
-                        }
-
-                        onClicked: {
-                            clickOnImage(index)
-                        }
-                    }
-
-                }
-
-            }
-
-        }
-
-
-    }
-
 
     Connections {
         target: loader
@@ -603,6 +111,13 @@ SplitView {
         }
     }
 
+    function resetWidthHeight() {
+        map.width = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.width/2 : mapexplorer_top.width
+        map.height = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.height : mapexplorer_top.height/2
+        imagestweaks.width = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.width/2 : mapexplorer_top.width
+        imagestweaks.height = PQSettings.mapviewExplorerLayoutLeftRight ? mapexplorer_top.height : mapexplorer_top.height/2
+    }
+
     function clickOnImage(index) {
         filefoldermodel.setAsCurrent(imagesWithLocation[index][0])
         hideExplorer()
@@ -613,7 +128,7 @@ SplitView {
         var items = PQLocation.imageList
         var labels = PQLocation.labelList
 
-        mdl.clear()
+        map.clearModel()
         imagesWithLocation = []
 
         for(var key in items) {
@@ -634,25 +149,20 @@ SplitView {
             detaillevels.shift()
             detaillevels = detaillevels.join("_")
 
-            mdl.append({"latitude": latitude,
-                        "longitude": longitude,
-                        "filename": filename,
-                        "levels": detaillevels,
-                        "labels": item_labels
-                       })
+            map.addItem(latitude, longitude, filename, detaillevels, item_labels)
 
         }
 
         imagesWithLocation = PQLocation.allImages
 
-        map.center.latitude = (PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2
-        map.center.longitude = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
+        map.setMapCenter((PQLocation.minimumLocation.x+PQLocation.maximumLocation.x)/2,
+                         (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2)
 
     }
 
     function showExplorer() {
 
-        map.curZ = 0
+        map.resetCurZ()
         opacity = 1
         variables.visibleItem = "mapexplorer"
         finishShow = true
@@ -672,7 +182,7 @@ SplitView {
         folderLoaded[0] = path
         folderLoaded[1] = mod
 
-        updateVisibleRegion.execute()
+        map.updateVisibleRegionNow()
 
     }
 
