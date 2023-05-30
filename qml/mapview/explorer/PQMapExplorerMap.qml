@@ -219,10 +219,16 @@ Map {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        tooltip: "<img src='" + image.source + "'><br><br>" +
-                                 " <b>" + handlingFileDir.getFileNameFromFullPath(filename) + "</b>" +
-                                 (labels[map.detaillevel]>1 ? (" + " + (labels[map.detaillevel]-1) + "") : "")
+                        property bool tooltipSetup: false
+                        tooltip: ""
                         onEntered: {
+                            if(!tooltipSetup) {
+                                tooltip = (image.source=="" ? "" : ("<img src='" + image.source + "'>")) + "<br><br>" +
+                                                                    " <b>" + handlingFileDir.getFileNameFromFullPath(filename) + "</b>" +
+                                                                    ((labels[map.detaillevel]>1) ? (" + " + (labels[map.detaillevel]-1) + "") : "")
+                                tooltipSetup = true
+                            }
+
                             map.curZ += 1
                             deleg.z = map.curZ
                         }
