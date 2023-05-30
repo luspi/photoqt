@@ -290,6 +290,7 @@ Item {
             PQLocation.scanForLocations(filefoldermodel.entriesMainView)
             PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
             loadImages()
+            map.resetMap()
             map.computeDetailLevel()
 
         }

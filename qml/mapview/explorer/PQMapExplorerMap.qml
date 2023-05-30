@@ -204,7 +204,7 @@ Map {
                             height: numlabel.height+4
                             color: "#0088ff"
                             radius: height/4
-                            visible: labels[container.keys[index]]>1 && map.detaillevel==container.keys[index]
+                            visible: mdl.count>0 && labels[container.keys[index]]>1 && map.detaillevel==container.keys[index]
                             PQText {
                                 id: numlabel
                                 x: 10
@@ -324,7 +324,7 @@ Map {
         smoothCenterLon.to = (PQLocation.minimumLocation.y+PQLocation.maximumLocation.y)/2
 
         smoothZoom.from = map.zoomLevel
-        smoothZoom.to = 10
+        smoothZoom.to = (mdl.count>0 ? 10 : map.minimumZoomLevel)
 
         smoothRotation.from = map.bearing
         smoothRotation.to = 0
