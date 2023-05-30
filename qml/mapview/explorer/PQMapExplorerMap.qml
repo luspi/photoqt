@@ -184,14 +184,16 @@ Map {
 
             id: deleg
 
+            property var keys: Object.keys(labels)
+
             anchorPoint.x: container.width/2
             anchorPoint.y: container.height/2
 
             opacity: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map.detaillevel) != -1) ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
 
-            coordinate: QtPositioning.coordinate(latitude, longitude)
+            property bool showTruePos: keys.indexOf(detaillevel+"")!=-1 && labels[detaillevel]*1==1
+            coordinate: QtPositioning.coordinate((showTruePos ? display_latitude : latitude), (showTruePos ? display_longitude : longitude))
 
             property var lvls
 
@@ -201,7 +203,6 @@ Map {
                     width: 68
                     height: 68
                     color: "white"
-                    property var keys: Object.keys(labels)
                     Image {
                         id: image
                         x: 2
@@ -217,7 +218,7 @@ Map {
                         source: (!visible && source=="") ? "" : ("image://thumb/" + handlingGeneral.toPercentEncoding(filename))
                     }
                     Repeater {
-                        model: container.keys.length
+                        model: deleg.keys.length
                         Rectangle {
                             x: parent.width-width*0.8
                             y: -height*0.2
@@ -225,14 +226,14 @@ Map {
                             height: numlabel.height+4
                             color: "#0088ff"
                             radius: height/4
-                            visible: mdl.count>0 && labels[container.keys[index]]>1 && map.detaillevel==container.keys[index]
+                            visible: mdl.count>0 && labels[deleg.keys[index]]>1 && map.detaillevel==deleg.keys[index]
                             PQText {
                                 id: numlabel
                                 x: 10
                                 y: 2
                                 font.weight: baselook.boldweight
                                 anchors.centerIn: parent
-                                text: labels[container.keys[index]]
+                                text: labels[deleg.keys[index]]
                             }
                         }
                     }
@@ -361,13 +362,15 @@ Map {
 
     }
 
-    function addItem(lat, lon, fn, lvl, lbl) {
+    function addItem(lat, lon, fn, lvl, lbl, full_lat, full_lon) {
 
         mdl.append({"latitude": lat,
                     "longitude": lon,
                     "filename": fn,
                     "levels": lvl,
-                    "labels": lbl
+                    "labels": lbl,
+                    "display_latitude": full_lat,
+                    "display_longitude": full_lon
                    })
 
     }

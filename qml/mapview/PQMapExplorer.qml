@@ -39,8 +39,6 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    property int currentDetailLevel: -1
-
     opacity: (windowsizepopup.mapExplorer || PQSettings.interfacePopoutMapExplorer) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity!=0
@@ -255,11 +253,15 @@ Item {
             var latitude = ""+key.split("::")[0]
             var longitude = ""+key.split("::")[1]
             var filename = ""+items[key][0]
+            var full_lat = ""+items[key][1]
+            var full_lon = ""+items[key][2]
             var detaillevels = items[key]
+            detaillevels.shift()
+            detaillevels.shift()
             detaillevels.shift()
             detaillevels = detaillevels.join("_")
 
-            map.addItem(latitude, longitude, filename, detaillevels, item_labels)
+            map.addItem(latitude, longitude, filename, detaillevels, item_labels, full_lat, full_lon)
 
         }
 

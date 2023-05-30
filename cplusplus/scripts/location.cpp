@@ -219,6 +219,8 @@ void PQLocation::processSummary(QString folder) {
 
                 QVariantList val;
                 val.append(QString("%1/%2").arg(folder).arg(filename));
+                val.append(latitude);
+                val.append(longitude);
                 val.append(det);
 
                 items.insert(item_key, val);

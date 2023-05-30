@@ -67,10 +67,10 @@ Rectangle {
                     readonly property real longitude: imagesWithLocation[index][2]
                     readonly property string fname: handlingFileDir.getFileNameFromFullPath(fpath)
 
-                    opacity: (latitude>(map.visibleLatitudeRight-0.1) &&
-                             latitude<(map.visibleLatitudeLeft+0.1) &&
-                             longitude>(map.visibleLongitudeLeft-0.1) &&
-                             longitude<(map.visibleLongitudeRight+0.1)) ? 1 : 0
+                    opacity: (latitude>(map.visibleLatitudeRight) &&
+                             latitude<(map.visibleLatitudeLeft) &&
+                             longitude>(map.visibleLongitudeLeft) &&
+                             longitude<(map.visibleLongitudeRight)) ? 1 : 0
 
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
