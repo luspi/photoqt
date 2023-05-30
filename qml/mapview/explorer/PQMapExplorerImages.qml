@@ -192,7 +192,7 @@ Rectangle {
 
                                 // if we do not cache this directory, we do not show a thumbnail image
                                 if(fileicon.source == "")
-                                    str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(filefoldermodel.entriesFileDialog[index]) + "\"><br><br>"
+                                    str += "<img src=\"image://thumb/::fixedsize::" + handlingGeneral.toPercentEncoding(maindeleg.fpath) + "\"><br><br>"
 
                                 // add details
                                 // we keep the string context here as 'filedialog' since the strings are the exact same there and only need to be translated once
