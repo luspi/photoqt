@@ -31,7 +31,7 @@ Window {
     id: mapexplorer_window
 
     //: Window title
-    title: em.pty+qsTranslate("mapexplorer", "Map Epxlorer")
+    title: em.pty+qsTranslate("mapexplorer", "Map Explorer")
 
     minimumWidth: 800
     minimumHeight: 600
