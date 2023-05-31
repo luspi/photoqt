@@ -37,6 +37,7 @@ Rectangle {
     Flickable {
 
         anchors.fill: parent
+        anchors.topMargin: 1
         contentHeight: files_grid.height
 
         ScrollBar.vertical: PQScrollBar { id: scroll }
@@ -67,10 +68,10 @@ Rectangle {
                     readonly property real longitude: imagesWithLocation[index][2]
                     readonly property string fname: handlingFileDir.getFileNameFromFullPath(fpath)
 
-                    opacity: (latitude>(map.visibleLatitudeRight) &&
-                             latitude<(map.visibleLatitudeLeft) &&
-                             longitude>(map.visibleLongitudeLeft) &&
-                             longitude<(map.visibleLongitudeRight)) ? 1 : 0
+                    opacity: (latitude>=(map.visibleLatitudeRight-0.001) &&
+                             latitude<=(map.visibleLatitudeLeft+0.001) &&
+                             longitude>=(map.visibleLongitudeLeft-0.001) &&
+                             longitude<=(map.visibleLongitudeRight+0.001)) ? 1 : 0
 
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -236,6 +237,7 @@ Rectangle {
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
         opacity: (countVisible==-imagesWithLocation.length&&!nolocation.visible) ? 0.75 : 0
+        visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
         //: the currently visible area refers to the latitude/longitude selection in the map explorer
@@ -248,6 +250,7 @@ Rectangle {
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
         opacity: imagesWithLocation.length==0 ? 0.75 : 0
+        visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
         text: em.pty+qsTranslate("mapexplorer", "no images with location data in current folder")
