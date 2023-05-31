@@ -4,12 +4,12 @@ The instructions below serve as a guide to compile and install PhotoQt from sour
 
 ## DEPENDENCIES
 
-- Qt >= 5.9
+- Qt >= 5.12
 - CMake (needed for building PhotoQt)
 - Qt5 ImageFormats
 
 Make sure that you have all the required QML modules installed:
-QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.
+QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window, QtLocation, QtPositioning.
 
 Dependencies that are needed by default, but can be disabled via CMake:
 

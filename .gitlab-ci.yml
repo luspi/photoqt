@@ -32,7 +32,7 @@ appimage:
   script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl
-    - apt-get -y install qt5-image-formats-plugins libqt5svg5 libqt5script5 libqt5qml5 libqt5quick5 libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5 qtbase5-dev qtdeclarative5-dev libqt5svg5-dev qtmultimedia5-dev qttools5-dev qt5-default qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-platform qml-module-qtquick-dialogs qml-module-qtmultimedia qtdeclarative5-dev-tools
+    - apt-get -y install qt5-image-formats-plugins libqt5svg5 libqt5script5 libqt5qml5 libqt5quick5 libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5 qtbase5-dev qtdeclarative5-dev libqt5svg5-dev qtmultimedia5-dev qttools5-dev qt5-default qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-platform qml-module-qtquick-dialogs qml-module-qtmultimedia qtdeclarative5-dev-tools qml-module-qtlocation qml-module-qtpositioning
     - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libpython3.8-dev libmagick++-6.q16-dev libmagick++-6.q16-8 libmpv-dev
     - rm -rf lang/
     - git clone -b l10n_master https://gitlab.com/luspi/photoqt-lang
@@ -69,7 +69,7 @@ releaseappimage:
   script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl
-    - apt-get -y install qt5-image-formats-plugins libqt5svg5 libqt5script5 libqt5qml5 libqt5quick5 libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5 qtbase5-dev qtdeclarative5-dev libqt5svg5-dev qtmultimedia5-dev qttools5-dev qt5-default qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-platform qml-module-qtquick-dialogs qml-module-qtmultimedia qtdeclarative5-dev-tools
+    - apt-get -y install qt5-image-formats-plugins libqt5svg5 libqt5script5 libqt5qml5 libqt5quick5 libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5 qtbase5-dev qtdeclarative5-dev libqt5svg5-dev qtmultimedia5-dev qttools5-dev qt5-default qml-module-qtquick2 qml-module-qtquick-window2 qml-module-qtquick-layouts qml-module-qtquick-controls2 qml-module-qtquick-controls qml-module-qt-labs-platform qml-module-qtquick-dialogs qml-module-qtmultimedia qtdeclarative5-dev-tools qml-module-qtlocation qml-module-qtpositioning
     - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libpython3.8-dev libmagick++-6.q16-dev libmagick++-6.q16-8 libmpv-dev
     - mkdir -p build && cd build/  # build PhotoQt
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=OFF -DVIDEO_MPV=ON -DLIBVIPS=OFF -DPOPPLER=OFF -DEXIV2_ENABLE_BMFF=OFF
