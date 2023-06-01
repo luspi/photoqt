@@ -142,7 +142,10 @@ Item {
             return
         }
 
-        passOn(ele, "show", undefined)
+        if(ele == "imguranonym")
+            passOn(ele, "show_anonym", undefined)
+        else
+            passOn(ele, "show", undefined)
 
     }
 
