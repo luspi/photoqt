@@ -129,6 +129,9 @@ Item {
         else if(ele == "mapexplorer")
             mapExplorerPassOn(what, param)
 
+        else if(ele == "filesaveas")
+            fileSaveAsPassOn(what, param)
+
     }
 
     function show(ele) {

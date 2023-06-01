@@ -21,74 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: saveas_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("filemanagement", "Save file as")
 
-    Component.onCompleted: {
-        saveas_window.setX(windowgeometry.fileSaveAsWindowGeometry.x)
-        saveas_window.setY(windowgeometry.fileSaveAsWindowGeometry.y)
-        saveas_window.setWidth(windowgeometry.fileSaveAsWindowGeometry.width)
-        saveas_window.setHeight(windowgeometry.fileSaveAsWindowGeometry.height)
-    }
+    geometry: windowgeometry.fileSaveAsWindowGeometry
+    isMax: windowgeometry.fileSaveAsWindowMaximized
+    popup: PQSettings.interfacePopoutFileSaveAs
+    sizepopup: windowsizepopup.saveAs
+    name: "filesaveas"
+    source: "filemanagement/PQSaveAs.qml"
 
-    minimumWidth: 200
-    minimumHeight: 300
+    onPopupChanged:
+        PQSettings.interfacePopoutFileSaveAs = popup
 
-    modality: Qt.ApplicationModal
+    onGeometryChanged:
+        windowgeometry.fileSaveAsWindowGeometry = geometry
 
-    objectName: "saveaspopout"
-
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "filesaveas")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.saveAs || PQSettings.interfacePopoutFileSaveAs)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutFileSaveAsChanged: {
-            if(!PQSettings.interfacePopoutFileSaveAs)
-                saveas_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutFileSaveAs&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQSaveAs.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return saveas_window.width })
-                item.parentHeight = Qt.binding(function() { return saveas_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(saveas_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.fileSaveAsWindowGeometry = Qt.rect(saveas_window.x, saveas_window.y, saveas_window.width, saveas_window.height)
-        windowgeometry.fileSaveAsWindowMaximized = (saveas_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.fileSaveAsWindowMaximized = isMax
 
 }
