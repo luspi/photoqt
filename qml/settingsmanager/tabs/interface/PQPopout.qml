@@ -66,7 +66,9 @@ PQSetting {
                         //: Noun, not a verb. Used as identifying name for one of the elements in the interface
                         ["interfacePopoutFilter", em.pty+qsTranslate("settingsmanager_interface", "Filter")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutAdvancedSort", em.pty+qsTranslate("settingsmanager_interface", "Advanced Image Sort")]]
+                        ["interfacePopoutAdvancedSort", em.pty+qsTranslate("settingsmanager_interface", "Advanced Image Sort")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutChromecast", em.pty+qsTranslate("settingsmanager_interface", "Streaming (Chromecast)")]]
 
     content: [
 
