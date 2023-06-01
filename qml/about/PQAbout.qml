@@ -21,169 +21,120 @@
  **************************************************************************/
 
 import QtQuick 2.9
-
+import QtQuick.Controls 2.2
+import "../templates"
 import "../elements"
-import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Item {
+PQTemplateFullscreen {
 
     id: about_top
 
-    width: parentWidth
-    height: parentHeight
+    popout: PQSettings.interfacePopoutAbout
+    shortcut: "__about"
+    title: "About"
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    onPopoutChanged:
+        PQSettings.interfacePopoutAbout = popout
 
-    opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-    visible: opacity!=0
-    enabled: visible
+    onButtonFirstClicked:
+        closeElement()
+
+    content: [
+
+        Image {
+            x: (parent.width-width)/2
+            source: "qrc:/other/logo.png"
+        },
+
+        PQTextL {
+            x: (parent.width-width)/2
+            property date currentDate: new Date()
+            text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
+            textFormat: Text.RichText
+        },
+
+        PQButton {
+            x: (parent.width-width)/2
+            backgroundColor: "#111111"
+            text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
+            //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
+            tooltip: em.pty+qsTranslate("about", "Show configuration overview")
+            font.pointSize: baselook.fontsize
+            onClicked:
+                configinfo.opacity = 1
+        },
+
+        PQText {
+            x: (parent.width-width)/2
+            text: em.pty+qsTranslate("about", "License:") + " GPL 2+"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("about", "Open license in browser")
+                onClicked:
+                    Qt.openUrlExternally("http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")
+            }
+        },
+
+        Item {
+            width: 1
+            height: 1
+        },
+
+        PQText {
+            x: (parent.width-width)/2
+            text: em.pty+qsTranslate("about", "Website:") + " https://photoqt.org"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("about", "Open website in browser")
+                onClicked:
+                    Qt.openUrlExternally("https://photoqt.org")
+            }
+        },
+
+        PQText {
+            x: (parent.width-width)/2
+            text: em.pty+qsTranslate("about", "Contact:") + " Lukas@photoqt.org"
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                tooltip: em.pty+qsTranslate("about", "Send an email")
+                onClicked:
+                    Qt.openUrlExternally("mailto:Lukas@photoqt.org")
+            }
+        }
+    ]
 
     Rectangle {
 
+        id: configinfo
+
         anchors.fill: parent
-        color: "#f41f1f1f"
+        color: "#ee000000"
 
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: PQSettings.interfacePopoutAbout ? Qt.ArrowCursor : Qt.PointingHandCursor
-            tooltip: em.pty+qsTranslate("about", "Close")
-            enabled: !PQSettings.interfacePopoutAbout
-            onClicked:
-                button_close.clicked()
-        }
+        opacity: 0
+        Behavior on opacity { NumberAnimation { duration: 250 } }
+        visible: opacity>0
 
-        PQMouseArea {
-            anchors.fill: insidecont
-            anchors.margins: -50
-            hoverEnabled: true
-        }
+        Flickable {
 
-        Item {
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
 
-            id: insidecont
+            width: parent.width
+            height: Math.min(parent.height-20, configcol.height)
 
-            x: ((parent.width-width)/2)
-            y: ((parent.height-height)/2)
-            width: childrenRect.width
-            height: childrenRect.height
+            contentHeight: configcol.height
+
+            ScrollBar.vertical: PQScrollBar { id: scroll }
 
             Column {
 
-                spacing: 10
-
-                Item {
-                    width: 1
-                    height: 5
-                }
-
-                Image {
-                    source: "qrc:/other/logo.png"
-                }
-
-                PQTextL {
-                    x: (parent.width-width)/2
-                    property date currentDate: new Date()
-                    text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
-                    textFormat: Text.RichText
-                }
-
-                PQButton {
-                    x: (parent.width-width)/2
-                    backgroundColor: "#111111"
-                    text: em.pty+qsTranslate("about", "Current version:") + " " + handlingGeneral.getVersion()
-                    //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
-                    tooltip: em.pty+qsTranslate("about", "Show configuration overview")
-                    font.pointSize: baselook.fontsize
-                    onClicked:
-                        configinfo.opacity = 1
-                }
-
-                PQText {
-                    x: (parent.width-width)/2
-                    text: em.pty+qsTranslate("about", "License:") + " GPL 2+"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        tooltip: em.pty+qsTranslate("about", "Open license in browser")
-                        onClicked:
-                            Qt.openUrlExternally("http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")
-                    }
-                }
-
-                Item {
-                    width: 1
-                    height: 1
-                }
-
-                PQText {
-                    x: (parent.width-width)/2
-                    text: em.pty+qsTranslate("about", "Website:") + " https://photoqt.org"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        tooltip: em.pty+qsTranslate("about", "Open website in browser")
-                        onClicked:
-                            Qt.openUrlExternally("https://photoqt.org")
-                    }
-                }
-
-                PQText {
-                    x: (parent.width-width)/2
-                    text: em.pty+qsTranslate("about", "Contact:") + " Lukas@photoqt.org"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        tooltip: em.pty+qsTranslate("about", "Send an email")
-                        onClicked:
-                            Qt.openUrlExternally("mailto:Lukas@photoqt.org")
-                    }
-                }
-
-                Item {
-                    width: 1
-                    height: 5
-                }
-
-                PQButton {
-                    id: button_close
-                    x: (parent.width-width)/2
-                    y: parent.height-height-10
-                    text: em.pty+qsTranslate("about", "Close")
-                    tooltip: text
-                    onClicked: {
-                        configinfo.opacity = 0
-                        about_top.opacity = 0
-                        variables.visibleItem = ""
-                    }
-                }
-
-                Item {
-                    width: 1
-                    height: 5
-                }
-
-            }
-
-        }
-
-        Rectangle {
-
-            id: configinfo
-
-            anchors.fill: parent
-            color: "#ee000000"
-
-            opacity: 0
-            Behavior on opacity { NumberAnimation { duration: 250 } }
-            visible: opacity>0
-
-            Column {
+                id: configcol
 
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
@@ -221,49 +172,30 @@ Item {
 
         }
 
-        Connections {
-            target: loader
-            onAboutPassOn: {
-                if(what == "show") {
-                    opacity = 1
-                    variables.visibleItem = "about"
-                } else if(what == "hide") {
-                    button_close.clicked()
-                } else if(what == "keyevent") {
-                    if(param[0] == Qt.Key_Escape)
-                        button_close.clicked()
-                }
-            }
-        }
-
     }
 
-    Image {
-        x: 5
-        y: 5
-        width: 15
-        height: 15
-        source: "/popin.svg"
-        sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
-            id: popinmouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.interfacePopoutAbout ?
-                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                         em.pty+qsTranslate("popinpopout", "Move to its own window")
-            onClicked: {
-                if(PQSettings.interfacePopoutAbout)
-                    about_window.storeGeometry()
-                button_close.clicked()
-                PQSettings.interfacePopoutAbout = !PQSettings.interfacePopoutAbout
-                HandleShortcuts.executeInternalFunction("__about")
+    Connections {
+        target: loader
+        onAboutPassOn: {
+            if(what == "show") {
+                opacity = 1
+                variables.visibleItem = "about"
+            } else if(what == "hide") {
+                closeElement()
+            } else if(what == "keyevent") {
+                if(param[0] == Qt.Key_Escape)
+                    closeElement()
             }
+        }
+    }
+
+
+    function closeElement() {
+        if(configinfo.opacity == 1)
+            configinfo.opacity = 0
+        else {
+            about_top.opacity = 0
+            variables.visibleItem = ""
         }
     }
 

@@ -191,5 +191,7 @@
         <file>mapview/explorer/PQMapExplorerImagesTweaks.qml</file>
         <file>mapview/explorer/PQMapExplorerMapTweaks.qml</file>
         <file>mapview/PQMapExplorerPopout.qml</file>
+        <file>templates/PQTemplateFullscreen.qml</file>
+        <file>templates/PQTemplatePopout.qml</file>
     </qresource>
 </RCC>

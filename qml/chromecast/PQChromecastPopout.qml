@@ -21,73 +21,29 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: chromecast_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("streaming", "Streaming (Chromecast)")
 
-    Component.onCompleted: {
-        chromecast_window.setX(windowgeometry.slideshowWindowGeometry.x)
-        chromecast_window.setY(windowgeometry.slideshowWindowGeometry.y)
-        chromecast_window.setWidth(windowgeometry.slideshowWindowGeometry.width)
-        chromecast_window.setHeight(windowgeometry.slideshowWindowGeometry.height)
-    }
+    geometry: windowgeometry.chromecastWindowGeometry
+    isMax: windowgeometry.chromecastWindowMaximized
+    popup: PQSettings.interfacePopoutChromecast
+    sizepopup: windowsizepopup.chromecast
+    name: "chromecast"
+    source: "chromecast/PQChromecast.qml"
+    registerQmlAddress: false
 
-    minimumWidth: 200
-    minimumHeight: 300
+    onPopupChanged:
+        PQSettings.interfacePopoutChromecast = popup
 
-    modality: Qt.ApplicationModal
-    objectName: "chromecastpopout"
+    onGeometryChanged:
+        windowgeometry.chromecastWindowGeometry = geometry
 
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "chromecast")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.chromecast || PQSettings.interfacePopoutChromecast)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutChromecastChanged: {
-            if(!PQSettings.interfacePopoutChromecast)
-                chromecast_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutChromecast&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQChromecast.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return chromecast_window.width })
-                item.parentHeight = Qt.binding(function() { return chromecast_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(chromecast_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.chromecastWindowGeometry = Qt.rect(chromecast_window.x, chromecast_window.y, chromecast_window.width, chromecast_window.height)
-        windowgeometry.chromecastWindowMaximized = (chromecast_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.chromecastWindowMaximized = isMax
 
 }

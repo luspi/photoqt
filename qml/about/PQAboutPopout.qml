@@ -21,74 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: about_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("about", "About")
 
-    Component.onCompleted: {
-        about_window.setX(windowgeometry.aboutWindowGeometry.x)
-        about_window.setY(windowgeometry.aboutWindowGeometry.y)
-        about_window.setWidth(windowgeometry.aboutWindowGeometry.width)
-        about_window.setHeight(windowgeometry.aboutWindowGeometry.height)
-    }
+    geometry: windowgeometry.aboutWindowGeometry
+    isMax: windowgeometry.aboutWindowMaximized
+    popup: PQSettings.interfacePopoutAbout
+    sizepopup: windowsizepopup.about
+    name: "about"
+    source: "about/PQAbout.qml"
 
-    minimumWidth: 300
-    minimumHeight: 200
+    onPopupChanged:
+        PQSettings.interfacePopoutAbout = popup
 
-    modality: Qt.ApplicationModal
+    onGeometryChanged:
+        windowgeometry.aboutWindowGeometry = geometry
 
-    objectName: "aboutpopout"
-
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "about")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.about || PQSettings.interfacePopoutAbout)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutAboutChanged: {
-            if(!PQSettings.interfacePopoutAbout)
-                about_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutAbout&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQAbout.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return about_window.width })
-                item.parentHeight = Qt.binding(function() { return about_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(about_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.aboutWindowGeometry = Qt.rect(about_window.x, about_window.y, about_window.width, about_window.height)
-        windowgeometry.aboutWindowMaximized = (about_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.aboutWindowMaximized = isMax
 
 }

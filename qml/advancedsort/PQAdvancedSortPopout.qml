@@ -21,74 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: advancedsort_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("advancedsort", "Advanced Image Sort")
 
-    Component.onCompleted: {
-        advancedsort_window.setX(windowgeometry.advancedSortWindowGeometry.x)
-        advancedsort_window.setY(windowgeometry.advancedSortWindowGeometry.y)
-        advancedsort_window.setWidth(windowgeometry.advancedSortWindowGeometry.width)
-        advancedsort_window.setHeight(windowgeometry.advancedSortWindowGeometry.height)
-    }
+    geometry: windowgeometry.advancedSortWindowGeometry
+    isMax: windowgeometry.advancedSortWindowMaximized
+    popup: PQSettings.interfacePopoutAdvancedSort
+    sizepopup: windowsizepopup.advancedSort
+    name: "advancedsort"
+    source: "advancedsort/PQAdvancedSort.qml"
 
-    minimumWidth: 200
-    minimumHeight: 300
+    onPopupChanged:
+        PQSettings.interfacePopoutAdvancedSort = popup
 
-    modality: Qt.ApplicationModal
+    onGeometryChanged:
+        windowgeometry.advancedSortWindowGeometry = geometry
 
-    objectName: "advancedsortpopout"
-
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "advancedsort")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.advancedSort || PQSettings.interfacePopoutAdvancedSort)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutAdvancedSortChanged: {
-            if(!PQSettings.interfacePopoutAdvancedSort)
-                advancedsort_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutAdvancedSort&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQAdvancedSort.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return advancedsort_window.width })
-                item.parentHeight = Qt.binding(function() { return advancedsort_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(advancedsort_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.advancedSortWindowGeometry = Qt.rect(advancedsort_window.x, advancedsort_window.y, advancedsort_window.width, advancedsort_window.height)
-        windowgeometry.advancedSortWindowMaximized = (advancedsort_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.advancedSortWindowMaximized = isMax
 
 }
