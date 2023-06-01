@@ -75,6 +75,8 @@ private:
     PQHttpServer *server;
     int serverPort;
     QString currentFriendlyName;
+
+    bool scanRunning;
 #endif
 
 };

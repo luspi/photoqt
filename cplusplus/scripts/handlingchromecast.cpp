@@ -45,6 +45,8 @@ PQHandlingChromecast::PQHandlingChromecast(QObject *parent) : QObject(parent) {
     watcher = nullptr;
     imageprovider = nullptr;
 
+    scanRunning = false;
+
     Py_Initialize();
 
     chromecastCast = new PQPyObject;
@@ -97,16 +99,29 @@ void PQHandlingChromecast::getListOfChromecastDevices() {
     if(!QFile::exists(QString("%1/photoqt_chromecast.py").arg(QDir::tempPath())))
         return;
 
+    if(scanRunning) {
+        Q_EMIT updatedListChromecast(QVariantList());
+        return;
+    }
+
+    scanRunning = true;
+
     if(watcher != nullptr)
         delete watcher;
     watcher = new QFutureWatcher<QVariantList>(this);
     QObject::connect(watcher, &QFutureWatcher<QVariantList>::finished, this, [=]() {
+        if(watcher->isCanceled()) {
+            scanRunning = false;
+            Q_EMIT updatedListChromecast(QVariantList());
+            return;
+        }
         QVariantList devices = watcher->result();
         if(devices.length() > 0) {
             *chromecastServices = devices[0].value<PQPyObject>();
             Q_EMIT updatedListChromecast(devices.mid(1));
         } else
             Q_EMIT updatedListChromecast(QVariantList());
+        scanRunning = false;
     });
     watcher->setFuture(QtConcurrent::run(&PQHandlingChromecast::_getListOfChromecastDevices));
     connect(this, &PQHandlingChromecast::cancelScan, watcher, &QFutureWatcher<QVariantList>::cancel);
