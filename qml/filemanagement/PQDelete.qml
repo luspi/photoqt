@@ -31,15 +31,27 @@ PQTemplateFullscreen {
 
     popout: PQSettings.interfacePopoutFileDelete
     shortcut: "__delete"
-    title: "Delete file?"
+    title: em.pty+qsTranslate("filemanagement", "Delete file?")
 
-    buttonFirstText: genericStringCancel
+    buttonFirstText: em.pty+qsTranslate("filemanagement", "Move to trash")
+
+    buttonSecondShow: true
+    buttonSecondText: genericStringCancel
+
+    buttonThirdShow: true
+    buttonThirdText: em.pty+qsTranslate("filemanagement", "Delete permanently")
 
     onPopoutChanged:
         PQSettings.interfacePopoutFileDelete = popout
 
     onButtonFirstClicked:
-        close()
+        moveToTrash()
+
+    onButtonSecondClicked:
+        closeElement()
+
+    onButtonThirdClicked:
+        deletePermanently()
 
     content: [
 
@@ -72,71 +84,11 @@ PQTemplateFullscreen {
         },
 
         Item {
-
-            id: butcont
-
-            x: 0
-            width: parent.width
-            height: childrenRect.height
-
-            Column {
-
-                spacing: 10
-
-                x: (parent.width-width)/2
-
-                Item {
-                    width: 1
-                    height: 1
-                }
-
-                PQButton {
-                    id: button_trash
-                    x: (parent.width-width)/2
-                    visible: !handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515()
-                    scale: 1.2
-                    text: em.pty+qsTranslate("filemanagement", "Move to trash")
-                    font.weight: baselook.boldweight
-                    onClicked: {
-
-                        if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)) {
-                            error.visible = true
-                            return
-                        }
-
-                        filefoldermodel.removeEntryMainView(filefoldermodel.current)
-
-                        delete_top.close()
-                    }
-                }
-                PQButton {
-                    id: button_permanent
-                    x: (parent.width-width)/2
-                    text: em.pty+qsTranslate("filemanagement", "Delete permanently")
-                    scale: button_trash.visible ? 0.8 : 1.2
-                    onClicked: {
-
-                        if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)) {
-                            error.visible = true
-                            return
-                        }
-
-                        filefoldermodel.removeEntryMainView(filefoldermodel.current)
-
-                        delete_top.close()
-                    }
-                }
-
-            }
-
-        },
-
-        Item {
             width: 1
             height: 1
         },
 
-        PQTextS {
+        PQText {
             x: (parent.width-width)/2
             font.weight: baselook.boldweight
             textFormat: Text.RichText
@@ -161,10 +113,10 @@ PQTemplateFullscreen {
                 variables.visibleItem = "filedelete"
                 filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
             } else if(what == "hide") {
-                delete_top.close()
+                delete_top.closeElement()
             } else if(what == "keyevent") {
                 if(param[0] == Qt.Key_Escape)
-                    delete_top.close()
+                    delete_top.closeElement()
                 else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return) {
                     if(param[1] & Qt.ShiftModifier)
                         button_permanent.clicked()
@@ -175,7 +127,33 @@ PQTemplateFullscreen {
         }
     }
 
-    function close() {
+    function moveToTrash() {
+
+        if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)) {
+            error.visible = true
+            return
+        }
+
+        filefoldermodel.removeEntryMainView(filefoldermodel.current)
+
+        delete_top.closeElement()
+
+    }
+
+    function deletePermanently() {
+
+        if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)) {
+            error.visible = true
+            return
+        }
+
+        filefoldermodel.removeEntryMainView(filefoldermodel.current)
+
+        delete_top.closeElement()
+
+    }
+
+    function closeElement() {
         delete_top.opacity = 0
         variables.visibleItem = ""
     }
