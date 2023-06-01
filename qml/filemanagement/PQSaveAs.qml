@@ -33,6 +33,7 @@ PQTemplateFullscreen {
     shortcut: "__saveAs"
     title: em.pty+qsTranslate("filemanagement", "Save file as")
 
+    button1.enabled: formatsview.currentIndex != -1 && newfilename.text != filename.text
     button1.text: em.pty+qsTranslate("filemanagement", "Choose location and save file")
 
     button2.visible: true
@@ -236,6 +237,8 @@ PQTemplateFullscreen {
     }
 
     function performSaveAs() {
+        if(!button1.enabled)
+            return
         var stat = handlingManipulation.chooseLocationAndConvertImage(filefoldermodel.currentFilePath, newfilename.text, formatsview.data[formatsview.currentIndex][1])
         if(stat == -1) {
             abort.visible = true
