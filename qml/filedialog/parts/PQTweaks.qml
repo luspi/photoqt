@@ -96,10 +96,43 @@ Rectangle {
 
     }
 
+    PQButton {
+
+        id: cancelbutton
+
+        x: condensed ? (condensed_popup.x+condensed_popup.width + (remember.x-condensed_popup.width-width)/2) : (zoom.x+zoom.width + (sortby.x-zoom.x-zoom.width - width)/2)
+        y: 1
+
+        height: parent.height-1
+
+        text: genericStringCancel
+        leftRightTextSpacing: 40
+
+        font.weight: baselook.boldweight
+        font.pointSize: baselook.fontsize_l
+
+        onClicked: filedialog_top.hideFileDialog()
+
+        Rectangle {
+            x: 0
+            width: 1
+            height: parent.height
+            color: "#888888"
+        }
+
+        Rectangle {
+            x: parent.width-1
+            width: 1
+            height: parent.height
+            color: "#888888"
+        }
+
+    }
+
     PQComboBox {
 
         onXChanged:
-            condensed = (x < zoomtext.width+zoom.width+20)
+            condensed = (x < zoomtext.width+zoom.width+cancelbutton.width+30)
 
         id: sortby
 

@@ -183,28 +183,11 @@ Item {
 
     Rectangle {
         id: sep2
-        anchors.right: cancelbut.left
+        anchors.right: fullscreenwindow.left
         anchors.rightMargin: 5
         width: 1
         height: bread_top.height
         color: "#444444"
-    }
-
-    PQButton {
-
-        id: cancelbut
-        anchors.right: fullscreenwindow.left
-        anchors.margins: 5
-        y: (parent.height-height)/2
-
-        backgroundColor: "#444444"
-        backgroundColorHover: "#5a5a5a"
-        backgroundColorActive: "#555555"
-
-        text: genericStringCancel
-
-        onClicked: filedialog_top.hideFileDialog()
-
     }
 
     Item {
