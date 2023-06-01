@@ -172,8 +172,6 @@ Rectangle {
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 40
-                onClicked:
-                    button1Clicked()
 
                 Rectangle {
                     x: 0
@@ -198,8 +196,6 @@ Rectangle {
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
-                onClicked:
-                    button2Clicked()
 
                 Rectangle {
                     x: 0
@@ -225,8 +221,6 @@ Rectangle {
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
-                onClicked:
-                    button3Clicked()
 
                 Rectangle {
                     x: 0
