@@ -52,12 +52,15 @@ Rectangle {
 
     property bool buttonFirstShow: true
     property bool buttonSecondShow: false
+    property bool buttonThirdShow: false
 
     property alias buttonFirstText: firstbutton.text
     property alias buttonSecondText: secondbutton.text
+    property alias buttonThirdText: thirdbutton.text
 
     property alias buttonFirstFont: firstbutton.font
     property alias buttonSecondFont: secondbutton.font
+    property alias buttonThirdFont: thirdbutton.font
 
     property alias genericStringCancel: firstbutton.genericStringCancel
     property alias genericStringClose: firstbutton.genericStringClose
@@ -71,6 +74,7 @@ Rectangle {
 
     signal buttonFirstClicked()
     signal buttonSecondClicked()
+    signal buttonThirdClicked()
 
     /////////
 
@@ -169,13 +173,17 @@ Rectangle {
 
             height: parent.height
 
+            onWidthChanged: {
+                if(ele_top.popout)
+                    ele_window.handleChangesBottomRowWidth(width)
+            }
+
             PQButton {
                 id: firstbutton
                 text: genericStringClose
                 font.weight: baselook.boldweight
                 font.pointSize: baselook.fontsize_l
                 visible: buttonFirstShow
-                x: (parent.width-width)/2
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 40
@@ -202,12 +210,38 @@ Rectangle {
                 text: genericStringClose
                 font.weight: baselook.normalweight
                 visible: buttonSecondShow
-                x: (parent.width-width)/2
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
                 onClicked:
                     buttonSecondClicked()
+
+                Rectangle {
+                    x: 0
+                    width: 1
+                    height: parent.height
+                    color: "#888888"
+                }
+
+                Rectangle {
+                    x: parent.width-1
+                    width: 1
+                    height: parent.height
+                    color: "#888888"
+                }
+            }
+
+            PQButton {
+                id: thirdbutton
+                text: genericStringClose
+                font.weight: baselook.normalweight
+                font.pointSize: baselook.fontsize_s
+                visible: buttonThirdShow
+                y: 1
+                height: parent.height-1
+                leftRightTextSpacing: 20
+                onClicked:
+                    buttonThirdClicked()
 
                 Rectangle {
                     x: 0

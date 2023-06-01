@@ -97,4 +97,8 @@ Window {
         isMax = (ele_window.visibility==Window.Maximized)
     }
 
+    function handleChangesBottomRowWidth(w) {
+        ele_window.minimumWidth = Math.max(ele_window.minimumWidth, w)
+    }
+
 }
