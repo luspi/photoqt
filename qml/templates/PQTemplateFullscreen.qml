@@ -47,6 +47,7 @@ Rectangle {
     /////////
 
     property string title: ""
+    property bool showPopinPopout: true
 
     /////////
 
@@ -250,6 +251,7 @@ Rectangle {
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
+        visible: showPopinPopout
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent
@@ -261,6 +263,8 @@ Rectangle {
                          //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                          em.pty+qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
+                if(!showPopinPopout)
+                    return
                 if(ele_top.popout)
                     ele_window.storeGeometry()
                 close()
