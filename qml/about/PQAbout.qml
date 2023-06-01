@@ -31,12 +31,12 @@ PQTemplateFullscreen {
 
     popout: PQSettings.interfacePopoutAbout
     shortcut: "__about"
-    title: "About"
+    title: em.pty+qsTranslate("about", "About")
 
     onPopoutChanged:
         PQSettings.interfacePopoutAbout = popout
 
-    onButtonFirstClicked:
+    button1.onClicked:
         closeElement()
 
     content: [

@@ -33,18 +33,18 @@ PQTemplateFullscreen {
     shortcut: "__saveAs"
     title: em.pty+qsTranslate("filemanagement", "Save file as")
 
-    buttonFirstText: em.pty+qsTranslate("filemanagement", "Choose location and save file")
+    button1.text: em.pty+qsTranslate("filemanagement", "Choose location and save file")
 
-    buttonSecondShow: true
-    buttonSecondText: genericStringCancel
+    button2.visible: true
+    button2.text: genericStringCancel
 
     onPopoutChanged:
         PQSettings.interfacePopoutFileSaveAs = popout
 
-    onButtonFirstClicked:
+    button1.onClicked:
         performSaveAs()
 
-    onButtonSecondClicked:
+    button2.onClicked:
         closeElement()
 
     content: [

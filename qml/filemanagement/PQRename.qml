@@ -33,28 +33,20 @@ PQTemplateFullscreen {
     shortcut: "__rename"
     title: em.pty+qsTranslate("filemanagement", "Rename file")
 
-    buttonFirstText: em.pty+qsTranslate("filemanagement", "Rename file")
-    buttonSecondShow: true
-    buttonSecondText: genericStringCancel
+    button1.text: em.pty+qsTranslate("filemanagement", "Rename file")
+    button2.visible: true
+    button2.text: genericStringCancel
 
     onPopoutChanged:
         PQSettings.interfacePopoutFileRename = popout
 
-    onButtonFirstClicked:
+    button1.onClicked:
         performRename()
 
-    onButtonSecondClicked:
+    button2.onClicked:
         closeElement()
 
-
     content: [
-
-//        PQTextXL {
-//            id: heading
-//            x: (parent.width-width)/2
-//            font.weight: baselook.boldweight
-//            text: em.pty+qsTranslate("filemanagement", "Rename file")
-//        },
 
         PQText {
             x: (parent.width-width)/2

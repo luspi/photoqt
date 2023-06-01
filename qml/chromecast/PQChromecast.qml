@@ -35,8 +35,7 @@ PQTemplateFullscreen {
     shortcut: "__chromecast"
     title: em.pty+qsTranslate("streaming", "Streaming (Chromecast)")
 
-    buttonFirstText: genericStringClose
-
+    button1.text: genericStringClose
 
     property bool iAmScanning: false
     property var chromecastData: []
@@ -44,7 +43,7 @@ PQTemplateFullscreen {
     onPopoutChanged:
         PQSettings.interfacePopoutChromecast = popout
 
-    onButtonFirstClicked:
+    button1.onClicked:
         closeElement()
 
     content: [

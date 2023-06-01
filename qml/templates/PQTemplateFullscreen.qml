@@ -50,17 +50,9 @@ Rectangle {
 
     /////////
 
-    property bool buttonFirstShow: true
-    property bool buttonSecondShow: false
-    property bool buttonThirdShow: false
-
-    property alias buttonFirstText: firstbutton.text
-    property alias buttonSecondText: secondbutton.text
-    property alias buttonThirdText: thirdbutton.text
-
-    property alias buttonFirstFont: firstbutton.font
-    property alias buttonSecondFont: secondbutton.font
-    property alias buttonThirdFont: thirdbutton.font
+    property alias button1: firstbutton
+    property alias button2: secondbutton
+    property alias button3: thirdbutton
 
     property alias genericStringCancel: firstbutton.genericStringCancel
     property alias genericStringClose: firstbutton.genericStringClose
@@ -69,12 +61,6 @@ Rectangle {
 
     property alias spacing: insidecont.spacing
     property int maxWidth: 0
-
-    /////////
-
-    signal buttonFirstClicked()
-    signal buttonSecondClicked()
-    signal buttonThirdClicked()
 
     /////////
 
@@ -183,12 +169,11 @@ Rectangle {
                 text: genericStringClose
                 font.weight: baselook.boldweight
                 font.pointSize: baselook.fontsize_l
-                visible: buttonFirstShow
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 40
                 onClicked:
-                    buttonFirstClicked()
+                    button1Clicked()
 
                 Rectangle {
                     x: 0
@@ -209,12 +194,12 @@ Rectangle {
                 id: secondbutton
                 text: genericStringClose
                 font.weight: baselook.normalweight
-                visible: buttonSecondShow
+                visible: false
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
                 onClicked:
-                    buttonSecondClicked()
+                    button2Clicked()
 
                 Rectangle {
                     x: 0
@@ -236,12 +221,12 @@ Rectangle {
                 text: genericStringClose
                 font.weight: baselook.normalweight
                 font.pointSize: baselook.fontsize_s
-                visible: buttonThirdShow
+                visible: false
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
                 onClicked:
-                    buttonThirdClicked()
+                    button3Clicked()
 
                 Rectangle {
                     x: 0

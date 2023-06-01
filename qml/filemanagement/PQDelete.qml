@@ -33,24 +33,24 @@ PQTemplateFullscreen {
     shortcut: "__delete"
     title: em.pty+qsTranslate("filemanagement", "Delete file?")
 
-    buttonFirstText: em.pty+qsTranslate("filemanagement", "Move to trash")
+    button1.text: em.pty+qsTranslate("filemanagement", "Move to trash")
 
-    buttonSecondShow: true
-    buttonSecondText: genericStringCancel
+    button2.visible: true
+    button2.text: genericStringCancel
 
-    buttonThirdShow: true
-    buttonThirdText: em.pty+qsTranslate("filemanagement", "Delete permanently")
+    button3.visible: true
+    button3.text: em.pty+qsTranslate("filemanagement", "Delete permanently")
 
     onPopoutChanged:
         PQSettings.interfacePopoutFileDelete = popout
 
-    onButtonFirstClicked:
+    button1.onClicked:
         moveToTrash()
 
-    onButtonSecondClicked:
+    button2.onClicked:
         closeElement()
 
-    onButtonThirdClicked:
+    button3.onClicked:
         deletePermanently()
 
     content: [

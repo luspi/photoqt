@@ -35,16 +35,17 @@ PQTemplateFullscreen {
     shortcut: "__advancedSort"
     title: em.pty+qsTranslate("advancedsort", "Advanced Image Sort")
 
-    buttonFirstText: em.pty+qsTranslate("advancedsort", "Sort images")
-    buttonSecondShow: true
-    buttonSecondText: genericStringCancel
+    button1.text: em.pty+qsTranslate("advancedsort", "Sort images")
+
+    button2.visible: true
+    button2.text: genericStringCancel
 
     maxWidth: 600
 
     onPopoutChanged:
         PQSettings.interfacePopoutAdvancedSort = popout
 
-    onButtonFirstClicked: {
+    button1.onClicked: {
         saveSettings()
         advancedsort_top.opacity = 0
         variables.visibleItem = ""
@@ -52,7 +53,7 @@ PQTemplateFullscreen {
         filefoldermodel.advancedSortMainView()
     }
 
-    onButtonSecondClicked: {
+    button2.onClicked: {
         advancedsort_top.opacity = 0
         variables.visibleItem = ""
     }
