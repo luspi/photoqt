@@ -21,74 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: filter_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("filter", "Filter")
 
-    Component.onCompleted: {
-        filter_window.setX(windowgeometry.filterWindowGeometry.x)
-        filter_window.setY(windowgeometry.filterWindowGeometry.y)
-        filter_window.setWidth(windowgeometry.filterWindowGeometry.width)
-        filter_window.setHeight(windowgeometry.filterWindowGeometry.height)
-    }
+    geometry: windowgeometry.filterWindowGeometry
+    isMax: windowgeometry.filterWindowMaximized
+    popup: PQSettings.interfacePopoutFilter
+    sizepopup: windowsizepopup.filter
+    name: "filter"
+    source: "filter/PQFilter.qml"
 
-    minimumWidth: 200
-    minimumHeight: 300
+    onPopupChanged:
+        PQSettings.interfacePopoutFilter = popup
 
-    modality: Qt.ApplicationModal
+    onGeometryChanged:
+        windowgeometry.filterWindowGeometry = geometry
 
-    objectName: "filterpopout"
-
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "filter")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.filter || PQSettings.interfacePopoutFilter)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutFilterChanged: {
-            if(!PQSettings.interfacePopoutFilter)
-                filter_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutFilter&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQFilter.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return filter_window.width })
-                item.parentHeight = Qt.binding(function() { return filter_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(filter_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.filterWindowGeometry = Qt.rect(filter_window.x, filter_window.y, filter_window.width, filter_window.height)
-        windowgeometry.filterWindowMaximized = (filter_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.filterWindowMaximized = isMax
 
 }
