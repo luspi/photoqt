@@ -84,7 +84,7 @@ Rectangle {
         id: toprow
 
         width: parent.width
-        height: 50
+        height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
         color: "#333333"
 
         PQTextXL {
