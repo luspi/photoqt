@@ -57,8 +57,7 @@ PQSetting {
 
                 PQText {
                     y: (google_token.height-height)/2
-                    //: This is the language used by Google for authenticating with its API, they call it a token.
-                    text: em.pty+qsTranslate("settingsmanager_imageview", "API token:")
+                    text: "API token:"
                     enabled: visible
                     visible: maps_combo.currentIndex==1
                 }
@@ -76,8 +75,7 @@ PQSetting {
 
                 PQText {
                     y: (google_token.height-height)/2
-                    //: This is the language used by Esri for authenticating with its API, they call it a key.
-                    text: em.pty+qsTranslate("settingsmanager_imageview", "API key:")
+                    text: "API key:"
                     enabled: visible
                     visible: maps_combo.currentIndex==2
                 }
@@ -95,8 +93,7 @@ PQSetting {
 
                 PQText {
                     y: (mapbox_token.height-height)/2
-                    //: This is the language used by Esri for authenticating with its API, they call it a key.
-                    text: em.pty+qsTranslate("settingsmanager_imageview", "Access Token:")
+                    text: "Access Token:"
                     enabled: visible
                     visible: maps_combo.currentIndex==3
                 }
@@ -115,7 +112,7 @@ PQSetting {
                 PQButton {
 
                     text: maps_combo.currentIndex == 0
-                            ? "Open website"
+                            ? em.pty+qsTranslate("settingsmanager_imageview", "Open website")
                             : (maps_combo.currentIndex == 1
                                     ? "Get token"
                                     : (maps_combo.currentIndex == 2

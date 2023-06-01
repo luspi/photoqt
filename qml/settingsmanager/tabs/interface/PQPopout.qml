@@ -44,7 +44,7 @@ PQSetting {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutHistogram", em.pty+qsTranslate("settingsmanager_interface", "Histogram")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutMapCurrent", em.pty+qsTranslate("settingsmanager_interface", "Map (Current Location)")],
+                        ["interfacePopoutMapCurrent", em.pty+qsTranslate("settingsmanager_interface", "Map (Current Image)")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutScale", em.pty+qsTranslate("settingsmanager_interface", "Scale")],
                         //: Used as identifying name for one of the elements in the interface
