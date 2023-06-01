@@ -22,216 +22,162 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2
-
+import "../templates"
 import "../elements"
-import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Item {
+PQTemplateFullscreen {
 
     id: delete_top
 
-    width: parentWidth
-    height: parentHeight
+    popout: PQSettings.interfacePopoutFileDelete
+    shortcut: "__delete"
+    title: "Delete file?"
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    buttonFirstText: genericStringCancel
 
-    opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-    visible: opacity!=0
-    enabled: visible
+    onPopoutChanged:
+        PQSettings.interfacePopoutFileDelete = popout
 
-    Rectangle {
+    onButtonFirstClicked:
+        close()
 
-        anchors.fill: parent
-        color: "#f41f1f1f"
+    content: [
 
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked:
-                button_cancel.clicked()
-        }
+        PQTextXL {
+            id: heading
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            font.weight: baselook.boldweight
+            text: em.pty+qsTranslate("filemanagement", "Are you sure you want to delete this file?")
+        },
+
+        PQTextL {
+            id: filename
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            color: "grey"
+            text: "this_is_the_filename.jpg"
+        },
+
+        PQTextL {
+            id: error
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            color: "red"
+            visible: false
+            text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be deleted!")
+        },
 
         Item {
 
-            id: insidecont
+            id: butcont
 
-            x: ((parent.width-width)/2)
-            y: ((parent.height-height)/2)
+            x: 0
             width: parent.width
             height: childrenRect.height
-
-            clip: true
-
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-            }
 
             Column {
 
                 spacing: 10
 
-                PQTextXL {
-                    id: heading
-                    x: (insidecont.width-width)/2
-                    font.weight: baselook.boldweight
-                    text: em.pty+qsTranslate("filemanagement", "Delete file?")
-                }
-
-                PQTextL {
-                    id: filename
-                    x: (insidecont.width-width)/2
-                    color: "grey"
-                    text: "this_is_the_filename.jpg"
-                }
-
-                PQTextL {
-                    id: error
-                    x: (insidecont.width-width)/2
-                    color: "red"
-                    visible: false
-                    horizontalAlignment: Qt.AlignHCenter
-                    text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be deleted!")
-                }
-
-                Item {
-
-                    id: butcont
-
-                    x: 0
-                    width: insidecont.width
-                    height: childrenRect.height
-
-                    Row {
-
-                        spacing: 5
-
-                        x: (parent.width-width)/2
-
-                        PQButton {
-                            id: button_trash
-                            visible: !handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515()
-                            text: em.pty+qsTranslate("filemanagement", "Move to trash")
-                            onClicked: {
-
-                                if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)) {
-                                    error.visible = true
-                                    return
-                                }
-
-                                filefoldermodel.removeEntryMainView(filefoldermodel.current)
-
-                                delete_top.opacity = 0
-                                variables.visibleItem = ""
-                            }
-                        }
-                        PQButton {
-                            id: button_permanent
-                            text: em.pty+qsTranslate("filemanagement", "Delete permanently")
-                            onClicked: {
-
-                                if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)) {
-                                    error.visible = true
-                                    return
-                                }
-
-                                filefoldermodel.removeEntryMainView(filefoldermodel.current)
-
-                                delete_top.opacity = 0
-                                variables.visibleItem = ""
-                            }
-                        }
-                        PQButton {
-                            id: button_cancel
-                            text: genericStringCancel
-                            onClicked: {
-                                delete_top.opacity = 0
-                                variables.visibleItem = ""
-                            }
-                        }
-
-                    }
-
-                }
+                x: (parent.width-width)/2
 
                 Item {
                     width: 1
                     height: 1
                 }
 
-                PQTextS {
+                PQButton {
+                    id: button_trash
                     x: (parent.width-width)/2
+                    visible: !handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515()
+                    scale: 1.2
+                    text: em.pty+qsTranslate("filemanagement", "Move to trash")
                     font.weight: baselook.boldweight
-                    textFormat: Text.RichText
-                    text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
-                          ((!handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515())
-                                ? ("</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to trash") +
-                                  "</td</tr><tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter"))
-                                : "") +
-                          "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
-                }
+                    onClicked: {
 
-            }
+                        if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)) {
+                            error.visible = true
+                            return
+                        }
 
-        }
+                        filefoldermodel.removeEntryMainView(filefoldermodel.current)
 
-        Connections {
-            target: loader
-            onFileDeletePassOn: {
-                if(what == "show") {
-                    if(filefoldermodel.current == -1)
-                        return
-                    opacity = 1
-                    error.visible = false
-                    variables.visibleItem = "filedelete"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
-                } else if(what == "hide") {
-                    button_cancel.clicked()
-                } else if(what == "keyevent") {
-                    if(param[0] == Qt.Key_Escape)
-                        button_cancel.clicked()
-                    else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return) {
-                        if(param[1] & Qt.ShiftModifier)
-                            button_permanent.clicked()
-                        else
-                            button_trash.clicked()
+                        delete_top.close()
                     }
                 }
+                PQButton {
+                    id: button_permanent
+                    x: (parent.width-width)/2
+                    text: em.pty+qsTranslate("filemanagement", "Delete permanently")
+                    scale: button_trash.visible ? 0.8 : 1.2
+                    onClicked: {
+
+                        if(!handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)) {
+                            error.visible = true
+                            return
+                        }
+
+                        filefoldermodel.removeEntryMainView(filefoldermodel.current)
+
+                        delete_top.close()
+                    }
+                }
+
             }
+
+        },
+
+        Item {
+            width: 1
+            height: 1
+        },
+
+        PQTextS {
+            x: (parent.width-width)/2
+            font.weight: baselook.boldweight
+            textFormat: Text.RichText
+            text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
+                  ((!handlingGeneral.amIOnWindows() || handlingGeneral.isAtLeastQt515())
+                        ? ("</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to trash") +
+                          "</td</tr><tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter"))
+                        : "") +
+                  "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
         }
 
+    ]
+
+    Connections {
+        target: loader
+        onFileDeletePassOn: {
+            if(what == "show") {
+                if(filefoldermodel.current == -1)
+                    return
+                opacity = 1
+                error.visible = false
+                variables.visibleItem = "filedelete"
+                filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
+            } else if(what == "hide") {
+                delete_top.close()
+            } else if(what == "keyevent") {
+                if(param[0] == Qt.Key_Escape)
+                    delete_top.close()
+                else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return) {
+                    if(param[1] & Qt.ShiftModifier)
+                        button_permanent.clicked()
+                    else
+                        button_trash.clicked()
+                }
+            }
+        }
     }
 
-    Image {
-        x: 5
-        y: 5
-        width: 15
-        height: 15
-        source: "/popin.svg"
-        sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
-            id: popinmouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.interfacePopoutFileDelete ?
-                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                         em.pty+qsTranslate("popinpopout", "Move to its own window")
-            onClicked: {
-                if(PQSettings.interfacePopoutFileDelete)
-                    delete_window.storeGeometry()
-                button_cancel.clicked()
-                PQSettings.interfacePopoutFileDelete = !PQSettings.interfacePopoutFileDelete
-                HandleShortcuts.executeInternalFunction("__delete")
-            }
-        }
+    function close() {
+        delete_top.opacity = 0
+        variables.visibleItem = ""
     }
 
 }

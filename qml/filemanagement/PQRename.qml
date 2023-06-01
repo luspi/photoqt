@@ -22,201 +22,154 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2
-
+import "../templates"
 import "../elements"
-import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Item {
+PQTemplateFullscreen {
 
     id: rename_top
 
-    width: parentWidth
-    height: parentHeight
+    popout: PQSettings.interfacePopoutFileRename
+    shortcut: "__rename"
+    title: em.pty+qsTranslate("filemanagement", "Rename file")
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    buttonFirstText: em.pty+qsTranslate("filemanagement", "Rename file")
+    buttonSecondShow: true
+    buttonSecondText: genericStringCancel
 
-    opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-    visible: opacity!=0
-    enabled: visible
+    onPopoutChanged:
+        PQSettings.interfacePopoutFileRename = popout
 
-    Rectangle {
+    onButtonFirstClicked:
+        performRename()
 
-        anchors.fill: parent
-        color: "#f41f1f1f"
+    onButtonSecondClicked:
+        closeElement()
 
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked:
-                button_cancel.clicked()
-        }
+
+    content: [
+
+//        PQTextXL {
+//            id: heading
+//            x: (parent.width-width)/2
+//            font.weight: baselook.boldweight
+//            text: em.pty+qsTranslate("filemanagement", "Rename file")
+//        },
+
+        PQText {
+            x: (parent.width-width)/2
+            color: "grey"
+            text: "old filename:"
+        },
+
+        PQTextL {
+            id: filename
+            x: (parent.width-width)/2
+            color: "grey"
+            font.weight: baselook.boldweight
+            text: "this_is_the_old_filename.jpg"
+        },
 
         Item {
+            width: 1
+            height: 1
+        },
 
-            id: insidecont
+        PQTextL {
+            id: error
+            x: (parent.width-width)/2
+            color: "red"
+            visible: false
+            horizontalAlignment: Qt.AlignHCenter
+            text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be renamed!")
+        },
 
-            x: ((parent.width-width)/2)
-            y: ((parent.height-height)/2)
-            width: parent.width
-            height: childrenRect.height
+        Item {
+            width: 1
+            height: 1
+        },
 
-            clip: true
+        PQText {
+            x: (parent.width-width)/2
+            color: "grey"
+            text: "new filename:"
+        },
 
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-            }
+        Row {
 
-            Column {
+            x: (parent.width-width)/2
+            spacing: 5
 
-                spacing: 10
+            PQLineEdit {
 
-                PQTextXL {
-                    id: heading
-                    x: (insidecont.width-width)/2
-                    font.weight: baselook.boldweight
-                    text: em.pty+qsTranslate("filemanagement", "Rename file")
-                }
+                id: filenameedit
 
-                PQTextL {
-                    id: filename
-                    x: (insidecont.width-width)/2
-                    color: "grey"
-                    text: "this_is_the_old_filename.jpg"
-                }
+                width: 300
+                height: 40
 
-                PQTextL {
-                    id: error
-                    x: (insidecont.width-width)/2
-                    color: "red"
-                    visible: false
-                    horizontalAlignment: Qt.AlignHCenter
-                    text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be renamed!")
-                }
-
-                PQLineEdit {
-
-                    id: filenameedit
-
-                    x: (insidecont.width-width)/2
-                    width: 300
-                    height: 40
-
-                    placeholderText: em.pty+qsTranslate("filemanagement", "Enter new filename")
-
-                }
-
-                Item {
-
-                    id: butcont
-
-                    x: 0
-                    width: insidecont.width
-                    height: childrenRect.height
-
-                    Row {
-
-                        spacing: 5
-
-                        x: (parent.width-width)/2
-
-                        PQButton {
-                            id: button_ok
-                            text: em.pty+qsTranslate("filemanagement", "Rename file")
-                            enabled: filenameedit.text!=""
-                            onClicked: {
-
-                                if(filenameedit.text == "")
-                                    return
-
-                                var cur = filefoldermodel.currentFilePath
-                                var dir = handlingFileDir.getFilePathFromFullPath(cur)
-                                var suf = handlingFileDir.getSuffix(cur)
-                                if(!handlingFileDir.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
-                                    error.visible = true
-                                    return
-                                }
-                                error.visible = false
-
-                                filefoldermodel.setFileNameOnceReloaded = dir + "/" + filenameedit.text+"."+suf
-
-                                rename_top.opacity = 0
-                                variables.visibleItem = ""
-
-                            }
-                        }
-                        PQButton {
-                            id: button_cancel
-                            text: genericStringCancel
-                            onClicked: {
-                                rename_top.opacity = 0
-                                variables.visibleItem = ""
-                            }
-                        }
-
-                    }
-
-                }
+                placeholderText: em.pty+qsTranslate("filemanagement", "Enter new filename")
 
             }
 
-        }
+            PQText {
 
-        Connections {
-            target: loader
-            onFileRenamePassOn: {
-                if(what == "show") {
-                    if(filefoldermodel.current == -1)
-                        return
-                    opacity = 1
-                    error.visible = false
-                    variables.visibleItem = "filerename"
-                    filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
-                    filenameedit.text =  handlingFileDir.getBaseName(filefoldermodel.currentFilePath)
-                    filenameedit.setFocus()
-                } else if(what == "hide") {
-                    button_cancel.clicked()
-                } else if(what == "keyevent") {
-                    if(param[0] == Qt.Key_Escape)
-                        button_cancel.clicked()
-                    else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
-                        button_ok.clicked()
-                }
+                id: filesuffix
+
+                y: (filenameedit.height-height)/2
+                color: "grey"
+                font.weight: baselook.boldweight
+                text: ".jpg"
             }
         }
 
+    ]
+
+    Connections {
+        target: loader
+        onFileRenamePassOn: {
+            if(what == "show") {
+                if(filefoldermodel.current == -1)
+                    return
+                opacity = 1
+                error.visible = false
+                variables.visibleItem = "filerename"
+                filename.text = handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath)
+                filenameedit.text =  handlingFileDir.getBaseName(filefoldermodel.currentFilePath)
+                filesuffix.text = "."+handlingFileDir.getSuffix(filefoldermodel.currentFilePath)
+                filenameedit.setFocus()
+            } else if(what == "hide") {
+                closeElement()
+            } else if(what == "keyevent") {
+                if(param[0] == Qt.Key_Escape)
+                    closeElement()
+                else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
+                    button_ok.clicked()
+            }
+        }
     }
 
-    Image {
-        x: 5
-        y: 5
-        width: 15
-        height: 15
-        source: "/popin.svg"
-        sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
-            id: popinmouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.interfacePopoutFileRename ?
-                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                         em.pty+qsTranslate("popinpopout", "Move to its own window")
-            onClicked: {
-                if(PQSettings.interfacePopoutFileRename)
-                    rename_window.storeGeometry()
-                button_cancel.clicked()
-                PQSettings.interfacePopoutFileRename = !PQSettings.interfacePopoutFileRename
-                HandleShortcuts.executeInternalFunction("__rename")
-            }
+    function performRename() {
+        if(filenameedit.text == "")
+            return
+
+        var cur = filefoldermodel.currentFilePath
+        var dir = handlingFileDir.getFilePathFromFullPath(cur)
+        var suf = handlingFileDir.getSuffix(cur)
+        if(!handlingFileDir.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
+            error.visible = true
+            return
         }
+        error.visible = false
+
+        filefoldermodel.setFileNameOnceReloaded = dir + "/" + filenameedit.text+"."+suf
+
+        rename_top.opacity = 0
+        variables.visibleItem = ""
+    }
+
+    function closeElement() {
+        rename_top.opacity = 0
+        variables.visibleItem = ""
     }
 
 }

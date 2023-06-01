@@ -21,74 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: rename_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("filemanagement", "Rename file")
 
-    Component.onCompleted: {
-        rename_window.setX(windowgeometry.fileRenameWindowGeometry.x)
-        rename_window.setY(windowgeometry.fileRenameWindowGeometry.y)
-        rename_window.setWidth(windowgeometry.fileRenameWindowGeometry.width)
-        rename_window.setHeight(windowgeometry.fileRenameWindowGeometry.height)
-    }
+    geometry: windowgeometry.fileRenameWindowGeometry
+    isMax: windowgeometry.fileRenameWindowMaximized
+    popup: PQSettings.interfacePopoutFileRename
+    sizepopup: false
+    name: "filerename"
+    source: "filemanagement/PQRename.qml"
 
-    minimumWidth: 200
-    minimumHeight: 300
+    onPopupChanged:
+        PQSettings.interfacePopoutFileRename = popup
 
-    modality: Qt.ApplicationModal
+    onGeometryChanged:
+        windowgeometry.fileRenameWindowGeometry = geometry
 
-    objectName: "renamepopout"
-
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "filerename")
-            variables.visibleItem = ""
-    }
-
-    visible: PQSettings.interfacePopoutFileRename&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutFileRenameChanged: {
-            if(!PQSettings.interfacePopoutFileRename)
-                rename_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutFileRename&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQRename.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return rename_window.width })
-                item.parentHeight = Qt.binding(function() { return rename_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(rename_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.fileRenameWindowGeometry = Qt.rect(rename_window.x, rename_window.y, rename_window.width, rename_window.height)
-        windowgeometry.fileRenameWindowMaximized = (rename_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.aboutWindowMaximized = isMax
 
 }
