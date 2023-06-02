@@ -45,7 +45,7 @@ Column {
 
     property int checkedOption: 4
 
-    PQTextL {
+    PQTextXL {
         x: (parent.width-width)/2
         text: "Microsoft Windows"
         font.weight: baselook.boldweight

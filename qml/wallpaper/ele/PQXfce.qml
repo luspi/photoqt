@@ -47,7 +47,7 @@ Column {
     property var checkedScreens: []
     property string checkedOption: ""
 
-    PQTextL {
+    PQTextXL {
         x: (parent.width-width)/2
         text: "XFCE 4"
         font.weight: baselook.boldweight

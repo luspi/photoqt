@@ -47,7 +47,7 @@ Column {
 
     property string checkedOption: ""
 
-    PQTextL {
+    PQTextXL {
         x: (parent.width-width)/2
         text: "Gnome/Unity/Cinnamon"
         font.weight: baselook.boldweight

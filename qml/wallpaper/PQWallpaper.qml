@@ -22,58 +22,44 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2
-
+import "../templates"
 import "../elements"
 import "ele"
-import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
-Item {
+PQTemplateFullscreen {
 
     id: wallpaper_top
 
-    width: parentWidth
-    height: parentHeight
+    popout: PQSettings.interfacePopoutWallpaper
+    shortcut: "__wallpaper"
+    title: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    button1.text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
 
-    opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-    visible: opacity!=0
-    enabled: visible
+    button2.visible: true
+    button2.text: genericStringCancel
+
+    onPopoutChanged:
+        PQSettings.interfacePopoutWallpaper = popout
+
+    button1.onClicked:
+        setWallpaper()
+
+    button2.onClicked:
+        closeElement()
 
     property bool onWindows: handlingGeneral.amIOnWindows()
 
     property string curCat: onWindows ? "windows" : "plasma"
     property int numDesktops: 3
 
-    Rectangle {
-
-        anchors.fill: parent
-        color: "#f41f1f1f"
-
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            enabled: !PQSettings.interfacePopoutWallpaper
-            onClicked:
-                button_cancel.clicked()
-        }
-
-        PQMouseArea {
-            anchors.fill: insidecont
-            anchors.margins: -50
-            hoverEnabled: true
-        }
+    content: [
 
         Item {
 
-            id: insidecont
             x: (parent.width-width)/2
-            y: (parent.height-height)/2
-            width: Math.min(parent.width, Math.max(parent.width/2, 800))
-            height: Math.min(parent.height, Math.max(parent.height/2, 600))
+            width: 800
+            height: 400
 
             Item {
                 id: category
@@ -192,101 +178,12 @@ Item {
 
             }
 
-            PQTextXL {
-                id: heading
-                x: category.width
-                y: 0
-                width: parent.width-x
-                height: 100
-                //: Heading of wallpaper element
-                text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
-                font.weight: baselook.boldweight
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Row {
-                id: buttons
-                x: (parent.width-width)/2 + category.width/2
-                y: parent.height-height
-                width: childrenRect.width
-                spacing: 10
-                height: 50
-                PQButton {
-                    y: (parent.height-height)/2
-                    id: button_ok
-                    //: Written on clickable button
-                    text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
-                    onClicked: {
-
-                        var args = {}
-
-                        if(curCat == "plasma") {
-
-                            if(plasma.checkedScreens.length == 0)
-                                return
-
-                            args["screens"] = plasma.checkedScreens
-
-                        } else if(curCat == "gnome") {
-
-                            args["option"] = gnome.checkedOption
-
-                        } else if(curCat == "xfce") {
-
-                            if(xfce.checkedScreens.length == 0)
-                                return
-
-                            args["screens"] = xfce.checkedScreens
-                            args["option"] = xfce.checkedOption
-
-                        } else if(curCat == "enlightenment") {
-
-                            if(enlightenment.checkedScreens.length == 0 || enlightenment.checkedWorkspaces.length == 0)
-                                return
-
-                            args["screens"] = enlightenment.checkedScreens
-                            args["workspaces"] = enlightenment.checkedWorkspaces
-
-                        } else if(curCat == "other") {
-
-                            args["app"] = other.checkedTool
-                            args["option"] = other.checkedOption
-
-                        } else if(curCat == "windows") {
-
-                            args["WallpaperStyle"] = windows.checkedOption
-
-                        }
-
-                        handlingWallpaper.setWallpaper(curCat, filefoldermodel.currentFilePath, args)
-
-                        wallpaper_top.opacity = 0
-                        variables.visibleItem = ""
-                    }
-                }
-                PQButton {
-                    y: (parent.height-height)/2
-                    id: button_cancel
-                    text: genericStringCancel
-                    onClicked: {
-                        wallpaper_top.opacity = 0
-                        variables.visibleItem = ""
-                    }
-                }
-            }
-
             Flickable {
 
-                anchors {
-                    left: category.right
-                    top: heading.bottom
-                    bottom: buttons.top
-                    right: parent.right
-                    rightMargin: 10
-                    bottomMargin: 10
-                    topMargin: onWindows ? -20 : 0
-                }
+                x: category.width
+                y: (onWindows ? -20 : 0)
+                width: parent.width-category.width-10
+                height: (parent.height + (onWindows ? 10 : -10))
 
                 ScrollBar.vertical: PQScrollBar { }
 
@@ -338,72 +235,96 @@ Item {
 
         }
 
-        Connections {
-            target: loader
-            onWallpaperPassOn: {
-                if(what == "show") {
-                    if(filefoldermodel.current == -1)
-                        return
-                    opacity = 1
-                    variables.visibleItem = "wallpaper"
-                } else if(what == "hide") {
-                    button_cancel.clicked()
-                } else if(what == "keyevent") {
-                    if(param[0] == Qt.Key_Escape)
-                        button_cancel.clicked()
-                    else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
-                        button_ok.clicked()
-                    else if(param[0] == Qt.Key_Tab) {
+    ]
 
-                        if(onWindows) return
+    Connections {
+        target: loader
+        onWallpaperPassOn: {
+            if(what == "show") {
+                if(filefoldermodel.current == -1)
+                    return
+                opacity = 1
+                variables.visibleItem = "wallpaper"
+            } else if(what == "hide") {
+                closeElement()
+            } else if(what == "keyevent") {
+                if(param[0] == Qt.Key_Escape)
+                    closeElement()
+                else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
+                    setWallpaper()
+                else if(param[0] == Qt.Key_Tab) {
 
-                        var avail = ["plasma", "gnome", "xfce", "enlightenment", "other"]
-                        var cur = avail.indexOf(curCat)+1
-                        if(cur == avail.length)
-                            cur = 0
-                        curCat = avail[cur]
-                    } else if(param[0] == Qt.Key_Right || param[0] == Qt.Key_Left) {
-                        if(curCat == "other")
-                            other.changeTool()
-                    }
+                    if(onWindows) return
+
+                    var avail = ["plasma", "gnome", "xfce", "enlightenment", "other"]
+                    var cur = avail.indexOf(curCat)+1
+                    if(cur == avail.length)
+                        cur = 0
+                    curCat = avail[cur]
+                } else if(param[0] == Qt.Key_Right || param[0] == Qt.Key_Left) {
+                    if(curCat == "other")
+                        other.changeTool()
                 }
             }
         }
+    }
 
-        Component.onCompleted: {
-            if(onWindows) return
-            curCat = handlingWallpaper.detectWM()
+    Component.onCompleted: {
+        if(onWindows) return
+        curCat = handlingWallpaper.detectWM()
+    }
+
+    function setWallpaper() {
+
+        var args = {}
+
+        if(curCat == "plasma") {
+
+            if(plasma.checkedScreens.length == 0)
+                return
+
+            args["screens"] = plasma.checkedScreens
+
+        } else if(curCat == "gnome") {
+
+            args["option"] = gnome.checkedOption
+
+        } else if(curCat == "xfce") {
+
+            if(xfce.checkedScreens.length == 0)
+                return
+
+            args["screens"] = xfce.checkedScreens
+            args["option"] = xfce.checkedOption
+
+        } else if(curCat == "enlightenment") {
+
+            if(enlightenment.checkedScreens.length == 0 || enlightenment.checkedWorkspaces.length == 0)
+                return
+
+            args["screens"] = enlightenment.checkedScreens
+            args["workspaces"] = enlightenment.checkedWorkspaces
+
+        } else if(curCat == "other") {
+
+            args["app"] = other.checkedTool
+            args["option"] = other.checkedOption
+
+        } else if(curCat == "windows") {
+
+            args["WallpaperStyle"] = windows.checkedOption
+
         }
+
+        handlingWallpaper.setWallpaper(curCat, filefoldermodel.currentFilePath, args)
+
+        closeElement()
 
     }
 
-    Image {
-        x: 5
-        y: 5
-        width: 15
-        height: 15
-        source: "/popin.svg"
-        sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
-            id: popinmouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQSettings.interfacePopoutWallpaper ?
-                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                         em.pty+qsTranslate("popinpopout", "Move to its own window")
-            onClicked: {
-                if(PQSettings.interfacePopoutWallpaper)
-                    wallpaper_window.storeGeometry()
-                button_cancel.clicked()
-                PQSettings.interfacePopoutWallpaper = !PQSettings.interfacePopoutWallpaper
-                HandleShortcuts.executeInternalFunction("__wallpaper")
-            }
-        }
+    function closeElement() {
+        wallpaper_top.opacity = 0
+        variables.visibleItem = ""
     }
 
 }

@@ -44,7 +44,7 @@ Column {
 
     property var checkedScreens: []
 
-    PQTextL {
+    PQTextXL {
         x: (parent.width-width)/2
         text: "Plasma 5"
         font.weight: baselook.boldweight

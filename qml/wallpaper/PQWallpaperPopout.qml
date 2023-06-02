@@ -21,74 +21,31 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: wallpaper_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
 
-    Component.onCompleted: {
-        wallpaper_window.setX(windowgeometry.wallpaperWindowGeometry.x)
-        wallpaper_window.setY(windowgeometry.wallpaperWindowGeometry.y)
-        wallpaper_window.setWidth(windowgeometry.wallpaperWindowGeometry.width)
-        wallpaper_window.setHeight(windowgeometry.wallpaperWindowGeometry.height)
-    }
+    geometry: windowgeometry.wallpaperWindowGeometry
+    isMax: windowgeometry.wallpaperWindowMaximized
+    popup: PQSettings.interfacePopoutWallpaper
+    sizepopup: windowsizepopup.wallpaper
+    name: "wallpaper"
+    source: "wallpaper/PQWallpaper.qml"
 
-    minimumWidth: 500
-    minimumHeight: 500
+    minimumWidth: 800
+    minimumHeight: 600
 
-    modality: Qt.ApplicationModal
+    onPopupChanged:
+        PQSettings.interfacePopoutWallpaper = popup
 
-    objectName: "wallpaperpopout"
+    onGeometryChanged:
+        windowgeometry.wallpaperWindowGeometry = geometry
 
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "wallpaper")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.wallpaper || PQSettings.interfacePopoutWallpaper)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutWallpaperChanged: {
-            if(!PQSettings.interfacePopoutWallpaper)
-                wallpaper_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutWallpaper&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQWallpaper.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return wallpaper_window.width })
-                item.parentHeight = Qt.binding(function() { return wallpaper_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(wallpaper_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.wallpaperWindowGeometry = Qt.rect(wallpaper_window.x, wallpaper_window.y, wallpaper_window.width, wallpaper_window.height)
-        windowgeometry.wallpaperWindowMaximized = (wallpaper_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.wallpaperWindowMaximized = isMax
 
 }

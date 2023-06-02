@@ -49,7 +49,7 @@ Column {
 
     spacing: 10
 
-    PQTextL {
+    PQTextXL {
         x: (parent.width-width)/2
         text: "Enlightenment"
         font.weight: baselook.boldweight

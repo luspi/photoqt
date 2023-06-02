@@ -49,7 +49,7 @@ Column {
     property string checkedTool: ""
     property string checkedOption: ""
 
-    PQTextL {
+    PQTextXL {
         x: (parent.width-width)/2
         //: Used as in: Other Desktop Environment
         text: em.pty+qsTranslate("wallpaper", "Other")
