@@ -380,6 +380,26 @@ Map {
         map.center.longitude = lon
     }
 
+    function setMapCenterSmooth(lat, lon) {
+
+        smoothCenterLat.from = map.center.latitude
+        smoothCenterLat.to = lat
+
+        smoothCenterLon.from = map.center.longitude
+        smoothCenterLon.to = lon
+
+        smoothCenterLat.start()
+        smoothCenterLon.start()
+    }
+
+    function setMapZoomLevelSmooth(lvl) {
+
+        smoothZoom.from = map.zoomLevel
+        smoothZoom.to = lvl
+        smoothZoom.start()
+
+    }
+
     function updateVisibleRegionNow() {
         updateVisibleRegion.execute()
     }

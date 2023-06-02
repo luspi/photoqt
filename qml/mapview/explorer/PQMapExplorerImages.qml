@@ -219,7 +219,7 @@ Rectangle {
                         }
 
                         onClicked: {
-                            clickOnImage(index)
+                            clickOnImage(maindeleg.latitude, maindeleg.longitude)
                         }
                     }
 

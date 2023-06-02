@@ -226,9 +226,11 @@ Item {
         smoothWidth.start()
     }
 
-    function clickOnImage(index) {
-        filefoldermodel.setAsCurrent(imagesWithLocation[index][0])
-        hideExplorer()
+    function clickOnImage(lat, lon) {
+
+        map.setMapCenterSmooth(lat, lon)
+        map.setMapZoomLevelSmooth(map.maximumZoomLevel-2)
+
     }
 
     function loadImages() {
