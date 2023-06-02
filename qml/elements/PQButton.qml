@@ -56,6 +56,7 @@ Rectangle {
     property bool menuOpenDownward: true
     property bool centerMenuOnButton: false
     property bool buttonSameWidthAsMenu: false
+    property bool menuSameWidthAsButton: false
     property var listMenuItems: []
 
     property string imageButtonSource: ""
@@ -155,6 +156,13 @@ Rectangle {
         entries: listMenuItems
         onTriggered:
             control.menuItemClicked(index)
+
+        Component.onCompleted: {
+            if(menuSameWidthAsButton) {
+                menu.width = control.width-1
+                menu.maxWidth = control.width-1
+            }
+        }
 
     }
 
