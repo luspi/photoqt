@@ -21,71 +21,33 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: histogram_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("histogram", "Histogram")
 
-    Component.onCompleted: {
-        histogram_window.x = windowgeometry.histogramWindowGeometry.x
-        histogram_window.y = windowgeometry.histogramWindowGeometry.y
-        histogram_window.width = windowgeometry.histogramWindowGeometry.width
-        histogram_window.height = windowgeometry.histogramWindowGeometry.height
-    }
-
-    minimumWidth: 100
-    minimumHeight: 100
+    geometry: windowgeometry.histogramWindowGeometry
+    isMax: windowgeometry.histogramWindowMaximized
+    popup: PQSettings.interfacePopoutHistogram
+    sizepopup: false
+    name: "histogram"
+    source: "histogram/PQHistogram.qml"
 
     modality: Qt.NonModal
 
-    objectName: "histogrampopout"
+    onPopupChanged:
+        PQSettings.interfacePopoutHistogram = popup
 
-    onClosing: {
-        storeGeometry()
-        PQSettings.histogramVisible = 0
-    }
+    onGeometryChanged:
+        windowgeometry.histogramWindowGeometry = geometry
 
-    Connections {
-        target: toplevel
-        onClosing: {
-            storeGeometry()
-        }
-    }
+    onIsMaxChanged:
+        windowgeometry.histogramWindowMaximized = isMax
 
-    visible: (PQSettings.interfacePopoutHistogram&&PQSettings.histogramVisible)
-    flags: Qt.WindowStaysOnTopHint
-
-    color: "#88000000"
-
-    Loader {
-        source: "PQHistogram.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return histogram_window.width })
-                item.parentHeight = Qt.binding(function() { return histogram_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(histogram_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
-        windowgeometry.histogramWindowMaximized = (histogram_window.visibility==Window.Maximized)
-    }
+    onPopupClosed:
+        PQSettings.histogramVisible = false
 
 }

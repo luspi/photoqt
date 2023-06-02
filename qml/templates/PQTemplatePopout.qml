@@ -47,6 +47,10 @@ Window {
 
     /////////
 
+    signal popupClosed()
+
+    /////////
+
     Component.onCompleted: {
         ele_window.setX(geometry.x)
         ele_window.setY(geometry.y)
@@ -65,6 +69,7 @@ Window {
         storeGeometry()
         if(variables.visibleItem == name)
             variables.visibleItem = ""
+        popupClosed()
     }
 
     visible: (sizepopup || popup)&&curloader.item.opacity==1

@@ -193,5 +193,6 @@
         <file>mapview/PQMapExplorerPopout.qml</file>
         <file>templates/PQTemplateFullscreen.qml</file>
         <file>templates/PQTemplatePopout.qml</file>
+        <file>templates/PQTemplateIntegrated.qml</file>
     </qresource>
 </RCC>

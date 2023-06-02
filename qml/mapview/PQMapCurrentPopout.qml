@@ -21,79 +21,33 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: mapcurrent_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("mapcurrent", "Map (Current Image)")
 
-    Component.onCompleted: {
-        mapcurrent_window.x = windowgeometry.mapCurrentWindowGeometry.x
-        mapcurrent_window.y = windowgeometry.mapCurrentWindowGeometry.y
-        mapcurrent_window.width = windowgeometry.mapCurrentWindowGeometry.width
-        mapcurrent_window.height = windowgeometry.mapCurrentWindowGeometry.height
-    }
-
-    minimumWidth: 100
-    minimumHeight: 100
+    geometry: windowgeometry.mapCurrentWindowGeometry
+    isMax: windowgeometry.mapCurrentWindowMaximized
+    popup: PQSettings.interfacePopoutMapCurrent
+    sizepopup: false
+    name: "mapcurrentpopout"
+    source: "mapview/PQMapCurrent.qml"
 
     modality: Qt.NonModal
 
-    objectName: "mapcurrentpopout"
+    onPopupChanged:
+        PQSettings.interfacePopoutMapCurrent = popup
 
-    onClosing: {
-        storeGeometry()
-        PQSettings.mapviewCurrentVisible = 0
-    }
+    onGeometryChanged:
+        windowgeometry.mapCurrentWindowGeometry = geometry
 
-    Connections {
-        target: toplevel
-        onClosing: {
-            storeGeometry()
-        }
-    }
+    onIsMaxChanged:
+        windowgeometry.mapCurrentWindowMaximized = isMax
 
-    visible: (PQSettings.interfacePopoutMapCurrent&&PQSettings.mapviewCurrentVisible)
-    flags: Qt.WindowStaysOnTopHint
-
-    color: "#88000000"
-
-    Loader {
-        source: "PQMapCurrent.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return mapcurrent_window.width })
-                item.parentHeight = Qt.binding(function() { return mapcurrent_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(mapcurrent_window.objectName)
-    }
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutMapCurrentChanged: {
-            if(!PQSettings.interfacePopoutMapCurrent)
-                mapcurrent_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutMapCurrent&&PQSettings.mapviewCurrentVisible; })
-        }
-    }
-
-    function storeGeometry() {
-        windowgeometry.mapCurrentWindowGeometry = Qt.rect(mapcurrent_window.x, mapcurrent_window.y, mapcurrent_window.width, mapcurrent_window.height)
-        windowgeometry.mapCurrentWindowMaximized = (mapcurrent_window.visibility==Window.Maximized)
-    }
+    onPopupClosed:
+        PQSettings.mapviewCurrentVisible = false
 
 }
