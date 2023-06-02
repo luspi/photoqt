@@ -117,5 +117,6 @@
         <file>mapview/topbottom.svg</file>
         <file>mapview/zoomin.svg</file>
         <file>mapview/zoomout.svg</file>
+        <file>settingsmanager/interface/upwards.svg</file>
     </qresource>
 </RCC>

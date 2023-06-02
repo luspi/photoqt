@@ -213,16 +213,17 @@ Item {
             width: bar.width
             height: buttons_container.height
 
-            color: "#111111"
+            color: "#333333"
 
             PQButton {
-                x: (parent.width-width)/2
-                y: (parent.height-height)/2
+                width: parent.width
+                height: parent.height
                 //: Written on button in setting manager. A click on this button opens a menu with some advanced actions.
-                text: em.pty+qsTranslate("settingsmanager", "advanced")
+                imageButtonSource: "/settingsmanager/interface/upwards.svg"
+                tooltip: em.pty+qsTranslate("settingsmanager", "advanced")
                 clickOpensMenu: true
                 menuOpenDownward: false
-                buttonSameWidthAsMenu: true
+                menuSameWidthAsButton: true
                 listMenuItems: [em.pty+qsTranslate("settingsmanager", "restore defaults"),
                                 em.pty+qsTranslate("settingsmanager", "import settings"),
                                 em.pty+qsTranslate("settingsmanager", "export settings"),
@@ -238,6 +239,22 @@ Item {
                         variables.settingsManagerExpertMode = !variables.settingsManagerExpertMode
                     }
                 }
+            }
+
+            Rectangle {
+                x: 0
+                y: 0
+                width: parent.width
+                height: 1
+                color: "#888888"
+            }
+
+            Rectangle {
+                x: parent.width-1
+                y: 0
+                width: 1
+                height: parent.height
+                color: "#888888"
             }
 
         }
@@ -294,9 +311,9 @@ Item {
             x: bar.width
             y: parent.height-height
             width: parent.width-bar.width
-            height: 75
+            height: 50
 
-            color: "#111111"
+            color: "#333333"
 
             PQMouseArea {
                 anchors.fill: parent
@@ -308,19 +325,22 @@ Item {
                 y: 0
                 width: parent.width
                 height: 1
-                color: "#555555"
+                color: "#888888"
             }
 
             Row {
 
-                spacing: 5
-
                 x: (parent.width-width)/2
-                y: (parent.height-height)/2
+                height: parent.height
 
                 PQButton {
                     id: button_ok
-                    text: em.pty+qsTranslate("settingsmanager", "Save changes and exit")
+                    font.weight: baselook.boldweight
+                    font.pointSize: baselook.fontsize_l
+                    y: 1
+                    height: parent.height-1
+                    leftRightTextSpacing: 40
+                    text: em.pty+qsTranslate("settingsmanager", "Save")
                     onClicked: {
                         if(!modalWindowOpen) {
                             saveSettings()
@@ -330,10 +350,28 @@ Item {
                                 variables.visibleItem = "filedialog"
                         }
                     }
+
+                    Rectangle {
+                        x: 0
+                        width: 1
+                        height: parent.height
+                        color: "#888888"
+                    }
+
+                    Rectangle {
+                        x: parent.width-1
+                        width: 1
+                        height: parent.height
+                        color: "#888888"
+                    }
                 }
                 PQButton {
                     id: button_cancel
-                    text: em.pty+qsTranslate("settingsmanager", "Exit and discard changes")
+                    font.pointSize: baselook.fontsize_l
+                    y: 1
+                    height: parent.height-1
+                    leftRightTextSpacing: 40
+                    text: genericStringCancel
                     onClicked: {
                         if(modalWindowOpen)
                             closeModalWindow()
@@ -343,6 +381,20 @@ Item {
                             if(variables.settingsManagerOnTopOfFileDialog)
                                 variables.visibleItem = "filedialog"
                         }
+                    }
+
+                    Rectangle {
+                        x: 0
+                        width: 1
+                        height: parent.height
+                        color: "#888888"
+                    }
+
+                    Rectangle {
+                        x: parent.width-1
+                        width: 1
+                        height: parent.height
+                        color: "#888888"
                     }
                 }
 
