@@ -21,73 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: slideshow_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("slideshow", "Slideshow settings")
 
-    Component.onCompleted: {
-        slideshow_window.setX(windowgeometry.slideshowWindowGeometry.x)
-        slideshow_window.setY(windowgeometry.slideshowWindowGeometry.y)
-        slideshow_window.setWidth(windowgeometry.slideshowWindowGeometry.width)
-        slideshow_window.setHeight(windowgeometry.slideshowWindowGeometry.height)
-    }
+    geometry: windowgeometry.slideshowWindowGeometry
+    isMax: windowgeometry.slideshowWindowMaximized
+    popup: PQSettings.interfacePopoutSlideShowSettings
+    sizepopup: windowsizepopup.slideShowSettings
+    name: "slideshowsettings"
+    source: "slideshow/PQSlideShowSettings.qml"
 
-    minimumWidth: 200
-    minimumHeight: 300
+    onPopupChanged:
+        PQSettings.interfacePopoutSlideShowSettings = popup
 
-    modality: Qt.ApplicationModal
-    objectName: "slideshowsettingspopout"
+    onGeometryChanged:
+        windowgeometry.slideshowWindowGeometry = geometry
 
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "slideshowsettings")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.slideShowSettings || PQSettings.interfacePopoutSlideShowSettings)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutSlideShowSettingsChanged: {
-            if(!PQSettings.interfacePopoutSlideShowSettings)
-                slideshow_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutSlideShowSettings&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQSlideShowSettings.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return slideshow_window.width })
-                item.parentHeight = Qt.binding(function() { return slideshow_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(slideshow_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.slideshowWindowGeometry = Qt.rect(slideshow_window.x, slideshow_window.y, slideshow_window.width, slideshow_window.height)
-        windowgeometry.slideshowWindowMaximized = (slideshow_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.slideshowWindowMaximized = isMax
 
 }
