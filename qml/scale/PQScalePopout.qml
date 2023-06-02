@@ -21,74 +21,28 @@
  **************************************************************************/
 
 import QtQuick 2.9
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
 import "../elements"
+import "../templates"
 
-Window {
-
-    id: scale_window
+PQTemplatePopout {
 
     //: Window title
     title: em.pty+qsTranslate("scale", "Scale file")
 
-    Component.onCompleted: {
-        scale_window.setX(windowgeometry.scaleWindowGeometry.x)
-        scale_window.setY(windowgeometry.scaleWindowGeometry.y)
-        scale_window.setWidth(windowgeometry.scaleWindowGeometry.width)
-        scale_window.setHeight(windowgeometry.scaleWindowGeometry.height)
-    }
+    geometry: windowgeometry.scaleWindowGeometry
+    isMax: windowgeometry.scaleWindowMaximized
+    popup: PQSettings.interfacePopoutScale
+    sizepopup: windowsizepopup.scaleImage
+    name: "scale"
+    source: "scale/PQScale.qml"
 
-    minimumWidth: 500
-    minimumHeight: 500
+    onPopupChanged:
+        PQSettings.interfacePopoutScale = popup
 
-    modality: Qt.ApplicationModal
+    onGeometryChanged:
+        windowgeometry.scaleWindowGeometry = geometry
 
-    objectName: "scalepopout"
-
-    onClosing: {
-        storeGeometry()
-        if(variables.visibleItem == "filerename")
-            variables.visibleItem = ""
-    }
-
-    visible: (windowsizepopup.scaleImage || PQSettings.interfacePopoutScale)&&curloader.item.opacity==1
-    flags: Qt.WindowStaysOnTopHint
-
-    Connections {
-        target: PQSettings
-        onInterfacePopoutScaleChanged: {
-            if(!PQSettings.interfacePopoutScale)
-                scale_window.visible = Qt.binding(function() { return PQSettings.interfacePopoutScale&&curloader.item.opacity==1; })
-        }
-    }
-
-    color: "#88000000"
-
-    Loader {
-        id: curloader
-        source: "PQScale.qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                item.parentWidth = Qt.binding(function() { return scale_window.width })
-                item.parentHeight = Qt.binding(function() { return scale_window.height })
-            }
-    }
-
-    // get the memory address of this window for shortcut processing
-    // this info is used in PQSingleInstance::notify()
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered:
-            handlingGeneral.storeQmlWindowMemoryAddress(scale_window.objectName)
-    }
-
-    function storeGeometry() {
-        windowgeometry.scaleWindowGeometry = Qt.rect(scale_window.x, scale_window.y, scale_window.width, scale_window.height)
-        windowgeometry.scaleWindowMaximized = (scale_window.visibility==Window.Maximized)
-    }
+    onIsMaxChanged:
+        windowgeometry.scaleWindowMaximized = isMax
 
 }
