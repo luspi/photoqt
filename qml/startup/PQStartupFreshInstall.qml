@@ -124,7 +124,6 @@ Window {
                         x: (150-width)/2
                         text: ""
                         ButtonGroup.group: radiogroup
-                        checked: true
                     }
 
                     Item {
@@ -172,6 +171,7 @@ Window {
                         x: (150-width)/2
                         text: ""
                         ButtonGroup.group: radiogroup
+                        checked: true
                     }
 
                     Item {
