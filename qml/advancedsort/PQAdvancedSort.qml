@@ -275,9 +275,9 @@ PQTemplateFullscreen {
                 closeElement()
             } else if(what == "keyevent") {
                 if(param[0] == Qt.Key_Escape)
-                    buttonSecondClicked()
+                    button2.clicked()
                 else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
-                    buttonFirstClicked()
+                    button1.clicked()
             }
         }
     }
