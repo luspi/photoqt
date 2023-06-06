@@ -181,6 +181,15 @@ Item {
         boundsBehavior: xOffset==0 ? ListView.DragOverBounds : ListView.StopAtBounds
 
         property int mouseOverItem: -1
+        Timer {
+            id: resetMouseOverItem
+            interval: 100
+            property int oldIndex
+            onTriggered: {
+                if(oldIndex === view.mouseOverItem)
+                    view.mouseOverItem = -1
+            }
+        }
 
         // count continuing scroll
         property int flickCounter: 0
@@ -359,6 +368,8 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.MiddleButton|Qt.LeftButton
                 onEntered: {
 
+                    resetMouseOverItem.stop()
+
                     if(PQSettings.thumbnailsTooltip) {
 
                         if(!tooltipSetup) {
@@ -380,8 +391,10 @@ Item {
                 }
                 onClicked:
                     filefoldermodel.current = index
-                onExited:
-                    view.mouseOverItem = -1
+                onExited: {
+                    resetMouseOverItem.oldIndex = index
+                    resetMouseOverItem.restart()
+                }
                 onWheel:
                     scrollViewFromWheel(wheel.angleDelta)
             }

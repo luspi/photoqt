@@ -43,6 +43,7 @@ Item {
     property real opacityMouseOver: 1
     property real opacityBackground: 0.5
     property bool mouseOver: false
+    property int mouseOverId: 0
 
     property bool atStartup: true
 
@@ -51,6 +52,16 @@ Item {
         nav_top.x = nav_top.x
         nav_top.y = nav_top.y
         atStartup = false
+    }
+
+    Timer {
+        id: resetMouseOver
+        interval: 100
+        property int oldId
+        onTriggered: {
+            if(oldId == nav_top.mouseOverId)
+                nav_top.mouseOver = false
+        }
     }
 
     PQMouseArea {
@@ -64,10 +75,15 @@ Item {
         onDragActiveChanged: disconnectPos()
         hoverEnabled: true
         tooltip: em.pty+qsTranslate("navigate", "Click and drag to move")
-        onEntered:
+        onEntered: {
+            resetMouseOver.stop()
+            nav_top.mouseOverId = 0
             nav_top.mouseOver = true
-        onExited:
-            nav_top.mouseOver = false
+        }
+        onExited: {
+            resetMouseOver.oldId = 0
+            resetMouseOver.restart()
+        }
     }
 
     Row {
@@ -99,10 +115,15 @@ Item {
                 tooltip: em.pty+qsTranslate("navigate", "Navigate to previous image in folder")
                 onClicked:
                     imageitem.loadPrevImage()
-                onEntered:
+                onEntered: {
+                    resetMouseOver.stop()
+                    nav_top.mouseOverId = 1
                     nav_top.mouseOver = true
-                onExited:
-                    nav_top.mouseOver = false
+                }
+                onExited: {
+                    resetMouseOver.oldId = 1
+                    resetMouseOver.restart()
+                }
             }
         }
 
@@ -128,10 +149,15 @@ Item {
                 tooltip: em.pty+qsTranslate("navigate", "Navigate to next image in folder")
                 onClicked:
                     imageitem.loadNextImage()
-                onEntered:
+                onEntered: {
+                    resetMouseOver.stop()
+                    nav_top.mouseOverId = 2
                     nav_top.mouseOver = true
-                onExited:
-                    nav_top.mouseOver = false
+                }
+                onExited: {
+                    resetMouseOver.oldId = 2
+                    resetMouseOver.restart()
+                }
             }
         }
 
@@ -154,10 +180,15 @@ Item {
                 tooltip: em.pty+qsTranslate("navigate", "Show main menu")
                 onClicked:
                     loader.passOn("mainmenu", "toggle", undefined)
-                onEntered:
+                onEntered: {
+                    resetMouseOver.stop()
+                    nav_top.mouseOverId = 3
                     nav_top.mouseOver = true
-                onExited:
-                    nav_top.mouseOver = false
+                }
+                onExited: {
+                    resetMouseOver.oldId = 3
+                    resetMouseOver.restart()
+                }
             }
         }
 

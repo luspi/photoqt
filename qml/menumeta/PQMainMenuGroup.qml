@@ -81,6 +81,18 @@ Column {
                     spacing: 10
                     property int outerIndex: index
                     property bool mouseOver: false
+                    property int mouseOverId: 0
+
+                    Timer {
+                        id: resetMouseOver
+                        interval: 100
+                        property int oldId
+                        onTriggered: {
+                            if(oldId === row.mouseOverId)
+                                row.mouseOver = false
+                        }
+                    }
+
                     Repeater {
                         model: leftcol[outerIndex].length
 
@@ -119,8 +131,17 @@ Column {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    onEntered: row.mouseOver = true
-                                    onExited: row.mouseOver = false
+                                    property int myId: 0
+                                    onEntered: {
+                                        resetMouseOver.stop()
+                                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                                        row.mouseOverId = myId
+                                        row.mouseOver = true
+                                    }
+                                    onExited: {
+                                        resetMouseOver.oldId = myId
+                                        resetMouseOver.restart()
+                                    }
                                     onClicked: parent.parent.click()
                                 }
                             }
@@ -137,8 +158,17 @@ Column {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    onEntered: row.mouseOver = true
-                                    onExited: row.mouseOver = false
+                                    property int myId: 0
+                                    onEntered: {
+                                        resetMouseOver.stop()
+                                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                                        row.mouseOverId = myId
+                                        row.mouseOver = true
+                                    }
+                                    onExited: {
+                                        resetMouseOver.oldId = myId
+                                        resetMouseOver.restart()
+                                    }
                                     onClicked: parent.parent.click()
                                 }
                             }
@@ -182,6 +212,17 @@ Column {
                 spacing: rightcolNormal ? 10 : 30
 
                 property bool mouseOver: false
+                property int mouseOverId: 0
+
+                Timer {
+                    id: resetMouseOver2
+                    interval: 100
+                    property int oldId
+                    onTriggered: {
+                        if(oldId === row2.mouseOverId)
+                            row2.mouseOver = false
+                    }
+                }
 
                 Repeater {
                     model: rightcol.length
@@ -217,8 +258,17 @@ Column {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                onEntered: row2.mouseOver = true
-                                onExited: row2.mouseOver = false
+                                property int myId: 0
+                                onEntered: {
+                                    resetMouseOver2.stop()
+                                    if(myId == 0) myId = handlingGeneral.getUniqueId()
+                                    row2.mouseOverId = myId
+                                    row2.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver2.oldId = myId
+                                    resetMouseOver2.restart()
+                                }
                                 onClicked: parent.parent.click()
                             }
                         }
@@ -234,8 +284,17 @@ Column {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                onEntered: row2.mouseOver = true
-                                onExited: row2.mouseOver = false
+                                property int myId: 0
+                                onEntered: {
+                                    resetMouseOver2.stop()
+                                    if(myId == 0) myId = handlingGeneral.getUniqueId()
+                                    row2.mouseOverId = myId
+                                    row2.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver2.oldId = myId
+                                    resetMouseOver2.restart()
+                                }
                                 onClicked: parent.parent.click()
                             }
                         }

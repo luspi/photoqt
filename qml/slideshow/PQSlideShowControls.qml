@@ -47,20 +47,37 @@ Item {
     property bool showForeground: true
     property bool slideshowPaused: false
     property bool mouseOver: false
+    property int mouseOverId: 0
 
     property string backupAnimType: ""
     property var backupAllImagesInFolder: []
 
+    Timer {
+        id: resetMouseOver
+        interval: 100
+        property int oldId
+        onTriggered: {
+            if(oldId === mouseOverId)
+                mouseOver = false
+        }
+    }
 
     MouseArea {
         id: controlsbgmousearea
         anchors.fill: parent
         hoverEnabled: true
         drag.target: controls_top
-        onEntered:
+        property int myId: 0
+        onEntered: {
+            resetMouseOver.stop()
+            if(myId == 0) myId = handlingGeneral.getUniqueId()
+            mouseOverId = myId
             controls_top.mouseOver = true
-        onExited:
-            controls_top.mouseOver = false
+        }
+        onExited: {
+            resetMouseOver.oldId = myId
+            resetMouseOver.restart()
+        }
     }
 
     property bool running: false
@@ -119,10 +136,17 @@ Item {
                         loadPrevImage()
                     }
                     drag.target: controls_top
-                    onEntered:
+                    property int myId: 0
+                    onEntered: {
+                        resetMouseOver.stop()
+                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                        mouseOverId = myId
                         controls_top.mouseOver = true
-                    onExited:
-                        controls_top.mouseOver = false
+                    }
+                    onExited: {
+                        resetMouseOver.oldId = myId
+                        resetMouseOver.restart()
+                    }
                 }
 
             }
@@ -149,10 +173,17 @@ Item {
                     onClicked:
                         controls_top.running = !controls_top.running
                     drag.target: controls_top
-                    onEntered:
+                    property int myId: 0
+                    onEntered: {
+                        resetMouseOver.stop()
+                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                        mouseOverId = myId
                         controls_top.mouseOver = true
-                    onExited:
-                        controls_top.mouseOver = false
+                    }
+                    onExited: {
+                        resetMouseOver.oldId = myId
+                        resetMouseOver.restart()
+                    }
                 }
 
             }
@@ -180,10 +211,17 @@ Item {
                         loadNextImage()
                     }
                     drag.target: controls_top
-                    onEntered:
+                    property int myId: 0
+                    onEntered: {
+                        resetMouseOver.stop()
+                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                        mouseOverId = myId
                         controls_top.mouseOver = true
-                    onExited:
-                        controls_top.mouseOver = false
+                    }
+                    onExited: {
+                        resetMouseOver.oldId = myId
+                        resetMouseOver.restart()
+                    }
                 }
 
             }
@@ -208,10 +246,17 @@ Item {
                         quitSlideShow()
                     }
                     drag.target: controls_top
-                    onEntered:
+                    property int myId: 0
+                    onEntered: {
+                        resetMouseOver.stop()
+                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                        mouseOverId = myId
                         controls_top.mouseOver = true
-                    onExited:
-                        controls_top.mouseOver = false
+                    }
+                    onExited: {
+                        resetMouseOver.oldId = myId
+                        resetMouseOver.restart()
+                    }
                 }
 
             }

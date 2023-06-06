@@ -43,6 +43,16 @@ ListView {
 
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
+    Timer {
+        id: resetHoverIndex
+        interval: 100
+        property int oldIndex
+        onTriggered: {
+            if(hoverIndex === oldIndex)
+                hoverIndex = -1
+        }
+    }
+
     PQTextL {
         anchors.fill: parent
         anchors.margins: 15
@@ -204,11 +214,14 @@ ListView {
                     }
                 }
 
-                onEntered:
+                onEntered: {
+                    resetHoverIndex.stop()
                     userplaces_top.hoverIndex = (index>0 ? index : -1)
-                onExited:
-                    if(userplaces_top.hoverIndex == index)
-                        userplaces_top.hoverIndex = -1
+                }
+                onExited: {
+                    resetHoverIndex.oldIndex = index
+                    resetHoverIndex.restart()
+                }
 
             }
 

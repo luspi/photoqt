@@ -43,6 +43,16 @@ ListView {
                         StandardPaths.displayName(StandardPaths.PicturesLocation), handlingFileDir.cleanPath(StandardPaths.writableLocation(StandardPaths.PicturesLocation)), "folder-pictures",
                         StandardPaths.displayName(StandardPaths.DownloadLocation), handlingFileDir.cleanPath(StandardPaths.writableLocation(StandardPaths.DownloadLocation)), "folder-downloads"]
 
+    Timer {
+        id: resetHoverIndex
+        interval: 100
+        property int oldIndex
+        onTriggered: {
+            if(hoverIndex === oldIndex)
+                hoverIndex = -1
+        }
+    }
+
     delegate: Rectangle {
 
         id: deleg_container
@@ -127,10 +137,14 @@ ListView {
                 }
             }
 
-            onEntered:
-                hoverIndex = (index>0 ? index : -1)
-            onExited:
-                hoverIndex = -1
+            onEntered: {
+                resetHoverIndex.stop()
+                userplaces_top.hoverIndex = (index>0 ? index : -1)
+            }
+            onExited: {
+                resetHoverIndex.oldIndex = index
+                resetHoverIndex.restart()
+            }
 
         }
 

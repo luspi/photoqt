@@ -49,6 +49,15 @@ Rectangle {
             width: parent.width
 
             property int currentIndex: -1
+            Timer {
+                id: resetCurrentIndex
+                interval: 100
+                property int oldIndex
+                onTriggered: {
+                    if(oldIndex === files_grid.currentIndex)
+                        files_grid.currentIndex = -1
+                }
+            }
 
             Repeater {
 
@@ -179,6 +188,7 @@ Rectangle {
 
                         onEntered: {
 
+                            resetCurrentIndex.stop()
                             files_grid.currentIndex = index
 
                             map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude)
@@ -215,7 +225,8 @@ Rectangle {
                         }
                         onExited: {
                             map.hideHightlightMarker()
-                            files_grid.currentIndex = -1
+                            resetCurrentIndex.oldIndex = index
+                            resetCurrentIndex.restart()
                         }
 
                         onClicked: {

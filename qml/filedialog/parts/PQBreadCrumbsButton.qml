@@ -69,6 +69,16 @@ Rectangle {
 
     // a click while some menu item is hovered does not close the menu below
     property bool someMenuItemHovered: false
+    property int menuItemHoveredId: 0
+    Timer {
+        id: resetSomeMenuItemHovered
+        interval: 100
+        property int oldId
+        onTriggered: {
+            if(oldId === menuItemHoveredId)
+                someMenuItemHovered = false
+        }
+    }
 
     // if this is a folder in the actual path, show that folder
     // otherwise hide it
@@ -226,10 +236,17 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    onEntered:
+                    property int myId: 0
+                    onEntered: {
+                        resetSomeMenuItemHovered.stop()
+                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                        control.menuItemHoveredId = myId
                         control.someMenuItemHovered = true
-                    onExited:
-                        control.someMenuItemHovered = false
+                    }
+                    onExited: {
+                        resetSomeMenuItemHovered.oldId = myId
+                        resetSomeMenuItemHovered.restart()
+                    }
 
                     // press and hold keeps scrolling up
                     onPressed: {
@@ -309,10 +326,17 @@ Rectangle {
                                 anchors.fill: parent
                                 hoverEnabled: true
 
-                                onEntered:
+                                property int myId: 0
+                                onEntered: {
+                                    resetSomeMenuItemHovered.stop()
+                                    if(myId == 0) myId = handlingGeneral.getUniqueId()
+                                    control.menuItemHoveredId = myId
                                     control.someMenuItemHovered = true
-                                onExited:
-                                    control.someMenuItemHovered = false
+                                }
+                                onExited: {
+                                    resetSomeMenuItemHovered.oldId = myId
+                                    resetSomeMenuItemHovered.restart()
+                                }
                                 onClicked: {
                                     menu.close()
                                     if(handlingGeneral.amIOnWindows()) {
@@ -365,10 +389,17 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    onEntered:
+                    property int myId: 0
+                    onEntered: {
+                        resetSomeMenuItemHovered.stop()
+                        if(myId == 0) myId = handlingGeneral.getUniqueId()
+                        control.menuItemHoveredId = myId
                         control.someMenuItemHovered = true
-                    onExited:
-                        control.someMenuItemHovered = false
+                    }
+                    onExited: {
+                        resetSomeMenuItemHovered.oldId = myId
+                        resetSomeMenuItemHovered.restart()
+                    }
 
                     // press and hold keeps scrolling down
                     onPressed: {

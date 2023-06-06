@@ -35,6 +35,15 @@ ListView {
     height: childrenRect.height
 
     property int hoverIndex: -1
+    Timer {
+        id: resetHoverIndex
+        interval: 100
+        property int oldIndex
+        onTriggered: {
+            if(hoverIndex === oldIndex)
+                hoverIndex = -1
+        }
+    }
 
     // The model is a simple listmodel, not editable by user
     model: ListModel { id: storage_model }
@@ -142,10 +151,14 @@ ListView {
                 cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                 // entering the area sets entry as current item
-                onEntered:
+                onEntered: {
+                    resetHoverIndex.stop()
                     hoverIndex = (index>0 ? index : -1)
-                onExited:
-                    hoverIndex = -1
+                }
+                onExited: {
+                    resetHoverIndex.oldIndex = index
+                    resetHoverIndex.restart()
+                }
 
                 // clicking an entry loads the location
                 onClicked: {

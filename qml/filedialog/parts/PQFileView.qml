@@ -70,6 +70,16 @@ GridView {
             currentIndexChangedUsingKeyIgnoreMouse = false
     }
 
+    Timer {
+        id: resetCurrentIndex
+        interval: 100
+        property int oldIndex
+        onTriggered: {
+            if(files_grid.currentIndex === oldIndex)
+                files_grid.currentIndex = -1
+        }
+    }
+
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
     Component.onCompleted: {
@@ -525,10 +535,14 @@ GridView {
                 tooltipWidth: 282
                 tooltipSomeTransparency: false
 
-                onExited:
-                    files_grid.currentIndex = -1
+                onExited: {
+                    resetCurrentIndex.oldIndex = index
+                    resetCurrentIndex.restart()
+                }
 
                 onEntered: {
+
+                    resetCurrentIndex.stop()
 
                     // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
                     if(rightclickmenu.isOpen)

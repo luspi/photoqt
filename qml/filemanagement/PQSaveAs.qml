@@ -128,6 +128,15 @@ PQTemplateFullscreen {
                     property var data: []
 
                     property int currentHover: -1
+                    Timer {
+                        id: resetCurrentHover
+                        interval: 100
+                        property int oldIndex
+                        onTriggered: {
+                            if(oldIndex === formatsview.currentHover)
+                                formatsview.currentHover = -1
+                        }
+                    }
 
                     onCurrentIndexChanged: {
                         if(currentIndex == -1) return
@@ -138,7 +147,7 @@ PQTemplateFullscreen {
 
                     Component.onCompleted: {
                         data = PQImageFormats.getWriteableFormats()
-                        currentIndex = -1
+                        resetCurrentHover.start()
                     }
 
                     delegate: Rectangle {
@@ -163,8 +172,15 @@ PQTemplateFullscreen {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             tooltip: "<b>" + formatsview.data[index][2] + "</b><br>*." + formatsview.data[index][1].split(",").join(", *.")
-                            onEntered:
+                            onEntered: {
+                                resetCurrentHover.stop()
                                 formatsview.currentHover = index
+                            }
+                            onExited: {
+                                resetCurrentHover.oldIndex = index
+                                resetCurrentHover.restart()
+                            }
+
                             onClicked:
                                 formatsview.currentIndex = index
                         }
