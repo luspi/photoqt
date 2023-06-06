@@ -197,7 +197,7 @@ Item {
                 onPressAndHold: {
                     if(Math.sqrt(Math.pow(mouse.x-pressedPos.x, 2) + Math.pow(mouse.y-pressedPos.y)) > 50)
                         return
-                    variables.mousePos = videomouse.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                    variables.mousePos = videomouse.mapToItem(bgimage, mouse.x, mouse.y)
                     contextmenu.showMenu()
                 }
 

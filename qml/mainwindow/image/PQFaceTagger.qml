@@ -81,14 +81,14 @@ Item {
 
         onMouseXChanged: {
             if(mouseDown) {
-                var pos = facetagger_top.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                var pos = facetagger_top.mapToItem(bgimage, mouse.x, mouse.y)
                 handleMouseMove(pos)
             }
         }
 
         onMouseYChanged: {
             if(mouseDown) {
-                var pos = facetagger_top.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                var pos = facetagger_top.mapToItem(bgimage, mouse.x, mouse.y)
                 handleMouseMove(pos)
             }
         }

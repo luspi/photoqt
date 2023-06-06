@@ -192,7 +192,7 @@ Item {
             scaleani.duration = 0
 
             // pinchto the center position of the pinch
-            performZoom(theimage.mapFromItem(pincharea, pinch.center), undefined, false, false, true, (initialScale*pinch.scale)/theimage.curScale)
+            performZoom(theimage.mapFromItem(pincharea, pinch.center.x, pinch.center.y), undefined, false, false, true, (initialScale*pinch.scale)/theimage.curScale)
 
             // re-enable animations after the pinching
             xani.duration = PQSettings.imageviewAnimationDuration*100
@@ -223,7 +223,7 @@ Item {
             onPressAndHold: {
                 if(Math.sqrt(Math.pow(mouse.x-pressedPos.x, 2) + Math.pow(mouse.y-pressedPos.y)) > 50)
                     return
-                variables.mousePos = mousearea.mapToItem(bgimage, Qt.point(mouse.x, mouse.y))
+                variables.mousePos = mousearea.mapToItem(bgimage, mouse.x, mouse.y)
                 contextmenu.showMenu()
             }
 
