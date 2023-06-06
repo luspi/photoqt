@@ -206,10 +206,13 @@ void PQStartup::setupFresh(int defaultPopout) {
         PQSettings::get().update("interfacePopoutScale", true);
         PQSettings::get().update("interfacePopoutOpenFile", true);
         PQSettings::get().update("interfacePopoutSlideShowSettings", true);
-        PQSettings::get().update("interfacePopoutSlideShowControls", true);
         PQSettings::get().update("interfacePopoutImgur", true);
         PQSettings::get().update("interfacePopoutWallpaper", true);
         PQSettings::get().update("interfacePopoutSettingsManager", true);
+        PQSettings::get().update("interfacePopoutFileSaveAs", true);
+        PQSettings::get().update("interfacePopoutChromecast", true);
+        PQSettings::get().update("interfacePopoutAdvancedSort", true);
+        PQSettings::get().update("interfacePopoutMapExplorer", true);
 
     } else if(defaultPopout == 2) { // all individual
 
@@ -230,6 +233,11 @@ void PQStartup::setupFresh(int defaultPopout) {
         PQSettings::get().update("interfacePopoutSettingsManager", true);
         PQSettings::get().update("interfacePopoutFileSaveAs", true);
         PQSettings::get().update("interfacePopoutUnavailable", true);
+        PQSettings::get().update("interfacePopoutChromecast", true);
+        PQSettings::get().update("interfacePopoutAdvancedSort", true);
+        PQSettings::get().update("interfacePopoutMapCurrent", true);
+        PQSettings::get().update("interfacePopoutMapExplorer", true);
+        PQSettings::get().update("interfacePopoutMapExplorerKeepOpen", true);
 
 
     }
