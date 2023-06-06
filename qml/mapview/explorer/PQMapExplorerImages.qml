@@ -115,7 +115,7 @@ Rectangle {
                             Behavior on opacity { NumberAnimation { duration: 200 } }
 
                             // if we do not cache this image, then we keep the generic icon here
-                            source: filethumb.status==Image.Ready ? "" : "image://icon/::squared::"+handlingFileDir.getSuffix(maindeleg.fname)
+                            source: filethumb.status==Image.Ready ? "" : "image://icon/"+handlingFileDir.getSuffix(maindeleg.fname)
 
                             Image {
 

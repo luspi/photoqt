@@ -289,7 +289,7 @@ Item {
                 Behavior on height { NumberAnimation { duration: 200 } }
                 fillMode: PQSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                 source: (view.excludeCurrentDirectory || PQSettings.thumbnailsIconsOnly)
-                            ? ("image://icon/::squared::"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index]))
+                            ? ("image://icon/"+handlingFileDir.getSuffix(filefoldermodel.entriesMainView[index]))
                             : (PQSettings.thumbnailsDisable
                                 ? ""
                                 : ("image://thumb/" + filefoldermodel.entriesMainView[index]))

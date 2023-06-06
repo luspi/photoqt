@@ -36,7 +36,7 @@ Item {
         sourceSize: PQSettings.openfilePreviewHigherResolution ? Qt.size(width, height) : Qt.size(256, 256)
 
         asynchronous: true
-        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : (PQSettings.openfileThumbnails ? ("image://thumb/" + filePath) : ("image://icon/"+(PQSettings.openfileThumbnailsScaleCrop ? "::squared::" : "")+handlingFileDir.getSuffix(filePath)))
+        source: (filePath==""||!PQSettings.openfilePreview||fileview.currentFolderExcluded) ? "" : (PQSettings.openfileThumbnails ? ("image://thumb/" + filePath) : ("image://icon/"+handlingFileDir.getSuffix(filePath)))
         fillMode: PQSettings.openfilePreviewCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
         anchors.fill: parent

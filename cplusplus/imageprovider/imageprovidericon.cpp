@@ -70,25 +70,11 @@ QImage PQImageProviderIcon::requestImage(const QString &icon, QSize *origSize, c
 
     }
 
-    bool squared = false;
-    if(suf.startsWith("::squared::")) {
-        suf = suf.remove(0,11);
-        squared = true;
-    }
-
     QString iconname = "";
-
-    if(squared) {
-        if(QFile::exists(QString(":/filetypes/squared/%1.svg").arg(suf.toLower())))
-            iconname = QString(":/filetypes/squared/%1.svg").arg(suf.toLower());
-        else
-            iconname = ":/filetypes/squared/unknown.svg";
-    } else {
-        if(QFile::exists(QString(":/filetypes/normal/%1.svg").arg(suf.toLower())))
-            iconname = QString(":/filetypes/normal/%1.svg").arg(suf.toLower());
-        else
-            iconname = ":/filetypes/normal/unknown.svg";
-    }
+    if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf.toLower())))
+        iconname = QString(":/filetypes/%1.svg").arg(suf.toLower());
+    else
+        iconname = ":/filetypes/unknown.svg";
 
     QSvgRenderer svg;
     QImage ret;

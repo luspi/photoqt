@@ -208,8 +208,8 @@ GridView {
                 source: ((filethumb.status==Image.Ready&&!currentFolderExcluded)||(index < filefoldermodel.countFoldersFileDialog&&folderthumbs.sourceSize.width>1))
                             ? ""
                             : ("image://icon/"+(index < filefoldermodel.countFoldersFileDialog
-                                                    ? "::squared::" + (PQSettings.openfileDefaultView=="icons" ? "folder" : "folder_listicon")
-                                                    : ("::squared::"+handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index]))))
+                                                    ? (PQSettings.openfileDefaultView=="icons" ? "folder" : "folder_listicon")
+                                                    : handlingFileDir.getSuffix(filefoldermodel.entriesFileDialog[index])))
 
                 // rotating through images inside folder and show thumbnails
                 Item {
