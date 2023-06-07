@@ -101,54 +101,69 @@ PQTemplateIntegrated {
 
             anchors.fill: parent
 
-            Map {
+            Loader {
 
-                id: map
+                id: mapLoader
 
                 anchors.fill: parent
-                anchors.margins: PQSettings.interfacePopoutMapCurrent ? 0 : 2
 
-                opacity: noLocation ? 0 : 1
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
+                sourceComponent: mapComponent
 
-                plugin: mapPlugin
+            }
 
-                center {
-                    latitude: latitude
-                    longitude: longitude
+            Component {
+
+                id: mapComponent
+
+                Map {
+
+                    id: map
+
+                    anchors.fill: parent
+                    anchors.margins: PQSettings.interfacePopoutMapCurrent ? 0 : 2
+
+                    opacity: noLocation ? 0 : 1
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    visible: opacity>0
+
+                    plugin: mapPlugin
+
+                    center {
+                        latitude: latitude
+                        longitude: longitude
+                    }
+
+                    gesture.enabled: PQSettings.interfacePopoutMapCurrent
+
+                    Behavior on center.latitude { NumberAnimation { duration: 500 } }
+                    Behavior on center.longitude { NumberAnimation { duration: 500 } }
+
+                    zoomLevel: 12
+                    Behavior on zoomLevel { NumberAnimation { duration: 100 } }
+
+                    MapQuickItem {
+
+                        id: marker
+
+                        anchorPoint.x: container.width*(61/256)
+                        anchorPoint.y: container.height*(198/201)
+
+                        visible: true
+
+                        coordinate: QtPositioning.coordinate(latitude, longitude)
+
+                        sourceItem:
+                            Image {
+                                id: container
+                                width: 64
+                                height: 50
+                                mipmap: true
+                                smooth: false
+                                source: "/mapview/mapmarker.png"
+                            }
+                    }
+
                 }
-
-                gesture.enabled: PQSettings.interfacePopoutMapCurrent
-
-                Behavior on center.latitude { NumberAnimation { duration: 500 } }
-                Behavior on center.longitude { NumberAnimation { duration: 500 } }
-
-                zoomLevel: 12
-                Behavior on zoomLevel { NumberAnimation { duration: 100 } }
-
-                MapQuickItem {
-
-                    id: marker
-
-                    anchorPoint.x: container.width*(61/256)
-                    anchorPoint.y: container.height*(198/201)
-
-                    visible: true
-
-                    coordinate: QtPositioning.coordinate(latitude, longitude)
-
-                    sourceItem:
-                        Image {
-                            id: container
-                            width: 64
-                            height: 50
-                            mipmap: true
-                            smooth: false
-                            source: "/mapview/mapmarker.png"
-                        }
-                }
-
             }
 
             PQTextL {
@@ -174,6 +189,18 @@ PQTemplateIntegrated {
         target: PQSettings
         onMapviewCurrentVisibleChanged:
             updateMap()
+        onMapviewProviderChanged: {
+            mapLoader.active = false
+            reloadMapAfterTimeout.restart()
+        }
+    }
+
+    Timer {
+        id: reloadMapAfterTimeout
+        interval: 300
+        repeat: false
+        onTriggered:
+            mapLoader.active = true
     }
 
     Component.onCompleted:
