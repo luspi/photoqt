@@ -41,7 +41,6 @@ PQTemplateIntegrated {
     radius: 0
 
     thisIsBlur: mapcurrent
-//    tooltip: (PQSettings.interfacePopoutHistogram ? "" : (em.pty+qsTranslate("histogram", "Click-and-drag to move.")+" ")) + em.pty+qsTranslate("histogram", "Right click to switch version.")
 
     onPopoutChanged:
         PQSettings.interfacePopoutMapCurrent = popout
@@ -61,47 +60,35 @@ PQTemplateIntegrated {
         updateMap()
 
     Plugin {
-        id: osmPlugin
-        name: "osm"
+        id: mapPlugin
         parameters: [
             PluginParameter {
                 name: "osm.useragent"
                 value: "PhotoQt Image Viewer"
-            }
-        ]
-    }
-
-    Plugin {
-        id: googlePlugin
-        name: "googlemaps"
-        parameters: [
+            },
             PluginParameter {
                 name: "googlemaps.maps.apikey"
                 value: (PQSettings.mapviewProviderGoogleMapsToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderGoogleMapsToken))
-            }
-        ]
-    }
-
-    Plugin {
-        id: esriPlugin
-        name: "esri"
-        parameters: [
+            },
             PluginParameter {
                 name: "esri.token"
                 value: (PQSettings.mapviewProviderEsriAPIKey=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderEsriAPIKey))
-            }
-        ]
-    }
-
-    Plugin {
-        id: mapboxglPlugin
-        name: "mapboxgl"
-        parameters: [
+            },
             PluginParameter {
                 name: "mapboxgl.access_token"
                 value: (PQSettings.mapviewProviderMapboxAccessToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderMapboxAccessToken))
             }
         ]
+        Component.onCompleted: {
+            if(PQSettings.mapviewProvider=="googlemaps" && availableServiceProviders.indexOf("googlemaps")!=-1)
+                name = "googlemaps"
+            else if(PQSettings.mapviewProvider=="esri" && availableServiceProviders.indexOf("esri")!=-1)
+                name = "esri"
+            else if(PQSettings.mapviewProvider=="mapboxgl" && availableServiceProviders.indexOf("mapboxgl")!=-1)
+                name = "mapboxgl"
+            else
+                name = "osm"
+        }
     }
 
     property bool noLocation: true
@@ -125,13 +112,7 @@ PQTemplateIntegrated {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
 
-                plugin: (PQSettings.mapviewProvider=="googlemaps"
-                            ? googlePlugin
-                            : (PQSettings.mapviewProvider=="esri"
-                                    ? esriPlugin
-                                    : (PQSettings.mapviewProvider=="mapboxgl"
-                                            ? mapboxglPlugin
-                                            : osmPlugin)))
+                plugin: mapPlugin
 
                 center {
                     latitude: latitude
