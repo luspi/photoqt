@@ -53,47 +53,79 @@ PQTemplateIntegrated {
     onToBeShownChanged:
         PQSettings.mapviewCurrentVisible = toBeShown
 
-    onWheelEvent:
-        wheelReceived(delta)
-
     onVisibleChanged:
         updateMap()
-
-    Plugin {
-        id: mapPlugin
-        parameters: [
-            PluginParameter {
-                name: "osm.useragent"
-                value: "PhotoQt Image Viewer"
-            },
-            PluginParameter {
-                name: "googlemaps.maps.apikey"
-                value: (PQSettings.mapviewProviderGoogleMapsToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderGoogleMapsToken))
-            },
-            PluginParameter {
-                name: "esri.token"
-                value: (PQSettings.mapviewProviderEsriAPIKey=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderEsriAPIKey))
-            },
-            PluginParameter {
-                name: "mapboxgl.access_token"
-                value: (PQSettings.mapviewProviderMapboxAccessToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderMapboxAccessToken))
-            }
-        ]
-        Component.onCompleted: {
-            if(PQSettings.mapviewProvider=="googlemaps" && availableServiceProviders.indexOf("googlemaps")!=-1)
-                name = "googlemaps"
-            else if(PQSettings.mapviewProvider=="esri" && availableServiceProviders.indexOf("esri")!=-1)
-                name = "esri"
-            else if(PQSettings.mapviewProvider=="mapboxgl" && availableServiceProviders.indexOf("mapboxgl")!=-1)
-                name = "mapboxgl"
-            else
-                name = "osm"
-        }
-    }
 
     property bool noLocation: true
     property real latitude: 49.00937
     property real longitude: 8.40444
+
+    property string osmUrl: "https://tile.openstreetmap.org/"
+    property string currentPlugin: { currentPlugin = getCurrentPlugin() }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // We need separate plugins below as some parameters interfer with others
+
+    Plugin {
+
+        id: osmPlugin
+
+        name: "osm"
+
+        PluginParameter {
+            name: "osm.useragent"
+            value: "PhotoQt Image Viewer"
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.host"
+            value: osmUrl
+        }
+        PluginParameter {
+            name: "osm.mapping.custom.datacopyright"
+            value: "<a href='https://openstreetmap.org/copyright'>OpenStreetMap</a>"
+
+        }
+
+    }
+
+    Plugin {
+
+        id: googlemapsPlugin
+
+        name: "googlemaps"
+
+        PluginParameter {
+            name: "googlemaps.maps.apikey"
+            value: (PQSettings.mapviewProviderGoogleMapsToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderGoogleMapsToken))
+        }
+
+    }
+
+    Plugin {
+
+        id: esriPlugin
+
+        name: "esri"
+
+        PluginParameter {
+            name: "esri.token"
+            value: (PQSettings.mapviewProviderEsriAPIKey=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderEsriAPIKey))
+        }
+
+    }
+
+    Plugin {
+
+        id: mapboxPlugin
+
+        name: "mapboxgl"
+
+        PluginParameter {
+            name: "mapboxgl.access_token"
+            value: (PQSettings.mapviewProviderMapboxAccessToken=="" ? "xxxxx" : handlingGeneral.decryptString(PQSettings.mapviewProviderMapboxAccessToken))
+        }
+
+    }
 
     content: [
 
@@ -126,7 +158,13 @@ PQTemplateIntegrated {
                     Behavior on opacity { NumberAnimation { duration: 200 } }
                     visible: opacity>0
 
-                    plugin: mapPlugin
+                    plugin: currentPlugin=="osm"
+                                ? osmPlugin
+                                : (currentPlugin == "mapboxgl"
+                                    ? mapboxPlugin
+                                    : (currentPlugin == "esri"
+                                        ? esriPlugin
+                                        : googlemapsPlugin))
 
                     center {
                         latitude: latitude
@@ -163,6 +201,33 @@ PQTemplateIntegrated {
                             }
                     }
 
+                    Connections {
+                        target: hist_top
+                        onWheelEvent: {
+                            if(noLocation) return
+                            if(delta.y < 0)
+                                map.zoomLevel = Math.max(map.minimumZoomLevel, map.zoomLevel-0.5)
+                            else
+                                map.zoomLevel = Math.min(map.maximumZoomLevel, map.zoomLevel+0.5)
+                        }
+                    }
+
+                    Component.onCompleted:
+                        setMapType.start()
+
+                    Timer {
+                        id: setMapType
+                        interval: 50
+                        onTriggered: {
+                            if(currentPlugin != "osm")
+                                return
+                            for(var i in map.supportedMapTypes) {
+                                if(supportedMapTypes[i].name.localeCompare("Custom URL Map") === 0)
+                                    activeMapType = supportedMapTypes[i]
+                            }
+                        }
+                    }
+
                 }
             }
 
@@ -191,29 +256,32 @@ PQTemplateIntegrated {
             updateMap()
         onMapviewProviderChanged: {
             mapLoader.active = false
+            currentPlugin = getCurrentPlugin()
             reloadMapAfterTimeout.restart()
         }
     }
 
     Timer {
         id: reloadMapAfterTimeout
-        interval: 300
+        interval: 100
         repeat: false
-        onTriggered:
+        onTriggered: {
             mapLoader.active = true
+        }
     }
 
-    Component.onCompleted:
+    Component.onCompleted: {
         updateMap()
+    }
 
-    function wheelReceived(delta) {
-
-        if(noLocation) return
-        if(delta.y < 0)
-            map.zoomLevel = Math.max(map.minimumZoomLevel, map.zoomLevel-0.5)
-        else
-            map.zoomLevel = Math.min(map.maximumZoomLevel, map.zoomLevel+0.5)
-
+    function getCurrentPlugin() {
+        if(PQSettings.mapviewProvider=="googlemaps" && osmPlugin.availableServiceProviders.indexOf("googlemaps")!=-1)
+            return "googlemaps"
+        if(PQSettings.mapviewProvider=="esri" && osmPlugin.availableServiceProviders.indexOf("esri")!=-1)
+            return "esri"
+        if(PQSettings.mapviewProvider=="mapboxgl" && osmPlugin.availableServiceProviders.indexOf("mapboxgl")!=-1)
+            return "mapboxgl"
+        return "osm"
     }
 
     function updateMap() {

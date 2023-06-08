@@ -29,6 +29,9 @@ Rectangle {
 
     color: "#333333"
 
+    property real minZoomLevel: 0
+    property real maxZoomLevel: 1
+
     Row {
 
         x: 10
@@ -49,8 +52,8 @@ Rectangle {
 
             y: (parent.height-height)/2
 
-            from: map.getMinMaxZoomLevel()[0]
-            to: map.getMinMaxZoomLevel()[1]
+            from: minZoomLevel
+            to: maxZoomLevel
             stepSize: 0.1
             value: mapexplorer_top.mapZoomLevel
             tooltip: Math.round(100*((value-from)/(to-from)))

@@ -213,6 +213,23 @@ Item {
         }
     }
 
+    Connections {
+        target: PQSettings
+        onMapviewProviderChanged: {
+            map.currentPlugin = map.getCurrentPlugin()
+            map.reloadLoader()
+            changeMapDelay.restart()
+        }
+    }
+
+    Timer {
+        id: changeMapDelay
+        interval: 500   // this has to be greater than the interval of reloadExplorerMapAfterTimeout in PQMapExplorerMap
+        onTriggered: {
+            showExplorerData(true)
+        }
+    }
+
     NumberAnimation {
         id: smoothWidth
         target: mapcont
@@ -281,9 +298,17 @@ Item {
         else
             opacity = 1
 
-        map.resetCurZ()
+
         if((!PQSettings.interfacePopoutMapExplorer && !windowsizepopup.mapExplorer) || !PQSettings.interfacePopoutMapExplorerKeepOpen)
             variables.visibleItem = "mapexplorer"
+
+        showExplorerData()
+
+    }
+
+    function showExplorerData(forceReload=false) {
+
+        map.resetCurZ()
         finishShow = true
 
         var path = handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath)
@@ -294,10 +319,12 @@ Item {
             PQLocation.scanForLocations(filefoldermodel.entriesMainView)
             PQLocation.processSummary(handlingFileDir.getFilePathFromFullPath(filefoldermodel.currentFilePath))
             loadImages()
-            map.resetMap()
-            map.computeDetailLevel()
 
-        }
+        } else if(forceReload)
+            loadImages()
+
+        map.resetMap()
+        map.computeDetailLevel()
 
         folderLoaded[0] = path
         folderLoaded[1] = mod
