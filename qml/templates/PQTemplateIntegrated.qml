@@ -41,6 +41,8 @@ Item {
     property alias tooltip: dragArea.tooltip
     property alias radius: blur.radius
 
+    property alias additionalAction: additionalActionItem.children
+
     signal updateElement()
     signal clickedRight()
     signal wheelEvent(var delta)
@@ -151,39 +153,50 @@ Item {
         }
     }
 
-    Rectangle {
-        anchors.fill: closeimage
-        radius: width/2
-        visible: darkBackgroundManageIcons
-        color: "#88000000"
-        opacity: closeimage.opacity
-    }
 
-
-    Image {
-
-        id: closeimage
+    Row {
 
         x: parent.width-width+5
         y: -5
-        width: 25
-        height: 25
 
-        visible: !popout
+        Item {
+            id: additionalActionItem
+            width: 25
+            height: 25
+        }
 
-        source: "/other/close.svg"
-        sourceSize: Qt.size(width, height)
+        Image {
 
-        opacity: closemouse.containsMouse ? 0.8 : 0
-        Behavior on opacity { NumberAnimation { duration: 150 } }
+            id: closeimage
+            width: 25
+            height: 25
 
-        PQMouseArea {
-            id: closemouse
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            hoverEnabled: true
-            onClicked:
-                toBeShown = !toBeShown
+            visible: !popout
+
+            source: "/other/close.svg"
+            sourceSize: Qt.size(width, height)
+
+            opacity: closemouse.containsMouse ? 0.8 : 0.1
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+
+            PQMouseArea {
+                id: closemouse
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                hoverEnabled: true
+                onClicked:
+                    toBeShown = !toBeShown
+            }
+
+            Rectangle {
+                anchors.fill: closeimage
+                radius: width/2
+                z: -1
+                visible: darkBackgroundManageIcons
+                color: "#88000000"
+                opacity: closeimage.opacity
+            }
+
         }
 
     }
