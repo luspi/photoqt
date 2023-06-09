@@ -28,7 +28,7 @@ import "../templates"
 
 PQTemplateIntegrated {
 
-    id: hist_top
+    id: map_top
 
     popout: PQSettings.interfacePopoutMapCurrent
     geometry: Qt.rect(PQSettings.mapviewCurrentPosition.x,
@@ -90,6 +90,11 @@ PQTemplateIntegrated {
 
     onVisibleChanged:
         updateMap()
+
+    onResized: {
+        latitude += 1e-10
+        latitude -= 1e-10
+    }
 
     property bool noLocation: true
     property real latitude: 49.00937
@@ -234,10 +239,11 @@ PQTemplateIntegrated {
                                 smooth: false
                                 source: "/mapview/mapmarker.png"
                             }
+
                     }
 
                     Connections {
-                        target: hist_top
+                        target: map_top
                         onWheelEvent: {
                             if(noLocation) return
                             if(delta.y < 0)
