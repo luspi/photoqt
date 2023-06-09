@@ -46,6 +46,7 @@ Item {
     signal updateElement()
     signal clickedRight()
     signal wheelEvent(var delta)
+    signal resized()
 
     PQBlurBackground {
         id: blur
@@ -61,7 +62,7 @@ Item {
     property int parentWidth: 0
     property int parentHeight: 0
 
-    // at startup toplevel width/height is zero causing the x/y of the histogram to be set to 0
+    // at startup toplevel width/height is zero causing the x/y of the element to be set to 0
     property bool startupDelay: true
 
     onXChanged:
@@ -99,8 +100,8 @@ Item {
         running: false
         onTriggered: {
             if(!popout && !startupDelay) {
-                geometry = Qt.rect(Math.max(0, Math.min(hist_top.x, toplevel.width-hist_top.width)),
-                                   Math.max(0, Math.min(hist_top.y, toplevel.height-hist_top.height)),
+                geometry = Qt.rect(Math.max(0, Math.min(ele_top.x, toplevel.width-ele_top.width)),
+                                   Math.max(0, Math.min(ele_top.y, toplevel.height-ele_top.height)),
                                    ele_top.width,
                                    ele_top.height)
             }
@@ -119,7 +120,7 @@ Item {
 
         anchors.fill: parent
 
-        pinch.target: popout ? undefined : hist_top
+        pinch.target: popout ? undefined : ele_top
         pinch.minimumRotation: 0
         pinch.maximumRotation: 0
         pinch.minimumScale: 1
@@ -223,9 +224,11 @@ Item {
                     ele_top.width = 100
                 if(ele_top.height < 100)
                     ele_top.height = 100
-
             }
         }
+
+        onReleased:
+            signalSizeChange.restart()
 
     }
 
@@ -262,6 +265,17 @@ Item {
 
         }
 
+        onReleased:
+            signalSizeChange.restart()
+
+    }
+
+    Timer {
+        id: signalSizeChange
+        interval: 500
+        onTriggered: {
+            ele_top.resized()
+        }
     }
 
     Rectangle {
