@@ -40,6 +40,8 @@ PQTemplateIntegrated {
     darkBackgroundManageIcons: true
     radius: 0
 
+    disableAllMouseInteraction: popout
+
     additionalAction: [
         Image {
 
@@ -211,7 +213,10 @@ PQTemplateIntegrated {
                         longitude: longitude
                     }
 
-                    gesture.enabled: PQSettings.interfacePopoutMapCurrent
+                    gesture {
+                        enabled: PQSettings.interfacePopoutMapCurrent
+                        acceptedGestures: MapGestureArea.PinchGesture|MapGestureArea.PanGesture|MapGestureArea.FlickGesture
+                    }
 
                     Behavior on center.latitude { NumberAnimation { duration: 500 } }
                     Behavior on center.longitude { NumberAnimation { duration: 500 } }

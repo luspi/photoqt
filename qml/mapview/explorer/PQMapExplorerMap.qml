@@ -166,6 +166,8 @@ Item {
 
             property int curZ: 0
 
+            gesture.acceptedGestures: MapGestureArea.PinchGesture|MapGestureArea.PanGesture|MapGestureArea.FlickGesture
+
             plugin: currentPlugin=="osm"
                         ? osmPlugin
                         : (currentPlugin == "mapboxgl"

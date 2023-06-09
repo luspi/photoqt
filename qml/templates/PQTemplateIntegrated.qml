@@ -41,6 +41,8 @@ Item {
     property alias tooltip: dragArea.tooltip
     property alias radius: blur.radius
 
+    property bool disableAllMouseInteraction: false
+
     property alias additionalAction: additionalActionItem.children
 
     signal updateElement()
@@ -119,6 +121,10 @@ Item {
     PinchArea {
 
         anchors.fill: parent
+
+        enabled: !ele_top.disableAllMouseInteraction
+
+        visible: enabled
 
         pinch.target: popout ? undefined : ele_top
         pinch.minimumRotation: 0
