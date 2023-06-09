@@ -40,6 +40,41 @@ PQTemplateIntegrated {
     darkBackgroundManageIcons: true
     radius: 0
 
+    additionalAction: [
+        Image {
+
+            id: explorerimage
+            width: 25
+            height: 25
+
+            source: "/mainmenu/mapmarker.svg"
+            sourceSize: Qt.size(width, height)
+
+            opacity: explorermouse.containsMouse ? 0.8 : 0.1
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+
+            PQMouseArea {
+                id: explorermouse
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                hoverEnabled: true
+                onClicked:
+                    loader.show("mapexplorer")
+            }
+
+            Rectangle {
+                anchors.fill: explorerimage
+                radius: width/2
+                z: -1
+                visible: darkBackgroundManageIcons
+                color: "#88000000"
+                opacity: explorerimage.opacity
+            }
+
+        }
+
+    ]
+
     thisIsBlur: mapcurrent
 
     onPopoutChanged:
