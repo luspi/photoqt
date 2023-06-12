@@ -281,7 +281,19 @@ PQTemplateIntegrated {
                 anchors.centerIn: parent
                 text: em.pty+qsTranslate("mapcurrent", "No location data")
 
-                opacity: noLocation ? 1 : 0
+                opacity: (noLocation&&!nofileloaded.visible) ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
+            }
+
+            PQTextL {
+
+                id: nofileloaded
+
+                anchors.centerIn: parent
+                text: em.pty+qsTranslate("mapcurrent", "No file loaded")
+
+                opacity: filefoldermodel.current==-1 ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
             }
