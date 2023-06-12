@@ -231,6 +231,4 @@ function executeInternalFunction(cmd, wheelDelta) {
         PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
     } else if(cmd == "__showMapExplorer")
         loader.show("mapexplorer")
-    else if(cmd == "__highlightEdges")
-        PQSettings.interfaceHighlightEdges = !PQSettings.interfaceHighlightEdges
 }

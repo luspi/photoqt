@@ -29,7 +29,7 @@ Item {
     width: parent.width
     height: parent.height
 
-    opacity: (PQSettings.interfaceHighlightEdges&&filefoldermodel.countMainView==0) ? 1 : 0
+    opacity: (filefoldermodel.countMainView==0) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 

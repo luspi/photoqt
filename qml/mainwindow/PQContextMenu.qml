@@ -74,13 +74,6 @@ PQMenu {
 
     ]
 
-    property var allitems_other: [
-
-        //: This is an entry in the main context menu. Please keep short!
-        ["edges.svg", PQSettings.interfaceHighlightEdges ? (em.pty+qsTranslate("MainMenu", "Don't highlight edges")) : (em.pty+qsTranslate("MainMenu", "Highlight edges")), "__highlightEdges"]
-
-    ]
-
     property var allitems_external: []
 
 
@@ -122,20 +115,6 @@ PQMenu {
             text: allitems_interface[index][1]
             onTriggered:
                 HandleShortcuts.executeInternalFunction(allitems_interface[index][2])
-        }
-        onObjectAdded: contextMenu.insertItem(index, object)
-        onObjectRemoved: contextMenu.removeItem(object)
-    }
-
-    MenuSeparator {  }
-
-    Instantiator {
-        model: allitems_other.length
-        MenuItem {
-            iconSource: "/mainmenu/" + allitems_other[index][0]
-            text: allitems_other[index][1]
-            onTriggered:
-                HandleShortcuts.executeInternalFunction(allitems_other[index][2], allitems_other[index][3])
         }
         onObjectAdded: contextMenu.insertItem(index, object)
         onObjectRemoved: contextMenu.removeItem(object)
