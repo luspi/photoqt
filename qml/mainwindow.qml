@@ -102,7 +102,7 @@ Window {
                 id: emptymessage
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
-                width: parent.width-arrright.width-40
+                width: parent.width-160
                 height: col.height
                 visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
                 Column {
@@ -175,46 +175,6 @@ Window {
                 }
             }
 
-            Image {
-                id: arrright
-                visible: emptymessage.visible
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                opacity: 0.5
-                y: (parent.height-height)/2
-                width: 100
-                height: 100
-                sourceSize: Qt.size(width, height)
-                source: "/mainwindow/rightarrow.svg"
-            }
-
-            Image {
-                id: arrleft
-                visible: emptymessage.visible && PQSettings.metadataElementBehindLeftEdge
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                opacity: 0.5
-                y: (parent.height-height)/2
-                width: 100
-                height: 100
-                sourceSize: Qt.size(width, height)
-                source: "/mainwindow/leftarrow.svg"
-            }
-
-            Image {
-                id: arrdown
-                visible: emptymessage.visible
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 10
-                opacity: 0.5
-                x: (parent.width-width)/2
-                width: 100
-                height: 100
-                sourceSize: Qt.size(width, height)
-                source: "/mainwindow/leftarrow.svg"
-                rotation: -90
-            }
-
             Text {
                 id: filtermessage
                 anchors.centerIn: parent
@@ -260,6 +220,8 @@ Window {
     PQCmdReceived { id: cmdreceived }
     PQLoader { id: loader }
     PQWindowSizePopupManager { id: windowsizepopup }
+
+    PQHighlightEdges { id: highlightedges }
 
     // this needs to come BEFORE some of the following items
     // otherwise they will not be able to receive mouse events at all

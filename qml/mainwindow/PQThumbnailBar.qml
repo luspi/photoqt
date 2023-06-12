@@ -134,8 +134,10 @@ Item {
     }
 
     visible: !variables.slideShowActive && !variables.faceTaggingActive && y!=posHidden
-    onVisibleChanged:
+    onVisibleChanged: {
         checkVisibility()
+        variables.thumbnailbarVisible = visible
+    }
 
     width: toplevel.width - xOffset*2
     height: PQSettings.thumbnailsSize+PQSettings.thumbnailsHighlightAnimationLiftUp+scroll.height+20

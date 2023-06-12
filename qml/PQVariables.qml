@@ -50,6 +50,9 @@ Item {
     property bool startupCompleted: false
 
     property bool mainMenuVisible: false
+    property int mainMenuHeight: 0
+    property bool metadataVisible: false
+    property bool thumbnailbarVisible: false
 
     property size currentImageResolution: Qt.size(-1,-1)
 

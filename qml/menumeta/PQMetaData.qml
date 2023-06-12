@@ -60,6 +60,9 @@ Item {
     opacity: PQSettings.interfacePopoutMetadata ? 1 : (PQSettings.metadataElementBehindLeftEdge ? (makeVisible ? 1 : 0) : ((PQSettings.metadataElementVisible&&filefoldermodel.current!=-1) ? 1 : 0))
     Behavior on opacity { NumberAnimation { duration: PQSettings.interfacePopoutMainMenu ? 0 : PQSettings.imageviewAnimationDuration*100 } }
     visible: opacity>0
+    onVisibleChanged: {
+        variables.metadataVisible = visible
+    }
 
     PQMouseArea {
         anchors.fill: parent
