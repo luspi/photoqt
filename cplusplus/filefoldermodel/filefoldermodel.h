@@ -42,6 +42,9 @@
 #ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
 #endif
+#ifdef QTPDF
+#include <QtPdf>
+#endif
 
 #ifdef EXIV2
 #include <exiv2/exiv2.hpp>

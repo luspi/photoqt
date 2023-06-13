@@ -38,6 +38,9 @@
 #ifdef POPPLER
 #include <poppler/qt5/poppler-version.h>
 #endif
+#ifdef QTPDF
+#include <QtPdf>
+#endif
 
 class PQHandlingGeneral : public QObject {
 
@@ -68,6 +71,7 @@ public:
     Q_INVOKABLE bool isLibRawSupportEnabled();
     Q_INVOKABLE bool isLibArchiveSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
+    Q_INVOKABLE bool isQtPDFSupportEnabled();
     Q_INVOKABLE bool isPugixmlSupportEnabled();
     Q_INVOKABLE bool isVideoSupportEnabled();
     Q_INVOKABLE bool isMPVSupportEnabled();

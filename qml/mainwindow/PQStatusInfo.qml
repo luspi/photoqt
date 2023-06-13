@@ -361,7 +361,7 @@ Item {
             color: "#dd2f2f2f"
             radius: 5
 
-            visible: (imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)
+            visible: (imageproperties.isPDFDocument(filefoldermodel.currentFilePath)
                             &&(imageproperties.getDocumentPages(filefoldermodel.currentFilePath)>1 || filefoldermodel.isPQT))
                         || (imageproperties.isArchive(filefoldermodel.currentFilePath))
 
@@ -513,7 +513,7 @@ Item {
 
     function enterViewerMode() {
         console.log("entering")
-        if(imageproperties.isPopplerDocument(filefoldermodel.currentFilePath)) {
+        if(imageproperties.isPDFDocument(filefoldermodel.currentFilePath)) {
             filefoldermodel.readDocumentOnly = true
             filefoldermodel.setFileNameOnceReloaded = "0::PQT::" + filefoldermodel.currentFilePath
             filefoldermodel.fileInFolderMainView = filefoldermodel.currentFilePath

@@ -43,9 +43,9 @@ bool PQImageProperties::isAnimated(QString path) {
 
 }
 
-bool PQImageProperties::isPopplerDocument(QString path) {
+bool PQImageProperties::isPDFDocument(QString path) {
 
-    DBG << CURDATE << "PQImageProperties::isPopplerDocument()" << NL
+    DBG << CURDATE << "PQImageProperties::isPDFDocument()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
     QString suf = QFileInfo(path).suffix().toLower();
@@ -104,6 +104,13 @@ int PQImageProperties::getDocumentPages(QString path) {
     Poppler::Document* document = Poppler::Document::load(path);
     if(document && !document->isLocked())
         return document->numPages();
+#endif
+#ifdef QTPDF
+    QPdfDocument doc;
+    doc.load(path);
+    QPdfDocument::Status err = doc.status();
+    if(err == QPdfDocument::Ready)
+        return doc.pageCount();
 #endif
     return 0;
 

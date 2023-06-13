@@ -31,6 +31,7 @@ PQLoadImage::PQLoadImage() {
     load_magick = new PQLoadImageMagick;
     load_xcf = new PQLoadImageXCF;
     load_poppler = new PQLoadImagePoppler;
+    load_qtpdf = new PQLoadImageQtPDF;
     load_raw = new PQLoadImageRAW;
     load_devil = new PQLoadImageDevil;
     load_freeimage = new PQLoadImageFreeImage;
@@ -49,6 +50,9 @@ PQLoadImage::PQLoadImage() {
 #endif
 #ifdef POPPLER
     loadOrder << "poppler";
+#endif
+#ifdef QTPDF
+    loadOrder << "qtpdf";
 #endif
 #ifdef LIBARCHIVE
     loadOrder << "archive";
@@ -83,6 +87,7 @@ PQLoadImage::~PQLoadImage() {
     delete load_magick;
     delete load_xcf;
     delete load_poppler;
+    delete load_qtpdf;
     delete load_raw;
     delete load_devil;
     delete load_freeimage;
@@ -136,9 +141,16 @@ QSize PQLoadImage::loadSize(QString filename) {
 #endif
 #ifdef POPPLER
 
-        else if(o == "poppler" && PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+         else if(o == "poppler" && PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
 
-            ret = loadSizeWithPoppler(filename);
+         ret = loadSizeWithPoppler(filename);
+
+#endif
+#ifdef QTPDF
+
+         else if(o == "qtpdf" && PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+
+         ret = loadSizeWithQtPDF(filename);
 
 #endif
 #ifdef LIBARCHIVE
@@ -229,9 +241,16 @@ QSize PQLoadImage::loadSize(QString filename) {
 #endif
 #ifdef POPPLER
 
-                else if(o == "poppler" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+                 else if(o == "poppler" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
 
-                    ret = loadSizeWithPoppler(filename);
+                 ret = loadSizeWithPoppler(filename);
+
+#endif
+#ifdef QTPDF
+
+                 else if(o == "qtpdf" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+
+                 ret = loadSizeWithQtPDF(filename);
 
 #endif
 #ifdef LIBARCHIVE
@@ -354,9 +373,16 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize
 #endif
 #ifdef POPPLER
 
-        else if(o == "poppler" && PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+         else if(o == "poppler" && PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
 
-            loadWithPoppler(filename, requestedSize, origSize, img, err);
+         loadWithPoppler(filename, requestedSize, origSize, img, err);
+
+#endif
+#ifdef QTPDF
+
+         else if(o == "qtpdf" && PQImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+
+         loadWithQtPDF(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef LIBARCHIVE
@@ -447,9 +473,16 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize
 #endif
 #ifdef POPPLER
 
-                else if(o == "poppler" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+                 else if(o == "poppler" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
 
-                    loadWithPoppler(filename, requestedSize, origSize, img, err);
+                 loadWithPoppler(filename, requestedSize, origSize, img, err);
+
+#endif
+#ifdef QTPDF
+
+                 else if(o == "qtpdf" && PQImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+
+                 loadWithQtPDF(filename, requestedSize, origSize, img, err);
 
 #endif
 #ifdef LIBARCHIVE
@@ -554,6 +587,9 @@ QSize PQLoadImage::loadSizeWithLibRaw(QString filename) {
 QSize PQLoadImage::loadSizeWithPoppler(QString filename) {
     return load_poppler->loadSize(filename);
 }
+QSize PQLoadImage::loadSizeWithQtPDF(QString filename) {
+    return load_qtpdf->loadSize(filename);
+}
 QSize PQLoadImage::loadSizeWithLibArchive(QString filename) {
     return load_archive->loadSize(filename);
 }
@@ -609,6 +645,19 @@ void PQLoadImage::loadWithPoppler(QString filename, QSize requestedSize, QSize &
     if(load_poppler->errormsg != "") {
         LOG << CURDATE << "PQLoadImage::load(): failed to load image with poppler" << NL;
         err += QString("<b>Poppler</b><br>%1<br><br>").arg(load_poppler->errormsg);
+    }
+
+}
+
+void PQLoadImage::loadWithQtPDF(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err) {
+
+    DBG << CURDATE << "attempt to load image with QtPDF" << NL;
+
+    img = load_qtpdf->load(filename, requestedSize, origSize);
+
+    if(load_qtpdf->errormsg != "") {
+        LOG << CURDATE << "PQLoadImage::load(): failed to load image with QtPDF" << NL;
+        err += QString("<b>QtPDF</b><br>%1<br><br>").arg(load_qtpdf->errormsg);
     }
 
 }

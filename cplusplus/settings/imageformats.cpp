@@ -133,7 +133,7 @@ void PQImageFormats::readFromDatabase() {
 #ifdef RAW
         const int libraw = query.record().value("libraw").toInt();
 #endif
-#ifdef POPPLER
+#if defined(POPPLER) || defined(QTPDF)
         const int poppler = query.record().value("poppler").toInt();
 #endif
         const int xcftools = query.record().value("xcftools").toInt();
@@ -238,7 +238,7 @@ void PQImageFormats::readFromDatabase() {
                 mimetypes_libraw << mimetypes.split(",");
         }
 #endif
-#ifdef POPPLER
+#if defined(POPPLER) || defined(QTPDF)
         if(poppler) {
             supportedByAnyLibrary = true;
             all << "Poppler";

@@ -424,6 +424,18 @@ QStringList PQFileFolderModel::listPDFPages(QString path) {
 
 #endif
 
+#ifdef QTPDF
+    QPdfDocument doc;
+    doc.load(path);
+
+    QPdfDocument::Status err = doc.status();
+    if(err == QPdfDocument::Ready) {
+        const int numPages = doc.pageCount();
+        for(int i = 0; i < numPages; ++i)
+            ret.append(QString("%1::PQT::%2").arg(i).arg(path));
+    }
+#endif
+
     return ret;
 
 }

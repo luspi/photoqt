@@ -31,6 +31,7 @@
 #include "loader/loadimage_magick.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
+#include "loader/loadimage_qtpdf.h"
 #include "loader/loadimage_raw.h"
 #include "loader/loadimage_devil.h"
 #include "loader/loadimage_freeimage.h"
@@ -59,6 +60,7 @@ private:
     PQLoadImageMagick *load_magick;
     PQLoadImageXCF *load_xcf;
     PQLoadImagePoppler *load_poppler;
+    PQLoadImageQtPDF *load_qtpdf;
     PQLoadImageRAW *load_raw;
     PQLoadImageDevil *load_devil;
     PQLoadImageFreeImage *load_freeimage;
@@ -71,6 +73,7 @@ private:
     QSize loadSizeWithQt(QString filename);
     QSize loadSizeWithLibRaw(QString filename);
     QSize loadSizeWithPoppler(QString filename);
+    QSize loadSizeWithQtPDF(QString filename);
     QSize loadSizeWithLibArchive(QString filename);
     QSize loadSizeWithXCFTools(QString filename);
     QSize loadSizeWithMagick(QString filename);
@@ -81,6 +84,7 @@ private:
     void loadWithQt(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
     void loadWithLibRaw(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
     void loadWithPoppler(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
+    void loadWithQtPDF(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
     void loadWithLibArchive(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
     void loadWithXCFTools(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);
     void loadWithMagick(QString filename, QSize requestedSize, QSize &origSize, QImage &img, QString &err);

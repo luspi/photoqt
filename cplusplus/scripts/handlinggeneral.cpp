@@ -257,6 +257,9 @@ QString PQHandlingGeneral::getConfigInfo(bool formatHTML) {
 #ifdef POPPLER
     txt += QString("- %1Poppler%2: %3%4").arg(bold1, bold2, POPPLER_VERSION, nl);
 #endif
+#ifdef QTPDF
+    txt += QString("- %1QtPDF%2: %3").arg(bold1, bold2, nl);
+#endif
 #ifdef LIBARCHIVE
     txt += QString("- %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
 #endif
@@ -400,6 +403,14 @@ bool PQHandlingGeneral::isLibArchiveSupportEnabled() {
 
 bool PQHandlingGeneral::isPopplerSupportEnabled() {
 #ifdef POPPLER
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQHandlingGeneral::isQtPDFSupportEnabled() {
+#ifdef QTPDF
     return true;
 #else
     return false;

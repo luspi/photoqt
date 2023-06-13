@@ -673,7 +673,7 @@ Item {
         opacity: viewermodemouse.containsMouse||viewermodebutmousehide.containsMouse ? 1 : 0.5
         Behavior on opacity { NumberAnimation { duration: 300 } }
 
-        property bool viewermodeavailable: ( imageproperties.isPopplerDocument(filefoldermodel.currentFilePath) &&
+        property bool viewermodeavailable: ( imageproperties.isPDFDocument(filefoldermodel.currentFilePath) &&
                                             (imageproperties.getDocumentPages(filefoldermodel.currentFilePath)>1 || filefoldermodel.isPQT))
                                                   || (imageproperties.isArchive(filefoldermodel.currentFilePath))
         property bool notinside: true

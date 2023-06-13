@@ -20,41 +20,24 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQIMAGEPROPERTIES_H
-#define PQIMAGEPROPERTIES_H
+#ifndef PQLOADIMAGEQTPDF_H
+#define PQLOADIMAGEQTPDF_H
 
-#include <QObject>
-#include <QImageReader>
-#include <QUrl>
-#include "../logger.h"
-#include "../settings/imageformats.h"
-#include "../imageprovider/loadimage.h"
-
-#ifdef POPPLER
-#include <poppler/qt5/poppler-qt5.h>
-#endif
+#include <QImage>
 #ifdef QTPDF
 #include <QtPdf>
 #endif
 
-class PQImageProperties : public QObject {
-
-    Q_OBJECT
+class PQLoadImageQtPDF {
 
 public:
-    explicit PQImageProperties(QObject *parent = nullptr);
-    ~PQImageProperties();
+    PQLoadImageQtPDF();
 
-    Q_INVOKABLE bool isAnimated(QString path);
-    Q_INVOKABLE bool isPDFDocument(QString path);
-    Q_INVOKABLE bool isArchive(QString path);
-    Q_INVOKABLE bool isVideo(QString path);
-    Q_INVOKABLE int getDocumentPages(QString path);
-    Q_INVOKABLE QSize getImageResolution(QString path);
+    QSize loadSize(QString filename);
+    QImage load(QString filename, QSize maxSize, QSize &origSize, bool stopAfterSize = false);
 
-private:
-    PQLoadImage *loader;
+    QString errormsg;
 
 };
 
-#endif // PQIMAGEPROPERTIES_H
+#endif // PQLOADIMAGEQTPDF_H
