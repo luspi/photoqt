@@ -139,7 +139,7 @@ ListView {
 
             onEntered: {
                 resetHoverIndex.stop()
-                userplaces_top.hoverIndex = (index>0 ? index : -1)
+                standard_top.hoverIndex = (index>0 ? index : -1)
             }
             onExited: {
                 resetHoverIndex.oldIndex = index
