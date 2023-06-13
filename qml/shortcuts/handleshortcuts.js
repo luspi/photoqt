@@ -227,8 +227,12 @@ function executeInternalFunction(cmd, wheelDelta) {
     else if(cmd == "__goToBottomEdge")
         imageitem.goToBottomEdge()
     else if(cmd == "__showMapCurrent") {
-        loader.ensureItIsReady("mapcurrent")
-        PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
-    } else if(cmd == "__showMapExplorer")
-        loader.show("mapexplorer")
+        if(handlingGeneral.isLocationSupportEnabled()) {
+            loader.ensureItIsReady("mapcurrent")
+            PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
+        }
+    } else if(cmd == "__showMapExplorer") {
+        if(handlingGeneral.isLocationSupportEnabled())
+            loader.show("mapexplorer")
+    }
 }

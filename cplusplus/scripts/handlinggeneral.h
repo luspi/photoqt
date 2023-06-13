@@ -71,6 +71,7 @@ public:
     Q_INVOKABLE bool isPugixmlSupportEnabled();
     Q_INVOKABLE bool isVideoSupportEnabled();
     Q_INVOKABLE bool isMPVSupportEnabled();
+    Q_INVOKABLE bool isLocationSupportEnabled();
     Q_INVOKABLE bool isAtLeastQt515();
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE void setOverrideCursor(bool enabled);

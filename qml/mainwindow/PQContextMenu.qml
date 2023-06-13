@@ -111,7 +111,8 @@ PQMenu {
         model: allitems_interface.length
         MenuItem {
             enabled: (filefoldermodel.current!=-1)
-            visible: allitems_interface[index][2]!="__showMetaData" || !PQSettings.metadataElementBehindLeftEdge
+            visible: (allitems_interface[index][2]!="__showMetaData" || !PQSettings.metadataElementBehindLeftEdge) &&
+                     (allitems_interface[index][2]!="__showMapCurrent" || handlingGeneral.isLocationSupportEnabled())
             iconSource: "/mainmenu/" + allitems_interface[index][0]
             text: allitems_interface[index][1]
             onTriggered:

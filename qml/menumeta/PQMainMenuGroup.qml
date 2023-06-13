@@ -103,6 +103,8 @@ Column {
                             width: childrenRect.width
                             height: childrenRect.height
 
+                            visible: leftcol[outerIndex][index][2]!="__showMapExplorer" || handlingGeneral.isLocationSupportEnabled()
+
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true

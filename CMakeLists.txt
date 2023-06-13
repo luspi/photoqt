@@ -51,6 +51,7 @@ option(VIDEO_MPV "Enable video support through MPV" ON)
 option(CHROMECAST "Enable Chromecast support" ON)
 option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip." OFF)
 option(LIBVIPS "Use libvips" OFF)
+option(LOCATION "Enable use of QtPosition/QtLocation QML modules" ON)
 
 option(EXIV2_ENABLE_BMFF "Enable BMFF format support in Exiv2 (if available)" ON)
 
@@ -401,6 +402,13 @@ if(VIDEO_MPV)
     endif()
 else()
     message("** libmpv DISABLED")
+endif()
+
+if(LOCATION)
+    message("** Use of QtLocation/QtPosition enabled")
+    add_definitions(-DLOCATION)
+else()
+    message("** Use of QtLocation/QtPosition DISABLED")
 endif()
 
 

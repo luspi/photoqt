@@ -430,6 +430,13 @@ bool PQHandlingGeneral::isMPVSupportEnabled() {
 #endif
 }
 
+bool PQHandlingGeneral::isLocationSupportEnabled() {
+#ifdef LOCATION
+    return true;
+#endif
+    return false;
+}
+
 bool PQHandlingGeneral::isAtLeastQt515() {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
     return true;

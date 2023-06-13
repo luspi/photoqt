@@ -140,7 +140,8 @@ Item {
             ensureItIsReady("unavailable")
             unavailablePassOn("show", undefined)
             return
-        }
+        } else if((ele == "mapcurrent" || ele == "mapexplorer") && !handlingGeneral.isLocationSupportEnabled())
+            return
 
         if(ele == "imguranonym")
             passOn(ele, "show_anonym", undefined)
