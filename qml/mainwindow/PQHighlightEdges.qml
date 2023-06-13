@@ -47,7 +47,7 @@ Item {
         opacity: (variables.metadataVisible ? 0 : 1)
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        color: "#66ffffff"
+        color: "#55cccccc"
 
         PQTextL {
             anchors.centerIn: parent
@@ -73,7 +73,7 @@ Item {
         opacity: (variables.mainMenuVisible ? 0 : 1)
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        color: "#66ffffff"
+        color: "#55cccccc"
 
         PQTextL {
             anchors.centerIn: parent
@@ -97,7 +97,7 @@ Item {
         opacity: (variables.thumbnailbarVisible ? 0 : 1)
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        color: "#66ffffff"
+        color: "#55cccccc"
 
         PQTextL {
             anchors.centerIn: parent
