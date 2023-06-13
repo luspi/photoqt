@@ -35,7 +35,7 @@ PQTemplateIntegrated {
                       PQSettings.mapviewCurrentPosition.y,
                       PQSettings.mapviewCurrentSize.width,
                       PQSettings.mapviewCurrentSize.height)
-    toBeShown: PQSettings.mapviewCurrentVisible
+    toBeShown: PQSettings.mapviewCurrentVisible&&filefoldermodel.current!=-1
     itemname: "mapcurrent"
     darkBackgroundManageIcons: true
     radius: 0
@@ -281,19 +281,7 @@ PQTemplateIntegrated {
                 anchors.centerIn: parent
                 text: em.pty+qsTranslate("mapcurrent", "No location data")
 
-                opacity: (noLocation&&!nofileloaded.visible) ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-            }
-
-            PQTextL {
-
-                id: nofileloaded
-
-                anchors.centerIn: parent
-                text: em.pty+qsTranslate("mapcurrent", "No file loaded")
-
-                opacity: filefoldermodel.current==-1 ? 1 : 0
+                opacity: noLocation ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
             }

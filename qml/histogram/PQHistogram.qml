@@ -33,7 +33,7 @@ PQTemplateIntegrated {
                       PQSettings.histogramPosition.y,
                       PQSettings.histogramSize.width,
                       PQSettings.histogramSize.height)
-    toBeShown: PQSettings.histogramVisible
+    toBeShown: PQSettings.histogramVisible&&filefoldermodel.current!=-1
     itemname: "histogram"
 
     thisIsBlur: histogram
@@ -99,10 +99,8 @@ PQTemplateIntegrated {
                 PQText {
                     x: 25
                     y: 15
-                    text: filefoldermodel.current==-1 ?
-                              em.pty+qsTranslate("histogram", "Histogram") :
-                              //: As in: Loading the histogram for the current image
-                              em.pty+qsTranslate("histogram", "Loading...")
+                    //: As in: Loading the histogram for the current image
+                    text: em.pty+qsTranslate("histogram", "Loading...")
                     font.weight: baselook.boldweight
                 }
 
