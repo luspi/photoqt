@@ -101,6 +101,10 @@ void PQLocation::storeLocation(const QString path, const QPointF gps) {
 
 void PQLocation::scanForLocations(QStringList files) {
 
+    // this happens when, e.g., no folder is loaded at all
+    if(files.length() == 0)
+        return;
+
     QFileInfo info(files[0]);
 
     QString folder = info.absolutePath();
