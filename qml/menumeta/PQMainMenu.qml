@@ -181,9 +181,9 @@ Item {
                                    //: This is an entry in the main menu on the right. Please keep short!
                            ["txt", em.pty+qsTranslate("MainMenu", "Browse images"), "__open", true, false]],
 
-                          [["img", "mapmarker.svg",                                 "__showMapExplorer", true, false],
+                          [["img", "mapmarker.svg",                                 "__showMapExplorer", true, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
-                           ["txt", em.pty+qsTranslate("MainMenu", "Map Explorer"), "__showMapExplorer", true, false]],
+                           ["txt", em.pty+qsTranslate("MainMenu", "Map Explorer"), "__showMapExplorer", true, true]],
 
                           [["img", "first.svg",                             "__goToFirst", false, true],
                                    //: This is an entry in the main menu on the right. Please keep short!
