@@ -77,7 +77,7 @@ Item {
         y: (parent.height-height)/2
         width: parent.width-160
         height: col.height
-        visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
+        visible: filefoldermodel.countMainView==0&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
         Column {
             id: col
             spacing: 5
