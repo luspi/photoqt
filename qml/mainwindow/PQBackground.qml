@@ -178,9 +178,21 @@ Item {
             source: "/mainwindow/leftarrow.svg"
 
             SequentialAnimation on x {
-                loops: Animation.Infinite
 
-                running: visible&&variables.visibleItem==""
+                id: seqleft
+
+                property bool shouldBeRunning: visible&&variables.visibleItem==""
+                onShouldBeRunningChanged: {
+                    if(shouldBeRunning) {
+                        seqlefttxt.start()
+                        seqleft.start()
+                    } else {
+                        seqlefttxt.stop()
+                        seqleft.stop()
+                    }
+                }
+
+                running: shouldBeRunning
 
                 // move out quick
                 NumberAnimation {
@@ -188,6 +200,8 @@ Item {
                     to: 30
                     easing.type: Easing.OutExpo
                     duration: 500
+                    onFromChanged: seqleft.restart()
+                    onToChanged: seqleft.restart()
                 }
 
                 // bounce back in
@@ -196,10 +210,19 @@ Item {
                     to: 10
                     easing.type: Easing.OutBounce
                     duration: 1000
+                    onFromChanged: seqleft.restart()
+                    onToChanged: seqleft.restart()
                 }
 
                 // short pause
                 PauseAnimation { duration: 500 }
+
+                onStopped: {
+                    if(shouldBeRunning) {
+                        seqlefttxt.restart()
+                        seqleft.restart()
+                    }
+                }
             }
 
         }
@@ -214,10 +237,6 @@ Item {
             SequentialAnimation on x {
 
                 id: seqlefttxt
-
-                loops: Animation.Infinite
-
-                running: visible&&variables.visibleItem==""
 
                 // move out at same speed as arrow animation
                 NumberAnimation {
@@ -260,9 +279,18 @@ Item {
 
                 id: seqright
 
-                loops: Animation.Infinite
+                property bool shouldBeRunning: visible&&variables.visibleItem==""
+                onShouldBeRunningChanged: {
+                    if(shouldBeRunning) {
+                        seqrighttxt.start()
+                        seqright.start()
+                    } else {
+                        seqrighttxt.stop()
+                        seqright.stop()
+                    }
+                }
 
-                running: visible&&variables.visibleItem==""
+                running: shouldBeRunning
 
                 // move out quick
                 NumberAnimation {
@@ -286,6 +314,13 @@ Item {
 
                 // short pause
                 PauseAnimation { duration: 500 }
+
+                onStopped: {
+                    if(shouldBeRunning) {
+                        seqrighttxt.restart()
+                        seqright.restart()
+                    }
+                }
             }
 
         }
@@ -300,10 +335,6 @@ Item {
             SequentialAnimation on x {
 
                 id: seqrighttxt
-
-                loops: Animation.Infinite
-
-                running: visible&&variables.visibleItem==""
 
                 // move out at same speed as arrow animation
                 NumberAnimation {
@@ -347,9 +378,18 @@ Item {
 
                 id: seqdown
 
-                loops: Animation.Infinite
+                property bool shouldBeRunning: visible&&variables.visibleItem==""
+                onShouldBeRunningChanged: {
+                    if(shouldBeRunning) {
+                        seqdowntxt.start()
+                        seqdown.start()
+                    } else {
+                        seqdowntxt.stop()
+                        seqdown.stop()
+                    }
+                }
 
-                running: visible&&variables.visibleItem==""
+                running: shouldBeRunning
 
                 // move out quick
                 NumberAnimation {
@@ -373,6 +413,13 @@ Item {
 
                 // short pause
                 PauseAnimation { duration: 500 }
+
+                onStopped: {
+                    if(shouldBeRunning) {
+                        seqdowntxt.restart()
+                        seqdown.restart()
+                    }
+                }
             }
 
         }
@@ -387,10 +434,6 @@ Item {
             SequentialAnimation on y {
 
                 id: seqdowntxt
-
-                loops: Animation.Infinite
-
-                running: visible&&variables.visibleItem==""
 
                 // move out at same speed as arrow animation
                 NumberAnimation {
