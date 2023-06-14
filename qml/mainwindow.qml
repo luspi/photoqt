@@ -60,135 +60,7 @@ Window {
     minimumWidth: (variables.visibleItem==""||width<800) ? 600 : ((variables.visibleItem!="settingsmanager" || width < 1024) ? 800 : 1024)
     minimumHeight: (variables.visibleItem==""||height<600) ? 400 : ((variables.visibleItem!="settingsmanager" || height < 768) ? 600 : 768)
 
-    color: "#00000000"
-
-    Image {
-
-        id: bgimage
-
-        anchors.fill: parent
-
-        source: PQSettings.interfaceBackgroundImageScreenshot ?
-                    ("image://full/" + handlingFileDir.getTempDir() + "/photoqt_screenshot_0.jpg") :
-                    (PQSettings.interfaceBackgroundImageUse ? ("image://full/"+PQSettings.interfaceBackgroundImagePath) : "")
-
-        fillMode: PQSettings.interfaceBackgroundImageScale ?
-                      Image.PreserveAspectFit :
-                      PQSettings.interfaceBackgroundImageScaleCrop ?
-                          Image.PreserveAspectCrop :
-                          PQSettings.interfaceBackgroundImageStretch ?
-                              Image.Stretch :
-                              PQSettings.interfaceBackgroundImageCenter ?
-                                  Image.Pad :
-                                  Image.Tile
-
-        Rectangle {
-
-            anchors.fill: parent
-
-            color: (toplevel.visibility==Window.FullScreen&&PQSettings.interfaceFullscreenOverlayColorDifferent) ?
-                       Qt.rgba(PQSettings.interfaceFullscreenOverlayColorRed/255.0,
-                                  PQSettings.interfaceFullscreenOverlayColorGreen/255.0,
-                                  PQSettings.interfaceFullscreenOverlayColorBlue/255.0,
-                                  PQSettings.interfaceFullscreenOverlayColorAlpha/255.0) :
-                        Qt.rgba(PQSettings.interfaceOverlayColorRed/255.0,
-                                   PQSettings.interfaceOverlayColorGreen/255.0,
-                                   PQSettings.interfaceOverlayColorBlue/255.0,
-                                   PQSettings.interfaceOverlayColorAlpha/255.0)
-
-            Behavior on color { ColorAnimation { duration: 200 } }
-
-            Item {
-                id: emptymessage
-                x: (parent.width-width)/2
-                y: (parent.height-height)/2
-                width: parent.width-160
-                height: col.height
-                visible: filefoldermodel.current==-1&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
-                Column {
-                    id: col
-                    spacing: 5
-                    Text {
-                        id: openmessage
-                        width: emptymessage.width
-                        //: Part of the message shown in the main view before any image is loaded
-                        text: em.pty+qsTranslate("other", "Click anywhere to open a file")
-                        font.pointSize: Math.min(60, Math.max(20, (toplevel.width+toplevel.height)/60))
-                        font.bold: true
-                        color: "#c0c0c0"
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    Text {
-                        width: emptymessage.width
-                        //: Part of the message shown in the main view before any image is loaded
-                        text: em.pty+qsTranslate("other", "Move your cursor to:")
-                        font.pointSize: Math.min(40, Math.max(15, (toplevel.width+toplevel.height)/90))
-                        font.bold: true
-                        color: "#c0c0c0"
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    Text {
-                        width: emptymessage.width
-                        //: Part of the message shown in the main view before any image is loaded, first option for where to move cursor to
-                        text: ">> " + em.pty+qsTranslate("other", "RIGHT EDGE for the main menu")
-                        font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
-                        font.bold: true
-                        color: "#c0c0c0"
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    Text {
-                        width: emptymessage.width
-                        visible: PQSettings.metadataElementBehindLeftEdge
-                        //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
-                        text: ">> " + em.pty+qsTranslate("other", "LEFT EDGE for the metadata")
-                        font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
-                        font.bold: true
-                        color: "#c0c0c0"
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    Column {
-                        Text {
-                            width: emptymessage.width
-                            //: Part of the message shown in the main view before any image is loaded, third option for where to move cursor to
-                            text: ">> " + em.pty+qsTranslate("other", "BOTTOM EDGE to show the thumbnails")
-                            font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
-                            font.bold: true
-                            color: "#c0c0c0"
-                            wrapMode: Text.WordWrap
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        Text {
-                            width: emptymessage.width
-                            //: Part of the message shown in the main view before any image is loaded
-                            text: em.pty+qsTranslate("other", "(once an image/folder is loaded)")
-                            font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
-                            font.bold: true
-                            color: "#c0c0c0"
-                            wrapMode: Text.WordWrap
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
-                }
-            }
-
-            Text {
-                id: filtermessage
-                anchors.centerIn: parent
-                //: Used as in: No matches found for the currently set filter
-                text: em.pty+qsTranslate("other", "No matches found")
-                visible: filefoldermodel.current==-1&&filefoldermodel.filterCurrentlyActive
-                font.pointSize: Math.min(60, Math.max(20, (toplevel.width+toplevel.height)/60))
-                font.bold: true
-                color: "#bb808080"
-            }
-
-        }
-
-    }
+    color: "transparent"
 
     //: The window title of PhotoQt
     title: (filefoldermodel.currentFilePath=="" ? "" : (handlingFileDir.getFileNameFromFullPath(filefoldermodel.currentFilePath) + " | "))+ em.pty+qsTranslate("other", "PhotoQt Image Viewer")
@@ -213,6 +85,9 @@ Window {
         start()
     }
 
+    // This needs to be the first item as it paints the background
+    PQBackground { id: toplevel_bg }
+
     PQTrayIcon { id: trayicon }
 
     PQVariables { id: variables }
@@ -220,8 +95,6 @@ Window {
     PQCmdReceived { id: cmdreceived }
     PQLoader { id: loader }
     PQWindowSizePopupManager { id: windowsizepopup }
-
-    PQHighlightEdges { id: highlightedges }
 
     // this needs to come BEFORE some of the following items
     // otherwise they will not be able to receive mouse events at all

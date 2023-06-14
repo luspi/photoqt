@@ -223,7 +223,7 @@ Item {
             onPressAndHold: {
                 if(Math.sqrt(Math.pow(mouse.x-pressedPos.x, 2) + Math.pow(mouse.y-pressedPos.y)) > 50)
                     return
-                variables.mousePos = mousearea.mapToItem(bgimage, mouse.x, mouse.y)
+                variables.mousePos = mousearea.mapToItem(toplevel_bg, mouse.x, mouse.y)
                 contextmenu.showMenu()
             }
 
@@ -359,9 +359,9 @@ Item {
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
             if(wheelDelta != undefined && !PQSettings.imageviewZoomToCenter)
-                performZoom(theimage.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y), undefined, true, false, false)
+                performZoom(theimage.mapFromItem(toplevel_bg, variables.mousePos.x, variables.mousePos.y), undefined, true, false, false)
             else
-                performZoom(theimage.mapFromItem(bgimage, toplevel.width/2, toplevel.height/2), undefined, true, false, false)
+                performZoom(theimage.mapFromItem(toplevel_bg, toplevel.width/2, toplevel.height/2), undefined, true, false, false)
 
         }
         onZoomOut: {
@@ -370,9 +370,9 @@ Item {
             // if wheelDelta is undefined, then the zoom happened from a key shortcut
             // in that case we zoom to the screen center
             if(wheelDelta != undefined && !PQSettings.imageviewZoomToCenter)
-                performZoom(theimage.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y), undefined, false, false, false)
+                performZoom(theimage.mapFromItem(toplevel_bg, variables.mousePos.x, variables.mousePos.y), undefined, false, false, false)
             else
-                performZoom(theimage.mapFromItem(bgimage, toplevel.width/2, toplevel.height/2), undefined, false, false, false)
+                performZoom(theimage.mapFromItem(toplevel_bg, toplevel.width/2, toplevel.height/2), undefined, false, false, false)
 
         }
         onZoomReset: {
@@ -384,7 +384,7 @@ Item {
                 return
 
             // zoom to center of screen
-            performZoom(theimage.mapFromItem(bgimage, toplevel.width/2, toplevel.height/2), undefined, false, true, false)
+            performZoom(theimage.mapFromItem(toplevel_bg, toplevel.width/2, toplevel.height/2), undefined, false, true, false)
 
         }
         onRotate: {

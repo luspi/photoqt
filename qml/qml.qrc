@@ -194,6 +194,6 @@
         <file>templates/PQTemplateFullscreen.qml</file>
         <file>templates/PQTemplatePopout.qml</file>
         <file>templates/PQTemplateIntegrated.qml</file>
-        <file>mainwindow/PQHighlightEdges.qml</file>
+        <file>mainwindow/PQBackground.qml</file>
     </qresource>
 </RCC>

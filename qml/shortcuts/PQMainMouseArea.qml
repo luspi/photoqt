@@ -37,7 +37,7 @@ Item {
 
         hoverEnabled: true
 
-        cursorShape: emptymessage.visible ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: toplevel_bg.isStartupMessageShown ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         property int angleDeltaX: 0
         property int angleDeltaY: 0
@@ -149,7 +149,7 @@ Item {
                 }
             } else {
 
-                variables.mousePos = mousearea.mapToItem(bgimage, mouse.x, mouse.y)
+                variables.mousePos = mousearea.mapToItem(toplevel_bg, mouse.x, mouse.y)
 
             }
         }
@@ -224,18 +224,18 @@ Item {
         // click outside of container
         if(combo == "Left Button") {
             if(PQSettings.interfaceCloseOnEmptyBackground) {
-                if(!emptymessage.visible) {
+                if(!toplevel_bg.isStartupMessageShown) {
                     toplevel.close()
                     return
                 }
-            } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground && !emptymessage.visible) {
+            } else if(PQSettings.interfaceWindowDecorationOnEmptyBackground && !toplevel_bg.isStartupMessageShown) {
                 PQSettings.interfaceWindowDecoration = !PQSettings.interfaceWindowDecoration
                 return
             }
         }
 
         // a click on the empty background when no image is loaded shows filedialog
-        if(emptymessage.visible && combo == "Left Button")
+        if(toplevel_bg.isStartupMessageShown && combo == "Left Button")
             loader.show("filedialog")
         else
             HandleShortcuts.checkComboForShortcut(combo)

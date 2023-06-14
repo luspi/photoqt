@@ -81,14 +81,14 @@ Item {
 
         onMouseXChanged: {
             if(mouseDown) {
-                var pos = facetagger_top.mapToItem(bgimage, mouse.x, mouse.y)
+                var pos = facetagger_top.mapToItem(toplevel_bg, mouse.x, mouse.y)
                 handleMouseMove(pos)
             }
         }
 
         onMouseYChanged: {
             if(mouseDown) {
-                var pos = facetagger_top.mapToItem(bgimage, mouse.x, mouse.y)
+                var pos = facetagger_top.mapToItem(toplevel_bg, mouse.x, mouse.y)
                 handleMouseMove(pos)
             }
         }
@@ -98,7 +98,7 @@ Item {
     function handleMouseMove(pos) {
         if(newtag.visible && !namecont.visible) {
 
-            var p = facetagger_top.mapFromItem(bgimage, pos.x, pos.y)
+            var p = facetagger_top.mapFromItem(toplevel_bg, pos.x, pos.y)
 
             var newWidth = p.x-newtag.setX
             var newHeight = p.y-newtag.setY

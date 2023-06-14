@@ -100,14 +100,14 @@ Item {
 
             function handleMouseMove() {
 
-                var p = deleg.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y)
+                var p = deleg.mapFromItem(toplevel_bg, variables.mousePos.x, variables.mousePos.y)
                 deleg.labelMouseHovered = !(p.x < 0 || p.x > deleg.width || p.y < 0 || p.y > deleg.height)
                 if(deleg.labelMouseHovered)
                     facetracker_top.indexOfLabelHovered = index
                 else if(!deleg.labelMouseHovered && facetracker_top.indexOfLabelHovered == index)
                     facetracker_top.indexOfLabelHovered = -1
 
-                p = facetracker_top.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y)
+                p = facetracker_top.mapFromItem(toplevel_bg, variables.mousePos.x, variables.mousePos.y)
                 deleg.fullMouseHovered = !(p.x < 0 || p.x > facetracker_top.width || p.y < 0 || p.y > facetracker_top.height)
 
             }
