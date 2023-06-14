@@ -180,7 +180,7 @@ Item {
             SequentialAnimation on x {
                 loops: Animation.Infinite
 
-                running: visible
+                running: visible&&variables.visibleItem==""
 
                 // move out quick
                 NumberAnimation {
@@ -217,7 +217,7 @@ Item {
 
                 loops: Animation.Infinite
 
-                running: visible
+                running: visible&&variables.visibleItem==""
 
                 // move out at same speed as arrow animation
                 NumberAnimation {
@@ -262,7 +262,7 @@ Item {
 
                 loops: Animation.Infinite
 
-                running: visible
+                running: visible&&variables.visibleItem==""
 
                 // move out quick
                 NumberAnimation {
@@ -303,7 +303,7 @@ Item {
 
                 loops: Animation.Infinite
 
-                running: visible
+                running: visible&&variables.visibleItem==""
 
                 // move out at same speed as arrow animation
                 NumberAnimation {
@@ -349,7 +349,7 @@ Item {
 
                 loops: Animation.Infinite
 
-                running: visible
+                running: visible&&variables.visibleItem==""
 
                 // move out quick
                 NumberAnimation {
@@ -390,7 +390,7 @@ Item {
 
                 loops: Animation.Infinite
 
-                running: visible
+                running: visible&&variables.visibleItem==""
 
                 // move out at same speed as arrow animation
                 NumberAnimation {
