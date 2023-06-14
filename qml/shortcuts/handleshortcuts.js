@@ -33,6 +33,11 @@ function checkComboForShortcut(combo, wheelDelta) {
         return
     }
 
+    if(combo == "Escape" && filefoldermodel.filterCurrentlyActive) {
+        loader.passOn("filter", "removeFilter", undefined)
+        return
+    }
+
     var data = PQShortcuts.getCommandsForShortcut(combo)
 
     if(data.length != 4)
