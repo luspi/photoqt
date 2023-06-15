@@ -150,7 +150,7 @@ Item {
 
         anchors.left: dotdotdot.right
         anchors.leftMargin: 5
-        anchors.right: sep2.left
+        anchors.right: sep2.visible ? sep2.left : parent.right
         anchors.rightMargin: 10
 
         height: bread_top.height
@@ -188,6 +188,7 @@ Item {
         width: 1
         height: bread_top.height
         color: "#444444"
+        visible: !PQSettings.interfacePopoutOpenFile
     }
 
     Item {
@@ -196,6 +197,8 @@ Item {
         anchors.rightMargin: -5
         height: parent.height
         width: height
+
+        visible: !PQSettings.interfacePopoutOpenFile
 
         Image {
 
@@ -229,6 +232,8 @@ Item {
         anchors.right: parent.right
         height: parent.height
         width: height
+
+        visible: !PQSettings.interfacePopoutOpenFile
 
         Image {
 
