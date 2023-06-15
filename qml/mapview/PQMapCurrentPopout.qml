@@ -36,6 +36,9 @@ PQTemplatePopout {
     name: "mapcurrentpopout"
     source: "mapview/PQMapCurrent.qml"
 
+    minimumWidth: 300
+    minimumHeight: 200
+
     modality: Qt.NonModal
 
     onPopupChanged:

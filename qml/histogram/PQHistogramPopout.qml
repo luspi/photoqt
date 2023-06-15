@@ -36,6 +36,9 @@ PQTemplatePopout {
     name: "histogram"
     source: "histogram/PQHistogram.qml"
 
+    minimumWidth: 300
+    minimumHeight: 200
+
     modality: Qt.NonModal
 
     onPopupChanged:
