@@ -236,18 +236,8 @@ Item {
 
                 id: seqleft
 
-                property bool shouldBeRunning: visible&&variables.visibleItem==""
-                onShouldBeRunningChanged: {
-                    if(shouldBeRunning) {
-                        seqlefttxt.start()
-                        seqleft.start()
-                    } else {
-                        seqlefttxt.stop()
-                        seqleft.stop()
-                    }
-                }
-
-                running: shouldBeRunning
+                running: visible&&variables.visibleItem==""
+                loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
@@ -272,52 +262,10 @@ Item {
                 // short pause
                 PauseAnimation { duration: 500 }
 
-                onStopped: {
-                    if(shouldBeRunning) {
-                        seqlefttxt.restart()
-                        seqleft.restart()
-                    }
-                }
             }
 
         }
 
-        PQText {
-
-            id: arrlefttxt
-
-            y: arrleft.y + (arrleft.height-height)/2
-            text: em.pty+qsTranslate("metadata", "Metadata")
-
-            SequentialAnimation on x {
-
-                id: seqlefttxt
-
-                // move out at same speed as arrow animation
-                NumberAnimation {
-                    from: arrleft.width+10 + 10
-                    to: arrleft.width+10 + 30
-                    easing.type: Easing.OutExpo
-                    duration: 500
-                    onFromChanged: seqlefttxt.restart()
-                    onToChanged: seqlefttxt.restart()
-                }
-
-                // move in with delay
-                NumberAnimation {
-                    from: arrleft.width+10 + 30
-                    to: arrleft.width+10 + 10
-                    easing.type: Easing.InExpo
-                    duration: 1300
-                    onFromChanged: seqlefttxt.restart()
-                    onToChanged: seqlefttxt.restart()
-                }
-
-                // short pause
-                PauseAnimation { duration: 200 }
-            }
-
-        }
 
         Image {
             id: arrright
@@ -334,18 +282,8 @@ Item {
 
                 id: seqright
 
-                property bool shouldBeRunning: visible&&variables.visibleItem==""
-                onShouldBeRunningChanged: {
-                    if(shouldBeRunning) {
-                        seqrighttxt.start()
-                        seqright.start()
-                    } else {
-                        seqrighttxt.stop()
-                        seqright.stop()
-                    }
-                }
-
-                running: shouldBeRunning
+                running: visible&&variables.visibleItem==""
+                loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
@@ -370,49 +308,6 @@ Item {
                 // short pause
                 PauseAnimation { duration: 500 }
 
-                onStopped: {
-                    if(shouldBeRunning) {
-                        seqrighttxt.restart()
-                        seqright.restart()
-                    }
-                }
-            }
-
-        }
-
-        PQText {
-
-            id: arrrighttxt
-
-            y: arrright.y + (arrright.height-height)/2
-            text: em.pty+qsTranslate("MainMenu", "Main menu")
-
-            SequentialAnimation on x {
-
-                id: seqrighttxt
-
-                // move out at same speed as arrow animation
-                NumberAnimation {
-                    from: toplevel.width-110 - arrrighttxt.width-10
-                    to: toplevel.width-130 - arrrighttxt.width-10
-                    easing.type: Easing.OutExpo
-                    duration: 500
-                    onFromChanged: seqrighttxt.restart()
-                    onToChanged: seqrighttxt.restart()
-                }
-
-                // move in with delay
-                NumberAnimation {
-                    from: toplevel.width-130 - arrrighttxt.width-10
-                    to: toplevel.width-110 - arrrighttxt.width-10
-                    easing.type: Easing.InExpo
-                    duration: 1300
-                    onFromChanged: seqrighttxt.restart()
-                    onToChanged: seqrighttxt.restart()
-                }
-
-                // short pause
-                PauseAnimation { duration: 200 }
             }
 
         }
@@ -433,18 +328,8 @@ Item {
 
                 id: seqdown
 
-                property bool shouldBeRunning: visible&&variables.visibleItem==""
-                onShouldBeRunningChanged: {
-                    if(shouldBeRunning) {
-                        seqdowntxt.start()
-                        seqdown.start()
-                    } else {
-                        seqdowntxt.stop()
-                        seqdown.stop()
-                    }
-                }
-
-                running: shouldBeRunning
+                running: visible&&variables.visibleItem==""
+                loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
@@ -469,50 +354,8 @@ Item {
                 // short pause
                 PauseAnimation { duration: 500 }
 
-                onStopped: {
-                    if(shouldBeRunning) {
-                        seqdowntxt.restart()
-                        seqdown.restart()
-                    }
-                }
             }
 
-        }
-
-        PQText {
-
-            id: arrdowntxt
-
-            x: arrdown.x+(arrdown.width-width)/2
-            text: em.pty+qsTranslate("thumbnailbar", "Thumbnails (once a folder is loaded)")
-
-            SequentialAnimation on y {
-
-                id: seqdowntxt
-
-                // move out at same speed as arrow animation
-                NumberAnimation {
-                    from: toplevel.height-110 - arrdowntxt.height-10
-                    to: toplevel.height-130 - arrdowntxt.height-10
-                    easing.type: Easing.OutExpo
-                    duration: 500
-                    onFromChanged: seqdowntxt.restart()
-                    onToChanged: seqdowntxt.restart()
-                }
-
-                // move in with delay
-                NumberAnimation {
-                    from: toplevel.height-130 - arrdowntxt.height-10
-                    to: toplevel.height-110 - arrdowntxt.height-10
-                    easing.type: Easing.InExpo
-                    duration: 1300
-                    onFromChanged: seqdowntxt.restart()
-                    onToChanged: seqdowntxt.restart()
-                }
-
-                // short pause
-                PauseAnimation { duration: 200 }
-            }
         }
 
     }
