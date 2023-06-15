@@ -1,6 +1,34 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 3.3 - 2023-06-15
+----------------------------
+- add: all new shortcuts engine
+- add: floating element to show location of current image on map
+- add: map explorer to show all images in current folder with location data on interactive map
+- add: reset button to restore initial stage of main image
+- add: setting to switch to moving the image by mouse wheel instead of using it for shortcuts
+- add: shortcut actions to move image left/right/up/down
+- add: shortcut actions to got to edges of current image
+- add: setting to adjust autohide of mouse cursor
+- add: allow wheel left/right movement as mouse gestures for shortcut
+- add: allow selection of OpenGL backend in settings
+- add: option to load PDF documents with QtPDF instead of poppler
+- add: animate arrows and add small click animation on startup
+- improve: unify look and feel of various elements throughout application
+- improve: startup default to mixed setup (integrated and popped out) as default option
+- improve: support any image format as icon for context menu entry
+- improve: listening to global mouse movements, fixes overloading event system
+- improve: don't show context menu entry to add location to favorites without pugixml available
+- improve: Escape key in file dialog with files selected only removes selection
+- improve: installing pychromecast with cmake is now opt-in option
+- improve: crash prevention when scanning for chromecast devices with pychromecast
+- fix: finding/linking against (optional) mpv source files
+- fix: proper url encoding for favorite locations
+- fix: compilation with Exiv 0.28.0
+- Windows: fix fullscreen application window
+
+
 Release 3.2 - 2023-05-11
 ----------------------------
 - add: advanced sorting by dates stored in exif meta data

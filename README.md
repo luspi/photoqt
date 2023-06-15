@@ -10,6 +10,7 @@ PhotoQt is an image viewer that provides a simple and uncluttered interface. Yet
 
 - Support of up to more than **140 image formats**. A list of all possibly supported image formats [can be found on the website](https://photoqt.org/formats).
 - **Touchscreen** support, including pinch-to-zoom.
+- Showing GPS locations of images with an **embedded map** or explore all images with location data in current folder with an **interactive map**
 - **Chromecast** support (tested with third generation devices)
 - Basic **image manipulation**: zooming, rotating, mirroring (all of which per-session only)
 - **Convert images** between supported formats

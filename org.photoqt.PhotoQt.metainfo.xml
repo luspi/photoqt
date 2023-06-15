@@ -29,11 +29,15 @@
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo3.jpg</image>
-            <caption>The settings manager, 'interface' tab</caption>
+            <caption>The settings manager, 'shortcuts' tab</caption>
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo4.jpg</image>
-            <caption>The settings manager, 'filetypes' tab</caption>
+            <caption>The map explorer showing all images with location data on interactive map</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://photoqt.org/img/metainfo/metainfo5.jpg</image>
+            <caption>The 'About' information shown inside PhotoQt</caption>
         </screenshot>
     </screenshots>
     <url type="homepage">https://photoqt.org</url>
@@ -62,6 +66,7 @@
         <keyword>face tags</keyword>
         <keyword>touchscreen</keyword>
         <keyword>chromecast</keyword>
+        <keyword>map</keyword>
     </keywords>
     <content_rating type="oars-1.0">
         <content_attribute id="violence-cartoon">none</content_attribute>
@@ -86,6 +91,7 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="3.3" date="2023-06-15" />
         <release version="3.2" date="2023-05-11" />
         <release version="3.1" date="2023-03-07" />
         <release version="3.0" date="2023-01-30" />

@@ -23,7 +23,7 @@
 - Exiv2
 - ImageMagick or GraphicsMagick
 - LibRaw
-- Poppler
+- Poppler (can be replaced by QtPDF)
 - LibVips
 - FreeImage
 - DevIL

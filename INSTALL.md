@@ -17,7 +17,7 @@ Dependencies that are needed by default, but can be disabled via CMake:
 - Exiv2
 - ImageMagick _or_ GraphicsMagick
 - LibRaw
-- Poppler
+- Poppler (can be replaced by QtPDF)
 - LibVips
 - FreeImage
 - DevIL
