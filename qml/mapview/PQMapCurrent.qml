@@ -87,8 +87,8 @@ PQTemplateIntegrated {
         PQSettings.mapviewCurrentSize = Qt.size(geometry.width, geometry.height)
     }
 
-    onToBeShownChanged:
-        PQSettings.mapviewCurrentVisible = toBeShown
+    onElementClosed:
+        PQSettings.mapviewCurrentVisible = false
 
     onVisibleChanged:
         updateMap()

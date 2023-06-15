@@ -47,8 +47,8 @@ PQTemplateIntegrated {
         PQSettings.histogramSize = Qt.size(geometry.width, geometry.height)
     }
 
-    onToBeShownChanged:
-        PQSettings.histogramVisible = toBeShown
+    onElementClosed:
+        PQSettings.histogramVisible = false
 
     onUpdateElement:
         updateHistogram()

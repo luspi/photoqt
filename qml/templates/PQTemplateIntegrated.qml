@@ -49,6 +49,7 @@ Item {
     signal clickedRight()
     signal wheelEvent(var delta)
     signal resized()
+    signal elementClosed()
 
     PQBlurBackground {
         id: blur
@@ -192,7 +193,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
                 onClicked:
-                    toBeShown = !toBeShown
+                    ele_top.elementClosed()
             }
 
             Rectangle {
