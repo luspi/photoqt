@@ -130,7 +130,7 @@ PQMenu {
             iconSource: (allitems_external[index][0].slice(4)=="" ? "/settingsmanager/interface/application.svg" : ("data:image/png;base64,"+allitems_external[index][0].slice(4)))
             text: allitems_external[index][1]
             onTriggered: {
-                HandleShortcuts.executeInternalFunction(allitems_external[index][2], allitems_external[index][3])
+                handlingExternal.executeExternal(allitems_external[index][2], allitems_external[index][3], filefoldermodel.currentFilePath)
                 if(allitems_external[index][4])
                     toplevel.quitPhotoQt()
             }
