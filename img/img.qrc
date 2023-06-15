@@ -119,5 +119,6 @@
         <file>mapview/zoomout.svg</file>
         <file>settingsmanager/interface/upwards.svg</file>
         <file>mainmenu/edges.svg</file>
+        <file>mainwindow/mouse.svg</file>
     </qresource>
 </RCC>

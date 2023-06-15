@@ -161,6 +161,61 @@ Item {
 
     Item {
 
+        id: clickhere
+        x: (parent.width-100)/2
+        y: emptymessage.y-100-50
+
+        width: 100
+        height: 100
+
+        visible: emptymessage.visible && variables.startupCompleted
+
+        Rectangle {
+
+            id: clickcircle
+
+            width: 20
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
+            height: width
+            radius: width/2
+            color: "transparent"
+            opacity: 1 - (width-20)/40
+            border {
+                width: 5
+                color: "white"
+            }
+
+            NumberAnimation {
+                id: clickani
+                target: clickcircle
+                property: "width"
+                from: 20
+                to: 50
+                duration: 1000
+                loops: Animation.Infinite
+                running: visible&&variables.visibleItem==""
+                easing.type: Easing.OutCirc
+            }
+        }
+
+        Image {
+
+            x: parent.width/2
+            y: parent.height/2
+
+            width: 40*(2/3)
+            height: 40
+            smooth: false
+            sourceSize: Qt.size(width, height)
+            source: "/mainwindow/mouse.svg"
+
+        }
+
+    }
+
+    Item {
+
         id: edgearrows
         anchors.fill: parent
 
