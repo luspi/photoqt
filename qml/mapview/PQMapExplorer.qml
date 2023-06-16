@@ -246,7 +246,7 @@ Item {
     function clickOnImage(lat, lon) {
 
         map.setMapCenterSmooth(lat, lon)
-        map.setMapZoomLevelSmooth(map.maximumZoomLevel-2)
+        map.setMapZoomLevelSmooth(maptweaks.maxZoomLevel/2)
 
     }
 
