@@ -43,7 +43,7 @@ Rectangle {
 
             y: (parent.height-height)/2
 
-            text: em.pty+qsTranslate("mapexplorer", "Zoom:")
+            text: em.pty+qsTranslate("mapexplorer", "Image zoom:")
 
         }
 

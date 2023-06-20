@@ -44,7 +44,7 @@ Rectangle {
 
             id: zoomtext
 
-            text: em.pty+qsTranslate("mapexplorer", "Zoom:")
+            text: em.pty+qsTranslate("mapexplorer", "Map zoom:")
 
         }
 
