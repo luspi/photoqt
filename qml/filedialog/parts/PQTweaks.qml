@@ -107,25 +107,12 @@ Rectangle {
 
         text: genericStringCancel
         leftRightTextSpacing: 40
+        showLeftRightBorder: true
 
         font.weight: baselook.boldweight
         font.pointSize: baselook.fontsize_l
 
         onClicked: filedialog_top.hideFileDialog()
-
-        Rectangle {
-            x: 0
-            width: 2
-            height: parent.height
-            color: "#888888"
-        }
-
-        Rectangle {
-            x: parent.width-2
-            width: 2
-            height: parent.height
-            color: "#888888"
-        }
 
     }
 

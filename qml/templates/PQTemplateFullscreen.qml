@@ -160,6 +160,8 @@ Rectangle {
 
             height: parent.height
 
+            spacing: 0
+
             onWidthChanged: {
                 if(ele_top.popout)
                     ele_window.handleChangesBottomRowWidth(width)
@@ -173,20 +175,7 @@ Rectangle {
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 40
-
-                Rectangle {
-                    x: 0
-                    width: 2
-                    height: parent.height
-                    color: "#888888"
-                }
-
-                Rectangle {
-                    x: parent.width-2
-                    width: 2
-                    height: parent.height
-                    color: "#888888"
-                }
+                showLeftRightBorder: true
             }
 
             PQButton {
@@ -197,20 +186,7 @@ Rectangle {
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
-
-                Rectangle {
-                    x: 0
-                    width: 2
-                    height: parent.height
-                    color: "#888888"
-                }
-
-                Rectangle {
-                    x: parent.width-2
-                    width: 2
-                    height: parent.height
-                    color: "#888888"
-                }
+                showLeftRightBorder: true
             }
 
             PQButton {
@@ -222,20 +198,7 @@ Rectangle {
                 y: 1
                 height: parent.height-1
                 leftRightTextSpacing: 20
-
-                Rectangle {
-                    x: 0
-                    width: 2
-                    height: parent.height
-                    color: "#888888"
-                }
-
-                Rectangle {
-                    x: parent.width-2
-                    width: 2
-                    height: parent.height
-                    color: "#888888"
-                }
+                showLeftRightBorder: true
             }
 
         }

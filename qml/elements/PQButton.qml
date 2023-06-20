@@ -31,8 +31,6 @@ Rectangle {
     property int forceWidth: 0
 
     opacity: enabled ? 1 : 0.3
-    border.width: 0
-    border.color: "#00000000"
     radius: 2
 
     property alias font: txt.font
@@ -74,6 +72,7 @@ Rectangle {
     signal clicked()
 
     property int leftRightTextSpacing: 10
+    property bool showLeftRightBorder: false
 
     property alias renderType: txt.renderType
 
@@ -85,6 +84,7 @@ Rectangle {
     property string genericStringSave: em.pty+qsTranslate("buttongeneric", "Save")
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: em.pty+qsTranslate("buttongeneric", "Close")
+
 
     PQText {
         id: txt
@@ -115,6 +115,24 @@ Rectangle {
         x: (parent.width-width)/2
         y: (parent.height-height)/2
 
+    }
+
+    Rectangle {
+        x: 1
+        y: 0
+        width: 1
+        height: parent.height
+        color: "#888888"
+        visible: showLeftRightBorder
+    }
+
+    Rectangle {
+        x: parent.width-width
+        y: 0
+        width: 1
+        height: parent.height
+        color: "#888888"
+        visible: showLeftRightBorder
     }
 
     PQMouseArea {

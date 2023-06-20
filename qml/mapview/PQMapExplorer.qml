@@ -180,23 +180,9 @@ Item {
         y: parent.height-50 + 1
         height: 49
         leftRightTextSpacing: 20
+        showLeftRightBorder: true
         onClicked:
             hideExplorer()
-
-        Rectangle {
-            x: 0
-            width: 2
-            height: parent.height
-            color: "#888888"
-        }
-
-
-        Rectangle {
-            x: parent.width-2
-            width: 2
-            height: parent.height
-            color: "#888888"
-        }
     }
 
     Connections {
