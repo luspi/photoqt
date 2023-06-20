@@ -27,7 +27,7 @@ import "../templates"
 PQTemplatePopout {
 
     //: Window title
-    title: em.pty+qsTranslate("scale", "Scale file")
+    title: em.pty+qsTranslate("scale", "Scale image")
 
     geometry: windowgeometry.scaleWindowGeometry
     isMax: windowgeometry.scaleWindowMaximized

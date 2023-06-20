@@ -31,15 +31,15 @@ PQTemplateFullscreen {
 
     popout: PQSettings.interfacePopoutScale
     shortcut: "__scale"
-    title: em.pty+qsTranslate("scale", "Scale file")
+    title: em.pty+qsTranslate("scale", "Scale image")
 
     button1.text: em.pty+qsTranslate("scale", "Scale (create new file)")
-    button1.font.weight: baselook.normalweight
     button1.enabled: (newwidth.value>0 && newheight.value>0 && !unsupported.visible)
 
     button2.visible: true
     button2.font.pointSize: baselook.fontsize_l
     button2.text: em.pty+qsTranslate("scale", "Scale (change file in place)")
+    button2.font.weight: baselook.boldweight
     button2.enabled: (newwidth.value>0 && newheight.value>0 && !unsupported.visible)
 
     button3.visible: true
@@ -261,15 +261,15 @@ PQTemplateFullscreen {
                 error.visible = false
                 variables.visibleItem = "scale"
             } else if(what == "hide") {
-                button_cancel.clicked()
+                button3.clicked()
             } else if(what == "keyevent") {
                 if(param[0] == Qt.Key_Escape)
-                    button_cancel.clicked()
+                    button3.clicked()
                 else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return) {
                     if(param[1] & Qt.ShiftModifier)
-                        button_scaleinplace.clicked()
+                        button2.clicked()
                     else
-                        button_scalenew.clicked()
+                        button1.clicked()
                 } else if(param[0] == Qt.Key_Left) {
                     newwidth.value -= newwidth.origVal*0.1
                     newheight.value -= newheight.origVal*0.1
