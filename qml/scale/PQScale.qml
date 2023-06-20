@@ -227,7 +227,7 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             font.weight: baselook.boldweight
             textFormat: Text.RichText
-            text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (create new file)") + "</td</tr>
+            text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (create new file)") + "</td></tr>
                   <tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (change file in place)") + "</td></tr>
                   <tr><td align=right>" + keymousestrings.translateShortcut("Left") + "/" + keymousestrings.translateShortcut("Right") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "De-/Increase width and height by 10%") + "</td></tr>
                   <tr><td align=right>+/-</td><td>=</td><td>" + em.pty+qsTranslate("scale", "In-/Decrease quality by 5%") + "</td></tr>
