@@ -270,10 +270,6 @@ QVariantList PQHandlingFileDialog::getStorageInfo() {
                 name = QDir::toNativeSeparators(s.rootPath());
 
             QString p = s.rootPath();
-#ifdef Q_OS_WIN
-            if(p.endsWith("/"))
-                p = p.remove(p.length()-1, p.length());
-#endif
 
             QVariantList vol;
             vol << name
