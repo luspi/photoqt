@@ -36,10 +36,15 @@ PQTemplateFullscreen {
     button1.text: em.pty+qsTranslate("filemanagement", "Move to trash")
 
     button2.visible: true
-    button2.text: genericStringCancel
+    button2.font.pointSize: baselook.fontsize_l
+    button2.text: em.pty+qsTranslate("filemanagement", "Delete permanently")
+    button2.font.weight: baselook.boldweight
 
     button3.visible: true
-    button3.text: em.pty+qsTranslate("filemanagement", "Delete permanently")
+    button3.font.pointSize: baselook.fontsize
+    button3.text: genericStringCancel
+
+
 
     onPopoutChanged:
         PQSettings.interfacePopoutFileDelete = popout
@@ -48,10 +53,10 @@ PQTemplateFullscreen {
         moveToTrash()
 
     button2.onClicked:
-        closeElement()
+        deletePermanently()
 
     button3.onClicked:
-        deletePermanently()
+        closeElement()
 
     content: [
 
@@ -119,9 +124,9 @@ PQTemplateFullscreen {
                     delete_top.closeElement()
                 else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return) {
                     if(param[1] & Qt.ShiftModifier)
-                        button_permanent.clicked()
+                        button2.clicked()
                     else
-                        button_trash.clicked()
+                        button1.clicked()
                 }
             }
         }
