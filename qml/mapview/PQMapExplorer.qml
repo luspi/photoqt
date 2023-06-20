@@ -185,15 +185,15 @@ Item {
 
         Rectangle {
             x: 0
-            width: 1
+            width: 2
             height: parent.height
             color: "#888888"
         }
 
 
         Rectangle {
-            x: parent.width-1
-            width: 1
+            x: parent.width-2
+            width: 2
             height: parent.height
             color: "#888888"
         }
