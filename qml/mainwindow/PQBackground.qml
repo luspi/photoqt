@@ -245,8 +245,8 @@ Item {
                     to: 30
                     easing.type: Easing.OutExpo
                     duration: 500
-                    onFromChanged: seqleft.restart()
-                    onToChanged: seqleft.restart()
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
                 }
 
                 // bounce back in
@@ -255,8 +255,8 @@ Item {
                     to: 10
                     easing.type: Easing.OutBounce
                     duration: 1000
-                    onFromChanged: seqleft.restart()
-                    onToChanged: seqleft.restart()
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
                 }
 
                 // short pause
@@ -291,8 +291,8 @@ Item {
                     to: toplevel.width-130
                     easing.type: Easing.OutExpo
                     duration: 500
-                    onFromChanged: seqright.restart()
-                    onToChanged: seqright.restart()
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
                 }
 
                 // bounce back in
@@ -301,8 +301,8 @@ Item {
                     to: toplevel.width-110
                     easing.type: Easing.OutBounce
                     duration: 1000
-                    onFromChanged: seqright.restart()
-                    onToChanged: seqright.restart()
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
                 }
 
                 // short pause
@@ -337,8 +337,8 @@ Item {
                     to: toplevel.height-130
                     easing.type: Easing.OutExpo
                     duration: 500
-                    onFromChanged: seqdown.restart()
-                    onToChanged: seqdown.restart()
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
                 }
 
                 // bounce back in
@@ -347,8 +347,8 @@ Item {
                     to: toplevel.height-110
                     easing.type: Easing.OutBounce
                     duration: 1000
-                    onFromChanged: seqdown.restart()
-                    onToChanged: seqdown.restart()
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
                 }
 
                 // short pause
@@ -358,6 +358,14 @@ Item {
 
         }
 
+    }
+
+    // restarting all at the same time keeps all animations in sync
+    function restartAllAnimations() {
+        seqdown.restart()
+        seqright.restart()
+        seqleft.restart()
+        clickani.restart()
     }
 
 }
