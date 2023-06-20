@@ -41,11 +41,15 @@ Rectangle {
 
             id: zoomtext
 
+            y: (parent.height-height)/2
+
             text: em.pty+qsTranslate("mapexplorer", "Zoom:")
 
         }
 
         PQSlider {
+
+            y: (parent.height-height)/2
 
             from: 10
             to: 50
