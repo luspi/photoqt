@@ -29,6 +29,7 @@
 #include "../logger.h"
 #include "../settings/imageformats.h"
 #include "../imageprovider/loadimage.h"
+#include "handlingfiledir.h"
 
 #ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
@@ -54,6 +55,7 @@ public:
 
 private:
     PQLoadImage *loader;
+    PQHandlingFileDir handlingFileDir;
 
 };
 

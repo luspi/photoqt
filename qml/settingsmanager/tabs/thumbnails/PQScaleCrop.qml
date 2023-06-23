@@ -50,6 +50,11 @@ PQSetting {
                 text: em.pty+qsTranslate("settingsmanager_thumbnails", "scale and crop thumbnails")
             }
 
+            PQCheckbox {
+                id: keepsmall
+                text: em.pty+qsTranslate("settingsmanager_thumbnails", "keep small thumbnails small")
+            }
+
         }
 
     ]
@@ -64,6 +69,7 @@ PQSetting {
 
         onSaveAllSettings: {
             PQSettings.thumbnailsCropToFit = scalecrop.checked
+            PQSettings.thumbnailsSmallThumbnailsKeepSmall = keepsmall.checked
         }
 
     }
@@ -75,6 +81,7 @@ PQSetting {
     function load() {
         scalecrop.checked = PQSettings.thumbnailsCropToFit
         fitfull.checked = !scalecrop.checked
+        keepsmall.checked = PQSettings.thumbnailsSmallThumbnailsKeepSmall
     }
 
 }

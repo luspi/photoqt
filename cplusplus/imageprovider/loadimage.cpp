@@ -571,7 +571,7 @@ QString PQLoadImage::load(QString filename, QSize requestedSize, QSize &origSize
         PQResolutionProvider::get().saveResolution(filename, origSize);
     }
 
-    if(requestedSize != QSize(-1,-1) && requestedSize != img.size())
+    if(requestedSize != QSize(-1,-1) && (requestedSize.width() < img.size().width() || requestedSize.height() < img.size().height()))
         img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     return err;

@@ -354,6 +354,21 @@ GridView {
                     smooth: true
                     asynchronous: true
 
+                    onStatusChanged: {
+                        if(!PQSettings.openfileSmallThumbnailsKeepSmall)
+                            return
+                        if(status == Image.Ready) {
+                            var orig = imageproperties.getImageResolution(filethumb.source)
+                            if(orig.width <= 0 || orig.height <= 0)
+                                return
+
+                            if(orig.width < sourceSize.width && orig.height < sourceSize.height) {
+                                filethumb.smooth = false
+                                filethumb.fillMode = Image.Pad
+                            }
+                        }
+                    }
+
                     // if we do not cache this image, then we keep this empty and thus preserve the generic icon in the outside image
                     source: currentFolderExcluded ? "" : ((index < filefoldermodel.countFoldersFileDialog || !PQSettings.openfileThumbnails || filefoldermodel.entriesFileDialog[index]=="") ? "" : ("image://thumb/" + filefoldermodel.entriesFileDialog[index]))
 

@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "imageproviderthumb.h"
+#include "resolutionprovider.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -136,6 +137,11 @@ void PQAsyncImageResponseThumb::loadImage() {
     // Load image
     QSize origSize;
     QString msg = loader->load(filename, m_requestedSize, origSize, p);
+
+    // images that are smaller than the requested size are reloaded at the original size
+    // this is VERY hacky but works for now as such small images are loaded very quickly
+    if(origSize.isValid() && origSize.width() < p.size().width() && origSize.height() < p.size().height())
+        QString msg = loader->load(filename, origSize, origSize, p);
 
     /**********************************************************/
 

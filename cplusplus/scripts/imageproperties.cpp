@@ -121,6 +121,8 @@ QSize PQImageProperties::getImageResolution(QString path) {
     DBG << CURDATE << "PQImageProperties::getImageResolution()" << NL
         << CURDATE << "** path = " << path.toStdString() << NL;
 
+    path = handlingFileDir.cleanPath(path);
+
     if(loader == nullptr)
         loader = new PQLoadImage;
 

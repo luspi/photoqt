@@ -307,6 +307,21 @@ Item {
 
                 visible: !PQSettings.thumbnailsDisable
 
+                onStatusChanged: {
+                    if(!PQSettings.thumbnailsSmallThumbnailsKeepSmall)
+                        return
+                    if(status == Image.Ready) {
+                        var orig = imageproperties.getImageResolution(thumbimage.source)
+                        if(orig.width <= 0 || orig.height <= 0)
+                            return
+                        if(orig.width < sourceSize.width && orig.height < sourceSize.height) {
+                            thumbimage.smooth = false
+                            thumbimage.sourceSize = orig
+                            thumbimage.fillMode = Image.Pad
+                        }
+                    }
+                }
+
                 Image {
 
                     width: Math.min(PQSettings.thumbnailsSize, 50)

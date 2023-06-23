@@ -294,6 +294,15 @@ Rectangle {
                         }
 
                         PQCheckbox {
+                            id: view_keepsmall
+                            enabled: view_thumb.checked
+                            //: These thumbnails are the thumbnails shown in the file dialog
+                            text: em.pty+qsTranslate("settingsmanager_thumbnails", "keep small thumbnails small")
+                            onCheckedChanged:
+                                PQSettings.openfileSmallThumbnailsKeepSmall = checked
+                        }
+
+                        PQCheckbox {
                             id: view_folderthumbs
                             //: These thumbnails are shown as folder icon and rotate through folder contents
                             text: em.pty+qsTranslate("filedialog", "folders: show thumbnails of images inside")
@@ -583,6 +592,7 @@ Rectangle {
         view_padding.value = PQSettings.openfileElementPadding
         view_thumb.checked = PQSettings.openfileThumbnails
         view_thumbscalecrop.checked = PQSettings.openfileThumbnailsScaleCrop
+        view_keepsmall.checked = PQSettings.openfileSmallThumbnailsKeepSmall
         view_tooltip.checked = PQSettings.openfileDetailsTooltip
         view_folderthumbs.checked = PQSettings.openfileFolderContentThumbnails
         view_folderthumbsloop.checked = PQSettings.openfileFolderContentThumbnailsLoop
