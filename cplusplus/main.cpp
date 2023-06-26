@@ -20,7 +20,11 @@
 #include <pqc_settings.h>
 #include <pqc_shortcuts.h>
 #include <pqc_look.h>
+#include <pqc_providericon.h>
+#include <pqc_providertheme.h>
 #include <scripts/pqc_scriptsconfig.h>
+#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/pqc_scriptsfiledialog.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -183,6 +187,11 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());
     engine.rootContext()->setContextProperty("PQCScriptsConfig", &PQCScriptsConfig::get());
+    engine.rootContext()->setContextProperty("PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
+    engine.rootContext()->setContextProperty("PQCScriptsFileDialog", &PQCScriptsFileDialog::get());
+
+    engine.addImageProvider("icon", new PQCProviderIcon);
+    engine.addImageProvider("theme", new PQCProviderTheme);
 
     engine.load(url);
 

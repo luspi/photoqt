@@ -42,3 +42,14 @@ QString PQCScriptsFilesPaths::cleanPath(QString path) {
 #endif
 
 }
+
+QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
+
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.mid(1);
+#endif
+
+    return QDir::toNativeSeparators(path);
+
+}

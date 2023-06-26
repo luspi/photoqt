@@ -18,6 +18,7 @@ public:
     void operator=(PQCScriptsFilesPaths const&) = delete;
 
     Q_INVOKABLE QString cleanPath(QString path);
+    Q_INVOKABLE QString pathWithNativeSeparators(QString path);
 
 private:
     PQCScriptsFilesPaths();

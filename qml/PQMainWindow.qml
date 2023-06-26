@@ -19,6 +19,7 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
+    PQBackgroundMessage { id: background }
     PQShortcuts { id: shortcuts }
     PQLoader { id: loader }
 

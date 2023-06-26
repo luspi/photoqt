@@ -115,4 +115,11 @@ Item {
 
     }
 
+    Rectangle {
+        y: parent.height-1
+        width: parent.width
+        height: 1
+        color: PQCLook.baseColorContrast
+    }
+
 }

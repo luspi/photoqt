@@ -12,9 +12,20 @@
 #include <archive_entry.h>
 #endif
 
+#ifdef PUGIXML
+#include <pugixml.hpp>
+#endif
+
 PQCScriptsConfig::PQCScriptsConfig() {}
 
 PQCScriptsConfig::~PQCScriptsConfig() {}
+
+bool PQCScriptsConfig::amIOnWindows() {
+#ifdef Q_OS_WIN
+    return true;
+#endif
+    return false;
+}
 
 QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 

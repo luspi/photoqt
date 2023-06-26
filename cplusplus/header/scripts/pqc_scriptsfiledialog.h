@@ -17,6 +17,10 @@ public:
     PQCScriptsFileDialog(PQCScriptsFileDialog const&)     = delete;
     void operator=(PQCScriptsFileDialog const&) = delete;
 
+    Q_INVOKABLE QVariantList getDevices();
+    Q_INVOKABLE QVariantList getPlaces();
+    QString getUniquePlacesId();
+
 private:
     PQCScriptsFileDialog();
 

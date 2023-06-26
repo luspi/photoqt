@@ -7,5 +7,8 @@
         <file>generic/iconview.svg</file>
         <file>generic/listview.svg</file>
         <file>generic/remember.svg</file>
+        <file>generic/leftarrow.svg</file>
+        <file>generic/mouse.svg</file>
+        <file>generic/rightarrow.svg</file>
     </qresource>
 </RCC>

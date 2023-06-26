@@ -40,44 +40,44 @@ void PQCLook::calculateColors(QString base) {
 
     if(darkcolor) {
 
-        m_baseColorDisabled = col.lighter(600).name(QColor::HexArgb);
+        m_baseColorDisabled = col.lighter(300).name(QColor::HexArgb);
         m_baseColorContrast = col.lighter(900).name(QColor::HexArgb);
 
-        m_highlightColorDisabled = invcol.darker(600).name(QColor::HexArgb);
+        m_highlightColorDisabled = invcol.darker(300).name(QColor::HexArgb);
         m_highlightColorContrast = invcol.darker(900).name(QColor::HexArgb);
 
-        m_transColorDisabled = colTrans.lighter(600).name(QColor::HexArgb);
+        m_transColorDisabled = colTrans.lighter(300).name(QColor::HexArgb);
         m_transColorContrast = colTrans.lighter(900).name(QColor::HexArgb);
 
         QColor colText = QColor(255,255,255);
         m_textColor = colText.name(QColor::HexArgb);
-        m_textColorDisabled = colText.darker(600).name(QColor::HexArgb);
+        m_textColorDisabled = colText.darker(300).name(QColor::HexArgb);
         m_textColorContrast = colText.darker(900).name(QColor::HexArgb);
 
         QColor colHighlightText = QColor(75,75,75);
         m_textHighlightColor = colHighlightText.name(QColor::HexArgb);
-        m_textHighlightColorDisabled = colHighlightText.lighter(600).name(QColor::HexArgb);
+        m_textHighlightColorDisabled = colHighlightText.lighter(300).name(QColor::HexArgb);
         m_textHighlightColorContrast = colHighlightText.lighter(900).name(QColor::HexArgb);
 
     } else {
 
-        m_baseColorDisabled = col.darker(600).name(QColor::HexArgb);
+        m_baseColorDisabled = col.darker(300).name(QColor::HexArgb);
         m_baseColorContrast = col.darker(900).name(QColor::HexArgb);
 
-        m_highlightColorDisabled = invcol.lighter(600).name(QColor::HexArgb);
+        m_highlightColorDisabled = invcol.lighter(300).name(QColor::HexArgb);
         m_highlightColorContrast = invcol.lighter(900).name(QColor::HexArgb);
 
-        m_transColorDisabled = colTrans.darker(600).name(QColor::HexArgb);
+        m_transColorDisabled = colTrans.darker(300).name(QColor::HexArgb);
         m_transColorContrast = colTrans.darker(900).name(QColor::HexArgb);
 
         QColor colText = QColor(0,0,0);
         m_textColor = colText.name(QColor::HexArgb);
-        m_textColorDisabled = colText.lighter(600).name(QColor::HexArgb);
+        m_textColorDisabled = colText.lighter(300).name(QColor::HexArgb);
         m_textColorContrast = colText.lighter(900).name(QColor::HexArgb);
 
         QColor colHighlightText = QColor(180,180,180);
         m_textHighlightColor = colHighlightText.name(QColor::HexArgb);
-        m_textHighlightColorDisabled = colHighlightText.darker(600).name(QColor::HexArgb);
+        m_textHighlightColorDisabled = colHighlightText.darker(300).name(QColor::HexArgb);
         m_textHighlightColorContrast = colHighlightText.darker(900).name(QColor::HexArgb);
 
     }

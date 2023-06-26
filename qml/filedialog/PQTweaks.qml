@@ -8,6 +8,8 @@ Item {
     width: parent.width
     height: 50
 
+    property int zoomMoveUpHeight: leftcolrect.state==="moveup" ? leftcolrect.height : 0
+
     Rectangle {
 
         id: leftcolrect
@@ -66,7 +68,7 @@ Item {
             target: tweaks_top
             function onWidthChanged() {
                 if(tweaks_top.width < (rightcol.width+leftcol.width+cancelbutton.width+50))
-                    leftcolrect.state = "moveup"
+                    leftcolrect.state   = "moveup"
                 else
                     leftcolrect.state = "movedown"
             }
@@ -77,7 +79,7 @@ Item {
                 name: "moveup"
                 PropertyChanges {
                     target: leftcolrect
-                    y: -height
+                    y: -height+1
                 }
             },
             State {
@@ -95,7 +97,7 @@ Item {
         anchors.left: parent.left
         anchors.right: rightcol.parent.left
         anchors.leftMargin: leftcolrect.state==="moveup" ? 0 : (leftcol.width+leftcol.x)
-        Behavior on anchors.leftMargin { NumberAnimation { duration: 200 } }
+        Behavior on anchors.leftMargin { NumberAnimation { duration: 200; easing.type: Easing.OutBounce } }
         height: parent.height
 
         PQButtonElement {
@@ -152,6 +154,13 @@ Item {
 
         }
 
+    }
+
+    Rectangle {
+        y: 0
+        width: parent.width
+        height: 1
+        color: PQCLook.baseColorContrast
     }
 
 }

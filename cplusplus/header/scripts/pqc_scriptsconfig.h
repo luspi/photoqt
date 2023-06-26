@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE static QString getConfigInfo(bool formatHTML = false);
     Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE static bool importConfigFrom(QString path);
+    Q_INVOKABLE bool amIOnWindows();
     Q_INVOKABLE bool isChromecastEnabled();
     Q_INVOKABLE bool isLocationSupportEnabled();
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
