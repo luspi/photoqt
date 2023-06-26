@@ -39,7 +39,7 @@ Rectangle {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? PQCLook.baseColor50 : PQCLook.baseColor75
+            color: SplitHandle.hovered ? PQCLook.baseColorContrast : PQCLook.baseColorDisabled
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Image {

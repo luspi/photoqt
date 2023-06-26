@@ -44,7 +44,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColor50
+                        color: PQCLook.baseColorContrast
                     }
 
                 }
@@ -54,6 +54,7 @@ Item {
                     checkable: true
                     checked: true
                     source: "/generic/iconview.svg"
+                    tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
                         if(checked)
                             listview.checked = false
@@ -66,6 +67,7 @@ Item {
                     id: listview
                     checkable: true
                     source: "/generic/listview.svg"
+                    tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         if(checked)
                             iconview.checked = false
@@ -83,7 +85,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColor50
+                        color: PQCLook.baseColorContrast
                     }
 
                 }

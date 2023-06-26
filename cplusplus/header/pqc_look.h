@@ -19,42 +19,48 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
-    Q_PROPERTY(QString baseColor50 READ getBaseColor50 NOTIFY baseColor50Changed)
-    Q_PROPERTY(QString baseColor75 READ getBaseColor75 NOTIFY baseColor75Changed)
+    Q_PROPERTY(QString baseColorContrast READ getBaseColorContrast NOTIFY baseColorContrastChanged)
+    Q_PROPERTY(QString baseColorDisabled READ getBaseColorDisabled NOTIFY baseColorDisabledChanged)
     void setBaseColor(QString val);
     QString getBaseColor();
-    QString getBaseColor50();
-    QString getBaseColor75();
+    QString getBaseColorContrast();
+    QString getBaseColorDisabled();
 
     /******************************************************/
 
     Q_PROPERTY(QString highlightColor READ getHighlightColor NOTIFY highlightColorChanged)
-    Q_PROPERTY(QString highlightColor75 READ getHighlightColor75 NOTIFY highlightColor75Changed)
+    Q_PROPERTY(QString highlightColorContrast READ getHighlightColorContrast NOTIFY highlightColorContrastChanged)
+    Q_PROPERTY(QString highlightColorDisabled READ getHighlightColorDisabled NOTIFY highlightColorDisabledChanged)
     QString getHighlightColor();
-    QString getHighlightColor75();
+    QString getHighlightColorContrast();
+    QString getHighlightColorDisabled();
 
     /******************************************************/
 
     Q_PROPERTY(QString transColor READ getTransColor NOTIFY transColorChanged)
-    Q_PROPERTY(QString transColor50 READ getTransColor50 NOTIFY transColor50Changed)
-    Q_PROPERTY(QString transColor75 READ getTransColor75 NOTIFY transColor75Changed)
+    Q_PROPERTY(QString transColorContrast READ getTransColorContrast NOTIFY transColorContrastChanged)
+    Q_PROPERTY(QString transColorDisabled READ getTransColorDisabled NOTIFY transColorDisabledChanged)
     QString getTransColor();
-    QString getTransColor50();
-    QString getTransColor75();
+    QString getTransColorContrast();
+    QString getTransColorDisabled();
 
     /******************************************************/
 
     Q_PROPERTY(QString textColor READ getTextColor NOTIFY textColorChanged)
-    Q_PROPERTY(QString textColor75 READ getTextColor75 NOTIFY textColor75Changed)
+    Q_PROPERTY(QString textColorContrast READ getTextColorContrast NOTIFY textColorContrastChanged)
+    Q_PROPERTY(QString textColorDisabled READ getTextColorDisabled NOTIFY textColorDisabledChanged)
     QString getTextColor();
-    QString getTextColor75();
+    QString getTextColorContrast();
+    QString getTextColorDisabled();
 
     /******************************************************/
 
     Q_PROPERTY(QString textHighlightColor READ getTextHighlightColor NOTIFY textHighlightColorChanged)
-    Q_PROPERTY(QString textHighlightColor75 READ getTextHighlightColor75 NOTIFY textHighlightColor75Changed)
+    Q_PROPERTY(QString textHighlightColorContrast READ getTextHighlightColorContrast NOTIFY textHighlightColorContrastChanged)
+    Q_PROPERTY(QString textHighlightColorDisabled READ getTextHighlightColorDisabled NOTIFY textHighlightColorDisabledChanged)
     QString getTextHighlightColor();
-    QString getTextHighlightColor75();
+    QString getTextHighlightColorContrast();
+    QString getTextHighlightColorDisabled();
 
     /******************************************************/
 
@@ -83,21 +89,24 @@ private:
     PQCLook();
 
     QString m_baseColor;
-    QString m_baseColor50;
-    QString m_baseColor75;
+    QString m_baseColorContrast;
+    QString m_baseColorDisabled;
 
     QString m_highlightColor;
-    QString m_highlightColor75;
+    QString m_highlightColorContrast;
+    QString m_highlightColorDisabled;
 
     QString m_transColor;
-    QString m_transColor50;
-    QString m_transColor75;
+    QString m_transColorContrast;
+    QString m_transColorDisabled;
 
     QString m_textColor;
-    QString m_textColor75;
+    QString m_textColorContrast;
+    QString m_textColorDisabled;
 
     QString m_textHighlightColor;
-    QString m_textHighlightColor75;
+    QString m_textHighlightColorContrast;
+    QString m_textHighlightColorDisabled;
 
     int m_fontSize;
     int m_fontSizeS;
@@ -109,21 +118,24 @@ private:
 
 Q_SIGNALS:
     void baseColorChanged();
-    void baseColor50Changed();
-    void baseColor75Changed();
+    void baseColorContrastChanged();
+    void baseColorDisabledChanged();
 
     void highlightColorChanged();
-    void highlightColor75Changed();
+    void highlightColorContrastChanged();
+    void highlightColorDisabledChanged();
 
     void transColorChanged();
-    void transColor50Changed();
-    void transColor75Changed();
+    void transColorContrastChanged();
+    void transColorDisabledChanged();
 
     void textColorChanged();
-    void textColor75Changed();
+    void textColorContrastChanged();
+    void textColorDisabledChanged();
 
     void textHighlightColorChanged();
-    void textHighlightColor75Changed();
+    void textHighlightColorContrastChanged();
+    void textHighlightColorDisabledChanged();
 
     void fontSizeChanged();
     void fontSizeSChanged();

@@ -35,6 +35,8 @@ Button {
 
     opacity: enabled ? 1 : 0.3
 
+    property alias tooltip: mouseArea.text
+
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
     //: This is a generic string written on clickable buttons - please keep short!
@@ -48,7 +50,7 @@ Button {
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: /*control.down ? PQCLook.textHighlightColor :*/ PQCLook.textColor
+        color: PQCLook.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -59,7 +61,7 @@ Button {
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
 
-        color: (down ? PQCLook.baseColor50 : (hovered ? PQCLook.baseColor75 : PQCLook.baseColor))
+        color: (down ? PQCLook.baseColorContrast : (hovered ? PQCLook.baseColorDisabled : PQCLook.baseColor))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 
@@ -67,21 +69,22 @@ Button {
         x: 0
         width: 1
         height: parent.height
-        color: PQCLook.baseColor50
+        color: PQCLook.baseColorContrast
     }
 
     Rectangle {
         x: parent.width-1
         width: 1
         height: parent.height
-        color: PQCLook.baseColor50
+        color: PQCLook.baseColorContrast
     }
 
-    MouseArea {
+    PQToolTip {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        text: control.text
         onPressed: (mouse) =>  mouse.accepted = false
     }
 

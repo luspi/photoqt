@@ -37,7 +37,7 @@ MouseArea {
         id: showToolTip
         interval: 250
         onTriggered: {
-            if(tooltip_top.containsMouse)
+            if(tooltip_top.containsMouse && tooltip_top.text != "")
                 control.visible = true
         }
     }
@@ -70,7 +70,7 @@ MouseArea {
         }
 
         background: Rectangle {
-            color: PQCLook.transColor50
+            color: PQCLook.transColor
             border.color: PQCLook.baseColor
         }
 

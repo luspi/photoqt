@@ -42,12 +42,12 @@ Slider {
         width: control.availableWidth
         height: implicitHeight
         radius: 2
-        color: PQCLook.baseColor75
+        color: PQCLook.baseColorDisabled
 
         Rectangle {
             width: control.visualPosition * parent.width
             height: parent.height
-            color: control.enabled ? PQCLook.highlightColor : PQCLook.highlightColor75
+            color: control.enabled ? PQCLook.highlightColor : PQCLook.highlightColorDisabled
             radius: 2
         }
 
@@ -76,7 +76,7 @@ Slider {
         implicitWidth: control.implicitHeight
         implicitHeight: control.implicitHeight
         radius: control.implicitHeight/2
-        color: control.enabled ? PQCLook.highlightColor : PQCLook.highlightColor75
+        color: control.enabled ? PQCLook.baseColorContrast : PQCLook.baseColorDisabled
         border.color: PQCLook.highlightColor
         MouseArea {
             anchors.fill: parent

@@ -51,7 +51,7 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: highlighted ? PQCLook.highlightColor : PQCLook.baseColor75
+            color: highlighted ? PQCLook.highlightColor : PQCLook.baseColorContrast
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
@@ -105,8 +105,8 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: PQCLook.baseColor75
-        border.color: control.pressed ? PQCLook.highlightColor : PQCLook.baseColor
+        color: PQCLook.highlightColorContrast
+        border.color: control.pressed ? PQCLook.highlightColor : PQCLook.baseColorContrast
         border.width: control.visualFocus ? 2 : 1
         radius: 2
     }

@@ -19,7 +19,7 @@ Item {
         height: parent.height
 
         color: PQCLook.baseColor
-        border.color: PQCLook.baseColor50
+        border.color: PQCLook.baseColorContrast
         border.width: state==="moveup" ? 1 : 0
 
         Row {
@@ -103,6 +103,7 @@ Item {
             height: parent.height
             anchors.centerIn: parent
             text: genericStringCancel
+            tooltip: qsTranslate("filedialog", "Cancel and close")
             onClicked:
                 filedialog_top.hide()
         }

@@ -37,8 +37,9 @@ Rectangle {
     property bool down: false
     property bool checkable: false
     property bool checked: false
+    property string tooltip: ""
 
-    color: ((down||checked) ? PQCLook.baseColor50 : (mouseOver ? PQCLook.baseColor75 : PQCLook.baseColor))
+    color: ((down||checked) ? PQCLook.baseColorContrast : (mouseOver ? PQCLook.baseColorDisabled : PQCLook.baseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked()
@@ -56,11 +57,12 @@ Rectangle {
 
     }
 
-    MouseArea {
+    PQToolTip {
         id: mousearea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        text: control.tooltip
         onEntered:
             control.mouseOver = true
         onExited:

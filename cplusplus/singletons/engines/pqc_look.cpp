@@ -24,48 +24,61 @@ PQCLook::~PQCLook() { }
 void PQCLook::calculateColors(QString base) {
 
     QColor col = QColor::fromString(base);
-    QColor colT = col;
-    colT.setAlpha(222);
+
+    QColor colTrans = col;
+    colTrans.setAlpha(222);
 
     m_baseColor = base;
-    m_transColor = colT.name(QColor::HexArgb);
+    m_transColor = colTrans.name(QColor::HexArgb);
 
     bool darkcolor = false;
     if(col.toHsv().value() < 128)
         darkcolor = true;
 
-    QColor invcol(0.8*(255-col.red()), 0.8*(255-col.green()), 0.8*(255-col.blue()));
-    QColor invcolhalf((col.red()+invcol.red())/2, (col.green()+invcol.green())/2, (col.blue()+invcol.blue())/2);
+    QColor invcol((255-col.red()), (255-col.green()), (255-col.blue()));
     m_highlightColor = invcol.name(QColor::HexArgb);
-    m_highlightColor75 = invcolhalf.name(QColor::HexArgb);
 
     if(darkcolor) {
 
-        m_baseColor75 = col.lighter(600).name(QColor::HexArgb);
-        m_baseColor50 = col.lighter(900).name(QColor::HexArgb);
+        m_baseColorDisabled = col.lighter(600).name(QColor::HexArgb);
+        m_baseColorContrast = col.lighter(900).name(QColor::HexArgb);
 
-        m_transColor75 = colT.lighter(600).name(QColor::HexArgb);
-        m_transColor50 = colT.lighter(900).name(QColor::HexArgb);
+        m_highlightColorDisabled = invcol.darker(600).name(QColor::HexArgb);
+        m_highlightColorContrast = invcol.darker(900).name(QColor::HexArgb);
 
-        m_textColor = QColor(255,255,255).name(QColor::HexArgb);
-        m_textColor75 = QColor(196,196,196).name(QColor::HexArgb);
+        m_transColorDisabled = colTrans.lighter(600).name(QColor::HexArgb);
+        m_transColorContrast = colTrans.lighter(900).name(QColor::HexArgb);
 
-        m_textHighlightColor = QColor(75,75,75).name(QColor::HexArgb);
-        m_textHighlightColor75 = QColor(40,40,40).name(QColor::HexArgb);
+        QColor colText = QColor(255,255,255);
+        m_textColor = colText.name(QColor::HexArgb);
+        m_textColorDisabled = colText.darker(600).name(QColor::HexArgb);
+        m_textColorContrast = colText.darker(900).name(QColor::HexArgb);
+
+        QColor colHighlightText = QColor(75,75,75);
+        m_textHighlightColor = colHighlightText.name(QColor::HexArgb);
+        m_textHighlightColorDisabled = colHighlightText.lighter(600).name(QColor::HexArgb);
+        m_textHighlightColorContrast = colHighlightText.lighter(900).name(QColor::HexArgb);
 
     } else {
 
-        m_baseColor75 = col.darker(600).name(QColor::HexArgb);
-        m_baseColor50 = col.darker(900).name(QColor::HexArgb);
+        m_baseColorDisabled = col.darker(600).name(QColor::HexArgb);
+        m_baseColorContrast = col.darker(900).name(QColor::HexArgb);
 
-        m_transColor75 = colT.darker(600).name(QColor::HexArgb);
-        m_transColor50 = colT.darker(900).name(QColor::HexArgb);
+        m_highlightColorDisabled = invcol.lighter(600).name(QColor::HexArgb);
+        m_highlightColorContrast = invcol.lighter(900).name(QColor::HexArgb);
 
-        m_textColor = QColor(0,0,0).name(QColor::HexArgb);
-        m_textColor75 = QColor(60,60,60).name(QColor::HexArgb);
+        m_transColorDisabled = colTrans.darker(600).name(QColor::HexArgb);
+        m_transColorContrast = colTrans.darker(900).name(QColor::HexArgb);
 
-        m_textHighlightColor = QColor(165,165,165).name(QColor::HexArgb);
-        m_textHighlightColor75 = QColor(210,210,210).name(QColor::HexArgb);
+        QColor colText = QColor(0,0,0);
+        m_textColor = colText.name(QColor::HexArgb);
+        m_textColorDisabled = colText.lighter(600).name(QColor::HexArgb);
+        m_textColorContrast = colText.lighter(900).name(QColor::HexArgb);
+
+        QColor colHighlightText = QColor(180,180,180);
+        m_textHighlightColor = colHighlightText.name(QColor::HexArgb);
+        m_textHighlightColorDisabled = colHighlightText.darker(600).name(QColor::HexArgb);
+        m_textHighlightColorContrast = colHighlightText.darker(900).name(QColor::HexArgb);
 
     }
 
@@ -76,11 +89,11 @@ void PQCLook::calculateColors(QString base) {
 QString PQCLook::getBaseColor() {
     return m_baseColor;
 }
-QString PQCLook::getBaseColor50() {
-    return m_baseColor50;
+QString PQCLook::getBaseColorContrast() {
+    return m_baseColorContrast;
 }
-QString PQCLook::getBaseColor75() {
-    return m_baseColor75;
+QString PQCLook::getBaseColorDisabled() {
+    return m_baseColorDisabled;
 }
 
 void PQCLook::setBaseColor(QString val) {
@@ -90,21 +103,24 @@ void PQCLook::setBaseColor(QString val) {
         calculateColors(val);
 
         Q_EMIT baseColorChanged();
-        Q_EMIT baseColor50Changed();
-        Q_EMIT baseColor75Changed();
+        Q_EMIT baseColorContrastChanged();
+        Q_EMIT baseColorDisabledChanged();
 
         Q_EMIT highlightColorChanged();
-        Q_EMIT highlightColor75Changed();
+        Q_EMIT highlightColorContrastChanged();
+        Q_EMIT highlightColorDisabledChanged();
 
         Q_EMIT transColorChanged();
-        Q_EMIT transColor50Changed();
-        Q_EMIT transColor75Changed();
+        Q_EMIT transColorContrastChanged();
+        Q_EMIT transColorDisabledChanged();
 
         Q_EMIT textColorChanged();
-        Q_EMIT textColor75Changed();
+        Q_EMIT textColorContrastChanged();
+        Q_EMIT textColorDisabledChanged();
 
         Q_EMIT textHighlightColorChanged();
-        Q_EMIT textHighlightColor75Changed();
+        Q_EMIT textHighlightColorContrastChanged();
+        Q_EMIT textHighlightColorDisabledChanged();
 
     }
 
@@ -116,8 +132,12 @@ QString PQCLook::getHighlightColor() {
     return m_highlightColor;
 }
 
-QString PQCLook::getHighlightColor75() {
-    return m_highlightColor75;
+QString PQCLook::getHighlightColorContrast() {
+    return m_highlightColorContrast;
+}
+
+QString PQCLook::getHighlightColorDisabled() {
+    return m_highlightColorDisabled;
 }
 
 /******************************************************/
@@ -125,22 +145,24 @@ QString PQCLook::getHighlightColor75() {
 QString PQCLook::getTransColor() {
     return m_transColor;
 }
-QString PQCLook::getTransColor50() {
-    return m_transColor50;
+QString PQCLook::getTransColorContrast() {
+    return m_transColorContrast;
 }
-QString PQCLook::getTransColor75() {
-    return m_transColor75;
+QString PQCLook::getTransColorDisabled() {
+    return m_transColorDisabled;
 }
 
 /******************************************************/
 
 QString PQCLook::getTextColor() { return m_textColor; }
-QString PQCLook::getTextColor75() { return m_textColor75; }
+QString PQCLook::getTextColorContrast() { return m_textColorContrast; }
+QString PQCLook::getTextColorDisabled() { return m_textColorDisabled; }
 
 /******************************************************/
 
 QString PQCLook::getTextHighlightColor() { return m_textHighlightColor; }
-QString PQCLook::getTextHighlightColor75() { return m_textHighlightColor75; }
+QString PQCLook::getTextHighlightColorContrast() { return m_textHighlightColorContrast; }
+QString PQCLook::getTextHighlightColorDisabled() { return m_textHighlightColorDisabled; }
 
 /******************************************************/
 
