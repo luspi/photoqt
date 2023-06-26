@@ -3,16 +3,31 @@ import QtQuick.Controls
 
 Rectangle {
 
-    width: container.width
-    height: container.height
+    id: filedialog_top
 
-    color: PQCLook.baseColor50
+    width: toplevel.width
+    height: toplevel.height
+
+    property string thisis: "filedialog"
+    property alias placesWidth: fd_places.width
+    property alias fileviewWidth: fd_fileview.width
+    property alias splitview: fd_splitview
+
+    property int leftColMinWidth: 200
+
+    color: PQCLook.baseColor
+
+    opacity: 0
+    visible: opacity>0
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
     PQBreadCrumbs {
         id: fd_breadcrumbs
     }
 
     SplitView {
+
+        id: fd_splitview
 
         y: fd_breadcrumbs.height
         width: parent.width
@@ -24,7 +39,8 @@ Rectangle {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? "#888888" : "#666666"
+            color: SplitHandle.hovered ? PQCLook.baseColor50 : PQCLook.baseColor75
+            Behavior on color { ColorAnimation { duration: 200 } }
 
             Image {
                 y: (parent.height-height)/2
@@ -38,7 +54,7 @@ Rectangle {
 
         PQPlaces {
             id: fd_places
-            SplitView.minimumWidth: 200
+            SplitView.minimumWidth: leftColMinWidth
             SplitView.preferredWidth: PQCSettings.filedialogUserPlacesWidth
             onWidthChanged: {
                 PQCSettings.filedialogUserPlacesWidth = width
@@ -58,6 +74,30 @@ Rectangle {
     PQTweaks {
         id: fd_tweaks
         y: parent.height-height
+    }
+
+    Connections {
+        target: loader
+        function onPassOn(what, param) {
+            if(what === "show") {
+                if(param === thisis)
+                    show()
+            } else if(filedialog_top.opacity > 0) {
+                if(what === "keyEvent") {
+                    if(param[0] === Qt.Key_Escape)
+                        hide()
+                }
+            }
+        }
+    }
+
+    function show() {
+        opacity = 1
+    }
+
+    function hide() {
+        opacity = 0
+        loader.elementClosed(thisis)
     }
 
 }

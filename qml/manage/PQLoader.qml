@@ -2,17 +2,7 @@ import QtQuick
 
 Item {
 
-    id: container_top
-
-    width: parentWidth
-    height: parentHeight
-
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
-
-    opacity: 0
-    visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    id: loader_top
 
     property var loadermapping: {
         "about"               : ["actions/PQAbout", loader_about, 1],
@@ -44,33 +34,7 @@ Item {
 
     property int numVisible: 0
 
-    signal passOn(var ele, var what, var param)
-
-    Loader { id: loader_about }
-    Loader { id: loader_advancedsort }
-    Loader { id: loader_advancedsortbusy }
-    Loader { id: loader_chromecast }
-    Loader { id: loader_copymove }
-    Loader { id: loader_filedelete }
-    Loader { id: loader_filedialog }
-    Loader { id: loader_filerename }
-    Loader { id: loader_filesaveas }
-    Loader { id: loader_filter }
-    Loader { id: loader_histogram }
-    Loader { id: loader_imgur }
-    Loader { id: loader_imguranonym }
-    Loader { id: loader_logging }
-    Loader { id: loader_mainmenu }
-    Loader { id: loader_mapcurrent }
-    Loader { id: loader_mapexplorer }
-    Loader { id: loader_metadata }
-    Loader { id: loader_navigationfloating }
-    Loader { id: loader_scale }
-    Loader { id: loader_settingsmanager }
-    Loader { id: loader_slideshowcontrols }
-    Loader { id: loader_slideshowsettings }
-    Loader { id: loader_unavailable }
-    Loader { id: loader_wallpaper }
+    signal passOn(var what, var param)
 
     function show(ele) {
 
@@ -88,13 +52,9 @@ Item {
             return
         numVisible += 1
 
-
         ensureItIsReady(e)
 
-        passOn(e, "show", undefined)
-
-        // this should be animated
-        opacity = 1
+        passOn("show", e)
 
     }
 
@@ -107,7 +67,7 @@ Item {
 
         if(ele in loadermapping) {
             var m = loadermapping[ele]
-            m[1].source = "../"+m[0]+".qml"
+            m[1].source = m[0]+".qml"
         }
 
     }

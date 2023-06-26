@@ -67,7 +67,7 @@ function checkComboForShortcut(combo, wheelDelta) {
 
 function executeInternalFunction(cmd, wheelDelta) {
 
-    container.show("filedialog")
+    loader.show("filedialog")
 
 //    if(cmd === "__quit")
 //        toplevel.quitPhotoQt()

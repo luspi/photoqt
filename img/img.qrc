@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>generic/handle.svg</file>
+        <file>generic/backwards.svg</file>
+        <file>generic/forwards.svg</file>
+        <file>generic/upwards.svg</file>
+        <file>generic/iconview.svg</file>
+        <file>generic/listview.svg</file>
+        <file>generic/remember.svg</file>
     </qresource>
 </RCC>

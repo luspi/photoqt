@@ -22,6 +22,8 @@ public:
     Q_INVOKABLE static bool importConfigFrom(QString path);
     Q_INVOKABLE bool isChromecastEnabled();
     Q_INVOKABLE bool isLocationSupportEnabled();
+    Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
+    Q_INVOKABLE bool isImageMagickSupportEnabled();
 
 private:
     PQCScriptsConfig();

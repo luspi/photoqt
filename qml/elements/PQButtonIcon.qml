@@ -20,60 +20,63 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQml 2.0
+import QtQuick
 
-import "../scripts/pq_shortcuts.js" as PQShortcutsJS
+Rectangle {
 
-Item {
+    id: control
 
-    id: keyshortcuts_top
+    implicitHeight: 40
+    implicitWidth: 40
 
-    anchors.fill: parent
+    opacity: enabled ? 1 : 0.3
+    radius: 5
 
-    focus: true
+    property string source: ""
+    property bool mouseOver: false
+    property bool down: false
+    property bool checkable: false
+    property bool checked: false
 
-    Connections {
+    color: ((down||checked) ? PQCLook.baseColor50 : (mouseOver ? PQCLook.baseColor75 : PQCLook.baseColor))
+    Behavior on color { ColorAnimation { duration: 150 } }
 
-        target: PQCNotify
+    signal clicked()
 
-        function onKeyPress(key, modifiers) {
+    Image {
 
-//            contextmenu.hideMenu()
+        id: icon
 
-            if(loader.numVisible > 0)
+        source: control.source
 
-                loader.passOn("keyEvent", [key, modifiers])
+        sourceSize: Qt.size(control.height*0.75,control.height*0.75)
 
-//            if(variables.visibleItem != "")
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
 
-//                loader.passKeyEvent(variables.visibleItem, key, modifiers)
+    }
 
-            else {
-
-                var combo = ""
-
-                if(modifiers & Qt.ControlModifier)
-                    combo += "Ctrl+";
-                if(modifiers & Qt.AltModifier)
-                    combo += "Alt+";
-                if(modifiers & Qt.ShiftModifier)
-                    combo += "Shift+";
-                if(modifiers & Qt.MetaModifier)
-                    combo += "Meta+";
-                if(modifiers & Qt.KeypadModifier)
-                    combo += "Keypad+";
-
-                // this seems to be the id when a modifier but no key is pressed... ignore key in that case
-                if(key !== 16777249)
-                    combo += PQCShortcuts.convertKeyCodeToText(key)
-
-                PQShortcutsJS.checkComboForShortcut(combo)
-
-            }
-
+    MouseArea {
+        id: mousearea
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onEntered:
+            control.mouseOver = true
+        onExited:
+            control.mouseOver = false
+        onPressed: {
+            if(checkable)
+                checked = !checked
+            else
+                control.down = true
         }
-
+        onReleased: {
+            if(!checkable)
+                control.down = false
+        }
+        onClicked:
+            control.clicked()
     }
 
 }

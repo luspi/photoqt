@@ -293,3 +293,19 @@ bool PQCScriptsConfig::isLocationSupportEnabled() {
 #endif
     return false;
 }
+
+bool PQCScriptsConfig::isGraphicsMagickSupportEnabled() {
+#ifdef GRAPHICSMAGICK
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool PQCScriptsConfig::isImageMagickSupportEnabled() {
+#ifdef IMAGEMAGICK
+    return true;
+#else
+    return false;
+#endif
+}

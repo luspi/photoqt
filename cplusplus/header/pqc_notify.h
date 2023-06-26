@@ -24,20 +24,13 @@
 #define PQCNOTIFY_H
 
 #include <QObject>
-// DO NOT use PQSettings in this class!
-// The right folders are not yet set up at this point
-// This will cause unintended side effects
-// including not loading the settings properly/resetting defaults
 
 class PQCNotify : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCNotify& get() {
-        static PQCNotify instance;
-        return instance;
-    }
+    static PQCNotify& get();
 
     PQCNotify(PQCNotify const&)     = delete;
     void operator=(PQCNotify const&) = delete;
@@ -45,71 +38,35 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString filePath READ getFilePath WRITE setFilePath NOTIFY filePathChanged)
-    void setFilePath(QString val) {
-        if(val != m_filepath) {
-            m_filepath = val;
-            Q_EMIT filePathChanged();
-        }
-    }
-    Q_INVOKABLE QString getFilePath() {
-        return m_filepath;
-    }
+    void setFilePath(QString val);
+    Q_INVOKABLE QString getFilePath();
 
     /******************************************************/
 
     Q_PROPERTY(bool debug READ getDebug WRITE setDebug NOTIFY debugChanged)
-    void setDebug(bool val) {
-        if(val != m_debug) {
-            m_debug = val;
-            Q_EMIT debugChanged();
-        }
-    }
-    Q_INVOKABLE bool getDebug() {
-        return m_debug;
-    }
+    void setDebug(bool val);
+    Q_INVOKABLE bool getDebug();
 
     /******************************************************/
 
     // used to show 'welcome' screen if this seems to be a new install
     Q_PROPERTY(bool freshInstall READ getFreshInstall WRITE setFreshInstall NOTIFY freshInstallChanged)
-    void setFreshInstall(bool val) {
-        if(val != m_freshInstall) {
-            m_freshInstall = val;
-            Q_EMIT freshInstallChanged();
-        }
-    }
-    Q_INVOKABLE bool getFreshInstall() {
-        return m_freshInstall;
-    }
+    void setFreshInstall(bool val);
+    Q_INVOKABLE bool getFreshInstall();
 
     /******************************************************/
 
     Q_PROPERTY(bool thumbs READ getThumbs WRITE setThumbs NOTIFY thumbsChanged)
-    void setThumbs(bool val) {
-        if(val != m_thumbs) {
-            m_thumbs = val;
-            Q_EMIT thumbsChanged();
-        }
-    }
-    Q_INVOKABLE bool getThumbs() {
-        return m_thumbs;
-    }
+    void setThumbs(bool val);
+    Q_INVOKABLE bool getThumbs();
 
     /******************************************************/
 
     Q_PROPERTY(bool startInTray READ getStartInTray WRITE setStartInTray NOTIFY startInTrayChanged)
-    void setStartInTray(bool val) {
-        if(val != m_startInTray) {
-            m_startInTray = val;
-            Q_EMIT startInTrayChanged();
-        }
-    }
-    Q_INVOKABLE bool getStartInTray() {
-        return m_startInTray;
-    }
+    void setStartInTray(bool val);
+    Q_INVOKABLE bool getStartInTray();
 
     /******************************************************/
-
 
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {

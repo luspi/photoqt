@@ -10,8 +10,11 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp)
 SET(d "cplusplus/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp  ${d}/pqc_validate.cpp)
 
+SET(d "cplusplus/singletons/other")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp)
+
 SET(d "cplusplus/singletons/engines")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_look.cpp)
 
 SET(d "cplusplus/singletons/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.cpp ${d}/pqc_scriptsclipboard.cpp ${d}/pqc_scriptsconfig.cpp ${d}/pqc_scriptscontextmenu.cpp)
