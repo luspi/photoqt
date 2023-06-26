@@ -44,7 +44,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColorContrast
+                        color: PQCLook.baseColorActive
                     }
 
                 }
@@ -85,7 +85,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColorContrast
+                        color: PQCLook.baseColorActive
                     }
 
                 }
@@ -119,7 +119,7 @@ Item {
         y: parent.height-1
         width: parent.width
         height: 1
-        color: PQCLook.baseColorContrast
+        color: PQCLook.baseColorActive
     }
 
 }

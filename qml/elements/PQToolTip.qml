@@ -71,7 +71,7 @@ MouseArea {
 
         background: Rectangle {
             color: PQCLook.transColor
-            border.color: PQCLook.baseColor
+            border.color: PQCLook.inverseColorHighlight
         }
 
     }

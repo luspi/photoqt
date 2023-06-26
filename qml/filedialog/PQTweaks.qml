@@ -21,7 +21,7 @@ Item {
         height: parent.height
 
         color: PQCLook.baseColor
-        border.color: PQCLook.baseColorContrast
+        border.color: PQCLook.baseColorActive
         border.width: state==="moveup" ? 1 : 0
 
         Row {
@@ -160,7 +160,7 @@ Item {
         y: 0
         width: parent.width
         height: 1
-        color: PQCLook.baseColorContrast
+        color: PQCLook.baseColorActive
     }
 
 }

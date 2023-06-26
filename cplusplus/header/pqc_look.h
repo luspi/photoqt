@@ -19,48 +19,48 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
-    Q_PROPERTY(QString baseColorContrast READ getBaseColorContrast NOTIFY baseColorContrastChanged)
-    Q_PROPERTY(QString baseColorDisabled READ getBaseColorDisabled NOTIFY baseColorDisabledChanged)
+    Q_PROPERTY(QString baseColorHighlight READ getBaseColorHighlight NOTIFY baseColorHighlightChanged)
+    Q_PROPERTY(QString baseColorActive READ getBaseColorActive NOTIFY baseColorActiveChanged)
     void setBaseColor(QString val);
     QString getBaseColor();
-    QString getBaseColorContrast();
-    QString getBaseColorDisabled();
+    QString getBaseColorHighlight();
+    QString getBaseColorActive();
 
     /******************************************************/
 
-    Q_PROPERTY(QString highlightColor READ getHighlightColor NOTIFY highlightColorChanged)
-    Q_PROPERTY(QString highlightColorContrast READ getHighlightColorContrast NOTIFY highlightColorContrastChanged)
-    Q_PROPERTY(QString highlightColorDisabled READ getHighlightColorDisabled NOTIFY highlightColorDisabledChanged)
-    QString getHighlightColor();
-    QString getHighlightColorContrast();
-    QString getHighlightColorDisabled();
+    Q_PROPERTY(QString inverseColor READ getInverseColor NOTIFY inverseColorChanged)
+    Q_PROPERTY(QString inverseColorHighlight READ getInverseColorHighlight NOTIFY inverseColorHighlightChanged)
+    Q_PROPERTY(QString inverseColorActive READ getInverseColorActive NOTIFY inverseColorActiveChanged)
+    QString getInverseColor();
+    QString getInverseColorHighlight();
+    QString getInverseColorActive();
 
     /******************************************************/
 
     Q_PROPERTY(QString transColor READ getTransColor NOTIFY transColorChanged)
-    Q_PROPERTY(QString transColorContrast READ getTransColorContrast NOTIFY transColorContrastChanged)
-    Q_PROPERTY(QString transColorDisabled READ getTransColorDisabled NOTIFY transColorDisabledChanged)
+    Q_PROPERTY(QString transColorHighlight READ getTransColorHighlight NOTIFY transColorHighlightChanged)
+    Q_PROPERTY(QString transColorActive READ getTransColorActive NOTIFY transColorActiveChanged)
     QString getTransColor();
-    QString getTransColorContrast();
-    QString getTransColorDisabled();
+    QString getTransColorHighlight();
+    QString getTransColorActive();
 
     /******************************************************/
 
     Q_PROPERTY(QString textColor READ getTextColor NOTIFY textColorChanged)
-    Q_PROPERTY(QString textColorContrast READ getTextColorContrast NOTIFY textColorContrastChanged)
-    Q_PROPERTY(QString textColorDisabled READ getTextColorDisabled NOTIFY textColorDisabledChanged)
+    Q_PROPERTY(QString textColorHighlight READ getTextColorHighlight NOTIFY textColorHighlightChanged)
+    Q_PROPERTY(QString textColorActive READ getTextColorActive NOTIFY textColorActiveChanged)
     QString getTextColor();
-    QString getTextColorContrast();
-    QString getTextColorDisabled();
+    QString getTextColorHighlight();
+    QString getTextColorActive();
 
     /******************************************************/
 
-    Q_PROPERTY(QString textHighlightColor READ getTextHighlightColor NOTIFY textHighlightColorChanged)
-    Q_PROPERTY(QString textHighlightColorContrast READ getTextHighlightColorContrast NOTIFY textHighlightColorContrastChanged)
-    Q_PROPERTY(QString textHighlightColorDisabled READ getTextHighlightColorDisabled NOTIFY textHighlightColorDisabledChanged)
-    QString getTextHighlightColor();
-    QString getTextHighlightColorContrast();
-    QString getTextHighlightColorDisabled();
+    Q_PROPERTY(QString textInverseColor READ getTextInverseColor NOTIFY textInverseColorChanged)
+    Q_PROPERTY(QString textInverseColorHighlight READ getTextInverseColorHighlight NOTIFY textInverseColorHighlightChanged)
+    Q_PROPERTY(QString textInverseColorActive READ getTextInverseColorActive NOTIFY textInverseColorActiveChanged)
+    QString getTextInverseColor();
+    QString getTextInverseColorHighlight();
+    QString getTextInverseColorActive();
 
     /******************************************************/
 
@@ -89,24 +89,24 @@ private:
     PQCLook();
 
     QString m_baseColor;
-    QString m_baseColorContrast;
-    QString m_baseColorDisabled;
+    QString m_baseColorHighlight;
+    QString m_baseColorActive;
 
-    QString m_highlightColor;
-    QString m_highlightColorContrast;
-    QString m_highlightColorDisabled;
+    QString m_inverseColor;
+    QString m_inverseColorHighlight;
+    QString m_inverseColorActive;
 
     QString m_transColor;
-    QString m_transColorContrast;
-    QString m_transColorDisabled;
+    QString m_transColorHighlight;
+    QString m_transColorActive;
 
     QString m_textColor;
-    QString m_textColorContrast;
-    QString m_textColorDisabled;
+    QString m_textColorHighlight;
+    QString m_textColorActive;
 
-    QString m_textHighlightColor;
-    QString m_textHighlightColorContrast;
-    QString m_textHighlightColorDisabled;
+    QString m_textInverseColor;
+    QString m_textInverseColorHighlight;
+    QString m_textInverseColorActive;
 
     int m_fontSize;
     int m_fontSizeS;
@@ -118,24 +118,24 @@ private:
 
 Q_SIGNALS:
     void baseColorChanged();
-    void baseColorContrastChanged();
-    void baseColorDisabledChanged();
+    void baseColorHighlightChanged();
+    void baseColorActiveChanged();
 
-    void highlightColorChanged();
-    void highlightColorContrastChanged();
-    void highlightColorDisabledChanged();
+    void inverseColorChanged();
+    void inverseColorHighlightChanged();
+    void inverseColorActiveChanged();
 
     void transColorChanged();
-    void transColorContrastChanged();
-    void transColorDisabledChanged();
+    void transColorHighlightChanged();
+    void transColorActiveChanged();
 
     void textColorChanged();
-    void textColorContrastChanged();
-    void textColorDisabledChanged();
+    void textColorHighlightChanged();
+    void textColorActiveChanged();
 
-    void textHighlightColorChanged();
-    void textHighlightColorContrastChanged();
-    void textHighlightColorDisabledChanged();
+    void textInverseColorChanged();
+    void textInverseColorHighlightChanged();
+    void textInverseColorActiveChanged();
 
     void fontSizeChanged();
     void fontSizeSChanged();

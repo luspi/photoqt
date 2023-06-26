@@ -34,7 +34,7 @@ ScrollBar {
         implicitWidth: 6
         implicitHeight: 100
         radius: width / 2
-        color: (control.pressed||control.active) ? PQCLook.highlightColor : PQCLook.highlightColorDisabled
+        color: (control.pressed||control.active) ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
         // Hide the ScrollBar when it's not needed.
         visible: control.size < 1.0
 
@@ -43,27 +43,3 @@ ScrollBar {
     }
 
 }
-
-//ScrollBar {
-//    id: control
-//    orientation: Qt.Vertical
-
-//    width: orientation==Qt.Vertical ? 6 : undefined
-//    height: orientation==Qt.Vertical ? undefined : 6
-
-//    contentItem: Rectangle {
-//        implicitWidth: control.size<1.0 ? (control.orientation==Qt.Vertical ? 6 : 100) : 0
-//        implicitHeight: control.size<1.0 ? (control.orientation==Qt.Vertical ? 100 : 6) : 0
-//        radius: control.orientation==Qt.Vertical ? width/2 : height/2
-//        color: control.pressed ? "#eeeeee" : "#aaaaaa"
-////        visible: (control.size<1.0)
-//        Behavior on color { ColorAnimation { duration: 100 } }
-//    }
-
-//    background: Rectangle {
-//        color: control.pressed ? "#88888888" : "#88666666"
-////        visible: control.size<1.0
-//        Behavior on color { ColorAnimation { duration: 100 } }
-//    }
-
-//}

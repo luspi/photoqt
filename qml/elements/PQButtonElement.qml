@@ -61,7 +61,7 @@ Button {
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
 
-        color: (down ? PQCLook.baseColorContrast : (hovered ? PQCLook.baseColorDisabled : PQCLook.baseColor))
+        color: (down ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColor))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 
@@ -69,14 +69,14 @@ Button {
         x: 0
         width: 1
         height: parent.height
-        color: PQCLook.baseColorContrast
+        color: PQCLook.baseColorActive
     }
 
     Rectangle {
         x: parent.width-1
         width: 1
         height: parent.height
-        color: PQCLook.baseColorContrast
+        color: PQCLook.baseColorActive
     }
 
     PQToolTip {

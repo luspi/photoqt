@@ -41,8 +41,7 @@ ComboBox {
         height: 40
         contentItem: Text {
             text: prefix+(firstItemEmphasized&&index==0 ? modelData.toUpperCase() : modelData)
-            color: highlighted ? PQCLook.textHighlightColor : PQCLook.textColor
-            Behavior on color { ColorAnimation { duration: 200 } }
+            color: PQCLook.textColor
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
@@ -51,14 +50,14 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: highlighted ? PQCLook.highlightColor : PQCLook.baseColorContrast
+            color: highlighted ? PQCLook.baseColorActive : PQCLook.baseColor
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
                 width: parent.width
-                height: 2
-                y: parent.height-2
-                color: PQCLook.baseColor
+                height: 1
+                y: parent.height-1
+                color: PQCLook.inverseColorHighlight
                 visible: lineBelowItem.indexOf(index)!==-1
             }
         }
@@ -85,7 +84,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = PQCLook.baseColor;
+            context.fillStyle = (control.pressed||popup.visible) ? PQCLook.baseColor : PQCLook.baseColorActive;
             context.fill();
         }
     }
@@ -105,13 +104,16 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: PQCLook.highlightColorContrast
-        border.color: control.pressed ? PQCLook.highlightColor : PQCLook.baseColorContrast
+        color: (control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor
+        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorActive
         border.width: control.visualFocus ? 2 : 1
         radius: 2
     }
 
     popup: Popup {
+
+        id: popup
+
         y: control.height - 1
         width: control.width
         implicitHeight: contentItem.implicitHeight+lineBelowItem.length*2

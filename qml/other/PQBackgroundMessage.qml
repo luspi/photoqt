@@ -20,7 +20,7 @@ Item {
                 text: qsTranslate("other", "Click anywhere to open a file")
                 font.pointSize: Math.min(60, Math.max(20, (toplevel.width+toplevel.height)/60))
                 font.bold: true
-                color: "#c0c0c0"
+                color: PQCLook.textColor
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -30,7 +30,7 @@ Item {
                 text: qsTranslate("other", "Move your cursor to:")
                 font.pointSize: Math.min(40, Math.max(15, (toplevel.width+toplevel.height)/90))
                 font.bold: true
-                color: "#c0c0c0"
+                color: PQCLook.textColor
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -40,7 +40,7 @@ Item {
                 text: ">> " + qsTranslate("other", "RIGHT EDGE for the main menu")
                 font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
                 font.bold: true
-                color: "#c0c0c0"
+                color: PQCLook.textColor
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -51,7 +51,7 @@ Item {
                 text: ">> " + qsTranslate("other", "LEFT EDGE for the metadata")
                 font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
                 font.bold: true
-                color: "#c0c0c0"
+                color: PQCLook.textColor
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -62,7 +62,7 @@ Item {
                     text: ">> " + qsTranslate("other", "BOTTOM EDGE to show the thumbnails")
                     font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
                     font.bold: true
-                    color: "#c0c0c0"
+                    color: PQCLook.textColor
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -72,7 +72,7 @@ Item {
                     text: qsTranslate("other", "(once an image/folder is loaded)")
                     font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
                     font.bold: true
-                    color: "#c0c0c0"
+                    color: PQCLook.textColor
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                 }
@@ -104,7 +104,7 @@ Item {
             opacity: 1 - (width-20)/40
             border {
                 width: 5
-                color: "white"
+                color: PQCLook.textColor
             }
 
             NumberAnimation {
@@ -146,7 +146,7 @@ Item {
             id: arrleft
             x: 10
             y: (parent.height-height)/2
-            visible: PQSettings.metadataElementBehindLeftEdge
+            visible: PQCSettings.metadataElementBehindLeftEdge
             opacity: 0.5
             width: 100
             height: 100

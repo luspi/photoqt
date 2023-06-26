@@ -24,7 +24,7 @@ import QtQuick 2.9
 
 Text {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+    color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
     font.pointSize: PQCLook.fontSizeL
     font.weight: PQCLook.fontWeightNormal
 

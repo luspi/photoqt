@@ -39,7 +39,7 @@ Rectangle {
     property bool checked: false
     property string tooltip: ""
 
-    color: ((down||checked) ? PQCLook.baseColorContrast : (mouseOver ? PQCLook.baseColorDisabled : PQCLook.baseColor))
+    color: ((down||checked) ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : PQCLook.baseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked()

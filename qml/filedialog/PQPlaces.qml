@@ -82,7 +82,7 @@ Item {
                     y: 19
                     width: parent.width
                     height: 1
-                    color: PQCLook.baseColorContrast
+                    color: PQCLook.baseColorActive
                 }
             }
 
@@ -105,7 +105,7 @@ Item {
                     y: 19
                     width: parent.width
                     height: 1
-                    color: PQCLook.baseColorContrast
+                    color: PQCLook.baseColorActive
                 }
             }
 
@@ -139,7 +139,7 @@ Item {
             property int part: parent.parent.part
             property var entry: entries[part][index]
 
-            color: hoverIndex[part]===index ? (pressedIndex[part]===index ? PQCLook.baseColorContrast : PQCLook.baseColorDisabled) : PQCLook.baseColor
+            color: hoverIndex[part]===index ? (pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) : PQCLook.baseColor
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Row {
