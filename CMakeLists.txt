@@ -64,7 +64,7 @@ endif()
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent)
 
 if(IMAGEMAGICK)
     find_package(ImageMagick COMPONENTS Magick++)
@@ -176,7 +176,7 @@ set_target_properties(photoqt PROPERTIES
 )
 
 # link executable
-target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg)
+target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent)
 
 if(QTPDF)
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Pdf)

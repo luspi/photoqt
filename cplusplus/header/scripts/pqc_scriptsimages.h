@@ -19,6 +19,7 @@ public:
 
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
+    Q_INVOKABLE QStringList listArchiveContent(QString path);
 
 private:
     PQCScriptsImages();

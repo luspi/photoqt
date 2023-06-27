@@ -281,6 +281,14 @@ Item {
 
     }
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked:
+            loader.show("filedialog")
+    }
+
     // restarting all at the same time keeps all animations in sync
     function restartAllAnimations() {
         seqdown.restart()

@@ -18,10 +18,12 @@
 #include <pqc_notify.h>
 #include <pqc_messagehandler.h>
 #include <pqc_settings.h>
+#include <pqc_imageformats.h>
 #include <pqc_shortcuts.h>
 #include <pqc_look.h>
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
+#include <pqc_filefoldermodel.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsfiledialog.h>
@@ -182,7 +184,10 @@ int main(int argc, char *argv[]) {
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
 
+    qmlRegisterType<PQCFileFolderModel>("PQCFileFolderModel", 1, 0, "PQCFileFolderModel");
+
     engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
+    engine.rootContext()->setContextProperty("PQCImageFormats", &PQCImageFormats::get());
     engine.rootContext()->setContextProperty("PQCShortcuts", &PQCShortcuts::get());
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());

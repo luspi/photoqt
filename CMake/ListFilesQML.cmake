@@ -15,7 +15,7 @@ SET(d "qml/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml)
 
 SET(d "qml/manage")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml ${d}/PQFileFolderModel.qml)
 
 SET(d "qml/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml)

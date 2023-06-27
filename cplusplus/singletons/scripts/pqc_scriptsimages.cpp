@@ -3,8 +3,18 @@
 #include <QIcon>
 #include <QFile>
 #include <QBuffer>
+#include <QFileInfo>
+#include <QProcess>
+#include <QStringConverter>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
+#include <pqc_settings.h>
+#include <pqc_imageformats.h>
+
+#ifdef LIBARCHIVE
+#include <archive.h>
+#include <archive_entry.h>
+#endif
 
 PQCScriptsImages::PQCScriptsImages() {
 
@@ -75,5 +85,113 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
     buffer.open(QIODevice::WriteOnly);
     pix.save(&buffer, "PNG");
     return bytes.toBase64();
+
+}
+
+QStringList PQCScriptsImages::listArchiveContent(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QStringList ret;
+
+    const QFileInfo info(path);
+
+#ifndef Q_OS_WIN
+    QProcess which;
+    which.setStandardOutputFile(QProcess::nullDevice());
+    which.start("which", QStringList() << "unrar");
+    which.waitForFinished();
+
+    if(!which.exitCode() && PQCSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+
+        QProcess p;
+        p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
+
+        if(p.waitForStarted()) {
+
+            QByteArray outdata = "";
+
+            while(p.waitForReadyRead())
+                outdata.append(p.readAll());
+
+            auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
+            QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
+
+            allfiles.sort();
+            for(const QString &f : qAsConst(allfiles)) {
+                if(PQCImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
+                    ret.append(QString("%1::ARC::%2").arg(f, path));
+            }
+
+        }
+
+    }
+
+    // this either means there is nothing in that archive
+    // or something went wrong above with unrar
+    if(ret.length() == 0) {
+
+#endif
+
+#ifdef LIBARCHIVE
+
+        // Create new archive handler
+        struct archive *a = archive_read_new();
+
+        // We allow any type of compression and format
+        archive_read_support_filter_all(a);
+        archive_read_support_format_all(a);
+
+        // Read file
+        int r = archive_read_open_filename(a, info.absoluteFilePath().toLocal8Bit().data(), 10240);
+
+        // If something went wrong, output error message and stop here
+        if(r != ARCHIVE_OK) {
+            qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
+            return ret;
+        }
+
+        // Loop over entries in archive
+        struct archive_entry *entry;
+        QStringList allfiles;
+        while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+            // Read the current file entry
+            // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+            QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+
+            // If supported file format, append to temporary list
+            if((PQCImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(filenameinside).suffix())))
+                allfiles.append(filenameinside);
+
+        }
+
+        // Sort the temporary list and add to global list
+        allfiles.sort();
+        for(const QString &f : qAsConst(allfiles))
+            ret.append(QString("%1::ARC::%2").arg(f, path));
+
+        // Close archive
+        r = archive_read_free(a);
+        if(r != ARCHIVE_OK)
+            qWarning() << "ERROR: archive_read_free() returned code of" << r;
+
+#endif
+
+#ifndef Q_OS_WIN
+    }
+#endif
+
+    QCollator collator;
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
+    collator.setNumericMode(true);
+
+    if(PQCSettings::get()["imageviewSortImagesAscending"].toBool())
+        std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+    else
+        std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+
+    return ret;
 
 }
