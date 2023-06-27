@@ -244,14 +244,29 @@ GridView {
                             mipmap: false   // setting this to true blurs too much detail in the thumbnail
                             fillMode: PQSettings.openfileFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                             source: PQSettings.openfileFolderContentThumbnails ? ("image://folderthumb/" + folder + ":://::" + num) : ""
-                            onSourceSizeChanged:
-                                folderthumbs.sourceSize = sourceSize
+                            sourceSize: Qt.size(512,512)
 
                             onStatusChanged: {
                                 if(status == Image.Ready) {
+                                    folderthumbs.sourceSize = sourceSize
                                     if(curindex == files_grid.currentIndex)
                                         nextfolderthumb.restart()
                                     folderthumbs.hideExcept(num)
+                                }
+
+                                if(!PQSettings.openfileSmallThumbnailsKeepSmall)
+                                    return
+                                if(status == Image.Ready) {
+                                    var fn = PQImageFormats.getFolderThumbPath(folder + ":://::" + num);
+                                    var orig = imageproperties.getImageResolution(fn)
+                                    console.log(fn, orig)
+                                    if(orig.width <= 0 || orig.height <= 0)
+                                        return
+
+                                    if(orig.width < sourceSize.width && orig.height < sourceSize.height) {
+                                        deleg.smooth = false
+                                        deleg.fillMode = Image.Pad
+                                    }
                                 }
                             }
                             Connections {

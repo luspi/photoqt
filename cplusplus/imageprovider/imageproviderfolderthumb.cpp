@@ -113,6 +113,8 @@ void PQAsyncImageResponseFolderThumb::run() {
     // get current image filename
     fname = fileinfolist[(m_index-1)%count].absoluteFilePath();
 
+    PQImageFormats::get().setFolderThumbPath(fname, m_index);
+
     // load thumbnail
     PQAsyncImageResponseThumb loader(fname,m_requestedSize);
     loader.loadImage();

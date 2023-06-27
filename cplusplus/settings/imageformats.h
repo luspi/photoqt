@@ -175,6 +175,16 @@ public:
 
     Q_INVOKABLE void restoreDefaults();
 
+    void setFolderThumbPath(QString p, int num) {
+        folderthumbspaths.insert(QString("%1:://::%2").arg(QFileInfo(p).path()).arg(num), p);
+    }
+
+    Q_INVOKABLE QString getFolderThumbPath(QString key) {
+        if(!key.contains(":://::") || !folderthumbspaths.contains(key))
+            return key;
+        return folderthumbspaths.value(key);
+    }
+
 private:
     PQImageFormats();
 
@@ -217,6 +227,8 @@ private:
     // this is true if reading from the permanent database failed
     // in that case we load the built-in default database but read-only
     bool readonly;
+
+    QMap<QString, QString> folderthumbspaths;
 
 };
 
