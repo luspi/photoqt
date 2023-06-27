@@ -35,26 +35,26 @@ public:
 
     bool loadFilesFromCache(QString foldername, bool showHidden, int sortFlags,
                             QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                            bool ignoreFiltersExceptDefault, int sortField, bool sortReversed, QStringList &entriesFiles);
+                            bool ignoreFiltersExceptDefault, QStringList &entriesFiles);
 
     bool loadFoldersFromCache(QString foldername, bool showHidden, int sortFlags,
                               QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                              bool ignoreFiltersExceptDefault, int sortField, bool sortReversed, QStringList &entriesFolders);
+                              bool ignoreFiltersExceptDefault, QStringList &entriesFolders);
 
     void saveFilesToCache(QString foldername, bool showHidden, int sortFlags,
                           QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                          bool ignoreFiltersExceptDefault, int sortField, bool sortReversed, QStringList &entriesFiles);
+                          bool ignoreFiltersExceptDefault, QStringList &entriesFiles);
 
     void saveFoldersToCache(QString foldername, bool showHidden, int sortFlags,
                             QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                            bool ignoreFiltersExceptDefault, int sortField, bool sortReversed, QStringList &entriesFolders);
+                            bool ignoreFiltersExceptDefault, QStringList &entriesFolders);
 
     void resetData();
 
 private:
     QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags,
                               QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                              bool ignoreFiltersExceptDefault, int sortField, bool sortReversed);
+                              bool ignoreFiltersExceptDefault);
 
     QHash<QString, QStringList> cacheFiles;
     QHash<QString, QStringList> cacheFolders;

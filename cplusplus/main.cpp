@@ -184,10 +184,9 @@ int main(int argc, char *argv[]) {
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
 
-    qmlRegisterType<PQCFileFolderModel>("PQCFileFolderModel", 1, 0, "PQCFileFolderModel");
-
     engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
     engine.rootContext()->setContextProperty("PQCImageFormats", &PQCImageFormats::get());
+    engine.rootContext()->setContextProperty("PQCFileFolderModel", &PQCFileFolderModel::get());
     engine.rootContext()->setContextProperty("PQCShortcuts", &PQCShortcuts::get());
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());

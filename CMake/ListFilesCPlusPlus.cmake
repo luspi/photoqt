@@ -10,11 +10,8 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp)
 SET(d "cplusplus/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp  ${d}/pqc_validate.cpp)
 
-SET(d "cplusplus/elements")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodel.cpp ${d}/pqc_filefoldermodelcache.cpp)
-
 SET(d "cplusplus/singletons/other")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp ${d}/pqc_filefoldermodelcache.cpp)
 
 SET(d "cplusplus/singletons/engines")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_look.cpp ${d}/pqc_imageformats.cpp)

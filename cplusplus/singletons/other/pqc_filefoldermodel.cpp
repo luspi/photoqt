@@ -31,13 +31,19 @@
 #include <QtConcurrent>
 #include <pqc_filefoldermodel.h>
 #include <pqc_imageformats.h>
-#include <scripts/pqc_scriptsimages.h>
 #include <pqc_settings.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptsfiledialog.h>
 
 #ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
 #endif
+
+PQCFileFolderModel &PQCFileFolderModel::get() {
+    static PQCFileFolderModel instance;
+    return instance;
+}
 
 PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
@@ -55,14 +61,11 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_entriesFileDialog.clear();
 
     m_nameFilters = QStringList();
-    m_defaultNameFilters = QStringList();
+    m_restrictToSuffixes = PQCImageFormats::get().getEnabledFormats();
     m_filenameFilters = QStringList();
-    m_mimeTypeFilters = QStringList();
+    m_restrictToMimeTypes = PQCImageFormats::get().getEnabledMimeTypes();
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
-    m_showHidden = false;
-    m_sortField = SortBy::NaturalName;
-    m_sortReversed = false;
 
     watcherMainView = new QFileSystemWatcher;
     watcherFileDialog = new QFileSystemWatcher;
@@ -81,6 +84,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     connect(loadDelayFileDialog, &QTimer::timeout, this, &PQCFileFolderModel::loadDataFileDialog);
 
     m_advancedSortDone = 0;
+
+    connect(this, &PQCFileFolderModel::newDataLoadedMainView, this, &PQCFileFolderModel::handleNewDataLoadedMainView);
 
 }
 
@@ -117,6 +122,10 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
     m_folderFileDialog = val;
     Q_EMIT folderFileDialogChanged();
     loadDelayFileDialog->start();
+
+    if(val != "")
+        PQCScriptsFileDialog::get().setLastLocation(val);
+
 }
 
 /********************************************/
@@ -177,14 +186,14 @@ void PQCFileFolderModel::setIncludeFilesInSubFolders(int c) {
 /********************************************/
 /********************************************/
 
-QStringList PQCFileFolderModel::getDefaultNameFilters() {
-    return m_defaultNameFilters;
+QStringList PQCFileFolderModel::getRestrictToSuffixes() {
+    return m_restrictToSuffixes;
 }
-void PQCFileFolderModel::setDefaultNameFilters(QStringList val) {
-    if(m_defaultNameFilters == val)
+void PQCFileFolderModel::setRestrictToSuffixes(QStringList val) {
+    if(m_restrictToSuffixes == val)
         return;
-    m_defaultNameFilters = val;
-    Q_EMIT defaultNameFiltersChanged();
+    m_restrictToSuffixes = val;
+    Q_EMIT restrictToSuffixesChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
 }
@@ -199,6 +208,7 @@ void PQCFileFolderModel::setNameFilters(QStringList val) {
     Q_EMIT nameFiltersChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
+    checkFilterActive();
 }
 
 QStringList PQCFileFolderModel::getFilenameFilters() {
@@ -211,16 +221,17 @@ void PQCFileFolderModel::setFilenameFilters(QStringList val) {
     Q_EMIT filenameFiltersChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
+    checkFilterActive();
 }
 
-QStringList PQCFileFolderModel::getMimeTypeFilters() {
-    return m_mimeTypeFilters;
+QStringList PQCFileFolderModel::getRestrictToMimeTypes() {
+    return m_restrictToMimeTypes;
 }
-void PQCFileFolderModel::setMimeTypeFilters(QStringList val) {
-    if(m_mimeTypeFilters == val)
+void PQCFileFolderModel::setRestrictToMimeTypes(QStringList val) {
+    if(m_restrictToMimeTypes == val)
         return;
-    m_mimeTypeFilters = val;
-    Q_EMIT mimeTypeFiltersChanged();
+    m_restrictToMimeTypes = val;
+    Q_EMIT restrictToMimeTypesChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
 }
@@ -235,6 +246,7 @@ void PQCFileFolderModel::setImageResolutionFilter(QSize val) {
     Q_EMIT imageResolutionFilterChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
+    checkFilterActive();
 }
 
 qint64 PQCFileFolderModel::getFileSizeFilter() {
@@ -247,6 +259,33 @@ void PQCFileFolderModel::setFileSizeFilter(qint64 val) {
     Q_EMIT fileSizeFilterChanged();
     loadDelayMainView->start();
     loadDelayFileDialog->start();
+    checkFilterActive();
+}
+
+bool PQCFileFolderModel::getFilterCurrentlyActive() {
+    return m_filterCurrentlyActive;
+}
+
+void PQCFileFolderModel::checkFilterActive() {
+
+    if(m_nameFilters.length() > 0 || m_filenameFilters.length() > 0 ||
+        m_imageResolutionFilter.width() > 0 || m_imageResolutionFilter.height() > 0 ||
+        m_fileSizeFilter > 0) {
+
+        if(!m_filterCurrentlyActive) {
+            m_filterCurrentlyActive = true;
+            filterCurrentlyActiveChanged();
+        }
+
+    } else {
+
+        if(m_filterCurrentlyActive) {
+            m_filterCurrentlyActive = false;
+            filterCurrentlyActiveChanged();
+        }
+
+    }
+
 }
 
 /********************************************/
@@ -618,7 +657,104 @@ void PQCFileFolderModel::resetModel() {
 
     cache.resetData();
 
+    setCurrentIndex(-1);
+    setSetFileNameOnceReloaded("");
+
 }
+
+bool PQCFileFolderModel::setAsCurrent(QString filepath) {
+    int ind = getIndexOfMainView(filepath);
+    if(ind != -1) {
+        setCurrentIndex(ind);
+        return true;
+    }
+    return false;
+}
+
+/********************************************/
+/********************************************/
+
+
+int PQCFileFolderModel::getCurrentIndex() {
+    return m_currentIndex;
+}
+
+void PQCFileFolderModel::setCurrentIndex(int val) {
+    if(m_currentIndex == val)
+        return;
+    m_currentIndex = val;
+    if(m_currentIndex == -1)
+        m_currentFile = "";
+    else
+        m_currentFile = m_entriesMainView[m_currentIndex];
+
+    Q_EMIT currentIndexChanged();
+    Q_EMIT currentFileChanged();
+
+    if(m_currentFile.indexOf("::PDF::")) {
+        bool ispdf = m_currentFile.indexOf("::PDF::")>-1;
+        if(m_isPDF != ispdf) {
+            m_isPDF = ispdf;
+            m_pdfName = m_currentFile.split("::PDF::")[1];
+            m_pdfNum = m_currentFile.split("::PDF::")[0].toInt();
+            Q_EMIT isPDFChanged();
+            Q_EMIT pdfNameChanged();
+            Q_EMIT pdfNumChanged();
+        }
+    }
+
+    if(m_currentFile.indexOf("::ARC::")) {
+        bool isarc = m_currentFile.indexOf("::ARC::")>-1;
+        if(m_isARC != isarc) {
+            m_isARC = isarc;
+            m_arcName = m_currentFile.split("::ARC::")[1];
+            m_arcFile = m_currentFile.split("::ARC::")[0];
+            Q_EMIT isARCChanged();
+            Q_EMIT arcNameChanged();
+            Q_EMIT arcFileChanged();
+        }
+    }
+}
+
+QString PQCFileFolderModel::getCurrentFile() {
+    return m_currentFile;
+}
+
+void PQCFileFolderModel::setSetFileNameOnceReloaded(QString val) {
+    if(m_setFileNameOnceReloaded != val) {
+        m_setFileNameOnceReloaded = val;
+        setFileNameOnceReloadedChanged();
+    }
+}
+
+QString PQCFileFolderModel::getSetFileNameOnceReloaded() {
+    return m_setFileNameOnceReloaded;
+}
+
+bool PQCFileFolderModel::getIsPDF() {
+    return m_isPDF;
+}
+
+bool PQCFileFolderModel::getIsARC() {
+    return m_isARC;
+}
+
+QString PQCFileFolderModel::getPdfName() {
+    return m_pdfName;
+}
+
+int PQCFileFolderModel::getPdfNum() {
+    return m_pdfNum;
+}
+
+QString PQCFileFolderModel::getArcName() {
+    return m_arcName;
+}
+
+QString PQCFileFolderModel::getArcFile() {
+    return m_arcFile;
+}
+
 
 /********************************************/
 /********************************************/
@@ -653,9 +789,9 @@ void PQCFileFolderModel::loadDataMainView() {
     ////////////////////////
     // load files
 
-    if(m_fileInFolderMainView.contains("::PQT::")) {
+    if(m_fileInFolderMainView.contains("::PDF::")) {
         m_readDocumentOnly = true;
-        m_fileInFolderMainView = m_fileInFolderMainView.split("::PQT::").at(1);
+        m_fileInFolderMainView = m_fileInFolderMainView.split("::PDF::").at(1);
     } else if(m_fileInFolderMainView.contains("::ARC::")) {
         m_readArchiveOnly = true;
         m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
@@ -743,19 +879,23 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder) {
 
     QStringList ret;
 
+    const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
+    const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
+    const bool showHidden = PQCSettings::get()["openfileShowHiddenFilesFolders"].toBool();
+
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
-    if(m_sortReversed)
+    if(sortReversed)
         sortFlags |= QDir::Reversed;
-    if(m_sortField == SortBy::Name)
+    if(sortBy == "name")
         sortFlags |= QDir::Name;
-    else if(m_sortField == SortBy::Time)
+    else if(sortBy == "time")
         sortFlags |= QDir::Time;
-    else if(m_sortField == SortBy::Size)
+    else if(sortBy == "size")
         sortFlags |= QDir::Size;
-    else if(m_sortField == SortBy::Type)
+    else if(sortBy == "type")
         sortFlags |= QDir::Type;
 
-    if(!cache.loadFoldersFromCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, false, m_sortField, m_sortReversed, ret)) {
+    if(!cache.loadFoldersFromCache(folder, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, false, ret)) {
 
         QDir dir(folder);
 
@@ -764,28 +904,28 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder) {
             return ret;
         }
 
-        if(m_showHidden)
+        if(showHidden)
             dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot|QDir::Hidden);
         else
             dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 
-        if(m_sortField != SortBy::NaturalName)
+        if(sortBy != "naturalname")
             dir.setSorting(sortFlags);
 
         const QFileInfoList lst = dir.entryInfoList();
         for(const auto &f : lst)
             ret << f.filePath();
 
-        if(m_sortField == SortBy::NaturalName) {
+        if(sortBy == "naturalname") {
             QCollator collator;
             collator.setNumericMode(true);
-            if(m_sortReversed)
+            if(sortReversed)
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
             else
                 std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
         }
 
-        cache.saveFoldersToCache(folder, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, false, m_sortField, m_sortReversed, ret);
+        cache.saveFoldersToCache(folder, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, false, ret);
 
     }
 
@@ -800,16 +940,20 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     QStringList ret;
 
+    const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
+    const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
+    const bool showHidden = PQCSettings::get()["openfileShowHiddenFilesFolders"].toBool();
+
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
-    if(m_sortReversed)
+    if(sortReversed)
         sortFlags |= QDir::Reversed;
-    if(m_sortField == SortBy::Name)
+    if(sortBy == "name")
         sortFlags |= QDir::Name;
-    else if(m_sortField == SortBy::Time)
+    else if(sortBy == "time")
         sortFlags |= QDir::Time;
-    else if(m_sortField == SortBy::Size)
+    else if(sortBy == "size")
         sortFlags |= QDir::Size;
-    else if(m_sortField == SortBy::Type)
+    else if(sortBy == "type")
         sortFlags |= QDir::Type;
 
     // In order to properly sort the resulting list (sorting by directory first and by chosen sorting criteria second (on a per-directory basis)
@@ -834,7 +978,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     for(const QString &f : qAsConst(foldersToScan)) {
 
-        if(!cache.loadFilesFromCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, m_sortField, m_sortReversed, ret)) {
+        if(!cache.loadFilesFromCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, ret)) {
 
             QStringList ret_cur;
 
@@ -845,15 +989,15 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                 continue;
             }
 
-            if(m_showHidden)
+            if(showHidden)
                 dir.setFilter(QDir::Files|QDir::NoDotAndDotDot|QDir::Hidden);
             else
                 dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
 
-            if(m_sortField != SortBy::NaturalName)
+            if(sortBy != "naturalname")
                 dir.setSorting(sortFlags);
 
-            if(m_nameFilters.size() == 0 && m_defaultNameFilters.size() == 0 && m_mimeTypeFilters.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
+            if(m_nameFilters.size() == 0 && m_restrictToSuffixes.size() == 0 && m_restrictToMimeTypes.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
                 const QFileInfoList lst = dir.entryInfoList();
                 for(const auto &f: lst)
                     ret_cur << f.filePath();
@@ -896,7 +1040,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
                     }
 
-                    if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && m_nameFilters.contains(f.suffix().toLower()))) && (m_defaultNameFilters.size() == 0 || m_defaultNameFilters.contains(f.suffix().toLower()))) {
+                    if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && m_nameFilters.contains(f.suffix().toLower()))) && (m_restrictToSuffixes.size() == 0 || m_restrictToSuffixes.contains(f.suffix().toLower()))) {
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault)
                             ret_cur << f.absoluteFilePath();
                         else {
@@ -909,7 +1053,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                         }
                     }
                     // if not the ending, then check the mime type
-                    else if(m_nameFilters.size() == 0 && m_mimeTypeFilters.contains(db.mimeTypeForFile(f.absoluteFilePath()).name())) {
+                    else if(m_nameFilters.size() == 0 && m_restrictToMimeTypes.contains(db.mimeTypeForFile(f.absoluteFilePath()).name())) {
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault)
                             ret_cur << f.absoluteFilePath();
                         else {
@@ -926,10 +1070,10 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
             }
 
-            if(m_sortField == SortBy::NaturalName) {
+            if(sortBy == "naturalname") {
                 QCollator collator;
                 collator.setNumericMode(true);
-                if(m_sortReversed)
+                if(sortReversed)
                     std::sort(ret_cur.begin(), ret_cur.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
                 else
                     std::sort(ret_cur.begin(), ret_cur.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
@@ -938,7 +1082,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
             // add current list, sorted, to global result list
             ret << ret_cur;
 
-            cache.saveFilesToCache(f, m_showHidden, sortFlags, m_defaultNameFilters, m_nameFilters, m_filenameFilters, m_mimeTypeFilters, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, m_sortField, m_sortReversed, ret_cur);
+            cache.saveFilesToCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, ret_cur);
 
         }
 
@@ -960,7 +1104,7 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
     if(document && !document->isLocked()) {
         int numPages = document->numPages();
         for(int i = 0; i < numPages; ++i)
-            ret.append(QString("%1::PQT::%2").arg(i).arg(path));
+            ret.append(QString("%1::PDF::%2").arg(i).arg(path));
     }
     delete document;
 
@@ -974,7 +1118,7 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
     if(err == QPdfDocument::Ready) {
         const int numPages = doc.pageCount();
         for(int i = 0; i < numPages; ++i)
-            ret.append(QString("%1::PQT::%2").arg(i).arg(path));
+            ret.append(QString("%1::PDF::%2").arg(i).arg(path));
     }
 #endif
 
@@ -982,4 +1126,37 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
 
 }
 
+void PQCFileFolderModel::handleNewDataLoadedMainView() {
 
+    bool curset = false;
+
+        // if a specific filename is to be loaded
+    if(m_setFileNameOnceReloaded == "---") {
+        if(m_countMainView > 0)
+            setCurrentIndex(0);
+    } else if(m_setFileNameOnceReloaded != "") {
+        if(setAsCurrent(m_setFileNameOnceReloaded))
+            curset = true;
+        setSetFileNameOnceReloaded("");
+    } else if(m_currentFile != "") {
+        if(setAsCurrent(m_currentFile))
+            curset = true;
+    }
+
+    if(!curset) {
+
+        int newIndex = m_currentIndex;
+
+        // make sure the index is valid
+        if(newIndex >= m_countMainView)
+            newIndex = m_countMainView-1;
+        else if(newIndex == -1 && m_countMainView > 0)
+            newIndex = 0;
+        else if(newIndex == 0)
+                newIndex = -1;
+
+        setCurrentIndex(newIndex);
+
+    }
+
+}

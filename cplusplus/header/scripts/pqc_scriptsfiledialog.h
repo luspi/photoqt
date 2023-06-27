@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE QVariantList getDevices();
     Q_INVOKABLE QVariantList getPlaces();
     QString getUniquePlacesId();
+    Q_INVOKABLE void setLastLocation(QString path);
 
 private:
     PQCScriptsFileDialog();

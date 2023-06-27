@@ -201,3 +201,16 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
     return "";
 
 }
+
+void PQCScriptsFileDialog::setLastLocation(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QFile file(PQCConfigFiles::FILEDIALOG_LAST_LOCATION());
+    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        file.close();
+    }
+
+}

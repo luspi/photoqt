@@ -36,31 +36,11 @@ class PQCFileFolderModel : public QObject {
     Q_OBJECT
 
 public:
-    enum FileRoles {
-        FileNameRole = Qt::UserRole + 1,
-        FilePathRole,
-        PathRole,
-        FileSizeRole,
-        FileModifiedRole,
-        FileIsDirRole,
-        FileTypeRole
-    };
+    static PQCFileFolderModel& get();
 
-    enum SortBy {
-        Name,
-        NaturalName,
-        Time,
-        Size,
-        Type
-    };
-    Q_ENUM(SortBy)
+    PQCFileFolderModel(PQCFileFolderModel const&)     = delete;
+    void operator=(PQCFileFolderModel const&) = delete;
 
-    enum AdvancedSort {
-        DominantColor,
-        AverageColor
-    };
-
-    PQCFileFolderModel(QObject *parent = nullptr);
     ~PQCFileFolderModel();
 
     /********************************************/
@@ -105,9 +85,9 @@ public:
     /********************************************/
     /********************************************/
 
-    Q_PROPERTY(QStringList defaultNameFilters READ getDefaultNameFilters WRITE setDefaultNameFilters NOTIFY defaultNameFiltersChanged)
-    QStringList getDefaultNameFilters();
-    void setDefaultNameFilters(QStringList val);
+    Q_PROPERTY(QStringList restrictToSuffixes READ getRestrictToSuffixes WRITE setRestrictToSuffixes NOTIFY restrictToSuffixesChanged)
+    QStringList getRestrictToSuffixes();
+    void setRestrictToSuffixes(QStringList val);
 
     Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters NOTIFY nameFiltersChanged)
     QStringList getNameFilters();
@@ -117,9 +97,9 @@ public:
     QStringList getFilenameFilters();
     void setFilenameFilters(QStringList val);
 
-    Q_PROPERTY(QStringList mimeTypeFilters READ getMimeTypeFilters WRITE setMimeTypeFilters NOTIFY mimeTypeFiltersChanged)
-    QStringList getMimeTypeFilters();
-    void setMimeTypeFilters(QStringList val);
+    Q_PROPERTY(QStringList restrictToMimeTypes READ getRestrictToMimeTypes WRITE setRestrictToMimeTypes NOTIFY restrictToMimeTypesChanged)
+    QStringList getRestrictToMimeTypes();
+    void setRestrictToMimeTypes(QStringList val);
 
     Q_PROPERTY(QSize imageResolutionFilter READ getImageResolutionFilter WRITE setImageResolutionFilter NOTIFY imageResolutionFilterChanged)
     QSize getImageResolutionFilter();
@@ -128,6 +108,9 @@ public:
     Q_PROPERTY(qint64 fileSizeFilter READ getFileSizeFilter WRITE setFileSizeFilter NOTIFY fileSizeFilterChanged)
     qint64 getFileSizeFilter();
     void setFileSizeFilter(qint64 val);
+
+    Q_PROPERTY(bool filterCurrentlyActive READ getFilterCurrentlyActive NOTIFY filterCurrentlyActiveChanged)
+    bool getFilterCurrentlyActive();
 
     /********************************************/
     /********************************************/
@@ -138,17 +121,52 @@ public:
     /********************************************/
     /********************************************/
 
+    Q_PROPERTY(int currentIndex READ getCurrentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
+    int getCurrentIndex();
+    void setCurrentIndex(int val);
+
+    Q_PROPERTY(QString currentFile READ getCurrentFile NOTIFY currentFileChanged)
+    QString getCurrentFile();
+
+    Q_PROPERTY(QString setFileNameOnceReloaded WRITE setSetFileNameOnceReloaded READ getSetFileNameOnceReloaded NOTIFY setFileNameOnceReloadedChanged)
+    QString getSetFileNameOnceReloaded();
+    void setSetFileNameOnceReloaded(QString val);
+
+    Q_PROPERTY(bool isPDF READ getIsPDF NOTIFY isPDFChanged)
+    bool getIsPDF();
+
+    Q_PROPERTY(bool isARC READ getIsARC NOTIFY isARCChanged)
+    bool getIsARC();
+
+    Q_PROPERTY(QString pdfName READ getPdfName NOTIFY pdfNameChanged)
+    QString getPdfName();
+
+    Q_PROPERTY(int pdfNum READ getPdfNum NOTIFY pdfNumChanged)
+    int getPdfNum();
+
+    Q_PROPERTY(QString arcName READ getArcName NOTIFY arcNameChanged)
+    QString getArcName();
+
+    Q_PROPERTY(QString arcFile READ getArcFile NOTIFY arcFileChanged)
+    QString getArcFile();
+
+    /********************************************/
+    /********************************************/
+
     Q_INVOKABLE void advancedSortMainView();
     Q_INVOKABLE void advancedSortMainViewCANCEL();
     Q_INVOKABLE void forceReloadMainView();
     Q_INVOKABLE int getIndexOfMainView(QString filepath);
     Q_INVOKABLE void removeEntryMainView(int index);
+    Q_INVOKABLE bool setAsCurrent(QString filepath);
 
     /********************************************/
 
     Q_INVOKABLE void resetModel();
 
 private:
+    PQCFileFolderModel(QObject *parent = 0);
+
     PQCFileFolderModelCache cache;
 
     QFileSystemWatcher *watcherMainView;
@@ -168,14 +186,23 @@ private:
     QStringList m_entriesFileDialog;
 
     QStringList m_nameFilters;
-    QStringList m_defaultNameFilters;
+    QStringList m_restrictToSuffixes;
+    QStringList m_restrictToMimeTypes;
     QStringList m_filenameFilters;
-    QStringList m_mimeTypeFilters;
     QSize m_imageResolutionFilter;
     qint64 m_fileSizeFilter;
-    bool m_showHidden;
-    SortBy m_sortField;
-    bool m_sortReversed;
+    bool m_filterCurrentlyActive;
+
+    int m_currentIndex;
+    QString m_currentFile;
+    QString m_setFileNameOnceReloaded;
+
+    bool m_isPDF;
+    bool m_isARC;
+    QString m_pdfName;
+    int m_pdfNum;
+    QString m_arcName;
+    QString m_arcFile;
 
     QTimer *loadDelayMainView;
     QTimer *loadDelayFileDialog;
@@ -196,9 +223,12 @@ private:
     qint64 cacheAdvancedSortLastModified;
     bool cacheAdvancedSortAscending;
 
+    void checkFilterActive();
+
 private Q_SLOTS:
     void loadDataMainView();
     void loadDataFileDialog();
+    void handleNewDataLoadedMainView();
 
 Q_SIGNALS:
     void newDataLoadedMainView();
@@ -213,18 +243,27 @@ Q_SIGNALS:
     void fileInFolderMainViewChanged();
     void folderFileDialogChanged();
     void nameFiltersChanged();
-    void defaultNameFiltersChanged();
+    void restrictToSuffixesChanged();
     void filenameFiltersChanged();
-    void mimeTypeFiltersChanged();
+    void restrictToMimeTypesChanged();
     void imageResolutionFilterChanged();
     void fileSizeFilterChanged();
-    void showHiddenChanged();
+    void filterCurrentlyActiveChanged();
     void sortFieldChanged();
     void sortReversedChanged();
     void readDocumentOnlyChanged();
     void readArchiveOnlyChanged();
     void includeFilesInSubFoldersChanged();
     void advancedSortDoneChanged();
+    void currentIndexChanged();
+    void currentFileChanged();
+    void setFileNameOnceReloadedChanged();
+    void isPDFChanged();
+    void isARCChanged();
+    void pdfNameChanged();
+    void pdfNumChanged();
+    void arcNameChanged();
+    void arcFileChanged();
 
 };
 
