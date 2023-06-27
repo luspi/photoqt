@@ -304,6 +304,7 @@ Item {
                             : (PQSettings.thumbnailsDisable
                                 ? ""
                                 : ("image://thumb/" + filefoldermodel.entriesMainView[index]))
+                sourceSize: Qt.size(width, height)
 
                 visible: !PQSettings.thumbnailsDisable
 
