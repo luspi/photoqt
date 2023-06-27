@@ -45,10 +45,6 @@ Item {
 
                 loader.passOn("keyEvent", [key, modifiers])
 
-//            if(variables.visibleItem != "")
-
-//                loader.passKeyEvent(variables.visibleItem, key, modifiers)
-
             else {
 
                 var combo = ""

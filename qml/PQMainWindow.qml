@@ -19,8 +19,21 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
-    PQBackgroundMessage { id: background }
-    PQShortcuts { id: shortcuts }
+    // load this asynchronously
+    Loader {
+        id: background
+        asynchronous: true
+        source: "other/PQBackgroundMessage.qml"
+    }
+
+    // load this asynchronously
+    Loader {
+        id: shortcuts
+        asynchronous: true
+        source: "other/PQShortcuts.qml"
+    }
+
+    // this one we load synchronously for easier access
     PQLoader { id: loader }
 
     Loader { id: loader_about }

@@ -2,7 +2,8 @@ import QtQuick
 
 Item {
 
-    anchors.fill: parent
+    width: toplevel.width
+    height: toplevel.height
 
     Item {
         id: startmessage
