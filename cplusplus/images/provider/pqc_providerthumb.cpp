@@ -1,0 +1,187 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2023 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+#include <pqc_providerthumb.h>
+#include <pqc_settings.h>
+#include <pqc_configfiles.h>
+#include <pqc_loadimage.h>
+
+QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
+
+    qDebug() << "args: url =" << url;
+
+    PQCAsyncImageResponseThumb *response = new PQCAsyncImageResponseThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
+    pool.start(response);
+    return response;
+}
+
+PQCAsyncImageResponseThumb::PQCAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_requestedSize(requestedSize) {
+    m_url = url;
+    setAutoDelete(false);
+}
+
+PQCAsyncImageResponseThumb::~PQCAsyncImageResponseThumb() {
+}
+
+QQuickTextureFactory *PQCAsyncImageResponseThumb::textureFactory() const {
+    return QQuickTextureFactory::textureFactoryForImage(m_image);
+}
+
+void PQCAsyncImageResponseThumb::run() {
+    loadImage();
+}
+
+void PQCAsyncImageResponseThumb::loadImage() {
+
+    QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
+    filename = filename.replace("&#39;","'");
+
+    QString filenameForChecking = filename;
+    if(filenameForChecking.contains("::PDF::"))
+        filenameForChecking = filenameForChecking.split("::PDF::").at(1);
+    if(filenameForChecking.contains("::ARC::"))
+        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
+
+    // Create the md5 hash for the thumbnail file
+    QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
+    QByteArray md5 = QCryptographicHash::hash(path,QCryptographicHash::Md5).toHex();
+
+    // Prepare the return QImage
+    QImage p;
+
+    QString cachedir = "";
+    if(m_requestedSize.width() > 1024) {
+        cachedir = "xx-large";
+        m_requestedSize = QSize(1024,1024);
+    } else if(m_requestedSize.width() > 512) {
+        cachedir = "x-large";
+        m_requestedSize = QSize(512,512);
+    } else if(m_requestedSize.width() > 256) {
+        cachedir = "large";
+        m_requestedSize = QSize(256, 256);
+    } else {
+        cachedir = "normal";
+        m_requestedSize = QSize(128, 128);
+    }
+
+    const QString thumbcachepath = PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/" + cachedir + "/" + md5 + ".png";
+
+    // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
+    if(PQCSettings::get()["thumbnailsCache"].toBool()) {
+
+
+        // If there exists a thumbnail of the current file already
+        if(QFile(thumbcachepath).exists()) {
+
+            qDebug() << "Found cached thumbnail (file cache):" << QFileInfo(filename).fileName();
+
+            p.load(thumbcachepath);
+            uint mtime = p.text("Thumb::MTime").trimmed().toInt();
+
+            // Use image if it's up-to-date
+            if(QFileInfo(filenameForChecking).lastModified().toSecsSinceEpoch() == mtime) {
+                m_image = p;
+                Q_EMIT finished();
+                return;
+            } else
+                qDebug() << "Image was modified since thumbnail creation, not using cached thumbnail:" << QFileInfo(filename).fileName();
+
+        }
+
+    }
+
+    /**********************************************************/
+
+    // If file wasn't loaded from file or database, then it doesn't exist yet (or isn't up-to-date anymore) and we have to create it
+
+    // We create a temporary pointer, so that we can delete it properly afterwards
+    if(!QFileInfo::exists(filenameForChecking)) {
+        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it does not exist!");
+        qWarning() << "ERROR:" << err;
+        qWarning() << "Filename:" << filenameForChecking;
+        m_image = QImage();
+        Q_EMIT finished();
+        return;
+    }
+
+    // Load image
+    PQCLoadImage loader;
+    QSize origSize;
+    loader.load(filename, m_requestedSize, origSize, p);
+
+    /**********************************************************/
+
+    if(p.isNull()) {
+
+        m_image = QIcon(":/filedialog/unknownfile.svg").pixmap(m_requestedSize).toImage();
+        Q_EMIT finished();
+        return;
+
+    }
+
+    if((p.width() < m_requestedSize.width() && p.height() < m_requestedSize.height())) {
+        qDebug() << "Image is smaller than potential thumbnail, no need to cache:" << QFileInfo(filename).fileName();
+        m_image = p;
+        Q_EMIT finished();
+        return;
+    }
+
+    // scale thumbnail
+    if(m_requestedSize.isValid() && (origSize.width() > m_requestedSize.width() || origSize.height() > m_requestedSize.height()))
+        p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    // Create file cache thumbnail
+    if(PQCSettings::get()["thumbnailsCache"].toBool()) {
+
+        // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
+        if(!filename.startsWith(QString(PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8()) && !filename.startsWith(QDir::tempPath().toUtf8())) {
+
+            // Set some required (and additional) meta information
+            p.setText("Thumb::URI", QString("file:///%1").arg(QString(filename)));
+            p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filenameForChecking).lastModified().toSecsSinceEpoch()));
+            QString mime = mimedb.mimeTypeForFile(filenameForChecking, QMimeDatabase::MatchContent).name();
+            // this is the default mime type if no mime type is available or file cannot be found
+            if(mime != "application/octet-stream")
+                p.setText("Thumb::Mimetype", mime);
+            p.setText("Thumb::Size", QString("%1").arg(p.sizeInBytes()));
+
+            // If the file does already exist, then the image has likely been updated -> delete old thumbnail image
+            if(QFile(thumbcachepath).exists())
+                QFile(thumbcachepath).remove();
+
+            // And save new thumbnail image
+            if(!p.save(thumbcachepath))
+                qWarning() << "ERROR creating new thumbnail file:" << QFileInfo(filename).fileName();
+            else
+                qDebug() << "Successfully cached thumbnail ("+cachedir+"):" << QFileInfo(filename).fileName();
+
+        }
+
+    }
+
+    m_image = p;
+
+    // aaaaand done!
+    Q_EMIT finished();
+
+}

@@ -66,6 +66,11 @@ endif()
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
+
+find_package(ECM REQUIRED NO_MODULE)
+list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
 if(IMAGEMAGICK)
     find_package(ImageMagick COMPONENTS Magick++)
     if(GRAPHICSMAGICK)
@@ -97,7 +102,6 @@ if(LIBARCHIVE)
 endif()
 
 if(NOT WIN32)
-    find_package(ECM REQUIRED NO_MODULE)
     if(POPPLER)
         find_package(Poppler COMPONENTS Qt6)
     endif()
@@ -122,7 +126,7 @@ if(VIDEO_MPV)
 endif()
 
 if(QTPDF)
-    find_package(Qt5 COMPONENTS Pdf REQUIRED)
+    find_package(Qt6 COMPONENTS Pdf REQUIRED)
 endif()
 
 ###############################
@@ -158,7 +162,7 @@ add_definitions(-DQT_MESSAGELOGCONTEXT)
 #### Add the executeable ####
 #############################
 
-qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc)
+qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc)
 
 # add qml files
 qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML})
@@ -179,7 +183,7 @@ set_target_properties(photoqt PROPERTIES
 target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent)
 
 if(QTPDF)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Pdf)
+    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Pdf)
 endif()
 
 #install(TARGETS photoqt

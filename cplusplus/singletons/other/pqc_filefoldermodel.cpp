@@ -40,6 +40,14 @@
 #include <archive_entry.h>
 #endif
 
+#ifdef QTPDF
+#include <QtPdf/QPdfDocument>
+#endif
+
+#ifdef POPPLER
+#include <poppler/qt6/poppler-qt6.h>
+#endif
+
 PQCFileFolderModel &PQCFileFolderModel::get() {
     static PQCFileFolderModel instance;
     return instance;
@@ -48,7 +56,7 @@ PQCFileFolderModel &PQCFileFolderModel::get() {
 PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     m_fileInFolderMainView = "";
-    m_folderFileDialog = "";
+    m_folderFileDialog = QDir::homePath();
     m_countMainView = 0;
     m_countFoldersFileDialog = 0;
     m_countFilesFileDialog = 0;
@@ -86,6 +94,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_advancedSortDone = 0;
 
     connect(this, &PQCFileFolderModel::newDataLoadedMainView, this, &PQCFileFolderModel::handleNewDataLoadedMainView);
+
+    loadDataFileDialog();
 
 }
 
@@ -881,7 +891,7 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder) {
 
     const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
     const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
-    const bool showHidden = PQCSettings::get()["openfileShowHiddenFilesFolders"].toBool();
+    const bool showHidden = PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool();
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(sortReversed)
@@ -942,7 +952,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
     const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
-    const bool showHidden = PQCSettings::get()["openfileShowHiddenFilesFolders"].toBool();
+    const bool showHidden = PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool();
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(sortReversed)
@@ -1100,13 +1110,12 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
 
 #ifdef POPPLER
 
-    Poppler::Document* document = Poppler::Document::load(path);
+    std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
     if(document && !document->isLocked()) {
         int numPages = document->numPages();
         for(int i = 0; i < numPages; ++i)
             ret.append(QString("%1::PDF::%2").arg(i).arg(path));
     }
-    delete document;
 
 #endif
 
@@ -1115,7 +1124,7 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
     doc.load(path);
 
     QPdfDocument::Status err = doc.status();
-    if(err == QPdfDocument::Ready) {
+    if(err == QPdfDocument::Status::Ready) {
         const int numPages = doc.pageCount();
         for(int i = 0; i < numPages; ++i)
             ret.append(QString("%1::PDF::%2").arg(i).arg(path));

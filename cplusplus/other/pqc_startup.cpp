@@ -280,6 +280,7 @@ bool PQCStartup::manageSettings() {
     rename ["LiftUp"] = QStringList() << "HighlightAnimationLiftUp" << "thumbnails";            // 3.2
     rename ["FilenameOnly"] = QStringList() << "IconsOnly" << "thumbnails";                     // 3.2
     rename ["FilenameOnlyFontSize"] = QStringList() << "" << "thumbnails";                      // 3.2
+    rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";                             // 4.0
     QMapIterator<QString, QStringList> i(rename);
     while(i.hasNext()) {
         i.next();
@@ -295,7 +296,7 @@ bool PQCStartup::manageSettings() {
             query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
             query.bindValue(":old", oldname);
             if(!query.exec()) {
-                qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text().trimmed();
+                qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text();
                 query.clear();
                 return false;
             }
@@ -309,7 +310,7 @@ bool PQCStartup::manageSettings() {
             query.bindValue(":new", newname);
             query.bindValue(":old", oldname);
             if(!query.exec()) {
-                qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text().trimmed();
+                qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text();
                 query.clear();
                 return false;
             }
@@ -317,6 +318,30 @@ bool PQCStartup::manageSettings() {
 
         }
     }
+
+
+    qDebug() << "UPDATE ZOOM";
+
+    // value changes
+    // ZoomLevel -> Zoom: (val-9)*2.5
+    QSqlQuery queryZoom(db);
+    queryZoom.prepare("SELECT `value` from `filedialog` WHERE `name`='ZoomLevel'");
+    if(!queryZoom.exec()) {
+        qWarning() << "Unable to migrate ZoomLevel to Zoom:" << queryZoom.lastError().text();
+        queryZoom.clear();
+        return false;
+    }
+    queryZoom.next();
+    const int oldVal = queryZoom.value(0).toInt();
+    queryZoom.clear();
+    queryZoom.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='Zoom'");
+    queryZoom.bindValue(":val", static_cast<int>((oldVal-9)*2.5));
+    if(!queryZoom.exec()) {
+        qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
+        queryZoom.clear();
+        return false;
+    }
+    queryZoom.clear();
 
     return true;
 

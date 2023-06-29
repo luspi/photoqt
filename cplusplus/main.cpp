@@ -23,6 +23,7 @@
 #include <pqc_look.h>
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
+#include <pqc_providerthumb.h>
 #include <pqc_filefoldermodel.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
@@ -46,6 +47,10 @@
 
 #ifdef VIDEOMPV
 #include <libmpv/mpvobject.h>
+#endif
+
+#ifdef FREEIMAGE
+#include <FreeImagePlus.h>
 #endif
 
 int main(int argc, char *argv[]) {
@@ -122,8 +127,6 @@ int main(int argc, char *argv[]) {
     // return 1 on updates and 2 on fresh installs
     int checker = startup.check();
 
-    qDebug() << "checker =" << checker;
-
     // update or fresh install detected => show informational message
     if(checker != 0) {
 
@@ -196,6 +199,7 @@ int main(int argc, char *argv[]) {
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);
+    engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
 
     engine.load(url);
 

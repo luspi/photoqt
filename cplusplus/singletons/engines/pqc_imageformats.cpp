@@ -30,6 +30,11 @@
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
 
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include <Magick++/CoderInfo.h>
+#include <Magick++/Exception.h>
+#endif
+
 PQCImageFormats::PQCImageFormats() {
 
     db = QSqlDatabase::database("imageformats");
@@ -204,12 +209,7 @@ void PQCImageFormats::readFromDatabase() {
             // or when it is reported as not readable, then we skip this format
             bool alright = true;
             if(im_gm_magick != "") {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
                 QStringList tmp = im_gm_magick.split(",", Qt::SkipEmptyParts);
-#else
-                QStringList tmp = im_gm_magick.split(",", QString::SkipEmptyParts);
-#endif
-
                 for(const auto &t: qAsConst(tmp)) {
                     try {
                         Magick::CoderInfo magickCoderInfo(t.toStdString());

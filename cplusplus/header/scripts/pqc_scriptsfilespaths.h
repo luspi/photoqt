@@ -19,6 +19,7 @@ public:
 
     Q_INVOKABLE QString cleanPath(QString path);
     Q_INVOKABLE QString pathWithNativeSeparators(QString path);
+    Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
 
 private:
     PQCScriptsFilesPaths();

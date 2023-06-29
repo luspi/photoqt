@@ -53,3 +53,14 @@ QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
     return QDir::toNativeSeparators(path);
 
 }
+
+QString PQCScriptsFilesPaths::getSuffix(QString path, bool lowerCase) {
+
+    qDebug() << "args: path =" << path;
+    qDebug() << "args: lowerCase =" << lowerCase;
+
+    if(lowerCase)
+        return QFileInfo(path).suffix().toLower();
+    return QFileInfo(path).suffix();
+
+}

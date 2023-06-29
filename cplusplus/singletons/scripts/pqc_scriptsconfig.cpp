@@ -16,6 +16,26 @@
 #include <pugixml.hpp>
 #endif
 
+#ifdef RAW
+#include <libraw/libraw.h>
+#endif
+
+#ifdef POPPLER
+#include <poppler/poppler-config.h>
+#endif
+
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include <Magick++/Include.h>
+#endif
+
+#ifdef DEVIL
+#include <IL/il.h>
+#endif
+
+#ifdef FREEIMAGE
+#include <FreeImagePlus.h>
+#endif
+
 PQCScriptsConfig::PQCScriptsConfig() {}
 
 PQCScriptsConfig::~PQCScriptsConfig() {}
