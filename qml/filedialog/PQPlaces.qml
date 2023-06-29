@@ -231,6 +231,7 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
+                tooltipReference: fd_splitview
                 text: index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("\n"+entrysize.text + " (" + entry[4] + ")") : ""))
 
                 onPressed: {

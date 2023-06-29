@@ -225,6 +225,7 @@ GridView {
             cursorShape: Qt.PointingHandCursor
 
             property bool tooltipSetup: false
+            tooltipReference: fd_splitview
 
             onEntered: {
                 view.currentIndex = index

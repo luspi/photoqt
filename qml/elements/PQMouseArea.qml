@@ -28,8 +28,9 @@ MouseArea {
     id: tooltip_top
 
     property alias text: control.text
-    property bool followCursor: true
     property alias delay: control.delay
+
+    property var tooltipReference: undefined
 
     hoverEnabled: true
 
@@ -57,8 +58,10 @@ MouseArea {
         text: ""
         delay: 500
 
-        x: followCursor ? tooltip_top.mouseX : (parent.width-width)/2
-        y: followCursor ? tooltip_top.mouseY-height : (-height-5)
+        property point globalPos: tooltipReference!==undefined ? mapToItem(tooltipReference, tooltip_top.mouseX, tooltip_top.mouseY) : undefined
+
+        x: (tooltipReference!==undefined) ? (globalPos.x>tooltipReference.width-width-10 ? tooltipReference.width-5 : tooltip_top.mouseX) : (parent.width-width)/2
+        y: -height-5
 
         font.pointSize: PQCLook.fontSize
         font.weight: PQCLook.fontWeightNormal
