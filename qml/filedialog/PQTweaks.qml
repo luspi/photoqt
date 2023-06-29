@@ -36,7 +36,7 @@ Item {
                 y: (parent.height-height)/2
                 text: qsTranslate("filedialog", "Zoom:")
                 font.weight: PQCLook.fontWeightBold
-                PQToolTip {
+                PQMouseArea {
                     anchors.fill: parent
                     text: qsTranslate("filedialog", "Adjust size of files and folders")
                 }

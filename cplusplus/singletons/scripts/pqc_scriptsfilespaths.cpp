@@ -1,7 +1,9 @@
+#include <scripts/pqc_scriptsfilespaths.h>
 #include <QtLogging>
 #include <QtDebug>
 #include <QDir>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <QMimeDatabase>
+#include <QUrl>
 
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
 
@@ -63,4 +65,46 @@ QString PQCScriptsFilesPaths::getSuffix(QString path, bool lowerCase) {
         return QFileInfo(path).suffix().toLower();
     return QFileInfo(path).suffix();
 
+}
+
+QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
+
+    qDebug() << "args: path =" << fullpath;
+
+    return QFileInfo(fullpath).fileName();
+
+}
+
+QDateTime PQCScriptsFilesPaths::getFileModified(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    return QFileInfo(path).lastModified();
+
+}
+
+QString PQCScriptsFilesPaths::getFileType(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QMimeDatabase db;
+    return db.mimeTypeForFile(path).name();
+
+}
+
+QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
+
+    const qint64 bytes = QFileInfo(path).size();
+
+    if(bytes <= 1024)
+        return QString("%1 B").arg(bytes);
+    else if(bytes <= 1024*1024)
+        return QString("%1 KB").arg(qRound(10.0*(bytes/1024.0))/10.0);
+
+    return QString("%1 MB").arg(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0);
+
+}
+
+QString PQCScriptsFilesPaths::toPercentEncoding(QString str) {
+    return QUrl::toPercentEncoding(str);
 }

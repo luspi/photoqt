@@ -1,8 +1,13 @@
 #include <pqc_configfiles.h>
 #include <scripts/pqc_scriptsfiledialog.h>
+#include <pqc_imageformats.h>
 #include <QtDebug>
 #include <QStorageInfo>
 #include <QUrl>
+#include <QFutureWatcher>
+#include <QJSValue>
+#include <QJSEngine>
+#include <QtConcurrent>
 
 #ifdef PUGIXML
 #include <pugixml.hpp>
@@ -213,4 +218,49 @@ void PQCScriptsFileDialog::setLastLocation(QString path) {
         file.close();
     }
 
+}
+
+unsigned int PQCScriptsFileDialog::_getNumberOfFilesInFolder(QString path) {
+
+    // no debug statement here, this function is only and always called by the next function with the same name
+
+    // cache key
+    const QString key = QString("%1%2").arg(path,QFileInfo(path).lastModified().toString());
+
+    // if already loaded before, read from cache
+    if(cacheNumberOfFilesInFolder.contains(key))
+        return cacheNumberOfFilesInFolder[key];
+
+    // fresh count of files in folder
+
+    QDir dir(path);
+    QStringList checkForTheseFormats;
+    const QStringList lst = PQCImageFormats::get().getEnabledFormats();
+    for(const QString &c : lst)
+        checkForTheseFormats << QString("*.%1").arg(c);
+
+    dir.setNameFilters(checkForTheseFormats);
+    dir.setFilter(QDir::Files);
+
+    const int count = dir.count();
+    cacheNumberOfFilesInFolder.insert(key, count);
+
+    return count;
+
+}
+
+void PQCScriptsFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue &callback) {
+
+    qDebug() << "args: path =" << path;
+
+    auto *watcher = new QFutureWatcher<unsigned int>(this);
+    QObject::connect(watcher, &QFutureWatcher<unsigned int>::finished,
+                     this, [this,watcher,callback]() {
+                         unsigned int count = watcher->result();
+                         QJSValue cbCopy(callback); // needed as callback is captured as const
+                         QJSEngine *engine = qjsEngine(this);
+                         cbCopy.call(QJSValueList { engine->toScriptValue(count) });
+                         watcher->deleteLater();
+                     });
+    watcher->setFuture(QtConcurrent::run(&PQCScriptsFileDialog::_getNumberOfFilesInFolder, this, path));
 }

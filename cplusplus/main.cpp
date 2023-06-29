@@ -24,6 +24,7 @@
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
 #include <pqc_providerthumb.h>
+#include <pqc_providertooltipthumb.h>
 #include <pqc_filefoldermodel.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
@@ -200,6 +201,7 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);
     engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
+    engine.addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
 
     engine.load(url);
 

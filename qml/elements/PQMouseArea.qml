@@ -67,10 +67,11 @@ MouseArea {
             id: contentText
             text: control.text
             font: control.font
+            textFormat: Text.RichText
         }
 
         background: Rectangle {
-            color: PQCLook.transColor
+            color: PQCLook.baseColor
             border.color: PQCLook.inverseColorHighlight
         }
 

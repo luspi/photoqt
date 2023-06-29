@@ -52,7 +52,7 @@ Item {
                 PQButtonIcon {
                     id: iconview
                     checkable: true
-                    checked: true
+                    checked: PQCSettings.filedialogDefaultView==="icons"
                     source: "/generic/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
@@ -60,12 +60,16 @@ Item {
                             listview.checked = false
                         else if(!listview.checked)
                             checked = true
+
+                        if(checked)
+                            PQCSettings.filedialogDefaultView = "icons"
                     }
                 }
 
                 PQButtonIcon {
                     id: listview
                     checkable: true
+                    checked: PQCSettings.filedialogDefaultView!=="icons"
                     source: "/generic/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
@@ -73,6 +77,9 @@ Item {
                             iconview.checked = false
                         else if(!iconview.checked)
                             checked = true
+
+                        if(checked)
+                            PQCSettings.filedialogDefaultView = "list"
                     }
                 }
 

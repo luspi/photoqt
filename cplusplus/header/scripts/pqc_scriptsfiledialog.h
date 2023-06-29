@@ -2,6 +2,9 @@
 #define PQCSCRIPTSFILEDIALOG_H
 
 #include <QObject>
+#include <QHash>
+
+class QJSValue;
 
 class PQCScriptsFileDialog : public QObject {
 
@@ -21,9 +24,12 @@ public:
     Q_INVOKABLE QVariantList getPlaces();
     QString getUniquePlacesId();
     Q_INVOKABLE void setLastLocation(QString path);
+    unsigned int _getNumberOfFilesInFolder(QString path);
+    Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
 
 private:
     PQCScriptsFileDialog();
+    QHash<QString,int> cacheNumberOfFilesInFolder;
 
 };
 

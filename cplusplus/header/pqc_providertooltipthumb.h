@@ -19,66 +19,44 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#ifndef PQCASYNCIMAGEPROVIDERTOOLTIPTHUMB_H
+#define PQCASYNCIMAGEPROVIDERTOOLTIPTHUMB_H
 
-import QtQuick
+#include <QQuickAsyncImageProvider>
+#include <QThreadPool>
+#include <QMimeDatabase>
 
-Rectangle {
+class PQCAsyncImageResponseThumb;
 
-    id: control
+class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
 
-    implicitHeight: 40
-    implicitWidth: 40
+public:
+    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
 
-    opacity: enabled ? 1 : 0.3
-    radius: 5
+private:
+    QThreadPool pool;
+};
 
-    property string source: ""
-    property bool mouseOver: false
-    property bool down: false
-    property bool checkable: false
-    property bool checked: false
-    property string tooltip: ""
+class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
 
-    color: ((down||checked) ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : PQCLook.baseColor))
-    Behavior on color { ColorAnimation { duration: 150 } }
+public:
+    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
+    ~PQCAsyncImageResponseTooltipThumb();
 
-    signal clicked()
+    QQuickTextureFactory *textureFactory() const override;
 
-    Image {
+    void run() override;
+    void loadImage();
 
-        id: icon
+    QString m_url;
+    QSize m_requestedSize;
+    QImage m_image;
 
-        source: control.source
+    QMimeDatabase mimedb;
 
-        sourceSize: Qt.size(control.height*0.75,control.height*0.75)
+private:
+    PQCAsyncImageResponseThumb *loader;
 
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
+};
 
-    }
-
-    PQMouseArea {
-        id: mousearea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        text: control.tooltip
-        onEntered:
-            control.mouseOver = true
-        onExited:
-            control.mouseOver = false
-        onPressed: {
-            if(checkable)
-                checked = !checked
-            else
-                control.down = true
-        }
-        onReleased: {
-            if(!checkable)
-                control.down = false
-        }
-        onClicked:
-            control.clicked()
-    }
-
-}
+#endif // PQCASYNCIMAGEPROVIDERTOOLTIPTHUMB_H

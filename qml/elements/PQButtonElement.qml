@@ -79,7 +79,7 @@ Button {
         color: PQCLook.baseColorActive
     }
 
-    PQToolTip {
+    PQMouseArea {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true

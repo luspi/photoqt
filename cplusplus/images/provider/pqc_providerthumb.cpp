@@ -70,13 +70,13 @@ void PQCAsyncImageResponseThumb::loadImage() {
     QImage p;
 
     QString cachedir = "";
-    if(m_requestedSize.width() > 1024) {
+    if(m_requestedSize.width() >= 1024) {
         cachedir = "xx-large";
         m_requestedSize = QSize(1024,1024);
-    } else if(m_requestedSize.width() > 512) {
+    } else if(m_requestedSize.width() >= 512) {
         cachedir = "x-large";
         m_requestedSize = QSize(512,512);
-    } else if(m_requestedSize.width() > 256) {
+    } else if(m_requestedSize.width() >= 256) {
         cachedir = "large";
         m_requestedSize = QSize(256, 256);
     } else {
@@ -92,8 +92,6 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
         // If there exists a thumbnail of the current file already
         if(QFile(thumbcachepath).exists()) {
-
-            qDebug() << "Found cached thumbnail (file cache):" << QFileInfo(filename).fileName();
 
             p.load(thumbcachepath);
             uint mtime = p.text("Thumb::MTime").trimmed().toInt();
@@ -140,7 +138,6 @@ void PQCAsyncImageResponseThumb::loadImage() {
     }
 
     if((p.width() < m_requestedSize.width() && p.height() < m_requestedSize.height())) {
-        qDebug() << "Image is smaller than potential thumbnail, no need to cache:" << QFileInfo(filename).fileName();
         m_image = p;
         Q_EMIT finished();
         return;
@@ -172,8 +169,6 @@ void PQCAsyncImageResponseThumb::loadImage() {
             // And save new thumbnail image
             if(!p.save(thumbcachepath))
                 qWarning() << "ERROR creating new thumbnail file:" << QFileInfo(filename).fileName();
-            else
-                qDebug() << "Successfully cached thumbnail ("+cachedir+"):" << QFileInfo(filename).fileName();
 
         }
 

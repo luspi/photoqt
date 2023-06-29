@@ -219,7 +219,7 @@ Item {
             }
 
             // mouse area handling clicks
-            PQToolTip {
+            PQMouseArea {
 
                 id: mouseArea
 
@@ -244,7 +244,7 @@ Item {
 
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
-                    if(mouse.button == Qt.LeftButton)
+                    if(mouse.button === Qt.LeftButton)
                         console.log("load:", entry[1])
 //                        filedialog_top.setCurrentDirectory(locs[(index-1)*3 + 1])
                     else {
