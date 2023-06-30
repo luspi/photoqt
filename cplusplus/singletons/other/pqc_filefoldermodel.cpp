@@ -56,7 +56,7 @@ PQCFileFolderModel &PQCFileFolderModel::get() {
 PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     m_fileInFolderMainView = "";
-    m_folderFileDialog = QDir::homePath();
+    m_folderFileDialog = "";
     m_countMainView = 0;
     m_countFoldersFileDialog = 0;
     m_countFilesFileDialog = 0;
@@ -94,8 +94,6 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_advancedSortDone = 0;
 
     connect(this, &PQCFileFolderModel::newDataLoadedMainView, this, &PQCFileFolderModel::handleNewDataLoadedMainView);
-
-    loadDataFileDialog();
 
 }
 

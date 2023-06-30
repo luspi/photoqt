@@ -264,3 +264,19 @@ void PQCScriptsFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue
                      });
     watcher->setFuture(QtConcurrent::run(&PQCScriptsFileDialog::_getNumberOfFilesInFolder, this, path));
 }
+
+QString PQCScriptsFileDialog::getLastLocation() {
+
+    QString ret = QDir::currentPath();
+    QFile file(PQCConfigFiles::FILEDIALOG_LAST_LOCATION());
+    if(file.exists() && file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        ret = in.readAll().trimmed();
+        file.close();
+    }
+    QDir folder(ret);
+    if(folder.exists())
+        return ret;
+    return QDir::homePath();
+
+}

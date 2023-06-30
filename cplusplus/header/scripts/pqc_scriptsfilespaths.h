@@ -28,6 +28,7 @@ public:
     Q_INVOKABLE QString goUpOneLevel(QString path);
     Q_INVOKABLE QString getWindowsDriveLetter(QString path);
     Q_INVOKABLE QStringList getFoldersIn(QString path);
+    Q_INVOKABLE QString getHomeDir();
 
 private:
     PQCScriptsFilesPaths();

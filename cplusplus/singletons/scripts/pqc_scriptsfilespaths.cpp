@@ -139,3 +139,7 @@ QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
     return ret;
 
 }
+
+QString PQCScriptsFilesPaths::getHomeDir() {
+    return QDir::homePath();
+}

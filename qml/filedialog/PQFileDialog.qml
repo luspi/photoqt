@@ -102,6 +102,12 @@ Rectangle {
     }
 
     Component.onCompleted: {
+
+        if(PQCSettings.filedialogKeepLastLocation)
+            PQCFileFolderModel.folderFileDialog = PQCScriptsFileDialog.getLastLocation()
+        else
+            PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getHomeDir()
+
         // this needs to come here as we do not want a property binding
         // otherwise the history feature wont work
         history.push(PQCFileFolderModel.folderFileDialog)
