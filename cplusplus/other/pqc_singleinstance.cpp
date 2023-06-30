@@ -198,7 +198,7 @@ void PQCSingleInstance::newConnection() {
 
 void PQCSingleInstance::handleMessage(QString msg) {
 
-    qDebug("%s", QString("args: msg = %1").arg(msg).toStdString().c_str());
+    qDebug() << "args: msg =" << msg;
 
     QStringList parts = msg.split(":://::");
 
@@ -259,18 +259,6 @@ void PQCSingleInstance::handleMessage(QString msg) {
     }
 
 }
-
-//bool PQCSingleInstance::notify(QObject *receiver, QEvent *e) {
-
-//    if(e->type() == QEvent::KeyPress) {
-//        qDebug() << "key press:" << receiver;
-//        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-//        Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
-//    }
-
-//    return QApplication::notify(receiver, e);
-
-//}
 
 bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
 

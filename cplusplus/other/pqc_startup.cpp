@@ -127,6 +127,8 @@ void PQCStartup::importData(QString path) {
 
 void PQCStartup::setupFresh(int defaultPopout) {
 
+    qDebug() << "args: defaultPopout =" << defaultPopout;
+
     /**************************************************************/
     // make sure necessary folder exist
     QDir dir;
@@ -318,9 +320,6 @@ bool PQCStartup::manageSettings() {
 
         }
     }
-
-
-    qDebug() << "UPDATE ZOOM";
 
     // value changes
     // ZoomLevel -> Zoom: (val-9)*2.5

@@ -41,51 +41,9 @@
 #include <QMimeDatabase>
 #include <QtDebug>
 
-PQCLoadImage::PQCLoadImage() {
-
-//    // the order in which to traverse the libraries
-//    // it is best to start with specilized libraries first before getting to the more catch-all libraries
-//    // the specialized ones are usually better for their specific image formats than the catch-all ones
-//    loadOrder.clear();
-//    loadOrder << "qt";
-//#ifdef RAW
-//    loadOrder << "libraw";
-//#endif
-//#ifdef POPPLER
-//    loadOrder << "poppler";
-//#endif
-//#ifdef QTPDF
-//    loadOrder << "qtpdf";
-//#endif
-//#ifdef LIBARCHIVE
-//    loadOrder << "archive";
-//#endif
-//    loadOrder << "xcftools";
-//#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-//    loadOrder << "magick";
-//#endif
-//#ifdef LIBVIPS
-//    loadOrder << "libvips";
-//#endif
-//#ifdef FREEIMAGE
-//    loadOrder << "freeimage";
-//#endif
-//#ifdef DEVIL
-//    loadOrder << "devil";
-//#endif
-//#ifdef VIDEOQT
-//    loadOrder << "video";
-//#endif
-//#ifdef VIDEOMPV
-//    loadOrder << "libmpv";
-//#endif
-
-}
+PQCLoadImage::PQCLoadImage() {}
 
 QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSize, QImage &img) {
-
-    qDebug() << "args: filename =" << filename;
-    qDebug() << "args: requestedSize =" << requestedSize;
 
     if(filename.trimmed() == "")
         return "";

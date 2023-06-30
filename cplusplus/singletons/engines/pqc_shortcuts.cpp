@@ -257,6 +257,8 @@ void PQCShortcuts::readDB() {
 
 QVariantList PQCShortcuts::getAllCurrentShortcuts() {
 
+    qDebug() << "";
+
     // we sort the entries by alphabetical key combo
     // if multiple key combos are used for the same shortcut, then we use the first combo alphabetical in that list
     QVariantList ret;
@@ -312,6 +314,8 @@ QVariantList PQCShortcuts::getAllCurrentShortcuts() {
 }
 
 void PQCShortcuts::saveAllCurrentShortcuts(QVariantList list) {
+
+    qDebug() << "args.length: list.length =" << list.length();
 
     shortcuts.clear();
     shortcutsOrder.clear();
@@ -377,6 +381,10 @@ void PQCShortcuts::reopenDatabase() {
 }
 
 int PQCShortcuts::getNextCommandInCycle(QString combo, int timeout, int maxCmd) {
+
+    qDebug() << "args: combo =" << combo;
+    qDebug() << "args: timeout =" << timeout;
+    qDebug() << "args: maxCmd =" << maxCmd;
 
     if(commandCycle.contains(combo)) {
         const qint64 cur = QDateTime::currentSecsSinceEpoch();

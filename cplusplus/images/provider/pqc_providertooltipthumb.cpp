@@ -29,8 +29,6 @@
 
 QQuickImageResponse *PQCAsyncImageProviderTooltipThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
-    qDebug() << "args: url =" << url;
-
     PQCAsyncImageResponseTooltipThumb *response = new PQCAsyncImageResponseTooltipThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
     QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
     pool.start(response);
@@ -39,7 +37,6 @@ QQuickImageResponse *PQCAsyncImageProviderTooltipThumb::requestImageResponse(con
 
 PQCAsyncImageResponseTooltipThumb::PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize) : m_requestedSize(requestedSize) {
     m_url = url;
-    qDebug() << "requestedSize =" << requestedSize;
     setAutoDelete(false);
     loader = new PQCAsyncImageResponseThumb(url, requestedSize);
 }
@@ -57,6 +54,8 @@ void PQCAsyncImageResponseTooltipThumb::run() {
 }
 
 void PQCAsyncImageResponseTooltipThumb::loadImage() {
+
+    qDebug() << "";
 
     loader->loadImage();
 

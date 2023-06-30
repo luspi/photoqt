@@ -17,8 +17,6 @@ PQCScriptsFilesPaths::~PQCScriptsFilesPaths() {
 
 QString PQCScriptsFilesPaths::cleanPath(QString path) {
 
-    qDebug() << "args: path =" << path;
-
 // older versions of PhotoQt used the incorrect form of only two slashes after file:
 // this was corrected everywhere starting with v3.0, but we still need to check for both
 
@@ -27,11 +25,15 @@ QString PQCScriptsFilesPaths::cleanPath(QString path) {
         path = path.remove(0, 8);
     else if(path.startsWith("file://"))
         path = path.remove(0, 7);
+    else if(path.startsWith("file:/"))
+        path = path.remove(0, 6);
 #else
     if(path.startsWith("file:////"))
         path = path.remove(0, 8);
     else if(path.startsWith("file:///"))
         path = path.remove(0, 7);
+    else if(path.startsWith("file://"))
+        path = path.remove(0, 6);
 #endif
     else if(path.startsWith("image://full/"))
         path = path.remove(0, 13);
@@ -60,9 +62,6 @@ QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
 
 QString PQCScriptsFilesPaths::getSuffix(QString path, bool lowerCase) {
 
-    qDebug() << "args: path =" << path;
-    qDebug() << "args: lowerCase =" << lowerCase;
-
     if(lowerCase)
         return QFileInfo(path).suffix().toLower();
     return QFileInfo(path).suffix();
@@ -71,23 +70,17 @@ QString PQCScriptsFilesPaths::getSuffix(QString path, bool lowerCase) {
 
 QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
 
-    qDebug() << "args: path =" << fullpath;
-
     return QFileInfo(fullpath).fileName();
 
 }
 
 QDateTime PQCScriptsFilesPaths::getFileModified(QString path) {
 
-    qDebug() << "args: path =" << path;
-
     return QFileInfo(path).lastModified();
 
 }
 
 QString PQCScriptsFilesPaths::getFileType(QString path) {
-
-    qDebug() << "args: path =" << path;
 
     QMimeDatabase db;
     return db.mimeTypeForFile(path).name();

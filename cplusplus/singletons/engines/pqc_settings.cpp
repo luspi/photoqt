@@ -127,6 +127,8 @@ PQCSettings::~PQCSettings() {
 
 void PQCSettings::readDB() {
 
+    qDebug() << "";
+
 #ifndef NDEBUG
     valid.clear();
 #endif
@@ -209,6 +211,10 @@ bool PQCSettings::backupDatabase() {
 
 void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
+    qDebug() << "args: key =" << _key;
+    qDebug() << "args: value =" << value;
+    qDebug() << "readonly =" << readonly;
+
     if(readonly) return;
 
     dbCommitTimer->stop();
@@ -272,6 +278,9 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 }
 
 void PQCSettings::setDefault(bool ignoreLanguage) {
+
+    qDebug() << "args: ignoreLanguage =" << ignoreLanguage;
+    qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
 

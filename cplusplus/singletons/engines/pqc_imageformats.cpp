@@ -465,7 +465,7 @@ bool PQCImageFormats::enterNewFormat(QString endings, QString mimetypes, QString
     }
 
     if(!query.next()) {
-        qDebug() << "No SQL results returned";
+        qWarning() << "No SQL results returned";
         return false;
     }
 
@@ -577,6 +577,8 @@ bool PQCImageFormats::updateFormatByEnding(QString endings, QString mimetypes, Q
 }
 
 void PQCImageFormats::restoreDefaults() {
+
+    qDebug() << "";
 
     db.close();
 

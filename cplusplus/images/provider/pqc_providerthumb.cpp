@@ -27,8 +27,6 @@
 
 QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
-    qDebug() << "args: url =" << url;
-
     PQCAsyncImageResponseThumb *response = new PQCAsyncImageResponseThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
     QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
     pool.start(response);
@@ -52,6 +50,8 @@ void PQCAsyncImageResponseThumb::run() {
 }
 
 void PQCAsyncImageResponseThumb::loadImage() {
+
+    qDebug() << "";
 
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
     filename = filename.replace("&#39;","'");

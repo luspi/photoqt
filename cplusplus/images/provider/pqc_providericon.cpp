@@ -28,9 +28,6 @@
 
 QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const QSize &requestedSize) {
 
-    qDebug() << "args: icon =" << icon;
-    qDebug() << "args: requestedSize =" << requestedSize;
-
     QSize use = requestedSize;
 
     if(use == QSize(-1,-1)) {

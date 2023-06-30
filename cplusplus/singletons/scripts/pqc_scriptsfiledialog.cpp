@@ -267,6 +267,8 @@ void PQCScriptsFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue
 
 QString PQCScriptsFileDialog::getLastLocation() {
 
+    qDebug() << "";
+
     QString ret = QDir::currentPath();
     QFile file(PQCConfigFiles::FILEDIALOG_LAST_LOCATION());
     if(file.exists() && file.open(QIODevice::ReadOnly)) {

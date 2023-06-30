@@ -49,6 +49,8 @@ bool PQCScriptsConfig::amIOnWindows() {
 
 QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
+    qDebug() << "args: formatHTML =" << formatHTML;
+
     QString bold1 = "";
     QString bold2 = "";
     QString nl = "\n";

@@ -315,6 +315,8 @@ int PQCFileFolderModel::getAdvancedSortDone() {
 
 void PQCFileFolderModel::advancedSortMainView() {
 
+    qDebug() << "";
+
     // if nothing changed, reload folder
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName
@@ -668,6 +670,8 @@ void PQCFileFolderModel::removeEntryMainView(int index) {
 }
 
 void PQCFileFolderModel::resetModel() {
+
+    qDebug() << "";
 
     delete watcherFileDialog;
     watcherFileDialog = new QFileSystemWatcher;

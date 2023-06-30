@@ -36,7 +36,6 @@ public:
     QString getUniqueCacheKey(QString filename);
     bool getCachedImage(QString filename, QImage &img);
     bool saveImageToCache(QString filename, QImage *img);
-    bool ensureImageFitsMaxSize(QImage &img, QSize maxSize);
 
 private:
     PQCImageCache(QObject *parent = nullptr);

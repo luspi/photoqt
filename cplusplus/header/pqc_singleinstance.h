@@ -54,7 +54,6 @@ public:
     QVector<void*> qmlWindowAddresses;
 
 protected:
-//    virtual bool notify(QObject * receiver, QEvent * event) override;
     virtual bool eventFilter(QObject *obj, QEvent *e) override;
 
 Q_SIGNALS:

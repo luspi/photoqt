@@ -65,20 +65,6 @@ bool PQCImageCache::saveImageToCache(QString filename, QImage *img) {
 
 }
 
-//bool PQCImageCache::ensureImageFitsMaxSize(QImage &img, QSize maxSize) {
-
-//    if(maxSize.width() < 3 || maxSize.height() < 3)
-//        return false;
-
-//    if(img.width() > maxSize.width() || img.height() > maxSize.height()) {
-//        img = img.scaled(maxSize.width(), maxSize.height(), ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
-//        return true;
-//    }
-
-//    return false;
-
-//}
-
 void PQCImageCache::resetData() {
     cache->clear();
     delete cache;
