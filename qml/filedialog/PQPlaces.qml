@@ -173,7 +173,7 @@ Item {
 
             color: hoverIndex[part]===index
                         ? (pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight)
-                        : (entry[1]===PQCFileFolderModel.folderFileDialog ? PQCLook.baseColorAccent : PQCLook.baseColor)
+                        : (entry!==undefined && entry[1]===PQCFileFolderModel.folderFileDialog ? PQCLook.baseColorAccent : PQCLook.baseColor)
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Row {
@@ -203,7 +203,7 @@ Item {
                         sourceSize: Qt.size(width, height)
 
                         // the image icon is taken from image loader (i.e., from system theme if available)
-                        source: ((entry[2]!==undefined&&index>0) ? ("image://theme/" + entry[2]) : "")
+                        source: ((entry!==undefined&&index>0) ? ("image://theme/" + entry[2]) : "")
 
                     }
 
@@ -230,7 +230,7 @@ Item {
                         elide: Text.ElideRight
                         font.weight: index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
-                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(entry[0])
+                        text: entry===undefined ? "" : PQCScriptsFilesPaths.pathWithNativeSeparators(entry[0])
 
                     }
 
@@ -244,7 +244,7 @@ Item {
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter
 
-                        text: entry[3] + " GB"
+                        text: entry===undefined ? "" : (entry[3] + " GB")
 
                     }
 

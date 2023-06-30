@@ -30,7 +30,7 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
 
     QSize use = requestedSize;
 
-    if(use == QSize(-1,-1)) {
+    if(!use.isValid()) {
         use.setWidth(512);
         use.setHeight(512);
         origSize->setWidth(512);
@@ -62,7 +62,7 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
             svg.load(QString(":/filetypes/unknown.svg"));
         }
 
-        ret = QImage(requestedSize, QImage::Format_ARGB32);
+        ret = QImage(use, QImage::Format_ARGB32);
         ret.fill(::Qt::transparent);
         QPainter painter(&ret);
         svg.render(&painter);
