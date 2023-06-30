@@ -27,12 +27,20 @@ Item {
 
                 PQButtonIcon {
                     source: "/generic/backwards.svg"
+                    enabled: filedialog_top.historyIndex>0
+                    onClicked:
+                        filedialog_top.goBackInHistory()
                 }
                 PQButtonIcon {
                     source: "/generic/upwards.svg"
+                    onClicked:
+                        filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                 }
                 PQButtonIcon {
                     source: "/generic/forwards.svg"
+                    enabled: filedialog_top.historyIndex<filedialog_top.history.length-1
+                    onClicked:
+                        filedialog_top.goForwardsInHistory()
                 }
 
                 Item {

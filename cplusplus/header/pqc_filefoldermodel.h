@@ -61,13 +61,16 @@ public:
     int getCountMainView();
     void setCountMainView(int c);
 
-    Q_PROPERTY(int countFoldersFileDialog READ getCountFoldersFileDialog WRITE setCountFoldersFileDialog NOTIFY countFileDialogChanged)
+    Q_PROPERTY(int countFoldersFileDialog READ getCountFoldersFileDialog WRITE setCountFoldersFileDialog NOTIFY countFoldersFileDialogChanged)
     int getCountFoldersFileDialog();
     void setCountFoldersFileDialog(int c);
 
-    Q_PROPERTY(int countFilesFileDialog READ getCountFilesFileDialog WRITE setCountFilesFileDialog NOTIFY countFileDialogChanged)
+    Q_PROPERTY(int countFilesFileDialog READ getCountFilesFileDialog WRITE setCountFilesFileDialog NOTIFY countFilesFileDialogChanged)
     int getCountFilesFileDialog();
     void setCountFilesFileDialog(int c);
+
+    Q_PROPERTY(int countAllFileDialog READ getCountAllFileDialog NOTIFY countAllFileDialogChanged)
+    int getCountAllFileDialog();
 
     /********************************************/
     /********************************************/
@@ -156,6 +159,7 @@ public:
     Q_INVOKABLE void advancedSortMainView();
     Q_INVOKABLE void advancedSortMainViewCANCEL();
     Q_INVOKABLE void forceReloadMainView();
+    Q_INVOKABLE void forceReloadFileDialog();
     Q_INVOKABLE int getIndexOfMainView(QString filepath);
     Q_INVOKABLE void removeEntryMainView(int index);
     Q_INVOKABLE bool setAsCurrent(QString filepath);
@@ -177,6 +181,7 @@ private:
     int m_countMainView;
     int m_countFoldersFileDialog;
     int m_countFilesFileDialog;
+    int m_countAllFileDialog;
 
     bool m_readDocumentOnly;
     bool m_readArchiveOnly;
@@ -237,7 +242,9 @@ Q_SIGNALS:
     void advancedSortingComplete();
 
     void countMainViewChanged();
-    void countFileDialogChanged();
+    void countFoldersFileDialogChanged();
+    void countFilesFileDialogChanged();
+    void countAllFileDialogChanged();
     void entriesMainViewChanged();
     void entriesFileDialogChanged();
     void fileInFolderMainViewChanged();

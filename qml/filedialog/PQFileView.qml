@@ -8,14 +8,24 @@ GridView {
     y: 1
     height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2
 
-    model: PQCFileFolderModel.countFoldersFileDialog + PQCFileFolderModel.countFilesFileDialog
+    model: 0
+    // we need to do all the below as otherwise loading a folder with the same number of items as the previous one would not reload the model
+    Connections {
+        target: PQCFileFolderModel
+        function onNewDataLoadedFileDialog() {
+            view.model = 0
+            view.model = PQCFileFolderModel.countAllFileDialog
+        }
+    }
+    Component.onCompleted:
+        model = PQCFileFolderModel.countAllFileDialog
 
     property var currentSelection: []
 
     property bool showGrid: PQCSettings.filedialogDefaultView==="icons"
 
-    cellWidth: showGrid ? 200 : width
-    cellHeight: showGrid ? 200 : 40
+    cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
+    cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
     clip: true
 
     // reset index to -1 if no other item has been hovered in the meantime
@@ -95,30 +105,25 @@ GridView {
             }
 
             // how many files inside folder
-            Loader {
-                active: index < PQCFileFolderModel.countFoldersFileDialog
-                asynchronous: true
-                sourceComponent:
-                    Rectangle {
-                        id: numberOfFilesInsideFolder_cont
-                        x: (deleg.width-width)-5
-                        y: 5
-                        width: numberOfFilesInsideFolder.width + 20
-                        height: 30
-                        radius: 5
-                        color: "#000000"
-                        opacity: 0.8
-                        visible: view.showGrid && numberOfFilesInsideFolder.text != ""
+            Rectangle {
+                id: numberOfFilesInsideFolder_cont
+                x: (deleg.width-width)-5
+                y: 5
+                width: numberOfFilesInsideFolder.width + 20
+                height: 30
+                radius: 5
+                color: "#000000"
+                opacity: 0.8
+                visible: view.showGrid && numberOfFilesInsideFolder.text != "" && numberOfFilesInsideFolder.text != "0"
 
-                        PQText {
-                            id: numberOfFilesInsideFolder
-                            x: 10
-                            y: (parent.height-height)/2-2
-                            font.weight: PQCLook.fontWeightBold
-                            elide: Text.ElideMiddle
-                            text: deleg.numberFilesInsideFolder
-                        }
-                    }
+                PQText {
+                    id: numberOfFilesInsideFolder
+                    x: 10
+                    y: (parent.height-height)/2-2
+                    font.weight: PQCLook.fontWeightBold
+                    elide: Text.ElideMiddle
+                    text: deleg.numberFilesInsideFolder
+                }
             }
 
             // load async for files
@@ -287,14 +292,20 @@ GridView {
                 resetCurrentIndex.restart()
             }
 
-            onClicked: {
-                if(view.currentSelection.indexOf(index) != -1) {
-                    view.currentSelection = view.currentSelection.filter(item => item!==index)
+            onClicked: (mouse) => {
+                if(mouse.modifiers & Qt.ControlModifier) {
+                    if(view.currentSelection.indexOf(index) != -1) {
+                        view.currentSelection = view.currentSelection.filter(item => item!==index)
+                    } else {
+                        view.currentSelection.push(index)
+                        view.currentSelectionChanged()
+                    }
                 } else {
-                    view.currentSelection.push(index)
-                    view.currentSelectionChanged()
+                    if(index < PQCFileFolderModel.countFoldersFileDialog)
+                        filedialog_top.loadNewPath(deleg.currentPath)
+
+                    view.currentSelection = []
                 }
-                console.log(view.currentSelection)
             }
 
         }

@@ -158,7 +158,9 @@ void PQCFileFolderModel::setCountFoldersFileDialog(int c) {
     if(m_countFoldersFileDialog == c)
         return;
     m_countFoldersFileDialog = c;
-    Q_EMIT countFileDialogChanged();
+    m_countAllFileDialog = m_countFilesFileDialog+c;
+    Q_EMIT countFoldersFileDialogChanged();
+    Q_EMIT countAllFileDialogChanged();
 }
 
 int PQCFileFolderModel::getCountFilesFileDialog() {
@@ -168,7 +170,13 @@ void PQCFileFolderModel::setCountFilesFileDialog(int c) {
     if(m_countFilesFileDialog == c)
         return;
     m_countFilesFileDialog = c;
-    Q_EMIT countFileDialogChanged();
+    m_countAllFileDialog = m_countFoldersFileDialog+c;
+    Q_EMIT countFilesFileDialogChanged();
+    Q_EMIT countAllFileDialogChanged();
+}
+
+int PQCFileFolderModel::getCountAllFileDialog() {
+    return m_countAllFileDialog;
 }
 
 /********************************************/
@@ -629,6 +637,11 @@ void PQCFileFolderModel::forceReloadMainView() {
     loadDataMainView();
 }
 
+void PQCFileFolderModel::forceReloadFileDialog() {
+    loadDelayFileDialog->stop();
+    loadDataFileDialog();
+}
+
 int PQCFileFolderModel::getIndexOfMainView(QString filepath) {
     for(int i = 0; i < m_entriesMainView.length(); ++i) {
         if(m_entriesMainView[i] == filepath)
@@ -733,7 +746,7 @@ QString PQCFileFolderModel::getCurrentFile() {
 void PQCFileFolderModel::setSetFileNameOnceReloaded(QString val) {
     if(m_setFileNameOnceReloaded != val) {
         m_setFileNameOnceReloaded = val;
-        setFileNameOnceReloadedChanged();
+        Q_EMIT setFileNameOnceReloadedChanged();
     }
 }
 
@@ -847,6 +860,7 @@ void PQCFileFolderModel::loadDataFileDialog() {
     m_entriesFileDialog.clear();
     m_countFoldersFileDialog = 0;
     m_countFilesFileDialog = 0;
+    m_countAllFileDialog = 0;
     delete watcherFileDialog;
     watcherFileDialog = new QFileSystemWatcher;
 
@@ -855,7 +869,9 @@ void PQCFileFolderModel::loadDataFileDialog() {
 
     if(m_folderFileDialog.isEmpty()) {
         Q_EMIT newDataLoadedFileDialog();
-        Q_EMIT countFileDialogChanged();
+        Q_EMIT countFoldersFileDialogChanged();
+        Q_EMIT countFilesFileDialogChanged();
+        Q_EMIT countAllFileDialogChanged();
         return;
     }
 
@@ -878,8 +894,12 @@ void PQCFileFolderModel::loadDataFileDialog() {
 
     m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
 
+    m_countAllFileDialog = m_countFoldersFileDialog+m_countFilesFileDialog;
+
     Q_EMIT newDataLoadedFileDialog();
-    Q_EMIT countFileDialogChanged();
+    Q_EMIT countFoldersFileDialogChanged();
+    Q_EMIT countFilesFileDialogChanged();
+    Q_EMIT countAllFileDialogChanged();
 
 }
 

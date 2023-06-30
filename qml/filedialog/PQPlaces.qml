@@ -246,8 +246,7 @@ Item {
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
-                        console.log("load:", entry[1])
-//                        filedialog_top.setCurrentDirectory(locs[(index-1)*3 + 1])
+                        filedialog_top.loadNewPath(entry[1])
                     else {
 //                        var pos = standard_top.mapFromItem(parent, mouse.x, mouse.y)
 //                        filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(standard_top.x+pos.x, standard_top.y+pos.y))

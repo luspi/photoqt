@@ -13,6 +13,11 @@ Rectangle {
     property alias fileviewWidth: fd_fileview.width
     property alias splitview: fd_splitview
 
+    // the first entry of the history list is set in Component.onCompleted
+    // we do not want a property binding here!
+    property var history: []
+    property int historyIndex: 0
+
     property int leftColMinWidth: 200
 
     color: PQCLook.baseColor
@@ -89,6 +94,30 @@ Rectangle {
                 }
             }
         }
+    }
+
+    Component.onCompleted: {
+        // this needs to come here as we do not want a property binding
+        // otherwise the history feature wont work
+        history.push(PQCFileFolderModel.folderFileDialog)
+    }
+
+    function loadNewPath(path) {
+        PQCFileFolderModel.folderFileDialog = path
+        if(historyIndex < history.length-1)
+            history.splice(historyIndex+1)
+        history.push(path)
+        historyIndex = history.length-1
+    }
+
+    function goBackInHistory() {
+        historyIndex = Math.max(0, historyIndex-1)
+        PQCFileFolderModel.folderFileDialog = history[historyIndex]
+    }
+
+    function goForwardsInHistory() {
+        historyIndex = Math.min(history.length-1, historyIndex+1)
+        PQCFileFolderModel.folderFileDialog = history[historyIndex]
     }
 
     function show() {

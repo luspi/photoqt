@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE QString getFileType(QString path);
     Q_INVOKABLE QString getFileSizeHumanReadable(QString path);
     Q_INVOKABLE QString toPercentEncoding(QString str);
+    Q_INVOKABLE QString goUpOneLevel(QString path);
 
 private:
     PQCScriptsFilesPaths();

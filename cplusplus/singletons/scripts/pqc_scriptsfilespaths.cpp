@@ -108,3 +108,9 @@ QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
 QString PQCScriptsFilesPaths::toPercentEncoding(QString str) {
     return QUrl::toPercentEncoding(str);
 }
+
+QString PQCScriptsFilesPaths::goUpOneLevel(QString path) {
+    QDir dir(path);
+    dir.cdUp();
+    return dir.absolutePath();
+}
