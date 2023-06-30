@@ -47,6 +47,7 @@ void PQCLook::calculateColors(QString base) {
         m_inverseColorHighlight = invcol.darker(300).name(QColor::HexArgb);
         m_inverseColorActive = invcol.darker(900).name(QColor::HexArgb);
 
+        m_transColorAccent = colTrans.lighter(150).name(QColor::HexArgb);
         m_transColorHighlight = colTrans.lighter(300).name(QColor::HexArgb);
         m_transColorActive = colTrans.lighter(900).name(QColor::HexArgb);
 
@@ -69,6 +70,7 @@ void PQCLook::calculateColors(QString base) {
         m_inverseColorHighlight = invcol.lighter(300).name(QColor::HexArgb);
         m_inverseColorActive = invcol.lighter(900).name(QColor::HexArgb);
 
+        m_transColorAccent = colTrans.darker(150).name(QColor::HexArgb);
         m_transColorHighlight = colTrans.darker(300).name(QColor::HexArgb);
         m_transColorActive = colTrans.darker(900).name(QColor::HexArgb);
 
@@ -117,6 +119,7 @@ void PQCLook::setBaseColor(QString val) {
         Q_EMIT inverseColorHighlightChanged();
 
         Q_EMIT transColorChanged();
+        Q_EMIT transColorAccentChanged();
         Q_EMIT transColorActiveChanged();
         Q_EMIT transColorHighlightChanged();
 
@@ -150,6 +153,9 @@ QString PQCLook::getInverseColorHighlight() {
 
 QString PQCLook::getTransColor() {
     return m_transColor;
+}
+QString PQCLook::getTransColorAccent() {
+    return m_transColorAccent;
 }
 QString PQCLook::getTransColorActive() {
     return m_transColorActive;

@@ -46,7 +46,7 @@ GridView {
         width: view.cellWidth
         height: view.cellHeight
 
-        color: PQCLook.baseColorAccent
+        color: PQCLook.transColorAccent
         border.color: PQCLook.baseColor
         border.width: 1
 
