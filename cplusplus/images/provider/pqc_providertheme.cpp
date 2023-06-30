@@ -40,24 +40,33 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
         origSize->setHeight(requestedSize.width());
     }
 
-    const QString suf = const_cast<QString&>(icon);
+    const QString suf = const_cast<QString&>(icon).toLower();
 
     // Attempt to load icon from current theme
     QIcon ico = QIcon::fromTheme(suf);
     QImage ret = QImage(ico.pixmap(use).toImage());
 
-    // If icon is not available or if on Windows, choose from a small selection of custom provided icons
-    // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
     if(ret.isNull()) {
         qWarning() << "Icon not found in theme, using fallback icon:" << suf;
-        if(QFile(QString(":/filedialog/backupicons/%1.svg").arg(suf)).exists())
-            return QIcon(QString(":/filedialog/backupicons/%1.svg").arg(suf)).pixmap(use).toImage();
+
+        QSvgRenderer svg;
+
+        if(suf != "folder" && QFile(QString(":/filetypes/%1.svg").arg(suf)).exists())
+            svg.load(QString(":/filetypes/%1.svg").arg(suf));
+        else if(QFile(QString(":/other/filedialog-%1.svg").arg(suf)).exists())
+            svg.load(QString(":/other/filedialog-%1.svg").arg(suf));
         else if(suf.contains("folder") || suf.contains("directory"))
-            return QIcon(":/filedialog/backupicons/folder.svg").pixmap(use).toImage();
-        else if(suf.contains("image"))
-            return QIcon(":/filedialog/backupicons/image.svg").pixmap(use).toImage();
-        else
-            return QIcon(":/filedialog/backupicons/unknown.svg").pixmap(use).toImage();
+            svg.load(QString(":/other/filedialog-folder.svg"));
+        else {
+            qDebug() << "**&&**" << icon;
+            svg.load(QString(":/filetypes/unknown.svg"));
+        }
+
+        ret = QImage(requestedSize, QImage::Format_ARGB32);
+        ret.fill(::Qt::transparent);
+        QPainter painter(&ret);
+        svg.render(&painter);
+        painter.end();
     }
 
     return ret;

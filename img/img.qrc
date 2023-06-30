@@ -1,15 +1,21 @@
 <RCC>
     <qresource prefix="/">
-        <file>generic/handle.svg</file>
-        <file>generic/backwards.svg</file>
-        <file>generic/forwards.svg</file>
-        <file>generic/upwards.svg</file>
-        <file>generic/iconview.svg</file>
-        <file>generic/listview.svg</file>
-        <file>generic/remember.svg</file>
-        <file>generic/leftarrow.svg</file>
-        <file>generic/mouse.svg</file>
-        <file>generic/rightarrow.svg</file>
-        <file>generic/breadcrumb.svg</file>
+        <file>white/backwards.svg</file>
+        <file>white/breadcrumb.svg</file>
+        <file>white/forwards.svg</file>
+        <file>white/handle.svg</file>
+        <file>white/iconview.svg</file>
+        <file>white/leftarrow.svg</file>
+        <file>white/listview.svg</file>
+        <file>white/mouse.svg</file>
+        <file>white/remember.svg</file>
+        <file>white/rightarrow.svg</file>
+        <file>white/upwards.svg</file>
+        <file>other/filedialog-drive-harddisk.svg</file>
+        <file>other/filedialog-folder-pictures.svg</file>
+        <file>other/filedialog-folder.svg</file>
+        <file>other/filedialog-user-desktop.svg</file>
+        <file>other/filedialog-user-home.svg</file>
+        <file>other/filedialog-user-trash.svg</file>
     </qresource>
 </RCC>

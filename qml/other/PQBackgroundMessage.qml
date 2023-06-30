@@ -130,7 +130,7 @@ Item {
             height: 40
             smooth: false
             sourceSize: Qt.size(width, height)
-            source: "/generic/mouse.svg"
+            source: "/white/mouse.svg"
 
         }
 
@@ -152,7 +152,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "/generic/leftarrow.svg"
+            source: "/white/leftarrow.svg"
 
             SequentialAnimation on x {
 
@@ -198,7 +198,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "/generic/rightarrow.svg"
+            source: "/white/rightarrow.svg"
 
             SequentialAnimation on x {
 
@@ -243,7 +243,7 @@ Item {
             height: 100
             sourceSize: Qt.size(width, height)
 
-            source: "/generic/leftarrow.svg"
+            source: "/white/leftarrow.svg"
             rotation: -90
 
             SequentialAnimation on y {

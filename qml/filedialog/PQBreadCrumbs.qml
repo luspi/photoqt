@@ -27,18 +27,18 @@ Item {
                 spacing: 5
 
                 PQButtonIcon {
-                    source: "/generic/backwards.svg"
+                    source: "/white/backwards.svg"
                     enabled: filedialog_top.historyIndex>0
                     onClicked:
                         filedialog_top.goBackInHistory()
                 }
                 PQButtonIcon {
-                    source: "/generic/upwards.svg"
+                    source: "/white/upwards.svg"
                     onClicked:
                         filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                 }
                 PQButtonIcon {
-                    source: "/generic/forwards.svg"
+                    source: "/white/forwards.svg"
                     enabled: filedialog_top.historyIndex<filedialog_top.history.length-1
                     onClicked:
                         filedialog_top.goForwardsInHistory()
@@ -62,7 +62,7 @@ Item {
                     id: iconview
                     checkable: true
                     checked: PQCSettings.filedialogDefaultView==="icons"
-                    source: "/generic/iconview.svg"
+                    source: "/white/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
                         if(checked)
@@ -79,7 +79,7 @@ Item {
                     id: listview
                     checkable: true
                     checked: PQCSettings.filedialogDefaultView!=="icons"
-                    source: "/generic/listview.svg"
+                    source: "/white/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         if(checked)
@@ -110,7 +110,7 @@ Item {
                     id: remember
                     checkable: true
                     checked: true
-                    source: "/generic/remember.svg"
+                    source: "/white/remember.svg"
                 }
 
 
@@ -196,7 +196,7 @@ Item {
                                 anchors.topMargin: parent.height/3
                                 anchors.bottomMargin: parent.height/3
                                 fillMode: Image.PreserveAspectFit
-                                source: "/generic/breadcrumb.svg"
+                                source: "/white/breadcrumb.svg"
                             }
                             PQMouseArea {
                                 id: mousearea

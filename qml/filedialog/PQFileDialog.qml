@@ -57,7 +57,7 @@ Rectangle {
                 width: parent.implicitWidth
                 height: parent.implicitHeight
                 sourceSize: Qt.size(width, height)
-                source: "/generic/handle.svg"
+                source: "/white/handle.svg"
             }
 
         }
