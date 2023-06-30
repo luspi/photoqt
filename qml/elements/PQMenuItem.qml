@@ -43,6 +43,8 @@ MenuItem {
         implicitWidth: 200
         implicitHeight: 40
         color: menuItem.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
+        border.color: PQCLook.baseColorAccent
+        border.width: 1
         Behavior on color { ColorAnimation { duration: 200 } }
     }
  }

@@ -46,7 +46,7 @@ GridView {
         width: view.cellWidth
         height: view.cellHeight
 
-        color: PQCLook.transColorHighlight
+        color: PQCLook.baseColorAccent
         border.color: PQCLook.baseColor
         border.width: 1
 
@@ -70,7 +70,7 @@ GridView {
                 sourceSize: Qt.size(width,height)
 
                 source: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
-                            ? "folder"
+                            ? (view.showGrid ? "folder" : "folder_listicon")
                             : PQCScriptsFilesPaths.getSuffix(deleg.currentPath)))
 
             }

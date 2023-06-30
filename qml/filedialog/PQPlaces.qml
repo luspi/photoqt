@@ -139,7 +139,9 @@ Item {
             property int part: parent.parent.part
             property var entry: entries[part][index]
 
-            color: hoverIndex[part]===index ? (pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) : PQCLook.baseColor
+            color: hoverIndex[part]===index
+                        ? (pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight)
+                        : (entry[1]===PQCFileFolderModel.folderFileDialog ? PQCLook.baseColorAccent : PQCLook.baseColor)
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Row {

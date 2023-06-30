@@ -111,7 +111,8 @@ Rectangle {
         PQCFileFolderModel.folderFileDialog = path
         if(historyIndex < history.length-1)
             history.splice(historyIndex+1)
-        history.push(path)
+        if(history[history.length-1] !== path)
+            history.push(path)
         historyIndex = history.length-1
     }
 

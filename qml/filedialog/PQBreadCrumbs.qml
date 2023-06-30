@@ -217,7 +217,7 @@ Item {
                                     delegate: PQMenuItem {
                                         id: menuItem
                                         text: folderlist.subfolders[modelData]
-                                        onTriggered: filedialog_top.loadNewPath(deleg.subdir+"/"+text)
+                                        onTriggered: filedialog_top.loadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
                                     }
 
                                     onObjectAdded: (index, object) => folderlist.insertItem(index, object)
