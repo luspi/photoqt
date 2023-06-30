@@ -24,6 +24,9 @@ Item {
 
     property var entries: [entries_standard, entries_favorites, entries_devices]
 
+    property int dragItemIndex: -1
+    property string dragItemId: ""
+
     property var hoverIndex: [-1,-1,-1]
     property var pressedIndex: [-1,-1,-1]
 
@@ -96,6 +99,60 @@ Item {
                 property int part: 1
                 delegate: viewcomponent
                 boundsBehavior: Flickable.StopAtBounds
+
+                DropArea {
+
+                    id: droparea
+
+                    anchors.fill: parent
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "#08ffffff"
+                        visible: parent.containsDrag
+                    }
+                    onDropped: {
+
+                        // find the index on which it was dropped
+                        var newindex = view_favorites.indexAt(drag.x, drag.y+view_favorites.contentY)
+
+                        // not moved, leave in place
+                        if(newindex === -1)
+                            return
+
+                        console.log("dropped on:", newindex)
+
+                        // if drag/drop originated from folders pane
+//                        if(splitview.dragSource == "folders") {
+
+//                            handlingFileDialog.addNewUserPlacesEntry(splitview.dragItemPath, newindex)
+
+//                        // if drag/drop originated from userplaces (reordering)
+//                        } else {
+                            // if item was dropped below any item, set new index to very end
+                            if(newindex < 0) newindex = entries_standard.length-1
+
+                            // if item was moved (if left in place nothing needs to be done)
+                            if(places_top.dragItemIndex !== newindex) {
+
+                                // save the changes to file
+                                PQCScriptsFileDialog.moveUserPlacesEntry(dragItemId, dragItemIndex<newindex, Math.abs(dragItemIndex-newindex))
+
+                                // and reload places
+                                loadPlaces()
+
+                            }
+
+//                        }
+
+                    }
+
+                    onPositionChanged: {
+                        hoverIndex[1] = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
+                        hoverIndexChanged()
+                    }
+
+                }
+
             }
 
             Item {
@@ -136,7 +193,7 @@ Item {
             width: parent.width
             height: 35
 
-            property int part: parent.parent.part
+            property int part: mouseArea.drag.active ? 1 : parent.parent.part
             property var entry: entries[part][index]
 
             color: hoverIndex[part]===index
@@ -248,7 +305,7 @@ Item {
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
-                        filedialog_top.loadNewPath(entry[1])
+                        filedialog_top.loadNewPath(deleg.entry[1])
                     else {
 //                        var pos = standard_top.mapFromItem(parent, mouse.x, mouse.y)
 //                        filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(standard_top.x+pos.x, standard_top.y+pos.y))
@@ -264,7 +321,48 @@ Item {
                     resetHoverIndex.start()
                 }
 
+
+                drag.target: deleg.part==1 ? deleg : undefined
+                drag.axis: Drag.YAxis
+
+                // if drag is started
+                drag.onActiveChanged: {
+                    if (mouseArea.drag.active) {
+                        // store which index is being dragged and that the entry comes from the userplaces (reordering only)
+                        places_top.dragItemIndex = index
+                        places_top.dragItemId = deleg.entry[3]
+//                        splitview.dragSource = "userplaces"
+                    }
+                    deleg.Drag.drop();
+                    if(!mouseArea.drag.active) {
+                        // reset variables used for drag/drop
+                        places_top.dragItemIndex = -1
+                        places_top.dragItemId = ""
+                    }
+                }
+
             }
+
+            Drag.active: mouseArea.drag.active
+            Drag.hotSpot.x: width/2
+            Drag.hotSpot.y: -1
+
+            states: [
+                State {
+                    // when drag starts, reparent entry to splitview
+                    when: deleg.Drag.active
+                    ParentChange {
+                        target: deleg
+                        parent: places_top
+                    }
+                    // (temporarily) remove anchors
+                    AnchorChanges {
+                        target: deleg
+                        anchors.horizontalCenter: undefined
+                        anchors.verticalCenter: undefined
+                    }
+                }
+            ]
 
         }
     }

@@ -282,3 +282,77 @@ QString PQCScriptsFileDialog::getLastLocation() {
     return QDir::homePath();
 
 }
+
+void PQCScriptsFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int howmany) {
+
+    qDebug() << "args: id = " << id;
+    qDebug() << "args: moveDown = " << moveDown;
+    qDebug() << "args: howmany = " << howmany;
+
+#ifdef PUGIXML
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    // first get a handle for this node
+    QStringList allIds;
+    for(pugi::xpath_node node : bookmarks) {
+        pugi::xml_node cur = node.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+        QString curPath = QUrl::fromPercentEncoding(cur.attribute("href").value());
+        if(curPath.startsWith("file:/") || curPath == "trash:/")
+            allIds.append(curId);
+    }
+
+    for(pugi::xpath_node nodeToBeMoved : bookmarks) {
+
+        pugi::xml_node cur = nodeToBeMoved.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+
+        if(id == curId) {
+
+            QString targetId = "";
+            bool addAtBeginning = false;
+            if(moveDown)
+                targetId = allIds[qMin(allIds.length()-1, allIds.indexOf(id)+howmany)];
+            else {
+                int newid =allIds.indexOf(id)-howmany-1;
+                if(newid < 0)
+                    addAtBeginning = true;
+                targetId = allIds[qMax(0, newid)];
+            }
+
+            for(pugi::xpath_node targetNode : bookmarks) {
+
+                QString curId = targetNode.node().select_node("info/metadata/ID").node().child_value();
+
+                if(curId == targetId) {
+                    pugi::xml_node ret;
+                    if(addAtBeginning)
+                        ret = targetNode.node().parent().insert_move_before(nodeToBeMoved.node(), targetNode.node());
+                    else
+                        ret = targetNode.node().parent().insert_move_after(nodeToBeMoved.node(), targetNode.node());
+                    if(ret == nullptr)
+                        qWarning() << "ERROR: Reordering items in user-places.xbel failed...";
+                    break;
+                }
+
+            }
+
+            break;
+
+        }
+
+    }
+
+    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+
+#endif
+
+}

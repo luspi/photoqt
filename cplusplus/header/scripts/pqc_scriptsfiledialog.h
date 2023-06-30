@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE QString getLastLocation();
     unsigned int _getNumberOfFilesInFolder(QString path);
     Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
+    Q_INVOKABLE void moveUserPlacesEntry(QString id, bool moveDown, int howmany);
 
 private:
     PQCScriptsFileDialog();
