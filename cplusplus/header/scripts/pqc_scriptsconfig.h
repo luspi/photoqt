@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE bool isLocationSupportEnabled();
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
     Q_INVOKABLE bool isImageMagickSupportEnabled();
+    Q_INVOKABLE bool isQtAtLeast6_4();
 
 private:
     PQCScriptsConfig();

@@ -315,9 +315,8 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 bool PQCScriptsConfig::isChromecastEnabled() {
 #ifdef CHROMECAST
     return true;
-#else
-    return false;
 #endif
+    return false;
 }
 
 bool PQCScriptsConfig::isLocationSupportEnabled() {
@@ -330,15 +329,20 @@ bool PQCScriptsConfig::isLocationSupportEnabled() {
 bool PQCScriptsConfig::isGraphicsMagickSupportEnabled() {
 #ifdef GRAPHICSMAGICK
     return true;
-#else
-    return false;
 #endif
+    return false;
 }
 
 bool PQCScriptsConfig::isImageMagickSupportEnabled() {
 #ifdef IMAGEMAGICK
     return true;
-#else
-    return false;
 #endif
+    return false;
+}
+
+bool PQCScriptsConfig::isQtAtLeast6_4() {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 4, 0))
+    return true;
+#endif
+    return false;
 }

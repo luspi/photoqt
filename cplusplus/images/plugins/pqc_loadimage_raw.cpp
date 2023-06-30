@@ -272,14 +272,12 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     raw.recycle();
     raw.free_image();
 
-    if(thumb || half)
-        origSize = QSize(-1,-1);
-    else {
+    origSize = img.size();
+
+    if(!thumb && !half) {
 
         if(!img.isNull())
             PQCImageCache::get().saveImageToCache(filename, &img);
-
-        origSize = img.size();
 
         // Scale image if necessary
         if(maxSize.width() != -1) {

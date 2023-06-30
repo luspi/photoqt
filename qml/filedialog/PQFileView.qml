@@ -39,6 +39,11 @@ GridView {
         }
     }
 
+    PQPreview {
+        z: -1
+    }
+
+    // each entry in the list or icon view
     delegate: Rectangle {
 
         id: deleg
@@ -261,7 +266,7 @@ GridView {
 
                         // if we do not cache this directory, we do not show a thumbnail image
                         if(filethumb.status == Image.Ready)
-                            str += "<td><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
+                            str += "<td valign=middle><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
 
                         str += "<td>&nbsp;</td>"
 
