@@ -24,6 +24,8 @@
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
+#include <QSvgRenderer>
+#include <QPainter>
 
 QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
@@ -131,8 +133,23 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
     if(p.isNull()) {
 
-        m_image = QIcon(":/filedialog/unknownfile.svg").pixmap(m_requestedSize).toImage();
+        QString suf = QFileInfo(filenameForChecking).suffix().toLower();
+        QString iconname = ":/filetypes/unknown.svg";
+        if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf)))
+            iconname = QString(":/filetypes/%1.svg").arg(suf);
+
+        QSvgRenderer svg;
+        if(!svg.load(iconname))
+            qWarning() << "Failed to load svg:" << iconname;
+
+        m_image = QImage(m_requestedSize, QImage::Format_ARGB32);
+        m_image.fill(::Qt::transparent);
+        QPainter painter(&m_image);
+        svg.render(&painter);
+        painter.end();
+
         Q_EMIT finished();
+
         return;
 
     }

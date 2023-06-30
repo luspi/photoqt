@@ -50,11 +50,12 @@ QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const
     QImage ret;
 
     // Loading SVG file
-    svg.load(iconname);
+    if(!svg.load(iconname))
+        qWarning() << "Failed to load svg icon";
 
     // Invalid vector graphic
     if(!svg.isValid()) {
-        qCritical() << "Error: invalid svg file";
+        qWarning() << "Error: invalid svg file";
         return ret;
     }
 
