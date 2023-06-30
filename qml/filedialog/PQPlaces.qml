@@ -196,7 +196,7 @@ Item {
                         elide: Text.ElideRight
                         font.weight: index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
-                        text: entry[0]
+                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(entry[0])
 
                     }
 
@@ -232,7 +232,7 @@ Item {
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                 tooltipReference: fd_splitview
-                text: index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("\n"+entrysize.text + " (" + entry[4] + ")") : ""))
+                text: index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + entry[4] + ")") : ""))
 
                 onPressed: {
                     pressedIndex[deleg.part] = index

@@ -10,5 +10,6 @@
         <file>generic/leftarrow.svg</file>
         <file>generic/mouse.svg</file>
         <file>generic/rightarrow.svg</file>
+        <file>generic/breadcrumb.svg</file>
     </qresource>
 </RCC>

@@ -23,61 +23,26 @@
 import QtQuick
 import QtQuick.Controls
 
-MouseArea {
+MenuItem {
+    id: menuItem
+    implicitWidth: 200
+    implicitHeight: 40
 
-    id: tooltip_top
-
-    property alias text: control.text
-    property alias delay: control.delay
-
-    property var tooltipReference: undefined
-
-    hoverEnabled: true
-
-    Timer {
-        id: showToolTip
-        interval: 250
-        onTriggered: {
-            if(tooltip_top.containsMouse && tooltip_top.text != "")
-                control.visible = true
-        }
+    contentItem: Text {
+        text: menuItem.text
+        font: menuItem.font
+        color: PQCLook.textColor
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideMiddle
+        style: menuItem.highlighted ? Text.Sunken : Text.Normal
+        styleColor: PQCLook.textColorHighlight
     }
 
-    onEntered: {
-        showToolTip.restart()
+    background: Rectangle {
+        implicitWidth: 200
+        implicitHeight: 40
+        color: menuItem.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
+        Behavior on color { ColorAnimation { duration: 200 } }
     }
-
-    onExited: {
-        showToolTip.stop()
-        control.visible = false
-    }
-
-    ToolTip {
-
-        id: control
-        text: ""
-        delay: 500
-
-        property point globalPos: tooltipReference!==undefined ? mapToItem(tooltipReference, tooltip_top.mouseX, tooltip_top.mouseY) : Qt.point(0,0)
-
-        x: (tooltipReference!==undefined) ? (globalPos.x>tooltipReference.width-width-10 ? tooltipReference.width-5 : tooltip_top.mouseX) : (parent.width-width)/2
-        y: -height-5
-
-        font.pointSize: PQCLook.fontSize
-        font.weight: PQCLook.fontWeightNormal
-
-        contentItem: PQText {
-            id: contentText
-            text: control.text
-            font: control.font
-            textFormat: Text.RichText
-        }
-
-        background: Rectangle {
-            color: PQCLook.baseColor
-            border.color: PQCLook.inverseColorHighlight
-        }
-
-    }
-
-}
+ }

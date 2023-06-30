@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import "../elements"
 
 Item {
@@ -122,10 +123,121 @@ Item {
             height: breadcrumbs_top.height
         }
 
-        Rectangle {
+        Item {
             width: fileviewWidth
             height: breadcrumbs_top.height
-            color: "#aa0000"
+
+            Row {
+
+                id: crumbs
+
+                y: (parent.height-height)/2
+
+                property bool windows: PQCScriptsConfig.amIOnWindows()
+
+                property var parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : PQCFileFolderModel.folderFileDialog.split("/")
+
+                Repeater {
+
+                    model: crumbs.parts.length
+
+                    Row {
+
+                        id: deleg
+                        property string subdir: {
+                            var p = ""
+                            if(crumbs.windows) {
+                                for(var i = 0; i <= index; ++i) {
+                                    if(p != "") p += "/"
+                                    p += crumbs.parts[i]
+                                }
+                                return p
+                            } else {
+                                if(index == 0)
+                                    return "/"
+                                p = ""
+                                for(var j = 1; j <= index; ++j)
+                                    p += "/"+crumbs.parts[j]
+                                return p
+                            }
+                        }
+
+                        Rectangle {
+                            height: breadcrumbs_top.height
+                            width: folder.width+20
+                            color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+                            Behavior on color { ColorAnimation { duration: 200 } }
+                            PQText {
+                                id: folder
+                                x: 10
+                                y: (parent.height-height)/2
+                                font.weight: PQCLook.fontWeightBold
+                                text: index===0&&!crumbs.windows ? "/" : crumbs.parts[index]
+                            }
+                            PQMouseArea {
+                                id: mousearea2
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: filedialog_top.loadNewPath(deleg.subdir)
+                            }
+                        }
+
+                        Rectangle {
+                            height: breadcrumbs_top.height
+                            width: height*2/3
+                            property bool down: folderlist.visible
+                            color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+                            Behavior on color { ColorAnimation { duration: 200 } }
+                            Image {
+                                anchors.fill: parent
+                                anchors.leftMargin: parent.width/3
+                                anchors.rightMargin: parent.width/3
+                                anchors.topMargin: parent.height/3
+                                anchors.bottomMargin: parent.height/3
+                                fillMode: Image.PreserveAspectFit
+                                source: "/generic/breadcrumb.svg"
+                            }
+                            PQMouseArea {
+                                id: mousearea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: (pos) => {
+                                    folderlist.popup(0,height)
+                                }
+                            }
+
+                            PQMenu {
+                                id: folderlist
+                                property var subfolders: []
+                                Instantiator {
+                                    id: inst
+                                    model: 0
+                                    delegate: PQMenuItem {
+                                        id: menuItem
+                                        text: folderlist.subfolders[modelData]
+                                        onTriggered: filedialog_top.loadNewPath(deleg.subdir+"/"+text)
+                                    }
+
+                                    onObjectAdded: (index, object) => folderlist.insertItem(index, object)
+                                    onObjectRemoved: (index, object) => folderlist.removeItem(object)
+
+                                }
+                                onAboutToShow: {
+                                    subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
+                                    inst.model = 0
+                                    inst.model = subfolders.length
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
         }
 
     }

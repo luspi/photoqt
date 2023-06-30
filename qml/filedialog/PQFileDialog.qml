@@ -26,6 +26,11 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+    }
+
     PQBreadCrumbs {
         id: fd_breadcrumbs
     }

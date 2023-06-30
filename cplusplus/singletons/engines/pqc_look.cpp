@@ -5,7 +5,7 @@
 
 PQCLook::PQCLook() {
 
-    calculateColors("#ff0a0a0a");
+    calculateColors("#ff111111");
 
     calculateFontSizes(11);
 

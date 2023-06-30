@@ -26,6 +26,8 @@ public:
     Q_INVOKABLE QString getFileSizeHumanReadable(QString path);
     Q_INVOKABLE QString toPercentEncoding(QString str);
     Q_INVOKABLE QString goUpOneLevel(QString path);
+    Q_INVOKABLE QString getWindowsDriveLetter(QString path);
+    Q_INVOKABLE QStringList getFoldersIn(QString path);
 
 private:
     PQCScriptsFilesPaths();

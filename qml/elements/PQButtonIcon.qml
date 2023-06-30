@@ -42,7 +42,7 @@ Rectangle {
     color: ((down||checked) ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : PQCLook.baseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
-    signal clicked()
+    signal clicked(var pos)
 
     Image {
 
@@ -78,7 +78,7 @@ Rectangle {
                 control.down = false
         }
         onClicked:
-            control.clicked()
+            control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
     }
 
 }

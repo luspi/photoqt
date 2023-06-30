@@ -45,12 +45,14 @@ ComboBox {
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
+            style: highlighted ? Text.Sunken : Text.Normal
+            styleColor: PQCLook.textColorHighlight
         }
         background: Rectangle {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: highlighted ? PQCLook.baseColorActive : PQCLook.baseColor
+            color: highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
@@ -96,6 +98,8 @@ ComboBox {
         text: prefix+control.displayText
         font: control.font
         color: PQCLook.textColor
+        style: highlighted ? Text.Sunken : Text.Normal
+        styleColor: PQCLook.textColorHighlight
         Behavior on color { ColorAnimation { duration: 200 } }
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -105,7 +109,7 @@ ComboBox {
         implicitWidth: 120
         implicitHeight: 40
         color: (control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor
-        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorActive
+        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
         border.width: control.visualFocus ? 2 : 1
         radius: 2
     }
@@ -130,6 +134,8 @@ ComboBox {
 
         background: Rectangle {
             color: PQCLook.baseColor
+            border.color: PQCLook.inverseColorHighlight
+            border.width: 1
             radius: 2
         }
     }

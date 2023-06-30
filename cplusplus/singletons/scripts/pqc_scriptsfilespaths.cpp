@@ -4,6 +4,8 @@
 #include <QDir>
 #include <QMimeDatabase>
 #include <QUrl>
+#include <QStorageInfo>
+#include <QCollator>
 
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
 
@@ -113,4 +115,27 @@ QString PQCScriptsFilesPaths::goUpOneLevel(QString path) {
     QDir dir(path);
     dir.cdUp();
     return dir.absolutePath();
+}
+
+QString PQCScriptsFilesPaths::getWindowsDriveLetter(QString path) {
+
+    QStorageInfo info(path);
+    return info.rootPath();
+
+}
+
+QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
+
+    QDir dir(path);
+
+    dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
+
+    QStringList ret = dir.entryList();
+
+    QCollator collator;
+    collator.setNumericMode(true);
+    std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+
+    return ret;
+
 }
