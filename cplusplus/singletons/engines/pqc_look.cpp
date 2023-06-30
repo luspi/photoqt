@@ -40,6 +40,7 @@ void PQCLook::calculateColors(QString base) {
 
     if(darkcolor) {
 
+        m_baseColorAccent = col.lighter(150).name(QColor::HexArgb);
         m_baseColorHighlight = col.lighter(300).name(QColor::HexArgb);
         m_baseColorActive = col.lighter(900).name(QColor::HexArgb);
 
@@ -61,6 +62,7 @@ void PQCLook::calculateColors(QString base) {
 
     } else {
 
+        m_baseColorAccent = col.darker(150).name(QColor::HexArgb);
         m_baseColorHighlight = col.darker(300).name(QColor::HexArgb);
         m_baseColorActive = col.darker(900).name(QColor::HexArgb);
 
@@ -89,6 +91,9 @@ void PQCLook::calculateColors(QString base) {
 QString PQCLook::getBaseColor() {
     return m_baseColor;
 }
+QString PQCLook::getBaseColorAccent() {
+    return m_baseColorAccent;
+}
 QString PQCLook::getBaseColorActive() {
     return m_baseColorActive;
 }
@@ -103,6 +108,7 @@ void PQCLook::setBaseColor(QString val) {
         calculateColors(val);
 
         Q_EMIT baseColorChanged();
+        Q_EMIT baseColorAccentChanged();
         Q_EMIT baseColorActiveChanged();
         Q_EMIT baseColorHighlightChanged();
 

@@ -19,10 +19,12 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
+    Q_PROPERTY(QString baseColorAccent READ getBaseColorAccent NOTIFY baseColorAccentChanged)
     Q_PROPERTY(QString baseColorHighlight READ getBaseColorHighlight NOTIFY baseColorHighlightChanged)
     Q_PROPERTY(QString baseColorActive READ getBaseColorActive NOTIFY baseColorActiveChanged)
     void setBaseColor(QString val);
     QString getBaseColor();
+    QString getBaseColorAccent();
     QString getBaseColorHighlight();
     QString getBaseColorActive();
 
@@ -89,6 +91,7 @@ private:
     PQCLook();
 
     QString m_baseColor;
+    QString m_baseColorAccent;
     QString m_baseColorHighlight;
     QString m_baseColorActive;
 
@@ -118,6 +121,7 @@ private:
 
 Q_SIGNALS:
     void baseColorChanged();
+    void baseColorAccentChanged();
     void baseColorHighlightChanged();
     void baseColorActiveChanged();
 
