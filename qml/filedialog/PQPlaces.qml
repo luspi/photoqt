@@ -26,11 +26,12 @@ Item {
 
     property int dragItemIndex: -1
     property string dragItemId: ""
+    property bool dragReordering: false
 
     property var hoverIndex: [-1,-1,-1]
     property var pressedIndex: [-1,-1,-1]
 
-    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight - (PQCScriptsConfig.amIOnWindows() ? (view_standard.height+10) : 0)
+    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
 
     Timer {
         id: resetHoverIndex
@@ -66,30 +67,6 @@ Item {
             width: parent.width - (scrollbar.size<1.0 ? 6 : 0)
 
             ListView {
-                id: view_standard
-                visible: PQCScriptsConfig.amIOnWindows()
-                width: parent.width-5
-                clip: true
-                orientation: ListView.Vertical
-                model: entries_standard.length
-                property int part: 0
-                delegate: viewcomponent
-                boundsBehavior: Flickable.StopAtBounds
-            }
-
-            Item {
-                visible: PQCScriptsConfig.amIOnWindows()
-                width: parent.width
-                height: 20
-                Rectangle {
-                    y: 19
-                    width: parent.width
-                    height: 1
-                    color: PQCLook.baseColorActive
-                }
-            }
-
-            ListView {
                 id: view_favorites
                 width: parent.width-5
                 height: contentHeight
@@ -105,11 +82,7 @@ Item {
                     id: droparea
 
                     anchors.fill: parent
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "#08ffffff"
-                        visible: parent.containsDrag
-                    }
+
                     onDropped: {
 
                         // find the index on which it was dropped
@@ -121,15 +94,17 @@ Item {
 
                         console.log("dropped on:", newindex)
 
-                        // if drag/drop originated from folders pane
-//                        if(splitview.dragSource == "folders") {
+                        // if drag/drop originated from folders panel
+                        if(!dragReordering) {
 
-//                            handlingFileDialog.addNewUserPlacesEntry(splitview.dragItemPath, newindex)
+                            // add item at right position
+                            PQCScriptsFileDialog.addNewUserPlacesEntry(dragItemId, newindex)
 
-//                        // if drag/drop originated from userplaces (reordering)
-//                        } else {
-                            // if item was dropped below any item, set new index to very end
-                            if(newindex < 0) newindex = entries_standard.length-1
+                            // and reload places
+                            loadPlaces()
+
+                        // if drag/drop originated from userplaces (reordering)
+                        } else {
 
                             // if item was moved (if left in place nothing needs to be done)
                             if(places_top.dragItemIndex !== newindex) {
@@ -142,7 +117,7 @@ Item {
 
                             }
 
-//                        }
+                        }
 
                     }
 
@@ -327,17 +302,18 @@ Item {
 
                 // if drag is started
                 drag.onActiveChanged: {
-                    if (mouseArea.drag.active) {
+                    if(mouseArea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
                         places_top.dragItemIndex = index
                         places_top.dragItemId = deleg.entry[3]
-//                        splitview.dragSource = "userplaces"
+                        places_top.dragReordering = true
                     }
                     deleg.Drag.drop();
                     if(!mouseArea.drag.active) {
                         // reset variables used for drag/drop
                         places_top.dragItemIndex = -1
                         places_top.dragItemId = ""
+                        places_top.dragReordering = false
                     }
                 }
 

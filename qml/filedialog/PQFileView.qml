@@ -230,6 +230,7 @@ GridView {
         PQMouseArea {
 
             anchors.fill: parent
+            anchors.leftMargin: view.showGrid ? 0 : fileicon.width
 
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -314,6 +315,66 @@ GridView {
             }
 
         }
+
+        // mouse area to drag entries to user places
+        // this is only enabled for list view
+        PQMouseArea {
+
+            id: dragArea
+
+            width: fileicon.width
+            height: deleg.height
+
+            drag.target: deleg
+
+            hoverEnabled: true
+            text: qsTranslate("filedialog", "Click and drag to favorites")
+
+            cursorShape: Qt.OpenHandCursor
+
+            onPressed:
+                cursorShape = Qt.ClosedHandCursor
+            onReleased:
+                cursorShape = Qt.OpenHandCursor
+
+            drag.onActiveChanged: {
+                if (dragArea.drag.active) {
+                    dragArea.cursorShape = Qt.ClosedHandCursor
+                    // store which index is being dragged and that the entry comes from the userplaces (reordering only)
+                    fd_places.dragItemIndex = index
+                    fd_places.dragReordering = false
+                    fd_places.dragItemId = deleg.currentPath
+                }
+                deleg.Drag.drop();
+                if(!dragArea.drag.active) {
+                    dragArea.cursorShape = Qt.OpenHandCursor
+                    // reset variables used for drag/drop
+                    fd_places.dragItemIndex = -1
+                    fd_places.dragItemId = ""
+                }
+            }
+        }
+
+        Drag.active: dragArea.drag.active
+        Drag.hotSpot.x: fileicon.width/2
+        Drag.hotSpot.y: fileicon.height/2
+
+        states: [
+            State {
+                // when drag starts, reparent entry to splitview
+                when: deleg.Drag.active
+                ParentChange {
+                    target: deleg
+                    parent: filedialog_top
+                }
+                // (temporarily) remove anchors
+                AnchorChanges {
+                    target: deleg
+                    anchors.horizontalCenter: undefined
+                    anchors.verticalCenter: undefined
+                }
+            }
+        ]
 
     }
 
