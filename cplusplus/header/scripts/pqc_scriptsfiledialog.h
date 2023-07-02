@@ -27,8 +27,10 @@ public:
     Q_INVOKABLE QString getLastLocation();
     unsigned int _getNumberOfFilesInFolder(QString path);
     Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
-    Q_INVOKABLE void moveUserPlacesEntry(QString id, bool moveDown, int howmany);
-    Q_INVOKABLE void addNewUserPlacesEntry(QString path, int pos);
+    Q_INVOKABLE void movePlacesEntry(QString id, bool moveDown, int howmany);
+    Q_INVOKABLE void addPlacesEntry(QString path, int pos);
+    Q_INVOKABLE void hidePlacesEntry(QString id, bool hidden);
+    Q_INVOKABLE void deletePlacesEntry(QString id);
 
 private:
     PQCScriptsFileDialog();

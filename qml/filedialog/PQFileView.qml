@@ -21,6 +21,13 @@ GridView {
         model = PQCFileFolderModel.countAllFileDialog
 
     property var currentSelection: []
+    onCurrentSelectionChanged:
+        currentFileSelected = (currentSelection.indexOf(currentIndex)!==-1)
+
+    property var currentCuts: []
+
+    property bool currentFileSelected: false
+
 
     property bool showGrid: PQCSettings.filedialogDefaultView==="icons"
 
@@ -58,6 +65,7 @@ GridView {
         property string currentPath: PQCFileFolderModel.entriesFileDialog[index]
         property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
         property int numberFilesInsideFolder: 0
+        property bool currentFileCut: false
 
         Item {
 
@@ -73,6 +81,9 @@ GridView {
                 width: view.cellHeight-2
                 height: view.cellHeight-2
                 sourceSize: Qt.size(width,height)
+
+                opacity: deleg.currentFileCut ? 0.3 : 1
+                Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 source: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
                             ? (view.showGrid ? "folder" : "folder_listicon")
@@ -91,6 +102,9 @@ GridView {
                 height: view.cellHeight-2
 
                 visible: index >= PQCFileFolderModel.countFoldersFileDialog && PQCSettings.filedialogThumbnails
+
+                opacity: deleg.currentFileCut ? 0.3 : 1
+                Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 smooth: true
                 asynchronous: true
@@ -184,6 +198,8 @@ GridView {
             // the filename - list view
             PQText {
                 visible: !view.showGrid
+                opacity: deleg.currentFileCut ? 0.3 : 1
+                Behavior on opacity { NumberAnimation { duration: 200 } }
                 x: fileicon.width+10
                 width: deleg.width-fileicon.width-10
                 height: deleg.height
@@ -196,10 +212,24 @@ GridView {
             PQText {
                 id: fileinfo
                 visible: !view.showGrid
+                opacity: deleg.currentFileCut ? 0.3 : 1
+                Behavior on opacity { NumberAnimation { duration: 200 } }
                 x: deleg.width-width-10
                 height: deleg.height
                 verticalAlignment: Text.AlignVCenter
                 text: ""
+            }
+
+            // cutting an item
+            Rectangle {
+
+                id: cutindicator
+                anchors.fill: parent
+                color: "#44ffffff"
+                opacity: 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
+
             }
 
             // hovering an item
@@ -238,8 +268,11 @@ GridView {
             property bool tooltipSetup: false
             tooltipReference: fd_splitview
 
+            acceptedButtons: Qt.LeftButton|Qt.RightButton
+
             onEntered: {
-                view.currentIndex = index
+                if(!contextmenu.visible)
+                    view.currentIndex = index
 
                 if(!tooltipSetup) {
 
@@ -294,11 +327,19 @@ GridView {
             }
 
             onExited: {
-                resetCurrentIndex.oldIndex = index
-                resetCurrentIndex.restart()
+                if(!contextmenu.visible) {
+                    resetCurrentIndex.oldIndex = index
+                    resetCurrentIndex.restart()
+                }
             }
 
             onClicked: (mouse) => {
+                if(mouse.button === Qt.RightButton) {
+                    contextmenu.path = deleg.currentPath
+                    contextmenu.popup()
+                    return
+                }
+
                 if(mouse.modifiers & Qt.ControlModifier) {
                     if(view.currentSelection.indexOf(index) != -1) {
                         view.currentSelection = view.currentSelection.filter(item => item!==index)
@@ -375,6 +416,218 @@ GridView {
                 }
             }
         ]
+
+        Connections {
+            target: view
+            function onCurrentCutsChanged() {
+                console.log(view.currentCuts, deleg.currentPath)
+                deleg.currentFileCut = (view.currentCuts.indexOf(deleg.currentPath)!==-1)
+            }
+        }
+
+    }
+
+    PQMenu {
+
+        id: contextmenu
+
+        property bool isFolder: false
+        property bool isFile: false
+        property string path: ""
+        onPathChanged: {
+            isFolder = PQCScriptsFilesPaths.isFolder(path)
+            isFile = !isFolder
+        }
+
+        PQMenuItem {
+            enabled: contextmenu.isFile || contextmenu.isFolder
+            text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file"))
+            onTriggered: {
+                if(isFolder)
+                    filedialog_top.loadNewPath(contextmenu.path)
+                else {
+                    PQCFileFolderModel.setFileNameOnceReloaded = contextmenu.path
+                    PQCFileFolderModel.fileInFolderMainView = contextmenu.path
+                    filedialog_top.hide()
+                }
+            }
+        }
+        PQMenuItem {
+            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled()
+            text: qsTranslate("filedialog", "Add to Favorites")
+            onTriggered:
+                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length-1)
+        }
+        PQMenuSeparator { visible: contextmenu.isFile || contextmenu.isFolder }
+        PQMenuItem {
+            enabled: contextmenu.isFile || contextmenu.isFolder
+            text: currentFileSelected ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
+            onTriggered: {
+                if(currentFileSelected) {
+                    view.currentSelection = view.currentSelection.filter(item => item!==view.currentIndex)
+                } else {
+                    view.currentSelection.push(view.currentIndex)
+                    view.currentSelectionChanged()
+                }
+            }
+        }
+        PQMenuItem {
+            text: currentFileSelected ? qsTranslate("filedialog", "Remove all file selection") : qsTranslate("filedialog", "Select all files")
+            onTriggered: {
+                selectAll(!currentFileSelected)
+            }
+        }
+        PQMenuSeparator { }
+        PQMenuItem {
+            enabled: !PQCScriptsConfig.amIOnWindows() && (contextmenu.isFile || contextmenu.isFolder || currentSelection.length)
+            text: (currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && currentSelection.length))
+                        ? qsTranslate("filedialog", "Delete selection")
+                        : (contextmenu.isFile ? qsTranslate("filedialog", "Delete file")
+                                              : (contextmenu.isFolder ? qsTranslate("filedialog", "Delete folder")
+                                                                      : qsTranslate("filedialog", "Delete file/folder")))
+            onTriggered:
+                deleteFiles()
+        }
+        PQMenuItem {
+            enabled: (contextmenu.isFile || contextmenu.isFolder || currentSelection.length)
+            text: (currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && currentSelection.length))
+                        ? qsTranslate("filedialog", "Cut selection")
+                        : (contextmenu.isFile ? qsTranslate("filedialog", "Cut file")
+                                              : (contextmenu.isFolder ? qsTranslate("filedialog", "Cut folder")
+                                                                      : qsTranslate("filedialog", "Cut file/folder")))
+            onTriggered:
+                cutFiles()
+        }
+        PQMenuItem {
+            enabled: (contextmenu.isFile || contextmenu.isFolder || currentSelection.length)
+            text: (currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && currentSelection.length))
+                        ? qsTranslate("filedialog", "Copy selection")
+                        : (contextmenu.isFile ? qsTranslate("filedialog", "Copy file")
+                                              : (contextmenu.isFolder ? qsTranslate("filedialog", "Copy folder")
+                                                                      : qsTranslate("filedialog", "Copy file/folder")))
+            onTriggered:
+                copyFiles()
+        }
+        PQMenuItem {
+            id: menuitem_paste
+            text: qsTranslate("filedialog", "Paste files from clipboard")
+            onTriggered:
+                pasteFiles()
+
+            Component.onCompleted: {
+                enabled = PQCScriptsClipboard.areFilesInClipboard()
+            }
+            Connections {
+                target: PQCScriptsClipboard
+                function onClipboardUpdated() {
+                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard()
+                }
+            }
+        }
+
+        PQMenuSeparator { }
+
+        PQMenuItem {
+            checkable: true
+            checked: PQCSettings.filedialogShowHiddenFilesFolders
+            text: qsTranslate("filedialog", "Show hidden files")
+            onTriggered:
+                PQCSettings.filedialogShowHiddenFilesFolders = !PQCSettings.filedialogShowHiddenFilesFolders
+        }
+        PQMenuItem {
+            checkable: true
+            checked: PQCSettings.filedialogDetailsTooltip
+            text: qsTranslate("filedialog", "Show tooltip with image details")
+            onTriggered:
+                PQCSettings.filedialogDetailsTooltip = !PQCSettings.filedialogDetailsTooltip
+        }
+
+
+    }
+
+    function selectAll(select) {
+        if(!select) {
+            currentSelection = []
+            return
+        }
+        currentSelection = [...Array(model).keys()]
+    }
+
+    function copyFiles() {
+        currentCuts = []
+        if(currentFileSelected || (currentIndex===-1 && currentSelection.length)) {
+            var urls = []
+            for(var key in currentSelection)
+                urls.push(PQCFileFolderModel.entriesFileDialog[currentSelection[key]])
+            PQCScriptsClipboard.copyFilesToClipboard(urls)
+        } else {
+            PQCScriptsClipboard.copyFilesToClipboard([PQCFileFolderModel.entriesFileDialog[currentIndex]])
+        }
+        currentSelection = []
+    }
+
+    function cutFiles() {
+
+        var urls = []
+
+        if(currentFileSelected || (currentIndex===-1 && currentSelection.length)) {
+            for(var key in currentSelection)
+                urls.push(PQCFileFolderModel.entriesFileDialog[currentSelection[key]])
+        } else
+            urls = [PQCFileFolderModel.entriesFileDialog[currentIndex]]
+        PQCScriptsClipboard.copyFilesToClipboard(urls)
+        currentCuts = urls
+
+        currentSelection = []
+
+    }
+
+    function pasteFiles() {
+
+        currentSelection = []
+
+        var lst = PQCScriptsClipboard.getListOfFilesInClipboard()
+
+        var nonexisting = []
+        var existing = []
+
+        for(var l in lst) {
+            if(PQCScriptsFilesPaths.doesItExist(PQCFileFolderModel.folderFileDialog + "/" + PQCScriptsFilesPaths.getFilename(lst[l])))
+                existing.push(lst[l])
+            else
+                nonexisting.push(lst[l])
+        }
+
+        if(existing.length > 0)
+            pasteExisting.pasteExistingFiles(existing)
+
+        if(nonexisting.length > 0) {
+            for(var f in nonexisting) {
+                var fln = nonexisting[f]
+                if(PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog)) {
+                    if(cutFiles.indexOf(fln) !== -1)
+                        PQCScriptsFileManagement.deletePermanent(fln)
+                }
+            }
+            if(existing.length == 0)
+                cutFiles = []
+        }
+
+        if(existing.length == 0 && nonexisting.length == 0)
+            PQCScriptsOther.inform("Nothing found", "There are no files/folders in the clipboard.")
+
+    }
+
+    function deleteFiles() {
+
+        if(!PQCScriptsOther.confirm("Move to Trash?", "Are you sure you want to move all selected files/folders to the trash?"))
+            return
+
+        if(currentFileSelected || (currentIndex===-1 && currentSelection.length)) {
+            for(var key in currentSelection)
+                PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[currentSelection[key]])
+        } else
+            PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[currentIndex])
 
     }
 

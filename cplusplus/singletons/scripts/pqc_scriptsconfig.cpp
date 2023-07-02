@@ -346,3 +346,10 @@ bool PQCScriptsConfig::isQtAtLeast6_4() {
 #endif
     return false;
 }
+
+bool PQCScriptsConfig::isPugixmlSupportEnabled() {
+#ifdef PUGIXML
+    return true;
+#endif
+    return false;
+}

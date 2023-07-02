@@ -23,51 +23,59 @@
 import QtQuick
 import QtQuick.Controls
 
-MenuItem {
-    id: menuItem
-    implicitWidth: 200
+Button {
+
+    id: control
+
     implicitHeight: 40
+    implicitWidth: 200
+
+    font.pointSize: PQCLook.fontSizeL
+    font.weight: PQCLook.fontWeightBold
+
+    opacity: enabled ? 1 : 0.3
+
+    property alias tooltip: mouseArea.text
+
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringOk: qsTranslate("buttongeneric", "Ok")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringCancel: qsTranslate("buttongeneric", "Cancel")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringSave: qsTranslate("buttongeneric", "Save")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
     contentItem: Text {
-        leftPadding: menuItem.checkable ? menuItem.indicator.width : 0
-        text: menuItem.text
-        font: menuItem.font
-        color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
-        horizontalAlignment: Text.AlignLeft
+        text: control.text
+        font: control.font
+        opacity: enabled ? 1.0 : 0.3
+        color: PQCLook.textColor
+        horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideMiddle
-        style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
-        styleColor: PQCLook.textColorHighlight
-    }
-
-    indicator: Item {
-        implicitWidth: 30
-        implicitHeight: 40
-        Rectangle {
-            width: 20
-            height: 20
-            anchors.centerIn: parent
-            visible: menuItem.checkable
-            border.color: PQCLook.inverseColor
-            color: PQCLook.baseColorHighlight
-            radius: 2
-            Rectangle {
-                width: 10
-                height: 10
-                anchors.centerIn: parent
-                visible: menuItem.checked
-                color: PQCLook.inverseColor
-                radius: 2
-            }
-        }
+        elide: Text.ElideRight
     }
 
     background: Rectangle {
-        implicitWidth: 200
+        implicitWidth: 100
         implicitHeight: 40
-        color: menuItem.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
-        border.color: PQCLook.baseColorAccent
+        opacity: enabled ? 1 : 0.3
+        radius: 5
+
+        border.color: PQCLook.baseColorHighlight
         border.width: 1
-        Behavior on color { ColorAnimation { duration: 200 } }
+
+        color: (down ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+        Behavior on color { ColorAnimation { duration: 150 } }
     }
- }
+
+    PQMouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        text: control.text
+        onPressed: (mouse) =>  mouse.accepted = false
+    }
+
+}

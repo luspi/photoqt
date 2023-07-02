@@ -168,8 +168,6 @@ Item {
                         PQCSettings.imageviewSortImagesAscending = !PQCSettings.imageviewSortImagesAscending
                         setCurrentIndex()
                     }
-
-                    PQCFileFolderModel.forceReloadFileDialog()
                 }
 
                 function setCurrentIndex() {

@@ -136,3 +136,11 @@ QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
 QString PQCScriptsFilesPaths::getHomeDir() {
     return QDir::homePath();
 }
+
+bool PQCScriptsFilesPaths::isFolder(QString path) {
+    return QFileInfo(path).isDir();
+}
+
+bool PQCScriptsFilesPaths::doesItExist(QString path) {
+    return QFileInfo::exists(path);
+}

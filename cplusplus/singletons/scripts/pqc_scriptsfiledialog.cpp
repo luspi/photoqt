@@ -283,7 +283,7 @@ QString PQCScriptsFileDialog::getLastLocation() {
 
 }
 
-void PQCScriptsFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int howmany) {
+void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howmany) {
 
     qDebug() << "args: id = " << id;
     qDebug() << "args: moveDown = " << moveDown;
@@ -357,7 +357,7 @@ void PQCScriptsFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
 
 }
 
-void PQCScriptsFileDialog::addNewUserPlacesEntry(QString path, int pos) {
+void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: pos =" << pos;
@@ -367,7 +367,7 @@ void PQCScriptsFileDialog::addNewUserPlacesEntry(QString path, int pos) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
-        qWarning() << "PQHandlingFileDialog::addNewUserPlacesEntry(): ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return;
     }
 
@@ -398,7 +398,7 @@ void PQCScriptsFileDialog::addNewUserPlacesEntry(QString path, int pos) {
 
         pugi::xml_node newnode = toplevel.first().node().append_child("bookmark");
         if(newnode == nullptr)
-            qWarning() << "PQHandlingFileDialog::addNewUserPlacesEntry(): ERROR: Unable to add first node...";
+            qWarning() << "ERROR: Unable to add first node...";
 
         // <bookmark>
         newnode.set_name("bookmark");
@@ -451,7 +451,7 @@ void PQCScriptsFileDialog::addNewUserPlacesEntry(QString path, int pos) {
 
                 pugi::xml_node newnode = cur.parent().insert_child_after(pugi::node_element, cur);
                 if(newnode == nullptr)
-                    qWarning() << "PQHandlingFileDialog::addNewUserPlacesEntry(): ERROR: Unable to add new node...";
+                    qWarning() << "ERROR: Unable to add new node...";
 
                 // <bookmark>
                 newnode.set_name("bookmark");
@@ -498,6 +498,78 @@ void PQCScriptsFileDialog::addNewUserPlacesEntry(QString path, int pos) {
 
         }
 
+    }
+
+    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+
+#endif
+
+}
+
+void PQCScriptsFileDialog::hidePlacesEntry(QString id, bool hidden) {
+
+    qDebug() << "args: id = " << id;
+    qDebug() << "args: hidden = " << hidden;
+
+#ifdef PUGIXML
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    for(pugi::xpath_node node : bookmarks) {
+
+        pugi::xml_node cur = node.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+
+        if(curId == id) {
+            if(QString(cur.select_node("info/metadata/IsHidden").node().child_value()) == "") {
+                pugi::xml_node metadata = cur.select_node("info/metadata").node();
+                pugi::xml_node isHidden = metadata.append_child("IsHidden");
+                isHidden.text().set(hidden ? "true" : "false");
+            } else
+                if(!cur.select_node("info/metadata/IsHidden").node().text().set(hidden ? "true" : "false"))
+                qWarning() << "ERROR: Unable to hide/show item with id" << id;
+            break;
+        }
+    }
+
+    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+
+#endif
+
+}
+
+void PQCScriptsFileDialog::deletePlacesEntry(QString id) {
+
+    qDebug() << "args: id =" << id;
+
+#ifdef PUGIXML
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
+        return;
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    for(pugi::xpath_node node : bookmarks) {
+
+        pugi::xml_node cur = node.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+
+        if(curId == id) {
+            if(!cur.parent().remove_child(cur))
+                qWarning() << "ERROR: Unable to remove item with id" << id;
+            break;
+        }
     }
 
     doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");

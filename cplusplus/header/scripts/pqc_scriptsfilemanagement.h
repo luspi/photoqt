@@ -17,6 +17,10 @@ public:
     PQCScriptsFileManagement(PQCScriptsFileManagement const&)     = delete;
     void operator=(PQCScriptsFileManagement const&) = delete;
 
+    Q_INVOKABLE bool copyFileToHere(QString filename, QString targetdir);
+    Q_INVOKABLE bool deletePermanent(QString filename);
+    Q_INVOKABLE bool moveFileToTrash(QString filename);
+
 private:
     PQCScriptsFileManagement();
 

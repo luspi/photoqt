@@ -12,17 +12,10 @@ Item {
 
     clip: true
 
-    property var entries_standard: [
-        [qsTranslate("filedialog", "Standard"), qsTranslate("filedialog", "Standard")],
-        [StandardPaths.displayName(StandardPaths.HomeLocation), PQCScriptsFilesPaths.cleanPath(StandardPaths.writableLocation(StandardPaths.HomeLocation)), "user-home"],
-        [StandardPaths.displayName(StandardPaths.DesktopLocation), PQCScriptsFilesPaths.cleanPath(StandardPaths.writableLocation(StandardPaths.DesktopLocation)), "user-desktop"],
-        [StandardPaths.displayName(StandardPaths.PicturesLocation), PQCScriptsFilesPaths.cleanPath(StandardPaths.writableLocation(StandardPaths.PicturesLocation)), "folder-pictures"],
-        [StandardPaths.displayName(StandardPaths.DownloadLocation), PQCScriptsFilesPaths.cleanPath(StandardPaths.writableLocation(StandardPaths.DownloadLocation)), "folder-downloads"]
-    ]
     property var entries_favorites: []
     property var entries_devices: []
 
-    property var entries: [entries_standard, entries_favorites, entries_devices]
+    property var entries: [[], entries_favorites, entries_devices]
 
     property int dragItemIndex: -1
     property string dragItemId: ""
@@ -32,6 +25,8 @@ Item {
     property var pressedIndex: [-1,-1,-1]
 
     property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
+
+    property bool showHiddenPlaces: false
 
     Timer {
         id: resetHoverIndex
@@ -45,6 +40,16 @@ Item {
             if(hoverIndex[2] === oldIndex[2])
                 hoverIndex[2] = -1
             hoverIndexChanged()
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+        onClicked: {
+            contextmenu.currentEntryId = ""
+            contextmenu.currentEntryHidden = ""
+            contextmenu.popup()
         }
     }
 
@@ -71,6 +76,7 @@ Item {
                 width: parent.width-5
                 height: contentHeight
                 clip: true
+                visible: PQCSettings.filedialogPlaces
                 orientation: ListView.Vertical
                 model: entries_favorites.length
                 property int part: 1
@@ -92,13 +98,16 @@ Item {
                         if(newindex === -1)
                             return
 
+                        if(newindex === 0)
+                            newindex = 1
+
                         console.log("dropped on:", newindex)
 
                         // if drag/drop originated from folders panel
                         if(!dragReordering) {
 
                             // add item at right position
-                            PQCScriptsFileDialog.addNewUserPlacesEntry(dragItemId, newindex)
+                            PQCScriptsFileDialog.addPlacesEntry(dragItemId, newindex)
 
                             // and reload places
                             loadPlaces()
@@ -110,7 +119,7 @@ Item {
                             if(places_top.dragItemIndex !== newindex) {
 
                                 // save the changes to file
-                                PQCScriptsFileDialog.moveUserPlacesEntry(dragItemId, dragItemIndex<newindex, Math.abs(dragItemIndex-newindex))
+                                PQCScriptsFileDialog.movePlacesEntry(dragItemId, dragItemIndex<newindex, Math.abs(dragItemIndex-newindex))
 
                                 // and reload places
                                 loadPlaces()
@@ -122,7 +131,11 @@ Item {
                     }
 
                     onPositionChanged: {
-                        hoverIndex[1] = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
+                        var ind = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
+                        // the first entry is the heading -> ignore
+                        if(ind === 0)
+                            ind = 1
+                        hoverIndex[1] = ind
                         hoverIndexChanged()
                     }
 
@@ -145,6 +158,7 @@ Item {
                 id: view_devices
                 width: parent.width-5
                 height: contentHeight
+                visible: PQCSettings.filedialogDevices
                 clip: true
                 orientation: ListView.Vertical
                 model: entries_devices.length
@@ -166,10 +180,13 @@ Item {
             id: deleg
 
             width: parent.width
-            height: 35
+            height: (hidden==="false"||showHiddenPlaces) ? 35 : 0
+            opacity: (hidden==="false") ? 1 : 0.5
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             property int part: mouseArea.drag.active ? 1 : parent.parent.part
             property var entry: entries[part][index]
+            property string hidden: entry===undefined||entry[4]===undefined||part==2 ? "false" : entry[4]
 
             color: hoverIndex[part]===index
                         ? (pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight)
@@ -282,8 +299,15 @@ Item {
                     if(mouse.button === Qt.LeftButton)
                         filedialog_top.loadNewPath(deleg.entry[1])
                     else {
-//                        var pos = standard_top.mapFromItem(parent, mouse.x, mouse.y)
-//                        filedialog_top.leftPanelPopupGenericRightClickMenu(Qt.point(standard_top.x+pos.x, standard_top.y+pos.y))
+                        if(deleg.part == 1 && index!==0) {
+                            contextmenu.currentEntryId = deleg.entry[3]
+                            contextmenu.currentEntryHidden = deleg.entry[4]
+                        } else {
+                            contextmenu.currentEntryId = ""
+                            contextmenu.currentEntryHidden = ""
+                        }
+
+                        contextmenu.popup()
                     }
                 }
 
@@ -343,9 +367,101 @@ Item {
         }
     }
 
-    Component.onCompleted: {
-        loadPlaces()
-        loadDevices()
+    PQMenu {
+        id: contextmenu
+
+        property string currentEntryHidden: ""
+        property string currentEntryId: ""
+
+        PQMenuItem {
+            id: entry1
+            visible: contextmenu.currentEntryId!==""
+            text: (contextmenu.currentEntryHidden=="true" ? qsTranslate("filedialog", "Show entry") : qsTranslate("filedialog", "Hide entry"))
+            states: [
+                State {
+                    when: contextmenu.currentEntryId==""
+                    PropertyChanges {
+                        target: entry1
+                        height: 0
+                    }
+                }
+            ]
+            onTriggered: {
+                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false")
+                loadPlaces()
+            }
+        }
+
+        PQMenuItem {
+            id: entry2
+            visible: contextmenu.currentEntryId!==""
+            text: (qsTranslate("filedialog", "Remove entry"))
+            states: [
+                State {
+                    when: contextmenu.currentEntryId==""
+                    PropertyChanges {
+                        target: entry2
+                        height: 0
+                    }
+                }
+            ]
+            onTriggered: {
+                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId)
+                loadPlaces()
+            }
+        }
+
+        PQMenuItem {
+            id: entry3
+            visible: contextmenu.currentEntryId!==""
+            text: (showHiddenPlaces ? (qsTranslate("filedialog", "Hide hidden entries")) : (qsTranslate("filedialog", "Show hidden entries")))
+            states: [
+                State {
+                    when: contextmenu.currentEntryId==""
+                    PropertyChanges {
+                        target: entry3
+                        height: 0
+                    }
+                }
+            ]
+            onTriggered:
+                showHiddenPlaces = !showHiddenPlaces
+        }
+
+        PQMenuSeparator {
+            id: sep1
+            states: [
+                State {
+                    when: contextmenu.currentEntryId==""
+                    PropertyChanges {
+                        target: sep1
+                        height: 0
+                    }
+                }
+            ]
+        }
+
+        PQMenuItem {
+            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places")))
+            onTriggered:
+                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces
+        }
+
+        PQMenuItem {
+            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices")))
+            onTriggered:
+                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices
+        }
+    }
+
+    // we can load them asynchronously to speed up showing the actual file dialog
+    Timer {
+        interval: 10
+        running: true
+        onTriggered: {
+            loadPlaces()
+            loadDevices()
+        }
     }
 
     function loadDevices() {
@@ -355,7 +471,7 @@ Item {
         var tmp = []
 
         // for the heading
-        tmp.push([qsTranslate("filedialog", "Devices"), "", "", ""])
+        tmp.push([qsTranslate("filedialog", "Storage Devices"), "", "", ""])
 
         for(var i = 0; i < s.length; i+=4) {
 
@@ -378,7 +494,7 @@ Item {
         var tmp = []
 
         // for the heading
-        tmp.push([qsTranslate("filedialog", "Places"), "", "", ""])
+        tmp.push([qsTranslate("filedialog", "Bookmarks"), "", "", ""])
 
         for(var i = 0; i < upl.length; i+=5)
             tmp.push([upl[i],       // folder

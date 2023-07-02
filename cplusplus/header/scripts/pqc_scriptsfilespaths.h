@@ -29,6 +29,8 @@ public:
     Q_INVOKABLE QString getWindowsDriveLetter(QString path);
     Q_INVOKABLE QStringList getFoldersIn(QString path);
     Q_INVOKABLE QString getHomeDir();
+    Q_INVOKABLE bool isFolder(QString path);
+    Q_INVOKABLE bool doesItExist(QString path);
 
 private:
     PQCScriptsFilesPaths();

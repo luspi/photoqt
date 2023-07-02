@@ -29,6 +29,9 @@
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsfiledialog.h>
+#include <scripts/pqc_scriptsclipboard.h>
+#include <scripts/pqc_scriptsfilemanagement.h>
+#include <scripts/pqc_scriptsother.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -197,6 +200,9 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("PQCScriptsConfig", &PQCScriptsConfig::get());
     engine.rootContext()->setContextProperty("PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
     engine.rootContext()->setContextProperty("PQCScriptsFileDialog", &PQCScriptsFileDialog::get());
+    engine.rootContext()->setContextProperty("PQCScriptsClipboard", &PQCScriptsClipboard::get());
+    engine.rootContext()->setContextProperty("PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
+    engine.rootContext()->setContextProperty("PQCScriptsOther", &PQCScriptsOther::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);

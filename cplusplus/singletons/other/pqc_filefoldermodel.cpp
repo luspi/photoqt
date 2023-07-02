@@ -95,6 +95,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     connect(this, &PQCFileFolderModel::newDataLoadedMainView, this, &PQCFileFolderModel::handleNewDataLoadedMainView);
 
+    connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, &PQCFileFolderModel::handleSettingsChanges);
+
 }
 
 PQCFileFolderModel::~PQCFileFolderModel() {
@@ -104,6 +106,15 @@ PQCFileFolderModel::~PQCFileFolderModel() {
 
     delete watcherMainView;
     delete watcherFileDialog;
+
+}
+
+void PQCFileFolderModel::handleSettingsChanges(const QString &key, const QVariant &value) {
+
+    if(key == "imageviewSortImagesAscending" || key == "imageviewSortImagesBy" || key == "filedialogShowHiddenFilesFolders") {
+        loadDataFileDialog();
+        loadDataMainView();
+    }
 
 }
 
@@ -290,14 +301,14 @@ void PQCFileFolderModel::checkFilterActive() {
 
         if(!m_filterCurrentlyActive) {
             m_filterCurrentlyActive = true;
-            filterCurrentlyActiveChanged();
+            Q_EMIT filterCurrentlyActiveChanged();
         }
 
     } else {
 
         if(m_filterCurrentlyActive) {
             m_filterCurrentlyActive = false;
-            filterCurrentlyActiveChanged();
+            Q_EMIT filterCurrentlyActiveChanged();
         }
 
     }

@@ -65,9 +65,9 @@ Rectangle {
         PQPlaces {
             id: fd_places
             SplitView.minimumWidth: leftColMinWidth
-            SplitView.preferredWidth: PQCSettings.filedialogUserPlacesWidth
+            SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
             onWidthChanged: {
-                PQCSettings.filedialogUserPlacesWidth = width
+                PQCSettings.filedialogPlacesWidth = width
             }
 
         }
@@ -84,6 +84,11 @@ Rectangle {
     PQTweaks {
         id: fd_tweaks
         y: parent.height-height
+    }
+
+    PQPasteExistingConfirm {
+        id: pasteExisting
+        anchors.fill: parent
     }
 
     Connections {

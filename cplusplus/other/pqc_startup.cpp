@@ -277,12 +277,10 @@ bool PQCStartup::manageSettings() {
     QSqlDatabase db = QSqlDatabase::database("settings");
 
     QMap<QString,QStringList> rename;
-    rename ["LabelsWindowButtonsSize"] = QStringList() << "WindowButtonsSize" << "interface";   // 3.1
-    rename ["LabelsManageWindow"] = QStringList() << "StatusInfoManageWindow" << "interface";   // 3.1
-    rename ["LiftUp"] = QStringList() << "HighlightAnimationLiftUp" << "thumbnails";            // 3.2
-    rename ["FilenameOnly"] = QStringList() << "IconsOnly" << "thumbnails";                     // 3.2
-    rename ["FilenameOnlyFontSize"] = QStringList() << "" << "thumbnails";                      // 3.2
     rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";                             // 4.0
+    rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";                      // 4.0
+    rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";                  // 4.0
+    rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";                // 4.0
     QMapIterator<QString, QStringList> i(rename);
     while(i.hasNext()) {
         i.next();
