@@ -142,6 +142,10 @@ Rectangle {
     }
 
     function hide() {
+        if(pasteExisting.visible) {
+            pasteExisting.hide()
+            return
+        }
         opacity = 0
         loader.elementClosed(thisis)
     }

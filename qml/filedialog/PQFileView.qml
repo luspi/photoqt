@@ -304,8 +304,24 @@ GridView {
 
                         str += "<td>&nbsp;</td>"
 
+                        // This breaks the filename into multiple lines if it is too long
+                        var usefilename = [deleg.currentFile]
+                        var lim = 35
+                        if(deleg.currentFile.length > lim) {
+                            // this helps to avoid having one very long line and one line with almost nothing
+                            if(deleg.currentFile.length%lim < 5)
+                                lim -= 2
+                            usefilename = []
+                            for(var i = 0; i <= deleg.currentFile.length; i += lim)
+                                usefilename.push(deleg.currentFile.substring(i, i+lim))
+                        }
+
                         // add details
-                        str += "<td valign=middle><span style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + deleg.currentFile + "</span>" + "<br><br>" +
+                        str += "<td valign=middle>";
+                        for(var f in usefilename) {
+                            str += "<div style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + usefilename[f] + "</div>"
+                        }
+                        str += "<br><br>" +
                                   qsTranslate("filedialog", "File size:")+" <b>" + fileinfo.text + "</b><br>" +
                                   qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
                                   qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
@@ -365,6 +381,9 @@ GridView {
 
             width: fileicon.width
             height: deleg.height
+
+            enabled: !view.showGrid
+            visible: !view.showGrid
 
             drag.target: deleg
 
