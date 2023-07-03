@@ -20,6 +20,8 @@ Rectangle {
 
     property int leftColMinWidth: 200
 
+    property bool splitDividerHovered: false
+
     color: PQCLook.baseColor
 
     opacity: 0
@@ -51,6 +53,8 @@ Rectangle {
             implicitHeight: 8
             color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
             Behavior on color { ColorAnimation { duration: 200 } }
+            onColorChanged:
+                splitDividerHovered = SplitHandle.hovered
 
             Image {
                 y: (parent.height-height)/2

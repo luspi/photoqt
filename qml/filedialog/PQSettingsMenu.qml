@@ -51,6 +51,24 @@ PQMenu {
             }
         }
 
+        PQMenu {
+            title: "drag and drop"
+            PQMenuItem {
+                text: "enable for file browser"
+                checkable: true
+                checked: PQCSettings.filedialogDragDropFileview
+                onCheckedChanged:
+                    PQCSettings.filedialogDragDropFileview = checked
+            }
+            PQMenuItem {
+                text: "enable for bookmarks"
+                checkable: true
+                checked: PQCSettings.filedialogDragDropPlaces
+                onCheckedChanged:
+                    PQCSettings.filedialogDragDropPlaces = checked
+            }
+        }
+
         PQMenuItem {
             text: "hidden files"
             checkable: true

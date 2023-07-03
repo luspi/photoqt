@@ -91,6 +91,9 @@ Item {
 
                     onDropped: {
 
+                        if(!PQCScriptsFilesPaths.isFolder(dragItemId))
+                            return
+
                         // find the index on which it was dropped
                         var newindex = view_favorites.indexAt(drag.x, drag.y+view_favorites.contentY)
 
@@ -131,6 +134,10 @@ Item {
                     }
 
                     onPositionChanged: {
+
+                        if(!PQCScriptsFilesPaths.isFolder(dragItemId))
+                            return
+
                         var ind = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
                         // the first entry is the heading -> ignore
                         if(ind === 0)
@@ -321,7 +328,7 @@ Item {
                 }
 
 
-                drag.target: deleg.part==1 ? deleg : undefined
+                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces) ? deleg : undefined
                 drag.axis: Drag.YAxis
 
                 // if drag is started

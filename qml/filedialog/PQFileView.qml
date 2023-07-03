@@ -130,6 +130,14 @@ GridView {
             /************************************************************/
             // ICONS/THUMBNAILS
 
+            Item {
+                id: dragHandler
+                x: deleg.padding
+                y: deleg.padding
+                width: view.cellHeight-2*deleg.padding
+                height: view.cellHeight-2*deleg.padding
+            }
+
             // the file type icon
             Image {
 
@@ -223,7 +231,7 @@ GridView {
                         fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                         onStatusChanged: {
                             if(status == Image.Ready) {
-                                if(curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload)
+                                if((curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !mousearea.drag.active)
                                     folderthumb_next.restart()
                                 folderthumb.hideExcept(num)
                             }
@@ -254,7 +262,7 @@ GridView {
                             return
                         if(deleg.numberFilesInsideFolder == 0)
                             return
-                        if((view.currentIndex==index || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
+                        if((view.currentIndex===index || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
                             folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
                             folderthumb_model.append({"folder": PQCFileFolderModel.entriesFileDialog[index], "num": folderthumb.curnum, "curindex": index})
                         }
@@ -443,206 +451,173 @@ GridView {
 
             }
 
-        }
+            /************************************************************/
 
-        /************************************************************/
+            // mouse area handling mouse events
+            PQMouseArea {
 
-        // mouse area handling mouse events
-        PQMouseArea {
+                id: mousearea
 
-            anchors.fill: parent
-            anchors.leftMargin: view.showGrid ? 0 : fileicon.width
+                anchors.fill: parent
+                anchors.leftMargin: view.showGrid ? 0 : fileicon.width
 
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
-            tooltipReference: fd_splitview
+                tooltipReference: fd_splitview
 
-            acceptedButtons: Qt.LeftButton|Qt.RightButton
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-            onEntered: {
-                if(fd_breadcrumbs.topSettingsMenu.visible)
-                    return
+                drag.target: PQCSettings.filedialogDragDropFileview ? dragHandler : undefined
 
-                if(!contextmenu.visible)
-                    view.currentIndex = index
-                else
-                    contextmenu.setCurrentIndexToThisAfterClose = index
+                drag.onActiveChanged: {
+                    if(mousearea.drag.active) {
+                        // store which index is being dragged and that the entry comes from the userplaces (reordering only)
+                        fd_places.dragItemIndex = index
+                        fd_places.dragReordering = false
+                        fd_places.dragItemId = deleg.currentPath
+                    }
+                    deleg.Drag.drop();
+                    if(!mousearea.drag.active) {
+                        // reset variables used for drag/drop
+                        fd_places.dragItemIndex = -1
+                        fd_places.dragItemId = ""
+                    }
+                }
 
-                // we reset the tooltip everytime it is requested as some info/thumbnails might have changed/updated since last time
+                onEntered: {
+                    if(fd_breadcrumbs.topSettingsMenu.visible)
+                        return
 
-                if(PQCSettings.filedialogDetailsTooltip) {
+                    if(!contextmenu.visible)
+                        view.currentIndex = index
+                    else
+                        contextmenu.setCurrentIndexToThisAfterClose = index
 
-                    var fmodi = PQCScriptsFilesPaths.getFileModified(deleg.currentPath)
-                    var ftype = PQCScriptsFilesPaths.getFileType(deleg.currentPath)
+                    // we reset the tooltip everytime it is requested as some info/thumbnails might have changed/updated since last time
 
-                    var str = ""
+                    if(PQCSettings.filedialogDetailsTooltip) {
 
-                    if(index < PQCFileFolderModel.countFoldersFileDialog) {
+                        var fmodi = PQCScriptsFilesPaths.getFileModified(deleg.currentPath)
+                        var ftype = PQCScriptsFilesPaths.getFileType(deleg.currentPath)
 
-                        if(!currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && deleg.numberFilesInsideFolder>0) {
-                            // when a folder is hovered before a thumbnail inside is loaded, this will result in an empty image
-                            var n = folderthumb.curnum
-                            if(n == 0 && deleg.numberFilesInsideFolder > 0)
-                                n = 1
-                            str += "<img width=256 src=\"image://folderthumb/" + deleg.currentPath + ":://::" + n + "\"><br><br>"
+                        var str = ""
+
+                        if(index < PQCFileFolderModel.countFoldersFileDialog) {
+
+                            if(!currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && deleg.numberFilesInsideFolder>0) {
+                                // when a folder is hovered before a thumbnail inside is loaded, this will result in an empty image
+                                var n = folderthumb.curnum
+                                if(n == 0 && deleg.numberFilesInsideFolder > 0)
+                                    n = 1
+                                str += "<img width=256 src=\"image://folderthumb/" + deleg.currentPath + ":://::" + n + "\"><br><br>"
+                            }
+
+                            str += "<span style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + deleg.currentFile + "</span><br><br>" +
+                                   (deleg.numberFilesInsideFolder==0 ? "" : (qsTranslate("filedialog", "# images")+": <b>" + deleg.numberFilesInsideFolder + "</b><br>")) +
+                                    qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
+                                    qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
+
+                            text = str
+
+                        } else {
+
+                            str = "<table><tr>"
+
+                            // if we do not cache this directory, we do not show a thumbnail image
+                            if(!currentFolderExcluded && filethumb.status == Image.Ready && PQCSettings.filedialogThumbnails) {
+                                str += "<td valign=middle><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
+                                str += "<td>&nbsp;</td>"
+                            }
+
+                            // This breaks the filename into multiple lines if it is too long
+                            var usefilename = [deleg.currentFile]
+                            var lim = 35
+                            if(deleg.currentFile.length > lim) {
+                                // this helps to avoid having one very long line and one line with almost nothing
+                                if(deleg.currentFile.length%lim < 5)
+                                    lim -= 2
+                                usefilename = []
+                                for(var i = 0; i <= deleg.currentFile.length; i += lim)
+                                    usefilename.push(deleg.currentFile.substring(i, i+lim))
+                            }
+
+                            // add details
+                            str += "<td valign=middle>";
+                            for(var f in usefilename) {
+                                str += "<div style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + usefilename[f] + "</div>"
+                            }
+                            str += "<br><br>" +
+                                      qsTranslate("filedialog", "File size:")+" <b>" + fileinfo.text + "</b><br>" +
+                                      qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
+                                      qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
+                                      qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b></td></tr></table>"
+
+                            text = str
+
+                            // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
+
                         }
 
-                        str += "<span style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + deleg.currentFile + "</span><br><br>" +
-                               (deleg.numberFilesInsideFolder==0 ? "" : (qsTranslate("filedialog", "# images")+": <b>" + deleg.numberFilesInsideFolder + "</b><br>")) +
-                                qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                                qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
+                    } else if(!PQCSettings.filedialogDetailsTooltip) {
 
-                        text = str
-
-                    } else {
-
-                        str = "<table><tr>"
-
-                        // if we do not cache this directory, we do not show a thumbnail image
-                        if(!currentFolderExcluded && filethumb.status == Image.Ready && PQCSettings.filedialogThumbnails) {
-                            str += "<td valign=middle><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
-                            str += "<td>&nbsp;</td>"
-                        }
-
-                        // This breaks the filename into multiple lines if it is too long
-                        var usefilename = [deleg.currentFile]
-                        var lim = 35
-                        if(deleg.currentFile.length > lim) {
-                            // this helps to avoid having one very long line and one line with almost nothing
-                            if(deleg.currentFile.length%lim < 5)
-                                lim -= 2
-                            usefilename = []
-                            for(var i = 0; i <= deleg.currentFile.length; i += lim)
-                                usefilename.push(deleg.currentFile.substring(i, i+lim))
-                        }
-
-                        // add details
-                        str += "<td valign=middle>";
-                        for(var f in usefilename) {
-                            str += "<div style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + usefilename[f] + "</div>"
-                        }
-                        str += "<br><br>" +
-                                  qsTranslate("filedialog", "File size:")+" <b>" + fileinfo.text + "</b><br>" +
-                                  qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
-                                  qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
-                                  qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b></td></tr></table>"
-
-                        text = str
-
-                        // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
+                        text = ""
 
                     }
 
-                } else if(!PQCSettings.filedialogDetailsTooltip) {
-
-                    text = ""
+    //                if(!currentIndexChangedUsingKeyIgnoreMouse)
+    //                    files_grid.currentIndex = index
 
                 }
 
-//                if(!currentIndexChangedUsingKeyIgnoreMouse)
-//                    files_grid.currentIndex = index
-
-            }
-
-            onExited: {
-                resetCurrentIndex.oldIndex = index
-                resetCurrentIndex.restart()
-            }
-
-            onClicked: (mouse) => {
-                if(mouse.button === Qt.RightButton) {
-                    contextmenu.path = deleg.currentPath
-                    contextmenu.setCurrentIndexToThisAfterClose = index
-                    contextmenu.popup()
-                    return
+                onExited: {
+                    resetCurrentIndex.oldIndex = index
+                    resetCurrentIndex.restart()
                 }
 
-                if(mouse.modifiers & Qt.ControlModifier) {
-                    if(view.currentSelection.indexOf(index) != -1) {
-                        view.currentSelection = view.currentSelection.filter(item => item!==index)
-                    } else {
-                        view.currentSelection.push(index)
-                        view.currentSelectionChanged()
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.RightButton) {
+                        contextmenu.path = deleg.currentPath
+                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.popup()
+                        return
                     }
-                } else {
-                    if(index < PQCFileFolderModel.countFoldersFileDialog)
-                        filedialog_top.loadNewPath(deleg.currentPath)
 
-                    view.currentSelection = []
+                    if(mouse.modifiers & Qt.ControlModifier) {
+                        if(view.currentSelection.indexOf(index) != -1) {
+                            view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        } else {
+                            view.currentSelection.push(index)
+                            view.currentSelectionChanged()
+                        }
+                    } else {
+                        if(index < PQCFileFolderModel.countFoldersFileDialog)
+                            filedialog_top.loadNewPath(deleg.currentPath)
+
+                        view.currentSelection = []
+                    }
+                }
+
+            }
+
+            Drag.active: mousearea.drag.active
+            Drag.mimeData: {
+                "text/uri-list": "file://"+deleg.currentPath
+            }
+            Drag.dragType: Drag.Automatic
+            Drag.imageSource: "image://dragthumb/" + deleg.currentPath
+
+            Drag.onDragFinished: {
+                console.log(x, y, parent.x, parent.y)
+            }
+
+            Connections {
+                target: view
+                function onCurrentCutsChanged() {
+                    deleg.currentFileCut = (view.currentCuts.indexOf(deleg.currentPath)!==-1)
                 }
             }
 
-        }
-
-        // mouse area to drag entries to user places
-        // this is only enabled for list view
-        PQMouseArea {
-
-            id: dragArea
-
-            width: fileicon.width
-            height: deleg.height
-
-            enabled: !view.showGrid
-            visible: !view.showGrid
-
-            drag.target: deleg
-
-            hoverEnabled: true
-            text: qsTranslate("filedialog", "Click and drag to favorites")
-
-            cursorShape: Qt.OpenHandCursor
-
-            onPressed:
-                cursorShape = Qt.ClosedHandCursor
-            onReleased:
-                cursorShape = Qt.OpenHandCursor
-
-            drag.onActiveChanged: {
-                if (dragArea.drag.active) {
-                    dragArea.cursorShape = Qt.ClosedHandCursor
-                    // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                    fd_places.dragItemIndex = index
-                    fd_places.dragReordering = false
-                    fd_places.dragItemId = deleg.currentPath
-                }
-                deleg.Drag.drop();
-                if(!dragArea.drag.active) {
-                    dragArea.cursorShape = Qt.OpenHandCursor
-                    // reset variables used for drag/drop
-                    fd_places.dragItemIndex = -1
-                    fd_places.dragItemId = ""
-                }
-            }
-        }
-
-        Drag.active: dragArea.drag.active
-        Drag.hotSpot.x: fileicon.width/2
-        Drag.hotSpot.y: fileicon.height/2
-
-        states: [
-            State {
-                // when drag starts, reparent entry to splitview
-                when: deleg.Drag.active
-                ParentChange {
-                    target: deleg
-                    parent: filedialog_top
-                }
-                // (temporarily) remove anchors
-                AnchorChanges {
-                    target: deleg
-                    anchors.horizontalCenter: undefined
-                    anchors.verticalCenter: undefined
-                }
-            }
-        ]
-
-        Connections {
-            target: view
-            function onCurrentCutsChanged() {
-                deleg.currentFileCut = (view.currentCuts.indexOf(deleg.currentPath)!==-1)
-            }
         }
 
     }
@@ -679,7 +654,7 @@ GridView {
             enabled: contextmenu.isFile || contextmenu.isFolder
             text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file"))
             onTriggered: {
-                if(isFolder)
+                if(contextmenu.isFolder)
                     filedialog_top.loadNewPath(contextmenu.path)
                 else {
                     PQCFileFolderModel.setFileNameOnceReloaded = contextmenu.path
@@ -691,8 +666,10 @@ GridView {
         PQMenuItem {
             enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled()
             text: qsTranslate("filedialog", "Add to Favorites")
-            onTriggered:
-                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length-1)
+            onTriggered: {
+                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length)
+                fd_places.loadPlaces()
+            }
         }
         PQMenuSeparator { visible: contextmenu.isFile || contextmenu.isFolder }
         PQMenuItem {

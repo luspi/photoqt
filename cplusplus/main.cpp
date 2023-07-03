@@ -26,6 +26,7 @@
 #include <pqc_providerthumb.h>
 #include <pqc_providertooltipthumb.h>
 #include <pqc_providerfolderthumb.h>
+#include <pqc_providerdragthumb.h>
 #include <pqc_filefoldermodel.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
@@ -210,6 +211,7 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
     engine.addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
     engine.addImageProvider("folderthumb",new PQCAsyncImageProviderFolderThumb);
+    engine.addImageProvider("dragthumb",new PQCAsyncImageProviderDragThumb);
 
     engine.load(url);
 
