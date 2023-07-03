@@ -31,6 +31,7 @@ public:
     Q_INVOKABLE QString getHomeDir();
     Q_INVOKABLE bool isFolder(QString path);
     Q_INVOKABLE bool doesItExist(QString path);
+    Q_INVOKABLE bool isExcludeDirFromCaching(QString filename);
 
 private:
     PQCScriptsFilesPaths();

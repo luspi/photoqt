@@ -63,24 +63,24 @@ Item {
                 PQButtonIcon {
                     id: iconview
                     checkable: true
-                    checked: PQCSettings.filedialogDefaultView==="icons"
+                    checked: PQCSettings.filedialogLayout==="icons"
                     source: "/white/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
-                        PQCSettings.filedialogDefaultView = (checked ? "icons" : "list")
-                        checked = Qt.binding(function() { return PQCSettings.filedialogDefaultView==="icons" })
+                        PQCSettings.filedialogLayout = (checked ? "icons" : "list")
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="icons" })
                     }
                 }
 
                 PQButtonIcon {
                     id: listview
                     checkable: true
-                    checked: PQCSettings.filedialogDefaultView!=="icons"
+                    checked: PQCSettings.filedialogLayout!=="icons"
                     source: "/white/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
-                        PQCSettings.filedialogDefaultView = (checked ? "list" : "icons")
-                        checked = Qt.binding(function() { return PQCSettings.filedialogDefaultView==="list" })
+                        PQCSettings.filedialogLayout = (checked ? "list" : "icons")
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
                     }
                 }
 

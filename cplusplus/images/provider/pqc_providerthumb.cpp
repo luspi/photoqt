@@ -72,13 +72,13 @@ void PQCAsyncImageResponseThumb::loadImage() {
     QImage p;
 
     QString cachedir = "";
-    if(m_requestedSize.width() >= 1024) {
+    if(m_requestedSize.width() >= 512) {
         cachedir = "xx-large";
         m_requestedSize = QSize(1024,1024);
-    } else if(m_requestedSize.width() >= 512) {
+    } else if(m_requestedSize.width() >= 256) {
         cachedir = "x-large";
         m_requestedSize = QSize(512,512);
-    } else if(m_requestedSize.width() >= 256) {
+    } else if(m_requestedSize.width() >= 128) {
         cachedir = "large";
         m_requestedSize = QSize(256, 256);
     } else {

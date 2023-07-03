@@ -15,6 +15,7 @@ GridView {
         target: PQCFileFolderModel
         function onNewDataLoadedFileDialog() {
             view.model = 0
+            currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog)
             view.model = PQCFileFolderModel.countAllFileDialog
             // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
             // (re-)setting the model will always reset the currentIndex to 0
@@ -34,7 +35,9 @@ GridView {
 
     property alias fileviewContextMenu: contextmenu
 
-    property bool showGrid: PQCSettings.filedialogDefaultView==="icons"
+    property bool showGrid: PQCSettings.filedialogLayout==="icons"
+
+    property bool currentFolderExcluded: false
 
     cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
@@ -116,6 +119,7 @@ GridView {
         property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
         property int numberFilesInsideFolder: 0
         property bool currentFileCut: false
+        property int padding: PQCSettings.filedialogElementPadding
 
         Item {
 
@@ -129,10 +133,10 @@ GridView {
 
                 id: fileicon
 
-                x: 1
-                y: 1
-                width: view.cellHeight-2
-                height: view.cellHeight-2
+                x: deleg.padding
+                y: deleg.padding
+                width: view.cellHeight-2*deleg.padding
+                height: view.cellHeight-2*deleg.padding
                 sourceSize: Qt.size(width,height)
 
                 smooth: true
@@ -141,9 +145,11 @@ GridView {
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                source: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
-                            ? (view.showGrid ? "folder" : "folder_listicon")
-                            : PQCScriptsFilesPaths.getSuffix(deleg.currentPath)))
+                property string sourceString: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
+                                                    ? (view.showGrid ? "folder" : "folder_listicon")
+                                                    : PQCScriptsFilesPaths.getSuffix(deleg.currentPath)))
+
+                source: sourceString
 
             }
 
@@ -152,12 +158,12 @@ GridView {
 
                 id: filethumb
 
-                x: 1
-                y: 1
-                width: view.cellHeight-2
-                height: view.cellHeight-2
+                x: deleg.padding
+                y: deleg.padding
+                width: view.cellHeight-2*deleg.padding
+                height: view.cellHeight-2*deleg.padding
 
-                visible: index >= PQCFileFolderModel.countFoldersFileDialog && PQCSettings.filedialogThumbnails
+                visible: index >= PQCFileFolderModel.countFoldersFileDialog && PQCSettings.filedialogThumbnails && !currentFolderExcluded
 
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -166,11 +172,15 @@ GridView {
                 mipmap: false
                 asynchronous: true
                 cache: false
-                sourceSize: Qt.size(512,512)
+                sourceSize: Qt.size(width,height)
 
                 fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
                 source: visible ? ("image://thumb/" + deleg.currentPath) : ""
+                onSourceChanged: {
+                    if(!visible)
+                        fileicon.source = fileicon.sourceString
+                }
 
                 onStatusChanged: {
                     if(status == Image.Ready) {
@@ -185,10 +195,10 @@ GridView {
 
                 id: folderthumb
 
-                x: 1
-                y: 1
-                width: view.cellHeight-2
-                height: view.cellHeight-2
+                x: deleg.padding
+                y: deleg.padding
+                width: view.cellHeight-2*deleg.padding
+                height: view.cellHeight-2*deleg.padding
 
                 visible: PQCSettings.filedialogFolderContentThumbnails
 
@@ -440,7 +450,6 @@ GridView {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
-            property bool tooltipSetup: false
             tooltipReference: fd_splitview
 
             acceptedButtons: Qt.LeftButton|Qt.RightButton
@@ -454,7 +463,9 @@ GridView {
                 else
                     contextmenu.setCurrentIndexToThisAfterClose = index
 
-                if(!tooltipSetup) {
+                // we reset the tooltip everytime it is requested as some info/thumbnails might have changed/updated since last time
+
+                if(PQCSettings.filedialogDetailsTooltip) {
 
                     var fmodi = PQCScriptsFilesPaths.getFileModified(deleg.currentPath)
                     var ftype = PQCScriptsFilesPaths.getFileType(deleg.currentPath)
@@ -463,8 +474,13 @@ GridView {
 
                     if(index < PQCFileFolderModel.countFoldersFileDialog) {
 
-                        if(PQCSettings.filedialogFolderContentThumbnails)
-                            str += "<img src=\"image://folderthumb/" + deleg.currentPath + ":://::" + folderthumb.curnum + "\"><br><br>"
+                        if(!currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && deleg.numberFilesInsideFolder>0) {
+                            // when a folder is hovered before a thumbnail inside is loaded, this will result in an empty image
+                            var n = folderthumb.curnum
+                            if(n == 0 && deleg.numberFilesInsideFolder > 0)
+                                n = 1
+                            str += "<img width=256 src=\"image://folderthumb/" + deleg.currentPath + ":://::" + n + "\"><br><br>"
+                        }
 
                         str += "<span style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + deleg.currentFile + "</span><br><br>" +
                                (deleg.numberFilesInsideFolder==0 ? "" : (qsTranslate("filedialog", "# images")+": <b>" + deleg.numberFilesInsideFolder + "</b><br>")) +
@@ -472,17 +488,16 @@ GridView {
                                 qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString() + "</b>"
 
                         text = str
-                        tooltipSetup = true
 
                     } else {
 
                         str = "<table><tr>"
 
                         // if we do not cache this directory, we do not show a thumbnail image
-                        if(filethumb.status == Image.Ready)
+                        if(!currentFolderExcluded && filethumb.status == Image.Ready && PQCSettings.filedialogThumbnails) {
                             str += "<td valign=middle><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
-
-                        str += "<td>&nbsp;</td>"
+                            str += "<td>&nbsp;</td>"
+                        }
 
                         // This breaks the filename into multiple lines if it is too long
                         var usefilename = [deleg.currentFile]
@@ -510,10 +525,12 @@ GridView {
                         text = str
 
                         // if the thumbnail is not yet loaded and a temp icon is shown, we want to check again for the thumbnail the next time the tooltip is shown
-//                        if(currentFolderExcluded || (!currentFolderExcluded && fileicon.source == ""))
-                            tooltipSetup = true
 
                     }
+
+                } else if(!PQCSettings.filedialogDetailsTooltip) {
+
+                    text = ""
 
                 }
 

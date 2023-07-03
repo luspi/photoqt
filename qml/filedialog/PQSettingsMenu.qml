@@ -20,31 +20,31 @@ PQMenu {
                 text: "list view"
                 checkable: true
                 checkableLikeRadioButton: true
-                checked: PQCSettings.filedialogDefaultView==="list"
+                checked: PQCSettings.filedialogLayout==="list"
                 onTriggered:
-                    PQCSettings.filedialogDefaultView = "list"
+                    PQCSettings.filedialogLayout = "list"
             }
             PQMenuItem {
                 text: "icon view"
                 checkable: true
                 checkableLikeRadioButton: true
-                checked: PQCSettings.filedialogDefaultView==="icons"
+                checked: PQCSettings.filedialogLayout==="icons"
                 onTriggered:
-                    PQCSettings.filedialogDefaultView = "icons"
+                    PQCSettings.filedialogLayout = "icons"
             }
         }
         PQMenu {
             id: paddingsubmenu
             title: "padding"
             Instantiator {
-                model: 10
+                model: 11
                 delegate: PQMenuItem {
-                    text: modelData+1 + " px"
+                    text: modelData + " px"
                     checkable: true
                     checkableLikeRadioButton: true
-                    checked: PQCSettings.filedialogElementPadding===modelData+1
+                    checked: PQCSettings.filedialogElementPadding===modelData
                     onTriggered:
-                        PQCSettings.filedialogElementPadding = modelData+1
+                        PQCSettings.filedialogElementPadding = modelData
                 }
                 onObjectAdded: (index, object) => paddingsubmenu.insertItem(index, object)
                 onObjectRemoved: (index, object) => paddingsubmenu.removeItem(object)
@@ -61,9 +61,9 @@ PQMenu {
         PQMenuItem {
             text: "tooltips"
             checkable: true
-            checked: PQCSettings.filedialogShowHiddenFilesFolders
+            checked: PQCSettings.filedialogDetailsTooltip
             onCheckedChanged:
-                PQCSettings.filedialogShowHiddenFilesFolders = checked
+                PQCSettings.filedialogDetailsTooltip = checked
         }
     }
     PQMenu {

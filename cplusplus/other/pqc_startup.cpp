@@ -281,6 +281,7 @@ bool PQCStartup::manageSettings() {
     rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";                      // 4.0
     rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";                  // 4.0
     rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";                // 4.0
+    rename ["DefaultView"] = QStringList() << "Layout" << "filedialog";                         // 4.0
     QMapIterator<QString, QStringList> i(rename);
     while(i.hasNext()) {
         i.next();

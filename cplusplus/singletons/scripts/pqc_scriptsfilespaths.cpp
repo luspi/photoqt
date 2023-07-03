@@ -1,4 +1,5 @@
 #include <scripts/pqc_scriptsfilespaths.h>
+#include <pqc_settings.h>
 #include <QtLogging>
 #include <QtDebug>
 #include <QDir>
@@ -143,4 +144,31 @@ bool PQCScriptsFilesPaths::isFolder(QString path) {
 
 bool PQCScriptsFilesPaths::doesItExist(QString path) {
     return QFileInfo::exists(path);
+}
+
+bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
+
+    if(PQCSettings::get()["thumbnailsExcludeDropBox"].toString() != "") {
+        if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeDropBox"].toString())== 0)
+            return true;
+    }
+
+    if(PQCSettings::get()["thumbnailsExcludeNextcloud"].toString() != "") {
+        if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeNextcloud"].toString())== 0)
+            return true;
+    }
+
+    if(PQCSettings::get()["thumbnailsExcludeOwnCloud"].toString() != "") {
+        if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeOwnCloud"].toString())== 0)
+            return true;
+    }
+
+    const QStringList str = PQCSettings::get()["thumbnailsExcludeFolders"].toStringList();
+    for(const QString &dir: str) {
+        if(filename.indexOf(dir) == 0)
+            return true;
+    }
+
+    return false;
+
 }

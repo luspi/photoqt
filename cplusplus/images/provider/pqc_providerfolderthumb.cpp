@@ -24,6 +24,7 @@
 #include <pqc_providerthumb.h>
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
+#include <scripts/pqc_scriptsfilespaths.h>
 #include <QPainter>
 #include <QImage>
 
@@ -78,7 +79,7 @@ QQuickTextureFactory *PQCAsyncImageResponseFolderThumb::textureFactory() const {
 
 void PQCAsyncImageResponseFolderThumb::run() {
 
-    if(m_index == 0) {
+    if(m_index == 0 || PQCScriptsFilesPaths::get().isExcludeDirFromCaching(m_folder)) {
         m_image = QImage(QSize(1,1), QImage::Format_ARGB32);
         Q_EMIT finished();
         return;
