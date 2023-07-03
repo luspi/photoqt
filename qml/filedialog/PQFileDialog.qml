@@ -99,8 +99,16 @@ Rectangle {
                     show()
             } else if(filedialog_top.opacity > 0) {
                 if(what === "keyEvent") {
-                    if(param[0] === Qt.Key_Escape)
-                        hide()
+                    if(param[0] === Qt.Key_Escape) {
+                        if(pasteExisting.visible)
+                            pasteExisting.hide()
+                        else if(fd_fileview.fileviewContextMenu.visible)
+                            fd_fileview.fileviewContextMenu.close()
+                        else if(fd_fileview.currentSelection.length)
+                            fd_fileview.currentSelection = []
+                        else
+                            hide()
+                    }
                 }
             }
         }

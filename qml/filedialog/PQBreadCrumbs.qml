@@ -9,6 +9,8 @@ Item {
     width: parent.width
     height: 50
 
+    property alias topSettingsMenu: settingsmenu
+
     Row {
 
         Item {
@@ -65,13 +67,8 @@ Item {
                     source: "/white/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
-                        if(checked)
-                            listview.checked = false
-                        else if(!listview.checked)
-                            checked = true
-
-                        if(checked)
-                            PQCSettings.filedialogDefaultView = "icons"
+                        PQCSettings.filedialogDefaultView = (checked ? "icons" : "list")
+                        checked = Qt.binding(function() { return PQCSettings.filedialogDefaultView==="icons" })
                     }
                 }
 
@@ -82,13 +79,8 @@ Item {
                     source: "/white/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
-                        if(checked)
-                            iconview.checked = false
-                        else if(!iconview.checked)
-                            checked = true
-
-                        if(checked)
-                            PQCSettings.filedialogDefaultView = "list"
+                        PQCSettings.filedialogDefaultView = (checked ? "list" : "icons")
+                        checked = Qt.binding(function() { return PQCSettings.filedialogDefaultView==="list" })
                     }
                 }
 
@@ -113,14 +105,31 @@ Item {
                     source: "/white/remember.svg"
                 }
 
+                PQButtonIcon {
+                    id: settings
+                    checkable: true
+                    source: "/white/settings.svg"
+                    onCheckedChanged: {
+                        console.log("checked:", checked)
+                        if(checked)
+                            settingsmenu.popup(0, height)
+                    }
+
+                    PQSettingsMenu {
+                        id: settingsmenu
+                    }
+
+                }
+
 
             }
 
         }
 
-        Item {
+        Rectangle {
             width: 8
             height: breadcrumbs_top.height
+            color: PQCLook.baseColorAccent
         }
 
         Item {

@@ -30,7 +30,7 @@ Menu {
     delegate: PQMenuItem {}
 
     background: Rectangle {
-        implicitWidth: 200
+        implicitWidth: 250
         implicitHeight: 40
         color: PQCLook.baseColor
         border.color: PQCLook.inverseColorHighlight

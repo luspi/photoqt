@@ -25,8 +25,10 @@ import QtQuick.Controls
 
 MenuItem {
     id: menuItem
-    implicitWidth: 200
+    implicitWidth: 250
     implicitHeight: 40
+
+    property bool checkableLikeRadioButton: false
 
     contentItem: Text {
         leftPadding: menuItem.checkable ? menuItem.indicator.width : 0
@@ -50,15 +52,31 @@ MenuItem {
             visible: menuItem.checkable
             border.color: PQCLook.inverseColor
             color: PQCLook.baseColorHighlight
-            radius: 2
+            radius: checkableLikeRadioButton ? 10 : 2
             Rectangle {
                 width: 10
                 height: 10
                 anchors.centerIn: parent
                 visible: menuItem.checked
                 color: PQCLook.inverseColor
-                radius: 2
+                radius: checkableLikeRadioButton ? 5 : 2
             }
+        }
+    }
+
+    arrow: Canvas {
+        x: parent.width - width
+        implicitWidth: 40
+        implicitHeight: 40
+        visible: menuItem.subMenu
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.fillStyle = PQCLook.baseColorActive
+            ctx.moveTo(15, 15)
+            ctx.lineTo(width - 15, height / 2)
+            ctx.lineTo(15, height - 15)
+            ctx.closePath()
+            ctx.fill()
         }
     }
 

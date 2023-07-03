@@ -32,6 +32,7 @@ GridView {
 
     property bool currentFileSelected: false
 
+    property alias fileviewContextMenu: contextmenu
 
     property bool showGrid: PQCSettings.filedialogDefaultView==="icons"
 
@@ -62,7 +63,7 @@ GridView {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.RightButton
+        acceptedButtons: Qt.RightButton|Qt.LeftButton
 
         // this allows us to catch any right click no matter where it happens
         // AND still react to onEntered/Exited events for each individual delegate
@@ -70,10 +71,16 @@ GridView {
         visible: view.currentIndex===-1
 
         onClicked: (mouse) => {
-            contextmenu.path = ""
-            contextmenu.popup()
+            if(mouse.button === Qt.RightButton) {
+                contextmenu.path = ""
+                contextmenu.popup()
+            } else {
+                view.currentSelection = []
+            }
         }
         onPositionChanged: {
+            if(fd_breadcrumbs.topSettingsMenu.visible)
+                return
             var ind = view.indexAt(mouseX, view.contentY+mouseY)
             if(contextmenu.visible)
                 contextmenu.setCurrentIndexToThisAfterClose = ind
@@ -303,6 +310,9 @@ GridView {
             acceptedButtons: Qt.LeftButton|Qt.RightButton
 
             onEntered: {
+                if(fd_breadcrumbs.topSettingsMenu.visible)
+                    return
+
                 if(!contextmenu.visible)
                     view.currentIndex = index
                 else
@@ -495,6 +505,14 @@ GridView {
             if(!visible && setCurrentIndexToThisAfterClose != -2) {
                 view.currentIndex = setCurrentIndexToThisAfterClose
                 setCurrentIndexToThisAfterClose = -2
+            }
+        }
+
+        Connections {
+            target: filedialog_top
+            function onOpacityChanged() {
+                if(filedialog_top.opacity !== 1)
+                    contextmenu.close()
             }
         }
 

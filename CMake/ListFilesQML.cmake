@@ -15,7 +15,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQToolTip.qml)
 
 SET(d "qml/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQPasteExistingConfirm.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQSettingsMenu.qml)
 
 SET(d "qml/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml)
