@@ -60,6 +60,17 @@ GridView {
         z: -1
     }
 
+    PQTextL {
+        anchors.fill: parent
+        anchors.margins: 20
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
+        enabled: false
+        visible: PQCFileFolderModel.countAllFileDialog===0
+        text: "no supported files/folders found"
+    }
+
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
@@ -110,6 +121,9 @@ GridView {
 
             anchors.fill: parent
 
+            /************************************************************/
+            // ICONS/THUMBNAILS
+
             // the file type icon
             Image {
 
@@ -120,6 +134,9 @@ GridView {
                 width: view.cellHeight-2
                 height: view.cellHeight-2
                 sourceSize: Qt.size(width,height)
+
+                smooth: true
+                mipmap: false
 
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -146,6 +163,7 @@ GridView {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 smooth: true
+                mipmap: false
                 asynchronous: true
                 cache: false
                 sourceSize: Qt.size(512,512)
@@ -162,6 +180,83 @@ GridView {
 
             }
 
+            // the folder thumbnails
+            Item {
+
+                id: folderthumb
+
+                x: 1
+                y: 1
+                width: view.cellHeight-2
+                height: view.cellHeight-2
+
+                visible: PQCSettings.filedialogFolderContentThumbnails
+
+                property int curnum: 0
+
+                signal hideExcept(var n)
+
+                Repeater {
+                    model: ListModel { id: folderthumb_model }
+                    delegate: Image {
+                        id: folderdeleg
+                        anchors.fill: folderthumb
+                        source: "image://folderthumb/" + folder + ":://::" + num
+                        smooth: true
+                        mipmap: false
+                        fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                        onStatusChanged: {
+                            if(status == Image.Ready) {
+                                if(curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload)
+                                    folderthumb_next.restart()
+                                folderthumb.hideExcept(num)
+                            }
+                        }
+                        Connections {
+                            target: folderthumb
+                            function onHideExcept(n) {
+                                if(n !== num) {
+                                    folderdeleg.source = ""
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Timer {
+                    id: folderthumb_next
+                    interval: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
+                                    ? 2000
+                                    : (PQCSettings.filedialogFolderContentThumbnailsSpeed===2
+                                            ? 1000
+                                            : 500)
+                    running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload
+                    onTriggered: {
+                        if(!PQCSettings.filedialogFolderContentThumbnails)
+                            return
+                        if(index >= PQCFileFolderModel.countFoldersFileDialog)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
+                            return
+                        if(deleg.numberFilesInsideFolder == 0)
+                            return
+                        if((view.currentIndex==index || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
+                            folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
+                            folderthumb_model.append({"folder": PQCFileFolderModel.entriesFileDialog[index], "num": folderthumb.curnum, "curindex": index})
+                        }
+                    }
+                }
+                Connections {
+                    target: view
+                    function onCurrentIndexChanged() {
+                        if(view.currentIndex===index && !PQCSettings.filedialogFolderContentThumbnailsAutoload)
+                            folderthumb_next.restart()
+                    }
+                }
+
+            }
+
+            /************************************************************/
+            // meta information
+
             // how many files inside folder
             Rectangle {
                 id: numberOfFilesInsideFolder_cont
@@ -172,7 +267,7 @@ GridView {
                 radius: 5
                 color: "#000000"
                 opacity: 0.8
-                visible: view.showGrid && numberOfFilesInsideFolder.text != "" && numberOfFilesInsideFolder.text != "0"
+                visible: view.showGrid && numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
                 PQText {
                     id: numberOfFilesInsideFolder
@@ -181,6 +276,28 @@ GridView {
                     font.weight: PQCLook.fontWeightBold
                     elide: Text.ElideMiddle
                     text: deleg.numberFilesInsideFolder
+                }
+            }
+
+            // which # thumbnail inside folder
+            Rectangle {
+                id: numberThumbInsideFolderCont
+                x: (deleg.width-width)/2
+                y: 10
+                width: numberThumbInsideFolder.width + 10
+                height: 20
+                radius: 3
+                color: "#000000"
+                opacity: 0.6
+                visible: view.showGrid && folderthumb.curnum>0 && folderthumb.visible
+
+                PQTextS {
+                    id: numberThumbInsideFolder
+                    x: 5
+                    y: (parent.height-height)/2-2
+                    font.weight: PQCLook.fontWeightBold
+                    elide: Text.ElideMiddle
+                    text: "#"+folderthumb.curnum
                 }
             }
 
@@ -212,6 +329,9 @@ GridView {
             }
 
 
+            /************************************************************/
+            // FILE NAME/SIZE
+
 
             // the filename - icon view
             Rectangle {
@@ -230,6 +350,17 @@ GridView {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     text: deleg.currentFile
+                }
+
+                Image {
+                    x: (parent.width-width-2)
+                    y: (parent.height-height-2)
+                    source: "/white/folder.svg"
+                    height: 10
+                    mipmap: true
+                    width: height
+                    opacity: 0.75
+                    visible: index < PQCFileFolderModel.countFoldersFileDialog && folderthumb.curnum>0
                 }
 
             }
@@ -271,6 +402,9 @@ GridView {
 
             }
 
+            /************************************************************/
+            // HIGHLIGHT/SELECT
+
             // hovering an item
             Rectangle {
 
@@ -294,6 +428,8 @@ GridView {
             }
 
         }
+
+        /************************************************************/
 
         // mouse area handling mouse events
         PQMouseArea {
@@ -327,8 +463,8 @@ GridView {
 
                     if(index < PQCFileFolderModel.countFoldersFileDialog) {
 
-//                        if(PQCSettings.filedialogFolderContentThumbnails)
-//                            str += "<img src=\"image://folderthumb/" + filefoldermodel.entriesFileDialog[index] + ":://::" + folderthumbs.curnum + "\"><br><br>"
+                        if(PQCSettings.filedialogFolderContentThumbnails)
+                            str += "<img src=\"image://folderthumb/" + deleg.currentPath + ":://::" + folderthumb.curnum + "\"><br><br>"
 
                         str += "<span style='font-size: " + PQCLook.fontSizeL + "pt; font-weight: bold'>" + deleg.currentFile + "</span><br><br>" +
                                (deleg.numberFilesInsideFolder==0 ? "" : (qsTranslate("filedialog", "# images")+": <b>" + deleg.numberFilesInsideFolder + "</b><br>")) +

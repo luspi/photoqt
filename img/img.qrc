@@ -18,5 +18,6 @@
         <file>other/filedialog-user-home.svg</file>
         <file>other/filedialog-user-trash.svg</file>
         <file>white/settings.svg</file>
+        <file>white/folder.svg</file>
     </qresource>
 </RCC>

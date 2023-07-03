@@ -50,7 +50,7 @@ MenuItem {
             height: 20
             anchors.centerIn: parent
             visible: menuItem.checkable
-            border.color: PQCLook.inverseColor
+            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
             color: PQCLook.baseColorHighlight
             radius: checkableLikeRadioButton ? 10 : 2
             Rectangle {
@@ -58,7 +58,7 @@ MenuItem {
                 height: 10
                 anchors.centerIn: parent
                 visible: menuItem.checked
-                color: PQCLook.inverseColor
+                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
                 radius: checkableLikeRadioButton ? 5 : 2
             }
         }

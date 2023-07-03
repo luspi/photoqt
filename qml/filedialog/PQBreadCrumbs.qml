@@ -110,7 +110,6 @@ Item {
                     checkable: true
                     source: "/white/settings.svg"
                     onCheckedChanged: {
-                        console.log("checked:", checked)
                         if(checked)
                             settingsmenu.popup(0, height)
                     }
@@ -220,6 +219,14 @@ Item {
                             PQMenu {
                                 id: folderlist
                                 property var subfolders: []
+                                PQMenuItem {
+                                    text: "no subfolders found"
+                                    font.italic: true
+                                    enabled: false
+                                    visible: folderlist.subfolders.length==0
+                                    height: visible ? 40 : 0
+                                }
+
                                 Instantiator {
                                     id: inst
                                     model: 0
