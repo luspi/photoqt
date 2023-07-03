@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import "../elements"
 
 GridView {
@@ -15,6 +16,9 @@ GridView {
         function onNewDataLoadedFileDialog() {
             view.model = 0
             view.model = PQCFileFolderModel.countAllFileDialog
+            // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
+            // (re-)setting the model will always reset the currentIndex to 0
+            currentIndex = -1
         }
     }
     Component.onCompleted:
@@ -39,15 +43,43 @@ GridView {
     Timer {
         id: resetCurrentIndex
         property int oldIndex
-        interval: 200
+        interval: 100
         onTriggered: {
-            if(oldIndex === view.currentIndex)
-                view.currentIndex = -1
+            if(!contextmenu.visible) {
+                if(oldIndex === view.currentIndex)
+                    view.currentIndex = -1
+            } else {
+                if(oldIndex === contextmenu.setCurrentIndexToThisAfterClose)
+                    contextmenu.setCurrentIndexToThisAfterClose = -1
+            }
         }
     }
 
     PQPreview {
         z: -1
+    }
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.RightButton
+
+        // this allows us to catch any right click no matter where it happens
+        // AND still react to onEntered/Exited events for each individual delegate
+        enabled: view.currentIndex===-1
+        visible: view.currentIndex===-1
+
+        onClicked: (mouse) => {
+            contextmenu.path = ""
+            contextmenu.popup()
+        }
+        onPositionChanged: {
+            var ind = view.indexAt(mouseX, view.contentY+mouseY)
+            if(contextmenu.visible)
+                contextmenu.setCurrentIndexToThisAfterClose = ind
+            else
+                view.currentIndex = ind
+        }
     }
 
     // each entry in the list or icon view
@@ -273,6 +305,8 @@ GridView {
             onEntered: {
                 if(!contextmenu.visible)
                     view.currentIndex = index
+                else
+                    contextmenu.setCurrentIndexToThisAfterClose = index
 
                 if(!tooltipSetup) {
 
@@ -343,15 +377,14 @@ GridView {
             }
 
             onExited: {
-                if(!contextmenu.visible) {
-                    resetCurrentIndex.oldIndex = index
-                    resetCurrentIndex.restart()
-                }
+                resetCurrentIndex.oldIndex = index
+                resetCurrentIndex.restart()
             }
 
             onClicked: (mouse) => {
                 if(mouse.button === Qt.RightButton) {
                     contextmenu.path = deleg.currentPath
+                    contextmenu.setCurrentIndexToThisAfterClose = index
                     contextmenu.popup()
                     return
                 }
@@ -439,7 +472,6 @@ GridView {
         Connections {
             target: view
             function onCurrentCutsChanged() {
-                console.log(view.currentCuts, deleg.currentPath)
                 deleg.currentFileCut = (view.currentCuts.indexOf(deleg.currentPath)!==-1)
             }
         }
@@ -456,6 +488,14 @@ GridView {
         onPathChanged: {
             isFolder = PQCScriptsFilesPaths.isFolder(path)
             isFile = !isFolder
+        }
+
+        property int setCurrentIndexToThisAfterClose: -1
+        onVisibleChanged: {
+            if(!visible && setCurrentIndexToThisAfterClose != -2) {
+                view.currentIndex = setCurrentIndexToThisAfterClose
+                setCurrentIndexToThisAfterClose = -2
+            }
         }
 
         PQMenuItem {

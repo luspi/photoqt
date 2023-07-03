@@ -52,31 +52,14 @@ MouseArea {
         control.visible = false
     }
 
-    ToolTip {
+    PQToolTip {
 
         id: control
-        text: ""
-        delay: 500
 
         property point globalPos: tooltipReference!==undefined ? mapToItem(tooltipReference, tooltip_top.mouseX, tooltip_top.mouseY) : Qt.point(0,0)
 
         x: (tooltipReference!==undefined) ? (globalPos.x>tooltipReference.width-width-10 ? tooltipReference.width-5 : tooltip_top.mouseX) : (parent.width-width)/2
         y: -height-5
-
-        font.pointSize: PQCLook.fontSize
-        font.weight: PQCLook.fontWeightNormal
-
-        contentItem: PQText {
-            id: contentText
-            text: control.text
-            font: control.font
-            textFormat: Text.RichText
-        }
-
-        background: Rectangle {
-            color: PQCLook.baseColor
-            border.color: PQCLook.inverseColorHighlight
-        }
 
     }
 
