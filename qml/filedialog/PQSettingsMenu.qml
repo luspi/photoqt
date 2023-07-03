@@ -70,6 +70,13 @@ PQMenu {
         }
 
         PQMenuItem {
+            text: "single click only selects"
+            checkable: true
+            checked: PQCSettings.filedialogSingleClickSelect
+            onCheckedChanged:
+                PQCSettings.filedialogSingleClickSelect = checked
+        }
+        PQMenuItem {
             text: "hidden files"
             checkable: true
             checked: PQCSettings.filedialogShowHiddenFilesFolders

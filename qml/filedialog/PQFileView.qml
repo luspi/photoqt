@@ -565,9 +565,6 @@ GridView {
 
                     }
 
-    //                if(!currentIndexChangedUsingKeyIgnoreMouse)
-    //                    files_grid.currentIndex = index
-
                 }
 
                 onExited: {
@@ -575,26 +572,62 @@ GridView {
                     resetCurrentIndex.restart()
                 }
 
+                property var storeClicks: ({})
+
                 onClicked: (mouse) => {
+                    console.log("click");
                     if(mouse.button === Qt.RightButton) {
-                        contextmenu.path = deleg.currentPath
-                        contextmenu.setCurrentIndexToThisAfterClose = index
-                        contextmenu.popup()
-                        return
+                        contextmenu.path = deleg.currentPath;
+                        contextmenu.setCurrentIndexToThisAfterClose = index;
+                        contextmenu.popup();
+                        return;
                     }
 
-                    if(mouse.modifiers & Qt.ControlModifier) {
-                        if(view.currentSelection.indexOf(index) != -1) {
-                            view.currentSelection = view.currentSelection.filter(item => item!==index)
-                        } else {
+                    if(PQCSettings.filedialogSingleClickSelect) {
+
+                        if(view.currentSelection.indexOf(index) == -1) {
+
                             view.currentSelection.push(index)
                             view.currentSelectionChanged()
-                        }
-                    } else {
-                        if(index < PQCFileFolderModel.countFoldersFileDialog)
-                            filedialog_top.loadNewPath(deleg.currentPath)
+                            storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
 
-                        view.currentSelection = []
+                        } else {
+
+                            var t = PQCScriptsOther.getTimestamp()
+                            var o = storeClicks[deleg.currentPath]
+
+                            console.log("TIME:",t-o)
+
+                            if(t-o < 300) {
+                                if(index < PQCFileFolderModel.countFoldersFileDialog)
+                                    filedialog_top.loadNewPath(deleg.currentPath)
+                                else
+                                    console.log("LOAD THIS FILE")
+
+                                view.currentSelection = []
+                            } else {
+                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                            }
+                        }
+
+                    } else {
+
+                        if(mouse.modifiers & Qt.ControlModifier) {
+                            if(view.currentSelection.indexOf(index) != -1) {
+                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                            } else {
+                                view.currentSelection.push(index)
+                                view.currentSelectionChanged()
+                            }
+                        } else {
+                            if(index < PQCFileFolderModel.countFoldersFileDialog)
+                                filedialog_top.loadNewPath(deleg.currentPath)
+                            else {
+                                console.log("LOAD THIS FILE")
+                            }
+
+                            view.currentSelection = []
+                        }
                     }
                 }
 
