@@ -31,17 +31,27 @@ Item {
             function onCurrentIndexChanged(currentIndex) {
                 setBG.restart()
             }
+            function onCurrentFolderThumbnailIndexChanged(currentFolderThumbnailIndex) {
+                setBG.restart()
+            }
         }
 
         function setCurrentBG() {
-            if(view.currentIndex === -1 || !PQCSettings.filedialogPreview || view.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
+            if(view.currentIndex === -1 || !PQCSettings.filedialogPreview || (view.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view.currentFolderThumbnailIndex == -1)) {
                 preview.source = ""
                 return
             }
-            if(PQCSettings.filedialogThumbnails)
-                preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view.currentIndex]
-            else
-                preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view.currentIndex])
+            if(view.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
+                if(PQCSettings.filedialogFolderContentThumbnails)
+                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[view.currentIndex] + ":://::" + view.currentFolderThumbnailIndex
+                else
+                    preview.source = ""
+            } else {
+                if(PQCSettings.filedialogThumbnails)
+                    preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view.currentIndex]
+                else
+                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view.currentIndex])
+            }
         }
 
     }

@@ -39,6 +39,8 @@ GridView {
 
     property bool currentFolderExcluded: false
 
+    property int currentFolderThumbnailIndex: -1
+
     cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
     clip: true
@@ -203,6 +205,10 @@ GridView {
                 visible: PQCSettings.filedialogFolderContentThumbnails
 
                 property int curnum: 0
+                onCurnumChanged: {
+                    if(index === view.currentIndex)
+                        currentFolderThumbnailIndex = folderthumb.curnum
+                }
 
                 signal hideExcept(var n)
 
