@@ -11,6 +11,9 @@ Item {
 
     property alias topSettingsMenu: settingsmenu
 
+    property bool folderListMenuOpen: false
+    signal closeFolderListMenu()
+
     Row {
 
         Item {
@@ -244,6 +247,22 @@ Item {
                                     subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
                                     inst.model = 0
                                     inst.model = subfolders.length
+                                    folderListMenuOpen = true
+                                }
+                                onAboutToHide:
+                                    folderListMenuOpen = false
+                                Connections {
+                                    target: filedialog_top
+                                    function onOpacityChanged() {
+                                        if(filedialog_top.opacity<1)
+                                            folderlist.close()
+                                    }
+                                }
+                                Connections {
+                                    target: breadcrumbs_top
+                                    function onCloseFolderListMenu() {
+                                        folderlist.close()
+                                    }
                                 }
                             }
                         }

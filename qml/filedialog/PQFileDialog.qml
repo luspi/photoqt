@@ -99,13 +99,25 @@ Rectangle {
                     show()
             } else if(filedialog_top.opacity > 0) {
                 if(what === "keyEvent") {
+
+                    // close something
                     if(param[0] === Qt.Key_Escape) {
+                        // pasting existing files
                         if(pasteExisting.visible)
                             pasteExisting.hide()
+                        // context menu
                         else if(fd_fileview.fileviewContextMenu.visible)
                             fd_fileview.fileviewContextMenu.close()
+                        // settings menu
+                        else if(fd_breadcrumbs.topSettingsMenu.visible)
+                            fd_breadcrumbs.topSettingsMenu.close()
+                        // folder list menu
+                        else if(fd_breadcrumbs.folderListMenuOpen)
+                            fd_breadcrumbs.closeFolderListMenu()
+                        // current selection
                         else if(fd_fileview.currentSelection.length)
                             fd_fileview.currentSelection = []
+                        // file dialog
                         else
                             hide()
                     }
