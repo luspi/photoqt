@@ -53,6 +53,8 @@ GridView {
 
     property var navigateToFileStartingWith: []
 
+    property bool isContextMenuOpen: false
+
     Connections {
         target: handlingExternal
         onChangedClipboardData: {
@@ -75,7 +77,7 @@ GridView {
         interval: 100
         property int oldIndex
         onTriggered: {
-            if(files_grid.currentIndex === oldIndex)
+            if(files_grid.currentIndex === oldIndex && !isContextMenuOpen)
                 files_grid.currentIndex = -1
         }
     }
@@ -115,13 +117,13 @@ GridView {
         }
         onMouseXChanged: {
             // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
-            if(rightclickmenu.isOpen)
+            if(isContextMenuOpen)
                 return
             files_grid.currentIndex = -1
         }
         onMouseYChanged: {
             // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
-            if(rightclickmenu.isOpen)
+            if(isContextMenuOpen)
                 return
             files_grid.currentIndex = -1
         }
@@ -575,7 +577,7 @@ GridView {
                     resetCurrentIndex.stop()
 
                     // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
-                    if(rightclickmenu.isOpen)
+                    if(isContextMenuOpen)
                         return
 
                     if(!tooltipSetup) {
@@ -640,7 +642,7 @@ GridView {
                 onMouseXChanged: {
 
                     // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
-                    if(rightclickmenu.isOpen)
+                    if(isContextMenuOpen)
                         return
 
                     if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
@@ -650,7 +652,7 @@ GridView {
                 onMouseYChanged: {
 
                     // when the context menu is open then there can be some confusion about where the mouse is -> ignore mouse movements
-                    if(rightclickmenu.isOpen)
+                    if(isContextMenuOpen)
                         return
 
                     if(!currentIndexChangedUsingKeyIgnoreMouse && containsMouse)
@@ -838,6 +840,12 @@ GridView {
                     rightclickmenu_timer.stop()
                     files_grid.rightclickopen = false
                 }
+                onIsOpenChanged: {
+                    if(isOpen)
+                        isContextMenuOpen = true
+                }
+                onAboutToHide:
+                    isContextMenuOpen = false
             }
 
             Drag.active: dragArea.drag.active
@@ -1252,7 +1260,7 @@ GridView {
         repeat: false
         running: false
         onTriggered: {
-            if(!rightclickmenu.visible)
+            if(!isContextMenuOpen)
                 files_grid.rightclickopen = false
         }
     }
