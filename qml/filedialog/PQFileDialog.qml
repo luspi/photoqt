@@ -131,6 +131,8 @@ Rectangle {
                         else
                             hide()
 
+                    } else {
+                        fd_fileview.handleKeyEvent(param[0], param[1])
                     }
                 }
             }

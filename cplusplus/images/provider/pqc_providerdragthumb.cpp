@@ -27,6 +27,7 @@
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <QPainter>
+#include <QPainterPath>
 #include <QImage>
 
 QQuickImageResponse *PQCAsyncImageProviderDragThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -40,7 +41,8 @@ QQuickImageResponse *PQCAsyncImageProviderDragThumb::requestImageResponse(const 
 /***********************************************************/
 
 PQCAsyncImageResponseDragThumb::PQCAsyncImageResponseDragThumb(const QString &url, const QSize &requestedSize) {
-    m_path = url;
+    m_path = url.split(":://::")[0];
+    m_howmany = url.split(":://::")[1].toInt();
     setAutoDelete(false);
 }
 
@@ -52,8 +54,6 @@ QQuickTextureFactory *PQCAsyncImageResponseDragThumb::textureFactory() const {
 }
 
 void PQCAsyncImageResponseDragThumb::run() {
-
-    qDebug() << "m_path =" << m_path;
 
     if(QFileInfo(m_path).isDir()) {
 
@@ -71,6 +71,21 @@ void PQCAsyncImageResponseDragThumb::run() {
         loader.loadImage();
         m_image = loader.m_image;
 
+    }
+
+    if(m_howmany > 1) {
+        QPainter painter(&m_image);
+        painter.setRenderHint(QPainter::Antialiasing);
+        QPainterPath path;
+        QRectF cont(m_image.width()-50, 2, 48, 32);
+        path.addRoundedRect(cont, 2, 2);
+        QPen pen(Qt::black, 1);
+        painter.setPen(pen);
+        painter.fillPath(path, QColor::fromRgba(qRgba(0,0,0,160)));
+        painter.drawPath(path);
+        painter.setPen(Qt::white);
+        painter.drawText(cont, Qt::AlignCenter, QString("%1x").arg(m_howmany));
+        painter.end();
     }
 
     Q_EMIT finished();

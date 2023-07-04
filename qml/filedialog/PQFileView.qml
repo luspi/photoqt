@@ -25,23 +25,20 @@ GridView {
     Component.onCompleted:
         model = PQCFileFolderModel.countAllFileDialog
 
-    property var currentSelection: []
-    onCurrentSelectionChanged:
-        currentFileSelected = (currentSelection.indexOf(currentIndex)!==-1)
-
-    property var currentCuts: []
-
-    property bool currentFileSelected: false
-
+    // alias
     property alias fileviewContextMenu: contextmenu
 
-    property bool showGrid: PQCSettings.filedialogLayout==="icons"
-
-    property bool currentFolderExcluded: false
-
-    property int currentFolderThumbnailIndex: -1
-
+    // select/cut
     property int shiftClickIndexStart: -1
+    property var currentSelection: []
+    property var currentCuts: []
+    property bool currentFileSelected: (currentSelection.indexOf(currentIndex)!==-1)
+    property bool ignoreMouseEvents: false
+
+    // properties
+    property bool showGrid: PQCSettings.filedialogLayout==="icons"
+    property bool currentFolderExcluded: false
+    property int currentFolderThumbnailIndex: -1
 
     cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
@@ -63,6 +60,13 @@ GridView {
         }
     }
 
+    Timer {
+        id: resetIgnoreMouseEvents
+        interval: 200
+        onTriggered:
+            ignoreMouseEvents = false
+    }
+
     PQPreview {
         z: -1
     }
@@ -79,14 +83,19 @@ GridView {
     }
 
     PQMouseArea {
+
+        id: bgMousearea
+
+        property bool enableAnyways: false
+
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.RightButton|Qt.LeftButton
 
         // this allows us to catch any right click no matter where it happens
         // AND still react to onEntered/Exited events for each individual delegate
-        enabled: view.currentIndex===-1
-        visible: view.currentIndex===-1
+        enabled: view.currentIndex===-1 || enableAnyways
+        visible: view.currentIndex===-1 || enableAnyways
 
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton) {
@@ -95,6 +104,7 @@ GridView {
             } else {
                 view.currentSelection = []
             }
+            enableAnyways = false
         }
         onPositionChanged: {
             if(fd_breadcrumbs.topSettingsMenu.visible)
@@ -104,6 +114,7 @@ GridView {
                 contextmenu.setCurrentIndexToThisAfterClose = ind
             else
                 view.currentIndex = ind
+            enableAnyways = false
         }
     }
 
@@ -435,7 +446,7 @@ GridView {
             Rectangle {
 
                 anchors.fill: parent
-                color: "#22ffffff"
+                color: "#44ffffff"
                 opacity: view.currentIndex==index ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -487,8 +498,14 @@ GridView {
                     }
                 }
 
+                onPressed: {
+                    // we only need this when a potential drag might occur
+                    // otherwise no need to load this drag thumbnail
+                    parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (currentFileSelected ? currentSelection.length : 1)
+                }
+
                 onEntered: {
-                    if(fd_breadcrumbs.topSettingsMenu.visible)
+                    if(ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
                         return
 
                     if(!contextmenu.visible)
@@ -570,8 +587,10 @@ GridView {
                 }
 
                 onExited: {
-                    resetCurrentIndex.oldIndex = index
-                    resetCurrentIndex.restart()
+                    if(!ignoreMouseEvents) {
+                        resetCurrentIndex.oldIndex = index
+                        resetCurrentIndex.restart()
+                    }
                 }
 
                 property var storeClicks: ({})
@@ -588,7 +607,7 @@ GridView {
                     if(mouse.modifiers & Qt.ShiftModifier) {
 
                         if(shiftClickIndexStart === index) {
-                            if(view.currentSelection.indexOf(index) === -1) {
+                            if(!currentFileSelected) {
                                 view.currentSelection.push(index)
                                 view.currentSelectionChanged()
                                 shiftClickIndexStart = index
@@ -610,7 +629,7 @@ GridView {
 
                         } else {
 
-                            if(view.currentSelection.indexOf(index) === -1) {
+                            if(!currentFileSelected) {
                                 shiftClickIndexStart = index
                                 view.currentSelection.push(index)
                                 view.currentSelectionChanged()
@@ -625,7 +644,7 @@ GridView {
 
                         shiftClickIndexStart = -1
 
-                        if(view.currentSelection.indexOf(index) != -1) {
+                        if(currentFileSelected) {
                             view.currentSelection = view.currentSelection.filter(item => item!==index)
                         } else {
                             view.currentSelection.push(index)
@@ -638,7 +657,7 @@ GridView {
 
                         if(PQCSettings.filedialogSingleClickSelect) {
 
-                            if(view.currentSelection.indexOf(index) == -1) {
+                            if(!currentFileSelected) {
 
                                 view.currentSelection = [index]
                                 storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
@@ -710,7 +729,7 @@ GridView {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            if(view.currentSelection.indexOf(index) == -1) {
+                            if(!currentFileSelected) {
                                 view.currentSelection.push(index)
                                 view.currentSelectionChanged()
                             } else
@@ -726,16 +745,21 @@ GridView {
 
             Drag.active: mousearea.drag.active
             Drag.mimeData: {
-                "text/uri-list": "file://"+deleg.currentPath
-            }
-            Drag.dragType: Drag.Automatic
-            Drag.imageSource: "image://dragthumb/" + deleg.currentPath
-
-            Drag.onDragStarted: {
-                if(view.currentSelection.indexOf(index) == -1) {
-                    Drag.mimeData = ({"text/uri-list": "file://"+deleg.currentPath})
+                if(!currentFileSelected) {
+                    return ({"text/uri-list": "file://"+deleg.currentPath})
+                } else {
+                    var uris = []
+                    for(var i in currentSelection)
+                        uris.push("file://" + PQCFileFolderModel.entriesFileDialog[currentSelection[i]])
+                    return ({"text/uri-list": uris})
                 }
             }
+            Drag.dragType: Drag.Automatic
+
+            // this is set in the mousearea's onPressed signal
+            // this avoid loading all drag thumbnails at the start
+            property string dragImageSource: ""
+            Drag.imageSource: dragImageSource
 
             Connections {
                 target: view
@@ -771,7 +795,7 @@ GridView {
         Connections {
             target: filedialog_top
             function onOpacityChanged() {
-                if(filedialog_top.opacity !== 1)
+                if(filedialog_top.opacity<1)
                     contextmenu.close()
             }
         }
@@ -967,6 +991,85 @@ GridView {
                 PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[currentSelection[key]])
         } else
             PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[currentIndex])
+
+    }
+
+    function handleKeyEvent(key, modifiers) {
+
+        ignoreMouseEvents = true
+        bgMousearea.enableAnyways = true
+
+        if(key === Qt.Key_Up) {
+
+            if(view.currentIndex === -1)
+                view.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+            else if(view.showGrid)
+                view.currentIndex = Math.max(0, view.currentIndex-Math.floor(view.width/view.cellWidth));
+            else
+                view.currentIndex = Math.max(0, view.currentIndex-1)
+
+        } else if(key === Qt.Key_Down) {
+
+            if(view.currentIndex === -1)
+                view.currentIndex = 0
+            else if(view.showGrid)
+                view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view.currentIndex+Math.floor(view.width/view.cellWidth))
+            else
+                view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view.currentIndex+1)
+
+        } else if(key === Qt.Key_Right) {
+
+            if(view.currentIndex === -1)
+                view.currentIndex = 0
+            else
+                view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view.currentIndex+1)
+
+        } else if(key === Qt.Key_Left) {
+
+            if(view.currentIndex === -1)
+                view.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+            else
+            view.currentIndex = Math.max(0, view.currentIndex-1)
+
+        } else if(key === Qt.Key_PageDown) {
+
+            if(view.showGrid) {
+                if(view.currentIndex === -1)
+                    view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4*Math.floor(view.width/view.cellWidth))
+                else
+                    view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view.currentIndex + 5*Math.floor(view.width/view.cellWidth))
+            } else {
+                if(view.currentIndex === -1)
+                    view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4)
+                else
+                    view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view.currentIndex + 5)
+            }
+
+        } else if(key === Qt.Key_PageUp) {
+
+            if(view.showGrid) {
+                if(view.currentIndex === -1)
+                    view.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4*Math.floor(view.width/view.cellWidth))
+                else
+                    view.currentIndex = Math.max(0, view.currentIndex - 5*Math.floor(view.width/view.cellWidth))
+            } else {
+                if(view.currentIndex === -1)
+                    view.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4)
+                else
+                    view.currentIndex = Math.max(0, view.currentIndex - 5)
+            }
+
+        } else if(key === Qt.Key_End) {
+
+            view.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+
+        } else if(key === Qt.Key_Home) {
+
+            view.currentIndex = 0
+
+        }
+
+        resetIgnoreMouseEvents.restart()
 
     }
 

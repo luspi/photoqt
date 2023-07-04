@@ -50,6 +50,7 @@ public:
     void run() override;
 
     QString m_path;
+    int m_howmany;
     QImage m_image;
 
 };
