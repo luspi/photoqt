@@ -269,7 +269,7 @@ QVariantList PQCShortcuts::getAllCurrentShortcuts() {
     while(iterSh.hasNext()) {
         iterSh.next();
         const QString key = iterSh.value()[0].toStringList().join(":://::");
-        if(collectCmds.keys().contains(key))
+        if(collectCmds.contains(key))
             collectCmds[key].push_back(iterSh.key());
         else
             collectCmds.insert(key, QStringList() << iterSh.key());

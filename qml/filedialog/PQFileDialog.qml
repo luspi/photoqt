@@ -127,6 +127,10 @@ Rectangle {
                         else if(fd_fileview.currentSelection.length)
                             fd_fileview.currentSelection = []
 
+                        // current cut
+                        else if(fd_fileview.currentCuts.length)
+                            fd_fileview.currentCuts = []
+
                         // file dialog
                         else
                             hide()
