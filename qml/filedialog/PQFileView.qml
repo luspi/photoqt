@@ -1263,6 +1263,14 @@ GridView {
 
             navigateToFileStartingWith = []
 
+        } else if(key === Qt.Key_1 && modifiers & Qt.ControlModifier) {
+
+            PQCSettings.filedialogLayout = "icons"
+
+        } else if(key === Qt.Key_2 && modifiers & Qt.ControlModifier) {
+
+            PQCSettings.filedialogLayout = "list"
+
         } else {
 
             // ignore modifier modified combos (except for capitalization)
