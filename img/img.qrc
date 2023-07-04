@@ -19,5 +19,7 @@
         <file>other/filedialog-user-trash.svg</file>
         <file>white/settings.svg</file>
         <file>white/folder.svg</file>
+        <file>white/deselectfile.svg</file>
+        <file>white/selectfile.svg</file>
     </qresource>
 </RCC>

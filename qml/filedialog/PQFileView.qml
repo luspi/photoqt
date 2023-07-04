@@ -41,6 +41,8 @@ GridView {
 
     property int currentFolderThumbnailIndex: -1
 
+    property int shiftClickIndexStart: -1
+
     cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
     clip: true
@@ -575,7 +577,7 @@ GridView {
                 property var storeClicks: ({})
 
                 onClicked: (mouse) => {
-                    console.log("click");
+
                     if(mouse.button === Qt.RightButton) {
                         contextmenu.path = deleg.currentPath;
                         contextmenu.setCurrentIndexToThisAfterClose = index;
@@ -583,43 +585,83 @@ GridView {
                         return;
                     }
 
-                    if(PQCSettings.filedialogSingleClickSelect) {
+                    if(mouse.modifiers & Qt.ShiftModifier) {
 
-                        if(view.currentSelection.indexOf(index) == -1) {
+                        if(shiftClickIndexStart === index) {
+                            if(view.currentSelection.indexOf(index) === -1) {
+                                view.currentSelection.push(index)
+                                view.currentSelectionChanged()
+                                shiftClickIndexStart = index
+                            } else {
+                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                shiftClickIndexStart = -1
+                            }
+                        } else if(shiftClickIndexStart !== -1) {
 
-                            view.currentSelection.push(index)
+                            if(shiftClickIndexStart < index) {
+                                for(var i = shiftClickIndexStart; i < index+1; ++i)
+                                    view.currentSelection.push(i)
+                            } else {
+                                for(var l = index; l < shiftClickIndexStart+1; ++l)
+                                    view.currentSelection.push(l)
+                            }
+
                             view.currentSelectionChanged()
-                            storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
 
                         } else {
 
-                            var t = PQCScriptsOther.getTimestamp()
-                            var o = storeClicks[deleg.currentPath]
-
-                            console.log("TIME:",t-o)
-
-                            if(t-o < 300) {
-                                if(index < PQCFileFolderModel.countFoldersFileDialog)
-                                    filedialog_top.loadNewPath(deleg.currentPath)
-                                else
-                                    console.log("LOAD THIS FILE")
-
-                                view.currentSelection = []
+                            if(view.currentSelection.indexOf(index) === -1) {
+                                shiftClickIndexStart = index
+                                view.currentSelection.push(index)
+                                view.currentSelectionChanged()
                             } else {
                                 view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                shiftClickIndexStart = -1
+
                             }
+                        }
+
+                    } else if(mouse.modifiers & Qt.ControlModifier) {
+
+                        shiftClickIndexStart = -1
+
+                        if(view.currentSelection.indexOf(index) != -1) {
+                            view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        } else {
+                            view.currentSelection.push(index)
+                            view.currentSelectionChanged()
                         }
 
                     } else {
 
-                        if(mouse.modifiers & Qt.ControlModifier) {
-                            if(view.currentSelection.indexOf(index) != -1) {
-                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        shiftClickIndexStart = -1
+
+                        if(PQCSettings.filedialogSingleClickSelect) {
+
+                            if(view.currentSelection.indexOf(index) == -1) {
+
+                                view.currentSelection = [index]
+                                storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
+
                             } else {
-                                view.currentSelection.push(index)
-                                view.currentSelectionChanged()
+
+                                var t = PQCScriptsOther.getTimestamp()
+                                var o = storeClicks[deleg.currentPath]
+
+                                if(t-o < 300) {
+                                    if(index < PQCFileFolderModel.countFoldersFileDialog)
+                                        filedialog_top.loadNewPath(deleg.currentPath)
+                                    else
+                                        console.log("LOAD THIS FILE")
+
+                                    view.currentSelection = []
+                                } else {
+                                    view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                }
                             }
+
                         } else {
+
                             if(index < PQCFileFolderModel.countFoldersFileDialog)
                                 filedialog_top.loadNewPath(deleg.currentPath)
                             else {
@@ -627,6 +669,55 @@ GridView {
                             }
 
                             view.currentSelection = []
+                        }
+                    }
+
+                }
+
+            }
+
+            /************************************************************/
+            // + ICON TO SELECT/ - ICON TO DESELECT
+            // has to be on top of main mouse area
+
+            Rectangle {
+                id: selectedornot
+                x: PQCSettings.filedialogLayout==="list" ? (fileicon.x + (fileicon.width-width)/2) : 5
+                y: PQCSettings.filedialogLayout==="list" ? (fileicon.y + (fileicon.height-height)/2) : 5
+                width: 30
+                height: 30
+                radius: 5
+
+                color: "#bbbbbb"
+                opacity: (selectmouse.containsMouse||view.currentSelection.indexOf(index)!=-1)
+                                ? 0.8
+                                : (view.currentIndex===index
+                                        ? (PQCSettings.filedialogLayout==="list"
+                                                ? 0.4
+                                                : 0.8)
+                                        : 0)
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                Image {
+                    anchors.fill: parent
+                    source: (view.currentSelection.indexOf(index)!=-1 ? "/white/deselectfile.svg" : "/white/selectfile.svg")
+                    mipmap: true
+                    opacity: selectmouse.containsMouse ? 0.8 : 0.4
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    PQMouseArea {
+                        id: selectmouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            if(view.currentSelection.indexOf(index) == -1) {
+                                view.currentSelection.push(index)
+                                view.currentSelectionChanged()
+                            } else
+                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        }
+                        onEntered: {
+                            view.currentIndex = index
                         }
                     }
                 }
@@ -640,8 +731,10 @@ GridView {
             Drag.dragType: Drag.Automatic
             Drag.imageSource: "image://dragthumb/" + deleg.currentPath
 
-            Drag.onDragFinished: {
-                console.log(x, y, parent.x, parent.y)
+            Drag.onDragStarted: {
+                if(view.currentSelection.indexOf(index) == -1) {
+                    Drag.mimeData = ({"text/uri-list": "file://"+deleg.currentPath})
+                }
             }
 
             Connections {

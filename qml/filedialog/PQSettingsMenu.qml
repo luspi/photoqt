@@ -70,7 +70,7 @@ PQMenu {
         }
 
         PQMenuItem {
-            text: "single click only selects"
+            text: "select with single click"
             checkable: true
             checked: PQCSettings.filedialogSingleClickSelect
             onCheckedChanged:
