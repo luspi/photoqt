@@ -472,13 +472,13 @@ GridView {
                 }
 
                 Image {
-                    x: (parent.width-width-2)
-                    y: (parent.height-height-2)
+                    x: (parent.width-width-5)
+                    y: (parent.height-height-5)
                     source: "/white/folder.svg"
-                    height: 10
+                    height: 16
                     mipmap: true
                     width: height
-                    opacity: 0.75
+                    opacity: 0.3
                     visible: index < PQCFileFolderModel.countFoldersFileDialog && folderthumb.curnum>0
                 }
 
