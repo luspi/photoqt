@@ -54,7 +54,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     if(PQCImageCache::get().getCachedImage(filename, img)) {
 
         if(requestedSize.isValid() && (img.width() > requestedSize.width() || img.height() > requestedSize.height()))
-            img = img.scaled(requestedSize.width(), requestedSize.height(), ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
+            img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         return "";
 

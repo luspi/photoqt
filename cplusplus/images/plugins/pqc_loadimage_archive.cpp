@@ -220,20 +220,10 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
         QSize finalSize = origSize;
 
-        double q;
+        if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
+            finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
 
-        if(finalSize.width() > maxSize.width()) {
-            q = maxSize.width()/(finalSize.width()*1.0);
-            finalSize.setWidth(finalSize.width()*q);
-            finalSize.setHeight(finalSize.height()*q);
-        }
-        if(finalSize.height() > maxSize.height()) {
-            q = maxSize.height()/(finalSize.height()*1.0);
-            finalSize.setWidth(finalSize.width()*q);
-            finalSize.setHeight(finalSize.height()*q);
-        }
-
-        img = img.scaled(finalSize);
+        img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
     }
 

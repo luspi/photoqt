@@ -172,36 +172,15 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         // check if we need to scale the image
         if(maxSize.width() > -1 && origSize.width() > 0 && origSize.height() > 0) {
 
-            int dispWidth = origSize.width();
-            int dispHeight = origSize.height();
-
-            if(reader.autoTransform() && reader.transformation().testFlag(QImageIOHandler::TransformationRotate90)) {
-                QSize tmp = maxSize;
-                maxSize.setWidth(tmp.height());
-                maxSize.setHeight(tmp.width());
-            }
-
-            double q;
-
-            if(dispWidth > maxSize.width()) {
-                q = maxSize.width()/(dispWidth*1.0);
-                dispWidth = static_cast<int>(dispWidth*q);
-                dispHeight = static_cast<int>(dispHeight*q);
-            }
-
-            // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with main image
-            if(dispHeight > maxSize.height()) {
-                q = maxSize.height()/(dispHeight*1.0);
-                dispWidth = static_cast<int>(dispWidth*q);
-                dispHeight = static_cast<int>(dispHeight*q);
-            }
+            QSize dispSize = origSize;
+            if(dispSize.width() > maxSize.width() || dispSize.height() > maxSize.height())
+                dispSize = dispSize.scaled(maxSize, Qt::KeepAspectRatio);
 
             // scaling
-            if(imgAlreadyLoaded) {
-                // we dont scale it here when we read the full image before to allow for caching in loadimage.cpp (it will be scaled after that point)
-                // img = img.scaled(dispWidth, dispHeight);
-            } else
-                reader.setScaledSize(QSize(dispWidth,dispHeight));
+            if(imgAlreadyLoaded)
+                img = img.scaled(dispSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            else
+                reader.setScaledSize(dispSize);
 
         }
 

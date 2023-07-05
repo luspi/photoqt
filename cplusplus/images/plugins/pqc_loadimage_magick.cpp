@@ -172,18 +172,8 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         // Scale image if necessary
         if(maxSize.width() != -1) {
 
-            double q;
-
-            if(finalSize.width() > maxSize.width()) {
-                q = maxSize.width()/(finalSize.width()*1.0);
-                finalSize.setWidth(finalSize.width()*q);
-                finalSize.setHeight(finalSize.height()*q);
-            }
-            if(finalSize.height() > maxSize.height()) {
-                q = maxSize.height()/(finalSize.height()*1.0);
-                finalSize.setWidth(finalSize.width()*q);
-                finalSize.setHeight(finalSize.height()*q);
-            }
+            if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
+                finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
 
             // For small images we can use the faster algorithm, as the quality is good enough for that
             if(finalSize.width() < 300 && finalSize.height() < 300)

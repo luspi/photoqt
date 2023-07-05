@@ -176,12 +176,13 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
 
     // If image needs to be scaled down, do so now
     if(maxSize.width() > 5 && maxSize.height() > 5) {
-        double q = 1;
-        if(width > maxSize.width())
-            q = (double)maxSize.width()/(double)width;
-        if(height*q > maxSize.height())
-            q = (double)maxSize.height()/(double)height;
-        reader.setScaledSize(reader.size()*q);
+
+        QSize dispSize = QSize(width, height);
+
+        if(dispSize.width() > maxSize.width() || dispSize.height() > maxSize.height())
+            dispSize = dispSize.scaled(maxSize, Qt::KeepAspectRatio);
+
+        reader.setScaledSize(dispSize);
     }
 
     // Clear the DevIL memory

@@ -86,6 +86,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
         m_requestedSize = QSize(128, 128);
     }
 
+
     const QString thumbcachepath = PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/" + cachedir + "/" + md5 + ".png";
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
