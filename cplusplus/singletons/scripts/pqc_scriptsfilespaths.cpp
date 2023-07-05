@@ -18,16 +18,8 @@ PQCScriptsFilesPaths::~PQCScriptsFilesPaths() {
 
 QString PQCScriptsFilesPaths::cleanPath(QString path) {
 
-// older versions of PhotoQt used the incorrect form of only two slashes after file:
-// this was corrected everywhere starting with v3.0, but we still need to check for both
-
 #ifdef Q_OS_WIN
-    if(path.startsWith("file:///"))
-        path = path.remove(0, 8);
-    else if(path.startsWith("file://"))
-        path = path.remove(0, 7);
-    else if(path.startsWith("file:/"))
-        path = path.remove(0, 6);
+    return cleanPath_windows(path);
 #else
     if(path.startsWith("file:////"))
         path = path.remove(0, 8);
@@ -35,18 +27,35 @@ QString PQCScriptsFilesPaths::cleanPath(QString path) {
         path = path.remove(0, 7);
     else if(path.startsWith("file://"))
         path = path.remove(0, 6);
-#endif
     else if(path.startsWith("image://full/"))
         path = path.remove(0, 13);
     else if(path.startsWith("image://thumb/"))
         path = path.remove(0, 14);
 
-#ifdef Q_OS_WIN
-    path = QDir::cleanPath(path.replace("//", "|::::::::|"));
-    return path.replace("|::::::::|", "//");
-#else
     return QDir::cleanPath(path);
 #endif
+
+}
+
+QString PQCScriptsFilesPaths::cleanPath_windows(QString path) {
+
+    if(path.startsWith("file:///"))
+        path = path.remove(0, 8);
+    else if(path.startsWith("file://"))
+        path = path.remove(0, 7);
+    else if(path.startsWith("file:/"))
+        path = path.remove(0, 6);
+    else if(path.startsWith("image://full/"))
+        path = path.remove(0, 13);
+    else if(path.startsWith("image://thumb/"))
+        path = path.remove(0, 14);
+
+    bool networkPath = path.startsWith("//");
+    path = QDir::cleanPath(path);
+    if(networkPath)
+        path = "/"+path;
+
+    return path;
 
 }
 
@@ -61,10 +70,8 @@ QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
 
 }
 
-QString PQCScriptsFilesPaths::getSuffix(QString path, bool lowerCase) {
+QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
-    if(lowerCase)
-        return QFileInfo(path).suffix().toLower();
     return QFileInfo(path).suffix();
 
 }
@@ -119,6 +126,9 @@ QString PQCScriptsFilesPaths::getWindowsDriveLetter(QString path) {
 }
 
 QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
+
+    if(path == "")
+        return QStringList();
 
     QDir dir(path);
 

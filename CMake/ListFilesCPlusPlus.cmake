@@ -47,3 +47,26 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_libvips.cpp ${d}/pqc_l
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_qt.cpp ${d}/pqc_loadimage_qtpdf.cpp ${d}/pqc_loadimage_raw.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_unrar.cpp ${d}/pqc_loadimage_video.cpp ${d}/pqc_loadimage_xcf.cpp)
 
+#########################
+# TESTING
+
+SET(d "testing")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/main.cpp)
+
+SET(d "testing/header")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/pqctest_scriptsfilespaths.h)
+
+SET(d "testing/singletons/scripts")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/pqctest_scriptsfilespaths.cpp)
+
+SET(d "cplusplus/header")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/pqc_settings.h)
+
+SET(d "cplusplus/header/scripts")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/pqc_scriptsfilespaths.h)
+
+SET(d "cplusplus/singletons/scripts")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/pqc_scriptsfilespaths.cpp)
+
+SET(d "cplusplus/singletons/engines")
+SET(photoqt_test_SOURCES ${photoqt_test_SOURCES} ${d}/pqc_settings.cpp)

@@ -50,7 +50,7 @@ Item {
                 if(PQCSettings.filedialogThumbnails)
                     preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view.currentIndex]
                 else
-                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view.currentIndex])
+                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view.currentIndex]).toLowerCase()
             }
         }
 

@@ -252,7 +252,7 @@ GridView {
 
                 property string sourceString: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
                                                     ? (view.showGrid ? "folder" : "folder_listicon")
-                                                    : PQCScriptsFilesPaths.getSuffix(deleg.currentPath)))
+                                                    : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
                 source: sourceString
 

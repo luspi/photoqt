@@ -53,6 +53,8 @@ option(CHROMECAST "Enable Chromecast support" ON)
 option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip." OFF)
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
 
+option(TESTING "Build some unit tests" OFF)
+
 if(QTPDF)
     if(POPPLER)
         set(POPPLER OFF)
@@ -65,6 +67,9 @@ endif()
 ################################
 
 find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent)
+if(TESTING)
+    find_package(Qt6 6.2 REQUIRED COMPONENTS Test)
+endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
@@ -186,10 +191,12 @@ if(QTPDF)
     target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Pdf)
 endif()
 
-#install(TARGETS photoqt
-#    BUNDLE DESTINATION .
-#    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#)
+if(TESTING)
+    qt_add_executable(photoqt_test ${photoqt_test_SOURCES})
+    target_link_libraries(photoqt_test PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent Qt6::Test)
+    target_include_directories(photoqt_test PRIVATE "testing/header")
+    target_include_directories(photoqt_test PRIVATE "cplusplus/header")
+endif()
 
 ##############################################
 #### COMPOSE THE APPROPRIATE DESKTOP FILE ####
