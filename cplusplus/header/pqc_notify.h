@@ -56,9 +56,9 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(bool thumbs READ getThumbs WRITE setThumbs NOTIFY thumbsChanged)
-    void setThumbs(bool val);
-    Q_INVOKABLE bool getThumbs();
+    Q_PROPERTY(int thumbs READ getThumbs WRITE setThumbs NOTIFY thumbsChanged)
+    void setThumbs(int val);
+    Q_INVOKABLE int getThumbs();
 
     /******************************************************/
 

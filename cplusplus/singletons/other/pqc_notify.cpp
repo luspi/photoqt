@@ -35,13 +35,13 @@ bool PQCNotify::getFreshInstall() {
     return m_freshInstall;
 }
 
-void PQCNotify::setThumbs(bool val) {
+void PQCNotify::setThumbs(int val) {
     if(val != m_thumbs) {
         m_thumbs = val;
         Q_EMIT thumbsChanged();
     }
 }
-bool PQCNotify::getThumbs() {
+int PQCNotify::getThumbs() {
     return m_thumbs;
 }
 

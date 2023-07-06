@@ -102,9 +102,9 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-
     QString errormsg = "";
+
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
 
     QSize finalSize;
 

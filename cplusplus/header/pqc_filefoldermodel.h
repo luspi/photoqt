@@ -81,9 +81,9 @@ public:
     Q_PROPERTY(QStringList entriesMainView READ getEntriesMainView NOTIFY entriesMainViewChanged)
     QStringList getEntriesMainView();
 
-    Q_PROPERTY(int includeFilesInSubFolders READ getIncludeFilesInSubFolders WRITE setIncludeFilesInSubFolders NOTIFY includeFilesInSubFoldersChanged)
-    int getIncludeFilesInSubFolders();
-    void setIncludeFilesInSubFolders(int c);
+    Q_PROPERTY(bool includeFilesInSubFolders READ getIncludeFilesInSubFolders WRITE setIncludeFilesInSubFolders NOTIFY includeFilesInSubFoldersChanged)
+    bool getIncludeFilesInSubFolders();
+    void setIncludeFilesInSubFolders(bool c);
 
     /********************************************/
     /********************************************/

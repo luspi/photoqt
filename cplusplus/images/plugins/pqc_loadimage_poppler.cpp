@@ -35,6 +35,8 @@ QSize PQCLoadImagePoppler::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
+#ifdef POPPLER
+
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
     if(filename.contains("::PQT::")) {
@@ -57,6 +59,10 @@ QSize PQCLoadImagePoppler::loadSize(QString filename) {
 
     return p->pageSize()*(PQCSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
 
+#endif
+
+    return QSize();
+
 }
 
 QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
@@ -64,9 +70,9 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;
 
-#ifdef POPPLER
-
     QString errormsg = "";
+
+#ifdef POPPLER
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;

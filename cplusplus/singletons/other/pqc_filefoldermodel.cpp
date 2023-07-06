@@ -199,10 +199,10 @@ QStringList PQCFileFolderModel::getEntriesMainView() {
     return m_entriesMainView;
 }
 
-int PQCFileFolderModel::getIncludeFilesInSubFolders() {
+bool PQCFileFolderModel::getIncludeFilesInSubFolders() {
     return m_includeFilesInSubFolders;
 }
-void PQCFileFolderModel::setIncludeFilesInSubFolders(int c) {
+void PQCFileFolderModel::setIncludeFilesInSubFolders(bool c) {
     if(m_includeFilesInSubFolders == c)
         return;
     m_includeFilesInSubFolders = c;
