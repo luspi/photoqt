@@ -192,7 +192,7 @@ if(QTPDF)
 endif()
 
 if(TESTING)
-    qt_add_executable(photoqt_test ${photoqt_testscripts_SOURCES} testing/resources/testing.qrc)
+    qt_add_executable(photoqt_test ${photoqt_testscripts_SOURCES} misc/misc.qrc testing/resources/testing.qrc)
     target_link_libraries(photoqt_test PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent Qt6::Test)
     target_include_directories(photoqt_test PRIVATE "testing/header")
     target_include_directories(photoqt_test PRIVATE "cplusplus/header")

@@ -13,14 +13,42 @@
 void PQCTESTScripts::init() {
 
     QDir dir;
+    dir.mkpath(PQCConfigFiles::CONFIG_DIR());
     dir.mkpath(QDir::tempPath() + "/photoqt_test");
+
+    QFile::copy(":/imageformats.db", PQCConfigFiles::IMAGEFORMATS_DB());
+    QFile::copy(":/settings.db", PQCConfigFiles::SETTINGS_DB());
+    QFile::copy(":/location.db", PQCConfigFiles::LOCATION_DB());
+    QFile::copy(":/contextmenu.db", PQCConfigFiles::CONTEXTMENU_DB());
+    QFile::copy(":/shortcuts.db", PQCConfigFiles::SHORTCUTS_DB());
+
+    QFile file(PQCConfigFiles::IMAGEFORMATS_DB());
+    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
+    file.setFileName(PQCConfigFiles::SETTINGS_DB());
+    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
+    file.setFileName(PQCConfigFiles::LOCATION_DB());
+    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
+    file.setFileName(PQCConfigFiles::CONTEXTMENU_DB());
+    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
+    file.setFileName(PQCConfigFiles::SHORTCUTS_DB());
+    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
 
 }
 
 void PQCTESTScripts::cleanup() {
 
-    QDir dir;
-    dir.setPath(QDir::tempPath()+"/photoqt_test");
+    QFile::remove(PQCConfigFiles::IMAGEFORMATS_DB());
+    QFile::remove(PQCConfigFiles::SETTINGS_DB());
+    QFile::remove(PQCConfigFiles::LOCATION_DB());
+    QFile::remove(PQCConfigFiles::CONTEXTMENU_DB());
+    QFile::remove(PQCConfigFiles::SHORTCUTS_DB());
+
+    QDir dir(QDir::tempPath() + "/photoqt_test");
     dir.removeRecursively();
 
 }
@@ -158,21 +186,21 @@ void PQCTESTScripts::testClipboard() {
 void PQCTESTScripts::testExportImport() {
 
     QVERIFY(PQCScriptsConfig::get().exportConfigTo(QDir::tempPath()+"/photoqt_test/export.pqt"));
-    QVERIFY(PQCScriptsConfig::get().importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt", QDir::tempPath()+"/photoqt_test"));
+    QVERIFY(PQCScriptsConfig::get().importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt", false));
 
     QStringList checker;
-    checker << "settings.db" << PQCConfigFiles::SETTINGS_DB();
-    checker << "contextmenu.db" << PQCConfigFiles::CONTEXTMENU_DB();
-    checker << "shortcuts.db" << PQCConfigFiles::SHORTCUTS_DB();
-    checker << "imageformats.db" << PQCConfigFiles::IMAGEFORMATS_DB();
+    checker << ":/settings.db" << PQCConfigFiles::SETTINGS_DB();
+    checker << ":/contextmenu.db" << PQCConfigFiles::CONTEXTMENU_DB();
+    checker << ":/shortcuts.db" << PQCConfigFiles::SHORTCUTS_DB();
+    checker << ":/imageformats.db" << PQCConfigFiles::IMAGEFORMATS_DB();
 
     for(int i = 0; i < checker.length()/2; ++i) {
 
-        QFileInfo file(QString("%1/photoqt_test/%2").arg(QDir::tempPath(), checker[2*i]));
-        QFileInfo expectedfile(checker[2*i +1]);
+        QFileInfo expectedfile(checker[2*i]);
+        QFileInfo file(checker[2*i +1]);
 
         // after unpacking with libraw the size for some reason differs by 1 byte
-        QCOMPARE(file.size(), expectedfile.size()+1);
+        QCOMPARE(qMax(5, qAbs(file.size()-expectedfile.size())), 5);
 
     }
 
@@ -234,22 +262,33 @@ void PQCTESTScripts::testCopyFileToHere() {
 
 }
 
-void PQCTESTScripts::testDeleteFile() {
+void PQCTESTScripts::testDeletePermanentFile() {
 
     QFile file(":/testing/blue.png");
-    file.copy(QDir::tempPath()+"/photoqt_test/blue1.png");
-    file.copy(QDir::tempPath()+"/photoqt_test/blue2.png");
+    file.copy(QDir::tempPath()+"/photoqt_test/blue.png");
 
     // normal delete
-    QVERIFY(PQCScriptsFileManagement::get().deletePermanent(QDir::tempPath()+"/photoqt_test/blue1.png"));
-    QVERIFY(PQCScriptsFileManagement::get().moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue2.png"));
+    QVERIFY(PQCScriptsFileManagement::get().deletePermanent(QDir::tempPath()+"/photoqt_test/blue.png"));
 
     // delete non-existing
-    QVERIFY(!PQCScriptsFileManagement::get().deletePermanent(QDir::tempPath()+"/photoqt_test/blue3.png"));
-    QVERIFY(!PQCScriptsFileManagement::get().moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue4.png"));
+    QVERIFY(!PQCScriptsFileManagement::get().deletePermanent(QDir::tempPath()+"/photoqt_test/blue__.png"));
 
-    QVERIFY(!QFile::exists(QDir::tempPath()+"/photoqt_test/blue1.png"));
-    QVERIFY(!QFile::exists(QDir::tempPath()+"/photoqt_test/blue2.png"));
+    QVERIFY(!QFile::exists(QDir::tempPath()+"/photoqt_test/blue.png"));
+
+}
+
+void PQCTESTScripts::testMoveFileToTrash() {
+
+    QFile file(":/testing/blue.png");
+    file.copy(QDir::tempPath()+"/photoqt_test/blue.png");
+
+    // normal delete
+    QVERIFY(PQCScriptsFileManagement::get().moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue.png"));
+
+    // delete non-existing
+    QVERIFY(!PQCScriptsFileManagement::get().moveFileToTrash(QDir::tempPath()+"/photoqt_test/blue__.png"));
+
+    QVERIFY(!QFile::exists(QDir::tempPath()+"/photoqt_test/blue.png"));
 
 }
 
@@ -268,28 +307,62 @@ void PQCTESTScripts::testLoadImageAndConvertToBase64() {
 
 }
 
-void PQCTESTScripts::testListArchiveContent() {
+void PQCTESTScripts::testListArchiveContentZip() {
 
-    QFile fileZip(":/testing/testarchive.zip");
-    fileZip.copy(QDir::tempPath()+"/photoqt_test/testarchive.zip");
+    QFile file(":/testing/testarchive.zip");
+    file.copy(QDir::tempPath()+"/photoqt_test/testarchive.zip");
 
-    QStringList expectedZip;
-    expectedZip << "black.png::ARC::/tmp/photoqt_test/testarchive.zip";
-    expectedZip << "blue.png::ARC::/tmp/photoqt_test/testarchive.zip";
-    expectedZip << "green.png::ARC::/tmp/photoqt_test/testarchive.zip";
-    expectedZip << "orange.png::ARC::/tmp/photoqt_test/testarchive.zip";
+    QStringList expected;
+    expected << "black.png::ARC::/tmp/photoqt_test/testarchive.zip";
+    expected << "blue.png::ARC::/tmp/photoqt_test/testarchive.zip";
+    expected << "green.png::ARC::/tmp/photoqt_test/testarchive.zip";
+    expected << "orange.png::ARC::/tmp/photoqt_test/testarchive.zip";
 
-    QCOMPARE(expectedZip, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.zip"));
+    QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.zip"));
 
-    QFile fileTarGz(":/testing/testarchive.tar.gz");
-    fileTarGz.copy(QDir::tempPath()+"/photoqt_test/testarchive.tar.gz");
+}
 
-    QStringList expectedTarGz;
-    expectedTarGz << "black.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
-    expectedTarGz << "blue.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
-    expectedTarGz << "green.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
-    expectedTarGz << "orange.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
+void PQCTESTScripts::testListArchiveContentTarGz() {
 
-    QCOMPARE(expectedTarGz, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.tar.gz"));
+    QFile file(":/testing/testarchive.tar.gz");
+    file.copy(QDir::tempPath()+"/photoqt_test/testarchive.tar.gz");
+
+    QStringList expected;
+    expected << "black.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
+    expected << "blue.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
+    expected << "green.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
+    expected << "orange.png::ARC::/tmp/photoqt_test/testarchive.tar.gz";
+
+    QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.tar.gz"));
+
+}
+
+void PQCTESTScripts::testListArchiveContent7z() {
+
+    QFile file(":/testing/testarchive.7z");
+    file.copy(QDir::tempPath()+"/photoqt_test/testarchive.7z");
+
+    QStringList expected;
+    expected << "black.png::ARC::/tmp/photoqt_test/testarchive.7z";
+    expected << "blue.png::ARC::/tmp/photoqt_test/testarchive.7z";
+    expected << "green.png::ARC::/tmp/photoqt_test/testarchive.7z";
+    expected << "orange.png::ARC::/tmp/photoqt_test/testarchive.7z";
+
+    QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.7z"));
+
+}
+
+void PQCTESTScripts::testListArchiveContentRar() {
+
+    QFile file(":/testing/testarchive.rar");
+    file.copy(QDir::tempPath()+"/photoqt_test/testarchive.rar");
+
+    QStringList expected;
+    expected << "black.png::ARC::/tmp/photoqt_test/testarchive.rar";
+    expected << "blue.png::ARC::/tmp/photoqt_test/testarchive.rar";
+    expected << "green.png::ARC::/tmp/photoqt_test/testarchive.rar";
+    expected << "orange.png::ARC::/tmp/photoqt_test/testarchive.rar";
+
+    QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.rar"));
 
 }

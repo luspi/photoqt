@@ -221,26 +221,18 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
 }
 
-bool PQCScriptsConfig::importConfigFrom(QString path, QString importToFolder) {
+bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
 
     qDebug() << "args: path =" << path;
-    qDebug() << "args: importToFolder =" << importToFolder;
 
 #ifdef LIBARCHIVE
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
-    if(importToFolder == "") {
-        allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
-        allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::CONTEXTMENU_DB();
-        allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::SHORTCUTS_DB();
-        allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::IMAGEFORMATS_DB();
-    } else {
-        allfiles["CFG_SETTINGS_DB"] = importToFolder+"/settings.db";
-        allfiles["CFG_CONTEXTMENU_DB"] = importToFolder+"/contextmenu.db";
-        allfiles["CFG_SHORTCUTS_DB"] = importToFolder+"/shortcuts.db";
-        allfiles["CFG_IMAGEFORMATS_DB"] = importToFolder+"/imageformats.db";
-    }
+    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
+    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::CONTEXTMENU_DB();
+    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::SHORTCUTS_DB();
+    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::IMAGEFORMATS_DB();
 
     // Create new archive handler
     struct archive *a = archive_read_new();
@@ -305,14 +297,16 @@ bool PQCScriptsConfig::importConfigFrom(QString path, QString importToFolder) {
 
     // reload settings, shortcuts, and imageformats
     // we only reload when config was exported to default folders
-    if(importToFolder == "") {
     // we don't need to reload the contextmenu, the filewatcher takes care of that
-    PQCSettings::get().readDB();
-//    PQCShortcuts::get().readDB();
-//    PQCImageFormats::get().readDatabase();
+    if(reloadData) {
 
-    PQCValidate validate;
-    validate.validate();
+        PQCSettings::get().readDB();
+//        PQCShortcuts::get().readDB();
+//        PQCImageFormats::get().readDatabase();
+
+        PQCValidate validate;
+        validate.validate();
+
     }
 
     return true;

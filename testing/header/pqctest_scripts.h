@@ -46,13 +46,17 @@ private Q_SLOTS:
     // file management
 
     void testCopyFileToHere();
-    void testDeleteFile();
+    void testDeletePermanentFile();
+    void testMoveFileToTrash();
 
 /********************************************************/
     // images
 
     void testLoadImageAndConvertToBase64();
-    void testListArchiveContent();
+    void testListArchiveContentZip();
+    void testListArchiveContentTarGz();
+    void testListArchiveContentRar();
+    void testListArchiveContent7z();
 
 };
 
