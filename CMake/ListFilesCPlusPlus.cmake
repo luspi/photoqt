@@ -51,10 +51,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_unrar.cpp ${d}/pqc_loa
 # TESTING
 
 SET(d "testing")
-SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/main.cpp ${d}/pqctest_scripts.cpp)
-
-SET(d "testing/header")
-SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqctest_scripts.h)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/main.cpp ${d}/pqc_test.cpp)
 
 
 SET(d "cplusplus/other")

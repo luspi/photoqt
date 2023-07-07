@@ -1,11 +1,10 @@
-#include <pqctest_scripts.h>
-//QTEST_MAIN(PQCTESTScripts)
+#include "pqc_test.h"
 
 int main(int argc, char **argv) {
 
     QApplication app(argc, argv);
 
-    PQCTESTScripts tc;
+    PQCTest tc;
     return QTest::qExec(&tc, argc, argv);
 
 }

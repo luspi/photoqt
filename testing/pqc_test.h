@@ -3,7 +3,7 @@
 
 #include <QTest>
 
-class PQCTESTScripts : public QObject {
+class PQCTest : public QObject {
 
     Q_OBJECT
 
@@ -11,6 +11,10 @@ private Q_SLOTS:
 
     void init();
     void cleanup();
+
+/********************************************************/
+/********************************************************/
+// scripts
 
 /********************************************************/
     // files and paths
@@ -57,6 +61,13 @@ private Q_SLOTS:
     void testListArchiveContentTarGz();
     void testListArchiveContentRar();
     void testListArchiveContent7z();
+
+/********************************************************/
+/********************************************************/
+// file/folder model
+
+    void testModelFileDialog();
+    void testModelMainView();
 
 };
 
