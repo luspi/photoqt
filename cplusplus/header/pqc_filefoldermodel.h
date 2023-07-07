@@ -27,6 +27,7 @@
 #include <pqc_filefoldermodelcache.h>
 #include <QTimer>
 #include <QMimeDatabase>
+#include <QSize>
 
 class QSize;
 class QFileSystemWatcher;

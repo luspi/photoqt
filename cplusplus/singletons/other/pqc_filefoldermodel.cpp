@@ -811,8 +811,12 @@ void PQCFileFolderModel::loadDataMainView() {
     // no new directory
 
     if(m_fileInFolderMainView.isEmpty()) {
+        m_currentFile = "";
+        m_currentIndex = -1;
         Q_EMIT newDataLoadedMainView();
         Q_EMIT countMainViewChanged();
+        Q_EMIT currentFileChanged();
+        Q_EMIT currentIndexChanged();
         return;
     }
 
@@ -858,8 +862,13 @@ void PQCFileFolderModel::loadDataMainView() {
     else
         cacheAdvancedSortFolderName = "";
 
+    m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
+    m_currentFile = QFileInfo(m_fileInFolderMainView).fileName();
+
     Q_EMIT newDataLoadedMainView();
     Q_EMIT countMainViewChanged();
+    Q_EMIT currentIndexChanged();
+    Q_EMIT currentFileChanged();
 
 }
 
