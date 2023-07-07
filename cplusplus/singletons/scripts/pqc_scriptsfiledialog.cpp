@@ -207,7 +207,7 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
 
 }
 
-void PQCScriptsFileDialog::setLastLocation(QString path) {
+bool PQCScriptsFileDialog::setLastLocation(QString path) {
 
     qDebug() << "args: path =" << path;
 
@@ -216,7 +216,10 @@ void PQCScriptsFileDialog::setLastLocation(QString path) {
         QTextStream out(&file);
         out << path;
         file.close();
+        return true;
     }
+
+    return false;
 
 }
 

@@ -37,7 +37,12 @@
 
 PQCImageFormats::PQCImageFormats() {
 
-    db = QSqlDatabase::database("imageformats");
+    // connect to database
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
+    db.setDatabaseName(PQCConfigFiles::IMAGEFORMATS_DB());
 
     QFileInfo infodb(PQCConfigFiles::IMAGEFORMATS_DB());
 

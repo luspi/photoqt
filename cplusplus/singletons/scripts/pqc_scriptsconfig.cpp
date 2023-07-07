@@ -221,18 +221,26 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
 }
 
-bool PQCScriptsConfig::importConfigFrom(QString path) {
+bool PQCScriptsConfig::importConfigFrom(QString path, QString importToFolder) {
 
     qDebug() << "args: path =" << path;
+    qDebug() << "args: importToFolder =" << importToFolder;
 
 #ifdef LIBARCHIVE
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
-    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::CONTEXTMENU_DB();
-    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::SHORTCUTS_DB();
-    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::IMAGEFORMATS_DB();
+    if(importToFolder == "") {
+        allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
+        allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::CONTEXTMENU_DB();
+        allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::SHORTCUTS_DB();
+        allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::IMAGEFORMATS_DB();
+    } else {
+        allfiles["CFG_SETTINGS_DB"] = importToFolder+"/settings.db";
+        allfiles["CFG_CONTEXTMENU_DB"] = importToFolder+"/contextmenu.db";
+        allfiles["CFG_SHORTCUTS_DB"] = importToFolder+"/shortcuts.db";
+        allfiles["CFG_IMAGEFORMATS_DB"] = importToFolder+"/imageformats.db";
+    }
 
     // Create new archive handler
     struct archive *a = archive_read_new();
@@ -296,6 +304,8 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
         qWarning() << "ERROR: archive_read_free() returned code of" << r;
 
     // reload settings, shortcuts, and imageformats
+    // we only reload when config was exported to default folders
+    if(importToFolder == "") {
     // we don't need to reload the contextmenu, the filewatcher takes care of that
     PQCSettings::get().readDB();
 //    PQCShortcuts::get().readDB();
@@ -303,6 +313,7 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     PQCValidate validate;
     validate.validate();
+    }
 
     return true;
 
