@@ -20,6 +20,9 @@ public:
     Q_INVOKABLE static QString getConfigInfo(bool formatHTML = false);
     Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE static bool importConfigFrom(QString path, bool reloadData = true);
+    Q_INVOKABLE QString getLastLoadedImage();
+    Q_INVOKABLE void setLastLoadedImage(QString path);
+    Q_INVOKABLE void deleteLastLoadedImage();
     Q_INVOKABLE bool amIOnWindows();
     Q_INVOKABLE bool isChromecastEnabled();
     Q_INVOKABLE bool isLocationSupportEnabled();

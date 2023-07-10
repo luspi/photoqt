@@ -1,3 +1,5 @@
+.import "pq_closing.js" as PQClosing
+
 function checkComboForShortcut(combo, wheelDelta) {
 
     // if in viewer mode, pressing 'Escape' exits viewer mode
@@ -90,9 +92,9 @@ function executeInternalFunction(cmd, wheelDelta) {
         image.rotateClock()
     else if(cmd === "__rotate0")
         image.rotateReset()
+    else if(cmd === "__quit")
+        PQClosing.quitPhotoQt()
 
-//    if(cmd === "__quit")
-//        toplevel.quitPhotoQt()
 //    else if(cmd === "__close")
 //        toplevel.closePhotoQt()
 //    else if(cmd === "__settings")

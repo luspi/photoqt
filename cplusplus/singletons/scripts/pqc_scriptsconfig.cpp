@@ -358,3 +358,46 @@ bool PQCScriptsConfig::isPugixmlSupportEnabled() {
 #endif
     return false;
 }
+
+QString PQCScriptsConfig::getLastLoadedImage() {
+
+    qDebug() << "";
+
+    QString ret = "";
+
+    QFile file(PQCConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        ret = in.readAll();
+        file.close();
+    }
+
+    return ret.trimmed();
+
+}
+
+void PQCScriptsConfig::setLastLoadedImage(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QFile file(PQCConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        out.flush();
+        file.close();
+    }
+
+}
+
+void PQCScriptsConfig::deleteLastLoadedImage() {
+
+    qDebug() << "";
+
+    // attempts to remove stored last loaded image
+    // not a big deal if this fails thus no need to error check
+    QFile file(PQCConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.exists())
+        file.remove();
+
+}

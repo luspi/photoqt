@@ -24,7 +24,7 @@ SET(d "qml/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml ${d}/PQTemplateFullscreen.qml)
 
 SET(d "qml/scripts")
-SET(photoqt_QML ${photoqt_QML} ${d}/pq_shortcuts.js)
+SET(photoqt_QML ${photoqt_QML} ${d}/pq_shortcuts.js ${d}/pq_closing.js)
 
 SET(d "qml/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml)

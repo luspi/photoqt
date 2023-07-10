@@ -5,7 +5,6 @@ import "elements"
 import "other"
 import "manage"
 import "image"
-import "scripts/pq_shortcuts.js" as PQShortcutsJS
 
 Window {
 
