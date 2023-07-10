@@ -152,6 +152,27 @@ Item {
                             }
                         }
 
+                        Connections {
+                            target: toplevel
+                            function onWidthChanged() {
+                                resetDefault.restart()
+                            }
+                            function onHeightChanged() {
+                                resetDefault.restart()
+                            }
+                        }
+
+                        Timer {
+                            id: resetDefault
+                            interval: 50
+                            onTriggered: {
+                                if(Math.abs(deleg.imageScale-deleg.defaultScale) < 1e-6) {
+                                    deleg.defaultScale = img.computeDefaultScale()
+                                    deleg.imageScale = deleg.defaultScale
+                                }
+                            }
+                        }
+
                         PropertyAnimation {
                             id: scaleAnimation
                             target: img
@@ -165,9 +186,10 @@ Item {
                         onStatusChanged: {
                             if(status == Image.Ready) {
                                 if(PQCFileFolderModel.currentIndex === index) {
-                                    console.log("make visible:", deleg.itemIndex)
-                                    startupScale = true
-                                    deleg.defaultScale = img.computeDefaultScale()
+                                    var tmp = img.computeDefaultScale()
+                                    if(Math.abs(tmp-1) > 1e-6)
+                                        startupScale = true
+                                    deleg.defaultScale = tmp
                                     l.hasBeenSetup = true
                                     deleg.showImage()
                                 }
