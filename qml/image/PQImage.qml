@@ -29,6 +29,9 @@ Item {
     signal zoomOut()
     signal zoomReset()
     signal zoomActual()
+    signal rotateClock()
+    signal rotateAntiClock()
+    signal rotateReset()
 
     Repeater {
 
@@ -48,6 +51,10 @@ Item {
                 property int itemIndex: index
                 property real imageScale: defaultScale
                 property real defaultScale: 1
+                property real imageRotation: 0
+
+                signal zoomResetWithoutAnimation()
+                signal recomputeDefaultScale()
 
                 Connections {
                     target: image_top
@@ -61,15 +68,39 @@ Item {
                     }
                     function onZoomReset() {
                         if(PQCFileFolderModel.currentIndex===index)
-                            deleg.imageScale = deleg.defaultScale
+                            deleg.imageScale = Qt.binding(function() { return deleg.defaultScale } )
                     }
                     function onZoomActual() {
                         if(PQCFileFolderModel.currentIndex===index)
                             deleg.imageScale = 1
                     }
+                    function onRotateClock() {
+                        if(PQCFileFolderModel.currentIndex===index)
+                            deleg.imageRotation += 90
+                    }
+                    function onRotateAntiClock() {
+                        if(PQCFileFolderModel.currentIndex===index)
+                            deleg.imageRotation -= 90
+                    }
+                    function onRotateReset() {
+                        if(PQCFileFolderModel.currentIndex===index)
+                            deleg.imageRotation = 0
+                    }
                 }
 
-                signal zoomResetWithoutAnimation()
+                onImageRotationChanged: {
+                    rotationAnimation.stop()
+                    rotationAnimation.from = deleg.rotation
+                    rotationAnimation.to = deleg.imageRotation
+                    rotationAnimation.restart()
+                }
+
+                PropertyAnimation {
+                    id: rotationAnimation
+                    target: deleg
+                    duration: 200
+                    property: "rotation"
+                }
 
                 Loader {
                     id: l
@@ -111,6 +142,14 @@ Item {
                                 img.scale = deleg.defaultScale
                                 deleg.imageScale = img.scale
                             }
+                            function onImageRotationChanged() {
+                                if(PQCFileFolderModel.currentIndex===index) {
+                                    var oldDefault = deleg.defaultScale
+                                    deleg.defaultScale = img.computeDefaultScale()
+                                    if(Math.abs(deleg.imageScale-oldDefault) < 1e-6)
+                                        deleg.imageScale = deleg.defaultScale
+                                }
+                            }
                         }
 
                         PropertyAnimation {
@@ -128,11 +167,18 @@ Item {
                                 if(PQCFileFolderModel.currentIndex === index) {
                                     console.log("make visible:", deleg.itemIndex)
                                     startupScale = true
-                                    deleg.defaultScale = Qt.binding(function() { return Math.min(1, Math.min(deleg.width/sourceSize.width, deleg.height/sourceSize.height)) })
+                                    deleg.defaultScale = img.computeDefaultScale()
                                     l.hasBeenSetup = true
                                     deleg.showImage()
                                 }
                             }
+                        }
+
+                        function computeDefaultScale() {
+                            if(Math.abs(deleg.imageRotation%180) == 90)
+                                return Math.min(1, Math.min(deleg.height/sourceSize.width, deleg.width/sourceSize.height))
+                            else
+                                return Math.min(1, Math.min(deleg.width/sourceSize.width, deleg.height/sourceSize.height))
                         }
 
                         MouseArea {
