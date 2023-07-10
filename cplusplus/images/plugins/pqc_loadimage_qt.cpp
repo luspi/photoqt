@@ -111,7 +111,6 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         // For reading SVG files
         QSvgRenderer svg;
-        QImage svg_image;
 
         // Loading SVG file
         svg.load(filename);
@@ -139,6 +138,9 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         // For all other supported file types
         QImageReader reader;
 
+        // disable allocation limit check
+        reader.setAllocationLimit(0);
+
         // Setting QImageReader
         reader.setFileName(filename);
 
@@ -161,7 +163,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         // Store the width/height for later use
         origSize = reader.size();
         // check if we need to read the image in full to get the original size
-        if(origSize.width() == -1 || origSize.height() == -1) {
+        if(!origSize.isValid()) {
             reader.read(&img);
             imgAlreadyLoaded = true;
             origSize = img.size();
@@ -170,7 +172,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         }
 
         // check if we need to scale the image
-        if(maxSize.width() > -1 && origSize.width() > 0 && origSize.height() > 0) {
+        if(maxSize.isValid() && origSize.isValid() && !maxSize.isNull() && !origSize.isNull()) {
 
             QSize dispSize = origSize;
             if(dispSize.width() > maxSize.width() || dispSize.height() > maxSize.height())

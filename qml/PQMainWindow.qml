@@ -4,6 +4,7 @@ import QtQuick.Window
 import "elements"
 import "other"
 import "manage"
+import "image"
 import "scripts/pq_shortcuts.js" as PQShortcutsJS
 
 Window {
@@ -35,6 +36,8 @@ Window {
 
     // this one we load synchronously for easier access
     PQLoader { id: loader }
+
+    PQImage { id: image}
 
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }

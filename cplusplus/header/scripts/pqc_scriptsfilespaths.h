@@ -17,8 +17,8 @@ public:
     PQCScriptsFilesPaths(PQCScriptsFilesPaths const&)     = delete;
     void operator=(PQCScriptsFilesPaths const&) = delete;
 
-    Q_INVOKABLE QString cleanPath(QString path);
-    Q_INVOKABLE QString cleanPath_windows(QString path);
+    Q_INVOKABLE static QString cleanPath(QString path);
+    Q_INVOKABLE static QString cleanPath_windows(QString path);
     Q_INVOKABLE QString pathWithNativeSeparators(QString path);
     Q_INVOKABLE QString getSuffix(QString path);
     Q_INVOKABLE QString getFilename(QString fullpath);

@@ -4,13 +4,13 @@ Item {
 
     width: toplevel.width
     height: toplevel.height
+        visible: PQCFileFolderModel.countMainView===0
 
     Item {
         id: startmessage
         anchors.centerIn: parent
         width: parent.width-160
         height: col.height
-//        visible: filefoldermodel.countMainView==0&&!filefoldermodel.filterCurrentlyActive&&variables.startupCompleted
         Column {
             id: col
             spacing: 5

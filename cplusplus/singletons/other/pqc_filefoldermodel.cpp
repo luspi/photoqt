@@ -127,9 +127,20 @@ QString PQCFileFolderModel::getFileInFolderMainView() {
 void PQCFileFolderModel::setFileInFolderMainView(QString val) {
     if(m_fileInFolderMainView == val)
         return;
-    m_fileInFolderMainView = val;
-    Q_EMIT fileInFolderMainViewChanged();
-    loadDelayMainView->start();
+    QFileInfo oldfile(m_fileInFolderMainView);
+    QFileInfo newfile(val);
+    if(oldfile.dir() == newfile.dir()) {
+        m_currentFile = newfile.fileName();
+        m_currentIndex = m_entriesMainView.indexOf(val);
+        m_fileInFolderMainView = val;
+        Q_EMIT fileInFolderMainViewChanged();
+        Q_EMIT currentFileChanged();
+        Q_EMIT currentIndexChanged();
+    } else {
+        m_fileInFolderMainView = val;
+        loadDelayMainView->start();
+        Q_EMIT fileInFolderMainViewChanged();
+    }
 }
 
 QString PQCFileFolderModel::getFolderFileDialog() {
@@ -694,17 +705,7 @@ void PQCFileFolderModel::resetModel() {
     cache.resetData();
 
     setCurrentIndex(-1);
-    setSetFileNameOnceReloaded("");
 
-}
-
-bool PQCFileFolderModel::setAsCurrent(QString filepath) {
-    int ind = getIndexOfMainView(filepath);
-    if(ind != -1) {
-        setCurrentIndex(ind);
-        return true;
-    }
-    return false;
 }
 
 /********************************************/
@@ -754,17 +755,6 @@ void PQCFileFolderModel::setCurrentIndex(int val) {
 
 QString PQCFileFolderModel::getCurrentFile() {
     return m_currentFile;
-}
-
-void PQCFileFolderModel::setSetFileNameOnceReloaded(QString val) {
-    if(m_setFileNameOnceReloaded != val) {
-        m_setFileNameOnceReloaded = val;
-        Q_EMIT setFileNameOnceReloadedChanged();
-    }
-}
-
-QString PQCFileFolderModel::getSetFileNameOnceReloaded() {
-    return m_setFileNameOnceReloaded;
 }
 
 bool PQCFileFolderModel::getIsPDF() {
@@ -1181,33 +1171,16 @@ void PQCFileFolderModel::handleNewDataLoadedMainView() {
 
     bool curset = false;
 
-        // if a specific filename is to be loaded
-    if(m_setFileNameOnceReloaded == "---") {
-        if(m_countMainView > 0)
-            setCurrentIndex(0);
-    } else if(m_setFileNameOnceReloaded != "") {
-        if(setAsCurrent(m_setFileNameOnceReloaded))
-            curset = true;
-        setSetFileNameOnceReloaded("");
-    } else if(m_currentFile != "") {
-        if(setAsCurrent(m_currentFile))
-            curset = true;
-    }
+    int newIndex = m_currentIndex;
 
-    if(!curset) {
+    // make sure the index is valid
+    if(newIndex >= m_countMainView)
+        newIndex = m_countMainView-1;
+    else if(newIndex == -1 && m_countMainView > 0)
+        newIndex = 0;
+    else if(newIndex == 0)
+            newIndex = -1;
 
-        int newIndex = m_currentIndex;
-
-        // make sure the index is valid
-        if(newIndex >= m_countMainView)
-            newIndex = m_countMainView-1;
-        else if(newIndex == -1 && m_countMainView > 0)
-            newIndex = 0;
-        else if(newIndex == 0)
-                newIndex = -1;
-
-        setCurrentIndex(newIndex);
-
-    }
+    setCurrentIndex(newIndex);
 
 }

@@ -132,10 +132,6 @@ public:
     Q_PROPERTY(QString currentFile READ getCurrentFile NOTIFY currentFileChanged)
     QString getCurrentFile();
 
-    Q_PROPERTY(QString setFileNameOnceReloaded WRITE setSetFileNameOnceReloaded READ getSetFileNameOnceReloaded NOTIFY setFileNameOnceReloadedChanged)
-    QString getSetFileNameOnceReloaded();
-    void setSetFileNameOnceReloaded(QString val);
-
     Q_PROPERTY(bool isPDF READ getIsPDF NOTIFY isPDFChanged)
     bool getIsPDF();
 
@@ -163,7 +159,6 @@ public:
     Q_INVOKABLE void forceReloadFileDialog();
     Q_INVOKABLE int getIndexOfMainView(QString filepath);
     Q_INVOKABLE void removeEntryMainView(int index);
-    Q_INVOKABLE bool setAsCurrent(QString filepath);
 
     /********************************************/
 
@@ -201,7 +196,6 @@ private:
 
     int m_currentIndex;
     QString m_currentFile;
-    QString m_setFileNameOnceReloaded;
 
     bool m_isPDF;
     bool m_isARC;
@@ -267,7 +261,6 @@ Q_SIGNALS:
     void advancedSortDoneChanged();
     void currentIndexChanged();
     void currentFileChanged();
-    void setFileNameOnceReloadedChanged();
     void isPDFChanged();
     void isARCChanged();
     void pdfNameChanged();

@@ -329,6 +329,7 @@ GridView {
                                 if((curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !mousearea.drag.active)
                                     folderthumb_next.restart()
                                 folderthumb.hideExcept(num)
+                                fileicon.source = ""
                             }
                         }
                         Connections {
@@ -752,8 +753,10 @@ GridView {
                                 if(t-o < 300) {
                                     if(index < PQCFileFolderModel.countFoldersFileDialog)
                                         filedialog_top.loadNewPath(deleg.currentPath)
-                                    else
-                                        console.log("LOAD THIS FILE")
+                                    else {
+                                        PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
+                                        filedialog_top.hide()
+                                    }
 
                                     view.currentSelection = []
                                 } else {
@@ -766,7 +769,9 @@ GridView {
                             if(index < PQCFileFolderModel.countFoldersFileDialog)
                                 filedialog_top.loadNewPath(deleg.currentPath)
                             else {
-                                console.log("LOAD THIS FILE")
+                            console.log("LOADING:", deleg.currentPath)
+                                PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
+                                filedialog_top.hide()
                             }
 
                             view.currentSelection = []
@@ -861,6 +866,7 @@ GridView {
         property bool isFolder: false
         property bool isFile: false
         property string path: ""
+
         onPathChanged: {
             isFolder = PQCScriptsFilesPaths.isFolder(path)
             isFile = !isFolder
@@ -889,7 +895,6 @@ GridView {
                 if(contextmenu.isFolder)
                     filedialog_top.loadNewPath(contextmenu.path)
                 else {
-                    PQCFileFolderModel.setFileNameOnceReloaded = contextmenu.path
                     PQCFileFolderModel.fileInFolderMainView = contextmenu.path
                     filedialog_top.hide()
                 }
