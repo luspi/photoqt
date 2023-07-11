@@ -32,6 +32,8 @@ Item {
     signal rotateClock()
     signal rotateAntiClock()
     signal rotateReset()
+    signal mirrorH()
+    signal mirrorV()
 
     Repeater {
 
@@ -149,6 +151,17 @@ Item {
                                     if(Math.abs(deleg.imageScale-oldDefault) < 1e-6)
                                         deleg.imageScale = deleg.defaultScale
                                 }
+                            }
+                        }
+
+                        Connections {
+                            target: image_top
+                            function onMirrorH() {
+                                img.mirror = !img.mirror
+                            }
+                            function onMirrorV() {
+                                img.mirror = !img.mirror
+                                img.rotation += 180
                             }
                         }
 

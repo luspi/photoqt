@@ -94,6 +94,10 @@ function executeInternalFunction(cmd, wheelDelta) {
         image.rotateReset()
     else if(cmd === "__quit")
         PQClosing.quitPhotoQt()
+    else if(cmd === "__flipH")
+        image.mirrorH()
+    else if(cmd === "__flipV")
+        image.mirrorV()
 
 //    else if(cmd === "__close")
 //        toplevel.closePhotoQt()
@@ -112,10 +116,6 @@ function executeInternalFunction(cmd, wheelDelta) {
 //    else if(cmd === "__slideshowQuick") {
 //        loader.ensureItIsReady("slideshowcontrols")
 //        loader.passOn("slideshowcontrols", "start", undefined)
-//    else if(cmd === "__flipH")
-//        imageitem.mirrorH()
-//    else if(cmd === "__flipV")
-//        imageitem.mirrorV()
 //    else if(cmd === "__flipReset")
 //        imageitem.mirrorReset()
 //    else if(cmd === "__rename")
