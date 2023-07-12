@@ -72,8 +72,15 @@ function executeInternalFunction(cmd, wheelDelta) {
     console.debug("args: cmd =", cmd)
     console.debug("args: wheelDelta =", wheelDelta)
 
+    // elements
     if(cmd === "__open")
         loader.show("filedialog")
+
+    // interface functions
+    else if(cmd === "__quit")
+        PQClosing.quitPhotoQt()
+
+    // image functions
     else if(cmd === "__next")
         image.showNext()
     else if(cmd === "__prev")
@@ -92,8 +99,6 @@ function executeInternalFunction(cmd, wheelDelta) {
         image.rotateClock()
     else if(cmd === "__rotate0")
         image.rotateReset()
-    else if(cmd === "__quit")
-        PQClosing.quitPhotoQt()
     else if(cmd === "__flipH")
         image.mirrorH()
     else if(cmd === "__flipV")

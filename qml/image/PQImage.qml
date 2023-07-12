@@ -42,18 +42,20 @@ Item {
         model: PQCFileFolderModel.countMainView
 
         delegate:
-            Item {
+            Flickable {
                 id: deleg
 
                 width: image_top.width
                 height: image_top.height
 
                 visible: false
+                clip: true
 
                 property int itemIndex: index
                 property real imageScale: defaultScale
                 property real defaultScale: 1
                 property real imageRotation: 0
+                property size imageSize: Qt.size(0,0)
 
                 signal zoomResetWithoutAnimation()
                 signal recomputeDefaultScale()
@@ -104,6 +106,11 @@ Item {
                     property: "rotation"
                 }
 
+                function updateContentSize(x, y, w, h) {
+                    contentWidth = w
+                    contentHeight = h
+                }
+
                 Loader {
                     id: l
                     asynchronous: true
@@ -122,12 +129,55 @@ Item {
 
                         id: img
 
-                        x: (deleg.width-width)/2
-                        y: (deleg.height-height)/2
+                        x: defaultX
+                        y: defaultY
                         clip: false
                         asynchronous: true
                         mipmap: true
                         scale: deleg.defaultScale
+
+                        function onImageSizeChanged() {
+                            deleg.imageSize = img.sourceSize
+                        }
+
+                        property real prevW: defaultWidth
+                        property real prevH: defaultHeight
+
+                        onScaleChanged: {
+                            // no animation at startup
+                            if(!startupScale) {
+
+                                var updX = defaultX
+                                var updY = defaultY
+                                var updContentX = 0
+                                var updContentY = 0
+
+                                // if the width is larger than the visible width
+                                if(width*scale > deleg.width) {
+                                    var changeWidth = (paintedWidth*scale - prevW)/2
+                                    updX = Math.min(-defaultX, Math.max(defaultX, x+changeWidth))
+                                    updContentX = Math.min(paintedWidth*scale-defaultWidth, Math.max(0, deleg.contentX+changeWidth))
+                                }
+                                // if the height is larger than the visible height
+                                if(height*scale > deleg.height) {
+                                    var changeHeight = (paintedHeight*scale - prevH)/2
+                                    updY = Math.min((paintedHeight*scale-deleg.scale)/2, Math.max(defaultY, y+changeHeight))
+                                    updContentY = Math.min(paintedHeight*scale-defaultHeight, Math.max(0, deleg.contentY+changeHeight))
+                                }
+                                x = updX
+                                y = updY
+                                deleg.contentX = updContentX
+                                deleg.contentY = updContentY
+                                prevW = paintedWidth*scale
+                                prevH = paintedHeight*scale
+                            }
+                            deleg.updateContentSize(img.x, img.y, img.width*scale, img.height*scale)
+                        }
+
+                        property real defaultX: (deleg.width-width)/2
+                        property real defaultY: (deleg.height-height)/2
+                        property real defaultWidth: 0
+                        property real defaultHeight: 0
 
                         property bool startupScale: false
 
@@ -141,6 +191,8 @@ Item {
                                     scaleAnimation.restart()
                             }
                             function onZoomResetWithoutAnimation() {
+                                img.x = img.defaultX
+                                img.y = img.defaultY
                                 img.scale = deleg.defaultScale
                                 deleg.imageScale = img.scale
                             }
@@ -193,6 +245,7 @@ Item {
                             from: img.scale
                             to: deleg.imageScale
                             duration: 200
+                            onStarted: deleg.cancelFlick()
                         }
 
                         source: "image://full/" + PQCFileFolderModel.entriesMainView[deleg.itemIndex]
@@ -202,6 +255,8 @@ Item {
                                     var tmp = img.computeDefaultScale()
                                     if(Math.abs(tmp-1) > 1e-6)
                                         startupScale = true
+                                    defaultWidth = width*tmp
+                                    defaultHeight = height*tmp
                                     deleg.defaultScale = tmp
                                     l.hasBeenSetup = true
                                     deleg.showImage()
@@ -214,11 +269,6 @@ Item {
                                 return Math.min(1, Math.min(deleg.height/sourceSize.width, deleg.width/sourceSize.height))
                             else
                                 return Math.min(1, Math.min(deleg.width/sourceSize.width, deleg.height/sourceSize.height))
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            drag.target: parent
                         }
 
                     }
