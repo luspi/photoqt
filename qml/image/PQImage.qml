@@ -155,23 +155,23 @@ Item {
                                 // if the width is larger than the visible width
                                 if(width*scale > deleg.width) {
                                     var changeWidth = (paintedWidth*scale - prevW)/2
-                                    updX = Math.min(-defaultX, Math.max(defaultX, x+changeWidth))
+                                    updX = Math.min((paintedWidth*scale-defaultWidth)/2, Math.max(defaultX, x+changeWidth))
                                     updContentX = Math.min(paintedWidth*scale-defaultWidth, Math.max(0, deleg.contentX+changeWidth))
                                 }
                                 // if the height is larger than the visible height
                                 if(height*scale > deleg.height) {
                                     var changeHeight = (paintedHeight*scale - prevH)/2
-                                    updY = Math.min((paintedHeight*scale-deleg.scale)/2, Math.max(defaultY, y+changeHeight))
+                                    updY = Math.min((paintedHeight*scale-defaultHeight)/2, Math.max(defaultY, y+changeHeight))
                                     updContentY = Math.min(paintedHeight*scale-defaultHeight, Math.max(0, deleg.contentY+changeHeight))
                                 }
                                 x = updX
                                 y = updY
                                 deleg.contentX = updContentX
                                 deleg.contentY = updContentY
-                                prevW = paintedWidth*scale
-                                prevH = paintedHeight*scale
                             }
                             deleg.updateContentSize(img.x, img.y, img.width*scale, img.height*scale)
+                            prevW = paintedWidth*scale
+                            prevH = paintedHeight*scale
                         }
 
                         property real defaultX: (deleg.width-width)/2
