@@ -49,7 +49,6 @@ Item {
                 height: image_top.height
 
                 visible: false
-                clip: true
 
                 property int itemIndex: index
                 property real imageScale: defaultScale
