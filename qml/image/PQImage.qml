@@ -53,6 +53,7 @@ Item {
 
                 property int itemIndex: index
                 property real imageScale: defaultScale
+                property real imageRotation: 0
                 property real defaultScale: 1
                 property size imageSize: Qt.size(0,0)
 
@@ -78,16 +79,16 @@ Item {
                             deleg.imageScale = 1
                     }
                     function onRotateClock() {
-//                        if(PQCFileFolderModel.currentIndex===index)
-//                            deleg.imageRotation += 90
+                        if(PQCFileFolderModel.currentIndex===index)
+                            deleg.imageRotation += 90
                     }
                     function onRotateAntiClock() {
-//                        if(PQCFileFolderModel.currentIndex===index)
-//                            deleg.imageRotation -= 90
+                        if(PQCFileFolderModel.currentIndex===index)
+                            deleg.imageRotation -= 90
                     }
                     function onRotateReset() {
-//                        if(PQCFileFolderModel.currentIndex===index)
-//                            deleg.imageRotation = 0
+                        if(PQCFileFolderModel.currentIndex===index)
+                            deleg.imageRotation = 0
                     }
                 }
 
@@ -117,18 +118,25 @@ Item {
                         x: defaultX
                         y: defaultY
                         clip: false
-                        width: theimage.width
-                        height: theimage.height
                         scale: deleg.defaultScale
+
+                        property size sourceSize: Qt.size(0,0)
 
                         Image {
                             id: theimage
                             asynchronous: true
                             mipmap: true
                             source: "image://full/" + PQCFileFolderModel.entriesMainView[deleg.itemIndex]
+                            onSourceSizeChanged:
+                                img.sourceSize = sourceSize
+                            onWidthChanged:
+                                img.width = width
+                            onHeightChanged:
+                                img.height = height
                             onStatusChanged: {
                                 if(status == Image.Ready) {
                                     if(PQCFileFolderModel.currentIndex === index) {
+                                        img.sourceSize = sourceSize
                                         var tmp = img.computeDefaultScale()
                                         if(Math.abs(tmp-1) > 1e-6)
                                             startupScale = true
@@ -141,16 +149,28 @@ Item {
                                 }
                             }
 
+                            Connections {
+                                target: image_top
+                                function onMirrorH() {
+                                    theimage.mirror = !theimage.mirror
+                                }
+                                function onMirrorV() {
+                                    theimage.mirror = !theimage.mirror
+                                    theimage.rotation += 180
+                                }
+                            }
+
                         }
 
                         function onImageSizeChanged() {
-                            deleg.imageSize = theimage.sourceSize
+                            deleg.imageSize = sourceSize
                         }
 
                         property real prevW: defaultWidth
                         property real prevH: defaultHeight
 
                         onScaleChanged: {
+
                             // no animation at startup
                             if(!startupScale) {
 
@@ -159,30 +179,34 @@ Item {
                                 var updContentX = 0
                                 var updContentY = 0
 
-                                var changeWidth
-                                var changeHeight
+                                if(Math.abs(deleg.imageRotation%180) == 90) {
 
-                                // if the width is larger than the visible width
-                                if(width*scale > deleg.width) {
-                                    changeWidth = (theimage.paintedWidth*scale - prevW)/2
-                                    updX = Math.min((theimage.paintedWidth*scale-defaultWidth)/2, Math.max(defaultX, x+changeWidth))
-                                    updContentX = Math.min(theimage.paintedWidth*scale-defaultWidth, Math.max(0, deleg.contentX+changeWidth))
-                                }
-                                // if the height is larger than the visible height
-                                if(height*scale > deleg.height) {
-                                    changeHeight = (theimage.paintedHeight*scale - prevH)/2
-                                    updY = Math.min((theimage.paintedHeight*scale-defaultHeight)/2, Math.max(defaultY, y+changeHeight))
-                                    updContentY = Math.min(theimage.paintedHeight*scale-defaultHeight, Math.max(0, deleg.contentY+changeHeight))
+                                } else {
+
+                                    // if the width is larger than the visible width
+                                    if(width*scale > deleg.width) {
+                                        updX = (width*scale-width)/2
+                                        updContentX = deleg.contentX+(width*scale - prevW)/2
+                                    }
+                                    // if the height is larger than the visible height
+                                    if(height*scale > deleg.height) {
+                                        updY = (height*scale-height)/2
+                                        updContentY = deleg.contentY+(height*scale - prevH)/2
+                                    }
+
                                 }
 
                                 x = updX
                                 y = updY
                                 deleg.contentX = updContentX
                                 deleg.contentY = updContentY
+
                             }
+
                             deleg.updateContentSize(img.x, img.y, img.width*scale, img.height*scale)
-                            prevW = theimage.paintedWidth*scale
-                            prevH = theimage.paintedHeight*scale
+                            prevW = width*scale
+                            prevH = height*scale
+
                         }
 
                         property real defaultX: (deleg.width-width)/2
@@ -207,16 +231,14 @@ Item {
                                 img.scale = deleg.defaultScale
                                 deleg.imageScale = img.scale
                             }
-                        }
-
-                        Connections {
-                            target: image_top
-                            function onMirrorH() {
-                                theimage.mirror = !theimage.mirror
-                            }
-                            function onMirrorV() {
-                                theimage.mirror = !theimage.mirror
-                                theimage.rotation += 180
+                            function onImageRotationChanged() {
+                                var tmp = img.computeDefaultScale()
+                                if(Math.abs(deleg.imageScale-deleg.defaultScale) < 1e-6)
+                                    deleg.imageScale = tmp
+                                deleg.defaultScale = tmp
+                                rotationAnimation.restart()
+//                                if(Math.abs(deleg.imageScale-deleg.defaultScale) < 1e-6)
+//                                    deleg.zoomResetWithoutAnimation()
                             }
                         }
 
@@ -234,10 +256,14 @@ Item {
                             id: resetDefault
                             interval: 50
                             onTriggered: {
+                                var oldval = deleg.defaultScale
                                 deleg.defaultScale = img.computeDefaultScale()
-                                if(Math.abs(deleg.imageScale-deleg.defaultScale) < 1e-6)
+                                if(Math.abs(deleg.imageScale-oldval) < 1e-6)
                                     deleg.imageScale = deleg.defaultScale
-                                deleg.imageScaleChanged()
+
+                                // this updates the new position
+                                // the tiny change in scale triggers the necessary recomputes without any visual impact
+                                deleg.imageScale *= 0.99999
                             }
                         }
 
@@ -251,8 +277,20 @@ Item {
                             onStarted: deleg.cancelFlick()
                         }
 
+                        PropertyAnimation {
+                            id: rotationAnimation
+                            target: img
+                            property: "rotation"
+                            from: img.rotation
+                            to: deleg.imageRotation
+                            duration: 200
+                            onStarted: deleg.cancelFlick()
+                        }
+
                         function computeDefaultScale() {
-                            return Math.min(1, Math.min(deleg.width/theimage.sourceSize.width, deleg.height/theimage.sourceSize.height))
+                            if(Math.abs(deleg.imageRotation%180) == 90)
+                                return Math.min(1, Math.min(deleg.height/sourceSize.width, deleg.width/sourceSize.height))
+                            return Math.min(1, Math.min(deleg.width/sourceSize.width, deleg.height/sourceSize.height))
                         }
 
                     }
