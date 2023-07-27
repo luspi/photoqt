@@ -43,7 +43,7 @@ class PQHandlingManipulation : public QObject {
 
 public:
     Q_INVOKABLE bool canThisBeScaled(QString filename);
-    Q_INVOKABLE int chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings);
+    Q_INVOKABLE int chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings, QString targetdir = "");
     Q_INVOKABLE QSize getCurrentImageResolution(QString filename);
     Q_INVOKABLE bool scaleImage(QString sourceFilename, bool scaleInPlace, QSize targetSize, int targetQuality);
 

@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "handlingwallpaper.h"
+#include "handlingmanipulation.h"
 
 bool PQHandlingWallpaper::checkEnlightenmentMsgbus() {
     DBG << CURDATE << "PQHandlingWallpaper::checkEnlightenmentMsgbus()" << NL;
@@ -295,55 +296,63 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
 
 #else
 
+    // we copy the image to the PhotoQt app folder
+    // if it is not a PNG then we convert it to PNG to avoid artefacts (see issue #211 on GitlLab)
+    QFileInfo info(filename);
+    if(info.suffix().toLower() != "png") {
+        PQHandlingManipulation manip;
+        manip.chooseLocationAndConvertImage(filename, "background.png", "png", ConfigFiles::CACHE_DIR());
+    } else
+        QFile::copy(filename, ConfigFiles::CACHE_DIR() + "/background.png");
 
-        // get handle to current active desktop
-        IActiveDesktop *pDesk;
+    // get handle to current active desktop
+    IActiveDesktop *pDesk;
 
-        // Create an instance of the Active Desktop
-        HRESULT hr = CoCreateInstance(CLSID_ActiveDesktop, NULL, CLSCTX_INPROC_SERVER,
-                              IID_IActiveDesktop, (void**)&pDesk);
-        if(hr != S_OK) {
-            LOG << CURDATE << "CoCreateInstance() returned error: " << hr << NL;
-            return;
-        }
+    // Create an instance of the Active Desktop
+    HRESULT hr = CoCreateInstance(CLSID_ActiveDesktop, NULL, CLSCTX_INPROC_SERVER,
+                          IID_IActiveDesktop, (void**)&pDesk);
+    if(hr != S_OK) {
+        LOG << CURDATE << "CoCreateInstance() returned error: " << hr << NL;
+        return;
+    }
 
-        // Create options struct
-        WALLPAPEROPT opts;
-        opts.dwSize = sizeof(WALLPAPEROPT);
+    // Create options struct
+    WALLPAPEROPT opts;
+    opts.dwSize = sizeof(WALLPAPEROPT);
 
-        const int wallpaperStyle = options.value("WallpaperStyle").toInt();
-        if(wallpaperStyle == 0)
-            opts.dwStyle = WPSTYLE_CENTER;
-        else if(wallpaperStyle == 1)
-            opts.dwStyle = WPSTYLE_TILE;
-        else if(wallpaperStyle == 2)
-            opts.dwStyle = WPSTYLE_STRETCH;
-        else if(wallpaperStyle == 3)
-            opts.dwStyle = WPSTYLE_KEEPASPECT;
-        else if(wallpaperStyle == 4)
-            opts.dwStyle = WPSTYLE_CROPTOFIT;
-        else if(wallpaperStyle == 5)
-            opts.dwStyle = WPSTYLE_SPAN;
+    const int wallpaperStyle = options.value("WallpaperStyle").toInt();
+    if(wallpaperStyle == 0)
+        opts.dwStyle = WPSTYLE_CENTER;
+    else if(wallpaperStyle == 1)
+        opts.dwStyle = WPSTYLE_TILE;
+    else if(wallpaperStyle == 2)
+        opts.dwStyle = WPSTYLE_STRETCH;
+    else if(wallpaperStyle == 3)
+        opts.dwStyle = WPSTYLE_KEEPASPECT;
+    else if(wallpaperStyle == 4)
+        opts.dwStyle = WPSTYLE_CROPTOFIT;
+    else if(wallpaperStyle == 5)
+        opts.dwStyle = WPSTYLE_SPAN;
 
-        // set the wallpaper
-        hr = pDesk->SetWallpaper(filename.toStdWString().c_str(), 0);
-        if(hr != S_OK) {
-            LOG << CURDATE << "IActiveDesktop::SetWallpaper() returned error: " << hr << NL;
-            return;
-        }
+    // set the wallpaper
+    hr = pDesk->SetWallpaper(QString("%1/background.png").arg(ConfigFiles::CACHE_DIR()).toStdWString().c_str(), 0);
+    if(hr != S_OK) {
+        LOG << CURDATE << "IActiveDesktop::SetWallpaper() returned error: " << hr << NL;
+        return;
+    }
 
-        // set the wallpaper options
-        hr = pDesk->SetWallpaperOptions(&opts, 0);
-        if(hr != S_OK) {
-            LOG << CURDATE << "IActiveDesktop::SetWallpaperOptions() returned error: " << hr << NL;
-            return;
-        }
+    // set the wallpaper options
+    hr = pDesk->SetWallpaperOptions(&opts, 0);
+    if(hr != S_OK) {
+        LOG << CURDATE << "IActiveDesktop::SetWallpaperOptions() returned error: " << hr << NL;
+        return;
+    }
 
-        // apply the above changes
-        pDesk->ApplyChanges(AD_APPLY_ALL);
+    // apply the above changes
+    pDesk->ApplyChanges(AD_APPLY_ALL);
 
-        // call the Release method
-        pDesk->Release();
+    // call the Release method
+    pDesk->Release();
 
 
 #endif

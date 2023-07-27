@@ -52,7 +52,7 @@ bool PQHandlingManipulation::canThisBeScaled(QString filename) {
 
 }
 
-int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings) {
+int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings, QString targetdir) {
 
     DBG << CURDATE << "PQHandlingManipulation::chooseLocationAndConvertImage()" << NL
         << CURDATE << "** sourceFilename = " << sourceFilename.toStdString() << NL
@@ -64,7 +64,8 @@ int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename
     QFileInfo fileinfo(sourceFilename);
 
     // request user to select target directory
-    QString targetdir = QFileDialog::getExistingDirectory(nullptr, "Choose new location", fileinfo.absolutePath());
+    if(targetdir == "")
+        targetdir = QFileDialog::getExistingDirectory(nullptr, "Choose new location", fileinfo.absolutePath());
     if(targetdir == "")
         return -1;  // -1 means cancelled
 
