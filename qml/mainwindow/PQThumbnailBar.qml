@@ -53,7 +53,7 @@ Item {
 
     function checkVisibility() {
 
-        if(variables.visibleItem != "") {
+        if(variables.visibleItem != "" || variables.mousePos.x == -1 || variables.mousePos.y == -1) {
             shouldBeVisible = false
             return
         }
