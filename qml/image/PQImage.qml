@@ -232,6 +232,34 @@ Item {
                                 property: "rotation"
                             }
 
+                            // reset default properties when window size changed
+                            Timer {
+                                id: resetDefaults
+                                interval: 100
+                                onTriggered: {
+                                    var tmp = image_wrapper.computeDefaultScale()
+                                    if(Math.abs(image_wrapper.scale-deleg.defaultScale) < 1e-6) {
+                                        deleg.defaultScale = 0.99999999*tmp
+                                        deleg.zoomResetWithoutAnimation()
+                                    } else
+                                        deleg.defaultScale = 0.99999999*tmp
+                                }
+                            }
+
+                            Connections {
+
+                                target: image_top
+
+                                function onWidthChanged() {
+                                    resetDefaults.restart()
+                                }
+
+                                function onHeightChanged() {
+                                    resetDefaults.restart()
+                                }
+
+                            }
+
                             // connect image wrapper to some of its properties
                             Connections {
 
@@ -272,7 +300,6 @@ Item {
                                     return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
                                 return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
                             }
-
 
                         }
 
