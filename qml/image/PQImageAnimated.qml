@@ -1,5 +1,7 @@
 import QtQuick
 
+import PQCScriptsFilesPaths
+
 AnimatedImage {
 
     id: image

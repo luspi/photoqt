@@ -1,6 +1,10 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCFileFolderModel
+import PQCScriptsFilesPaths
+import PQCScriptsFileDialog
+
 Rectangle {
 
     id: filedialog_top

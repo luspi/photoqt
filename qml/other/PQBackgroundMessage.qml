@@ -1,5 +1,7 @@
 import QtQuick
 
+import PQCFileFolderModel
+
 Item {
 
     width: toplevel.width

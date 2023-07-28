@@ -1,5 +1,7 @@
 import QtQuick
 
+import PQCScriptsConfig
+
 Item {
 
     id: loader_top

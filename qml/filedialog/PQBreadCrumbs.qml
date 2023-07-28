@@ -2,6 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import "../elements"
 
+import PQCFileFolderModel
+import PQCScriptsConfig
+import PQCScriptsFilesPaths
+
 Item {
 
     id: breadcrumbs_top

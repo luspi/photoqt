@@ -1,4 +1,9 @@
 import QtQuick
+
+import PQCImageFormats
+import PQCFileFolderModel
+import PQCScriptsConfig
+
 import "../elements"
 
 Item {

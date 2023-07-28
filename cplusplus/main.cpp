@@ -195,19 +195,22 @@ int main(int argc, char *argv[]) {
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
 
-    engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
-    engine.rootContext()->setContextProperty("PQCImageFormats", &PQCImageFormats::get());
-    engine.rootContext()->setContextProperty("PQCFileFolderModel", &PQCFileFolderModel::get());
-    engine.rootContext()->setContextProperty("PQCShortcuts", &PQCShortcuts::get());
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
+    qmlRegisterSingletonInstance("PQCFileFolderModel", 1, 0, "PQCFileFolderModel", &PQCFileFolderModel::get());
+    qmlRegisterSingletonInstance("PQCShortcuts", 1, 0, "PQCShortcuts", &PQCShortcuts::get());
+    qmlRegisterSingletonInstance("PQCNotify", 1, 0, "PQCNotify", &PQCNotify::get());
+    qmlRegisterSingletonInstance("PQCScriptsConfig", 1, 0, "PQCScriptsConfig", &PQCScriptsConfig::get());
+    qmlRegisterSingletonInstance("PQCScriptsFilesPaths", 1, 0, "PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
+    qmlRegisterSingletonInstance("PQCScriptsFileDialog", 1, 0, "PQCScriptsFileDialog", &PQCScriptsFileDialog::get());
+    qmlRegisterSingletonInstance("PQCScriptsClipboard", 1, 0, "PQCScriptsClipboard", &PQCScriptsClipboard::get());
+    qmlRegisterSingletonInstance("PQCScriptsFileManagement", 1, 0, "PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
+    qmlRegisterSingletonInstance("PQCScriptsOther", 1, 0, "PQCScriptsOther", &PQCScriptsOther::get());
+    qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());
+
+    // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
-    engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());
-    engine.rootContext()->setContextProperty("PQCScriptsConfig", &PQCScriptsConfig::get());
-    engine.rootContext()->setContextProperty("PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
-    engine.rootContext()->setContextProperty("PQCScriptsFileDialog", &PQCScriptsFileDialog::get());
-    engine.rootContext()->setContextProperty("PQCScriptsClipboard", &PQCScriptsClipboard::get());
-    engine.rootContext()->setContextProperty("PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
-    engine.rootContext()->setContextProperty("PQCScriptsOther", &PQCScriptsOther::get());
-    engine.rootContext()->setContextProperty("PQCScriptsImages", &PQCScriptsImages::get());
+    engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);

@@ -2,6 +2,10 @@ import QtQuick
 import QtCore
 import QtQuick.Controls
 
+import PQCFileFolderModel
+import PQCScriptsFilesPaths
+import PQCScriptsFileDialog
+
 import "../elements"
 
 Item {

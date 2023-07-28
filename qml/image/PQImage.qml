@@ -1,4 +1,11 @@
 import QtQuick
+
+import PQCImageFormats
+import PQCFileFolderModel
+import PQCScriptsConfig
+import PQCScriptsFilesPaths
+import PQCScriptsImages
+
 import "../elements"
 
 Item {

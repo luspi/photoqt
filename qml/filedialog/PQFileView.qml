@@ -1,5 +1,15 @@
 import QtQuick
 import QtQuick.Controls
+
+import PQCFileFolderModel
+import PQCShortcuts
+import PQCScriptsConfig
+import PQCScriptsFilesPaths
+import PQCScriptsFileDialog
+import PQCScriptsClipboard
+import PQCScriptsFileManagement
+import PQCScriptsOther
+
 import "../elements"
 
 GridView {
