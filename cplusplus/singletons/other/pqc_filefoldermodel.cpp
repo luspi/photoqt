@@ -32,6 +32,7 @@
 #include <pqc_filefoldermodel.h>
 #include <pqc_imageformats.h>
 #include <pqc_settings.h>
+#include <pqc_loadimage.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfiledialog.h>
 
@@ -1068,9 +1069,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                             const int width = m_imageResolutionFilter.width();
                             const int height = m_imageResolutionFilter.height();
 
-                            QSize origSize;
-//                            PQImageProviderFull imageprovider;
-//                            imageprovider.requestImage(QUrl::toPercentEncoding(f.absoluteFilePath(), "", " "), &origSize, QSize(1,1));
+                            QSize origSize = PQCLoadImage::get().load(f.absoluteFilePath());
 
                             if(greater && (origSize.width() < width || origSize.height() < height))
                                 continue;

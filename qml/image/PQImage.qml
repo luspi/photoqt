@@ -67,6 +67,7 @@ Item {
 
                 // the current index
                 property int itemIndex: index
+                property string imageSource: PQCFileFolderModel.entriesMainView[itemIndex]
 
                 // some image properties
                 property int imageRotation: 0
@@ -158,9 +159,6 @@ Item {
                                     (width*scale-width)/2 :
                                     (-(image_wrapper.width - image_wrapper.height)/2 + (height*scale-height)/2))
 
-                            width: image.width
-                            height: image.height
-
                             // some properties
                             property real prevW: deleg.defaultWidth
                             property real prevH: deleg.defaultHeight
@@ -212,15 +210,8 @@ Item {
                             }
 
                             // the actual image
-                            Image {
-
-                                id: image
-
-                                source: "image://full/" + PQCFileFolderModel.entriesMainView[deleg.itemIndex]
-
-                                onStatusChanged:
-                                    image_wrapper.status = status
-
+                            Loader {
+                                source: PQCScriptsImages.isItAnimated(deleg.imageSource) ? "PQImageAnimated.qml" : "PQImageNormal.qml"
                             }
 
                             // scaling animation
@@ -278,8 +269,8 @@ Item {
                             // calculate the default scale based on the current rotation
                             function computeDefaultScale() {
                                 if(deleg.rotatedUpright)
-                                    return Math.min((flickable.width/width), (flickable.height/height))
-                                return Math.min((flickable.width/height), (flickable.height/width))
+                                    return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
+                                return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
                             }
 
 

@@ -52,8 +52,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
 
     // Load image
     QImage ret;
-    PQCLoadImage loader;
-    loader.load(filename, requestedSize, *origSize, ret);
+    PQCLoadImage::get().load(filename, requestedSize, *origSize, ret);
 
     // if returned image is not an error image ...
     if(ret.isNull())

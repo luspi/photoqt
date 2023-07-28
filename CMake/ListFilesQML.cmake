@@ -27,4 +27,4 @@ SET(d "qml/scripts")
 SET(photoqt_QML ${photoqt_QML} ${d}/pq_shortcuts.js ${d}/pq_closing.js)
 
 SET(d "qml/image")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml)

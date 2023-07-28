@@ -17,6 +17,8 @@ public:
     PQCScriptsImages(PQCScriptsImages const&)     = delete;
     void operator=(PQCScriptsImages const&) = delete;
 
+    Q_INVOKABLE QSize getCurrentImageResolution(QString filename);
+    Q_INVOKABLE bool isItAnimated(QString filename);
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
     Q_INVOKABLE QStringList listArchiveContent(QString path);

@@ -31,10 +31,17 @@ class QImage;
 class PQCLoadImage {
 
 public:
-    PQCLoadImage();
+    static PQCLoadImage& get() {
+        static PQCLoadImage instance;
+        return instance;
+    }
+    ~PQCLoadImage();
 
     QString load(QString filename, QSize requestedSize, QSize &origSize, QImage &img);
+    QSize load(QString filename);
 
+private:
+    PQCLoadImage();
 };
 
 #endif // PQCLOADIMAGE_H

@@ -35,6 +35,7 @@
 #include <scripts/pqc_scriptsclipboard.h>
 #include <scripts/pqc_scriptsfilemanagement.h>
 #include <scripts/pqc_scriptsother.h>
+#include <scripts/pqc_scriptsimages.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -206,6 +207,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("PQCScriptsClipboard", &PQCScriptsClipboard::get());
     engine.rootContext()->setContextProperty("PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
     engine.rootContext()->setContextProperty("PQCScriptsOther", &PQCScriptsOther::get());
+    engine.rootContext()->setContextProperty("PQCScriptsImages", &PQCScriptsImages::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);

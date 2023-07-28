@@ -126,9 +126,8 @@ void PQCAsyncImageResponseThumb::loadImage() {
     }
 
     // Load image
-    PQCLoadImage loader;
     QSize origSize;
-    loader.load(filename, m_requestedSize, origSize, p);
+    PQCLoadImage::get().load(filename, m_requestedSize, origSize, p);
 
     /**********************************************************/
 

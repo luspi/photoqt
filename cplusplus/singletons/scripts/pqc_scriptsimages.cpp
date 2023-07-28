@@ -6,10 +6,12 @@
 #include <QFileInfo>
 #include <QProcess>
 #include <QStringConverter>
+#include <QImageReader>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
+#include <pqc_loadimage.h>
 
 #ifdef LIBARCHIVE
 #include <archive.h>
@@ -22,6 +24,17 @@ PQCScriptsImages::PQCScriptsImages() {
 
 PQCScriptsImages::~PQCScriptsImages() {
 
+}
+
+QSize PQCScriptsImages::getCurrentImageResolution(QString filename) {
+
+    return PQCLoadImage::get().load(filename);
+
+}
+
+bool PQCScriptsImages::isItAnimated(QString filename) {
+    QImageReader reader(filename);
+    return (reader.supportsAnimation()&&reader.imageCount()>1);
 }
 
 QString PQCScriptsImages::getIconPathFromTheme(QString binary) {

@@ -42,6 +42,129 @@
 #include <QtDebug>
 
 PQCLoadImage::PQCLoadImage() {}
+PQCLoadImage::~PQCLoadImage() {}
+
+QSize PQCLoadImage::load(QString filename) {
+
+    if(filename.trimmed() == "")
+        return QSize();
+
+    QFileInfo info(filename);
+
+    // check image cache, we might be done right here
+//    if(PQCImageCache::get().getCachedImage(filename, img)) {
+
+//        if(requestedSize.isValid() && (img.width() > requestedSize.width() || img.height() > requestedSize.height()))
+//            img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+//        return "";
+
+//    }
+
+    // for easier access below
+    QString suffix = info.suffix().toLower();
+
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    // first we check for filename suffix matches
+
+    QSize sze;
+
+    if(PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
+        sze = PQCLoadImageQt::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
+        sze = PQCLoadImageRAW::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+        sze = PQCLoadImagePoppler::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+        sze = PQCLoadImageQtPDF::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suffix))
+        sze = PQCLoadImageArchive::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix))
+        sze = PQCLoadImageXCF::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix))
+        sze = PQCLoadImageMagick::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibVips().contains(suffix))
+        sze = PQCLoadImageLibVips::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix))
+        sze = PQCLoadImageFreeImage::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix))
+        sze = PQCLoadImageDevil::loadSize(filename);
+
+    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsVideo().contains(suffix) || PQCImageFormats::get().getEnabledFormatsLibmpv().contains(suffix)))
+        sze = PQCLoadImageVideo::loadSize(filename);
+
+
+    //////////////////////////////////////////////
+    //////////////////////////////////////////////
+    // if that failed, then we check for mimetype matches
+    if(sze.isNull()) {
+
+        QMimeDatabase db;
+        QString mimetype = db.mimeTypeForFile(filename).name();
+
+        if(mimetype != "" && mimetype != "application/octet-stream") {
+
+            if(PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
+                sze = PQCLoadImageQt::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
+                sze = PQCLoadImageRAW::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+                sze = PQCLoadImagePoppler::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+                sze = PQCLoadImageQtPDF::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
+                sze = PQCLoadImageArchive::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
+                sze = PQCLoadImageXCF::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
+                sze = PQCLoadImageMagick::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
+                sze = PQCLoadImageLibVips::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
+                sze = PQCLoadImageFreeImage::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
+                sze = PQCLoadImageDevil::loadSize(filename);
+
+            if(sze.isNull() && (PQCImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype)))
+                sze = PQCLoadImageVideo::loadSize(filename);
+
+        }
+
+    }
+
+
+#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
+    // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
+    if(sze.isNull()) {
+
+        // we use two dummy variables to not override the old error image/message
+        sze = PQCLoadImageMagick::loadSize(filename);
+
+    }
+#endif
+
+    return sze;
+
+}
 
 QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSize, QImage &img) {
 
@@ -73,41 +196,41 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     if(PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
         err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
         err = PQCLoadImageRAW::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
         err = PQCLoadImagePoppler::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
         err = PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suffix))
         err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix))
         err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix))
         err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsLibVips().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibVips().contains(suffix))
         err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix))
         err = PQCLoadImageFreeImage::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix))
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix))
         err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
 
-    if(err != "" && img.isNull() && (PQCImageFormats::get().getEnabledFormatsVideo().contains(suffix) || PQCImageFormats::get().getEnabledFormatsLibmpv().contains(suffix)))
+    if((err != "" || img.isNull()) && (PQCImageFormats::get().getEnabledFormatsVideo().contains(suffix) || PQCImageFormats::get().getEnabledFormatsLibmpv().contains(suffix)))
         err = PQCLoadImageVideo::load(filename, requestedSize, origSize, img);
 
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////
     // if that failed, then we check for mimetype matches
-    if(err != "" && img.isNull()) {
+    if(err != "" || img.isNull()) {
 
         QMimeDatabase db;
         QString mimetype = db.mimeTypeForFile(filename).name();
@@ -117,34 +240,34 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
             if(PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
                 err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
                 err = PQCLoadImageRAW::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
                 err = PQCLoadImagePoppler::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
                 err = PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
                 err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
                 err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
                 err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
                 err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
                 err = PQCLoadImageFreeImage::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && PQCImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
                 err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
 
-            if(err != "" && img.isNull() && (PQCImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype)))
+            if((err != "" || img.isNull()) && (PQCImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype) || PQCImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype)))
                 err = PQCLoadImageVideo::load(filename, requestedSize, origSize, img);
 
         }
@@ -154,7 +277,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
     // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
-    if(err != "" && img.isNull()) {
+    if(err != "" || img.isNull()) {
 
         qDebug() << "null image, try magick";
 
