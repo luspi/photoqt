@@ -769,7 +769,6 @@ GridView {
                             if(index < PQCFileFolderModel.countFoldersFileDialog)
                                 filedialog_top.loadNewPath(deleg.currentPath)
                             else {
-                            console.log("LOADING:", deleg.currentPath)
                                 PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
                                 filedialog_top.hide()
                             }

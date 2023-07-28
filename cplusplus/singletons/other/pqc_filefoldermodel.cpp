@@ -1177,7 +1177,7 @@ void PQCFileFolderModel::handleNewDataLoadedMainView() {
         newIndex = m_countMainView-1;
     else if(newIndex == -1 && m_countMainView > 0)
         newIndex = 0;
-    else if(newIndex == 0)
+    else if(newIndex != -1 && m_countMainView == 0)
             newIndex = -1;
 
     setCurrentIndex(newIndex);
