@@ -42,23 +42,44 @@ Item {
         model: PQCFileFolderModel.countMainView
 
         delegate:
-            Flickable {
+            // the item is a loader that is only loaded when needed
+            Loader {
+
                 id: deleg
 
                 width: image_top.width
                 height: image_top.height
-
                 visible: false
 
+                asynchronous: true
+                active: shouldBeShown || hasBeenSetup
+
+                property bool shouldBeShown: PQCFileFolderModel.currentIndex===index || (image_top.currentlyVisibleIndex === index)
+                property bool hasBeenSetup: false
+                onShouldBeShownChanged: {
+                    if(shouldBeShown) {
+                        if(hasBeenSetup)
+                            showImage()
+                    } else {
+                        hideImage()
+                    }
+                }
+
+                // the current index
                 property int itemIndex: index
+
+                // some image properties
+                property int imageRotation: 0
+                property bool rotatedUpright: (Math.abs(imageRotation%180)!=90)
                 property real imageScale: defaultScale
-                property real imageRotation: 0
+                property real defaultWidth
+                property real defaultHeight
                 property real defaultScale: 1
-                property size imageSize: Qt.size(0,0)
 
+                // some signals
                 signal zoomResetWithoutAnimation()
-                signal recomputeDefaultScale()
 
+                // react to user commands
                 Connections {
                     target: image_top
                     function onZoomIn() {
@@ -86,215 +107,189 @@ Item {
                             deleg.imageRotation -= 90
                     }
                     function onRotateReset() {
-                        if(PQCFileFolderModel.currentIndex===index)
-                            deleg.imageRotation = 0
-                    }
-                }
-
-                function updateContentSize(x, y, w, h) {
-                    contentWidth = w
-                    contentHeight = h
-                }
-
-                Loader {
-                    id: l
-                    asynchronous: true
-                    active: shouldBeShown || hasBeenSetup
-                    property bool shouldBeShown: PQCFileFolderModel.currentIndex===index || (image_top.currentlyVisibleIndex === index)
-                    property bool hasBeenSetup: false
-                    onShouldBeShownChanged: {
-                        if(shouldBeShown) {
-                            if(hasBeenSetup)
-                                deleg.showImage()
-                        } else {
-                            deleg.hideImage()
+                        if(PQCFileFolderModel.currentIndex===index) {
+                            // rotate to the nearest (rotation%360==0) degrees
+                            var offset = deleg.imageRotation%360
+                            if(offset == 180 || offset == 270)
+                                deleg.imageRotation += (360-offset)
+                            else if(offset == 90)
+                                deleg.imageRotation -= 90
+                            else if(offset == -90)
+                                deleg.imageRotation += 90
+                            else if(offset == -180 || offset == -270)
+                                deleg.imageRotation -= (360+offset)
                         }
                     }
-                    sourceComponent: Item {
 
-                        id: img
+                }
 
-                        x: defaultX
-                        y: defaultY
-                        clip: false
-                        scale: deleg.defaultScale
+                // the loader loads a flickable once active
+                sourceComponent:
+                Flickable {
 
-                        property size sourceSize: Qt.size(0,0)
+                    id: flickable
 
-                        Image {
-                            id: theimage
-                            asynchronous: true
-                            mipmap: true
-                            source: "image://full/" + PQCFileFolderModel.entriesMainView[deleg.itemIndex]
-                            onSourceSizeChanged:
-                                img.sourceSize = sourceSize
-                            onWidthChanged:
-                                img.width = width
-                            onHeightChanged:
-                                img.height = height
+                    width: deleg.width
+                    height: deleg.height
+
+                    contentWidth: flickable_content.width
+                    contentHeight: flickable_content.height
+
+                    // the container for the content
+                    Item {
+                        id: flickable_content
+
+                        x: Math.max(0, (flickable.width-width)/2)
+                        y: Math.max(0, (flickable.height-height)/2)
+                        width: (deleg.rotatedUpright ? image_wrapper.width : image_wrapper.height)*image_wrapper.scale
+                        height: (deleg.rotatedUpright ? image_wrapper.height : image_wrapper.width)*image_wrapper.scale
+
+                        // wrapper for the image
+                        // we need both this and the container to be able to properly hadle
+                        // all scaling and rotations while having the flickable properly flick the image
+                        Item {
+
+                            id: image_wrapper
+
+                            y: (deleg.rotatedUpright ?
+                                    (height*scale-height)/2 :
+                                    (-(image_wrapper.height - image_wrapper.width)/2 + (width*scale-width)/2))
+                            x: (deleg.rotatedUpright ?
+                                    (width*scale-width)/2 :
+                                    (-(image_wrapper.width - image_wrapper.height)/2 + (height*scale-height)/2))
+
+                            width: image.width
+                            height: image.height
+
+                            // some properties
+                            property real prevW: deleg.defaultWidth
+                            property real prevH: deleg.defaultHeight
+                            property real prevScale: scale
+                            property bool startupScale: false
+
+                            rotation: 0
+                            scale: deleg.defaultScale
+
+                            // update content position
+                            onScaleChanged: {
+
+                                var updContentX = 0
+                                var updContentY = 0
+
+                                // if the width is larger than the visible width
+                                if(width*scale > flickable.width) {
+                                    updContentX = flickable.contentX+(width*scale - prevW)/2
+                                }
+                                // if the height is larger than the visible height
+                                if(height*scale > flickable.height) {
+                                    updContentY = flickable.contentY+(height*scale - prevH)/2
+                                }
+
+                                flickable.contentX = updContentX
+                                flickable.contentY = updContentY
+
+                                prevW = width*scale
+                                prevH = height*scale
+                                prevScale = scale
+
+                            }
+
+                            // react to status changes
+                            property int status: Image.Null
                             onStatusChanged: {
                                 if(status == Image.Ready) {
                                     if(PQCFileFolderModel.currentIndex === index) {
-                                        img.sourceSize = sourceSize
-                                        var tmp = img.computeDefaultScale()
+                                        var tmp = image_wrapper.computeDefaultScale()
                                         if(Math.abs(tmp-1) > 1e-6)
-                                            startupScale = true
-                                        defaultWidth = width*tmp
-                                        defaultHeight = height*tmp
-                                        deleg.defaultScale = tmp
-                                        l.hasBeenSetup = true
+                                            image_wrapper.startupScale = true
+                                        deleg.defaultWidth = width*deleg.defaultScale
+                                        deleg.defaultHeight = height*deleg.defaultScale
+                                        deleg.defaultScale = 0.99999999*tmp
+                                        deleg.hasBeenSetup = true
                                         deleg.showImage()
                                     }
                                 }
                             }
 
+                            // the actual image
+                            Image {
+
+                                id: image
+
+                                source: "image://full/" + PQCFileFolderModel.entriesMainView[deleg.itemIndex]
+
+                                onStatusChanged:
+                                    image_wrapper.status = status
+
+                            }
+
+                            // scaling animation
+                            PropertyAnimation {
+                                id: scaleAnimation
+                                target: image_wrapper
+                                property: "scale"
+                                from: image_wrapper.scale
+                                to: deleg.imageScale
+                                duration: 200
+                            }
+
+                            // rotation animation
+                            PropertyAnimation {
+                                id: rotationAnimation
+                                target: image_wrapper
+                                duration: 200
+                                property: "rotation"
+                            }
+
+                            // connect image wrapper to some of its properties
                             Connections {
-                                target: image_top
-                                function onMirrorH() {
-                                    theimage.mirror = !theimage.mirror
+
+                                target: deleg
+
+                                function onImageScaleChanged() {
+                                    if(image_wrapper.startupScale) {
+                                        image_wrapper.startupScale = false
+                                        image_wrapper.scale = deleg.imageScale
+                                    } else
+                                        scaleAnimation.restart()
                                 }
-                                function onMirrorV() {
-                                    theimage.mirror = !theimage.mirror
-                                    theimage.rotation += 180
+
+                                function onZoomResetWithoutAnimation() {
+                                    scaleAnimation.stop()
+                                    image_wrapper.scale = deleg.defaultScale
+                                    deleg.imageScale = image_wrapper.scale
                                 }
-                            }
 
-                        }
 
-                        function onImageSizeChanged() {
-                            deleg.imageSize = sourceSize
-                        }
-
-                        property real prevW: defaultWidth
-                        property real prevH: defaultHeight
-
-                        onScaleChanged: {
-
-                            // no animation at startup
-                            if(!startupScale) {
-
-                                var updX = defaultX
-                                var updY = defaultY
-                                var updContentX = 0
-                                var updContentY = 0
-
-                                if(Math.abs(deleg.imageRotation%180) == 90) {
-
-                                } else {
-
-                                    // if the width is larger than the visible width
-                                    if(width*scale > deleg.width) {
-                                        updX = (width*scale-width)/2
-                                        updContentX = deleg.contentX+(width*scale - prevW)/2
+                                function onImageRotationChanged() {
+                                    if(PQCFileFolderModel.currentIndex===index) {
+                                        rotationAnimation.stop()
+                                        rotationAnimation.from = image_wrapper.rotation
+                                        rotationAnimation.to = deleg.imageRotation
+                                        rotationAnimation.restart()
+                                        var oldDefault = deleg.defaultScale
+                                        deleg.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
+                                        if(Math.abs(deleg.imageScale-oldDefault) < 1e-6)
+                                            deleg.imageScale = deleg.defaultScale
                                     }
-                                    // if the height is larger than the visible height
-                                    if(height*scale > deleg.height) {
-                                        updY = (height*scale-height)/2
-                                        updContentY = deleg.contentY+(height*scale - prevH)/2
-                                    }
-
                                 }
-
-                                x = updX
-                                y = updY
-                                deleg.contentX = updContentX
-                                deleg.contentY = updContentY
-
                             }
 
-                            deleg.updateContentSize(img.x, img.y, img.width*scale, img.height*scale)
-                            prevW = width*scale
-                            prevH = height*scale
-
-                        }
-
-                        property real defaultX: (deleg.width-width)/2
-                        property real defaultY: (deleg.height-height)/2
-                        property real defaultWidth: 0
-                        property real defaultHeight: 0
-
-                        property bool startupScale: false
-
-                        Connections {
-                            target: deleg
-                            function onImageScaleChanged() {
-                                if(img.startupScale) {
-                                    img.startupScale = false
-                                    img.scale = deleg.imageScale
-                                } else
-                                    scaleAnimation.restart()
+                            // calculate the default scale based on the current rotation
+                            function computeDefaultScale() {
+                                if(deleg.rotatedUpright)
+                                    return Math.min((flickable.width/width), (flickable.height/height))
+                                return Math.min((flickable.width/height), (flickable.height/width))
                             }
-                            function onZoomResetWithoutAnimation() {
-                                img.x = img.defaultX
-                                img.y = img.defaultY
-                                img.scale = deleg.defaultScale
-                                deleg.imageScale = img.scale
-                            }
-                            function onImageRotationChanged() {
-                                var tmp = img.computeDefaultScale()
-                                if(Math.abs(deleg.imageScale-deleg.defaultScale) < 1e-6)
-                                    deleg.imageScale = tmp
-                                deleg.defaultScale = tmp
-                                rotationAnimation.restart()
-//                                if(Math.abs(deleg.imageScale-deleg.defaultScale) < 1e-6)
-//                                    deleg.zoomResetWithoutAnimation()
-                            }
-                        }
 
-                        Connections {
-                            target: toplevel
-                            function onWidthChanged() {
-                                resetDefault.restart()
-                            }
-                            function onHeightChanged() {
-                                resetDefault.restart()
-                            }
-                        }
 
-                        Timer {
-                            id: resetDefault
-                            interval: 50
-                            onTriggered: {
-                                var oldval = deleg.defaultScale
-                                deleg.defaultScale = img.computeDefaultScale()
-                                if(Math.abs(deleg.imageScale-oldval) < 1e-6)
-                                    deleg.imageScale = deleg.defaultScale
-
-                                // this updates the new position
-                                // the tiny change in scale triggers the necessary recomputes without any visual impact
-                                deleg.imageScale *= 0.99999
-                            }
-                        }
-
-                        PropertyAnimation {
-                            id: scaleAnimation
-                            target: img
-                            property: "scale"
-                            from: img.scale
-                            to: deleg.imageScale
-                            duration: 200
-                            onStarted: deleg.cancelFlick()
-                        }
-
-                        PropertyAnimation {
-                            id: rotationAnimation
-                            target: img
-                            property: "rotation"
-                            from: img.rotation
-                            to: deleg.imageRotation
-                            duration: 200
-                            onStarted: deleg.cancelFlick()
-                        }
-
-                        function computeDefaultScale() {
-                            if(Math.abs(deleg.imageRotation%180) == 90)
-                                return Math.min(1, Math.min(deleg.height/sourceSize.width, deleg.width/sourceSize.height))
-                            return Math.min(1, Math.min(deleg.width/sourceSize.width, deleg.height/sourceSize.height))
                         }
 
                     }
+
                 }
 
+                // animation to show the image
                 PropertyAnimation {
                     id: opacityAnimation
                     target: deleg
@@ -307,29 +302,33 @@ Item {
                             deleg.visible = false
                 }
 
+                // show the image
                 function showImage() {
 
-                    image_top.currentlyVisibleIndex = deleg.itemIndex
+                    image_top.currentlyVisibleIndex = itemIndex
 
-                    deleg.zoomResetWithoutAnimation()
+                    zoomResetWithoutAnimation()
 
                     opacityAnimation.stop()
 
-                    deleg.opacity = 0
-                    deleg.z = image_top.curZ
-                    deleg.visible = true
+                    opacity = 0
+                    z = image_top.curZ
+                    visible = true
 
                     opacityAnimation.from = 0
                     opacityAnimation.to = 1
                     opacityAnimation.restart()
 
                     image_top.curZ += 1
+
+
                 }
 
+                // hide the image
                 function hideImage() {
 
                     opacityAnimation.stop()
-                    opacityAnimation.from = deleg.opacity
+                    opacityAnimation.from = opacity
                     opacityAnimation.to = 0
                     opacityAnimation.restart()
 
@@ -337,8 +336,10 @@ Item {
 
             }
 
+
     }
 
+    // some global handlers
     function showNext() {
         PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
     }
