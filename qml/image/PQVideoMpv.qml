@@ -57,10 +57,6 @@ Item {
                 getProps.restart()
                 return
             }
-            if(!PQCSettings.filetypesVideoAutoplay) {
-                loader_component.videoPlaying = false
-                video.command(["cycle", "pause"])
-            }
             videotop.width = video.getProperty("width")
             videotop.height = video.getProperty("height")
             loader_component.videoDuration = video.getProperty("duration")
@@ -114,6 +110,36 @@ Item {
         function onImageClicked() {
             loader_component.videoPlaying = !loader_component.videoPlaying
             video.command(["cycle", "pause"])
+        }
+    }
+
+    Connections {
+        target: deleg
+        function onStopVideoAndReset() {
+            if(loader_component.videoPlaying) {
+                loader_component.videoPlaying = false
+                video.command(["cycle", "pause"])
+                video.command(["seek", 0, "absolute"])
+            }
+        }
+        function onRestartVideoIfAutoplay() {
+
+            if(loader_component.videoPlaying) {
+
+                if(!PQCSettings.filetypesVideoAutoplay) {
+                    loader_component.videoPlaying = false
+                    video.command(["cycle", "pause"])
+                } else
+                    video.command(["seek", 0, "absolute"])
+
+            } else {
+                if(PQCSettings.filetypesVideoAutoplay) {
+                    video.command(["seek", 0, "absolute"])
+                    loader_component.videoPlaying = true
+                    video.command(["cycle", "pause"])
+                }
+            }
+
         }
     }
 

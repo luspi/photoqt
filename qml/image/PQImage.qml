@@ -86,6 +86,8 @@ Item {
 
                 // some signals
                 signal zoomResetWithoutAnimation()
+                signal stopVideoAndReset()
+                signal restartVideoIfAutoplay()
 
                 // react to user commands
                 Connections {
@@ -384,9 +386,16 @@ Item {
                     from: 0
                     to: 1
                     duration: 200
-                    onFinished:
-                        if(deleg.opacity < 1e-6)
+                    onFinished: {
+                        if(deleg.opacity < 1e-6) {
+
+                            // stop any possibly running video
+                            deleg.stopVideoAndReset()
+
                             deleg.visible = false
+
+                        }
+                    }
                 }
 
                 // show the image
@@ -401,6 +410,9 @@ Item {
                     opacity = 0
                     z = image_top.curZ
                     visible = true
+
+                    // (re-)start any video
+                    deleg.restartVideoIfAutoplay()
 
                     opacityAnimation.from = 0
                     opacityAnimation.to = 1
