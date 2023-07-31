@@ -362,14 +362,21 @@ Item {
                     }
 
                     Rectangle {
-                        x: 10
-                        y: (parent.height-height-20)
-                        width: parent.width-20
+                        x: (parent.width-width)/2
+                        y: Math.min(parent.height-height-10, parent.height*0.9)
+                        width: Math.min(600, parent.width-50)
                         height: 50
                         color: PQCLook.transColor
                         radius: 5
 
                         visible: loader_component.isMpv
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            text: "Click and drag to move"
+                            cursorShape: Qt.SizeAllCursor
+                            drag.target: parent
+                        }
 
                         Image {
                             id: playpause
@@ -378,6 +385,7 @@ Item {
                             height: parent.height*0.6
                             width: height
                             source: loader_component.videoPlaying ? "/white/pause.svg" : "/white/play.svg"
+                            sourceSize: Qt.size(width, height)
                             PQMouseArea {
                                 anchors.fill: parent
                                 text: "Click to play/pause"
@@ -435,6 +443,7 @@ Item {
                             y: parent.height*0.2
                             height: parent.height*0.6
                             width: height
+                            sourceSize: Qt.size(width, height)
                             source: PQCSettings.filetypesVideoVolume===0
                                             ? "/white/volume_mute.svg"
                                             : (PQCSettings.filetypesVideoVolume <= 40
