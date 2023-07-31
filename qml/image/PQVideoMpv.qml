@@ -33,14 +33,6 @@ Item {
         width: parent.width
         height: parent.height
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                loader_component.videoPlaying = !loader_component.videoPlaying
-                video.command(["cycle", "pause"])
-            }
-        }
-
     }
 
     Timer {
@@ -118,6 +110,10 @@ Item {
         }
         function onVideoToPos(pos) {
             video.command(["seek", pos, "absolute"])
+        }
+        function onImageClicked() {
+            loader_component.videoPlaying = !loader_component.videoPlaying
+            video.command(["cycle", "pause"])
         }
     }
 

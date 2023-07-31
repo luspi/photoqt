@@ -148,6 +148,7 @@ Item {
                     property real videoPosition: 0.0
                     signal videoTogglePlay()
                     signal videoToPos(var s)
+                    signal imageClicked()
 
                     Flickable {
 
@@ -331,6 +332,16 @@ Item {
                                     return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
                                 }
 
+                                MouseArea {
+                                    id: imagemouse
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onWheel:
+                                        console.log("wheel", wheel)
+                                    onClicked:
+                                        loader_component.imageClicked()
+                                }
+
                                 PinchArea {
 
                                     id: pincharea
@@ -361,186 +372,7 @@ Item {
 
                     }
 
-                    Rectangle {
-                        x: (parent.width-width)/2
-                        y: Math.min(parent.height-height-10, parent.height*0.9)
-                        width: Math.min(600, parent.width-50)
-                        height: 50
-                        color: PQCLook.transColor
-                        radius: 5
-
-                        visible: loader_component.isMpv
-
-                        PQMouseArea {
-                            anchors.fill: parent
-                            text: "Click and drag to move"
-                            cursorShape: Qt.SizeAllCursor
-                            drag.target: parent
-                        }
-
-                        Image {
-                            id: playpause
-                            x: 10
-                            y: parent.height*0.2
-                            height: parent.height*0.6
-                            width: height
-                            source: loader_component.videoPlaying ? "/white/pause.svg" : "/white/play.svg"
-                            sourceSize: Qt.size(width, height)
-                            PQMouseArea {
-                                anchors.fill: parent
-                                text: "Click to play/pause"
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked:
-                                    loader_component.videoTogglePlay()
-                            }
-                        }
-
-                        PQText {
-                            id: curtime
-                            x: playpause.x+playpause.width+10
-                            y: (parent.height-height)/2
-                            text: PQCScriptsImages.convertSecondsToPosition(loader_component.videoPosition)
-                        }
-
-                        PQSlider {
-                            id: posslider
-                            x: curtime.x+curtime.width+10
-                            y: (parent.height-height)/2
-                            width: totaltime.x-curtime.x-curtime.width-20
-                            live: false
-                            from: 0
-                            to: loader_component.videoDuration
-
-                            onPressedChanged: {
-                                if(!pressed) {
-                                    loader_component.videoToPos(value)
-                                }
-                            }
-
-                            Connections {
-                                target: loader_component
-
-                                function onVideoPositionChanged() {
-                                    if(posslider.pressed)
-                                        return
-                                    posslider.value = Math.floor(loader_component.videoPosition)
-                                }
-                            }
-
-                        }
-
-                        PQText {
-                            id: totaltime
-                            x: volumeicon.x-totaltime.width-10
-                            y: (parent.height-height)/2
-                            text: PQCScriptsImages.convertSecondsToPosition(loader_component.videoDuration)
-                        }
-
-                        Image {
-                            id: volumeicon
-                            x: parent.width-width-10
-                            y: parent.height*0.2
-                            height: parent.height*0.6
-                            width: height
-                            sourceSize: Qt.size(width, height)
-                            source: PQCSettings.filetypesVideoVolume===0
-                                            ? "/white/volume_mute.svg"
-                                            : (PQCSettings.filetypesVideoVolume <= 40
-                                                    ? "/white/volume_low.svg"
-                                                    : (PQCSettings.filetypesVideoVolume <= 80
-                                                            ? "/white/volume_medium.svg"
-                                                            : "/white/volume_high.svg"))
-
-                            PQMouseArea {
-                                id: volumeiconmouse
-                                anchors {
-                                    fill: parent
-                                    topMargin: -volumeicon.y
-                                    bottomMargin: anchors.topMargin
-                                    rightMargin: -10
-                                    leftMargin: -10
-                                }
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                text: "Volume: " + PQCSettings.filetypesVideoVolume + "%<br>Click to mute/unmute"
-                                property int backupVolume: -1
-                                onClicked: {
-                                    if(PQCSettings.filetypesVideoVolume === 0) {
-                                        if(backupVolume == -1 || backupVolume == 0)
-                                            PQCSettings.filetypesVideoVolume = 100
-                                        else
-                                            PQCSettings.filetypesVideoVolume = backupVolume
-                                    } else {
-                                        backupVolume = PQCSettings.filetypesVideoVolume
-                                        PQCSettings.filetypesVideoVolume = 0
-                                    }
-                                }
-                                onEntered:
-                                    volumecont.opacity = 1
-                                onExited:
-                                    hideVolume.restart()
-                                onWheel: (wheel) => {
-                                    if(wheel.angleDelta.y > 0)
-                                        volumeslider.value -= volumeslider.wheelStepSize
-                                    else
-                                        volumeslider.value += volumeslider.wheelStepSize
-                                }
-                            }
-
-                        }
-
-                        Rectangle {
-                            id: volumecont
-                            x: volumeicon.x-10
-                            y: -height
-                            width: volumeicon.width + 20
-                            radius: 5
-                            height: 150
-                            color: PQCLook.transColor
-
-                            opacity: 0
-                            visible: opacity>0
-                            Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                            MouseArea {
-                                id: volumebg
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onExited:
-                                    hideVolume.restart()
-                            }
-
-                            PQSlider {
-                                id: volumeslider
-                                x: (parent.width-width)/2
-                                y: 10
-                                rotation: 180
-                                from: 0
-                                to: 100
-                                value: 100-PQCSettings.filetypesVideoVolume
-                                height: parent.height-20
-                                orientation: Qt.Vertical
-                                reverseWheelChange: true
-                                onValueChanged: {
-                                    PQCSettings.filetypesVideoVolume = 100-volumeslider.value
-                                }
-                            }
-
-                            Timer {
-                                id: hideVolume
-                                interval: 500
-                                onTriggered:
-                                    if(!volumebg.containsMouse &&
-                                            !volumeiconmouse.containsMouse &&
-                                            !volumeslider.backgroundContainsMouse &&
-                                            !volumeslider.handleContainsMouse)
-                                        volumecont.opacity = 0
-                            }
-
-                        }
-
-                    }
+                    PQVideoControls { id: videocontrols}
 
                 }
 

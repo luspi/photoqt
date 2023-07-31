@@ -27,5 +27,7 @@
         <file>white/volume_low.svg</file>
         <file>white/volume_medium.svg</file>
         <file>white/volume_mute.svg</file>
+        <file>white/close.svg</file>
+        <file>white/thumbnail.svg</file>
     </qresource>
 </RCC>
