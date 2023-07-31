@@ -21,5 +21,11 @@
         <file>white/folder.svg</file>
         <file>white/deselectfile.svg</file>
         <file>white/selectfile.svg</file>
+        <file>white/pause.svg</file>
+        <file>white/play.svg</file>
+        <file>white/volume_high.svg</file>
+        <file>white/volume_low.svg</file>
+        <file>white/volume_medium.svg</file>
+        <file>white/volume_mute.svg</file>
     </qresource>
 </RCC>

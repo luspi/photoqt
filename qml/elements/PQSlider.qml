@@ -29,24 +29,32 @@ Slider {
 
     orientation: Qt.Horizontal
 
-    implicitHeight: 20
+    implicitHeight: _horizontal ? 20 : 200
+    implicitWidth: _horizontal ? 200 : 20
 
     stepSize: 1.0
     property real wheelStepSize: 1.0
 
+    property bool _horizontal: (orientation==Qt.Horizontal)
+
+    property bool handleContainsMouse: false
+    property bool backgroundContainsMouse: false
+
+    property bool reverseWheelChange: false
+
     background: Rectangle {
-        x: control.leftPadding
-        y: control.topPadding + control.availableHeight / 2 - height / 2
-        implicitWidth: 200
-        implicitHeight: 6
-        width: control.availableWidth
-        height: implicitHeight
+        x: _horizontal ? control.leftPadding : (control.leftPadding + control.availableWidth / 2 - width / 2)
+        y: _horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : control.topPadding
+        implicitWidth: _horizontal ? 200 : 6
+        implicitHeight: _horizontal ? 6 : 200
+        width: _horizontal ? control.availableWidth : implicitWidth
+        height: _horizontal ? implicitHeight : control.availableHeight
         radius: 2
         color: PQCLook.baseColorHighlight
 
         Rectangle {
-            width: control.visualPosition * parent.width
-            height: parent.height
+            width: _horizontal ? (control.visualPosition * parent.width) : parent.width
+            height: _horizontal ? parent.height : (control.visualPosition * parent.height)
             color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
             radius: 2
         }
@@ -60,21 +68,30 @@ Slider {
             onDoubleClicked: mouse.accepted = false
             onPressAndHold: mouse.accepted = false
             onPressed: mouse.accepted = false
+            onEntered: control.backgroundContainsMouse = true
+            onExited: control.backgroundContainsMouse = false
             onWheel: {
-                if(wheel.angleDelta.y > 0)
-                    control.value -= control.wheelStepSize
-                else
-                    control.value += control.wheelStepSize
+                if(reverseWheelChange) {
+                    if(wheel.angleDelta.y > 0)
+                        control.value += control.wheelStepSize
+                    else
+                        control.value -= control.wheelStepSize
+                } else {
+                    if(wheel.angleDelta.y > 0)
+                        control.value -= control.wheelStepSize
+                    else
+                        control.value += control.wheelStepSize
+                }
             }
         }
 
     }
 
     handle: Rectangle {
-        x: control.leftPadding + control.visualPosition * (control.availableWidth - width)
-        y: control.topPadding + control.availableHeight / 2 - height / 2
-        implicitWidth: control.implicitHeight
-        implicitHeight: control.implicitHeight
+        x: _horizontal ? (control.leftPadding + control.visualPosition * (control.availableWidth - width)) : (control.leftPadding + control.availableWidth / 2 - width / 2)
+        y: _horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : (control.topPadding + control.visualPosition * (control.availableHeight - height))
+        implicitWidth: _horizontal ? control.implicitHeight : control.implicitWidth
+        implicitHeight: _horizontal ? control.implicitHeight : control.implicitWidth
         radius: control.implicitHeight/2
         color: PQCLook.inverseColor
         border.color: PQCLook.baseColorHighlight
@@ -87,11 +104,20 @@ Slider {
             onDoubleClicked: (mouse) => { mouse.accepted = false }
             onPressAndHold: (mouse) => { mouse.accepted = false }
             onPressed: (mouse) => { mouse.accepted = false }
+            onEntered: control.handleContainsMouse = true
+            onExited: control.handleContainsMouse = false
             onWheel: (wheel) => {
-                if(wheel.angleDelta.y > 0)
-                    control.value -= control.wheelStepSize
-                else
-                    control.value += control.wheelStepSize
+                if(reverseWheelChange) {
+                    if(wheel.angleDelta.y > 0)
+                        control.value += control.wheelStepSize
+                    else
+                        control.value -= control.wheelStepSize
+                } else {
+                    if(wheel.angleDelta.y > 0)
+                        control.value -= control.wheelStepSize
+                    else
+                        control.value += control.wheelStepSize
+                }
             }
         }
     }

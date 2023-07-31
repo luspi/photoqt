@@ -21,7 +21,7 @@ Item {
 
     onVisibleChanged: {
         if(!visible && video.playing) {
-            video.playing = false
+            loader_component.videoPlaying = false
             video.command(["cycle", "pause"])
         }
     }
@@ -32,6 +32,14 @@ Item {
 
         width: parent.width
         height: parent.height
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                loader_component.videoPlaying = !loader_component.videoPlaying
+                video.command(["cycle", "pause"])
+            }
+        }
 
     }
 
@@ -58,12 +66,36 @@ Item {
                 return
             }
             if(!PQCSettings.filetypesVideoAutoplay) {
-                video.playing = false
+                loader_component.videoPlaying = false
                 video.command(["cycle", "pause"])
             }
             videotop.width = video.getProperty("width")
             videotop.height = video.getProperty("height")
+            loader_component.videoDuration = video.getProperty("duration")
+            video.setProperty("volume", PQCSettings.filetypesVideoVolume)
             image_wrapper.status = Image.Ready
+            getPosition.restart()
+        }
+    }
+
+    Timer {
+        id: getPosition
+        interval: loader_component.videoPlaying ? 250 : 500
+        repeat: true
+        running: false
+        property bool restarting: false
+        onTriggered: {
+            PQCSettings.filetypesVideoVolume = video.getProperty("volume")
+            loader_component.videoPlaying = !video.getProperty("core-idle")
+            if(video.getProperty("eof-reached")) {
+                if(PQCSettings.filetypesVideoLoop && !restarting) {
+                    video.command(["loadfile", deleg.imageSource])
+                    restarting = true
+                }
+            } else {
+                loader_component.videoPosition = video.getProperty("time-pos")
+                restarting = false
+            }
 
         }
     }
@@ -75,6 +107,24 @@ Item {
         }
         function onMirrorV() {
             video.command(["vf", "toggle", "vflip"])
+        }
+    }
+
+    Connections {
+        target: loader_component
+        function onVideoTogglePlay() {
+            loader_component.videoPlaying = !loader_component.videoPlaying
+            video.command(["cycle", "pause"])
+        }
+        function onVideoToPos(pos) {
+            video.command(["seek", pos, "absolute"])
+        }
+    }
+
+    Connections {
+        target: PQCSettings
+        function onFiletypesVideoVolumeChanged() {
+            video.setProperty("volume", PQCSettings.filetypesVideoVolume)
         }
     }
 

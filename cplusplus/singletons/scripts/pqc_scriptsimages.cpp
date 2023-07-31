@@ -208,3 +208,25 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
     return ret;
 
 }
+
+QString PQCScriptsImages::convertSecondsToPosition(int t) {
+
+    int m = t/60;
+    int s = t%60;
+
+    QString minutes;
+    QString seconds;
+
+    if(m < 10)
+        minutes = QString("0%1").arg(m);
+    else
+        minutes = QString("%1").arg(m);
+
+    if(s < 10)
+        seconds = QString("0%1").arg(s);
+    else
+        seconds = QString("%1").arg(s);
+
+    return QString("%1:%2").arg(minutes, seconds);
+
+}
