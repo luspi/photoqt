@@ -36,6 +36,10 @@
 #include <FreeImagePlus.h>
 #endif
 
+#ifdef VIDEOMPV
+#include <pqc_mpvobject.h>
+#endif
+
 PQCScriptsConfig::PQCScriptsConfig() {}
 
 PQCScriptsConfig::~PQCScriptsConfig() {}
@@ -400,4 +404,18 @@ void PQCScriptsConfig::deleteLastLoadedImage() {
     if(file.exists())
         file.remove();
 
+}
+
+bool PQCScriptsConfig::isMPVSupportEnabled() {
+#ifdef VIDEOMPV
+    return true;
+#endif
+    return false;
+}
+
+bool PQCScriptsConfig::isVideoQtSupportEnabled() {
+#ifdef VIDEOQT
+    return true;
+#endif
+    return false;
 }

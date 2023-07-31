@@ -218,7 +218,13 @@ Item {
 
                             // the actual image
                             Loader {
-                                source: PQCScriptsImages.isItAnimated(deleg.imageSource) ? "PQImageAnimated.qml" : "PQImageNormal.qml"
+
+                                property bool isMpv: PQCImageFormats.getEnabledFormatsLibmpv().indexOf(PQCScriptsFilesPaths.getSuffix(deleg.imageSource))>-1 && PQCSettings.filetypesVideoPreferLibmpv && PQCScriptsConfig.isMPVSupportEnabled()
+
+                                source: isMpv ? "PQVideoMpv.qml"
+                                              : (PQCScriptsImages.isItAnimated(deleg.imageSource) ? "PQImageAnimated.qml"
+                                                                                                  : "PQImageNormal.qml")
+
                             }
 
                             // scaling animation
@@ -276,8 +282,11 @@ Item {
                                     if(image_wrapper.startupScale) {
                                         image_wrapper.startupScale = false
                                         image_wrapper.scale = deleg.imageScale
-                                    } else
+                                    } else {
+                                        scaleAnimation.from = image_wrapper.scale
+                                        scaleAnimation.to = deleg.imageScale
                                         scaleAnimation.restart()
+                                    }
                                 }
 
                                 function onZoomResetWithoutAnimation() {
@@ -306,6 +315,30 @@ Item {
                                 if(deleg.rotatedUpright)
                                     return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
                                 return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
+                            }
+
+                            PinchArea {
+
+                                id: pincharea
+
+                                anchors.fill: parent
+
+                                // the actual scale factor from a pinch event is the initial scale multiplied by Pinch.scale
+                                property real initialScale
+                                onPinchStarted: {
+                                    initialScale = image_wrapper.scale
+                                }
+
+                                onPinchUpdated: (pinch) => {
+
+                                    var fact = (initialScale*pinch.scale)/image_wrapper.scale
+
+                                    // update scale factor
+                                    deleg.imageScale *= fact
+
+
+                                }
+
                             }
 
                         }

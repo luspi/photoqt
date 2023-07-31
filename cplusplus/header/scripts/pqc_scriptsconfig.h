@@ -30,6 +30,8 @@ public:
     Q_INVOKABLE bool isImageMagickSupportEnabled();
     Q_INVOKABLE bool isPugixmlSupportEnabled();
     Q_INVOKABLE bool isQtAtLeast6_4();
+    Q_INVOKABLE bool isMPVSupportEnabled();
+    Q_INVOKABLE bool isVideoQtSupportEnabled();
 
 private:
     PQCScriptsConfig();

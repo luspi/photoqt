@@ -8,7 +8,7 @@ SET(d "cplusplus")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp)
 
 SET(d "cplusplus/other")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp  ${d}/pqc_validate.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp ${d}/pqc_validate.cpp ${d}/pqc_mpvobject.cpp)
 
 SET(d "cplusplus/singletons/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp ${d}/pqc_filefoldermodelcache.cpp)
@@ -25,7 +25,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.cpp ${d}/pqc_s
 SET(d "cplusplus/header")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.h ${d}/pqc_settings.h ${d}/pqc_shortcuts.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${d}/pqc_look.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${d}/pqc_look.h ${d}/pqc_mpvobject.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodel.h ${d}/pqc_filefoldermodelcache.h ${d}/pqc_imageformats.h ${d}/pqc_providerfolderthumb.h)
 
 SET(d "cplusplus/header/scripts")
@@ -46,6 +46,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_archive.cpp ${d}/pqc_l
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_libvips.cpp ${d}/pqc_loadimage_magick.cpp ${d}/pqc_loadimage_poppler.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_qt.cpp ${d}/pqc_loadimage_qtpdf.cpp ${d}/pqc_loadimage_raw.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_unrar.cpp ${d}/pqc_loadimage_video.cpp ${d}/pqc_loadimage_xcf.cpp)
+
 
 #########################
 # TESTING

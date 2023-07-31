@@ -54,7 +54,7 @@
 #endif
 
 #ifdef VIDEOMPV
-#include <libmpv/mpvobject.h>
+#include <pqc_mpvobject.h>
 #endif
 
 #ifdef FREEIMAGE
@@ -219,6 +219,10 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("folderthumb",new PQCAsyncImageProviderFolderThumb);
     engine.addImageProvider("dragthumb",new PQCAsyncImageProviderDragThumb);
     engine.addImageProvider("full",new PQCProviderFull);
+
+#ifdef VIDEOMPV
+    qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
+#endif
 
     engine.load(url);
 
