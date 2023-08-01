@@ -105,12 +105,27 @@ Item {
             video.command(["cycle", "pause"])
         }
         function onVideoToPos(pos) {
-            video.command(["seek", pos, "absolute"])
+            if(video.getProperty("eof-reached")) {
+                video.command(["loadfile", deleg.imageSource])
+                video.command(["cycle", "pause"])
+                loader_component.videoPlaying = false
+                setPosTimeout.pos = pos
+                setPosTimeout.restart()
+            } else
+                video.command(["seek", pos, "absolute"])
         }
         function onImageClicked() {
             loader_component.videoPlaying = !loader_component.videoPlaying
             video.command(["cycle", "pause"])
         }
+    }
+
+    Timer {
+        id: setPosTimeout
+        interval: 500
+        property int pos
+        onTriggered:
+            video.command(["seek", pos, "absolute"])
     }
 
     Connections {

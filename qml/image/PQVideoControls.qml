@@ -42,7 +42,7 @@ Rectangle {
         height: 25
         sourceSize: Qt.size(width, height)
         source: controls_top.controlsClosed ? "/white/thumbnail.svg" : "/white/close.svg"
-        opacity: closemouse.containsMouse ? 1 : 0.2
+        opacity: closemouse.containsMouse ? 1 : 0.1
         visible: opacity > 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
