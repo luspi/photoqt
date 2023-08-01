@@ -101,8 +101,13 @@ Item {
     Connections {
         target: loader_component
         function onVideoTogglePlay() {
-            loader_component.videoPlaying = !loader_component.videoPlaying
-            video.command(["cycle", "pause"])
+            if(video.getProperty("eof-reached")) {
+                video.command(["loadfile", deleg.imageSource])
+                loader_component.videoPlaying = true
+            } else {
+                loader_component.videoPlaying = !loader_component.videoPlaying
+                video.command(["cycle", "pause"])
+            }
         }
         function onVideoToPos(pos) {
             if(video.getProperty("eof-reached")) {
@@ -115,8 +120,13 @@ Item {
                 video.command(["seek", pos, "absolute"])
         }
         function onImageClicked() {
-            loader_component.videoPlaying = !loader_component.videoPlaying
-            video.command(["cycle", "pause"])
+            if(video.getProperty("eof-reached")) {
+                video.command(["loadfile", deleg.imageSource])
+                loader_component.videoPlaying = true
+            } else {
+                loader_component.videoPlaying = !loader_component.videoPlaying
+                video.command(["cycle", "pause"])
+            }
         }
     }
 
