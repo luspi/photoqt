@@ -21,9 +21,11 @@
  **************************************************************************/
 
 #include <pqc_providerthumb.h>
+#include <pqc_providericon.h>
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
+#include <scripts/pqc_scriptsfilespaths.h>
 #include <QSvgRenderer>
 #include <QPainter>
 
@@ -38,9 +40,11 @@ QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QStr
 PQCAsyncImageResponseThumb::PQCAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_requestedSize(requestedSize) {
     m_url = url;
     setAutoDelete(false);
+    providerIcon = new PQCProviderIcon;
 }
 
 PQCAsyncImageResponseThumb::~PQCAsyncImageResponseThumb() {
+    delete providerIcon;
 }
 
 QQuickTextureFactory *PQCAsyncImageResponseThumb::textureFactory() const {
@@ -63,6 +67,13 @@ void PQCAsyncImageResponseThumb::loadImage() {
         filenameForChecking = filenameForChecking.split("::PDF::").at(1);
     if(filenameForChecking.contains("::ARC::"))
         filenameForChecking = filenameForChecking.split("::ARC::").at(1);
+
+    if(PQCSettings::get()["thumbnailsIconsOnly"].toBool() || PQCScriptsFilesPaths::get().isExcludeDirFromCaching(filenameForChecking)) {
+        QSize origSize;
+        m_image = providerIcon->requestImage(QFileInfo(filename).suffix(), &origSize, m_requestedSize);
+        Q_EMIT finished();
+        return;
+    }
 
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();

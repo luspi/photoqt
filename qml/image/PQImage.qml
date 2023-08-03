@@ -338,8 +338,13 @@ Item {
                                     id: imagemouse
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    onWheel:
+                                    onPositionChanged: (mouse) => {
+                                        var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                        thumbnails.checkMousePosition(pos.x, pos.y)
+                                    }
+                                    onWheel: (wheel) => {
                                         console.log("wheel", wheel)
+                                    }
                                     onClicked:
                                         loader_component.imageClicked()
                                 }

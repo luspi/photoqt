@@ -34,11 +34,13 @@ ScrollBar {
         implicitWidth: 6
         implicitHeight: 100
         radius: width / 2
+        opacity: (control.pressed||control.active) ? 1 : 0.5
         color: (control.pressed||control.active) ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
         // Hide the ScrollBar when it's not needed.
         visible: control.size < 1.0
 
-        // Animate the changes in opacity (default duration is 250 ms).
+        // Animate the changes in color/opacity
+        Behavior on opacity { NumberAnimation { duration: 200 } }
         Behavior on color { ColorAnimation { duration: 200} }
     }
 

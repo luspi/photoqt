@@ -19,43 +19,29 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#ifndef PQCASYNCIMAGEPROVIDERTHUMB_H
-#define PQCASYNCIMAGEPROVIDERTHUMB_H
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+import QtQuick
+import QtQuick.Controls
 
-class PQCProviderIcon;
+ScrollBar {
+    id: control
+    size: 0.3
+    position: 0.2
+    active: false
+    orientation: Qt.Horizontal
 
-class PQCAsyncImageProviderThumb : public QQuickAsyncImageProvider {
+    contentItem: Rectangle {
+        implicitWidth: 100
+        implicitHeight: 6
+        radius: height / 2
+        opacity: (control.pressed||control.active) ? 1 : 0.5
+        color: (control.pressed||control.active) ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
+        // Hide the ScrollBar when it's not needed.
+        visible: control.size < 1.0
 
-public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
+        // Animate the changes in color/opacity
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on color { ColorAnimation { duration: 200} }
+    }
 
-private:
-    QThreadPool pool;
-};
-
-class PQCAsyncImageResponseThumb : public QQuickImageResponse, public QRunnable {
-
-public:
-    PQCAsyncImageResponseThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseThumb();
-
-    QQuickTextureFactory *textureFactory() const override;
-
-    void run() override;
-    void loadImage();
-
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
-
-    PQCProviderIcon *providerIcon;
-
-};
-
-#endif // PQCASYNCIMAGEPROVIDERTHUMB_H
+}

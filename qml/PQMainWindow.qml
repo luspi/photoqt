@@ -22,11 +22,9 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
-    // load this asynchronously
-    Loader {
-        id: background
-        asynchronous: true
-        source: "other/PQBackgroundMessage.qml"
+    Item {
+        id: fullscreenitem
+        anchors.fill: parent
     }
 
     // load this asynchronously
@@ -39,7 +37,23 @@ Window {
     // this one we load synchronously for easier access
     PQLoader { id: loader }
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onPositionChanged: (mouse) => {
+            thumbnails.checkMousePosition(mouse.x, mouse.y)
+        }
+    }
+
     PQImage { id: image}
+    PQThumbnails { id: thumbnails }
+
+    // load this asynchronously
+    Loader {
+        id: background
+        asynchronous: true
+        source: "other/PQBackgroundMessage.qml"
+    }
 
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
