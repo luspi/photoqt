@@ -42,6 +42,8 @@ Rectangle {
     // which area triggers the bar to be shown
     property rect hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
 
+    property int extraSpacing: Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
+
     // the four states corresponding to screen edges
     states: [
         State {
@@ -52,7 +54,7 @@ Rectangle {
                 invisiblePos: [0, toplevel.height]
                 hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
                 width: toplevel.width
-                height: PQCSettings.thumbnailsSize+Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                height: PQCSettings.thumbnailsSize+extraSpacing
             }
         },
         State {
@@ -62,7 +64,7 @@ Rectangle {
                 visiblePos: [0,0]
                 invisiblePos: [-width,0]
                 hotArea: Qt.rect(0,0,10,toplevel.height)
-                width: PQCSettings.thumbnailsSize+Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                width: PQCSettings.thumbnailsSize+extraSpacing
                 height: toplevel.height
             }
         },
@@ -73,7 +75,7 @@ Rectangle {
                 visiblePos: [toplevel.width-width,0]
                 invisiblePos: [toplevel.width,0]
                 hotArea: Qt.rect(toplevel.width-10,0,10,toplevel.height)
-                width: PQCSettings.thumbnailsSize+Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                width: PQCSettings.thumbnailsSize+extraSpacing
                 height: toplevel.height
             }
         },
@@ -85,7 +87,7 @@ Rectangle {
                 invisiblePos: [0,-height]
                 hotArea: Qt.rect(0,0,toplevel.width, 10)
                 width: toplevel.width
-                height: PQCSettings.thumbnailsSize+Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                height: PQCSettings.thumbnailsSize+extraSpacing
             }
         },
         State {
@@ -131,6 +133,12 @@ Rectangle {
 
         // the current index follows the model
         currentIndex: PQCFileFolderModel.currentIndex
+        property var previousIndices: [currentIndex, currentIndex]
+        onCurrentIndexChanged: {
+            previousIndices[1] = previousIndices[0]
+            previousIndices[0] = currentIndex
+            previousIndicesChanged()
+        }
 
         // the highlight index is set when hovering thumbnails
         property int highlightIndex: -1
@@ -144,10 +152,12 @@ Rectangle {
             }
         }
 
+        property var previousItem: view.model>0 ? view.itemAtIndex(view.previousIndices[1]) : null
+
         // some highlight properties
         // these follow the currentIndex property
         highlightFollowsCurrentItem: true
-        highlightMoveDuration: 0
+        highlightMoveDuration: (previousItem===null || (previousItem.x < view.contentX || previousItem.x+previousItem.width > view.contentX+view.width)) ? 0 : 200
         preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive
                                  ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2
                                  : PQCSettings.thumbnailsSize/2
@@ -418,6 +428,9 @@ Rectangle {
                 id: delegmouse
 
                 anchors.fill: parent
+                anchors.bottomMargin: -extraSpacing/2
+                anchors.topMargin: -extraSpacing/2
+
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
