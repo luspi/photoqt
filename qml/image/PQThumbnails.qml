@@ -105,6 +105,9 @@ Rectangle {
 
         // the model is the total image count
         model: PQCSettings.thumbnailsDisable||thumbnails_top.state==="disabled" ? 0 : PQCFileFolderModel.countMainView
+        onModelChanged: {
+            delegZ = 0
+        }
 
         // some visual settings
         spacing: PQCSettings.thumbnailsSpacing
