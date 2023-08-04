@@ -286,6 +286,9 @@ Rectangle {
                 }
             }
 
+            property string filepath: PQCFileFolderModel.entriesMainView[index]
+            property string filename: PQCScriptsFilesPaths.getFilename(filepath)
+
             // set the background color
             color: (active&&view.hlInvertBg) ? PQCLook.transColorActive : PQCLook.transColor
             Behavior on color { ColorAnimation { duration: 200 } }
@@ -331,7 +334,7 @@ Rectangle {
                 height: PQCSettings.thumbnailsSize
                 asynchronous: true
                 fillMode: PQCSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-                source: "image://thumb/" + PQCFileFolderModel.entriesMainView[index]
+                source: "image://thumb/" + deleg.filepath
 
             }
 
@@ -405,8 +408,25 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                onEntered:
+                property bool tooltipSetup: false
+
+                onEntered: {
                     view.highlightIndex = index
+
+                    if(!tooltipSetup && PQCSettings.thumbnailsTooltip) {
+
+                        tooltipSetup = true
+
+                        var str = "<div style='font-size: " + PQCLook.fontSize + "pt; font-weight: bold'>" + deleg.filename + "</div>" +
+                                  "<br><br>" +
+                                  "<span style='font-size: " + PQCLook.fontSize + "pt'>" + qsTranslate("thumbnails", "File size:")+" <b>" + PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.filepath) + "</b></span><br>" +
+                                  "<span style='font-size: " + PQCLook.fontSize + "pt'>" + qsTranslate("thumbnails", "File type:")+" <b>" + PQCScriptsFilesPaths.getFileType(deleg.filepath) + "</b></span>"
+
+                        text = str
+
+                    }
+
+                }
 
                 onExited: {
                     resetHighlightIndex.stop()
@@ -438,7 +458,7 @@ Rectangle {
                         font.pointSize: PQCSettings.thumbnailsFontSize
                         font.weight: PQCLook.fontWeightBold
                         elide: Text.ElideMiddle
-                        text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.entriesMainView[index])
+                        text: deleg.filename
                     }
                 }
             }
@@ -457,25 +477,5 @@ Rectangle {
                 setVisible = true
         }
     }
-
-//    property int ind: 0
-//    property var st: ["left", "right", "top", "disabled", "bottom"]
-//    Timer {
-//        running: true
-//        repeat: true
-//        interval: 5000
-//        onTriggered: {
-//            thumbnails_top.state = st[ind]
-//            ind = (ind+1)%5
-//        }
-//    }
-//    Timer {
-//        running: true
-//        repeat: false
-//        interval: 0
-//        onTriggered: {
-//            thumbnails_top.state = "bottom"
-//        }
-//    }
 
 }
