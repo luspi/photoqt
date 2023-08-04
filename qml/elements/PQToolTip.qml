@@ -18,7 +18,7 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: PQCLook.baseColor
+        color: PQCLook.transColor
         border.color: PQCLook.inverseColorHighlight
     }
 
