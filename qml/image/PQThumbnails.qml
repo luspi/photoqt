@@ -139,6 +139,7 @@ Rectangle {
             previousIndices[0] = currentIndex
             previousIndicesChanged()
         }
+        property bool previousIndexWithinView: false
 
         // the highlight index is set when hovering thumbnails
         property int highlightIndex: -1
@@ -157,7 +158,7 @@ Rectangle {
         // some highlight properties
         // these follow the currentIndex property
         highlightFollowsCurrentItem: true
-        highlightMoveDuration: (previousItem===null || (previousItem.x < view.contentX || previousItem.x+previousItem.width > view.contentX+view.width)) ? 0 : 200
+        highlightMoveDuration: previousIndexWithinView ? 200 : 0
         preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive
                                  ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2
                                  : PQCSettings.thumbnailsSize/2
@@ -166,87 +167,51 @@ Rectangle {
                                : ((orientation==Qt.Horizontal ? width : height)-PQCSettings.thumbnailsSize/2)
         highlightRangeMode: ListView.ApplyRange
 
-        // The horizontal scrollbar
-        ScrollBar.horizontal: PQHorizontalScrollBar {
-            id: scrollbar_hor
-            parent: view.parent
-            anchors.left: view.left
-            anchors.right: view.right
-            state: thumbnails_top.state
-            states: [
-                State {
-                    name: "bottom"
-                    PropertyChanges {
-                        target: scrollbar_hor
-                        anchors.bottom: thumbnails_top.bottom
-                        anchors.bottomMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_hor.height)/2
-                    }
-                },
-                State {
-                    name: "top"
-                    PropertyChanges {
-                        target: scrollbar_hor
-                        anchors.top: thumbnails_top.top
-                        anchors.topMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_hor.height)/2
-                    }
-                },
-                State {
-                    name: "left"
-                    PropertyChanges {
-                        target: scrollbar_hor
-                        visible: false
-                    }
-                },
-                State {
-                    name: "right"
-                    PropertyChanges {
-                        target: scrollbar_hor
-                        visible: false
-                    }
-                }
-            ]
+        // bottom scroll bar
+        PQHorizontalScrollBar {
+            id: scrollbar_bottom
+            visible: thumbnails_top.state==="bottom"
+            anchors.bottomMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_bottom.height)/2
         }
 
-        // the vertical scrollbar
-        ScrollBar.vertical: PQVerticalScrollBar {
-            id: scrollbar_ver
+        // top scroll bar
+        PQHorizontalScrollBar {
+            id: scrollbar_top
             parent: view.parent
-            anchors.top: view.top
-            anchors.bottom: view.bottom
-            state: thumbnails_top.state
-            states: [
-                State {
-                    name: "left"
-                    PropertyChanges {
-                        target: scrollbar_ver
-                        anchors.left: thumbnails_top.left
-                        anchors.leftMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_ver.width)/2
-                    }
-                },
-                State {
-                    name: "right"
-                    PropertyChanges {
-                        target: scrollbar_ver
-                        anchors.right: thumbnails_top.right
-                        anchors.rightMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_ver.width)/2
-                    }
-                },
-                State {
-                    name: "bottom"
-                    PropertyChanges {
-                        target: scrollbar_ver
-                        visible: false
-                    }
-                },
-                State {
-                    name: "top"
-                    PropertyChanges {
-                        target: scrollbar_ver
-                        visible: false
-                    }
-                }
-            ]
+            visible: thumbnails_top.state==="top"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_top.height)/2
         }
+
+        // set bottom or top scroll bar
+        ScrollBar.horizontal: thumbnails_top.state==="bottom" ? scrollbar_bottom : scrollbar_top
+
+        // left scroll bar
+        PQVerticalScrollBar {
+            id: scrollbar_left
+            parent: view.parent
+            visible: thumbnails_top.state==="left"
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.leftMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_left.width)/2
+        }
+
+        // right scroll bar
+        PQVerticalScrollBar {
+            id: scrollbar_right
+            parent: view.parent
+            visible: thumbnails_top.state==="right"
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            anchors.rightMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_right.width)/2
+        }
+
+        // set left or right scrollbar
+        ScrollBar.vertical: thumbnails_top.state==="left" ? scrollbar_left : scrollbar_right
 
         // the ListView states (they follow the global thumbnail state)
         states: [
@@ -260,6 +225,7 @@ Rectangle {
                     implicitHeight: parent.height-y
                     orientation: Qt.Horizontal
                     smallerThanSize: contentHeight<parent.height
+                    previousIndexWithinView: (previousItem!==null && previousItem.x >= contentX && previousItem.x+previousItem.width <= contentX+width)
                 }
             },
             State {
@@ -272,6 +238,7 @@ Rectangle {
                     implicitHeight: Math.min(parent.height, contentHeight)
                     orientation: Qt.Vertical
                     smallerThanSize: contentHeight<parent.height
+                    previousIndexWithinView: (previousItem!==null && previousItem.y >= contentY && previousItem.y+previousItem.height <= contentY+height)
                 }
             },
             State {
@@ -284,6 +251,7 @@ Rectangle {
                     implicitHeight: Math.min(parent.height, contentHeight)
                     orientation: Qt.Vertical
                     smallerThanSize: contentHeight<parent.height
+                    previousIndexWithinView: (previousItem!==null && previousItem.y >= contentY && previousItem.y+previousItem.height <= contentY+height)
                 }
             },
             State {
@@ -296,6 +264,7 @@ Rectangle {
                     implicitHeight: 100
                     orientation: Qt.Horizontal
                     smallerThanSize: contentWidth<parent.width
+                    previousIndexWithinView: (previousItem!==null && previousItem.x >= contentX && previousItem.x+previousItem.width <= contentX+width)
                 }
             }
         ]
@@ -341,7 +310,7 @@ Rectangle {
                 // the image position can change depending on the highlight animation
                 x: (deleg.active&&view.hlLiftUp)
                         ? (view.state==="left" ? PQCSettings.thumbnailsHighlightAnimationLiftUp
-                                               : (view.state==="left" ? -PQCSettings.thumbnailsHighlightAnimationLiftUp : 0))
+                                               : (view.state==="right" ? -PQCSettings.thumbnailsHighlightAnimationLiftUp : 0))
                         : 0
                 y: (deleg.active&&view.hlLiftUp)
                         ? (view.state==="top" ? PQCSettings.thumbnailsHighlightAnimationLiftUp
