@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCScriptsFilesPaths
 import PQCFileFolderModel
 
 import "../elements"
@@ -13,13 +14,13 @@ Rectangle {
     color: PQCLook.transColor
 
     // positioning
-    x: keepVisible ? visiblePos[0] : invisiblePos[0]
-    y: keepVisible ? visiblePos[1] : invisiblePos[1]
+    x: (setVisible||holdVisible) ? visiblePos[0] : invisiblePos[0]
+    y: (setVisible||holdVisible) ? visiblePos[1] : invisiblePos[1]
     Behavior on x { NumberAnimation { duration: 200 } }
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: keepVisible ? 1 : 0
+    opacity: ((setVisible||holdVisible) && !PQCSettings.thumbnailsDisable) ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -35,7 +36,8 @@ Rectangle {
                         : "disabled" )))
 
     // visibility handlers
-    property bool keepVisible: false
+    property bool holdVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && Math.abs(image.currentScale-image.defaultScale) < 1e-6))
+    property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
 
@@ -94,7 +96,7 @@ Rectangle {
             name: "disabled"
             PropertyChanges {
                 target: thumbnails_top
-                keepVisible: false
+                setVisible: false
                 hotArea: Qt.rect(0,0,0,0)
             }
         }
@@ -417,18 +419,42 @@ Rectangle {
                 }
 
             }
+
+            Loader {
+                asynchronous: true
+                active: PQCSettings.thumbnailsFilename===1
+                Rectangle {
+                    color: PQCLook.transColor
+                    opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    y: (img.y+img.height-height)
+                    width: deleg.width
+                    height: Math.min(200, Math.max(30, deleg.height*0.3))
+
+                    PQText {
+                        anchors.fill: parent
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pointSize: PQCSettings.thumbnailsFontSize
+                        font.weight: PQCLook.fontWeightBold
+                        elide: Text.ElideMiddle
+                        text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.entriesMainView[index])
+                    }
+                }
+            }
+
         }
 
     }
 
     // check whether the thumbnails should be shown or not
     function checkMousePosition(x,y) {
-        if(keepVisible) {
+        if(setVisible) {
             if(x < thumbnails_top.x-50 || x > thumbnails_top.x+thumbnails_top.width+50 || y < thumbnails_top.y-50 || y > thumbnails_top.y+thumbnails_top.height+50)
-                keepVisible = false
+                setVisible = false
         } else {
             if(hotArea.x < x && hotArea.x+hotArea.width>x && hotArea.y < y && hotArea.height+hotArea.y > y)
-                keepVisible = true
+                setVisible = true
         }
     }
 

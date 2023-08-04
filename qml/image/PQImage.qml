@@ -12,10 +12,15 @@ Item {
 
     id: image_top
 
-    x: PQCSettings.imageviewMargin
-    y: PQCSettings.imageviewMargin
-    width: toplevel.width-2*PQCSettings.imageviewMargin
-    height: toplevel.height-2*PQCSettings.imageviewMargin
+    x: extraX + PQCSettings.imageviewMargin
+    y: extraY + PQCSettings.imageviewMargin
+    width: toplevel.width-2*PQCSettings.imageviewMargin - lessW
+    height: toplevel.height-2*PQCSettings.imageviewMargin - lessH
+
+    property int extraX: (thumbnails.holdVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails") ? thumbnails.width : 0
+    property int extraY: (thumbnails.holdVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails") ? thumbnails.height : 0
+    property int lessW: (thumbnails.holdVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? thumbnails.width : 0
+    property int lessH: (thumbnails.holdVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? thumbnails.height : 0
 
     Rectangle {
         color: "red"
@@ -31,6 +36,8 @@ Item {
     property int currentlyVisibleIndex: -1
 
     property int curZ: 0
+    property real defaultScale: 1
+    property real currentScale: 1
 
     signal zoomIn()
     signal zoomOut()
@@ -216,6 +223,9 @@ Item {
                                     prevH = height*scale
                                     prevScale = scale
 
+                                    if(PQCFileFolderModel.currentIndex === index)
+                                        image_top.currentScale = scale
+
                                 }
 
                                 // react to status changes
@@ -229,6 +239,7 @@ Item {
                                             deleg.defaultWidth = width*deleg.defaultScale
                                             deleg.defaultHeight = height*deleg.defaultScale
                                             deleg.defaultScale = 0.99999999*tmp
+                                            image.defaultScale = deleg.defaultScale
                                             deleg.hasBeenSetup = true
                                             deleg.showImage()
                                         }
@@ -273,6 +284,9 @@ Item {
                                             deleg.zoomResetWithoutAnimation()
                                         } else
                                             deleg.defaultScale = 0.99999999*tmp
+
+                                        if(PQCFileFolderModel.currentIndex === index)
+                                            image.defaultScale = deleg.defaultScale
                                     }
                                 }
 
@@ -323,6 +337,7 @@ Item {
                                             deleg.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
                                             if(Math.abs(deleg.imageScale-oldDefault) < 1e-6)
                                                 deleg.imageScale = deleg.defaultScale
+                                            image.defaultScale = deleg.defaultScale
                                         }
                                     }
                                 }
