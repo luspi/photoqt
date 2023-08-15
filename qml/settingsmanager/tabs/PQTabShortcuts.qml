@@ -442,15 +442,6 @@ Item {
                                                 return
 
                                             tab_shortcuts.entries[deleg.currentShortcutIndex][0].splice(index,1)
-
-                                            if(tab_shortcuts.entries[deleg.currentShortcutIndex][0].length == 0) {
-                                                                                      //: The group here is a shortcut group
-                                                confirmEmptyDelete.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "There is currently no key combination set. If no key combination is set before saving, then this group will be deleted."),
-                                                                                      //: The group here is a shortcut group
-                                                                                      em.pty+qsTranslate("settingsmanager_shortcuts", "Do you want to hide this group from the view now?"))
-                                            }
-                                            // this needs to come at the end as there's otherwise a race condition with the if statement above
-                                            // causing an error as to tab_shortcuts not being defined
                                             tab_shortcuts.entriesChanged()
 
                                         }
@@ -519,16 +510,9 @@ Item {
                                                 onExited:
                                                     delrect.opacity = 0.2
                                                 onClicked: {
-                                                    confirmDeleteShortcut.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this key combination?"), "")
+                                                    combodeleg.deleteMe = true
+                                                    combodeleg.opacity = 0
                                                 }
-                                            }
-                                        }
-
-                                        PQModalConfirm {
-                                            id: confirmDeleteShortcut
-                                            onYes: {
-                                                combodeleg.deleteMe = true
-                                                combodeleg.opacity = 0
                                             }
                                         }
 
@@ -792,18 +776,10 @@ Item {
                                             parent.opacity = 0.8
                                         onExited:
                                             parent.opacity = 0.2
-                                        onClicked:
-                                            confirmDeleteAction.askForConfirmation(em.pty+qsTranslate("settingsmanager_shortcuts", "Are you sure you want to delete this shortcut action?"), "")
-                                    }
-                                }
-
-                                PQModalConfirm {
-                                    id: confirmDeleteAction
-                                    property int index: -1
-                                    property int subindex: -1
-                                    onYes: {
-                                        cmddeleg.deleteMe = true
-                                        cmddeleg.opacity = 0
+                                        onClicked: {
+                                            cmddeleg.deleteMe = true
+                                            cmddeleg.opacity = 0
+                                        }
                                     }
                                 }
 
@@ -965,14 +941,6 @@ Item {
                         color: "white"
                     }
 
-                    PQModalConfirm {
-                        id: confirmEmptyDelete
-                        onYes: {
-                            deleg.deleteMe = true
-                            deleg.opacity = 0
-                        }
-                    }
-
                     Connections {
                         target: filter_combo
                         onTextChanged:
@@ -1123,10 +1091,8 @@ Item {
         id: newshortcut
         onNewCombo: {
 
+            // this case should never actually happen
             if(combo.startsWith("Left Button")) {
-                informExisting.informUser(em.pty+qsTranslate("settingsmanager_shortcuts", "Left Button"),
-                                          em.pty+qsTranslate("settingsmanager_shortcuts", "The left button is used for moving the main image around."),
-                                          em.pty+qsTranslate("settingsmanager_shortcuts", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.)."))
                 return
             }
 
@@ -1156,10 +1122,6 @@ Item {
             tab_shortcuts.entriesChanged()
 
         }
-    }
-
-    PQModalInform {
-        id: informExisting
     }
 
     Connections {

@@ -55,6 +55,9 @@ Rectangle {
 
     function assembleKeyCombo() {
 
+        leftbutmessage.opacity = 0
+        savebut.enabled = true
+
         var txt = ""
 
         if(keyComboMods.length > 0) {
@@ -93,10 +96,19 @@ Rectangle {
 
         combo_txt.text = txt
 
-        if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
-            restartCancelTimer()
-        else
-            restartSaveTimer()
+        if(mouseComboMods.length == 0 && mouseComboButton == "Left Button") {
+            leftbutmessage.opacity = 1
+            stopSaveTimer()
+            savebut.enabled = false
+        } else {
+            leftbutmessage.opacity = 0
+            if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
+                restartCancelTimer()
+            else {
+                restartSaveTimer()
+                savebut.enabled = true
+            }
+        }
 
     }
 
@@ -144,6 +156,31 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color: "#cccccc"
+        }
+
+        Rectangle {
+            id: leftbutmessage
+            y: parent.height-height
+            width: parent.width
+            height: leftbutmessagetxt.height+20
+            color: "#88181818"
+            opacity: 0
+            visible: opacity>0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQText {
+                id: leftbutmessagetxt
+                y: 10
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                text: em.pty+qsTranslate("settingsmanager_shortcuts", "The left button is used for moving the main image around.") + "<br>\n" +
+                      em.pty+qsTranslate("settingsmanager_shortcuts", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
+            }
+            SequentialAnimation {
+                loops: Animation.Infinite
+                running: leftbutmessage.visible
+                PropertyAnimation { target: leftbutmessage; property: "color"; from: "#88181818"; to: "#88333333"; duration: 400 }
+                PropertyAnimation { target: leftbutmessage; property: "color"; from: "#88333333"; to: "#88181818"; duration: 400 }
+            }
         }
 
         PQMouseArea {
@@ -382,6 +419,7 @@ Rectangle {
         keyComboMods = []
 
         combo_txt.text = ""
+        leftbutmessage.opacity = 0
 
         restartCancelTimer()
 
@@ -404,6 +442,12 @@ Rectangle {
         canceltimer.stop()
         savetimer.countdown = 5
         savetimer.start()
+    }
+
+    function stopSaveTimer() {
+        canceltimer.stop()
+        savetimer.stop()
+        savetimer.countdown = 5
     }
 
 }
