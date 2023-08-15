@@ -483,7 +483,7 @@ Item {
                                                 x: delrect.width+20
                                                 y: (parent.height-height)/2
                                                 font.weight: baselook.boldweight
-                                                text: deleg.combos[index]
+                                                text: keymousestrings.translateShortcut(deleg.combos[index])
                                             }
 
                                             PQMouseArea {
