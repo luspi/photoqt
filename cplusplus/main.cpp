@@ -138,24 +138,15 @@ int main(int argc, char *argv[]) {
     // return 1 on updates and 2 on fresh installs
     int checker = startup.check();
 
-    // update or fresh install detected => show informational message
+    // update or fresh install?
     if(checker != 0) {
 
-        if(checker == 1 || checker == 2) {
-
-            QQmlApplicationEngine engine;
-            QUrl url(u"qrc:/src/qml/other/PQStartupFreshInstall.qml"_qs);
-            if(checker == 1)
-                url.setUrl(u"qrc:/src/qml/other/PQStartupUpdate.qml"_qs);
-            engine.load(url);
-
-            app.exec();
-
-        }
+        if(checker == 2)
+            startup.setupFresh();
 
         // run consistency check
-        // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
-        if(checker == 3)
+        // this is done when updating or coming from dev version
+        if(checker == 1 || checker == 3)
             validate.validate();
 
         PQCSettings::get().update("generalVersion", VERSION);

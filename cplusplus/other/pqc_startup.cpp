@@ -39,6 +39,8 @@ PQCStartup::PQCStartup(QObject *parent) : QObject(parent) { }
 // 2: fresh install
 int PQCStartup::check() {
 
+    qDebug() << "";
+
     QSqlDatabase db_context;
     QSqlDatabase db_location;
 
@@ -120,9 +122,9 @@ void PQCStartup::importData(QString path) {
 
 }
 
-void PQCStartup::setupFresh(int defaultPopout) {
+void PQCStartup::setupFresh() {
 
-    qDebug() << "args: defaultPopout =" << defaultPopout;
+    qDebug() << "";
 
     /**************************************************************/
     // make sure necessary folder exist
@@ -130,6 +132,7 @@ void PQCStartup::setupFresh(int defaultPopout) {
     dir.mkpath(PQCConfigFiles::CONFIG_DIR());
     dir.mkpath(PQCConfigFiles::GENERIC_DATA_DIR());
     dir.mkpath(PQCConfigFiles::GENERIC_CACHE_DIR());
+    dir.mkpath(QString("%1/thumbnails/normal/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
     dir.mkpath(QString("%1/thumbnails/large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
 
     /**************************************************************/
@@ -159,55 +162,10 @@ void PQCStartup::setupFresh(int defaultPopout) {
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
-    PQCSettings::get().update("generalVersion", VERSION);
-
 #ifdef Q_OS_WIN
     // these defaults are different on Windows as on Linux
-    PQCSettings::get().update("filedialogUserPlacesVolumes", true);
+    PQCSettings::get().update("filedialogDevices", true);
 #endif
-
-    // record popout selection
-    // default is all integrated (defaultPopout == 0)
-    if(defaultPopout == 1) { // some integrated, some individual
-
-        PQCSettings::get().update("interfacePopoutScale", true);
-        PQCSettings::get().update("interfacePopoutFileDialog", true);
-        PQCSettings::get().update("interfacePopoutSlideShowSettings", true);
-        PQCSettings::get().update("interfacePopoutImgur", true);
-        PQCSettings::get().update("interfacePopoutWallpaper", true);
-        PQCSettings::get().update("interfacePopoutSettingsManager", true);
-        PQCSettings::get().update("interfacePopoutFileSaveAs", true);
-        PQCSettings::get().update("interfacePopoutChromecast", true);
-        PQCSettings::get().update("interfacePopoutAdvancedSort", true);
-        PQCSettings::get().update("interfacePopoutMapExplorer", true);
-
-    } else if(defaultPopout == 2) { // all individual
-
-        PQCSettings::get().update("interfacePopoutMainMenu", true);
-        PQCSettings::get().update("interfacePopoutMetadata", true);
-        PQCSettings::get().update("interfacePopoutHistogram", true);
-        PQCSettings::get().update("interfacePopoutScale", true);
-        PQCSettings::get().update("interfacePopoutFileDialog", true);
-        PQCSettings::get().update("interfacePopoutFileDialogKeepOpen", true);
-        PQCSettings::get().update("interfacePopoutSlideShowSettings", true);
-        PQCSettings::get().update("interfacePopoutSlideShowControls", true);
-        PQCSettings::get().update("interfacePopoutFileRename", true);
-        PQCSettings::get().update("interfacePopoutFileDelete", true);
-        PQCSettings::get().update("interfacePopoutAbout", true);
-        PQCSettings::get().update("interfacePopoutImgur", true);
-        PQCSettings::get().update("interfacePopoutWallpaper", true);
-        PQCSettings::get().update("interfacePopoutFilter", true);
-        PQCSettings::get().update("interfacePopoutSettingsManager", true);
-        PQCSettings::get().update("interfacePopoutFileSaveAs", true);
-        PQCSettings::get().update("interfacePopoutUnavailable", true);
-        PQCSettings::get().update("interfacePopoutChromecast", true);
-        PQCSettings::get().update("interfacePopoutAdvancedSort", true);
-        PQCSettings::get().update("interfacePopoutMapCurrent", true);
-        PQCSettings::get().update("interfacePopoutMapExplorer", true);
-        PQCSettings::get().update("interfacePopoutMapExplorerKeepOpen", true);
-
-
-    }
 
     /**************************************************************/
     // create default shortcuts database

@@ -37,7 +37,7 @@ public:
     // 2: fresh install
     int check();
 
-    Q_INVOKABLE void setupFresh(int defaultPopout);
+    Q_INVOKABLE void setupFresh();
     Q_INVOKABLE void performChecksAndMigrations();
 
     void exportData(QString path);
