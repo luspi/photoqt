@@ -3,6 +3,7 @@ import QtQuick.Window
 
 import PQCFileFolderModel
 import PQCScriptsConfig
+import PQCNotify
 
 import "elements"
 import "other"
@@ -42,6 +43,9 @@ Window {
         hoverEnabled: true
         onPositionChanged: (mouse) => {
             thumbnails.checkMousePosition(mouse.x, mouse.y)
+        }
+        onWheel: (wheel) => {
+            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
         }
     }
 

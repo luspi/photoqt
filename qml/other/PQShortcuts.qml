@@ -71,6 +71,40 @@ Item {
 
         }
 
+        function onMouseWheel(angleDelta, modifiers) {
+
+            var combo = ""
+
+            if(modifiers & Qt.ControlModifier)
+                combo += "Ctrl+";
+            if(modifiers & Qt.AltModifier)
+                combo += "Alt+";
+            if(modifiers & Qt.ShiftModifier)
+                combo += "Shift+";
+            if(modifiers & Qt.MetaModifier)
+                combo += "Meta+";
+            if(modifiers & Qt.KeypadModifier)
+                combo += "Keypad+";
+
+            if(combo == "" && PQCSettings.imageviewUseMouseWheelForImageMove)
+                return
+
+            if(Math.abs(angleDelta.x) < 2) {
+                if(angleDelta.y < 0)
+                    combo += "Wheel Down"
+                else if(angleDelta.y > 0)
+                    combo += "Wheel Up"
+            } else {
+                if(angleDelta.x < 0)
+                    combo += "Wheel Left"
+                else if(angleDelta.x > 0)
+                    combo += "Wheel Right"
+            }
+
+            checkComboForShortcut(combo)
+
+        }
+
     }
 
     function checkComboForShortcut(combo, wheelDelta) {

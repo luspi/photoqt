@@ -5,6 +5,7 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsImages
+import PQCNotify
 
 import "../elements"
 
@@ -168,6 +169,26 @@ Item {
 
                         contentWidth: flickable_content.width
                         contentHeight: flickable_content.height
+
+                        Connections {
+
+                            target: PQCNotify
+
+                            function onMouseWheel(angleDelta, modifiers) {
+                                if(PQCSettings.imageviewUseMouseWheelForImageMove)
+                                    return
+                                flickable.interactive = false
+                                reEnableInteractive.restart()
+                            }
+
+                        }
+
+                        Timer {
+                            id: reEnableInteractive
+                            interval: 100
+                            repeat: false
+                            onTriggered: flickable.interactive = true
+                        }
 
                         // the container for the content
                         Item {
@@ -353,12 +374,14 @@ Item {
                                     id: imagemouse
                                     anchors.fill: parent
                                     hoverEnabled: true
+                                    propagateComposedEvents: true
                                     onPositionChanged: (mouse) => {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                         thumbnails.checkMousePosition(pos.x, pos.y)
                                     }
                                     onWheel: (wheel) => {
-                                        console.log("wheel", wheel)
+                                        wheel.accepted = false
+                                        PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                                     }
                                     onClicked:
                                         loader_component.imageClicked()

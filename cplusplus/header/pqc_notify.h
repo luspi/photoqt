@@ -101,6 +101,7 @@ Q_SIGNALS:
 //    void resetSessionData();
 
     void keyPress(int key, int modifiers);
+    void mouseWheel(QPointF angleDelta, int modifiers);  // this is called by, e.g., PQImage to trigger mouse shortcuts
 
 };
 
