@@ -187,6 +187,9 @@ Item {
 
     signal highlightEntry(var idx)
 
+    property var handleExisting: ({})
+    signal highlightExisting(var entryindex, var entryid)
+
     Flickable {
 
         id: cont
@@ -301,6 +304,7 @@ Item {
                 }
 
             }
+
 
             Item {
                 id: nothingfound
@@ -564,6 +568,93 @@ Item {
                                         }
 
                                     }
+                                }
+
+                            }
+
+                        }
+
+                        Rectangle {
+
+                            id: exstre
+
+                            width: parent.width
+                            height: exstre_col.height+20
+                            color: "#181818"
+
+                            opacity: 0
+                            visible: opacity>0
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                            SequentialAnimation {
+                                loops: Animation.Infinite
+                                running: exstre.visible
+                                PropertyAnimation { target: exstre; property: "color"; from: "#181818"; to: "#333333"; duration: 400 }
+                                PropertyAnimation { target: exstre; property: "color"; from: "#333333"; to: "#181818"; duration: 400 }
+                            }
+
+                            Connections {
+                                target: tab_shortcuts
+                                onHighlightExisting: {
+                                    if(entryindex == index) {
+                                        countdwn.s = 5
+                                        undobut.entryid = entryid
+                                        exstre.opacity = 1
+                                    }
+                                }
+                            }
+
+                            Column {
+
+                                id: exstre_col
+
+                                x: 5
+                                y: 10
+                                spacing: 10
+                                width: parent.width
+
+                                PQText {
+                                    width: parent.width
+                                    font.weight: baselook.boldweight
+                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                    text: em.pty+qsTranslate("settingsmanager_shortcuts", "The new shortcut was in use by another shortcuts group. It has been reassigned to this group.")
+                                }
+
+                                Row {
+
+                                    x: 5
+                                    spacing: 10
+
+                                    PQButton {
+                                        id: undobut
+                                        property string entryid: ""
+                                        text: em.pty+qsTranslate("settingsmanager_shortcuts", "Undo reassignment")
+                                        onClicked: {
+                                            var dat = tab_shortcuts.handleExisting[entryid]
+                                            tab_shortcuts.entries[dat[0]][0].push(dat[2])
+                                            tab_shortcuts.entries[dat[1]][0].splice(tab_shortcuts.entries[dat[1]][0].indexOf(dat[2]), 1)
+                                            tab_shortcuts.entriesChanged()
+                                            exstre.opacity = 0
+                                        }
+                                    }
+
+                                    PQText {
+                                        id: countdwn
+                                        y: (undobut.height-height)/2
+                                        property int s: 5
+                                        text: s
+                                        Timer {
+                                            interval: 1000
+                                            running: exstre.opacity==1
+                                            repeat: true
+                                            onTriggered: {
+                                                parent.s -= 1
+                                                if(parent.s == 0)
+                                                    exstre.opacity = 0
+                                            }
+                                        }
+                                    }
+
                                 }
 
                             }
@@ -1049,23 +1140,20 @@ Item {
                 }
             }
 
+            // reassign shortcut, save reassignment data, and show undo button
             if(usedIndex != -1) {
-
-                                          //: This is the title of a popup box for informing the user of a duplicate key combination
-                informExisting.informUser(em.pty+qsTranslate("settingsmanager_shortcuts", "Duplicate key combination"),
-                                          em.pty+qsTranslate("settingsmanager_shortcuts", "This key combination is already used for another shortcut."),
-                                          em.pty+qsTranslate("settingsmanager_shortcuts", "It first needs to be deleted there before it can be added here."))
-
-                ensureVisible(usedIndex)
-
-            } else {
-
-                if(subindex == -1)
-                    tab_shortcuts.entries[index][0].push(combo)
-                else
-                    tab_shortcuts.entries[index][0][subindex] = combo
+                var newid = handlingGeneral.getUniqueId()
+                handleExisting[newid] = [usedIndex, index, combo]
+                tab_shortcuts.entries[usedIndex][0].splice(tab_shortcuts.entries[usedIndex][0].indexOf(combo), 1)
                 tab_shortcuts.entriesChanged()
+                tab_shortcuts.highlightExisting(index, newid)
             }
+
+            if(subindex == -1)
+                tab_shortcuts.entries[index][0].push(combo)
+            else
+                tab_shortcuts.entries[index][0][subindex] = combo
+            tab_shortcuts.entriesChanged()
 
         }
     }
