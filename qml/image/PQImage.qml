@@ -101,12 +101,20 @@ Item {
                 Connections {
                     target: image_top
                     function onZoomIn() {
-                        if(PQCFileFolderModel.currentIndex===index)
-                            deleg.imageScale /= 0.9
+                        if(PQCFileFolderModel.currentIndex===index) {
+                            if(PQCSettings.imageviewZoomMaxEnabled)
+                                deleg.imageScale = Math.min(25, deleg.imageScale/0.9)
+                            else
+                                deleg.imageScale = Math.min(PQCSettings.imageviewZoomMax/100, deleg.imageScale/0.9)
+                        }
                     }
                     function onZoomOut() {
-                        if(PQCFileFolderModel.currentIndex===index)
-                            deleg.imageScale *= 0.9
+                        if(PQCFileFolderModel.currentIndex===index) {
+                            if(PQCSettings.imageviewZoomMinEnabled)
+                                deleg.imageScale = Math.max(deleg.defaultScale*(PQCSettings.imageviewZoomMin/100), deleg.imageScale*0.9)
+                            else
+                                deleg.imageScale = Math.max(0.01, deleg.imageScale*0.9)
+                        }
                     }
                     function onZoomReset() {
                         if(PQCFileFolderModel.currentIndex===index)
