@@ -6,7 +6,11 @@
 #include <QUrl>
 #include <QStorageInfo>
 #include <QDirIterator>
+#ifdef WIN32
+#include <thread>
+#else
 #include <unistd.h>
+#endif
 
 PQCScriptsFileManagement::PQCScriptsFileManagement() {}
 

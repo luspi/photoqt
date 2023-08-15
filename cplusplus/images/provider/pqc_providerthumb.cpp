@@ -29,6 +29,13 @@
 #include <QSvgRenderer>
 #include <QPainter>
 
+#ifdef WIN32
+#include <Windows.h>
+#include <ShObjIdl.h>
+#include <Shlwapi.h>
+#include <thumbcache.h>
+#endif
+
 QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseThumb *response = new PQCAsyncImageResponseThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
@@ -75,12 +82,69 @@ void PQCAsyncImageResponseThumb::loadImage() {
         return;
     }
 
+    // Prepare the return QImage
+    QImage p;
+
+#ifdef WIN32
+
+    // on Windows we check the global thumbnail cache for a cached thumbnail
+    // if we find one we can stop, otherwise we generate a new one
+
+    const wchar_t *wFilePath = reinterpret_cast<const wchar_t *>(QDir::toNativeSeparators(filenameForChecking).utf16());
+
+    HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+
+    if(SUCCEEDED(hr)) {
+
+        IShellItem *pShellItem = nullptr;
+        hr = SHCreateItemFromParsingName(wFilePath, NULL, IID_PPV_ARGS(&pShellItem));
+
+        if(SUCCEEDED(hr)) {
+
+            IThumbnailCache *pThumbnailCache = nullptr;
+            hr = CoCreateInstance(CLSID_LocalThumbnailCache, NULL, CLSCTX_INPROC, IID_PPV_ARGS(&pThumbnailCache));
+
+            if(SUCCEEDED(hr)) {
+
+                WTS_CACHEFLAGS cacheFlags;
+                ISharedBitmap *shared_bitmap;
+                hr = pThumbnailCache->GetThumbnail(pShellItem, m_requestedSize.width(), WTS_INCACHEONLY, &shared_bitmap, &cacheFlags, NULL);
+
+                if(SUCCEEDED(hr)) {
+
+                    HBITMAP hBitmap;
+                    hr = shared_bitmap->GetSharedBitmap(&hBitmap);
+
+                    if(SUCCEEDED(hr)) {
+                        p = QImage::fromHBITMAP(hBitmap);
+                        DeleteObject(&hBitmap); // Free the bitmap handle
+                    }
+
+                }
+
+                pThumbnailCache->Release();
+
+            }
+
+            pShellItem->Release();
+
+        }
+
+        CoUninitialize();
+
+    }
+
+    if(!p.isNull()) {
+        m_image = p;
+        Q_EMIT finished();
+        return;
+    }
+
+#endif
+
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
     QByteArray md5 = QCryptographicHash::hash(path,QCryptographicHash::Md5).toHex();
-
-    // Prepare the return QImage
-    QImage p;
 
     QString cachedir = "";
     if(m_requestedSize.width() >= 512) {

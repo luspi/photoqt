@@ -70,6 +70,9 @@ int main(int argc, char *argv[]) {
     qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
 #endif
 
+    // avoids warning for customizing native styles (observed in particular on Windows)
+    qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
+
     // Set app information
     QApplication::setApplicationName("PhotoQt");
     QApplication::setOrganizationName("");
