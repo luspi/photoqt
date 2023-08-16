@@ -35,6 +35,12 @@ Item {
     }
 
     property int currentlyVisibleIndex: -1
+    property var visibleIndexPrevCur: [-1,-1]
+    onCurrentlyVisibleIndexChanged: {
+        visibleIndexPrevCur[1] = visibleIndexPrevCur[0]
+        visibleIndexPrevCur[0] = currentlyVisibleIndex
+        visibleIndexPrevCurChanged()
+    }
 
     property int curZ: 0
     property real defaultScale: 1
@@ -449,6 +455,46 @@ Item {
                     }
                 }
 
+                // animation to show the image
+                PropertyAnimation {
+                    id: xAnimation
+                    target: deleg
+                    property: "x"
+                    from: -width
+                    to: 0
+                    duration: 200
+                    onFinished: {
+                        if(Math.abs(deleg.x) > 10) {
+
+                            // stop any possibly running video
+                            deleg.stopVideoAndReset()
+
+                            deleg.visible = false
+
+                        }
+                    }
+                }
+
+                // animation to show the image
+                PropertyAnimation {
+                    id: yAnimation
+                    target: deleg
+                    property: "y"
+                    from: -height
+                    to: 0
+                    duration: 200
+                    onFinished: {
+                        if(Math.abs(deleg.y) > 10) {
+
+                            // stop any possibly running video
+                            deleg.stopVideoAndReset()
+
+                            deleg.visible = false
+
+                        }
+                    }
+                }
+
                 // show the image
                 function showImage() {
 
@@ -456,18 +502,52 @@ Item {
 
                     zoomResetWithoutAnimation()
 
-                    opacityAnimation.stop()
+                    var anim = PQCSettings.imageviewAnimationType
 
-                    opacity = 0
+                    if(anim === "opacity") {
+
+                        opacityAnimation.stop()
+
+                        opacity = 0
+                        opacityAnimation.from = 0
+                        opacityAnimation.to = 1
+
+                        opacityAnimation.restart()
+
+                    } else if(anim === "x") {
+
+                        xAnimation.stop()
+
+                        // the from value depends on whether we go forwards or backwards in the folder
+                        xAnimation.from = -width
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                            xAnimation.from = width
+
+                        xAnimation.to = 0
+
+                        xAnimation.restart()
+
+                    } else if(anim === "y") {
+
+                        yAnimation.stop()
+
+                        // the from value depends on whether we go forwards or backwards in the folder
+                        yAnimation.from = -height
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                            yAnimation.from = height
+
+                        yAnimation.to = 0
+
+                        yAnimation.restart()
+
+                    }
+
+
                     z = image_top.curZ
                     visible = true
 
                     // (re-)start any video
                     deleg.restartVideoIfAutoplay()
-
-                    opacityAnimation.from = 0
-                    opacityAnimation.to = 1
-                    opacityAnimation.restart()
 
                     image_top.curZ += 1
 
@@ -477,10 +557,42 @@ Item {
                 // hide the image
                 function hideImage() {
 
-                    opacityAnimation.stop()
-                    opacityAnimation.from = opacity
-                    opacityAnimation.to = 0
-                    opacityAnimation.restart()
+                    var anim = PQCSettings.imageviewAnimationType
+
+                    if(anim === "opacity") {
+
+                        opacityAnimation.stop()
+
+                        opacityAnimation.from = opacity
+                        opacityAnimation.to = 0
+
+                        opacityAnimation.restart()
+
+                    } else if(anim === "x") {
+
+                        xAnimation.stop()
+
+                        xAnimation.from = 0
+                        // the to value depends on whether we go forwards or backwards in the folder
+                        xAnimation.to = width*(deleg.imageScale/deleg.defaultScale)
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                            xAnimation.to *= -1
+
+                        xAnimation.restart()
+
+                    } else if(anim === "y") {
+
+                        yAnimation.stop()
+
+                        yAnimation.from = 0
+                        // the to value depends on whether we go forwards or backwards in the folder
+                        yAnimation.to = height*(deleg.imageScale/deleg.defaultScale)
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                            yAnimation.to *= -1
+
+                        yAnimation.restart()
+
+                    }
 
                 }
 
