@@ -185,7 +185,7 @@ Item {
 
         // interface functions
         else if(cmd === "__quit")
-            PQClosing.quitPhotoQt()
+            toplevel.quitPhotoQt()
 
         // image functions
         else if(cmd === "__next")
