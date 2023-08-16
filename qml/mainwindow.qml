@@ -195,7 +195,22 @@ Window {
         }
     }
 
+    // on windows there is a white flash when the window is created
+    // thus we set up the window with opacity set to 0
+    // and this animation fades the window without white flash
+    PropertyAnimation {
+        id: showOpacity
+        target: toplevel
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 100
+    }
+
     function start() {
+
+        if(handlingGeneral.amIOnWindows())
+            toplevel.opacity = 0
 
         if(PQSettings.interfaceWindowMode) {
 
@@ -242,6 +257,9 @@ Window {
             }
 
         }
+
+        if(handlingGeneral.amIOnWindows())
+            showOpacity.restart()
 
         loader.ensureItIsReady("mainmenu")
         loader.ensureItIsReady("metadata")
