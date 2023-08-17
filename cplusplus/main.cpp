@@ -61,6 +61,11 @@
 #include <FreeImagePlus.h>
 #endif
 
+#ifdef Q_OS_WIN
+#include <QQuickWindow>
+#include <QSGRendererInterface>
+#endif
+
 int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_WIN
@@ -68,6 +73,10 @@ int main(int argc, char *argv[]) {
     qputenv("PATH", QString("%1;%2").arg(qgetenv("PATH"),f.absolutePath().replace("/", "\\")).toLocal8Bit());
     qputenv("MAGICK_CODER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\coders").toLocal8Bit());
     qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
+
+    // This allows for semi-transparent windows
+    // By default Qt6 uses Direct3D which does not seem to support this
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 #endif
 
     // avoids warning for customizing native styles (observed in particular on Windows)
