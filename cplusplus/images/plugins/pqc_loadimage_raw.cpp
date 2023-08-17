@@ -103,9 +103,6 @@ QSize PQCLoadImageRAW::loadSize(QString filename) {
 #ifdef RAW
 
     LibRaw raw;
-    libraw_processed_image_t *img;
-    bool thumb = false;
-    bool half = false;
 
     // The LibRaw instance
     raw.recycle();
@@ -126,7 +123,6 @@ QSize PQCLoadImageRAW::loadSize(QString filename) {
 
     QSize orig(raw.imgdata.sizes.width, raw.imgdata.sizes.height);
     // Clean up memory
-    raw.dcraw_clear_mem(img);
     raw.recycle();
     return orig;
 
