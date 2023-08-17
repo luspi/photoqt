@@ -46,6 +46,8 @@ Item {
     property real defaultScale: 1
     property real currentScale: 1
 
+    property string randomAnimation: "opacity"
+
     signal zoomIn()
     signal zoomOut()
     signal zoomReset()
@@ -568,6 +570,15 @@ Item {
                     }
                 }
 
+                Timer {
+                    id: selectNewRandomAnimation
+                    interval: 50
+                    onTriggered: {
+                        var animValues = ["opacity","x","y","explosion","implosion","rotation"]
+                        randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
+                    }
+                }
+
                 // show the image
                 function showImage() {
 
@@ -576,6 +587,8 @@ Item {
                     zoomResetWithoutAnimation()
 
                     var anim = PQCSettings.imageviewAnimationType
+                    if(anim === "random")
+                        anim = randomAnimation
 
                     if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
@@ -617,8 +630,13 @@ Item {
 
                         rotAnimation.stop()
 
-                        rotAnimation_rotation.from = 180
+                        rotAnimation_rotation.from = -180
                         rotAnimation_rotation.to = 0
+
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                            rotAnimation_rotation.from = 180
+                            rotAnimation_rotation.to = 0
+                        }
 
                         rotAnimation_opacity.from = 0
                         rotAnimation_opacity.to = 1
@@ -636,6 +654,8 @@ Item {
 
                     image_top.curZ += 1
 
+                    if(PQCSettings.imageviewAnimationType === "random")
+                        selectNewRandomAnimation.restart()
 
                 }
 
@@ -643,6 +663,8 @@ Item {
                 function hideImage() {
 
                     var anim = PQCSettings.imageviewAnimationType
+                    if(anim === "random")
+                        anim = randomAnimation
 
                     if(anim === "opacity") {
 
@@ -700,7 +722,12 @@ Item {
                         rotAnimation.stop()
 
                         rotAnimation_rotation.from = 0
-                        rotAnimation_rotation.to = -180
+                        rotAnimation_rotation.to = 180
+
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                            rotAnimation_rotation.from = 0
+                            rotAnimation_rotation.to = -180
+                        }
 
                         rotAnimation_opacity.from = 1
                         rotAnimation_opacity.to = 0
