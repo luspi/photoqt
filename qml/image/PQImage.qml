@@ -442,7 +442,7 @@ Item {
                     property: "opacity"
                     from: 0
                     to: 1
-                    duration: 200
+                    duration: PQCSettings.imageviewAnimationDuration*100
                     onFinished: {
                         if(deleg.opacity < 1e-6) {
 
@@ -462,7 +462,7 @@ Item {
                     property: "x"
                     from: -width
                     to: 0
-                    duration: 200
+                    duration: PQCSettings.imageviewAnimationDuration*100
                     onFinished: {
                         if(Math.abs(deleg.x) > 10) {
 
@@ -482,7 +482,7 @@ Item {
                     property: "y"
                     from: -height
                     to: 0
-                    duration: 200
+                    duration: PQCSettings.imageviewAnimationDuration*100
                     onFinished: {
                         if(Math.abs(deleg.y) > 10) {
 
@@ -497,6 +497,42 @@ Item {
 
                 // animation to show the image
                 ParallelAnimation {
+                    id: rotAnimation
+                    PropertyAnimation {
+                        id: rotAnimation_rotation
+                        target: deleg
+                        property: "rotation"
+                        from: 0
+                        to: 180
+                        duration: PQCSettings.imageviewAnimationDuration*100
+                    }
+                    PropertyAnimation {
+                        id: rotAnimation_opacity
+                        target: deleg
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: PQCSettings.imageviewAnimationDuration*100
+                    }
+                    onStarted: {
+                        deleg.z = image_top.curZ+1
+                    }
+                    onFinished: {
+                        if(Math.abs(deleg.rotation%360) > 1e-6) {
+
+                            // stop any possibly running video
+                            deleg.stopVideoAndReset()
+
+                            deleg.visible = false
+                            deleg.rotation = 0
+                            deleg.z = image_top.curZ-5
+
+                        }
+                    }
+                }
+
+                // animation to show the image
+                ParallelAnimation {
                     id: explosionAnimation
                     PropertyAnimation {
                         id: explosionAnimation_scale
@@ -504,7 +540,7 @@ Item {
                         property: "scale"
                         from: 1
                         to: 2
-                        duration: 400
+                        duration: PQCSettings.imageviewAnimationDuration*100
                     }
                     PropertyAnimation {
                         id: explosionAnimation_opacity
@@ -512,7 +548,7 @@ Item {
                         property: "opacity"
                         from: 1
                         to: 0
-                        duration: 300
+                        duration: PQCSettings.imageviewAnimationDuration*90
                     }
                     onStarted: {
                         deleg.z = image_top.curZ+1
@@ -576,6 +612,18 @@ Item {
                         yAnimation.to = 0
 
                         yAnimation.restart()
+
+                    } else if(anim === "rotation") {
+
+                        rotAnimation.stop()
+
+                        rotAnimation_rotation.from = 180
+                        rotAnimation_rotation.to = 0
+
+                        rotAnimation_opacity.from = 0
+                        rotAnimation_opacity.to = 1
+
+                        rotAnimation.restart()
 
                     }
 
@@ -646,6 +694,18 @@ Item {
                         explosionAnimation_scale.to = 0
 
                         explosionAnimation.restart()
+
+                    } else if(anim === "rotation") {
+
+                        rotAnimation.stop()
+
+                        rotAnimation_rotation.from = 0
+                        rotAnimation_rotation.to = -180
+
+                        rotAnimation_opacity.from = 1
+                        rotAnimation_opacity.to = 0
+
+                        rotAnimation.restart()
 
                     }
 
