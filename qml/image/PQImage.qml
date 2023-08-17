@@ -495,6 +495,43 @@ Item {
                     }
                 }
 
+                // animation to show the image
+                ParallelAnimation {
+                    id: explosionAnimation
+                    PropertyAnimation {
+                        id: explosionAnimation_scale
+                        target: deleg
+                        property: "scale"
+                        from: 1
+                        to: 2
+                        duration: 400
+                    }
+                    PropertyAnimation {
+                        id: explosionAnimation_opacity
+                        target: deleg
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 300
+                    }
+                    onStarted: {
+                        deleg.z = image_top.curZ+1
+                    }
+                    onFinished: {
+                        if(Math.abs(deleg.scale-1) > 1e-6) {
+
+                            // stop any possibly running video
+                            deleg.stopVideoAndReset()
+
+                            deleg.visible = false
+                            deleg.scale = 1
+
+                            deleg.z = image_top.curZ-5
+
+                        }
+                    }
+                }
+
                 // show the image
                 function showImage() {
 
@@ -504,7 +541,7 @@ Item {
 
                     var anim = PQCSettings.imageviewAnimationType
 
-                    if(anim === "opacity") {
+                    if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
                         opacityAnimation.stop()
 
@@ -591,6 +628,24 @@ Item {
                             yAnimation.to *= -1
 
                         yAnimation.restart()
+
+                    } else if(anim === "explosion") {
+
+                        explosionAnimation.stop()
+
+                        explosionAnimation_scale.from = 1
+                        explosionAnimation_scale.to = 2
+
+                        explosionAnimation.restart()
+
+                    } else if(anim === "implosion") {
+
+                        explosionAnimation.stop()
+
+                        explosionAnimation_scale.from = 1
+                        explosionAnimation_scale.to = 0
+
+                        explosionAnimation.restart()
 
                     }
 
