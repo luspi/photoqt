@@ -140,7 +140,8 @@ Rectangle {
                     id: nav_txt
                     x: 5
                     y: 5
-                    text: "navigation"
+                    //: This is a category in the main menu.
+                    text: qsTranslate("MainMenu", "navigation")
                     font.weight: PQCLook.fontWeightBold
                     opacity: 0.8
                 }
@@ -158,7 +159,8 @@ Rectangle {
                     PQMainMenuEntry {
                         id: prevarrow
                         img: "previous.svg"
-                        txt: "previous"
+                        //: as in: PREVIOUS image. Please keep short.
+                        txt: qsTranslate("MainMenu", "previous")
                         cmd: "__prev"
                         smallestWidth: colwidth/2
                         font.pointSize: PQCLook.fontSizeL
@@ -169,7 +171,8 @@ Rectangle {
                     PQMainMenuEntry {
                         id: nextarrow
                         img_end: "next.svg"
-                        txt: "next"
+                        //: as in: NEXT image. Please keep short.
+                        txt: qsTranslate("MainMenu", "next")
                         cmd: "__next"
                         smallestWidth: colwidth/2
                         font.pointSize: PQCLook.fontSizeL
@@ -183,7 +186,8 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "first.svg"
-                        txt: "first"
+                        //: as in: FIRST image. Please keep short.
+                        txt: qsTranslate("MainMenu", "first")
                         cmd: "__goToFirst"
                         smallestWidth: prevarrow.width
                         alignCenter: true
@@ -191,7 +195,8 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img_end: "last.svg"
-                        txt: "last"
+                        //: as in: LAST image. Please keep short.
+                        txt: qsTranslate("MainMenu", "last")
                         cmd: "__goToLast"
                         smallestWidth: nextarrow.width
                         alignCenter: true
@@ -201,7 +206,7 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "browse.svg"
-                    txt: "Browse images"
+                    txt: qsTranslate("MainMenu", "Browse images")
                     cmd: "__open"
                     closeMenu: true
                     onHeightChanged:
@@ -210,7 +215,7 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "mapmarker.svg"
-                    txt: "Map Explorer"
+                    txt: qsTranslate("MainMenu", "Map Explorer")
                     cmd: "__showMapExplorer"
                     closeMenu: true
                 }
@@ -231,7 +236,8 @@ Rectangle {
                     id: view_txt
                     x: 5
                     y: 5
-                    text: "current image"
+                    //: This is a category in the main menu.
+                    text: qsTranslate("MainMenu", "current image")
                     font.weight: PQCLook.fontWeightBold
                     opacity: 0.8
                 }
@@ -257,7 +263,8 @@ Rectangle {
                             id: zoom_txt
                             x: (parent.width-width)
                             y: (zoomin_icn.height-height)/2
-                            text: "Zoom:"
+                            //: Entry in main menu. Please keep short.
+                            text: qsTranslate("MainMenu", "Zoom") + ":"
                             opacity: 0.6
                             font.weight: PQCLook.fontWeightBold
                         }
@@ -291,7 +298,8 @@ Rectangle {
                     PQMainMenuEntry {
                         y: (zoomin_icn.height-height)/2
                         img: "reset.svg"
-                        txt: "reset"
+                        //: Used as in RESET zoom.
+                        txt: qsTranslate("MainMenu", "reset")
                         cmd: "__zoomReset"
                         smallestWidth: 10
                         active: anythingLoaded
@@ -312,7 +320,8 @@ Rectangle {
                             id: rotate_txt
                             x: (parent.width-width)
                             y: (rotate_left.height-height)/2
-                            text: "Rotation:"
+                            //: Entry in main menu. Please keep short.
+                            text: qsTranslate("MainMenu", "Rotation")
                             opacity: 0.6
                             font.weight: PQCLook.fontWeightBold
                         }
@@ -337,7 +346,8 @@ Rectangle {
                     PQMainMenuEntry {
                         y: (rotate_left.height-height)/2
                         img: "reset.svg"
-                        txt: "reset"
+                        //: Used as in RESET rotation.
+                        txt: qsTranslate("MainMenu", "reset")
                         cmd: "__rotate0"
                         smallestWidth: 10
                         active: anythingLoaded
@@ -358,7 +368,8 @@ Rectangle {
                             id: flip_txt
                             x: (parent.width-width)
                             y: (flip_ver.height-height)/2
-                            text: "Mirror:"
+                            //: Mirroring (or flipping) an image. Please keep short.
+                            text: qsTranslate("MainMenu", "Mirror")
                             opacity: 0.6
                             font.weight: PQCLook.fontWeightBold
                         }
@@ -383,7 +394,8 @@ Rectangle {
                     PQMainMenuEntry {
                         y: (flip_ver.height-height)/2
                         img: "reset.svg"
-                        txt: "reset"
+                        //: Used as in RESET mirroring.
+                        txt: qsTranslate("MainMenu", "reset")
                         cmd: "__flipReset"
                         smallestWidth: 10
                         active: anythingLoaded
@@ -395,13 +407,13 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "histogram.svg"
-                    txt: "Show histogram"
+                    txt: PQCSettings.histogramVisible ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram")
                     cmd: "__histogram"
                 }
 
                 PQMainMenuEntry {
                     img: "mapmarker.svg"
-                    txt: "Show current location"
+                    txt: PQCSettings.mapviewCurrentVisible ? qsTranslate("MainMenu", "Hide current location") : qsTranslate("MainMenu", "Show current location")
                     cmd: "__showMapCurrent"
                 }
 
@@ -423,7 +435,8 @@ Rectangle {
                     id: folder_txt
                     x: 5
                     y: 5
-                    text: "all images"
+                    //: This is a category in the main menu.
+                    text: qsTranslate("MainMenu", "all images")
                     font.weight: PQCLook.fontWeightBold
                     opacity: 0.8
                 }
@@ -445,7 +458,8 @@ Rectangle {
                     PQText {
                         id: slideshow_txt
                         y: (slideshow_start.height-height)/2
-                        text: "Slideshow:"
+                        //: Entry in main menu. Please keep short.
+                        text: qsTranslate("MainMenu", "Slideshow") + ":"
                         opacity: 0.6
                         font.weight: PQCLook.fontWeightBold
                     }
@@ -453,7 +467,8 @@ Rectangle {
                     PQMainMenuEntry {
                         id: slideshow_start
                         img: "slideshow.svg"
-                        txt: "Start"
+                        //: Used as in START slideshow. Please keep short
+                        txt: qsTranslate("MainMenu", "Start")
                         cmd: "__slideshowQuick"
                         smallestWidth: 10
                         closeMenu: true
@@ -462,7 +477,8 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "setup.svg"
-                        txt: "Setup"
+                        //: Used as in SETUP slideshow. Please keep short
+                        txt: qsTranslate("MainMenu", "Setup")
                         cmd: "__slideshow"
                         smallestWidth: 10
                         closeMenu: true
@@ -480,7 +496,8 @@ Rectangle {
                     PQText {
                         id: advanced_txt
                         y: (advanced_start.height-height)/2
-                        text: "Advanced Sort:"
+                        //: Entry in main menu. Please keep short.
+                        text: qsTranslate("MainMenu", "Advanced Sort") + ":"
                         opacity: 0.6
                         font.weight: PQCLook.fontWeightBold
                     }
@@ -488,7 +505,8 @@ Rectangle {
                     PQMainMenuEntry {
                         id: advanced_start
                         img: "sort.svg"
-                        txt: "Start"
+                        //: Used as in START advanced sort. Please keep short
+                        txt: qsTranslate("MainMenu", "Start")
                         cmd: "__advancedSortQuick"
                         smallestWidth: 10
                         closeMenu: true
@@ -497,7 +515,8 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "setup.svg"
-                        txt: "Setup"
+                        //: Used as in SETUP advanced sort. Please keep short
+                        txt: qsTranslate("MainMenu", "Setup")
                         cmd: "__advancedSort"
                         smallestWidth: 10
                         closeMenu: true
@@ -510,14 +529,14 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "filter.svg"
-                    txt: "Filter images"
+                    txt: qsTranslate("MainMenu", "Filter images")
                     cmd: "__filterImages"
                     closeMenu: true
                 }
 
                 PQMainMenuEntry {
                     img: "streaming.svg"
-                    txt: "Streaming (Chromecast)"
+                    txt: qsTranslate("MainMenu", "Streaming (Chromecast)")
                     cmd: "__chromecast"
                     closeMenu: true
                     active: anythingLoaded
@@ -525,7 +544,7 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "browse.svg"
-                    txt: "Open in default file manager"
+                    txt: qsTranslate("MainMenu", "Open in default file manager")
                     cmd: "__defaultFileManager"
                     closeMenu: true
                     active: anythingLoaded
@@ -547,7 +566,8 @@ Rectangle {
                     id: photoqt_txt
                     x: 5
                     y: 5
-                    text: "general"
+                    //: This is a category in the main menu.
+                    text: qsTranslate("MainMenu", "general")
                     font.weight: PQCLook.fontWeightBold
                     opacity: 0.8
                 }
@@ -564,7 +584,7 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "setup.svg"
-                        txt: "Settings"
+                        txt: qsTranslate("MainMenu", "Settings")
                         cmd: "__settings"
                         smallestWidth: flickable.width/2
                         closeMenu: true
@@ -572,7 +592,7 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "about.svg"
-                        txt: "About"
+                        txt: qsTranslate("MainMenu", "About")
                         cmd: "__about"
                         smallestWidth: flickable.width/2
                         closeMenu: true
@@ -584,7 +604,7 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "help.svg"
-                        txt: "Online help"
+                        txt: qsTranslate("MainMenu", "Online help")
                         cmd: "__onlineHelp"
                         smallestWidth: flickable.width/2
                         closeMenu: true
@@ -592,7 +612,7 @@ Rectangle {
 
                     PQMainMenuEntry {
                         img: "quit.svg"
-                        txt: "Quit"
+                        txt: qsTranslate("MainMenu", "Quit")
                         cmd: "__quit"
                         smallestWidth: flickable.width/2
                     }
