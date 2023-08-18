@@ -38,6 +38,10 @@ Item {
 
         target: PQCNotify
 
+        function onExecuteInternalCommand(cmd) {
+            executeInternalFunction(cmd)
+        }
+
         function onKeyPress(key, modifiers) {
 
 //            contextmenu.hideMenu()

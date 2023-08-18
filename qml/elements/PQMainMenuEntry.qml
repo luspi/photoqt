@@ -1,0 +1,69 @@
+import QtQuick
+
+import PQCNotify
+
+Rectangle {
+
+    property int smallestWidth: 0
+    property bool alignCenter: false
+
+    width: smallestWidth==0 ? Math.max(mainmenu_top.colwidth, row.width+10) : Math.max(smallestWidth, row.width+10)
+    height: row.height+10
+
+    color: hovered ? "#33000000" : "#11000000"
+    Behavior on color { ColorAnimation { duration: 200 } }
+
+    property alias font: entry.font
+
+    radius: 5
+
+    property string img: ""
+    property string img_end: ""
+    property string txt: ""
+    property string cmd: ""
+
+    property bool hovered: false
+
+    Row {
+
+        id: row
+
+        x: alignCenter ? (parent.width-width)/2 : 5
+        y: 5
+        spacing: 10
+
+        Image {
+            visible: img!=""
+            sourceSize: Qt.size(entry.height, entry.height)
+            source: img!="" ? ("/white/" + img) : ""
+            opacity: hovered ? 1 : 0.8
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+        }
+
+        PQText {
+            id: entry
+            text: txt
+            opacity: hovered ? 1 : 0.8
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+        }
+
+        Image {
+            visible: img_end!=""
+            sourceSize: Qt.size(entry.height, entry.height)
+            source: img_end!="" ? ("/white/" + img_end) : ""
+            opacity: hovered ? 1 : 0.8
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+        }
+
+    }
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onEntered: hovered = true
+        onExited: hovered = false
+        onClicked: PQCNotify.executeInternalCommand(cmd)
+    }
+
+}

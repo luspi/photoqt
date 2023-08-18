@@ -29,5 +29,28 @@
         <file>white/volume_mute.svg</file>
         <file>white/close.svg</file>
         <file>white/thumbnail.svg</file>
+        <file>white/browse.svg</file>
+        <file>white/first.svg</file>
+        <file>white/last.svg</file>
+        <file>white/mapmarker.svg</file>
+        <file>white/next.svg</file>
+        <file>white/previous.svg</file>
+        <file>white/actualsize.svg</file>
+        <file>white/reset.svg</file>
+        <file>white/zoomin.svg</file>
+        <file>white/zoomout.svg</file>
+        <file>white/rotateleft.svg</file>
+        <file>white/rotateright.svg</file>
+        <file>white/leftrightarrow.svg</file>
+        <file>white/updownarrow.svg</file>
+        <file>white/histogram.svg</file>
+        <file>white/setup.svg</file>
+        <file>white/slideshow.svg</file>
+        <file>white/sort.svg</file>
+        <file>white/filter.svg</file>
+        <file>white/streaming.svg</file>
+        <file>white/about.svg</file>
+        <file>white/help.svg</file>
+        <file>white/quit.svg</file>
     </qresource>
 </RCC>

@@ -394,6 +394,7 @@ Item {
                                     onPositionChanged: (mouse) => {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                         thumbnails.checkMousePosition(pos.x, pos.y)
+                                        mainmenu.checkMousePosition(pos.x, pos.y)
                                     }
                                     onWheel: (wheel) => {
                                         wheel.accepted = false

@@ -44,6 +44,7 @@ Window {
         hoverEnabled: true
         onPositionChanged: (mouse) => {
             thumbnails.checkMousePosition(mouse.x, mouse.y)
+            mainmenu.checkMousePosition(mouse.x, mouse.y)
         }
         onWheel: (wheel) => {
             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
@@ -52,6 +53,7 @@ Window {
 
     PQImage { id: image}
     PQThumbnails { id: thumbnails }
+    PQMainMenu { id: mainmenu }
 
     // load this asynchronously
     Loader {
