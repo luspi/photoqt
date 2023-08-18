@@ -290,6 +290,10 @@ Item {
         cursorShape: Qt.PointingHandCursor
         onClicked:
             loader.show("filedialog")
+        onPositionChanged: (mouse) => {
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
+            mainmenu.checkMousePosition(pos.x, pos.y)
+        }
     }
 
     // restarting all at the same time keeps all animations in sync

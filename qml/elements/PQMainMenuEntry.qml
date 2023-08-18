@@ -21,6 +21,8 @@ Rectangle {
     property string img_end: ""
     property string txt: ""
     property string cmd: ""
+    property bool closeMenu: false
+    property bool active: true
 
     property bool hovered: false
 
@@ -36,14 +38,14 @@ Rectangle {
             visible: img!=""
             sourceSize: Qt.size(entry.height, entry.height)
             source: img!="" ? ("/white/" + img) : ""
-            opacity: hovered ? 1 : 0.8
+            opacity: active ? (hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
         PQText {
             id: entry
             text: txt
-            opacity: hovered ? 1 : 0.8
+            opacity: active ? (hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
@@ -51,19 +53,24 @@ Rectangle {
             visible: img_end!=""
             sourceSize: Qt.size(entry.height, entry.height)
             source: img_end!="" ? ("/white/" + img_end) : ""
-            opacity: hovered ? 1 : 0.8
+            opacity: active ? (hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
     }
 
     PQMouseArea {
+        enabled: parent.active
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+        cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: hovered = true
         onExited: hovered = false
-        onClicked: PQCNotify.executeInternalCommand(cmd)
+        onClicked: {
+            PQCNotify.executeInternalCommand(cmd)
+            if(closeMenu)
+                mainmenu_top.hideMainMenu()
+        }
     }
 
 }

@@ -10,6 +10,7 @@ Rectangle {
     property string img: ""
     property string cmd: ""
     property real scaleFactor: 1.5
+    property bool active: true
 
     color: "#11000000"
     Behavior on color { ColorAnimation { duration: 200 } }
@@ -23,14 +24,17 @@ Rectangle {
         x: 5
         y: 2
 
+        opacity: parent.active ? 1 : 0.4
+
         sourceSize: Qt.size(normalEntryHeight*scaleFactor, normalEntryHeight*scaleFactor)
         source: "/white/" + img
 
     }
     MouseArea {
+        enabled: parent.active
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+        cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: parent.color = "#33000000"
         onExited: parent.color = "#11000000"
         onClicked: PQCNotify.executeInternalCommand(cmd)

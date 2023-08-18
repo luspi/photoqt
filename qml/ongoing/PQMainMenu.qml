@@ -23,6 +23,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCFileFolderModel
+
 import "../elements"
 
 Rectangle {
@@ -89,6 +91,16 @@ Rectangle {
             }
         }
     ]
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onWheel: (wheel) =>{
+            wheel.accepted = true
+        }
+    }
+
+    property bool anythingLoaded: PQCFileFolderModel.countMainView>0
 
     property int colwidth: width-2*flickable.anchors.margins
 
@@ -191,6 +203,7 @@ Rectangle {
                     img: "browse.svg"
                     txt: "Browse images"
                     cmd: "__open"
+                    closeMenu: true
                     onHeightChanged:
                         normalEntryHeight = height
                 }
@@ -199,6 +212,7 @@ Rectangle {
                     img: "mapmarker.svg"
                     txt: "Map Explorer"
                     cmd: "__showMapExplorer"
+                    closeMenu: true
                 }
 
             }
@@ -254,6 +268,7 @@ Rectangle {
                         img: "zoomin.svg"
                         cmd: "__zoomIn"
                         scaleFactor: 1
+                        active: anythingLoaded
                     }
 
                     PQMainMenuIcon {
@@ -261,6 +276,7 @@ Rectangle {
                         img: "zoomout.svg"
                         cmd: "__zoomOut"
                         scaleFactor: 1
+                        active: anythingLoaded
                     }
 
                     PQMainMenuEntry {
@@ -269,6 +285,7 @@ Rectangle {
                         txt: "100%"
                         cmd: "__zoomActual"
                         smallestWidth: 10
+                        active: anythingLoaded
                     }
 
                     PQMainMenuEntry {
@@ -277,6 +294,7 @@ Rectangle {
                         txt: "reset"
                         cmd: "__zoomReset"
                         smallestWidth: 10
+                        active: anythingLoaded
                     }
 
                 }
@@ -305,6 +323,7 @@ Rectangle {
                         img: "rotateleft.svg"
                         cmd: "__rotateL"
                         scaleFactor: 1
+                        active: anythingLoaded
                     }
 
                     PQMainMenuIcon {
@@ -312,6 +331,7 @@ Rectangle {
                         img: "rotateright.svg"
                         cmd: "__rotateR"
                         scaleFactor: 1
+                        active: anythingLoaded
                     }
 
                     PQMainMenuEntry {
@@ -320,6 +340,7 @@ Rectangle {
                         txt: "reset"
                         cmd: "__rotate0"
                         smallestWidth: 10
+                        active: anythingLoaded
                     }
 
                 }
@@ -337,7 +358,7 @@ Rectangle {
                             id: flip_txt
                             x: (parent.width-width)
                             y: (flip_ver.height-height)/2
-                            text: "Flip:"
+                            text: "Mirror:"
                             opacity: 0.6
                             font.weight: PQCLook.fontWeightBold
                         }
@@ -348,6 +369,7 @@ Rectangle {
                         img: "leftrightarrow.svg"
                         cmd: "__flipH"
                         scaleFactor: 1
+                        active: anythingLoaded
                     }
 
                     PQMainMenuIcon {
@@ -355,6 +377,7 @@ Rectangle {
                         img: "updownarrow.svg"
                         cmd: "__flipV"
                         scaleFactor: 1
+                        active: anythingLoaded
                     }
 
                     PQMainMenuEntry {
@@ -363,6 +386,7 @@ Rectangle {
                         txt: "reset"
                         cmd: "__flipReset"
                         smallestWidth: 10
+                        active: anythingLoaded
                     }
 
                 }
@@ -432,6 +456,8 @@ Rectangle {
                         txt: "Start"
                         cmd: "__slideshowQuick"
                         smallestWidth: 10
+                        closeMenu: true
+                        active: anythingLoaded
                     }
 
                     PQMainMenuEntry {
@@ -439,6 +465,8 @@ Rectangle {
                         txt: "Setup"
                         cmd: "__slideshow"
                         smallestWidth: 10
+                        closeMenu: true
+                        active: anythingLoaded
                     }
 
                 }
@@ -463,6 +491,8 @@ Rectangle {
                         txt: "Start"
                         cmd: "__advancedSortQuick"
                         smallestWidth: 10
+                        closeMenu: true
+                        active: anythingLoaded
                     }
 
                     PQMainMenuEntry {
@@ -470,6 +500,8 @@ Rectangle {
                         txt: "Setup"
                         cmd: "__advancedSort"
                         smallestWidth: 10
+                        closeMenu: true
+                        active: anythingLoaded
                     }
 
                 }
@@ -480,18 +512,23 @@ Rectangle {
                     img: "filter.svg"
                     txt: "Filter images"
                     cmd: "__filterImages"
+                    closeMenu: true
                 }
 
                 PQMainMenuEntry {
                     img: "streaming.svg"
                     txt: "Streaming (Chromecast)"
                     cmd: "__chromecast"
+                    closeMenu: true
+                    active: anythingLoaded
                 }
 
                 PQMainMenuEntry {
                     img: "browse.svg"
                     txt: "Open in default file manager"
                     cmd: "__defaultFileManager"
+                    closeMenu: true
+                    active: anythingLoaded
                 }
 
             }
@@ -510,7 +547,7 @@ Rectangle {
                     id: photoqt_txt
                     x: 5
                     y: 5
-                    text: "PhotoQt"
+                    text: "general"
                     font.weight: PQCLook.fontWeightBold
                     opacity: 0.8
                 }
@@ -530,6 +567,7 @@ Rectangle {
                         txt: "Settings"
                         cmd: "__settings"
                         smallestWidth: flickable.width/2
+                        closeMenu: true
                     }
 
                     PQMainMenuEntry {
@@ -537,6 +575,7 @@ Rectangle {
                         txt: "About"
                         cmd: "__about"
                         smallestWidth: flickable.width/2
+                        closeMenu: true
                     }
 
                 }
@@ -546,8 +585,9 @@ Rectangle {
                     PQMainMenuEntry {
                         img: "help.svg"
                         txt: "Online help"
-                        cmd: ""
+                        cmd: "__onlineHelp"
                         smallestWidth: flickable.width/2
+                        closeMenu: true
                     }
 
                     PQMainMenuEntry {
@@ -563,6 +603,10 @@ Rectangle {
 
         }
 
+    }
+
+    function hideMainMenu() {
+        mainmenu_top.setVisible = false
     }
 
     // check whether the thumbnails should be shown or not

@@ -51,16 +51,16 @@ Window {
         }
     }
 
-    PQImage { id: image}
-    PQThumbnails { id: thumbnails }
-    PQMainMenu { id: mainmenu }
-
     // load this asynchronously
     Loader {
         id: background
         asynchronous: true
         source: "other/PQBackgroundMessage.qml"
     }
+
+    PQImage { id: image}
+    PQThumbnails { id: thumbnails }
+    PQMainMenu { id: mainmenu }
 
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
