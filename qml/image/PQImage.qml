@@ -753,4 +753,14 @@ Item {
         PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
     }
 
+    function showFirst() {
+        if(PQCFileFolderModel.countMainView !== 0)
+            PQCFileFolderModel.currentIndex = 0
+    }
+
+    function showLast() {
+        if(PQCFileFolderModel.countMainView !== 0)
+            PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
+    }
+
 }

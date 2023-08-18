@@ -183,164 +183,196 @@ Item {
         console.debug("args: cmd =", cmd)
         console.debug("args: wheelDelta =", wheelDelta)
 
-        // elements
-        if(cmd === "__open")
-            loader.show("filedialog")
+        switch(cmd) {
 
-        // interface functions
-        else if(cmd === "__quit")
-            toplevel.quitPhotoQt()
+            /**********************/
+            // elements
 
-        // image functions
-        else if(cmd === "__next")
-            image.showNext()
-        else if(cmd === "__prev")
-            image.showPrev()
-        else if(cmd === "__zoomIn")
-            image.zoomIn()
-        else if(cmd === "__zoomOut")
-            image.zoomOut()
-        else if(cmd === "__zoomReset")
-            image.zoomReset()
-        else if(cmd === "__zoomActual")
-            image.zoomActual()
-        else if(cmd === "__rotateL")
-            image.rotateAntiClock()
-        else if(cmd === "__rotateR")
-            image.rotateClock()
-        else if(cmd === "__rotate0")
-            image.rotateReset()
-        else if(cmd === "__flipH")
-            image.mirrorH()
-        else if(cmd === "__flipV")
-            image.mirrorV()
+            case "__open":
+                loader.show("filedialog")
+                break
+//            case "__showMapExplorer":
+//                break
+//            case "__settings":
+//                break
+//            case "__about":
+//                break
+//            case "__slideshow":
+//                break
+//            case "__slideshowQuick":
+//                break
+//            case "__filterImages":
+//                break
+//            case "__wallpaper":
+//                break
+//            case "__scale":
+//                break
+//            case "__imgur":
+//                break
+//            case "__imgurAnonym":
+//                break
+//            case "__tagFaces":
+//                break
+//            case "__chromecast":
+//                break
+//            case "__logging":
+//                break
+//            case "__advancedSort":
+//                break
+//            case "__advancedSortQuick":
+//                break
 
-//        else if(cmd === "__close")
-//            toplevel.closePhotoQt()
-//        else if(cmd === "__settings")
-//            loader.show("settingsmanager")
-//        else if(cmd === "__loadRandom")
-//            imageitem.loadRandomImage()
-//        else if(cmd == "__contextMenu")
-//            contextmenu.showMenu()
-//        else if(cmd === "__about")
-//            loader.show("about")
-//        else if(cmd === "__slideshow")
-//            loader.show("slideshowsettings")
-//        else if(cmd === "__filterImages")
-//            loader.show("filter")
-//        else if(cmd === "__slideshowQuick") {
-//            loader.ensureItIsReady("slideshowcontrols")
-//            loader.passOn("slideshowcontrols", "start", undefined)
-//        else if(cmd === "__flipReset")
-//            imageitem.mirrorReset()
-//        else if(cmd === "__rename")
-//            loader.show("filerename")
-//        else if(cmd === "__delete")
-//            loader.show("filedelete")
-//        else if(cmd === "__copy") {
-//            loader.ensureItIsReady("copymove")
-//            loader.passOn("copymove", "copy", undefined)
-//        } else if(cmd === "__move") {
-//            loader.ensureItIsReady("copymove")
-//            loader.passOn("copymove", "move", undefined)
-//        } else if(cmd === "__deletePermanent") {
-//            if(filefoldermodel.current != -1)
-//                handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)
-//        } else if(cmd === "__deleteTrash") {
-//            if(filefoldermodel.current != -1)
-//                handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)
-//        } else if(cmd === "__saveAs")
-//            loader.show("filesaveas")
-//        else if(cmd === "__showMetaData" || cmd == "__keepMetaData")
-//            loader.metadataPassOn("toggleKeepOpen", undefined)
-//        else if(cmd === "__showMainMenu")
-//            loader.mainmenuPassOn("toggle", undefined)
-//        else if(cmd === "__showThumbnails")
-//            thumbnails.toggle()
-//        else if(cmd === "__navigationFloating") {
-//            loader.ensureItIsReady("navigationfloating")
-//            PQSettings.interfaceNavigationFloating = !PQSettings.interfaceNavigationFloating
-//        } else if(cmd === "__goToFirst")
-//            imageitem.loadFirstImage()
-//        else if(cmd === "__goToLast")
-//            imageitem.loadLastImage()
-//        else if(cmd === "__viewerMode")
-//            statusinfo.toggleViewerMode()
-//        else if(cmd === "__showFaceTags")
-//            PQSettings.metadataFaceTagsEnabled = !PQSettings.metadataFaceTagsEnabled
-//        else if(cmd === "__wallpaper")
-//            loader.show("wallpaper")
-//        else if(cmd === "__scale")
-//            loader.show("scale")
-//        else if(cmd === "__playPauseAni")
-//            imageitem.playPauseAnimation()
-//        else if(cmd === "__imgur")
-//            loader.show("imgur")
-//        else if(cmd === "__imgurAnonym")
-//            loader.show("imguranonym")
-//        else if(cmd === "__defaultFileManager")
-//            handlingExternal.openInDefaultFileManager(filefoldermodel.currentFilePath)
-//        else if(cmd === "__histogram") {
-//            loader.ensureItIsReady("histogram")
-//            PQSettings.histogramVisible = !PQSettings.histogramVisible
-//        }
-//        else if(cmd === "__clipboard")
-//            handlingExternal.copyToClipboard(filefoldermodel.currentFilePath)
-//        else if(cmd === "__tagFaces")
-//            loader.passOn("facetagger", "start", undefined)
-//        else if(cmd === "__chromecast") {
-//            loader.show("chromecast")
-//        } else if(cmd === "__logging")
-//            loader.show("logging")
-//        else if(cmd === "__print")
-//            printsupport.printFile(filefoldermodel.currentFilePath)
-//        else if(cmd == "__advancedSort")
-//            loader.show("advancedsort")
-//        else if(cmd == "__advancedSortQuick") {
-//            loader.show("advancedsortbusy")
-//            filefoldermodel.advancedSortMainView()
-//        } else if(cmd == "__onlineHelp")
-//            Qt.openUrlExternally("https://photoqt.org/man")
-//        else if(cmd == "__fullscreenToggle")
-//            PQSettings.interfaceWindowMode = !PQSettings.interfaceWindowMode
-//        else if(cmd == "__fitInWindow")
-//            PQSettings.imageviewFitInWindow = !PQSettings.imageviewFitInWindow
-//        else if(cmd == "__toggleAlwaysActualSize")
-//            PQSettings.imageviewAlwaysActualSize = !PQSettings.imageviewAlwaysActualSize
-//        else if(cmd == "__resetSession" || cmd == "__resetSessionAndHide") {
-//            toplevel.resetPhotoQt()
-//            if(cmd == "__resetSessionAndHide") {
-//                if(PQSettings.interfaceTrayIcon == 0)
-//                    PQSettings.interfaceTrayIcon = 1
-//                toplevel.closePhotoQt()
-//            }
-//        } else if(cmd == "__moveViewLeft")
-//            imageitem.moveViewLeft()
-//        else if(cmd == "__moveViewRight")
-//            imageitem.moveViewRight()
-//        else if(cmd == "__moveViewUp")
-//            imageitem.moveViewUp()
-//        else if(cmd == "__moveViewDown")
-//            imageitem.moveViewDown()
-//        else if(cmd == "__goToLeftEdge")
-//            imageitem.goToLeftEdge()
-//        else if(cmd == "__goToRightEdge")
-//            imageitem.goToRightEdge()
-//        else if(cmd == "__goToTopEdge")
-//            imageitem.goToTopEdge()
-//        else if(cmd == "__goToBottomEdge")
-//            imageitem.goToBottomEdge()
-//        else if(cmd == "__showMapCurrent") {
-//            if(handlingGeneral.isLocationSupportEnabled()) {
-//                loader.ensureItIsReady("mapcurrent")
-//                PQSettings.mapviewCurrentVisible = !PQSettings.mapviewCurrentVisible
-//            }
-//        } else if(cmd == "__showMapExplorer") {
-//            if(handlingGeneral.isLocationSupportEnabled())
-//                loader.show("mapexplorer")
-//        }
+            /**********************/
+            // elements (ongoing)
+
+//            case "__contextMenu":
+//                break
+//            case "__showMetaData":
+//            case "__keepMetaData":
+//                break
+//            case "__showMainMenu":
+//                break
+//            case "__showThumbnails":
+//                break
+
+
+            /**********************/
+            // interface functions
+
+            case "__quit":
+                toplevel.quitPhotoQt()
+                break
+//            case "__close":
+//                break
+//            case "__fullscreenToggle":
+//                PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
+//                break
+
+            /**********************/
+            // navigation
+
+            case "__next":
+                image.showNext()
+                break
+            case "__prev":
+                image.showPrev()
+                break
+            case "__goToFirst":
+                image.showFirst()
+                break
+            case "__goToLast":
+                image.showLast()
+                break
+//            case "__loadRandom":
+//                break
+//            case "__viewerMode":
+//                break
+//            case "__navigationFloating":
+//                break
+//            case "__moveViewLeft":
+//                break
+//            case "__moveViewRight":
+//                break
+//            case "__moveViewUp":
+//                break
+//            case "__moveViewDown":
+//                break
+//            case "__goToLeftEdge":
+//                break
+//            case "__goToRightEdge":
+//                break
+//            case "__goToTopEdge":
+//                break
+//            case "__goToBottomEdge":
+//                break
+
+            /**********************/
+            // image functions
+
+            case "__zoomIn":
+                image.zoomIn()
+                break
+            case "__zoomOut":
+                image.zoomOut()
+                break
+            case "__zoomReset":
+                image.zoomReset()
+                break
+            case "__zoomActual":
+                image.zoomActual()
+                break
+            case "__rotateL":
+                image.rotateAntiClock()
+                break
+            case "__rotateR":
+                image.rotateClock()
+                break
+            case "__rotate0":
+                image.rotateReset()
+                break
+            case "__flipH":
+                image.mirrorH()
+                break
+            case "__flipV":
+                image.mirrorV()
+                break
+//            case "__flipReset":
+//                break
+//            case "__histogram":
+//                break
+//            case "__fitInWindow":
+//                PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
+//                break
+//            case "__playPauseAni":
+//                break
+//            case "__showFaceTags":
+//                break
+//            case "__showMapCurrent":
+//                break
+//            case "__toggleAlwaysActualSize":
+//                PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
+//                break
+
+            /**********************/
+            // file actions
+
+//            case "__rename":
+//                break
+//            case "__delete":
+//                break
+//            case "__copy":
+//                break
+//            case "__move":
+//                break
+//            case "__deletePermanent":
+//                break
+//            case "__deleteTrash":
+//                break
+//            case "__saveAs":
+//                break
+//            case "__defaultFileManager":
+//                break
+//            case "__clipboard":
+//                break
+//            case "__print":
+//                break
+
+            /**********************/
+            // other
+
+            case "__resetSessionAndHide":
+            case "__resetSession":
+                break
+            case "__onlineHelp":
+                Qt.openUrlExternally("https://photoqt.org/man")
+                break
+
+
+            // other
+            default:
+                console.log("unknown internal shortcut:", cmd)
+        }
+
     }
-
 
 }
