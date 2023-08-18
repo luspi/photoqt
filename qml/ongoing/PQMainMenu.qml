@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCFileFolderModel
+import PQCScriptsConfig
 
 import "../elements"
 
@@ -532,9 +533,11 @@ Rectangle {
                     txt: qsTranslate("MainMenu", "Filter images")
                     cmd: "__filterImages"
                     closeMenu: true
+                    active: anythingLoaded
                 }
 
                 PQMainMenuEntry {
+                    visible: PQCScriptsConfig.isChromecastEnabled()
                     img: "streaming.svg"
                     txt: qsTranslate("MainMenu", "Streaming (Chromecast)")
                     cmd: "__chromecast"
