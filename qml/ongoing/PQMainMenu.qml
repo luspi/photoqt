@@ -37,7 +37,7 @@ Rectangle {
     Behavior on x { NumberAnimation { duration: 200 } }
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    color: "#bb000000"
+    color: PQCLook.transColor
 
     radius: 5
 
@@ -57,7 +57,7 @@ Rectangle {
                ? "right"
                : "disabled" )
 
-    property int gap: 50
+    property int gap: 40
 
     // the four states corresponding to screen edges
     states: [
@@ -134,7 +134,7 @@ Rectangle {
 
                 width: flickable.width
                 height: nav_txt.height+10
-                color: "#11ffffff"
+                color: PQCLook.transColorHighlight
                 radius: 5
 
                 PQTextXL {
@@ -230,7 +230,7 @@ Rectangle {
 
                 width: flickable.width
                 height: view_txt.height+10
-                color: "#11ffffff"
+                color: PQCLook.transColorHighlight
                 radius: 5
 
                 PQTextXL {
@@ -429,7 +429,7 @@ Rectangle {
 
                 width: flickable.width
                 height: folder_txt.height+10
-                color: "#11ffffff"
+                color: PQCLook.transColorHighlight
                 radius: 5
 
                 PQTextXL {
@@ -562,7 +562,7 @@ Rectangle {
 
                 width: flickable.width
                 height: photoqt_txt.height+10
-                color: "#11ffffff"
+                color: PQCLook.transColorHighlight
                 radius: 5
 
                 PQTextXL {

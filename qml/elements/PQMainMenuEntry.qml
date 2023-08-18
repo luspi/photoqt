@@ -2,7 +2,7 @@ import QtQuick
 
 import PQCNotify
 
-Rectangle {
+Item {
 
     property int smallestWidth: 0
     property bool alignCenter: false
@@ -10,12 +10,7 @@ Rectangle {
     width: smallestWidth==0 ? Math.max(mainmenu_top.colwidth, row.width+10) : Math.max(smallestWidth, row.width+10)
     height: row.height+10
 
-    color: hovered ? "#33000000" : "#11000000"
-    Behavior on color { ColorAnimation { duration: 200 } }
-
     property alias font: entry.font
-
-    radius: 5
 
     property string img: ""
     property string img_end: ""
@@ -25,6 +20,14 @@ Rectangle {
     property bool active: true
 
     property bool hovered: false
+
+    Rectangle {
+        anchors.fill: parent
+        color: PQCLook.baseColorHighlight
+        radius: 5
+        opacity: hovered ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+    }
 
     Row {
 

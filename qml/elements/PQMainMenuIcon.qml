@@ -2,7 +2,7 @@ import QtQuick
 
 import PQCNotify
 
-Rectangle {
+Item {
 
     width: image.width+10
     height: image.height+4
@@ -12,10 +12,15 @@ Rectangle {
     property real scaleFactor: 1.5
     property bool active: true
 
-    color: "#11000000"
-    Behavior on color { ColorAnimation { duration: 200 } }
+    property bool hovered: false
 
-    radius: 5
+    Rectangle {
+        anchors.fill: parent
+        color: PQCLook.baseColorHighlight
+        radius: 5
+        opacity: hovered ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+    }
 
     Image {
 
@@ -35,8 +40,8 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onEntered: parent.color = "#33000000"
-        onExited: parent.color = "#11000000"
+        onEntered: hovered = true
+        onExited: hovered = false
         onClicked: PQCNotify.executeInternalCommand(cmd)
     }
 
