@@ -17,6 +17,8 @@ public:
     PQCScriptsMetaData(PQCScriptsMetaData const&)     = delete;
     void operator=(PQCScriptsMetaData const&) = delete;
 
+    Q_INVOKABLE QString convertGPSToDecimal(QString gps);
+
 private:
     PQCScriptsMetaData();
 

@@ -29,6 +29,7 @@
 #include <pqc_providerdragthumb.h>
 #include <pqc_providerfull.h>
 #include <pqc_filefoldermodel.h>
+#include <pqc_metadata.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsfiledialog.h>
@@ -36,6 +37,7 @@
 #include <scripts/pqc_scriptsfilemanagement.h>
 #include <scripts/pqc_scriptsother.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptsmetadata.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -210,6 +212,8 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsFileManagement", 1, 0, "PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
     qmlRegisterSingletonInstance("PQCScriptsOther", 1, 0, "PQCScriptsOther", &PQCScriptsOther::get());
     qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());
+    qmlRegisterSingletonInstance("PQCMetaData", 1, 0, "PQCMetaData", &PQCMetaData::get());
+    qmlRegisterSingletonInstance("PQCScriptsMetaData", 1, 0, "PQCScriptsMetaData", &PQCScriptsMetaData::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());

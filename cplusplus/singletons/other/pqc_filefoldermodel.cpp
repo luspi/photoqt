@@ -49,6 +49,10 @@
 #include <poppler/qt6/poppler-qt6.h>
 #endif
 
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+
 PQCFileFolderModel &PQCFileFolderModel::get() {
     static PQCFileFolderModel instance;
     return instance;
@@ -455,9 +459,9 @@ void PQCFileFolderModel::advancedSortMainView() {
 #else
                             if(e.code() != 11)
 #endif
-                                LOG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+                                qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
                             else
-                                DBG << CURDATE << "PQMetaData::updateMetadaya(): ERROR reading exiv data (caught exception): " << e.what() << NL;
+                                qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
                             continue;
                         }
 
@@ -471,7 +475,7 @@ void PQCFileFolderModel::advancedSortMainView() {
                         try {
                             exifData = image->exifData();
                         } catch(Exiv2::Error &e) {
-                            LOG << CURDATE << "PQMetaData::updateMetaData(): ERROR: Unable to read exif metadata: " << e.what() << NL;
+                            qWarning() << "ERROR: Unable to read exif metadata:" << e.what();
                             continue;
                         }
 

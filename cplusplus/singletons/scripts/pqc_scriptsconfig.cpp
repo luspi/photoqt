@@ -40,6 +40,10 @@
 #include <pqc_mpvobject.h>
 #endif
 
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+
 PQCScriptsConfig::PQCScriptsConfig() {}
 
 PQCScriptsConfig::~PQCScriptsConfig() {}

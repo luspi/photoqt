@@ -456,13 +456,18 @@ Rectangle {
 
                     spacing: 10
 
-                    PQText {
-                        id: slideshow_txt
-                        y: (slideshow_start.height-height)/2
-                        //: Entry in main menu. Please keep short.
-                        text: qsTranslate("MainMenu", "Slideshow") + ":"
-                        opacity: 0.6
-                        font.weight: PQCLook.fontWeightBold
+                    Item {
+                        width: Math.max(advanced_txt.width, slideshow_txt.width)
+                        height: slideshow_txt.height
+                        PQText {
+                            id: slideshow_txt
+                            x: parent.width-width
+                            y: (slideshow_start.height-height)/2
+                            //: Entry in main menu. Please keep short.
+                            text: qsTranslate("MainMenu", "Slideshow") + ":"
+                            opacity: 0.6
+                            font.weight: PQCLook.fontWeightBold
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -471,7 +476,7 @@ Rectangle {
                         //: Used as in START slideshow. Please keep short
                         txt: qsTranslate("MainMenu", "Start")
                         cmd: "__slideshowQuick"
-                        smallestWidth: 10
+                        smallestWidth: (colwidth-slideshow_txt.parent.width-20)/2
                         closeMenu: true
                         active: anythingLoaded
                     }
@@ -481,7 +486,7 @@ Rectangle {
                         //: Used as in SETUP slideshow. Please keep short
                         txt: qsTranslate("MainMenu", "Setup")
                         cmd: "__slideshow"
-                        smallestWidth: 10
+                        smallestWidth: slideshow_start.width
                         closeMenu: true
                         active: anythingLoaded
                     }
@@ -494,13 +499,18 @@ Rectangle {
 
                     spacing: 10
 
-                    PQText {
-                        id: advanced_txt
-                        y: (advanced_start.height-height)/2
-                        //: Entry in main menu. Please keep short.
-                        text: qsTranslate("MainMenu", "Advanced Sort") + ":"
-                        opacity: 0.6
-                        font.weight: PQCLook.fontWeightBold
+                    Item {
+                        width: Math.max(advanced_txt.width, slideshow_txt.width)
+                        height: advanced_txt.height
+                        PQText {
+                            id: advanced_txt
+                            x: parent.width-width
+                            y: (advanced_start.height-height)/2
+                            //: Entry in main menu. Please keep short.
+                            text: qsTranslate("MainMenu", "Sort") + ":"
+                            opacity: 0.6
+                            font.weight: PQCLook.fontWeightBold
+                        }
                     }
 
                     PQMainMenuEntry {
@@ -509,7 +519,7 @@ Rectangle {
                         //: Used as in START advanced sort. Please keep short
                         txt: qsTranslate("MainMenu", "Start")
                         cmd: "__advancedSortQuick"
-                        smallestWidth: 10
+                        smallestWidth: (colwidth-advanced_txt.parent.width-20)/2
                         closeMenu: true
                         active: anythingLoaded
                     }
@@ -519,7 +529,7 @@ Rectangle {
                         //: Used as in SETUP advanced sort. Please keep short
                         txt: qsTranslate("MainMenu", "Setup")
                         cmd: "__advancedSort"
-                        smallestWidth: 10
+                        smallestWidth: advanced_start.width
                         closeMenu: true
                         active: anythingLoaded
                     }

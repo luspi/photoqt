@@ -43,8 +43,7 @@ Window {
         anchors.fill: parent
         hoverEnabled: true
         onPositionChanged: (mouse) => {
-            thumbnails.checkMousePosition(mouse.x, mouse.y)
-            mainmenu.checkMousePosition(mouse.x, mouse.y)
+            checkMousePosition(mouse.x, mouse.y)
         }
         onWheel: (wheel) => {
             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
@@ -61,6 +60,7 @@ Window {
     PQImage { id: image}
     PQThumbnails { id: thumbnails }
     PQMainMenu { id: mainmenu }
+    PQMetaData { id: metadata }
 
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
@@ -144,6 +144,12 @@ Window {
     function quitPhotoQt() {
         handleBeforeClosing()
         Qt.quit()
+    }
+
+    function checkMousePosition(posx, posy) {
+        thumbnails.checkMousePosition(posx, posy)
+        mainmenu.checkMousePosition(posx, posy)
+        metadata.checkMousePosition(posx, posy)
     }
 
 }

@@ -18,7 +18,7 @@ Item {
         anchors.fill: parent
         color: PQCLook.baseColorHighlight
         radius: 5
-        opacity: hovered ? 1 : 0
+        opacity: hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 
