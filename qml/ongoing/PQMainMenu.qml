@@ -34,8 +34,7 @@ Rectangle {
 
     x: setVisible ? visiblePos[0] : invisiblePos[0]
     y: setVisible ? visiblePos[1] : invisiblePos[1]
-    Behavior on x { NumberAnimation { duration: 200 } }
-    Behavior on y { NumberAnimation { duration: 200 } }
+    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
 
     color: PQCLook.transColor
 
@@ -45,6 +44,9 @@ Rectangle {
     opacity: setVisible ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    width: PQCSettings.mainmenuElementWidth
+    height: toplevel.height-2*gap
 
     property bool setVisible: false
     property var visiblePos: [0,0]
@@ -65,22 +67,18 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 target: mainmenu_top
-                visiblePos: [gap,gap]
-                invisiblePos: [-width,gap]
+                visiblePos: [gap, gap]
+                invisiblePos: [-width, gap]
                 hotArea: Qt.rect(0,0,10,toplevel.height)
-                width: PQCSettings.mainmenuElementWidth
-                height: toplevel.height-2*gap
             }
         },
         State {
             name: "right"
             PropertyChanges {
                 target: mainmenu_top
-                visiblePos: [toplevel.width-width-gap,gap]
-                invisiblePos: [toplevel.width,gap]
+                visiblePos: [toplevel.width-width-gap, gap]
+                invisiblePos: [toplevel.width, gap]
                 hotArea: Qt.rect(toplevel.width-10,0,10,toplevel.height)
-                width: PQCSettings.mainmenuElementWidth
-                height: toplevel.height-2*gap
             }
         },
         State {
@@ -633,6 +631,57 @@ Rectangle {
                 }
 
             }
+
+        }
+
+    }
+
+    MouseArea {
+        x: (parent.width-width)
+        width: 10
+        height: parent.height
+        cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
+        enabled: parent.state=="left"
+
+        property int clickStart: -1
+        property int origWidth: PQCSettings.mainmenuElementWidth
+        onPressed: (mouse) => {
+            clickStart = mouse.x
+        }
+        onReleased:
+            clickStart = -1
+
+        onPositionChanged: (mouse) => {
+            if(clickStart == -1)
+                return
+            var diff = mouse.x-clickStart
+            PQCSettings.mainmenuElementWidth = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
+
+        }
+
+    }
+
+    MouseArea {
+        id: dragrightMouse
+        x: 0
+        width: 10
+        height: parent.height
+        cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
+        enabled: parent.state=="right"
+
+        property int clickStart: -1
+        property int origWidth: PQCSettings.mainmenuElementWidth
+        onPressed: (mouse) => {
+            clickStart = mouse.x
+        }
+        onReleased:
+            clickStart = -1
+
+        onPositionChanged: (mouse) => {
+            if(clickStart == -1)
+                return
+            var diff = clickStart-mouse.x
+            PQCSettings.mainmenuElementWidth = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
 
         }
 
