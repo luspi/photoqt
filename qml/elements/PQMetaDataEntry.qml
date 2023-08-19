@@ -22,7 +22,7 @@ Column {
 
     PQText {
         id: val
-        text: valtxt=="" ? "--" : valtxt
+        text: "  " + (valtxt=="" ? "--" : valtxt)
         opacity: fadeout ? 0.4 : 1
 
         PQMouseArea {
