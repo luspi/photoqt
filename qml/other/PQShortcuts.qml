@@ -227,9 +227,10 @@ Item {
 
 //            case "__contextMenu":
 //                break
-//            case "__showMetaData":
-//            case "__keepMetaData":
-//                break
+            case "__showMetaData":
+            case "__keepMetaData":
+                PQCSettings.metadataElementVisible = !PQCSettings.metadataElementVisible
+                break
 //            case "__showMainMenu":
 //                break
 //            case "__showThumbnails":

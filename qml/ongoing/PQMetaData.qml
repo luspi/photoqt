@@ -39,9 +39,17 @@ Rectangle {
     y: setVisible ? visiblePos[1] : invisiblePos[1]
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
 
-    onYChanged: {
-        if(dragmouse.drag.active)
-            PQCSettings.metadataElementPosition.y = y
+    onYChanged:
+        saveXY.restart()
+
+    onXChanged:
+        saveXY.restart()
+
+    Timer {
+        id: saveXY
+        interval: 200
+        onTriggered:
+            PQCSettings.metadataElementPosition = Qt.point(x,y)
     }
 
     width: PQCSettings.metadataElementSize.width
@@ -61,11 +69,13 @@ Rectangle {
     property var invisiblePos: [0, 0]
     property rect hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
 
-    state: PQCSettings.interfaceEdgeLeftAction==="metadata"
-           ? "left"
-           : (PQCSettings.interfaceEdgeRightAction==="metadata"
-               ? "right"
-               : "disabled" )
+    state: !PQCSettings.metadataElementBehindLeftEdge ?
+               "floating" :
+                (PQCSettings.interfaceEdgeLeftAction==="metadata"
+                   ? "left"
+                   : (PQCSettings.interfaceEdgeRightAction==="metadata"
+                       ? "right"
+                   : "disabled" ))
 
     property int gap: 40
 
@@ -97,7 +107,19 @@ Rectangle {
                 setVisible: false
                 hotArea: Qt.rect(0,0,0,0)
             }
+        },
+        State {
+            name: "floating"
+            PropertyChanges {
+                target: metadata_top
+                hotArea: Qt.rect(0,0,0,0)
+                setVisible: PQCSettings.metadataElementVisible
+                visiblePos: [Math.max(0, Math.min(toplevel.width-width, PQCSettings.metadataElementPosition.x)),
+                             Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
+                invisiblePos: visiblePos
+            }
         }
+
     ]
 
     MouseArea {
@@ -158,7 +180,7 @@ Rectangle {
                         wheel.accepted = true
                     }
                     drag.target: metadata_top
-                    drag.axis: Drag.YAxis
+                    drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
                     drag.minimumY: 0
                     drag.maximumY: toplevel.height-metadata_top.height
                 }
@@ -401,6 +423,10 @@ Rectangle {
 
     // check whether the thumbnails should be shown or not
     function checkMousePosition(x,y) {
+
+        if(!PQCSettings.metadataElementBehindLeftEdge)
+            return
+
         if(setVisible) {
             if(x < metadata_top.x-50 || x > metadata_top.x+metadata_top.width+50 || y < metadata_top.y-50 || y > metadata_top.y+metadata_top.height+50)
                 setVisible = false
