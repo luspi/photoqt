@@ -13,74 +13,95 @@ Item {
         id: startmessage
         anchors.fill: parent
         anchors.margins: 160
-        Text {
-            id: openmessage
-            y: (parent.height-height)/2
-            width: startmessage.width
-            //: Part of the message shown in the main view before any image is loaded
-            text: qsTranslate("other", "Click anywhere to open a file")
-            font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80))
-            font.bold: true
-            opacity: 0.8
-            color: PQCLook.textColor
-            wrapMode: Text.WordWrap
-            horizontalAlignment: Text.AlignHCenter
-        }
-    }
+        Column {
+            y: (parent.height-height)/2.5
 
-    Item {
+            spacing: 10
 
-        id: clickhere
-        x: (parent.width-100)/2
-        y: startmessage.y + openmessage.y-100-50
+            Item {
 
-        width: 100
-        height: 100
+                id: clickhere
+                x: (parent.width-100)/2
 
-        visible: startmessage.visible
+                width: 100
+                height: 100
 
-        Rectangle {
+                visible: startmessage.visible
 
-            id: clickcircle
+                Rectangle {
 
-            width: 20
-            x: (parent.width-width)/2
-            y: (parent.height-height)/2
-            height: width
-            radius: width/2
-            color: "transparent"
-            opacity: 1 - (width-20)/40
-            border {
-                width: 5
+                    id: clickcircle
+
+                    width: 20
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+                    height: width
+                    radius: width/2
+                    color: "transparent"
+                    opacity: 1 - (width-20)/40
+                    border {
+                        width: 5
+                        color: PQCLook.textColor
+                    }
+
+                    NumberAnimation {
+                        id: clickani
+                        target: clickcircle
+                        property: "width"
+                        from: 20
+                        to: 50
+                        duration: 1000
+                        loops: Animation.Infinite
+                        running: visible&&loader.numVisible===0
+                        easing.type: Easing.OutCirc
+                    }
+                }
+
+                Image {
+
+                    x: parent.width/2
+                    y: parent.height/2
+
+                    width: 40*(2/3)
+                    height: 40
+                    smooth: false
+                    sourceSize: Qt.size(width, height)
+                    source: "/white/mouse.svg"
+
+                }
+
+            }
+
+            Item {
+                width: 1
+                height: 20
+            }
+
+            Text {
+                id: openmessage
+                width: startmessage.width
+                //: Part of the message shown in the main view before any image is loaded
+                text: qsTranslate("other", "Click anywhere to open a file")
+                font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80))
+                font.bold: true
+                opacity: 0.8
                 color: PQCLook.textColor
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
             }
-
-            NumberAnimation {
-                id: clickani
-                target: clickcircle
-                property: "width"
-                from: 20
-                to: 50
-                duration: 1000
-                loops: Animation.Infinite
-                running: visible&&loader.numVisible==0
-                easing.type: Easing.OutCirc
+            Text {
+                id: arrowmessage
+                width: startmessage.width
+                //: Part of the message shown in the main view before any image is loaded
+                text: qsTranslate("other", "Move your cursor to the indicated window edges for various actions")
+                font.pointSize: Math.min(20, Math.max(15, (toplevel.width+toplevel.height)/100))
+                font.bold: true
+                opacity: 0.8
+                color: PQCLook.textColor
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
             }
         }
-
-        Image {
-
-            x: parent.width/2
-            y: parent.height/2
-
-            width: 40*(2/3)
-            height: 40
-            smooth: false
-            sourceSize: Qt.size(width, height)
-            source: "/white/mouse.svg"
-
-        }
-
     }
 
     Item {
@@ -94,7 +115,7 @@ Item {
             id: arrleft
             x: 10
             y: (parent.height-height)/2
-            visible: PQCSettings.metadataElementBehindLeftEdge
+            visible: PQCSettings.interfaceEdgeLeftAction!==""
             opacity: 0.5
             width: 100
             height: 100
@@ -140,7 +161,7 @@ Item {
             id: arrright
             x: parent.width-width-10
             y: (parent.height-height)/2
-            visible: !PQCSettings.interfacePopoutMainMenu
+            visible: PQCSettings.interfaceEdgeRightAction!==""
             opacity: 0.5
             width: 100
             height: 100
@@ -189,6 +210,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
+            visible: PQCSettings.interfaceEdgeBottomAction!==""
 
             source: "/white/leftarrow.svg"
             rotation: -90
@@ -214,6 +236,53 @@ Item {
                 NumberAnimation {
                     from: toplevel.height-130
                     to: toplevel.height-110
+                    easing.type: Easing.OutBounce
+                    duration: 1000
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // short pause
+                PauseAnimation { duration: 500 }
+
+            }
+
+        }
+
+        Image {
+            id: arrup
+            x: (parent.width-width)/2
+            y: 10
+            opacity: 0.5
+            width: 100
+            height: 100
+            sourceSize: Qt.size(width, height)
+            visible: PQCSettings.interfaceEdgeTopAction!==""
+
+            source: "/white/leftarrow.svg"
+            rotation: 90
+
+            SequentialAnimation on y {
+
+                id: sequp
+
+                running: visible&&loader.numVisible==0
+                loops: Animation.Infinite
+
+                // move out quick
+                NumberAnimation {
+                    from: 10
+                    to: 30
+                    easing.type: Easing.OutExpo
+                    duration: 500
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // bounce back in
+                NumberAnimation {
+                    from: 30
+                    to: 10
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: restartAllAnimations()
@@ -253,7 +322,12 @@ Item {
         seqdown.restart()
         seqright.restart()
         seqleft.restart()
+        sequp.restart()
         clickani.restart()
     }
+
+    // make sure they are all in syc at start
+    Component.onCompleted:
+        restartAllAnimations()
 
 }
