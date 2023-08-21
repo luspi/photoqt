@@ -102,6 +102,14 @@ Rectangle {
         }
     ]
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onWheel: (wheel) => {
+            flickView(wheel.angleDelta)
+        }
+    }
+
     // the view for the actual thumbnails
     ListView {
 
@@ -156,6 +164,9 @@ Rectangle {
         }
 
         property var previousItem: view.model>0 ? view.itemAtIndex(view.previousIndices[1]) : null
+
+        // used for converting vertical into horizontal flick
+        property int flickCounter: 0
 
         // some highlight properties
         // these follow the currentIndex property
@@ -437,6 +448,9 @@ Rectangle {
                 onClicked: {
                     PQCFileFolderModel.currentIndex = index
                 }
+                onWheel: (wheel) => {
+                    flickView(wheel.angleDelta)
+                }
 
             }
 
@@ -472,6 +486,28 @@ Rectangle {
         function onCheckMousePosition(posx, posy) {
             thumbnails_top.checkMousePosition(posx, posy)
         }
+    }
+
+    function flickView(angleDelta) {
+
+        // only scroll horizontally
+        var val = angleDelta.y
+        if(Math.abs(angleDelta.x) > Math.abs(angleDelta.y))
+            val = angleDelta.x
+
+        // continuing scroll makes the scroll go faster
+        if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
+            view.flickCounter = 0
+        else if(val < 0)
+            view.flickCounter -=1
+        else if(val > 0)
+            view.flickCounter += 1
+
+        var fac = 5 + Math.min(20, Math.abs(view.flickCounter))
+
+        // flick horizontally
+        view.flick(fac*val, 0)
+
     }
 
     // check whether the thumbnails should be shown or not
