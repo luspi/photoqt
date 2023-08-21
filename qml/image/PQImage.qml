@@ -23,17 +23,6 @@ Item {
     property int lessW: (thumbnails.holdVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? thumbnails.width : 0
     property int lessH: (thumbnails.holdVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? thumbnails.height : 0
 
-    Rectangle {
-        color: "red"
-        width: 50
-        height: 50
-        z: 999
-        Text {
-            anchors.centerIn: parent
-            text: PQCFileFolderModel.currentIndex
-        }
-    }
-
     property int currentlyVisibleIndex: -1
     property var visibleIndexPrevCur: [-1,-1]
     onCurrentlyVisibleIndexChanged: {
