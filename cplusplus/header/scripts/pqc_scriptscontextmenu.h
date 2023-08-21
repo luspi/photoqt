@@ -1,6 +1,7 @@
 #ifndef PQCSCRIPTSCONTEXTMENU_H
 #define PQCSCRIPTSCONTEXTMENU_H
 
+#include <QSqlDatabase>
 #include <QObject>
 
 class PQCScriptsContextMenu : public QObject {
@@ -17,8 +18,12 @@ public:
     PQCScriptsContextMenu(PQCScriptsContextMenu const&)     = delete;
     void operator=(PQCScriptsContextMenu const&) = delete;
 
+    Q_INVOKABLE QVariantList getEntries();
+
 private:
     PQCScriptsContextMenu();
+
+    QSqlDatabase db;
 
 };
 

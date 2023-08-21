@@ -41,16 +41,13 @@ int PQCStartup::check() {
 
     qDebug() << "";
 
-    QSqlDatabase db_context;
     QSqlDatabase db_location;
 
     // check if sqlite is available
     // this is a hard requirement now and we wont launch PhotoQt without it
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
-        db_context = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
         db_location = QSqlDatabase::addDatabase("QSQLITE3", "location");
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
-        db_context = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
         db_location = QSqlDatabase::addDatabase("QSQLITE", "location");
     } else {
         //: This is the window title of an error message box
@@ -65,13 +62,11 @@ int PQCStartup::check() {
        !QFile::exists(PQCConfigFiles::IMAGEFORMATS_DB()) ||
        !QFile::exists(PQCConfigFiles::SHORTCUTS_DB())) {
 
-        db_context.setDatabaseName(PQCConfigFiles::CONTEXTMENU_DB());
         db_location.setDatabaseName(PQCConfigFiles::LOCATION_DB());
 
         return 2;
     }
 
-    db_context.setDatabaseName(PQCConfigFiles::CONTEXTMENU_DB());
     db_location.setDatabaseName(PQCConfigFiles::LOCATION_DB());
 
     // last time a dev version was run

@@ -52,5 +52,14 @@
         <file>white/about.svg</file>
         <file>white/help.svg</file>
         <file>white/quit.svg</file>
+        <file>white/copy.svg</file>
+        <file>white/delete.svg</file>
+        <file>white/move.svg</file>
+        <file>white/rename.svg</file>
+        <file>white/convert.svg</file>
+        <file>white/clipboard.svg</file>
+        <file>white/faces.svg</file>
+        <file>white/scale.svg</file>
+        <file>white/wallpaper.svg</file>
     </qresource>
 </RCC>

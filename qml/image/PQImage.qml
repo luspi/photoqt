@@ -398,6 +398,7 @@ Item {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     propagateComposedEvents: true
+                                    acceptedButtons: Qt.LeftButton|Qt.RightButton
                                     onPositionChanged: (mouse) => {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                         toplevel.checkMousePosition(pos.x, pos.y)
@@ -406,8 +407,11 @@ Item {
                                         wheel.accepted = false
                                         PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                                     }
-                                    onClicked:
-                                        loader_component.imageClicked()
+                                    onClicked: (mouse) => {
+                                        PQCNotify.mouseClick(mouse.modifiers, mouse.button)
+                                        if(mouse.button === Qt.LeftButton)
+                                            loader_component.imageClicked()
+                                    }
                                 }
 
                                 PinchArea {

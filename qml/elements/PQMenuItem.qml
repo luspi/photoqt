@@ -28,28 +28,46 @@ MenuItem {
     implicitWidth: 250
     implicitHeight: 40
 
+    property string iconSource: ""
     property bool checkableLikeRadioButton: false
 
-    contentItem: Text {
-        leftPadding: menuItem.checkable ? menuItem.indicator.width : 0
-        text: menuItem.text
-        font: menuItem.font
-        color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideMiddle
-        style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
-        styleColor: PQCLook.textColorHighlight
-    }
+    onIconSourceChanged:
+        checkable = iconSource!=""
+
+    contentItem:
+        Text {
+            id: controltxt
+            leftPadding: menuItem.checkable ? menuItem.indicator.width : 0
+            height: 40
+            text: menuItem.text
+            font: menuItem.font
+            color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideMiddle
+            style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
+            styleColor: PQCLook.textColorHighlight
+        }
 
     indicator: Item {
         implicitWidth: 30
         implicitHeight: 40
+        visible: menuItem.checkable
+        Image {
+            visible: iconSource!=""
+            x: 5
+            y: 10
+            width: 20
+            height: 20
+            fillMode: Image.Pad
+            source: iconSource
+            sourceSize: Qt.size(width, height)
+        }
         Rectangle {
+            visible: iconSource==""
             width: 20
             height: 20
             anchors.centerIn: parent
-            visible: menuItem.checkable
             border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
             color: PQCLook.baseColorHighlight
             radius: checkableLikeRadioButton ? 10 : 2

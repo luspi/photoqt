@@ -70,6 +70,7 @@ Window {
     Loader { id: mainmenu;   asynchronous: true; source: "ongoing/PQMainMenu.qml" }
     // meta data
     Loader { id: metadata;   asynchronous: true; source: "ongoing/PQMetaData.qml" }
+    PQContextMenu { id: contextmenu }
 
     /*************************************************/
     // load on-demand

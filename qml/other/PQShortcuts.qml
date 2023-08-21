@@ -109,6 +109,30 @@ Item {
 
         }
 
+        function onMouseClick(modifiers, button) {
+
+            var combo = ""
+
+            if(modifiers & Qt.ControlModifier)
+                combo += "Ctrl+";
+            if(modifiers & Qt.AltModifier)
+                combo += "Alt+";
+            if(modifiers & Qt.ShiftModifier)
+                combo += "Shift+";
+            if(modifiers & Qt.MetaModifier)
+                combo += "Meta+";
+            if(modifiers & Qt.KeypadModifier)
+                combo += "Keypad+";
+
+            if(button === Qt.LeftButton)
+                combo += "Left Button"
+            else if(button === Qt.RightButton)
+                combo += "Right Button"
+
+            checkComboForShortcut(combo)
+
+        }
+
     }
 
     function checkComboForShortcut(combo, wheelDelta) {
@@ -225,8 +249,9 @@ Item {
             /**********************/
             // elements (ongoing)
 
-//            case "__contextMenu":
-//                break
+            case "__contextMenu":
+                contextmenu.popup()
+                break
             case "__showMetaData":
             case "__keepMetaData":
                 PQCSettings.metadataElementVisible = !PQCSettings.metadataElementVisible
