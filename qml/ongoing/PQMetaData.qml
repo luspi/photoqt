@@ -205,17 +205,17 @@ Rectangle {
                 visible: PQCSettings.metadataImageNumber
             }
 
-//            PQMetaDataEntry {
-//                whichtxt: qsTranslate("metadata", "File size")
-//                valtxt: // file size
-//                visible: PQCSettings.metadataFileSize
-//            }
+            PQMetaDataEntry {
+                whichtxt: qsTranslate("metadata", "File size")
+                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
+                visible: PQCSettings.metadataFileSize
+            }
 
-//            PQMetaDataEntry {
-//                whichtxt: qsTranslate("metadata", "File type")
-//                valtxt: // file type
-//                visible: PQCSettings.metadataFileType
-//            }
+            PQMetaDataEntry {
+                whichtxt: qsTranslate("metadata", "File type")
+                valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
+                visible: PQCSettings.metadataFileType
+            }
 
             Item {
                 width: 1
