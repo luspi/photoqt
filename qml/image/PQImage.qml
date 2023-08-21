@@ -45,6 +45,8 @@ Item {
     property int curZ: 0
     property real defaultScale: 1
     property real currentScale: 1
+    property real currentRotation: 0
+    property size currentResolution: Qt.size(0,0)
 
     property string randomAnimation: "opacity"
 
@@ -99,9 +101,17 @@ Item {
                 property real defaultWidth
                 property real defaultHeight
                 property real defaultScale: 1
+                property size imageResolution: Qt.size(0,0)
+
+                onImageResolutionChanged: {
+                    if(PQCFileFolderModel.currentIndex===index)
+                        image_top.currentResolution = imageResolution
+                }
 
                 // some signals
                 signal zoomResetWithoutAnimation()
+                signal rotationResetWithoutAnimation()
+                signal rotationZoomResetWithoutAnimation()
                 signal stopVideoAndReset()
                 signal restartVideoIfAutoplay()
 
@@ -265,6 +275,11 @@ Item {
 
                                 }
 
+                                onRotationChanged: {
+                                    if(PQCFileFolderModel.currentIndex === index)
+                                        image_top.currentRotation = rotation
+                                }
+
                                 // react to status changes
                                 property int status: Image.Null
                                 onStatusChanged: {
@@ -276,7 +291,7 @@ Item {
                                             deleg.defaultWidth = width*deleg.defaultScale
                                             deleg.defaultHeight = height*deleg.defaultScale
                                             deleg.defaultScale = 0.99999999*tmp
-                                            image.defaultScale = deleg.defaultScale
+                                            image_top.defaultScale = deleg.defaultScale
                                             deleg.hasBeenSetup = true
                                             deleg.showImage()
                                         }
@@ -318,7 +333,7 @@ Item {
                                         var tmp = image_wrapper.computeDefaultScale()
                                         if(Math.abs(image_wrapper.scale-deleg.defaultScale) < 1e-6) {
                                             deleg.defaultScale = 0.99999999*tmp
-                                            deleg.zoomResetWithoutAnimation()
+                                            deleg.rotationZoomResetWithoutAnimation()
                                         } else
                                             deleg.defaultScale = 0.99999999*tmp
 
@@ -357,12 +372,14 @@ Item {
                                         }
                                     }
 
-                                    function onZoomResetWithoutAnimation() {
+                                    function onRotationZoomResetWithoutAnimation() {
                                         scaleAnimation.stop()
+                                        rotationAnimation.stop()
+                                        image_wrapper.rotation = 0
+                                        deleg.imageRotation = 0
                                         image_wrapper.scale = deleg.defaultScale
                                         deleg.imageScale = image_wrapper.scale
                                     }
-
 
                                     function onImageRotationChanged() {
                                         if(PQCFileFolderModel.currentIndex===index) {
@@ -584,7 +601,7 @@ Item {
 
                     image_top.currentlyVisibleIndex = itemIndex
 
-                    zoomResetWithoutAnimation()
+                    rotationZoomResetWithoutAnimation()
 
                     var anim = PQCSettings.imageviewAnimationType
                     if(anim === "random")
@@ -653,6 +670,10 @@ Item {
                     deleg.restartVideoIfAutoplay()
 
                     image_top.curZ += 1
+
+                    image_top.currentScale = deleg.imageScale
+                    image_top.currentRotation = deleg.imageRotation
+                    image_top.currentResolution = deleg.imageResolution
 
                     if(PQCSettings.imageviewAnimationType === "random")
                         selectNewRandomAnimation.restart()

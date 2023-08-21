@@ -14,10 +14,14 @@ Item {
     width: 100
     height: 100
 
-    onWidthChanged:
+    onWidthChanged: {
         image_wrapper.width = width
-    onHeightChanged:
+        deleg.imageResolution.width = width
+    }
+    onHeightChanged: {
+        deleg.imageResolution.height = height
         image_wrapper.height = height
+    }
 
     onVisibleChanged: {
         if(!visible && video.playing) {

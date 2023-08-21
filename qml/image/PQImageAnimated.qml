@@ -23,6 +23,7 @@ AnimatedImage {
         width = sourceSize.width
         height = sourceSize.height
         image_wrapper.status = Image.Ready
+        deleg.imageResolution = sourceSize
     }
 
     Connections {

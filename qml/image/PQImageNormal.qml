@@ -27,6 +27,9 @@ Image {
         }
     }
 
+    onSourceSizeChanged:
+        deleg.imageResolution = sourceSize
+
     Connections {
         target: image_top
         function onMirrorH() {
