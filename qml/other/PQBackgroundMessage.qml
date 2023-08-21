@@ -6,7 +6,7 @@ Item {
 
     width: toplevel.width
     height: toplevel.height
-        visible: PQCFileFolderModel.countMainView===0
+    visible: PQCFileFolderModel.countMainView===0 && !toplevel.startup
 
     Item {
         id: startmessage
@@ -20,6 +20,7 @@ Item {
             text: qsTranslate("other", "Click anywhere to open a file")
             font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80))
             font.bold: true
+            opacity: 0.8
             color: PQCLook.textColor
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
@@ -35,7 +36,7 @@ Item {
         width: 100
         height: 100
 
-        visible: startmessage.visible //&& variables.startupCompleted
+        visible: startmessage.visible
 
         Rectangle {
 
