@@ -10,76 +10,19 @@ Item {
 
     Item {
         id: startmessage
-        anchors.centerIn: parent
-        width: parent.width-160
-        height: col.height
-        Column {
-            id: col
-            spacing: 5
-            Text {
-                id: openmessage
-                width: startmessage.width
-                //: Part of the message shown in the main view before any image is loaded
-                text: qsTranslate("other", "Click anywhere to open a file")
-                font.pointSize: Math.min(60, Math.max(20, (toplevel.width+toplevel.height)/60))
-                font.bold: true
-                color: PQCLook.textColor
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Text {
-                width: startmessage.width
-                //: Part of the message shown in the main view before any image is loaded
-                text: qsTranslate("other", "Move your cursor to:")
-                font.pointSize: Math.min(40, Math.max(15, (toplevel.width+toplevel.height)/90))
-                font.bold: true
-                color: PQCLook.textColor
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Text {
-                width: startmessage.width
-                //: Part of the message shown in the main view before any image is loaded, first option for where to move cursor to
-                text: ">> " + qsTranslate("other", "RIGHT EDGE for the main menu")
-                font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
-                font.bold: true
-                color: PQCLook.textColor
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Text {
-                width: startmessage.width
-                visible: PQCSettings.metadataElementBehindLeftEdge
-                //: Part of the message shown in the main view before any image is loaded, second option for where to move cursor to
-                text: ">> " + qsTranslate("other", "LEFT EDGE for the metadata")
-                font.pointSize: Math.max(10, (toplevel.width+toplevel.height)/130)
-                font.bold: true
-                color: PQCLook.textColor
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Column {
-                Text {
-                    width: startmessage.width
-                    //: Part of the message shown in the main view before any image is loaded, third option for where to move cursor to
-                    text: ">> " + qsTranslate("other", "BOTTOM EDGE to show the thumbnails")
-                    font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
-                    font.bold: true
-                    color: PQCLook.textColor
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                Text {
-                    width: startmessage.width
-                    //: Part of the message shown in the main view before any image is loaded
-                    text: qsTranslate("other", "(once an image/folder is loaded)")
-                    font.pointSize: Math.min(30, Math.max(10, (toplevel.width+toplevel.height)/130))
-                    font.bold: true
-                    color: PQCLook.textColor
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                }
-            }
+        anchors.fill: parent
+        anchors.margins: 160
+        Text {
+            id: openmessage
+            y: (parent.height-height)/2
+            width: startmessage.width
+            //: Part of the message shown in the main view before any image is loaded
+            text: qsTranslate("other", "Click anywhere to open a file")
+            font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80))
+            font.bold: true
+            color: PQCLook.textColor
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 
@@ -87,7 +30,7 @@ Item {
 
         id: clickhere
         x: (parent.width-100)/2
-        y: startmessage.y-100-50
+        y: startmessage.y + openmessage.y-100-50
 
         width: 100
         height: 100
