@@ -135,7 +135,7 @@ void PQCFileFolderModel::setFileInFolderMainView(QString val) {
     QFileInfo oldfile(m_fileInFolderMainView);
     QFileInfo newfile(val);
     if(oldfile.dir() == newfile.dir()) {
-        m_currentFile = newfile.fileName();
+        m_currentFile = val;
         m_currentIndex = m_entriesMainView.indexOf(val);
         m_fileInFolderMainView = val;
         Q_EMIT fileInFolderMainViewChanged();
@@ -858,7 +858,7 @@ void PQCFileFolderModel::loadDataMainView() {
         cacheAdvancedSortFolderName = "";
 
     m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
-    m_currentFile = QFileInfo(m_fileInFolderMainView).fileName();
+    m_currentFile = m_fileInFolderMainView;
 
     Q_EMIT newDataLoadedMainView();
     Q_EMIT countMainViewChanged();
