@@ -24,6 +24,8 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
+    property bool startup: true
+
     signal checkMousePosition(var posx, var posy)
 
     Item {
@@ -112,6 +114,13 @@ Window {
         duration: 100
     }
 
+    Timer {
+        id: resetStartup
+        interval: 500
+        running: true
+        onTriggered:
+            toplevel.startup = false
+    }
 
     Component.onCompleted: {
         if(PQCScriptsConfig.amIOnWindows())
