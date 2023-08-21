@@ -9,29 +9,21 @@ Item {
 
     id: statusinfo_top
 
-    x: addLeft + 40
-    y: addTop + 20
+    x: 40
+    y: 20
 
     Behavior on x { NumberAnimation { duration: 200 } }
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    width: 100
-    height: 30
-
-    property int addLeft: (PQCSettings.interfaceEdgeLeftAction==="mainmenu" && PQCSettings.metadataElementBehindLeftEdge) ?
-                              (mainmenu.setVisible ? (mainmenu.width+mainmenu.gap) : 0) :
-                              (PQCSettings.interfaceEdgeLeftAction==="metadata" ?
-                                   (metadata.setVisible ? (metadata.width+metadata.gap) : 0) :
-                                   0)
-
-    property int addTop: PQCSettings.interfaceEdgeTopAction==="thumbnails" ?
-                             (thumbnails.setVisible ? thumbnails.height : 0) :
-                             0
+    width: maincol.width
+    height: maincol.height
 
     // possible values: counter, filename, filepathname, resolution, zoom, rotation
     property var info: PQCSettings.interfaceStatusInfoList
 
     Column {
+
+        id: maincol
 
         Rectangle {
 
@@ -53,7 +45,7 @@ Item {
 
                 Repeater {
 
-                    model: info.length
+                    model: PQCFileFolderModel.countMainView===0 ? 1 : info.length
 
                     Item {
 
@@ -67,28 +59,30 @@ Item {
                             Loader {
                                 id: ldr
                                 property string t: info[index]
-                                sourceComponent: t=="counter" ?
-                                                     rectCounter :
-                                                     t=="filename" ?
-                                                         rectFilename :
-                                                         t=="filepathname" ?
-                                                             rectFilepath :
-                                                             t=="resolution" ?
-                                                                 rectResolution :
-                                                                 t=="zoom" ?
-                                                                     rectZoom :
-                                                                     t=="rotation" ?
-                                                                         rectRotation :
-                                                                         t=="filesize" ?
-                                                                             rectFilesize :
-                                                                             rectDummy
+                                sourceComponent: PQCFileFolderModel.countMainView===0 ?
+                                                   rectNoImages :
+                                                   t=="counter" ?
+                                                       rectCounter :
+                                                       t=="filename" ?
+                                                           rectFilename :
+                                                           t=="filepathname" ?
+                                                               rectFilepath :
+                                                               t=="resolution" ?
+                                                                   rectResolution :
+                                                                   t=="zoom" ?
+                                                                       rectZoom :
+                                                                       t=="rotation" ?
+                                                                           rectRotation :
+                                                                           t=="filesize" ?
+                                                                               rectFilesize :
+                                                                               rectDummy
                             }
 
                             Rectangle {
                                 height: ldr.height
                                 width: 1
                                 color: PQCLook.textColor
-                                visible: index<info.length-1
+                                visible: index<info.length-1 && PQCFileFolderModel.countMainView>0
                             }
 
                         }
@@ -101,6 +95,13 @@ Item {
 
         }
 
+    }
+
+    Component {
+        id: rectNoImages
+        PQText {
+            text: "Click anywhere to open an image"
+        }
     }
 
     Component {
@@ -168,5 +169,22 @@ Item {
             text: "[unknown]"
         }
     }
+
+    PQMouseArea {
+        anchors.fill: parent
+        drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : parent
+        hoverEnabled: true
+        text: PQCSettings.interfaceStatusInfoManageWindow ?
+                  "Click to move window around" :
+                  "Click and drag to move information around"
+        onWheel: (wheel) => {
+            wheel.accepted = true
+        }
+        onPressed: {
+            if(PQCSettings.interfaceStatusInfoManageWindow)
+                toplevel.startSystemMove()
+        }
+
+}
 
 }

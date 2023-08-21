@@ -58,10 +58,10 @@ Window {
     }
 
     PQImage { id: image}
+    PQStatusInfo { id: statusinfo }
     PQThumbnails { id: thumbnails }
     PQMainMenu { id: mainmenu }
     PQMetaData { id: metadata }
-    PQStatusInfo { id: statusinfo }
 
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
