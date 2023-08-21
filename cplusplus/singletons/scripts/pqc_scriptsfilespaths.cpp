@@ -78,6 +78,9 @@ QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
 QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
 
+    if(fullpath == "")
+        return "";
+
     return QFileInfo(fullpath).fileName();
 
 }
@@ -90,12 +93,18 @@ QDateTime PQCScriptsFilesPaths::getFileModified(QString path) {
 
 QString PQCScriptsFilesPaths::getFileType(QString path) {
 
+    if(path == "")
+        return "";
+
     QMimeDatabase db;
     return db.mimeTypeForFile(path).name();
 
 }
 
 QString PQCScriptsFilesPaths::getFileSizeHumanReadable(QString path) {
+
+    if(path == "")
+        return "";
 
     const qint64 bytes = QFileInfo(path).size();
 
