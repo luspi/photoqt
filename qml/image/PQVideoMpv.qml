@@ -100,6 +100,10 @@ Item {
         function onMirrorV() {
             video.command(["vf", "toggle", "vflip"])
         }
+        function onMirrorReset() {
+            video.command(["vf", "remove", "hflip"])
+            video.command(["vf", "remove", "vflip"])
+        }
     }
 
     Connections {

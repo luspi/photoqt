@@ -34,6 +34,10 @@ AnimatedImage {
         function onMirrorV() {
             image.mirrorVertically = !image.mirrorVertically
         }
+        function onMirrorReset() {
+            image.mirror = false
+            image.mirrorVertically = false
+        }
     }
 
 }

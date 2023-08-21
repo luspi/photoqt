@@ -48,6 +48,7 @@ Item {
     signal rotateReset()
     signal mirrorH()
     signal mirrorV()
+    signal mirrorReset()
 
     Repeater {
 

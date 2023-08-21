@@ -38,6 +38,10 @@ Image {
         function onMirrorV() {
             image.mirrorVertically = !image.mirrorVertically
         }
+        function onMirrorReset() {
+            image.mirror = false
+            image.mirrorVertically = false
+        }
         function onWidthChanged() {
             resetScreenSize.restart()
         }
@@ -82,6 +86,8 @@ Image {
             source: image.source
             visible: Math.abs(deleg.defaultScale-image_wrapper.scale) < 1e-6
             sourceSize: Qt.size(screenW, screenH)
+            mirror: image.mirror
+            mirrorVertically: image.mirrorVertically
         }
     }
 

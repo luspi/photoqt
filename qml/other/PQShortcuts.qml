@@ -317,8 +317,9 @@ Item {
             case "__flipV":
                 image.mirrorV()
                 break
-//            case "__flipReset":
-//                break
+            case "__flipReset":
+                image.mirrorReset()
+                break
 //            case "__histogram":
 //                break
 //            case "__fitInWindow":
