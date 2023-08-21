@@ -17,6 +17,8 @@ public:
     PQCScriptsShortcuts(PQCScriptsShortcuts const&)     = delete;
     void operator=(PQCScriptsShortcuts const&) = delete;
 
+    Q_INVOKABLE void executeExternal(QString exe, QString args, QString currentfile);
+
 private:
     PQCScriptsShortcuts();
 

@@ -1,5 +1,8 @@
 import QtQuick
 
+import PQCNotify
+import PQCScriptsShortcuts
+import PQCFileFolderModel
 import PQCScriptsContextMenu
 
 import "../elements"
@@ -84,6 +87,12 @@ PQMenu {
             property var entry: ext[index]
             iconSource: entry[0]
             text: entry[2]
+            onTriggered: {
+                if(entry[1].startsWith("__"))
+                    PQCNotify.executeInternalCommand(entry[1])
+                else
+                    PQCScriptsShortcuts.executeExternal(entry[1], entry[4], PQCFileFolderModel.currentFile)
+            }
         }
 
     }
