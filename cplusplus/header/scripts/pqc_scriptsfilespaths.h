@@ -33,6 +33,7 @@ public:
     Q_INVOKABLE bool isFolder(QString path);
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE bool isExcludeDirFromCaching(QString filename);
+    Q_INVOKABLE void openInDefaultFileManager(QString filename);
 
 private:
     PQCScriptsFilesPaths();

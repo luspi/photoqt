@@ -25,6 +25,8 @@ import QtQml 2.0
 
 import PQCShortcuts
 import PQCNotify
+import PQCScriptsFilesPaths
+import PQCFileFolderModel
 
 Item {
 
@@ -377,8 +379,10 @@ Item {
 //                break
 //            case "__saveAs":
 //                break
-//            case "__defaultFileManager":
-//                break
+            case "__defaultFileManager":
+                if(PQCFileFolderModel.countMainView > 0)
+                    PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)
+                break
 //            case "__clipboard":
 //                break
 //            case "__print":
