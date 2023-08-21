@@ -100,7 +100,7 @@ Item {
     Component {
         id: rectNoImages
         PQText {
-            text: "Click anywhere to open an image"
+            text: qsTranslate("statusinfo", "Click anywhere to open a file")
         }
     }
 
@@ -175,8 +175,8 @@ Item {
         drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : parent
         hoverEnabled: true
         text: PQCSettings.interfaceStatusInfoManageWindow ?
-                  "Click to move window around" :
-                  "Click and drag to move information around"
+                  qsTranslate("statusinfo", "Click and drag to move window around") :
+                  qsTranslate("statusinfo", "Click and drag to move rectangle around")
         onWheel: (wheel) => {
             wheel.accepted = true
         }
