@@ -184,6 +184,12 @@ Item {
             if(PQCSettings.interfaceStatusInfoManageWindow)
                 toplevel.startSystemMove()
         }
+        onDoubleClicked: {
+            if(toplevel.visibility === Window.Maximized)
+                toplevel.visibility = Window.Windowed
+            else if(toplevel.visibility === Window.Windowed)
+                toplevel.visibility = Window.Maximized
+        }
 
 }
 
