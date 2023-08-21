@@ -24,6 +24,8 @@ Window {
     minimumWidth: 800
     minimumHeight: 600
 
+    signal checkMousePosition(var posx, var posy)
+
     Item {
         id: fullscreenitem
         anchors.fill: parent
@@ -50,18 +52,25 @@ Window {
         }
     }
 
-    // load this asynchronously
-    Loader {
-        id: background
-        asynchronous: true
-        source: "other/PQBackgroundMessage.qml"
-    }
-
+    // very cheap to set up, many properties needed everywhere -> no loader
     PQImage { id: image}
-    PQStatusInfo { id: statusinfo }
-    PQThumbnails { id: thumbnails }
-    PQMainMenu { id: mainmenu }
-    PQMetaData { id: metadata }
+
+    /*************************************************/
+    // load assynchronously at startup
+
+    // startup message
+    Loader { id: background; asynchronous: true; source: "other/PQBackgroundMessage.qml" }
+    // status info
+    Loader { id: statusinfo; asynchronous: true; source: "ongoing/PQStatusInfo.qml" }
+    // thumbnails
+    Loader { id: thumbnails; asynchronous: true; source: "ongoing/PQThumbnails.qml" }
+    // main menu
+    Loader { id: mainmenu;   asynchronous: true; source: "ongoing/PQMainMenu.qml" }
+    // meta data
+    Loader { id: metadata;   asynchronous: true; source: "ongoing/PQMetaData.qml" }
+
+    /*************************************************/
+    // load on-demand
 
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
@@ -88,6 +97,8 @@ Window {
     Loader { id: loader_slideshowsettings }
     Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
+
+    /*************************************************/
 
     // on windows there is a white flash when the window is created
     // thus we set up the window with opacity set to 0
@@ -145,12 +156,6 @@ Window {
     function quitPhotoQt() {
         handleBeforeClosing()
         Qt.quit()
-    }
-
-    function checkMousePosition(posx, posy) {
-        thumbnails.checkMousePosition(posx, posy)
-        mainmenu.checkMousePosition(posx, posy)
-        metadata.checkMousePosition(posx, posy)
     }
 
 }

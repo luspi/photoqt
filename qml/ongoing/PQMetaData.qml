@@ -417,6 +417,13 @@ Rectangle {
 
     }
 
+    Connections {
+        target: toplevel
+        function onCheckMousePosition(posx, posy) {
+            metadata_top.checkMousePosition(posx, posy)
+        }
+    }
+
     function hideMetaData() {
         metadata_top.setVisible = false
     }

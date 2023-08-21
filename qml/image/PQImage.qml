@@ -18,10 +18,10 @@ Item {
     width: toplevel.width-2*PQCSettings.imageviewMargin - lessW
     height: toplevel.height-2*PQCSettings.imageviewMargin - lessH
 
-    property int extraX: (thumbnails.holdVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails") ? thumbnails.width : 0
-    property int extraY: (thumbnails.holdVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails") ? thumbnails.height : 0
-    property int lessW: (thumbnails.holdVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? thumbnails.width : 0
-    property int lessH: (thumbnails.holdVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? thumbnails.height : 0
+    property int extraX: (thumbnails.holdVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails") ? thumbnails.item.width : 0
+    property int extraY: (thumbnails.holdVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails") ? thumbnails.item.height : 0
+    property int lessW: (thumbnails.holdVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? thumbnails.item.width : 0
+    property int lessH: (thumbnails.holdVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? thumbnails.item.height : 0
 
     property int currentlyVisibleIndex: -1
     property var visibleIndexPrevCur: [-1,-1]

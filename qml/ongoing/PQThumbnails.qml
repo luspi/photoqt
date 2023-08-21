@@ -467,6 +467,13 @@ Rectangle {
 
     }
 
+    Connections {
+        target: toplevel
+        function onCheckMousePosition(posx, posy) {
+            thumbnails_top.checkMousePosition(posx, posy)
+        }
+    }
+
     // check whether the thumbnails should be shown or not
     function checkMousePosition(x,y) {
         if(setVisible) {

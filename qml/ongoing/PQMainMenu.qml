@@ -687,6 +687,13 @@ Rectangle {
 
     }
 
+    Connections {
+        target: toplevel
+        function onCheckMousePosition(posx, posy) {
+            mainmenu_top.checkMousePosition(posx, posy)
+        }
+    }
+
     function hideMainMenu() {
         mainmenu_top.setVisible = false
     }

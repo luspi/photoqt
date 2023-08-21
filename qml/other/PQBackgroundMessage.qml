@@ -292,7 +292,7 @@ Item {
             loader.show("filedialog")
         onPositionChanged: (mouse) => {
             var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
-            mainmenu.checkMousePosition(pos.x, pos.y)
+            toplevel.checkMousePosition(pos.x, pos.y)
         }
     }
 
