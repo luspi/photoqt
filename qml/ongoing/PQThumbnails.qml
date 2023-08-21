@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCNotify
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 
@@ -482,9 +483,15 @@ Rectangle {
     }
 
     Connections {
-        target: toplevel
-        function onCheckMousePosition(posx, posy) {
-            thumbnails_top.checkMousePosition(posx, posy)
+        target: PQCNotify
+        function onMouseMove(posx, posy) {
+            if(setVisible) {
+                if(posx < thumbnails_top.x-50 || posx > thumbnails_top.x+thumbnails_top.width+50 || posy < thumbnails_top.y-50 || posy > thumbnails_top.y+thumbnails_top.height+50)
+                    setVisible = false
+            } else {
+                if(hotArea.x < posx && hotArea.x+hotArea.width > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
+                    setVisible = true
+            }
         }
     }
 
@@ -508,17 +515,6 @@ Rectangle {
         // flick horizontally
         view.flick(fac*val, 0)
 
-    }
-
-    // check whether the thumbnails should be shown or not
-    function checkMousePosition(x,y) {
-        if(setVisible) {
-            if(x < thumbnails_top.x-50 || x > thumbnails_top.x+thumbnails_top.width+50 || y < thumbnails_top.y-50 || y > thumbnails_top.y+thumbnails_top.height+50)
-                setVisible = false
-        } else {
-            if(hotArea.x < x && hotArea.x+hotArea.width>x && hotArea.y < y && hotArea.height+hotArea.y > y)
-                setVisible = true
-        }
     }
 
 }

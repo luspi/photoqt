@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
@@ -438,29 +439,24 @@ Rectangle {
     }
 
     Connections {
-        target: toplevel
-        function onCheckMousePosition(posx, posy) {
-            metadata_top.checkMousePosition(posx, posy)
+        target: PQCNotify
+        function onMouseMove(posx, posy) {
+
+            if(!PQCSettings.metadataElementBehindLeftEdge)
+                return
+
+            if(setVisible) {
+                if(posx < metadata_top.x-50 || posx > metadata_top.x+metadata_top.width+50 || posy < metadata_top.y-50 || posy > metadata_top.y+metadata_top.height+50)
+                    setVisible = false
+            } else {
+                if(hotArea.x < posx && hotArea.x+hotArea.width > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
+                    setVisible = true
+            }
         }
     }
 
     function hideMetaData() {
         metadata_top.setVisible = false
-    }
-
-    // check whether the thumbnails should be shown or not
-    function checkMousePosition(x,y) {
-
-        if(!PQCSettings.metadataElementBehindLeftEdge)
-            return
-
-        if(setVisible) {
-            if(x < metadata_top.x-50 || x > metadata_top.x+metadata_top.width+50 || y < metadata_top.y-50 || y > metadata_top.y+metadata_top.height+50)
-                setVisible = false
-        } else {
-            if(hotArea.x < x && hotArea.x+hotArea.width>x && hotArea.y < y && hotArea.height+hotArea.y > y)
-                setVisible = true
-        }
     }
 
 }

@@ -26,8 +26,6 @@ Window {
 
     property bool startup: true
 
-    signal checkMousePosition(var posx, var posy)
-
     Item {
         id: fullscreenitem
         anchors.fill: parent
@@ -47,7 +45,7 @@ Window {
         anchors.fill: parent
         hoverEnabled: true
         onPositionChanged: (mouse) => {
-            checkMousePosition(mouse.x, mouse.y)
+            PQCNotify.mouseMove(mouse.x, mouse.y)
         }
         onWheel: (wheel) => {
             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)

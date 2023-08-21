@@ -401,7 +401,7 @@ Item {
                                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                                     onPositionChanged: (mouse) => {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                        toplevel.checkMousePosition(pos.x, pos.y)
+                                        PQCNotify.mouseMove(pos.x, pos.y)
                                     }
                                     onWheel: (wheel) => {
                                         wheel.accepted = false

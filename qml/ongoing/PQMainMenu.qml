@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsConfig
 
@@ -688,25 +689,20 @@ Rectangle {
     }
 
     Connections {
-        target: toplevel
-        function onCheckMousePosition(posx, posy) {
-            mainmenu_top.checkMousePosition(posx, posy)
+        target: PQCNotify
+        function onMouseMove(posx, posy) {
+            if(setVisible) {
+                if(posx < mainmenu_top.x-50 || posx > mainmenu_top.x+mainmenu_top.width+50 || posy < mainmenu_top.y-50 || posy > mainmenu_top.y+mainmenu_top.height+50)
+                    setVisible = false
+            } else {
+                if(hotArea.x < posx && hotArea.x+hotArea.width > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
+                    setVisible = true
+            }
         }
     }
 
     function hideMainMenu() {
         mainmenu_top.setVisible = false
-    }
-
-    // check whether the thumbnails should be shown or not
-    function checkMousePosition(x,y) {
-        if(setVisible) {
-            if(x < mainmenu_top.x-50 || x > mainmenu_top.x+mainmenu_top.width+50 || y < mainmenu_top.y-50 || y > mainmenu_top.y+mainmenu_top.height+50)
-                setVisible = false
-        } else {
-            if(hotArea.x < x && hotArea.x+hotArea.width>x && hotArea.y < y && hotArea.height+hotArea.y > y)
-                setVisible = true
-        }
     }
 
 }

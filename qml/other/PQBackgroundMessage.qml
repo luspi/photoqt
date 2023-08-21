@@ -234,7 +234,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton|Qt.RightButton
-        onClicked: (mouse) =>{
+        onClicked: (mouse) => {
             if(mouse.button === Qt.LeftButton)
                 loader.show("filedialog")
             else {
@@ -244,7 +244,7 @@ Item {
         }
         onPositionChanged: (mouse) => {
             var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
-            toplevel.checkMousePosition(pos.x, pos.y)
+            PQCNotify.mouseMove(pos.x, pos.y)
         }
     }
 

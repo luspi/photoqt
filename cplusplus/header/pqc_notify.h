@@ -101,9 +101,12 @@ Q_SIGNALS:
 //    void resetSessionData();
 
     void keyPress(int key, int modifiers);
-    void mouseWheel(QPointF angleDelta, int modifiers);  // this is called by, e.g., PQImage to trigger mouse shortcuts
-    void mouseClick(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);  // this is called by, e.g., PQImage to trigger mouse shortcuts
     void executeInternalCommand(QString cmd);
+
+    // these are called by various qml elements to trigger mouse shortcuts
+    void mouseWheel(QPointF angleDelta, int modifiers);
+    void mouseClick(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
+    void mouseMove(double x, double y);
 
 };
 
