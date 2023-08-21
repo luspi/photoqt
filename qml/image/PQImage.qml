@@ -408,9 +408,11 @@ Item {
                                         PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                                     }
                                     onClicked: (mouse) => {
-                                        PQCNotify.mouseClick(mouse.modifiers, mouse.button)
-                                        if(mouse.button === Qt.LeftButton)
+                                        var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                        if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
                                             loader_component.imageClicked()
+                                        else
+                                            PQCNotify.mouseClick(mouse.modifiers, mouse.button, pos)
                                     }
                                 }
 

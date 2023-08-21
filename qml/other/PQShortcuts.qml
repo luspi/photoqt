@@ -109,7 +109,7 @@ Item {
 
         }
 
-        function onMouseClick(modifiers, button) {
+        function onMouseClick(modifiers, button, pos) {
 
             var combo = ""
 

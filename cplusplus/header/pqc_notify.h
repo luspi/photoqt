@@ -102,7 +102,7 @@ Q_SIGNALS:
 
     void keyPress(int key, int modifiers);
     void mouseWheel(QPointF angleDelta, int modifiers);  // this is called by, e.g., PQImage to trigger mouse shortcuts
-    void mouseClick(Qt::KeyboardModifiers modifiers, Qt::MouseButton button);  // this is called by, e.g., PQImage to trigger mouse shortcuts
+    void mouseClick(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);  // this is called by, e.g., PQImage to trigger mouse shortcuts
     void executeInternalCommand(QString cmd);
 
 };
