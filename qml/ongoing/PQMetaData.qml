@@ -39,11 +39,15 @@ Rectangle {
     y: setVisible ? visiblePos[1] : invisiblePos[1]
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
 
-    onYChanged:
-        saveXY.restart()
+    onYChanged: {
+        if(!toplevel.startup)
+            saveXY.restart()
+    }
 
-    onXChanged:
-        saveXY.restart()
+    onXChanged: {
+        if(!toplevel.startup)
+            saveXY.restart()
+    }
 
     Timer {
         id: saveXY
