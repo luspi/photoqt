@@ -136,12 +136,60 @@ Rectangle {
 
     property int normalEntryHeight: 20
 
+    PQTextXL {
+        anchors.fill: parent
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignVCenter
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        text: "No file loaded"
+        font.bold: PQCLook.fontWeightBold
+        color: PQCLook.textColorHighlight
+        visible: PQCFileFolderModel.countMainView===0
+    }
+
+    Rectangle {
+
+        id: heading
+
+        x: 10
+        y: 10
+        width: flickable.width
+        height: head_txt.height+10
+        color: PQCLook.transColorHighlight
+        radius: 5
+
+        PQTextXL {
+            id: head_txt
+            x: 5
+            y: 5
+            text: "Metadata"
+            font.weight: PQCLook.fontWeightBold
+            opacity: 0.8
+        }
+
+        MouseArea {
+            id: dragmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.SizeAllCursor
+            onWheel: (wheel) =>{
+                wheel.accepted = true
+            }
+            drag.target: metadata_top
+            drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
+            drag.minimumY: 0
+            drag.maximumY: toplevel.height-metadata_top.height
+        }
+
+    }
+
     Flickable {
 
         id: flickable
 
         anchors.fill: parent
         anchors.margins: 10
+        anchors.topMargin: heading.height+20
 
         contentHeight: flickable_col.height
 
@@ -155,38 +203,6 @@ Rectangle {
 
             spacing: 8
 
-            Rectangle {
-
-                width: flickable.width
-                height: head_txt.height+10
-                color: PQCLook.transColorHighlight
-                radius: 5
-
-                PQTextXL {
-                    id: head_txt
-                    x: 5
-                    y: 5
-                    text: "Metadata"
-                    font.weight: PQCLook.fontWeightBold
-                    opacity: 0.8
-                }
-
-                MouseArea {
-                    id: dragmouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.SizeAllCursor
-                    onWheel: (wheel) =>{
-                        wheel.accepted = true
-                    }
-                    drag.target: metadata_top
-                    drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
-                    drag.minimumY: 0
-                    drag.maximumY: toplevel.height-metadata_top.height
-                }
-
-            }
-
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File name")
                 valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
@@ -195,13 +211,13 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Dimensions")
-                valtxt: "%1 x %2".arg(PQCMetaData.exifPixelXDimension).arg(PQCMetaData.exifPixelYDimension)
+                valtxt: PQCFileFolderModel.countMainView>0 ? ("%1 x %2".arg(image.currentResolution.width).arg(image.currentResolution.height)) : ""
                 visible: PQCSettings.metadataDimensions
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Image")
-                valtxt: ((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)
+                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : ""
                 visible: PQCSettings.metadataImageNumber
             }
 

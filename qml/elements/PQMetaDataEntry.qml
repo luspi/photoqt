@@ -1,5 +1,7 @@
 import QtQuick
 
+import PQCFileFolderModel
+
 Column {
 
     id: entry
@@ -18,12 +20,14 @@ Column {
         id: which
         font.weight: PQCLook.fontWeightBold
         opacity: fadeout ? 0.4 : 1
+        visible: PQCFileFolderModel.countMainView>0
     }
 
     PQText {
         id: val
         text: "  " + (valtxt=="" ? "--" : valtxt)
         opacity: fadeout ? 0.4 : 1
+        visible: PQCFileFolderModel.countMainView>0
 
         PQMouseArea {
             anchors.fill: parent
