@@ -222,7 +222,15 @@ void PQCStartup::performChecksAndMigrations() {
 // These settings changed names
 bool PQCStartup::manageSettings() {
 
-    QSqlDatabase db = QSqlDatabase::database("settings");
+    QSqlDatabase db;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "startupsettings");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE", "startupsettings");
+    db.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+
+    if(!db.open())
+        qWarning() << "Error opening database:" << db.lastError().text();
 
     QMap<QString,QStringList> rename;
     rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";                             // 4.0
@@ -295,7 +303,15 @@ bool PQCStartup::manageSettings() {
 
 bool PQCStartup::manageShortcuts() {
 
-    QSqlDatabase db = QSqlDatabase::database("shortcuts");
+    QSqlDatabase db;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "validateshortcuts");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE", "validateshortcuts");
+    db.setDatabaseName(PQCConfigFiles::SHORTCUTS_DB());
+
+    if(!db.open())
+        qWarning() << "Error opening database:" << db.lastError().text();
 
     // delete old entries
     QSqlQuery query(db);
