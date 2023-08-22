@@ -81,10 +81,9 @@ void PQAsyncImageResponseThumb::loadImage() {
 
     // We always opt for the 256px resolution for the thumbnails,
     // as then we don't have to re-create thumbnails depending on change in settings
-    bool lookInCache = (m_requestedSize.width() == 256 && m_requestedSize.height() == 256);
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
-    if(lookInCache && PQSettings::get()["thumbnailsCache"].toBool()) {
+    if(PQSettings::get()["thumbnailsCache"].toBool()) {
 
         // If there exists a thumbnail of the current file already
         if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
@@ -167,7 +166,7 @@ void PQAsyncImageResponseThumb::loadImage() {
         p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create file cache thumbnail
-    if(lookInCache && PQSettings::get()["thumbnailsCache"].toBool() && msg != "x") {
+    if(PQSettings::get()["thumbnailsCache"].toBool() && msg != "x") {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
         if(!filename.startsWith(QString(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8())
