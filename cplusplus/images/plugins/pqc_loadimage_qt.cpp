@@ -31,6 +31,11 @@
 #include <QPainter>
 #include <QtDebug>
 
+#ifdef RESVG
+#include <ResvgQt.h>
+#endif
+
+
 PQCLoadImageQt::PQCLoadImageQt() {
 }
 
@@ -42,6 +47,15 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
     QString suffix = QFileInfo(filename).suffix().toLower();
 
     if(suffix == "svg") {
+
+#ifdef RESVG
+
+        ResvgOptions opt;
+        ResvgRenderer renderer(filename, opt);
+        return renderer.defaultSize();
+
+#else
+
 
         // For reading SVG files
         QSvgRenderer svg;
@@ -57,6 +71,8 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
 
         // Store the width/height for later use
         return svg.defaultSize();
+
+#endif
 
     } else {
 
@@ -107,7 +123,21 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(filename).suffix().toLower();
 
-    if(suffix == "svg") {
+    if(suffix == "svg" || suffix == "svgz") {
+
+#ifdef RESVG
+
+        ResvgOptions opt;
+        ResvgRenderer renderer(filename, opt);
+
+        if(maxSize.isValid())
+            img = renderer.renderToImage();
+        else
+            img = renderer.renderToImage(maxSize);
+
+        return "";
+
+#else
 
         // For reading SVG files
         QSvgRenderer svg;
@@ -132,6 +162,8 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         svg.render(&painter);
 
         return "";
+
+#endif
 
     } else {
 
