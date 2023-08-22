@@ -15,6 +15,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermo
 
 SET(d "cplusplus/singletons/engines")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_look.cpp ${d}/pqc_imageformats.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_location.cpp)
 
 SET(d "cplusplus/singletons/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.cpp ${d}/pqc_scriptsclipboard.cpp ${d}/pqc_scriptsconfig.cpp ${d}/pqc_scriptscontextmenu.cpp)
@@ -27,7 +28,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_sin
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.h ${d}/pqc_settings.h ${d}/pqc_shortcuts.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${d}/pqc_look.h ${d}/pqc_mpvobject.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodel.h ${d}/pqc_filefoldermodelcache.h ${d}/pqc_imageformats.h ${d}/pqc_providerfolderthumb.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_metadata.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_metadata.h ${d}/pqc_location.h)
 
 SET(d "cplusplus/header/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.h ${d}/pqc_scriptsclipboard.h ${d}/pqc_scriptsconfig.h ${d}/pqc_scriptscontextmenu.h)
