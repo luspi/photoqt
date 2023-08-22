@@ -21,6 +21,9 @@
  **************************************************************************/
 
 #include "loadimage_qt.h"
+#ifdef RESVG
+#include <ResvgQt.h>
+#endif
 
 PQLoadImageQt::PQLoadImageQt() {
     errormsg = "";
@@ -48,6 +51,18 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, boo
 
     if(suffix == "svg") {
 
+#ifdef RESVG
+
+        ResvgOptions opt;
+        ResvgRenderer renderer(filename, opt);
+
+        if(maxSize.isValid())
+            return renderer.renderToImage();
+
+        return renderer.renderToImage(maxSize);
+
+#else
+
         // For reading SVG files
         QSvgRenderer svg;
         QImage svg_image;
@@ -73,6 +88,8 @@ QImage PQLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, boo
         svg.render(&painter);
 
         return svg_image;
+
+#endif
 
     } else {
 

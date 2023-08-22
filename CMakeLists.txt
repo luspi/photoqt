@@ -53,6 +53,7 @@ option(CHROMECAST "Enable Chromecast support" ON)
 option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip." OFF)
 option(LIBVIPS "Use libvips" OFF)
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
+option(RESVG "Replace Qt's SVG engine with resvg for better SVG support" OFF)
 
 option(EXIV2_ENABLE_BMFF "Enable BMFF format support in Exiv2 (if available)" ON)
 
@@ -427,6 +428,14 @@ if(LOCATION)
     add_definitions(-DLOCATION)
 else()
     message("** Use of QtLocation/QtPosition DISABLED")
+endif()
+
+if(RESVG)
+    target_link_libraries(${PROJECT_NAME} "resvg")
+    message("** Using resvg " ${resvg_VERSION})
+    add_definitions(-DRESVG)
+else()
+    message("** resvg DISABLED")
 endif()
 
 
