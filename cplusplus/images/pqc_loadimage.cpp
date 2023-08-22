@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include <pqc_loadimage_qt.h>
+#include <pqc_loadimage_resvg.h>
 #include <pqc_loadimage_raw.h>
 #include <pqc_loadimage_poppler.h>
 #include <pqc_loadimage_qtpdf.h>
@@ -70,7 +71,11 @@ QSize PQCLoadImage::load(QString filename) {
 
     QSize sze;
 
-    if(PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
+    // resvg trumps Qt's SVG engine
+    if(PQCImageFormats::get().getEnabledFormatsResvg().contains(suffix))
+        sze = PQCLoadImageResvg::loadSize(filename);
+
+    if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
         sze = PQCLoadImageQt::loadSize(filename);
 
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
@@ -114,7 +119,11 @@ QSize PQCLoadImage::load(QString filename) {
 
         if(mimetype != "" && mimetype != "application/octet-stream") {
 
-            if(PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
+            // resvg trumps Qt's SVG engine
+            if(PQCImageFormats::get().getEnabledMimeTypesResvg().contains(mimetype))
+                sze = PQCLoadImageResvg::loadSize(filename);
+
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
                 sze = PQCLoadImageQt::loadSize(filename);
 
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
@@ -193,7 +202,11 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     //////////////////////////////////////////////
     // first we check for filename suffix matches
 
-    if(PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
+    // resvg trumps Qt's SVG engine
+    if(PQCImageFormats::get().getEnabledFormatsResvg().contains(suffix))
+        err = PQCLoadImageResvg::load(filename, requestedSize, origSize, img);
+
+    if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
         err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
 
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
@@ -237,7 +250,11 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 
         if(mimetype != "" && mimetype != "application/octet-stream") {
 
-            if(PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
+            // resvg trumps Qt's SVG engine
+            if(PQCImageFormats::get().getEnabledMimeTypesResvg().contains(suffix))
+                err = PQCLoadImageResvg::load(filename, requestedSize, origSize, img);
+
+            if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
                 err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
 
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
