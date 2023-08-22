@@ -354,7 +354,7 @@ Rectangle {
                     else if(PQCSettings.metadataGpsMap === "maps.google.com")
                         Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + valtxt)
                     else {
-                        Qt.openUrlExternally("https://www.openstreetmap.org/#map=15/" + PQCScriptsMetaData.convertGPSToDecimal(valtxt))
+                        Qt.openUrlExternally("https://www.openstreetmap.org/#map=15/" + PQCScriptsMetaData.convertGPSToDecimalForOpenStreetMap(valtxt))
                     }
                 }
             }

@@ -240,16 +240,6 @@ private:
     QString m_iptcLocation;
     QString m_iptcCopyright;
 
-    QString analyzeDateTimeOriginal(const QString val);
-    QString analyzeExposureTime(const QString val);
-    QString analyzeFlash(const QString val);
-    QString analyzeSceneCaptureType(const QString val);
-    QString analyzeFocalLength(const QString val);
-    QString analyzeFNumber(const QString val);
-    QString analyzeLightSource(const QString val);
-    QString analyzeGPS(QString latRef, QString lat, QString lonRef, QString lon);
-    QPointF convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QString gpsLonRef, QString gpsLon);
-
 private Q_SLOTS:
     void updateMetadata();
 
