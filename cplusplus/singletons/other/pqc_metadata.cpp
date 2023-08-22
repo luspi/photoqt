@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QtDebug>
 #include <QPointF>
+#include <QTimer>
 
 #ifdef EXIV2
 #include <exiv2/exiv2.hpp>
@@ -16,6 +17,9 @@ PQCMetaData &PQCMetaData::get() {
 }
 
 PQCMetaData::PQCMetaData(QObject *parent) : QObject(parent) {
+
+    loadDelay = new QTimer;
+    loadDelay->setInterval(500);
 
     m_validFile = true;
     m_fileSize = 0;
@@ -41,7 +45,8 @@ PQCMetaData::PQCMetaData(QObject *parent) : QObject(parent) {
     m_iptcLocation = "";
     m_iptcCopyright = "";
 
-    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentIndexChanged, this, [=](){updateMetadata(); });
+    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentIndexChanged, loadDelay, [=](){loadDelay->start(); });
+    connect(loadDelay, &QTimer::timeout, this, [=]() { updateMetadata(); });
 
 }
 

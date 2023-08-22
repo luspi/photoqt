@@ -26,6 +26,8 @@
 #include <QObject>
 #include <QtDebug>
 
+class QTimer;
+
 class PQCMetaData : public QObject {
 
     Q_OBJECT
@@ -209,6 +211,8 @@ public:
 
 private:
     PQCMetaData(QObject *parent = 0);
+
+    QTimer *loadDelay;
 
     void setEmptyData();
 
