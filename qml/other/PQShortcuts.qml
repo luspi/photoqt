@@ -107,7 +107,7 @@ Item {
                     combo += "Wheel Right"
             }
 
-            checkComboForShortcut(combo)
+            checkComboForShortcut(combo, angleDelta)
 
         }
 
@@ -318,10 +318,10 @@ Item {
             // image functions
 
             case "__zoomIn":
-                image.zoomIn()
+                image.zoomIn(wheelDelta)
                 break
             case "__zoomOut":
-                image.zoomOut()
+                image.zoomOut(wheelDelta)
                 break
             case "__zoomReset":
                 image.zoomReset()

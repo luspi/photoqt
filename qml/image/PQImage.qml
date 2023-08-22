@@ -39,8 +39,8 @@ Item {
 
     property string randomAnimation: "opacity"
 
-    signal zoomIn()
-    signal zoomOut()
+    signal zoomIn(var wheelDelta)
+    signal zoomOut(var wheelDelta)
     signal zoomReset()
     signal zoomActual()
     signal rotateClock()
@@ -108,20 +108,36 @@ Item {
                 // react to user commands
                 Connections {
                     target: image_top
-                    function onZoomIn() {
+                    function onZoomIn(wheelDelta) {
                         if(PQCFileFolderModel.currentIndex===index) {
-                            if(PQCSettings.imageviewZoomMaxEnabled)
-                                deleg.imageScale = Math.min(25, deleg.imageScale/0.9)
+
+                            // compute zoom factor based on wheel movement (if done by mouse)
+                            var zoomfactor
+                            if(wheelDelta !== undefined)
+                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(200-PQCSettings.imageviewZoomSpeed))))
                             else
-                                deleg.imageScale = Math.min(PQCSettings.imageviewZoomMax/100, deleg.imageScale/0.9)
+                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+
+                            if(PQCSettings.imageviewZoomMaxEnabled)
+                                deleg.imageScale = Math.min(PQCSettings.imageviewZoomMax/100, deleg.imageScale*zoomfactor)
+                            else
+                                deleg.imageScale = Math.min(25, deleg.imageScale*zoomfactor)
                         }
                     }
-                    function onZoomOut() {
+                    function onZoomOut(wheelDelta) {
                         if(PQCFileFolderModel.currentIndex===index) {
-                            if(PQCSettings.imageviewZoomMinEnabled)
-                                deleg.imageScale = Math.max(deleg.defaultScale*(PQCSettings.imageviewZoomMin/100), deleg.imageScale*0.9)
+
+                            // compute zoom factor based on wheel movement (if done by mouse)
+                            var zoomfactor
+                            if(wheelDelta !== undefined)
+                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(wheelDelta.y/(200-PQCSettings.imageviewZoomSpeed))))
                             else
-                                deleg.imageScale = Math.max(0.01, deleg.imageScale*0.9)
+                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+
+                            if(PQCSettings.imageviewZoomMinEnabled)
+                                deleg.imageScale = Math.max(deleg.defaultScale*(PQCSettings.imageviewZoomMin/100), deleg.imageScale/zoomfactor)
+                            else
+                                deleg.imageScale = Math.max(0.01, deleg.imageScale/zoomfactor)
                         }
                     }
                     function onZoomReset() {
