@@ -6,6 +6,7 @@ import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCNotify
+import PQCResolutionCache
 
 import "../elements"
 
@@ -36,6 +37,11 @@ Item {
     property real currentScale: 1
     property real currentRotation: 0
     property size currentResolution: Qt.size(0,0)
+
+    onCurrentResolutionChanged: {
+        if(currentResolution.height > 0 && currentResolution.width > 0)
+            PQCResolutionCache.saveResolution(PQCFileFolderModel.currentFile, currentResolution)
+    }
 
     property string randomAnimation: "opacity"
 
