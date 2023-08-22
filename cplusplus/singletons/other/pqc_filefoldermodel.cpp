@@ -35,6 +35,7 @@
 #include <pqc_loadimage.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfiledialog.h>
+#include <pqc_resolutioncache.h>
 
 #ifdef LIBARCHIVE
 #include <archive.h>
@@ -364,17 +365,15 @@ void PQCFileFolderModel::advancedSortMainView() {
 
     QtConcurrent::run([=]() {
 
-//        PQImageProviderFull *imageprovider = new PQImageProviderFull;
-//        PQLoadImage loader;
-
         QMap<qint64, QStringList> sortedWithKey;
 
         for(int i = 0; i < m_countMainView; ++i) {
 
-//            if(!advancedSortKeepGoing) {
-//                delete imageprovider;
-//                return;
-//            }
+            const QString fn = m_entriesMainView[i];
+
+            if(!advancedSortKeepGoing) {
+                return;
+            }
 
             // the key used for sorting
             // depending on the criteria, it is computed in different ways
@@ -382,14 +381,14 @@ void PQCFileFolderModel::advancedSortMainView() {
 
             if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "resolution") {
 
-//                QSize size = PQResolutionProvider::get().getResolution(m_entriesMainView[i]);
-//                if(!size.isValid()) {
-//                    size = loader.loadSize(m_entriesMainView[i]);
-//                    if(size.isValid())
-//                        PQResolutionProvider::get().saveResolution(m_entriesMainView[i], size);
-//                }
+                QSize size = PQCResolutionCache::get().getResolution(fn);
+                if(!size.isValid()) {
+                    size = PQCLoadImage::get().load(fn);
+                    if(size.isValid())
+                        PQCResolutionCache::get().saveResolution(fn, size);
+                }
 
-//                key = size.width()+size.height();
+                key = size.width()+size.height();
 
             } else if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "luminosity") {
 
