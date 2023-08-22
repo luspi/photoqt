@@ -452,10 +452,26 @@ Item {
 
                                     onPinchUpdated: (pinch) => {
 
-                                        var fact = (initialScale*pinch.scale)/image_wrapper.scale
+                                        var newscale = deleg.imageScale * ((initialScale*pinch.scale)/image_wrapper.scale)
+
+                                        if(PQCSettings.imageviewZoomMinEnabled) {
+                                            var min = deleg.defaultScale*(PQCSettings.imageviewZoomMin/100)
+                                            if(newscale < min)
+                                                newscale = min
+                                            else if(newscale < 0.01)
+                                                newscale = 0.01
+                                        }
+
+                                        if(PQCSettings.imageviewZoomMaxEnabled) {
+                                            var max = PQCSettings.imageviewZoomMax/100
+                                            if(newscale > max)
+                                                newscale = max
+                                            else if(newscale > 25)
+                                                newscale = 25
+                                        }
 
                                         // update scale factor
-                                        deleg.imageScale *= fact
+                                        deleg.imageScale = newscale
 
 
                                     }
