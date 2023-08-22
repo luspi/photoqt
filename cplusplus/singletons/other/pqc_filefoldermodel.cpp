@@ -546,9 +546,15 @@ void PQCFileFolderModel::advancedSortMainView() {
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
-//                QImage img = imageprovider->requestImage(QUrl::toPercentEncoding(m_entriesMainView[i], "", " "), &origSize, requestedSize);
-//                if(img.format() != QImage::Format_RGB32)
-//                    img.convertTo(QImage::Format_RGB32);
+                QImage img;
+                QString err = PQCLoadImage::get().load(fn, requestedSize, origSize, img);
+                if(err != "") {
+                    qWarning() << "Error loading image:" << err;
+                    continue;
+                }
+                PQCResolutionCache::get().saveResolution(fn, origSize);
+                if(img.format() != QImage::Format_RGB32)
+                    img.convertTo(QImage::Format_RGB32);
 
                 // Prepare the lists for the levels
                 QVector<qint64> red(256);
@@ -556,29 +562,27 @@ void PQCFileFolderModel::advancedSortMainView() {
                 QVector<qint64> blue(256);
 
                 // Loop over all rows of the image
-//                for(int i = 0; i < img.height(); ++i) {
+                for(int i = 0; i < img.height(); ++i) {
 
-//                    // Get the pixel data of row i of the image
-//                    QRgb *rowData = (QRgb*)img.scanLine(i);
+                    // Get the pixel data of row i of the image
+                    QRgb *rowData = (QRgb*)img.scanLine(i);
 
-//                    // Loop over all columns
-//                    for(int j = 0; j < img.width(); ++j) {
+                    // Loop over all columns
+                    for(int j = 0; j < img.width(); ++j) {
 
-//                        // Get pixel data of pixel at column j in row i
-//                        QRgb pixelData = rowData[j];
+                        // Get pixel data of pixel at column j in row i
+                        QRgb pixelData = rowData[j];
 
-//                        ++red[qRed(pixelData)];
-//                        ++green[qGreen(pixelData)];
-//                        ++blue[qBlue(pixelData)];
+                        ++red[qRed(pixelData)];
+                        ++green[qGreen(pixelData)];
+                        ++blue[qBlue(pixelData)];
 
-//                    }
+                    }
 
-//                }
-
-                if(!advancedSortKeepGoing) {
-                    //                    delete imageprovider;
-                    return;
                 }
+
+                if(!advancedSortKeepGoing)
+                    return;
 
                 qint64 red_val = 0;
                 qint64 green_val = 0;
@@ -622,8 +626,6 @@ void PQCFileFolderModel::advancedSortMainView() {
             Q_EMIT advancedSortDoneChanged();
 
         }
-
-//        delete imageprovider;
 
         if(!advancedSortKeepGoing) return;
 
