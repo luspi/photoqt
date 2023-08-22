@@ -84,7 +84,7 @@ Image {
             width: image.width
             height: image.height
             source: image.source
-            visible: Math.abs(deleg.defaultScale-image_wrapper.scale) < 1e-6
+            visible: deleg.defaultScale >= image_wrapper.scale
             sourceSize: Qt.size(screenW, screenH)
             mirror: image.mirror
             mirrorVertically: image.mirrorVertically
