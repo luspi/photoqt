@@ -93,8 +93,6 @@ public:
 
     void render() {
 
-//        obj->window()->resetOpenGLState();
-
         QOpenGLFramebufferObject *fbo = framebufferObject();
         mpv_opengl_fbo mpfbo;
         mpfbo.fbo = static_cast<int>(fbo->handle());
@@ -117,9 +115,6 @@ public:
         // other API details.
         mpv_render_context_render(obj->mpv_gl, params);
 
-        // when loading a new video while one is playing, the window() object might be invalid and cause a crash if left unchecked
-//        if(obj->window())
-//            obj->window()->resetOpenGLState();
     }
 };
 
@@ -173,7 +168,6 @@ QVariant PQCMPVObject::getProperty(const QString& name) {
 }
 
 QQuickFramebufferObject::Renderer *PQCMPVObject::createRenderer() const {
-//    window()->setPersistentOpenGLContext(true);
     window()->setPersistentSceneGraph(true);
     return new PQCMPVRenderer(const_cast<PQCMPVObject *>(this));
 }
