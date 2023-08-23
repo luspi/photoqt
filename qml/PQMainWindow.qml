@@ -115,7 +115,7 @@ Window {
 
     Timer {
         id: resetStartup
-        interval: 500
+        interval: 1000
         running: true
         onTriggered:
             toplevel.startup = false
@@ -126,6 +126,9 @@ Window {
             toplevel.opacity = 0
 
         toplevel.showMaximized()
+
+        if(PQCNotify.filePath !== "")
+            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
 
         if(PQCScriptsConfig.amIOnWindows())
             showOpacity.restart()

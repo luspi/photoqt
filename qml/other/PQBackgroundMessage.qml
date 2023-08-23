@@ -7,7 +7,7 @@ Item {
 
     width: toplevel.width
     height: toplevel.height
-    visible: PQCFileFolderModel.countMainView===0 && !toplevel.startup
+    visible: PQCFileFolderModel.countMainView===0 && PQCNotify.filePath===""
 
     Item {
         id: startmessage
