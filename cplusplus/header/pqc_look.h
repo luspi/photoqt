@@ -72,11 +72,13 @@ public:
     Q_PROPERTY(int fontSizeS READ getFontSizeS NOTIFY fontSizeSChanged)
     Q_PROPERTY(int fontSizeL READ getFontSizeL NOTIFY fontSizeLChanged)
     Q_PROPERTY(int fontSizeXL READ getFontSizeXL NOTIFY fontSizeXLChanged)
+    Q_PROPERTY(int fontSizeXXL READ getFontSizeXXL NOTIFY fontSizeXXLChanged)
     void setFontSize(int val);
     int getFontSize();
     int getFontSizeS();
     int getFontSizeL();
     int getFontSizeXL();
+    int getFontSizeXXL();
 
     void calculateFontSizes(int sze);
 
@@ -118,6 +120,7 @@ private:
     int m_fontSizeS;
     int m_fontSizeL;
     int m_fontSizeXL;
+    int m_fontSizeXXL;
 
     int m_fontWeightBold;
     int m_fontWeightNormal;
@@ -149,6 +152,7 @@ Q_SIGNALS:
     void fontSizeSChanged();
     void fontSizeLChanged();
     void fontSizeXLChanged();
+    void fontSizeXXLChanged();
 
     void fontWeightBoldChanged();
     void fontWeightNormalChanged();

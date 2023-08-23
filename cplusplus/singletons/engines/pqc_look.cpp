@@ -185,6 +185,7 @@ void PQCLook::setFontSize(int val) {
         Q_EMIT fontSizeSChanged();
         Q_EMIT fontSizeLChanged();
         Q_EMIT fontSizeXLChanged();
+        Q_EMIT fontSizeXXLChanged();
     }
 }
 
@@ -200,12 +201,16 @@ int PQCLook::getFontSizeL() {
 int PQCLook::getFontSizeXL() {
     return m_fontSizeXL;
 }
+int PQCLook::getFontSizeXXL() {
+    return m_fontSizeXXL;
+}
 
 void PQCLook::calculateFontSizes(int sze) {
     m_fontSize = sze;
     m_fontSizeS = sze-3;
     m_fontSizeL = sze+4;
     m_fontSizeXL = sze+9;
+    m_fontSizeXXL = sze+14;
 }
 
 /******************************************************/
