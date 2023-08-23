@@ -1075,21 +1075,28 @@ GridView {
                 cutFiles = []
         }
 
-        if(existing.length == 0 && nonexisting.length == 0)
-            PQCScriptsOther.inform("Nothing found", "There are no files/folders in the clipboard.")
+        if(existing.length == 0 && nonexisting.length == 0) {
+            modal.button2.visible = false
+            modal.show("Nothing found", "There are no files/folders in the clipboard.", "", [])
+        }
 
     }
 
     function deleteFiles() {
 
-        if(!PQCScriptsOther.confirm("Move to Trash?", "Are you sure you want to move all selected files/folders to the trash?"))
-            return
+        modal.button2.visible = true
 
-        if(currentFileSelected || (currentIndex===-1 && currentSelection.length)) {
-            for(var key in currentSelection)
-                PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[currentSelection[key]])
-        } else
-            PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[currentIndex])
+        if(currentFileSelected || (currentIndex===-1 && currentSelection.length))
+            modal.show("Move to Trash?",
+                       "Are you sure you want to move all selected files/folders to the trash?",
+                       "trash",
+                       currentSelection)
+        else
+            modal.show("Move to Trash?",
+                       "Are you sure you want to move all selected files/folders to the trash?",
+                       "trash",
+                       [currentIndex])
+        return
 
     }
 

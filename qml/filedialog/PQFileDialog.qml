@@ -1,9 +1,12 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCScriptsFileManagement
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsFileDialog
+
+import "../elements"
 
 Rectangle {
 
@@ -115,6 +118,10 @@ Rectangle {
                         if(pasteExisting.visible)
                             pasteExisting.hide()
 
+                        // modal confirmation popup
+                        else if(modal.visible)
+                            modal.hide()
+
                         // context menu
                         else if(fd_fileview.fileviewContextMenu.visible)
                             fd_fileview.fileviewContextMenu.close()
@@ -140,11 +147,35 @@ Rectangle {
                             hide()
 
                     } else {
-                        fd_fileview.handleKeyEvent(param[0], param[1])
+                        if((param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) && (pasteExisting.visible || modal.visible)) {
+                            if(modal.visible)
+                                modal.button1.clicked()
+                            else
+                                pasteExisting.hide()
+                        } else
+                            fd_fileview.handleKeyEvent(param[0], param[1])
                     }
                 }
             }
         }
+    }
+
+    PQModal {
+
+        id: modal
+
+        button1.text: button1.genericStringOk
+        button2.text: button1.genericStringCancel
+
+        onAccepted: {
+            if(action == "trash") {
+                for(var key in payload)
+                    PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[payload[key]])
+                fd_fileview.currentSelection = []
+                fd_fileview.currentCuts = []
+            }
+        }
+
     }
 
     Component.onCompleted: {
@@ -187,6 +218,11 @@ Rectangle {
             pasteExisting.hide()
             return
         }
+        if(modal.visible) {
+            modal.hide()
+            return
+        }
+
         opacity = 0
         loader.elementClosed(thisis)
     }
