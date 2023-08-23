@@ -148,7 +148,7 @@ Window {
 //        if(variables.slideShowActive)
 //            loader.passOn("slideshowcontrols", "quit", undefined)
 
-//        filefoldermodel.advancedSortMainViewCANCEL()
+        PQCFileFolderModel.advancedSortMainViewCANCEL()
 
 //        if(PQSettings.interfaceSaveWindowGeometry) {
 //            windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
