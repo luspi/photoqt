@@ -1252,7 +1252,7 @@ GridView {
             if(currentIndex < PQCFileFolderModel.countFoldersFileDialog)
                 filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[currentIndex])
             else {
-                console.log("LOAD THIS FILE")
+                loadOnClick(currentIndex)
             }
 
             view.currentSelection = []
