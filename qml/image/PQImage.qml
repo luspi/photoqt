@@ -73,7 +73,18 @@ Item {
                 visible: false
 
                 asynchronous: true
+
                 active: shouldBeShown || hasBeenSetup
+
+                // this ensures that if the image is no longer visible and more than 2 entries away from the current one
+                // then its active property is set to false (and consequently all memory freed)
+                Connections {
+                    target: PQCFileFolderModel
+                    onCurrentIndexChanged: {
+                        if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
+                            deleg.hasBeenSetup = false
+                    }
+                }
 
                 property bool shouldBeShown: PQCFileFolderModel.currentIndex===index || (image_top.currentlyVisibleIndex === index)
                 property bool hasBeenSetup: false
