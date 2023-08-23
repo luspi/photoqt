@@ -4,7 +4,9 @@
 #include <QImageReader>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
+#include <pqc_shortcuts.h>
 #include <pqc_validate.h>
+#include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsconfig.h>
 
 #ifdef LIBARCHIVE
@@ -309,8 +311,8 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
     if(reloadData) {
 
         PQCSettings::get().readDB();
-//        PQCShortcuts::get().readDB();
-//        PQCImageFormats::get().readDatabase();
+        PQCShortcuts::get().readDB();
+        PQCImageFormats::get().readDatabase();
 
         PQCValidate validate;
         validate.validate();
