@@ -41,15 +41,8 @@ int PQCStartup::check() {
 
     qDebug() << "";
 
-    QSqlDatabase db_location;
-
     // check if sqlite is available
-    // this is a hard requirement now and we wont launch PhotoQt without it
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
-        db_location = QSqlDatabase::addDatabase("QSQLITE3", "location");
-    } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
-        db_location = QSqlDatabase::addDatabase("QSQLITE", "location");
-    } else {
+    if(!QSqlDatabase::isDriverAvailable("QSQLITE3") && !QSqlDatabase::isDriverAvailable("QSQLITE")) {
         //: This is the window title of an error message box
         QMessageBox::critical(0, QCoreApplication::translate("PQCStartup", "SQLite error"),
                               QCoreApplication::translate("PQCStartup", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function!"));
@@ -57,17 +50,10 @@ int PQCStartup::check() {
         qFatal() << "PhotoQt cannot function without SQLite available.";
     }
 
-    // if no config files exist, then it is a fresh install
-    if(!QFile::exists(PQCConfigFiles::SETTINGS_DB()) ||
-       !QFile::exists(PQCConfigFiles::IMAGEFORMATS_DB()) ||
-       !QFile::exists(PQCConfigFiles::SHORTCUTS_DB())) {
-
-        db_location.setDatabaseName(PQCConfigFiles::LOCATION_DB());
-
+    // if no ettings db exist, then it is a fresh install
+    if(!QFile::exists(PQCConfigFiles::SETTINGS_DB()))
         return 2;
-    }
 
-    db_location.setDatabaseName(PQCConfigFiles::LOCATION_DB());
 
     // last time a dev version was run
     QString version = PQCSettings::get()["generalVersion"].toString();
