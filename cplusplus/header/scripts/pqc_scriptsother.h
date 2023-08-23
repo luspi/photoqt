@@ -17,8 +17,6 @@ public:
     PQCScriptsOther(PQCScriptsOther const&)     = delete;
     void operator=(PQCScriptsOther const&) = delete;
 
-    Q_INVOKABLE bool confirm(QString title, QString text);
-    Q_INVOKABLE void inform(QString title, QString text);
     Q_INVOKABLE qint64 getTimestamp();
 
 private:
