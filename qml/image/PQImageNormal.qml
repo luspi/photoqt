@@ -54,11 +54,13 @@ Image {
     // with a short delay we load a version of the image scaled to screen dimensions
     Timer {
         id: loadScaledDown
-        interval: 250
+        interval: (PQCSettings.imageviewAnimationDuration+1)*100    // this ensures it happens after the animation has stopped
         onTriggered: {
-            screenW = image_top.width
-            screenH = image_top.height
-            ldl.active = true
+            if(deleg.shouldBeShown) {
+                screenW = image_top.width
+                screenH = image_top.height
+                ldl.active = true
+            }
         }
     }
 
