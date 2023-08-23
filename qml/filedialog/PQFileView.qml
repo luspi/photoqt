@@ -118,12 +118,22 @@ GridView {
         visible: view.currentIndex===-1 || enableAnyways
 
         onClicked: (mouse) => {
+
+            // this does some basic click checking when a click occured *before* the cursor has been moved
+            var ind = view.indexAt(mouseX, view.contentY+mouseY)
+            if(ind !== -1) {
+                view.currentIndex = ind
+                enableAnyways = false
+                if(!PQCSettings.filedialogSingleClickSelect && mouse.button === Qt.LeftButton)
+                    loadOnClick(ind)
+                return
+            }
+
             if(mouse.button === Qt.RightButton) {
                 contextmenu.path = ""
                 contextmenu.popup()
-            } else {
+            } else
                 view.currentSelection = []
-            }
             enableAnyways = false
         }
         onPositionChanged: {
@@ -592,6 +602,12 @@ GridView {
                 }
 
                 onPressed: {
+
+                    if(!contextmenu.visible)
+                        view.currentIndex = index
+                    else
+                        contextmenu.setCurrentIndexToThisAfterClose = index
+
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
                     parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (currentFileSelected ? currentSelection.length : 1)
@@ -690,6 +706,11 @@ GridView {
 
                 onClicked: (mouse) => {
 
+                    if(!contextmenu.visible)
+                        view.currentIndex = index
+                    else
+                        contextmenu.setCurrentIndexToThisAfterClose = index
+
                     if(mouse.button === Qt.RightButton) {
                         contextmenu.path = deleg.currentPath;
                         contextmenu.setCurrentIndexToThisAfterClose = index;
@@ -776,14 +797,8 @@ GridView {
 
                         } else {
 
-                            if(index < PQCFileFolderModel.countFoldersFileDialog)
-                                filedialog_top.loadNewPath(deleg.currentPath)
-                            else {
-                                PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
-                                filedialog_top.hide()
-                            }
+                            loadOnClick(index)
 
-                            view.currentSelection = []
                         }
                     }
 
@@ -877,8 +892,13 @@ GridView {
         property string path: ""
 
         onPathChanged: {
-            isFolder = PQCScriptsFilesPaths.isFolder(path)
-            isFile = !isFolder
+            if(path == "") {
+                isFolder = false
+                isFile = false
+            } else {
+                isFolder = PQCScriptsFilesPaths.isFolder(path)
+                isFile = !isFolder
+            }
         }
 
         property int setCurrentIndexToThisAfterClose: -1
@@ -1001,6 +1021,20 @@ GridView {
                 PQCSettings.filedialogDetailsTooltip = !PQCSettings.filedialogDetailsTooltip
         }
 
+
+    }
+
+    // this has been pulled out of the delegate to allow clicks at startup without moving the mouse to be handled
+    function loadOnClick(index) {
+
+        if(index < PQCFileFolderModel.countFoldersFileDialog)
+            filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
+        else {
+            PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
+            filedialog_top.hide()
+        }
+
+        view.currentSelection = []
 
     }
 
