@@ -18,6 +18,8 @@ public:
     void operator=(PQCScriptsOther const&) = delete;
 
     Q_INVOKABLE qint64 getTimestamp();
+    Q_INVOKABLE void takeScreenshots();
+    Q_INVOKABLE void deleteScreenshots();
 
 private:
     PQCScriptsOther();

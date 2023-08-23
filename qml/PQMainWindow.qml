@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Window
 
+import PQCScriptsOther
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCNotify
@@ -157,6 +158,8 @@ Window {
             PQCScriptsConfig.setLastLoadedImage(PQCFileFolderModel.currentFile)
         else
             PQCScriptsConfig.deleteLastLoadedImage()
+
+        PQCScriptsOther.deleteScreenshots()
 //        handlingGeneral.cleanUpScreenshotsTakenAtStartup()
 
 //        if(PQCScriptsConfig.amIOnWindows())
