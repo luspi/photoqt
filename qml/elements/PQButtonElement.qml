@@ -61,7 +61,7 @@ Button {
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
 
-        color: (down ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+        color: (down ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 
