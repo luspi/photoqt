@@ -204,7 +204,7 @@ Item {
                     // this is done inside the sourceComponent as non-active loaders don't need to check this
                     Connections {
                         target: PQCFileFolderModel
-                        onCurrentIndexChanged: {
+                        function onCurrentIndexChanged() {
                             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                                 deleg.hasBeenSetup = false
                         }
