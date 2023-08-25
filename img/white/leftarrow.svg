@@ -1,21 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1"
-	 id="svg6" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
-	 style="enable-background:new 0 0 512 512;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#FFFFFF;}
-</style>
-<sodipodi:namedview  bordercolor="#666666" borderopacity="1.0" id="namedview8" inkscape:current-layer="svg6" inkscape:cx="315.01607" inkscape:cy="207.18229" inkscape:deskcolor="#d1d1d1" inkscape:pagecheckerboard="true" inkscape:pageopacity="0.0" inkscape:showpageshadow="2" inkscape:window-height="1051" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="0" inkscape:window-y="0" inkscape:zoom="1.4142136" pagecolor="#ffffff" showgrid="false">
-	</sodipodi:namedview>
-<g>
-	<path class="st0" d="M252.1,416c-6.6,0-13.1-2.1-18.7-6.1L20.1,257.2c-2.9-2.1-4.6-5.4-4.5-8.9c0-3.5,1.7-6.7,4.5-8.7L233.5,87
-		c5.6-4,12-6.1,18.7-6.1c15.6,0,32.4,12.4,32.4,32.4v43.4h211.2v183.5H284.5v43.4C284.5,403.6,267.7,416,252.1,416z"/>
-	<path d="M252.2,81.9c16.2,0,31.4,12.9,31.4,31.4v44.4h211.2v181.5H283.5v44.4c0,18.5-15.2,31.4-31.4,31.4c-6.1,0-12.4-1.8-18.1-5.9
-		L20.7,256.4c-5.5-4-5.5-12.1,0-16L234.1,87.8C239.8,83.7,246.1,81.9,252.2,81.9 M252.2,79.9c-6.9,0-13.5,2.2-19.3,6.3L19.5,238.8
-		c-3.1,2.2-4.9,5.7-5,9.5c0,3.9,1.8,7.4,4.9,9.7l213.3,152.7c5.7,4.1,12.4,6.3,19.2,6.3c8.5,0,17-3.4,23.2-9.3
-		c6.6-6.3,10.2-14.8,10.2-24.1v-42.4h209.3h2v-2V157.7v-2h-2H285.6v-42.4c0-9.3-3.6-17.8-10.2-24.1
-		C269.1,83.3,260.7,79.9,252.2,79.9L252.2,79.9z"/>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+ <path d="m252.1 416c-6.6 0-13.1-2.1-18.7-6.1l-213.3-152.7c-2.9-2.1-4.6-5.4-4.5-8.9 0-3.5 1.7-6.7 4.5-8.7l213.4-152.6c5.6-4 12-6.1 18.7-6.1 15.6 0 32.4 12.4 32.4 32.4v43.4h211.2v183.5h-211.3v43.4c0 20-16.8 32.4-32.4 32.4z" fill="#fff"/>
+ <path d="m252.2 81.9c16.2 0 31.4 12.9 31.4 31.4v44.4h211.2v181.5h-211.3v44.4c0 18.5-15.2 31.4-31.4 31.4-6.1 0-12.4-1.8-18.1-5.9l-213.3-152.7c-5.5-4-5.5-12.1 0-16l213.4-152.6c5.7-4.1 12-5.9 18.1-5.9m0-2c-6.9 0-13.5 2.2-19.3 6.3l-213.4 152.6c-3.1 2.2-4.9 5.7-5 9.5 0 3.9 1.8 7.4 4.9 9.7l213.3 152.7c5.7 4.1 12.4 6.3 19.2 6.3 8.5 0 17-3.4 23.2-9.3 6.6-6.3 10.2-14.8 10.2-24.1v-42.4h211.3v-185.5h-211v-42.4c0-9.3-3.6-17.8-10.2-24.1-6.3-5.9-14.7-9.3-23.2-9.3z"/>
 </svg>
