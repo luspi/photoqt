@@ -82,6 +82,10 @@ void PQCMetaData::updateMetadata() {
     // we always start with empty data fields
     setEmptyData();
 
+    // make sure a currentIndex is set
+    if(PQCFileFolderModel::get().getCurrentIndex() == -1)
+        return;
+
     QString path = PQCFileFolderModel::get().getEntriesMainView()[PQCFileFolderModel::get().getCurrentIndex()];
 
     if(path == "") {
