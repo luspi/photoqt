@@ -7,7 +7,9 @@ localization:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y qt6-l10n-tools openssh-client git wget
+    - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget
+    - qtchooser -install qt6 $(which qmake6)
+    - export QT_SELECT=qt6
     - eval `ssh-agent -s`
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
