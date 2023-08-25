@@ -195,4 +195,12 @@ PQTemplateFullscreen {
 
     }
 
+    function show() {
+        exist_top.opacity = 1
+    }
+
+    function hide() {
+        exist_top.opacity = 0
+    }
+
 }
