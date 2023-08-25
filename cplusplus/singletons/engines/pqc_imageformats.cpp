@@ -390,17 +390,18 @@ QVariantList PQCImageFormats::getWriteableFormats() {
     QVariantList ret;
 
     QImageWriter writer;
-    QSqlQuery query("SELECT * FROM imageformats ORDER BY qt DESC", db);
+    QSqlQuery query("SELECT uniqueid,qt_formatname,endings,description,im_gm_magick FROM imageformats ORDER BY qt DESC, description ASC", db);
     while(query.next()) {
 
-        QString qt_formatname = query.record().value("qt_formatname").toString();
-        const QString endings = query.record().value("endings").toString();
-        const QString description = query.record().value("description").toString();
-        const QString magick = query.record().value("im_gm_magick").toString();
+        const QString uniqueid = query.value(0).toString();
+        QString qt_formatname = query.value(1).toString();
+        const QString endings = query.value(2).toString();
+        const QString description = query.value(3).toString();
+        const QString magick = query.value(4).toString();
 
         bool qt = false;
         bool imgm = false;
-        if(qt_formatname != "" &&writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
+        if(qt_formatname != "" && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
             qt = true;
 #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
         else if(magick != "") {
@@ -416,7 +417,7 @@ QVariantList PQCImageFormats::getWriteableFormats() {
 
             QVariantList entry;
             entry << (qt&&imgm ? "qt/magick" : (qt ? "qt" : "magick"));
-            entry << endings << description << magick;
+            entry << uniqueid << endings << description << magick;
 
             ret << QVariant::fromValue(entry);
         }
@@ -426,15 +427,57 @@ QVariantList PQCImageFormats::getWriteableFormats() {
 
 }
 
-QVariantMap PQCImageFormats::getFormatsInfo(QString endings) {
+QString PQCImageFormats::getFormatName(int uniqueid) {
 
-    qDebug() << "args: endings =" << endings;
+    qDebug() << "args: uniqueid =" << uniqueid;
+
+    QSqlQuery query(db);
+    query.prepare("SELECT description FROM imageformats WHERE uniqueid=:uniqueid");
+    query.bindValue(":uniqueid", uniqueid);
+    if(!query.exec()) {
+        qWarning() << "SQL Query error:" << query.lastError().text();
+        return "[unknown]";
+    }
+
+    if(!query.next()) {
+        qWarning() << "No SQL results returned";
+        return "[unknown]";
+    }
+
+    return query.value(0).toString();
+
+}
+
+QStringList PQCImageFormats::getFormatEndings(int uniqueid) {
+
+    qDebug() << "args: uniqueid =" << uniqueid;
+
+    QSqlQuery query(db);
+    query.prepare("SELECT endings FROM imageformats WHERE uniqueid=:uniqueid");
+    query.bindValue(":uniqueid", uniqueid);
+    if(!query.exec()) {
+        qWarning() << "SQL Query error:" << query.lastError().text();
+        return QStringList();
+    }
+
+    if(!query.next()) {
+        qWarning() << "No SQL results returned";
+        return QStringList();
+    }
+
+    return query.value(0).toString().split(",");
+
+}
+
+QVariantMap PQCImageFormats::getFormatsInfo(int uniqueid) {
+
+    qDebug() << "args: uniqueid =" << uniqueid;
 
     QVariantMap ret;
 
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM imageformats WHERE endings=:endings");
-    query.bindValue(":endings", endings);
+    query.prepare("SELECT * FROM imageformats WHERE uniqueid=:uniqueid");
+    query.bindValue(":uniqueid", uniqueid);
     if(!query.exec()) {
         qWarning() << "SQL Query error:" << query.lastError().text();
         return ret;
@@ -445,7 +488,8 @@ QVariantMap PQCImageFormats::getFormatsInfo(QString endings) {
         return ret;
     }
 
-    ret.insert("endings", endings);
+    ret.insert("uniqueid", uniqueid);
+    ret.insert("endings", query.record().value("endings"));
     ret.insert("mimetypes", query.record().value("mimetypes"));
     ret.insert("description", query.record().value("description"));
     ret.insert("category", query.record().value("category"));

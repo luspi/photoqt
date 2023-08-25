@@ -21,8 +21,13 @@ public:
     Q_INVOKABLE bool deletePermanent(QString filename);
     Q_INVOKABLE bool moveFileToTrash(QString filename);
 
+    Q_INVOKABLE void exportImage(QString sourceFilename, QString targetFilename, int uniqueid);
+
 private:
     PQCScriptsFileManagement();
+
+Q_SIGNALS:
+    void exportCompleted(bool success);
 
 };
 

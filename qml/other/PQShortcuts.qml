@@ -377,8 +377,10 @@ Item {
 //                break
 //            case "__deleteTrash":
 //                break
-//            case "__saveAs":
-//                break
+            case "__saveAs":
+            case "__export":
+                loader.show("export")
+                break
             case "__defaultFileManager":
                 if(PQCFileFolderModel.countMainView > 0)
                     PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)

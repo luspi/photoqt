@@ -46,7 +46,9 @@ PQMenu {
 
     PQMenuItem {
         iconSource: "/white/convert.svg"
-        text: qsTranslate("contextmenu", "Convert to different format")
+        text: qsTranslate("contextmenu", "Export to different format")
+        onClicked:
+            PQCNotify.executeInternalCommand("__export")
     }
 
     PQMenuItem {

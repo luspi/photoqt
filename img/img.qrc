@@ -61,5 +61,8 @@
         <file>white/faces.svg</file>
         <file>white/scale.svg</file>
         <file>white/wallpaper.svg</file>
+        <file>white/star_empty.svg</file>
+        <file>white/star.svg</file>
+        <file>white/checkmark.svg</file>
     </qresource>
 </RCC>

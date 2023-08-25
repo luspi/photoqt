@@ -79,6 +79,7 @@ Window {
     Loader { id: loader_advancedsortbusy }
     Loader { id: loader_chromecast }
     Loader { id: loader_copymove }
+    Loader { id: loader_export }
     Loader { id: loader_filedelete }
     Loader { id: loader_filedialog }
     Loader { id: loader_filerename }

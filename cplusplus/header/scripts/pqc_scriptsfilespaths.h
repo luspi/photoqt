@@ -21,7 +21,9 @@ public:
     Q_INVOKABLE static QString cleanPath_windows(QString path);
     Q_INVOKABLE QString pathWithNativeSeparators(QString path);
     Q_INVOKABLE QString getSuffix(QString path);
+    Q_INVOKABLE QString getBasename(QString fullpath);
     Q_INVOKABLE QString getFilename(QString fullpath);
+    Q_INVOKABLE QString getDir(QString fullpath);
     Q_INVOKABLE QDateTime getFileModified(QString path);
     Q_INVOKABLE QString getFileType(QString path);
     Q_INVOKABLE QString getFileSizeHumanReadable(QString path);
@@ -34,6 +36,7 @@ public:
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE bool isExcludeDirFromCaching(QString filename);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
+    Q_INVOKABLE QString selectFileFromDialog(QString preselectFile, int formatId, bool confirmOverwrite);
 
 private:
     PQCScriptsFilesPaths();

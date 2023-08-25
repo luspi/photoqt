@@ -262,7 +262,7 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
 bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
 
-    if(e->type() == QEvent::KeyPress) {
+    if(e->type() == QEvent::KeyPress && !PQCNotify::get().getModalFileDialogOpen()) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
         Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
         return true;

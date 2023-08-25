@@ -12,6 +12,7 @@ Item {
         "advancedsortbusy"    : ["actions/PQAdvancedSortBusy", loader_advancedsortbusy, 1],
         "chromecast"          : ["ongoing/PQChromecast", loader_chromecast, 1],
         "copymove"            : ["actions/PQCopyMove", loader_copymove, 1],
+        "export"              : ["actions/PQExport", loader_export, 1],
         "filedelete"          : ["actions/PQDelete", loader_filedelete, 1],
         "filedialog"          : ["filedialog/PQFileDialog", loader_filedialog, 1],
         "filerename"          : ["actions/PQRename", loader_filerename, 1],
@@ -50,7 +51,7 @@ Item {
         if(!(e in loadermapping))
             return
 
-        if(loadermapping[e][2] == 1 && numVisible > 0)
+        if(loadermapping[e][2] === 1 && numVisible > 0)
             return
         numVisible += 1
 
@@ -61,7 +62,7 @@ Item {
     }
 
     function elementClosed(ele) {
-        if(ele in loadermapping && loadermapping[ele][2] == 1)
+        if(ele in loadermapping && loadermapping[ele][2] === 1)
             numVisible -= 1
     }
 

@@ -1,5 +1,7 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settings.h>
+#include <pqc_notify.h>
+#include <pqc_imageformats.h>
 #include <QtLogging>
 #include <QtDebug>
 #include <QDir>
@@ -8,6 +10,7 @@
 #include <QStorageInfo>
 #include <QCollator>
 #include <QDesktopServices>
+#include <QFileDialog>
 
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
 
@@ -77,12 +80,30 @@ QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
 }
 
+QString PQCScriptsFilesPaths::getBasename(QString fullpath) {
+
+    if(fullpath == "")
+        return "";
+
+    return QFileInfo(fullpath).baseName();
+
+}
+
 QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
 
     if(fullpath == "")
         return "";
 
     return QFileInfo(fullpath).fileName();
+
+}
+
+QString PQCScriptsFilesPaths::getDir(QString fullpath) {
+
+    if(fullpath == "")
+        return "";
+
+    return QFileInfo(fullpath).absolutePath();
 
 }
 
@@ -256,5 +277,41 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(filename).absolutePath()));
 
 #endif
+
+}
+
+QString PQCScriptsFilesPaths::selectFileFromDialog(QString preselectFile, int formatId, bool confirmOverwrite) {
+
+    QFileInfo info(preselectFile);
+
+    PQCNotify::get().setModalFileDialogOpen(true);
+
+    const QStringList endings = PQCImageFormats::get().getFormatEndings(formatId);
+
+    QFileDialog diag;
+    diag.setLabelText(QFileDialog::Accept, "Export");
+    diag.setFileMode(QFileDialog::AnyFile);
+    diag.setModal(true);
+    if(!confirmOverwrite)
+        diag.setOption(QFileDialog::DontConfirmOverwrite);
+    diag.setOption(QFileDialog::DontUseNativeDialog, false);
+    diag.setNameFilter("*."+endings.join(" *."));
+    diag.setDirectory(info.absolutePath());
+    diag.selectFile(info.baseName() + "." + endings[0]);
+
+    if(diag.exec()) {
+        QStringList fileNames = diag.selectedFiles();
+        if(fileNames.length() > 0) {
+            PQCNotify::get().setModalFileDialogOpen(false);
+            QString fn = fileNames[0];
+            QFileInfo newinfo(fn);
+            if(newinfo.suffix() == "")
+                return fn+"."+endings[0];
+            return fn;
+        }
+    }
+
+    PQCNotify::get().setModalFileDialogOpen(false);
+    return "";
 
 }

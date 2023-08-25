@@ -1,15 +1,24 @@
 #include <scripts/pqc_scriptsfilemanagement.h>
 #include <pqc_configfiles.h>
+#include <pqc_imageformats.h>
+#include <pqc_loadimage.h>
 #include <QtDebug>
 #include <QFileInfo>
 #include <QDir>
 #include <QUrl>
 #include <QStorageInfo>
 #include <QDirIterator>
+#include <QImageWriter>
+#include <QtConcurrent>
 #ifdef WIN32
 #include <thread>
 #else
 #include <unistd.h>
+#endif
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#include <Magick++/CoderInfo.h>
+#include <Magick++/Exception.h>
+#include <Magick++/Image.h>
 #endif
 
 PQCScriptsFileManagement::PQCScriptsFileManagement() {}
@@ -81,5 +90,120 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
 #else
     return QFile::moveToTrash(filename);
 #endif
+
+}
+
+void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targetFilename, int uniqueid) {
+
+    qDebug() << "args: sourceFilename =" << sourceFilename;
+    qDebug() << "args: targetFilename =" << targetFilename;
+    qDebug() << "args: uniqueid =" << uniqueid;
+
+    QtConcurrent::run([=]() {
+
+        // get info about new file format and source file
+        QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
+
+        // First we load the image...
+        QSize tmp;
+        QImage img;
+        PQCLoadImage::get().load(sourceFilename, QSize(-1,-1), tmp, img);
+
+        // we convert the image to this tmeporary file and then copy it to the right location
+        // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+        QString tmpImagePath = PQCConfigFiles::CACHE_DIR() + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
+        if(QFile::exists(tmpImagePath))
+            QFile::remove(tmpImagePath);
+
+        // qt might support it
+        if(databaseinfo.value("qt").toInt() == 1) {
+
+            QImageWriter writer;
+
+            // if the QImageWriter supports the format then we're good to go
+            if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString())) {
+
+                // ... and then we write it into the new format
+                writer.setFileName(tmpImagePath);
+                writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
+
+                // if the actual writing suceeds we're done now
+                if(!writer.write(img))
+                    qWarning() << "ERROR:" << writer.errorString();
+                else {
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+                    Q_EMIT exportCompleted(true);
+                    return;
+                }
+
+            }
+
+        }
+
+    // imagemagick/graphicsmagick might support it
+    #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+    #ifdef IMAGEMAGICK
+        if(databaseinfo.value("imagemagick").toInt() == 1) {
+    #else
+        if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+    #endif
+
+            // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+            bool canproceed = false;
+            try {
+                QString magick = databaseinfo.value("im_gm_magick").toString();
+                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                if(magickCoderInfo.isWritable())
+                    canproceed = true;
+            } catch(Magick::Exception &) { }
+
+            // yes, it's supported
+            if(canproceed) {
+
+                try {
+
+                    // first we write the QImage to a temporary file
+                    // then we load it into magick and write it to the target file
+
+                    // find unique temporary path
+                    QString tmppath = PQCConfigFiles::CACHE_DIR() + "/converttmp.ppm";
+                    if(QFile::exists(tmppath))
+                        QFile::remove(tmppath);
+
+                    img.save(tmppath);
+
+                    // load image and write to target file
+                    Magick::Image image;
+                    image.magick("PPM");
+                    image.read(tmppath.toStdString());
+
+                    image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                    image.write(tmpImagePath.toStdString());
+
+                    // remove temporary file
+                    QFile::remove(tmppath);
+
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+
+                    // success!
+                    Q_EMIT exportCompleted(true);
+                    return;
+
+                } catch(Magick::Exception &) { }
+
+            }
+
+        }
+
+    #endif
+
+        // unsuccessful conversion...
+        Q_EMIT exportCompleted(false);
+
+    });
 
 }

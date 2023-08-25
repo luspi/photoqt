@@ -68,6 +68,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool modalFileDialogOpen READ getModalFileDialogOpen WRITE setModalFileDialogOpen NOTIFY modalFileDialogOpenChanged)
+    void setModalFileDialogOpen(bool val);
+    Q_INVOKABLE bool getModalFileDialogOpen();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -84,12 +90,16 @@ private:
     int m_thumbs;
     bool m_startInTray;
 
+    bool m_modalFileDialogOpen;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
     void freshInstallChanged();
     void thumbsChanged();
     void startInTrayChanged();
+
+    void modalFileDialogOpenChanged();
 
     // these are kept similar to the
     void cmdOpen();

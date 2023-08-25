@@ -54,3 +54,13 @@ void PQCNotify::setStartInTray(bool val) {
 bool PQCNotify::getStartInTray() {
     return m_startInTray;
 }
+
+void PQCNotify::setModalFileDialogOpen(bool val) {
+    if(val != m_modalFileDialogOpen) {
+        m_modalFileDialogOpen = val;
+        Q_EMIT modalFileDialogOpenChanged();
+    }
+}
+bool PQCNotify::getModalFileDialogOpen() {
+    return m_modalFileDialogOpen;
+}
