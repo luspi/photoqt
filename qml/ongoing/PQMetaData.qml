@@ -41,12 +41,12 @@ Rectangle {
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
 
     onYChanged: {
-        if(!toplevel.startup)
+        if(!toplevel.startup && dragmouse.drag.active)
             saveXY.restart()
     }
 
     onXChanged: {
-        if(!toplevel.startup)
+        if(!toplevel.startup && dragmouse.drag.active)
             saveXY.restart()
     }
 
