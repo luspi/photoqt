@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 
 ComboBox {
 
@@ -40,7 +40,7 @@ ComboBox {
         width: control.width
         height: 40
         contentItem: Text {
-            text: prefix+(firstItemEmphasized&&index==0 ? modelData.toUpperCase() : modelData)
+            text: prefix+(firstItemEmphasized&&index===0 ? modelData.toUpperCase() : modelData)
             color: PQCLook.textColor
             font: control.font
             elide: Text.ElideRight

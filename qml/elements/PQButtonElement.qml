@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 
 Button {
 
@@ -33,6 +33,7 @@ Button {
     font.pointSize: PQCLook.fontSizeL
     font.weight: PQCLook.fontWeightBold
 
+    flat: true
     opacity: enabled ? 1 : 0.3
 
     property alias tooltip: mouseArea.text
@@ -60,7 +61,6 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-
         color: (down ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
