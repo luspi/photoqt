@@ -21,6 +21,8 @@ QSize PQCLoadImageResvg::loadSize(QString filename) {
 
 #endif
 
+    return QSize();
+
 }
 
 QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize, QImage &img) {
@@ -41,5 +43,7 @@ QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize
     return "";
 
 #endif
+
+    return "";
 
 }
