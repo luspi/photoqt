@@ -106,9 +106,12 @@ Rectangle {
         target: loader
         function onPassOn(what, param) {
             if(what === "show") {
+
                 if(param === thisis)
                     show()
+
             } else if(filedialog_top.opacity > 0) {
+
                 if(what === "keyEvent") {
 
                     // close something
@@ -156,7 +159,19 @@ Rectangle {
                             fd_fileview.handleKeyEvent(param[0], param[1])
                     }
                 }
+
             }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.BackButton|Qt.ForwardButton
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.BackButton)
+                goBackInHistory()
+            else if(mouse.button === Qt.ForwardButton)
+                goForwardsInHistory()
         }
     }
 
