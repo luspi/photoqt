@@ -110,7 +110,7 @@ PQTemplateFullscreen {
                 Column {
                     id: favcol
                     width: Math.min(600, convert_top.width-100)
-                    spacing: 10
+                    spacing: 5
 
                     property int currentIndex: -1
                     property int currentHover: -1
@@ -136,20 +136,37 @@ PQTemplateFullscreen {
 
                         Rectangle {
 
+                            id: favdeleg
+
+                            property string myid: favs[index]
+
                             width: favcol.width
-                            height: 30
+                            height: favsrow.height+10
                             radius: 5
 
                             property bool hovered: favcol.currentHover===index
+                            property bool isActive: targetFormat===favdeleg.myid
 
-                            color: targetFormat===favs[index] ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                            color: isActive ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
                             Behavior on color { ColorAnimation { duration: 200 } }
 
-                            PQText {
-                                anchors.centerIn: parent
-                                color: targetFormat===favs[index] ? PQCLook.textColorActive : PQCLook.textColor
-                                Behavior on color { ColorAnimation { duration: 200 } }
-                                text: PQCImageFormats.getFormatName(favs[index])
+                            Row {
+                                id: favsrow
+                                x: 5
+                                y: 5
+                                spacing: 10
+                                PQText {
+                                    text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.")
+                                    color: favdeleg.isActive ? PQCLook.textColorActive : PQCLook.textColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                }
+                                PQTextS {
+                                    y: (parent.height-height)/2
+                                    font.italic: true
+                                    text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")"
+                                    color: favdeleg.isActive ? PQCLook.textColorActive : PQCLook.textColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                }
                             }
                             Image {
                                 id: rem
@@ -231,7 +248,6 @@ PQTemplateFullscreen {
                 anchors.fill: parent
                 anchors.margins: 1
 
-                maximumFlickVelocity: 1000
                 boundsBehavior: Flickable.StopAtBounds
 
                 ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
