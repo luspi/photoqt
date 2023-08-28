@@ -15,8 +15,8 @@ PQTemplateFullscreen {
     id: convert_top
 
     thisis: "export"
-    popout: false
-    shortcut: ""
+    popout: PQCSettings.interfacePopoutExport
+    shortcut: "__export"
 
     //: title of action element
     title: qsTranslate("export", "Export image")
@@ -39,6 +39,11 @@ PQTemplateFullscreen {
 
     button2.onClicked:
         hide()
+
+    onPopoutChanged:
+        PQCSettings.interfacePopoutExport = popout
+
+    /***************************************************************/
 
     // the favs are shown on a label and are used to identify the respective entry in the listview
     property var favs: PQCSettings.exportFavorites
@@ -235,7 +240,6 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             width: Math.min(600, convert_top.width-100)
             height: Math.min(400, convert_top.height-bottomrowHeight-toprowHeight-targettxt1.height-targettxt2.height-favs_item.height-120)
-            onHeightChanged: console.log(height)
 
             color: PQCLook.baseColor
             border.width: 1
@@ -627,6 +631,8 @@ PQTemplateFullscreen {
             return
         }
         convert_top.opacity = 1
+        if(PQCSettings.interfacePopoutExport && !exportpopout_top.visible)
+            exportpopout_top.show()
     }
 
     function hide() {

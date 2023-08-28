@@ -23,6 +23,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import PQCNotify
+
 Rectangle {
 
     id: ele_top
@@ -37,6 +39,8 @@ Rectangle {
     property string thisis
     property bool popout
     property string shortcut
+
+    // similarly a hide() and show() function is required
 
     /////////
 
@@ -67,7 +71,7 @@ Rectangle {
     /////////
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: popout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
@@ -204,36 +208,34 @@ Rectangle {
 
     }
 
-//    Image {
-//        x: 5
-//        y: 5
-//        width: 15
-//        height: 15
-//        source: "/popin.svg"
-//        sourceSize: Qt.size(width, height)
-//        opacity: popinmouse.containsMouse ? 1 : 0.4
-//        Behavior on opacity { NumberAnimation { duration: 200 } }
-//        visible: showPopinPopout
-//        PQMouseArea {
-//            id: popinmouse
-//            anchors.fill: parent
-//            hoverEnabled: true
-//            cursorShape: Qt.PointingHandCursor
-//            tooltip: ele_top.popout ?
-//                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-//                         em.pty+qsTranslate("popinpopout", "Merge into main interface") :
-//                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-//                         em.pty+qsTranslate("popinpopout", "Move to its own window")
-//            onClicked: {
-//                if(!showPopinPopout)
-//                    return
-//                if(ele_top.popout)
-//                    ele_window.storeGeometry()
-//                close()
-//                ele_top.popout = !ele_top.popout
-//                HandleShortcuts.executeInternalFunction(ele_top.shortcut)
-//            }
-//        }
-//    }
+    Image {
+        x: 5
+        y: 5
+        width: 15
+        height: 15
+        source: "/white/popinpopout.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        visible: showPopinPopout
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            text: ele_top.popout ?
+                      //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                      qsTranslate("popinpopout", "Merge into main interface") :
+                      //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                      qsTranslate("popinpopout", "Move to its own window")
+            onClicked: {
+                if(!showPopinPopout)
+                    return
+                ele_top.hide()
+                ele_top.popout = !ele_top.popout
+                PQCNotify.executeInternalCommand(ele_top.shortcut)
+            }
+        }
+    }
 
 }

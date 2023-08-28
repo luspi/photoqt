@@ -64,5 +64,6 @@
         <file>white/star_empty.svg</file>
         <file>white/star.svg</file>
         <file>white/checkmark.svg</file>
+        <file>white/popinpopout.svg</file>
     </qresource>
 </RCC>

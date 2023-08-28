@@ -31,6 +31,7 @@
 #include <pqc_filefoldermodel.h>
 #include <pqc_metadata.h>
 #include <pqc_resolutioncache.h>
+#include <pqc_popoutgeometry.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsfiledialog.h>
@@ -215,6 +216,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsContextMenu", 1, 0, "PQCScriptsContextMenu", &PQCScriptsContextMenu::get());
     qmlRegisterSingletonInstance("PQCScriptsShortcuts", 1, 0, "PQCScriptsShortcuts", &PQCScriptsShortcuts::get());
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
+    qmlRegisterSingletonInstance("PQCPopoutGeometry", 1, 0, "PQCPopoutGeometry", &PQCPopoutGeometry::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());

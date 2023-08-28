@@ -5,6 +5,7 @@ import PQCScriptsOther
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCNotify
+import PQCPopoutGeometry
 
 import "elements"
 import "other"
@@ -24,6 +25,13 @@ Window {
 
     minimumWidth: 800
     minimumHeight: 600
+
+    onWidthChanged: {
+        PQCPopoutGeometry.windowWidth = width
+    }
+    onHeightChanged: {
+        PQCPopoutGeometry.windowHeight = height
+    }
 
     property bool startup: true
 
