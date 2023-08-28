@@ -23,6 +23,8 @@
 import QtQuick
 import QtQuick.Window
 
+import PQCScriptsConfig
+
 Window {
 
     id: ele_window
@@ -43,14 +45,36 @@ Window {
 
     /////////
 
+    // on windows there is a white flash when the window is created
+    // thus we set up the window with opacity set to 0
+    // and this animation fades the window without white flash
+    PropertyAnimation {
+        id: showOpacity
+        target: ele_window
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 100
+    }
+
     Component.onCompleted: {
-        if(isMax) {
+
+        if(PQCScriptsConfig.amIOnWindows())
+            ele_window.opacity = 0
+
+        if(isMax)
             showMaximized()
-        }
+        else
+            showNormal()
+
         ele_window.setX(geometry.x)
         ele_window.setY(geometry.y)
         ele_window.setWidth(geometry.width)
         ele_window.setHeight(geometry.height)
+
+        if(PQCScriptsConfig.amIOnWindows())
+            showOpacity.restart()
+
     }
 
     minimumWidth: 600
@@ -63,7 +87,7 @@ Window {
     }
 
     visible: (sizepopout || popout)&&curloader.item.opacity===1
-    flags: Qt.WindowStaysOnTopHint
+    flags: Qt.Window
 
     color: PQCLook.transColor
 
