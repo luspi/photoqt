@@ -35,6 +35,12 @@ Item {
                 y: (parent.height-height)/2
                 spacing: 5
 
+                // spacer item for popout icon
+                Item {
+                    width: 15
+                    height: 1
+                }
+
                 PQButtonIcon {
                     source: "/white/backwards.svg"
                     enabled: filedialog_top.historyIndex>0

@@ -178,6 +178,10 @@ Rectangle {
                         } else
                             fd_fileview.handleKeyEvent(param[0], param[1])
                     }
+                } else if(what === "forceClose") {
+                    pasteExisting.hide()
+                    modal.hide()
+                    hideFileDialog()
                 }
 
             }
@@ -205,10 +209,9 @@ Rectangle {
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
                 filedialog_top.hideFileDialog()
-                if(!PQCSettings.interfacePopoutFileDialog)
-                    PQCSettings.interfacePopoutFileDialog = true
-                else
+                if(PQCSettings.interfacePopoutFileDialog)
                     close()
+                PQCSettings.interfacePopoutFileDialog = !PQCSettings.interfacePopoutFileDialog
                 PQCNotify.executeInternalCommand("__open")
             }
         }
@@ -265,8 +268,6 @@ Rectangle {
 
     function showFileDialog() {
         opacity = 1
-        if(PQCSettings.interfacePopoutFileDialog || sizepopout)
-            show()
     }
 
     function hideFileDialog() {

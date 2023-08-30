@@ -45,7 +45,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        loader.elementClosed("filedialog")
+        loader.passOn("forceClose", [])
     }
 
     onGeometryChanged: {

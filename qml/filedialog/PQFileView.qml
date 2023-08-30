@@ -1048,7 +1048,7 @@ GridView {
         else {
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogKeepOpen)
-                filedialog_top.hide()
+                filedialog_top.hideFileDialog()
         }
 
         view.currentSelection = []
