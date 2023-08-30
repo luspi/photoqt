@@ -309,7 +309,7 @@ GridView {
 
                 fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
-                source: visible ? ("image://thumb/" + deleg.currentPath) : ""
+                source: visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""
                 onSourceChanged: {
                     if(!visible)
                         fileicon.source = fileicon.sourceString
@@ -558,7 +558,7 @@ GridView {
 
                 anchors.fill: parent
                 color: "#44ffffff"
-                opacity: view.currentIndex==index ? 1 : 0
+                opacity: view.currentIndex===index ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
 
