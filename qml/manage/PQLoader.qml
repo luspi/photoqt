@@ -12,6 +12,7 @@ Item {
         "export"              : ["actions","PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCPopoutGeometry.exportForcePopout],
         "mainmenu"            : ["ongoing","PQMainMenu", loader_mainmenu, 0, PQCSettings.interfacePopoutMainMenu, PQCPopoutGeometry.mainmenuForcePopout],
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCPopoutGeometry.metadataForcePopout],
+        "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCPopoutGeometry.filedialogForcePopout],
 
         "about"               : ["actions","PQAbout", loader_about, 1, false, false],
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
@@ -19,7 +20,6 @@ Item {
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
         "copymove"            : ["actions","PQCopyMove", loader_copymove, 1, false, false],
         "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, false, false],
-        "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, false, false],
         "filerename"          : ["actions","PQRename", loader_filerename, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
         "filter"              : ["actions","PQFilter", loader_filter, 1, false, false],
@@ -58,7 +58,10 @@ Item {
 
         if(config[3] === 1 && numVisible > 0)
             return
-        numVisible += config[3]
+
+        // these checks make sure to ignore the blocking value when the interfacePopoutFileDialogKeepOpen setting is set
+        if(e !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogKeepOpen))
+            numVisible += config[3]
 
         ensureItIsReady(e, config)
 
@@ -68,7 +71,7 @@ Item {
 
     function elementClosed(ele) {
         if(ele in loadermapping && loadermapping[ele][3] === 1)
-            numVisible -= 1
+            numVisible = Math.max(0, numVisible-1)
     }
 
     function ensureItIsReady(ele, config) {

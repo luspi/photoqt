@@ -26,6 +26,10 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
                                                << 400 << 600    // default size
                                                << 0 << 0));     // popout threshold);
 
+    allElements.append(QVariant(QVariantList() << "filedialog"  // name
+                                               << 1024 << 768    // default size
+                                               << 1000 << 700)); // popout threshold);
+
     // save values with delay
     saveDelay = new QTimer;
     saveDelay->setInterval(200);

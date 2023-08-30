@@ -5,6 +5,7 @@ import PQCScriptsFileManagement
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsFileDialog
+import PQCNotify
 
 import "../elements"
 
@@ -12,8 +13,11 @@ Rectangle {
 
     id: filedialog_top
 
-    width: toplevel.width
-    height: toplevel.height
+    width: parentWidth
+    height: parentHeight
+
+    property int parentWidth: toplevel.width
+    property int parentHeight: toplevel.height
 
     property string thisis: "filedialog"
     property alias placesWidth: fd_places.width
@@ -30,6 +34,22 @@ Rectangle {
     property bool splitDividerHovered: false
 
     color: PQCLook.baseColor
+
+    state: PQCSettings.interfacePopoutFileDialog ?
+               "popout" :
+               ""
+
+    states: [
+        State {
+            name: "popout"
+            PropertyChanges {
+                target: filedialog_top
+                width: parentWidth
+                height: parentHeight
+                opacity: 1
+            }
+        }
+    ]
 
     opacity: 0
     visible: opacity>0
@@ -108,7 +128,7 @@ Rectangle {
             if(what === "show") {
 
                 if(param === thisis)
-                    show()
+                    showFileDialog()
 
             } else if(filedialog_top.opacity > 0) {
 
@@ -147,7 +167,7 @@ Rectangle {
 
                         // file dialog
                         else
-                            hide()
+                            hideFileDialog()
 
                     } else {
                         if((param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) && (pasteExisting.visible || modal.visible)) {
@@ -164,14 +184,33 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.BackButton|Qt.ForwardButton
-        onClicked: (mouse) => {
-            if(mouse.button === Qt.BackButton)
-                goBackInHistory()
-            else if(mouse.button === Qt.ForwardButton)
-                goForwardsInHistory()
+    Image {
+        x: 5
+        y: 5
+        width: 15
+        height: 15
+        source: "/white/popinpopout.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            text: PQCSettings.interfacePopoutFileDialog ?
+                      //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                      qsTranslate("popinpopout", "Merge into main interface") :
+                      //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                      qsTranslate("popinpopout", "Move to its own window")
+            onClicked: {
+                filedialog_top.hideFileDialog()
+                if(!PQCSettings.interfacePopoutFileDialog)
+                    PQCSettings.interfacePopoutFileDialog = true
+                else
+                    close()
+                PQCNotify.executeInternalCommand("__open")
+            }
         }
     }
 
@@ -224,11 +263,14 @@ Rectangle {
         PQCFileFolderModel.folderFileDialog = history[historyIndex]
     }
 
-    function show() {
+    function showFileDialog() {
         opacity = 1
+        if(PQCSettings.interfacePopoutFileDialog || sizepopout)
+            show()
     }
 
-    function hide() {
+    function hideFileDialog() {
+
         if(pasteExisting.visible) {
             pasteExisting.hide()
             return

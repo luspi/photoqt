@@ -110,7 +110,7 @@ GridView {
 
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.RightButton|Qt.LeftButton
+        acceptedButtons: Qt.RightButton|Qt.LeftButton|Qt.BackButton|Qt.ForwardButton
 
         // this allows us to catch any right click no matter where it happens
         // AND still react to onEntered/Exited events for each individual delegate
@@ -118,6 +118,14 @@ GridView {
         visible: view.currentIndex===-1 || enableAnyways
 
         onClicked: (mouse) => {
+
+            if(mouse.button === Qt.BackButton) {
+                goBackInHistory()
+                return
+            } else if(mouse.button === Qt.ForwardButton) {
+                goForwardsInHistory()
+                return
+            }
 
             // this does some basic click checking when a click occured *before* the cursor has been moved
             var ind = view.indexAt(mouseX, view.contentY+mouseY)
@@ -582,7 +590,7 @@ GridView {
 
                 tooltipReference: fd_splitview
 
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
                 drag.target: PQCSettings.filedialogDragDropFileview ? dragHandler : undefined
 
@@ -710,6 +718,14 @@ GridView {
                         view.currentIndex = index
                     else
                         contextmenu.setCurrentIndexToThisAfterClose = index
+
+                    if(mouse.button === Qt.BackButton) {
+                        goBackInHistory()
+                        return
+                    } else if(mouse.button === Qt.ForwardButton) {
+                        goForwardsInHistory()
+                        return
+                    }
 
                     if(mouse.button === Qt.RightButton) {
                         contextmenu.path = deleg.currentPath;
@@ -1031,7 +1047,8 @@ GridView {
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
-            filedialog_top.hide()
+            if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogKeepOpen)
+                filedialog_top.hide()
         }
 
         view.currentSelection = []
