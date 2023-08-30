@@ -46,6 +46,8 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    property int parentWidth
+    property int parentHeight
     width: PQCSettings.mainmenuElementWidth
     height: toplevel.height-2*gap
 
@@ -54,11 +56,13 @@ Rectangle {
     property var invisiblePos: [0, 0]
     property rect hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
 
-    state: PQCSettings.interfaceEdgeLeftAction==="mainmenu"
-           ? "left"
-           : (PQCSettings.interfaceEdgeRightAction==="mainmenu"
-               ? "right"
-               : "disabled" )
+    state: PQCSettings.interfacePopoutMainMenu
+           ? "popout"
+           : (PQCSettings.interfaceEdgeLeftAction==="mainmenu"
+              ? "left"
+              : (PQCSettings.interfaceEdgeRightAction==="mainmenu"
+                 ? "right"
+                 : "disabled" ))
 
     property int gap: 40
 
@@ -83,6 +87,16 @@ Rectangle {
             }
         },
         State {
+            name: "popout"
+            PropertyChanges {
+                target: mainmenu_top
+                setVisible: true
+                hotArea: Qt.rect(0,0,0,0)
+                width: mainmenu_top.parentWidth
+                height: mainmenu_top.parentHeight
+            }
+        },
+        State {
             name: "disabled"
             PropertyChanges {
                 target: mainmenu_top
@@ -91,6 +105,12 @@ Rectangle {
             }
         }
     ]
+
+    Component.onCompleted: {
+        if(PQCSettings.interfacePopoutMainMenu) {
+            mainmenu_top.opacity = 1
+        }
+    }
 
     MouseArea {
         anchors.fill: parent
@@ -688,6 +708,36 @@ Rectangle {
 
     }
 
+    Image {
+        x: 5
+        y: 5
+        width: 15
+        height: 15
+        source: "/white/popinpopout.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            text: PQCSettings.interfacePopoutMainMenu ?
+                      //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                      qsTranslate("popinpopout", "Merge into main interface") :
+                      //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                      qsTranslate("popinpopout", "Move to its own window")
+            onClicked: {
+                hideMainMenu()
+                if(!PQCSettings.interfacePopoutMainMenu)
+                    PQCSettings.interfacePopoutMainMenu = true
+                else
+                    close()
+                PQCNotify.executeInternalCommand("__showMainMenu")
+            }
+        }
+    }
+
     Connections {
         target: PQCNotify
         function onMouseMove(posx, posy) {
@@ -703,6 +753,10 @@ Rectangle {
 
     function hideMainMenu() {
         mainmenu_top.setVisible = false
+    }
+
+    function showMainMenu() {
+        mainmenu_top.setVisible = true
     }
 
 }

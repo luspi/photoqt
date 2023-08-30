@@ -22,7 +22,7 @@
 
 import QtQuick
 import PQCPopoutGeometry
-import "../elements"
+import "../../elements"
 
 PQTemplatePopout {
 

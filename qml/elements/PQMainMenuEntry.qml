@@ -71,7 +71,7 @@ Item {
         onExited: hovered = false
         onClicked: {
             PQCNotify.executeInternalCommand(cmd)
-            if(closeMenu)
+            if(closeMenu && !PQCSettings.interfacePopoutMainMenu)
                 mainmenu_top.hideMainMenu()
         }
     }

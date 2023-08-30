@@ -257,9 +257,11 @@ Item {
             case "__showMetaData":
             case "__keepMetaData":
                 PQCSettings.metadataElementVisible = !PQCSettings.metadataElementVisible
+                loader.show("metadata")
                 break
-//            case "__showMainMenu":
-//                break
+            case "__showMainMenu":
+                loader.show("mainmenu")
+                break
 //            case "__showThumbnails":
 //                break
 

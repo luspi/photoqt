@@ -74,9 +74,9 @@ Window {
     // thumbnails
     Loader { id: thumbnails; asynchronous: true; source: "ongoing/PQThumbnails.qml" }
     // main menu
-    Loader { id: mainmenu;   asynchronous: true; source: "ongoing/PQMainMenu.qml" }
+    Loader { id: loader_mainmenu;   asynchronous: true; }
     // meta data
-    Loader { id: metadata;   asynchronous: true; source: "ongoing/PQMetaData.qml" }
+    Loader { id: loader_metadata;   asynchronous: true; }
     PQContextMenu { id: contextmenu }
 
     /*************************************************/
@@ -97,10 +97,8 @@ Window {
     Loader { id: loader_imgur }
     Loader { id: loader_imguranonym }
     Loader { id: loader_logging }
-    Loader { id: loader_mainmenu }
     Loader { id: loader_mapcurrent }
     Loader { id: loader_mapexplorer }
-    Loader { id: loader_metadata }
     Loader { id: loader_navigationfloating }
     Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }
@@ -136,6 +134,9 @@ Window {
             toplevel.opacity = 0
 
         toplevel.showMaximized()
+
+        loader.show("mainmenu")
+        loader.show("metadata")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath

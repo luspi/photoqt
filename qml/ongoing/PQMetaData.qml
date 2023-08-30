@@ -57,6 +57,8 @@ Rectangle {
             PQCSettings.metadataElementPosition = Qt.point(x,y)
     }
 
+    property int parentWidth
+    property int parentHeight
     width: PQCSettings.metadataElementSize.width
     height: Math.min(toplevel.height, PQCSettings.metadataElementSize.height)
 
@@ -74,13 +76,15 @@ Rectangle {
     property var invisiblePos: [0, 0]
     property rect hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
 
-    state: !PQCSettings.metadataElementBehindLeftEdge ?
-               "floating" :
-                (PQCSettings.interfaceEdgeLeftAction==="metadata"
-                   ? "left"
-                   : (PQCSettings.interfaceEdgeRightAction==="metadata"
-                       ? "right"
-                   : "disabled" ))
+    state: PQCSettings.interfacePopoutMetadata ?
+               "popout" :
+               !PQCSettings.metadataElementBehindLeftEdge ?
+                   "floating" :
+                   (PQCSettings.interfaceEdgeLeftAction==="metadata" ?
+                        "left" :
+                        (PQCSettings.interfaceEdgeRightAction==="metadata" ?
+                             "right" :
+                             "disabled" ))
 
     property int gap: 40
 
@@ -123,9 +127,25 @@ Rectangle {
                              Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 invisiblePos: visiblePos
             }
+        },
+        State {
+            name: "popout"
+            PropertyChanges {
+                target: metadata_top
+                setVisible: true
+                hotArea: Qt.rect(0,0,0,0)
+                width: metadata_top.parentWidth
+                height: metadata_top.parentHeight
+            }
         }
 
     ]
+
+    Component.onCompleted: {
+        if(PQCSettings.interfacePopoutMetadata) {
+            metadata_top.opacity = 1
+        }
+    }
 
     MouseArea {
         anchors.fill: parent
@@ -436,6 +456,36 @@ Rectangle {
 
         }
 
+    }
+
+    Image {
+        x: 5
+        y: 5
+        width: 15
+        height: 15
+        source: "/white/popinpopout.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 1 : 0.4
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            text: PQCSettings.interfacePopoutMetadata ?
+                      //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                      qsTranslate("popinpopout", "Merge into main interface") :
+                      //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                      qsTranslate("popinpopout", "Move to its own window")
+            onClicked: {
+                hideMetaData()
+                if(!PQCSettings.interfacePopoutMetadata)
+                    PQCSettings.interfacePopoutMetadata = true
+                else
+                    close()
+                PQCNotify.executeInternalCommand("__showMetaData")
+            }
+        }
     }
 
     Connections {

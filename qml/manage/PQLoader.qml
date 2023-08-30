@@ -9,32 +9,33 @@ Item {
 
     // source, loader id, modal, popout, force popout
     property var loadermapping: {
-        "about"               : ["actions/PQAbout", loader_about, 1, false, false],
-        "advancedsort"        : ["actions/PQAdvancedSort", loader_advancedsort, 1, false, false],
-        "advancedsortbusy"    : ["actions/PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
-        "chromecast"          : ["ongoing/PQChromecast", loader_chromecast, 1, false, false],
-        "copymove"            : ["actions/PQCopyMove", loader_copymove, 1, false, false],
-        "export"              : ["actions/PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCPopoutGeometry.exportForcePopout],
-        "filedelete"          : ["actions/PQDelete", loader_filedelete, 1, false, false],
-        "filedialog"          : ["filedialog/PQFileDialog", loader_filedialog, 1, false, false],
-        "filerename"          : ["actions/PQRename", loader_filerename, 1, false, false],
-        "filesaveas"          : ["actions/PQSaveAs", loader_filesaveas, 1, false, false],
-        "filter"              : ["actions/PQFilter", loader_filter, 1, false, false],
-        "histogram"           : ["ongoing/PQHistogram", loader_histogram, 0, false, false],
-        "imgur"               : ["actions/PQImgur", loader_imgur, 1, false, false],
-        "imguranonym"         : ["actions/PQImgurAnonym", loader_imguranonym, 1, false, false],
-        "logging"             : ["ongoing/PQLogging", loader_logging, 0, false, false],
-        "mainmenu"            : ["ongoing/PQMainMenu", loader_mainmenu, 0, false, false],
-        "mapcurrent"          : ["map/PQMapCurrent", loader_mapcurrent, 0, false, false],
-        "mapexplorer"         : ["map/PQMapExplorer", loader_mapexplorer, 1, false, false],
-        "metadata"            : ["ongoing/PQMetaData", loader_metadata, 0, false, false],
-        "navigationfloating"  : ["other/PQNavigation", loader_navigationfloating, 0, false, false],
-        "scale"               : ["actions/PQScale", loader_scale, 1, false, false],
-        "settingsmanager"     : ["settings/PQSettingsManager", loader_settingsmanager, 1, false, false],
-        "slideshowcontrols"   : ["ongoing/PQSlideShowControls", loader_slideshowcontrols, 0, false, false],
-        "slideshowsettings"   : ["ongoing/PQSlideShowSettings", loader_slideshowsettings, 1, false, false],
-        "unavailable"         : ["other/PQUnavailable", loader_unavailable, 1, false, false],
-        "wallpaper"           : ["actions/PQWallpaper", loader_wallpaper, 1, false, false]
+        "export"              : ["actions","PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCPopoutGeometry.exportForcePopout],
+        "mainmenu"            : ["ongoing","PQMainMenu", loader_mainmenu, 0, PQCSettings.interfacePopoutMainMenu, PQCPopoutGeometry.mainmenuForcePopout],
+        "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCPopoutGeometry.metadataForcePopout],
+
+        "about"               : ["actions","PQAbout", loader_about, 1, false, false],
+        "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
+        "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
+        "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
+        "copymove"            : ["actions","PQCopyMove", loader_copymove, 1, false, false],
+        "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, false, false],
+        "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, false, false],
+        "filerename"          : ["actions","PQRename", loader_filerename, 1, false, false],
+        "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
+        "filter"              : ["actions","PQFilter", loader_filter, 1, false, false],
+        "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, false, false],
+        "imgur"               : ["actions","PQImgur", loader_imgur, 1, false, false],
+        "imguranonym"         : ["actions","PQImgurAnonym", loader_imguranonym, 1, false, false],
+        "logging"             : ["ongoing","PQLogging", loader_logging, 0, false, false],
+        "mapcurrent"          : ["map","PQMapCurrent", loader_mapcurrent, 0, false, false],
+        "mapexplorer"         : ["map","PQMapExplorer", loader_mapexplorer, 1, false, false],
+        "navigationfloating"  : ["other","PQNavigation", loader_navigationfloating, 0, false, false],
+        "scale"               : ["actions","PQScale", loader_scale, 1, false, false],
+        "settingsmanager"     : ["settings","PQSettingsManager", loader_settingsmanager, 1, false, false],
+        "slideshowcontrols"   : ["ongoing","PQSlideShowControls", loader_slideshowcontrols, 0, false, false],
+        "slideshowsettings"   : ["ongoing","PQSlideShowSettings", loader_slideshowsettings, 1, false, false],
+        "unavailable"         : ["other","PQUnavailable", loader_unavailable, 1, false, false],
+        "wallpaper"           : ["actions","PQWallpaper", loader_wallpaper, 1, false, false]
     }
 
     property int numVisible: 0
@@ -55,9 +56,9 @@ Item {
 
         var config = loadermapping[e]
 
-        if(config[2] === 1 && numVisible > 0)
+        if(config[3] === 1 && numVisible > 0)
             return
-        numVisible += 1
+        numVisible += config[3]
 
         ensureItIsReady(e, config)
 
@@ -66,18 +67,20 @@ Item {
     }
 
     function elementClosed(ele) {
-        if(ele in loadermapping && loadermapping[ele][2] === 1)
+        if(ele in loadermapping && loadermapping[ele][3] === 1)
             numVisible -= 1
     }
 
     function ensureItIsReady(ele, config) {
 
-        var src = config[0]+".qml"
-        if(config[3] || config[4])
-            src = config[0]+"Popout.qml"
+        var src
+        if(config[4] || config[5])
+            src = config[0] + "/popout/" + config[1] + "Popout.qml"
+        else
+            src = config[0] + "/" + config[1] + ".qml"
 
-        if(src !== config[1].source)
-            config[1].source = src
+        if(src !== config[2].source)
+            config[2].source = src
 
     }
 
