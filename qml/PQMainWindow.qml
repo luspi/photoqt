@@ -72,11 +72,11 @@ Window {
     // status info
     Loader { id: statusinfo; asynchronous: true; source: "ongoing/PQStatusInfo.qml" }
     // thumbnails
-    Loader { id: thumbnails; asynchronous: true; source: "ongoing/PQThumbnails.qml" }
+    Loader { id: loader_thumbnails; asynchronous: true; }
     // main menu
-    Loader { id: loader_mainmenu;   asynchronous: true; }
+    Loader { id: loader_mainmenu; asynchronous: true; }
     // meta data
-    Loader { id: loader_metadata;   asynchronous: true; }
+    Loader { id: loader_metadata; asynchronous: true; }
     PQContextMenu { id: contextmenu }
 
     /*************************************************/
@@ -137,6 +137,7 @@ Window {
 
         loader.show("mainmenu")
         loader.show("metadata")
+        loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath

@@ -26,18 +26,17 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     // which edge the bar should be shown at
-    state: PQCSettings.interfaceEdgeBottomAction==="thumbnails"
-            ? "bottom"
-            : (PQCSettings.interfaceEdgeLeftAction==="thumbnails"
-                ? "left"
-                : (PQCSettings.interfaceEdgeRightAction==="thumbnails"
-                    ? "right"
-                    : (PQCSettings.interfaceEdgeTopAction==="thumbnails"
-                        ? "top"
-                        : "disabled" )))
+    state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ?
+               "bottom" :
+               (PQCSettings.interfaceEdgeLeftAction==="thumbnails" ?
+                    "left" :
+                    (PQCSettings.interfaceEdgeRightAction==="thumbnails" ?
+                         "right" :
+                         (PQCSettings.interfaceEdgeTopAction==="thumbnails" ?
+                              "top" : "disabled" )))
 
     // visibility handlers
-    property bool holdVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && Math.abs(image.currentScale-image.defaultScale) < 1e-6))
+    property bool holdVisible: image.thumbnailsHoldVisible
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
@@ -493,6 +492,20 @@ Rectangle {
                     setVisible = true
             }
         }
+    }
+
+    Connections {
+        target: loader
+
+        function onPassOn(what, param) {
+
+            if(what === "show") {
+                if(param === "thumbnails")
+                    setVisible = !setVisible
+            }
+
+        }
+
     }
 
     function flickView(angleDelta) {

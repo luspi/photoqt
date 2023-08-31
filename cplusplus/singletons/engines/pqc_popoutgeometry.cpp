@@ -16,19 +16,19 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
 
     allElements.append(QVariant(QVariantList() << "export"      // name
                                                << 800 << 600    // default size
-                                               << 800 << 800)); // popout threshold);
+                                               << 800 << 800)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "mainmenu"    // name
                                                << 400 << 600    // default size
-                                               << 0 << 0));     // popout threshold);
+                                               << 0 << 0));     // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "metadata"    // name
                                                << 400 << 600    // default size
-                                               << 0 << 0));     // popout threshold);
+                                               << 0 << 0));     // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "filedialog"  // name
-                                               << 1024 << 768    // default size
-                                               << 1000 << 700)); // popout threshold);
+                                               << 1024 << 768   // default size
+                                               << 1000 << 700));// popout threshold;
 
     // save values with delay
     saveDelay = new QTimer;

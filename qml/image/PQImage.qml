@@ -19,10 +19,12 @@ Item {
     width: toplevel.width-2*PQCSettings.imageviewMargin - lessW
     height: toplevel.height-2*PQCSettings.imageviewMargin - lessH
 
-    property int extraX: (thumbnails.holdVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails") ? thumbnails.item.width : 0
-    property int extraY: (thumbnails.holdVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails") ? thumbnails.item.height : 0
-    property int lessW: (thumbnails.holdVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? thumbnails.item.width : 0
-    property int lessH: (thumbnails.holdVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? thumbnails.item.height : 0
+    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || currentScale < defaultScale)))
+
+    property int extraX: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0
+    property int extraY: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0
+    property int lessW: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0
+    property int lessH: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0
 
     property int currentlyVisibleIndex: -1
     property var visibleIndexPrevCur: [-1,-1]
@@ -37,6 +39,8 @@ Item {
     property real currentScale: 1
     property real currentRotation: 0
     property size currentResolution: Qt.size(0,0)
+
+    property bool imageIsAtDefaultScale: Math.abs(currentScale-defaultScale) < 1e-6
 
     onCurrentResolutionChanged: {
         if(currentResolution.height > 0 && currentResolution.width > 0)

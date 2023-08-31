@@ -262,8 +262,9 @@ Item {
             case "__showMainMenu":
                 loader.show("mainmenu")
                 break
-//            case "__showThumbnails":
-//                break
+            case "__showThumbnails":
+                loader.show("thumbnails")
+                break
 
 
             /**********************/
