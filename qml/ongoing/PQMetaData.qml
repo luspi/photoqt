@@ -78,7 +78,7 @@ Rectangle {
 
     state: PQCSettings.interfacePopoutMetadata ?
                "popout" :
-               !PQCSettings.metadataElementBehindLeftEdge ?
+               PQCSettings.metadataElementFloating ?
                    "floating" :
                    (PQCSettings.interfaceEdgeLeftAction==="metadata" ?
                         "left" :
@@ -492,7 +492,7 @@ Rectangle {
         target: PQCNotify
         function onMouseMove(posx, posy) {
 
-            if(!PQCSettings.metadataElementBehindLeftEdge)
+            if(PQCSettings.metadataElementFloating)
                 return
 
             if(setVisible) {
@@ -514,7 +514,7 @@ Rectangle {
             if(what === "show") {
                 if(param === "metadata") {
 
-                    if(PQCSettings.metadataElementBehindLeftEdge)
+                    if(!PQCSettings.metadataElementFloating)
                         setVisible = !setVisible
 
                 }
