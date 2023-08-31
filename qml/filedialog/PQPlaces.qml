@@ -332,7 +332,7 @@ Item {
                 }
 
 
-                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces) ? deleg : undefined
+                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&index>0) ? deleg : undefined
                 drag.axis: Drag.YAxis
 
                 // if drag is started
