@@ -505,6 +505,25 @@ Rectangle {
         }
     }
 
+
+    Connections {
+        target: loader
+
+        function onPassOn(what, param) {
+
+            if(what === "show") {
+                if(param === "metadata") {
+
+                    if(PQCSettings.metadataElementBehindLeftEdge)
+                        setVisible = !setVisible
+
+                }
+            }
+
+        }
+
+    }
+
     function hideMetaData() {
         metadata_top.setVisible = false
     }
