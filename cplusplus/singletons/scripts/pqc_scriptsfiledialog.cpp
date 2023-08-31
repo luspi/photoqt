@@ -52,7 +52,7 @@ QVariantList PQCScriptsFileDialog::getDevices() {
 
 }
 
-QVariantList PQCScriptsFileDialog::getPlaces() {
+QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
     qDebug() << "";
 
@@ -62,9 +62,11 @@ QVariantList PQCScriptsFileDialog::getPlaces() {
 
     // if file does not exist yet then we create a sceleton file
     if(!QFile(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel")).exists()) {
+
         QString cont = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        cont += "<xbel xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n";
+        cont += "<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n";
         cont += "</xbel>";
+
         QFile file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel"));
         if(file.open(QIODevice::WriteOnly)) {
             QTextStream out(&file);
@@ -164,6 +166,35 @@ QVariantList PQCScriptsFileDialog::getPlaces() {
         doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
 #endif
+
+    // When no entries are found, we fill in the four default entries
+    // the `performEmptyCheck` boolean prevents a potential infinite loop if things go horribly wrong
+    if(ret.length() == 0 && performEmptyCheck) {
+
+        addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::HomeLocation),
+                       0,
+                       (QStandardPaths::displayName(QStandardPaths::HomeLocation)=="" ? "Home" : QStandardPaths::displayName(QStandardPaths::HomeLocation)),
+                       "user-home",
+                       true);
+        addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
+                       0,
+                       (QStandardPaths::displayName(QStandardPaths::DesktopLocation)=="" ? "Desktop" : QStandardPaths::displayName(QStandardPaths::DesktopLocation)),
+                       "user-desktop",
+                       true);
+        addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation),
+                       0,
+                       (QStandardPaths::displayName(QStandardPaths::PicturesLocation)=="" ? "Pictures" : QStandardPaths::displayName(QStandardPaths::PicturesLocation)),
+                       "folder-documents",
+                       true);
+        addPlacesEntry(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation),
+                       0,
+                       (QStandardPaths::displayName(QStandardPaths::DownloadLocation)=="" ? "Downloads" : QStandardPaths::displayName(QStandardPaths::DownloadLocation)),
+                       "folder-downloads",
+                       true);
+
+        return getPlaces(false);
+
+    }
 
     return ret;
 
@@ -360,7 +391,7 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
 
 }
 
-void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos) {
+void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlestring, QString icon, bool isSystemItem) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: pos =" << pos;
@@ -410,7 +441,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos) {
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
-        title.text().set(QFileInfo(path).fileName().toStdString().c_str());
+        title.text().set(titlestring=="" ? QFileInfo(path).fileName().toStdString().c_str() : titlestring.toStdString().c_str());
 
         // <info>
         pugi::xml_node info = newnode.append_child("info");
@@ -423,7 +454,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos) {
         // <bookmark:icon>
         pugi::xml_node icon = metadata1.append_child("bookmark:icon");
         icon.append_attribute("name");
-        icon.attribute("name").set_value("folder");
+        icon.attribute("name").set_value(icon);
 
         // <metadata> kde.org
         pugi::xml_node metadata2 = info.append_child("metadata");
@@ -440,7 +471,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos) {
 
         // <isSystemItem>
         pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
-        isSystemItem.text().set("false");
+        isSystemItem.text().set(isSystemItem ? "true" : "false");
 
     } else {
 
