@@ -21,6 +21,13 @@ Item {
     // possible values: counter, filename, filepathname, resolution, zoom, rotation
     property var info: PQCSettings.interfaceStatusInfoList
 
+    // don't pass mouse clicks to background
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.RightButton|Qt.LeftButton
+    }
+
     Column {
 
         id: maincol
@@ -185,10 +192,12 @@ Item {
                 toplevel.startSystemMove()
         }
         onDoubleClicked: {
-            if(toplevel.visibility === Window.Maximized)
-                toplevel.visibility = Window.Windowed
-            else if(toplevel.visibility === Window.Windowed)
-                toplevel.visibility = Window.Maximized
+            if(PQCSettings.interfaceStatusInfoManageWindow) {
+                if(toplevel.visibility === Window.Maximized)
+                    toplevel.visibility = Window.Windowed
+                else if(toplevel.visibility === Window.Windowed)
+                    toplevel.visibility = Window.Maximized
+            }
         }
 
 }
