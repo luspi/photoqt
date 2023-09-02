@@ -235,17 +235,21 @@ PQTemplateFloating {
 
             if(what === "show") {
                 if(param === "histogram") {
-                    histogram_top.show()
-                    if(PQCFileFolderModel.countMainView === 0) {
-                        nofileloaded.opacity = 1
-                        busy.opacity = 0
-                        failed.opacity = 0
+                    if(histogram_top.visible) {
+                        histogram_top.hide()
                     } else {
-                        updateHistogram.indexTriggered = PQCFileFolderModel.currentIndex
-                        updateHistogram.restart()
-                        failed.opacity = 0
-                        nofileloaded.opacity = 0
-                        busy.opacity = 1
+                        histogram_top.show()
+                        if(PQCFileFolderModel.countMainView === 0) {
+                            nofileloaded.opacity = 1
+                            busy.opacity = 0
+                            failed.opacity = 0
+                        } else {
+                            updateHistogram.indexTriggered = PQCFileFolderModel.currentIndex
+                            updateHistogram.restart()
+                            failed.opacity = 0
+                            nofileloaded.opacity = 0
+                            busy.opacity = 1
+                        }
                     }
                 }
             }
@@ -396,7 +400,6 @@ PQTemplateFloating {
     }
 
     function hide() {
-        console.log("HIDE HIDE HIDE")
         opacity = 0
         PQCSettings.histogramVisible = false
     }
