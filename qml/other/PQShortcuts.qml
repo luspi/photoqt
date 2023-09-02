@@ -350,8 +350,9 @@ Item {
             case "__flipReset":
                 image.mirrorReset()
                 break
-//            case "__histogram":
-//                break
+            case "__histogram":
+                loader.show("histogram")
+                break
 //            case "__fitInWindow":
 //                PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
 //                break

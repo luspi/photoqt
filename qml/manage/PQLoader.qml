@@ -14,6 +14,7 @@ Item {
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCPopoutGeometry.metadataForcePopout],
         "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCPopoutGeometry.filedialogForcePopout],
         "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
+        "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, PQCSettings.interfacePopoutHistogram, PQCPopoutGeometry.histogramForcePopout],
 
         "about"               : ["actions","PQAbout", loader_about, 1, false, false],
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
@@ -24,7 +25,6 @@ Item {
         "filerename"          : ["actions","PQRename", loader_filerename, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
         "filter"              : ["actions","PQFilter", loader_filter, 1, false, false],
-        "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, false, false],
         "imgur"               : ["actions","PQImgur", loader_imgur, 1, false, false],
         "imguranonym"         : ["actions","PQImgurAnonym", loader_imguranonym, 1, false, false],
         "logging"             : ["ongoing","PQLogging", loader_logging, 0, false, false],

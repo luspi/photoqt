@@ -60,6 +60,8 @@ Item {
     signal mirrorV()
     signal mirrorReset()
 
+    signal imageFinishedLoading(var index)
+
     Repeater {
 
         id: repeater
@@ -650,6 +652,7 @@ Item {
                 function showImage() {
 
                     image_top.currentlyVisibleIndex = itemIndex
+                    image_top.imageFinishedLoading(itemIndex)
 
                     rotationZoomResetWithoutAnimation()
 

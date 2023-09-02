@@ -82,6 +82,13 @@ Window {
     /*************************************************/
     // load on-demand
 
+    // ongoing
+    Loader { id: loader_histogram }
+    Loader { id: loader_mapcurrent }
+    Loader { id: loader_navigationfloating }
+    Loader { id: loader_slideshowcontrols }
+
+    // actions
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
     Loader { id: loader_advancedsortbusy }
@@ -93,16 +100,12 @@ Window {
     Loader { id: loader_filerename }
     Loader { id: loader_filesaveas }
     Loader { id: loader_filter }
-    Loader { id: loader_histogram }
     Loader { id: loader_imgur }
     Loader { id: loader_imguranonym }
     Loader { id: loader_logging }
-    Loader { id: loader_mapcurrent }
     Loader { id: loader_mapexplorer }
-    Loader { id: loader_navigationfloating }
     Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }
-    Loader { id: loader_slideshowcontrols }
     Loader { id: loader_slideshowsettings }
     Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
@@ -138,6 +141,9 @@ Window {
         loader.show("mainmenu")
         loader.show("metadata")
         loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
+
+        if(PQCSettings.histogramVisible)
+            loader.show("histogram")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath

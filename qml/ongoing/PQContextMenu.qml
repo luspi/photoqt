@@ -71,6 +71,8 @@ PQMenu {
     PQMenuItem {
         iconSource: "/white/histogram.svg"
         text: qsTranslate("contextmenu", "Show histogram")
+        onClicked:
+            PQCNotify.executeInternalCommand("__histogram")
     }
 
     PQMenuItem {
