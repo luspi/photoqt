@@ -1,0 +1,754 @@
+Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+----------------------------------------------------------------------------------------------------------
+
+Release 3.3 - 2023-06-15
+----------------------------
+- add: all new shortcuts engine
+- add: floating element to show location of current image on map
+- add: map explorer to show all images in current folder with location data on interactive map
+- add: reset button to restore initial stage of main image
+- add: setting to switch to moving the image by mouse wheel instead of using it for shortcuts
+- add: shortcut actions to move image left/right/up/down
+- add: shortcut actions to got to edges of current image
+- add: setting to adjust autohide of mouse cursor
+- add: allow wheel left/right movement as mouse gestures for shortcut
+- add: allow selection of OpenGL backend in settings
+- add: option to load PDF documents with QtPDF instead of poppler
+- add: animate arrows and add small click animation on startup
+- improve: unify look and feel of various elements throughout application
+- improve: startup default to mixed setup (integrated and popped out) as default option
+- improve: support any image format as icon for context menu entry
+- improve: listening to global mouse movements, fixes overloading event system
+- improve: don't show context menu entry to add location to favorites without pugixml available
+- improve: Escape key in file dialog with files selected only removes selection
+- improve: installing pychromecast with cmake is now opt-in option
+- improve: crash prevention when scanning for chromecast devices with pychromecast
+- fix: finding/linking against (optional) mpv source files
+- fix: proper url encoding for favorite locations
+- fix: compilation with Exiv 0.28.0
+- Windows: fix fullscreen application window
+
+
+Release 3.2 - 2023-05-11
+----------------------------
+- add: advanced sorting by dates stored in exif meta data
+- add: more options for highlighting thumbnails in thumbnail bar
+- add: option to disable thumbnail tooltips
+- add: file dialog: looping thumbnails of images inside subfolders
+- add: file dialog: select files and folders, add file operations using global clipboard (incl. shortcuts)
+- add: file dialog: thumbnails are by default shown scaled and cropped to fit
+- add: file dialog: typing a string finds next matching file
+- improve: more aggressive freeing of memory when resetting PhotoQt
+- improve: validation check also checks directories
+- improve: detect mouse leaving application window and hide elements (main menu, meta data, etc.)
+- improve: reliability of loading and displaying image resolution
+- improve: trash handling on Linux following freedesktop.org standard
+- improve: enable MPV support by default, prefer MPV over QtMultimedia by default
+- improve: Exiv2: managing BMFF support
+- improve: file dialog: folder follows main image folder when image opened from command line
+- improve: file dialog: do not select first entry by default after new folder has been loaded
+- improve: file dialog: elide long filenames in the middle
+- improve: file dialog: when mouse cursor leaves fileview reset current index
+- improve: find and link to 'Concurrent' module
+- improve: Windows: window handling when window decoration disabled keeps window accessible
+- fix: handling of Escape key
+- fix: execution of external shortcuts
+- fix: caching thumbnails of images inside archives
+- fix: correctly removing old animated images from model (freeing up memory)
+- fix: double click on image no longer triggers background action
+- fix: window manager titles in wallpaper element were unclickable
+- fix: Windows: disable Trash feature when using Qt < 5.15
+- fix: Windows: deleting/moving animated images avoiding file locking issues
+
+
+Release 3.1 - 2023-03-07
+----------------------------
+- add: 'scale and crop' preview images in file dialog
+- add: 'scale and crop' thumbnails to fill thumbnail square
+- add: option to blur elements in background
+- add: option to reset session when hiding to system tray
+- add: option to always load images at actual scale (incl. shortcut to toggle setting)
+- add: option to automatically hide status info and/or window buttons if not needed
+- add: enable BMFF meta format in Exiv2 if available and enabled
+- improve: handling of mouse wheel
+- improve: uniform context menus
+- improve: managing external shortcuts
+- improve: managing custom context menu entries
+- improve: file count in file dialog when folder icon is very light
+- improve: make splitview handle in file dialog stand out more
+- improve: breadcrumbs dropdown folder list
+- improve: file dialog layout when window is small
+- improve: specify better default Windows font
+- fix: sorting of files/folders in file dialog
+- fix: visual glitches in file dialog
+- fix: specifying font sizes throughout interface
+
+
+Release 3.0 - 2023-01-30
+----------------------------
+- add: shortcut: load random image in folder
+- add: filedialog: forward/backward mouse button navigates through history
+- add: filedialog: access settings manager
+- improve: file dialog: use native path separators
+- improve: file dialog: improve subfolder listing
+- improve: file dialog: breadcrumbs handling
+- improve: file dialog: up/down arrows in icon view moves rows up/down
+- improve: right click and context menus
+- improve: custom menu entries (icons, path, etc.)
+- improve: histogram: support for images other than 32bit
+- improve: face tagger: use click-and-draw instead of click-then-draw to mark new faces
+- improve: face tagger:  preserves other meta data
+- improve: performance and resilience for RAW images
+- improve: structure and rendering of SVG icons
+- fix usage of file URI scheme
+- many more bug fixes and improvements
+
+
+Release 2.9.1 - 2022-09-05
+----------------------------
+- fix: language files missing
+- fix: network path handling on Windows
+
+
+Release 2.9 - 2022-09-01
+----------------------------
+- add/improve: new status information labels
+- improve: always attempt loading of Exiv2 data
+- improve: option to move meta data back behind screen edge
+- improve: replace PNGs icons by SVGs for better scaling
+- improve: new filetype and backup icons
+- improve: small interface updates
+- improve: switch from deprecated appdata to metainfo
+- new shortcuts: __fullscreenToggle, __fitInWindow
+- fix: sorting of files in file and folder model
+- fix: selection of certain localizations
+- fix: calculation of size of pixmap cache
+- fix: preserve network paths on Windows
+- fix: loading favorited network location on Windows
+- fix: proper default filename for exporting settings on Windows
+- fix: visibility of slideshow controls
+- other smaller bug fixes and improvements
+
+
+Release 2.8 - 2022-07-31
+----------------------------
+- file dialog: preview image can be blurred and/or its colors muted
+- file dialog: preview image can be loadedin low (fast) and high (slower) resolution
+- file dialog: option to hide tooltip with file details
+- file dialog: reworked context menu of fileview
+- file dialog: tooltip with file details
+- slideshow: fix next/prev buttons during slideshow when slideshow paused
+- slideshow: controls turned into floating buttons at bottom center
+- shortcuts: support for double clicks
+- navigation: add navigation buttons to window buttons
+- navigation: add zoom to/from setting
+- navigation: add min/max zoom range
+- navigation: option to enable/disable window decoration by clicking outside visible image
+- main menu: restyled and regrouped, complementary to context menu
+- context menu: restyled and regrouped, complementary to main menu
+- metadata: turn into floating element, not hiding behind edge anymore
+- file formats: support for Adove Illustrator (AI) file format
+- startup: validate values of some settings, ensuring they fall within a valid min/max range
+- interface: pause animated image when element opened on top
+- interface: raise window properly when needed
+- interface: startup background text message font size follows window size
+- interface: option to automatically pop out elements if window is too small
+- interface: option to set different overlay color in fullscreen
+- Windows: open in default folder
+- Windows: loading of images located on network drives
+- Windows: trash support (Qt >= 5.15)
+- Windows: support setting as wallpaper
+- Windows: explicitely use OpenGLES
+- general UI updates and color adjustments
+
+
+Release 2.7 - 2022-06-10
+----------------------------
+- add: support for libvips image library
+- add: support for libmpv video library
+- add: advanced sorting by luminosity
+- add: obtain configuration visually (About) and through command line (--show-info)
+- improve: reworked main menu with collapsible sections
+- improve: better performance of obtaining image size info
+- fix: mimetypes where never checked
+- fix: hiding of viewer mode button when shortcut used
+- various improvements and fixes under the hood
+
+
+Release 2.6 - 2022-04-07
+----------------------------
+- add new image formats: ani, dfont, g4, heic/heif, otf, pfa/pfb, pgx, qoi, sixel
+- add: new transitions: explosion, implosion, rotation, random
+- add: advanced sorting (including shortcuts) by: resolution, dominant color, average color
+- add: more filter options: file name/extension, resolution, file size
+- add: print support
+- add: option to always show 'closing x'
+- improve: general performance improvements
+- remove no longer supported image formats: cgm, fig, fpx, flif, gv, sid
+- fix: update with GraphicsMagick caused crash
+- fix: fully hide labels if none are set to be shown
+
+
+Release 2.5 - 2022-01-05
+----------------------------
+- add: chromecast support (using pychromecast)
+- add: new startup checks
+- add: new dialog informing user of new install/update
+- add: convert settings, shortcuts, and contextmenu from file based to database based
+- add: command line option to check and attempt to fix configuration
+- add: command line option to reset settings/shortcuts to defaults
+- add: dialog to show debug/log messages
+- add: second desktop file for standalone mode
+- improve: better handling of threading for loading images
+- improve: scrolling by mouse no longer flicks view resulting in better handling
+- improve: handling of imageformats
+- improve: use image providers for setting background image
+- improve: reorder mainmenu entries
+- improve: copying of image to clipboard
+- improve: default startup message, don't show file dialog automatically
+- improve: context menu now standalone window and thus not confined to PhotoQt window
+- improve: graceful fail when ffmpegthumbnailer not available for video files
+- improve: filename inside archives shown on labels in mainview
+- improve: enable build with Exiv 0.25
+- improve: 'Escape' by default calls __open
+- fix/improve: export/import of old and new backup files
+- fix: settingsmanager, handling of modal windows
+- fix: picking color did not handle the absence of transparency well
+- fix: external shortcuts close PhotoQt when 'close' option set
+- fix: zoom-to-position failed in multi-monitor setup when last-left monitor is not used
+- fix: executing external app by shortcut failed handling placeholders
+- fix: slideshow with many images in many subfolders
+- fix: escape html tags in filenames shown on tooltips/labels
+
+
+Release 2.4 - 2021-10-22
+----------------------------
+- add: zoom/pinch to position
+- add: click on left/right half of empty area around image can load prev/next image
+- add: option to exclude directories from caching/preloading
+- add: custom filetype icons
+- improve: switch default shortcuts for __copy and __clipboard
+- improve: script to generate data (filetype icons, windows installer script, etc.)
+- fix: loading of metadata
+- fix: replacing placeholders in external shortcuts
+- fix: handling of --thumbs/--no-thumbs at startup
+- fix: reacting to changes to current folder/image
+- fix: change wheel up/down to proper directions
+- windows: make videos playback work on Windows
+- windows: add to software section in settings
+- windows: fix loading userplaces
+- windows: new installer
+
+
+Release 2.3 - 2021-06-14
+----------------------------
+- add: context menu (subset of mainmenu options), assign right button to it (if not already in use)
+- add: new shortcuts manager
+- add: command line option to enable/disable system tray
+- add: new internal shortcuts: __viewerMode, __showThumbnails, __showMainMenu,
+       __showMetaData, __quickNavigation, __showFaceTags, __keepMetaData, __contextMenu
+- add: restore default configuration, accessible via 'advanced' button in settings manager
+- add: support of JPEG XL format (if qt plugin installed)
+- improve: calling PhotoQt without command line arguments when hidden assumes '--show'
+- improve: use arrows to indicate direction in mouse gestures
+- improve: closing 'x' hidden unless fullscreen or window decoration disabled
+- improve: new format for saving shortcuts
+- improve: handling of command line options
+- improve: keeping track of mouse position
+- fix: load translations for command line help message
+- fix: artifacts in rendered text for scale<1
+- fix: loading rar archives with unrar with non-Latin characters in filenames
+- fix: wrong datatype used for PixmapCache property (was bool but should be int)
+- fix: mirror property of scaled down versions follows main image
+
+
+Release 2.2 - 2021-06-07
+----------------------------
+- add: viewer mode for documents/archives, activated through button near top left corner of screen
+- add: quick navigation buttons (added with touchscreens in mind)
+- add: show filename in window title
+- add: show rotation angle in quick info labels
+- add: new button to enter/exit fullscreen mode near top right corner of screen
+- add: show 'unsupported' feedback when trying to tag faces in unsupported file type
+- add: show 'nothing found' message when filter returns nothing
+- add: new PQButton element
+- add/improve: various touch ups and improvements in file dialog, new 'go up a level' button
+- add/improve: Windows build shows 'unsupported' message instead of doing nothing
+- improve: reworked file/folder model, faster and more consistent than before
+- improve: window decoration always visible by default
+- improve: checkbox uses tickmark instead of 'x' for showing checked state
+- improve: limit number of subfolder in slideshows (if enabled) to 100 to avoid getting stuck
+- improve: Windows build no longer depends on QtWinExtras
+- fix: handling of command line options
+- fix: some caching locations pointed to wrong directory
+- fix: handling of single quotation marks in filenames
+- fix: Windows build properly handles drive letters
+- fix: Windows build properly cleans path
+- various smaller bug fixes and improvements all over the place
+
+
+Release 2.1.1 - 2021-02-06
+----------------------------
+- fix: revert default from ImageMagick back to GraphicsMagick (as it was before 2.1)
+- fix: sort images in folder when path passed on to PhotoQt via command line
+- fix: under certain circumstances the directory itself would be added as final 'image'
+- fix: first entry in history of file dialog was always set to home directory
+- fix: crypt key (used e.g. for handling Imgur authentication) now based off hostname
+- fix: back button for history in file dialog barely clickable
+
+
+Release 2.1 - 2021-01-30
+----------------------------
+- improve: image format handling (sqlite based)
+- improve: loading of image files
+- improve: startup speed when PhotoQt has not been either updated or freshly installed
+- improve: handling of popout states
+- improve: shortcut handling when popout window activated
+- improve: make it easier to hit 'close' button top right of main interface without triggering menu
+- improve: files in a folder are filtered more efficiently
+- improve: detection of previously chosen languages
+- improve: reorganizing of handling methods
+- add: welcome screen
+- add: ImageMagick support (choice between GraphicsMagick and ImageMagick possible)
+- add: small buttons to quickly toggle popout status of elements
+- add: proper window titles for popout windows
+- add: slideshow can include images in subfolders
+- add: element to convert images into different format
+- fix: memory leak when loading images with Qt
+- fix: caching images
+- fix: sometimes thumbnail would be loaded instead of full image
+- fix: image are loaded asynchronously, without blocking main interface
+
+
+Release 2.0 - 2020-12-16
+----------------------------
+- Complete re-write, minimum Qt version now 5.9
+- add: more image transitions
+- add: pop out elements
+- add: hide cursor when not moved
+- add: video support
+- add: support for AVIF file format
+- add: sort images by timestamp stored in exif meta data
+- add: better threading of thumbnail creation
+- improve: rewritten image engine
+- improve: raw thumbnails are loaded from metadata (where available)
+- improve: new element to open files
+- improve: new settings manager with cleaner interface
+- improve: new 'loading' indicator
+- improve: fewer/no workarounds necessary due to re-write
+
+
+Release 1.7.1 - 2018-06-03
+----------------------------
+- Fix: Animated images would not load
+- Fix: The more images in a directory the slower PhotoQt would load first image
+- Fix: Deleting an image would lead to infinite 'loading' indicator
+- Fix: List of releases in appdata file was in reverse order
+- Add: Show 'busy' cursor while loading a Loader item
+
+
+Release 1.7 - 2018-05-15
+----------------------------
+- Add: proper support for formats supported by KDE image plugins
+- Add: FreeImage image library
+- Add: DevIL image library
+- Add: Poppler (for: PDF (inline or document viewer mode))
+- Add: libarchive (for: comic book archives, ZIP, RAR, 7ZIP, TAR)
+- Add: unrar (Unix-only) (for: better RAR support)
+- Add: Detect images also by MIME type and not only by file ending
+- Add: Detect, display and manage people tags (stored in XMP metadata)
+- Add: Current Zoom level to quick info label
+- Add: Setting to adjust step size of zoom
+- Add: Basic Window Management (using quick info labels)
+- Improve: GraphicsMagick speed
+- Improve: Usability of PhotoQt on small screens
+- Improve: More efficient and compact fileformats handling
+- Fix: Trash for files on removable drive
+- Fix: Masking image display shown when needed
+- Fix: many small bugs
+- Improve: overall speed and responsiveness
+
+
+Release 1.6 - 2018-02-20
+----------------------------
+- Re-structuring of code, taking better advantage of QML property bindings
+- Hiding most elements behind Loader items for faster start-up
+- Add: proper touchscreen support
+- Add: Uploading of images to imgur.com
+- Add: Copy images to clipboard
+- Add: Ability to freely move main image
+- Add: Split 'ThumbnailKeepVisible' setting into 1) always visible, 2) visible when image not zoomed
+- Add: Export/Import configuration and shortcuts
+- Add: Handle case of directory passed on command line (instead of image)
+- Add: Transparency marker option
+- Add: one shortcut for multiple functions
+- Change: Default shortcuts set (e.g., default shortcut for settings managernow 'p')
+- Redo: 'Open File' element, more versatile and reliable
+- Add/Change: Open File now has two hover preview modes: quick (uses thumbnail) or full
+- Add/Change: Left pane of Open File element can be hidden (hides if nothing is there or window is resized rather small)
+- Redo: New 'loading image' indicator
+- Fix: rotating very wide images properly fits them into the window
+- Fix: so many bugs along with re-structuring they cannot be counted
+- Fix: more bugs
+- Fix: and more bugs
+- Fix: and more bugs
+
+
+Release 1.5.1 - 2017-01-17
+----------------------------
+- Replace: Custom histogram drawing implementation (removal of QtCharts dependency)
+- Remove: QtQuick.Window and QtQuick.Dialogs dependencies
+
+
+Release 1.5 - 2017-01-11
+----------------------------
+- Add: new shortcuts handling, including mouse/touch gestures
+- Add: histogram (colour and greyscale)
+- Add: Watch images/directory for changes and update if one is detected
+- Add: option to keep zoom/rotation/mirror when switching images
+- Add: filename and image position to metadata element
+- Add: exit button to mainmenu element
+- Add: re-open last used image on startup
+- Fix: starting new version of photoqt with image passed on remembers and opens image after welcome message
+- Fix: prevent possible exiv2 crash
+- Fix: quickinfo labels move to the right when metadata is set to non-floating
+- Fix: image scaling bug when window size is small
+- Fix/improve: display properly scaled down version when not zoomed -> better display quality
+- Fix/improve: image engine
+- Removed/Replaced: option to remember zoom/rotation/mirror on a per image basis
+- Remake: new thumbnailbar, letting qml handle more of it, better performance but fewer options
+- Fix: many bugs, small and large...
+
+
+Release 1.4.1.1 - 2016-09-11
+----------------------------
+- Important updates to appdata.xml file for inclusion in software center
+
+
+Release 1.4.1 - 2016-06-01
+----------------------------
+- Fix: External Shortcuts aren't working
+- Fix: Detecting a key combination for a shortcut didn't work when a language other than English was set
+- Fix: Disabling of thumbnails wasn't preserved across sessions
+- Fix: Not possible to change setting for Extras filetypes (xcf and psd/psb)
+- Fix: Deleting images that had non-Latin characters in their filepath/filename didn't work
+- Fix: Pressing the 'Enter' key in a CustomLineEdit went to a second line
+- Fix: Renaming a file didn't reload the directory or hide the 'Rename' element
+- Fix: Add 'missing' photoqt.appdata.xml file to source tree
+- Fix: Impossible to use '+' (normal and keypad) for shortcuts
+- Fix: Resizing PhotoQt in window mode didn't adjust the width/height of the image container properly
+- Fix: Triggering 'floatable' mode of MetaData element didn't adjust width/height of image container
+- Fix: RAW: PhotoQt would always load at most a half-sized image instead of the full one
+- Fix: Handling of non-Latin characters faulty in certain cases
+- Fix: PhotoQt sometimes would load the thumbnails with a higher priority than the main image
+- Fix: Database info in settings manager didn't update automatically after cleaning/emptying database
+- Fix: When loading a folder, thumbnails sometimes wouldn't start loading automatically
+- Fix: RAW fileformats are not enabled by default (when compiled with LibRaw support)
+- Add: Shortcut to hard-delete a file directly, by-passing the confirmation element
+- Updated some languages
+
+
+Release 1.4 - 2016-05-17
+----------------------------
+- Re-designed main interface
+- Re-design settings manager, streamlining interface
+- Re-written shortcuts management (I know, it's part of the settings manager mentioned above, but it's a huge improvement)
+- Re-written image engine
+- Improvement: Custom* elements have been extended for higher customisability
+- Improvement: Enable optimisations when compiling
+- Improvement: Better startup-checks (seperate namespace and files)
+- Add: Improved key navigation for elements
+- Add: Support for most RAW image formats (using Libraw)
+- Add: Custom element for opening files
+- Add: Additional metadata information
+- Add: Width of mainmenu and metadata element can be adjusted by click-and-drag
+- Add: Autotransform is used (for Qt >= 5.5) if enabled for better performance/quality
+- Add: Animate rotation/zooming
+- Add: Tooltips all over the place
+- Add: Shortcut notifier informing user of what shortcut navigation is possible
+- Add: Blur of background image (NOT desktop background) when element is open
+- Add: 'Loading' gif when image takes more than 500ms to load
+- Add: Experimental support for touchscreens
+- Add: Custom cache of displayed images, fully adjustable
+- Change: Turn metadata element into full-height bar on left edge
+- Change: Faulty/Unexpected metadata cannot cause a crash anymore (try/catch)
+- Change: Metadata non-floatable, i.e., permanently shown, resizes main image element
+- Change: Combine mainmenu and context-menu into full-height on right edge (removing Quicksettings)
+- Change: Use Qt's QCommandLineParse class for simple handling of command line (and common look with other Qt apps)
+- Change: Use proper XDG folders for configuration/data (auto migration at first startup)
+- Change of behaviour: Closing PhotoQt using window manager now immediately quits PhotoQt (and not first 'only' closes any possibly opened element)
+- Fix: Spaces in filenames are handled properly now when passing to external app
+- Fix (for Mac): current screen follows mouse pointer
+- Fix: many, many bugs
+- Windows: Several small fixes specifically for Windows systems
+
+
+Release 1.3 - 2015-07-27
+----------------------------
+- COMPLETE RE-WRITE IN QML
+- Fixed numerous bugs along the way
+- Added several new features
+- Ensured existing features are working as expected
+
+
+Release 1.2.1 - 2015-06-15
+----------------------------
+- Fix: Transitioning half-transparent images caused issues
+- Fix: Wheel Sensitivity (detect wheel direction change)
+- Fix: Store window geometry in proper folder
+- Fix: Set default values to global variables (fixes persistent 'No file loaded' label in metadata widget)
+- Fix: Properly quit PhotoQt (issue in some WMs, stale process would remain)
+- Fix: Check for which imagereader to use
+- Fix: Treat symlinks to images as own image (fixes weird behaviour)
+- Add: Option to completely disable tray icon
+
+
+Release 1.2 - 2015-01-17
+----------------------------
+- GraphicsMagick: More thorough testing and fixing
+- Intelligent detection of supported fileformats on first start
+- Colour filetype tiles of unsupported formats orange (qt formats only)
+- Added better SVG support
+- Added XCF support (depending on XCFtools)
+- Added PSB/PSD support (depending on libqpsd)
+- Smart preloading of folder, better support for large directories (15,000+ files)
+- Add sorting criteria for files (name, natural name, filesize, date)
+- Fix&Improve: Restore support for Trash on Linux
+- Re-worked thumbnail handling: faster, more reliable, new "smart thumbnails" mode
+- Option to stay centered on active thumbnail
+- Dynamically detect supported context menu entries
+- Option to switch between close/not close when selecting context menu entry
+- Remember zoom levels/rotation per session
+- Option to fit smaller images in window
+- Improved handling of windowed/fullscreen mode
+- Window always stays on top
+- Normal/Fancy look for closing 'x' top right
+- Automatic language detection on first start-up (system locale)
+- Change: Main animation is now 'fade-in' (+Possibility to disable altogether)
+- Wheel sensitivity settings
+- Opt-in to High-DPI pixmaps (Qt >= 5.4.0)
+- Fix: Proper handling of window flags
+- Re-ordering of settings (basic and advanced category)
+- Re-ordering and extending of quicksettings
+- Fix: Composite detection (not possible in Qt5 on Linux)
+- Loop and Shuffle option in Slideshow
+- Fix: Scaling preserves Exiv metadata
+- Many fixes, improvements, and removal of quite a bit of redundant code
+
+
+Release 1.1.0.1 - 2014-10-13
+----------------------------
+- Critical Fix: PhotoQt crashed on 32 Bit systems
+
+
+Release 1.1 - 2014-10-12
+----------------------------
+- PhotoQt now based on Qt5
+- Phonon replaced by QMultimedia
+- Rotations/Flipping stored per session (nothing is saved permanently in any files)
+- Filter images in current directory by filename/extension
+- Scaling images (permanent change)
+- Faded in widgets code moved to own class (massive code simplification)
+- Fade-in now starts at the top of the screen
+- Quick Settings (fade-in widget on the right)
+- Fake Transparency (background) now supported for any number of screens
+- CMake updates translation files on the fly (handy for translators)
+- fix: restore from system tray preserves fullscreen
+- fix: context menu converted to 'normal' shortcut
+- fix: possible to select background image
+- fix: saving settings no longer corrupts session wide list of known file formats
+- many improvements to custom widget classes (added methods for better styling, etc.)
+- several visual mock-ups (see yourself)
+- ... and many, many more bugs were fixed, codelines simplified, improvements here and there done - too many to recall all of them...
+
+
+Release 1.0 - 2013-08-11
+----------------------------
+- Photo renamed to PhotoQt
+- New logo (made necessary by name change)
+- Use of GraphicsMagick (hence support of 80+ file types)
+- Possibility at compilation time to disable use of GraphicsMagick, Exiv2, Phonon
+- Significantly faster start-up (on average more than 7 times faster)
+- Revamped style of most widgets
+- Added window mode (with and without window decorations)
+- Set-as-Wallpaper function
+- Dropdown menu updated and image manipulation functions moved to image context menu
+- Smart context menu options
+- Improved thumbnail handling and view
+- Dynamic thumbnail creation (only create those thumbnails currently visible)
+- Posibility to write resolution on thumbnails (in order to use this you have to remove thumbnails of older versions)
+- Faster image and directory loading
+- Improved fading between images
+- Locale detection when no language is set
+- Natural sort of images (i.e. image10.jpg comes after image9.jpg)
+- Many code improvements 'under the hub' for better, faster and more reliable image handling
+- ... and a few more things that I can't think of anymore ...
+
+
+Release 0.9.1 -2013-01-22
+----------------------------
+- FIXED: Open image by clicking on it didn't work
+- FIXED: Start in system tray resulted in some annoying behaviour
+- FIXED: Rotation according to exif data was done the wrong way round (anti-clockwise instead of clockwise)
+- ADDED: verbose mode (start photo with "--v" or "--verbose") -- Caution: produces a lot of output!
+
+
+Release 0.9 -2013-01-18
+----------------------------
+- Completely re-written and re-structured code
+- Mostly new and improved Look
+- Many more Settings
+- Better Image Handling
+- Better Thumbnail Implementation
+- Better Exif Handling
+- Better Shortcut Handling
+- Added Slideshow Feature
+- Faster Startup
+- Removed custom "Open File" dialog for now (needs a lot more work, just not ready yet...) :(
+- More command line options (run 'photo --help' for overview)
+- Many bugs fixed/avoided
+- ... and sooo much more ...
+
+
+Release 0.8.2 - 2012-12-13
+----------------------------
+- New and updated languages
+- Small fix for desktop-file to make it possible to select it as default image viewer on some platforms
+
+
+Release 0.8.1.2 - 2012-11-09
+----------------------------
+- FIXED: A click anywhere on the main image area would cause Photo to crash
+
+
+Release 0.8.1.1 - 2012-11-08
+----------------------------
+- Important fix of CMakeLists.txt. It installed some icons in /usr/icons instead of /usr/share/icons
+
+
+Release 0.8.1 - 2012-11-07
+----------------------------
+- FIXED: mouse shortcuts for external commands didn't work
+- FIXED: text labels (like filename, etc.) didn't stay hidden in certain circumstances
+- IMPROVED: CMakeLists.txt was improved to be better adaptable to different setups
+- IMPROVED: detection of currently set translation better generalised
+- ADDED: 6 new languages (Arabic, Norwegian (Nynorsk), Russian, Turkish, Ukrainian, Chinese)
+
+
+Release 0.8 - 2012-07-19
+----------------------------
+- Allow only one instance of Photo at a time - a new execution of the photo binary re-opens the already running one
+- Photo can be controlled through the command line (although the amount of commands possible are still limited
+- Photo can make use of the system tray, and can also start minimised to the tray -> instant availability
+- Slightly restyled and enhanced dropdown menu
+- Photo supports now (still very basic) printing functionality
+- A click on a GPS location in the exif widget opens the position on an online map service (e.g. google maps or bing maps)
+- New experimental opening dialog - STILL BETA, lacking many functions and reliability - USE AT OWN RISK!
+- Many other smaller changes
+
+
+Release 0.7.1.1 -2012-03-26
+----------------------------
+- Added Serbian Translation by Mladen Pejaković
+
+
+Release 0.7.1 - 2012-03-23
+----------------------------
+- Updating Greek translation
+- Looping through images (can be turned off)
+- Possibility to jump to first/last image in folder (shortcut)
+- First implementation of smooth transitions between images (still beta!!)
+- Fixed Bug: Hiding Thumbnails works now
+- Improved start-up time (window is build up a little faster now)
+
+
+Release 0.7 - 2012-03-08
+----------------------------
+- Rotating/flipping of image as stored in its exif data
+- Possibility to set and adjust mouse actions as shortcuts
+- Make Thumbnails moveable to top
+- Internal Shortcuts made easier accessable
+- More than one modifier (Ctrl/Shift/Alt) can now be used for shortcuts
+- Flipping of images
+- Zoom to actual size
+- Improved speed of rotating images
+- Scrolling at any point on the thumbnail bar scrolls horizontally
+- Fixed Bug: On dual-screen systems, if the other screen had bigger dimensions than current one -> image wouldn't load
+- Fixed Bug: Only one shortcut could be added per session, or Photo crashed
+- Other smaller changes
+
+
+Release 0.6.1 - 2012-02-14
+----------------------------
+- Added better desktop integration (i.e. desktop file and icons)
+- Fixed exiv2 bug, that could cause Photo to crash
+- Switched to cmake for building
+
+
+Release 0.6 - 2012-02-09
+----------------------------
+- Support for animated images
+- Centered thumbnail view
+- Exif information (using exiv2 library)
+- Extended/Changed Thumbnail caching
+- New About widget
+- Logo (Thanks to Archie Arevalo)
+- New thumbnail hover effect
+- Possibility to hide labels in main display area
+- Adjusted and extended settings widget
+- many smaller code improvements
+
+
+Release 0.5 - 2012-01-21
+----------------------------
+- Rotating of images
+- Improved zooming
+- Added file handling (rename,copy,move,delete)
+- Optional feature: Click on empty (grey) background will close Photo
+- Fixed hover effect for thumbnails
+- Fixed hover effect for shortcuts
+- Fixed Dual-Screen Monitor Bug
+- Other small code changes
+
+
+Release 0.4 - 2012-01-10
+----------------------------
+- Added zooming of images
+- Replaced menu button by nicely animated menu
+- Different code improvements that might increase the speed of Photo slightly
+- Other small code changes
+
+
+
+Release 0.3.0.1 - 2011-12-31
+----------------------------
+- Added Greek Translation by Dimitrios Glentadakis
+
+
+
+Release 0.3 - 2011-12-27
+----------------------------
+- Rewritten and Restyled Settings Window
+- Improved Shortcut handling
+- Faster thumbnail (re-)creation
+- Replaced buttons top right by single menu buttons
+- Translation into German
+- Several small changes and code improvements
+
+
+
+Release 0.2 - 2011-12-16
+----------------------------
+- Improved Thumbnail View (now more interactive)
+- Thumbnail Cache (freedesktop.org compliant)
+- Use of QImageReader to increase performance
+- Composite made an option in settings
+- Thumbnail size can be adjusted
+- Implement function to open a new file from inside photo
+- many, many small bug fixes and code improvements
+
+
+
+Release 0.1 - 2011-12-08
+----------------------------
+First initial Release

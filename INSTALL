@@ -1,0 +1,159 @@
+-------------------------------------
+         Installing PhotoQt
+-------------------------------------
+ 
+ The instructions below serve as a guide to compile and install PhotoQt from source.
+ PhotoQt is available in the repositories of an increasing number of Linux distributions.
+ In addition, various means of installing PhotoQt (Windows installer, Flatpak, etc.) are
+ listed on the website: https://photoqt.org/down
+
+ DEPENDENCIES
+--------------
+- Qt >= 5.12
+- CMake (needed for building PhotoQt)
+- Qt5 ImageFormats
+
+> Make sure that you have the required QML modules installed:
+  QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
+  QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window,
+  QtLocation, QtPositioning, QtCharts
+
+> Dependencies that are needed by default, but can be disabled via CMake:
+- LibArchive
+- Exiv2
+- ImageMagick or GraphicsMagick
+- LibRaw
+- Poppler (can be replaced by QtPDF)
+- LibVips
+- FreeImage
+- DevIL
+- pugixml
+- libmpv
+- Python (incl. pychromecast package)
+
+> Dependencies that are disabled by default, but can be enabled via CMake:
+- libvips
+
+> Please note that you probably want to have as many of these enabled as possible as
+  they greatly enhance the experience of PhotoQt.
+
+> NOTE
+  On some systems you also need the *-dev package for compiling (e.g.
+  exiv2-dev - names can vary slightly depending on your distribution). These
+  packages usually can be uninstalled again after compilation is done.
+
+> NOTE
+  PhotoQt can work with either ImageMagick and GraphicsMagick, but due to
+  conflicting naming schemes it is not possible to use both at the same time.
+  By default GraphicsMagick will be enabled in CMake.
+
+> NOTE
+  Exiv2 can be compiled with support for the BMFF format. Note that there is the
+  possibility that BMFF support may be the subject of patent rights. PhotoQt will
+  by default opt-in to reading this format (if supported by Exiv2). If you prefer
+  to not include support for this format in PhotoQt simply set the EXIV2_ENABLE_BMFF
+  CMake option to OFF.
+
+
+ ADDITIONAL IMAGE FORMATS
+--------------------------
+
+> These are some libraries and tools that can add additional formats to PhotoQt
+  if installed. None of them are needed at compile time, but they can be picked
+  up at runtime if available.
+
+- KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
+- Qt plug-in for AVIF images - https://github.com/novomesk/qt-avif-image-plugin
+- Qt plug-in for JPEG XL images - https://github.com/novomesk/qt-jpegxl-image-plugin
+- Qt plug-in for HEIF/HEIC images - https://github.com/novomesk/qt-heic-image-plugin
+- XCFtools - https://github.com/j-jorge/xcftools
+- libqpsd - https://github.com/Code-ReaQtor/libqpsd
+- unrar
+
+
+ ADDITIONAL MAP PROVIDERS
+--------------------------
+> PhotoQt can show image locations on an embedded map. By default it chooses
+  OpenStreetMap, but Esri and Google Maps are also offered as an option. Esri support
+  is currently built-in to Qt, but in order to support Google Maps this plugin for
+  QtLocation needs to be installed: https://github.com/vladest/googlemaps
+
+
+ BUILDING AND INSTALLING
+-------------------------
+
+1) mkdir build && cd build/
+
+2) cmake ..
+
+     # Note: This installs PhotoQt by default into /usr/local/{bin,share}
+     # To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
+
+     cmake -DCMAKE_INSTALL_PREFIX=/usr ..
+
+     # At this step you can also en-/disable any compile time features.
+
+3) make  # This creates an executeable photoqt binary located in the ./build/ folder
+
+4) (as root or sudo) make install
+     # This (  i) is only required if you want to install PhotoQt
+     #      ( ii) installs the desktop file to share/applications/
+     #      (iii) installs some icons to icons/hicolor/
+     #      ( iv) installs the binary to bin/
+     #      (  v) installs the metainfo file to share/metainfo/
+
+
+ UNINSTALL
+-----------
+ If you want to uninstall PhotoQt, simply run "make uninstall" as root. This removes
+ the desktop file (via xdg-desktop-menu uninstall), the icons, the binary file, and
+ the metainfo file. Alternatively you can simply remove all the files manually which
+ should yield the same result.
+
+
+ BUILDING ON WINDOWS
+---------------------
+
+ PhotoQt offers installers for pre-built binaries on its website:
+ https://photoqt.org/downpopupwindows
+
+ If you prefer to build it yourself, this process is not as hard as it might seem at
+ first. The main challenge in building PhotoQt on Windows lies in getting the environment
+ set up and all dependencies installed.
+
+ The following are required dependencies:
+
+ 1) Install Visual Studio 2019 Community Edition (free, be sure to install the 'Desktop
+    Development with C++' workload)
+    - Website: https://visualstudio.microsoft.com/
+ 2) Install CMake:
+    - Website: https://cmake.org/
+    - In the installer set the system path option to Add CMake to the system PATH for all
+      users
+ 3) Install Qt 5.15
+    - Website: https://qt.io
+    - In the installer, make sure to install all required modules as listed above under
+      dependencies.
+    - After installation, confirm that your installation of Qt finds both CMake and the
+      compiler installed in steps 1 and 2
+
+ The following dependencies are recommended but can be disabled through CMake if not
+ wanted:
+
+ 1) LibArchive: https://libarchive.org/
+ 2) Exiv2: https://exiv2.org/
+ 3) ImageMagick: https://imagemagick.org/
+ 4) LibRaw: https://www.libraw.org/
+ 5) pugixml: https://pugixml.org/
+ 6) Poppler: https://poppler.freedesktop.org/
+ 7) FreeImage: https://freeimage.sourceforge.io/
+ 8) DevIL: http://openil.sourceforge.net/
+
+ Make sure that any installed dependency is added to the system path, or otherwise you
+ need to explicitely point CMake to the right location for each of them. Regardless, CMake
+ might have to be explicitely pointed to the library/include paths of some of the
+ dependencies by specifying target_include_directories() and target_link_libraries().
+
+ Once all the requried and desired dependencies are installed, then the source code of
+ PhotoQt can be fetched from the website (https://photoqt.og/down). Then simply follow
+ the instructions in the 'BUILDING AND INSTALLING' section above
