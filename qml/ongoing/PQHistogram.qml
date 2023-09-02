@@ -354,46 +354,6 @@ PQTemplateFloating {
 
     }
 
-    function load() {
-
-        var cols = PQCScriptsImages.getHistogramData(PQCFileFolderModel.currentFile)
-
-        if(cols.length === 0)
-            return
-
-        var red = cols[0]
-        var green = cols[1]
-        var blue = cols[2]
-        var grey = cols[3]
-
-        // RED COLOR
-
-        histogramred.clear()
-        for(var r = 0; r < 256; ++r)
-            histogramred.append(r, red[r])
-
-        // GREEN COLOR
-
-        histogramgreen.clear()
-        for(var g = 0; g < 256; ++g)
-            histogramgreen.append(g, green[g])
-
-        // BLUE COLOR
-
-        histogramblue.clear()
-        for(var b = 0; b < 256; ++b)
-            histogramblue.append(b, blue[b])
-
-        // GREY SCALE
-
-        histogramgrey.clear()
-        for(var k = 0; k < 256; ++k)
-            histogramgrey.append(k, grey[k])
-
-        busy.opacity = 0
-
-    }
-
     function show() {
         opacity = 1
         PQCSettings.histogramVisible = true
