@@ -68,5 +68,6 @@
         <file>white/maplocation.png</file>
         <file>white/icon.png</file>
         <file>white/logo.png</file>
+        <file>white/menu.svg</file>
     </qresource>
 </RCC>

@@ -148,6 +148,8 @@ Window {
             loader.show("histogram")
         if(PQCSettings.mapviewCurrentVisible)
             loader.show("mapcurrent")
+        if(PQCSettings.interfaceNavigationFloating)
+            loader.show("navigationfloating")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath

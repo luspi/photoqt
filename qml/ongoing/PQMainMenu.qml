@@ -662,7 +662,7 @@ Rectangle {
         width: 10
         height: parent.height
         cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
-        enabled: parent.state=="left"
+        enabled: parent.state==="left"
 
         property int clickStart: -1
         property int origWidth: PQCSettings.mainmenuElementWidth
@@ -688,7 +688,7 @@ Rectangle {
         width: 10
         height: parent.height
         cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
-        enabled: parent.state=="right"
+        enabled: parent.state==="right"
 
         property int clickStart: -1
         property int origWidth: PQCSettings.mainmenuElementWidth
@@ -749,6 +749,29 @@ Rectangle {
                     setVisible = true
             }
         }
+    }
+
+    Connections {
+        target: loader
+
+        function onPassOn(what, param) {
+
+            if(what === "show") {
+                if(param === "mainmenu") {
+                    showMainMenu()
+                }
+            } else if(what === "toggle") {
+                if(param === "mainmenu") {
+                    toggle()
+                }
+            }
+
+        }
+
+    }
+
+    function toggle() {
+        mainmenu_top.setVisible = !mainmenu_top.setVisible
     }
 
     function hideMainMenu() {

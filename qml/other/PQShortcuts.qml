@@ -263,6 +263,9 @@ Item {
             case "__showMainMenu":
                 loader.show("mainmenu")
                 break
+            case "__toggleMainMenu":
+                loader.passOn("toggle", "mainmenu")
+                break
             case "__showThumbnails":
                 loader.show("thumbnails")
                 break
