@@ -42,6 +42,7 @@
 #include <scripts/pqc_scriptsmetadata.h>
 #include <scripts/pqc_scriptscontextmenu.h>
 #include <scripts/pqc_scriptsshortcuts.h>
+#include <scripts/pqc_scriptscrypt.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -217,6 +218,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsShortcuts", 1, 0, "PQCScriptsShortcuts", &PQCScriptsShortcuts::get());
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
     qmlRegisterSingletonInstance("PQCPopoutGeometry", 1, 0, "PQCPopoutGeometry", &PQCPopoutGeometry::get());
+    qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
