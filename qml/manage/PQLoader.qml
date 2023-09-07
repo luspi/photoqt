@@ -10,6 +10,7 @@ Item {
     // source, loader id, modal, popout, force popout
     property var loadermapping: {
         "export"              : ["actions","PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCPopoutGeometry.exportForcePopout],
+        "about"               : ["actions","PQAbout", loader_about, 1, PQCSettings.interfacePopoutAbout, PQCPopoutGeometry.aboutForcePopout],
         "mainmenu"            : ["ongoing","PQMainMenu", loader_mainmenu, 0, PQCSettings.interfacePopoutMainMenu, PQCPopoutGeometry.mainmenuForcePopout],
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCPopoutGeometry.metadataForcePopout],
         "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCPopoutGeometry.filedialogForcePopout],
@@ -17,7 +18,6 @@ Item {
         "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, PQCSettings.interfacePopoutHistogram, PQCPopoutGeometry.histogramForcePopout],
         "mapcurrent"          : ["ongoing","PQMapCurrent", loader_mapcurrent, 0, PQCSettings.interfacePopoutMapCurrent, PQCPopoutGeometry.mapcurrentForcePopout],
 
-        "about"               : ["actions","PQAbout", loader_about, 1, false, false],
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],

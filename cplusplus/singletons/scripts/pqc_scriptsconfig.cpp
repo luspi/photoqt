@@ -425,3 +425,7 @@ bool PQCScriptsConfig::isVideoQtSupportEnabled() {
 #endif
     return false;
 }
+
+QString PQCScriptsConfig::getVersion() {
+    return VERSION;
+}

@@ -221,8 +221,9 @@ Item {
 //                break
 //            case "__settings":
 //                break
-//            case "__about":
-//                break
+            case "__about":
+                loader.show("about")
+                break
 //            case "__slideshow":
 //                break
 //            case "__slideshowQuick":

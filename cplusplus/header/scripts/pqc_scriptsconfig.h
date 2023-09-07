@@ -32,6 +32,7 @@ public:
     Q_INVOKABLE bool isQtAtLeast6_4();
     Q_INVOKABLE bool isMPVSupportEnabled();
     Q_INVOKABLE bool isVideoQtSupportEnabled();
+    Q_INVOKABLE QString getVersion();
 
 private:
     PQCScriptsConfig();

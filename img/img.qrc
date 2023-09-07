@@ -67,5 +67,6 @@
         <file>white/popinpopout.svg</file>
         <file>white/maplocation.png</file>
         <file>white/icon.png</file>
+        <file>white/logo.png</file>
     </qresource>
 </RCC>

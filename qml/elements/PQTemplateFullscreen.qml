@@ -75,7 +75,7 @@ Rectangle {
     visible: opacity>0
     enabled: visible
 
-    color: PQCLook.transColor
+    color: PQCLook.baseColorAccent
 
     signal close()
 

@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QUrl>
+#include <QTextDocumentFragment>
 
 PQCScriptsClipboard::PQCScriptsClipboard() {
     clipboard = qApp->clipboard();
@@ -43,6 +44,8 @@ void PQCScriptsClipboard::copyFilesToClipboard(QStringList files) {
 
 QStringList PQCScriptsClipboard::getListOfFilesInClipboard() {
 
+    qDebug() << "";
+
     const QMimeData *mimeData = clipboard->mimeData();
 
     if(mimeData == nullptr)
@@ -58,5 +61,17 @@ QStringList PQCScriptsClipboard::getListOfFilesInClipboard() {
         ret << u.toLocalFile();
 
     return ret;
+
+}
+
+void PQCScriptsClipboard::copyTextToClipboard(QString txt, bool removeHTML) {
+
+    qDebug() << "args: txt =" << txt;
+    qDebug() << "args: removeHTML =" << removeHTML;
+
+    if(removeHTML)
+        txt = QTextDocumentFragment::fromHtml(txt).toPlainText();
+
+    clipboard->setText(txt, QClipboard::Clipboard);
 
 }
