@@ -13,28 +13,28 @@ PQMenu {
         iconSource: "/white/rename.svg"
         text: qsTranslate("contextmenu", "Rename file")
         onClicked:
-            console.log("rename")
+            PQCNotify.executeInternalCommand("__rename")
     }
 
     PQMenuItem {
         iconSource: "/white/copy.svg"
         text: qsTranslate("contextmenu", "Copy file")
         onClicked:
-            console.log("copy")
+            PQCNotify.executeInternalCommand("__copy")
     }
 
     PQMenuItem {
         iconSource: "/white/move.svg"
         text: qsTranslate("contextmenu", "Move file")
         onClicked:
-            console.log("move")
+            PQCNotify.executeInternalCommand("__move")
     }
 
     PQMenuItem {
         iconSource: "/white/delete.svg"
         text: qsTranslate("contextmenu", "Delete file")
         onClicked:
-            console.log("delete")
+            PQCNotify.executeInternalCommand("__deleteTrash")
     }
 
     PQMenuSeparator {}
@@ -42,6 +42,8 @@ PQMenu {
     PQMenuItem {
         iconSource: "/white/clipboard.svg"
         text: qsTranslate("contextmenu", "Copy to clipboard")
+        onClicked:
+            PQCNotify.executeInternalCommand("__clipboard")
     }
 
     PQMenuItem {
@@ -54,16 +56,22 @@ PQMenu {
     PQMenuItem {
         iconSource: "/white/scale.svg"
         text: qsTranslate("contextmenu", "Scale image")
+        onClicked:
+            PQCNotify.executeInternalCommand("__scale")
     }
 
     PQMenuItem {
         iconSource: "/white/faces.svg"
         text: qsTranslate("contextmenu", "Tag faces")
+        onClicked:
+            PQCNotify.executeInternalCommand("__tagFaces")
     }
 
     PQMenuItem {
         iconSource: "/white/wallpaper.svg"
         text: qsTranslate("contextmenu", "Set as wallpaper")
+        onClicked:
+            PQCNotify.executeInternalCommand("__wallpaper")
     }
 
     PQMenuSeparator {}
