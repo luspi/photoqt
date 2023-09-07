@@ -48,7 +48,7 @@ Item {
 
 //            contextmenu.hideMenu()
 
-            if(loader.numVisible > 0)
+            if(loader.visibleItem !== "")
 
                 loader.passOn("keyEvent", [key, modifiers])
 

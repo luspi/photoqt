@@ -21,6 +21,8 @@ Window {
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window) : (Qt.FramelessWindowHint|Qt.Window))
 
+    visibility: PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen
+
     color: PQCLook.transColor
 
     minimumWidth: 800
@@ -81,6 +83,18 @@ Window {
 
     Loader { id: loader_trayicon; asynchronous: true; source: "ongoing/PQTrayIcon.qml" }
 
+    Loader { id: windowbuttons; asynchronous: true; source: "ongoing/PQWindowButtons.qml" }
+    Loader {
+        id: windowbuttons_ontop
+        asynchronous: true
+        source: "ongoing/PQWindowButtons.qml"
+        z: loader.visibleItem!=="filedialog" ? 999 : 0
+        onStatusChanged: {
+            if(windowbuttons_ontop.status == Loader.Ready)
+                windowbuttons_ontop.item.visibleAlways = true
+        }
+    }
+
     /*************************************************/
     // load on-demand
 
@@ -132,6 +146,15 @@ Window {
         running: true
         onTriggered:
             toplevel.startup = false
+    }
+
+    Connections {
+        target: PQCSettings
+
+        function onInterfaceWindowModeChanged() {
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen)
+        }
+
     }
 
     Component.onCompleted: {

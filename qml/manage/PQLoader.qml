@@ -39,7 +39,7 @@ Item {
         "wallpaper"           : ["actions","PQWallpaper", loader_wallpaper, 1, false, false]
     }
 
-    property int numVisible: 0
+    property string visibleItem: ""
 
     signal passOn(var what, var param)
 
@@ -57,12 +57,12 @@ Item {
 
         var config = loadermapping[e]
 
-        if(config[3] === 1 && numVisible > 0)
+        if(config[3] === 1 && visibleItem != "")
             return
 
         // these checks make sure to ignore the blocking value when the interfacePopoutFileDialogKeepOpen setting is set
-        if(e !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogKeepOpen))
-            numVisible += config[3]
+        if(config[3] === 1 && (e !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogKeepOpen)))
+            visibleItem = e
 
         ensureItIsReady(e, config)
 
@@ -71,8 +71,12 @@ Item {
     }
 
     function elementClosed(ele) {
-        if(ele in loadermapping && loadermapping[ele][3] === 1)
-            numVisible = Math.max(0, numVisible-1)
+        if(ele in loadermapping && loadermapping[ele][3] === 1) {
+            if(visibleItem === ele)
+                visibleItem = ""
+            else
+                console.warn("Closed item not item recoreded as open:", ele, "=!=", visibleItem)
+        }
     }
 
     function ensureItIsReady(ele, config) {

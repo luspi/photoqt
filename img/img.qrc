@@ -69,5 +69,14 @@
         <file>white/icon.png</file>
         <file>white/logo.png</file>
         <file>white/menu.svg</file>
+        <file>white/keepforeground.svg</file>
+        <file>white/minimize.svg</file>
+        <file>white/windows-minimize.svg</file>
+        <file>white/maximize.svg</file>
+        <file>white/restore.svg</file>
+        <file>white/windows-restore.svg</file>
+        <file>white/windows-maximize.svg</file>
+        <file>white/fullscreen_off.svg</file>
+        <file>white/fullscreen_on.svg</file>
     </qresource>
 </RCC>

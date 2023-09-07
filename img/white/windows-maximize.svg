@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="800" height="800" version="1.1" viewBox="0 0 211.67 211.67" xmlns="http://www.w3.org/2000/svg">
+ <g stroke="#000">
+  <g fill="#fff" fill-opacity="0">
+   <rect x="39.951" y="39.951" width="131.76" height="131.76" stroke-width=".52706"/>
+   <rect x="59.717" y="59.717" width="92.237" height="92.237" stroke-width=".39953"/>
+  </g>
+  <g fill="#fff">
+   <rect x="39.885" y="59.649" width="19.869" height="92.301" stroke-width=".40106"/>
+   <rect x="151.96" y="59.709" width="19.869" height="92.301" stroke-width=".40111"/>
+   <rect x="59.738" y="39.885" width="92.206" height="19.832" ry="0" stroke-width=".40232"/>
+   <rect x="59.751" y="151.95" width="92.227" height="19.832" ry="0" stroke-width=".40244"/>
+  </g>
+  <rect x="39.89" y="39.876" width="19.861" height="19.843" fill="#fffff7" stroke-width=".40686"/>
+ </g>
+ <g fill="#fff">
+  <g stroke="#000">
+   <rect x="151.95" y="39.888" width="19.866" height="19.832" stroke-width=".40681"/>
+   <rect x="151.96" y="151.94" width="19.872" height="19.867" stroke-width=".40722"/>
+   <rect x="39.885" y="151.9" width="19.863" height="19.855" stroke-width=".40701"/>
+  </g>
+  <rect x="152.14" y="40.095" width="19.485" height="131.51"/>
+  <rect x="40.115" y="40.078" width="19.485" height="131.51"/>
+  <rect x="40.092" y="40.08" width="131.49" height="19.436"/>
+  <rect x="40.089" y="152.14" width="131.49" height="19.436"/>
+ </g>
+</svg>

@@ -52,7 +52,7 @@ Item {
                         to: 50
                         duration: 1000
                         loops: Animation.Infinite
-                        running: visible&&loader.numVisible===0
+                        running: visible&&loader.visibleItem===""
                         easing.type: Easing.OutCirc
                     }
                 }
@@ -126,7 +126,7 @@ Item {
 
                 id: seqleft
 
-                running: visible&&loader.numVisible==0
+                running: visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
@@ -172,7 +172,7 @@ Item {
 
                 id: seqright
 
-                running: visible&&loader.numVisible==0
+                running: visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
@@ -219,7 +219,7 @@ Item {
 
                 id: seqdown
 
-                running: visible&&loader.numVisible==0
+                running: visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
@@ -266,7 +266,7 @@ Item {
 
                 id: sequp
 
-                running: visible&&loader.numVisible==0
+                running: visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
