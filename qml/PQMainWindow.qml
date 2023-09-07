@@ -79,6 +79,8 @@ Window {
     Loader { id: loader_metadata; asynchronous: true; }
     PQContextMenu { id: contextmenu }
 
+    Loader { id: loader_trayicon; asynchronous: true; source: "ongoing/PQTrayIcon.qml" }
+
     /*************************************************/
     // load on-demand
 
@@ -182,7 +184,6 @@ Window {
             PQCScriptsConfig.deleteLastLoadedImage()
 
         PQCScriptsOther.deleteScreenshots()
-//        handlingGeneral.cleanUpScreenshotsTakenAtStartup()
 
 //        if(PQCScriptsConfig.amIOnWindows())
 //            handlingFileDir.deleteTemporaryAnimatedImageFiles()
