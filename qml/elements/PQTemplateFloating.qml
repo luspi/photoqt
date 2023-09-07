@@ -23,6 +23,7 @@ Rectangle {
     property bool showPopinPopout: true
     property bool darkBackgroundManageIcons: false
     property string tooltip: ""
+    property bool allowWheel: false
 
     /////////
 
@@ -70,7 +71,7 @@ Rectangle {
         drag.target: popout ? undefined : parent
         text: tooltip
         onWheel: (wheel) => {
-            wheel.accepted = true
+            wheel.accepted = !allowWheel
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
@@ -109,8 +110,8 @@ Rectangle {
     }
 
     Image {
-        x: 2
-        y: 2
+        x: 4
+        y: 4
         width: 15
         height: 15
         source: "/white/popinpopout.svg"
@@ -138,6 +139,16 @@ Rectangle {
                 ele_top.hide()
                 PQCNotify.executeInternalCommand(ele_top.shortcut)
             }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: -2
+            radius: 2
+            z: -1
+            visible: darkBackgroundManageIcons
+            color: PQCLook.transColor
+            opacity: parent.opacity
         }
     }
 
@@ -180,7 +191,7 @@ Rectangle {
                 radius: width/2
                 z: -1
                 visible: darkBackgroundManageIcons
-                color: "#88000000"
+                color: PQCLook.transColor
                 opacity: closeimage.opacity
             }
 

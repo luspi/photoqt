@@ -360,8 +360,9 @@ Item {
 //                break
 //            case "__showFaceTags":
 //                break
-//            case "__showMapCurrent":
-//                break
+            case "__showMapCurrent":
+                loader.show("mapcurrent")
+                break
 //            case "__toggleAlwaysActualSize":
 //                PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
 //                break

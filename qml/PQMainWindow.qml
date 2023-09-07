@@ -144,9 +144,14 @@ Window {
 
         if(PQCSettings.histogramVisible)
             loader.show("histogram")
+        if(PQCSettings.mapviewCurrentVisible)
+            loader.show("mapcurrent")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
+        else if(PQCSettings.interfaceRememberLastImage)
+            PQCFileFolderModel.fileInFolderMainView = PQCScriptsConfig.getLastLoadedImage()
+
 
         if(PQCScriptsConfig.amIOnWindows())
             showOpacity.restart()
@@ -182,6 +187,10 @@ Window {
 //        if(PQCScriptsConfig.amIOnWindows())
 //            handlingFileDir.deleteTemporaryAnimatedImageFiles()
 
+    }
+
+    onClosing: {
+        handleBeforeClosing()
     }
 
     function quitPhotoQt() {

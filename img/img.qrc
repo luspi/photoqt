@@ -65,5 +65,6 @@
         <file>white/star.svg</file>
         <file>white/checkmark.svg</file>
         <file>white/popinpopout.svg</file>
+        <file>white/maplocation.png</file>
     </qresource>
 </RCC>

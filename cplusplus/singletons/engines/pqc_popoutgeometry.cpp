@@ -34,6 +34,10 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
                                                << 300 << 200    // default size
                                                << 0 << 0));     // popout threshold;
 
+    allElements.append(QVariant(QVariantList() << "mapcurrent"  // name
+                                               << 400 << 300    // default size
+                                               << 0 << 0));     // popout threshold;
+
     // save values with delay
     saveDelay = new QTimer;
     saveDelay->setInterval(200);

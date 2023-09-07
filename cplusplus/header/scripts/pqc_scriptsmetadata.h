@@ -28,6 +28,7 @@ public:
     QPointF convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QString gpsLonRef, QString gpsLon);
 
     Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps);
+    Q_INVOKABLE QPointF convertGPSToPoint(QString gps);
 
 private:
     PQCScriptsMetaData();

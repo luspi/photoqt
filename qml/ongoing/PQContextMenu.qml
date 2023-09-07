@@ -78,6 +78,8 @@ PQMenu {
     PQMenuItem {
         iconSource: "/white/mapmarker.svg"
         text: qsTranslate("contextmenu", "Show on map")
+        onClicked:
+            PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
     PQMenuSeparator {}

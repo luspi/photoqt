@@ -15,6 +15,7 @@ Item {
         "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCPopoutGeometry.filedialogForcePopout],
         "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
         "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, PQCSettings.interfacePopoutHistogram, PQCPopoutGeometry.histogramForcePopout],
+        "mapcurrent"          : ["ongoing","PQMapCurrent", loader_mapcurrent, 0, PQCSettings.interfacePopoutMapCurrent, PQCPopoutGeometry.mapcurrentForcePopout],
 
         "about"               : ["actions","PQAbout", loader_about, 1, false, false],
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
@@ -28,7 +29,6 @@ Item {
         "imgur"               : ["actions","PQImgur", loader_imgur, 1, false, false],
         "imguranonym"         : ["actions","PQImgurAnonym", loader_imguranonym, 1, false, false],
         "logging"             : ["ongoing","PQLogging", loader_logging, 0, false, false],
-        "mapcurrent"          : ["map","PQMapCurrent", loader_mapcurrent, 0, false, false],
         "mapexplorer"         : ["map","PQMapExplorer", loader_mapexplorer, 1, false, false],
         "navigationfloating"  : ["other","PQNavigation", loader_navigationfloating, 0, false, false],
         "scale"               : ["actions","PQScale", loader_scale, 1, false, false],

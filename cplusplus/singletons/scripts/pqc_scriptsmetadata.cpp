@@ -398,23 +398,36 @@ QString PQCScriptsMetaData::convertGPSToDecimalForOpenStreetMap(QString gps) {
     if(!gps.contains(", "))
         return "";
 
+    const QPointF pt = convertGPSToPoint(gps);
+
+    if(pt.x() == 9999)
+        return "";
+
+    return QString("%1/%2").arg(pt.x()).arg(pt.y());
+
+}
+
+QPointF PQCScriptsMetaData::convertGPSToPoint(QString gps) {
+
+    if(!gps.contains(", "))
+        return QPointF(9999,9999);
+
     const QString one = gps.split(", ")[0];
     const QString two = gps.split(", ")[1];
 
     if(!one.contains("°") || !one.contains("'") || !one.contains("''"))
-        return "";
+        return QPointF(9999,9999);
     if(!two.contains("°") || !two.contains("'") || !two.contains("''"))
-        return "";
+        return QPointF(9999,9999);
 
     float one_dec = one.split("°")[0].toFloat() + (one.split("°")[1].split("'")[0]).toFloat()/60.0 + (one.split("'")[1].split("''")[0]).toFloat()/3600.0;
     if(one.contains("S"))
         one_dec *= -1;
 
-
     float two_dec = two.split("°")[0].toFloat() + (two.split("°")[1].split("'")[0]).toFloat()/60.0 + (two.split("'")[1].split("''")[0]).toFloat()/3600.0;
     if(two.contains("W"))
         two_dec *= -1;
 
-    return QString("%1/%2").arg(one_dec).arg(two_dec);
+    return QPointF(one_dec, two_dec);
 
 }
