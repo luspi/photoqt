@@ -78,5 +78,7 @@
         <file>white/windows-maximize.svg</file>
         <file>white/fullscreen_off.svg</file>
         <file>white/fullscreen_on.svg</file>
+        <file>white/aspectratioignore.svg</file>
+        <file>white/aspectratiokeep.svg</file>
     </qresource>
 </RCC>

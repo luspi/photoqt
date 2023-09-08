@@ -74,6 +74,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool spinBoxPassKeyEvents READ getSpinBoxPassKeyEvents WRITE setSpinBoxPassKeyEvents NOTIFY spinBoxPassKeyEventsChanged)
+    void setSpinBoxPassKeyEvents(bool val);
+    Q_INVOKABLE bool getSpinBoxPassKeyEvents();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -81,6 +87,8 @@ private:
         m_freshInstall = false;
         m_startInTray = false;
         m_thumbs = 2;
+        m_modalFileDialogOpen = false;
+        m_spinBoxPassKeyEvents = false;
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -91,6 +99,7 @@ private:
     bool m_startInTray;
 
     bool m_modalFileDialogOpen;
+    bool m_spinBoxPassKeyEvents;
 
 Q_SIGNALS:
     void filePathChanged();
@@ -100,6 +109,7 @@ Q_SIGNALS:
     void startInTrayChanged();
 
     void modalFileDialogOpenChanged();
+    void spinBoxPassKeyEventsChanged();
 
     // these are kept similar to the
     void cmdOpen();

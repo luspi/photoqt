@@ -264,8 +264,21 @@ bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
 
     if(e->type() == QEvent::KeyPress && !PQCNotify::get().getModalFileDialogOpen()) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-        Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
-        return true;
+
+        // These events are ignored if a spinbox is focussed:
+        // - numbers
+        // - backspace/delete
+        // - left/right
+        if(!PQCNotify::get().getSpinBoxPassKeyEvents() ||
+            (ev->key() != Qt::Key_1 && ev->key() != Qt::Key_2 && ev->key() != Qt::Key_3 && ev->key() != Qt::Key_4 && ev->key() != Qt::Key_5 &&
+             ev->key() != Qt::Key_6 && ev->key() != Qt::Key_7 && ev->key() != Qt::Key_8 && ev->key() != Qt::Key_9 && ev->key() != Qt::Key_0 &&
+             ev->key() != Qt::Key_Backspace && ev->key() != Qt::Key_Delete &&
+             ev->key() != Qt::Key_Left && ev->key() != Qt::Key_Right)) {
+
+            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
+            return true;
+
+        }
     }
 
     return QApplication::eventFilter(obj, e);

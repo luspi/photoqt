@@ -18,6 +18,7 @@ Item {
         "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, PQCSettings.interfacePopoutHistogram, PQCPopoutGeometry.histogramForcePopout],
         "mapcurrent"          : ["ongoing","PQMapCurrent", loader_mapcurrent, 0, PQCSettings.interfacePopoutMapCurrent, PQCPopoutGeometry.mapcurrentForcePopout],
         "navigationfloating"  : ["ongoing","PQNavigation", loader_navigationfloating, 0, false, false],
+        "scale"               : ["actions","PQScale", loader_scale, 1, PQCSettings.interfacePopoutScale, PQCPopoutGeometry.scaleForcePopout],
 
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
@@ -31,7 +32,6 @@ Item {
         "imguranonym"         : ["actions","PQImgurAnonym", loader_imguranonym, 1, false, false],
         "logging"             : ["ongoing","PQLogging", loader_logging, 0, false, false],
         "mapexplorer"         : ["map","PQMapExplorer", loader_mapexplorer, 1, false, false],
-        "scale"               : ["actions","PQScale", loader_scale, 1, false, false],
         "settingsmanager"     : ["settings","PQSettingsManager", loader_settingsmanager, 1, false, false],
         "slideshowcontrols"   : ["ongoing","PQSlideShowControls", loader_slideshowcontrols, 0, false, false],
         "slideshowsettings"   : ["ongoing","PQSlideShowSettings", loader_slideshowsettings, 1, false, false],

@@ -64,3 +64,13 @@ void PQCNotify::setModalFileDialogOpen(bool val) {
 bool PQCNotify::getModalFileDialogOpen() {
     return m_modalFileDialogOpen;
 }
+
+void PQCNotify::setSpinBoxPassKeyEvents(bool val) {
+    if(val != m_spinBoxPassKeyEvents) {
+        m_spinBoxPassKeyEvents = val;
+        Q_EMIT spinBoxPassKeyEventsChanged();
+    }
+}
+bool PQCNotify::getSpinBoxPassKeyEvents() {
+    return m_spinBoxPassKeyEvents;
+}

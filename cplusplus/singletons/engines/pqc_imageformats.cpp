@@ -27,6 +27,7 @@
 #include <QtSql/QSqlRecord>
 #include <QMessageBox>
 #include <QImageWriter>
+#include <QMimeDatabase>
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
 
@@ -511,6 +512,89 @@ QVariantMap PQCImageFormats::getFormatsInfo(int uniqueid) {
     ret.insert("qt_formatname", query.record().value("qt_formatname"));
 
     return ret;
+
+}
+
+int PQCImageFormats::detectFormatId(QString filename) {
+
+    QFileInfo info(filename);
+    QString suffix = info.suffix();
+
+    QMimeDatabase mimedb;
+    QString mimetype = mimedb.mimeTypeForFile(filename).name();
+
+    if(mimetype != "") {
+
+        QSqlQuery query(db);
+        query.prepare("SELECT uniqueid FROM imageformats WHERE mimetypes LIKE :mimetype");
+        query.bindValue(":mimetype", QString("%%%1%%").arg(mimetype));
+        if(query.exec()) {
+            if(query.next())
+                return query.record().value(0).toInt();
+        } else
+            qDebug() << "SQL error:" << query.lastError().text();
+
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT uniqueid FROM imageformats WHERE endings LIKE :endings1 OR endings LIKE :endings2 OR endings LIKE :endings3 or endings=:endings4");
+    query.bindValue(":endings1", QString("%1,%%").arg(suffix));
+    query.bindValue(":endings2", QString("%%,%1,%%").arg(suffix));
+    query.bindValue(":endings3", QString("%%,%1").arg(suffix));
+    query.bindValue(":endings4", suffix);
+    if(query.exec()) {
+        if(query.next())
+            return query.record().value(0).toInt();
+    } else
+        qDebug() << "SQL error:" << query.lastError().text();
+
+    return -1;
+
+}
+
+// return: 0 (not writable), 1 (qt/magick), 2 (qt), 3 (magick)
+int PQCImageFormats::getWriteStatus(int uniqueid) {
+
+    QImageWriter writer;
+    QSqlQuery query(db);
+    query.prepare("SELECT qt_formatname,im_gm_magick FROM imageformats WHERE uniqueid=:uniqueid ORDER BY qt DESC, description ASC");
+    query.bindValue(":uniqueid", uniqueid);
+    if(!query.exec()) {
+        qDebug() << "SQL error:" << query.lastError().text();
+        return 0;
+    }
+    if(!query.next()) {
+        qDebug() << "No results found";
+        return 0;
+    }
+
+    QString qt_formatname = query.value(0).toString();
+    const QString magick = query.value(1).toString();
+
+    bool qt = false;
+    bool imgm = false;
+    if(qt_formatname != "" && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
+        qt = true;
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+    else if(magick != "") {
+        try {
+            Magick::CoderInfo magickCoderInfo(magick.toStdString());
+            if(magickCoderInfo.isReadable() && magickCoderInfo.isWritable())
+                imgm = true;
+        } catch(Magick::Exception &) {}
+    }
+#endif
+
+    if(qt && imgm)
+        return 1;
+
+    if(qt)
+        return 2;
+
+    if(imgm)
+        return 3;
+
+    return 0;
 
 }
 

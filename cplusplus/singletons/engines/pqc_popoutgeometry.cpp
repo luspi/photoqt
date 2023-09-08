@@ -22,6 +22,10 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
                                                << 800 << 600    // default size
                                                << 800 << 800)); // popout threshold;
 
+    allElements.append(QVariant(QVariantList() << "scale"       // name
+                                               << 800 << 600    // default size
+                                               << 800 << 800)); // popout threshold;
+
     allElements.append(QVariant(QVariantList() << "mainmenu"    // name
                                                << 400 << 600    // default size
                                                << 0 << 0));     // popout threshold;

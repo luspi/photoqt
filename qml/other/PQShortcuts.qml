@@ -232,8 +232,9 @@ Item {
 //                break
 //            case "__wallpaper":
 //                break
-//            case "__scale":
-//                break
+            case "__scale":
+                loader.show("scale")
+                break
 //            case "__imgur":
 //                break
 //            case "__imgurAnonym":

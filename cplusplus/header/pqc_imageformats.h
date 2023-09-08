@@ -171,6 +171,8 @@ public:
     Q_INVOKABLE QString getFormatName(int uniqueid);
     Q_INVOKABLE QStringList getFormatEndings(int uniqueid);
     QVariantMap getFormatsInfo(int uniqueid);
+    Q_INVOKABLE int detectFormatId(QString filename);
+    Q_INVOKABLE int getWriteStatus(int uniqueid);
 
     bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
     bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
