@@ -28,9 +28,8 @@ Button {
     id: control
 
     implicitHeight: 40
-    implicitWidth: 200
 
-    font.pointSize: PQCLook.fontSizeL
+    font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightBold
 
     flat: true
@@ -48,7 +47,7 @@ Button {
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
     contentItem: Text {
-        text: control.text
+        text: "  " + control.text + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: PQCLook.textColor

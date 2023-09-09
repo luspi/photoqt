@@ -791,12 +791,19 @@ bool PQCValidate::validateShortcutsDatabase() {
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
 
 
-    // we rename 'Escape' to 'Esc' as this is what it is called internally to Qt
+    // we rename 'Escape' to 'Esc' and 'Delete' to 'Del' as this is what they are called internally to Qt
 
-    QSqlQuery query(dbinstalled);
-    if(!query.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Escape', 'Esc')")) {
-        qWarning() << "Error renaming Escape to Esc:" << query.lastError().text();
-        query.clear();
+    QSqlQuery query1(dbinstalled);
+    if(!query1.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Escape', 'Esc')")) {
+        qWarning() << "Error renaming Escape to Esc:" << query1.lastError().text();
+        query1.clear();
+        return false;
+    }
+
+    QSqlQuery query2(dbinstalled);
+    if(!query2.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Delete', 'Del')")) {
+        qWarning() << "Error renaming Delete to Del:" << query2.lastError().text();
+        query2.clear();
         return false;
     }
 

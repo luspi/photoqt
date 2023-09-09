@@ -377,8 +377,9 @@ Item {
 
 //            case "__rename":
 //                break
-//            case "__delete":
-//                break
+            case "__delete":
+                loader.show("filedelete")
+                break
 //            case "__copy":
 //                break
 //            case "__move":

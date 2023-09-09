@@ -695,6 +695,14 @@ void PQCFileFolderModel::removeEntryMainView(int index) {
     }
 
     loadDelayFileDialog->start();
+
+    if(m_currentIndex < m_countMainView-1)
+        setFileInFolderMainView(m_entriesMainView[index+1]);
+    else if(m_countMainView > 1)
+        setFileInFolderMainView(m_entriesMainView[index-1]);
+    else
+        setFileInFolderMainView("");
+
     m_entriesMainView.removeAt(index);
     setCountMainView(m_countMainView-1);
 

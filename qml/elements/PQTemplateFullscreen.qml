@@ -182,7 +182,6 @@ Rectangle {
                 id: firstbutton
                 text: genericStringClose
                 font.weight: PQCLook.fontWeightBold
-                font.pointSize: PQCLook.fontSizeXL
                 y: 1
                 height: parent.height-1
             }
@@ -198,7 +197,6 @@ Rectangle {
             PQButtonElement {
                 id: thirdbutton
                 text: genericStringClose
-                font.pointSize: PQCLook.fontSize
                 visible: false
                 y: 1
                 height: parent.height-1
