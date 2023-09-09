@@ -457,3 +457,32 @@ bool PQCScriptsConfig::isPopplerSupportEnabled() {
 QString PQCScriptsConfig::getVersion() {
     return VERSION;
 }
+
+QStringList PQCScriptsConfig::getAvailableTranslations() {
+
+    qDebug() << "";
+
+    QStringList ret;
+
+    QStringList tmp;
+
+    // the non-translated language is English
+    tmp << "en";
+
+    QDirIterator it(":");
+    while (it.hasNext()) {
+        QString file = it.next();
+        if(file.endsWith(".qm")) {
+            file = file.remove(0, 10);
+            file = file.remove(file.length()-3, file.length());
+            if(!ret.contains(file))
+                tmp.push_back(file);
+        }
+    }
+
+    tmp.sort();
+    ret.append(tmp);
+
+    return ret;
+
+}

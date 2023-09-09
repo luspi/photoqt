@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE bool isMPVSupportEnabled();
     Q_INVOKABLE bool isVideoQtSupportEnabled();
     Q_INVOKABLE QString getVersion();
+    Q_INVOKABLE QStringList getAvailableTranslations();
 
 private:
     PQCScriptsConfig();
