@@ -409,3 +409,14 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
     });
 
 }
+
+bool PQCScriptsFileManagement::renameFile(QString dir, QString oldName, QString newName) {
+
+    qDebug() << "args: dir =" << dir;
+    qDebug() << "args: oldName =" << oldName;
+    qDebug() << "args: newName =" << newName;
+
+    QFile file(dir + "/" + oldName);
+    return file.rename(dir + "/" + newName);
+
+}

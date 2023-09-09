@@ -20,12 +20,12 @@ Item {
         "navigationfloating"  : ["ongoing","PQNavigation", loader_navigationfloating, 0, false, false],
         "scale"               : ["actions","PQScale", loader_scale, 1, PQCSettings.interfacePopoutScale, PQCPopoutGeometry.scaleForcePopout],
         "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCPopoutGeometry.filedeleteForcePopout],
+        "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCPopoutGeometry.filerenameForcePopout],
 
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
         "copymove"            : ["actions","PQCopyMove", loader_copymove, 1, false, false],
-        "filerename"          : ["actions","PQRename", loader_filerename, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
         "filter"              : ["actions","PQFilter", loader_filter, 1, false, false],
         "imgur"               : ["actions","PQImgur", loader_imgur, 1, false, false],

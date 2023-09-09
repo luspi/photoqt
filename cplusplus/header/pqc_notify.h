@@ -80,6 +80,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool ignoreKeysExceptEnterEsc READ getIgnoreKeysExceptEnterEsc WRITE setIgnoreKeysExceptEnterEsc NOTIFY ignoreKeysExceptEnterEscChanged)
+    void setIgnoreKeysExceptEnterEsc(bool val);
+    Q_INVOKABLE bool getIgnoreKeysExceptEnterEsc();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -89,6 +95,7 @@ private:
         m_thumbs = 2;
         m_modalFileDialogOpen = false;
         m_spinBoxPassKeyEvents = false;
+        m_ignoreKeysExceptEnterEsc = false;
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -100,6 +107,7 @@ private:
 
     bool m_modalFileDialogOpen;
     bool m_spinBoxPassKeyEvents;
+    bool m_ignoreKeysExceptEnterEsc;
 
 Q_SIGNALS:
     void filePathChanged();
@@ -110,6 +118,7 @@ Q_SIGNALS:
 
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
+    void ignoreKeysExceptEnterEscChanged();
 
     // these are kept similar to the
     void cmdOpen();

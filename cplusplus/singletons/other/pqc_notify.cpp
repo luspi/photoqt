@@ -74,3 +74,13 @@ void PQCNotify::setSpinBoxPassKeyEvents(bool val) {
 bool PQCNotify::getSpinBoxPassKeyEvents() {
     return m_spinBoxPassKeyEvents;
 }
+
+void PQCNotify::setIgnoreKeysExceptEnterEsc(bool val) {
+    if(val != m_ignoreKeysExceptEnterEsc) {
+        m_ignoreKeysExceptEnterEsc = val;
+        Q_EMIT ignoreKeysExceptEnterEscChanged();
+    }
+}
+bool PQCNotify::getIgnoreKeysExceptEnterEsc() {
+    return m_ignoreKeysExceptEnterEsc;
+}

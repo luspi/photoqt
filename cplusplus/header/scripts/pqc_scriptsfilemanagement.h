@@ -25,6 +25,8 @@ public:
     Q_INVOKABLE bool canThisBeScaled(QString filename);
     Q_INVOKABLE void scaleImage(QString sourceFilename, QString targetFilename, int uniqueid, QSize targetSize, int targetQuality);
 
+    Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
+
 private:
     PQCScriptsFileManagement();
 

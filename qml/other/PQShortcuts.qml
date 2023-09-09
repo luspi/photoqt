@@ -375,8 +375,9 @@ Item {
             /**********************/
             // file actions
 
-//            case "__rename":
-//                break
+            case "__rename":
+                loader.show("filerename")
+                break
             case "__delete":
                 loader.show("filedelete")
                 break
