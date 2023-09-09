@@ -48,11 +48,10 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
-    contentItem: Text {
+    contentItem: PQText {
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: PQCLook.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight

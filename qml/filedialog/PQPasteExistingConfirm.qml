@@ -98,7 +98,7 @@ PQTemplateFullscreen {
                                 id: check
                                 y: (parent.height-height)/2
                                 checked: exist_top.checkedFiles.indexOf(index)!==-1
-
+                                font.pointSize: PQCLook.fontSizeL
                             }
 
                             PQTextL {
