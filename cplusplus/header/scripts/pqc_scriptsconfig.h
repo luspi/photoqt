@@ -29,6 +29,10 @@ public:
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
     Q_INVOKABLE bool isImageMagickSupportEnabled();
     Q_INVOKABLE bool isPugixmlSupportEnabled();
+    Q_INVOKABLE bool isLibRawSupportEnabled();
+    Q_INVOKABLE bool isDevILSupportEnabled();
+    Q_INVOKABLE bool isFreeImageSupportEnabled();
+    Q_INVOKABLE bool isPopplerSupportEnabled();
     Q_INVOKABLE bool isQtAtLeast6_4();
     Q_INVOKABLE bool isMPVSupportEnabled();
     Q_INVOKABLE bool isVideoQtSupportEnabled();

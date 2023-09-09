@@ -426,6 +426,34 @@ bool PQCScriptsConfig::isVideoQtSupportEnabled() {
     return false;
 }
 
+bool PQCScriptsConfig::isLibRawSupportEnabled() {
+#ifdef RAW
+    return true;
+#endif
+    return false;
+}
+
+bool PQCScriptsConfig::isDevILSupportEnabled() {
+#ifdef DEVIL
+    return true;
+#endif
+    return false;
+}
+
+bool PQCScriptsConfig::isFreeImageSupportEnabled() {
+#ifdef FREEIMAGE
+    return true;
+#endif
+    return false;
+}
+
+bool PQCScriptsConfig::isPopplerSupportEnabled() {
+#ifdef POPPLER
+    return true;
+#endif
+    return false;
+}
+
 QString PQCScriptsConfig::getVersion() {
     return VERSION;
 }
