@@ -6,6 +6,8 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include <QApplication>
+#include <QProcess>
 
 PQCScriptsContextMenu::PQCScriptsContextMenu() {
 
@@ -71,5 +73,112 @@ QVariantList PQCScriptsContextMenu::getEntries() {
     query.clear();
 
     return ret;
+
+}
+
+void PQCScriptsContextMenu::setEntries(QVariantList entries) {
+
+    qDebug() << "args: entries.length() =" << entries.length();
+
+    if(!db.open()) {
+        qWarning() << "SQL error:" << db.lastError().text();
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM entries");
+    if(!query.exec()) {
+        qWarning() << "SQL error:" << query.lastError().text();
+        return;
+    }
+
+    for(const auto &entry : qAsConst(entries)) {
+
+        QVariantList entrylist = entry.toList();
+
+        const QString cmd = entrylist.at(1).toString();
+        const QString args = entrylist.at(4).toString();
+        const QString icn = entrylist.at(0).toString();
+        const QString dsc = entrylist.at(2).toString();
+        const QString close = entrylist.at(3).toString();
+
+        if(cmd != "" && dsc != "") {
+
+            QSqlQuery query(db);
+            query.prepare("INSERT INTO entries (icon,command,arguments,desc,close) VALUES(:icn,:cmd,:arg,:dsc,:cls)");
+            query.bindValue(":cmd", cmd);
+            query.bindValue(":arg", args);
+            query.bindValue(":icn", icn);
+            query.bindValue(":dsc", dsc);
+            query.bindValue(":cls", close);
+            if(!query.exec())
+                qWarning() << "SQL error:" << query.lastError().text();
+
+        }
+
+    }
+
+}
+
+void PQCScriptsContextMenu::detectSystemEntries() {
+
+#ifdef Q_OS_WIN
+    return;
+#endif
+
+    // These are the possible entries
+    // There will be a ' %f' added at the end of each executable.
+    QStringList m;
+    //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+    m << QApplication::translate("startup", "Edit with %1").arg("Gimp") << "gimp"
+      //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Edit with %1").arg("Krita") << "krita"
+      //: Used as in 'Edit with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Edit with %1").arg("KolourPaint") << "kolourpaint"
+      //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("GwenView") << "gwenview"
+      //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("showFoto") << "showfoto"
+      //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("Shotwell") << "shotwell"
+      //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("GThumb") << "gthumb"
+      //: Used as in 'Open with [application]'. %1 will be replaced with application name.
+      << QApplication::translate("startup", "Open in %1").arg("Eye of Gnome") << "eog";
+
+    {
+        if(!db.open()) {
+            qWarning() << "Error opening contextmenu database:" << db.lastError().text();
+            return;
+        }
+
+        QSqlQuery query(db);
+        query.exec("DELETE FROM entries");
+        query.clear();
+
+        // Check for all entries
+        for(int i = 0; i < m.size()/2; ++i) {
+
+            QProcess p;
+            p.setStandardOutputFile(QProcess::nullDevice());
+            p.start("which", QStringList() << m[2*i+1]);
+            p.waitForFinished();
+            bool found = (p.exitCode() == 0);
+
+            if(found) {
+
+                QSqlQuery query(db);
+                query.prepare("INSERT INTO entries (command,arguments,desc,close) VALUES(:cmd,:arg,:dsc,:cls)");
+                query.bindValue(":cmd", m[2*i+1]);
+                query.bindValue(":arg", "%f");
+                query.bindValue(":dsc", m[2*i]);
+                query.bindValue(":cls", "0");
+                if(!query.exec())
+                    qWarning() << "SQL error, contextmenu insert:" << query.lastError().text();
+
+            }
+        }
+
+    }
 
 }

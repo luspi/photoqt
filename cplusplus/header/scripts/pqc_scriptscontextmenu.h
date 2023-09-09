@@ -19,6 +19,9 @@ public:
     void operator=(PQCScriptsContextMenu const&) = delete;
 
     Q_INVOKABLE QVariantList getEntries();
+    Q_INVOKABLE void setEntries(QVariantList entries);
+
+    Q_INVOKABLE void detectSystemEntries();
 
 private:
     PQCScriptsContextMenu();
