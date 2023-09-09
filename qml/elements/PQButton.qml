@@ -28,7 +28,7 @@ Button {
     id: control
 
     implicitHeight: 40
-    implicitWidth: 200
+    implicitWidth: extraWide ? 300 : 200
 
     font.pointSize: PQCLook.fontSizeL
     font.weight: PQCLook.fontWeightBold
@@ -36,6 +36,8 @@ Button {
     opacity: enabled ? 1 : 0.3
 
     property alias tooltip: mouseArea.text
+
+    property bool extraWide: false
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")

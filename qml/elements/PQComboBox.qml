@@ -34,7 +34,9 @@ ComboBox {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
-    implicitWidth: 200
+    implicitWidth: extrawide ? 300 : 200
+
+    property bool extrawide: false
 
     delegate: ItemDelegate {
         width: control.width
