@@ -76,7 +76,7 @@ QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
 
 QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
-    return QFileInfo(path).suffix();
+    return QFileInfo(path).completeSuffix();
 
 }
 
