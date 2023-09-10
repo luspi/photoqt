@@ -307,7 +307,7 @@ PQTemplateFullscreen {
 
     ]
 
-    PQBusy {
+    PQWorking {
         id: scalebusy
     }
 

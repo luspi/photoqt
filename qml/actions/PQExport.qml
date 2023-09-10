@@ -396,7 +396,7 @@ PQTemplateFullscreen {
 
     ]
 
-    PQBusy {
+    PQWorking {
         id: exportbusy
     }
 
