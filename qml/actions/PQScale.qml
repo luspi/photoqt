@@ -289,7 +289,7 @@ PQTemplateFullscreen {
             spacing: 10
 
             PQText {
-                text: "Quality:"
+                text: qsTranslate("scale", "Quality:")
             }
 
             PQSlider {
@@ -439,7 +439,7 @@ PQTemplateFullscreen {
         scaleRunning.show()
 
         var uniqueid = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
-        var targetFilename = PQCScriptsFilesPaths.selectFileFromDialog(PQCFileFolderModel.currentFile, uniqueid, true);
+        var targetFilename = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("scale", "Scale"), PQCFileFolderModel.currentFile, uniqueid, true);
 
         var success = PQCScriptsFileManagement.scaleImage(PQCFileFolderModel.currentFile, targetFilename, uniqueid, Qt.size(spin_w.value, spin_h.value), quality.value)
         if(!success) {

@@ -381,10 +381,12 @@ Item {
             case "__delete":
                 loader.show("filedelete")
                 break
-//            case "__copy":
-//                break
-//            case "__move":
-//                break
+            case "__copy":
+                loader.show("filecopy")
+                break
+            case "__move":
+                loader.show("filemove")
+                break
 //            case "__deletePermanent":
 //                break
 //            case "__deleteTrash":

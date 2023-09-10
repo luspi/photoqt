@@ -420,3 +420,64 @@ bool PQCScriptsFileManagement::renameFile(QString dir, QString oldName, QString 
     return file.rename(dir + "/" + newName);
 
 }
+
+bool PQCScriptsFileManagement::copyFile(QString filename, QString targetFilename) {
+
+    qDebug() << "args: filename =" << filename;
+    qDebug() << "args: targetFilename =" << targetFilename;
+
+    // if the target is the same as source, then we're done
+    if(filename == targetFilename)
+        return true;
+
+    // if a file by the target filename already exists, then we need to remove it first
+    if(QFileInfo::exists(targetFilename)) {
+        if(!QFile::remove(targetFilename)) {
+            qWarning() << "ERROR: File existing with this name could not be removed first.";
+            return false;
+        }
+    }
+
+    // copy source file to target filename
+    QFile file(filename);
+    if(!file.copy(targetFilename)) {
+        qWarning() << "ERROR: The file could not be copied to its new location.";
+        return false;
+    }
+
+    return true;
+
+}
+
+bool PQCScriptsFileManagement::moveFile(QString filename, QString targetFilename) {
+
+    qDebug() << "args: filename =" << filename;
+    qDebug() << "args: targetFilename =" << targetFilename;
+
+    // if the target is the same as source, then we're done
+    if(filename == targetFilename)
+        return true;
+
+    // if a file by the target filename already exists, then we need to remove it first
+    if(QFileInfo::exists(targetFilename)) {
+        if(!QFile::remove(targetFilename)) {
+            qWarning() << "ERROR: File existing with this name could not be removed first.";
+            return false;
+        }
+    }
+
+    // copy source file to target filename
+    QFile file(filename);
+    if(!file.copy(targetFilename)) {
+        qWarning() << "ERROR: The file could not be copied to its new location.";
+        return false;
+    }
+
+    if(!file.remove()) {
+        qWarning() << "ERROR: The file was successfully copied to new location but the old file could not be removed.";
+        return false;
+    }
+
+    return true;
+
+}

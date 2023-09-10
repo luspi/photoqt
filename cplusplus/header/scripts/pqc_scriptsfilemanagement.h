@@ -26,6 +26,8 @@ public:
     Q_INVOKABLE void scaleImage(QString sourceFilename, QString targetFilename, int uniqueid, QSize targetSize, int targetQuality);
 
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
+    Q_INVOKABLE bool copyFile(QString filename, QString targetFilename);
+    Q_INVOKABLE bool moveFile(QString filename, QString targetFilename);
 
 private:
     PQCScriptsFileManagement();

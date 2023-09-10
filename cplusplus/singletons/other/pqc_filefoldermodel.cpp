@@ -703,12 +703,6 @@ void PQCFileFolderModel::removeEntryMainView(int index) {
     else
         setFileInFolderMainView("");
 
-    m_entriesMainView.removeAt(index);
-    setCountMainView(m_countMainView-1);
-
-    Q_EMIT newDataLoadedMainView();
-    Q_EMIT newDataLoadedFileDialog();
-
 }
 
 void PQCFileFolderModel::resetModel() {

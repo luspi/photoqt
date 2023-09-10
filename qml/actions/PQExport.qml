@@ -29,7 +29,7 @@ PQTemplateFullscreen {
 
     button1.onClicked: {
         PQCSettings.exportLastUsed = targetFormat
-        var file = PQCScriptsFilesPaths.selectFileFromDialog(PQCFileFolderModel.currentFile, parseInt(targetFormat), true);
+        var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true);
         if(file !== "") {
             exportRunning.show()
             PQCScriptsFileManagement.exportImage(PQCFileFolderModel.currentFile, file, parseInt(targetFormat))

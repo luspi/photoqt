@@ -280,7 +280,7 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
 
 }
 
-QString PQCScriptsFilesPaths::selectFileFromDialog(QString preselectFile, int formatId, bool confirmOverwrite) {
+QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
 
     QFileInfo info(preselectFile);
 
@@ -289,9 +289,10 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString preselectFile, int fo
     const QStringList endings = PQCImageFormats::get().getFormatEndings(formatId);
 
     QFileDialog diag;
-    diag.setLabelText(QFileDialog::Accept, "Export");
+    diag.setLabelText(QFileDialog::Accept, buttonlabel);
     diag.setFileMode(QFileDialog::AnyFile);
     diag.setModal(true);
+    diag.setAcceptMode(QFileDialog::AcceptSave);
     if(!confirmOverwrite)
         diag.setOption(QFileDialog::DontConfirmOverwrite);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
