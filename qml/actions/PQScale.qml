@@ -307,77 +307,28 @@ PQTemplateFullscreen {
 
     ]
 
-    Rectangle {
+    PQBusy {
+        id: scalebusy
+    }
 
-        id: scaleRunning
-
-        opacity: 0
-        visible: opacity>0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-
-        anchors.fill: parent
-        color: PQCLook.transColor
-
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked: (mouse) => { mouse.accepted = true }
-            onWheel: (wheel) => { wheel.accepted = true }
-        }
-
-        PQBusy {
-
-            id: scalebusy
-            anchors.fill: parent
-
-            opacity: 1
-            visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-
-        }
-
-        Image {
-            id: scalesuccess
-            x: (parent.width-width)/2
-            y: (parent.height-height)/2
-            width: 200
-            height: 200
-            opacity: 0
-            visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            source: "/white/checkmark.svg"
-            sourceSize: Qt.size(width, height)
-            Timer {
-                running: parent.visible
-                interval: 1000
-                onTriggered: {
-                    scalesuccess.opacity = 0
-                    scaleRunning.opacity = 0
-                    hide()
-                }
+    Connections {
+        target: PQCScriptsFileManagement
+        function onScaleCompleted(success) {
+            if(success) {
+                errorlabel.visible = false
+                scalebusy.showSuccess()
+            } else {
+                scalebusy.hide()
+                errorlabel.visible = true
             }
         }
+    }
 
-        Connections {
-            target: PQCScriptsFileManagement
-            function onScaleCompleted(success) {
-                if(success) {
-                    errorlabel.visible = false
-                    scalebusy.opacity = 0
-                    scalesuccess.opacity = 1
-                } else {
-                    errorlabel.visible = true
-                    scaleRunning.opacity = 0
-                }
-            }
-        }
-
-        function show() {
-            scalebusy.opacity = 1
-            scalesuccess.opacity = 0
-            opacity = 1
-        }
-
+    Connections {
+        target: scalebusy
+        function onSuccessHidden() {
+            scale_top.hide()
+       }
     }
 
     Connections {
@@ -436,7 +387,8 @@ PQTemplateFullscreen {
         if(spin_w.value === 0 || spin_h.value === 0 || unsupportedlabel.visible)
             return
 
-        scaleRunning.show()
+        errorlabel.opacity = 0
+        scalebusy.showBusy()
 
         var uniqueid = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
         var targetFilename = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("scale", "Scale"), PQCFileFolderModel.currentFile, uniqueid, true);
@@ -462,6 +414,7 @@ PQTemplateFullscreen {
         spin_w.value = image.currentResolution.width
         spin_h.value = image.currentResolution.height
         aspectRatio = image.currentResolution.width/image.currentResolution.height
+        scalebusy.hide()
         opacity = 1
         errorlabel.visible = false
         unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)

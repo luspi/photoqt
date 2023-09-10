@@ -31,7 +31,8 @@ PQTemplateFullscreen {
         PQCSettings.exportLastUsed = targetFormat
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true);
         if(file !== "") {
-            exportRunning.show()
+            errormessage.opacity = 0
+            exportbusy.showBusy()
             PQCScriptsFileManagement.exportImage(PQCFileFolderModel.currentFile, file, parseInt(targetFormat))
         }
 
@@ -395,77 +396,28 @@ PQTemplateFullscreen {
 
     ]
 
-    Rectangle {
+    PQBusy {
+        id: exportbusy
+    }
 
-        id: exportRunning
-
-        opacity: 0
-        visible: opacity>0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-
-        anchors.fill: parent
-        color: PQCLook.transColor
-
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked: (mouse) => { mouse.accepted = true }
-            onWheel: (wheel) => { wheel.accepted = true }
-        }
-
-        PQBusy {
-
-            id: exportbusy
-            anchors.fill: parent
-
-            opacity: 1
-            visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-
-        }
-
-        Image {
-            id: exportsuccess
-            x: (parent.width-width)/2
-            y: (parent.height-height)/2
-            width: 200
-            height: 200
-            opacity: 0
-            visible: opacity>0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            source: "/white/checkmark.svg"
-            sourceSize: Qt.size(width, height)
-            Timer {
-                running: parent.visible
-                interval: 1000
-                onTriggered: {
-                    exportsuccess.opacity = 0
-                    exportRunning.opacity = 0
-                    hide()
-                }
+    Connections {
+        target: PQCScriptsFileManagement
+        function onExportCompleted(success) {
+            if(success) {
+                errormessage.visible = false
+                exportbusy.showSuccess()
+            } else {
+                exportbusy.hide()
+                errormessage.visible = true
             }
         }
+    }
 
-        Connections {
-            target: PQCScriptsFileManagement
-            function onExportCompleted(success) {
-                if(success) {
-                    errormessage.visible = false
-                    exportbusy.opacity = 0
-                    exportsuccess.opacity = 1
-                } else {
-                    errormessage.visible = true
-                    exportRunning.opacity = 0
-                }
-            }
-        }
-
-        function show() {
-            exportbusy.opacity = 1
-            exportsuccess.opacity = 0
-            opacity = 1
-        }
-
+    Connections {
+        target: exportbusy
+        function onSuccessHidden() {
+            convert_top.hide()
+       }
     }
 
     Connections {
@@ -600,6 +552,7 @@ PQTemplateFullscreen {
             hide()
             return
         }
+        exportbusy.hide()
         convert_top.opacity = 1
         if(PQCSettings.interfacePopoutExport && !exportpopout_top.visible)
             exportpopout_top.show()
