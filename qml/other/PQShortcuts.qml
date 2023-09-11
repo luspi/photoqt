@@ -228,8 +228,9 @@ Item {
 //                break
 //            case "__slideshowQuick":
 //                break
-//            case "__filterImages":
-//                break
+            case "__filterImages":
+                loader.show("filter")
+                break
 //            case "__wallpaper":
 //                break
             case "__scale":

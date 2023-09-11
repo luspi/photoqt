@@ -25,6 +25,7 @@ import QtQuick
 Text {
 
     color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+    Behavior on color { ColorAnimation { duration: 200 } }
     font.pointSize: PQCLook.fontSizeS
     font.weight: PQCLook.fontWeightNormal
 

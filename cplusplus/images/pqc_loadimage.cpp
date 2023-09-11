@@ -53,14 +53,9 @@ QSize PQCLoadImage::load(QString filename) {
     QFileInfo info(filename);
 
     // check image cache, we might be done right here
-//    if(PQCImageCache::get().getCachedImage(filename, img)) {
-
-//        if(requestedSize.isValid() && (img.width() > requestedSize.width() || img.height() > requestedSize.height()))
-//            img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-//        return "";
-
-//    }
+    QImage img;
+    if(PQCImageCache::get().getCachedImage(filename, img))
+        return img.size();
 
     // for easier access below
     QString suffix = info.suffix().toLower();
@@ -69,7 +64,8 @@ QSize PQCLoadImage::load(QString filename) {
     //////////////////////////////////////////////
     // first we check for filename suffix matches
 
-    QSize sze;
+    // we need to explicitely set the initial size to be 0,0 otherwise the isNull check below will always fail
+    QSize sze(0,0);
 
     // resvg trumps Qt's SVG engine
     if(PQCImageFormats::get().getEnabledFormatsResvg().contains(suffix))

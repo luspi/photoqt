@@ -1084,10 +1084,10 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
                             QSize origSize = PQCLoadImage::get().load(f.absoluteFilePath());
 
-                            if(greater && (origSize.width() < width || origSize.height() < height))
+                            if(greater && ((origSize.width() < width && width > 0) || (origSize.height() < height && height > 0)))
                                 continue;
 
-                            if(!greater && (origSize.width() > -width || origSize.height() > -height))
+                            if(!greater && ((origSize.width() > -width && width > 0) || (origSize.height() > -height && width > 0)))
                                 continue;
 
                         }

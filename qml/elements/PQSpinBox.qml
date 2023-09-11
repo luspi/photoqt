@@ -22,7 +22,8 @@ SpinBox {
         id: txtinp
         text: control.value
         font: control.font
-        color: PQCLook.textColor
+        color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+        Behavior on color { ColorAnimation { duration: 200 } }
         selectionColor: PQCLook.baseColorActive
         selectedTextColor: PQCLook.textColorActive
         horizontalAlignment: Qt.AlignHCenter
@@ -38,14 +39,16 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent
+        color: control.enabled ? (control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
+        Behavior on color { ColorAnimation { duration: 200 } }
         border.color: PQCLook.baseColorHighlight
         border.width: 1
 
         Text {
             text: "+"
             font.pixelSize: control.font.pixelSize * 2
-            color: PQCLook.textColor
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
             horizontalAlignment: Text.AlignHCenter
@@ -58,14 +61,16 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent
+        color: control.enabled ? (control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
+        Behavior on color { ColorAnimation { duration: 200 } }
         border.color: PQCLook.baseColorHighlight
         border.width: 1
 
         Text {
             text: "-"
             font.pixelSize: control.font.pixelSize * 2
-            color: PQCLook.textColor
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
             horizontalAlignment: Text.AlignHCenter

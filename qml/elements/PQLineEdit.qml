@@ -29,12 +29,26 @@ Rectangle {
 
     width: 300
     height: 40
-    color: PQCLook.baseColorAccent
+    color: enabled ? PQCLook.baseColorAccent : PQCLook.baseColorHighlight
+    Behavior on color { ColorAnimation { duration: 200 } }
     border.width: 1
     border.color: PQCLook.baseColorHighlight
     z: -1
 
     property alias text: control.text
+    property alias controlFocus: control.focus
+    property alias controlActiveFocus: control.activeFocus
+
+    property alias placeholderText: placeholder.text
+
+    PQText {
+        id: placeholder
+        anchors.fill: parent
+        color: PQCLook.textColorHighlight
+        anchors.leftMargin: control.leftPadding
+        verticalAlignment: Text.AlignVCenter
+        visible: control.text===""
+    }
 
     TextInput {
 

@@ -21,12 +21,41 @@
  **************************************************************************/
 
 import QtQuick
+import PQCPopoutGeometry
+import "../../elements"
 
-Text {
+PQTemplatePopout {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
-    Behavior on color { ColorAnimation { duration: 200 } }
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
+    id: filter_top
+
+    //: Window title
+    title: qsTranslate("filter", "Filter images in current directory")
+
+    geometry: PQCPopoutGeometry.filterGeometry
+    isMax: PQCPopoutGeometry.filterMaximized
+    popout: PQCSettings.interfacePopoutFilter
+    sizepopout: PQCPopoutGeometry.filterForcePopout
+    source: "actions/PQFilter.qml"
+
+    minimumWidth: 800
+    minimumHeight: 600
+
+    onPopoutClosed:
+        loader.elementClosed("filter")
+
+    onPopoutChanged: {
+        if(popout !== PQCSettings.interfacePopoutFilter)
+            PQCSettings.interfacePopoutFilter = popout
+    }
+
+    onGeometryChanged: {
+        if(geometry !== PQCPopoutGeometry.filterGeometry)
+            PQCPopoutGeometry.filterGeometry = geometry
+    }
+
+    onIsMaxChanged: {
+        if(isMax !== PQCPopoutGeometry.filterMaximized)
+            PQCPopoutGeometry.filterMaximized = isMax
+    }
 
 }

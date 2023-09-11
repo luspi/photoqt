@@ -51,7 +51,7 @@ Button {
     contentItem: PQText {
         text: control.text
         font: control.font
-        opacity: enabled ? 1.0 : 0.3
+        opacity: enabled ? 1.0 : 0.6
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -60,7 +60,7 @@ Button {
     background: Rectangle {
         implicitWidth: 100
         implicitHeight: 40
-        opacity: enabled ? 1 : 0.3
+        opacity: enabled ? 1 : 0.6
         radius: 5
 
         border.color: PQCLook.baseColorHighlight
