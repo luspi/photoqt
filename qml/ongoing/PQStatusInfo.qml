@@ -32,6 +32,8 @@ Item {
 
         id: maincol
 
+        spacing: 10
+
         Rectangle {
 
             color: PQCLook.transColor
@@ -96,6 +98,153 @@ Item {
 
                     }
 
+                }
+
+            }
+
+            PQMouseArea {
+                anchors.fill: parent
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
+                hoverEnabled: true
+                text: PQCSettings.interfaceStatusInfoManageWindow ?
+                          qsTranslate("statusinfo", "Click and drag to move window around") :
+                          qsTranslate("statusinfo", "Click and drag to move rectangle around")
+                onWheel: (wheel) => {
+                    wheel.accepted = true
+                }
+                onPressed: {
+                    if(PQCSettings.interfaceStatusInfoManageWindow)
+                        toplevel.startSystemMove()
+                }
+                onDoubleClicked: {
+                    if(PQCSettings.interfaceStatusInfoManageWindow) {
+                        if(toplevel.visibility === Window.Maximized)
+                            toplevel.visibility = Window.Windowed
+                        else if(toplevel.visibility === Window.Windowed)
+                            toplevel.visibility = Window.Maximized
+                    }
+                }
+
+            }
+
+        }
+
+        Rectangle {
+
+            id: filterrect
+
+            property bool filterset: false
+
+            color: PQCLook.transColor
+
+            width: filterrow.width+30
+            height: filterrow.height+20
+
+            visible: filterset
+
+            radius: 5
+
+            PQMouseArea {
+                anchors.fill: parent
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
+                hoverEnabled: true
+                text: PQCSettings.interfaceStatusInfoManageWindow ?
+                          "" :
+                          qsTranslate("statusinfo", "Click and drag to move rectangle around")
+                onWheel: (wheel) => {
+                    wheel.accepted = true
+                }
+            }
+
+            Row {
+
+                id: filterrow
+
+                x: 10
+                y: 10
+
+                spacing: 10
+
+                Image {
+                    y: (parent.height-height)/2
+                    width: filtertxt.height/2
+                    height: width
+                    source: "/white/x.svg"
+                    sourceSize: Qt.size(width, height)
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("statusinfo", "Click to remove filter")
+                        onClicked: {
+                            PQCFileFolderModel.nameFilters = []
+                            PQCFileFolderModel.filenameFilters = []
+                            PQCFileFolderModel.imageResolutionFilter = Qt.size(0,0)
+                            PQCFileFolderModel.fileSizeFilter = 0
+                        }
+                    }
+                }
+
+                PQText {
+                    id: filtertxt
+
+                    Connections {
+                        target: PQCFileFolderModel
+                        function onFilenameFiltersChanged() {
+                            filtertxt.composeText()
+                        }
+                        function onNameFiltersChanged() {
+                            filtertxt.composeText()
+                        }
+                        function onImageResolutionFilterChanged() {
+                            filtertxt.composeText()
+                        }
+                        function onFileSizeFilterChanged() {
+                            filtertxt.composeText()
+                        }
+                    }
+
+                    function composeText() {
+
+                        var txt = []
+
+                        var txt1 = PQCFileFolderModel.filenameFilters.join(" ")
+                        if(txt1 !== "") txt.push(txt1)
+
+                        var txt2 = ""
+                        if(PQCFileFolderModel.nameFilters.length > 0)
+                            txt2 += "."
+                        txt2 += PQCFileFolderModel.nameFilters.join(" .")
+                        if(txt2 !== "") txt.push(txt2)
+
+                        var txt3 = ""
+                        if(PQCFileFolderModel.imageResolutionFilter.width!==0 || PQCFileFolderModel.imageResolutionFilter.height!==0) {
+                            var w = Math.abs(PQCFileFolderModel.imageResolutionFilter.width)
+                            var h = Math.abs(PQCFileFolderModel.imageResolutionFilter.height)
+                            txt3 += ((PQCFileFolderModel.imageResolutionFilter.width < 0) ? "&lt; " : "&gt; ")
+                            txt3 += w+"x"+h
+                            if(txt3 !== "") txt.push(txt3)
+                        }
+
+                        var txt4 = ""
+                        if(PQCFileFolderModel.fileSizeFilter !== 0) {
+                            txt4 += ((PQCFileFolderModel.fileSizeFilter < 0) ? "&lt; " : "&gt; ")
+                            var s = Math.abs(PQCFileFolderModel.fileSizeFilter)
+                            var mb = Math.round(s/(1024*1024))
+                            var kb = Math.round(s/1024)
+                            if(mb*1024*1024 === s)
+                                txt4 += mb + " MB"
+                             else
+                                txt4 += kb + " KB"
+                            if(txt4 !== "") txt.push(txt4)
+                        }
+
+                        filterrect.filterset = txt.length>0
+
+                        //: This refers to the currently set filter
+                        text = "<b>" + qsTranslate("statusinfo", "Filter:") + "</b>&nbsp;&nbsp;" + txt.join("&nbsp;&nbsp;|&nbsp;&nbsp;")
+
+                    }
                 }
 
             }
@@ -176,30 +325,5 @@ Item {
             text: "[unknown]"
         }
     }
-
-    PQMouseArea {
-        anchors.fill: parent
-        drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : parent
-        hoverEnabled: true
-        text: PQCSettings.interfaceStatusInfoManageWindow ?
-                  qsTranslate("statusinfo", "Click and drag to move window around") :
-                  qsTranslate("statusinfo", "Click and drag to move rectangle around")
-        onWheel: (wheel) => {
-            wheel.accepted = true
-        }
-        onPressed: {
-            if(PQCSettings.interfaceStatusInfoManageWindow)
-                toplevel.startSystemMove()
-        }
-        onDoubleClicked: {
-            if(PQCSettings.interfaceStatusInfoManageWindow) {
-                if(toplevel.visibility === Window.Maximized)
-                    toplevel.visibility = Window.Windowed
-                else if(toplevel.visibility === Window.Windowed)
-                    toplevel.visibility = Window.Maximized
-            }
-        }
-
-}
 
 }
