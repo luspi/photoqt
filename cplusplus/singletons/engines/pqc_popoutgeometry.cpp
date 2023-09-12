@@ -58,6 +58,10 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
                                                << 800 << 600    // default size
                                                << 800 << 800)); // popout threshold;
 
+    allElements.append(QVariant(QVariantList() << "advancedsort"// name
+                                               << 800 << 600    // default size
+                                               << 800 << 800)); // popout threshold;
+
     // save values with delay
     saveDelay = new QTimer;
     saveDelay->setInterval(200);

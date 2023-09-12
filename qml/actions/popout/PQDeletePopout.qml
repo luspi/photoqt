@@ -40,8 +40,11 @@ PQTemplatePopout {
     minimumWidth: 800
     minimumHeight: 600
 
-    onPopoutClosed:
-        loader.elementClosed("filedelete")
+    onPopoutClosed: {
+        // without the check it might spit out a warning at app quit
+        if(loader.visibleItem === "filedelete")
+            loader.elementClosed("filedelete")
+    }
 
     onPopoutChanged: {
         if(popout !== PQCSettings.interfacePopoutFileDelete)

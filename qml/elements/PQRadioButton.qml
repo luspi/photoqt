@@ -11,8 +11,8 @@ RadioButton {
     font.weight: PQCLook.fontWeightNormal
 
     indicator: Rectangle {
-        implicitWidth: 26
-        implicitHeight: 26
+        implicitWidth: 22
+        implicitHeight: 22
         radius: 13
         x: control.leftPadding
         y: parent.height / 2 - height / 2
@@ -22,9 +22,9 @@ RadioButton {
         color: enabled ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent
         Behavior on color { ColorAnimation { duration: 200 } }
         Rectangle {
-            width: 14
-            height: 14
-            radius: 7
+            width: 10
+            height: 10
+            radius: 5
             anchors.centerIn: parent
             visible: control.checked
             color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight

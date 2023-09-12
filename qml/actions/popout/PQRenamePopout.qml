@@ -40,8 +40,11 @@ PQTemplatePopout {
     minimumWidth: 800
     minimumHeight: 600
 
-    onPopoutClosed:
-        loader.elementClosed("filerename")
+    onPopoutClosed: {
+        // without the check it might spit out a warning at app quit
+        if(loader.visibleItem === "filerename")
+            loader.elementClosed("filerename")
+    }
 
     onPopoutChanged: {
         if(popout !== PQCSettings.interfacePopoutFileRename)

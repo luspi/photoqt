@@ -40,8 +40,11 @@ PQTemplatePopout {
     minimumWidth: 800
     minimumHeight: 600
 
-    onPopoutClosed:
-        loader.elementClosed("filter")
+    onPopoutClosed: {
+        // without the check it might spit out a warning at app quit
+        if(loader.visibleItem === "filter")
+            loader.elementClosed("filter")
+    }
 
     onPopoutChanged: {
         if(popout !== PQCSettings.interfacePopoutFilter)

@@ -26,39 +26,39 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: scalepopout_top
+    id: advancedsortpopout_top
 
     //: Window title
-    title: qsTranslate("scale", "Scale image")
+    title: qsTranslate("advancedsort", "Advanced image sort")
 
-    geometry: PQCPopoutGeometry.scaleGeometry
-    isMax: PQCPopoutGeometry.scaleMaximized
-    popout: PQCSettings.interfacePopoutScale
-    sizepopout: PQCPopoutGeometry.scaleForcePopout
-    source: "actions/PQScale.qml"
+    geometry: PQCPopoutGeometry.advancedsortGeometry
+    isMax: PQCPopoutGeometry.advancedsortMaximized
+    popout: PQCSettings.interfacePopoutAdvancedSort
+    sizepopout: PQCPopoutGeometry.advancedsortForcePopout
+    source: "actions/PQAdvancedSort.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "scale")
-            loader.elementClosed("scale")
+        if(loader.visibleItem === "advancedsort")
+            loader.elementClosed("advancedsort")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutScale)
-            PQCSettings.interfacePopoutScale = popout
+        if(popout !== PQCSettings.interfacePopoutAdvancedSort)
+            PQCSettings.interfacePopoutAdvancedSort = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.scaleGeometry)
-            PQCPopoutGeometry.scaleGeometry = geometry
+        if(geometry !== PQCPopoutGeometry.advancedsortGeometry)
+            PQCPopoutGeometry.advancedsortGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.scaleMaximized)
-            PQCPopoutGeometry.scaleMaximized = isMax
+        if(isMax !== PQCPopoutGeometry.advancedsortMaximized)
+            PQCPopoutGeometry.advancedsortMaximized = isMax
     }
 
 }

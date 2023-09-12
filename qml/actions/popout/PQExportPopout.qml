@@ -40,8 +40,11 @@ PQTemplatePopout {
     minimumWidth: 800
     minimumHeight: 600
 
-    onPopoutClosed:
-        loader.elementClosed("export")
+    onPopoutClosed: {
+        // without the check it might spit out a warning at app quit
+        if(loader.visibleItem === "export")
+            loader.elementClosed("export")
+    }
 
     onPopoutChanged: {
         if(popout !== PQCSettings.interfacePopoutExport)

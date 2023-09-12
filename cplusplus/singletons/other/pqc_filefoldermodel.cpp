@@ -433,7 +433,7 @@ void PQCFileFolderModel::advancedSortMainView() {
 
             } else if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "exifdate") {
 
-                QVariantList order = PQCSettings::get()["imageviewAdvancedSortExifDateCriteria"].toList();
+                QVariantList order = PQCSettings::get()["imageviewAdvancedSortDateCriteria"].toList();
 
                 bool foundvalue = false;
 

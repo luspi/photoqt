@@ -246,8 +246,9 @@ Item {
 //                break
 //            case "__logging":
 //                break
-//            case "__advancedSort":
-//                break
+            case "__advancedSort":
+                loader.show("advancedsort")
+                break
 //            case "__advancedSortQuick":
 //                break
 

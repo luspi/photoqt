@@ -159,6 +159,9 @@ int main(int argc, char *argv[]) {
 
         if(checker == 2)
             startup.setupFresh();
+        else {
+//            PQCSettings::get().migrateOldDatabase();
+        }
 
         // run consistency check
         // this is done when updating or coming from dev version

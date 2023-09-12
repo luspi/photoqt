@@ -24,8 +24,8 @@ Item {
         "filecopy"            : ["actions","PQCopy", loader_copy, 1, false, false],
         "filemove"            : ["actions","PQMove", loader_move, 1, false, false],
         "filter"              : ["actions","PQFilter", loader_filter, 1, PQCSettings.interfacePopoutFilter, PQCPopoutGeometry.filterForcePopout],
+        "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, PQCSettings.interfacePopoutAdvancedSort, PQCPopoutGeometry.advancedsortForcePopout],
 
-        "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, false, false],
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
