@@ -66,7 +66,7 @@ QStringList PQCScriptsClipboard::getListOfFilesInClipboard() {
 
 void PQCScriptsClipboard::copyTextToClipboard(QString txt, bool removeHTML) {
 
-    qDebug() << "args: txt =" << txt;
+    qDebug() << "args: txt.length =" << txt.length();
     qDebug() << "args: removeHTML =" << removeHTML;
 
     if(removeHTML)

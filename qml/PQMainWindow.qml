@@ -103,6 +103,7 @@ Window {
     Loader { id: loader_mapcurrent }
     Loader { id: loader_navigationfloating }
     Loader { id: loader_slideshowcontrols }
+    Loader { id: loader_logging }
 
     // actions
     Loader { id: loader_about }
@@ -119,7 +120,6 @@ Window {
     Loader { id: loader_filter }
     Loader { id: loader_imgur }
     Loader { id: loader_imguranonym }
-    Loader { id: loader_logging }
     Loader { id: loader_mapexplorer }
     Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }

@@ -339,6 +339,8 @@ void PQCSettings::checkValidSlot() {
 
 void PQCSettings::closeDatabase() {
 
+    qDebug() << "";
+
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {

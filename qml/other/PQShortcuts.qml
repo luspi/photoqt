@@ -244,8 +244,9 @@ Item {
 //                break
 //            case "__chromecast":
 //                break
-//            case "__logging":
-//                break
+            case "__logging":
+                loader.show("logging")
+                break;
             case "__advancedSort":
                 loader.show("advancedsort")
                 break

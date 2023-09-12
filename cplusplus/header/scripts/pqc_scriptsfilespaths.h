@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE bool isExcludeDirFromCaching(QString filename);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE QString selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
+    Q_INVOKABLE void saveLogToFile(QString txt);
 
 private:
     PQCScriptsFilesPaths();

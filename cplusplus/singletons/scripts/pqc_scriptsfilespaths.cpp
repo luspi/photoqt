@@ -282,6 +282,11 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
 
 QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
 
+    qDebug() << "args: buttonlabel" << buttonlabel;
+    qDebug() << "args: preselectFile" << preselectFile;
+    qDebug() << "args: formatId" << formatId;
+    qDebug() << "args: confirmOverwrite" << confirmOverwrite;
+
     QFileInfo info(preselectFile);
 
     PQCNotify::get().setModalFileDialogOpen(true);
@@ -314,5 +319,28 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
 
     PQCNotify::get().setModalFileDialogOpen(false);
     return "";
+
+}
+
+void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
+
+    qDebug() << "args: txt.length = " << txt.length();
+
+    PQCNotify::get().setModalFileDialogOpen(true);
+
+    QString newfile = QFileDialog::getSaveFileName(nullptr, QString(), QString("%1/photoqt-%2.log").arg(QDir::homePath(), QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm")));
+
+    if(newfile == "") {
+        PQCNotify::get().setModalFileDialogOpen(false);
+        return;
+    }
+
+    QFile file(newfile);
+    file.open(QIODevice::WriteOnly|QIODevice::Truncate);
+    QTextStream out(&file);
+    out << txt;
+    file.close();
+
+    PQCNotify::get().setModalFileDialogOpen(false);
 
 }

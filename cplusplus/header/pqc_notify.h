@@ -86,6 +86,13 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(QString debugLogMessages READ getDebugLogMessages WRITE setDebugLogMessages NOTIFY debugLogMessagesChanged)
+    void setDebugLogMessages(QString val);
+    Q_INVOKABLE QString getDebugLogMessages();
+    void addDebugLogMessages(QString val);
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -96,6 +103,7 @@ private:
         m_modalFileDialogOpen = false;
         m_spinBoxPassKeyEvents = false;
         m_ignoreKeysExceptEnterEsc = false;
+        m_debugLogMessages = "";
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -104,6 +112,8 @@ private:
     bool m_freshInstall;
     int m_thumbs;
     bool m_startInTray;
+
+    QString m_debugLogMessages;
 
     bool m_modalFileDialogOpen;
     bool m_spinBoxPassKeyEvents;
@@ -119,6 +129,8 @@ Q_SIGNALS:
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
     void ignoreKeysExceptEnterEscChanged();
+
+    void debugLogMessagesChanged();
 
     // these are kept similar to the
     void cmdOpen();

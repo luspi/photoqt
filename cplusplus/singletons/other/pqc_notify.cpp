@@ -84,3 +84,17 @@ void PQCNotify::setIgnoreKeysExceptEnterEsc(bool val) {
 bool PQCNotify::getIgnoreKeysExceptEnterEsc() {
     return m_ignoreKeysExceptEnterEsc;
 }
+
+void PQCNotify::setDebugLogMessages(QString val) {
+    if(val != m_debugLogMessages) {
+        m_debugLogMessages = val;
+        Q_EMIT debugLogMessagesChanged();
+    }
+}
+QString PQCNotify::getDebugLogMessages() {
+    return m_debugLogMessages;
+}
+void PQCNotify::addDebugLogMessages(QString val) {
+    m_debugLogMessages += val;
+    Q_EMIT debugLogMessagesChanged();
+}
