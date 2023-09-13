@@ -160,7 +160,7 @@ int main(int argc, char *argv[]) {
         if(checker == 2)
             startup.setupFresh();
         else {
-//            PQCSettings::get().migrateOldDatabase();
+            PQCSettings::get().migrateOldDatabase();
         }
 
         // run consistency check

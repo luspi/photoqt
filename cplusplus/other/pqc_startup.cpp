@@ -54,21 +54,14 @@ int PQCStartup::check() {
     if(!QFile::exists(PQCConfigFiles::SETTINGS_DB()))
         return 2;
 
-
     // last time a dev version was run
     QString version = PQCSettings::get()["generalVersion"].toString();
-    if(version == "dev") {
-        // update stored version string
-        PQCSettings::get().update("generalVersion", VERSION);
+    if(version == "dev")
         return 3;
-    }
 
     // updated
-    if(version != QString(VERSION)) {
-        // update stored version string
-        PQCSettings::get().update("generalVersion", VERSION);
+    if(version != QString(VERSION))
         return 1;
-    }
 
     // nothing happened
     return 0;
@@ -168,7 +161,6 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
 
-
 }
 
 void PQCStartup::resetToDefaults() {
@@ -186,6 +178,8 @@ void PQCStartup::resetToDefaults() {
 
 void PQCStartup::performChecksAndMigrations() {
 
+    // TODO: remove and move to respective classes
+
     /**************************************************************/
 
     // migrate data
@@ -194,7 +188,6 @@ void PQCStartup::performChecksAndMigrations() {
     /**************************************************************/
 
     // enter any new settings and shortcuts
-    manageSettings();
     manageShortcuts();
 
     /**************************************************************/
@@ -202,89 +195,6 @@ void PQCStartup::performChecksAndMigrations() {
     // validate setup
     PQCValidate validate;
     validate.validate();
-
-}
-
-// These settings changed names
-bool PQCStartup::manageSettings() {
-
-    QSqlDatabase db;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "startupsettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "startupsettings");
-    db.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
-
-    if(!db.open())
-        qWarning() << "Error opening database:" << db.lastError().text();
-
-    QMap<QString,QStringList> rename;
-    rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";                             // 4.0
-    rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";                      // 4.0
-    rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";                  // 4.0
-    rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";                // 4.0
-    rename ["DefaultView"] = QStringList() << "Layout" << "filedialog";                         // 4.0
-    rename ["PopoutFileSaveAs"] = QStringList() << "PopoutExport" << "interface";               // 4.0
-    QMapIterator<QString, QStringList> i(rename);
-    while(i.hasNext()) {
-        i.next();
-
-        QString oldname = i.key();
-        QString newname = i.value().value(0);
-        QString table = i.value().value(1);
-
-        // delete old setting
-        if(newname == "") {
-
-            QSqlQuery query(db);
-            query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
-            query.bindValue(":old", oldname);
-            if(!query.exec()) {
-                qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text();
-                query.clear();
-                return false;
-            }
-            query.clear();
-
-        // rename old setting
-        } else {
-
-            QSqlQuery query(db);
-            query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
-            query.bindValue(":new", newname);
-            query.bindValue(":old", oldname);
-            if(!query.exec()) {
-                qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text();
-                query.clear();
-                return false;
-            }
-            query.clear();
-
-        }
-    }
-
-    // value changes
-    // ZoomLevel -> Zoom: (val-9)*2.5
-    QSqlQuery queryZoom(db);
-    queryZoom.prepare("SELECT `value` from `filedialog` WHERE `name`='ZoomLevel'");
-    if(!queryZoom.exec()) {
-        qWarning() << "Unable to migrate ZoomLevel to Zoom:" << queryZoom.lastError().text();
-        queryZoom.clear();
-        return false;
-    }
-    queryZoom.next();
-    const int oldVal = queryZoom.value(0).toInt();
-    queryZoom.clear();
-    queryZoom.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='Zoom'");
-    queryZoom.bindValue(":val", static_cast<int>((oldVal-9)*2.5));
-    if(!queryZoom.exec()) {
-        qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
-        queryZoom.clear();
-        return false;
-    }
-    queryZoom.clear();
-
-    return true;
 
 }
 

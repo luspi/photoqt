@@ -356,7 +356,135 @@ void PQCSettings::closeDatabase() {
 
 void PQCSettings::reopenDatabase() {
 
+    qDebug() << "";
+
     if(!db.open())
         qWarning() << "Unable to reopen database";
+
+}
+
+bool PQCSettings::migrateOldDatabase() {
+
+    dbCommitTimer->stop();
+
+    if(dbIsTransaction) {
+        db.commit();
+        dbIsTransaction = false;
+        if(db.lastError().text().trimmed().length())
+            qWarning() << "ERROR committing database:" << db.lastError().text();
+    }
+
+    QMap<QString,QStringList> rename;
+    rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";                             // 4.0
+    rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";                      // 4.0
+    rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";                  // 4.0
+    rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";                // 4.0
+    rename ["DefaultView"] = QStringList() << "Layout" << "filedialog";                         // 4.0
+    rename ["PopoutFileSaveAs"] = QStringList() << "PopoutExport" << "interface";               // 4.0
+    rename ["AdvancedSortExifDateCriteria"] = QStringList() << "AdvancedSortDateCriteria" << "imageview"; // 4.0
+    rename ["PopoutSlideShowSettings"] = QStringList() << "PopoutSlideshowSetup" << "interface";// 4.0
+    QMapIterator<QString, QStringList> i(rename);
+    while(i.hasNext()) {
+        i.next();
+
+        QString oldname = i.key();
+        QString newname = i.value().value(0);
+        QString table = i.value().value(1);
+
+        // delete old setting
+        if(newname == "") {
+
+            QSqlQuery query(db);
+            query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
+            query.bindValue(":old", oldname);
+            if(!query.exec()) {
+                qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text();
+                query.clear();
+                continue;
+            }
+            query.clear();
+
+            // rename old setting
+        } else {
+
+            // check if the new setting already exists or not
+            QSqlQuery queryExist(db);
+            queryExist.prepare(QString("SELECT COUNT(name) FROM `%1` WHERE name=:name").arg(table));
+            queryExist.bindValue(":name", newname);
+            if(!queryExist.exec()) {
+                qWarning() << "Unable to check if settings name already exists:" << queryExist.lastError().text();
+                queryExist.clear();
+                continue;
+            }
+            queryExist.next();
+            const int oldVal = queryExist.value(0).toInt();
+
+            if(oldVal == 0) {
+
+                QSqlQuery query(db);
+                query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
+                query.bindValue(":new", newname);
+                query.bindValue(":old", oldname);
+                if(!query.exec()) {
+                    qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text();
+                    query.clear();
+                    continue;
+                }
+                query.clear();
+
+            }
+
+        }
+    }
+
+    // value changes
+
+    // ZoomLevel -> Zoom: (val-9)*2.5
+    QSqlQuery queryZoom(db);
+    queryZoom.prepare("SELECT `value` from `filedialog` WHERE `name`='ZoomLevel'");
+    if(!queryZoom.exec()) {
+        qWarning() << "Unable to migrate ZoomLevel to Zoom:" << queryZoom.lastError().text();
+        queryZoom.clear();
+        return false;
+    }
+    queryZoom.next();
+    const int oldVal = queryZoom.value(0).toInt();
+    queryZoom.clear();
+    queryZoom.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='Zoom'");
+    queryZoom.bindValue(":val", static_cast<int>((oldVal-9)*2.5));
+    if(!queryZoom.exec()) {
+        qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
+        queryZoom.clear();
+        return false;
+    }
+    queryZoom.clear();
+
+    // AdvancedSortDateCriteria: remove every second entry (checked value)
+    QSqlQuery querySort(db);
+    querySort.prepare("SELECT `value` from `imageview` WHERE `name`='AdvancedSortDateCriteria'");
+    if(!querySort.exec()) {
+        qWarning() << "Unable to migrate AdvancedSortDateCriteria:" << querySort.lastError().text();
+        querySort.clear();
+        return false;
+    }
+    querySort.next();
+    const QStringList oldSortVal = querySort.value(0).toString().split(":://::");
+    QStringList newSortVal;
+    for(const auto &v : oldSortVal) {
+        if(v == "1" || v == "0")
+            continue;
+        newSortVal << v;
+    }
+    querySort.clear();
+    querySort.prepare("UPDATE `imageview` SET `value`=:val WHERE `name`='AdvancedSortDateCriteria'");
+    querySort.bindValue(":val", newSortVal.join(":://::"));
+    if(!querySort.exec()) {
+        qWarning() << "Unable to update AdvancedSortDateCriteria value:" << querySort.lastError().text();
+        querySort.clear();
+        return false;
+    }
+    querySort.clear();
+
+    return true;
 
 }

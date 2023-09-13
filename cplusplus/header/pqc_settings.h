@@ -52,6 +52,8 @@ public:
     void closeDatabase();
     void reopenDatabase();
 
+    bool migrateOldDatabase();
+
 private:
     PQCSettings();
 
