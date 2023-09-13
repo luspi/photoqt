@@ -301,7 +301,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
     if(!confirmOverwrite)
         diag.setOption(QFileDialog::DontConfirmOverwrite);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
-    diag.setNameFilter("*."+endings.join(" *."));
+    diag.setNameFilter("*."+endings.join(" *.") + ";;All Files (*.*)");
     diag.setDirectory(info.absolutePath());
     diag.selectFile(info.baseName() + "." + endings[0]);
 
@@ -344,3 +344,41 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
     PQCNotify::get().setModalFileDialogOpen(false);
 
 }
+
+QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+
+    qDebug() << "args: buttonlabel" << buttonlabel;
+    qDebug() << "args: preselectFile" << preselectFile;
+    qDebug() << "args: endings" << endings;
+
+    QFileInfo info(preselectFile);
+
+    PQCNotify::get().setModalFileDialogOpen(true);
+
+    QFileDialog diag;
+    diag.setLabelText(QFileDialog::Accept, buttonlabel);
+    diag.setFileMode(QFileDialog::AnyFile);
+    diag.setModal(true);
+    diag.setAcceptMode(QFileDialog::AcceptOpen);
+    diag.setOption(QFileDialog::DontUseNativeDialog, false);
+    diag.setNameFilter("*."+endings.join(" *.") + ";;All Files (*.*)");
+    if(info.isFile()) {
+        diag.setDirectory(info.absolutePath());
+        diag.selectFile(info.fileName());
+    } else
+        diag.setDirectory(info.absoluteFilePath());
+
+    if(diag.exec()) {
+        QStringList fileNames = diag.selectedFiles();
+        if(fileNames.length() > 0) {
+            PQCNotify::get().setModalFileDialogOpen(false);
+            return fileNames[0];
+        }
+    }
+
+    PQCNotify::get().setModalFileDialogOpen(false);
+    return "";
+
+
+}
+

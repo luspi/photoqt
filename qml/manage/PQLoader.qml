@@ -26,6 +26,7 @@ Item {
         "filter"              : ["actions","PQFilter", loader_filter, 1, PQCSettings.interfacePopoutFilter, PQCPopoutGeometry.filterForcePopout],
         "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, PQCSettings.interfacePopoutAdvancedSort, PQCPopoutGeometry.advancedsortForcePopout],
         "logging"             : ["ongoing","PQLogging", loader_logging, 0, true, true],
+        "slideshowsetup"      : ["actions","PQSlideshowSetup", loader_slideshowsetup, 1, PQCSettings.interfacePopoutSlideshowSetup, PQCPopoutGeometry.slideshowsetupForcePopout],
 
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
@@ -35,7 +36,6 @@ Item {
         "mapexplorer"         : ["map","PQMapExplorer", loader_mapexplorer, 1, false, false],
         "settingsmanager"     : ["settings","PQSettingsManager", loader_settingsmanager, 1, false, false],
         "slideshowcontrols"   : ["ongoing","PQSlideShowControls", loader_slideshowcontrols, 0, false, false],
-        "slideshowsettings"   : ["ongoing","PQSlideShowSettings", loader_slideshowsettings, 1, false, false],
         "unavailable"         : ["other","PQUnavailable", loader_unavailable, 1, false, false],
         "wallpaper"           : ["actions","PQWallpaper", loader_wallpaper, 1, false, false]
     }

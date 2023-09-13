@@ -54,7 +54,7 @@ Button {
         opacity: enabled ? 1.0 : 0.6
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        elide: Text.ElideMiddle
     }
 
     background: Rectangle {
@@ -66,7 +66,7 @@ Button {
         border.color: PQCLook.baseColorHighlight
         border.width: 1
 
-        color: (down ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+        color: (down ? PQCLook.baseColorActive : (hovered&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 

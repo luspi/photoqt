@@ -38,6 +38,7 @@ public:
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE QString selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
     Q_INVOKABLE void saveLogToFile(QString txt);
+    Q_INVOKABLE QString openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
 
 private:
     PQCScriptsFilesPaths();

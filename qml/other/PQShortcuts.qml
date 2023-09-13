@@ -224,8 +224,9 @@ Item {
             case "__about":
                 loader.show("about")
                 break
-//            case "__slideshow":
-//                break
+            case "__slideshow":
+                loader.show("slideshowsetup")
+                break
 //            case "__slideshowQuick":
 //                break
             case "__filterImages":

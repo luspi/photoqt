@@ -123,7 +123,7 @@ Window {
     Loader { id: loader_mapexplorer }
     Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }
-    Loader { id: loader_slideshowsettings }
+    Loader { id: loader_slideshowsetup }
     Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
 
