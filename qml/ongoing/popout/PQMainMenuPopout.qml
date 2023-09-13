@@ -27,7 +27,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: mainmenu_window
+    id: mainmenu_popout
 
     //: Window title
     title: qsTranslate("actions", "Main Menu")

@@ -328,6 +328,8 @@ PQTemplateFullscreen {
             return
         }
         opacity = 1
+        if(popout)
+            filter_popout.show()
 
         // we explicitely load the data below to pre-load it even when switching between popout and not
 

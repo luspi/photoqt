@@ -27,7 +27,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: mainmenu_window
+    id: metadata_popout
 
     //: Window title
     title: qsTranslate("actions", "Metadata")

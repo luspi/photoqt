@@ -26,7 +26,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: scalepopout_top
+    id: scale_popout
 
     //: Window title
     title: qsTranslate("scale", "Scale image")

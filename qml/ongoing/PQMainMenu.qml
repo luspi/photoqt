@@ -780,6 +780,8 @@ Rectangle {
 
     function showMainMenu() {
         mainmenu_top.setVisible = true
+        if(PQCSettings.interfacePopoutMainMenu)
+            mainmenu_popout.show()
     }
 
 }

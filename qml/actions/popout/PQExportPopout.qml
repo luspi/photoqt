@@ -26,7 +26,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: exportpopout_top
+    id: export_popout
 
     //: Window title
     title: qsTranslate("actions", "Export image")

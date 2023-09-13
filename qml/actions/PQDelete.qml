@@ -188,6 +188,9 @@ PQTemplateFullscreen {
         error.visible = false
         filename.text = PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
 
+        if(popout)
+            filedelete_popout.show()
+
     }
 
     function hide() {

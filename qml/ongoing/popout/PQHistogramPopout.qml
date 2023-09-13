@@ -27,7 +27,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: histogram_window
+    id: histogram_popout
 
     //: Window title
     title: qsTranslate("histogram", "Histogram")

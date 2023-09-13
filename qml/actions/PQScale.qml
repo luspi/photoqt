@@ -411,14 +411,17 @@ PQTemplateFullscreen {
             hide()
             return
         }
+        opacity = 1
+        if(popout)
+            scale_popout.show()
+
         spin_w.value = image.currentResolution.width
         spin_h.value = image.currentResolution.height
         aspectRatio = image.currentResolution.width/image.currentResolution.height
+
         scalebusy.hide()
-        opacity = 1
         errorlabel.visible = false
         unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
-
     }
 
     function hide() {

@@ -26,7 +26,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: advancedsortpopout_top
+    id: advancedsort_popout
 
     //: Window title
     title: qsTranslate("advancedsort", "Advanced image sort")

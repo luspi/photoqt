@@ -26,7 +26,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: filter_top
+    id: filter_popout
 
     //: Window title
     title: qsTranslate("filter", "Filter images in current directory")

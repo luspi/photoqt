@@ -26,7 +26,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: filerename_top
+    id: filerename_popout
 
     //: Window title
     title: qsTranslate("filemanagement", "Rename file")

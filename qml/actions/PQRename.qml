@@ -213,6 +213,9 @@ PQTemplateFullscreen {
         }
         PQCNotify.ignoreKeysExceptEnterEsc = true
         opacity = 1
+        if(popout)
+            filerename_popout.show()
+
         filenameedit.text = PQCScriptsFilesPaths.getBasename(PQCFileFolderModel.currentFile)
         filesuffix.text = "." + PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
         filenameedit.setFocus()

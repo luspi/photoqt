@@ -357,6 +357,8 @@ PQTemplateFloating {
     function show() {
         opacity = 1
         PQCSettings.histogramVisible = true
+        if(popout)
+            histogram_popout.show()
     }
 
     function hide() {

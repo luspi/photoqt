@@ -209,6 +209,8 @@ PQTemplateFullscreen {
 
     function show() {
         opacity = 1
+        if(popout)
+            about_popout.show()
     }
 
     function hide() {

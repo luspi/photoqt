@@ -27,7 +27,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: mapcurrent_window
+    id: mapcurrent_popout
 
     //: Window title
     title: qsTranslate("mapcurrent", "Current location")

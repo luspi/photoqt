@@ -554,8 +554,8 @@ PQTemplateFullscreen {
         }
         exportbusy.hide()
         convert_top.opacity = 1
-        if(PQCSettings.interfacePopoutExport && !exportpopout_top.visible)
-            exportpopout_top.show()
+        if(popout)
+            export_popout.show()
     }
 
     function hide() {

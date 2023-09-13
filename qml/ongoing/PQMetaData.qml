@@ -517,6 +517,8 @@ Rectangle {
                     if(!PQCSettings.metadataElementFloating)
                         setVisible = !setVisible
 
+                    if(PQCSettings.interfacePopoutMetadata)
+                        metadata_popout.show()
                 }
             }
 

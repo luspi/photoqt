@@ -26,7 +26,7 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: filedelete_top
+    id: filedelete_popout
 
     //: Window title
     title: qsTranslate("filemanagement", "Delete file?")
