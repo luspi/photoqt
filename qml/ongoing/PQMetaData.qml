@@ -492,6 +492,11 @@ Rectangle {
         target: PQCNotify
         function onMouseMove(posx, posy) {
 
+            if(PQCNotify.slideshowRunning) {
+                setVisible = false
+                return
+            }
+
             if(PQCSettings.metadataElementFloating)
                 return
 

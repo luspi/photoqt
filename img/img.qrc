@@ -81,5 +81,12 @@
         <file>white/aspectratioignore.svg</file>
         <file>white/aspectratiokeep.svg</file>
         <file>white/x.svg</file>
+        <file>white/slideshownext.svg</file>
+        <file>white/slideshowprev.svg</file>
+        <file>white/exit.svg</file>
+        <file>white/speaker_high.svg</file>
+        <file>white/speaker_low.svg</file>
+        <file>white/speaker_medium.svg</file>
+        <file>white/speaker_mute.svg</file>
     </qresource>
 </RCC>

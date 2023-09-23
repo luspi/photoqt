@@ -35,3 +35,11 @@ void PQCScriptsOther::deleteScreenshots() {
             break;
     }
 }
+
+QString PQCScriptsOther::getUniqueId() {
+
+    qDebug() << "";
+
+    return QString::number(QDateTime::currentMSecsSinceEpoch());
+
+}

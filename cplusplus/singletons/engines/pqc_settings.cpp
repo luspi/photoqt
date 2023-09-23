@@ -383,6 +383,7 @@ bool PQCSettings::migrateOldDatabase() {
     rename ["PopoutFileSaveAs"] = QStringList() << "PopoutExport" << "interface";               // 4.0
     rename ["AdvancedSortExifDateCriteria"] = QStringList() << "AdvancedSortDateCriteria" << "imageview"; // 4.0
     rename ["PopoutSlideShowSettings"] = QStringList() << "PopoutSlideshowSetup" << "interface";// 4.0
+    rename ["PopoutSlideShowControls"] = QStringList() << "PopoutSlideshowControls" << "interface";// 4.0
     QMapIterator<QString, QStringList> i(rename);
     while(i.hasNext()) {
         i.next();

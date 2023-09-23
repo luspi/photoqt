@@ -103,6 +103,7 @@ Window {
     Loader { id: loader_mapcurrent }
     Loader { id: loader_navigationfloating }
     Loader { id: loader_slideshowcontrols }
+    Loader { id: loader_slideshowhandler }
     Loader { id: loader_logging }
 
     // actions
@@ -126,6 +127,7 @@ Window {
     Loader { id: loader_slideshowsetup }
     Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
+
 
     /*************************************************/
 

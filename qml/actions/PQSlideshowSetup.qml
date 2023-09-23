@@ -473,6 +473,8 @@ PQTemplateFullscreen {
         PQCSettings.slideshowIncludeSubFolders = subfolders_check.checked
 
         hide()
+        loader.show("slideshowhandler")
+        loader.show("slideshowcontrols")
 //        loader.ensureItIsReady("slideshowcontrols")
 //        loader.passOn("slideshowcontrols", "start", undefined)
 

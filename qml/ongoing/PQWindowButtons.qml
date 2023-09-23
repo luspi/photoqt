@@ -45,9 +45,7 @@ Item {
     width: row.width
     height: row.height
 
-    // TODO: also chekc for slideshow status
-    visible: (PQCSettings.interfaceWindowButtonsShow && opacity>0)
-//    visible: (!(variables.slideShowActive&&PQSettings.slideshowHideWindowButtons) && PQSettings.interfaceWindowButtonsShow && opacity==1)
+    visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0)
 
     property bool visibleAlways: false
 
@@ -92,8 +90,7 @@ Item {
             enabled: PQCFileFolderModel.countMainView>0
             opacity: visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: 200 } }
-            // TODO: check for slideshow status
-            visible: PQCSettings.interfaceNavigationTopRight && opacity > 0// && !variables.slideShowActive
+            visible: PQCSettings.interfaceNavigationTopRight && opacity > 0 && !PQCNotify.slideshowRunning
             mipmap: true
             PQMouseArea {
                 id: left_mouse
@@ -113,8 +110,7 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "/white/rightarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0
-            // TODO: check for slideshow status
-            opacity: visibleAlways/*||variables.slideShowActive*/ ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
+            opacity: visibleAlways||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: PQCSettings.interfaceNavigationTopRight && opacity > 0
             mipmap: true
@@ -141,8 +137,7 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "/white/menu.svg"
 
-            // TODO: check for slideshow status
-            opacity: (visibleAlways/*||variables.slideShowActive*/) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
+            opacity: (visibleAlways||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             mipmap: true

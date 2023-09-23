@@ -2,6 +2,7 @@ import QtQuick
 
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
+import PQCNotify
 
 import "../elements"
 
@@ -14,6 +15,8 @@ Item {
 
     Behavior on x { NumberAnimation { duration: 200 } }
     Behavior on y { NumberAnimation { duration: 200 } }
+
+    visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels)
 
     width: maincol.width
     height: maincol.height

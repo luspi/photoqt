@@ -258,7 +258,8 @@ Item {
             // elements (ongoing)
 
             case "__contextMenu":
-                contextmenu.popup()
+                if(!PQCNotify.slideshowRunning)
+                    contextmenu.popup()
                 break
             case "__showMetaData":
             case "__keepMetaData":

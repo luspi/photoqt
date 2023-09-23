@@ -114,6 +114,7 @@ Rectangle {
         y: 4
         width: 15
         height: 15
+        z: 1
         source: "/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4

@@ -98,3 +98,13 @@ void PQCNotify::addDebugLogMessages(QString val) {
     m_debugLogMessages += val;
     Q_EMIT debugLogMessagesChanged();
 }
+
+void PQCNotify::setSlideshowRunning(bool val) {
+    if(val != m_slideshowRunning) {
+        m_slideshowRunning = val;
+        Q_EMIT slideshowRunningChanged();
+    }
+}
+bool PQCNotify::getSlideshowRunning() {
+    return m_slideshowRunning;
+}

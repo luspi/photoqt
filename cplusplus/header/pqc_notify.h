@@ -93,6 +93,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool slideshowRunning READ getSlideshowRunning WRITE setSlideshowRunning NOTIFY slideshowRunningChanged)
+    void setSlideshowRunning(bool val);
+    Q_INVOKABLE bool getSlideshowRunning();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -119,6 +125,8 @@ private:
     bool m_spinBoxPassKeyEvents;
     bool m_ignoreKeysExceptEnterEsc;
 
+    bool m_slideshowRunning;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
@@ -131,6 +139,8 @@ Q_SIGNALS:
     void ignoreKeysExceptEnterEscChanged();
 
     void debugLogMessagesChanged();
+
+    void slideshowRunningChanged();
 
     // these are kept similar to the
     void cmdOpen();

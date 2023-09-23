@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE qint64 getTimestamp();
     Q_INVOKABLE void takeScreenshots();
     Q_INVOKABLE void deleteScreenshots();
+    Q_INVOKABLE QString getUniqueId();
 
 private:
     PQCScriptsOther();

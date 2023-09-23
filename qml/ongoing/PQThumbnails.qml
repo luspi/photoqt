@@ -484,6 +484,12 @@ Rectangle {
     Connections {
         target: PQCNotify
         function onMouseMove(posx, posy) {
+
+            if(PQCNotify.slideshowRunning) {
+                setVisible = false
+                return
+            }
+
             if(setVisible) {
                 if(posx < thumbnails_top.x-50 || posx > thumbnails_top.x+thumbnails_top.width+50 || posy < thumbnails_top.y-50 || posy > thumbnails_top.y+thumbnails_top.height+50)
                     setVisible = false
