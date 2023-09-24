@@ -836,4 +836,25 @@ Item {
             PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
     }
 
+    function showRandom() {
+
+        if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1)
+            return
+
+        // special case: load other image
+        if(PQCFileFolderModel.countMainView === 2)
+            PQCFileFolderModel.currentIndex = (PQCFileFolderModel.currentIndex+1)%2
+
+        // find new image that's not the current one (if possible)
+        var ran = PQCFileFolderModel.currentIndex
+        var iter = 0
+        while(ran === PQCFileFolderModel.currentIndex) {
+            ran = Math.floor(Math.random() * PQCFileFolderModel.countMainView);
+            iter += 1
+            if(iter > 100)
+                break
+        }
+        PQCFileFolderModel.currentIndex = ran
+    }
+
 }

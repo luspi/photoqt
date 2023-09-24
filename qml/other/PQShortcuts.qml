@@ -311,8 +311,9 @@ Item {
             case "__goToLast":
                 image.showLast()
                 break
-//            case "__loadRandom":
-//                break
+            case "__loadRandom":
+                image.showRandom()
+                break
 //            case "__viewerMode":
 //                break
             case "__navigationFloating":
