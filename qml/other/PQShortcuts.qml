@@ -446,20 +446,20 @@ Item {
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     loader.show("notification")
                     if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
-                        loader_notification.item.statustext = "File successfully deleted"
+                        loader_notification.item.statustext = qsTranslate("filemanagement", "File successfully deleted")
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else
-                        loader_notification.item.statustext = "Could not delete file"
+                        loader_notification.item.statustext = qsTranslate("filemanagement", "Could not delete file")
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     loader.show("notification")
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        loader_notification.item.statustext = "File successfully moved to trash"
+                        loader_notification.item.statustext = qsTranslate("filemanagement", "File successfully moved to trash")
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else
-                        loader_notification.item.statustext = "Could not move file to trash"
+                        loader_notification.item.statustext = qsTranslate("filemanagement", "Could not move file to trash")
                 }
                 break
             case "__saveAs":
