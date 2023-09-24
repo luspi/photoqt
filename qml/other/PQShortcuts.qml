@@ -28,6 +28,7 @@ import PQCNotify
 import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
 import PQCFileFolderModel
+import PQCScriptsClipboard
 
 Item {
 
@@ -403,8 +404,9 @@ Item {
                 if(PQCFileFolderModel.countMainView > 0)
                     PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)
                 break
-//            case "__clipboard":
-//                break
+            case "__clipboard":
+                PQCScriptsClipboard.copyFilesToClipboard([PQCFileFolderModel.currentFile])
+                break
 //            case "__print":
 //                break
 
