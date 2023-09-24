@@ -104,6 +104,7 @@ Window {
     Loader { id: loader_navigationfloating }
     Loader { id: loader_slideshowcontrols }
     Loader { id: loader_slideshowhandler }
+    Loader { id: loader_notification }
     Loader { id: loader_logging }
 
     // actions

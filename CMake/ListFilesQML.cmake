@@ -34,7 +34,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageNormal.qml ${d}/PQIm
 SET(d "qml/ongoing")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQThumbnails.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQStatusInfo.qml ${d}/PQContextMenu.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHistogram.qml ${d}/PQMapCurrent.qml ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml ${d}/PQNavigation.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideshowControls.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideshowControls.qml ${d}/PQNotification.qml)
 
 SET(d "qml/ongoing/popout")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml ${d}/PQHistogramPopout.qml ${d}/PQMapCurrentPopout.qml)

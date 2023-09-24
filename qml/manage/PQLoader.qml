@@ -29,6 +29,7 @@ Item {
         "slideshowsetup"      : ["actions","PQSlideshowSetup", loader_slideshowsetup, 1, PQCSettings.interfacePopoutSlideshowSetup, PQCPopoutGeometry.slideshowsetupForcePopout],
         "slideshowhandler"    : ["other","PQSlideshowHandler", loader_slideshowhandler, 1, false, false],
         "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCPopoutGeometry.slideshowcontrolsForcePopout],
+        "notification"        : ["ongoing","PQNotification", loader_notification, 0, false, false],
 
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
