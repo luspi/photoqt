@@ -20,75 +20,50 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef TABIMAGEOPTIONS_H
-#define TABIMAGEOPTIONS_H
+#include <pqc_printtabimagepositiontile.h>
 
-#include <pqc_print_tabimagepositiontile.h>
-#include <QWidget>
-#include <QSettings>
+PQCPrintTabImagePositionTile::PQCPrintTabImagePositionTile(int id, bool selected) : QLabel() {
+    this->setFixedSize(40,40);
+    this->id = id;
+    this->selected = selected;
+    if(selected)
+        setSelected();
+    else
+        setNotHovered();
+}
 
-class QHBoxLayout;
-class QVBoxLayout;
-class QGridLayout;
-class QRadioButton;
-class QCheckBox;
-class QDoubleSpinBox;
-class QComboBox;
+void PQCPrintTabImagePositionTile::setHovered() {
+    if(!selected)
+        this->setStyleSheet(getBorder()+";background: rgba(175,175,175,0.5);");
+}
 
-class PQCPrintTabImageOptions : public QWidget {
+void PQCPrintTabImagePositionTile::setNotHovered() {
+    if(!selected)
+        this->setStyleSheet(getBorder()+";background: white;");
+}
 
-    Q_OBJECT
+void PQCPrintTabImagePositionTile::setSelected() {
+    this->setStyleSheet(getBorder()+";background: rgb(125,125,125);");
+    selected = true;
+    Q_EMIT newPosSelected(id);
+}
 
-public:
-    PQCPrintTabImageOptions(QSizeF pixmapsize, QWidget *parent = nullptr);
-    ~PQCPrintTabImageOptions();
+QString PQCPrintTabImagePositionTile::getBorder() {
+    QString ret = "border: 1px solid rgb(200,200,200)";
+    if(id <= 2)
+        ret += ";border-top: 1px solid black";
+    if(id > 5)
+        ret += ";border-bottom: 1px solid black";
+    if((id+1)%3 == 0)
+        ret += ";border-right: 1px solid black";
+    if(id%3 == 0)
+        ret += ";border-left: 1px solid black";
+    return ret;
+}
 
-    int getImagePosition();
-    bool getScalingNone();
-    bool getScalingFitToPage();
-    bool getScalingEnlargeSmaller();
-    bool getScalingScaleTo();
-    QSizeF getScalingScaleToSize();
-    bool getScalingKeepRatio();
-    void storeNewSettings();
-
-private:
-    int posSelected;
-
-    QHBoxLayout *mainhorlay;
-    QFrame *posFrame;
-    QVBoxLayout *posLayout;
-    QLabel *posTitle;
-    std::vector<PQCPrintTabImagePositionTile*> posGridTiles;
-    QGridLayout *posGrid;
-
-    QFrame *scaFrame;
-    QVBoxLayout *scaLayout;
-    QLabel *scaTitle;
-    QRadioButton *scaNone;
-    QRadioButton *scaPage;
-    QCheckBox *scaInc;
-    QHBoxLayout *scaIncLayout;
-    QRadioButton *scaSize;
-    QDoubleSpinBox *scaWid;
-    QLabel *scaX;
-    QDoubleSpinBox *scaHei;
-    QComboBox *scaUni;
-    QHBoxLayout *scaSizeLayout;
-    QCheckBox *scaRat;
-    QHBoxLayout *scaRatLayout;
-
-    QSettings set;
-
-private Q_SLOTS:
-    void newPosSelected(int id);
-
-Q_SIGNALS:
-    void notifyNewPosSelected(int id);
-
-};
-
-
-
-
-#endif // TABIMAGEOPTIONS_H
+void PQCPrintTabImagePositionTile::checkIfIAmStillSelected(int newid) {
+    if(newid != id) {
+        selected = false;
+        setNotHovered();
+    }
+}

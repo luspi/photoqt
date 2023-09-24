@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE void takeScreenshots();
     Q_INVOKABLE void deleteScreenshots();
     Q_INVOKABLE QString getUniqueId();
+    Q_INVOKABLE void printFile(QString filename);
 
 private:
     PQCScriptsOther();

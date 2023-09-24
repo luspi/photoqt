@@ -29,7 +29,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
 import PQCFileFolderModel
 import PQCScriptsClipboard
-import PQCPrint
+import PQCScriptsOther
 
 Item {
 
@@ -475,7 +475,8 @@ Item {
                 PQCScriptsClipboard.copyFilesToClipboard([PQCFileFolderModel.currentFile])
                 break
             case "__print":
-                PQCPrint.printFile(PQCFileFolderModel.currentFile)
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
+                    PQCScriptsOther.printFile(PQCFileFolderModel.currentFile)
                 break
 
             /**********************/
