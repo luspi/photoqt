@@ -38,6 +38,11 @@ Item {
 
     focus: true
 
+    property bool mouseGesture: false
+    property string mouseButton: ""
+    property var mousePath: []
+    property point mousePreviousPos: Qt.point(-1,-1)
+
     Connections {
 
         target: PQCNotify
@@ -113,7 +118,7 @@ Item {
 
         }
 
-        function onMouseClick(modifiers, button, pos) {
+        function onMousePressed(modifiers, button, pos) {
 
             var combo = ""
 
@@ -133,8 +138,60 @@ Item {
             else if(button === Qt.RightButton)
                 combo += "Right Button"
 
-            checkComboForShortcut(combo)
+            mouseButton = combo
+            mousePath = []
+            mouseGesture = false
+            mousePreviousPos = pos
 
+        }
+
+        function onMouseReleased(modifiers, button, pos) {
+
+            console.log(mouseGesture, mouseButton, mousePath)
+
+            if(!keyshortcuts_top.mouseGesture)
+                checkComboForShortcut(keyshortcuts_top.mouseButton)
+            else
+                checkComboForShortcut(mouseButton + "+" + mousePath.join(""))
+
+            mousePath = []
+            mouseButton = ""
+            mouseGesture = false
+
+        }
+
+        function onMouseMove(x, y) {
+
+            var threshold = 50
+
+            var dx = x-mousePreviousPos.x
+            var dy = y-mousePreviousPos.y
+            var distance = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
+
+            var angle = (Math.atan2(dy, dx)/Math.PI)*180
+            angle = (angle+360)%360;
+
+            var dir = ""
+
+            if(distance > threshold) {
+                if(angle <= 45 || angle > 315)
+                    dir = "E"
+                else if(angle > 45 && angle <= 135)
+                    dir = "S"
+                else if(angle > 135 && angle <= 225)
+                    dir = "W"
+                else if(angle > 225 && angle <= 315)
+                    dir = "N"
+            }
+
+            if(dir != "") {
+                keyshortcuts_top.mouseGesture = true
+                mousePreviousPos = Qt.point(x,y)
+                if(mousePath[mousePath.length-1] !== dir) {
+                    mousePath.push(dir)
+                    mousePathChanged()
+                }
+            }
         }
 
     }

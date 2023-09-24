@@ -299,21 +299,33 @@ Item {
     }
 
     MouseArea {
+
+        id: imagemouse
+
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton|Qt.RightButton
-        onClicked: (mouse) => {
+
+        onPositionChanged: (mouse) => {
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            PQCNotify.mouseMove(pos.x, pos.y)
+        }
+        onWheel: (wheel) => {
+            wheel.accepted = false
+            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
+        }
+        onPressed: (mouse) => {
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+        }
+        onReleased: (mouse) => {
             if(mouse.button === Qt.LeftButton)
                 loader.show("filedialog")
             else {
-                var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
-                PQCNotify.mouseClick(mouse.modifiers, mouse.button, pos)
+                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
             }
-        }
-        onPositionChanged: (mouse) => {
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
-            PQCNotify.mouseMove(pos.x, pos.y)
         }
     }
 

@@ -447,12 +447,17 @@ Item {
                                         wheel.accepted = false
                                         PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                                     }
-                                    onClicked: (mouse) => {
+                                    onPressed: (mouse) => {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                        PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+                                    }
+                                    onReleased: (mouse) => {
                                         if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
                                             loader_component.imageClicked()
-                                        else
-                                            PQCNotify.mouseClick(mouse.modifiers, mouse.button, pos)
+                                        else {
+                                            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                            PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                                        }
                                     }
                                 }
 
