@@ -218,8 +218,16 @@ Window {
 
     }
 
-    onClosing: {
-        handleBeforeClosing()
+    onClosing: (close) => {
+        if(PQCSettings.interfaceTrayIcon === 1) {
+            close.accepted = false
+            toplevel.visible = false
+//            if(PQCSettings.interfaceTrayIconHideReset)
+//                resetPhotoQt()
+        } else {
+            close.accepted = true
+            quitPhotoQt()
+        }
     }
 
     function quitPhotoQt() {

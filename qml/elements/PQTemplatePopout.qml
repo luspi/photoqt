@@ -45,6 +45,10 @@ Window {
 
     /////////
 
+    property alias loaderitem: curloader.item
+
+    /////////
+
     // on windows there is a white flash when the window is created
     // thus we set up the window with opacity set to 0
     // and this animation fades the window without white flash

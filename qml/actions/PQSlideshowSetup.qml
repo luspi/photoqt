@@ -475,8 +475,6 @@ PQTemplateFullscreen {
         hide()
         loader.show("slideshowhandler")
         loader.show("slideshowcontrols")
-//        loader.ensureItIsReady("slideshowcontrols")
-//        loader.passOn("slideshowcontrols", "start", undefined)
 
     }
 

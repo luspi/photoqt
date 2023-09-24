@@ -204,7 +204,10 @@ Item {
 
             if(what === "show") {
                 if(param === "navigationfloating") {
-                    show()
+                    if(nav_top.visible)
+                        hide()
+                    else
+                        show()
                 }
             }
 
@@ -214,6 +217,10 @@ Item {
 
     function show() {
         opacity = 1
+    }
+
+    function hide() {
+        opacity = 0
     }
 
 }

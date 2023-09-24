@@ -26,6 +26,7 @@ import QtQml 2.0
 import PQCShortcuts
 import PQCNotify
 import PQCScriptsFilesPaths
+import PQCScriptsFileManagement
 import PQCFileFolderModel
 
 Item {
@@ -227,8 +228,10 @@ Item {
             case "__slideshow":
                 loader.show("slideshowsetup")
                 break
-//            case "__slideshowQuick":
-//                break
+            case "__slideshowQuick":
+                loader.show("slideshowhandler")
+                loader.show("slideshowcontrols")
+                break
             case "__filterImages":
                 loader.show("filter")
                 break
@@ -251,8 +254,10 @@ Item {
             case "__advancedSort":
                 loader.show("advancedsort")
                 break
-//            case "__advancedSortQuick":
-//                break
+            case "__advancedSortQuick":
+                loader.show("advancedsort")
+                loader_advancedsort.item.doSorting()
+                break
 
             /**********************/
             // elements (ongoing)
@@ -283,11 +288,12 @@ Item {
             case "__quit":
                 toplevel.quitPhotoQt()
                 break
-//            case "__close":
-//                break
-//            case "__fullscreenToggle":
-//                PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
-//                break
+            case "__close":
+                toplevel.close()
+                break
+            case "__fullscreenToggle":
+                PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
+                break
 
             /**********************/
             // navigation
@@ -308,24 +314,9 @@ Item {
 //                break
 //            case "__viewerMode":
 //                break
-//            case "__navigationFloating":
-//                break
-//            case "__moveViewLeft":
-//                break
-//            case "__moveViewRight":
-//                break
-//            case "__moveViewUp":
-//                break
-//            case "__moveViewDown":
-//                break
-//            case "__goToLeftEdge":
-//                break
-//            case "__goToRightEdge":
-//                break
-//            case "__goToTopEdge":
-//                break
-//            case "__goToBottomEdge":
-//                break
+            case "__navigationFloating":
+                loader.show("navigationfloating")
+                break
 
             /**********************/
             // image functions
@@ -363,9 +354,9 @@ Item {
             case "__histogram":
                 loader.show("histogram")
                 break
-//            case "__fitInWindow":
-//                PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
-//                break
+            case "__fitInWindow":
+                PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
+                break
 //            case "__playPauseAni":
 //                break
 //            case "__showFaceTags":
@@ -392,10 +383,18 @@ Item {
             case "__move":
                 loader.show("filemove")
                 break
-//            case "__deletePermanent":
-//                break
-//            case "__deleteTrash":
-//                break
+            case "__deletePermanent":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile))
+                        PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
+                }
+                break
+            case "__deleteTrash":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile))
+                        PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
+                }
+                break
             case "__saveAs":
             case "__export":
                 loader.show("export")

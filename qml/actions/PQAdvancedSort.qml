@@ -770,6 +770,7 @@ PQTemplateFullscreen {
             hide()
             return
         }
+        working.hide()
         opacity = 1
         advancedsort_top.loadData()
         if(popout)

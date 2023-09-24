@@ -61,4 +61,8 @@ PQTemplatePopout {
             PQCPopoutGeometry.advancedsortMaximized = isMax
     }
 
+    function doSorting() {
+        return loaderitem.doSorting()
+    }
+
 }
