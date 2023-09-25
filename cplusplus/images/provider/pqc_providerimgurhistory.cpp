@@ -20,29 +20,33 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCVALIDATE_H
-#define PQCVALIDATE_H
+#include <pqc_providerimgurhistory.h>
+#include <scripts/pqc_scriptsshareimgur.h>
 
-#include <QObject>
+QQuickImageResponse *PQCAsyncImageProviderImgurHistory::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
-class PQCValidate : public QObject {
+    PQCAsyncImageResponseImgurHistory *response = new PQCAsyncImageResponseImgurHistory(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
+    pool.start(response);
+    return response;
 
-    Q_OBJECT
+}
 
-public:
-    PQCValidate(QObject *parent = nullptr);
+PQCAsyncImageResponseImgurHistory::PQCAsyncImageResponseImgurHistory(const QString &url, const QSize &requestedSize) {
+    m_url = url;
+    m_requestedSize = requestedSize;
+    setAutoDelete(false);
+}
 
-    bool validate();
+PQCAsyncImageResponseImgurHistory::~PQCAsyncImageResponseImgurHistory() {}
 
-    bool validateContextMenuDatabase();
-    bool validateImageFormatsDatabase();
-    bool validateSettingsDatabase();
-    bool validateShortcutsDatabase();
-    bool validateSettingsValues();
-    bool validateDirectories();
-    bool validateLocationDatabase();
-    bool validateImgurHistoryDatabase();
+QQuickTextureFactory *PQCAsyncImageResponseImgurHistory::textureFactory() const {
+    return QQuickTextureFactory::textureFactoryForImage(m_image);
+}
 
-};
+void PQCAsyncImageResponseImgurHistory::run() {
 
-#endif // PQVALIDATE_H
+    m_image = PQCScriptsShareImgur::get().getPastUploadThumbnail(m_url);
+
+    Q_EMIT finished();
+
+}

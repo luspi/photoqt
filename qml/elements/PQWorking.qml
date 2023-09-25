@@ -13,6 +13,9 @@ Rectangle {
     anchors.fill: parent
     color: PQCLook.transColor
 
+    property int circleHeight: 206
+    property bool animationRunning: true
+
     signal successHidden()
 
     MouseArea {
@@ -54,7 +57,7 @@ Rectangle {
                     from: index%2 ? 360 : 0
                     to: index%2 ? 0 : 360
                     duration: 2000 - index*200
-                    running: exportRunning.visible
+                    running: (exportRunning.visible&&animationRunning)
                     loops: Animation.Infinite
                 }
             }
@@ -78,6 +81,31 @@ Rectangle {
             running: parent.visible
             interval: 1000
             onTriggered: {
+                exportfailure.opacity = 0
+                exportsuccess.opacity = 0
+                exportRunning.opacity = 0
+                hide()
+                exportRunning.successHidden()
+            }
+        }
+    }
+
+    Image {
+        id: exportfailure
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+        width: 125
+        height: 125
+        opacity: 0
+        visible: opacity>0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        source: "/white/x.svg"
+        sourceSize: Qt.size(width, height)
+        Timer {
+            id: failuretimer
+            interval: 1000
+            onTriggered: {
+                exportfailure.opacity = 0
                 exportsuccess.opacity = 0
                 exportRunning.opacity = 0
                 hide()
@@ -88,13 +116,25 @@ Rectangle {
 
     function showBusy() {
         exportbusy.opacity = 1
+        exportfailure.opacity = 0
         exportsuccess.opacity = 0
         opacity = 1
     }
 
     function showSuccess() {
         exportbusy.opacity = 0
+        exportfailure.opacity = 0
         exportsuccess.opacity = 1
+        opacity = 1
+    }
+
+    function showFailure(keep) {
+        exportbusy.opacity = 0
+        exportfailure.opacity = 1
+        exportsuccess.opacity = 0
+        if(!keep)
+            failuretimer.restart()
+        opacity = 1
     }
 
     function hide() {

@@ -20,29 +20,35 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCVALIDATE_H
-#define PQCVALIDATE_H
+#ifndef PQCHTTPREPLYTIMEOUT_H
+#define PQCHTTPREPLYTIMEOUT_H
 
 #include <QObject>
+#include <QTimerEvent>
+#include <QBasicTimer>
+#include <QNetworkReply>
 
-class PQCValidate : public QObject {
-
+class PQCHTTPReplyTimeout : public QObject {
     Q_OBJECT
-
+    QBasicTimer m_timer;
 public:
-    PQCValidate(QObject *parent = nullptr);
-
-    bool validate();
-
-    bool validateContextMenuDatabase();
-    bool validateImageFormatsDatabase();
-    bool validateSettingsDatabase();
-    bool validateShortcutsDatabase();
-    bool validateSettingsValues();
-    bool validateDirectories();
-    bool validateLocationDatabase();
-    bool validateImgurHistoryDatabase();
-
+    PQCHTTPReplyTimeout(QNetworkReply* reply, const int timeout) : QObject(reply) {
+        Q_ASSERT(reply);
+        if (reply && reply->isRunning())
+            m_timer.start(timeout, this);
+    }
+    static void set(QNetworkReply* reply, const int timeout) {
+        new PQCHTTPReplyTimeout(reply, timeout);
+    }
+protected:
+    void timerEvent(QTimerEvent * ev) {
+        if (!m_timer.isActive() || ev->timerId() != m_timer.timerId())
+            return;
+        auto reply = static_cast<QNetworkReply*>(parent());
+        if (reply->isRunning())
+            reply->close();
+        m_timer.stop();
+    }
 };
 
-#endif // PQVALIDATE_H
+#endif // PQCHTTPREPLYTIMEOUT_H

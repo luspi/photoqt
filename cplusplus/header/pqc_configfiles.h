@@ -84,7 +84,10 @@ public:
 
     static const QString SHAREONLINE_IMGUR_FILE() {
         return QString("%1/imgurconfig").arg(CONFIG_DIR());
+    }
 
+    static const QString SHAREONLINE_IMGUR_HISTORY_DB() {
+        return QString("%1/imgurhistory.db").arg(CONFIG_DIR());
     }
 
 };

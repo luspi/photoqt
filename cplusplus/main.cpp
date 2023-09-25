@@ -28,6 +28,7 @@
 #include <pqc_providerfolderthumb.h>
 #include <pqc_providerdragthumb.h>
 #include <pqc_providerfull.h>
+#include <pqc_providerimgurhistory.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_metadata.h>
 #include <pqc_resolutioncache.h>
@@ -43,6 +44,7 @@
 #include <scripts/pqc_scriptscontextmenu.h>
 #include <scripts/pqc_scriptsshortcuts.h>
 #include <scripts/pqc_scriptscrypt.h>
+#include <scripts/pqc_scriptsshareimgur.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -222,6 +224,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
     qmlRegisterSingletonInstance("PQCPopoutGeometry", 1, 0, "PQCPopoutGeometry", &PQCPopoutGeometry::get());
     qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
@@ -234,6 +237,7 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("folderthumb",new PQCAsyncImageProviderFolderThumb);
     engine.addImageProvider("dragthumb",new PQCAsyncImageProviderDragThumb);
     engine.addImageProvider("full",new PQCProviderFull);
+    engine.addImageProvider("imgurhistory",new PQCAsyncImageProviderImgurHistory);
 
 #ifdef VIDEOMPV
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");

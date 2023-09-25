@@ -30,12 +30,11 @@ Item {
         "slideshowhandler"    : ["other","PQSlideshowHandler", loader_slideshowhandler, 1, false, false],
         "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCPopoutGeometry.slideshowcontrolsForcePopout],
         "notification"        : ["ongoing","PQNotification", loader_notification, 0, false, false],
+        "imgur"               : ["actions","PQImgur", loader_imgur, 1, false, false],
 
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
-        "imgur"               : ["actions","PQImgur", loader_imgur, 1, false, false],
-        "imguranonym"         : ["actions","PQImgurAnonym", loader_imguranonym, 1, false, false],
         "mapexplorer"         : ["map","PQMapExplorer", loader_mapexplorer, 1, false, false],
         "settingsmanager"     : ["settings","PQSettingsManager", loader_settingsmanager, 1, false, false],
         "unavailable"         : ["other","PQUnavailable", loader_unavailable, 1, false, false],

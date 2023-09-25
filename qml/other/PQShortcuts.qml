@@ -299,10 +299,14 @@ Item {
             case "__scale":
                 loader.show("scale")
                 break
-//            case "__imgur":
-//                break
-//            case "__imgurAnonym":
-//                break
+            case "__imgur":
+                loader.show("imgur")
+                loader_imgur.item.uploadToAccount()
+                break
+            case "__imgurAnonym":
+                loader.show("imgur")
+                loader_imgur.item.uploadAnonymously()
+                break
 //            case "__tagFaces":
 //                break
 //            case "__chromecast":
@@ -445,22 +449,26 @@ Item {
                 break
             case "__deletePermanent":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-                    loader.show("notification")
                     if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
+                        loader.show("notification")
                         loader_notification.item.statustext = qsTranslate("filemanagement", "File successfully deleted")
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-                    } else
+                    } else {
+                        loader.show("notification")
                         loader_notification.item.statustext = qsTranslate("filemanagement", "Could not delete file")
+                    }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-                    loader.show("notification")
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
+                        loader.show("notification")
                         loader_notification.item.statustext = qsTranslate("filemanagement", "File successfully moved to trash")
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-                    } else
+                    } else {
+                        loader.show("notification")
                         loader_notification.item.statustext = qsTranslate("filemanagement", "Could not move file to trash")
+                    }
                 }
                 break
             case "__saveAs":

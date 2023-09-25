@@ -19,30 +19,40 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#ifndef PQCASYNCIMAGEPROVIDERIMGURHISTORY_H
+#define PQCASYNCIMAGEPROVIDERIMGURHISTORY_H
 
-#ifndef PQCVALIDATE_H
-#define PQCVALIDATE_H
+#include <QQuickAsyncImageProvider>
+#include <QThreadPool>
 
-#include <QObject>
-
-class PQCValidate : public QObject {
-
-    Q_OBJECT
+/*****************************************************/
+/*****************************************************/
+class PQCAsyncImageProviderImgurHistory : public QQuickAsyncImageProvider {
 
 public:
-    PQCValidate(QObject *parent = nullptr);
+    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
 
-    bool validate();
-
-    bool validateContextMenuDatabase();
-    bool validateImageFormatsDatabase();
-    bool validateSettingsDatabase();
-    bool validateShortcutsDatabase();
-    bool validateSettingsValues();
-    bool validateDirectories();
-    bool validateLocationDatabase();
-    bool validateImgurHistoryDatabase();
+private:
+    QThreadPool pool;
 
 };
 
-#endif // PQVALIDATE_H
+/*****************************************************/
+/*****************************************************/
+class PQCAsyncImageResponseImgurHistory : public QQuickImageResponse, public QRunnable {
+
+public:
+    PQCAsyncImageResponseImgurHistory(const QString &url, const QSize &requestedSize);
+    ~PQCAsyncImageResponseImgurHistory();
+
+    QQuickTextureFactory *textureFactory() const override;
+
+    void run() override;
+
+    QString m_url;
+    QSize m_requestedSize;
+    QImage m_image;
+
+};
+
+#endif // PQCASYNCIMAGEPROVIDERIMGURHISTORY_H
