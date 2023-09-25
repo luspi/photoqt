@@ -300,12 +300,16 @@ Item {
                 loader.show("scale")
                 break
             case "__imgur":
-                loader.show("imgur")
-                loader_imgur.item.uploadToAccount()
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    loader.show("imgur")
+                    loader_imgur.item.uploadToAccount()
+                }
                 break
             case "__imgurAnonym":
-                loader.show("imgur")
-                loader_imgur.item.uploadAnonymously()
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    loader.show("imgur")
+                    loader_imgur.item.uploadAnonymously()
+                }
                 break
 //            case "__tagFaces":
 //                break

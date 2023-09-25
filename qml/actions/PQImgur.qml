@@ -43,8 +43,7 @@ PQTemplateFullscreen {
 
     property string accountname: ""
 
-    //: Written on a clickable button - please keep short
-    button1.text: qsTranslate("imgur", "Cancel")
+    button1.text: genericStringCancel
 
     button2.text: qsTranslate("imgur", "Show past uploads")
     button2.visible: true
@@ -72,6 +71,10 @@ PQTemplateFullscreen {
                 opacity: 0
                 text: progresspercentage+"%"
             }
+            PropertyChanges {
+                target: button1
+                text: genericStringCancel
+            }
         },
         State {
             name: "busy"
@@ -82,6 +85,10 @@ PQTemplateFullscreen {
             PropertyChanges {
                 target: progressbar
                 text: "..."
+            }
+            PropertyChanges {
+                target: button1
+                text: genericStringCancel
             }
         },
         State {
@@ -95,6 +102,10 @@ PQTemplateFullscreen {
             PropertyChanges {
                 target: progressbar
                 text: "..."
+            }
+            PropertyChanges {
+                target: button1
+                text: genericStringCancel
             }
         },
         State {
@@ -113,6 +124,10 @@ PQTemplateFullscreen {
                 target: working
                 animationRunning: false
             }
+            PropertyChanges {
+                target: button1
+                text: genericStringClose
+            }
         },
         State {
             name: "nointernet"
@@ -130,6 +145,10 @@ PQTemplateFullscreen {
                 target: working
                 animationRunning: false
             }
+            PropertyChanges {
+                target: button1
+                text: genericStringClose
+            }
         },
         State {
             name: "result"
@@ -144,6 +163,10 @@ PQTemplateFullscreen {
             PropertyChanges {
                 target: resultscol
                 opacity: 1
+            }
+            PropertyChanges {
+                target: button1
+                text: genericStringClose
             }
         }
 
@@ -169,22 +192,31 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightBold
             }
 
-            PQTextL {
-                text: imgur_top.imageURL
-                PQMouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    text: qsTranslate("imgur", "Click to open in browser")
-                    onClicked:
-                        Qt.openUrlExternally(parent.text)
-                }
-            }
+            Row {
 
-            PQButton {
-                text: qsTranslate("imgur", "Copy to clipboard")
-                onClicked:
-                    PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL)
+                spacing: 10
+
+                PQTextL {
+                    id: result_access
+                    text: imgur_top.imageURL
+                    PQMouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        text: qsTranslate("imgur", "Click to open in browser")
+                        onClicked:
+                            Qt.openUrlExternally(parent.text)
+                    }
+                }
+
+                PQButtonIcon {
+                    width: result_access.height
+                    height: width
+                    source: "/white/copy.svg"
+                    onClicked:
+                        PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL)
+                }
+
             }
 
             Item {
@@ -197,22 +229,31 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightBold
             }
 
-            PQTextL {
-                text: "https://imgur.com/delete/" + imgur_top.imageDeleteHash
-                PQMouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    text: qsTranslate("imgur", "Click to open in browser")
-                    onClicked:
-                        Qt.openUrlExternally("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
-                }
-            }
+            Row {
 
-            PQButton {
-                text: qsTranslate("imgur", "Copy to clipboard")
-                onClicked:
-                    PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
+                spacing: 10
+
+                PQTextL {
+                    id: result_delete
+                    text: "https://imgur.com/delete/" + imgur_top.imageDeleteHash
+                    PQMouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        text: qsTranslate("imgur", "Click to open in browser")
+                        onClicked:
+                            Qt.openUrlExternally("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
+                    }
+                }
+
+                PQButtonIcon {
+                    width: result_delete.height
+                    height: width
+                    source: "/white/copy.svg"
+                    onClicked:
+                        PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
+                }
+
             }
 
         }
@@ -281,7 +322,7 @@ PQTemplateFullscreen {
                 clip: true
 
                 width: 600
-                height: Math.min(parent.height-20, 600)
+                height: Math.min(imgurpast.height-200, 500)
 
                 ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
@@ -458,7 +499,7 @@ PQTemplateFullscreen {
 
     Timer {
         id: showLongTimeMessage
-        interval: 5000
+        interval: 10000
         onTriggered: {
             imgur_top.state = "longtime"
         }
@@ -520,7 +561,7 @@ PQTemplateFullscreen {
         }
 
         function onImgurUploadError(err) {
-            working.showFailure()
+            working.showFailure(true)
             showLongTimeMessage.stop()
             errorCode = err
             imgur_top.state = "error"
