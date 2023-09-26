@@ -337,6 +337,10 @@ Item {
 
                                 }
 
+                                PQFaceTracker {
+                                    id: facetracker
+                                }
+
                                 // scaling animation
                                 PropertyAnimation {
                                     id: scaleAnimation

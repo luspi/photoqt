@@ -30,6 +30,8 @@ public:
     Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps);
     Q_INVOKABLE QPointF convertGPSToPoint(QString gps);
 
+    Q_INVOKABLE QVariantList getFaceTags(QString filename);
+
 private:
     PQCScriptsMetaData();
 
