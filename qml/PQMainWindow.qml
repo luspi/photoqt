@@ -128,6 +128,13 @@ Window {
     Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
 
+    /*************************************************/
+
+    Item {
+        id: fullscreenitem_foreground
+        anchors.fill: parent
+    }
+
 
     /*************************************************/
 

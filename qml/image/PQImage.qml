@@ -124,6 +124,8 @@ Item {
                     function onZoomIn(wheelDelta) {
                         if(PQCFileFolderModel.currentIndex===index) {
 
+                            if(PQCNotify.faceTagging) return
+
                             // compute zoom factor based on wheel movement (if done by mouse)
                             var zoomfactor
                             if(wheelDelta !== undefined)
@@ -140,6 +142,8 @@ Item {
                     function onZoomOut(wheelDelta) {
                         if(PQCFileFolderModel.currentIndex===index) {
 
+                            if(PQCNotify.faceTagging) return
+
                             // compute zoom factor based on wheel movement (if done by mouse)
                             var zoomfactor
                             if(wheelDelta !== undefined)
@@ -154,22 +158,37 @@ Item {
                         }
                     }
                     function onZoomReset() {
+
+                        if(PQCNotify.faceTagging) return
+
                         if(PQCFileFolderModel.currentIndex===index)
                             deleg.imageScale = Qt.binding(function() { return deleg.defaultScale } )
                     }
                     function onZoomActual() {
+
+                        if(PQCNotify.faceTagging) return
+
                         if(PQCFileFolderModel.currentIndex===index)
                             deleg.imageScale = 1
                     }
                     function onRotateClock() {
+
+                        if(PQCNotify.faceTagging) return
+
                         if(PQCFileFolderModel.currentIndex===index)
                             deleg.imageRotation += 90
                     }
                     function onRotateAntiClock() {
+
+                        if(PQCNotify.faceTagging) return
+
                         if(PQCFileFolderModel.currentIndex===index)
                             deleg.imageRotation -= 90
                     }
                     function onRotateReset() {
+
+                        if(PQCNotify.faceTagging) return
+
                         if(PQCFileFolderModel.currentIndex===index) {
                             // rotate to the nearest (rotation%360==0) degrees
                             var offset = deleg.imageRotation%360
@@ -226,12 +245,14 @@ Item {
                         contentWidth: flickable_content.width
                         contentHeight: flickable_content.height
 
+                        interactive: !PQCNotify.faceTagging
+
                         Connections {
 
                             target: PQCNotify
 
                             function onMouseWheel(angleDelta, modifiers) {
-                                if(PQCSettings.imageviewUseMouseWheelForImageMove)
+                                if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging)
                                     return
                                 flickable.interactive = false
                                 reEnableInteractive.restart()
@@ -243,7 +264,8 @@ Item {
                             id: reEnableInteractive
                             interval: 100
                             repeat: false
-                            onTriggered: flickable.interactive = true
+                            onTriggered:
+                                flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging })
                         }
 
                         // the container for the content
@@ -339,6 +361,10 @@ Item {
 
                                 PQFaceTracker {
                                     id: facetracker
+                                }
+
+                                PQFaceTagger {
+                                    id: facetagger
                                 }
 
                                 // scaling animation

@@ -16,7 +16,7 @@ Item {
     Behavior on x { NumberAnimation { duration: 200 } }
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels)
+    visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging
 
     width: maincol.width
     height: maincol.height

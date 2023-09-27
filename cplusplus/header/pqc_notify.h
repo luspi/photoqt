@@ -99,6 +99,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool faceTagging READ getFaceTagging WRITE setFaceTagging NOTIFY faceTaggingChanged)
+    void setFaceTagging(bool val);
+    Q_INVOKABLE bool getFaceTagging();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -126,6 +132,7 @@ private:
     bool m_ignoreKeysExceptEnterEsc;
 
     bool m_slideshowRunning;
+    bool m_faceTagging;
 
 Q_SIGNALS:
     void filePathChanged();
@@ -141,6 +148,7 @@ Q_SIGNALS:
     void debugLogMessagesChanged();
 
     void slideshowRunningChanged();
+    void faceTaggingChanged();
 
     // these are kept similar to the
     void cmdOpen();

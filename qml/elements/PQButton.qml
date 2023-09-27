@@ -37,6 +37,8 @@ Button {
 
     property alias tooltip: mouseArea.text
 
+    property bool forceHovered: false
+
     property bool extraWide: false
 
     //: This is a generic string written on clickable buttons - please keep short!
@@ -66,7 +68,7 @@ Button {
         border.color: PQCLook.baseColorHighlight
         border.width: 1
 
-        color: (down ? PQCLook.baseColorActive : (hovered&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+        color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 

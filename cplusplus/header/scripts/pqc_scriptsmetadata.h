@@ -31,6 +31,7 @@ public:
     Q_INVOKABLE QPointF convertGPSToPoint(QString gps);
 
     Q_INVOKABLE QVariantList getFaceTags(QString filename);
+    Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
 
 private:
     PQCScriptsMetaData();

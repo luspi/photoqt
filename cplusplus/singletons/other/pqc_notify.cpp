@@ -108,3 +108,13 @@ void PQCNotify::setSlideshowRunning(bool val) {
 bool PQCNotify::getSlideshowRunning() {
     return m_slideshowRunning;
 }
+
+void PQCNotify::setFaceTagging(bool val) {
+    if(val != m_faceTagging) {
+        m_faceTagging = val;
+        Q_EMIT faceTaggingChanged();
+    }
+}
+bool PQCNotify::getFaceTagging() {
+    return m_faceTagging;
+}

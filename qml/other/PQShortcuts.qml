@@ -87,111 +87,141 @@ Item {
 
         function onMouseWheel(angleDelta, modifiers) {
 
-            var combo = ""
+            if(loader.visibleItem !== "")
 
-            if(modifiers & Qt.ControlModifier)
-                combo += "Ctrl+";
-            if(modifiers & Qt.AltModifier)
-                combo += "Alt+";
-            if(modifiers & Qt.ShiftModifier)
-                combo += "Shift+";
-            if(modifiers & Qt.MetaModifier)
-                combo += "Meta+";
-            if(modifiers & Qt.KeypadModifier)
-                combo += "Keypad+";
+                loader.passOn("mouseWheel", [angleDelta, modifiers])
 
-            if(combo == "" && PQCSettings.imageviewUseMouseWheelForImageMove)
-                return
+            else {
 
-            if(Math.abs(angleDelta.x) < 2) {
-                if(angleDelta.y < 0)
-                    combo += "Wheel Down"
-                else if(angleDelta.y > 0)
-                    combo += "Wheel Up"
-            } else {
-                if(angleDelta.x < 0)
-                    combo += "Wheel Left"
-                else if(angleDelta.x > 0)
-                    combo += "Wheel Right"
+                var combo = ""
+
+                if(modifiers & Qt.ControlModifier)
+                    combo += "Ctrl+";
+                if(modifiers & Qt.AltModifier)
+                    combo += "Alt+";
+                if(modifiers & Qt.ShiftModifier)
+                    combo += "Shift+";
+                if(modifiers & Qt.MetaModifier)
+                    combo += "Meta+";
+                if(modifiers & Qt.KeypadModifier)
+                    combo += "Keypad+";
+
+                if(combo == "" && PQCSettings.imageviewUseMouseWheelForImageMove)
+                    return
+
+                if(Math.abs(angleDelta.x) < 2) {
+                    if(angleDelta.y < 0)
+                        combo += "Wheel Down"
+                    else if(angleDelta.y > 0)
+                        combo += "Wheel Up"
+                } else {
+                    if(angleDelta.x < 0)
+                        combo += "Wheel Left"
+                    else if(angleDelta.x > 0)
+                        combo += "Wheel Right"
+                }
+
+                checkComboForShortcut(combo, angleDelta)
+
             }
-
-            checkComboForShortcut(combo, angleDelta)
 
         }
 
         function onMousePressed(modifiers, button, pos) {
 
-            var combo = ""
+            if(loader.visibleItem !== "")
 
-            if(modifiers & Qt.ControlModifier)
-                combo += "Ctrl+";
-            if(modifiers & Qt.AltModifier)
-                combo += "Alt+";
-            if(modifiers & Qt.ShiftModifier)
-                combo += "Shift+";
-            if(modifiers & Qt.MetaModifier)
-                combo += "Meta+";
-            if(modifiers & Qt.KeypadModifier)
-                combo += "Keypad+";
+                loader.passOn("mousePressed", [modifiers, button, pos])
 
-            if(button === Qt.LeftButton)
-                combo += "Left Button"
-            else if(button === Qt.RightButton)
-                combo += "Right Button"
+            else {
 
-            mouseButton = combo
-            mousePath = []
-            mouseGesture = false
-            mousePreviousPos = pos
+                var combo = ""
+
+                if(modifiers & Qt.ControlModifier)
+                    combo += "Ctrl+";
+                if(modifiers & Qt.AltModifier)
+                    combo += "Alt+";
+                if(modifiers & Qt.ShiftModifier)
+                    combo += "Shift+";
+                if(modifiers & Qt.MetaModifier)
+                    combo += "Meta+";
+                if(modifiers & Qt.KeypadModifier)
+                    combo += "Keypad+";
+
+                if(button === Qt.LeftButton)
+                    combo += "Left Button"
+                else if(button === Qt.RightButton)
+                    combo += "Right Button"
+
+                mouseButton = combo
+                mousePath = []
+                mouseGesture = false
+                mousePreviousPos = pos
+
+            }
 
         }
 
         function onMouseReleased(modifiers, button, pos) {
 
-            console.log(mouseGesture, mouseButton, mousePath)
+            if(loader.visibleItem !== "")
 
-            if(!keyshortcuts_top.mouseGesture)
-                checkComboForShortcut(keyshortcuts_top.mouseButton)
-            else
-                checkComboForShortcut(mouseButton + "+" + mousePath.join(""))
+                loader.passOn("mouseReleased", [modifiers, button, pos])
 
-            mousePath = []
-            mouseButton = ""
-            mouseGesture = false
+            else {
+
+                if(!keyshortcuts_top.mouseGesture)
+                    checkComboForShortcut(keyshortcuts_top.mouseButton)
+                else
+                    checkComboForShortcut(mouseButton + "+" + mousePath.join(""))
+
+                mousePath = []
+                mouseButton = ""
+                mouseGesture = false
+
+            }
 
         }
 
         function onMouseMove(x, y) {
 
-            var threshold = 50
+            if(loader.visibleItem !== "")
 
-            var dx = x-mousePreviousPos.x
-            var dy = y-mousePreviousPos.y
-            var distance = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
+                loader.passOn("mouseMove", [x, y])
 
-            var angle = (Math.atan2(dy, dx)/Math.PI)*180
-            angle = (angle+360)%360;
+            else {
 
-            var dir = ""
+                var threshold = 50
 
-            if(distance > threshold) {
-                if(angle <= 45 || angle > 315)
-                    dir = "E"
-                else if(angle > 45 && angle <= 135)
-                    dir = "S"
-                else if(angle > 135 && angle <= 225)
-                    dir = "W"
-                else if(angle > 225 && angle <= 315)
-                    dir = "N"
-            }
+                var dx = x-mousePreviousPos.x
+                var dy = y-mousePreviousPos.y
+                var distance = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
 
-            if(dir != "") {
-                keyshortcuts_top.mouseGesture = true
-                mousePreviousPos = Qt.point(x,y)
-                if(mousePath[mousePath.length-1] !== dir) {
-                    mousePath.push(dir)
-                    mousePathChanged()
+                var angle = (Math.atan2(dy, dx)/Math.PI)*180
+                angle = (angle+360)%360;
+
+                var dir = ""
+
+                if(distance > threshold) {
+                    if(angle <= 45 || angle > 315)
+                        dir = "E"
+                    else if(angle > 45 && angle <= 135)
+                        dir = "S"
+                    else if(angle > 135 && angle <= 225)
+                        dir = "W"
+                    else if(angle > 225 && angle <= 315)
+                        dir = "N"
                 }
+
+                if(dir != "") {
+                    keyshortcuts_top.mouseGesture = true
+                    mousePreviousPos = Qt.point(x,y)
+                    if(mousePath[mousePath.length-1] !== dir) {
+                        mousePath.push(dir)
+                        mousePathChanged()
+                    }
+                }
+
             }
         }
 
@@ -311,8 +341,9 @@ Item {
                     loader_imgur.item.uploadAnonymously()
                 }
                 break
-//            case "__tagFaces":
-//                break
+            case "__tagFaces":
+                loader.passOn("tagFaces", undefined)
+                break
 //            case "__chromecast":
 //                break
             case "__logging":

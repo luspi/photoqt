@@ -76,7 +76,7 @@ Item {
                 width: faceLabel.width+14
                 height: faceLabel.height+10
                 radius: 10
-                color: "#bb000000"
+                color: PQCLook.transColor
                 rotation: -deleg.imageRotation
 
                 // This holds the person's name
@@ -96,7 +96,7 @@ Item {
 
                 function onMouseMove(x, y) {
 
-                    var pos = image_wrapper.mapFromGlobal(x,y)
+                    var pos = image_wrapper.mapFromItem(fullscreenitem, Qt.point(x,y))
 
                     hovered = false
 
@@ -125,6 +125,11 @@ Item {
 
             function updateVisibility() {
 
+                if(PQCNotify.faceTagging) {
+                    facedeleg.state = "hideentry"
+                    return
+                }
+
                 triggerTimeout.stop()
 
                 if(PQCSettings.metadataFaceTagsVisibility === 1)
@@ -152,8 +157,11 @@ Item {
 
     }
 
-    Component.onCompleted: {
-        loadData()
+    Timer {
+        interval: 100
+        running: true
+        onTriggered:
+            loadData()
     }
 
     function loadData() {

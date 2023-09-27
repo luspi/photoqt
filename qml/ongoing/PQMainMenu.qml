@@ -742,7 +742,7 @@ Rectangle {
         target: PQCNotify
         function onMouseMove(posx, posy) {
 
-            if(PQCNotify.slideshowRunning) {
+            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) {
                 setVisible = false
                 return
             }
