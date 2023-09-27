@@ -31,14 +31,14 @@ Item {
         "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCPopoutGeometry.slideshowcontrolsForcePopout],
         "notification"        : ["ongoing","PQNotification", loader_notification, 0, false, false],
         "imgur"               : ["actions","PQImgur", loader_imgur, 1, PQCSettings.interfacePopoutImgur, PQCPopoutGeometry.imgurForcePopout],
+        "wallpaper"           : ["actions","PQWallpaper", loader_wallpaper, 1, PQCSettings.interfacePopoutWallpaper, PQCPopoutGeometry.wallpaperForcePopout],
 
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
         "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
         "mapexplorer"         : ["map","PQMapExplorer", loader_mapexplorer, 1, false, false],
         "settingsmanager"     : ["settings","PQSettingsManager", loader_settingsmanager, 1, false, false],
-        "unavailable"         : ["other","PQUnavailable", loader_unavailable, 1, false, false],
-        "wallpaper"           : ["actions","PQWallpaper", loader_wallpaper, 1, false, false]
+        "unavailable"         : ["other","PQUnavailable", loader_unavailable, 1, false, false]
     }
 
     property string visibleItem: ""

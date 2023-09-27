@@ -67,7 +67,7 @@ endif()
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent Multimedia PrintSupport)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent Multimedia PrintSupport DBus)
 if(TESTING)
     find_package(Qt6 6.2 REQUIRED COMPONENTS Test)
 endif()
@@ -186,7 +186,7 @@ set_target_properties(photoqt PROPERTIES
 )
 
 # link executable
-target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent Qt6::Multimedia Qt6::PrintSupport)
+target_link_libraries(photoqt PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent Qt6::Multimedia Qt6::PrintSupport Qt6::DBus)
 
 if(QTPDF)
     target_link_libraries(photoqt PRIVATE Qt6::Pdf)

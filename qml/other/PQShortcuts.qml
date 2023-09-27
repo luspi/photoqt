@@ -324,8 +324,9 @@ Item {
             case "__filterImages":
                 loader.show("filter")
                 break
-//            case "__wallpaper":
-//                break
+            case "__wallpaper":
+                loader.show("wallpaper")
+                break
             case "__scale":
                 loader.show("scale")
                 break
