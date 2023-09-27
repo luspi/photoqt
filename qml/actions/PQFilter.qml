@@ -430,10 +430,7 @@ PQTemplateFullscreen {
         rescheck.checked = false
         filesizecheck.checked = false
 
-        PQCFileFolderModel.nameFilters = []
-        PQCFileFolderModel.filenameFilters = []
-        PQCFileFolderModel.imageResolutionFilter = Qt.size(0,0)
-        PQCFileFolderModel.fileSizeFilter = 0
+        PQCFileFolderModel.removeAllUserFilter()
 
     }
 

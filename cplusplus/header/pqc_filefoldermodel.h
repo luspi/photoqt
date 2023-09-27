@@ -159,6 +159,8 @@ public:
     Q_INVOKABLE void forceReloadFileDialog();
     Q_INVOKABLE int getIndexOfMainView(QString filepath);
     Q_INVOKABLE void removeEntryMainView(int index);
+    Q_INVOKABLE void removeAllUserFilter();
+    Q_INVOKABLE bool isUserFilterSet();
 
     /********************************************/
 

@@ -180,10 +180,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("statusinfo", "Click to remove filter")
                         onClicked: {
-                            PQCFileFolderModel.nameFilters = []
-                            PQCFileFolderModel.filenameFilters = []
-                            PQCFileFolderModel.imageResolutionFilter = Qt.size(0,0)
-                            PQCFileFolderModel.fileSizeFilter = 0
+                            PQCFileFolderModel.removeAllUserFilter()
                         }
                     }
                 }

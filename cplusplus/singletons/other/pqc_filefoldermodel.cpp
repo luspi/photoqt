@@ -1196,3 +1196,29 @@ void PQCFileFolderModel::handleNewDataLoadedMainView() {
     setCurrentIndex(newIndex);
 
 }
+
+void PQCFileFolderModel::removeAllUserFilter() {
+
+    qDebug() << "";
+
+    m_nameFilters.clear();
+    m_filenameFilters.clear();
+    m_imageResolutionFilter = QSize(0,0);
+    m_fileSizeFilter = 0;
+
+    Q_EMIT nameFiltersChanged();
+    Q_EMIT filenameFiltersChanged();
+    Q_EMIT imageResolutionFilterChanged();
+    Q_EMIT fileSizeFilterChanged();
+
+    setFileInFolderMainView(getCurrentFile());
+    loadDataMainView();
+
+}
+
+bool PQCFileFolderModel::isUserFilterSet() {
+    return (m_nameFilters.length()>0 ||
+            m_filenameFilters.length()>0 ||
+            !m_imageResolutionFilter.isNull() ||
+            m_fileSizeFilter > 0);
+}

@@ -30,6 +30,7 @@ import PQCScriptsFileManagement
 import PQCFileFolderModel
 import PQCScriptsClipboard
 import PQCScriptsOther
+import PQCScriptsShortcuts
 
 Item {
 
@@ -229,21 +230,24 @@ Item {
 
     function checkComboForShortcut(combo, wheelDelta) {
 
+        console.log("args: combo =", combo)
+        console.log("args: wheelDelta =", wheelDelta)
+
         // if in viewer mode, pressing 'Escape' exits viewer mode
-//        if(combo === "Escape" && (filefoldermodel.isPQT || filefoldermodel.isARC)) {
+//        if(combo === "Esc" && (filefoldermodel.isPQT || filefoldermodel.isARC)) {
 //            statusinfo.exitViewerMode()
 //            return
 //        }
 
-//        if(combo === "Escape" && contextmenu.isOpen) {
-//            contextmenu.hideMenu()
-//            return
-//        }
+        if(combo === "Esc" && contextmenu.opened) {
+            contextmenu.dismiss()
+            return
+        }
 
-//        if(combo === "Escape" && filefoldermodel.filterCurrentlyActive) {
-//            loader.passOn("filter", "removeFilter", undefined)
-//            return
-//        }
+        if(combo === "Esc" && PQCFileFolderModel.isUserFilterSet()) {
+            PQCFileFolderModel.removeAllUserFilter()
+            return
+        }
 
         var data = PQCShortcuts.getCommandsForShortcut(combo)
 
@@ -262,14 +266,14 @@ Item {
                 if(cmd[0] === "_" && cmd[1] === "_")
                     executeInternalFunction(cmd, wheelDelta)
                 else {
-//                    if(filefoldermodel.countMainView === 0)
-//                        return
-//                    var parts = cmd.split(":/:/:")
-//                    if(parts.length !== 3)
-//                        return
-//                    handlingExternal.executeExternal(parts[0], parts[1], filefoldermodel.currentFilePath)
-//                    if(parts[2]*1 === 1)
-//                        toplevel.closePhotoQt()
+                    if(PQCFileFolderModel.countMainView === 0)
+                        return
+                    var parts = cmd.split(":/:/:")
+                    if(parts.length !== 3)
+                        return
+                    PQCScriptsShortcuts.executeExternal(parts[0], parts[1], PQCFileFolderModel.currentFilePath)
+                    if(parts[2]*1 === 1)
+                        toplevel.close()
                 }
             }
 
@@ -280,14 +284,14 @@ Item {
             if(curcmd[0] === "_" && curcmd[1] === "_")
                 executeInternalFunction(curcmd, wheelDelta)
             else {
-//                if(filefoldermodel.countMainView === 0)
-//                    return
-//                var curparts = curcmd.split(":/:/:")
-//                if(curparts.length !== 3)
-//                    return
-//                handlingExternal.executeExternal(curparts[0], curparts[1], filefoldermodel.currentFilePath)
-//                if(curparts[2]*1 === 1)
-//                    toplevel.closePhotoQt()
+                if(PQCFileFolderModel.countMainView === 0)
+                    return
+                var curparts = curcmd.split(":/:/:")
+                if(curparts.length !== 3)
+                    return
+                PQCScriptsShortcuts.executeExternal(curparts[0], curparts[1], PQCFileFolderModel.currentFilePath)
+                if(curparts[2]*1 === 1)
+                    toplevel.close()
             }
 
         }
