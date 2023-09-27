@@ -459,8 +459,9 @@ Item {
                 break
 //            case "__playPauseAni":
 //                break
-//            case "__showFaceTags":
-//                break
+            case "__showFaceTags":
+                PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
+                break
             case "__showMapCurrent":
                 loader.show("mapcurrent")
                 break
