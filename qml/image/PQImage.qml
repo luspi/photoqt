@@ -342,7 +342,10 @@ Item {
                                                 image_wrapper.startupScale = true
                                             deleg.defaultWidth = width*deleg.defaultScale
                                             deleg.defaultHeight = height*deleg.defaultScale
-                                            deleg.defaultScale = 0.99999999*tmp
+                                            if(PQCSettings.imageviewAlwaysActualSize)
+                                                deleg.defaultScale = 1
+                                            else
+                                                deleg.defaultScale = 0.99999999*tmp
                                             image_top.defaultScale = deleg.defaultScale
                                             deleg.hasBeenSetup = true
                                             deleg.showImage()
@@ -392,10 +395,17 @@ Item {
                                     onTriggered: {
                                         var tmp = image_wrapper.computeDefaultScale()
                                         if(Math.abs(image_wrapper.scale-deleg.defaultScale) < 1e-6) {
-                                            deleg.defaultScale = 0.99999999*tmp
+                                            if(PQCSettings.imageviewAlwaysActualSize)
+                                                deleg.defaultScale = 1
+                                            else
+                                                deleg.defaultScale = 0.99999999*tmp
                                             deleg.rotationZoomResetWithoutAnimation()
-                                        } else
-                                            deleg.defaultScale = 0.99999999*tmp
+                                        } else {
+                                            if(PQCSettings.imageviewAlwaysActualSize)
+                                                deleg.defaultScale = 1
+                                            else
+                                                deleg.defaultScale = 0.99999999*tmp
+                                        }
 
                                         if(PQCFileFolderModel.currentIndex === index)
                                             image.defaultScale = deleg.defaultScale
@@ -448,11 +458,23 @@ Item {
                                             rotationAnimation.to = deleg.imageRotation
                                             rotationAnimation.restart()
                                             var oldDefault = deleg.defaultScale
-                                            deleg.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
+                                            if(PQCSettings.imageviewAlwaysActualSize)
+                                                deleg.defaultScale = 1
+                                            else
+                                                deleg.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
                                             if(Math.abs(deleg.imageScale-oldDefault) < 1e-6)
                                                 deleg.imageScale = deleg.defaultScale
                                             image.defaultScale = deleg.defaultScale
                                         }
+                                    }
+                                }
+
+                                Connections {
+
+                                    target: PQCSettings
+
+                                    function onImageviewAlwaysActualSizeChanged() {
+                                        resetDefaults.triggered()
                                     }
                                 }
 
