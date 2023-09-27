@@ -457,8 +457,9 @@ Item {
             case "__fitInWindow":
                 PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
                 break
-//            case "__playPauseAni":
-//                break
+            case "__playPauseAni":
+                image.playPauseAnimationVideo()
+                break
             case "__showFaceTags":
                 PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
                 break

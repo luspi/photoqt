@@ -59,6 +59,7 @@ Item {
     signal mirrorH()
     signal mirrorV()
     signal mirrorReset()
+    signal playPauseAnimationVideo()
 
     signal imageFinishedLoading(var index)
 
@@ -422,6 +423,10 @@ Item {
 
                                     function onHeightChanged() {
                                         resetDefaults.restart()
+                                    }
+
+                                    function onPlayPauseAnimationVideo() {
+                                        loader_component.videoTogglePlay()
                                     }
 
                                 }

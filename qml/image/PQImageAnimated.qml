@@ -38,6 +38,10 @@ AnimatedImage {
             image.mirror = false
             image.mirrorVertically = false
         }
+
+        function onPlayPauseAnimationVideo() {
+            image.playing = !image.playing
+        }
     }
 
 }
