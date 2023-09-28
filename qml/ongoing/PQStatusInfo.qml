@@ -2,6 +2,7 @@ import QtQuick
 
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
+import PQCScriptsImages
 import PQCNotify
 
 import "../elements"
@@ -111,7 +112,7 @@ Item {
                 hoverEnabled: true
                 text: PQCSettings.interfaceStatusInfoManageWindow ?
                           qsTranslate("statusinfo", "Click and drag to move window around") :
-                          qsTranslate("statusinfo", "Click and drag to move rectangle around")
+                          qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
@@ -153,7 +154,7 @@ Item {
                 hoverEnabled: true
                 text: PQCSettings.interfaceStatusInfoManageWindow ?
                           "" :
-                          qsTranslate("statusinfo", "Click and drag to move rectangle around")
+                          qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
@@ -245,6 +246,65 @@ Item {
                         text = "<b>" + qsTranslate("statusinfo", "Filter:") + "</b>&nbsp;&nbsp;" + txt.join("&nbsp;&nbsp;|&nbsp;&nbsp;")
 
                     }
+                }
+
+            }
+
+        }
+
+        Rectangle {
+
+            id: viewermode
+
+            width: 50
+            height: width
+            color: PQCLook.transColor
+            radius: 5
+
+            visible: false
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 5
+                sourceSize: Qt.size(width, height)
+                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? "/white/viewermode_off.svg" : "/white/viewermode_on.svg"
+                mipmap: true
+            }
+
+            PQMouseArea {
+                anchors.fill: parent
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                text: PQCSettings.interfaceStatusInfoManageWindow ?
+                          "" :
+                          qsTranslate("statusinfo", "Click and drag to move status info around")
+                onWheel: (wheel) => {
+                    wheel.accepted = true
+                }
+                onClicked: {
+                    if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)
+                        PQCFileFolderModel.disableViewerMode()
+                    else
+                        PQCFileFolderModel.enableViewerMode()
+                }
+            }
+
+            Connections {
+                target: PQCFileFolderModel
+
+                function onCurrentFileChanged() {
+
+                    var s = false
+
+                    if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
+                        if(PQCFileFolderModel.isPDF || PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
+                            s = true
+                    } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
+                        s = true
+
+                    viewermode.visible = s
+
                 }
 
             }

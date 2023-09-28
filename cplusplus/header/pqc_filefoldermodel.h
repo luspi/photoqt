@@ -86,6 +86,14 @@ public:
     bool getIncludeFilesInSubFolders();
     void setIncludeFilesInSubFolders(bool c);
 
+    Q_PROPERTY(bool readDocumentOnly READ getReadDocumentOnly WRITE setReadDocumentOnly NOTIFY readDocumentOnlyChanged)
+    bool getReadDocumentOnly();
+    void setReadDocumentOnly(bool c);
+
+    Q_PROPERTY(bool readArchiveOnly READ getReadArchiveOnly WRITE setReadArchiveOnly NOTIFY readArchiveOnlyChanged)
+    bool getReadArchiveOnly();
+    void setReadArchiveOnly(bool c);
+
     /********************************************/
     /********************************************/
 
@@ -161,6 +169,8 @@ public:
     Q_INVOKABLE void removeEntryMainView(int index);
     Q_INVOKABLE void removeAllUserFilter();
     Q_INVOKABLE bool isUserFilterSet();
+    Q_INVOKABLE void enableViewerMode();
+    Q_INVOKABLE void disableViewerMode();
 
     /********************************************/
 

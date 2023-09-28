@@ -564,6 +564,99 @@ Item {
 
                     }
 
+                    // a big button in middle of screen to enter 'viewer mode'
+                    Rectangle {
+                        id: viewermodebut
+                        x: (parent.width-width)/2
+                        y: (parent.height-height)/2
+                        width: 300
+                        height: 300
+                        color: PQCLook.transColor
+                        radius: 10
+                        visible: false
+                        opacity: PQCSettings.imageviewBigViewerModeButton ?
+                                     (viewermodemouse.containsMouse||viewermodebutmousehide.containsMouse ? 1 : 0.5) :
+                                     0
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        onOpacityChanged: {
+                            if(!(viewermodebut.opacity > 0))
+                                viewermodebut.checkVisibility()
+                        }
+
+                        Connections {
+
+                            target: PQCFileFolderModel
+
+                            function onIsPDFChanged() {
+                                viewermodebut.checkVisibility()
+                            }
+                            function onIsARCChanged() {
+                                viewermodebut.checkVisibility()
+                            }
+                            function onCurrentFileChanged() {
+                                viewermodebut.checkVisibility()
+                            }
+                        }
+
+
+                        function checkVisibility() {
+
+                            var s = false
+
+                            if(PQCSettings.imageviewBigViewerModeButton && !(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
+                                if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
+                                    if(PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
+                                        s = true
+                                } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
+                                    s = true
+                            }
+
+                            viewermodebut.visible = s
+
+                        }
+
+                        Image {
+                            anchors.fill: parent
+                            anchors.margins: 40
+                            mipmap: true
+                            sourceSize: Qt.size(width, height)
+                            source: "/white/viewermode_on.svg"
+                        }
+
+                        PQMouseArea {
+                            id: viewermodemouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Click here to enter viewer mode")
+                            onClicked:
+                                PQCFileFolderModel.enableViewerMode()
+                        }
+
+                        Image {
+                            x: parent.width-width
+                            y: 0
+                            width: 30
+                            height: 30
+                            opacity: viewermodebutmousehide.containsMouse ? 0.5 : 0.25
+                            Behavior on opacity { NumberAnimation { duration: 300 } }
+                            source: "/white/close.svg"
+                            sourceSize: Qt.size(width, height)
+                            PQMouseArea {
+                                id: viewermodebutmousehide
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                text: qsTranslate("image", "Hide central 'viewer mode' button")
+                                onClicked: PQCSettings.imageviewBigViewerModeButton = false
+                            }
+                        }
+
+                        Component.onCompleted:
+                            checkVisibility()
+
+                    }
+
                     PQVideoControls { id: videocontrols}
 
                 }

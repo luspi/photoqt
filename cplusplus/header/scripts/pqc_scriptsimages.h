@@ -27,6 +27,10 @@ public:
     Q_INVOKABLE void loadHistogramData(QString filepath, int index);
     void _loadHistogramData(QString filepath, int index);
 
+    Q_INVOKABLE bool isPDFDocument(QString path);
+    Q_INVOKABLE bool isArchive(QString path);
+    Q_INVOKABLE int getNumberDocumentPages(QString path);
+
 private:
     PQCScriptsImages();
 

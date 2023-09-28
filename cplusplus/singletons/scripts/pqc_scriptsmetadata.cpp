@@ -445,7 +445,7 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
 
 #ifdef EXIV2
 
-    if(filename.contains("::PQT::") || filename.contains("::ARC::"))
+    if(filename.contains("::PDF::") || filename.contains("::ARC::"))
         return ret;
 
 #if EXIV2_TEST_VERSION(0, 28, 0)

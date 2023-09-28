@@ -19,6 +19,14 @@
 #include <archive_entry.h>
 #endif
 
+#ifdef QTPDF
+#include <QtPdf/QPdfDocument>
+#include <QtPdf/QtPdf>
+#endif
+#ifdef POPPLER
+#include <poppler/qt6/poppler-qt6.h>
+#endif
+
 PQCScriptsImages::PQCScriptsImages() {
 
 }
@@ -328,5 +336,65 @@ void PQCScriptsImages::_loadHistogramData(QString filepath, int index) {
     histogramCache.insert(key, ret);
 
     Q_EMIT histogramDataLoaded(ret, index);
+
+}
+
+bool PQCScriptsImages::isPDFDocument(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QString suf = QFileInfo(path).suffix().toLower();
+    if(PQCImageFormats::get().getEnabledFormatsPoppler().contains(suf))
+        return true;
+
+    QMimeDatabase db;
+    QString mimetype = db.mimeTypeForFile(path).name();
+    if(PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+        return true;
+
+    return false;
+
+}
+
+bool PQCScriptsImages::isArchive(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QString suf = QFileInfo(path).suffix().toLower();
+    if(PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suf))
+        return true;
+
+    QMimeDatabase db;
+    QString mimetype = db.mimeTypeForFile(path).name();
+    if(PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
+        return true;
+
+    return false;
+
+}
+
+int PQCScriptsImages::getNumberDocumentPages(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    if(path.trimmed().isEmpty())
+        return 0;
+
+    if(path.contains("::PQT::"))
+        path = path.split("::PQT::").at(1);
+
+#ifdef POPPLER
+    Poppler::Document* document = Poppler::Document::load(path);
+    if(document && !document->isLocked())
+        return document->numPages();
+#endif
+#ifdef QTPDF
+    QPdfDocument doc;
+    doc.load(path);
+    QPdfDocument::Error err = doc.error();
+    if(err == QPdfDocument::Error::None)
+        return doc.pageCount();
+#endif
+    return 0;
 
 }

@@ -55,7 +55,8 @@ Item {
 
         function onKeyPress(key, modifiers) {
 
-//            contextmenu.hideMenu()
+            // make sure contextmenu is closed on key press
+            contextmenu.dismiss()
 
             if(loader.visibleItem !== "")
 
@@ -239,10 +240,8 @@ Item {
 //            return
 //        }
 
-        if(combo === "Esc" && contextmenu.opened) {
-            contextmenu.dismiss()
-            return
-        }
+        // make sure contextmenu is closed before executing shortcut
+        contextmenu.dismiss()
 
         if(combo === "Esc" && PQCFileFolderModel.isUserFilterSet()) {
             PQCFileFolderModel.removeAllUserFilter()

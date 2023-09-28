@@ -94,8 +94,8 @@ void PQCMetaData::updateMetadata() {
         return;
     }
 
-    if(path.contains("::PQT::"))
-        path = path.split("::PQT::").at(1);
+    if(path.contains("::PDF::"))
+        path = path.split("::PDF::").at(1);
     if(path.contains("::ARC::"))
         path = path.split("::ARC::").at(1);
 

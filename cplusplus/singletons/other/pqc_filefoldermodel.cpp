@@ -229,6 +229,28 @@ void PQCFileFolderModel::setIncludeFilesInSubFolders(bool c) {
     loadDelayMainView->start();
 }
 
+bool PQCFileFolderModel::getReadDocumentOnly() {
+    return m_readDocumentOnly;
+}
+void PQCFileFolderModel::setReadDocumentOnly(bool c) {
+    if(m_readDocumentOnly == c)
+        return;
+    m_readDocumentOnly = c;
+    Q_EMIT readDocumentOnlyChanged();
+    loadDelayMainView->start();
+}
+
+bool PQCFileFolderModel::getReadArchiveOnly() {
+    return m_readArchiveOnly;
+}
+void PQCFileFolderModel::setReadArchiveOnly(bool c) {
+    if(m_readArchiveOnly == c)
+        return;
+    m_readArchiveOnly = c;
+    Q_EMIT readArchiveOnlyChanged();
+    loadDelayMainView->start();
+}
+
 /********************************************/
 /********************************************/
 
@@ -731,40 +753,45 @@ int PQCFileFolderModel::getCurrentIndex() {
 }
 
 void PQCFileFolderModel::setCurrentIndex(int val) {
-    if(m_currentIndex == val)
-        return;
-    m_currentIndex = val;
-    if(m_currentIndex == -1)
-        m_currentFile = "";
-    else
-        m_currentFile = m_entriesMainView[m_currentIndex];
 
-    Q_EMIT currentIndexChanged();
-    Q_EMIT currentFileChanged();
+    if(m_currentIndex != val) {
+        m_currentIndex = val;
+        if(m_currentIndex == -1)
+            m_currentFile = "";
+        else
+            m_currentFile = m_entriesMainView[m_currentIndex];
 
-    if(m_currentFile.indexOf("::PDF::")) {
-        bool ispdf = m_currentFile.indexOf("::PDF::")>-1;
-        if(m_isPDF != ispdf) {
-            m_isPDF = ispdf;
+        Q_EMIT currentIndexChanged();
+        Q_EMIT currentFileChanged();
+
+    }
+
+    bool ispdf = m_currentFile.indexOf("::PDF::")>-1;
+    if(m_isPDF != ispdf) {
+        m_isPDF = ispdf;
+        m_isARC = false;
+        if(ispdf) {
             m_pdfName = m_currentFile.split("::PDF::")[1];
             m_pdfNum = m_currentFile.split("::PDF::")[0].toInt();
-            Q_EMIT isPDFChanged();
-            Q_EMIT pdfNameChanged();
-            Q_EMIT pdfNumChanged();
         }
+        Q_EMIT isPDFChanged();
+        Q_EMIT pdfNameChanged();
+        Q_EMIT pdfNumChanged();
     }
 
-    if(m_currentFile.indexOf("::ARC::")) {
-        bool isarc = m_currentFile.indexOf("::ARC::")>-1;
-        if(m_isARC != isarc) {
-            m_isARC = isarc;
+    bool isarc = m_currentFile.indexOf("::ARC::")>-1;
+    if(m_isARC != isarc) {
+        m_isPDF = false;
+        m_isARC = isarc;
+        if(m_isARC) {
             m_arcName = m_currentFile.split("::ARC::")[1];
             m_arcFile = m_currentFile.split("::ARC::")[0];
-            Q_EMIT isARCChanged();
-            Q_EMIT arcNameChanged();
-            Q_EMIT arcFileChanged();
         }
+        Q_EMIT isARCChanged();
+        Q_EMIT arcNameChanged();
+        Q_EMIT arcFileChanged();
     }
+
 }
 
 QString PQCFileFolderModel::getCurrentFile() {
@@ -825,33 +852,35 @@ void PQCFileFolderModel::loadDataMainView() {
     }
 
     ////////////////////////
-    // watch directory for changes
+    // load files
+
+    int numberPageDocument = 0;
+    if(m_fileInFolderMainView.contains("::PDF::")) {
+        m_readDocumentOnly = true;
+        numberPageDocument = m_fileInFolderMainView.split("::PDF::").at(0).toInt();
+        m_fileInFolderMainView = m_fileInFolderMainView.split("::PDF::").at(1);
+    } else if(m_fileInFolderMainView.contains("::ARC::")) {
+        m_readArchiveOnly = true;
+        numberPageDocument = m_fileInFolderMainView.split("::ARC::").at(0).toInt();
+        m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
+    }
 
     watcherMainView->addPath(QFileInfo(m_fileInFolderMainView).absolutePath());
     connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, &PQCFileFolderModel::loadDataMainView);
 
-    ////////////////////////
-    // load files
-
-    if(m_fileInFolderMainView.contains("::PDF::")) {
-        m_readDocumentOnly = true;
-        m_fileInFolderMainView = m_fileInFolderMainView.split("::PDF::").at(1);
-    } else if(m_fileInFolderMainView.contains("::ARC::")) {
-        m_readArchiveOnly = true;
-        m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
-    }
-
-    if(m_readDocumentOnly && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+    if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         m_entriesMainView = listPDFPages(m_fileInFolderMainView);
         m_countMainView = m_entriesMainView.length();
         m_readDocumentOnly = false;
+        setCurrentIndex(numberPageDocument);
 
-    } else if(m_readArchiveOnly && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+    } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         m_entriesMainView = PQCScriptsImages::get().listArchiveContent(m_fileInFolderMainView);
         m_countMainView = m_entriesMainView.length();
         m_readArchiveOnly = false;
+        setCurrentIndex(numberPageDocument);
 
     } else {
 
@@ -1221,4 +1250,21 @@ bool PQCFileFolderModel::isUserFilterSet() {
             m_filenameFilters.length()>0 ||
             !m_imageResolutionFilter.isNull() ||
             m_fileSizeFilter > 0);
+}
+
+void PQCFileFolderModel::enableViewerMode() {
+    if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
+        setFileInFolderMainView("0::PDF::" + getCurrentFile());
+    else
+        setFileInFolderMainView("0::ARC::" + getCurrentFile());
+    forceReloadMainView();
+}
+
+void PQCFileFolderModel::disableViewerMode() {
+    QString tmp = getCurrentFile();
+    if(tmp.contains("::PDF::"))
+        setFileInFolderMainView(tmp.split("::PDF::")[1]);
+    else if(tmp.contains("::ARC::"))
+        setFileInFolderMainView(tmp.split("::ARC::")[1]);
+    forceReloadMainView();
 }

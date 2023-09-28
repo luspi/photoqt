@@ -37,13 +37,11 @@ QSize PQCLoadImageQtPDF::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-    QString errormsg = "";
-
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
-    if(filename.contains("::PQT::")) {
-        page = filename.split("::PQT::").at(0).toInt();
-        filename = filename.split("::PQT::").at(1);
+    if(filename.contains("::PDF::")) {
+        page = filename.split("::PDF::").at(0).toInt();
+        filename = filename.split("::PDF::").at(1);
     }
 
 #ifdef QTPDF
@@ -77,13 +75,14 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
-    if(filename.contains("::PQT::")) {
-        page = filename.split("::PQT::").at(0).toInt();
-        filename = filename.split("::PQT::").at(1);
+    QString realFileName = filename;
+    if(filename.contains("::PDF::")) {
+        page = filename.split("::PDF::").at(0).toInt();
+        realFileName = filename.split("::PDF::").at(1);
     }
 
     QPdfDocument doc;
-    doc.load(filename);
+    doc.load(realFileName);
 
     QPdfDocument::Error err = doc.error();
     if(err != QPdfDocument::Error::None) {
