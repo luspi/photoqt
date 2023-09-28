@@ -310,8 +310,9 @@ Item {
             case "__open":
                 loader.show("filedialog")
                 break
-//            case "__showMapExplorer":
-//                break
+            case "__showMapExplorer":
+                loader.show("mapexplorer")
+                break
 //            case "__settings":
 //                break
             case "__about":

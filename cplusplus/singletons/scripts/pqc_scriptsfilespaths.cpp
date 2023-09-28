@@ -382,3 +382,67 @@ QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString pr
 
 }
 
+QString PQCScriptsFilesPaths::createTooltipFilename(QString fname) {
+
+    QMap<QString, int> widths;
+    widths.insert("a", 2); widths.insert("A", 2);
+    widths.insert("b", 2); widths.insert("B", 2);
+    widths.insert("c", 2); widths.insert("C", 2);
+    widths.insert("d", 2); widths.insert("D", 2);
+    widths.insert("e", 2); widths.insert("E", 2);
+    widths.insert("f", 1); widths.insert("F", 2);
+    widths.insert("g", 2); widths.insert("G", 2);
+    widths.insert("h", 2); widths.insert("H", 2);
+    widths.insert("i", 1); widths.insert("I", 1);
+    widths.insert("j", 1); widths.insert("J", 1);
+    widths.insert("k", 2); widths.insert("K", 2);
+    widths.insert("l", 1); widths.insert("L", 2);
+    widths.insert("m", 3); widths.insert("M", 3);
+    widths.insert("n", 2); widths.insert("N", 2);
+    widths.insert("o", 2); widths.insert("O", 2);
+    widths.insert("p", 2); widths.insert("P", 2);
+    widths.insert("q", 2); widths.insert("Q", 2);
+    widths.insert("r", 1); widths.insert("R", 2);
+    widths.insert("s", 2); widths.insert("S", 2);
+    widths.insert("t", 1); widths.insert("T", 2);
+    widths.insert("u", 2); widths.insert("U", 2);
+    widths.insert("v", 2); widths.insert("V", 2);
+    widths.insert("w", 3); widths.insert("W", 3);
+    widths.insert("x", 2); widths.insert("X", 2);
+    widths.insert("y", 2); widths.insert("Y", 2);
+    widths.insert("z", 2); widths.insert("Z", 2);
+
+    int fulllength = 0;
+    for(int i = 0; i < fname.length(); ++i) {
+        if(widths.contains(fname.at(i)))
+            fulllength += widths[fname.at(i)];
+        else
+            fulllength += 2;
+    }
+
+    if(fulllength < 60)
+        return fname.toHtmlEscaped();
+
+    QString ret = "";
+
+    int len = 0;
+    for(int pos = 0; pos < fname.length(); ++pos) {
+
+        QString cur = fname.at(pos);
+
+        ret += cur.toHtmlEscaped();
+        if(widths.contains(cur))
+            len += widths[cur];
+        else
+            len += 2;
+
+        if(len > 60) {
+            ret += "<br>";
+            len = 0;
+        }
+
+    }
+
+    return ret;
+
+}
