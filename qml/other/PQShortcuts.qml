@@ -349,8 +349,9 @@ Item {
             case "__tagFaces":
                 loader.passOn("tagFaces", undefined)
                 break
-//            case "__chromecast":
-//                break
+            case "__chromecast":
+                loader.show("chromecastmanager")
+                break
             case "__logging":
                 loader.show("logging")
                 break;

@@ -9,7 +9,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp)
 
 SET(d "cplusplus/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp ${d}/pqc_validate.cpp ${d}/pqc_mpvobject.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp ${d}/pqc_localhttpserver.cpp)
 
 SET(d "cplusplus/singletons/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp ${d}/pqc_filefoldermodelcache.cpp ${d}/pqc_metadata.cpp)
@@ -32,6 +32,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodel.h ${d}/pqc_filefoldermodelcache.h ${d}/pqc_imageformats.h ${d}/pqc_providerfolderthumb.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_metadata.h ${d}/pqc_location.h ${d}/pqc_resolutioncache.h ${d}/pqc_popoutgeometry.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.h ${d}/pqc_printtabimagepositiontile.h ${d}/pqc_httpreplytimeout.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_localhttpserver.h)
 
 SET(d "cplusplus/header/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.h ${d}/pqc_scriptsclipboard.h ${d}/pqc_scriptsconfig.h ${d}/pqc_scriptscontextmenu.h)

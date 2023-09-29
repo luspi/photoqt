@@ -106,12 +106,12 @@ Window {
     Loader { id: loader_slideshowhandler }
     Loader { id: loader_notification }
     Loader { id: loader_logging }
+    Loader { id: loader_chromecast }
 
     // actions
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
     Loader { id: loader_advancedsortbusy }
-    Loader { id: loader_chromecast }
     Loader { id: loader_copy }
     Loader { id: loader_move }
     Loader { id: loader_export }
@@ -127,6 +127,7 @@ Window {
     Loader { id: loader_slideshowsetup }
     Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
+    Loader { id: loader_chromecastmanager }
 
     /*************************************************/
 

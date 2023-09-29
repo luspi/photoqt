@@ -90,5 +90,7 @@
         <file>white/speaker_mute.svg</file>
         <file>white/viewermode_on.svg</file>
         <file>white/viewermode_off.svg</file>
+        <file>other/logo_chromecast.jpg</file>
+        <file>other/chromecastactive.svg</file>
     </qresource>
 </RCC>

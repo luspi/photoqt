@@ -168,7 +168,7 @@ add_definitions(-DQT_MESSAGELOGCONTEXT)
 #### Add the executeable ####
 #############################
 
-qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc)
+qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
 
 # add qml files
 qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML})

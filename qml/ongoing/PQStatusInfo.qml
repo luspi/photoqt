@@ -4,6 +4,7 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCNotify
+import PQCScriptsChromeCast
 
 import "../elements"
 
@@ -39,6 +40,8 @@ Item {
         spacing: 10
 
         Rectangle {
+
+            id: maincontainer
 
             color: PQCLook.transColor
 
@@ -311,6 +314,27 @@ Item {
 
         }
 
+    }
+
+    Image {
+        source: "/other/chromecastactive.svg"
+        width: 32
+        height: 32
+        visible: PQCScriptsChromeCast.connected
+        sourceSize: Qt.size(width, height)
+        anchors.left: maincol.right
+        anchors.top: maincol.top
+        anchors.leftMargin: 10
+        anchors.topMargin: (maincontainer.height-height)/2
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            //: Used in tooltip for the chromecast icon
+            text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName
+            onClicked:
+                loader.show("chromecastmanager")
+        }
     }
 
     Component {

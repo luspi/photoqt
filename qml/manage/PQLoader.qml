@@ -33,9 +33,10 @@ Item {
         "imgur"               : ["actions","PQImgur", loader_imgur, 1, PQCSettings.interfacePopoutImgur, PQCPopoutGeometry.imgurForcePopout],
         "wallpaper"           : ["actions","PQWallpaper", loader_wallpaper, 1, PQCSettings.interfacePopoutWallpaper, PQCPopoutGeometry.wallpaperForcePopout],
         "mapexplorer"         : ["actions","PQMapExplorer", loader_mapexplorer, 1, PQCSettings.interfacePopoutMapExplorer, PQCPopoutGeometry.mapexplorerForcePopout],
+        "chromecast"          : ["ongoing","PQChromeCast", loader_chromecast, 0, false, false],
+        "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCPopoutGeometry.chromecastmanagerForcePopout],
 
         "advancedsortbusy"    : ["actions","PQAdvancedSortBusy", loader_advancedsortbusy, 1, false, false],
-        "chromecast"          : ["ongoing","PQChromecast", loader_chromecast, 1, false, false],
         "filesaveas"          : ["actions","PQSaveAs", loader_filesaveas, 1, false, false],
         "settingsmanager"     : ["settings","PQSettingsManager", loader_settingsmanager, 1, false, false],
         "unavailable"         : ["other","PQUnavailable", loader_unavailable, 1, false, false]
@@ -48,6 +49,11 @@ Item {
     function show(ele) {
 
         var e = ele
+
+        if(ele === "chromecast" && visibleItem === "chromecastmanager") {
+            ensureItIsReady(ele, loadermapping[ele])
+            return
+        }
 
         if(ele === "chromecast" && !PQCScriptsConfig.isChromecastEnabled()) {
             e = "unavailable"

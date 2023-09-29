@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>chromecast_discovery.py</file>
+        <file>chromecast_cast.py</file>
+        <file>chromecast_disconnect.py</file>
+    </qresource>
+</RCC>
