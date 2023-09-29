@@ -20,7 +20,7 @@ Rectangle {
 
     radius: 15
 
-    PQTextXL {
+    PQTextL {
         id: txt
         x: 50
         y: 15
