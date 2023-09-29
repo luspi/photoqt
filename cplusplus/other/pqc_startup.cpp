@@ -211,9 +211,9 @@ bool PQCStartup::manageShortcuts() {
 
     QSqlDatabase db;
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "validateshortcuts");
+        db = QSqlDatabase::addDatabase("QSQLITE3", "manageshortcuts");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "validateshortcuts");
+        db = QSqlDatabase::addDatabase("QSQLITE", "manageshortcuts");
     db.setDatabaseName(PQCConfigFiles::SHORTCUTS_DB());
 
     if(!db.open())
