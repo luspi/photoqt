@@ -48,33 +48,36 @@ Item {
 
     function show(ele) {
 
-        var e = ele
-
         if(ele === "chromecast" && visibleItem === "chromecastmanager") {
             ensureItIsReady(ele, loadermapping[ele])
             return
         }
 
-        if(ele === "chromecast" && !PQCScriptsConfig.isChromecastEnabled()) {
-            e = "unavailable"
-        } else if((ele === "mapcurrent" || ele === "mapexplorer") && !PQCScriptsConfig.isLocationSupportEnabled())
+        if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
+            loader.show("notification")
+            loader_notification.item.statustext = qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")
+            return
+        } else if((ele === "mapcurrent" || ele === "mapexplorer") && !PQCScriptsConfig.isLocationSupportEnabled()) {
+            loader.show("notification")
+            loader_notification.item.statustext = qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")
+            return
+        }
+
+        if(!(ele in loadermapping))
             return
 
-        if(!(e in loadermapping))
-            return
-
-        var config = loadermapping[e]
+        var config = loadermapping[ele]
 
         if(config[3] === 1 && visibleItem != "")
             return
 
         // these checks make sure to ignore the blocking value when the interfacePopoutFileDialogKeepOpen setting is set
-        if(config[3] === 1 && (e !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogKeepOpen)))
-            visibleItem = e
+        if(config[3] === 1 && (ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogKeepOpen)))
+            visibleItem = ele
 
-        ensureItIsReady(e, config)
+        ensureItIsReady(ele, config)
 
-        passOn("show", e)
+        passOn("show", ele)
 
     }
 
