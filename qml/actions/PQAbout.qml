@@ -48,7 +48,15 @@ PQTemplateFullscreen {
 
         Image {
             x: (parent.width-width)/2
-            source: "/white/logo.png"
+            width: 400
+            height: 400
+            fillMode: Image.PreserveAspectFit
+            source: "/other/logo_full.svg"
+        },
+
+        Item {
+            width: 1
+            height: 10
         },
 
         PQTextL {

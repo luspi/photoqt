@@ -67,7 +67,6 @@
         <file>white/popinpopout.svg</file>
         <file>white/maplocation.png</file>
         <file>white/icon.png</file>
-        <file>white/logo.png</file>
         <file>white/menu.svg</file>
         <file>white/keepforeground.svg</file>
         <file>white/minimize.svg</file>
@@ -92,5 +91,8 @@
         <file>white/viewermode_off.svg</file>
         <file>other/logo_chromecast.jpg</file>
         <file>other/chromecastactive.svg</file>
+        <file>other/logo.svg</file>
+        <file>other/logo_white.svg</file>
+        <file>other/logo_full.svg</file>
     </qresource>
 </RCC>
