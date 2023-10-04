@@ -122,6 +122,14 @@ void PQImageFormats::readFromDatabase() {
         const QString cat = query.record().value("category").toString();
         const int enabled = query.record().value("enabled").toInt();
         const int qt = query.record().value("qt").toInt();
+
+#ifndef ENABLE_WEBP
+        // if webp support is disabled we exclude it from the list of known formats
+        if(endings == "webp") {
+            continue;
+        }
+#endif
+
 #ifdef LIBVIPS
         const int libvips = query.record().value("libvips").toInt();
 #endif

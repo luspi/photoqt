@@ -55,6 +55,8 @@ option(LIBVIPS "Use libvips" OFF)
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
 option(RESVG "Replace Qt's SVG engine with resvg for better SVG support" OFF)
 
+option(ENABLE_WEBP "Enable support for the WebP format." ON)
+
 option(EXIV2_ENABLE_BMFF "Enable BMFF format support in Exiv2 (if available)" ON)
 
 # name of this option changed
@@ -80,6 +82,13 @@ if(QTPDF)
         set(POPPLER OFF)
         message("** For displaying PDF documents you have to choose either Poppler OR QtPDF")
     endif()
+endif()
+
+if(ENABLE_WEBP)
+    message("")
+    message("** WebP image format enabled!")
+    message("** Make sure that your installation of Qt and/or libwebp include the fix for CVE-2023-4863")
+    message("")
 endif()
 
 
@@ -436,6 +445,10 @@ if(RESVG)
     add_definitions(-DRESVG)
 else()
     message("** resvg DISABLED")
+endif()
+
+if(ENABLE_WEBP)
+    add_definitions(-DENABLE_WEBP)
 endif()
 
 
