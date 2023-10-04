@@ -83,8 +83,8 @@ PQTemplateFullscreen {
             PropertyChanges {
                 target: statusmessage
                 opacity: 1
-                text: qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
-                      qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
+                text: em.pty+qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
+                      em.pty+qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
             }
             PropertyChanges {
                 target: progressbar
@@ -100,8 +100,8 @@ PQTemplateFullscreen {
             PropertyChanges {
                 target: statusmessage
                 opacity: 1
-                text: qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
-                      qsTranslate("imgur", "Error code:") + " " + errorCode
+                text: em.pty+qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
+                      em.pty+qsTranslate("imgur", "Error code:") + " " + errorCode
             }
             PropertyChanges {
                 target: progressbar
@@ -121,8 +121,8 @@ PQTemplateFullscreen {
             PropertyChanges {
                 target: statusmessage
                 opacity: 1
-                text: qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
-                      qsTranslate("imgur", "Unable to upload!")
+                text: em.pty+qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
+                      em.pty+qsTranslate("imgur", "Unable to upload!")
             }
             PropertyChanges {
                 target: progressbar
@@ -175,7 +175,7 @@ PQTemplateFullscreen {
             spacing: 10
 
             PQTextL {
-                text: qsTranslate("imgur", "Access Image")
+                text: em.pty+qsTranslate("imgur", "Access Image")
                 font.weight: baselook.boldweight
             }
 
@@ -190,7 +190,7 @@ PQTemplateFullscreen {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        tooltip: qsTranslate("imgur", "Click to open in browser")
+                        tooltip: em.pty+qsTranslate("imgur", "Click to open in browser")
                         onClicked:
                             Qt.openUrlExternally(parent.text)
                     }
@@ -212,7 +212,7 @@ PQTemplateFullscreen {
             }
 
             PQTextL {
-                text: qsTranslate("imgur", "Delete Image")
+                text: em.pty+qsTranslate("imgur", "Delete Image")
                 font.weight: baselook.boldweight
             }
 
@@ -227,7 +227,7 @@ PQTemplateFullscreen {
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        tooltip: qsTranslate("imgur", "Click to open in browser")
+                        tooltip: em.pty+qsTranslate("imgur", "Click to open in browser")
                         onClicked:
                             Qt.openUrlExternally("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
                     }
