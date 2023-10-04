@@ -373,16 +373,12 @@ int PQHandlingShareImgur::upload(QString filename) {
     }
 
     // Initiate file and open for reading
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly)) {
+    QFile *file = new QFile(filename);
+    if(!file->open(QIODevice::ReadOnly)) {
         if(debug)
             LOG << CURDATE << QString("ERROR! Can't open file '%1' for reading to upload to imgur.com").arg(filename).toStdString() << NL;
         return IMGUR_FILE_OPEN_ERROR;
     }
-
-    // Read binary data of file to bytearray
-    QByteArray byteArray = file.readAll();
-    file.close();
 
     // Setup network request, use XML format
     QNetworkRequest req(QUrl("https://api.imgur.com/3/image.xml"));
@@ -392,7 +388,7 @@ int PQHandlingShareImgur::upload(QString filename) {
     req.setRawHeader("Authorization", QByteArray("Bearer ") + access_token.toLatin1());
 
     // Send upload request and connect to feedback signals
-    QNetworkReply *reply = networkManager->post(req, byteArray);
+    QNetworkReply *reply = networkManager->post(req, file);
     connect(reply, &QNetworkReply::finished, this, &PQHandlingShareImgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &PQHandlingShareImgur::uploadProgress);
     // The following has to use the old syntax, as there is also a accessor member (not a signal) to access the error with the same name
@@ -429,15 +425,12 @@ int PQHandlingShareImgur::anonymousUpload(QString filename) {
     }
 
     // Initiate file and open for reading
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly)) {
+    QFile *file = new QFile(filename);
+    if(!file->open(QIODevice::ReadOnly)) {
         if(debug)
             LOG << CURDATE << QString("ERROR! Can't open file '%1' for reading to upload to imgur.com").arg(filename).toStdString() << NL;
         return IMGUR_FILE_OPEN_ERROR;
     }
-
-    // Read binary data of file to bytearray
-    QByteArray byteArray = file.readAll();
 
     // Setup network request (XML format)
     QNetworkRequest request(QUrl("https://api.imgur.com/3/image.xml"));
@@ -445,7 +438,7 @@ int PQHandlingShareImgur::anonymousUpload(QString filename) {
     request.setRawHeader("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
 
     // Send upload request and connect to feedback signals
-    QNetworkReply *reply = networkManager->post(request, byteArray);
+    QNetworkReply *reply = networkManager->post(request, file);
     connect(reply, &QNetworkReply::finished, this, &PQHandlingShareImgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &PQHandlingShareImgur::uploadProgress);
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)

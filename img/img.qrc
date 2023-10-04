@@ -120,5 +120,7 @@
         <file>settingsmanager/interface/upwards.svg</file>
         <file>mainmenu/edges.svg</file>
         <file>mainwindow/mouse.svg</file>
+        <file>other/checkmark.svg</file>
+        <file>other/x.svg</file>
     </qresource>
 </RCC>

@@ -195,5 +195,6 @@
         <file>templates/PQTemplatePopout.qml</file>
         <file>templates/PQTemplateIntegrated.qml</file>
         <file>mainwindow/PQBackground.qml</file>
+        <file>elements/PQWorking.qml</file>
     </qresource>
 </RCC>
