@@ -145,14 +145,29 @@ function executeInternalFunction(cmd, wheelDelta) {
         loader.ensureItIsReady("copymove")
         loader.passOn("copymove", "move", undefined)
     } else if(cmd === "__deletePermanent") {
-        if(filefoldermodel.current != -1)
-            handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)
+        if(filefoldermodel.current != -1) {
+            // we use the unavailable element to show
+            if(handlingFileDir.deleteFile(filefoldermodel.currentFilePath, true)) {
+                loader.passOn("notification", "show", undefined)
+                notification.item.statustext = em.pty+qsTranslate("filemanagement", "File successfully deleted")
+            } else {
+                loader.passOn("notification", "show", undefined)
+                notification.item.statustext = em.pty+qsTranslate("filemanagement", "Could not delete file")
+            }
+        }
     } else if(cmd === "__deleteTrash") {
-        if(filefoldermodel.current != -1)
-            handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)
+        if(filefoldermodel.current != -1) {
+            if(handlingFileDir.deleteFile(filefoldermodel.currentFilePath, false)) {
+                passOn("unavailable", "show", undefined)
+                unavailable.item.statustext = em.pty+qsTranslate("filemanagement", "File successfully moved to trash")
+            } else {
+                passOn("unavailable", "show", undefined)
+                unavailable.item.statustext = em.pty+qsTranslate("filemanagement", "Could not move file to trash")
+            }
+        }
     } else if(cmd === "__saveAs")
         loader.show("filesaveas")
-    else if(cmd === "__showMetaData" || cmd == "__keepMetaData")
+    else if(cmd === "__showMetaData" || cmd === "__keepMetaData")
         loader.metadataPassOn("toggleKeepOpen", undefined)
     else if(cmd === "__showMainMenu")
         loader.mainmenuPassOn("toggle", undefined)
