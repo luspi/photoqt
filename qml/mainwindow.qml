@@ -139,7 +139,6 @@ Window {
 
 
     Loader { id: unavailable }
-    Loader { id: unavailablepopout }
     Loader { id: logging }
 
     Loader { id: chromecast }

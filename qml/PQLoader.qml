@@ -47,7 +47,6 @@ Item {
     signal fileSaveAsPassOn(var what, var param)
     signal navigationFloatingPassOn(var what, var param)
     signal unavailablePassOn(var what, var param)
-    signal unavailablePopoutPassOn(var what, var param)
     signal chromecastPassOn(var what, var param)
     signal loggingPassOn(var what, var param)
     signal advancedSortPassOn(var what, var param)
@@ -139,9 +138,14 @@ Item {
         if(ele == "chromecast" && !handlingGeneral.isChromecastEnabled()) {
             ensureItIsReady("unavailable")
             unavailablePassOn("show", undefined)
+            unavailable.item.statustext = em.pty+qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")
             return
-        } else if((ele == "mapcurrent" || ele == "mapexplorer") && !handlingGeneral.isLocationSupportEnabled())
+        } else if((ele == "mapcurrent" || ele == "mapexplorer") && !handlingGeneral.isLocationSupportEnabled()) {
+            ensureItIsReady("unavailable")
+            unavailablePassOn("show", undefined)
+            unavailable.item.statustext = em.pty+qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")
             return
+        }
 
         if(ele == "imguranonym")
             passOn(ele, "show_anonym", undefined)
@@ -330,13 +334,9 @@ Item {
 
             navigationfloating.source = "mainwindow/PQNavigation.qml"
 
-        } else if(ele == "unavailable") {
+        } else if(ele == "unavailable" || ele == "unavailablepopout") {
 
             unavailable.source = "unavailable/PQUnavailable.qml"
-
-        } else if(ele == "unavailablepopout") {
-
-            unavailablepopout.source = "unavailable/PQUnavailablePopout.qml"
 
         } else if(ele == "logging") {
 
@@ -368,7 +368,6 @@ Item {
         advancedsortbusy.source = ""
         navigationfloating.source = ""
         unavailable.source = ""
-        unavailablepopout.source = ""
         logging.source = ""
         mapview.source = ""
         mapcurrent.source = ""

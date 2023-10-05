@@ -23,72 +23,30 @@
 import QtQuick 2.9
 import "../elements"
 
-Item {
+Rectangle {
 
-    id: unavailable_top
+    x: (toplevel.width-width)/2
+    y: (toplevel.height-height)/2
 
-    width: parentWidth
-    height: parentHeight
-
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    width: txt.width+100
+    height: txt.height+30
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.imageviewAnimationDuration*100 } }
-    visible: opacity!=0
-    enabled: visible
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+    visible: opacity>0
 
-    PQMouseArea {
-        anchors.fill: parent
-        onClicked:
-            buttonClose.clicked()
-    }
+    color: "#88000000"
 
-    PQMouseArea {
-        anchors.fill: contcol
-        anchors.margins: -50
-    }
+    property alias statustext: txt.text
 
-    Rectangle {
-        anchors.fill: parent
-        color: "#f41f1f1f"
-    }
+    radius: 15
 
-    Column {
-
-        id: contcol
-
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
-        width: Math.min(600, parent.width-50)
-        height: childrenRect.height
-
-        spacing: 10
-
-        PQTextXL {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            font.weight: baselook.boldweight
-            text: em.pty+qsTranslate("unavailable", "Sorry, but this feature is not available.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        Item { width: 1; height: 50 }
-
-        PQButton {
-            id: buttonClose
-            x: (parent.width-width)/2
-            text: genericStringClose
-            scale: 1.5
-            renderType: Text.QtRendering
-            onClicked: {
-                if(variables.visibleItem == "unavailable") {
-                    unavailable_top.opacity = 0
-                    variables.visibleItem = ""
-                }
-            }
-        }
-
+    PQTextL {
+        id: txt
+        x: 50
+        y: 15
+        font.weight: baselook.boldweight
+        text: ""
     }
 
     Connections {
@@ -97,23 +55,27 @@ Item {
 
         onUnavailablePassOn: {
 
-            if(what == "show") {
-                unavailable_top.opacity = 1
-                variables.visibleItem = "unavailable"
-
-            } else if(what == "hide") {
-
-                buttonClose.clicked()
-
-            } else if(what == "keyevent") {
-
-                if(param[0] == Qt.Key_Escape)
-                    buttonClose.clicked()
-
-            }
+            if(what === "show")
+                show()
 
         }
 
+    }
+
+    Timer {
+        id: hideNotification
+        interval: 2000
+        onTriggered:
+            hide()
+    }
+
+    function show() {
+        opacity = 1
+        hideNotification.restart()
+    }
+
+    function hide() {
+        opacity = 0
     }
 
 }

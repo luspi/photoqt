@@ -238,9 +238,6 @@ Item {
         else if(variables.visibleItem == "facetagger" && exclude != "facetagger")
             loader.passOn("facetagger", "stop", undefined)
 
-        else if(variables.visibleItem == "unavailable" && exclude != "unavailable")
-            loader.passOn("unavailable", "hide", undefined)
-
     }
 
 }

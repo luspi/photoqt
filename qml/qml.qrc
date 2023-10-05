@@ -125,7 +125,6 @@
         <file>filemanagement/PQSaveAs.qml</file>
         <file>filemanagement/PQSaveAsPopout.qml</file>
         <file>unavailable/PQUnavailable.qml</file>
-        <file>unavailable/PQUnavailablePopout.qml</file>
         <file>mainwindow/PQWindowButtons.qml</file>
         <file>PQModel.qml</file>
         <file>mainwindow/PQNavigation.qml</file>
