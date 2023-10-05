@@ -167,7 +167,7 @@ PQTemplateFullscreen {
                             property bool hovered: favcol.currentHover===index
                             property bool isActive: targetFormat===favdeleg.myid
 
-                            color: isActive ? "white" : (hovered ? "#888888" : "#444444")
+                            color: isActive ? "#bbbbbb" : (hovered ? "#666666" : "#333333")
                             Behavior on color { ColorAnimation { duration: 200 } }
 
                             Row {
@@ -309,7 +309,8 @@ PQTemplateFullscreen {
 
                     width: formatsview.width
                     height: visible ? (formatsname.height+10) : 0
-                    color: isActive ? "#bbbbbb" : (isHover ? "#888888" : "#222222")
+                    color: isActive ? "#bbbbbb" : (isHover ? "#666666" : "#333333")
+                    Behavior on color { ColorAnimation { duration: 200 } }
                     border.width: 1
                     border.color: "black"
                     radius: 5
