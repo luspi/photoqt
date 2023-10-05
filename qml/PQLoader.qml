@@ -46,7 +46,7 @@ Item {
     signal settingsManagerPassOn(var what, var param)
     signal fileSaveAsPassOn(var what, var param)
     signal navigationFloatingPassOn(var what, var param)
-    signal unavailablePassOn(var what, var param)
+    signal notificationPassOn(var what, var param)
     signal chromecastPassOn(var what, var param)
     signal loggingPassOn(var what, var param)
     signal advancedSortPassOn(var what, var param)
@@ -101,8 +101,8 @@ Item {
         else if(ele == "copymove")
             copyMoveFilePassOn(what, param)
 
-        else if(ele == "unavailable")
-            unavailablePassOn(what, param)
+        else if(ele == "unavailable" || ele == "unavailablepopout" || ele == "notification")
+            notificationPassOn(what, param)
 
         else if(ele == "navigationfloating")
             navigationFloatingPassOn(what, param)
@@ -136,14 +136,12 @@ Item {
     function show(ele) {
 
         if(ele == "chromecast" && !handlingGeneral.isChromecastEnabled()) {
-            ensureItIsReady("unavailable")
-            unavailablePassOn("show", undefined)
-            unavailable.item.statustext = em.pty+qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")
+            passOn("notification", "show", undefined)
+            notification.item.statustext = em.pty+qsTranslate("notification", "The chromecast feature is not available in this build of PhotoQt.")
             return
         } else if((ele == "mapcurrent" || ele == "mapexplorer") && !handlingGeneral.isLocationSupportEnabled()) {
-            ensureItIsReady("unavailable")
-            unavailablePassOn("show", undefined)
-            unavailable.item.statustext = em.pty+qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")
+            passOn("notification", "show", undefined)
+            notification.item.statustext = em.pty+qsTranslate("notification", "The location feature is not available in this build of PhotoQt.")
             return
         }
 
@@ -334,9 +332,9 @@ Item {
 
             navigationfloating.source = "mainwindow/PQNavigation.qml"
 
-        } else if(ele == "unavailable" || ele == "unavailablepopout") {
+        } else if(ele == "unavailable" || ele == "unavailablepopout" || ele == "notification") {
 
-            unavailable.source = "unavailable/PQUnavailable.qml"
+            notification.source = "notification/PQNotification.qml"
 
         } else if(ele == "logging") {
 
@@ -367,7 +365,7 @@ Item {
         advancedsort.source = ""
         advancedsortbusy.source = ""
         navigationfloating.source = ""
-        unavailable.source = ""
+        notification.source = ""
         logging.source = ""
         mapview.source = ""
         mapcurrent.source = ""

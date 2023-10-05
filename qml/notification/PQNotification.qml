@@ -53,7 +53,7 @@ Rectangle {
 
         target: loader
 
-        onUnavailablePassOn: {
+        onNotificationPassOn: {
 
             if(what === "show")
                 show()

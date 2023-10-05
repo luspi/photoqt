@@ -124,7 +124,6 @@
         <file>settingsmanager/tabs/filetypes/PQFileTypes.qml</file>
         <file>filemanagement/PQSaveAs.qml</file>
         <file>filemanagement/PQSaveAsPopout.qml</file>
-        <file>unavailable/PQUnavailable.qml</file>
         <file>mainwindow/PQWindowButtons.qml</file>
         <file>PQModel.qml</file>
         <file>mainwindow/PQNavigation.qml</file>
@@ -195,5 +194,6 @@
         <file>templates/PQTemplateIntegrated.qml</file>
         <file>mainwindow/PQBackground.qml</file>
         <file>elements/PQWorking.qml</file>
+        <file>notification/PQNotification.qml</file>
     </qresource>
 </RCC>

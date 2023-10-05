@@ -138,7 +138,7 @@ Window {
     Loader { id: settingsmanager }
 
 
-    Loader { id: unavailable }
+    Loader { id: notification }
     Loader { id: logging }
 
     Loader { id: chromecast }
