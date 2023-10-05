@@ -40,7 +40,8 @@ PQSettings::PQSettings() {
                              << "openfile"
                              << "slideshow"
                              << "histogram"
-                             << "mapview";
+                             << "mapview"
+                             << "export";
 
     readonly = false;
 

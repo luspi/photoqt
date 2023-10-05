@@ -63,6 +63,9 @@ Rectangle {
     property alias spacing: insidecont.spacing
     property int maxWidth: 0
 
+    property alias bottomrowHeight: bottomrow.height
+    property alias toprowHeight: toprow.height
+
     /////////
 
     opacity: 0

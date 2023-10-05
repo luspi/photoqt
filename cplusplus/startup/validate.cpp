@@ -308,7 +308,7 @@ bool PQValidate::validateImageFormatsDatabase() {
     query.clear();
 
     // get reference data
-    query.prepare("SELECT endings,mimetypes,description,category,enabled,qt,libvips,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,libmpv,im_gm_magick,qt_formatname FROM 'imageformats'");
+    query.prepare("SELECT endings,mimetypes,description,category,enabled,qt,libvips,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,libmpv,im_gm_magick,qt_formatname,uniqueid FROM 'imageformats'");
     if(!query.exec()) {
         LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error getting default data: " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
@@ -343,6 +343,8 @@ bool PQValidate::validateImageFormatsDatabase() {
         const QString im_gm_magick = query.value(17).toString();
         const QString qt_formatname = query.value(18).toString();
 
+        const int uniqueid = query.value(19).toInt();
+
         // check whether an entry with that name exists in the in-production database
         QSqlQuery check(dbinstalled);
         check.prepare("SELECT count(endings) FROM imageformats WHERE endings=:endings");
@@ -376,7 +378,7 @@ bool PQValidate::validateImageFormatsDatabase() {
         if(count == 0) {
 
             QSqlQuery insquery(dbinstalled);
-            insquery.prepare("INSERT INTO imageformats (endings,mimetypes,description,category,enabled,qt,libvips,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,libmpv,im_gm_magick,qt_formatname) VALUES(:endings,:mimetypes,:description,:category,:enabled,:qt,:libvips,:imagemagick,:graphicsmagick,:libraw,:poppler,:xcftools,:devil,:freeimage,:archive,:video,:libmpv,:im_gm_magick,:qt_formatname)");
+            insquery.prepare("INSERT INTO imageformats (endings,mimetypes,description,category,enabled,qt,libvips,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,libmpv,im_gm_magick,qt_formatname,uniqueid) VALUES(:endings,:mimetypes,:description,:category,:enabled,:qt,:libvips,:imagemagick,:graphicsmagick,:libraw,:poppler,:xcftools,:devil,:freeimage,:archive,:video,:libmpv,:im_gm_magick,:qt_formatname,:uniqueid)");
             insquery.bindValue(":endings", endings);
             insquery.bindValue(":mimetypes", mimetypes);
             insquery.bindValue(":description", description);
@@ -399,6 +401,7 @@ bool PQValidate::validateImageFormatsDatabase() {
             insquery.bindValue(":libmpv", libmpv);
             insquery.bindValue(":im_gm_magick", im_gm_magick);
             insquery.bindValue(":qt_formatname", qt_formatname);
+            insquery.bindValue(":uniqueid", uniqueid);
 
             if(!insquery.exec()) {
                 LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): ERROR inserting missing image format " << endings.toStdString() << ": " << insquery.lastError().text().trimmed().toStdString() << NL;
@@ -410,9 +413,9 @@ bool PQValidate::validateImageFormatsDatabase() {
 
             QSqlQuery check(dbinstalled);
             if(updateByEnding)
-                check.prepare("UPDATE imageformats SET  mimetypes=:mimetypes, description=:description, category=:category, qt=:qt, libvips=:libvips, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, libmpv=:libmpv, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
+                check.prepare("UPDATE imageformats SET  uniqueid=:uniqueid, mimetypes=:mimetypes, description=:description, category=:category, qt=:qt, libvips=:libvips, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, libmpv=:libmpv, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE endings=:endings");
             else
-                check.prepare("UPDATE imageformats SET  endings=:endings, mimetypes=:mimetypes, category=:category, qt=:qt, libvips=:libvips, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, libmpv=:libmpv, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE description=:description");
+                check.prepare("UPDATE imageformats SET  uniqueid=:uniqueid, endings=:endings, mimetypes=:mimetypes, category=:category, qt=:qt, libvips=:libvips, imagemagick=:imagemagick, graphicsmagick=:graphicsmagick, libraw=:libraw, poppler=:poppler, xcftools=:xcftools, devil=:devil, freeimage=:freeimage, archive=:archive, video=:video, libmpv=:libmpv, im_gm_magick=:im_gm_magick, qt_formatname=:qt_formatname WHERE description=:description");
 
             check.bindValue(":endings", endings);
             check.bindValue(":mimetypes", mimetypes);
@@ -432,6 +435,7 @@ bool PQValidate::validateImageFormatsDatabase() {
             check.bindValue(":libmpv", libmpv);
             check.bindValue(":im_gm_magick", im_gm_magick);
             check.bindValue(":qt_formatname", qt_formatname);
+            check.bindValue(":uniqueid", uniqueid);
 
             if(!check.exec()) {
                 LOG << CURDATE << "PQValidate::validateImageFormatsDatabase(): Error updating defaultvalue and datatype: " << endings.toStdString() << ": " << check.lastError().text().trimmed().toStdString() << NL;

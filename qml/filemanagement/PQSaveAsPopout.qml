@@ -26,6 +26,8 @@ import "../templates"
 
 PQTemplatePopout {
 
+    id: saveas_popout
+
     //: Window title
     title: em.pty+qsTranslate("filemanagement", "Save file as")
 

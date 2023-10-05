@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "handlingmanipulation.h"
+#include <QtConcurrent>
 
 bool PQHandlingManipulation::canThisBeScaled(QString filename) {
 
@@ -49,103 +50,6 @@ bool PQHandlingManipulation::canThisBeScaled(QString filename) {
             << "tga";
 
     return formats.contains(QFileInfo(filename).suffix().toLower());
-
-}
-
-int PQHandlingManipulation::chooseLocationAndConvertImage(QString sourceFilename, QString targetFilename, QString targetEndings, QString targetdir) {
-
-    DBG << CURDATE << "PQHandlingManipulation::chooseLocationAndConvertImage()" << NL
-        << CURDATE << "** sourceFilename = " << sourceFilename.toStdString() << NL
-        << CURDATE << "** targetFilename = " << targetFilename.toStdString() << NL
-        << CURDATE << "** targetEndings = " << targetEndings.toStdString() << NL;
-
-    // get info about new file format and source file
-    QVariantMap databaseinfo = PQImageFormats::get().getFormatsInfo(targetEndings);
-    QFileInfo fileinfo(sourceFilename);
-
-    // request user to select target directory
-    if(targetdir == "")
-        targetdir = QFileDialog::getExistingDirectory(nullptr, "Choose new location", fileinfo.absolutePath());
-    if(targetdir == "")
-        return -1;  // -1 means cancelled
-
-    // if we succeeded converting the image
-    bool success = false;
-
-    // qt might support it
-    if(databaseinfo.value("qt").toInt() == 1) {
-
-        QImageWriter writer;
-
-        // if the QImageWriter supports the format then we're good to go
-        if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString().toUtf8())) {
-
-
-            // First we load the image...
-            PQLoadImageQt loader;
-            QSize tmp;
-            QImage img = loader.load(sourceFilename, QSize(-1,-1), tmp);
-
-            // ... and then we write it into the new format
-            writer.setFileName(QString("%1/%2").arg(targetdir, targetFilename));
-            writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
-
-            // if the actual writing suceeds we're done now
-            if(!writer.write(img))
-                LOG << "ERR: " << writer.errorString().toStdString() << NL;
-            else
-                success = true;
-
-        }
-
-    }
-
-    // imagemagick/graphicsmagick might support it
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-#ifdef IMAGEMAGICK
-    if(!success && databaseinfo.value("imagemagick").toInt() == 1) {
-#else
-    if(!success && databaseinfo.value("graphicsmagick").toInt() == 1) {
-#endif
-
-        // first check whether ImageMagick/GraphicsMagick supports writing this filetype
-        bool canproceed = false;
-        try {
-            QString magick = databaseinfo.value("im_gm_magick").toString();
-            Magick::CoderInfo magickCoderInfo(magick.toStdString());
-            if(magickCoderInfo.isWritable())
-                canproceed = true;
-        } catch(Magick::Exception &) { }
-
-        // yes, it's supported
-        if(canproceed) {
-
-            try {
-                // first load the image but skip the conversion into QImage type
-                PQLoadImageMagick loader;
-                QSize tmp;
-                loader.load(sourceFilename, QSize(-1,-1), tmp, true);
-
-                // get raw Magick image from loader
-                Magick::Image img = loader.image;
-
-                // and write new output file
-                img.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
-                img.write(QString("%1/%2").arg(targetdir, targetFilename).toStdString());
-
-                // success!
-                success = true;
-
-            } catch(Magick::Exception &) { }
-
-        }
-
-    }
-
-#endif
-
-    // 0 = error, 1 = success
-    return (success ? 1 : 0);
 
 }
 
@@ -275,3 +179,163 @@ bool PQHandlingManipulation::scaleImage(QString sourceFilename, bool scaleInPlac
     return true;
 
 }
+
+void PQHandlingManipulation::exportImage(QString sourceFilename, QString targetFilename, int uniqueid) {
+
+    DBG << CURDATE << "PQHandlingManipulation::exportImage()" << NL;
+    DBG << CURDATE << "** sourceFilename = " << sourceFilename.toStdString() << NL;
+    DBG << CURDATE << "** targetFilename = " << targetFilename.toStdString() << NL;
+    DBG << CURDATE << "** uniqueid = " << uniqueid << NL;
+
+    QtConcurrent::run([=]() {
+
+        // get info about new file format and source file
+        QVariantMap databaseinfo = PQImageFormats::get().getFormatsInfo(uniqueid);
+
+        // First we load the image...
+        PQLoadImageQt loader;
+        QSize tmp;
+        QImage img = loader.load(sourceFilename, QSize(-1,-1), tmp);
+
+        // we convert the image to this tmeporary file and then copy it to the right location
+        // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+        QString tmpImagePath = ConfigFiles::CACHE_DIR() + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
+        if(QFile::exists(tmpImagePath))
+            QFile::remove(tmpImagePath);
+
+        // qt might support it
+        if(databaseinfo.value("qt").toInt() == 1) {
+
+            QImageWriter writer;
+
+            // if the QImageWriter supports the format then we're good to go
+            if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toByteArray())) {
+
+                // ... and then we write it into the new format
+                writer.setFileName(tmpImagePath);
+                writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
+
+                // if the actual writing suceeds we're done now
+                if(!writer.write(img))
+                    qWarning() << "ERROR:" << writer.errorString();
+                else {
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+                    Q_EMIT exportCompleted(true);
+                    return;
+                }
+
+            }
+
+        }
+
+        // imagemagick/graphicsmagick might support it
+#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#ifdef IMAGEMAGICK
+        if(databaseinfo.value("imagemagick").toInt() == 1) {
+#else
+        if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+#endif
+
+            // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+            bool canproceed = false;
+            try {
+                QString magick = databaseinfo.value("im_gm_magick").toString();
+                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                if(magickCoderInfo.isWritable())
+                    canproceed = true;
+            } catch(Magick::Exception &) { }
+
+            // yes, it's supported
+            if(canproceed) {
+
+                try {
+
+                    // first we write the QImage to a temporary file
+                    // then we load it into magick and write it to the target file
+
+                    // find unique temporary path
+                    QString tmppath = ConfigFiles::CACHE_DIR() + "/converttmp.ppm";
+                    if(QFile::exists(tmppath))
+                        QFile::remove(tmppath);
+
+                    img.save(tmppath);
+
+                    // load image and write to target file
+                    Magick::Image image;
+                    image.magick("PPM");
+                    image.read(tmppath.toStdString());
+
+                    image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                    image.write(tmpImagePath.toStdString());
+
+                    // remove temporary file
+                    QFile::remove(tmppath);
+
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+
+                    // success!
+                    Q_EMIT exportCompleted(true);
+                    return;
+
+                } catch(Magick::Exception &) { }
+
+            }
+
+        }
+
+#endif
+
+        // unsuccessful conversion...
+        Q_EMIT exportCompleted(false);
+
+    });
+
+}
+
+QString PQHandlingManipulation::selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
+
+    DBG << CURDATE << "PQHandlingManipulation::selectFileFromDialog()" << NL;
+    DBG << CURDATE << "** buttonlabel = " << buttonlabel.toStdString() << NL;
+    DBG << CURDATE << "** preselectFile = " << preselectFile.toStdString() << NL;
+    DBG << CURDATE << "** formatId = " << formatId << NL;
+    DBG << CURDATE << "** confirmOverwrite = " << confirmOverwrite << NL;
+
+    QFileInfo info(preselectFile);
+
+//    PQCNotify::get().setModalFileDialogOpen(true);
+
+    const QStringList endings = PQImageFormats::get().getFormatEndings(formatId);
+
+    QFileDialog diag;
+    diag.setLabelText(QFileDialog::Accept, buttonlabel);
+    diag.setFileMode(QFileDialog::AnyFile);
+    diag.setModal(true);
+    diag.setAcceptMode(QFileDialog::AcceptSave);
+    if(!confirmOverwrite)
+        diag.setOption(QFileDialog::DontConfirmOverwrite);
+    diag.setOption(QFileDialog::DontUseNativeDialog, false);
+    diag.setNameFilter("*."+endings.join(" *.") + ";;All Files (*.*)");
+    diag.setDirectory(info.absolutePath());
+    diag.selectFile(info.baseName() + "." + endings[0]);
+
+    if(diag.exec()) {
+        QStringList fileNames = diag.selectedFiles();
+        if(fileNames.length() > 0) {
+//            PQCNotify::get().setModalFileDialogOpen(false);
+            QString fn = fileNames[0];
+            QFileInfo newinfo(fn);
+            if(newinfo.suffix() == "")
+                return fn+"."+endings[0];
+            return fn;
+        }
+    }
+
+//    PQCNotify::get().setModalFileDialogOpen(false);
+    return "";
+
+}
+
