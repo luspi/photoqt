@@ -119,6 +119,8 @@ Item {
             PQZoomSpeed { id: zos }
                 PQHorizontalLine { expertModeOnly: zos.expertmodeonly }
             PQZoomMinMax { id: zmm }
+                PQHorizontalLine { expertModeOnly: zmm.expertmodeonly }
+            PQImgur { id: img }
 
             // add some spacing at the bottom
             Item { width: 1; height: 25 }
