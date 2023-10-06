@@ -1,6 +1,27 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 3.4 - 2023-10-06
+----------------------------
+- add: resvg support for rendering SVG files
+- add: thumbnails/filedialog: show thumbnails of very small images at the original size
+- add: notification when deleting image without confirmation
+- add: cmake flag to disable webp support (webp suport is enabled by default)
+- add: missing settings elements to connect PhotoQt with imgur.com account
+- improve: shortcuts: duplicate shortcuts automatically reasigned with undo button
+- improve: remove all modal popups
+- improve: update imgur element with updated element from qt6 port
+- improve: relace unavailable element with notification element from qt6 port
+- improve: port qt6 element to export images to different format to qt5 version
+- improve: Windows: allows any file to be set as wallpaper
+- fix: map explorer: clicking on images to focus on their location
+- fix: setting internal commands as part of custom shortcut commands
+- fix: fileview: delete image through rightclick without selecting first
+- fix: thumbnail provider caches thumbnail images properly
+- fix: Windows: white flashing window on startup mitigated
+- fix: Windows: loading of storage devices now happens properly
+
+
 Release 3.3 - 2023-06-15
 ----------------------------
 - add: all new shortcuts engine
