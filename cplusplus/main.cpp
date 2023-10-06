@@ -73,6 +73,10 @@
 #include <FreeImagePlus.h>
 #endif
 
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+
 #ifdef Q_OS_WIN
 #include <QQuickWindow>
 #include <QSGRendererInterface>
