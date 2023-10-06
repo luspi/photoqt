@@ -29,6 +29,8 @@
 #include "../logger.h"
 #ifdef EXIV2
 #include <exiv2/exiv2.hpp>
+#elif defined(Q_OS_WIN)
+#include <Windows.h>
 #endif
 
 class PQMetaData : public QObject {

@@ -23,6 +23,13 @@
 #ifndef PQIMAGEPROPERTIES_H
 #define PQIMAGEPROPERTIES_H
 
+#include <QtGlobal>
+
+#ifdef Q_OS_WIN
+#undef WIN32_LEAN_AND_MEAN
+#include <winsock2.h>
+#endif
+
 #include <QObject>
 #include <QImageReader>
 #include <QUrl>

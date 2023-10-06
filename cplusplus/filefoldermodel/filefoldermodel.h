@@ -23,6 +23,14 @@
 #ifndef FILEFOLDERMODEL_H
 #define FILEFOLDERMODEL_H
 
+#include <QtGlobal>
+
+#ifdef EXIV2
+#ifdef Q_OS_WIN
+#define NOMINMAX
+#endif
+#endif
+
 #include <algorithm>
 #include <QtConcurrent/QtConcurrent>
 #include <QObject>

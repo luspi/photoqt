@@ -26,6 +26,9 @@
 #include <QtPlatformHeaders/QWindowsWindowFunctions>
 
 #ifdef EXIV2
+    #ifdef Q_OS_WIN
+        #define NOMINMAX
+    #endif
     #ifdef EXIV2_ENABLE_BMFF
         #define EXV_ENABLE_BMFF
     #endif
@@ -83,6 +86,10 @@
 
 #ifdef VIDEOMPV
 #include "libmpv/mpvobject.h"
+#endif
+
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
 #endif
 
 int main(int argc, char **argv) {
