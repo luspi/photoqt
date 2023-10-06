@@ -802,7 +802,7 @@ GridView {
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
                                         PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
-                                        filedialog_top.hide()
+                                        filedialog_top.hideFileDialog()
                                     }
 
                                     view.currentSelection = []
@@ -941,7 +941,7 @@ GridView {
                     filedialog_top.loadNewPath(contextmenu.path)
                 else {
                     PQCFileFolderModel.fileInFolderMainView = contextmenu.path
-                    filedialog_top.hide()
+                    filedialog_top.hideFileDialog()
                 }
             }
         }
