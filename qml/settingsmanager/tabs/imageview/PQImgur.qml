@@ -32,7 +32,7 @@ PQSetting {
     property bool authenticated: false
 
     //: A settings title about the margin around the main image
-    title: em.pty+qsTranslate("settingsmanager_imageview", "imgur.com")
+    title: "imgur.com"
     helptext: em.pty+qsTranslate("settingsmanager_imageview", "Authorize PhotoQt with imgur.com account to upload images directly to user account.")
     content: [
 
