@@ -443,6 +443,10 @@ PQTemplateFullscreen {
             } else if(what == "hide") {
                 hide()
             } else if(what == "keyevent") {
+
+                if(exportbusy.visible)
+                    return
+
                 if(param[0] == Qt.Key_Escape)
                     hide()
                 else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
@@ -563,6 +567,10 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        if(exportbusy.visible)
+            return
+
         convert_top.opacity = 0
         variables.visibleItem = ""
     }
