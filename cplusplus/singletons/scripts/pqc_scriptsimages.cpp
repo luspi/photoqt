@@ -384,7 +384,7 @@ int PQCScriptsImages::getNumberDocumentPages(QString path) {
         path = path.split("::PQT::").at(1);
 
 #ifdef POPPLER
-    Poppler::Document* document = Poppler::Document::load(path);
+    std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
     if(document && !document->isLocked())
         return document->numPages();
 #endif
