@@ -122,5 +122,7 @@
         <file>mainwindow/mouse.svg</file>
         <file>other/checkmark.svg</file>
         <file>other/x.svg</file>
+        <file>other/star.svg</file>
+        <file>other/star_empty.svg</file>
     </qresource>
 </RCC>
