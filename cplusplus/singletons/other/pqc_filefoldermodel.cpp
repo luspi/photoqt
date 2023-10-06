@@ -387,7 +387,7 @@ void PQCFileFolderModel::advancedSortMainView() {
     m_advancedSortDone = 0;
     Q_EMIT advancedSortDoneChanged();
 
-    QtConcurrent::run([=]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
 
         QMap<qint64, QStringList> sortedWithKey;
 

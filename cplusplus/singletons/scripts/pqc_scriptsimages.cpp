@@ -242,7 +242,7 @@ QString PQCScriptsImages::convertSecondsToPosition(int t) {
 
 void PQCScriptsImages::loadHistogramData(QString filepath, int index) {
 
-    QtConcurrent::run([=]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
         _loadHistogramData(filepath, index);
     });
 
