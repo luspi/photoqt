@@ -301,7 +301,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
     QFileInfo info(filename);
     if(info.suffix().toLower() != "png") {
         PQHandlingManipulation manip;
-        manip.chooseLocationAndConvertImage(filename, "background.png", "png", ConfigFiles::CACHE_DIR());
+        manip.exportImage(filename, ConfigFiles::CACHE_DIR() + "/background.png", 46215);
     } else
         QFile::copy(filename, ConfigFiles::CACHE_DIR() + "/background.png");
 
