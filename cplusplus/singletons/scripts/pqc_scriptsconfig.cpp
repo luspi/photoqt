@@ -83,7 +83,7 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 #endif
 
 #ifdef CHROMECAST
-    txt += QString(" - %1Python%2: %3%4").arg(bold1, bold2, PY_VERSION, nl);
+    txt += QString(" - %1Chromecast%2: %3").arg(bold1, bold2, nl);
 #endif
 
 #ifdef RAW
