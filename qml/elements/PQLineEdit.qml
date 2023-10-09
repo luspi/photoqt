@@ -20,39 +20,66 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick
+import QtQuick.Controls
 
-TextField {
+Rectangle {
 
-    id: control
+    id: edit_top
 
-    placeholderText: "Enter"
-    color: enabled ? "white" : "#cccccc"
-    selectedTextColor: "black"
-    selectionColor: "white"
+    width: 300
+    height: 40
+    color: enabled ? PQCLook.baseColorAccent : PQCLook.baseColorHighlight
+    Behavior on color { ColorAnimation { duration: 200 } }
+    border.width: 1
+    border.color: PQCLook.baseColorHighlight
+    z: -1
 
-    font.pointSize: baselook.fontsize
-    font.weight: baselook.normalweight
+    property alias text: control.text
+    property alias controlFocus: control.focus
+    property alias controlActiveFocus: control.activeFocus
 
-    property string borderColor: "#88cccccc"
+    property alias placeholderText: placeholder.text
 
-    focus: true
+    PQText {
+        id: placeholder
+        anchors.fill: parent
+        color: PQCLook.textColorHighlight
+        anchors.leftMargin: control.leftPadding
+        verticalAlignment: Text.AlignVCenter
+        visible: control.text===""
+    }
 
-    enabled: opacity>0 && visible
+    TextInput {
 
-    property string tooltipText: placeholderText
+        id: control
 
-    background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: 40
-        color: control.enabled ? "transparent" : "#44444444"
-        border.color: control.enabled ? borderColor : "transparent"
+        width: edit_top.width
+        height: edit_top.height
+
+        clip: true
+
+        leftPadding: 5
+        rightPadding: 5
+
+        color: PQCLook.textColor
+        selectedTextColor: PQCLook.textColorHighlight
+        selectionColor: PQCLook.baseColorHighlight
+
+        font.pointSize: PQCLook.fontSize
+        font.weight: PQCLook.fontWeightNormal
+
+        verticalAlignment: TextInput.AlignVCenter
+
+        focus: true
+
+        enabled: opacity>0 && visible
+
     }
 
     function setFocus() {
-        forceActiveFocus()
-        selectAll()
+        control.forceActiveFocus()
+        control.selectAll()
     }
 
 }

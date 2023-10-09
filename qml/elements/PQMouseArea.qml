@@ -20,65 +20,47 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick
+import QtQuick.Controls
 
 MouseArea {
 
-    id: top
+    id: tooltip_top
 
-    property bool tooltipFollowsMouse: true
-    property alias tooltip: control.text
-    property alias tooltipWrapMode: control.wrapMode
-    property alias tooltipWidth: control.width
-    property alias tooltipElide: control.elide
-    property alias tooltipDelay: control.delay
-    property alias tooltipSomeTransparency: control.someTransparency
+    property alias text: control.text
+    property alias delay: control.delay
 
-    property int doubleClickThreshold: 0
+    property var tooltipReference: undefined
 
-    signal doubleClicked(var mouse)
+    hoverEnabled: true
+
+    Timer {
+        id: showToolTip
+        interval: 250
+        onTriggered: {
+            if(tooltip_top.containsMouse && tooltip_top.text != "")
+                control.visible = true
+        }
+    }
+
+    onEntered: {
+        showToolTip.restart()
+    }
+
+    onExited: {
+        showToolTip.stop()
+        control.visible = false
+    }
 
     PQToolTip {
+
         id: control
-        parent: top.tooltipFollowsMouse ? curmouse : top
-        visible: text!=""&&top.containsMouse
-    }
 
-    Item {
-        id: curmouse
-        x: top.mouseX + control.width/2
-        y: top.mouseY
-        width: 1
-        height: 1
-    }
+        property point globalPos: tooltipReference!==undefined ? mapToItem(tooltipReference, tooltip_top.mouseX, tooltip_top.mouseY) : Qt.point(0,0)
 
-    onPressed: {
-        if(mouse.button == Qt.LeftButton) {
-            if(doubleClickThreshold > 0) {
-                if(doubleClickTimer.running) {
-                    doubleClickTimer.stop()
-                    if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
-                        top.doubleClicked(mouse)
-                    mouse.accepted = false
-                } else {
-                    doubleClickTimer.firstClick = Qt.point(mouse.x, mouse.y)
-                    doubleClickTimer.mouse = mouse
-                    doubleClickTimer.restart()
-                }
-            }
-        }
-    }
-    Timer {
-        id: doubleClickTimer
-        interval: doubleClickThreshold
-        repeat: false
-        running: false
-        property var mouse: undefined
-        property point firstClick: Qt.point(-1,-1)
-        onTriggered: {
-            top.clicked(mouse)
-        }
+        x: (tooltipReference!==undefined) ? (globalPos.x>tooltipReference.width-width-10 ? tooltipReference.width-5 : tooltip_top.mouseX) : (parent.width-width)/2
+        y: -height-5
+
     }
 
 }

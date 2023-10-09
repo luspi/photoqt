@@ -20,74 +20,53 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick
+import QtQuick.Controls.Basic
 
 ComboBox {
+
     id: control
 
-    property alias tooltip: combomousearea.tooltip
-    property alias tooltipFollowsMouse: combomousearea.tooltipFollowsMouse
-    property bool firstItemEmphasized: false
-    property int lineBelowItem: -1
-
-    font.pointSize: baselook.fontsize
-    font.weight: baselook.normalweight
-
-    property var hideItems: []
-
     property string prefix: ""
+    property bool firstItemEmphasized: false
+    property var lineBelowItem: []
 
-    implicitWidth: 200
-    padding: 5
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
+
+    implicitWidth: extrawide ? 300 : 200
+
+    property bool extrawide: false
 
     delegate: ItemDelegate {
-        id: controldelegate
         width: control.width
-        contentItem: PQText {
-            text: modelData
-            color: controldelegmouse.containsMouse ? "#ffffff" : "#000000"
+        height: 40
+        contentItem: Text {
+            text: prefix+(firstItemEmphasized&&index===0 ? modelData.toUpperCase() : modelData)
+            color: PQCLook.textColor
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
-            Component.onCompleted: {
-                if(index == 0 && firstItemEmphasized)
-                    font.weight = baselook.boldweight
-            }
-
-            PQMouseArea {
-                id: controldelegmouse
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                hoverEnabled: true
-                tooltip: parent.text
-                propagateComposedEvents: true
-                onClicked: mouse.accepted = false;
-                onPressed: mouse.accepted = false;
-                onReleased: mouse.accepted = false;
-                onDoubleClicked: mouse.accepted = false;
-                onPositionChanged: mouse.accepted = false;
-                onPressAndHold: mouse.accepted = false;
-            }
-
+            style: highlighted ? Text.Sunken : Text.Normal
+            styleColor: PQCLook.textColorHighlight
         }
-        highlighted: control.highlightedIndex === index
-
         background: Rectangle {
-            width: parent.width
-            height: parent.height
+            implicitWidth: 200
+            implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: controldelegmouse.containsMouse ? "#666666" : "#cccccc"
+            color: highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
+            Behavior on color { ColorAnimation { duration: 200 } }
+
             Rectangle {
                 width: parent.width
                 height: 1
-                x: 0
                 y: parent.height-1
-                color: "#000000"
-                visible: (firstItemEmphasized&&index==0)||(lineBelowItem==index)
+                color: PQCLook.inverseColorHighlight
+                visible: lineBelowItem.indexOf(index)!==-1
             }
         }
 
+        highlighted: control.highlightedIndex === index
     }
 
     indicator: Canvas {
@@ -100,7 +79,7 @@ ComboBox {
 
         Connections {
             target: control
-            onPressedChanged: canvas.requestPaint()
+            function onPressedChanged() { canvas.requestPaint(); }
         }
 
         onPaint: {
@@ -109,51 +88,58 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = control.enabled ? (control.pressed ? "#cccccc" : "#ffffff") : "#666666"
+            context.fillStyle = (control.pressed||popup.visible) ? PQCLook.baseColor : PQCLook.baseColorActive;
             context.fill();
         }
     }
 
-    contentItem: PQText {
+    contentItem: Text {
+        leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
-        text: control.prefix + control.displayText
+        text: prefix+control.displayText
         font: control.font
-        color: control.enabled ? (control.pressed ? "#cccccc" : "#ffffff") : "#666666"
-        Behavior on color { ColorAnimation { duration: 250; } }
+        color: PQCLook.textColor
+        style: highlighted ? Text.Sunken : Text.Normal
+        styleColor: PQCLook.textColorHighlight
+        Behavior on color { ColorAnimation { duration: 200 } }
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
-        // this is called by kde's ComboBox implementation for positioning a mobile cursor:
-        // typically located at /usr/lib/qt/qml/QtQuick/Controls.2/org.kde.desktop/ComboBox.qml
-        // we don't use this, but this is printing an error message every time
-        // defining a dummy function here disables that error
-        function positionToRectangle(pos) {
-            return Qt.rect(x,y,width,height)
-        }
     }
 
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: control.pressed ? "#cc000000" : "#cc444444"
-        border.color: control.pressed ? "#cc222222" : "#cc666666"
+        color: (control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor
+        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
         border.width: control.visualFocus ? 2 : 1
         radius: 2
     }
 
-    PQMouseArea {
-        id: combomousearea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+    popup: Popup {
 
-        propagateComposedEvents: true
-        onClicked: mouse.accepted = false
-        onPressed: mouse.accepted = false
-        onReleased: mouse.accepted = false
-        onDoubleClicked: mouse.accepted = false
-        onPositionChanged: mouse.accepted = false
-        onPressAndHold: mouse.accepted = false
+        id: popup
+
+        y: control.height - 1
+        width: control.width
+        implicitHeight: contentItem.implicitHeight+lineBelowItem.length*2
+        padding: 1
+
+        contentItem: ListView {
+            clip: true
+            implicitHeight: contentHeight
+            model: control.popup.visible ? control.delegateModel : null
+            currentIndex: control.highlightedIndex
+
+            ScrollIndicator.vertical: ScrollIndicator { }
+        }
+
+        background: Rectangle {
+            color: PQCLook.baseColor
+            border.color: PQCLook.inverseColorHighlight
+            border.width: 1
+            radius: 2
+        }
     }
 
 }

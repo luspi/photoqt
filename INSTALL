@@ -9,14 +9,14 @@
 
  DEPENDENCIES
 --------------
-- Qt >= 5.12
+- Qt >= 6.2
 - CMake (needed for building PhotoQt)
-- Qt5 ImageFormats
+- Qt6 ImageFormats
 
 > Make sure that you have the required QML modules installed:
   QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
   QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window,
-  QtLocation, QtPositioning
+  QtLocation, QtPositioning, QtCharts
 
 > Dependencies that are needed by default, but can be disabled via CMake:
 - LibArchive
@@ -131,7 +131,7 @@
     - Website: https://cmake.org/
     - In the installer set the system path option to Add CMake to the system PATH for all
       users
- 3) Install Qt 5.15
+ 3) Install Qt 6.2 (or later)
     - Website: https://qt.io
     - In the installer, make sure to install all required modules as listed above under
       dependencies.

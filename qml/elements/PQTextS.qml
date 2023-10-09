@@ -20,12 +20,13 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
+import QtQuick
 
 Text {
 
-    color: enabled ? "white" : "#666666"
-    font.pointSize: baselook.fontsize_s
-    font.weight: baselook.normalweight
+    color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+    Behavior on color { ColorAnimation { duration: 200 } }
+    font.pointSize: PQCLook.fontSizeS
+    font.weight: PQCLook.fontWeightNormal
 
 }

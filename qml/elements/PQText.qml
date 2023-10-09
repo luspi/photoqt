@@ -20,14 +20,13 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
+import QtQuick
 
 Text {
 
-    property bool invertColor: false
-
-    color: enabled ? (invertColor ? "black" : "white") : (invertColor ? "#999999" : "#666666")
-    font.pointSize: baselook.fontsize
-    font.weight: baselook.normalweight
+    color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+    Behavior on color { ColorAnimation { duration: 200 } }
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
 
 }

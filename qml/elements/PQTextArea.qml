@@ -1,56 +1,42 @@
-/**************************************************************************
- **                                                                      **
- ** Copyright (C) 2011-2023 Lukas Spies                                  **
- ** Contact: https://photoqt.org                                         **
- **                                                                      **
- ** This file is part of PhotoQt.                                        **
- **                                                                      **
- ** PhotoQt is free software: you can redistribute it and/or modify      **
- ** it under the terms of the GNU General Public License as published by **
- ** the Free Software Foundation, either version 2 of the License, or    **
- ** (at your option) any later version.                                  **
- **                                                                      **
- ** PhotoQt is distributed in the hope that it will be useful,           **
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
- ** GNU General Public License for more details.                         **
- **                                                                      **
- ** You should have received a copy of the GNU General Public License    **
- ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
- **                                                                      **
- **************************************************************************/
+import QtQuick
+import QtQuick.Controls
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
-
-TextArea {
+ScrollView {
 
     id: control
 
-    placeholderText: "Enter"
-    color: "white"
-    selectedTextColor: "black"
-    selectionColor: "white"
+    clip: true
 
-    font.pointSize: baselook.fontsize
-    font.weight: baselook.normalweight
+    property alias text: textarea.text
 
-    property string borderColor: "#cccccc"
+    ScrollBar.vertical:
+        PQVerticalScrollBar {
+            x: parent.width - width
+            height: control.availableHeight
+        }
 
-    focus: true
+    ScrollBar.horizontal:
+        PQHorizontalScrollBar {
+            y: parent.height - height
+            width: control.availableWidth
+        }
 
-    enabled: opacity>0 && visible
 
-    background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: contentHeight
-        color: control.enabled ? "transparent" : "#cccccc"
-        border.color: control.enabled ? borderColor : "transparent"
-    }
+    TextArea {
 
-    function setFocus() {
-        forceActiveFocus()
-        selectAll()
+        id: textarea
+
+        color: PQCLook.textColor
+
+        font.pointSize: PQCLook.fontSize
+        font.weight: PQCLook.fontWeightNormal
+
+        background: Rectangle {
+            implicitWidth: 200
+            implicitHeight: 200
+            color: PQCLook.baseColor
+            border.color: PQCLook.baseColorHighlight
+        }
     }
 
 }

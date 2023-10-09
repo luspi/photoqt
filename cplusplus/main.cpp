@@ -1,29 +1,9 @@
-/**************************************************************************
- **                                                                      **
- ** Copyright (C) 2011-2023 Lukas Spies                                  **
- ** Contact: https://photoqt.org                                         **
- **                                                                      **
- ** This file is part of PhotoQt.                                        **
- **                                                                      **
- ** PhotoQt is free software: you can redistribute it and/or modify      **
- ** it under the terms of the GNU General Public License as published by **
- ** the Free Software Foundation, either version 2 of the License, or    **
- ** (at your option) any later version.                                  **
- **                                                                      **
- ** PhotoQt is distributed in the hope that it will be useful,           **
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
- ** GNU General Public License for more details.                         **
- **                                                                      **
- ** You should have received a copy of the GNU General Public License    **
- ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
- **                                                                      **
- **************************************************************************/
-
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QLoggingCategory>
-#include <QtPlatformHeaders/QWindowsWindowFunctions>
+#include <QFileInfo>
+#include <QSettings>
+#include <QScreen>
 
 #ifdef EXIV2
     #ifdef Q_OS_WIN
@@ -34,39 +14,43 @@
     #endif
 #endif
 
-#include "logger.h"
-#include "passon.h"
-#include "startup/startup.h"
-#include "startup/validate.h"
-#include "settings/settings.h"
-#include "scripts/handlingfiledialog.h"
-#include "scripts/handlinggeneral.h"
-#include "scripts/handlingshortcuts.h"
-#include "scripts/handlingfiledir.h"
-#include "scripts/handlingmanipulation.h"
-#include "scripts/handlingshareimgur.h"
-#include "scripts/handlingwallpaper.h"
-#include "scripts/handlingfacetags.h"
-#include "scripts/handlingexternal.h"
-#include "scripts/localisation.h"
-#include "scripts/imageproperties.h"
-#include "settings/imageformats.h"
-#include "scripts/filewatcher.h"
-#include "singleinstance/singleinstance.h"
-#include "settings/windowgeometry.h"
-#include "scripts/metadata.h"
-#include "filefoldermodel/filefoldermodel.h"
-#include "settings/shortcuts.h"
-#include "scripts/handlingchromecast.h"
-#include "print/printsupport.h"
-#include "scripts/location.h"
-
-
-#include "imageprovider/imageprovidericon.h"
-#include "imageprovider/imageproviderthumb.h"
-#include "imageprovider/imageproviderfull.h"
-#include "imageprovider/imageproviderhistogram.h"
-#include "imageprovider/imageproviderfolderthumb.h"
+#include <pqc_configfiles.h>
+#include <pqc_singleinstance.h>
+#include <pqc_startup.h>
+#include <pqc_validate.h>
+#include <pqc_notify.h>
+#include <pqc_messagehandler.h>
+#include <pqc_settings.h>
+#include <pqc_imageformats.h>
+#include <pqc_shortcuts.h>
+#include <pqc_look.h>
+#include <pqc_providericon.h>
+#include <pqc_providertheme.h>
+#include <pqc_providerthumb.h>
+#include <pqc_providertooltipthumb.h>
+#include <pqc_providerfolderthumb.h>
+#include <pqc_providerdragthumb.h>
+#include <pqc_providerfull.h>
+#include <pqc_providerimgurhistory.h>
+#include <pqc_filefoldermodel.h>
+#include <pqc_metadata.h>
+#include <pqc_resolutioncache.h>
+#include <pqc_popoutgeometry.h>
+#include <pqc_location.h>
+#include <scripts/pqc_scriptsconfig.h>
+#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/pqc_scriptsfiledialog.h>
+#include <scripts/pqc_scriptsclipboard.h>
+#include <scripts/pqc_scriptsfilemanagement.h>
+#include <scripts/pqc_scriptsother.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptsmetadata.h>
+#include <scripts/pqc_scriptscontextmenu.h>
+#include <scripts/pqc_scriptsshortcuts.h>
+#include <scripts/pqc_scriptscrypt.h>
+#include <scripts/pqc_scriptsshareimgur.h>
+#include <scripts/pqc_scriptswallpaper.h>
+#include <scripts/pqc_scriptschromecast.h>
 
 #ifdef GRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
@@ -85,21 +69,37 @@
 #endif
 
 #ifdef VIDEOMPV
-#include "libmpv/mpvobject.h"
+#include <pqc_mpvobject.h>
 #endif
 
 #ifdef EXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
-int main(int argc, char **argv) {
+#ifdef FREEIMAGE
+#include <FreeImagePlus.h>
+#endif
+
+#ifdef Q_OS_WIN
+#include <QQuickWindow>
+#include <QSGRendererInterface>
+#endif
+
+int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_WIN
     QFileInfo f(argv[0]);
     qputenv("PATH", QString("%1;%2").arg(qgetenv("PATH"),f.absolutePath().replace("/", "\\")).toLocal8Bit());
     qputenv("MAGICK_CODER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\coders").toLocal8Bit());
     qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
+
+    // This allows for semi-transparent windows
+    // By default Qt6 uses Direct3D which does not seem to support this
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 #endif
+
+    // avoids warning for customizing native styles (observed in particular on Windows)
+    qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
 
     // Set app information
     QApplication::setApplicationName("PhotoQt");
@@ -108,9 +108,11 @@ int main(int argc, char **argv) {
     QApplication::setApplicationVersion(VERSION);
     QApplication::setQuitOnLastWindowClosed(true);
 
+    // custom message handler for qDebug/qLog/qInfo/etc.
+    qInstallMessageHandler(pqcMessageHandler);
+
     // needs to be set before Q*Application is created
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QFile opengl(ConfigFiles::CONFIG_DIR()+"/OpenGL");
+    QFile opengl(PQCConfigFiles::CONFIG_DIR()+"/OpenGL");
     if(opengl.exists()) {
         if(opengl.open(QIODevice::ReadOnly)) {
             QTextStream in (&opengl);
@@ -124,24 +126,8 @@ int main(int argc, char **argv) {
         }
     }
 
-#ifdef Q_OS_WIN
-    // On Windows Qt uses and old and long deprecated font as default
-    // This forces the app to use the same font (and size) as current Windows versions use by default
-    QGuiApplication::setFont(QFont("Segoe UI", 9));
-#endif
-
-    // silence the `deprecated connection' warnings
-    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
-
-    // only a single instance (by default)
-    PQSingleInstance app(argc, argv);
-
-#ifdef Q_OS_WIN
-    // 'Fix' for known issue with fullscreen applications
-    // https://doc.qt.io/qt-5/windows-issues.html#fullscreen-opengl-based-windows
-    // -> has to come after construction of PQSingleInstance() but before first window is shown
-    QWindowsWindowFunctions::setHasBorderInFullScreenDefault(true);
-#endif
+    // only a single instance
+    PQCSingleInstance app(argc, argv);
 
 #ifdef VIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
@@ -155,24 +141,20 @@ int main(int argc, char **argv) {
     #endif
 #endif
 
-    PQStartup startup;
-    PQValidate validate;
+    PQCStartup startup;
+    PQCValidate validate;
 
     // handle export/import commands
     if(app.exportAndQuit != "") {
-        startup.check(true);
         startup.exportData(app.exportAndQuit);
         std::exit(0);
     } else if(app.importAndQuit != "") {
-        startup.check(true);
         startup.importData(app.importAndQuit);
         std::exit(0);
     } else if(app.checkConfig) {
-        startup.check(true);
         validate.validate();
         std::exit(0);
     } else if(app.resetConfig) {
-        startup.check(true);
         startup.resetToDefaults();
         std::exit(0);
     } else if(app.showInfo) {
@@ -180,50 +162,37 @@ int main(int argc, char **argv) {
         std::exit(0);
     }
 
+    // perform some startup checks
+    // return 1 on updates and 2 on fresh installs
+    int checker = startup.check();
+
+    // update or fresh install?
+    if(checker != 0) {
+
+        if(checker == 2)
+            startup.setupFresh();
+        else {
+            PQCSettings::get().migrateOldDatabase();
+        }
+
+        // run consistency check
+        // this is done when updating or coming from dev version
+        if(checker == 1 || checker == 3)
+            validate.validate();
+
+        PQCSettings::get().update("generalVersion", VERSION);
+
+    }
+
+    // Get screenshots for fake transparency
+    PQCScriptsOther::get().takeScreenshots();
+
 // only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
     // Initialise Magick as early as possible
     // this needs to happen BEFORE startup check as this might call into Magick
     Magick::InitializeMagick(*argv);
 #endif
-
-    // perform some startup checks
-    // return 1 on updates and 2 on fresh installs
-    int checker = startup.check();
-
-    // update or fresh install detected => show informational message
-    if(checker != 0) {
-
-        if(checker == 1 || checker == 2) {
-
-            QQmlApplicationEngine engine;
-            app.qmlEngine = &engine;
-            qmlRegisterType<PQStartup>("PQStartup", 1, 0, "PQStartup");
-            if(checker == 1)
-                engine.load("qrc:/startup/PQStartupUpdate.qml");
-            else
-                engine.load("qrc:/startup/PQStartupFreshInstall.qml");
-
-            app.exec();
-
-        }
-
-        // run consistency check
-        // this value is when the user comes from a dev version, we need to make sure that the latest dev changes are applied
-        if(checker == 3)
-            validate.validate();
-
-        PQSettings::get().update("generalVersion", VERSION);
-
-    }
-
-    // Get screenshots for fake transparency
-    for(int i = 0; i < QApplication::screens().count(); ++i) {
-        QScreen *screen = QApplication::screens().at(i);
-        QRect r = screen->geometry();
-        QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-        pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
-    }
 
 #ifdef DEVIL
     ilInit();
@@ -237,55 +206,58 @@ int main(int argc, char **argv) {
     VIPS_INIT(argv[0]);
 #endif
 
+    // create the qml engine
     QQmlApplicationEngine engine;
-    app.qmlEngine = &engine;
-
-    const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));
+    const QUrl url(u"qrc:/src/qml/PQMainWindow.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
+        &app, [url](QObject *obj, const QUrl &objUrl) {
+            if(!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        }, Qt::QueuedConnection);
 
-    qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
-    qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
-    qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
-    qmlRegisterType<PQHandlingFileDir>("PQHandlingFileDir", 1, 0, "PQHandlingFileDir");
-    qmlRegisterType<PQHandlingManipulation>("PQHandlingManipulation", 1, 0, "PQHandlingManipulation");
-    qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
-    qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
-    qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
-    qmlRegisterType<PQWindowGeometry>("PQWindowGeometry", 1, 0, "PQWindowGeometry");
-    qmlRegisterType<PQMetaData>("PQCppMetaData", 1, 0, "PQCppMetaData");
-    qmlRegisterType<PQHandlingShareImgur>("PQHandlingShareImgur", 1, 0, "PQHandlingShareImgur");
-    qmlRegisterType<PQHandlingWallpaper>("PQHandlingWallpaper", 1, 0, "PQHandlingWallpaper");
-    qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
-    qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
-    qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
-    qmlRegisterType<PQHandlingChromecast>("PQHandlingChromecast", 1, 0, "PQHandlingChromecast");
-    qmlRegisterType<PQPrintSupport>("PQPrintSupport", 1, 0, "PQPrintSupport");
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
+    qmlRegisterSingletonInstance("PQCFileFolderModel", 1, 0, "PQCFileFolderModel", &PQCFileFolderModel::get());
+    qmlRegisterSingletonInstance("PQCShortcuts", 1, 0, "PQCShortcuts", &PQCShortcuts::get());
+    qmlRegisterSingletonInstance("PQCNotify", 1, 0, "PQCNotify", &PQCNotify::get());
+    qmlRegisterSingletonInstance("PQCScriptsConfig", 1, 0, "PQCScriptsConfig", &PQCScriptsConfig::get());
+    qmlRegisterSingletonInstance("PQCScriptsFilesPaths", 1, 0, "PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
+    qmlRegisterSingletonInstance("PQCScriptsFileDialog", 1, 0, "PQCScriptsFileDialog", &PQCScriptsFileDialog::get());
+    qmlRegisterSingletonInstance("PQCScriptsClipboard", 1, 0, "PQCScriptsClipboard", &PQCScriptsClipboard::get());
+    qmlRegisterSingletonInstance("PQCScriptsFileManagement", 1, 0, "PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
+    qmlRegisterSingletonInstance("PQCScriptsOther", 1, 0, "PQCScriptsOther", &PQCScriptsOther::get());
+    qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());
+    qmlRegisterSingletonInstance("PQCMetaData", 1, 0, "PQCMetaData", &PQCMetaData::get());
+    qmlRegisterSingletonInstance("PQCScriptsMetaData", 1, 0, "PQCScriptsMetaData", &PQCScriptsMetaData::get());
+    qmlRegisterSingletonInstance("PQCScriptsContextMenu", 1, 0, "PQCScriptsContextMenu", &PQCScriptsContextMenu::get());
+    qmlRegisterSingletonInstance("PQCScriptsShortcuts", 1, 0, "PQCScriptsShortcuts", &PQCScriptsShortcuts::get());
+    qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
+    qmlRegisterSingletonInstance("PQCPopoutGeometry", 1, 0, "PQCPopoutGeometry", &PQCPopoutGeometry::get());
+    qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
+    qmlRegisterSingletonInstance("PQCScriptsWallpaper", 1, 0, "PQCScriptsWallpaper", &PQCScriptsWallpaper::get());
+    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
+    qmlRegisterSingletonInstance("PQCScriptsChromeCast", 1, 0, "PQCScriptsChromeCast", &PQCScriptsChromeCast::get());
+
+    // these are used pretty much everywhere, this avoids having to import it everywhere
+    engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
+    engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
+
+    engine.addImageProvider("icon", new PQCProviderIcon);
+    engine.addImageProvider("theme", new PQCProviderTheme);
+    engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
+    engine.addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
+    engine.addImageProvider("folderthumb",new PQCAsyncImageProviderFolderThumb);
+    engine.addImageProvider("dragthumb",new PQCAsyncImageProviderDragThumb);
+    engine.addImageProvider("full",new PQCProviderFull);
+    engine.addImageProvider("imgurhistory",new PQCAsyncImageProviderImgurHistory);
+
 #ifdef VIDEOMPV
-    qmlRegisterType<PQMPVObject>("PQMPVObject", 1, 0, "PQMPVObject");
+    qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 #endif
-
-    engine.rootContext()->setContextProperty("PQPassOn", &PQPassOn::get());
-    engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
-    engine.rootContext()->setContextProperty("PQKeyPressMouseChecker", &PQKeyPressMouseChecker::get());
-    engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
-    engine.rootContext()->setContextProperty("PQShortcuts", &PQShortcuts::get());
-    engine.rootContext()->setContextProperty("PQDebugLog", &PQDebugLog::get());
-    engine.rootContext()->setContextProperty("PQLogDebugMessage", &PQLogDebugMessage::get());
-    engine.rootContext()->setContextProperty("PQLocation", &PQLocation::get());
-
-    engine.addImageProvider("icon",new PQImageProviderIcon);
-    engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);
-    engine.addImageProvider("full",new PQImageProviderFull);
-    engine.addImageProvider("hist",new PQImageProviderHistogram);
-    engine.addImageProvider("folderthumb",new PQAsyncImageProviderFolderThumb);
 
     engine.load(url);
 
-    app.qmlWindowAddresses.push_back(engine.rootObjects().at(0));
 
     int ret = app.exec();
 

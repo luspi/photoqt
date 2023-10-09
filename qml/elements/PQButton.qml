@@ -20,168 +20,65 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
+import QtQuick
+import QtQuick.Controls.Basic
 
-Rectangle {
+Button {
 
     id: control
 
-    height: 40
-    width: buttonSameWidthAsMenu ? menu.width : ((forceWidth==0) ? (txt.width+iconview.width)+2*leftRightTextSpacing : forceWidth)
-    property int forceWidth: 0
+    implicitHeight: 40
+    implicitWidth: extraWide ? 300 : 200
+
+    font.pointSize: PQCLook.fontSizeL
+    font.weight: PQCLook.fontWeightBold
 
     opacity: enabled ? 1 : 0.3
-    radius: 2
 
-    property alias font: txt.font
+    property alias tooltip: mouseArea.text
 
-    color: menu.isOpen ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
-    clip: true
+    property bool forceHovered: false
 
-    Behavior on color { ColorAnimation { duration: 150 } }
-
-    property string text: ""
-
-    property string backgroundColor: "#333333"
-    property string backgroundColorHover: "#3a3a3a"
-    property string backgroundColorActive: "#444444"
-    property string backgroundColorMenuOpen: "#666666"
-    property string textColor: "#ffffff"
-    property string textColorHover: "#ffffff"
-    property string textColorActive: "#ffffff"
-
-    property bool clickOpensMenu: false
-    property bool menuOpenDownward: true
-    property bool centerMenuOnButton: false
-    property bool buttonSameWidthAsMenu: false
-    property bool menuSameWidthAsButton: false
-    property var listMenuItems: []
-
-    property string imageButtonSource: ""
-    property real imageOpacity: 1
-
-    property bool mouseOver: false
-    property bool down: false
-
-    property alias tooltip: mousearea.tooltip
-    property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
-
-    property alias elide: txt.elide
-
-    signal menuItemClicked(var pos)
-    signal clicked()
-
-    property int leftRightTextSpacing: 10
-    property bool showLeftRightBorder: false
-
-    property alias renderType: txt.renderType
+    property bool extraWide: false
 
     //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
+    property string genericStringOk: qsTranslate("buttongeneric", "Ok")
     //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringCancel: em.pty+qsTranslate("buttongeneric", "Cancel")
+    property string genericStringCancel: qsTranslate("buttongeneric", "Cancel")
     //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringSave: em.pty+qsTranslate("buttongeneric", "Save")
+    property string genericStringSave: qsTranslate("buttongeneric", "Save")
     //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringClose: em.pty+qsTranslate("buttongeneric", "Close")
+    property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
-
-    PQText {
-        id: txt
-        x: (parent.width-width)/2
-        text: parent.text
-        height: parent.height
-        width: (parent.forceWidth == 0 ? undefined : parent.forceWidth-10)
-        verticalAlignment: Text.AlignVCenter
+    contentItem: PQText {
+        text: control.text
+        font: control.font
+        opacity: enabled ? 1.0 : 0.6
         horizontalAlignment: Text.AlignHCenter
-        opacity: enabled ? 1.0 : 0.3
-        color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
-        Behavior on color { ColorAnimation { duration: 100 } }
-        elide: Text.ElideRight
-        renderType: Text.QtRendering
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideMiddle
     }
 
-    Image {
+    background: Rectangle {
+        implicitWidth: 100
+        implicitHeight: 40
+        opacity: enabled ? 1 : 0.6
+        radius: 5
 
-        id: iconview
+        border.color: PQCLook.baseColorHighlight
+        border.width: 1
 
-        source: imageButtonSource
-
-        opacity: imageOpacity
-        visible: imageButtonSource!=undefined&&imageButtonSource!=""
-
-        sourceSize: Qt.size(control.height*0.75,control.height*0.75)
-
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
-
-    }
-
-    Rectangle {
-        x: 1
-        y: 0
-        width: 1
-        height: parent.height
-        color: "#888888"
-        visible: showLeftRightBorder
-    }
-
-    Rectangle {
-        x: parent.width-width
-        y: 0
-        width: 1
-        height: parent.height
-        color: "#888888"
-        visible: showLeftRightBorder
+        color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+        Behavior on color { ColorAnimation { duration: 150 } }
     }
 
     PQMouseArea {
-        id: mousearea
+        id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        tooltip: control.text
-        onEntered:
-            control.mouseOver = true
-        onExited:
-            control.mouseOver = false
-        onPressed:
-            control.down = true
-        onReleased:
-            control.down = false
-        onClicked: {
-            if(clickOpensMenu) {
-                if(listMenuItems.length > 0) {
-                    if(menu.isOpen)
-                        menu.close()
-                    else {
-                        var pos = parent.mapFromItem(control.parent, parent.x, parent.y)
-                        if(menuOpenDownward)
-                            menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
-                        else
-                            menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
-                    }
-                }
-            } else
-                control.clicked()
-        }
-    }
-
-    PQDropDown {
-
-        id: menu
-
-        entries: listMenuItems
-        onTriggered:
-            control.menuItemClicked(index)
-
-        Component.onCompleted: {
-            if(menuSameWidthAsButton) {
-                menu.width = control.width-1
-                menu.maxWidth = control.width-1
-            }
-        }
-
+        text: control.text
+        onPressed: (mouse) =>  mouse.accepted = false
     }
 
 }

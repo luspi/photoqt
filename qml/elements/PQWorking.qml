@@ -1,26 +1,6 @@
-/**************************************************************************
- **                                                                      **
- ** Copyright (C) 2011-2023 Lukas Spies                                  **
- ** Contact: https://photoqt.org                                         **
- **                                                                      **
- ** This file is part of PhotoQt.                                        **
- **                                                                      **
- ** PhotoQt is free software: you can redistribute it and/or modify      **
- ** it under the terms of the GNU General Public License as published by **
- ** the Free Software Foundation, either version 2 of the License, or    **
- ** (at your option) any later version.                                  **
- **                                                                      **
- ** PhotoQt is distributed in the hope that it will be useful,           **
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
- ** GNU General Public License for more details.                         **
- **                                                                      **
- ** You should have received a copy of the GNU General Public License    **
- ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
- **                                                                      **
- **************************************************************************/
+import QtQuick
 
-import QtQuick 2.9
+import PQCScriptsFileManagement
 
 Rectangle {
 
@@ -31,7 +11,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     anchors.fill: parent
-    color: "#88000000"
+    color: PQCLook.transColor
 
     property int circleHeight: 206
     property bool animationRunning: true
@@ -41,8 +21,8 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: { mouse.accepted = true }
-        onWheel: { wheel.accepted = true }
+        onClicked: (mouse) => { mouse.accepted = true }
+        onWheel: (wheel) => { wheel.accepted = true }
     }
 
     Item {
@@ -95,7 +75,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "/other/checkmark.svg"
+        source: "/white/checkmark.svg"
         sourceSize: Qt.size(width, height)
         Timer {
             running: parent.visible
@@ -119,7 +99,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "/other/x.svg"
+        source: "/white/x.svg"
         sourceSize: Qt.size(width, height)
         Timer {
             id: failuretimer
