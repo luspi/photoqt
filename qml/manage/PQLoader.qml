@@ -46,7 +46,7 @@ Item {
 
     signal passOn(var what, var param)
 
-    function show(ele) {
+    function show(ele, additional = undefined) {
 
         if(ele === "chromecast" && visibleItem === "chromecastmanager") {
             ensureItIsReady(ele, loadermapping[ele])
@@ -54,12 +54,10 @@ Item {
         }
 
         if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
-            loader.show("notification")
-            loader_notification.item.statustext = qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")
+            loader.show("notification", qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt."))
             return
         } else if((ele === "mapcurrent" || ele === "mapexplorer") && !PQCScriptsConfig.isLocationSupportEnabled()) {
-            loader.show("notification")
-            loader_notification.item.statustext = qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")
+            loader.show("notification", qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt."))
             return
         }
 
@@ -77,7 +75,10 @@ Item {
 
         ensureItIsReady(ele, config)
 
-        passOn("show", ele)
+        if(additional === undefined)
+            passOn("show", ele)
+        else
+            passOn("show", [ele, additional])
 
     }
 

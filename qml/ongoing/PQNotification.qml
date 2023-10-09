@@ -34,8 +34,10 @@ Rectangle {
         function onPassOn(what, param) {
 
             if(what === "show") {
-                if(param === "notification")
+                if(param.length === 2 && param[0] === "notification") {
                     show()
+                    statustext = param[1]
+                }
             }
 
         }

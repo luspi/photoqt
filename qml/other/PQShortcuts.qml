@@ -493,24 +493,20 @@ Item {
             case "__deletePermanent":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification")
-                        loader_notification.item.statustext = qsTranslate("filemanagement", "File successfully deleted")
+                        loader.show("notification", qsTranslate("filemanagement", "File successfully deleted"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification")
-                        loader_notification.item.statustext = qsTranslate("filemanagement", "Could not delete file")
+                        loader.show("notification", qsTranslate("filemanagement", "Could not delete file"))
                     }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification")
-                        loader_notification.item.statustext = qsTranslate("filemanagement", "File successfully moved to trash")
+                        loader.show("notification", qsTranslate("filemanagement", "File successfully moved to trash"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification")
-                        loader_notification.item.statustext = qsTranslate("filemanagement", "Could not move file to trash")
+                        loader.show("notification", qsTranslate("filemanagement", "Could not move file to trash"))
                     }
                 }
                 break
