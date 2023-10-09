@@ -104,7 +104,7 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
     qDebug() << "args: targetFilename =" << targetFilename;
     qDebug() << "args: uniqueid =" << uniqueid;
 
-    QtConcurrent::run([=]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
 
         // get info about new file format and source file
         QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
@@ -230,7 +230,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
     qDebug() << "args: targetSize = " << targetSize;
     qDebug() << "args: targetQuality = " << targetQuality;
 
-    QtConcurrent::run([=]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
 
         int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
 
