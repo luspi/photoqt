@@ -54,13 +54,6 @@ private:
 
     QRandomGenerator randgen;
 
-    Q_INVOKABLE QString selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
-    Q_INVOKABLE void exportImage(QString sourceFilename, QString targetFilename, int uniqueid);
-
-Q_SIGNALS:
-    void exportCompleted(bool success);
-
-
 };
 
 #endif

@@ -55,8 +55,6 @@ option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast lo
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
 option(RESVG "Replace Qt's SVG engine with resvg for better SVG support" OFF)
 
-option(ENABLE_WEBP "Enable support for the WebP format." ON)
-
 option(TESTING "Build some unit tests" OFF)
 
 if(QTPDF)
@@ -64,13 +62,6 @@ if(QTPDF)
         set(POPPLER OFF)
         message("** For displaying PDF documents you have to choose either Poppler OR QtPDF")
     endif()
-endif()
-
-if(ENABLE_WEBP)
-    message("")
-    message("** WebP image format enabled!")
-    message("** Make sure that your installation of Qt and/or libwebp include the fix for CVE-2023-4863")
-    message("")
 endif()
 
 ################################
@@ -479,68 +470,10 @@ else()
 endif()
 
 if(RESVG)
-    target_link_libraries(${PROJECT_NAME} "resvg")
-    message("** Using resvg " ${resvg_VERSION})
+    target_link_libraries(${PROJECT_NAME} PRIVATE "resvg")
+    message("** Using resvg")
     add_definitions(-DRESVG)
 else()
     message("** resvg DISABLED")
-endif()
-
-if(ENABLE_WEBP)
-    add_definitions(-DENABLE_WEBP)
-endif()
-
-
-#######################
-#### INSTALL FILES ####
-#######################
-
-if(UNIX)
-
-    # Install executeable
-    install(
-        TARGETS ${PROJECT_NAME}
-        DESTINATION bin/
-    )
-
-    # Install desktop file
-    install(
-        FILES org.photoqt.PhotoQt.desktop
-        DESTINATION share/applications
-    )
-
-    # And install all the icons
-    install(
-        FILES icons/16x16/apps/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/16x16/apps/
-    )
-    install(
-        FILES icons/32x32/apps/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/32x32/apps/
-    )
-    install(
-        FILES icons/48x48/apps/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/48x48/apps/
-    )
-    install(
-        FILES icons/64x64/apps/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/64x64/apps/
-    )
-    install(
-        FILES icons/128x128/apps/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/128x128/apps/
-    )
-    install(
-        FILES org.photoqt.PhotoQt.metainfo.xml
-        DESTINATION share/metainfo/
-    )
-    # These are the old icon names up to v2.6
-    # we remove the old files if they are still there
-    file(REMOVE share/icons/hicolor/16x16/apps/photoqt.png)
-    file(REMOVE share/icons/hicolor/32x32/apps/photoqt.png)
-    file(REMOVE share/icons/hicolor/48x48/apps/photoqt.png)
-    file(REMOVE share/icons/hicolor/64x64/apps/photoqt.png)
-    file(REMOVE share/icons/hicolor/128x128/apps/photoqt.png)
-
 endif()
 

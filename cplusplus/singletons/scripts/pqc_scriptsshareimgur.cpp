@@ -407,8 +407,8 @@ int PQCScriptsShareImgur::anonymousUpload(QString filename) {
         return IMGUR_FILENAME_ERROR;
 
     // Initiate file and open for reading
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly))
+    QFile *file = new QFile(filename);
+    if(!file->open(QIODevice::ReadOnly))
         return IMGUR_FILE_OPEN_ERROR;
 
     // Setup network request (XML format)
@@ -417,7 +417,7 @@ int PQCScriptsShareImgur::anonymousUpload(QString filename) {
     request.setRawHeader("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
 
     // Send upload request and connect to feedback signals
-    QNetworkReply *reply = networkManager->post(request, byteArray);
+    QNetworkReply *reply = networkManager->post(request, file);
     connect(reply, &QNetworkReply::finished, this, &PQCScriptsShareImgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &PQCScriptsShareImgur::uploadProgress);
     connect(reply, &QNetworkReply::errorOccurred, this, &PQCScriptsShareImgur::uploadError);
