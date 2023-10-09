@@ -1,3 +1,7 @@
+# THIS IS THE LATEST VERSION OF PHOTOQT BASED ON QT5
+
+**This branch will not receive any further development. You can find the latest version of PhotoQt (based on Qt6) in the `master` branch.**
+
 # PhotoQt
 
 PhotoQt is a simple yet powerful and good looking **image viewer**, based on Qt/QML, published as **open-source**, and **completely free**. It is fast and highly configurable with a wide range of features and a large number of supported image formats.
