@@ -701,8 +701,8 @@ bool PQCValidate::validateSettingsDatabase() {
                         qWarning() << "Error checking PreviewMuted setting:" << qCheck.lastError().text();
                         continue;
                     }
-                    qCheck.next();
-                    muted = qCheck.value(0).toBool();
+                    if(qCheck.next())
+                        muted = qCheck.value(0).toBool();
 
                     // full colors?
                     bool full = false;
@@ -711,8 +711,8 @@ bool PQCValidate::validateSettingsDatabase() {
                         qWarning() << "Error checking PreviewFullColors setting:" << qCheck.lastError().text();
                         continue;
                     }
-                    qCheck.next();
-                    full = qCheck.value(0).toBool();
+                    if(qCheck.next())
+                       full = qCheck.value(0).toBool();
                     qCheck.clear();
 
                     if(full) {
@@ -877,16 +877,18 @@ bool PQCValidate::validateSettingsValues() {
             qWarning() << QString("Error checking entry '%1':").arg(setting) << check.lastError().text();
             continue;
         }
-        check.next();
+        if(check.next()) {
 
-        const QString dt = check.value(1).toString();
+            const QString dt = check.value(1).toString();
 
-        const double value = check.value(0).toDouble();
+            const double value = check.value(0).toDouble();
 
-        if(value < minValue)
-            toUpdate << (QList<QVariant>() << table << setting << dt << minValue);
-        else if(value > maxValue)
-            toUpdate << (QList<QVariant>() << table << setting << dt << maxValue);
+            if(value < minValue)
+                toUpdate << (QList<QVariant>() << table << setting << dt << minValue);
+            else if(value > maxValue)
+                toUpdate << (QList<QVariant>() << table << setting << dt << maxValue);
+
+        }
 
         check.clear();
 

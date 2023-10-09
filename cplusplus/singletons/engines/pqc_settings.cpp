@@ -448,15 +448,16 @@ bool PQCSettings::migrateOldDatabase() {
         queryZoom.clear();
         return false;
     }
-    queryZoom.next();
-    const int oldVal = queryZoom.value(0).toInt();
-    queryZoom.clear();
-    queryZoom.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='Zoom'");
-    queryZoom.bindValue(":val", static_cast<int>((oldVal-9)*2.5));
-    if(!queryZoom.exec()) {
-        qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
+    if(queryZoom.next() ) {
+        const int oldVal = queryZoom.value(0).toInt();
         queryZoom.clear();
-        return false;
+        queryZoom.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='Zoom'");
+        queryZoom.bindValue(":val", static_cast<int>((oldVal-9)*2.5));
+        if(!queryZoom.exec()) {
+            qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
+            queryZoom.clear();
+            return false;
+        }
     }
     queryZoom.clear();
 
@@ -468,21 +469,22 @@ bool PQCSettings::migrateOldDatabase() {
         querySort.clear();
         return false;
     }
-    querySort.next();
-    const QStringList oldSortVal = querySort.value(0).toString().split(":://::");
-    QStringList newSortVal;
-    for(const auto &v : oldSortVal) {
-        if(v == "1" || v == "0")
-            continue;
-        newSortVal << v;
-    }
-    querySort.clear();
-    querySort.prepare("UPDATE `imageview` SET `value`=:val WHERE `name`='AdvancedSortDateCriteria'");
-    querySort.bindValue(":val", newSortVal.join(":://::"));
-    if(!querySort.exec()) {
-        qWarning() << "Unable to update AdvancedSortDateCriteria value:" << querySort.lastError().text();
+    if(querySort.next()) {
+        const QStringList oldSortVal = querySort.value(0).toString().split(":://::");
+        QStringList newSortVal;
+        for(const auto &v : oldSortVal) {
+            if(v == "1" || v == "0")
+                continue;
+            newSortVal << v;
+        }
         querySort.clear();
-        return false;
+        querySort.prepare("UPDATE `imageview` SET `value`=:val WHERE `name`='AdvancedSortDateCriteria'");
+        querySort.bindValue(":val", newSortVal.join(":://::"));
+        if(!querySort.exec()) {
+            qWarning() << "Unable to update AdvancedSortDateCriteria value:" << querySort.lastError().text();
+            querySort.clear();
+            return false;
+        }
     }
     querySort.clear();
 
