@@ -14,11 +14,13 @@ PQMenu {
     }
 
     PQMenu {
-        title: "View"
+        //: file manager settings popdown: menu title
+        title: qsTranslate("filedialog", "View")
         PQMenu {
-            title: "layout"
+            //: file manager settings popdown: submenu title
+            title: qsTranslate("filedialog", "layout")
             PQMenuItem {
-                text: "list view"
+                text: qsTranslate("filedialog", "list view")
                 checkable: true
                 checkableLikeRadioButton: true
                 checked: PQCSettings.filedialogLayout==="list"
@@ -26,7 +28,7 @@ PQMenu {
                     PQCSettings.filedialogLayout = "list"
             }
             PQMenuItem {
-                text: "icon view"
+                text: qsTranslate("filedialog", "icon view")
                 checkable: true
                 checkableLikeRadioButton: true
                 checked: PQCSettings.filedialogLayout==="icons"
@@ -36,7 +38,8 @@ PQMenu {
         }
         PQMenu {
             id: paddingsubmenu
-            title: "padding"
+            //: file manager settings popdown: submenu title
+            title: qsTranslate("filedialog", "padding")
             Instantiator {
                 model: 11
                 delegate: PQMenuItem {
@@ -53,16 +56,27 @@ PQMenu {
         }
 
         PQMenu {
-            title: "drag and drop"
+            //: file manager settings popdown: submenu title
+            title: qsTranslate("filedialog", "drag and drop")
             PQMenuItem {
-                text: "enable for file browser"
+                //: file manager settings popdown: the thing to enable here is drag-and-drop
+                text: qsTranslate("filedialog", "enable for file browser (list view)")
                 checkable: true
-                checked: PQCSettings.filedialogDragDropFileview
+                checked: PQCSettings.filedialogDragDropFileviewList
                 onCheckedChanged:
-                    PQCSettings.filedialogDragDropFileview = checked
+                    PQCSettings.filedialogDragDropFileviewList = checked
             }
             PQMenuItem {
-                text: "enable for bookmarks"
+                //: file manager settings popdown: the thing to enable here is drag-and-drop
+                text: qsTranslate("filedialog", "enable for file browser (grid view)")
+                checkable: true
+                checked: PQCSettings.filedialogDragDropFileviewListGrid
+                onCheckedChanged:
+                    PQCSettings.filedialogDragDropFileviewGrid = checked
+            }
+            PQMenuItem {
+                //: file manager settings popdown: the thing to enable here is drag-and-drop
+                text: qsTranslate("filedialog", "enable for bookmarks")
                 checkable: true
                 checked: PQCSettings.filedialogDragDropPlaces
                 onCheckedChanged:
@@ -71,21 +85,22 @@ PQMenu {
         }
 
         PQMenuItem {
-            text: "select with single click"
+            //: file manager settings popdown: how to select files
+            text: qsTranslate("filedialog", "select with single click")
             checkable: true
             checked: PQCSettings.filedialogSingleClickSelect
             onCheckedChanged:
                 PQCSettings.filedialogSingleClickSelect = checked
         }
         PQMenuItem {
-            text: "hidden files"
+            text: qsTranslate("filedialog", "hidden files")
             checkable: true
             checked: PQCSettings.filedialogShowHiddenFilesFolders
             onCheckedChanged:
                 PQCSettings.filedialogShowHiddenFilesFolders = checked
         }
         PQMenuItem {
-            text: "tooltips"
+            text: qsTranslate("filedialog", "tooltips")
             checkable: true
             checked: PQCSettings.filedialogDetailsTooltip
             onCheckedChanged:
@@ -93,17 +108,20 @@ PQMenu {
         }
     }
     PQMenu {
-        title: "Thumbnails"
+        //: file manager settings popdown: menu title
+        title: qsTranslate("filedialog", "Thumbnails")
         PQMenuItem {
             id: thumbnailsshow
-            text: "show"
+            //: file manager settings popdown: show thumbnails
+            text: qsTranslate("filedialog", "show")
             checkable: true
             checked: PQCSettings.filedialogThumbnails
             onCheckedChanged:
                 PQCSettings.filedialogThumbnails = checked
         }
         PQMenuItem {
-            text: "scale and crop"
+            //: file manager settings popdown: scale and crop the thumbnails
+            text: qsTranslate("filedialog", "scale and crop")
             enabled: thumbnailsshow.checked
             checkable: true
             checked: PQCSettings.filedialogThumbnailsScaleCrop
@@ -111,18 +129,20 @@ PQMenu {
                 PQCSettings.filedialogThumbnailsScaleCrop = checked
         }
         PQMenu {
-            title: "folder thumbnails"
+            title: qsTranslate("filedialog", "folder thumbnails")
 
             PQMenuItem {
                 id: folderthumbshow
-                text: "show"
+                //: file manager settings popdown: show folder thumbnails
+                text: qsTranslate("filedialog", "show")
                 checkable: true
                 checked: PQCSettings.filedialogFolderContentThumbnails
                 onCheckedChanged:
                     PQCSettings.filedialogFolderContentThumbnails = checked
             }
             PQMenuItem {
-                text: "scale and crop"
+                //: file manager settings popdown: scale and crop the folder thumbnails
+                text: qsTranslate("filedialog", "scale and crop")
                 enabled: folderthumbshow.checked
                 checkable: true
                 checked: PQCSettings.filedialogFolderContentThumbnailsScaleCrop
@@ -130,7 +150,8 @@ PQMenu {
                     PQCSettings.filedialogFolderContentThumbnailsScaleCrop = checked
             }
             PQMenuItem {
-                text: "autoload"
+                //: file manager settings popdown: automatically load the folder thumbnails
+                text: qsTranslate("filedialog", "autoload")
                 enabled: folderthumbshow.checked
                 checkable: true
                 checked: PQCSettings.filedialogFolderContentThumbnailsAutoload
@@ -138,7 +159,8 @@ PQMenu {
                     PQCSettings.filedialogFolderContentThumbnailsAutoload = checked
             }
             PQMenuItem {
-                text: "loop"
+                //: file manager settings popdown: loop through the folder thumbnails
+                text: qsTranslate("filedialog", "loop")
                 enabled: folderthumbshow.checked
                 checkable: true
                 checked: PQCSettings.filedialogFolderContentThumbnailsLoop
@@ -146,7 +168,8 @@ PQMenu {
                     PQCSettings.filedialogFolderContentThumbnailsLoop = checked
             }
             PQMenu {
-                title: "timeout"
+                //: file manager settings popdown: timeout between switching folder thumbnails
+                title: qsTranslate("filedialog", "timeout")
                 enabled: folderthumbshow.checked
                 PQMenuItem {
                     text: "2 seconds"
@@ -157,7 +180,7 @@ PQMenu {
                         PQCSettings.filedialogFolderContentThumbnailsSpeed = 1
                 }
                 PQMenuItem {
-                    text: "1 second"
+                    text: qsTranslate("filedialog", "1 second")
                     checkable: true
                     checkableLikeRadioButton: true
                     checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2
@@ -165,7 +188,7 @@ PQMenu {
                         PQCSettings.filedialogFolderContentThumbnailsSpeed = 2
                 }
                 PQMenuItem {
-                    text: "half a second"
+                    text: qsTranslate("filedialog", "half a second")
                     checkable: true
                     checkableLikeRadioButton: true
                     checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3
@@ -176,16 +199,18 @@ PQMenu {
         }
     }
     PQMenu {
-        title: "Bookmarks"
+        //: file manager settings popdown: menu title
+        title: qsTranslate("filedialog", "Bookmarks")
         PQMenuItem {
-            text: "show bookmarks"
+            text: qsTranslate("filedialog", "show bookmarks")
             checkable: true
             checked: PQCSettings.filedialogPlaces
             onCheckedChanged:
                 PQCSettings.filedialogPlaces = checked
         }
         PQMenuItem {
-            text: "show devices"
+            //: file manager settings popdown: the devices here are the storage devices
+            text: qsTranslate("filedialog", "show devices")
             checkable: true
             checked: PQCSettings.filedialogDevices
             onCheckedChanged:
@@ -193,17 +218,20 @@ PQMenu {
         }
     }
     PQMenu {
-        title: "Preview"
+        //: file manager settings popdown: menu title
+        title: qsTranslate("filedialog", "Preview")
         PQMenuItem {
             id: previewshow
-            text: "show"
+            //: file manager settings popdown: show image previews
+            text: qsTranslate("filedialog", "show")
             checkable: true
             checked: PQCSettings.filedialogPreview
             onCheckedChanged:
                 PQCSettings.filedialogPreview = checked
         }
         PQMenuItem {
-            text: "higher resolution"
+            //: file manager settings popdown: use higher resolution for image previews
+            text: qsTranslate("filedialog", "higher resolution")
             enabled: previewshow.checked
             checkable: true
             checked: PQCSettings.filedialogPreviewHigherResolution
@@ -211,7 +239,8 @@ PQMenu {
                 PQCSettings.filedialogPreviewHigherResolution = checked
         }
         PQMenuItem {
-            text: "blur"
+            //: file manager settings popdown: blur image previews
+            text: qsTranslate("filedialog", "blur")
             enabled: previewshow.checked
             checkable: true
             checked: PQCSettings.filedialogPreviewBlur
@@ -219,7 +248,8 @@ PQMenu {
                 PQCSettings.filedialogPreviewBlur = checked
         }
         PQMenuItem {
-            text: "scale and crop"
+            //: file manager settings popdown: scale and crop image previews
+            text: qsTranslate("filedialog", "scale and crop")
             enabled: previewshow.checked
             checkable: true
             checked: PQCSettings.filedialogPreviewCropToFit
@@ -228,7 +258,8 @@ PQMenu {
         }
         PQMenu {
             id: coloritensitysubmenu
-            title: "color intensity"
+            //: file manager settings popdown: color intensity of image previews
+            title: qsTranslate("filedialog", "color intensity")
             enabled: previewshow.checked
             Instantiator {
                 model: 10
