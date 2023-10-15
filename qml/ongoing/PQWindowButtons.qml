@@ -326,9 +326,9 @@ Item {
                 return
             }
 
-            var trigger = 30
+            var trigger = PQCSettings.interfaceHotEdgeSize*5
             if(PQCSettings.interfaceEdgeTopAction !== "")
-                trigger = 60
+                trigger *= 2
 
             if((posy < trigger && PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) {
                 windowbuttons_top.state = "visible"

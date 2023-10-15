@@ -74,7 +74,8 @@ Rectangle {
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
-    property rect hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
+    property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
     state: PQCSettings.interfacePopoutMetadata ?
                "popout" :
@@ -97,7 +98,7 @@ Rectangle {
                 visiblePos: [gap,
                              Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 invisiblePos: [-width, Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
-                hotArea: Qt.rect(0,0,10,toplevel.height)
+                hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
             }
         },
         State {
@@ -106,7 +107,7 @@ Rectangle {
                 target: metadata_top
                 visiblePos: [toplevel.width-width-gap, Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 invisiblePos: [toplevel.width, Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
-                hotArea: Qt.rect(toplevel.width-10,0,10,toplevel.height)
+                hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
             }
         },
         State {

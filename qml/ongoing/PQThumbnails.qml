@@ -42,7 +42,8 @@ Rectangle {
     property var invisiblePos: [0, 0]
 
     // which area triggers the bar to be shown
-    property rect hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
+    property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
     property int extraSpacing: Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
 
@@ -54,7 +55,7 @@ Rectangle {
                 target: thumbnails_top
                 visiblePos: [0,toplevel.height-height]
                 invisiblePos: [0, toplevel.height]
-                hotArea: Qt.rect(0, toplevel.height-10, toplevel.width, 10)
+                hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
                 width: toplevel.width
                 height: PQCSettings.thumbnailsSize+extraSpacing
             }
@@ -65,7 +66,7 @@ Rectangle {
                 target: thumbnails_top
                 visiblePos: [0,0]
                 invisiblePos: [-width,0]
-                hotArea: Qt.rect(0,0,10,toplevel.height)
+                hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
                 width: PQCSettings.thumbnailsSize+extraSpacing
                 height: toplevel.height
             }
@@ -76,7 +77,7 @@ Rectangle {
                 target: thumbnails_top
                 visiblePos: [toplevel.width-width,0]
                 invisiblePos: [toplevel.width,0]
-                hotArea: Qt.rect(toplevel.width-10,0,10,toplevel.height)
+                hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
                 width: PQCSettings.thumbnailsSize+extraSpacing
                 height: toplevel.height
             }
@@ -87,7 +88,7 @@ Rectangle {
                 target: thumbnails_top
                 visiblePos: [0,0]
                 invisiblePos: [0,-height]
-                hotArea: Qt.rect(0,0,toplevel.width, 10)
+                hotArea: Qt.rect(0,0,toplevel.width,hotAreaSize)
                 width: toplevel.width
                 height: PQCSettings.thumbnailsSize+extraSpacing
             }
