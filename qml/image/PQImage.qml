@@ -259,6 +259,35 @@ Item {
                                 reEnableInteractive.restart()
                             }
 
+                            function onMousePressed(mods, button, pos) {
+
+                                if(PQCFileFolderModel.currentIndex !== index)
+                                    return
+
+                                var locpos = flickable_content.mapFromItem(fullscreenitem, pos.x, pos.y)
+
+                                if(PQCSettings.interfaceCloseOnEmptyBackground) {
+                                    if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
+                                        toplevel.close()
+                                    return
+                                }
+
+                                if(PQCSettings.interfaceNavigateOnEmptyBackground) {
+                                    if(locpos.x < 0 || (locpos.x < flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
+                                        image.showPrev()
+                                    else if(locpos.x > flickable_content.width || (locpos.x > flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
+                                        image.showNext()
+                                    return
+                                }
+
+                                if(PQCSettings.interfaceWindowDecorationOnEmptyBackground) {
+                                    if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
+                                        PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
+                                    return
+                                }
+
+                            }
+
                         }
 
                         Timer {
@@ -493,6 +522,10 @@ Item {
                                 MouseArea {
                                     id: imagemouse
                                     anchors.fill: parent
+                                    anchors.leftMargin: -flickable_content.x
+                                    anchors.rightMargin: -flickable_content.x
+                                    anchors.topMargin: -flickable_content.y
+                                    anchors.bottomMargin: -flickable_content.y
                                     hoverEnabled: true
                                     propagateComposedEvents: true
                                     acceptedButtons: Qt.LeftButton|Qt.RightButton
