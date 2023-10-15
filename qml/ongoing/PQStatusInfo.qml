@@ -12,11 +12,11 @@ Item {
 
     id: statusinfo_top
 
-    x: 40
-    y: 20
+    x: 2*distanceFromEdge
+    y: distanceFromEdge
 
-    Behavior on x { NumberAnimation { duration: 200 } }
-    Behavior on y { NumberAnimation { duration: 200 } }
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || movedByMouse) ? 200 : 0 } }
+    Behavior on x { NumberAnimation { duration: (movedByMouse) ? 200 : 0 } }
 
     visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging
 
@@ -26,12 +26,35 @@ Item {
     // possible values: counter, filename, filepathname, resolution, zoom, rotation
     property var info: PQCSettings.interfaceStatusInfoList
 
+    property int distanceFromEdge: 20
+
     // don't pass mouse clicks to background
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.RightButton|Qt.LeftButton
     }
+
+    state: (!PQCSettings.interfaceStatusInfoAutoHide && PQCSettings.interfaceStatusInfoShow) ?
+               "visible" :
+               "hidden"
+
+    states: [
+        State {
+            name: "visible"
+            PropertyChanges {
+                target: statusinfo_top
+                y: distanceFromEdge
+            }
+        },
+        State {
+            name: "hidden"
+            PropertyChanges {
+                target: statusinfo_top
+                y: -height
+            }
+        }
+    ]
 
     Column {
 
@@ -407,6 +430,75 @@ Item {
         id: rectDummy
         PQText {
             text: "[unknown]"
+        }
+    }
+
+    property bool nearTopEdge: false
+
+    Connections {
+
+        target: PQCNotify
+
+        function onMouseMove(posx, posy) {
+
+            if(!PQCSettings.interfaceStatusInfoAutoHide || loader.visibleItem !== "") {
+                resetAutoHide.stop()
+                statusinfo_top.state = "visible"
+                nearTopEdge = true
+                return
+            }
+
+            var trigger = PQCSettings.interfaceHotEdgeSize*5
+            if(PQCSettings.interfaceEdgeTopAction !== "")
+                trigger *= 2
+
+            if((posy < trigger && PQCSettings.interfaceStatusInfoAutoHideTopEdge) || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) {
+                statusinfo_top.state = "visible"
+                nearTopEdge = true
+            } else
+                nearTopEdge = false
+
+            resetAutoHide.restart()
+
+        }
+
+    }
+
+    Connections {
+
+        target: PQCFileFolderModel
+
+        function onCurrentIndexChanged() {
+
+            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 || !PQCSettings.interfaceStatusInfoAutoHide || !PQCSettings.interfaceStatusInfoShowImageChange)
+                return
+
+            statusinfo_top.state = "visible"
+            nearTopEdge = false
+            resetAutoHide.restart()
+
+        }
+    }
+
+    Connections {
+
+        target: loader
+
+        function onVisibleItemChanged() {
+            if(loader.visibleItem !== "")
+                statusinfo_top.state = "visible"
+        }
+
+    }
+
+    Timer {
+        id: resetAutoHide
+        interval:  500 + PQCSettings.interfaceStatusInfoAutoHideTimeout
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+                statusinfo_top.state = "hidden"
         }
     }
 
