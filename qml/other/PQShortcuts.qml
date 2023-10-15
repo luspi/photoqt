@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick 2.9
-import QtQml 2.0
+import QtQuick
+import QtQml
 
 import PQCShortcuts
 import PQCNotify

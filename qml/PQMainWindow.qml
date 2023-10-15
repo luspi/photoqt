@@ -229,7 +229,7 @@ Window {
     onClosing: (close) => {
         if(PQCSettings.interfaceTrayIcon === 1) {
             close.accepted = false
-            toplevel.visible = false
+            toplevel.visibility = Window.Hidden
 //            if(PQCSettings.interfaceTrayIconHideReset)
 //                resetPhotoQt()
         } else {
