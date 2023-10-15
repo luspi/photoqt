@@ -60,7 +60,7 @@ PQMenu {
             title: qsTranslate("filedialog", "drag and drop")
             PQMenuItem {
                 //: file manager settings popdown: the thing to enable here is drag-and-drop
-                text: qsTranslate("filedialog", "enable for file browser (list view)")
+                text: qsTranslate("filedialog", "enable for list view")
                 checkable: true
                 checked: PQCSettings.filedialogDragDropFileviewList
                 onCheckedChanged:
@@ -68,7 +68,7 @@ PQMenu {
             }
             PQMenuItem {
                 //: file manager settings popdown: the thing to enable here is drag-and-drop
-                text: qsTranslate("filedialog", "enable for file browser (grid view)")
+                text: qsTranslate("filedialog", "enable for grid view")
                 checkable: true
                 checked: PQCSettings.filedialogDragDropFileviewGrid
                 onCheckedChanged:

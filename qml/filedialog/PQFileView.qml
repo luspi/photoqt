@@ -592,7 +592,7 @@ GridView {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
-                drag.target: PQCSettings.filedialogDragDropFileview ? dragHandler : undefined
+                drag.target: (view.showGrid && PQCSettings.filedialogDragDropFileviewGrid) ? dragHandler : undefined
 
                 drag.onActiveChanged: {
                     if(mousearea.drag.active) {
@@ -625,9 +625,10 @@ GridView {
                     if(ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
                         return
 
-                    if(!contextmenu.visible)
+                    if(!contextmenu.visible) {
                         view.currentIndex = index
-                    else
+                        resetCurrentIndex.stop()
+                    } else
                         contextmenu.setCurrentIndexToThisAfterClose = index
 
                     // we reset the tooltip everytime it is requested as some info/thumbnails might have changed/updated since last time
@@ -822,6 +823,177 @@ GridView {
 
             }
 
+            PQMouseArea {
+
+                id: listthumbmousearea
+
+                anchors.fill: filethumb
+                enabled: !view.showGrid
+                visible: enabled ? 1 : 0
+
+                hoverEnabled: true
+                cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+
+                drag.target: (!view.showGrid && PQCSettings.filedialogDragDropFileviewList) ? dragHandler : undefined
+
+                drag.onActiveChanged: {
+                    if(mousearea.drag.active) {
+                        // store which index is being dragged and that the entry comes from the userplaces (reordering only)
+                        fd_places.dragItemIndex = index
+                        fd_places.dragReordering = false
+                        fd_places.dragItemId = deleg.currentPath
+                    }
+                    deleg.Drag.drop();
+                    if(!mousearea.drag.active) {
+                        // reset variables used for drag/drop
+                        fd_places.dragItemIndex = -1
+                        fd_places.dragItemId = ""
+                    }
+                }
+
+                onPressed: {
+
+                    if(!contextmenu.visible)
+                        view.currentIndex = index
+                    else
+                        contextmenu.setCurrentIndexToThisAfterClose = index
+
+                    // we only need this when a potential drag might occur
+                    // otherwise no need to load this drag thumbnail
+                    parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (currentFileSelected ? currentSelection.length : 1)
+                }
+
+                onEntered: {
+                    if(ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
+                        return
+
+                    if(!contextmenu.visible) {
+                        view.currentIndex = index
+                        resetCurrentIndex.stop()
+                    } else
+                        contextmenu.setCurrentIndexToThisAfterClose = index
+
+                }
+
+                onExited: {
+                    if(!ignoreMouseEvents) {
+                        resetCurrentIndex.oldIndex = index
+                        resetCurrentIndex.restart()
+                    }
+                }
+
+                property var storeClicks: ({})
+
+                onClicked: (mouse) => {
+
+                    if(!contextmenu.visible)
+                        view.currentIndex = index
+                    else
+                        contextmenu.setCurrentIndexToThisAfterClose = index
+
+                    if(mouse.button === Qt.BackButton) {
+                        goBackInHistory()
+                        return
+                    } else if(mouse.button === Qt.ForwardButton) {
+                        goForwardsInHistory()
+                        return
+                    }
+
+                    if(mouse.button === Qt.RightButton) {
+                        contextmenu.path = deleg.currentPath;
+                        contextmenu.setCurrentIndexToThisAfterClose = index;
+                        contextmenu.popup();
+                        return;
+                    }
+
+                    if(mouse.modifiers & Qt.ShiftModifier) {
+
+                        if(shiftClickIndexStart === index) {
+                            if(!currentFileSelected) {
+                                view.currentSelection.push(index)
+                                view.currentSelectionChanged()
+                                shiftClickIndexStart = index
+                            } else {
+                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                shiftClickIndexStart = -1
+                            }
+                        } else if(shiftClickIndexStart !== -1) {
+
+                            if(shiftClickIndexStart < index) {
+                                for(var i = shiftClickIndexStart; i < index+1; ++i)
+                                    view.currentSelection.push(i)
+                            } else {
+                                for(var l = index; l < shiftClickIndexStart+1; ++l)
+                                    view.currentSelection.push(l)
+                            }
+
+                            view.currentSelectionChanged()
+
+                        } else {
+
+                            if(!currentFileSelected) {
+                                shiftClickIndexStart = index
+                                view.currentSelection.push(index)
+                                view.currentSelectionChanged()
+                            } else {
+                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                shiftClickIndexStart = -1
+
+                            }
+                        }
+
+                    } else if(mouse.modifiers & Qt.ControlModifier) {
+
+                        shiftClickIndexStart = -1
+
+                        if(currentFileSelected) {
+                            view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        } else {
+                            view.currentSelection.push(index)
+                            view.currentSelectionChanged()
+                        }
+
+                    } else {
+
+                        shiftClickIndexStart = -1
+
+                        if(PQCSettings.filedialogSingleClickSelect) {
+
+                            if(!currentFileSelected) {
+
+                                view.currentSelection = [index]
+                                storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
+
+                            } else {
+
+                                var t = PQCScriptsOther.getTimestamp()
+                                var o = storeClicks[deleg.currentPath]
+
+                                if(t-o < 300) {
+                                    if(index < PQCFileFolderModel.countFoldersFileDialog)
+                                        filedialog_top.loadNewPath(deleg.currentPath)
+                                    else {
+                                        PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
+                                        filedialog_top.hideFileDialog()
+                                    }
+
+                                    view.currentSelection = []
+                                } else {
+                                    view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                }
+                            }
+
+                        } else {
+
+                            loadOnClick(index)
+
+                        }
+                    }
+
+                }
+
+            }
+
             /************************************************************/
             // + ICON TO SELECT/ - ICON TO DESELECT
             // has to be on top of main mouse area
@@ -870,7 +1042,7 @@ GridView {
 
             }
 
-            Drag.active: mousearea.drag.active
+            Drag.active: mousearea.drag.active || listthumbmousearea.drag.active
             Drag.mimeData: {
                 if(!currentFileSelected) {
                     return ({"text/uri-list": "file://"+deleg.currentPath})
