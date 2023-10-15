@@ -119,30 +119,35 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
     const QFileInfo info(path);
 
 #ifndef Q_OS_WIN
-    QProcess which;
-    which.setStandardOutputFile(QProcess::nullDevice());
-    which.start("which", QStringList() << "unrar");
-    which.waitForFinished();
 
-    if(!which.exitCode() && PQCSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
 
-        QProcess p;
-        p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
+        QProcess which;
+        which.setStandardOutputFile(QProcess::nullDevice());
+        which.start("which", QStringList() << "unrar");
+        which.waitForFinished();
 
-        if(p.waitForStarted()) {
+        if(!which.exitCode()) {
 
-            QByteArray outdata = "";
+            QProcess p;
+            p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
 
-            while(p.waitForReadyRead())
-                outdata.append(p.readAll());
+            if(p.waitForStarted()) {
 
-            auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
-            QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
+                QByteArray outdata = "";
 
-            allfiles.sort();
-            for(const QString &f : qAsConst(allfiles)) {
-                if(PQCImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
-                    ret.append(QString("%1::ARC::%2").arg(f, path));
+                while(p.waitForReadyRead())
+                    outdata.append(p.readAll());
+
+                auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
+                QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
+
+                allfiles.sort();
+                for(const QString &f : qAsConst(allfiles)) {
+                    if(PQCImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
+                        ret.append(QString("%1::ARC::%2").arg(f, path));
+                }
+
             }
 
         }

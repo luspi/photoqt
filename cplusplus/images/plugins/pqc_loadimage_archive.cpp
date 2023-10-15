@@ -23,6 +23,9 @@
 #include <pqc_loadimage_archive.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_settings.h>
+#include <pqc_configfiles.h>
+#include <pqc_loadimage.h>
 #include <QSize>
 #include <QtDebug>
 #include <QFileInfo>
@@ -149,6 +152,41 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
         errormsg = "File doesn't seem to exist...";
         qWarning() << errormsg;
         return errormsg;
+    }
+
+    QFileInfo info(archivefile);
+
+    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+
+        QProcess which;
+        which.setStandardOutputFile(QProcess::nullDevice());
+        which.start("which", QStringList() << "unrar");
+        which.waitForFinished();
+
+        if(!which.exitCode()) {
+
+            qDebug() << "loading archive with unrar";
+
+            const QString tmpDir = PQCConfigFiles::CACHE_DIR()+"/unrar/";
+
+            QDir dir;
+            if(dir.mkpath(tmpDir)) {
+
+                QProcess p;
+                p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tmpDir);
+                p.waitForFinished(15000);
+
+                PQCLoadImage::get().load(tmpDir + compressedFilename, maxSize, origSize, img);
+                QDir dir(tmpDir);
+                dir.removeRecursively();
+                return "";
+
+            } else
+                qWarning() << "unable to create temporary folder for unrar target:" << tmpDir;
+
+        } else
+            qWarning() << "unrar was not found in system path";
+
     }
 
     // Create new archive handler
