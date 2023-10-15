@@ -2,7 +2,7 @@
 #include <pqc_settings.h>
 #include <pqc_notify.h>
 #include <pqc_imageformats.h>
-#include <QtLogging>
+#include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <QtDebug>
 #include <QDir>
 #include <QMimeDatabase>

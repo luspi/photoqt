@@ -273,7 +273,8 @@ bool PQCValidate::validateImageFormatsDatabase() {
         dbdefault = QSqlDatabase::addDatabase("QSQLITE", "imageformatsdefault");
     else {
         qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qFatal() << "PhotoQt cannot function without SQLite available.";
+        qCritical() << "PhotoQt cannot function without SQLite available.";
+        qApp->quit();
         return false;
     }
 
@@ -575,7 +576,8 @@ bool PQCValidate::validateSettingsDatabase() {
         dbdefault = QSqlDatabase::addDatabase("QSQLITE", "settingsdefault");
     else {
         qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qFatal() << "PhotoQt cannot function without SQLite available.";
+        qCritical() << "PhotoQt cannot function without SQLite available.";
+        qApp->quit();
         return false;
     }
 
@@ -836,7 +838,8 @@ bool PQCValidate::validateSettingsValues() {
         dbcheck = QSqlDatabase::addDatabase("QSQLITE", "checksettings");
     else {
         qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qFatal() << "PhotoQt cannot function without SQLite available.";
+        qCritical() << "PhotoQt cannot function without SQLite available.";
+        qApp->quit();
         return false;
     }
 

@@ -1,4 +1,4 @@
-#include <QtLogging>
+#include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <QtDebug>
 #include <QFileDialog>
 #include <QImageReader>

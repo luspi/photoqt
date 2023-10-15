@@ -47,7 +47,8 @@ int PQCStartup::check() {
         QMessageBox::critical(0, QCoreApplication::translate("PQCStartup", "SQLite error"),
                               QCoreApplication::translate("PQCStartup", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function!"));
         qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qFatal() << "PhotoQt cannot function without SQLite available.";
+        qCritical() << "PhotoQt cannot function without SQLite available.";
+        qApp->quit();
     }
 
     // if no ettings db exist, then it is a fresh install

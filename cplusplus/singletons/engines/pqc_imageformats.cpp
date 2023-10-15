@@ -64,7 +64,8 @@ PQCImageFormats::PQCImageFormats() {
             //: This is the window title of an error message box
             QMessageBox::critical(0, QCoreApplication::translate("PQCImageFormats", "ERROR getting default image formats"),
                                   QCoreApplication::translate("PQCImageFormats", "Not even a read-only version of the database of default image formats could be opened.") + QCoreApplication::translate("PQCImageFormats", "Something went terribly wrong somewhere!"));
-            qFatal() << "ERROR copying read-only default database!";
+            qCritical() << "ERROR copying read-only default database!";
+            qApp->quit();
             return;
         }
 
@@ -76,7 +77,8 @@ PQCImageFormats::PQCImageFormats() {
         if(!db.open()) {
             QMessageBox::critical(0, QCoreApplication::translate("PQCImageFormats", "ERROR getting default image formats"),
                                   QCoreApplication::translate("PQCImageFormats", "Not even a read-only version of the database of default image formats could be opened.") + QCoreApplication::translate("PQCImageFormats", "Something went terribly wrong somewhere!"));
-            qFatal() << "ERROR opening read-only default database!";
+            qCritical() << "ERROR opening read-only default database!";
+            qApp->quit();
             return;
         }
 

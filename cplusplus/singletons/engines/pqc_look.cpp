@@ -23,7 +23,11 @@ PQCLook::~PQCLook() { }
 
 void PQCLook::calculateColors(QString base) {
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
     QColor col = QColor::fromString(base);
+#else
+    QColor col(base);
+#endif
 
     QColor colTrans = col;
     colTrans.setAlpha(222);
