@@ -60,8 +60,6 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {"start-in-tray", QApplication::translate("commandlineparser", "Start PhotoQt hidden to the system tray.")},
                    //: Command line option
-        {"standalone", QApplication::translate("commandlineparser", "Open standalone PhotoQt, allows for multiple instances but without remote interaction.")},
-                   //: Command line option
         {"send-shortcut", QApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
                    //: Command line option
         {"debug", QApplication::translate("commandlineparser", "Switch on debug messages.")},
@@ -122,9 +120,6 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(isSet("disable-tray"))
         ret = ret|PQCCommandLineDisableTray;
-
-    if(isSet("standalone"))
-        ret = ret|PQCCommandLineStandalone;
 
     shortcutSequence = value("send-shortcut");
     if(shortcutSequence != "")

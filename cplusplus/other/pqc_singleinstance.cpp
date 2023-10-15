@@ -33,6 +33,7 @@
 #include <pqc_commandlineparser.h>
 #include <pqc_singleinstance.h>
 #include <pqc_notify.h>
+#include <pqc_settings.h>
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
@@ -89,9 +90,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     if(result & PQCCommandLineNoDebug)
         message += ":://::_N_O_D_E_B_U_G_";
 
-    if(result & PQCCommandLineStandalone)
-        message += ":://::_S_T_A_N_D_A_L_O_N_E_";
-
     // validation requested
     checkConfig = false;
     if(result & PQCCommandLineCheckConfig) {
@@ -137,7 +135,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         return;
     }
 
-    if(message.contains(":://::_S_T_A_N_D_A_L_O_N_E_")) {
+    if(PQCSettings::get()["interfaceAllowMultipleInstances"].toBool()) {
         handleMessage(message);
         return;
     }
