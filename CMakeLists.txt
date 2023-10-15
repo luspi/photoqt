@@ -477,3 +477,69 @@ else()
     message("** resvg DISABLED")
 endif()
 
+
+#######################
+#### INSTALL FILES ####
+#######################
+
+if(UNIX)
+
+    # Install executeable
+    install(
+        TARGETS ${PROJECT_NAME}
+        DESTINATION bin/
+    )
+
+    # Install desktop file
+    install(
+        FILES org.photoqt.PhotoQt.desktop
+        DESTINATION share/applications
+    )
+
+    # And install all the icons
+    install(
+        FILES icons/16x16/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/16x16/apps/
+    )
+    install(
+        FILES icons/32x32/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/32x32/apps/
+    )
+    install(
+        FILES icons/48x48/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/48x48/apps/
+    )
+    install(
+        FILES icons/64x64/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/64x64/apps/
+    )
+    install(
+        FILES icons/128x128/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/128x128/apps/
+    )
+    install(
+        FILES icons/256x256/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/256x256/apps/
+    )
+    install(
+        FILES icons/512x512/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/512x512/apps/
+    )
+    install(
+        FILES icons/1024x1024/org.photoqt.PhotoQt.png
+        DESTINATION share/icons/hicolor/1024x1024/apps/
+    )
+    install(
+        FILES org.photoqt.PhotoQt.metainfo.xml
+        DESTINATION share/metainfo/
+    )
+
+endif()
+
+
+##########################
+#### UNINSTALL TARGET ####
+##########################
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/CMake/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
+add_custom_target(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
