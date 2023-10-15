@@ -311,6 +311,7 @@ Item {
 
     }
 
+    property bool nearTopEdge: false
 
     Connections {
 
@@ -319,7 +320,9 @@ Item {
         function onMouseMove(posx, posy) {
 
             if(!PQCSettings.interfaceWindowButtonsAutoHide || loader.visibleItem !== "") {
+                resetAutoHide.stop()
                 windowbuttons_top.state = "visible"
+                nearTopEdge = true
                 return
             }
 
@@ -327,8 +330,11 @@ Item {
             if(PQCSettings.interfaceEdgeTopAction !== "")
                 trigger = 60
 
-            if((posy < trigger && PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
+            if((posy < trigger && PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) {
                 windowbuttons_top.state = "visible"
+                nearTopEdge = true
+            } else
+                nearTopEdge = false
 
             resetAutoHide.restart()
 
@@ -353,7 +359,7 @@ Item {
         repeat: false
         running: false
         onTriggered: {
-            if(variables.mousePos.y > windowbuttons_top.y+windowbuttons_top.height+20)
+            if(!nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
                 windowbuttons_top.state = "hidden"
         }
     }
