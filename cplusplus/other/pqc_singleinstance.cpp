@@ -135,11 +135,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         return;
     }
 
+    this->installEventFilter(this);
+
     if(PQCSettings::get()["interfaceAllowMultipleInstances"].toBool()) {
         handleMessage(message);
         return;
     }
-
 
     /*****************/
     /* Server/Socket */
@@ -181,8 +182,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         handleMessage(message);
 
     }
-
-    this->installEventFilter(this);
 
 }
 
