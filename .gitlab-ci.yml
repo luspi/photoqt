@@ -42,7 +42,6 @@ appimage:
     - mv photoqt-lang/localized lang
     - mkdir -p build && cd build/  # build PhotoQt
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=OFF -DVIDEO_MPV=ON -DLIBVIPS=OFF -DPOPPLER=OFF -DEXIV2_ENABLE_BMFF=ON
-    - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ..
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
@@ -77,7 +76,6 @@ releaseappimage:
     - export QT_SELECT=qt6
     - mkdir -p build && cd build/  # build PhotoQt
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=OFF -DVIDEO_MPV=ON -DLIBVIPS=OFF -DPOPPLER=OFF -DEXIV2_ENABLE_BMFF=ON
-    - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ..
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
