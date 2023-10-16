@@ -30,7 +30,7 @@ SystemTrayIcon {
 
     visible: PQCSettings.interfaceTrayIcon>0
 
-    icon.source: "qrc:/other/logo_white.svg"
+    icon.source: PQCSettings.interfaceTrayIconMonochrome ? "qrc:/other/logo_white.svg" : "qrc:/other/logo.svg"
 
     menu: Menu {
         id: mn
