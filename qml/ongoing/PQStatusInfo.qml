@@ -18,6 +18,8 @@ Item {
     Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || movedByMouse) ? 200 : 0 } }
     Behavior on x { NumberAnimation { duration: (movedByMouse) ? 200 : 0 } }
 
+    property bool movedByMouse: false
+
     visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging
 
     width: maincol.width
@@ -154,6 +156,8 @@ Item {
                             toplevel.visibility = Window.Maximized
                     }
                 }
+                drag.onActiveChanged:
+                    movedByMouse = true
 
             }
 
@@ -184,6 +188,8 @@ Item {
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
+                drag.onActiveChanged:
+                    movedByMouse = true
             }
 
             Row {
@@ -314,6 +320,8 @@ Item {
                     else
                         PQCFileFolderModel.enableViewerMode()
                 }
+                drag.onActiveChanged:
+                    movedByMouse = true
             }
 
             Connections {
