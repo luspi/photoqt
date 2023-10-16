@@ -33,6 +33,7 @@
 #include <pqc_imageformats.h>
 #include <pqc_settings.h>
 #include <pqc_loadimage.h>
+#include <pqc_notify.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfiledialog.h>
 #include <pqc_resolutioncache.h>
@@ -104,6 +105,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     connect(this, &PQCFileFolderModel::newDataLoadedMainView, this, &PQCFileFolderModel::handleNewDataLoadedMainView);
 
     connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, &PQCFileFolderModel::handleSettingsChanges);
+
+    connect(&PQCNotify::get(), &PQCNotify::resetSessionData, this, &PQCFileFolderModel::resetModel);
 
 }
 
@@ -735,7 +738,15 @@ void PQCFileFolderModel::resetModel() {
     watcherFileDialog = new QFileSystemWatcher;
     delete watcherMainView;
     watcherMainView = new QFileSystemWatcher;
+    m_entriesMainView.clear();
+
+    setFileInFolderMainView("");
     setCountMainView(0);
+
+    m_readDocumentOnly = false;
+    m_readArchiveOnly = false;
+    m_includeFilesInSubFolders = false;
+
     m_entriesMainView.clear();
 
     cache.resetData();

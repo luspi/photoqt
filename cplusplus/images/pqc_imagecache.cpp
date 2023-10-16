@@ -22,9 +22,7 @@
 
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
-//#include <QString>
-//#include <QCryptographicHash>
-//#include <QFileInfo>
+#include <pqc_notify.h>
 
 PQCImageCache &PQCImageCache::get() {
     static PQCImageCache instance;
@@ -35,6 +33,7 @@ PQCImageCache::PQCImageCache(QObject *parent) : QObject(parent) {
     maxcost = PQCSettings::get()["imageviewCache"].toInt();
     cache = new QCache<QString,QImage>;
     cache->setMaxCost(maxcost);
+    connect(&PQCNotify::get(), &PQCNotify::resetSessionData, this, &PQCImageCache::resetData);
 }
 
 PQCImageCache::~PQCImageCache() {
@@ -66,6 +65,7 @@ bool PQCImageCache::saveImageToCache(QString filename, QImage *img) {
 }
 
 void PQCImageCache::resetData() {
+    qDebug() << "";
     cache->clear();
     delete cache;
     cache = new QCache<QString,QImage>;

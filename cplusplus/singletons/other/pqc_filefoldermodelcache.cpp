@@ -76,6 +76,7 @@ QString PQCFileFolderModelCache::getUniqueCacheKey(QString foldername, bool show
 }
 
 void PQCFileFolderModelCache::resetData() {
+    qDebug() << "";
     cacheFiles.clear();
     cacheFolders.clear();
 }

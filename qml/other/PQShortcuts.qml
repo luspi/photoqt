@@ -530,7 +530,12 @@ Item {
             // other
 
             case "__resetSessionAndHide":
+                PQCNotify.resetSessionData()
+                PQCSettings.interfaceTrayIcon = 1
+                toplevel.close()
+                break
             case "__resetSession":
+                PQCNotify.resetSessionData()
                 break
             case "__onlineHelp":
                 Qt.openUrlExternally("https://photoqt.org/man")

@@ -157,7 +157,7 @@ Q_SIGNALS:
     void cmdToggle();
     void cmdShortcutSequence(QString seq);
     void cmdTray(bool tray);
-//    void resetSessionData();
+    void resetSessionData();
 
     void keyPress(int key, int modifiers);
     void executeInternalCommand(QString cmd);
