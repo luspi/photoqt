@@ -1007,11 +1007,13 @@ Item {
 
     // some global handlers
     function showNext() {
-        PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
+        if(PQCFileFolderModel.countMainView !== 0)
+            PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
     }
 
     function showPrev() {
-        PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
+        if(PQCFileFolderModel.countMainView !== 0)
+            PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
     }
 
     function showFirst() {
