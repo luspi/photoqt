@@ -56,6 +56,7 @@ option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
 option(RESVG "Replace Qt's SVG engine with resvg for better SVG support" OFF)
 
 option(TESTING "Build some unit tests" OFF)
+option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
 
 if(QTPDF)
     if(POPPLER)
@@ -134,6 +135,34 @@ endif()
 
 if(QTPDF)
     find_package(Qt6 COMPONENTS Pdf REQUIRED)
+endif()
+
+######################
+#### RUN CPPCHECK ####
+######################
+
+if(RUNCPPCHECK)
+
+    # Find CppCheck executable
+    find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
+
+    # If CppCheck executable found
+    if(CMAKE_CXX_CPPCHECK)
+
+        message("** Analyzing source code with cppcheck")
+
+        # Append desired arguments to CppCheck
+        list(APPEND CMAKE_CXX_CPPCHECK
+                "--enable=warning"
+                "--inconclusive"
+        )
+
+    endif()
+
+else()
+
+    unset(CMAKE_CXX_CPPCHECK CACHE)
+
 endif()
 
 ###############################
