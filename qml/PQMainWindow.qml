@@ -111,7 +111,6 @@ Window {
     // actions
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }
-    Loader { id: loader_advancedsortbusy }
     Loader { id: loader_copy }
     Loader { id: loader_move }
     Loader { id: loader_export }
@@ -125,7 +124,6 @@ Window {
     Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }
     Loader { id: loader_slideshowsetup }
-    Loader { id: loader_unavailable }
     Loader { id: loader_wallpaper }
     Loader { id: loader_chromecastmanager }
 

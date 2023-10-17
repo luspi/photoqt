@@ -313,8 +313,9 @@ Item {
             case "__showMapExplorer":
                 loader.show("mapexplorer")
                 break
-//            case "__settings":
-//                break
+            case "__settings":
+                loader.show("settingsmanager")
+                break
             case "__about":
                 loader.show("about")
                 break
