@@ -2,6 +2,7 @@
 #include <QtDebug>
 #include <QFileDialog>
 #include <QImageReader>
+#include <QQmlContext>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
 #include <pqc_shortcuts.h>
@@ -46,7 +47,10 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-PQCScriptsConfig::PQCScriptsConfig() {}
+PQCScriptsConfig::PQCScriptsConfig() {
+    trans = new QTranslator;
+    currentTranslation = "en";
+}
 
 PQCScriptsConfig::~PQCScriptsConfig() {}
 
@@ -484,5 +488,59 @@ QStringList PQCScriptsConfig::getAvailableTranslations() {
     ret.append(tmp);
 
     return ret;
+
+}
+
+void PQCScriptsConfig::updateTranslation() {
+
+    QString code = PQCSettings::get()["interfaceLanguage"].toString();
+    if(code == currentTranslation)
+        return;
+
+    if(!trans->isEmpty())
+        qApp->removeTranslator(trans);
+
+
+    const QStringList allcodes = code.split("/");
+
+    for(const QString &c : allcodes) {
+
+        if(QFile(":/photoqt_" + c + ".qm").exists()) {
+
+            if(!trans->load(":/photoqt_" + c))
+                qWarning() << "Unable to install translator for language code" << c;
+
+            qApp->installTranslator(trans);
+
+        } else if(c.contains("_")) {
+
+            const QString cc = c.split("_").at(0);
+
+            if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+
+                if(!trans->load(":/photoqt_" + cc))
+                    qWarning() << "Unable to install translator for language code" << cc;
+
+                qApp->installTranslator(trans);
+
+            }
+
+        } else {
+
+            const QString cc = QString("%1_%2").arg(c, c.toUpper());
+
+            if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+
+                if(!trans->load(":/photoqt_" + cc))
+                    qWarning() << "Unable to install translator for language code" << c;
+
+                qApp->installTranslator(trans);
+
+            }
+        }
+
+    }
+
+    QQmlEngine::contextForObject(this)->engine()->retranslate();
 
 }

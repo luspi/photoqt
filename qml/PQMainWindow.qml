@@ -167,6 +167,9 @@ Window {
     }
 
     Component.onCompleted: {
+
+        PQCScriptsConfig.updateTranslation()
+
         if(PQCScriptsConfig.amIOnWindows())
             toplevel.opacity = 0
 

@@ -2,6 +2,8 @@
 #define PQCSCRIPTS_H
 
 #include <QObject>
+#include <QTranslator>
+#include <QQmlEngine>
 
 class PQCScriptsConfig : public QObject {
 
@@ -38,9 +40,13 @@ public:
     Q_INVOKABLE bool isVideoQtSupportEnabled();
     Q_INVOKABLE QString getVersion();
     Q_INVOKABLE QStringList getAvailableTranslations();
+    Q_INVOKABLE void updateTranslation();
 
 private:
     PQCScriptsConfig();
+
+    QTranslator *trans;
+    QString currentTranslation;
 
 };
 
