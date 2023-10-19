@@ -28,9 +28,15 @@ Item {
         anchors.fill: parent
         anchors.topMargin: 30
 
-        property int currentIndex: 0
-        onCurrentIndexChanged:
-            selectedCategory = categoryKeys[currentIndex]
+        property var currentIndex: [0,0]
+        onCurrentIndexChanged: {
+            if(confirmIfUnsavedChanged("main", currentIndex[0]))
+                selectedCategory = categoryKeys[currentIndex[0]]
+            else {
+                if(currentIndex[0] !== currentIndex[1])
+                    currentIndex = [currentIndex[1], currentIndex[1]]
+            }
+        }
 
         Column {
 
@@ -49,7 +55,7 @@ Item {
 
                         property bool mouseOver: false
 
-                        color: maincatflick.currentIndex===index ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : "transparent")
+                        color: maincatflick.currentIndex[0]===index ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
 
                         Rectangle {
@@ -64,13 +70,27 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            text: "Select main category: " + maincattxt.text
-                            onEntered:
+                            property bool tooltipSetup: false
+                            text: ""
+                            onEntered: {
                                 parent.mouseOver = true
+                                if(!tooltipSetup) {
+                                    tooltipSetup = true
+                                    var txt = "<h1>" + maincattxt.text + "</h1>"
+                                    var subs = categories[categoryKeys[index]][1]
+                                    var keys = Object.keys(subs)
+                                    for(var i = 0; i < keys.length; ++i) {
+                                        txt += "<div>&gt; " + subs[keys[i]][0] + "</div>"
+                                    }
+                                    text = txt
+                                }
+                            }
                             onExited:
                                 parent.mouseOver = false
-                            onClicked:
-                                maincatflick.currentIndex = index
+                            onClicked: {
+                                var tmp = [index, maincatflick.currentIndex[0]]
+                                maincatflick.currentIndex = tmp
+                            }
                         }
 
                         PQText {
@@ -83,7 +103,7 @@ Item {
                             elide: Text.ElideRight
                             font.weight: PQCLook.fontWeightBold
                             text: categories[categoryKeys[index]][0]
-                            color: maincatflick.currentIndex===index ? PQCLook.textColorActive : PQCLook.textColor
+                            color: maincatflick.currentIndex[0]===index ? PQCLook.textColorActive : PQCLook.textColor
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
 
@@ -112,6 +132,11 @@ Item {
             }
 
         }
+    }
+
+    function setCurrentIndex(ind) {
+        var tmp = [ind, maincatflick.currentIndex[0]]
+        maincatflick.currentIndex = tmp
     }
 
 }

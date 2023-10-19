@@ -59,3 +59,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerIm
 
 SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQMainCategory.qml ${d}/PQSubCategory.qml)
+
+SET(d "qml/settingsmanager/settings")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQLanguage.qml)

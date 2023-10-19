@@ -9,11 +9,11 @@ Item {
     height: settingsmanager_top.contentHeight
     width: 300-8
 
+    visible: subitemskeys.length>1
+
     property var subitems: categories[sm_maincategory.selectedCategory][1]
-
     property var subitemskeys: Object.keys(subitems)
-
-    property string selectedSubCategory: subitems[subitemskeys[0]]
+    property string selectedSubCategory: subitemskeys[0]
 
     PQTextS {
         width: parent.width
@@ -32,9 +32,15 @@ Item {
         anchors.fill: parent
         anchors.topMargin: 30
 
-        property int currentIndex: 0
-        onCurrentIndexChanged:
-            selectedSubCategory = subitems[subitemskeys[currentIndex]]
+        property var currentIndex: [0,0]
+        onCurrentIndexChanged: {
+            if(confirmIfUnsavedChanged("sub", currentIndex[0]))
+                selectedSubCategory = subitemskeys[currentIndex[0]]
+            else {
+                if(currentIndex[0] !== currentIndex[1])
+                    currentIndex = [currentIndex[1], currentIndex[1]]
+            }
+        }
 
         Column {
 
@@ -53,7 +59,7 @@ Item {
 
                         property bool mouseOver: false
 
-                        color: subcatflick.currentIndex===index ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : "transparent")
+                        color: subcatflick.currentIndex[0]===index ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
 
                         Rectangle {
@@ -73,8 +79,10 @@ Item {
                                 parent.mouseOver = true
                             onExited:
                                 parent.mouseOver = false
-                            onClicked:
-                                subcatflick.currentIndex = index
+                            onClicked: {
+                                var tmp = [index, subcatflick.currentIndex[0]]
+                                subcatflick.currentIndex = tmp
+                            }
                         }
 
                         PQText {
@@ -86,8 +94,8 @@ Item {
                             verticalAlignment: Text.AlignVCenter
                             elide: Text.ElideRight
                             font.weight: PQCLook.fontWeightBold
-                            text: subitems[subitemskeys[index]]
-                            color: subcatflick.currentIndex===index ? PQCLook.textColorActive : PQCLook.textColor
+                            text: subitems[subitemskeys[index]][0]
+                            color: subcatflick.currentIndex[0]===index ? PQCLook.textColorActive : PQCLook.textColor
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
 
@@ -105,6 +113,11 @@ Item {
             }
 
         }
+    }
+
+    function setCurrentIndex(ind) {
+        var tmp = [ind, subcatflick.currentIndex[0]]
+        subcatflick.currentIndex = tmp
     }
 
 }

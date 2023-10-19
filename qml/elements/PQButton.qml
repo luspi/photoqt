@@ -54,6 +54,7 @@ Button {
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.6
+        Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideMiddle
@@ -63,6 +64,7 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.6
+        Behavior on opacity { NumberAnimation { duration: 200 } }
         radius: 5
 
         border.color: PQCLook.baseColorHighlight

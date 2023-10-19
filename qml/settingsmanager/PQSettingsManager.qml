@@ -13,93 +13,97 @@ PQTemplateFullscreen {
 
     title: qsTranslate("settingsmanager", "Settings Manager")
 
-    property bool settingChanged: false
-
     onPopoutChanged:
         PQCSettings.interfacePopoutSettingsManager = popout
 
     button1.text: qsTranslate("settingsmanager", "Apply changes")
-    button1.enabled: settingChanged
-    button1.onClicked: applyChanges()
+    button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false
+    button1.onClicked: settingsloader.item.applyChanges()
 
+    button2.text: "Revert changes"
     button2.visible: true
-    button2.text: genericStringClose
-    button2.onClicked: hide()
+    button2.enabled: button1.enabled
+    button2.onClicked: settingsloader.item.revertChanges()
+
+    button3.visible: true
+    button3.text: genericStringClose
+    button3.font.weight: PQCLook.fontWeightNormal
+    button3.onClicked: hide()
 
     property var categories: {
 
         "interface" : ["Interface",
                        {
-                           "language" : "Language",
-                            "popout" : "Popout",
-                            "background" : "Background",
-                            "contextmenu" : "Context menu"
+                           "language"     : ["Language",     "PQLanguage"],
+                            "popout"      : ["Popout",       "PQPopout"],
+                            "background"  : ["Background",   "PQBackground"],
+                            "contextmenu" : ["Context menu", "PQContextMenu"]
                        }],
 
         "window" : ["Window",
                     {
-                        "windowmode" : "Window mode",
-                        "windowdecoration" : "Window decoration",
-                        "windowbuttons" : "Window buttons",
-                        "windowmanagement" : "Window management",
-                        "trayicon" : "Tray icon"
+                        "windowmode"       : ["Window mode",       "PQWindowMode"],
+                        "windowdecoration" : ["Window decoration", "PQWindowDecoration"],
+                        "windowbuttons"    : ["Window buttons",    "PQWindowButtons"],
+                        "windowmanagement" : ["Window management", "PQWindowManagement"],
+                        "trayicon"         : ["Tray icon",         "PQTrayIcon"]
                     }],
 
         "navigation" : ["Navigation",
                         {
-                            "mousewheel" : "Mouse wheel",
-                            "floating" : "Floating navigation",
-                            "edge" : "Edge behavior"
+                            "mousewheel" : ["Mouse wheel",         "PQMouseWheel"],
+                            "floating"   : ["Floating navigation", "PQFloatingNavigation"],
+                            "edge"       : ["Edge behavior",       "PQEdge"]
                         }],
 
         "imageview" : ["Image view",
                        {
-                            "transparency" : "Transparency checkerboard",
-                            "margin" : "Margin",
-                            "interpolation" : "Interpolation",
-                            "zoom" : "Zoom",
-                            "sizing" : "Image sizing",
-                            "sortby" : "Sort by",
-                            "looping" : "Looping",
-                            "hidemouse" : "Hide mouse",
-                            "animation" : "Animation",
-                            "mapprovider" : "Map provider"
+                            "transparency"  : ["Transparency marker", "PQTransparency"],
+                            "margin"        : ["Margin",              "PQMargin"],
+                            "interpolation" : ["Interpolation",       "PQInterpolation"],
+                            "zoom"          : ["Zoom",                "PQZoom"],
+                            "sizing"        : ["Image sizing",        "PQImageSizing"],
+                            "sortby"        : ["Sort by",             "PQSortBy"],
+                            "looping"       : ["Looping",             "PQLooping"],
+                            "hidemouse"     : ["Hide mouse",          "PQHideMouse"],
+                            "animation"     : ["Animation",           "PQAnimation"],
+                            "mapprovider"   : ["Map provider",        "PQMapProvider"]
                        }],
 
         "thumbnails" : ["Thumbnails",
                         {
-                            "look" : "Look",
-                            "highlight" : "Highlight animation",
-                            "image" : "Thumbnail image",
-                            "filenamelabel" : "Filename label",
-                            "disable" : "Disable",
-                            "tooltip" : "Tooltip",
-                            "hideshow" : "Hide/Show",
-                            "cache" : "Cache",
-                            "excludefolders" : "Exclude folders",
-                            "threads" : "Threads"
+                            "look"           : ["Look",                "PQLook"],
+                            "highlight"      : ["Highlight animation", "PQHighlight"],
+                            "image"          : ["Thumbnail image",     "PQThumbnailImage"],
+                            "filenamelabel"  : ["Filename label",      "PQFilenameLabel"],
+                            "disable"        : ["Disable",             "PQDisable"],
+                            "tooltip"        : ["Tooltip",             "PQTooltip"],
+                            "hideshow"       : ["Hide/Show",           "PQHideShow"],
+                            "cache"          : ["Cache",               "PQCache"],
+                            "excludefolders" : ["Exclude folders",     "PQExclude"],
+                            "threads"        : ["Threads",             "PQThreads"]
                         }],
 
         "metadata" : ["Metadata",
                       {
-                            "labels" : "Labels",
-                            "autorotation" : "Auto rotation",
-                            "mapservice" : "Map service",
-                            "facetags" : "Face tags"
+                            "labels"       : ["Labels",        "PQLabels"],
+                            "autorotation" : ["Auto rotation", "PQAutoRotation"],
+                            "mapservice"   : ["Map service",   "PQMapService"],
+                            "facetags"     : ["Face tags",     "PQFaceTags"]
                       }],
 
         "session" : ["Session",
                      {
-                        "resetview" : "Reset view",
-                        "remember" : "Remember",
-                        "reopen" : "Reopen last image",
-                        "pixmapcache" : "Pixmap cache"
+                        "resetview"   : ["Reset view",        "PQReset"],
+                        "remember"    : ["Remember",          "PQRemember"],
+                        "reopen"      : ["Reopen last image", "PQReopen"],
+                        "pixmapcache" : ["Pixmap cache",      "PQPixmapCache"]
                      }],
 
         "filetypes" : ["File types",
-                       {"filetypes" : "File types"}],
+                       {"filetypes" : ["File types", "PQFileTypes"]}],
         "shortcuts" : ["Shortcuts",
-                       {"shortcuts" : "Shortcuts"}]
+                       {"shortcuts" : ["Shortcuts",  "PQShortcuts"]}]
 
 
     }
@@ -127,14 +131,45 @@ PQTemplateFullscreen {
             /***********************************************************/
 
             Rectangle {
+                visible: sm_subcategory.visible
                 width: 3
                 height: settingsmanager_top.contentHeight
                 color: PQCLook.baseColorHighlight
             }
 
             Item {
+
                 height: settingsmanager_top.contentHeight
-                width: settingsmanager_top.width - 400
+                width: settingsmanager_top.width - sm_maincategory.width - (sm_subcategory.visible ? sm_subcategory.width+8 : 0) - 16
+
+                Loader {
+                    id: settingsloader
+                    anchors.fill: parent
+                    anchors.bottomMargin: 30
+                    clip: true
+                    asynchronous: true
+                    source: "settings/" + categories[sm_maincategory.selectedCategory][1][sm_subcategory.selectedSubCategory][1] + ".qml"
+    //                onSourceChanged: {
+    //                    console.warn("SOURCE:", source)
+    //                }
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: 1
+                    y: parent.height-29
+                    color: PQCLook.baseColorHighlight
+                }
+
+                PQTextS {
+                    x: 5
+                    y: parent.height-29
+                    height: 29
+                    verticalAlignment: Text.AlignVCenter
+                    font.weight: PQCLook.fontWeightBold
+                    text: "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Discard changes and close"
+                }
+
             }
 
             /***********************************************************/
@@ -154,6 +189,9 @@ PQTemplateFullscreen {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
 
+        property string cat: ""
+        property int ind: -1
+
         Column {
 
             x: (parent.width-width)/2
@@ -172,7 +210,7 @@ PQTemplateFullscreen {
                 width: 400
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
-                text: "There are still unsaved changes. Do you want to apply your changes or discard them before closing?"
+                text: "The settings on this page have changed. Do you want to save or discard them?"
             }
 
             Row {
@@ -185,16 +223,42 @@ PQTemplateFullscreen {
                     id: confirmApply
                     text: "Apply"
                     onClicked: {
-                        applyChanges()
-                        hide()
+                        settingsloader.item.applyChanges()
+                        console.warn(confirmUnsaved.cat, confirmUnsaved.ind)
+                        if(confirmUnsaved.cat == "main") {
+                            sm_maincategory.setCurrentIndex(confirmUnsaved.ind)
+                        }
+                        if(confirmUnsaved.cat == "sub") {
+                            sm_subcategory.setCurrentIndex(confirmUnsaved.ind)
+                        }
+                        confirmUnsaved.opacity = 0
+                        confirmUnsaved.cat = ""
+                        confirmUnsaved.ind = -1
                     }
                 }
                 PQButton {
                     id: confirmDiscard
                     text: "Discard"
                     onClicked: {
-                        settingChanged = false
-                        hide()
+                        console.warn(confirmUnsaved.cat, confirmUnsaved.ind)
+                        if(confirmUnsaved.cat == "main") {
+                            sm_maincategory.setCurrentIndex(confirmUnsaved.ind)
+                        }
+                        if(confirmUnsaved.cat == "sub") {
+                            sm_subcategory.setCurrentIndex(confirmUnsaved.ind)
+                        }
+                        confirmUnsaved.opacity = 0
+                        confirmUnsaved.cat = ""
+                        confirmUnsaved.ind = -1
+                    }
+                }
+                PQButton {
+                    id: confirmCancel
+                    text: "Cancel"
+                    onClicked: {
+                        confirmUnsaved.opacity = 0
+                        confirmUnsaved.cat = ""
+                        confirmUnsaved.ind = -1
                     }
                 }
             }
@@ -223,13 +287,24 @@ PQTemplateFullscreen {
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape) {
+
                         if(confirmUnsaved.visible)
-                            confirmDiscard.clicked()
+                            confirmCancel.clicked()
                         else
                             hide()
+
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+
                         if(confirmUnsaved.visible)
                             confirmApply.clicked()
+
+                    } else if(param[0] === Qt.Key_S && param[1] === Qt.ControlModifier) {
+
+                        console.warn("Ctrl+S")
+
+                        if(confirmUnsaved.opacity === 0)
+                            settingsloader.item.applyChanges()
+
                     }
 
                 }
@@ -240,6 +315,27 @@ PQTemplateFullscreen {
 
     }
 
+    function confirmIfUnsavedChanged(cat, index) {
+
+        if(confirmUnsaved.cat != "")
+            return true
+
+        if(settingsloader.status !== Loader.Ready)
+            return true
+
+        if(!settingsloader.item.settingChanged)
+            return true
+
+        console.warn("confirmUnsaved confirmUnsaved")
+
+        confirmUnsaved.cat = cat
+        confirmUnsaved.ind = index
+        confirmUnsaved.opacity = 1
+
+        return false
+
+    }
+
     function show() {
         confirmUnsaved.opacity = 0
         opacity = 1
@@ -247,17 +343,9 @@ PQTemplateFullscreen {
             settingsmanager_top.show()
     }
 
-    function applyChanges() {
-        settingChanged = false
-    }
-
     function hide() {
-        if(settingChanged) {
-            confirmUnsaved.opacity = 1
-        } else {
-            settingsmanager_top.opacity = 0
-            loader.elementClosed(thisis)
-        }
+        settingsmanager_top.opacity = 0
+        loader.elementClosed(thisis)
     }
 
 }
