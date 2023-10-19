@@ -507,10 +507,11 @@ void PQCScriptsConfig::updateTranslation() {
 
         if(QFile(":/photoqt_" + c + ".qm").exists()) {
 
-            if(!trans->load(":/photoqt_" + c))
+            if(trans->load(":/photoqt_" + c)) {
+                currentTranslation = c;
+                qApp->installTranslator(trans);
+            } else
                 qWarning() << "Unable to install translator for language code" << c;
-
-            qApp->installTranslator(trans);
 
         } else if(c.contains("_")) {
 
@@ -518,10 +519,11 @@ void PQCScriptsConfig::updateTranslation() {
 
             if(QFile(":/photoqt_" + cc + ".qm").exists()) {
 
-                if(!trans->load(":/photoqt_" + cc))
+                if(trans->load(":/photoqt_" + cc)) {
+                    currentTranslation = cc;
+                    qApp->installTranslator(trans);
+                } else
                     qWarning() << "Unable to install translator for language code" << cc;
-
-                qApp->installTranslator(trans);
 
             }
 
@@ -531,10 +533,11 @@ void PQCScriptsConfig::updateTranslation() {
 
             if(QFile(":/photoqt_" + cc + ".qm").exists()) {
 
-                if(!trans->load(":/photoqt_" + cc))
+                if(trans->load(":/photoqt_" + cc)) {
+                    currentTranslation = cc;
+                    qApp->installTranslator(trans);
+                } else
                     qWarning() << "Unable to install translator for language code" << c;
-
-                qApp->installTranslator(trans);
 
             }
         }
