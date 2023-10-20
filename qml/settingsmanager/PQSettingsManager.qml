@@ -28,7 +28,13 @@ PQTemplateFullscreen {
     button3.visible: true
     button3.text: genericStringClose
     button3.font.weight: PQCLook.fontWeightNormal
-    button3.onClicked: hide()
+    button3.onClicked: {
+        if(button1.enabled) {
+            confirmUnsaved.cat = "-"
+            confirmUnsaved.opacity = 1
+        } else
+            hide()
+    }
 
     property var categories: {
 
@@ -224,11 +230,12 @@ PQTemplateFullscreen {
                     text: "Apply"
                     onClicked: {
                         settingsloader.item.applyChanges()
-                        console.warn(confirmUnsaved.cat, confirmUnsaved.ind)
-                        if(confirmUnsaved.cat == "main") {
+
+                        if(confirmUnsaved.cat == "-") {
+                            hide()
+                        } else if(confirmUnsaved.cat == "main") {
                             sm_maincategory.setCurrentIndex(confirmUnsaved.ind)
-                        }
-                        if(confirmUnsaved.cat == "sub") {
+                        } else if(confirmUnsaved.cat == "sub") {
                             sm_subcategory.setCurrentIndex(confirmUnsaved.ind)
                         }
                         confirmUnsaved.opacity = 0
@@ -240,11 +247,11 @@ PQTemplateFullscreen {
                     id: confirmDiscard
                     text: "Discard"
                     onClicked: {
-                        console.warn(confirmUnsaved.cat, confirmUnsaved.ind)
-                        if(confirmUnsaved.cat == "main") {
+                        if(confirmUnsaved.cat == "-") {
+                            hide()
+                        } else if(confirmUnsaved.cat == "main") {
                             sm_maincategory.setCurrentIndex(confirmUnsaved.ind)
-                        }
-                        if(confirmUnsaved.cat == "sub") {
+                        } else if(confirmUnsaved.cat == "sub") {
                             sm_subcategory.setCurrentIndex(confirmUnsaved.ind)
                         }
                         confirmUnsaved.opacity = 0
@@ -290,8 +297,9 @@ PQTemplateFullscreen {
 
                         if(confirmUnsaved.visible)
                             confirmCancel.clicked()
-                        else
-                            hide()
+                        else {
+                            button3.clicked()
+                        }
 
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
@@ -326,8 +334,6 @@ PQTemplateFullscreen {
         if(!settingsloader.item.settingChanged)
             return true
 
-        console.warn("confirmUnsaved confirmUnsaved")
-
         confirmUnsaved.cat = cat
         confirmUnsaved.ind = index
         confirmUnsaved.opacity = 1
@@ -337,13 +343,17 @@ PQTemplateFullscreen {
     }
 
     function show() {
-        confirmUnsaved.opacity = 0
         opacity = 1
+
+        if(settingsloader.status === Loader.Ready)
+            settingsloader.item.revertChanges()
+
         if(popout)
             settingsmanager_top.show()
     }
 
     function hide() {
+        confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
         loader.elementClosed(thisis)
     }
