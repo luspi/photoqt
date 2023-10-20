@@ -44,7 +44,7 @@ QSize PQCLoadImageFreeImage::loadSize(QString filename) {
         return QSize();
     }
 
-    FREE_IMAGE_FORMAT fif = image.getFIF();
+    FREE_IMAGE_FORMAT fif = image.identifyFIF(filename.toStdString().c_str());
 
     // if that didn't work, we look at the filename
     if(fif == FIF_UNKNOWN)
@@ -81,7 +81,7 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
         return errormsg;
     }
 
-    FREE_IMAGE_FORMAT fif = image.getFIF();
+    FREE_IMAGE_FORMAT fif = image.identifyFIF(filename.toStdString().c_str());
 
     // if that didn't work, we look at the filename
     if(fif == FIF_UNKNOWN)
