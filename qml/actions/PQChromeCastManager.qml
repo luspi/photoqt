@@ -140,7 +140,7 @@ PQTemplateFullscreen {
             }
             PQText {
                 text: PQCScriptsChromeCast.inDiscovery&&busy.visible ?
-                          qsTranslate("streaming", "Looking for Cromecast devices") :
+                          qsTranslate("streaming", "Looking for Chromecast devices") :
                           (PQCScriptsChromeCast.availableDevices.length>0 ?
                                qsTranslate("streaming", "Select which device to connect to") :
                                qsTranslate("streaming", "No devices found"))
