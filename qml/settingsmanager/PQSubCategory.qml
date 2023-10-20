@@ -11,9 +11,8 @@ Item {
 
     visible: subitemskeys.length>1
 
-    property var subitems: categories[sm_maincategory.selectedCategory][1]
+    property var subitems: categories[selectedCategories[0]][1]
     property var subitemskeys: Object.keys(subitems)
-    property string selectedSubCategory: subitemskeys[0]
 
     PQTextS {
         width: parent.width
@@ -34,9 +33,10 @@ Item {
 
         property var currentIndex: [0,0]
         onCurrentIndexChanged: {
-            if(confirmIfUnsavedChanged("sub", currentIndex[0]))
-                selectedSubCategory = subitemskeys[currentIndex[0]]
-            else {
+            if(confirmIfUnsavedChanged("sub", currentIndex[0])) {
+                selectedCategories[1] = subitemskeys[currentIndex[0]]
+                selectedCategoriesChanged()
+            } else {
                 if(currentIndex[0] !== currentIndex[1])
                     currentIndex = [currentIndex[1], currentIndex[1]]
             }
@@ -54,7 +54,7 @@ Item {
 
                         id: deleg
 
-                        height: 50
+                        height: 75
                         width: subcatcol.width
 
                         property bool mouseOver: false

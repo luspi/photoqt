@@ -2,8 +2,9 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCScriptsConfig
+import PQCScriptsClipboard
 
-import "../../elements"
+import "../../../elements"
 
 // required top level properties for all settings:
 //
@@ -83,12 +84,13 @@ Flickable {
 
         PQTextXL {
             x: (parent.width-width)/2
+            font.weight: PQCLook.fontWeightBold
             text: "Language"
         }
 
         Item {
             width: 1
-            height: 1
+            height: 10
         }
 
         property int currentIndex: -1
@@ -101,8 +103,10 @@ Flickable {
 
             Rectangle {
 
+                x: (parent.width-width)/2
+
                 width: 400
-                height: 50
+                height: 30
 
                 radius: 5
                 color: (hovered || contcol.currentIndex===index) ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
@@ -132,25 +136,58 @@ Flickable {
 
         }
 
+        Item {
+            width: 1
+            height: 10
+        }
+
+        PQTextL {
+            x: (parent.width-width)/2
+            width: Math.max(parent.width/2, 600)
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            font.weight: PQCLook.fontWeightBold
+            horizontalAlignment: Text.AlignHCenter
+            text: "Thank you to all who volunteered their time to help translate PhotoQt into other languages!"
+        }
+
+        PQText {
+            x: (parent.width-width)/2
+            width: Math.max(parent.width/2, 600)
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            text: "Not all translations are 100% completed. If you want to help, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:"
+        }
+
+        Row {
+            x: (parent.width-width)/2
+            spacing: 5
+            PQText {
+                id: urltxt
+                text: "https://translate.photoqt.org"
+                font.weight: PQCLook.fontWeightBold
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    text: "Open in browser"
+                    onClicked:
+                        Qt.openUrlExternally("https://translate.photoqt.org")
+                }
+            }
+            PQButtonIcon {
+                width: urltxt.height
+                height: width
+                source: "/white/copy.svg"
+                tooltip: "Copy to clipboard"
+                onClicked:
+                    PQCScriptsClipboard.copyTextToClipboard("https://translate.photoqt.org")
+            }
+        }
+
     }
 
-    Component.onCompleted: {
-
-        var code = PQCSettings.interfaceLanguage
-
-        var setindex = availableLanguages.indexOf("en")
-
-        if(availableLanguages.indexOf(code) !== -1)
-            setindex = availableLanguages.indexOf(code)
-
-        var c = code + "_" + code.toUpperCase()
-        if(availableLanguages.indexOf(c) !== -1)
-            setindex = availableLanguages.indexOf(c)
-
-        origIndex = setindex
-        contcol.currentIndex = setindex
-
-    }
+    Component.onCompleted:
+        load()
 
     function applyChanges() {
         if(contcol.currentIndex == -1 || contcol.currentIndex >= availableLanguages.length)

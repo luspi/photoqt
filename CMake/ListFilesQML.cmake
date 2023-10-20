@@ -60,5 +60,25 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerIm
 SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQMainCategory.qml ${d}/PQSubCategory.qml)
 
-SET(d "qml/settingsmanager/settings")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQLanguage.qml)
+SET(d "qml/settingsmanager/settings/filetypes")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml)
+
+SET(d "qml/settingsmanager/settings/imageview")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQAnimation.qml ${d}/PQBehavior.qml ${d}/PQDefaultLook.qml ${d}/PQEdge.qml ${d}/PQFloatingNavigation.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQMapProvider.qml ${d}/PQMouse.qml ${d}/PQSortBy.qml ${d}/PQZoom.qml)
+
+SET(d "qml/settingsmanager/settings/interface")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQLanguage.qml ${d}/PQPopout.qml ${d}/PQTrayIcon.qml ${d}/PQWindow.qml)
+
+SET(d "qml/settingsmanager/settings/metadata")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQAutoRotation.qml ${d}/PQFaceTags.qml ${d}/PQLabels.qml ${d}/PQMapService.qml)
+
+SET(d "qml/settingsmanager/settings/session")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQPixmapCache.qml ${d}/PQRemember.qml ${d}/PQReopen.qml ${d}/PQReset.qml)
+
+SET(d "qml/settingsmanager/settings/shortcuts")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml)
+
+SET(d "qml/settingsmanager/settings/thumbnails")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQCache.qml ${d}/PQDisable.qml ${d}/PQExclude.qml ${d}/PQFilenameLabel.qml ${d}/PQHideShow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQHighlight.qml ${d}/PQImage.qml ${d}/PQLook.qml ${d}/PQThreads.qml ${d}/PQTooltip.qml)

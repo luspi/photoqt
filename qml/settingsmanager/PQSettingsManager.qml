@@ -36,6 +36,8 @@ PQTemplateFullscreen {
             hide()
     }
 
+    property var selectedCategories: ["interface", "language"]
+
     property var categories: {
 
         "interface" : ["Interface",
@@ -43,44 +45,29 @@ PQTemplateFullscreen {
                            "language"     : ["Language",     "PQLanguage"],
                             "popout"      : ["Popout",       "PQPopout"],
                             "background"  : ["Background",   "PQBackground"],
-                            "contextmenu" : ["Context menu", "PQContextMenu"]
+                            "contextmenu" : ["Context menu", "PQContextMenu"],
+                            "window"      : ["Window",       "PQWindow"],
+                            "trayicon"    : ["Tray icon",    "PQTrayIcon"]
                        }],
-
-        "window" : ["Window",
-                    {
-                        "windowmode"       : ["Window mode",       "PQWindowMode"],
-                        "windowdecoration" : ["Window decoration", "PQWindowDecoration"],
-                        "windowbuttons"    : ["Window buttons",    "PQWindowButtons"],
-                        "windowmanagement" : ["Window management", "PQWindowManagement"],
-                        "trayicon"         : ["Tray icon",         "PQTrayIcon"]
-                    }],
-
-        "navigation" : ["Navigation",
-                        {
-                            "mousewheel" : ["Mouse wheel",         "PQMouseWheel"],
-                            "floating"   : ["Floating navigation", "PQFloatingNavigation"],
-                            "edge"       : ["Edge behavior",       "PQEdge"]
-                        }],
 
         "imageview" : ["Image view",
                        {
-                            "transparency"  : ["Transparency marker", "PQTransparency"],
-                            "margin"        : ["Margin",              "PQMargin"],
-                            "interpolation" : ["Interpolation",       "PQInterpolation"],
+                            "defaultlook"   : ["Default Look",        "PQDefaultLook"],     // margin, sizing, transparency, interpolation
                             "zoom"          : ["Zoom",                "PQZoom"],
-                            "sizing"        : ["Image sizing",        "PQImageSizing"],
                             "sortby"        : ["Sort by",             "PQSortBy"],
-                            "looping"       : ["Looping",             "PQLooping"],
-                            "hidemouse"     : ["Hide mouse",          "PQHideMouse"],
+                            "behavior"      : ["Behavior",            "PQBehavior"],    // looping, hidemouse, animation?
                             "animation"     : ["Animation",           "PQAnimation"],
-                            "mapprovider"   : ["Map provider",        "PQMapProvider"]
+                            "mapprovider"   : ["Map provider",        "PQMapProvider"],
+                            "mouse"         : ["Mouse",               "PQMouse"],
+                            "floating"      : ["Floating navigation", "PQFloatingNavigation"],
+                            "edge"          : ["Edge behavior",       "PQEdge"]
                        }],
 
         "thumbnails" : ["Thumbnails",
                         {
                             "look"           : ["Look",                "PQLook"],
                             "highlight"      : ["Highlight animation", "PQHighlight"],
-                            "image"          : ["Thumbnail image",     "PQThumbnailImage"],
+                            "image"          : ["Thumbnail image",     "PQImage"],
                             "filenamelabel"  : ["Filename label",      "PQFilenameLabel"],
                             "disable"        : ["Disable",             "PQDisable"],
                             "tooltip"        : ["Tooltip",             "PQTooltip"],
@@ -154,10 +141,7 @@ PQTemplateFullscreen {
                     anchors.bottomMargin: 30
                     clip: true
                     asynchronous: true
-                    source: "settings/" + categories[sm_maincategory.selectedCategory][1][sm_subcategory.selectedSubCategory][1] + ".qml"
-    //                onSourceChanged: {
-    //                    console.warn("SOURCE:", source)
-    //                }
+                    source: "settings/" + selectedCategories[0] + "/" + categories[selectedCategories[0]][1][selectedCategories[1]][1] + ".qml"
                 }
 
                 Rectangle {
@@ -173,7 +157,7 @@ PQTemplateFullscreen {
                     height: 29
                     verticalAlignment: Text.AlignVCenter
                     font.weight: PQCLook.fontWeightBold
-                    text: "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Discard changes and close"
+                    text: "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close"
                 }
 
             }

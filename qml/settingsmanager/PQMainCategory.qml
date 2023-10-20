@@ -9,8 +9,6 @@ Item {
     height: settingsmanager_top.contentHeight
     width: 300-8
 
-    property string selectedCategory: categoryKeys[0]
-
     PQTextS {
         width: parent.width
         height: 30
@@ -30,11 +28,14 @@ Item {
 
         property var currentIndex: [0,0]
         onCurrentIndexChanged: {
-            if(confirmIfUnsavedChanged("main", currentIndex[0]))
-                selectedCategory = categoryKeys[currentIndex[0]]
-            else {
-                if(currentIndex[0] !== currentIndex[1])
+            if(confirmIfUnsavedChanged("main", currentIndex[0])) {
+                var newkey = categoryKeys[currentIndex[0]]
+                selectedCategories = [newkey, Object.keys(categories[newkey][1])[0]]
+                sm_subcategory.setCurrentIndex(0)
+            } else {
+                if(currentIndex[0] !== currentIndex[1]) {
                     currentIndex = [currentIndex[1], currentIndex[1]]
+                }
             }
         }
 
@@ -50,7 +51,7 @@ Item {
 
                         id: deleg
 
-                        height: 50
+                        height: 75
                         width: maincatcol.width
 
                         property bool mouseOver: false
@@ -110,11 +111,10 @@ Item {
                         Image {
                             id: rightarrow
                             x: parent.width-width-5
-                            height: parent.height
+                            y: (parent.height-height)/2
                             opacity: 0.5
-//                            width: height
                             fillMode: Image.Pad
-                            sourceSize: Qt.size(parent.height-30, parent.height-30)
+                            sourceSize: Qt.size(20, 20)
                             source: "/white/slideshownext.svg"
                         }
 
