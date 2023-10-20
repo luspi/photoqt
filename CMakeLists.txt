@@ -120,7 +120,7 @@ if(DEVIL)
 endif()
 
 if(CHROMECAST)
-    find_package(Python3 COMPONENTS Interpreter Development)
+    find_package(Python3 COMPONENTS Interpreter)
 endif()
 
 if(LIBVIPS)
