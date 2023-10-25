@@ -8,6 +8,9 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - thumbnailsDisable
+
 Flickable {
 
     id: setting_top

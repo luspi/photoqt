@@ -8,6 +8,30 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - interfacePopoutMainMenu
+// - interfacePopoutMetadata
+// - interfacePopoutHistogram
+// - interfacePopoutScale
+// - interfacePopoutSlideshowSetup
+// - interfacePopoutSlideshowControls
+// - interfacePopoutFileRename
+// - interfacePopoutFileDelete
+// - interfacePopoutAbout
+// - interfacePopoutImgur
+// - interfacePopoutWallpaper
+// - interfacePopoutFilter
+// - interfacePopoutSettingsManager
+// - interfacePopoutExport
+// - interfacePopoutChromecast
+// - interfacePopoutAdvancedSort
+// - interfacePopoutWhenWindowIsSmall
+// - interfacePopoutMapCurrent
+// - interfacePopoutMapExplorer
+// - interfacePopoutMapExplorerKeepOpen
+// - interfacePopoutFileDialog
+// - interfacePopoutFileDialogKeepOpen
+
 Flickable {
 
     id: setting_top

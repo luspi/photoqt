@@ -105,6 +105,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool haveScreenshots READ getHaveScreenshots WRITE setHaveScreenshots NOTIFY haveScreenshotsChanged)
+    void setHaveScreenshots(bool val);
+    Q_INVOKABLE bool getHaveScreenshots();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -116,6 +122,9 @@ private:
         m_spinBoxPassKeyEvents = false;
         m_ignoreKeysExceptEnterEsc = false;
         m_debugLogMessages = "";
+        m_slideshowRunning = false;
+        m_faceTagging = false;
+        m_haveScreenshots = false;
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -134,6 +143,8 @@ private:
     bool m_slideshowRunning;
     bool m_faceTagging;
 
+    bool m_haveScreenshots;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
@@ -144,6 +155,7 @@ Q_SIGNALS:
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
     void ignoreKeysExceptEnterEscChanged();
+    void haveScreenshotsChanged();
 
     void debugLogMessagesChanged();
 

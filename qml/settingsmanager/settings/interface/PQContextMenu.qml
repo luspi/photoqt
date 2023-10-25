@@ -8,6 +8,10 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - context menu entries
+// - mainmenuShowExternal
+
 Flickable {
 
     id: setting_top

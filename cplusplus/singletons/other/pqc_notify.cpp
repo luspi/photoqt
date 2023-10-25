@@ -118,3 +118,13 @@ void PQCNotify::setFaceTagging(bool val) {
 bool PQCNotify::getFaceTagging() {
     return m_faceTagging;
 }
+
+void PQCNotify::setHaveScreenshots(bool val) {
+    if(val != m_haveScreenshots) {
+        m_haveScreenshots = val;
+        Q_EMIT haveScreenshotsChanged();
+    }
+}
+bool PQCNotify::getHaveScreenshots() {
+    return m_haveScreenshots;
+}

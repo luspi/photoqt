@@ -8,6 +8,11 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - metadataGpsMap
+// - metadataAutoRotation
+// - metadataElementFloating
+
 Flickable {
 
     id: setting_top

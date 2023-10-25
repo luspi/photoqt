@@ -8,6 +8,17 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - thumbnailsVisibility
+// - thumbnailsCenterOnActive
+// - thumbnailsCache
+// - thumbnailsMaxNumberThreads
+// - thumbnailsTooltip
+// - thumbnailsExcludeFolders
+// - thumbnailsExcludeDropBox
+// - thumbnailsExcludeNextcloud
+// - thumbnailsExcludeOwnCloud
+
 Flickable {
 
     id: setting_top

@@ -8,6 +8,14 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - metadataFaceTagsVisibility
+// - metadataFaceTagsBorder
+// - metadataFaceTagsBorderColor
+// - metadataFaceTagsBorderWidth
+// - metadataFaceTagsFontSize
+// - metadataFaceTagsEnabled
+
 Flickable {
 
     id: setting_top

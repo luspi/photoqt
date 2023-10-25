@@ -40,63 +40,78 @@ PQTemplateFullscreen {
 
     property var categories: {
 
-        "interface" : ["Interface",
+        //: A settings category
+        "interface" : [qsTranslate("settingsmanager", "Interface"),
                        {
-                           "language"     : ["Language",     "PQLanguage"],
-                            "popout"      : ["Popout",       "PQPopout"],
-                            "background"  : ["Background",   "PQBackground"],
-                            "contextmenu" : ["Context menu", "PQContextMenu"],
-                            "window"      : ["Window",       "PQWindow"],
-                            "trayicon"    : ["Tray icon",    "PQTrayIcon"]
+                                             //: A settings subcategory
+                            "language"    : [qsTranslate("settingsmanager", "Language"),     "PQLanguage"],
+                                             //: A settings subcategory
+                            "background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground"],
+                                             //: A settings subcategory
+                            "popout"      : [qsTranslate("settingsmanager", "Popout"),       "PQPopout"],
+                                             //: A settings subcategory
+                            "contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu"],
+                                             //: A settings subcategory
+                            "statusinfo"  : [qsTranslate("settingsmanager", "Status Info"),  "PQStatusInfo"],
+                                             //: A settings subcategory
+                            "window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow"],
+                                             //: A settings subcategory
+                            "trayicon"    : [qsTranslate("settingsmanager", "Tray icon"),    "PQTrayIcon"],
                        }],
 
-        "imageview" : ["Image view",
+        //: A settings category
+        "imageview" : [qsTranslate("settingsmanager", "Image view"),
                        {
-                            "defaultlook"   : ["Default Look",        "PQDefaultLook"],     // margin, sizing, transparency, interpolation
-                            "zoom"          : ["Zoom",                "PQZoom"],
-                            "sortby"        : ["Sort by",             "PQSortBy"],
-                            "behavior"      : ["Behavior",            "PQBehavior"],    // looping, hidemouse, animation?
-                            "animation"     : ["Animation",           "PQAnimation"],
-                            "mapprovider"   : ["Map provider",        "PQMapProvider"],
-                            "mouse"         : ["Mouse",               "PQMouse"],
-                            "floating"      : ["Floating navigation", "PQFloatingNavigation"],
-                            "edge"          : ["Edge behavior",       "PQEdge"]
+                                               //: A settings subcategory
+                            "look"          : [qsTranslate("settingsmanager", "Look"),     "PQLook"],
+                                               //: A settings subcategory
+                            "behavior"      : [qsTranslate("settingsmanager", "Behavior"), "PQBehavior"],
+                                               //: A settings subcategory
+                            "edge"          : [qsTranslate("settingsmanager", "Edges"),    "PQEdge"]
                        }],
 
-        "thumbnails" : ["Thumbnails",
+        //: A settings category
+        "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
-                            "look"           : ["Look",                "PQLook"],
-                            "highlight"      : ["Highlight animation", "PQHighlight"],
-                            "image"          : ["Thumbnail image",     "PQImage"],
-                            "filenamelabel"  : ["Filename label",      "PQFilenameLabel"],
-                            "disable"        : ["Disable",             "PQDisable"],
-                            "tooltip"        : ["Tooltip",             "PQTooltip"],
-                            "hideshow"       : ["Hide/Show",           "PQHideShow"],
-                            "cache"          : ["Cache",               "PQCache"],
-                            "excludefolders" : ["Exclude folders",     "PQExclude"],
-                            "threads"        : ["Threads",             "PQThreads"]
+                                                //: A settings subcategory
+                            "enable"         : [qsTranslate("settingsmanager", "Enable thumbnails"), "PQEnable"],
+                                                //: A settings subcategory
+                            "look"           : [qsTranslate("settingsmanager", "Look"),              "PQLook"],
+                                                //: A settings subcategory
+                            "behavior"       : [qsTranslate("settingsmanager", "Behavior"),          "PQBehavior"]
                         }],
 
-        "metadata" : ["Metadata",
+        //: A settings category
+        "metadata" : [qsTranslate("settingsmanager", "Metadata"),
                       {
-                            "labels"       : ["Labels",        "PQLabels"],
-                            "autorotation" : ["Auto rotation", "PQAutoRotation"],
-                            "mapservice"   : ["Map service",   "PQMapService"],
-                            "facetags"     : ["Face tags",     "PQFaceTags"]
+                                              //: A settings subcategory
+                            "labels"       : [qsTranslate("settingsmanager", "Labels"),        "PQLabels"],
+                                              //: A settings subcategory
+                            "behavior"     : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior"],
+                                              //: A settings subcategory
+                            "facetags"     : [qsTranslate("settingsmanager", "Face Tags"),     "PQFaceTags"]
                       }],
 
-        "session" : ["Session",
+        //: A settings category
+        "session" : [qsTranslate("settingsmanager", "Session"),
                      {
-                        "resetview"   : ["Reset view",        "PQReset"],
-                        "remember"    : ["Remember",          "PQRemember"],
-                        "reopen"      : ["Reopen last image", "PQReopen"],
-                        "pixmapcache" : ["Pixmap cache",      "PQPixmapCache"]
+                                          //: A settings subcategory
+                         "instance"    : [qsTranslate("settingsmanager", "Single Instance"),   "PQInstance"],
+                                          //: A settings subcategory
+                         "resetview"   : [qsTranslate("settingsmanager", "Reset view"),        "PQReset"],
+                                          //: A settings subcategory
+                         "remember"    : [qsTranslate("settingsmanager", "Remember"),          "PQRemember"]
                      }],
 
-        "filetypes" : ["File types",
-                       {"filetypes" : ["File types", "PQFileTypes"]}],
-        "shortcuts" : ["Shortcuts",
-                       {"shortcuts" : ["Shortcuts",  "PQShortcuts"]}]
+        //: A settings category
+        "filetypes" : [qsTranslate("settingsmanager", "File types"),
+                                       //: A settings subcategory
+                       {"filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes"]}],
+
+        //: A settings category
+        "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),
+                                       //: A settings subcategory
+                       {"shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts"]}]
 
 
     }
@@ -157,7 +172,7 @@ PQTemplateFullscreen {
                     height: 29
                     verticalAlignment: Text.AlignVCenter
                     font.weight: PQCLook.fontWeightBold
-                    text: "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close"
+                    text: qsTranslate("settingsmanager", "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close")
                 }
 
             }
@@ -192,7 +207,7 @@ PQTemplateFullscreen {
             PQTextXL {
                 x: (parent.width-width)/2
                 font.weight: PQCLook.fontWeightBold
-                text: "Unsaved changes"
+                text: qsTranslate("settingsmanager", "Unsaved changes")
             }
 
             PQText {
@@ -200,7 +215,7 @@ PQTemplateFullscreen {
                 width: 400
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
-                text: "The settings on this page have changed. Do you want to save or discard them?"
+                text: qsTranslate("settingsmanager", "The settings on this page have changed. Do you want to apply or discard them?")
             }
 
             Row {
@@ -211,7 +226,8 @@ PQTemplateFullscreen {
 
                 PQButton {
                     id: confirmApply
-                    text: "Apply"
+                    //: written on button, used as in: apply changes
+                    text: qsTranslate("settingsmanager", "Apply")
                     onClicked: {
                         settingsloader.item.applyChanges()
 
@@ -229,7 +245,8 @@ PQTemplateFullscreen {
                 }
                 PQButton {
                     id: confirmDiscard
-                    text: "Discard"
+                    //: written on button, used as in: discard changes
+                    text: qsTranslate("settingsmanager", "Discard")
                     onClicked: {
                         if(confirmUnsaved.cat == "-") {
                             hide()
@@ -245,7 +262,7 @@ PQTemplateFullscreen {
                 }
                 PQButton {
                     id: confirmCancel
-                    text: "Cancel"
+                    text: genericStringCancel
                     onClicked: {
                         confirmUnsaved.opacity = 0
                         confirmUnsaved.cat = ""
@@ -292,10 +309,13 @@ PQTemplateFullscreen {
 
                     } else if(param[0] === Qt.Key_S && param[1] === Qt.ControlModifier) {
 
-                        console.warn("Ctrl+S")
-
-                        if(confirmUnsaved.opacity === 0)
+                        if(confirmUnsaved.opacity < 1)
                             settingsloader.item.applyChanges()
+
+                    } else if(param[0] === Qt.Key_R && param[1] === Qt.ControlModifier) {
+
+                        if(confirmUnsaved.opacity < 1)
+                            settingsloader.item.revertChanges()
 
                     }
 

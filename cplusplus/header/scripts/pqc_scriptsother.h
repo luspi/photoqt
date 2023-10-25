@@ -18,10 +18,11 @@ public:
     void operator=(PQCScriptsOther const&) = delete;
 
     Q_INVOKABLE qint64 getTimestamp();
-    Q_INVOKABLE void takeScreenshots();
+    Q_INVOKABLE bool takeScreenshots();
     Q_INVOKABLE void deleteScreenshots();
     Q_INVOKABLE QString getUniqueId();
     Q_INVOKABLE void printFile(QString filename);
+    Q_INVOKABLE int getCurrentScreen(QPoint pos);
 
 private:
     PQCScriptsOther();

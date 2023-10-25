@@ -8,6 +8,13 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - imageviewMargin
+// - imageviewInterpolationThreshold
+// - imageviewInterpolationDisableForSmallImages
+// - imageviewTransparencyMarker
+// - imageviewFitInWindow
+
 Flickable {
 
     id: setting_top

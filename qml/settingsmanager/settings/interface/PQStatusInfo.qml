@@ -8,6 +8,15 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - interfaceStatusInfoList
+// - interfaceStatusInfoShow
+// - interfaceStatusInfoFontSize
+// - interfaceStatusInfoAutoHide
+// - interfaceStatusInfoAutoHideTimeout
+// - interfaceStatusInfoAutoHideTopEdge
+// - interfaceStatusInfoShowImageChange
+
 Flickable {
 
     id: setting_top

@@ -36,7 +36,7 @@ RadioButton {
         text: control.text
         elide: control.elide
         font: control.font
-        opacity: enabled ? 1.0 : 0.3
+        opacity: enabled ? 1.0 : 0.4
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
     }

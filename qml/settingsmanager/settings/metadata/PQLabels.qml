@@ -8,6 +8,28 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - metadataFilename
+// - metadataFileType
+// - metadataFileSize
+// - metadataImageNumber
+// - metadataCopyright
+// - metadataDimensions
+// - metadataExposureTime
+// - metadataFlash
+// - metadataFLength
+// - metadataFNumber
+// - metadataGps
+// - metadataIso
+// - metadataKeywords
+// - metadataLightSource
+// - metadataLocation
+// - metadataMake
+// - metadataModel
+// - metadataSceneType
+// - metadataSoftware
+// - metadataTime
+
 Flickable {
 
     id: setting_top

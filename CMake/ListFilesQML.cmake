@@ -5,7 +5,7 @@
 SET(photoqt_QML "")
 
 SET(d "qml")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQMainWindow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQMainWindow.qml ${d}/PQMainWindowBackground.qml)
 
 SET(d "qml/elements")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQText.qml ${d}/PQTextS.qml ${d}/PQTextL.qml ${d}/PQTextXL.qml ${d}/PQMouseArea.qml ${d}/PQButtonIcon.qml)
@@ -64,21 +64,19 @@ SET(d "qml/settingsmanager/settings/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml)
 
 SET(d "qml/settingsmanager/settings/imageview")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQAnimation.qml ${d}/PQBehavior.qml ${d}/PQDefaultLook.qml ${d}/PQEdge.qml ${d}/PQFloatingNavigation.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQMapProvider.qml ${d}/PQMouse.qml ${d}/PQSortBy.qml ${d}/PQZoom.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml ${d}/PQEdge.qml)
 
 SET(d "qml/settingsmanager/settings/interface")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQLanguage.qml ${d}/PQPopout.qml ${d}/PQTrayIcon.qml ${d}/PQWindow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQLanguage.qml ${d}/PQPopout.qml ${d}/PQTrayIcon.qml ${d}/PQWindow.qml ${d}/PQStatusInfo.qml)
 
 SET(d "qml/settingsmanager/settings/metadata")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQAutoRotation.qml ${d}/PQFaceTags.qml ${d}/PQLabels.qml ${d}/PQMapService.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTags.qml ${d}/PQLabels.qml ${d}/PQBehavior.qml)
 
 SET(d "qml/settingsmanager/settings/session")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQPixmapCache.qml ${d}/PQRemember.qml ${d}/PQReopen.qml ${d}/PQReset.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQRemember.qml ${d}/PQReset.qml ${d}/PQInstance.qml)
 
 SET(d "qml/settingsmanager/settings/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml)
 
 SET(d "qml/settingsmanager/settings/thumbnails")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQCache.qml ${d}/PQDisable.qml ${d}/PQExclude.qml ${d}/PQFilenameLabel.qml ${d}/PQHideShow.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQHighlight.qml ${d}/PQImage.qml ${d}/PQLook.qml ${d}/PQThreads.qml ${d}/PQTooltip.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQEnable.qml ${d}/PQLook.qml)

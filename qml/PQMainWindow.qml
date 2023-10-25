@@ -23,7 +23,7 @@ Window {
 
     visibility: PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen
 
-    color: PQCLook.transColor
+    color: "transparent"
 
     minimumWidth: 800
     minimumHeight: 600
@@ -37,7 +37,7 @@ Window {
 
     property bool startup: true
 
-    Item {
+    PQMainWindowBackground {
         id: fullscreenitem
         anchors.fill: parent
     }
@@ -167,6 +167,8 @@ Window {
     }
 
     Component.onCompleted: {
+
+        fullscreenitem.setBackground()
 
         PQCScriptsConfig.updateTranslation()
 

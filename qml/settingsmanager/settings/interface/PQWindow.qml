@@ -8,6 +8,19 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - interfaceWindowButtonsSize
+// - interfaceStatusInfoManageWindow
+// - interfaceWindowMode
+// - interfaceWindowDecoration
+// - interfaceSaveWindowGeometry
+// - interfaceKeepWindowOnTop
+// - interfaceWindowButtonsDuplicateDecorationButtons
+// - interfaceWindowButtonsShow
+// - interfaceWindowButtonsAutoHide
+// - interfaceWindowButtonsAutoHideTopEdge
+// - interfaceWindowButtonsAutoHideTimeout
+
 Flickable {
 
     id: setting_top

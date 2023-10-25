@@ -8,6 +8,31 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - imageviewLoopThroughFolder
+// - imageviewCache
+// - imageviewBigViewerModeButton
+// - imageviewAlwaysActualSize
+// - imageviewResetViewShow
+// - imageviewResetViewAutoHideTimeout
+// - imageviewNavigationFloating
+// - interfaceNavigationTopRight
+// - interfaceWindowDecorationOnEmptyBackground
+// - imageviewZoomSpeed
+// - imageviewZoomToCenter
+// - imageviewZoomMin
+// - imageviewZoomMax
+// - imageviewZoomMinEnabled
+// - imageviewZoomMaxEnabled
+// - imageviewSortImagesBy
+// - imageviewSortImagesAscending
+// - imageviewAnimationDuration
+// - imageviewAnimationType
+// - imageviewUseMouseWheelForImageMove
+// - imageviewHideCursorTimeout
+// - interfaceMouseWheelSensitivity
+// - interfaceDoubleClickThreshold
+
 Flickable {
 
     id: setting_top

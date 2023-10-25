@@ -21,15 +21,18 @@ qint64 PQCScriptsOther::getTimestamp() {
     return QDateTime::currentMSecsSinceEpoch();
 }
 
-void PQCScriptsOther::takeScreenshots() {
+bool PQCScriptsOther::takeScreenshots() {
     qDebug() << "";
     for(int i = 0; i < QApplication::screens().count(); ++i) {
         QScreen *screen = QApplication::screens().at(i);
         QRect r = screen->geometry();
         QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-        if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i)))
+        if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
             qWarning() << "Error taking screenshot for screen #" << i;
+            return false;
+        }
     }
+    return true;
 }
 
 void PQCScriptsOther::deleteScreenshots() {
@@ -161,4 +164,15 @@ void PQCScriptsOther::printFile(QString filename) {
 
     PQCNotify::get().setModalFileDialogOpen(false);
 
+}
+
+int PQCScriptsOther::getCurrentScreen(QPoint pos) {
+    for(int i = 0; i < QApplication::screens().count(); ++i) {
+        QScreen *screen = QApplication::screens().at(i);
+        QRect r = screen->geometry();
+        if(r.x() < pos.x() && r.x()+r.width() > pos.x() &&
+            r.y() < pos.y() && r.y()+r.height() > pos.y())
+            return i;
+    }
+    return 0;
 }

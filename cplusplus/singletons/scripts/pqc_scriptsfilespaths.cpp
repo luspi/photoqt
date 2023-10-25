@@ -179,6 +179,10 @@ QString PQCScriptsFilesPaths::getHomeDir() {
     return QDir::homePath();
 }
 
+QString PQCScriptsFilesPaths::getTempDir() {
+    return QDir::tempPath();
+}
+
 bool PQCScriptsFilesPaths::isFolder(QString path) {
     return QFileInfo(path).isDir();
 }

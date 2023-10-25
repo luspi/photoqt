@@ -12,6 +12,9 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - interfaceLanguage
+
 Flickable {
 
     id: setting_top
@@ -85,7 +88,9 @@ Flickable {
         PQTextXL {
             x: (parent.width-width)/2
             font.weight: PQCLook.fontWeightBold
-            text: "Language"
+            font.capitalization: Font.SmallCaps
+            //: A settings title
+            text: qsTranslate("settingsmanager_interface", "Language")
         }
 
         Item {
@@ -147,7 +152,7 @@ Flickable {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.weight: PQCLook.fontWeightBold
             horizontalAlignment: Text.AlignHCenter
-            text: "Thank you to all who volunteered their time to help translate PhotoQt into other languages!"
+            text: qsTranslate("settingsmanager_interface", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
         }
 
         PQText {
@@ -155,7 +160,7 @@ Flickable {
             width: Math.max(parent.width/2, 600)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
-            text: "Not all translations are 100% completed. If you want to help, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:"
+            text: qsTranslate("settingsmanager_interface", "Not all translations are 100% completed. If you want to help, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:")
         }
 
         Row {
@@ -169,7 +174,7 @@ Flickable {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: "Open in browser"
+                    text: qsTranslate("settingsmanager_interface", "Open in browser")
                     onClicked:
                         Qt.openUrlExternally("https://translate.photoqt.org")
                 }
@@ -178,7 +183,7 @@ Flickable {
                 width: urltxt.height
                 height: width
                 source: "/white/copy.svg"
-                tooltip: "Copy to clipboard"
+                tooltip: qsTranslate("settingsmanager_interface", "Copy to clipboard")
                 onClicked:
                     PQCScriptsClipboard.copyTextToClipboard("https://translate.photoqt.org")
             }

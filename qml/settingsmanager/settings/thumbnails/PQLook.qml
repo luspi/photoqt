@@ -8,6 +8,17 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - thumbnailsSize
+// - thumbnailsSpacing
+// - thumbnailsFilename
+// - thumbnailsFontSize
+// - thumbnailsCropToFit
+// - thumbnailsIconsOnly
+// - thumbnailsHighlightAnimation
+// - thumbnailsHighlightAnimationLiftUp
+// - thumbnailsInactiveTransparent
+
 Flickable {
 
     id: setting_top

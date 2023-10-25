@@ -8,6 +8,15 @@ import "../../../elements"
 // 2) function applyChanges()
 // 3) function revertChanges()
 
+// settings in this file:
+// - filetypesPDFQuality
+// - filetypesExternalUnrar
+// - filetypesVideoAutoplay
+// - filetypesVideoLoop
+// - filetypesVideoVolume
+// - filetypesVideoThumbnailer
+// - filetypesVideoPreferLibmpv
+
 Flickable {
 
     id: setting_top

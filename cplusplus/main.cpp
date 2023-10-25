@@ -177,15 +177,18 @@ int main(int argc, char *argv[]) {
 
         // run consistency check
         // this is done when updating or coming from dev version
-        if(checker == 1 || checker == 3)
-            validate.validate();
+//        if(checker == 1 || checker == 3)
+//            validate.validate();
 
         PQCSettings::get().update("generalVersion", VERSION);
 
     }
 
+    // TODO: force this in dev version only
+    validate.validate();
+
     // Get screenshots for fake transparency
-    PQCScriptsOther::get().takeScreenshots();
+    PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());
 
 // only one of them will be defined at a time
 #if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
