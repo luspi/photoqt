@@ -77,7 +77,7 @@
 #endif
 
 #ifdef FREEIMAGE
-#include <FreeImagePlus.h>
+#include <FreeImage.h>
 #endif
 
 #ifdef Q_OS_WIN

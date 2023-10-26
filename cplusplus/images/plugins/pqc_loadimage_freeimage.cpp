@@ -29,7 +29,7 @@
 #include <QtDebug>
 
 #ifdef FREEIMAGE
-#include <FreeImagePlus.h>
+#include <FreeImage.h>
 #endif
 
 PQCLoadImageFreeImage::PQCLoadImageFreeImage() {}
@@ -38,26 +38,25 @@ QSize PQCLoadImageFreeImage::loadSize(QString filename) {
 
 #ifdef FREEIMAGE
 
-    fipImage image;
-    if(!image.load(filename.toStdString().c_str())) {
-        qWarning() << "Error loading image:" << filename;
-        return QSize();
-    }
-
-    FREE_IMAGE_FORMAT fif = image.identifyFIF(filename.toStdString().c_str());
-
-    // if that didn't work, we look at the filename
+    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.toStdString().c_str());
     if(fif == FIF_UNKNOWN)
-        fif = fipImage::identifyFIF(filename.toStdString().c_str());
-
-    // If loading the image failed for any other reason, return error image
+        fif = FreeImage_GetFIFFromFilename(filename.toStdString().c_str());
     if(fif == FIF_UNKNOWN) {
         qWarning() << "Unknown file type (FIF_UNKNOWN)";
         return QSize();
     }
 
+    FIBITMAP *image = FreeImage_Load(fif, filename.toStdString().c_str());
+    if(!image) {
+        qWarning() << "Error loading image:" << filename;
+        return QSize();
+    }
+
+    const unsigned int width = FreeImage_GetWidth(image);
+    const unsigned int height = FreeImage_GetHeight(image);
+
     // the width/height of the image, needed to ensure we respect the maxSize further down
-    return QSize(image.getWidth(), image.getHeight());
+    return QSize(width, height);
 
 #else
 
@@ -74,32 +73,31 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
 
 #ifdef FREEIMAGE
 
-    fipImage image;
-    if(!image.load(filename.toStdString().c_str())) {
-        QString errormsg = "Error loading image: " + filename;
-        qWarning() << errormsg;
-        return errormsg;
-    }
-
-    FREE_IMAGE_FORMAT fif = image.identifyFIF(filename.toStdString().c_str());
-
-    // if that didn't work, we look at the filename
+    FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.toStdString().c_str());
     if(fif == FIF_UNKNOWN)
-        fif = fipImage::identifyFIF(filename.toStdString().c_str());
-
-    // If loading the image failed for any other reason, return error image
+        fif = FreeImage_GetFIFFromFilename(filename.toStdString().c_str());
     if(fif == FIF_UNKNOWN) {
         QString errormsg = "Unknown file type (FIF_UNKNOWN)";
         qWarning() << errormsg;
         return errormsg;
     }
 
+    FIBITMAP *image = FreeImage_Load(fif, filename.toStdString().c_str());
+    if(!image) {
+        QString errormsg = "Error loading image: " + filename;
+        qWarning() << errormsg;
+        return errormsg;
+    }
+
+    const unsigned int width = FreeImage_GetWidth(image);
+    const unsigned int height = FreeImage_GetHeight(image);
+
     // the width/height of the image, needed to ensure we respect the maxSize further down
-    origSize = QSize(image.getWidth(), image.getHeight());
+    origSize = QSize(width, height);
 
     // This will be the access handler for the data that we can load into QImage
-    fipMemoryIO stream;
-    if(!image.saveToMemory(FIF_PPM, stream)) {
+    FIMEMORY *stream = FreeImage_OpenMemory();
+    if(!FreeImage_SaveToMemory(FIF_PPM, image, stream, 0)) {
         QString errormsg = "Unable to save to memory";
         qWarning() << errormsg;
         return errormsg;
@@ -109,7 +107,8 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
     BYTE *mem_buffer = nullptr;
     DWORD size_in_bytes = 0;
 
-    if(!stream.acquire(&mem_buffer, &size_in_bytes)) {
+    FreeImage_AcquireMemory(stream, &mem_buffer, &size_in_bytes);
+    if(size_in_bytes == 0) {
         QString errormsg = "Unable to load image from memory";
         qWarning() << errormsg;
         return errormsg;

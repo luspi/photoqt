@@ -36,7 +36,7 @@
 #endif
 
 #ifdef FREEIMAGE
-#include <FreeImagePlus.h>
+#include <FreeImage.h>
 #endif
 
 #ifdef VIDEOMPV
