@@ -67,6 +67,8 @@ Rectangle {
 
     property int gap: 40
 
+    PQBlurBackground { thisis: "mainmenu" }
+
     // the four states corresponding to screen edges
     states: [
         State {

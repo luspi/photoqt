@@ -77,6 +77,8 @@ Rectangle {
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
+    PQBlurBackground { thisis: "metadata" }
+
     state: PQCSettings.interfacePopoutMetadata ?
                "popout" :
                PQCSettings.metadataElementFloating ?

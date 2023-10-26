@@ -9,6 +9,8 @@ import "../elements"
 
 PQMenu {
 
+    id: menutop
+
     PQMenuItem {
         iconSource: "/white/rename.svg"
         text: qsTranslate("contextmenu", "Rename file")

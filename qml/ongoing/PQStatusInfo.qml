@@ -30,6 +30,10 @@ Item {
 
     property int distanceFromEdge: 20
 
+    property alias radius: maincontainer.radius
+
+    PQBlurBackground { thisis: "statusinfo" }
+
     // don't pass mouse clicks to background
     MouseArea {
         anchors.fill: parent

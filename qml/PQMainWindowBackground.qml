@@ -57,35 +57,35 @@ Item {
     Connections {
         target: PQCSettings
 
-        function oninterfaceBackgroundSolidChanged() {
+        function onInterfaceBackgroundSolidChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImageUseChanged() {
+        function onInterfaceBackgroundImageUseChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImagePathChanged() {
+        function onInterfaceBackgroundImagePathChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImageScaleChanged() {
+        function onInterfaceBackgroundImageScaleChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImageScaleCropChanged() {
+        function onInterfaceBackgroundImageScaleCropChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImageStretchChanged() {
+        function onInterfaceBackgroundImageStretchChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImageCenterChanged() {
+        function onInterfaceBackgroundImageCenterChanged() {
             resetBG.restart()
         }
 
-        function oninterfaceBackgroundImageScreenshotChanged() {
+        function onInterfaceBackgroundImageScreenshotChanged() {
             resetBG.restart()
         }
 

@@ -61,6 +61,8 @@ PQTemplateFloating {
     shortcut: "__showMapCurrent"
     tooltip: PQCSettings.interfacePopoutMapCurrent ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.")
 
+    blur_thisis: "mapcurrent"
+
     allowWheel: true
     darkBackgroundManageIcons: !noloc.visible && !nofileloaded.visible
 

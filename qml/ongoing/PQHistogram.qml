@@ -55,7 +55,7 @@ PQTemplateFloating {
     popout: PQCSettings.interfacePopoutHistogram
     shortcut: "__histogram"
     tooltip: (PQCSettings.interfacePopoutHistogram ? "" : (qsTranslate("histogram", "Click-and-drag to move.")+" ")) + qsTranslate("histogram", "Right click to switch version.")
-
+    blur_thisis: "histogram"
 
     onPopoutChanged: {
         if(popout !== PQCSettings.interfacePopoutHistogram)

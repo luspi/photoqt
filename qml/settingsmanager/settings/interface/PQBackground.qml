@@ -3,6 +3,7 @@ import QtQuick
 import PQCNotify
 import PQCScriptsFilesPaths
 import PQCImageFormats
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -198,13 +199,7 @@ Flickable {
         }
 
         /**********************************************************************/
-        Item { width: 1; height: 5; }
-        Rectangle {
-            width: setting_top.width
-            height: 1
-            color: PQCLook.baseColorHighlight
-        }
-        Item { width: 1; height: 5; }
+        PQSettingsSeparator {}
         /**********************************************************************/
 
         PQTextXL {
@@ -257,16 +252,11 @@ Flickable {
         }
 
         /**********************************************************************/
-        Item { width: 1; height: 5; }
-        Rectangle {
-            width: setting_top.width
-            height: 1
-            color: PQCLook.baseColorHighlight
-        }
-        Item { width: 1; height: 5; }
+        PQSettingsSeparator { visible: PQCScriptsConfig.isQtAtLeast6_4() }
         /**********************************************************************/
 
         PQTextXL {
+            visible: PQCScriptsConfig.isQtAtLeast6_4()
             font.weight: PQCLook.fontWeightBold
             //: A settings title
             text: qsTranslate("settingsmanager_interface", "Blurring elements behind other elements")
@@ -274,12 +264,14 @@ Flickable {
         }
 
         PQText {
+            visible: PQCScriptsConfig.isQtAtLeast6_4()
             width: setting_top.width
             text: qsTranslate("settingsmanager_interface", "Whenever an element (e.g., histogram, main menu, etc.) is open, anything behind it can be blurred slightly. This reduces the contrast in the background which improves readability. Note that this requires a slightly higher amount of computations. It also does not work with anything behind PhotoQt that is not part of the window itself.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
+            visible: PQCScriptsConfig.isQtAtLeast6_4()
             id: check_blurbg
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager_interface", "Blur elements in the back")

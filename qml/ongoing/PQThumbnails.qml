@@ -47,6 +47,8 @@ Rectangle {
 
     property int extraSpacing: Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
 
+    PQBlurBackground { thisis: "thumbnails" }
+
     // the four states corresponding to screen edges
     states: [
         State {

@@ -176,15 +176,19 @@ ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 add_definitions(-DQT_MESSAGELOGCONTEXT)
 
 #####################################
-#### Handle Qt6.2 specific stuff ####
+#### Handle Qt<6.4 specific stuff ####
 #####################################
 
 if(Qt6_VERSION VERSION_LESS 6.4)
-        execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
 else()
-        execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
 endif()
 
 #############################

@@ -73,12 +73,7 @@ Window {
     Loader { id: background; asynchronous: true; source: "other/PQBackgroundMessage.qml" }
     // status info
     Loader { id: statusinfo; asynchronous: true; source: "ongoing/PQStatusInfo.qml" }
-    // thumbnails
-    Loader { id: loader_thumbnails; asynchronous: true; }
-    // main menu
-    Loader { id: loader_mainmenu; asynchronous: true; }
-    // meta data
-    Loader { id: loader_metadata; asynchronous: true; }
+
     PQContextMenu { id: contextmenu }
 
     Loader { id: loader_trayicon; asynchronous: true; source: "ongoing/PQTrayIcon.qml" }
@@ -107,6 +102,11 @@ Window {
     Loader { id: loader_notification }
     Loader { id: loader_logging }
     Loader { id: loader_chromecast }
+
+    // these should be above the other ongoing ones
+    Loader { id: loader_thumbnails; asynchronous: true; }
+    Loader { id: loader_metadata; asynchronous: true; }
+    Loader { id: loader_mainmenu; asynchronous: true; }
 
     // actions
     Loader { id: loader_about }

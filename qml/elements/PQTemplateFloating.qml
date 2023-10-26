@@ -24,6 +24,7 @@ Rectangle {
     property bool darkBackgroundManageIcons: false
     property string tooltip: ""
     property bool allowWheel: false
+    property alias blur_thisis: blurbg.thisis
 
     /////////
 
@@ -50,6 +51,8 @@ Rectangle {
     color: PQCLook.transColor
 
     radius: 10
+
+    PQBlurBackground { id: blurbg }
 
     Item {
 
