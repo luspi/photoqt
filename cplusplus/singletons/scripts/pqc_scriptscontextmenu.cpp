@@ -92,7 +92,7 @@ void PQCScriptsContextMenu::setEntries(QVariantList entries) {
         return;
     }
 
-    for(const auto &entry : qAsConst(entries)) {
+    for(const auto &entry : std::as_const(entries)) {
 
         QVariantList entrylist = entry.toList();
 

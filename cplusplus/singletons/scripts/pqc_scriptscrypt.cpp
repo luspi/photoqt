@@ -13,7 +13,7 @@ PQCScriptsCrypt::PQCScriptsCrypt() {
     else {
         hostname = hostname.remove(5, hostname.length()+1);
         int p = 1;
-        for(const auto &character : qAsConst(hostname)) {
+        for(const auto &character : std::as_const(hostname)) {
             cryptKey += character.unicode()*p;
             p *= 10;
         }

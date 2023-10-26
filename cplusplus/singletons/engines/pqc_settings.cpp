@@ -134,7 +134,7 @@ void PQCSettings::readDB() {
     valid.clear();
 #endif
 
-    for(const auto &table : qAsConst(dbtables)) {
+    for(const auto &table : std::as_const(dbtables)) {
 
         QSqlQuery query(db);
         query.prepare(QString("SELECT name,value,datatype FROM %1").arg(table));
@@ -223,7 +223,7 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     QString key = _key;
     QString category = "";
 
-    for(const auto &table : qAsConst(dbtables)) {
+    for(const auto &table : std::as_const(dbtables)) {
         if(key.startsWith(table)) {
             category = table;
             key = key.remove(0, table.length());
@@ -293,7 +293,7 @@ void PQCSettings::setDefault(bool ignoreLanguage) {
         dbIsTransaction = true;
     }
 
-    for(const auto &table : qAsConst(dbtables)) {
+    for(const auto &table : std::as_const(dbtables)) {
 
         QSqlQuery query(db);
 

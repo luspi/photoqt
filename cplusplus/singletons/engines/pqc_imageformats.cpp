@@ -232,8 +232,8 @@ void PQCImageFormats::readFromDatabase() {
             // or when it is reported as not readable, then we skip this format
             bool alright = true;
             if(im_gm_magick != "") {
-                QStringList tmp = im_gm_magick.split(",", Qt::SkipEmptyParts);
-                for(const auto &t: qAsConst(tmp)) {
+                const QStringList tmp = im_gm_magick.split(",", Qt::SkipEmptyParts);
+                for(const auto &t: tmp) {
                     try {
                         Magick::CoderInfo magickCoderInfo(t.toStdString());
                         if(magickCoderInfo.isReadable())

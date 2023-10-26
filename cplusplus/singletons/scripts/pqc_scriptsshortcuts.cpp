@@ -162,7 +162,7 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
     QStringList parts = combo.split("+");
 
     QString ret = "";
-    for(const auto &i : qAsConst(parts)) {
+    for(const auto &i : std::as_const(parts)) {
         if(ret != "")
             ret += " + ";
         if(i == "")
@@ -179,7 +179,7 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
         QStringList p = ret.split("+");
         QString lastItem = p[p.length()-1];
         ret = "";
-        for(const auto &j : qAsConst(p)) {
+        for(const auto &j : std::as_const(p)) {
             if(ret != "") ret += " + ";
             ret += j;
         }

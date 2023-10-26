@@ -130,7 +130,7 @@ void PQCLocation::scanForLocations(QStringList files) {
 
     db.transaction();
 
-    for(const QString &f : qAsConst(files)) {
+    for(const QString &f : std::as_const(files)) {
 
         QFileInfo info(f);
 

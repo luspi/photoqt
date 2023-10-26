@@ -199,7 +199,7 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
     QStringList parts = msg.split(":://::");
 
-    for(const QString &m : qAsConst(parts)) {
+    for(const QString &m : std::as_const(parts)) {
 
         if(m.startsWith("_F_I_L_E_"))
 

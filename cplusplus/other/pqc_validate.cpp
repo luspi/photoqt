@@ -522,7 +522,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
 
     queryInst.clear();
 
-    for(const auto &endings : qAsConst(toBeRemoved)) {
+    for(const auto &endings : std::as_const(toBeRemoved)) {
 
         QSqlQuery query(dbinstalled);
         query.prepare("DELETE FROM imageformats WHERE endings=:endings");
@@ -634,7 +634,7 @@ bool PQCValidate::validateSettingsDatabase() {
     // add missing tables
     if(whichTablesToAdd.length() > 0) {
 
-        for(const QString &tab : qAsConst(whichTablesToAdd)) {
+        for(const QString &tab : std::as_const(whichTablesToAdd)) {
 
             QSqlQuery queryTabIns(dbinstalled);
             if(!queryTabIns.exec(QString("CREATE TABLE `%1` (`name` TEXT UNIQUE, `value` TEXT, `defaultvalue` TEXT, `datatype` TEXT)").arg(tab)))
@@ -646,7 +646,7 @@ bool PQCValidate::validateSettingsDatabase() {
 
     QSqlQuery query(dbdefault);
 
-    for(const auto &table : qAsConst(tables)) {
+    for(const auto &table : std::as_const(tables)) {
 
         // get reference data
         query.prepare(QString("SELECT name,value,defaultvalue,datatype FROM '%1'").arg(table));

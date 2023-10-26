@@ -280,7 +280,7 @@ QVariantList PQCShortcuts::getAllCurrentShortcuts() {
     QMapIterator<QString, QStringList> iterCmds(collectCmds);
     while(iterCmds.hasNext()) {
         iterCmds.next();
-        for(const auto &k : qAsConst(iterCmds.value()))
+        for(const auto &k : std::as_const(iterCmds.value()))
             collectCombos[k] = iterCmds.key();
     }
 
@@ -289,7 +289,7 @@ QVariantList PQCShortcuts::getAllCurrentShortcuts() {
 
     // loop over order and construct return list
     QStringList processed;
-    for(const QString &o : qAsConst(shortcutsOrder)) {
+    for(const QString &o : std::as_const(shortcutsOrder)) {
 
         if(processed.contains(o))
             continue;

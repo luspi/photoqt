@@ -143,7 +143,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
                 QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
 
                 allfiles.sort();
-                for(const QString &f : qAsConst(allfiles)) {
+                for(const QString &f : std::as_const(allfiles)) {
                     if(PQCImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
                         ret.append(QString("%1::ARC::%2").arg(f, path));
                 }
@@ -195,7 +195,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
 
         // Sort the temporary list and add to global list
         allfiles.sort();
-        for(const QString &f : qAsConst(allfiles))
+        for(const QString &f : std::as_const(allfiles))
             ret.append(QString("%1::ARC::%2").arg(f, path));
 
         // Close archive

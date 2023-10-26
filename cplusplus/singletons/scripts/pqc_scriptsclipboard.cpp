@@ -35,7 +35,7 @@ void PQCScriptsClipboard::copyFilesToClipboard(QStringList files) {
     QMimeData* mimeData = new QMimeData();
 
     QList<QUrl> allurls;
-    for(auto &f : qAsConst(files))
+    for(auto &f : std::as_const(files))
         allurls.push_back(QUrl::fromLocalFile(f));
     mimeData->setUrls(allurls);
     clipboard->setMimeData(mimeData);
@@ -57,7 +57,7 @@ QStringList PQCScriptsClipboard::getListOfFilesInClipboard() {
     QList<QUrl> allurls = mimeData->urls();
 
     QStringList ret;
-    for(auto &u : qAsConst(allurls))
+    for(auto &u : std::as_const(allurls))
         ret << u.toLocalFile();
 
     return ret;

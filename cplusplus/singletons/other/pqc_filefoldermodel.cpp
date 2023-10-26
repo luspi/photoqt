@@ -663,12 +663,12 @@ void PQCFileFolderModel::advancedSortMainView() {
             std::sort(allKeys.begin(), allKeys.end(), std::greater<int>());
 
         cacheAdvancedSortFolder.clear();
-        for(auto entry : qAsConst(allKeys)) {
+        for(auto entry : std::as_const(allKeys)) {
             QStringList curVals = sortedWithKey[entry];
             curVals.sort(Qt::CaseInsensitive);
             if(!PQCSettings::get()["imageviewAdvancedSortAscending"].toBool())
                 std::reverse(curVals.begin(), curVals.end());
-            for(const auto &e : qAsConst(curVals))
+            for(const auto &e : std::as_const(curVals))
                 cacheAdvancedSortFolder << e;
         }
 
@@ -1072,7 +1072,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
         }
     }
 
-    for(const QString &f : qAsConst(foldersToScan)) {
+    for(const QString &f : std::as_const(foldersToScan)) {
 
         if(!cache.loadFilesFromCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, ret)) {
 
@@ -1138,7 +1138,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault)
                             ret_cur << f.absoluteFilePath();
                         else {
-                            for(const QString &fil : qAsConst(m_filenameFilters)) {
+                            for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {
                                     ret_cur << f.absoluteFilePath();
                                     break;
@@ -1151,7 +1151,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault)
                             ret_cur << f.absoluteFilePath();
                         else {
-                            for(const QString &fil : qAsConst(m_filenameFilters)) {
+                            for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {
                                     ret_cur << f.absoluteFilePath();
                                     break;
