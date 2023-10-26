@@ -284,7 +284,6 @@ Flickable {
             height: 10
         }
 
-
     }
 
     Component.onCompleted:
@@ -323,8 +322,6 @@ Flickable {
 
         var tmp = composeDefaultChecker()+""
         settingChanged = (tmp!==defaultSettingChecker)
-
-        console.warn("checkDefault:", tmp, defaultSettingChecker)
 
     }
 

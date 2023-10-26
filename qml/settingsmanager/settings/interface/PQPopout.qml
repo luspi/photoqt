@@ -25,12 +25,12 @@ import "../../../elements"
 // - interfacePopoutExport
 // - interfacePopoutChromecast
 // - interfacePopoutAdvancedSort
-// - interfacePopoutWhenWindowIsSmall
 // - interfacePopoutMapCurrent
 // - interfacePopoutMapExplorer
-// - interfacePopoutMapExplorerKeepOpen
 // - interfacePopoutFileDialog
+// - interfacePopoutMapExplorerKeepOpen
 // - interfacePopoutFileDialogKeepOpen
+// - interfacePopoutWhenWindowIsSmall
 
 Flickable {
 
@@ -39,15 +39,334 @@ Flickable {
     anchors.fill: parent
     anchors.margins: 10
 
+    contentHeight: contcol.height
+
     property bool settingChanged: false
+    property string defaultSettingChecker: ""
+
+    //: Used as identifying name for one of the elements in the interface
+    property var pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager_interface", "File dialog")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutMapExplorer", qsTranslate("settingsmanager_interface", "Map explorer")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutSettingsManager", qsTranslate("settingsmanager_interface", "Settings manager")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutMainMenu", qsTranslate("settingsmanager_interface", "Main menu")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutMetadata", qsTranslate("settingsmanager_interface", "Metadata")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutHistogram", qsTranslate("settingsmanager_interface", "Histogram")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutMapCurrent", qsTranslate("settingsmanager_interface", "Map (current image)")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutScale", qsTranslate("settingsmanager_interface", "Scale")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutSlideshowSetup", qsTranslate("settingsmanager_interface", "Slideshow setup")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutSlideShowControls", qsTranslate("settingsmanager_interface", "Slideshow controls")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutFileRename", qsTranslate("settingsmanager_interface", "Rename file")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutFileDelete", qsTranslate("settingsmanager_interface", "Delete file")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutExport", qsTranslate("settingsmanager_interface", "Export file")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutAbout", qsTranslate("settingsmanager_interface", "About")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutImgur", qsTranslate("settingsmanager_interface", "Imgur")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutWallpaper", qsTranslate("settingsmanager_interface", "Wallpaper")],
+                        //: Noun, not a verb. Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutFilter", qsTranslate("settingsmanager_interface", "Filter")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutAdvancedSort", qsTranslate("settingsmanager_interface", "Advanced image sort")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfacePopoutChromecast", qsTranslate("settingsmanager_interface", "Streaming (Chromecast)")]]
+
+    property var currentCheckBoxStates: ["0","0","0","0","0",
+                                         "0","0","0","0","0",
+                                         "0","0","0","0","0",
+                                         "0","0","0","0"]
+    onCurrentCheckBoxStatesChanged:
+        checkDefault()
+
+    signal popoutLoadDefault()
+    signal popoutSaveChanges()
+
+    Column {
+
+        id: contcol
+
+        x: (parent.width-width)/2
+
+        spacing: 10
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager_interface", "Popout")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager_interface",  "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        Column {
+
+            x: (parent.width-width)/2
+
+            spacing: 5
+
+            Repeater {
+
+                model: pops.length
+
+                Rectangle {
+
+                    id: deleg
+
+                    width: Math.min(setting_top.width, 600)
+                    height: 35
+                    radius: 5
+
+                    property bool hovered: false
+
+                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                    Behavior on color { ColorAnimation { duration: 200 } }
+
+                    PQCheckBox {
+                        id: check
+                        x: 10
+                        y: (parent.height-height)/2
+                        text: pops[index][1]
+                        font.weight: PQCLook.fontWeightBold
+                        color: deleg.hovered||check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                        onCheckedChanged: {
+                            currentCheckBoxStates[index] = (checked ? "1" : "0")
+                            currentCheckBoxStatesChanged()
+                        }
+                    }
+
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onEntered:
+                            deleg.hovered = true
+                        onExited:
+                            deleg.hovered = false
+                        onClicked:
+                            check.checked = !check.checked
+                    }
+
+                    Connections {
+
+                        target: setting_top
+
+                        function onPopoutLoadDefault() {
+                            check.checked = PQCSettings[pops[index][0]]
+                        }
+
+                        function onPopoutSaveChanges() {
+                            PQCSettings[pops[index][0]] = check.checked
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager_interface", "Keep popouts open")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager_interface",  "Two of the elements have an optional spacial behavior when it comes to keeping them open after they performed their action. The two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        Column {
+
+            x: (parent.width-width)/2
+
+            spacing: 5
+
+            Rectangle {
+
+                id: keepopen_fd
+
+                width: Math.min(setting_top.width, 600)
+                height: 35
+                radius: 5
+
+                property bool hovered: false
+
+                color: hovered||keepopen_fd_check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                Behavior on color { ColorAnimation { duration: 200 } }
+
+                PQCheckBox {
+                    id: keepopen_fd_check
+                    x: 10
+                    y: (parent.height-height)/2
+                    text: qsTranslate("settingsmanager_interface", "keep file dialog open")
+                    font.weight: PQCLook.fontWeightBold
+                    color: keepopen_fd.hovered||keepopen_fd_check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                    onCheckedChanged:
+                        checkDefault()
+                }
+
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onEntered:
+                        keepopen_fd.hovered = true
+                    onExited:
+                        keepopen_fd.hovered = false
+                    onClicked:
+                        keepopen_fd_check.checked = !keepopen_fd_check.checked
+                }
+
+            }
+
+            /*******************************************************/
+
+            Rectangle {
+
+                id: keepopen_me
+
+                width: Math.min(setting_top.width, 600)
+                height: 35
+                radius: 5
+
+                property bool hovered: false
+
+                color: hovered||keepopen_me_check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                Behavior on color { ColorAnimation { duration: 200 } }
+
+                PQCheckBox {
+                    id: keepopen_me_check
+                    x: 10
+                    y: (parent.height-height)/2
+                    text: qsTranslate("settingsmanager_interface", "keep map explorer open")
+                    font.weight: PQCLook.fontWeightBold
+                    color: keepopen_me.hovered||keepopen_me_check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                    onCheckedChanged:
+                        checkDefault()
+                }
+
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onEntered:
+                        keepopen_me.hovered = true
+                    onExited:
+                        keepopen_me.hovered = false
+                    onClicked:
+                        keepopen_me_check.checked = !keepopen_me_check.checked
+                }
+
+            }
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager_interface", "Pop out when window is small")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager_interface",  "Some elements might not be as usable or function well when the window is too small. Thus it is possible to force such elements to be popped out automatically whenever the application window is too small.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: checksmall
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager_interface",  "pop out when application window is small")
+            onCheckedChanged:
+                checkDefault()
+        }
+
+        Item {
+            width: 1
+            height: 10
+        }
+
+    }
 
     Component.onCompleted:
         load()
 
+    function composeDefaultChecker() {
+
+        var tmp = currentCheckBoxStates.join("")
+
+        /******************************/
+
+        tmp += (keepopen_fd_check.checked ? "1" : "0")
+        tmp += (keepopen_me_check.checked ? "1" : "0")
+        tmp += (checksmall.checked ? "1" : "0")
+
+        return tmp
+    }
+
+    function checkDefault() {
+
+        var tmp = composeDefaultChecker()
+        settingChanged = (tmp!==defaultSettingChecker)
+
+    }
+
+    Timer {
+        interval: 100
+        id: loadtimer
+        onTriggered: {
+            setting_top.popoutLoadDefault()
+            keepopen_fd_check.checked = PQCSettings.interfacePopoutFileDialogKeepOpen
+            keepopen_me_check.checked = PQCSettings.interfacePopoutMapExplorerKeepOpen
+            checksmall.checked = PQCSettings.interfacePopoutWhenWindowIsSmall
+
+            defaultSettingChecker = composeDefaultChecker()
+            settingChanged = false
+        }
+    }
+
     function load() {
+        loadtimer.restart()
     }
 
     function applyChanges() {
+
+        setting_top.popoutSaveChanges()
+        PQCSettings.interfacePopoutFileDialogKeepOpen = keepopen_fd_check.checked
+        PQCSettings.interfacePopoutMapExplorerKeepOpen = keepopen_me_check.checked
+        PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked
+
+        defaultSettingChecker = composeDefaultChecker()
+        settingChanged = false
+
     }
 
     function revertChanges() {

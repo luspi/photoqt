@@ -9,6 +9,7 @@ CheckBox {
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
+    property string color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
 
     indicator: Rectangle {
         implicitWidth: 22
@@ -33,6 +34,7 @@ CheckBox {
         text: control.text
         elide: control.elide
         font: control.font
+        color: control.color
         opacity: enabled ? (control.checked ? 1.0 : 0.7) : 0.3
         Behavior on opacity { NumberAnimation { duration: 200 } }
         verticalAlignment: Text.AlignVCenter
