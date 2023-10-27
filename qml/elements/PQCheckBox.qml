@@ -16,6 +16,8 @@ CheckBox {
         implicitHeight: 22
         x: control.leftPadding
         y: parent.height / 2 - height / 2
+        opacity: enabled ? 1.0 : 0.3
+        Behavior on opacity { NumberAnimation { duration: 200 } }
 
         border.color: PQCLook.inverseColor
         color: PQCLook.baseColorHighlight
@@ -35,7 +37,7 @@ CheckBox {
         elide: control.elide
         font: control.font
         color: control.color
-        opacity: enabled ? (control.checked ? 1.0 : 0.7) : 0.3
+        opacity: control.checked ? 1.0 : 0.7
         Behavior on opacity { NumberAnimation { duration: 200 } }
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing

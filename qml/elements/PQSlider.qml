@@ -29,8 +29,8 @@ Slider {
 
     orientation: Qt.Horizontal
 
-    implicitHeight: _horizontal ? 20 : 200
-    implicitWidth: _horizontal ? 200 : 20
+    implicitHeight: _horizontal ? 20 : (extraWide ? 300 : 200)
+    implicitWidth: _horizontal ? (extraWide ? 300 : 200) : 20
 
     stepSize: 1.0
     property real wheelStepSize: 1.0
@@ -41,6 +41,8 @@ Slider {
     property bool backgroundContainsMouse: false
 
     property bool reverseWheelChange: false
+
+    property bool extraWide: false
 
     background: Rectangle {
         x: _horizontal ? control.leftPadding : (control.leftPadding + control.availableWidth / 2 - width / 2)
@@ -70,7 +72,7 @@ Slider {
             onPressed: mouse.accepted = false
             onEntered: control.backgroundContainsMouse = true
             onExited: control.backgroundContainsMouse = false
-            onWheel: {
+            onWheel: (wheel) => {
                 if(reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
                         control.value += control.wheelStepSize

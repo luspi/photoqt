@@ -15,7 +15,7 @@ Item {
     x: 2*distanceFromEdge
     y: distanceFromEdge
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || movedByMouse) ? 200 : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || movedByMouse) ? 200 : 0 } }
     Behavior on x { NumberAnimation { duration: (movedByMouse) ? 200 : 0 } }
 
     property bool movedByMouse: false
