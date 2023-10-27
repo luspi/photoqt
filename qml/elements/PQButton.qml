@@ -33,7 +33,7 @@ Button {
     font.pointSize: PQCLook.fontSizeL
     font.weight: PQCLook.fontWeightBold
 
-    opacity: enabled ? 1 : 0.3
+    opacity: enabled ? 1 : 0.5
 
     property alias tooltip: mouseArea.text
 

@@ -43,7 +43,7 @@ ComboBox {
         height: 40
         contentItem: Text {
             text: prefix+(firstItemEmphasized&&index===0 ? modelData.toUpperCase() : modelData)
-            color: PQCLook.textColor
+            color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
@@ -54,7 +54,7 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
+            color: highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight)
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
@@ -99,7 +99,7 @@ ComboBox {
 
         text: prefix+control.displayText
         font: control.font
-        color: PQCLook.textColor
+        color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
         style: highlighted ? Text.Sunken : Text.Normal
         styleColor: PQCLook.textColorHighlight
         Behavior on color { ColorAnimation { duration: 200 } }

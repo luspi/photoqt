@@ -29,7 +29,7 @@ Rectangle {
     implicitHeight: 40
     implicitWidth: 40
 
-    opacity: enabled ? 1 : 0.3
+    opacity: enabled ? 1 : 0.5
     radius: 5
 
     property string source: ""
