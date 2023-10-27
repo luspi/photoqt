@@ -94,5 +94,6 @@
         <file>other/logo.svg</file>
         <file>other/logo_white.svg</file>
         <file>other/logo_full.svg</file>
+        <file>white/application.svg</file>
     </qresource>
 </RCC>

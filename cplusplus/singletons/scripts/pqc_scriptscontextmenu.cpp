@@ -1,5 +1,6 @@
 #include <scripts/pqc_scriptscontextmenu.h>
 #include <pqc_configfiles.h>
+#include <scripts/pqc_scriptsimages.h>
 
 #include <QtDebug>
 #include <QFileInfo>
@@ -118,12 +119,16 @@ void PQCScriptsContextMenu::setEntries(QVariantList entries) {
 
     }
 
+    Q_EMIT customEntriesChanged();
+
 }
 
-void PQCScriptsContextMenu::detectSystemEntries() {
+QVariantList PQCScriptsContextMenu::detectSystemEntries() {
+
+    QVariantList ret;
 
 #ifdef Q_OS_WIN
-    return;
+    return ret;
 #endif
 
     // These are the possible entries
@@ -146,39 +151,34 @@ void PQCScriptsContextMenu::detectSystemEntries() {
       //: Used as in 'Open with [application]'. %1 will be replaced with application name.
       << QApplication::translate("startup", "Open in %1").arg("Eye of Gnome") << "eog";
 
-    {
-        if(!db.open()) {
-            qWarning() << "Error opening contextmenu database:" << db.lastError().text();
-            return;
+    // Check for all entries
+    for(int i = 0; i < m.size()/2; ++i) {
+
+        QProcess p;
+        p.setStandardOutputFile(QProcess::nullDevice());
+        p.start("which", QStringList() << m[2*i+1]);
+        p.waitForFinished();
+        bool found = (p.exitCode() == 0);
+
+        if(found) {
+
+            QStringList thisentry;
+
+            QString icn = PQCScriptsImages::get().getIconPathFromTheme(m[2*i+1]);
+            if(icn != "")
+                icn = PQCScriptsImages::get().loadImageAndConvertToBase64(icn);
+
+            thisentry << icn
+                      << m[2*i+1]
+                      << m[2*i]
+                      << "0"
+                      << "%f";
+
+            ret << thisentry;
+
         }
-
-        QSqlQuery query(db);
-        query.exec("DELETE FROM entries");
-        query.clear();
-
-        // Check for all entries
-        for(int i = 0; i < m.size()/2; ++i) {
-
-            QProcess p;
-            p.setStandardOutputFile(QProcess::nullDevice());
-            p.start("which", QStringList() << m[2*i+1]);
-            p.waitForFinished();
-            bool found = (p.exitCode() == 0);
-
-            if(found) {
-
-                QSqlQuery query(db);
-                query.prepare("INSERT INTO entries (command,arguments,desc,close) VALUES(:cmd,:arg,:dsc,:cls)");
-                query.bindValue(":cmd", m[2*i+1]);
-                query.bindValue(":arg", "%f");
-                query.bindValue(":dsc", m[2*i]);
-                query.bindValue(":cls", "0");
-                if(!query.exec())
-                    qWarning() << "SQL error, contextmenu insert:" << query.lastError().text();
-
-            }
-        }
-
     }
+
+    return ret;
 
 }

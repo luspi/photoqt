@@ -1,6 +1,8 @@
 import QtQuick
 
 import PQCNotify
+import PQCScriptsShortcuts
+import PQCFileFolderModel
 
 Item {
 
@@ -18,6 +20,10 @@ Item {
     property string cmd: ""
     property bool closeMenu: false
     property bool active: true
+
+    property bool customEntry: false
+    property string custom_args: ""
+    property string custom_close: ""
 
     property bool hovered: false
 
@@ -40,7 +46,7 @@ Item {
         Image {
             visible: img!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: img!="" ? ("/white/" + img) : ""
+            source: img.startsWith("data:image/png;base64") ? img : (img!="" ? ("/white/" + img) : "")
             opacity: active ? (hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
@@ -70,7 +76,14 @@ Item {
         onEntered: hovered = true
         onExited: hovered = false
         onClicked: {
-            PQCNotify.executeInternalCommand(cmd)
+            if(!customEntry || cmd.startsWith("__")) {
+                PQCNotify.executeInternalCommand(cmd)
+            } else {
+                PQCScriptsShortcuts.executeExternal(cmd, custom_args, PQCFileFolderModel.currentFile);
+                if(custom_close == "1")
+                    toplevel.close()
+            }
+
             if(closeMenu && !PQCSettings.interfacePopoutMainMenu)
                 mainmenu_top.hideMainMenu()
         }

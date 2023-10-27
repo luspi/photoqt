@@ -28,7 +28,7 @@ Button {
     id: control
 
     implicitHeight: 40
-    implicitWidth: extraWide ? 300 : 200
+    implicitWidth: extraextraWide ? 500 : (extraWide ? 300 : 200)
 
     font.pointSize: PQCLook.fontSizeL
     font.weight: PQCLook.fontWeightBold
@@ -40,6 +40,7 @@ Button {
     property bool forceHovered: false
 
     property bool extraWide: false
+    property bool extraextraWide: false
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")

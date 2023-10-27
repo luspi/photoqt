@@ -21,12 +21,15 @@ public:
     Q_INVOKABLE QVariantList getEntries();
     Q_INVOKABLE void setEntries(QVariantList entries);
 
-    Q_INVOKABLE void detectSystemEntries();
+    Q_INVOKABLE QVariantList detectSystemEntries();
 
 private:
     PQCScriptsContextMenu();
 
     QSqlDatabase db;
+
+Q_SIGNALS:
+    void customEntriesChanged();
 
 };
 

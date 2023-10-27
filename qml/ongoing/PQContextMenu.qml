@@ -92,16 +92,17 @@ PQMenu {
             PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
-    PQMenuSeparator {}
+    PQMenuSeparator { visible: customentries.length>0 }
 
-    property var ext: PQCScriptsContextMenu.getEntries()
+    property var customentries: PQCScriptsContextMenu.getEntries()
 
     Repeater {
-        model: ext.length
+
+        model: customentries.length
 
         PQMenuItem {
-            property var entry: ext[index]
-            iconSource: entry[0]
+            property var entry: customentries[index]
+            iconSource: entry[0]==="" ? "/white/application.svg" : ("data:image/png;base64," + entry[0])
             text: entry[2]
             onTriggered: {
                 if(entry[1].startsWith("__"))
@@ -113,5 +114,11 @@ PQMenu {
 
     }
 
+    Connections {
+        target: PQCScriptsContextMenu
+        function onCustomEntriesChanged() {
+            customentries = PQCScriptsContextMenu.getEntries()
+        }
+    }
 
 }

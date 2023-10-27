@@ -85,6 +85,7 @@ QString PQCScriptsImages::getIconPathFromTheme(QString binary) {
                     return "file:///" + path;
             }
         }
+
     }
 
     // Nothing found

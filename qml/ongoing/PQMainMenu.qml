@@ -26,6 +26,7 @@ import QtQuick.Controls
 import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsConfig
+import PQCScriptsContextMenu
 
 import "../elements"
 
@@ -652,6 +653,91 @@ Rectangle {
                         smallestWidth: flickable.width/2
                     }
 
+                }
+
+            }
+
+            /*************************/
+            // Custom
+
+            Rectangle {
+
+                width: flickable.width
+                height: custom_txt.height+10
+                color: PQCLook.transColorHighlight
+                radius: 5
+
+                visible: PQCSettings.mainmenuShowExternal
+
+                PQTextXL {
+                    id: custom_txt
+                    x: 5
+                    y: 5
+                    //: This is a category in the main menu.
+                    text: qsTranslate("MainMenu", "custom")
+                    font.weight: PQCLook.fontWeightBold
+                    opacity: 0.8
+                }
+
+            }
+
+            Column {
+
+                id: custom_col
+
+                visible: PQCSettings.mainmenuShowExternal
+
+                spacing: 5
+
+                property var entries: []
+
+                Repeater {
+
+                    model: custom_col.entries.length
+
+                    PQMainMenuEntry {
+
+                        id: deleg
+
+                        property var cur: custom_col.entries[index]
+
+                        customEntry: true
+
+                        img: cur[0]==="" ? "application.svg" : ("data:image/png;base64," + cur[0])
+                        txt: cur[2]
+                        cmd: cur[1]
+                        custom_close: cur[3]
+                        custom_args: cur[4]
+
+                        smallestWidth: flickable.width
+                        closeMenu: true
+                    }
+
+                }
+
+                Component.onCompleted: {
+                    if(PQCSettings.mainmenuShowExternal)
+                        custom_col.entries = PQCScriptsContextMenu.getEntries()
+                }
+
+                Connections {
+                    target: PQCSettings
+                    function onMainmenuShowExternalChanged() {
+                        if(PQCSettings.mainmenuShowExternal)
+                            custom_col.entries = PQCScriptsContextMenu.getEntries()
+                        else
+                            custom_col.entries = []
+                    }
+                }
+
+                Connections {
+                    target: PQCScriptsContextMenu
+                    function onCustomEntriesChanged() {
+                        if(PQCSettings.mainmenuShowExternal)
+                            custom_col.entries = PQCScriptsContextMenu.getEntries()
+                        else
+                            custom_col.entries = []
+                    }
                 }
 
             }
