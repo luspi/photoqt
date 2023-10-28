@@ -17,6 +17,7 @@ import "../../../elements"
 // - interfaceStatusInfoAutoHideTimeout
 // - interfaceStatusInfoAutoHideTopEdge
 // - interfaceStatusInfoShowImageChange
+// - interfaceStatusInfoManageWindow
 
 Flickable {
 
@@ -309,7 +310,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "The status info can either be shown at all times, or it can be hidden automatically based on different criteria. It can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout it will hide again. In addition to these criteria, it can also be shown shortly whenever the image changes.")
+            text:qsTranslate("settingsmanager_interface",  "The status info can either be shown at all times, or it can be hidden automatically based on different criteria. It can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout it will then hide again. In addition to these criteria, it can also be shown shortly whenever the image changes.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -382,6 +383,35 @@ Flickable {
             //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
             text: qsTranslate("settingsmanager_interface", "also show when image changes")
             onCheckedChanged: checkDefault()
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager_interface", "Window management")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager_interface",  "By default it is possible to drag the status info around as desired. However, it is also possible to use the status info for managing the window itself. When enabled, dragging the status info will drag the window around, and double clicking the status info will toggle the maximized status of the window.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager_interface",  "manage window through status info")
+        }
+
+        /**********************************************************************/
+
+        Item {
+            width: 1
+            height: 1
         }
 
 

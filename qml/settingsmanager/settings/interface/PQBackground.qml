@@ -26,6 +26,7 @@ import "../../../elements"
 // - interfaceCloseOnEmptyBackground
 // - interfaceNavigateOnEmptyBackground
 // - interfaceBlurElementsInBackground
+// - interfaceWindowDecorationOnEmptyBackground
 
 Flickable {
 

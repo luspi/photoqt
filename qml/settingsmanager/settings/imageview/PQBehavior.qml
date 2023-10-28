@@ -16,8 +16,6 @@ import "../../../elements"
 // - imageviewResetViewShow
 // - imageviewResetViewAutoHideTimeout
 // - imageviewNavigationFloating
-// - interfaceNavigationTopRight
-// - interfaceWindowDecorationOnEmptyBackground
 // - imageviewZoomSpeed
 // - imageviewZoomToCenter
 // - imageviewZoomMin
