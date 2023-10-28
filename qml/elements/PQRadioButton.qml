@@ -41,4 +41,26 @@ RadioButton {
         leftPadding: control.indicator.width + control.spacing
     }
 
+    property bool _defaultChecked
+    Component.onCompleted: {
+        _defaultChecked = checked
+    }
+
+    function saveDefault() {
+        _defaultChecked = checked
+    }
+
+    function setDefault(chk) {
+        _defaultChecked = chk
+    }
+
+    function loadAndSetDefault(chk) {
+        checked = chk
+        _defaultChecked = chk
+    }
+
+    function hasChanged() {
+        return _defaultChecked!==checked
+    }
+
 }
