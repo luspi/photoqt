@@ -30,6 +30,8 @@ Flickable {
 
     property bool settingChanged: false
 
+    ScrollBar.vertical: PQVerticalScrollBar {}
+
     Column {
 
         id: contcol

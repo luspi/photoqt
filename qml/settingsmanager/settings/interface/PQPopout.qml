@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 import "../../../elements"
 
@@ -42,6 +43,8 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+
+    ScrollBar.vertical: PQVerticalScrollBar {}
 
     //: Used as identifying name for one of the elements in the interface
     property var pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager_interface", "File dialog")],

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtCore
 
 import PQCNotify
@@ -33,6 +34,8 @@ Flickable {
 
     property var defaultentries: ({})
     property var entries: []
+
+    ScrollBar.vertical: PQVerticalScrollBar {}
 
     MouseArea {
         width: parent.width

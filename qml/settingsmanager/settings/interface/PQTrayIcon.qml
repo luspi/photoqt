@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 import "../../../elements"
 
@@ -23,6 +24,8 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+
+    ScrollBar.vertical: PQVerticalScrollBar {}
 
     Column {
 
