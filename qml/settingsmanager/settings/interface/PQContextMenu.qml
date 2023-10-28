@@ -296,6 +296,7 @@ Flickable {
             x: (parent.width-width)/2
             //: Refers to duplicating the custom context menu entries in the main menu
             text: qsTranslate("settingsmanager_interface", "Duplicate in main menu")
+            checked: PQCSettings.mainmenuShowExternal
             onCheckedChanged:
                 checkDefault()
         }
@@ -328,7 +329,7 @@ Flickable {
 
 
     function checkDefault() {
-        settingChanged = (!areTwoListsEqual(entries, defaultentries) || PQCSettings.mainmenuShowExternal!==check_dupl.checked)
+        settingChanged = (!areTwoListsEqual(entries, defaultentries) || check_dupl.hasChanged())
     }
 
     function addNewEntry() {
@@ -351,7 +352,7 @@ Flickable {
             // these need to be completely disconnected otherwise the changed check doesn't work
             entries = PQCScriptsContextMenu.getEntries()
             defaultentries = PQCScriptsContextMenu.getEntries()
-            check_dupl.checked = PQCSettings.mainmenuShowExternal
+            check_dupl.loadAndSetDefault(PQCSettings.mainmenuShowExternal)
             settingChanged = false
         }
     }
@@ -370,6 +371,7 @@ Flickable {
         PQCScriptsContextMenu.setEntries(entries)
         defaultentries = PQCScriptsContextMenu.getEntries()
         PQCSettings.mainmenuShowExternal = check_dupl.checked
+        check_dupl.saveDefault()
         settingChanged = false
     }
 

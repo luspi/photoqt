@@ -42,7 +42,6 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
-    property string defaultSettingChecker: ""
 
     //: Used as identifying name for one of the elements in the interface
     property var pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager_interface", "File dialog")],
@@ -87,6 +86,7 @@ Flickable {
                                          "0","0","0","0","0",
                                          "0","0","0","0","0",
                                          "0","0","0","0"]
+    property string _defaultCurrentCheckBoxStates: ""
     onCurrentCheckBoxStatesChanged:
         checkDefault()
 
@@ -224,6 +224,7 @@ Flickable {
                     text: qsTranslate("settingsmanager_interface", "keep file dialog open")
                     font.weight: PQCLook.fontWeightBold
                     color: keepopen_fd.hovered||keepopen_fd_check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                    checked: PQCSettings.interfacePopoutFileDialogKeepOpen
                     onCheckedChanged:
                         checkDefault()
                 }
@@ -264,6 +265,7 @@ Flickable {
                     text: qsTranslate("settingsmanager_interface", "keep map explorer open")
                     font.weight: PQCLook.fontWeightBold
                     color: keepopen_me.hovered||keepopen_me_check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                    checked: PQCSettings.interfacePopoutMapExplorerKeepOpen
                     onCheckedChanged:
                         checkDefault()
                 }
@@ -305,6 +307,7 @@ Flickable {
             id: checksmall
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager_interface",  "pop out when application window is small")
+            checked: PQCSettings.interfacePopoutWhenWindowIsSmall
             onCheckedChanged:
                 checkDefault()
         }
@@ -319,23 +322,19 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function composeDefaultChecker() {
-
-        var tmp = currentCheckBoxStates.join("")
-
-        /******************************/
-
-        tmp += (keepopen_fd_check.checked ? "1" : "0")
-        tmp += (keepopen_me_check.checked ? "1" : "0")
-        tmp += (checksmall.checked ? "1" : "0")
-
-        return tmp
-    }
-
     function checkDefault() {
 
-        var tmp = composeDefaultChecker()
-        settingChanged = (tmp!==defaultSettingChecker)
+        if(_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("")) {
+            settingChanged = true
+            return
+        }
+
+        if(keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() || checksmall.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        settingChanged = false
 
     }
 
@@ -343,13 +342,24 @@ Flickable {
         interval: 100
         id: loadtimer
         onTriggered: {
-            setting_top.popoutLoadDefault()
-            keepopen_fd_check.checked = PQCSettings.interfacePopoutFileDialogKeepOpen
-            keepopen_me_check.checked = PQCSettings.interfacePopoutMapExplorerKeepOpen
-            checksmall.checked = PQCSettings.interfacePopoutWhenWindowIsSmall
 
-            defaultSettingChecker = composeDefaultChecker()
+            setting_top.popoutLoadDefault()
+
+            keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogKeepOpen)
+            keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerKeepOpen)
+            checksmall.loadAndSetDefault(PQCSettings.interfacePopoutWhenWindowIsSmall)
+
+            saveDefaultCheckTimer.restart()
+
             settingChanged = false
+        }
+    }
+
+    Timer {
+        interval: 100
+        id: saveDefaultCheckTimer
+        onTriggered: {
+            _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
         }
     }
 
@@ -364,7 +374,11 @@ Flickable {
         PQCSettings.interfacePopoutMapExplorerKeepOpen = keepopen_me_check.checked
         PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked
 
-        defaultSettingChecker = composeDefaultChecker()
+        _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
+        keepopen_fd_check.saveDefault()
+        keepopen_me_check.saveDefault()
+        checksmall.saveDefault()
+
         settingChanged = false
 
     }

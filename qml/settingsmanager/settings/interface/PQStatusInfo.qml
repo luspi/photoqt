@@ -284,6 +284,7 @@ Flickable {
                 extraWide: true
                 from: 5
                 to: 30
+                value: PQCSettings.interfaceStatusInfoFontSize
                 onValueChanged: checkDefault()
             }
             PQText {
@@ -322,6 +323,7 @@ Flickable {
                 id: autohide_always
                 //: visibility status of the status information
                 text: qsTranslate("settingsmanager_interface", "keep always visible")
+                checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
 
@@ -329,6 +331,7 @@ Flickable {
                 id: autohide_anymove
                 //: visibility status of the status information
                 text: qsTranslate("settingsmanager_interface", "only show with any cursor move")
+                checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
 
@@ -336,6 +339,7 @@ Flickable {
                 id: autohide_topedge
                 //: visibility status of the status information
                 text: qsTranslate("settingsmanager_interface", "only show when cursor near top edge")
+                checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
 
@@ -362,6 +366,7 @@ Flickable {
                 to: 5
                 stepSize: 0.1
                 wheelStepSize: 0.1
+                value: PQCSettings.interfaceStatusInfoAutoHideTimeout/1000
                 onValueChanged: checkDefault()
             }
             PQText {
@@ -382,6 +387,7 @@ Flickable {
             enabled: !autohide_always.checked
             //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
             text: qsTranslate("settingsmanager_interface", "also show when image changes")
+            checked: PQCSettings.interfaceStatusInfoShowImageChange
             onCheckedChanged: checkDefault()
         }
 
@@ -403,8 +409,11 @@ Flickable {
         }
 
         PQCheckBox {
+            id: managewindow
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager_interface",  "manage window through status info")
+            checked: PQCSettings.interfaceStatusInfoManageWindow
+            onCheckedChanged: checkDefault()
         }
 
         /**********************************************************************/
@@ -455,30 +464,12 @@ Flickable {
             return
         }
 
-        if(fontsize.value !== PQCSettings.interfaceStatusInfoFontSize) {
+        if(fontsize.hasChanged() || autohide_always.hasChanged() || autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_timeout.hasChanged()) {
             settingChanged = true
             return
         }
 
-        if(autohide_topedge.checked && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) {
-            settingChanged = true
-            return
-        }
-        if(autohide_anymove.checked && (!PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge)) {
-            settingChanged = true
-            return
-        }
-        if(autohide_always.checked && (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge)) {
-            settingChanged = true
-            return
-        }
-
-        if(autohide_timeout.value.toFixed(1) !== (PQCSettings.interfaceStatusInfoAutoHideTimeout/1000).toFixed(1)) {
-            settingChanged = true
-            return
-        }
-
-        if(imgchange.checked !== PQCSettings.interfaceStatusInfoShowImageChange) {
+        if(imgchange.hasChanged() || managewindow.hasChanged()) {
             settingChanged = true
             return
         }
@@ -496,14 +487,15 @@ Flickable {
         for(var j = 0; j < setprops.length; ++j)
             model.append({name: setprops[j]})
 
-        fontsize.value = PQCSettings.interfaceStatusInfoFontSize
+        fontsize.loadAndSetDefault(PQCSettings.interfaceStatusInfoFontSize)
 
-        autohide_always.checked = !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
-        autohide_anymove.checked = PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
-        autohide_topedge.checked = PQCSettings.interfaceStatusInfoAutoHideTopEdge
-        autohide_timeout.value = PQCSettings.interfaceStatusInfoAutoHideTimeout/1000
+        autohide_always.loadAndSetDefault(!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+        autohide_anymove.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+        autohide_topedge.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+        autohide_timeout.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTimeout/1000)
 
-        imgchange.checked = PQCSettings.interfaceStatusInfoShowImageChange
+        imgchange.loadAndSetDefault(PQCSettings.interfaceStatusInfoShowImageChange)
+        managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
 
         settingChanged = false
 
@@ -523,6 +515,16 @@ Flickable {
         PQCSettings.interfaceStatusInfoAutoHideTopEdge = autohide_topedge.checked
         PQCSettings.interfaceStatusInfoAutoHideTimeout = autohide_timeout.value.toFixed(1)*1000
         PQCSettings.interfaceStatusInfoShowImageChange = imgchange.checked
+        PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
+
+        fontsize.saveDefault()
+        autohide_always.saveDefault()
+        autohide_anymove.saveDefault()
+        autohide_topedge.saveDefault()
+        autohide_timeout.saveDefault()
+
+        imgchange.saveDefault()
+        managewindow.saveDefault()
 
         settingChanged = false
 

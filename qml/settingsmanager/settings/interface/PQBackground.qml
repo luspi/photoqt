@@ -38,7 +38,6 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
-    property string defaultSettingChecker: ""
 
     Column {
 
@@ -71,6 +70,7 @@ Flickable {
                 id: radio_real
                 //: How the background of PhotoQt should be
                 text: qsTranslate("settingsmanager_interface", "real transparency")
+                checked: (!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse)
                 onCheckedChanged: checkDefault()
             }
 
@@ -79,6 +79,7 @@ Flickable {
                 visible: PQCNotify.haveScreenshots
                 //: How the background of PhotoQt should be
                 text: qsTranslate("settingsmanager_interface", "fake transparency")
+                checked: PQCSettings.interfaceBackgroundImageScreenshot
                 onCheckedChanged: checkDefault()
             }
 
@@ -86,6 +87,7 @@ Flickable {
                 id: radio_solid
                 //: How the background of PhotoQt should be
                 text: qsTranslate("settingsmanager_interface", "solid background color")
+                checked: PQCSettings.interfaceBackgroundSolid
                 onCheckedChanged: checkDefault()
             }
 
@@ -93,6 +95,7 @@ Flickable {
                 id: radio_custom
                 //: How the background of PhotoQt should be
                 text: qsTranslate("settingsmanager_interface", "custom background image")
+                checked: PQCSettings.interfaceBackgroundImageUse
                 onCheckedChanged: checkDefault()
             }
 
@@ -167,30 +170,35 @@ Flickable {
                         id: radio_bg_scaletofit
                         //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                         text: qsTranslate("settingsmanager_interface", "scale to fit")
+                        checked: PQCSettings.interfaceBackgroundImageScale
                         onCheckedChanged: checkDefault()
                     }
                     PQRadioButton {
                         id: radio_bg_scaleandcrop
                         //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                         text: qsTranslate("settingsmanager_interface", "scale and crop to fit")
+                        checked: PQCSettings.interfaceBackgroundImageScaleCrop
                         onCheckedChanged: checkDefault()
                     }
                     PQRadioButton {
                         id: radio_bg_stretch
                         //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                         text: qsTranslate("settingsmanager_interface", "stretch to fit")
+                        checked: PQCSettings.interfaceBackgroundImageStretch
                         onCheckedChanged: checkDefault()
                     }
                     PQRadioButton {
                         id: radio_bg_center
                         //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                         text: qsTranslate("settingsmanager_interface", "center image")
+                        checked: PQCSettings.interfaceBackgroundImageCenter
                         onCheckedChanged: checkDefault()
                     }
                     PQRadioButton {
                         id: radio_bg_tile
                         //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                         text: qsTranslate("settingsmanager_interface", "tile image")
+                        checked: PQCSettings.interfaceBackgroundImageTile
                         onCheckedChanged: checkDefault()
                     }
                 }
@@ -225,7 +233,7 @@ Flickable {
                 id: radio_noaction
                 //: what to do when the empty background is clicked
                 text: qsTranslate("settingsmanager_interface", "no action")
-                checked: true
+                checked: PQCSettings.interfaceCloseOnEmptyBackground
                 onCheckedChanged: checkDefault()
             }
 
@@ -233,6 +241,7 @@ Flickable {
                 id: radio_closeclick
                 //: what to do when the empty background is clicked
                 text: qsTranslate("settingsmanager_interface", "close window")
+                checked: PQCSettings.interfaceNavigateOnEmptyBackground
                 onCheckedChanged: checkDefault()
             }
 
@@ -240,6 +249,7 @@ Flickable {
                 id: radio_navclick
                 //: what to do when the empty background is clicked
                 text: qsTranslate("settingsmanager_interface", "navigate between images")
+                checked: PQCSettings.interfaceWindowDecorationOnEmptyBackground
                 onCheckedChanged: checkDefault()
             }
 
@@ -276,6 +286,7 @@ Flickable {
             id: check_blurbg
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager_interface", "Blur elements in the back")
+            checked: PQCSettings.interfaceBlurElementsInBackground
             onCheckedChanged: checkDefault()
 
         }
@@ -290,48 +301,40 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function composeDefaultChecker() {
-
-        var tmp = ""
-
-        tmp += (radio_fake.checked ? "1" : "0")
-        tmp += (radio_custom.checked ? "1" : "0")
-        tmp += (radio_solid.checked ? "1" : "0")
-
-        /******************************/
-
-        tmp += (radio_bg_scaletofit.checked ? "1" : "0")
-        tmp += (radio_bg_scaleandcrop.checked ? "1" : "0")
-        tmp += (radio_bg_stretch.checked ? "1" : "0")
-        tmp += (radio_bg_center.checked ? "1" : "0")
-        tmp += (radio_bg_tile.checked ? "1" : "0")
-
-        /******************************/
-
-        tmp += (radio_closeclick.checked ? "1" : "0")
-        tmp += (radio_navclick.checked ? "1" : "0")
-        tmp += (radio_toggledeco.checked ? "1" : "0")
-
-        /******************************/
-
-        tmp += (check_blurbg.checked ? "1" : "0")
-
-        return tmp
-    }
-
     function checkDefault() {
 
-        var tmp = composeDefaultChecker()+""
-        settingChanged = (tmp!==defaultSettingChecker)
+        if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        if(previewimage.source !== "file:/" + PQCSettings.interfaceBackgroundImagePath ||
+           radio_bg_scaletofit.hasChanged() ||  radio_bg_scaleandcrop.hasChanged() ||
+           radio_bg_stretch.hasChanged() || radio_bg_center.hasChanged() || radio_bg_tile.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        if(radio_closeclick.hasChanged() || radio_navclick.hasChanged() || radio_toggledeco.hasChanged() || radio_noaction.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        if(check_blurbg.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        settingChanged = false
 
     }
 
     function load() {
 
-        radio_real.checked = (!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse)
-        radio_fake.checked = PQCSettings.interfaceBackgroundImageScreenshot
-        radio_solid.checked = PQCSettings.interfaceBackgroundSolid
-        radio_custom.checked = PQCSettings.interfaceBackgroundImageUse
+        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse)
+        radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
+        radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
+        radio_custom.loadAndSetDefault(PQCSettings.interfaceBackgroundImageUse)
 
         /******************************/
 
@@ -339,24 +342,23 @@ Flickable {
             previewimage.source = "file:/" + PQCSettings.interfaceBackgroundImagePath
         else
             previewimage.source = ""
-        radio_bg_scaletofit.checked = PQCSettings.interfaceBackgroundImageScale
-        radio_bg_scaleandcrop.checked = PQCSettings.interfaceBackgroundImageScaleCrop
-        radio_bg_stretch.checked = PQCSettings.interfaceBackgroundImageStretch
-        radio_bg_center.checked = PQCSettings.interfaceBackgroundImageCenter
-        radio_bg_tile.checked = PQCSettings.interfaceBackgroundImageTile
+        radio_bg_scaletofit.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScale)
+        radio_bg_scaleandcrop.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScaleCrop)
+        radio_bg_stretch.loadAndSetDefault(PQCSettings.interfaceBackgroundImageStretch)
+        radio_bg_center.loadAndSetDefault(PQCSettings.interfaceBackgroundImageCenter)
+        radio_bg_tile.loadAndSetDefault(PQCSettings.interfaceBackgroundImageTile)
 
         /******************************/
 
-        radio_closeclick.checked = PQCSettings.interfaceCloseOnEmptyBackground
-        radio_navclick.checked = PQCSettings.interfaceNavigateOnEmptyBackground
-        radio_toggledeco.checked = PQCSettings.interfaceWindowDecorationOnEmptyBackground
-        radio_noaction.checked = (!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
+        radio_closeclick.loadAndSetDefault(PQCSettings.interfaceCloseOnEmptyBackground)
+        radio_navclick.loadAndSetDefault(PQCSettings.interfaceNavigateOnEmptyBackground)
+        radio_toggledeco.loadAndSetDefault(PQCSettings.interfaceWindowDecorationOnEmptyBackground)
+        radio_noaction.loadAndSetDefault(!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
 
         /******************************/
 
-        check_blurbg.checked = PQCSettings.interfaceBlurElementsInBackground
+        check_blurbg.loadAndSetDefault(PQCSettings.interfaceBlurElementsInBackground)
 
-        defaultSettingChecker = composeDefaultChecker()
         settingChanged = false
 
     }
@@ -367,6 +369,11 @@ Flickable {
         PQCSettings.interfaceBackgroundImageUse = radio_custom.checked
         PQCSettings.interfaceBackgroundSolid = radio_solid.checked
 
+        radio_real.saveDefault()
+        radio_fake.saveDefault()
+        radio_solid.saveDefault()
+        radio_custom.saveDefault()
+
         /******************************/
 
         PQCSettings.interfaceBackgroundImagePath = PQCScriptsFilesPaths.cleanPath(previewimage.source)
@@ -376,19 +383,31 @@ Flickable {
         PQCSettings.interfaceBackgroundImageCenter = radio_bg_center.checked
         PQCSettings.interfaceBackgroundImageTile = radio_bg_tile.checked
 
+        radio_bg_scaletofit.saveDefault()
+        radio_bg_scaleandcrop.saveDefault()
+        radio_bg_stretch.saveDefault()
+        radio_bg_center.saveDefault()
+        radio_bg_tile.saveDefault()
+
         /******************************/
 
         PQCSettings.interfaceCloseOnEmptyBackground = radio_closeclick.checked
         PQCSettings.interfaceNavigateOnEmptyBackground = radio_navclick.checked
         PQCSettings.interfaceWindowDecorationOnEmptyBackground = radio_toggledeco.checked
 
+        radio_closeclick.saveDefault()
+        radio_navclick.saveDefault()
+        radio_toggledeco.saveDefault()
+        radio_noaction.saveDefault()
+
         /******************************/
 
         PQCSettings.interfaceBlurElementsInBackground = check_blurbg.checked
 
-        defaultSettingChecker = composeDefaultChecker()
-        settingChanged = false
+        check_blurbg.saveDefault()
 
+
+        settingChanged = false
 
     }
 
