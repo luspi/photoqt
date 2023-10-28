@@ -7,13 +7,13 @@ Item {
     id: maincatcol
 
     height: settingsmanager_top.contentHeight
-    width: 300-8
+    width: 250-8
 
     PQTextS {
         width: parent.width
         height: 30
         font.weight: PQCLook.fontWeightBold
-        text: "select category"
+        text: "main category"
         color: PQCLook.textColorHighlight
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter

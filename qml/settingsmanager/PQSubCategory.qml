@@ -7,7 +7,7 @@ Item {
     id: subcatcol
 
     height: settingsmanager_top.contentHeight
-    width: 300-8
+    width: 250-8
 
     visible: subitemskeys.length>1
 
