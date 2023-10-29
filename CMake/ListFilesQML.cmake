@@ -63,7 +63,7 @@ SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQMainCategory.qml ${d}/PQSubCategory.qml)
 
 SET(d "qml/settingsmanager/settings/filetypes")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQLibraries.qml)
 
 SET(d "qml/settingsmanager/settings/imageview")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml ${d}/PQEdge.qml)

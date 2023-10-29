@@ -106,7 +106,10 @@ PQTemplateFullscreen {
         //: A settings category
         "filetypes" : [qsTranslate("settingsmanager", "File types"),
                                        //: A settings subcategory
-                       {"filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes"]}],
+                       {
+                           "filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes"],
+                           "libraries" : [qsTranslate("settingsmanager", "Libraries"), "PQLibraries"]
+                       }],
 
         //: A settings category
         "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),
@@ -360,6 +363,7 @@ PQTemplateFullscreen {
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
         loader.elementClosed(thisis)
+        PQCNotify.ignoreKeysExceptEnterEsc = false
     }
 
 }

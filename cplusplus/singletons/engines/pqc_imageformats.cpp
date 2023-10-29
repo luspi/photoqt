@@ -134,7 +134,7 @@ void PQCImageFormats::readFromDatabase() {
 
     const QList<QByteArray> qtSupported = QImageReader::supportedImageFormats();
 
-    QSqlQuery query("SELECT * FROM imageformats ORDER BY enabled DESC, description ASC", db);
+    QSqlQuery query("SELECT * FROM imageformats ORDER BY description ASC", db);
 
     while(query.next()) {
 
