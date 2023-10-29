@@ -86,11 +86,16 @@ Flickable {
         spacing: 10
 
         PQTextXL {
-            x: (parent.width-width)/2
             font.weight: PQCLook.fontWeightBold
-            font.capitalization: Font.SmallCaps
             //: A settings title
             text: qsTranslate("settingsmanager_interface", "Language")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager_interface",  "PhotoQt has been translated into a number of different languages. Not all of the languages have a complete translation yet, and new translators are always needed. If you are willing and able to help, that would be greatly appreciated.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         Item {
@@ -110,8 +115,8 @@ Flickable {
 
                 x: (parent.width-width)/2
 
-                width: 400
-                height: 30
+                width: Math.min(setting_top.width, 600)
+                height: 35
 
                 radius: 5
                 color: (hovered || contcol.currentIndex===index) ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
@@ -147,26 +152,32 @@ Flickable {
         }
 
         PQTextL {
-            x: (parent.width-width)/2
-            width: Math.max(parent.width/2, 600)
+            width: setting_top.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.weight: PQCLook.fontWeightBold
             horizontalAlignment: Text.AlignHCenter
             text: qsTranslate("settingsmanager_interface", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
         PQText {
-            x: (parent.width-width)/2
-            width: Math.max(parent.width/2, 600)
+            width: setting_top.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            text: qsTranslate("settingsmanager_interface", "Not all translations are 100% completed. If you want to help, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:")
+            text: qsTranslate("settingsmanager_interface", "If you want to help with the translations, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:")
+        }
+
+        Item {
+            width: 1
+            height: 10
         }
 
         Row {
             x: (parent.width-width)/2
             spacing: 5
-            PQText {
+            PQTextXL {
                 id: urltxt
                 text: "https://translate.photoqt.org"
                 font.weight: PQCLook.fontWeightBold
