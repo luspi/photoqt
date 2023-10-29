@@ -1,5 +1,6 @@
 import QtQuick
 
+import PQCNotify
 
 import "../elements"
 
@@ -20,7 +21,7 @@ PQTemplateFullscreen {
     button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false
     button1.onClicked: settingsloader.item.applyChanges()
 
-    button2.text: "Revert changes"
+    button2.text: qsTranslate("settingsmanager", "Revert changes")
     button2.visible: true
     button2.enabled: button1.enabled
     button2.onClicked: settingsloader.item.revertChanges()
@@ -108,7 +109,7 @@ PQTemplateFullscreen {
                                        //: A settings subcategory
                        {
                            "filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes"],
-                           "libraries" : [qsTranslate("settingsmanager", "Libraries"), "PQLibraries"]
+                           "tweaks"    : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior"]
                        }],
 
         //: A settings category
