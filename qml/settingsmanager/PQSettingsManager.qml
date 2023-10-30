@@ -37,6 +37,9 @@ PQTemplateFullscreen {
             hide()
     }
 
+    property bool passShortcutsToDetector: false
+    signal passOnShortcuts(var mods, var keys)
+
     property var selectedCategories: ["interface", "language"]
 
     property var categories: {
@@ -115,7 +118,10 @@ PQTemplateFullscreen {
         //: A settings category
         "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),
                                        //: A settings subcategory
-                       {"shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts"]}]
+                       {
+                           "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts"],
+                           "behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior"]
+                       }]
 
 
     }
@@ -297,6 +303,11 @@ PQTemplateFullscreen {
             } else if(settingsmanager_top.opacity > 0) {
 
                 if(what === "keyEvent") {
+
+                    if(passShortcutsToDetector) {
+                        passOnShortcuts(param[1], param[0])
+                        return
+                    }
 
                     if(param[0] === Qt.Key_Escape) {
 

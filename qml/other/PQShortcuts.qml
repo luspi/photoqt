@@ -64,18 +64,9 @@ Item {
 
             else {
 
-                var combo = ""
-
-                if(modifiers & Qt.ControlModifier)
-                    combo += "Ctrl+";
-                if(modifiers & Qt.AltModifier)
-                    combo += "Alt+";
-                if(modifiers & Qt.ShiftModifier)
-                    combo += "Shift+";
-                if(modifiers & Qt.MetaModifier)
-                    combo += "Meta+";
-                if(modifiers & Qt.KeypadModifier)
-                    combo += "Keypad+";
+                var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
+                if(combo !== "")
+                    combo += "+"
 
                 // this seems to be the id when a modifier but no key is pressed... ignore key in that case
                 if(key !== 16777249)
@@ -95,33 +86,14 @@ Item {
 
             else {
 
-                var combo = ""
+                var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
+                if(combo !== "")
+                    combo += "+"
 
-                if(modifiers & Qt.ControlModifier)
-                    combo += "Ctrl+";
-                if(modifiers & Qt.AltModifier)
-                    combo += "Alt+";
-                if(modifiers & Qt.ShiftModifier)
-                    combo += "Shift+";
-                if(modifiers & Qt.MetaModifier)
-                    combo += "Meta+";
-                if(modifiers & Qt.KeypadModifier)
-                    combo += "Keypad+";
-
-                if(combo == "" && PQCSettings.imageviewUseMouseWheelForImageMove)
+                if(combo === "" && PQCSettings.imageviewUseMouseWheelForImageMove)
                     return
 
-                if(Math.abs(angleDelta.x) < 2) {
-                    if(angleDelta.y < 0)
-                        combo += "Wheel Down"
-                    else if(angleDelta.y > 0)
-                        combo += "Wheel Up"
-                } else {
-                    if(angleDelta.x < 0)
-                        combo += "Wheel Left"
-                    else if(angleDelta.x > 0)
-                        combo += "Wheel Right"
-                }
+                combo += PQCScriptsShortcuts.analyzeMouseWheel(angleDelta)
 
                 checkComboForShortcut(combo, angleDelta)
 
@@ -137,23 +109,9 @@ Item {
 
             else {
 
-                var combo = ""
-
-                if(modifiers & Qt.ControlModifier)
-                    combo += "Ctrl+";
-                if(modifiers & Qt.AltModifier)
-                    combo += "Alt+";
-                if(modifiers & Qt.ShiftModifier)
-                    combo += "Shift+";
-                if(modifiers & Qt.MetaModifier)
-                    combo += "Meta+";
-                if(modifiers & Qt.KeypadModifier)
-                    combo += "Keypad+";
-
-                if(button === Qt.LeftButton)
-                    combo += "Left Button"
-                else if(button === Qt.RightButton)
-                    combo += "Right Button"
+                var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
+                if(combo !== "") combo += "+"
+                combo += PQCScriptsShortcuts.analyzeMouseButton(button)
 
                 mouseButton = combo
                 mousePath = []
@@ -193,29 +151,9 @@ Item {
 
             else {
 
-                var threshold = 50
+                var dir = PQCScriptsShortcuts.analyzeMouseDirection(Qt.point(x,y), mousePreviousPos)
 
-                var dx = x-mousePreviousPos.x
-                var dy = y-mousePreviousPos.y
-                var distance = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
-
-                var angle = (Math.atan2(dy, dx)/Math.PI)*180
-                angle = (angle+360)%360;
-
-                var dir = ""
-
-                if(distance > threshold) {
-                    if(angle <= 45 || angle > 315)
-                        dir = "E"
-                    else if(angle > 45 && angle <= 135)
-                        dir = "S"
-                    else if(angle > 135 && angle <= 225)
-                        dir = "W"
-                    else if(angle > 225 && angle <= 315)
-                        dir = "N"
-                }
-
-                if(dir != "") {
+                if(dir !== "") {
                     keyshortcuts_top.mouseGesture = true
                     mousePreviousPos = Qt.point(x,y)
                     if(mousePath[mousePath.length-1] !== dir) {

@@ -246,7 +246,7 @@ Item {
                         contentWidth: flickable_content.width
                         contentHeight: flickable_content.height
 
-                        interactive: !PQCNotify.faceTagging
+                        interactive: !PQCNotify.faceTagging && !PQCSettings.imageviewUseMouseLeftButtonForImageMove
 
                         Connections {
 

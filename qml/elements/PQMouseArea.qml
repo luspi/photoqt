@@ -34,6 +34,38 @@ MouseArea {
 
     hoverEnabled: true
 
+    property int doubleClickThreshold: 0
+
+    signal doubleClicked(var mouse)
+
+    onPressed: (mouse) => {
+        if(mouse.button === Qt.LeftButton) {
+            if(doubleClickThreshold > 0) {
+                if(doubleClickTimer.running) {
+                    doubleClickTimer.stop()
+                    if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
+                        tooltip_top.doubleClicked(mouse)
+                    mouse.accepted = false
+                } else {
+                    doubleClickTimer.firstClick = Qt.point(mouse.x, mouse.y)
+                    doubleClickTimer.mouse = mouse
+                    doubleClickTimer.restart()
+                }
+            }
+        }
+    }
+    Timer {
+        id: doubleClickTimer
+        interval: doubleClickThreshold
+        repeat: false
+        running: false
+        property var mouse: undefined
+        property point firstClick: Qt.point(-1,-1)
+        onTriggered: {
+            tooltip_top.clicked(mouse)
+        }
+    }
+
     Timer {
         id: showToolTip
         interval: 250
