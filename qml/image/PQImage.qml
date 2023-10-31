@@ -519,7 +519,7 @@ Item {
                                     return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
                                 }
 
-                                MouseArea {
+                                PQMouseArea {
                                     id: imagemouse
                                     anchors.fill: parent
                                     anchors.leftMargin: -flickable_content.x
@@ -529,6 +529,7 @@ Item {
                                     hoverEnabled: true
                                     propagateComposedEvents: true
                                     acceptedButtons: Qt.LeftButton|Qt.RightButton
+                                    doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
                                     onPositionChanged: (mouse) => {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                         PQCNotify.mouseMove(pos.x, pos.y)
@@ -541,7 +542,12 @@ Item {
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                         PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
                                     }
-                                    onReleased: (mouse) => {
+                                    onDoubleClicked: (mouse) => {
+                                        var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                        PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+                                    }
+
+                                    onClicked: (mouse) => {
                                         if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
                                             loader_component.imageClicked()
                                         else {

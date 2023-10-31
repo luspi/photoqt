@@ -165,6 +165,20 @@ Item {
             }
         }
 
+        function onMouseDoubleClicked(modifiers, button, pos) {
+
+            if(loader.visibleItem === "") {
+
+                var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
+                if(combo !== "") combo += "+"
+                combo += "Double Click"
+
+                checkComboForShortcut(combo)
+
+            }
+
+        }
+
     }
 
     function checkComboForShortcut(combo, wheelDelta) {

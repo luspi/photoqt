@@ -3,6 +3,8 @@ import QtQuick
 import PQCNotify
 import PQCFileFolderModel
 
+import "../elements"
+
 Item {
 
     width: toplevel.width
@@ -298,7 +300,7 @@ Item {
 
     }
 
-    MouseArea {
+    PQMouseArea {
 
         id: imagemouse
 
@@ -306,6 +308,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton|Qt.RightButton
+        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
 
         onPositionChanged: (mouse) => {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
@@ -318,6 +321,10 @@ Item {
         onPressed: (mouse) => {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+        }
+        onDoubleClicked: (mouse) => {
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
             if(mouse.button === Qt.LeftButton)

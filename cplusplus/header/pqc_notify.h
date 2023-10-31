@@ -179,6 +179,7 @@ Q_SIGNALS:
     void mousePressed(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseMove(double x, double y);
+    void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
 
 };
 
