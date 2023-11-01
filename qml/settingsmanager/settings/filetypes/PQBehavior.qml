@@ -16,6 +16,7 @@ import "../../../elements"
 // - filetypesVideoLoop
 // - filetypesVideoThumbnailer
 // - filetypesVideoPreferLibmpv
+// - imageviewBigViewerModeButton
 
 Flickable {
 
@@ -168,6 +169,29 @@ Flickable {
             }
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager_filetypes", "Viewer mode")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager_filetypes",  "When a document or achive is loaded in PhotoQt, it is possible to enter such a file. This means that PhotoQt will act as if the content of the file is located in some folder and loads the content as thumbnails allowing for the usual interaction and navigation to browse around. This viewer mode can be entered either by a small button that will show up below the status info, or it is possible to also show a big central button to activate this mode.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: viewermode
+            text: "show big button to enter viewer mode"
+            checked: PQCSettings.imageviewBigViewerModeButton
+        }
+
         Item {
             width: 1
             height: 1
@@ -192,6 +216,11 @@ Flickable {
             return
         }
 
+        if(viewermode.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
         settingChanged = false
 
     }
@@ -208,6 +237,8 @@ Flickable {
         vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
         videothumb.currentIndex = (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
 
+        viewermode.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
+
         settingChanged = false
 
     }
@@ -223,12 +254,15 @@ Flickable {
         PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
 
+        PQCSettings.imageviewBigViewerModeButton = viewermode.checked
+
         pdf_quality.saveDefault()
         arc_extunrar.saveDefault()
         vid_autoplay.saveDefault()
         vid_loop.saveDefault()
         vid_qtmult.saveDefault()
         vid_libmpv.saveDefault()
+        viewermode.saveDefault()
 
         settingChanged = false
 
