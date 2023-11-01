@@ -67,13 +67,13 @@ PQTemplateFullscreen {
         "imageview" : [qsTranslate("settingsmanager", "Image view"),
                        {
                                                //: A settings subcategory
-                            "look"          : [qsTranslate("settingsmanager", "Look"),     "PQLook"],
+                            "look"          : [qsTranslate("settingsmanager", "Look"),         "PQLook"],
                                                //: A settings subcategory
-                            "behavior"      : [qsTranslate("settingsmanager", "Behavior"), "PQBehavior"],
+                            "behavior"      : [qsTranslate("settingsmanager", "Behavior"),     "PQBehavior"],
                                                //: A settings subcategory
-                            "edge"          : [qsTranslate("settingsmanager", "Edges"),    "PQEdge"],
+                            "edge"          : [qsTranslate("settingsmanager", "Edges"),        "PQEdge"],
                                                //: A settings subcategory
-                            "imgur"         : [qsTranslate("settingsmanager", "imgur.cm"), "PQImgur"]
+                            "online"        : [qsTranslate("settingsmanager", "Share Online"), "PQShareOnline"]
                        }],
 
         //: A settings category
