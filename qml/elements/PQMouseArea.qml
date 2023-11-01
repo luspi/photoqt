@@ -30,6 +30,8 @@ MouseArea {
     property alias text: control.text
     property alias delay: control.delay
 
+    property bool hovered : false
+
     property var tooltipReference: undefined
 
     hoverEnabled: true
@@ -76,10 +78,12 @@ MouseArea {
     }
 
     onEntered: {
+        hovered = true
         showToolTip.restart()
     }
 
     onExited: {
+        hovered = false
         showToolTip.stop()
         control.visible = false
     }
