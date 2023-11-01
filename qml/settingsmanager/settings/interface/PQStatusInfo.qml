@@ -65,6 +65,7 @@ Flickable {
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
             width: setting_top.width
+            radius: 5
             height: 60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
             color: PQCLook.baseColorHighlight
             ListView {

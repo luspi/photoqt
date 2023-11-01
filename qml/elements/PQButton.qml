@@ -23,24 +23,33 @@
 import QtQuick
 import QtQuick.Controls.Basic
 
-Button {
+Rectangle {
 
     id: control
 
+    implicitWidth: forceWidth>0 ? forceWidth : (txt.width + padding)
     implicitHeight: 40
-    implicitWidth: extraextraWide ? 500 : (extraWide ? 300 : 200)
+    opacity: enabled ? 1 : 0.6
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+    radius: 5
 
-    font.pointSize: PQCLook.fontSizeL
-    font.weight: PQCLook.fontWeightBold
+    border.color: PQCLook.baseColorHighlight
+    border.width: 1
 
-    opacity: enabled ? 1 : 0.5
+    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+    Behavior on color { ColorAnimation { duration: 150 } }
 
+    property alias text: txt.text
+    property alias font: txt.font
     property alias tooltip: mouseArea.text
+    property alias cursorShape: mouseArea.cursorShape
 
     property bool forceHovered: false
 
+    property int forceWidth: 0
     property bool extraWide: false
     property bool extraextraWide: false
+    property int padding: extraextraWide ? 300 : (extraWide ? 100 : 40)
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
@@ -51,28 +60,23 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
-    contentItem: PQText {
-        text: control.text
-        font: control.font
+    property bool down: false
+    property bool hovered: false
+
+    signal clicked()
+
+    PQText {
+        id: txt
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+        text: ""
+        font.pointSize: PQCLook.fontSizeL
+        font.weight: PQCLook.fontWeightBold
         opacity: enabled ? 1.0 : 0.6
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideMiddle
-    }
-
-    background: Rectangle {
-        implicitWidth: 100
-        implicitHeight: 40
-        opacity: enabled ? 1 : 0.6
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        radius: 5
-
-        border.color: PQCLook.baseColorHighlight
-        border.width: 1
-
-        color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
-        Behavior on color { ColorAnimation { duration: 150 } }
     }
 
     PQMouseArea {
@@ -81,7 +85,22 @@ Button {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.text
-        onPressed: (mouse) =>  mouse.accepted = false
+        onPressed: {
+            parent.down = true
+        }
+        onReleased: {
+            parent.down = false
+        }
+        onEntered: {
+            parent.hovered = true
+        }
+        onExited: {
+            parent.hovered = false
+            parent.down = false
+        }
+        onClicked: {
+            control.clicked()
+        }
     }
 
 }

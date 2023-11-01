@@ -244,13 +244,13 @@ Flickable {
             x: (parent.width-width)/2
             //: The entry here is a custom entry in the context menu
             text: qsTranslate("settingsmanager_interface", "Add new entry")
-            extraextraWide: true
+            forceWidth: 500
             font.weight: PQCLook.fontWeightNormal
             onClicked: addNewEntry()
         }
         PQButton {
             x: (parent.width-width)/2
-            extraextraWide: true
+            forceWidth: 500
             visible: !PQCScriptsConfig.amIOnWindows()
             //: The system applications here refers to any image related applications that can be found automatically on your system
             text: qsTranslate("settingsmanager_interface", "Add system applications")
