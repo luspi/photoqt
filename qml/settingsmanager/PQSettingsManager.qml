@@ -116,7 +116,7 @@ PQTemplateFullscreen {
                        }],
 
         //: A settings category
-        "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),
+        "shortcuts" : [qsTranslate("settingsmanager", "Keyboard & Mouse"),
                                        //: A settings subcategory
                        {
                            "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts"],
