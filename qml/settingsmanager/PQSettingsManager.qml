@@ -82,8 +82,6 @@ PQTemplateFullscreen {
         "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
                                                 //: A settings subcategory
-                            "enable"         : [qsTranslate("settingsmanager", "Enable thumbnails"), "PQEnable"],
-                                                //: A settings subcategory
                             "look"           : [qsTranslate("settingsmanager", "Look"),              "PQLook"],
                                                 //: A settings subcategory
                             "behavior"       : [qsTranslate("settingsmanager", "Behavior"),          "PQBehavior"]
@@ -104,11 +102,9 @@ PQTemplateFullscreen {
         "session" : [qsTranslate("settingsmanager", "Session"),
                      {
                                           //: A settings subcategory
-                         "instance"    : [qsTranslate("settingsmanager", "Single Instance"),   "PQInstance"],
+                         "instance"    : [qsTranslate("settingsmanager", "Instance"),   "PQInstance"],
                                           //: A settings subcategory
-                         "resetview"   : [qsTranslate("settingsmanager", "Reset view"),        "PQReset"],
-                                          //: A settings subcategory
-                         "remember"    : [qsTranslate("settingsmanager", "Remember"),          "PQRemember"]
+                         "remember"    : [qsTranslate("settingsmanager", "Remember"),   "PQRemember"]
                      }],
 
         //: A settings category
