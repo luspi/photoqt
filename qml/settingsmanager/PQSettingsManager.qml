@@ -54,6 +54,8 @@ PQTemplateFullscreen {
                                              //: A settings subcategory
                             "popout"      : [qsTranslate("settingsmanager", "Popout"),       "PQPopout"],
                                              //: A settings subcategory
+                            "edges"       : [qsTranslate("settingsmanager", "Edges"),        "PQEdges"],
+                                             //: A settings subcategory
                             "contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu"],
                                              //: A settings subcategory
                             "statusinfo"  : [qsTranslate("settingsmanager", "Status Info"),  "PQStatusInfo"],

@@ -40,13 +40,13 @@ Flickable {
 
     property var labels: {
         //: Used as descriptor for a screen edge action
-        "" : qsTranslate("settingsmanager_imageview", "No action"),
+        "" : qsTranslate("settingsmanager_interface", "No action"),
         //: Used as descriptor for a screen edge action
-        "thumbnails" : qsTranslate("settingsmanager_imageview", "Thumbnails"),
+        "thumbnails" : qsTranslate("settingsmanager_interface", "Thumbnails"),
         //: Used as descriptor for a screen edge action
-        "mainmenu" : qsTranslate("settingsmanager_imageview", "Main menu"),
+        "mainmenu" : qsTranslate("settingsmanager_interface", "Main menu"),
         //: Used as descriptor for a screen edge action
-        "metadata" : qsTranslate("settingsmanager_imageview", "Metadata")
+        "metadata" : qsTranslate("settingsmanager_interface", "Metadata")
     }
 
     property var actions: {
@@ -65,13 +65,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_imageview", "Edges")
+            text: qsTranslate("settingsmanager_interface", "Edges")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_imageview", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which screen edge. Note that it is highly recommended to keep one edge set to the main menu, although all functions can also be accessed by shortcuts.")
+            text: qsTranslate("settingsmanager_interface", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which screen edge. Note that it is highly recommended to keep one edge set to the main menu, although all functions can also be accessed by shortcuts.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -110,7 +110,7 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         //: The action here is a screen edge action
-                        text: qsTranslate("settingsmanager_imageview", "Click to change action")
+                        text: qsTranslate("settingsmanager_interface", "Click to change action")
                         onClicked: changeEdge("top")
                     }
                 }
@@ -143,7 +143,7 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         //: The action here is a screen edge action
-                        text: qsTranslate("settingsmanager_imageview", "Click to change action")
+                        text: qsTranslate("settingsmanager_interface", "Click to change action")
                         onClicked: changeEdge("left")
                     }
                 }
@@ -172,7 +172,7 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         //: The action here is a screen edge action
-                        text: qsTranslate("settingsmanager_imageview", "Click to change action")
+                        text: qsTranslate("settingsmanager_interface", "Click to change action")
                         onClicked: changeEdge("right")
                     }
                 }
@@ -204,7 +204,7 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         //: The action here is a screen edge action
-                        text: qsTranslate("settingsmanager_imageview", "Click to change action")
+                        text: qsTranslate("settingsmanager_interface", "Click to change action")
                         onClicked: changeEdge("bottom")
                     }
                 }
@@ -224,7 +224,7 @@ Flickable {
                      current["right"]!=="mainmenu" &&
                      current["bottom"]!=="mainmenu"
             font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager_imageview", "Warning: No screen edge will trigger the main menu. It is highly recommended to keep the main menu accessible through one of the edges.")
+            text: qsTranslate("settingsmanager_interface", "Warning: No screen edge will trigger the main menu. It is highly recommended to keep the main menu accessible through one of the edges.")
         }
 
         /**********************************************************************/
@@ -234,13 +234,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_imageview", "Sensitivity")
+            text: qsTranslate("settingsmanager_interface", "Sensitivity")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_imageview", "The edge actions defined above are triggered whenever the mouse cursor gets close to the screen edge. The sensitivity determines how close to the edge the mouse cursor needs to be for this to happen. A value that is too sensitive might cause the edge action to sometimes be triggered accidentally.")
+            text: qsTranslate("settingsmanager_interface", "The edge actions defined above are triggered whenever the mouse cursor gets close to the screen edge. The sensitivity determines how close to the edge the mouse cursor needs to be for this to happen. A value that is too sensitive might cause the edge action to sometimes be triggered accidentally.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -263,7 +263,7 @@ Flickable {
 
         PQText {
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_imageview", "current value:") + " " + sensitivity.value*5 + " px"
+            text: qsTranslate("settingsmanager_interface", "current value:") + " " + sensitivity.value*5 + " px"
         }
 
     }

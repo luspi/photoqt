@@ -66,10 +66,11 @@ SET(d "qml/settingsmanager/settings/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml)
 
 SET(d "qml/settingsmanager/settings/imageview")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml ${d}/PQEdge.qml ${d}/PQShareOnline.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml ${d}/PQShareOnline.qml)
 
 SET(d "qml/settingsmanager/settings/interface")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQLanguage.qml ${d}/PQPopout.qml ${d}/PQTrayIcon.qml ${d}/PQWindow.qml ${d}/PQStatusInfo.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQLanguage.qml ${d}/PQPopout.qml ${d}/PQTrayIcon.qml ${d}/PQWindow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfo.qml ${d}/PQEdges.qml)
 
 SET(d "qml/settingsmanager/settings/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTags.qml ${d}/PQLabels.qml ${d}/PQBehavior.qml)
