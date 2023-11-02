@@ -52,13 +52,13 @@ Flickable {
 
             PQRadioButton {
                 id: blanksession
-                text: "start with blank session"
+                text: qsTranslate("settingsmanager", "start with blank session")
                 onCheckedChanged: checkDefault()
             }
 
             PQRadioButton {
                 id: reopenlast
-                text: "reopen last used image"
+                text: qsTranslate("settingsmanager", "reopen last used image")
                 checked: PQCSettings.interfaceRememberLastImage
                 onCheckedChanged: checkDefault()
             }
@@ -89,13 +89,13 @@ Flickable {
 
             PQRadioButton {
                 id: forget
-                text: "forget changes when other image loaded"
+                text: qsTranslate("settingsmanager", "forget changes when other image loaded")
                 onCheckedChanged: checkDefault()
             }
 
             PQRadioButton {
                 id: remember
-                text: "remember changes per session"
+                text: qsTranslate("settingsmanager", "remember changes per session")
                 checked: PQCSettings.imageviewRememberZoomRotationMirror
                 onCheckedChanged: checkDefault()
             }

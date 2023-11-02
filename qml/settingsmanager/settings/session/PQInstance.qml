@@ -51,13 +51,13 @@ Flickable {
 
             PQRadioButton {
                 id: sing
-                text: "run a single instance only"
+                text: qsTranslate("settingsmanager", "run a single instance only")
                 onCheckedChanged: checkDefault()
             }
 
             PQRadioButton {
                 id: mult
-                text: "allow multiple instances"
+                text: qsTranslate("settingsmanager", "allow multiple instances")
                 checked: PQCSettings.interfaceAllowMultipleInstances
                 onCheckedChanged: checkDefault()
             }
