@@ -48,30 +48,34 @@ Flickable {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
-        PQCheckBox {
-            id: trayicon_show
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "Show tray icon")
-            checked: (PQCSettings.interfaceTrayIcon>0)
-            onCheckedChanged: checkDefault()
-        }
+        Column {
 
-        PQCheckBox {
-            id: trayicon_mono
-            enabled: trayicon_show.checked
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "monochrome icon")
-            checked: PQCSettings.interfaceTrayIconMonochrome
-            onCheckedChanged: checkDefault()
-        }
+            spacing: 10
 
-        PQCheckBox {
-            id: trayicon_hide
-            x: (parent.width-width)/2
-            enabled: trayicon_show.checked
-            text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
-            checked: (PQCSettings.interfaceTrayIcon===1)
-            onCheckedChanged: checkDefault()
+            PQCheckBox {
+                id: trayicon_show
+                text: qsTranslate("settingsmanager", "Show tray icon")
+                checked: (PQCSettings.interfaceTrayIcon>0)
+                onCheckedChanged: checkDefault()
+            }
+
+            PQCheckBox {
+                id: trayicon_mono
+                enabled: trayicon_show.checked
+                text: qsTranslate("settingsmanager", "monochrome icon")
+                checked: PQCSettings.interfaceTrayIconMonochrome
+                onCheckedChanged: checkDefault()
+            }
+
+            PQCheckBox {
+                id: trayicon_hide
+                enabled: trayicon_show.checked
+                text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
+                checked: (PQCSettings.interfaceTrayIcon===1)
+                onCheckedChanged: checkDefault()
+            }
+
         }
 
         /**********************************************************************/

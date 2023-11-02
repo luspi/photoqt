@@ -50,11 +50,16 @@ Flickable {
             spacing: 10
 
             PQRadioButton {
+                id: sing
                 text: "run a single instance only"
+                onCheckedChanged: checkDefault()
             }
 
             PQRadioButton {
+                id: mult
                 text: "allow multiple instances"
+                checked: PQCSettings.interfaceAllowMultipleInstances
+                onCheckedChanged: checkDefault()
             }
 
         }
@@ -64,10 +69,33 @@ Flickable {
     Component.onCompleted:
         load()
 
+    function checkDefault() {
+
+        if(mult.hasChanged() || sing.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        settingChanged = false
+
+    }
+
     function load() {
+        sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances)
+        mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
+
+        settingChanged = false
     }
 
     function applyChanges() {
+
+        PQCSettings.interfaceAllowMultipleInstances = mult.checked
+
+        mult.saveDefault()
+        sing.saveDefault()
+
+        settingChanged = false
+
     }
 
     function revertChanges() {
