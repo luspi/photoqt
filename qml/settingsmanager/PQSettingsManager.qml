@@ -71,8 +71,6 @@ PQTemplateFullscreen {
                                                //: A settings subcategory
                             "behavior"      : [qsTranslate("settingsmanager", "Behavior"),     "PQBehavior"],
                                                //: A settings subcategory
-                            "edge"          : [qsTranslate("settingsmanager", "Edges"),        "PQEdge"],
-                                               //: A settings subcategory
                             "online"        : [qsTranslate("settingsmanager", "Share Online"), "PQShareOnline"]
                        }],
 

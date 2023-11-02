@@ -23,6 +23,9 @@ public:
     Q_INVOKABLE QString getUniqueId();
     Q_INVOKABLE void printFile(QString filename);
     Q_INVOKABLE int getCurrentScreen(QPoint pos);
+    Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
+    Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
+    Q_INVOKABLE QVariantList selectColor(QVariantList def);
 
 private:
     PQCScriptsOther();

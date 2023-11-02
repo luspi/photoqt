@@ -12,6 +12,7 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QPainter>
+#include <QColorDialog>
 
 PQCScriptsOther::PQCScriptsOther() {}
 
@@ -175,4 +176,60 @@ int PQCScriptsOther::getCurrentScreen(QPoint pos) {
             return i;
     }
     return 0;
+}
+
+QVariantList PQCScriptsOther::convertHexToRgba(QString hex) {
+
+    qDebug() << "args: hex =" << hex;
+
+    int r,g,b,a;
+
+    // no transparency
+    if(hex.length() == 7) {
+
+        a = 255;
+        r = hex.sliced(1, 2).toUInt(nullptr, 16);
+        g = hex.sliced(3, 2).toUInt(nullptr, 16);
+        b = hex.sliced(5, 2).toUInt(nullptr, 16);
+
+    } else {
+
+        a = hex.sliced(1, 2).toUInt(nullptr, 16);
+        r = hex.sliced(3, 2).toUInt(nullptr, 16);
+        g = hex.sliced(5, 2).toUInt(nullptr, 16);
+        b = hex.sliced(7, 2).toUInt(nullptr, 16);
+
+    }
+
+    return QVariantList() << r << g << b << a;
+
+}
+
+QString PQCScriptsOther::convertRgbaToHex(QVariantList rgba) {
+
+    qDebug() << "args: rgba =" << rgba;
+
+    std::stringstream ss;
+    ss << "#";
+    ss << std::hex << (rgba[3].toInt() << 24 | rgba[0].toInt() << 16 | rgba[1].toInt() << 8 | rgba[2].toInt());
+    return QString::fromStdString(ss.str());
+
+}
+
+QVariantList PQCScriptsOther::selectColor(QVariantList def) {
+
+    QVariantList ret;
+
+    QColor col = QColorDialog::getColor(qRgba(def[0].toInt(), def[1].toInt(), def[2].toInt(), def[3].toInt()), nullptr, "Select color", QColorDialog::ShowAlphaChannel);
+
+    if(col == QColor::Invalid)
+        return ret;
+
+    ret.push_back(col.red());
+    ret.push_back(col.green());
+    ret.push_back(col.blue());
+    ret.push_back(col.alpha());
+
+    return ret;
+
 }
