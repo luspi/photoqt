@@ -44,25 +44,25 @@ Item {
                     id: catCombo
                     y: (enableBut.height-height)/2
                             //: This is a category of files PhotoQt can recognize: any image format
-                    model: [qsTranslate("settingsmanager_filetypes", "images"),
+                    model: [qsTranslate("settingsmanager", "images"),
                             //: This is a category of files PhotoQt can recognize: compressed files like zip, tar, cbr, 7z, etc.
-                            qsTranslate("settingsmanager_filetypes", "compressed files")+" (zip, cbr, ...)",
+                            qsTranslate("settingsmanager", "compressed files")+" (zip, cbr, ...)",
                             //: This is a category of files PhotoQt can recognize: documents like pdf, txt, etc.
-                            qsTranslate("settingsmanager_filetypes", "documents")+" (pdf, txt, ...)",
+                            qsTranslate("settingsmanager", "documents")+" (pdf, txt, ...)",
                             //: This is a type of category of files PhotoQt can recognize: videos like mp4, avi, etc.
-                            qsTranslate("settingsmanager_filetypes", "videos")]
+                            qsTranslate("settingsmanager", "videos")]
                 }
 
                 PQButton {
                     id: enableBut
                     //: As in: "Enable all formats in the seleted category of file types"
-                    text: qsTranslate("settingsmanager_filetypes", "Enable")
+                    text: qsTranslate("settingsmanager", "Enable")
                     onClicked:
                         parent.checkUncheck(1)
                 }
                 PQButton {
                     //: As in: "Disable all formats in the seleted category of file types"
-                    text: qsTranslate("settingsmanager_filetypes", "Disable")
+                    text: qsTranslate("settingsmanager", "Disable")
                     onClicked:
                         parent.checkUncheck(0)
                 }
@@ -87,7 +87,7 @@ Item {
 
                 PQButton {
                     //: As in "Enable every single file format PhotoQt can open in any category"
-                    text: qsTranslate("settingsmanager_filetypes", "Enable everything")
+                    text: qsTranslate("settingsmanager", "Enable everything")
                     onClicked: {
                         setting_top.checkAll()
                     }
@@ -99,7 +99,7 @@ Item {
                 id: countEnabled
                 property int num: 0
                 //: The %1 will be replaced with the number of file formats, please don't forget to add it.
-                text:  qsTranslate("settingsmanager_filetypes", "Currently there are %1 file formats enabled").arg("<b>"+num+"</b>")
+                text:  qsTranslate("settingsmanager", "Currently there are %1 file formats enabled").arg("<b>"+num+"</b>")
                 Connections {
                     target: listview
                     function onFtChanged() {
@@ -128,7 +128,7 @@ Item {
                 PQLineEdit {
                     id: filter_desc
                     width: setting_top.width/2
-                    placeholderText: qsTranslate("settingsmanager_filetypes", "Search by description or file ending")
+                    placeholderText: qsTranslate("settingsmanager", "Search by description or file ending")
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
                     }
@@ -137,7 +137,7 @@ Item {
                 PQLineEdit {
                     id: filter_lib
                     width: setting_top.width/2 -20
-                    placeholderText: qsTranslate("settingsmanager_filetypes", "Search by image library or category")
+                    placeholderText: qsTranslate("settingsmanager", "Search by image library or category")
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
                     }
@@ -236,7 +236,7 @@ Item {
                             listview.ft[index][1] = (listview.ft[index][1]+1)%2
                             listview.ftChanged()
                         }
-                        text: "<b>" + qsTranslate("settingsmanager_filetypes", "File endings:") + "</b> *." + listview.ft[index][0].split(",").join(", *.")
+                        text: "<b>" + qsTranslate("settingsmanager", "File endings:") + "</b> *." + listview.ft[index][0].split(",").join(", *.")
                     }
 
                     function filterItem() {

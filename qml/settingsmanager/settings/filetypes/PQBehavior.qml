@@ -42,13 +42,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_filetypes", "PDF")
+            text: qsTranslate("settingsmanager", "PDF")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_filetypes", "PhotoQt can show PDF and Postscript documents alongside your images, you can even enter a multi-page document and browse its pages as if they were images in a folder. The quality setting here - specified in dots per pixel (dpi) - affects the resolution and speed of loading such pages.")
+            text: qsTranslate("settingsmanager", "PhotoQt can show PDF and Postscript documents alongside your images, you can even enter a multi-page document and browse its pages as if they were images in a folder. The quality setting here - specified in dots per pixel (dpi) - affects the resolution and speed of loading such pages.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -77,7 +77,7 @@ Flickable {
         PQText {
             x: (parent.width-width)/2
             //: The current value of the slider specifying the PDF quality
-            text: qsTranslate("settingsmanager_filetypes", "current value:") + " " + pdf_quality.value + " dpi"
+            text: qsTranslate("settingsmanager", "current value:") + " " + pdf_quality.value + " dpi"
         }
 
         /**********************************************************************/
@@ -87,20 +87,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_filetypes", "Archive")
+            text: qsTranslate("settingsmanager", "Archive")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_filetypes",  "PhotoQt allows the browsing of all images contained in an archive file (ZIP, RAR, etc.) as if they all are located in a folder. By default, PhotoQt uses Libarchive for this purpose, but for RAR archives in particular PhotoQt can call the external tool unrar to load and display the archive and its contents. Note that this requires unrar to be installed and located in your path.")
+            text:qsTranslate("settingsmanager",  "PhotoQt allows the browsing of all images contained in an archive file (ZIP, RAR, etc.) as if they all are located in a folder. By default, PhotoQt uses Libarchive for this purpose, but for RAR archives in particular PhotoQt can call the external tool unrar to load and display the archive and its contents. Note that this requires unrar to be installed and located in your path.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: arc_extunrar
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_filetypes", "use external tool: unrar")
+            text: qsTranslate("settingsmanager", "use external tool: unrar")
             checked: PQCSettings.filetypesExternalUnrar
             onCheckedChanged: checkDefault()
         }
@@ -112,13 +112,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_filetypes", "Video")
+            text: qsTranslate("settingsmanager", "Video")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_filetypes",  "PhotoQt can treat video files the same as image files, as long as the respective video formats are enabled. There are a few settings available for managing how videos behave in PhotoQt: Whether they should autoplay when loaded, whether they should loop from the beginning when the end is reached, whether to prefer libmpv (if available) or Qt for video playback, and which video thumbnail generator to use.")
+            text:qsTranslate("settingsmanager",  "PhotoQt can treat video files the same as image files, as long as the respective video formats are enabled. There are a few settings available for managing how videos behave in PhotoQt: Whether they should autoplay when loaded, whether they should loop from the beginning when the end is reached, whether to prefer libmpv (if available) or Qt for video playback, and which video thumbnail generator to use.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -126,13 +126,13 @@ Flickable {
             x: (parent.width-width)/2
             PQCheckBox {
                 id: vid_autoplay
-                text: qsTranslate("settingsmanager_filetypes", "Autoplay")
+                text: qsTranslate("settingsmanager", "Autoplay")
                 checked: PQCSettings.filetypesVideoAutoplay
                 onCheckedChanged: checkDefault()
             }
             PQCheckBox {
                 id: vid_loop
-                text: qsTranslate("settingsmanager_filetypes", "Loop")
+                text: qsTranslate("settingsmanager", "Loop")
                 checked: PQCSettings.filetypesVideoLoop
                 onCheckedChanged: checkDefault()
             }
@@ -142,12 +142,12 @@ Flickable {
             x: (parent.width-width)/2
             PQRadioButton {
                 id: vid_qtmult
-                text: qsTranslate("settingsmanager_filetypes", "prefer Qt Multimedia")
+                text: qsTranslate("settingsmanager", "prefer Qt Multimedia")
                 onCheckedChanged: checkDefault()
             }
             PQRadioButton {
                 id: vid_libmpv
-                text: qsTranslate("settingsmanager_filetypes", "prefer Libmpv")
+                text: qsTranslate("settingsmanager", "prefer Libmpv")
                 checked: PQCSettings.filetypesVideoPreferLibmpv
                 onCheckedChanged: checkDefault()
             }
@@ -158,7 +158,7 @@ Flickable {
             spacing: 10
             PQText {
                 y: (videothumb.height-height)/2
-                text: qsTranslate("settingsmanager_filetypes", "Video thumbnail generator:")
+                text: qsTranslate("settingsmanager", "Video thumbnail generator:")
             }
             PQComboBox {
                 id: videothumb
@@ -176,20 +176,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_filetypes", "Viewer mode")
+            text: qsTranslate("settingsmanager", "Viewer mode")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_filetypes", "When a document or achive is loaded in PhotoQt, it is possible to enter such a file. This means that PhotoQt will act as if the content of the file is located in some folder and loads the content as thumbnails allowing for the usual interaction and navigation to browse around. This viewer mode can be entered either by a small button that will show up below the status info, or it is possible to also show a big central button to activate this mode.")
+            text: qsTranslate("settingsmanager", "When a document or achive is loaded in PhotoQt, it is possible to enter such a file. This means that PhotoQt will act as if the content of the file is located in some folder and loads the content as thumbnails allowing for the usual interaction and navigation to browse around. This viewer mode can be entered either by a small button that will show up below the status info, or it is possible to also show a big central button to activate this mode.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: viewermode
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_filetypes", "show big button to enter viewer mode")
+            text: qsTranslate("settingsmanager", "show big button to enter viewer mode")
             checked: PQCSettings.imageviewBigViewerModeButton
         }
 

@@ -47,43 +47,43 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     //: Used as identifying name for one of the elements in the interface
-    property var pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager_interface", "File dialog")],
+    property var pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager", "File dialog")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutMapExplorer", qsTranslate("settingsmanager_interface", "Map explorer")],
+                        ["interfacePopoutMapExplorer", qsTranslate("settingsmanager", "Map explorer")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutSettingsManager", qsTranslate("settingsmanager_interface", "Settings manager")],
+                        ["interfacePopoutSettingsManager", qsTranslate("settingsmanager", "Settings manager")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutMainMenu", qsTranslate("settingsmanager_interface", "Main menu")],
+                        ["interfacePopoutMainMenu", qsTranslate("settingsmanager", "Main menu")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutMetadata", qsTranslate("settingsmanager_interface", "Metadata")],
+                        ["interfacePopoutMetadata", qsTranslate("settingsmanager", "Metadata")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutHistogram", qsTranslate("settingsmanager_interface", "Histogram")],
+                        ["interfacePopoutHistogram", qsTranslate("settingsmanager", "Histogram")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutMapCurrent", qsTranslate("settingsmanager_interface", "Map (current image)")],
+                        ["interfacePopoutMapCurrent", qsTranslate("settingsmanager", "Map (current image)")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutScale", qsTranslate("settingsmanager_interface", "Scale")],
+                        ["interfacePopoutScale", qsTranslate("settingsmanager", "Scale")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutSlideshowSetup", qsTranslate("settingsmanager_interface", "Slideshow setup")],
+                        ["interfacePopoutSlideshowSetup", qsTranslate("settingsmanager", "Slideshow setup")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutSlideShowControls", qsTranslate("settingsmanager_interface", "Slideshow controls")],
+                        ["interfacePopoutSlideShowControls", qsTranslate("settingsmanager", "Slideshow controls")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutFileRename", qsTranslate("settingsmanager_interface", "Rename file")],
+                        ["interfacePopoutFileRename", qsTranslate("settingsmanager", "Rename file")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutFileDelete", qsTranslate("settingsmanager_interface", "Delete file")],
+                        ["interfacePopoutFileDelete", qsTranslate("settingsmanager", "Delete file")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutExport", qsTranslate("settingsmanager_interface", "Export file")],
+                        ["interfacePopoutExport", qsTranslate("settingsmanager", "Export file")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutAbout", qsTranslate("settingsmanager_interface", "About")],
+                        ["interfacePopoutAbout", qsTranslate("settingsmanager", "About")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutImgur", qsTranslate("settingsmanager_interface", "Imgur")],
+                        ["interfacePopoutImgur", qsTranslate("settingsmanager", "Imgur")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutWallpaper", qsTranslate("settingsmanager_interface", "Wallpaper")],
+                        ["interfacePopoutWallpaper", qsTranslate("settingsmanager", "Wallpaper")],
                         //: Noun, not a verb. Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutFilter", qsTranslate("settingsmanager_interface", "Filter")],
+                        ["interfacePopoutFilter", qsTranslate("settingsmanager", "Filter")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutAdvancedSort", qsTranslate("settingsmanager_interface", "Advanced image sort")],
+                        ["interfacePopoutAdvancedSort", qsTranslate("settingsmanager", "Advanced image sort")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutChromecast", qsTranslate("settingsmanager_interface", "Streaming (Chromecast)")]]
+                        ["interfacePopoutChromecast", qsTranslate("settingsmanager", "Streaming (Chromecast)")]]
 
     property var currentCheckBoxStates: ["0","0","0","0","0",
                                          "0","0","0","0","0",
@@ -107,13 +107,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Popout")
+            text: qsTranslate("settingsmanager", "Popout")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
+            text:qsTranslate("settingsmanager",  "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -191,13 +191,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Keep popouts open")
+            text: qsTranslate("settingsmanager", "Keep popouts open")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "Two of the elements have an optional spacial behavior when it comes to keeping them open after they performed their action. The two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
+            text:qsTranslate("settingsmanager",  "Two of the elements have an optional spacial behavior when it comes to keeping them open after they performed their action. The two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -224,7 +224,7 @@ Flickable {
                     id: keepopen_fd_check
                     x: 10
                     y: (parent.height-height)/2
-                    text: qsTranslate("settingsmanager_interface", "keep file dialog open")
+                    text: qsTranslate("settingsmanager", "keep file dialog open")
                     font.weight: PQCLook.fontWeightBold
                     color: keepopen_fd.hovered||keepopen_fd_check.checked ? PQCLook.textColorActive : PQCLook.textColor
                     checked: PQCSettings.interfacePopoutFileDialogKeepOpen
@@ -265,7 +265,7 @@ Flickable {
                     id: keepopen_me_check
                     x: 10
                     y: (parent.height-height)/2
-                    text: qsTranslate("settingsmanager_interface", "keep map explorer open")
+                    text: qsTranslate("settingsmanager", "keep map explorer open")
                     font.weight: PQCLook.fontWeightBold
                     color: keepopen_me.hovered||keepopen_me_check.checked ? PQCLook.textColorActive : PQCLook.textColor
                     checked: PQCSettings.interfacePopoutMapExplorerKeepOpen
@@ -296,20 +296,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Pop out when window is small")
+            text: qsTranslate("settingsmanager", "Pop out when window is small")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "Some elements might not be as usable or function well when the window is too small. Thus it is possible to force such elements to be popped out automatically whenever the application window is too small.")
+            text:qsTranslate("settingsmanager",  "Some elements might not be as usable or function well when the window is too small. Thus it is possible to force such elements to be popped out automatically whenever the application window is too small.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: checksmall
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface",  "pop out when application window is small")
+            text: qsTranslate("settingsmanager",  "pop out when application window is small")
             checked: PQCSettings.interfacePopoutWhenWindowIsSmall
             onCheckedChanged:
                 checkDefault()

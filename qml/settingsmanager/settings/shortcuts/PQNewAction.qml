@@ -64,26 +64,26 @@ Rectangle {
 
     property var categoryTitles: {
                           //: This is a shortcut category
-        "viewingimages" : qsTranslate("settingsmanager_shortcuts", "Viewing images"),
+        "viewingimages" : qsTranslate("settingsmanager", "Viewing images"),
                           //: This is a shortcut category
-        "currentimage"  : qsTranslate("settingsmanager_shortcuts", "Current image"),
+        "currentimage"  : qsTranslate("settingsmanager", "Current image"),
                           //: This is a shortcut category
-        "currentfolder" : qsTranslate("settingsmanager_shortcuts", "Current folder"),
+        "currentfolder" : qsTranslate("settingsmanager", "Current folder"),
                           //: This is a shortcut category
-        "interface"     : qsTranslate("settingsmanager_shortcuts", "Interface"),
+        "interface"     : qsTranslate("settingsmanager", "Interface"),
                           //: This is a shortcut category
-        "other"         : qsTranslate("settingsmanager_shortcuts", "Other"),
+        "other"         : qsTranslate("settingsmanager", "Other"),
                           //: This is a shortcut category
-        "external"      : qsTranslate("settingsmanager_shortcuts", "External")
+        "external"      : qsTranslate("settingsmanager", "External")
     }
 
     property var descriptions: [
-        qsTranslate("settingsmanager_shortcuts", "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images and manipulating the current image (zoom, flip, rotation) amongst others."),
-        qsTranslate("settingsmanager_shortcuts", "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images."),
-        qsTranslate("settingsmanager_shortcuts", "These actions affect the currently loaded folder as a whole and not just single images."),
-        qsTranslate("settingsmanager_shortcuts", "These actions affect the status and behavior of various interface elements regardless of the status of any possibly loaded image."),
-        qsTranslate("settingsmanager_shortcuts", "These actions do not fit into any other category."),
-        qsTranslate("settingsmanager_shortcuts", "Here any external executable can be set as shortcut action. The button with the three dots can be used to select an executable with a file dialog.")
+        qsTranslate("settingsmanager", "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images and manipulating the current image (zoom, flip, rotation) amongst others."),
+        qsTranslate("settingsmanager", "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images."),
+        qsTranslate("settingsmanager", "These actions affect the currently loaded folder as a whole and not just single images."),
+        qsTranslate("settingsmanager", "These actions affect the status and behavior of various interface elements regardless of the status of any possibly loaded image."),
+        qsTranslate("settingsmanager", "These actions do not fit into any other category."),
+        qsTranslate("settingsmanager", "Here any external executable can be set as shortcut action. The button with the three dots can be used to select an executable with a file dialog.")
     ]
 
     property var actionsByCategory: [[], [], [], [], [],[]]
@@ -107,7 +107,7 @@ Rectangle {
         width: parent.width
         font.weight: PQCLook.fontWeightBold
         horizontalAlignment: Text.AlignHCenter
-        text: qsTranslate("settingsmanager_shortcuts", "Shortcut actions")
+        text: qsTranslate("settingsmanager", "Shortcut actions")
     }
 
     Rectangle {
@@ -271,7 +271,7 @@ Rectangle {
 
 
                     PQText {
-                        text: qsTranslate("settingsmanager_shortcuts", "Select an executable")
+                        text: qsTranslate("settingsmanager", "Select an executable")
                         font.weight: PQCLook.fontWeightBold
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
@@ -289,7 +289,7 @@ Rectangle {
                         PQButton {
                             id: exebut
                             text: "..."
-                            tooltip: qsTranslate("settingsmanager_shortcuts", "Click here to select an executable.")
+                            tooltip: qsTranslate("settingsmanager", "Click here to select an executable.")
                             onClicked: {
 
                                 var p = "/usr/bin/"
@@ -299,7 +299,7 @@ Rectangle {
                                     p = PQCScriptsFilesPaths.getDir(ext_exe.text)
 
                                 //: written on button in file picker to select an existing executable file
-                                var file = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager_shortcuts", "Select"), p, [])
+                                var file = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), p, [])
 
                                 if(file === "")
                                     return
@@ -323,7 +323,7 @@ Rectangle {
 
                     PQText {
                         width: parent.width
-                        text: qsTranslate("settingsmanager_shortcuts", "Additional flags and options to pass on:")
+                        text: qsTranslate("settingsmanager", "Additional flags and options to pass on:")
                         font.weight: PQCLook.fontWeightBold
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
@@ -337,11 +337,11 @@ Rectangle {
 
                     PQText {
                         width: parent.width
-                        text: qsTranslate("settingsmanager_shortcuts", "Note that relative file paths are not supported, however, you can use the following placeholders:") + "\n" +
-                              "%f = " + qsTranslate("settingsmanager_shortcuts", "filename including path") + "\n" +
-                              "%u = " + qsTranslate("settingsmanager_shortcuts", "filename without path") + "\n" +
-                              "%d = " + qsTranslate("settingsmanager_shortcuts", "directory containing file") + "\n\n" +
-                              qsTranslate("settingsmanager_shortcuts", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
+                        text: qsTranslate("settingsmanager", "Note that relative file paths are not supported, however, you can use the following placeholders:") + "\n" +
+                              "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
+                              "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
+                              "%d = " + qsTranslate("settingsmanager", "directory containing file") + "\n\n" +
+                              qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
                     }
@@ -353,7 +353,7 @@ Rectangle {
 
                     PQCheckBox {
                         id: ext_quit
-                        text: qsTranslate("settingsmanager_shortcuts", "quit after calling executable")
+                        text: qsTranslate("settingsmanager", "quit after calling executable")
                     }
 
                     Item {
@@ -362,7 +362,7 @@ Rectangle {
                     }
 
                     PQButton {
-                        text: qsTranslate("settingsmanager_shortcuts", "Save external action")
+                        text: qsTranslate("settingsmanager", "Save external action")
                         onClicked: {
                             var act = ext_exe.text + ":/:/:" + ext_flags.text + ":/:/:" + (ext_quit.checked ? 1 : 0)
                             if(newaction_top.currentShortcutSubIndex == -1)

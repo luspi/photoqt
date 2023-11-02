@@ -46,13 +46,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Fullscreen or window mode")
+            text: qsTranslate("settingsmanager", "Fullscreen or window mode")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "There are two main states that the applicaiton window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
+            text:qsTranslate("settingsmanager",  "There are two main states that the applicaiton window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -60,14 +60,14 @@ Flickable {
             x: (parent.width-width)/2
             PQRadioButton {
                 id: fsmode
-                text: qsTranslate("settingsmanager_interface", "fullscreen mode")
+                text: qsTranslate("settingsmanager", "fullscreen mode")
                 checked: !PQCSettings.interfaceWindowMode
                 onCheckedChanged: checkDefault()
             }
 
             PQRadioButton {
                 id: wmmode
-                text: qsTranslate("settingsmanager_interface", "window mode")
+                text: qsTranslate("settingsmanager", "window mode")
                 checked: PQCSettings.interfaceWindowMode
                 onCheckedChanged: checkDefault()
             }
@@ -78,7 +78,7 @@ Flickable {
             PQCheckBox {
                 id: keeptop
                 enabled: wmmode.checked
-                text: qsTranslate("settingsmanager_interface", "keep above other windows")
+                text: qsTranslate("settingsmanager", "keep above other windows")
                 checked: PQCSettings.interfaceKeepWindowOnTop
                 onCheckedChanged: checkDefault()
             }
@@ -86,7 +86,7 @@ Flickable {
                 id: rememgeo
                 enabled: wmmode.checked
                 //: remember the geometry of PhotoQts window between sessions
-                text: qsTranslate("settingsmanager_interface", "remember its geometry")
+                text: qsTranslate("settingsmanager", "remember its geometry")
                 checked: PQCSettings.interfaceSaveWindowGeometry
                 onCheckedChanged: checkDefault()
             }
@@ -96,7 +96,7 @@ Flickable {
             id: wmdeco_show
             enabled: wmmode.checked
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "enable window decoration")
+            text: qsTranslate("settingsmanager", "enable window decoration")
             checked: PQCSettings.interfaceWindowDecoration
             onCheckedChanged: checkDefault()
         }
@@ -108,20 +108,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Window buttons")
+            text: qsTranslate("settingsmanager", "Window buttons")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "PhotoQt can show some integrated window buttons for basic window managements both when shown in fullscreen and when in window mode. In window mode with window decoration enabled it can either hide or show buttons from its integrated set that are duplicates of buttons in the window decoration. For help with navigating through a folder, small left/right arrows for navigation and a menu button can also be added next to the window buttons.")
+            text:qsTranslate("settingsmanager",  "PhotoQt can show some integrated window buttons for basic window managements both when shown in fullscreen and when in window mode. In window mode with window decoration enabled it can either hide or show buttons from its integrated set that are duplicates of buttons in the window decoration. For help with navigating through a folder, small left/right arrows for navigation and a menu button can also be added next to the window buttons.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: integbut_show
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "show integrated window buttons")
+            text: qsTranslate("settingsmanager", "show integrated window buttons")
             checked: PQCSettings.interfaceWindowButtonsShow
             onCheckedChanged: checkDefault()
         }
@@ -130,7 +130,7 @@ Flickable {
             id: integbut_dup
             x: (parent.width-width)/2
             enabled: integbut_show.checked
-            text: qsTranslate("settingsmanager_interface", "duplicate buttons from window decoration")
+            text: qsTranslate("settingsmanager", "duplicate buttons from window decoration")
             checked: PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons
             onCheckedChanged: checkDefault()
         }
@@ -139,7 +139,7 @@ Flickable {
             id: integbut_nav
             x: (parent.width-width)/2
             enabled: integbut_show.checked
-            text: qsTranslate("settingsmanager_interface", "add navigation buttons")
+            text: qsTranslate("settingsmanager", "add navigation buttons")
             checked: PQCSettings.interfaceNavigationTopRight
             onCheckedChanged: checkDefault()
         }
@@ -167,7 +167,7 @@ Flickable {
             x: (parent.width-width)/2
             enabled: integbut_show.checked
             //: The current value of the slider specifying the size of the window buttons
-            text: qsTranslate("settingsmanager_interface", "current value:") + " " + butsize.value + "px"
+            text: qsTranslate("settingsmanager", "current value:") + " " + butsize.value + "px"
         }
 
         /**********************************************************************/
@@ -177,13 +177,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Hide automatically")
+            text: qsTranslate("settingsmanager", "Hide automatically")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "The window buttons can either be shown at all times, or they can be hidden automatically based on different criteria. They can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout they will then hide again.")
+            text:qsTranslate("settingsmanager",  "The window buttons can either be shown at all times, or they can be hidden automatically based on different criteria. They can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout they will then hide again.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -194,7 +194,7 @@ Flickable {
             PQRadioButton {
                 id: autohide_always
                 //: visibility status of the window buttons
-                text: qsTranslate("settingsmanager_interface", "keep always visible")
+                text: qsTranslate("settingsmanager", "keep always visible")
                 checked: !PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
@@ -202,7 +202,7 @@ Flickable {
             PQRadioButton {
                 id: autohide_anymove
                 //: visibility status of the window buttons
-                text: qsTranslate("settingsmanager_interface", "only show with any cursor move")
+                text: qsTranslate("settingsmanager", "only show with any cursor move")
                 checked: PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
@@ -210,7 +210,7 @@ Flickable {
             PQRadioButton {
                 id: autohide_topedge
                 //: visibility status of the window buttons
-                text: qsTranslate("settingsmanager_interface", "only show when cursor near top edge")
+                text: qsTranslate("settingsmanager", "only show when cursor near top edge")
                 checked: PQCSettings.interfaceWindowButtonsAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
@@ -221,7 +221,7 @@ Flickable {
             enabled: !autohide_always.checked
             x: (parent.width-width)/2
             //: the window buttons can be hidden automatically after a set timeout
-            text: qsTranslate("settingsmanager_interface", "hide again after timeout:")
+            text: qsTranslate("settingsmanager", "hide again after timeout:")
         }
 
         Row {
@@ -250,7 +250,7 @@ Flickable {
         PQText {
             enabled: !autohide_always.checked
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "current value:") + " " + autohide_timeout.value.toFixed(1) + "s"
+            text: qsTranslate("settingsmanager", "current value:") + " " + autohide_timeout.value.toFixed(1) + "s"
         }
 
         /**********************************************************************/

@@ -40,13 +40,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_shortcuts", "Move image with mouse")
+            text: qsTranslate("settingsmanager", "Move image with mouse")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_shortcuts", "PhotoQt can use both the left button of the mouse and the mouse wheel to move the image around. In that case, however, these actions are not available for shortcuts anymore, except when combined with one or more modifier buttons (Alt, Ctrl, etc.).")
+            text: qsTranslate("settingsmanager", "PhotoQt can use both the left button of the mouse and the mouse wheel to move the image around. In that case, however, these actions are not available for shortcuts anymore, except when combined with one or more modifier buttons (Alt, Ctrl, etc.).")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -57,14 +57,14 @@ Flickable {
 
             PQCheckBox {
                 id: movebut
-                text: qsTranslate("settingsmanager_shortcuts", "move image with left button")
+                text: qsTranslate("settingsmanager", "move image with left button")
                 checked: PQCSettings.imageviewUseMouseWheelForImageMove
                 onCheckedChanged: checkDefault()
             }
 
             PQCheckBox {
                 id: movewhl
-                text: qsTranslate("settingsmanager_shortcuts", "move image with mouse wheel")
+                text: qsTranslate("settingsmanager", "move image with mouse wheel")
                 checked: PQCSettings.imageviewUseMouseLeftButtonForImageMove
                 onCheckedChanged: checkDefault()
             }
@@ -78,13 +78,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_shortcuts", "Double click")
+            text: qsTranslate("settingsmanager", "Double click")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_shortcuts", "A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.")
+            text: qsTranslate("settingsmanager", "A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -119,7 +119,7 @@ Flickable {
 
         PQText {
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_shortcuts", "current value:") + " " + dblclk.value + "ms"
+            text: qsTranslate("settingsmanager", "current value:") + " " + dblclk.value + "ms"
         }
 
         /**********************************************************************/
@@ -129,13 +129,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_shortcuts", "Mouse wheel")
+            text: qsTranslate("settingsmanager", "Mouse wheel")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_shortcuts", "Depending on any particular hardware, the mouse wheel moves either a set amount each time it is moved, or relative to how long/fast it is moved. The sensitivity allows to account for very sensitive hardware to decrease the likelihood of accidental/multiple triggers caused by wheel movement.")
+            text: qsTranslate("settingsmanager", "Depending on any particular hardware, the mouse wheel moves either a set amount each time it is moved, or relative to how long/fast it is moved. The sensitivity allows to account for very sensitive hardware to decrease the likelihood of accidental/multiple triggers caused by wheel movement.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -167,13 +167,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_shortcuts", "Hide mouse cursor")
+            text: qsTranslate("settingsmanager", "Hide mouse cursor")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_shortcuts", "Whenever an image is viewed and mouse cursor rests on the image it is possible to hide the mouse cursor after a set timeout. This way the cursor does not get in the way of actually viewing an image.")
+            text: qsTranslate("settingsmanager", "Whenever an image is viewed and mouse cursor rests on the image it is possible to hide the mouse cursor after a set timeout. This way the cursor does not get in the way of actually viewing an image.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 

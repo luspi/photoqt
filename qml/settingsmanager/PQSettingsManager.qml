@@ -61,8 +61,6 @@ PQTemplateFullscreen {
                             "statusinfo"  : [qsTranslate("settingsmanager", "Status Info"),  "PQStatusInfo"],
                                              //: A settings subcategory
                             "window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow"],
-                                             //: A settings subcategory
-                            "trayicon"    : [qsTranslate("settingsmanager", "Tray icon"),    "PQTrayIcon"],
                        }],
 
         //: A settings category
@@ -104,7 +102,9 @@ PQTemplateFullscreen {
                                           //: A settings subcategory
                          "instance"    : [qsTranslate("settingsmanager", "Instance"),   "PQInstance"],
                                           //: A settings subcategory
-                         "remember"    : [qsTranslate("settingsmanager", "Remember"),   "PQRemember"]
+                         "remember"    : [qsTranslate("settingsmanager", "Remember"),   "PQRemember"],
+                                          //: A settings subcategory
+                         "trayicon"    : [qsTranslate("settingsmanager", "Tray icon"),  "PQTrayIcon"]
                      }],
 
         //: A settings category

@@ -28,148 +28,148 @@ Flickable {
         // IMAGE VIEWING
 
                                  //: Name of shortcut action
-        "__next":               [qsTranslate("settingsmanager_shortcuts", "Next image"), "viewingimages"],
+        "__next":               [qsTranslate("settingsmanager", "Next image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__prev":               [qsTranslate("settingsmanager_shortcuts", "Previous image"), "viewingimages"],
+        "__prev":               [qsTranslate("settingsmanager", "Previous image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToFirst":          [qsTranslate("settingsmanager_shortcuts", "Go to first image"), "viewingimages"],
+        "__goToFirst":          [qsTranslate("settingsmanager", "Go to first image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToLast":           [qsTranslate("settingsmanager_shortcuts", "Go to last image"), "viewingimages"],
+        "__goToLast":           [qsTranslate("settingsmanager", "Go to last image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomIn":             [qsTranslate("settingsmanager_shortcuts", "Zoom In"), "viewingimages"],
+        "__zoomIn":             [qsTranslate("settingsmanager", "Zoom In"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomOut":            [qsTranslate("settingsmanager_shortcuts", "Zoom Out"), "viewingimages"],
+        "__zoomOut":            [qsTranslate("settingsmanager", "Zoom Out"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomActual":         [qsTranslate("settingsmanager_shortcuts", "Zoom to Actual Size"), "viewingimages"],
+        "__zoomActual":         [qsTranslate("settingsmanager", "Zoom to Actual Size"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomReset":          [qsTranslate("settingsmanager_shortcuts", "Reset Zoom"), "viewingimages"],
+        "__zoomReset":          [qsTranslate("settingsmanager", "Reset Zoom"), "viewingimages"],
                                  //: Name of shortcut action
-        "__rotateR":            [qsTranslate("settingsmanager_shortcuts", "Rotate Right"), "viewingimages"],
+        "__rotateR":            [qsTranslate("settingsmanager", "Rotate Right"), "viewingimages"],
                                  //: Name of shortcut action
-        "__rotateL":            [qsTranslate("settingsmanager_shortcuts", "Rotate Left"), "viewingimages"],
+        "__rotateL":            [qsTranslate("settingsmanager", "Rotate Left"), "viewingimages"],
                                  //: Name of shortcut action
-        "__rotate0":            [qsTranslate("settingsmanager_shortcuts", "Reset Rotation"), "viewingimages"],
+        "__rotate0":            [qsTranslate("settingsmanager", "Reset Rotation"), "viewingimages"],
                                  //: Name of shortcut action
-        "__flipH":              [qsTranslate("settingsmanager_shortcuts", "Flip Horizontally"), "viewingimages"],
+        "__flipH":              [qsTranslate("settingsmanager", "Flip Horizontally"), "viewingimages"],
                                  //: Name of shortcut action
-        "__flipV":              [qsTranslate("settingsmanager_shortcuts", "Flip Vertically"), "viewingimages"],
+        "__flipV":              [qsTranslate("settingsmanager", "Flip Vertically"), "viewingimages"],
                                  //: Name of shortcut action
-        "__loadRandom":         [qsTranslate("settingsmanager_shortcuts", "Load a random image"), "viewingimages"],
+        "__loadRandom":         [qsTranslate("settingsmanager", "Load a random image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__showFaceTags":       [qsTranslate("settingsmanager_shortcuts", "Hide/Show face tags (stored in metadata)"), "viewingimages"],
+        "__showFaceTags":       [qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)"), "viewingimages"],
                                  //: Name of shortcut action
-        "__fitInWindow":        [qsTranslate("settingsmanager_shortcuts", "Toggle: Fit in window"), "viewingimages"],
+        "__fitInWindow":        [qsTranslate("settingsmanager", "Toggle: Fit in window"), "viewingimages"],
                                  //: Name of shortcut action
-        "__toggleAlwaysActualSize": [qsTranslate("settingsmanager_shortcuts", "Toggle: Show always actual size by default"), "viewingimages"],
+        "__toggleAlwaysActualSize": [qsTranslate("settingsmanager", "Toggle: Show always actual size by default"), "viewingimages"],
                                  //: Name of shortcut action
-        "__chromecast":         [qsTranslate("settingsmanager_shortcuts", "Stream content to Chromecast device"), "viewingimages"],
+        "__chromecast":         [qsTranslate("settingsmanager", "Stream content to Chromecast device"), "viewingimages"],
                                  //: Name of shortcut action
-        "__moveViewLeft":       [qsTranslate("settingsmanager_shortcuts", "Move view left"), "viewingimages"],
+        "__moveViewLeft":       [qsTranslate("settingsmanager", "Move view left"), "viewingimages"],
                                  //: Name of shortcut action
-        "__moveViewRight":      [qsTranslate("settingsmanager_shortcuts", "Move view right"), "viewingimages"],
+        "__moveViewRight":      [qsTranslate("settingsmanager", "Move view right"), "viewingimages"],
                                  //: Name of shortcut action
-        "__moveViewUp":         [qsTranslate("settingsmanager_shortcuts", "Move view up"), "viewingimages"],
+        "__moveViewUp":         [qsTranslate("settingsmanager", "Move view up"), "viewingimages"],
                                  //: Name of shortcut action
-        "__moveViewDown":       [qsTranslate("settingsmanager_shortcuts", "Move view down"), "viewingimages"],
+        "__moveViewDown":       [qsTranslate("settingsmanager", "Move view down"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToLeftEdge":       [qsTranslate("settingsmanager_shortcuts", "Go to left edge of image"), "viewingimages"],
+        "__goToLeftEdge":       [qsTranslate("settingsmanager", "Go to left edge of image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToRightEdge":      [qsTranslate("settingsmanager_shortcuts", "Go to right edge of image"), "viewingimages"],
+        "__goToRightEdge":      [qsTranslate("settingsmanager", "Go to right edge of image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToTopEdge":        [qsTranslate("settingsmanager_shortcuts", "Go to top edge of image"), "viewingimages"],
+        "__goToTopEdge":        [qsTranslate("settingsmanager", "Go to top edge of image"), "viewingimages"],
                                  //: Name of shortcut action
-        "__goToBottomEdge":     [qsTranslate("settingsmanager_shortcuts", "Go to bottom edge of image"), "viewingimages"],
+        "__goToBottomEdge":     [qsTranslate("settingsmanager", "Go to bottom edge of image"), "viewingimages"],
 
 
         // SPECIAL ACTION WITH CURRENT IMAGE
 
                                  //: Name of shortcut action
-        "__histogram":          [qsTranslate("settingsmanager_shortcuts", "Show Histogram"), "currentimage"],
+        "__histogram":          [qsTranslate("settingsmanager", "Show Histogram"), "currentimage"],
                                  //: Name of shortcut action
-        "__showMapCurrent":     [qsTranslate("settingsmanager_shortcuts", "Show Image on Map"), "currentimage"],
+        "__showMapCurrent":     [qsTranslate("settingsmanager", "Show Image on Map"), "currentimage"],
                                  //: Name of shortcut action
-        "__viewerMode":         [qsTranslate("settingsmanager_shortcuts", "Enter viewer mode"), "currentimage"],
+        "__viewerMode":         [qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
                                  //: Name of shortcut action
-        "__scale":              [qsTranslate("settingsmanager_shortcuts", "Scale Image"), "currentimage"],
+        "__scale":              [qsTranslate("settingsmanager", "Scale Image"), "currentimage"],
                                  //: Name of shortcut action
-        "__rename":             [qsTranslate("settingsmanager_shortcuts", "Rename File"), "currentimage"],
+        "__rename":             [qsTranslate("settingsmanager", "Rename File"), "currentimage"],
                                  //: Name of shortcut action
-        "__delete":             [qsTranslate("settingsmanager_shortcuts", "Delete File"), "currentimage"],
+        "__delete":             [qsTranslate("settingsmanager", "Delete File"), "currentimage"],
                                  //: Name of shortcut action
-        "__deletePermanent":    [qsTranslate("settingsmanager_shortcuts", "Delete File (without confirmation)"), "currentimage"],
+        "__deletePermanent":    [qsTranslate("settingsmanager", "Delete File (without confirmation)"), "currentimage"],
                                  //: Name of shortcut action
-        "__copy":               [qsTranslate("settingsmanager_shortcuts", "Copy File to a New Location"), "currentimage"],
+        "__copy":               [qsTranslate("settingsmanager", "Copy File to a New Location"), "currentimage"],
                                  //: Name of shortcut action
-        "__move":               [qsTranslate("settingsmanager_shortcuts", "Move File to a New Location"), "currentimage"],
+        "__move":               [qsTranslate("settingsmanager", "Move File to a New Location"), "currentimage"],
                                  //: Name of shortcut action
-        "__clipboard":          [qsTranslate("settingsmanager_shortcuts", "Copy Image to Clipboard"), "currentimage"],
+        "__clipboard":          [qsTranslate("settingsmanager", "Copy Image to Clipboard"), "currentimage"],
                                  //: Name of shortcut action
-        "__saveAs":             [qsTranslate("settingsmanager_shortcuts", "Save image in another format"), "currentimage"],
+        "__saveAs":             [qsTranslate("settingsmanager", "Save image in another format"), "currentimage"],
                                  //: Name of shortcut action
-        "__print":              [qsTranslate("settingsmanager_shortcuts", "Print current photo"), "currentimage"],
+        "__print":              [qsTranslate("settingsmanager", "Print current photo"), "currentimage"],
                                  //: Name of shortcut action
-        "__wallpaper":          [qsTranslate("settingsmanager_shortcuts", "Set as Wallpaper"), "currentimage"],
+        "__wallpaper":          [qsTranslate("settingsmanager", "Set as Wallpaper"), "currentimage"],
                                  //: Name of shortcut action
-        "__imgurAnonym":        [qsTranslate("settingsmanager_shortcuts", "Upload to imgur.com (anonymously)"), "currentimage"],
+        "__imgurAnonym":        [qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "currentimage"],
                                  //: Name of shortcut action
-        "__imgur":              [qsTranslate("settingsmanager_shortcuts", "Upload to imgur.com user account"), "currentimage"],
+        "__imgur":              [qsTranslate("settingsmanager", "Upload to imgur.com user account"), "currentimage"],
                                  //: Name of shortcut action
-        "__playPauseAni":       [qsTranslate("settingsmanager_shortcuts", "Play/Pause animation/video"), "currentimage"],
+        "__playPauseAni":       [qsTranslate("settingsmanager", "Play/Pause animation/video"), "currentimage"],
                                  //: Name of shortcut action
-        "__tagFaces":           [qsTranslate("settingsmanager_shortcuts", "Start tagging faces"), "currentimage"],
+        "__tagFaces":           [qsTranslate("settingsmanager", "Start tagging faces"), "currentimage"],
 
 
         // ACTION WITH CURRENT FOLDER
 
                                  //: Name of shortcut action
-        "__open":               [qsTranslate("settingsmanager_shortcuts", "Open file (browse images)"), "currentfolder"],
+        "__open":               [qsTranslate("settingsmanager", "Open file (browse images)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__showMapExplorer":    [qsTranslate("settingsmanager_shortcuts", "Show map explorer"), "currentfolder"],
+        "__showMapExplorer":    [qsTranslate("settingsmanager", "Show map explorer"), "currentfolder"],
                                 //: Name of shortcut action
-        "__filterImages":       [qsTranslate("settingsmanager_shortcuts", "Filter images in folder"), "currentfolder"],
+        "__filterImages":       [qsTranslate("settingsmanager", "Filter images in folder"), "currentfolder"],
                                  //: Name of shortcut action
-        "__advancedSort":       [qsTranslate("settingsmanager_shortcuts", "Advanced image sort (Setup)"), "currentfolder"],
+        "__advancedSort":       [qsTranslate("settingsmanager", "Advanced image sort (Setup)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__advancedSortQuick":  [qsTranslate("settingsmanager_shortcuts", "Advanced image sort (Quickstart)"), "currentfolder"],
+        "__advancedSortQuick":  [qsTranslate("settingsmanager", "Advanced image sort (Quickstart)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__slideshow":          [qsTranslate("settingsmanager_shortcuts", "Start Slideshow (Setup)"), "currentfolder"],
+        "__slideshow":          [qsTranslate("settingsmanager", "Start Slideshow (Setup)"), "currentfolder"],
                                  //: Name of shortcut action
-        "__slideshowQuick":     [qsTranslate("settingsmanager_shortcuts", "Start Slideshow (Quickstart)"), "currentfolder"],
+        "__slideshowQuick":     [qsTranslate("settingsmanager", "Start Slideshow (Quickstart)"), "currentfolder"],
 
 
         // INTERFACE
 
                                  //: Name of shortcut action
-        "__contextMenu":        [qsTranslate("settingsmanager_shortcuts", "Show Context Menu"), "interface"],
+        "__contextMenu":        [qsTranslate("settingsmanager", "Show Context Menu"), "interface"],
                                  //: Name of shortcut action
-        "__showMainMenu":       [qsTranslate("settingsmanager_shortcuts", "Hide/Show main menu"), "interface"],
+        "__showMainMenu":       [qsTranslate("settingsmanager", "Hide/Show main menu"), "interface"],
                                  //: Name of shortcut action
-        "__showMetaData":       [qsTranslate("settingsmanager_shortcuts", "Hide/Show metadata"), "interface"],
+        "__showMetaData":       [qsTranslate("settingsmanager", "Hide/Show metadata"), "interface"],
                                  //: Name of shortcut action
-        "__showThumbnails":     [qsTranslate("settingsmanager_shortcuts", "Hide/Show thumbnails"), "interface"],
+        "__showThumbnails":     [qsTranslate("settingsmanager", "Hide/Show thumbnails"), "interface"],
                                  //: Name of shortcut action
-        "__navigationFloating": [qsTranslate("settingsmanager_shortcuts", "Show floating navigation buttons"), "interface"],
+        "__navigationFloating": [qsTranslate("settingsmanager", "Show floating navigation buttons"), "interface"],
                                  //: Name of shortcut action
-        "__fullscreenToggle":   [qsTranslate("settingsmanager_shortcuts", "Toggle fullscreen mode"), "interface"],
+        "__fullscreenToggle":   [qsTranslate("settingsmanager", "Toggle fullscreen mode"), "interface"],
                                  //: Name of shortcut action
-        "__close":              [qsTranslate("settingsmanager_shortcuts", "Close window (hides to system tray if enabled)"), "interface"],
+        "__close":              [qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"), "interface"],
                                  //: Name of shortcut action
-        "__quit":               [qsTranslate("settingsmanager_shortcuts", "Quit PhotoQt"), "interface"],
+        "__quit":               [qsTranslate("settingsmanager", "Quit PhotoQt"), "interface"],
 
 
 
         // OTHER ELEMENTS
 
                                 //: Name of shortcut action
-        "__settings":           [qsTranslate("settingsmanager_shortcuts", "Show Settings"), "other"],
+        "__settings":           [qsTranslate("settingsmanager", "Show Settings"), "other"],
                                 //: Name of shortcut action
-        "__about":              [qsTranslate("settingsmanager_shortcuts", "About PhotoQt"), "other"],
+        "__about":              [qsTranslate("settingsmanager", "About PhotoQt"), "other"],
                                 //: Name of shortcut action
-        "__logging":            [qsTranslate("settingsmanager_shortcuts", "Show log/debug messages"), "other"],
+        "__logging":            [qsTranslate("settingsmanager", "Show log/debug messages"), "other"],
                                 //: Name of shortcut action
-        "__resetSession":       [qsTranslate("settingsmanager_shortcuts", "Reset current session"), "other"],
+        "__resetSession":       [qsTranslate("settingsmanager", "Reset current session"), "other"],
                                 //: Name of shortcut action
-        "__resetSessionAndHide":[qsTranslate("settingsmanager_shortcuts", "Reset current session and hide window"), "other"],
+        "__resetSessionAndHide":[qsTranslate("settingsmanager", "Reset current session and hide window"), "other"],
 
     }
 
@@ -201,18 +201,18 @@ Flickable {
             PQTextXL {
                 font.weight: PQCLook.fontWeightBold
                 //: Settings title
-                text: qsTranslate("settingsmanager_shortcuts", "Shortcuts")
+                text: qsTranslate("settingsmanager", "Shortcuts")
                 font.capitalization: Font.SmallCaps
             }
 
             PQText {
                 width: setting_top.width
-                text:qsTranslate("settingsmanager_shortcuts",  "Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of cycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning. Any group that has no key combinations set will be deleted when saving all changes.")
+                text:qsTranslate("settingsmanager",  "Shortcuts are grouped by key combination. Multiple actions can be set for each group of key combinations, with the option of cycling through them one by one, or executing all of them at the same time. When cycling through them one by one, a timeout can be set after which the cycle will be reset to the beginning. Any group that has no key combinations set will be deleted when saving all changes.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
 //            PQButton {
-//                text: qsTranslate("settingsmanager_shortcuts", "Add new shortcuts group")
+//                text: qsTranslate("settingsmanager", "Add new shortcuts group")
 //                extraextraWide: true
 //                onClicked: {
 //                    setting_top.entries.unshift([[],[],1,0,0])
@@ -233,7 +233,7 @@ Flickable {
 
             PQText {
                 width: setting_top.width
-                text: qsTranslate("settingsmanager_shortcuts", "The shortcuts can be filtered by either the key combinations, shortcut actions, category, or all three. For the string search, PhotoQt will by default check if any action/key combination includes whatever string is entered. Adding a dollar sign ($) at the start or end of the search term forces a match to be either at the start or the end of a key combination or action.")
+                text: qsTranslate("settingsmanager", "The shortcuts can be filtered by either the key combinations, shortcut actions, category, or all three. For the string search, PhotoQt will by default check if any action/key combination includes whatever string is entered. Adding a dollar sign ($) at the start or end of the search term forces a match to be either at the start or the end of a key combination or action.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
@@ -245,7 +245,7 @@ Flickable {
                     id: filter_combo
                     width: Math.min(800, parent.width/2)+10
                     enabled: (newaction.opacity<1 && newshortcut.opacity<1)
-                    placeholderText: qsTranslate("settingsmanager_shortcuts", "Filter key combinations")
+                    placeholderText: qsTranslate("settingsmanager", "Filter key combinations")
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
                     }
@@ -255,7 +255,7 @@ Flickable {
                     id: filter_action
                     width: (setting_top.width-filter_combo.width)/2-10
                     enabled: (newaction.opacity<1 && newshortcut.opacity<1)
-                    placeholderText: qsTranslate("settingsmanager_shortcuts", "Filter shortcut actions")
+                    placeholderText: qsTranslate("settingsmanager", "Filter shortcut actions")
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
                     }
@@ -265,13 +265,13 @@ Flickable {
                     id: filter_category
                     width: (setting_top.width-filter_combo.width)/2-20
                     height: filter_action.height
-                    model: [qsTranslate("settingsmanager_shortcuts", "Show all categories"),
-                            qsTranslate("settingsmanager_shortcuts", "Category:") + " " + qsTranslate("settingsmanager_shortcuts", "Viewing images"),
-                            qsTranslate("settingsmanager_shortcuts", "Category:") + " " + qsTranslate("settingsmanager_shortcuts", "Current image"),
-                            qsTranslate("settingsmanager_shortcuts", "Category:") + " " + qsTranslate("settingsmanager_shortcuts", "Current folder"),
-                            qsTranslate("settingsmanager_shortcuts", "Category:") + " " + qsTranslate("settingsmanager_shortcuts", "Interface"),
-                            qsTranslate("settingsmanager_shortcuts", "Category:") + " " + qsTranslate("settingsmanager_shortcuts", "Other"),
-                            qsTranslate("settingsmanager_shortcuts", "Category:") + " " + qsTranslate("settingsmanager_shortcuts", "External")]
+                    model: [qsTranslate("settingsmanager", "Show all categories"),
+                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Viewing images"),
+                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current image"),
+                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current folder"),
+                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Interface"),
+                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Other"),
+                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "External")]
                 }
 
             }
@@ -369,7 +369,7 @@ Flickable {
                                 id: n
                                 x: 5
                                 y: 10
-                                text: qsTranslate("settingsmanager_shortcuts", "no key combination set")
+                                text: qsTranslate("settingsmanager", "no key combination set")
                                 opacity: 0.4
                                 font.italic: true
                             }
@@ -455,7 +455,7 @@ Flickable {
                                             anchors.fill: parent
                                             hoverEnabled: true
                                             cursorShape: Qt.PointingHandCursor
-                                            text: qsTranslate("settingsmanager_shortcuts", "Click to change key combination")
+                                            text: qsTranslate("settingsmanager", "Click to change key combination")
 
                                             onClicked:
                                                 newshortcut.show(deleg.currentShortcutIndex, index)
@@ -466,7 +466,7 @@ Flickable {
                                             anchors.fill: delrect
                                             hoverEnabled: true
                                             cursorShape: Qt.PointingHandCursor
-                                            text: qsTranslate("settingsmanager_shortcuts", "Click to delete key combination")
+                                            text: qsTranslate("settingsmanager", "Click to delete key combination")
                                             onEntered:
                                                 delrect.opacity = 0.8
                                             onExited:
@@ -500,7 +500,7 @@ Flickable {
                                     x: 3
                                     y: 3
                                     //: Written on small button, used as in: add new key combination. Please keep short!
-                                    text: qsTranslate("settingsmanager_shortcuts", "ADD")
+                                    text: qsTranslate("settingsmanager", "ADD")
                                     color: addmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
@@ -512,7 +512,7 @@ Flickable {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    text: qsTranslate("settingsmanager_shortcuts", "Click to add new key combination")
+                                    text: qsTranslate("settingsmanager", "Click to add new key combination")
 
                                     onClicked: {
                                         newshortcut.show(deleg.currentShortcutIndex, -1)
@@ -568,7 +568,7 @@ Flickable {
                                 width: parent.width
                                 font.weight: PQCLook.fontWeightBold
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                text: qsTranslate("settingsmanager_shortcuts", "The new shortcut was in use by another shortcuts group. It has been reassigned to this group.")
+                                text: qsTranslate("settingsmanager", "The new shortcut was in use by another shortcuts group. It has been reassigned to this group.")
                             }
 
                             Row {
@@ -579,7 +579,7 @@ Flickable {
                                 PQButton {
                                     id: undobut
                                     property string entryid: ""
-                                    text: qsTranslate("settingsmanager_shortcuts", "Undo reassignment")
+                                    text: qsTranslate("settingsmanager", "Undo reassignment")
                                     onClicked: {
                                         var dat = setting_top.handleExisting[entryid]
                                         setting_top.entries[dat[0]][0].push(dat[2])
@@ -654,7 +654,7 @@ Flickable {
                             x: 5
                             y: (parent.height-height)/2
                             //: The action here is a shortcut action
-                            text: qsTranslate("settingsmanager_shortcuts", "no action selected")
+                            text: qsTranslate("settingsmanager", "no action selected")
                             opacity: 0.4
                             font.italic: true
                         }
@@ -702,12 +702,12 @@ Flickable {
                                             ? (cmd in setting_top.actions
                                                ? setting_top.actions[cmd][0]
                                                  //: The unknown here refers to an unknown internal action that was set as shortcut
-                                               : ("<i>"+qsTranslate("settingsmanager_shortcuts", "unknown:")+"</i> "+cmd))
+                                               : ("<i>"+qsTranslate("settingsmanager", "unknown:")+"</i> "+cmd))
                                               //: This is an identifier in the shortcuts settings used to identify an external shortcut.
-                                            : ("<i>" + qsTranslate("settingsmanager_shortcuts", "external") + "</i>: " +
+                                            : ("<i>" + qsTranslate("settingsmanager", "external") + "</i>: " +
                                                cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] +
                                                //: This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked
-                                               (cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager_shortcuts", "quit after") + ")" : ""))
+                                               (cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager", "quit after") + ")" : ""))
                                 color: actmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
@@ -717,7 +717,7 @@ Flickable {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                text: qsTranslate("settingsmanager_shortcuts", "Click to change shortcut action")
+                                text: qsTranslate("settingsmanager", "Click to change shortcut action")
                                 onClicked: {
                                     newaction.change(deleg.currentShortcutIndex, index)
                                 }
@@ -743,7 +743,7 @@ Flickable {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    text: qsTranslate("settingsmanager_shortcuts", "Click to delete shortcut action")
+                                    text: qsTranslate("settingsmanager", "Click to delete shortcut action")
                                     onEntered:
                                         parent.opacity = 0.8
                                     onExited:
@@ -778,7 +778,7 @@ Flickable {
                                 x: 3
                                 y: 3
                                 //: Written on small button, used as in: add new shortcut action. Please keep short!
-                                text: qsTranslate("settingsmanager_shortcuts", "ADD")
+                                text: qsTranslate("settingsmanager", "ADD")
                                 color: addactmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
@@ -790,7 +790,7 @@ Flickable {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 //: The action here is a shortcut action
-                                text: qsTranslate("settingsmanager_shortcuts", "Click to add new action")
+                                text: qsTranslate("settingsmanager", "Click to add new action")
                                 onClicked: {
                                     newaction.show(deleg.currentShortcutIndex)
                                 }
@@ -839,7 +839,7 @@ Flickable {
                             PQRadioButton {
                                 id: radio_cycle
                                 //: The actions here are shortcut actions
-                                text: qsTranslate("settingsmanager_shortcuts", "cycle through actions one by one")
+                                text: qsTranslate("settingsmanager", "cycle through actions one by one")
                                 font.pointSize: PQCLook.fontSizeS
                                 checked: deleg.cycle
                                 ButtonGroup.group: radioGroup
@@ -854,7 +854,7 @@ Flickable {
                                     y: (parent.height-height)/2
                                     checked: deleg.cycletimeout>0
                                     //: The cycle here is the act of cycling through shortcut actions one by one
-                                    text: qsTranslate("settingsmanager_shortcuts", "timeout for resetting cycle:")
+                                    text: qsTranslate("settingsmanager", "timeout for resetting cycle:")
                                     font.pointSize: PQCLook.fontSizeS
                                 }
                             }
@@ -894,7 +894,7 @@ Flickable {
                             PQRadioButton {
                                 x: 40
                                 //: The actions here are shortcut actions
-                                text: qsTranslate("settingsmanager_shortcuts", "run all actions at once")
+                                text: qsTranslate("settingsmanager", "run all actions at once")
                                 font.pointSize: PQCLook.fontSizeS
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous

@@ -122,7 +122,7 @@ Rectangle {
         width: parent.width
         font.weight: PQCLook.fontWeightBold
         horizontalAlignment: Text.AlignHCenter
-        text: (newshortcut_top.currentSubIndex==-1 ? qsTranslate("settingsmanager_shortcuts", "Add New Shortcut") : qsTranslate("settingsmanager_shortcuts", "Set new shortcut"))
+        text: (newshortcut_top.currentSubIndex==-1 ? qsTranslate("settingsmanager", "Add New Shortcut") : qsTranslate("settingsmanager", "Set new shortcut"))
     }
 
     Rectangle {
@@ -144,7 +144,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager_shortcuts", "Perform a mouse gesture here or press any key combo")
+            text: qsTranslate("settingsmanager", "Perform a mouse gesture here or press any key combo")
         }
 
         PQTextXL {
@@ -176,8 +176,8 @@ Rectangle {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
                 color: PQCLook.textColorActive
-                text: qsTranslate("settingsmanager_shortcuts", "The left button is used for moving the main image around.") + "<br>\n" +
-                      qsTranslate("settingsmanager_shortcuts", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
+                text: qsTranslate("settingsmanager", "The left button is used for moving the main image around.") + "<br>\n" +
+                      qsTranslate("settingsmanager", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
             }
             SequentialAnimation {
                 loops: Animation.Infinite

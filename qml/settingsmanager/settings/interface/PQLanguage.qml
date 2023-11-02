@@ -88,13 +88,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: A settings title
-            text: qsTranslate("settingsmanager_interface", "Language")
+            text: qsTranslate("settingsmanager", "Language")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "PhotoQt has been translated into a number of different languages. Not all of the languages have a complete translation yet, and new translators are always needed. If you are willing and able to help, that would be greatly appreciated.")
+            text:qsTranslate("settingsmanager",  "PhotoQt has been translated into a number of different languages. Not all of the languages have a complete translation yet, and new translators are always needed. If you are willing and able to help, that would be greatly appreciated.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -156,7 +156,7 @@ Flickable {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.weight: PQCLook.fontWeightBold
             horizontalAlignment: Text.AlignHCenter
-            text: qsTranslate("settingsmanager_interface", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
+            text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
         }
 
         /**********************************************************************/
@@ -166,7 +166,7 @@ Flickable {
         PQText {
             width: setting_top.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager_interface", "If you want to help with the translations, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:")
+            text: qsTranslate("settingsmanager", "If you want to help with the translations, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:")
         }
 
         Item {
@@ -185,7 +185,7 @@ Flickable {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("settingsmanager_interface", "Open in browser")
+                    text: qsTranslate("settingsmanager", "Open in browser")
                     onClicked:
                         Qt.openUrlExternally("https://translate.photoqt.org")
                 }
@@ -194,7 +194,7 @@ Flickable {
                 width: urltxt.height
                 height: width
                 source: "/white/copy.svg"
-                tooltip: qsTranslate("settingsmanager_interface", "Copy to clipboard")
+                tooltip: qsTranslate("settingsmanager", "Copy to clipboard")
                 onClicked:
                     PQCScriptsClipboard.copyTextToClipboard("https://translate.photoqt.org")
             }

@@ -38,20 +38,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Tray Icon")
+            text: qsTranslate("settingsmanager", "Tray Icon")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_interface", "PhotoQt can show a small icon in the system tray. The tray icon provides additional ways to control and interact with the application. It is also possible to hide PhotoQt to the system tray instead of closing. By default a colored version of the tray icon is used, but it is also possible to use a monochrome version.")
+            text: qsTranslate("settingsmanager", "PhotoQt can show a small icon in the system tray. The tray icon provides additional ways to control and interact with the application. It is also possible to hide PhotoQt to the system tray instead of closing. By default a colored version of the tray icon is used, but it is also possible to use a monochrome version.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: trayicon_show
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "Show tray icon")
+            text: qsTranslate("settingsmanager", "Show tray icon")
             checked: (PQCSettings.interfaceTrayIcon>0)
             onCheckedChanged: checkDefault()
         }
@@ -60,7 +60,7 @@ Flickable {
             id: trayicon_mono
             enabled: trayicon_show.checked
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "monochrome icon")
+            text: qsTranslate("settingsmanager", "monochrome icon")
             checked: PQCSettings.interfaceTrayIconMonochrome
             onCheckedChanged: checkDefault()
         }
@@ -69,7 +69,7 @@ Flickable {
             id: trayicon_hide
             x: (parent.width-width)/2
             enabled: trayicon_show.checked
-            text: qsTranslate("settingsmanager_interface", "hide to tray icon instead of closing")
+            text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
             checked: (PQCSettings.interfaceTrayIcon===1)
             onCheckedChanged: checkDefault()
         }
@@ -81,13 +81,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Reset when hiding")
+            text: qsTranslate("settingsmanager", "Reset when hiding")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_interface", "When hiding PhotoQt in the system tray, it is possible to reset PhotoQt to its initial state, thus freeing most of the memory tied up by caching. Note that this will also unload any loaded folder and image.")
+            text: qsTranslate("settingsmanager", "When hiding PhotoQt in the system tray, it is possible to reset PhotoQt to its initial state, thus freeing most of the memory tied up by caching. Note that this will also unload any loaded folder and image.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -95,7 +95,7 @@ Flickable {
             id: trayicon_reset
             enabled: trayicon_show.checked
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "reset session when hiding")
+            text: qsTranslate("settingsmanager", "reset session when hiding")
             checked: PQCSettings.interfaceTrayIconHideReset
             onCheckedChanged: checkDefault()
         }

@@ -43,20 +43,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Status info")
+            text: qsTranslate("settingsmanager", "Status info")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "The status information refers to the set of information shown in the top right corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
+            text:qsTranslate("settingsmanager",  "The status information refers to the set of information shown in the top right corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: status_show
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "show status information")
+            text: qsTranslate("settingsmanager", "show status information")
             onCheckedChanged: checkDefault()
         }
 
@@ -90,19 +90,19 @@ Flickable {
 
                 property var disp: {
                     //: Please keep short! The counter shows where we are in the folder.
-                    "counter": qsTranslate("settingsmanager_interface", "counter"),
+                    "counter": qsTranslate("settingsmanager", "counter"),
                     //: Please keep short!
-                    "filename": qsTranslate("settingsmanager_interface", "filename"),
+                    "filename": qsTranslate("settingsmanager", "filename"),
                     //: Please keep short!
-                    "filepathname": qsTranslate("settingsmanager_interface", "filepath"),
+                    "filepathname": qsTranslate("settingsmanager", "filepath"),
                     //: Please keep short! This is the image resolution.
-                    "resolution": qsTranslate("settingsmanager_interface", "resolution"),
+                    "resolution": qsTranslate("settingsmanager", "resolution"),
                     //: Please keep short! This is the current zoom level.
-                    "zoom": qsTranslate("settingsmanager_interface", "zoom"),
+                    "zoom": qsTranslate("settingsmanager", "zoom"),
                     //: Please keep short! This is the rotation of the current image
-                    "rotation": qsTranslate("settingsmanager_interface", "rotation"),
+                    "rotation": qsTranslate("settingsmanager", "rotation"),
                     //: Please keep short! This is the filesize of the current image.
-                    "filesize": qsTranslate("settingsmanager_interface", "filesize")
+                    "filesize": qsTranslate("settingsmanager", "filesize")
                 }
 
                 model: ListModel {
@@ -225,19 +225,19 @@ Flickable {
                 y: (but_add.height-height)/2
                 property var data: [
                     //: Please keep short! The counter shows where we are in the folder.
-                    ["counter", qsTranslate("settingsmanager_interface", "counter")],
+                    ["counter", qsTranslate("settingsmanager", "counter")],
                     //: Please keep short!
-                    ["filename", qsTranslate("settingsmanager_interface", "filename")],
+                    ["filename", qsTranslate("settingsmanager", "filename")],
                     //: Please keep short!
-                    ["filepathname", qsTranslate("settingsmanager_interface", "filepath")],
+                    ["filepathname", qsTranslate("settingsmanager", "filepath")],
                     //: Please keep short! This is the image resolution.
-                    ["resolution", qsTranslate("settingsmanager_interface", "resolution")],
+                    ["resolution", qsTranslate("settingsmanager", "resolution")],
                     //: Please keep short! This is the current zoom level.
-                    ["zoom", qsTranslate("settingsmanager_interface", "zoom")],
+                    ["zoom", qsTranslate("settingsmanager", "zoom")],
                     //: Please keep short! This is the rotation of the current image
-                    ["rotation", qsTranslate("settingsmanager_interface", "rotation")],
+                    ["rotation", qsTranslate("settingsmanager", "rotation")],
                     //: Please keep short! This is the filesize of the current image.
-                    ["filesize", qsTranslate("settingsmanager_interface", "filesize")]
+                    ["filesize", qsTranslate("settingsmanager", "filesize")]
                 ]
                 property var modeldata: []
                 model: modeldata
@@ -251,7 +251,7 @@ Flickable {
             PQButton {
                 id: but_add
                 //: This is written on a button that is used to add a selected block to the status info section.
-                text: qsTranslate("settingsmanager_interface", "add")
+                text: qsTranslate("settingsmanager", "add")
                 onClicked: {
                     model.append({name: combo_add.data[combo_add.currentIndex][0]})
                     checkDefault()
@@ -266,13 +266,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title, the font sized of the status information
-            text: qsTranslate("settingsmanager_interface", "Font size")
+            text: qsTranslate("settingsmanager", "Font size")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "The size of the status info is determined by the font size of the text.")
+            text:qsTranslate("settingsmanager",  "The size of the status info is determined by the font size of the text.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -298,7 +298,7 @@ Flickable {
         PQText {
             x: (parent.width-width)/2
             //: The current value of the slider specifying the font size for the status information
-            text: qsTranslate("settingsmanager_interface", "current value:") + " " + fontsize.value + "pt"
+            text: qsTranslate("settingsmanager", "current value:") + " " + fontsize.value + "pt"
         }
 
         /**********************************************************************/
@@ -308,13 +308,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Hide automatically")
+            text: qsTranslate("settingsmanager", "Hide automatically")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "The status info can either be shown at all times, or it can be hidden automatically based on different criteria. It can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout it will then hide again. In addition to these criteria, it can also be shown shortly whenever the image changes.")
+            text:qsTranslate("settingsmanager",  "The status info can either be shown at all times, or it can be hidden automatically based on different criteria. It can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout it will then hide again. In addition to these criteria, it can also be shown shortly whenever the image changes.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -325,7 +325,7 @@ Flickable {
             PQRadioButton {
                 id: autohide_always
                 //: visibility status of the status information
-                text: qsTranslate("settingsmanager_interface", "keep always visible")
+                text: qsTranslate("settingsmanager", "keep always visible")
                 checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
@@ -333,7 +333,7 @@ Flickable {
             PQRadioButton {
                 id: autohide_anymove
                 //: visibility status of the status information
-                text: qsTranslate("settingsmanager_interface", "only show with any cursor move")
+                text: qsTranslate("settingsmanager", "only show with any cursor move")
                 checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
@@ -341,7 +341,7 @@ Flickable {
             PQRadioButton {
                 id: autohide_topedge
                 //: visibility status of the status information
-                text: qsTranslate("settingsmanager_interface", "only show when cursor near top edge")
+                text: qsTranslate("settingsmanager", "only show when cursor near top edge")
                 checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge
                 onCheckedChanged: checkDefault()
             }
@@ -352,7 +352,7 @@ Flickable {
             enabled: !autohide_always.checked
             x: (parent.width-width)/2
             //: the status information can be hidden automatically after a set timeout
-            text: qsTranslate("settingsmanager_interface", "hide again after timeout:")
+            text: qsTranslate("settingsmanager", "hide again after timeout:")
         }
 
         Row {
@@ -381,7 +381,7 @@ Flickable {
         PQText {
             enabled: !autohide_always.checked
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface", "current value:") + " " + autohide_timeout.value.toFixed(1) + "s"
+            text: qsTranslate("settingsmanager", "current value:") + " " + autohide_timeout.value.toFixed(1) + "s"
         }
 
         PQCheckBox {
@@ -389,7 +389,7 @@ Flickable {
             x: (parent.width-width)/2
             enabled: !autohide_always.checked
             //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
-            text: qsTranslate("settingsmanager_interface", "also show when image changes")
+            text: qsTranslate("settingsmanager", "also show when image changes")
             checked: PQCSettings.interfaceStatusInfoShowImageChange
             onCheckedChanged: checkDefault()
         }
@@ -401,20 +401,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Window management")
+            text: qsTranslate("settingsmanager", "Window management")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "By default it is possible to drag the status info around as desired. However, it is also possible to use the status info for managing the window itself. When enabled, dragging the status info will drag the window around, and double clicking the status info will toggle the maximized status of the window.")
+            text:qsTranslate("settingsmanager",  "By default it is possible to drag the status info around as desired. However, it is also possible to use the status info for managing the window itself. When enabled, dragging the status info will drag the window around, and double clicking the status info will toggle the maximized status of the window.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: managewindow
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager_interface",  "manage window through status info")
+            text: qsTranslate("settingsmanager",  "manage window through status info")
             checked: PQCSettings.interfaceStatusInfoManageWindow
             onCheckedChanged: checkDefault()
         }

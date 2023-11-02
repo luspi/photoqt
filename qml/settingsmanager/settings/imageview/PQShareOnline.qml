@@ -37,20 +37,20 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_imageview", "imgur.com")
+            text: qsTranslate("settingsmanager", "imgur.com")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_imageview", "It is possible to share an image from PhotoQt directly to imgur.com. This can either be done anonymously or to an imgur.com account. For the former, no setup is required, after a successful upload you are presented with the URL to access and the URL to delete the image. For the latter, PhotoQt first needs to be authenticated to an imgur.com user account.")
+            text: qsTranslate("settingsmanager", "It is possible to share an image from PhotoQt directly to imgur.com. This can either be done anonymously or to an imgur.com account. For the former, no setup is required, after a successful upload you are presented with the URL to access and the URL to delete the image. For the latter, PhotoQt first needs to be authenticated to an imgur.com user account.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQText {
             width: setting_top.width
             font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager_imageview", "Note that any change here is saved immediately!")
+            text: qsTranslate("settingsmanager", "Note that any change here is saved immediately!")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -59,7 +59,7 @@ Flickable {
             x: (parent.width-width)/2
             visible: acc!=""
             property string acc: ""
-            text: qsTranslate("settingsmanager_imageview", "Authenticated with user account:") + " <b>" + acc + "</b>"
+            text: qsTranslate("settingsmanager", "Authenticated with user account:") + " <b>" + acc + "</b>"
         }
 
         Item {
@@ -72,9 +72,9 @@ Flickable {
             x: (parent.width-width)/2
             text: account.acc == "" ?
                       //: Written on button, used as in: Authenticate with user account
-                      qsTranslate("settingsmanager_imageview", "Authenticate") :
+                      qsTranslate("settingsmanager", "Authenticate") :
                       //: Written on button, used as in: Forget user account
-                      qsTranslate("settingsmanager_imageview", "Forget account")
+                      qsTranslate("settingsmanager", "Forget account")
             onClicked: {
                 if(account.acc == "") {
                     Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin())
@@ -113,7 +113,7 @@ Flickable {
                 id: authinfotxt
                 width: setting_top.width
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTranslate("settingsmanager_imageview", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
+                text: qsTranslate("settingsmanager", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
             }
 
             Row {
@@ -156,7 +156,7 @@ Flickable {
             color: "red"
             property string err: ""
             visible: err!=""
-            text: qsTranslate("settingsmanager_imageview", "An error occured:") + " " + err
+            text: qsTranslate("settingsmanager", "An error occured:") + " " + err
         }
 
     }

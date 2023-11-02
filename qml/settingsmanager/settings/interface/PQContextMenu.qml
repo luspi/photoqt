@@ -56,13 +56,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager_interface", "Context menu")
+            text: qsTranslate("settingsmanager", "Context menu")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager_interface",  "The context menu contains actions that can be performed related to the currently viewed image. By default is it shown when doing a right click on the background, although it is possible to change that in the shortcuts category. In addition to pre-defined image functions it is also possible to add custom entries to that menu.")
+            text:qsTranslate("settingsmanager",  "The context menu contains actions that can be performed related to the currently viewed image. By default is it shown when doing a right click on the background, although it is possible to change that in the shortcuts category. In addition to pre-defined image functions it is also possible to add custom entries to that menu.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -74,7 +74,7 @@ Flickable {
             color: PQCLook.textColorHighlight
             font.weight: PQCLook.fontWeightBold
             //: The custom entries here are the custom entries in the context menu
-            text: qsTranslate("settingsmanager_interface", "No custom entries exists yet")
+            text: qsTranslate("settingsmanager", "No custom entries exists yet")
         }
 
         Repeater {
@@ -105,7 +105,7 @@ Flickable {
                             checkDefault()
                         onClicked: {
                                                                                 //: written on button for selecting a file from the file dialog
-                            var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager_interface", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
+                            var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
                             if(newicn !== "")
                                 entries[index][0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
                             else
@@ -118,7 +118,7 @@ Flickable {
                         id: entryname
                         width: (deleg.width-appicon.width-quitcheck.width-30)/3
                         //: The entry here refers to the text that is shown in the context menu for a custom entry
-                        placeholderText: qsTranslate("settingsmanager_interface", "entry name")
+                        placeholderText: qsTranslate("settingsmanager", "entry name")
                         text: entries[index][2]
                         onTextChanged: {
                             if(entries[index][2] !== text) {
@@ -135,7 +135,7 @@ Flickable {
                         PQLineEdit {
                             id: executable
                             width: entryname.width
-                            placeholderText: qsTranslate("settingsmanager_interface", "executable")
+                            placeholderText: qsTranslate("settingsmanager", "executable")
                             text: entries[index][1]
                             onTextChanged: {
                                 if(entries[index][1] !== text) {
@@ -150,11 +150,11 @@ Flickable {
                         PQButton {
                             id: selectexe
                             text: "..."
-                            tooltip: qsTranslate("settingsmanager_interface", "Select executable")
+                            tooltip: qsTranslate("settingsmanager", "Select executable")
                             width: height
                             onClicked: {
                                 //: written on button for selecting a file from the file dialog
-                                var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager_interface", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []);
+                                var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []);
 
                                 if(newexe === "")
                                     return
@@ -180,7 +180,7 @@ Flickable {
                         id: addflags
                         width: entryname.width-selectexe.width
                         //: The flags here are additional parameters that can be passed on to an executable
-                        placeholderText: qsTranslate("settingsmanager_interface", "additional flags")
+                        placeholderText: qsTranslate("settingsmanager", "additional flags")
                         text: entries[index][4]
                         onTextChanged: {
                             if(entries[index][4] !== text) {
@@ -196,7 +196,7 @@ Flickable {
                         y: (addflags.height-height)/2
                         id: quitcheck
                         //: Quit PhotoQt after executing custom context menu entry. Please keep as short as possible!!
-                        text: qsTranslate("settingsmanager_interface", "quit")
+                        text: qsTranslate("settingsmanager", "quit")
                         checked: (entries[index][3]==="1")
                         onCheckedChanged: {
                             var val = (checked ? "1" : "0")
@@ -227,7 +227,7 @@ Flickable {
                             anchors.fill: parent
                             hoverEnabled: true
                             //: The entry here is a custom entry in the context menu
-                            text: qsTranslate("settingsmanager_interface", "Delete entry")
+                            text: qsTranslate("settingsmanager", "Delete entry")
                             cursorShape: Qt.PointingHandCursor
                             onClicked: deleteEntry(index)
                             onEntered: parent.hovered = true
@@ -243,7 +243,7 @@ Flickable {
         PQButton {
             x: (parent.width-width)/2
             //: The entry here is a custom entry in the context menu
-            text: qsTranslate("settingsmanager_interface", "Add new entry")
+            text: qsTranslate("settingsmanager", "Add new entry")
             forceWidth: 500
             font.weight: PQCLook.fontWeightNormal
             onClicked: addNewEntry()
@@ -253,7 +253,7 @@ Flickable {
             forceWidth: 500
             visible: !PQCScriptsConfig.amIOnWindows()
             //: The system applications here refers to any image related applications that can be found automatically on your system
-            text: qsTranslate("settingsmanager_interface", "Add system applications")
+            text: qsTranslate("settingsmanager", "Add system applications")
             font.weight: PQCLook.fontWeightNormal
             onClicked: {
                 var newentries = PQCScriptsContextMenu.detectSystemEntries()
@@ -284,13 +284,13 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: The entries here are the custom entries in the context menu
-            text: qsTranslate("settingsmanager_interface", "Duplicate entries in main menu")
+            text: qsTranslate("settingsmanager", "Duplicate entries in main menu")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager_interface", "The custom context menu entries can also be duplicated in the main menu. If enabled, the entries set above will be accesible in both places.")
+            text: qsTranslate("settingsmanager", "The custom context menu entries can also be duplicated in the main menu. If enabled, the entries set above will be accesible in both places.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -298,7 +298,7 @@ Flickable {
             id: check_dupl
             x: (parent.width-width)/2
             //: Refers to duplicating the custom context menu entries in the main menu
-            text: qsTranslate("settingsmanager_interface", "Duplicate in main menu")
+            text: qsTranslate("settingsmanager", "Duplicate in main menu")
             checked: PQCSettings.mainmenuShowExternal
             onCheckedChanged:
                 checkDefault()
