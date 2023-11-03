@@ -139,7 +139,10 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         QImageReader reader;
 
         // disable allocation limit check
-        reader.setAllocationLimit(0);
+        // there is a bug in Qt 6.6 with a disabled allocation limit and ICNS files:
+        // https://bugreports.qt.io/browse/QTBUG-118797
+        if(suffix != "icns")
+            reader.setAllocationLimit(0);
 
         // Setting QImageReader
         reader.setFileName(filename);
