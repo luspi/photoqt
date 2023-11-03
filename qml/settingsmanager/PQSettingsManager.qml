@@ -58,7 +58,7 @@ PQTemplateFullscreen {
                                              //: A settings subcategory
                             "contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu"],
                                              //: A settings subcategory
-                            "statusinfo"  : [qsTranslate("settingsmanager", "Status Info"),  "PQStatusInfo"],
+                            "statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfo"],
                                              //: A settings subcategory
                             "window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow"],
                        }],
@@ -66,12 +66,14 @@ PQTemplateFullscreen {
         //: A settings category
         "imageview" : [qsTranslate("settingsmanager", "Image view"),
                        {
-                                               //: A settings subcategory
-                            "look"          : [qsTranslate("settingsmanager", "Look"),         "PQLook"],
-                                               //: A settings subcategory
-                            "behavior"      : [qsTranslate("settingsmanager", "Behavior"),     "PQBehavior"],
-                                               //: A settings subcategory
-                            "online"        : [qsTranslate("settingsmanager", "Share Online"), "PQShareOnline"]
+                                             //: A settings subcategory
+                            "image"       : [qsTranslate("settingsmanager", "Image"),        "PQImage"],
+                                             //: A settings subcategory
+                            "interaction" : [qsTranslate("settingsmanager", "Interaction"),  "PQInteraction"],
+                                             //: A settings subcategory
+                            "folder"      : [qsTranslate("settingsmanager", "Folder"),       "PQFolder"],
+                                             //: A settings subcategory
+                            "online"      : [qsTranslate("settingsmanager", "Share online"), "PQShareOnline"]
                        }],
 
         //: A settings category
@@ -91,7 +93,7 @@ PQTemplateFullscreen {
                                               //: A settings subcategory
                             "behavior"     : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior"],
                                               //: A settings subcategory
-                            "facetags"     : [qsTranslate("settingsmanager", "Face Tags"),     "PQFaceTags"]
+                            "facetags"     : [qsTranslate("settingsmanager", "Face tags"),     "PQFaceTags"]
                       }],
 
         //: A settings category
@@ -107,17 +109,19 @@ PQTemplateFullscreen {
 
         //: A settings category
         "filetypes" : [qsTranslate("settingsmanager", "File types"),
-                                       //: A settings subcategory
                        {
+                                          //: A settings subcategory
                            "filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes"],
+                                          //: A settings subcategory
                            "tweaks"    : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior"]
                        }],
 
         //: A settings category
         "shortcuts" : [qsTranslate("settingsmanager", "Keyboard & Mouse"),
-                                       //: A settings subcategory
                        {
+                                          //: A settings subcategory
                            "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts"],
+                                          //: A settings subcategory
                            "behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior"]
                        }]
 

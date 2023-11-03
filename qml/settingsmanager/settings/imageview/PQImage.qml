@@ -14,6 +14,9 @@ import "../../../elements"
 // - imageviewFitInWindow
 // - imageviewAlwaysActualSize
 // - imageviewTransparencyMarker
+// - imageviewCache
+// - imageviewInterpolationThreshold
+// - imageviewInterpolationDisableForSmallImages
 
 Flickable {
 
@@ -163,6 +166,93 @@ Flickable {
             onCheckedChanged: checkDefault()
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager", "Interpolation")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for small images under the specified threshold PhotoQt can skip the use of interpolation algorithms. Note that both the width and height of an image need to be smaller than the threshold for it to be applied.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: interp_check
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "disable interpolation for small images")
+            checked: PQCSettings.imageviewInterpolationDisableForSmallImages
+            onCheckedChanged: checkDefault()
+        }
+
+        Row {
+            x: (parent.width-width)/2
+            enabled: interp_check.checked
+            PQText {
+                text: "0px"
+            }
+            PQSlider {
+                id: interp_slider
+                from: 0
+                to: 1000
+                value: PQCSettings.imageviewInterpolationThreshold
+                onValueChanged: checkDefault()
+            }
+            PQText {
+                text: "1000px"
+            }
+        }
+
+        PQText {
+            x: (parent.width-width)/2
+            enabled: interp_check.checked
+            text: qsTranslate("settingsmanager", "current value:") + " " + interp_slider.value + "px"
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager", "Cache")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "Whenever an image is loaded in full, PhotoQt caches such images in order to greatly improve performance if that same image is shown again soon after. This is done up to a certain memory limit after which the first images in the cache will be removed again to free up the required memory. Depending on the amount of memory available on the system, a higher value can lead to an improved user experience.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        Row {
+            x: (parent.width-width)/2
+            PQText {
+                text: "128 MB"
+            }
+            PQSlider {
+                id: cache_slider
+                from: 128
+                to: 5120
+                value: PQCSettings.imageviewCache
+                onValueChanged: checkDefault()
+            }
+            PQText {
+                text: "4 GB"
+            }
+        }
+        PQText {
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "current value:") + " " + cache_slider.value + " MB"
+        }
+
     }
 
     Component.onCompleted:
@@ -171,7 +261,7 @@ Flickable {
     function checkDefault() {
 
         if(marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() ||
-                checkerboard.hasChanged()) {
+                checkerboard.hasChanged() || interp_check.hasChanged() || interp_slider.hasChanged() || cache_slider.hasChanged()) {
             settingChanged = true
             return
         }
@@ -191,6 +281,11 @@ Flickable {
 
         checkerboard.loadAndSetDefault(PQCSettings.imageviewTransparencyMarker)
 
+        interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
+        interp_slider.loadAndSetDefault(PQCSettings.imageviewInterpolationThreshold)
+
+        cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
+
         settingChanged = false
 
     }
@@ -207,12 +302,20 @@ Flickable {
         PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
         PQCSettings.imageviewInterpolationThreshold = interp_slider.value
 
+        PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
+        PQCSettings.imageviewInterpolationThreshold = interp_slider.value
+
+        PQCSettings.imageviewCache = cache_slider.value
+
         marginslider.saveDefault()
         large_fit.saveDefault()
         large_full.saveDefault()
         small_fit.saveDefault()
         small_asis.saveDefault()
         checkerboard.saveDefault()
+        interp_check.saveDefault()
+        interp_slider.saveDefault()
+        cache_slider.saveDefault()
 
         settingChanged = false
 
