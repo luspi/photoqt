@@ -9,11 +9,8 @@ import "../../../elements"
 // 3) function revertChanges()
 
 // settings in this file:
-// - thumbnailsVisibility
-// - thumbnailsCenterOnActive
 // - thumbnailsCache
 // - thumbnailsMaxNumberThreads
-// - thumbnailsTooltip
 // - thumbnailsExcludeFolders
 // - thumbnailsExcludeDropBox
 // - thumbnailsExcludeNextcloud

@@ -9,17 +9,12 @@ import "../../../elements"
 // 3) function revertChanges()
 
 // settings in this file:
-
-// - thumbnailsSize
-// - thumbnailsCropToFit
-// - thumbnailsIconsOnly
-
-// - thumbnailsFontSize
-// - thumbnailsFilename
 // - thumbnailsSpacing
 // - thumbnailsHighlightAnimation
 // - thumbnailsHighlightAnimationLiftUp
 // - thumbnailsInactiveTransparent
+// - thumbnailsCenterOnActive
+// - thumbnailsVisibility
 
 Flickable {
 

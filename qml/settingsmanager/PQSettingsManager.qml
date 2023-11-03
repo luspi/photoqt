@@ -79,10 +79,12 @@ PQTemplateFullscreen {
         //: A settings category
         "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
-                                                //: A settings subcategory
-                            "look"           : [qsTranslate("settingsmanager", "Look"),              "PQLook"],
-                                                //: A settings subcategory
-                            "behavior"       : [qsTranslate("settingsmanager", "Behavior"),          "PQBehavior"]
+                                             //: A settings subcategory
+                            "image"       : [qsTranslate("settingsmanager", "Image"),       "PQImage"],
+                                             //: A settings subcategory
+                            "bar"         : [qsTranslate("settingsmanager", "Bar"),         "PQBar"],
+                                             //: A settings subcategory
+                            "manage"      : [qsTranslate("settingsmanager", "Manage"),      "PQManage"]
                         }],
 
         //: A settings category
