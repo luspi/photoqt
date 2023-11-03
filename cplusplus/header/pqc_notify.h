@@ -84,6 +84,10 @@ public:
     void setIgnoreKeysExceptEnterEsc(bool val);
     Q_INVOKABLE bool getIgnoreKeysExceptEnterEsc();
 
+    Q_PROPERTY(bool ignoreKeysExceptEsc READ getIgnoreKeysExceptEsc WRITE setIgnoreKeysExceptEsc NOTIFY ignoreKeysExceptEscChanged)
+    void setIgnoreKeysExceptEsc(bool val);
+    Q_INVOKABLE bool getIgnoreKeysExceptEsc();
+
     /******************************************************/
 
     Q_PROPERTY(QString debugLogMessages READ getDebugLogMessages WRITE setDebugLogMessages NOTIFY debugLogMessagesChanged)
@@ -139,6 +143,7 @@ private:
     bool m_modalFileDialogOpen;
     bool m_spinBoxPassKeyEvents;
     bool m_ignoreKeysExceptEnterEsc;
+    bool m_ignoreKeysExceptEsc;
 
     bool m_slideshowRunning;
     bool m_faceTagging;
@@ -155,6 +160,7 @@ Q_SIGNALS:
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
     void ignoreKeysExceptEnterEscChanged();
+    void ignoreKeysExceptEscChanged();
     void haveScreenshotsChanged();
 
     void debugLogMessagesChanged();

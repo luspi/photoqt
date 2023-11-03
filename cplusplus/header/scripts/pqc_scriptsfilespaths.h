@@ -2,6 +2,7 @@
 #define PQCSCRIPTSFILESPATHS_H
 
 #include <QObject>
+#include <QDir>
 
 class PQCScriptsFilesPaths : public QObject {
 
@@ -41,6 +42,10 @@ public:
     Q_INVOKABLE void saveLogToFile(QString txt);
     Q_INVOKABLE QString openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
     Q_INVOKABLE QString createTooltipFilename(QString fname);
+    Q_INVOKABLE QString getExistingDirectory(QString startDir = QDir::homePath());
+    Q_INVOKABLE QString findDropBoxFolder();
+    Q_INVOKABLE QString findNextcloudFolder();
+    Q_INVOKABLE QString findOwnCloudFolder();
 
 private:
     PQCScriptsFilesPaths();

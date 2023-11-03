@@ -16,6 +16,7 @@ import "../../../elements"
 // - thumbnailsIconsOnly
 // - thumbnailsFontSize
 // - thumbnailsFilename
+// - thumbnailsInactiveTransparent
 // - thumbnailsTooltip
 
 Flickable {
@@ -176,7 +177,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "On top of each thumbnail image PhotoQt can put a small text label with the filename. The font size of the filename is freely adjustable. If a fileame is too long for the available space only the beginning and end of the filename will be visible.")
+            text: qsTranslate("settingsmanager", "On top of each thumbnail image PhotoQt can put a small text label with the filename. The font size of the filename is freely adjustable. If a fileame is too long for the available space only the beginning and end of the filename will be visible. Additionally, the label of thumbnails that are neither loaded nor hovered can be shown with less opacity.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -215,6 +216,13 @@ Flickable {
             x: (parent.width-width)/2
             enabled: label_enable.checked
             text: qsTranslate("settingsmanager", "current value:") + " " + label_fontsize.value + "pt"
+        }
+
+        PQCheckBox {
+            id: thumb_opaque
+            x: (parent.width-width)/2
+            text: "decrease opacity for inactive thumbnails"
+            checked: PQCSettings.thumbnailsInactiveTransparent
         }
 
         /**********************************************************************/
@@ -268,6 +276,7 @@ Flickable {
 
         label_enable.loadAndSetDefault(PQCSettings.thumbnailsFilename)
         label_fontsize.loadAndSetDefault(PQCSettings.thumbnailsFontSize)
+        thumb_opaque.loadAndSetDefault(PQCSettings.thumbnailsInactiveTransparent)
 
         tooltips_show.loadAndSetDefault(PQCSettings.thumbnailsTooltip)
 
@@ -286,6 +295,7 @@ Flickable {
 
         PQCSettings.thumbnailsFilename = label_enable.checked
         PQCSettings.thumbnailsFontSize = label_fontsize.value
+        PQCSettings.thumbnailsInactiveTransparent = thumb_opaque.checked
 
         PQCSettings.thumbnailsTooltip = tooltips_show.checked
 
@@ -297,6 +307,7 @@ Flickable {
         thumb_icon.saveDefault()
         label_enable.saveDefault()
         label_fontsize.saveDefault()
+        thumb_opaque.saveDefault()
         tooltips_show.saveDefault()
 
         settingChanged = false

@@ -80,11 +80,11 @@ PQTemplateFullscreen {
         "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
                                              //: A settings subcategory
-                            "image"       : [qsTranslate("settingsmanager", "Image"),       "PQImage"],
+                            "image"       : [qsTranslate("settingsmanager", "Image"),          "PQImage"],
                                              //: A settings subcategory
-                            "bar"         : [qsTranslate("settingsmanager", "Bar"),         "PQBar"],
+                            "all"         : [qsTranslate("settingsmanager", "All thumbnails"), "PQAllThumbnails"],
                                              //: A settings subcategory
-                            "manage"      : [qsTranslate("settingsmanager", "Manage"),      "PQManage"]
+                            "manage"      : [qsTranslate("settingsmanager", "Manage"),         "PQManage"]
                         }],
 
         //: A settings category
@@ -380,6 +380,7 @@ PQTemplateFullscreen {
         settingsmanager_top.opacity = 0
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
+        PQCNotify.ignoreKeysExceptEsc = false
     }
 
 }

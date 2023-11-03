@@ -8,6 +8,13 @@ ScrollView {
     clip: true
 
     property alias text: textarea.text
+    property alias placeholderText: textarea.placeholderText
+    property alias controlFocus: textarea.focus
+    property alias controlActiveFocus: textarea.activeFocus
+    property alias cursorPosition: textarea.cursorPosition
+
+    implicitWidth: 200
+    implicitHeight: 200
 
     ScrollBar.vertical:
         PQVerticalScrollBar {
@@ -32,8 +39,8 @@ ScrollView {
         font.weight: PQCLook.fontWeightNormal
 
         background: Rectangle {
-            implicitWidth: 200
-            implicitHeight: 200
+            implicitWidth: control.implicitWidth
+            implicitHeight: control.implicitHeight
             color: PQCLook.baseColor
             border.color: PQCLook.baseColorHighlight
         }

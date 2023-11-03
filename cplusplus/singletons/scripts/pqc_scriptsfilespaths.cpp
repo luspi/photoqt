@@ -451,3 +451,90 @@ QString PQCScriptsFilesPaths::createTooltipFilename(QString fname) {
     return ret;
 
 }
+
+QString PQCScriptsFilesPaths::getExistingDirectory(QString startDir) {
+
+    qDebug() << "args: startDir =" << startDir;
+
+    return QFileDialog::getExistingDirectory(nullptr, QString(), startDir);
+
+}
+
+QString PQCScriptsFilesPaths::findDropBoxFolder() {
+
+#if defined Q_OS_UNIX || defined Q_OS_WIN
+
+// credit for how to find DropBox location:
+// https://stackoverflow.com/questions/12118162/how-to-determine-the-dropbox-folder-location-programmatically
+
+#ifdef Q_OS_UNIX
+    QFile f(QDir::homePath()+"/.dropbox/host.db");
+#elif defined Q_OS_WIN
+    QFile f(QString("%1/Dropbox/host.db").arg(QStandardPaths::AppDataLocation));
+#endif
+    if(f.exists()) {
+        f.open(QIODevice::ReadOnly);
+        QTextStream in(&f);
+        QStringList txt = in.readAll().split("\n");
+        if(txt.length() > 1) {
+            QString path = QByteArray::fromBase64(txt[1].toUtf8());
+            if(path.endsWith("/"))
+                return path.remove(path.length()-1,1);
+            return path;
+        }
+    }
+#endif
+
+    return "";
+
+}
+
+QString PQCScriptsFilesPaths::findNextcloudFolder() {
+
+#if defined Q_OS_UNIX || defined Q_OS_WIN
+#if defined Q_OS_UNIX
+    QFile f(QDir::homePath()+"/.config/Nextcloud/nextcloud.cfg");
+#elif defined Q_OS_WIN
+    QFile f(QString("%1/Nextcloud/nextcloud.cfg").arg(QStandardPaths::AppDataLocation));
+#endif
+    if(f.exists()) {
+        f.open(QIODevice::ReadOnly);
+        QTextStream in(&f);
+        QString txt = in.readAll();
+        if(txt.contains("0\\Folders\\1\\localPath=")) {
+            QString path = txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+            if(path.endsWith("/"))
+                return path.remove(path.length()-1,1);
+            return path;
+        }
+    }
+#endif
+
+    return "";
+
+}
+
+QString PQCScriptsFilesPaths::findOwnCloudFolder() {
+
+#if defined Q_OS_UNIX || defined Q_OS_WIN
+#if defined Q_OS_UNIX
+    QFile f(QDir::homePath()+"/.config/ownCloud/owncloud.cfg");
+#elif defined Q_OS_WIN
+    QFile f(QString("%1/ownCloud/owncloud.cfg").arg(QStandardPaths::AppDataLocation));
+#endif
+    if(f.exists()) {
+        f.open(QIODevice::ReadOnly);
+        QTextStream in(&f);
+        QString txt = in.readAll();
+        if(txt.contains("0\\Folders\\1\\localPath=")) {
+            QString path = txt.split("0\\Folders\\1\\localPath=")[1].split("\n")[0];
+            if(path.endsWith("/"))
+                return path.remove(path.length()-1,1);
+            return path;
+        }
+    }
+#endif
+
+    return "";
+
+}
