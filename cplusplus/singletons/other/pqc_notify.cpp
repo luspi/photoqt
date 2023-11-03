@@ -105,7 +105,7 @@ QString PQCNotify::getDebugLogMessages() {
     return m_debugLogMessages;
 }
 void PQCNotify::addDebugLogMessages(QString val) {
-    m_debugLogMessages += val;
+    m_debugLogMessages.append(val);
     Q_EMIT debugLogMessagesChanged();
 }
 
