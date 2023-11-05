@@ -77,6 +77,7 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideMiddle
+        color: parent.down ? PQCLook.textColorActive : PQCLook.textColor
     }
 
     PQMouseArea {
