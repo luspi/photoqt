@@ -56,7 +56,17 @@ Item {
 
                         property bool mouseOver: false
 
-                        color: maincatflick.currentIndex[0]===index ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : "transparent")
+                        property bool passingFilter: true
+
+                        color: (maincatflick.currentIndex[0]===index) ?
+                                   (passingFilter ?
+                                        PQCLook.baseColorActive :
+                                        PQCLook.baseColor) :
+                                   (mouseOver ?
+                                        (passingFilter ?
+                                             PQCLook.baseColorHighlight :
+                                             PQCLook.baseColor) :
+                                        "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
 
                         Rectangle {
@@ -104,7 +114,7 @@ Item {
                             elide: Text.ElideRight
                             font.weight: PQCLook.fontWeightBold
                             text: categories[categoryKeys[index]][0]
-                            color: maincatflick.currentIndex[0]===index ? PQCLook.textColorActive : PQCLook.textColor
+                            color: maincatflick.currentIndex[0]===index&&deleg.passingFilter ? PQCLook.textColorActive : (deleg.passingFilter ? PQCLook.textColor : PQCLook.textColorHighlight )
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
 
@@ -124,6 +134,18 @@ Item {
                             width: parent.width
                             height: 1
                             color: PQCLook.baseColorHighlight
+                        }
+
+                        Connections {
+
+                            target: settingsmanager_top
+
+                            function onFilterCategoriesChanged() {
+
+                                deleg.passingFilter = (settingsmanager_top.filterCategories.length===0 || settingsmanager_top.filterCategories.indexOf(categoryKeys[index]) > -1)
+
+                            }
+
                         }
 
                     }

@@ -40,97 +40,357 @@ PQTemplateFullscreen {
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)
 
-    property var selectedCategories: ["interface", "language"]
+    property var selectedCategories: ["interface", "if_language"]
+    onSelectedCategoriesChanged: {
+        fullscreenitem.forceActiveFocus()
+    }
+
+    property var filterCategories: []
+    property var filterSubCategories: []
 
     property var categories: {
 
         //: A settings category
         "interface" : [qsTranslate("settingsmanager", "Interface"),
                        {
-                                             //: A settings subcategory
-                            "language"    : [qsTranslate("settingsmanager", "Language"),     "PQLanguage"],
-                                             //: A settings subcategory
-                            "background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground"],
-                                             //: A settings subcategory
-                            "popout"      : [qsTranslate("settingsmanager", "Popout"),       "PQPopout"],
-                                             //: A settings subcategory
-                            "edges"       : [qsTranslate("settingsmanager", "Edges"),        "PQEdges"],
-                                             //: A settings subcategory
-                            "contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu"],
-                                             //: A settings subcategory
-                            "statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfo"],
-                                             //: A settings subcategory
-                            "window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow"],
+                                             //: A settings subcategory and the qml filename
+                            "if_language"    : [qsTranslate("settingsmanager", "Language"), "PQLanguage",
+                                                 // the title and settings for filtering
+                                                [qsTranslate("settingsmanager", "Language"),
+                                                 "Language"]],
+
+                                                //: A settings subcategory
+                            "if_background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground",
+                                                [qsTranslate("settingsmanager", "Background"),
+                                                 qsTranslate("settingsmanager", "Click on empty background"),
+                                                 qsTranslate("settingsmanager", "Blurring elements behind other elements"),
+                                                 "BackgroundImageScreenshot",
+                                                 "BackgroundImageUse",
+                                                 "BackgroundSolid",
+                                                 "BackgroundImageUse",
+                                                 "BackgroundImagePath",
+                                                 "BackgroundImageScale",
+                                                 "BackgroundImageScaleCrop",
+                                                 "BackgroundImageStretch",
+                                                 "BackgroundImageCenter",
+                                                 "BackgroundImageTile",
+                                                 "CloseOnEmptyBackground",
+                                                 "NavigateOnEmptyBackground",
+                                                 "WindowDecorationOnEmptyBackground",
+                                                 "BlurElementsInBackground"]],
+
+                                                //: A settings subcategory
+                            "if_popout"      : [qsTranslate("settingsmanager", "Popout"),       "PQPopout",
+                                                [qsTranslate("settingsmanager", "Popout"),
+                                                 qsTranslate("settingsmanager", "Keep popouts open"),
+                                                 qsTranslate("settingsmanager", "Pop out when window is small"),
+                                                 "PopoutFileDialogKeepOpen",
+                                                 "PopoutMapExplorerKeepOpen",
+                                                 "PopoutWhenWindowIsSmall",
+                                                 "PopoutFileDialog",
+                                                 "PopoutMapExplorer",
+                                                 "PopoutSettingsManager",
+                                                 "PopoutMainMenu",
+                                                 "PopoutMetadata",
+                                                 "PopoutHistogram",
+                                                 "PopoutMapCurrent",
+                                                 "PopoutScale",
+                                                 "PopoutSlideshowSetup",
+                                                 "PopoutSlideShowControls",
+                                                 "PopoutFileRename",
+                                                 "PopoutFileDelete",
+                                                 "PopoutExport",
+                                                 "PopoutAbout",
+                                                 "PopoutImgur",
+                                                 "PopoutWallpaper",
+                                                 "PopoutFilter",
+                                                 "PopoutAdvancedSort",
+                                                 "PopoutChromecast"]],
+
+                                                //: A settings subcategory
+                            "if_edges"       : [qsTranslate("settingsmanager", "Edges"),        "PQEdges",
+                                                [qsTranslate("settingsmanager", "Edges"),
+                                                 qsTranslate("settingsmanager", "Sensitivity"),
+                                                 "EdgeTopAction",
+                                                 "EdgeLeftAction",
+                                                 "EdgeRightAction",
+                                                 "EdgeBottomAction",
+                                                 "HotEdgeSize"]],
+
+                                                //: A settings subcategory
+                            "if_contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu",
+                                                [qsTranslate("settingsmanager", "Context menu"),
+                                                 qsTranslate("settingsmanager", "Duplicate entries in main menu"),
+                                                 "ShowExternal"]],
+
+                                                //: A settings subcategory
+                            "if_statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfo",
+                                                [qsTranslate("settingsmanager", "Status info"),
+                                                 qsTranslate("settingsmanager", "Font size"),
+                                                 qsTranslate("settingsmanager", "Hide automatically"),
+                                                 qsTranslate("settingsmanager", "Window management"),
+                                                 "StatusInfoShow",
+                                                 "StatusInfoList",
+                                                 "StatusInfoFontSize",
+                                                 "StatusInfoAutoHide",
+                                                 "StatusInfoAutoHideTopEdge",
+                                                 "StatusInfoAutoHideTimeout",
+                                                 "StatusInfoShowImageChange",
+                                                 "StatusInfoManageWindow"]],
+
+                                                //: A settings subcategory
+                            "if_window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow",
+                                                [qsTranslate("settingsmanager", "Fullscreen or window mode"),
+                                                 qsTranslate("settingsmanager", "Window buttons"),
+                                                 qsTranslate("settingsmanager", "Hide automatically"),
+                                                 "WindowMode",
+                                                 "KeepWindowOnTop",
+                                                 "SaveWindowGeometry",
+                                                 "WindowDecoration",
+                                                 "WindowButtonsShow",
+                                                 "WindowButtonsDuplicateDecorationButtons",
+                                                 "NavigationTopRight",
+                                                 "WindowButtonsSize",
+                                                 "WindowButtonsAutoHide",
+                                                 "WindowButtonsAutoHideTopEdge",
+                                                 "WindowButtonsAutoHideTimeout"]],
                        }],
+
+        /**************************************************************************************************************************/
 
         //: A settings category
         "imageview" : [qsTranslate("settingsmanager", "Image view"),
                        {
-                                             //: A settings subcategory
-                            "image"       : [qsTranslate("settingsmanager", "Image"),        "PQImage"],
-                                             //: A settings subcategory
-                            "interaction" : [qsTranslate("settingsmanager", "Interaction"),  "PQInteraction"],
-                                             //: A settings subcategory
-                            "folder"      : [qsTranslate("settingsmanager", "Folder"),       "PQFolder"],
-                                             //: A settings subcategory
-                            "online"      : [qsTranslate("settingsmanager", "Share online"), "PQShareOnline"]
+                                                //: A settings subcategory
+                            "iv_image"       : [qsTranslate("settingsmanager", "Image"),        "PQImage",
+                                                [qsTranslate("settingsmanager", "Margin"),
+                                                 qsTranslate("settingsmanager", "Image size"),
+                                                 qsTranslate("settingsmanager", "Transparency marker"),
+                                                 qsTranslate("settingsmanager", "Interpolation"),
+                                                 qsTranslate("settingsmanager", "Cache"),
+                                                 "Margin",
+                                                 "AlwaysActualSize",
+                                                 "FitInWindow",
+                                                 "TransparencyMarker",
+                                                 "InterpolationDisableForSmallImages",
+                                                 "InterpolationThreshold",
+                                                 "Cache"]],
+
+                                                //: A settings subcategory
+                            "iv_interaction" : [qsTranslate("settingsmanager", "Interaction"),  "PQInteraction",
+                                                [qsTranslate("settingsmanager", "Zoom"),
+                                                 qsTranslate("settingsmanager", "Floating navigation"),
+                                                 "ZoomSpeed",
+                                                 "ZoomMinEnabled",
+                                                 "ZoomMin",
+                                                 "ZoomMaxEnabled",
+                                                 "ZoomMax",
+                                                 "NavigationFloating"]],
+
+                                                //: A settings subcategory
+                            "iv_folder"      : [qsTranslate("settingsmanager", "Folder"),       "PQFolder",
+                                                [qsTranslate("settingsmanager", "Looping"),
+                                                 qsTranslate("settingsmanager", "Sort images"),
+                                                 qsTranslate("settingsmanager", "Animation"),
+                                                 "LoopThroughFolder",
+                                                 "SortImagesBy",
+                                                 "SortImagesAscending",
+                                                 "AnimationDuration",
+                                                 "AnimationType"]],
+
+                                                //: A settings subcategory
+                            "iv_online"      : [qsTranslate("settingsmanager", "Share online"), "PQShareOnline",
+                                                ["imgur.com"]]
                        }],
+
+        /**************************************************************************************************************************/
 
         //: A settings category
         "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
-                                             //: A settings subcategory
-                            "image"       : [qsTranslate("settingsmanager", "Image"),          "PQImage"],
-                                             //: A settings subcategory
-                            "all"         : [qsTranslate("settingsmanager", "All thumbnails"), "PQAllThumbnails"],
-                                             //: A settings subcategory
-                            "manage"      : [qsTranslate("settingsmanager", "Manage"),         "PQManage"]
+                                           //: A settings subcategory
+                            "tb_image"  : [qsTranslate("settingsmanager", "Image"),          "PQImage",
+                                           [qsTranslate("settingsmanager", "Size"),
+                                            qsTranslate("settingsmanager", "Scale and crop"),
+                                            qsTranslate("settingsmanager", "Icons only"),
+                                            qsTranslate("settingsmanager", "Label"),
+                                            qsTranslate("settingsmanager", "Tooltip"),
+                                            "Size",
+                                            "CropToFit",
+                                            "SmallThumbnailsKeepSmall",
+                                            "IconsOnly",
+                                            "Filename",
+                                            "FontSize",
+                                            "InactiveTransparent",
+                                            "Tooltip"]],
+
+                                           //: A settings subcategory
+                            "tb_all"    : [qsTranslate("settingsmanager", "All thumbnails"), "PQAllThumbnails",
+                                           [qsTranslate("settingsmanager", "Spacing"),
+                                            qsTranslate("settingsmanager", "Highlight"),
+                                            qsTranslate("settingsmanager", "Center on active"),
+                                            qsTranslate("settingsmanager", "Visibility"),
+                                            "Spacing",
+                                            "HighlightAnimation",
+                                            "HighlightAnimationLiftUp",
+                                            "CenterOnActive",
+                                            "Visibility"]],
+
+                                           //: A settings subcategory
+                            "tb_manage" : [qsTranslate("settingsmanager", "Manage"),         "PQManage",
+                                           [qsTranslate("settingsmanager", "Cache"),
+                                            qsTranslate("settingsmanager", "Exclude folders"),
+                                            qsTranslate("settingsmanager", "How many threads"),
+                                            "Cache",
+                                            "ExcludeNextcloud",
+                                            "ExcludeOwnCloud",
+                                            "ExcludeDropBox",
+                                            "ExcludeFolders",
+                                            "MaxNumberThreads"]]
                         }],
+
+        /**************************************************************************************************************************/
 
         //: A settings category
         "metadata" : [qsTranslate("settingsmanager", "Metadata"),
                       {
-                                              //: A settings subcategory
-                            "labels"       : [qsTranslate("settingsmanager", "Labels"),        "PQLabels"],
-                                              //: A settings subcategory
-                            "behavior"     : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior"],
-                                              //: A settings subcategory
-                            "facetags"     : [qsTranslate("settingsmanager", "Face tags"),     "PQFaceTags"]
+                                             //: A settings subcategory
+                            "md_labels"   : [qsTranslate("settingsmanager", "Labels"),        "PQLabels",
+                                             [qsTranslate("settingsmanager", "Labels"),
+                                              "Filename",
+                                              "FileType",
+                                              "FileSize",
+                                              "ImageNumber",
+                                              "Dimensions",
+                                              "Copyright",
+                                              "ExposureTime",
+                                              "Flash",
+                                              "FLength",
+                                              "FNumber",
+                                              "Gps",
+                                              "Iso",
+                                              "Keywords",
+                                              "LightSource",
+                                              "Location",
+                                              "Make",
+                                              "Model",
+                                              "SceneType",
+                                              "Software",
+                                              "Time"]],
+
+                                             //: A settings subcategory
+                            "md_behavior" : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior",
+                                             [qsTranslate("settingsmanager", "Auto Rotation"),
+                                              qsTranslate("settingsmanager", "GPS map"),
+                                              qsTranslate("settingsmanager", "Floating element"),
+                                              "AutoRotation",
+                                              "GpsMap",
+                                              "ElementFloating"]],
+
+                                             //: A settings subcategory
+                            "md_facetags" : [qsTranslate("settingsmanager", "Face tags"),     "PQFaceTags",
+                                             [qsTranslate("settingsmanager", "Show face tags"),
+                                              qsTranslate("settingsmanager", "Look"),
+                                              qsTranslate("settingsmanager", "Visibility"),
+                                              "FaceTagsEnabled",
+                                              "FaceTagsFontSize",
+                                              "FaceTagsBorder",
+                                              "FaceTagsBorderWidth",
+                                              "FaceTagsBorderColor",
+                                              "FaceTagsVisibility"]]
                       }],
+
+        /**************************************************************************************************************************/
 
         //: A settings category
         "session" : [qsTranslate("settingsmanager", "Session"),
                      {
                                           //: A settings subcategory
-                         "instance"    : [qsTranslate("settingsmanager", "Instance"),   "PQInstance"],
+                         "ss_instance" : [qsTranslate("settingsmanager", "Instance"),   "PQInstance",
+                                          [qsTranslate("settingsmanager", "Single instance"),
+                                           "AllowMultipleInstances"]],
+
                                           //: A settings subcategory
-                         "remember"    : [qsTranslate("settingsmanager", "Remember"),   "PQRemember"],
+                         "ss_remember" : [qsTranslate("settingsmanager", "Remember"),   "PQRemember",
+                                          [qsTranslate("settingsmanager", "Reopen last image"),
+                                           qsTranslate("settingsmanager", "Remember changes"),
+                                           "RememberLastImage",
+                                           "RememberZoomRotationMirror"]],
+
                                           //: A settings subcategory
-                         "trayicon"    : [qsTranslate("settingsmanager", "Tray icon"),  "PQTrayIcon"]
+                         "ss_trayicon" : [qsTranslate("settingsmanager", "Tray icon"),  "PQTrayIcon",
+                                          [qsTranslate("settingsmanager", "Tray Icon"),
+                                           qsTranslate("settingsmanager", "Reset when hiding"),
+                                           "TrayIcon",
+                                           "TrayIconMonochrome",
+                                           "TrayIconHideReset"]]
                      }],
+
+        /**************************************************************************************************************************/
 
         //: A settings category
         "filetypes" : [qsTranslate("settingsmanager", "File types"),
                        {
-                                          //: A settings subcategory
-                           "filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes"],
-                                          //: A settings subcategory
-                           "tweaks"    : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior"]
+                                             //: A settings subcategory
+                           "ft_filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes",
+                                             [qsTranslate("settingsmanager", "File types")]],
+
+                                             //: A settings subcategory
+                           "ft_tweaks"    : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
+                                             [qsTranslate("settingsmanager", "PDF"),
+                                              qsTranslate("settingsmanager", "Archive"),
+                                              qsTranslate("settingsmanager", "Video"),
+                                              qsTranslate("settingsmanager", "Viewer mode"),
+                                              "PDFQuality",
+                                              "ExternalUnrar",
+                                              "VideoAutoplay",
+                                              "VideoLoop",
+                                              "VideoPreferLibmpv",
+                                              "VideoThumbnailer",
+                                              "BigViewerModeButton"]]
                        }],
+
+        /**************************************************************************************************************************/
 
         //: A settings category
         "shortcuts" : [qsTranslate("settingsmanager", "Keyboard & Mouse"),
                        {
-                                          //: A settings subcategory
-                           "shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts"],
-                                          //: A settings subcategory
-                           "behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior"]
+                                             //: A settings subcategory
+                           "sc_shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts",
+                                             [qsTranslate("settingsmanager", "Shortcuts")]],
+
+                                             //: A settings subcategory
+                           "sc_behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
+                                             [qsTranslate("settingsmanager", "Move image with mouse"),
+                                              qsTranslate("settingsmanager", "Double click"),
+                                              qsTranslate("settingsmanager", "Mouse wheel"),
+                                              qsTranslate("settingsmanager", "Hide mouse cursor"),
+                                              "UseMouseWheelForImageMove",
+                                              "UseMouseLeftButtonForImageMove",
+                                              "DoubleClickThreshold",
+                                              "MouseWheelSensitivity",
+                                              "HideCursorTimeout"]]
                        }]
 
 
     }
 
     property var categoryKeys: Object.keys(categories)
+
+    toprow_extracontent: [
+        PQLineEdit {
+            id: filtertxt
+            x: 50
+            y: (toprowHeight-height)/2
+            width: sm_maincategory.width+sm_subcategory.width-2*x
+            placeholderText: qsTranslate("settingsmanager", "Filter settings")
+            onControlActiveFocusChanged:
+                PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+            onTextChanged:
+                filterSettings()
+        }
+
+    ]
 
     content: [
 
@@ -336,6 +596,10 @@ PQTemplateFullscreen {
                         if(confirmUnsaved.opacity < 1)
                             settingsloader.item.revertChanges()
 
+                    } else if(param[0] === Qt.Key_F && param[1] === Qt.ControlModifier) {
+
+                        filtertxt.setFocus()
+
                     }
 
                 }
@@ -343,6 +607,62 @@ PQTemplateFullscreen {
             }
 
         }
+
+    }
+
+    function filterSettings() {
+
+        var str = filtertxt.text.toLowerCase()
+        if(str == "") {
+            filterCategories = []
+            filterSubCategories = []
+        }
+
+        var foundcat = []
+        var foundsubcat = []
+
+        for(var i in categoryKeys) {
+
+            var key = categoryKeys[i]
+            var val = categories[key]
+
+            var subkeys = Object.keys(val[1])
+
+            for(var j in subkeys) {
+
+                var subkey = subkeys[j]
+                var subval = val[1][subkey]
+
+                if(subval[0].toLowerCase().includes(str)) {
+                    if(foundcat.indexOf(key) === -1)
+                        foundcat.push(key)
+                    foundsubcat.push(subkey)
+                } else {
+
+                    for(var k in subval[2]) {
+
+                        if(subval[2][k].toLowerCase().includes(str)) {
+                            if(foundcat.indexOf(key) === -1)
+                                foundcat.push(key)
+                            foundsubcat.push(subkey)
+                            break
+                        }
+
+                    }
+                }
+
+            }
+
+        }
+
+        // if nothing was found we need to distinguish this from 'no filter text entered'
+        if(foundcat.length == 0 || foundsubcat.length == 0) {
+            foundcat = ["-"]
+            foundsubcat = ["-"]
+        }
+
+        filterCategories = foundcat
+        filterSubCategories = foundsubcat
 
     }
 
@@ -381,6 +701,7 @@ PQTemplateFullscreen {
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false
+        fullscreenitem.forceActiveFocus()
     }
 
 }

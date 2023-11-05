@@ -30,6 +30,10 @@ Item {
 
         anchors.fill: parent
         anchors.topMargin: 30
+        anchors.bottomMargin: catcont.height+2
+
+        contentHeight: contcol.height
+        clip: true
 
         property var currentIndex: [0,0]
         onCurrentIndexChanged: {
@@ -43,6 +47,8 @@ Item {
         }
 
         Column {
+
+            id: contcol
 
             spacing: 0
 
@@ -59,7 +65,17 @@ Item {
 
                         property bool mouseOver: false
 
-                        color: subcatflick.currentIndex[0]===index ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : "transparent")
+                        property bool passingFilter: true
+
+                        color: (subcatflick.currentIndex[0]===index) ?
+                                   (passingFilter ?
+                                        PQCLook.baseColorActive :
+                                        PQCLook.baseColor) :
+                                   (mouseOver ?
+                                        (passingFilter ?
+                                             PQCLook.baseColorHighlight :
+                                             PQCLook.baseColor) :
+                                        "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
 
                         Rectangle {
@@ -95,7 +111,7 @@ Item {
                             elide: Text.ElideRight
                             font.weight: PQCLook.fontWeightBold
                             text: subitems[subitemskeys[index]][0]
-                            color: subcatflick.currentIndex[0]===index ? PQCLook.textColorActive : PQCLook.textColor
+                            color: subcatflick.currentIndex[0]===index&&deleg.passingFilter ? PQCLook.textColorActive : (deleg.passingFilter ? PQCLook.textColor : PQCLook.textColorHighlight )
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
 
@@ -107,12 +123,82 @@ Item {
                             color: PQCLook.baseColorHighlight
                         }
 
+                        Connections {
+
+                            target: settingsmanager_top
+
+                            function onFilterSubCategoriesChanged() {
+                                deleg.checkFilter()
+                            }
+
+                        }
+
+                        Component.onCompleted:
+                            checkFilter()
+
+                        function checkFilter() {
+                            deleg.passingFilter = (settingsmanager_top.filterSubCategories.length===0 || settingsmanager_top.filterSubCategories.indexOf(subitemskeys[index]) > -1)
+                        }
+
                     }
 
 
             }
 
         }
+    }
+
+    Rectangle {
+        y: (parent.height-catcont.height-height)
+        width: parent.width
+        height: 1
+        color: PQCLook.baseColorHighlight
+    }
+
+    Item {
+        id: catcont
+        y: (parent.height-height)
+        width: parent.width
+        height: catcontcol.height+20
+        visible: catcont.sets.length>0
+
+        property var sets: settingsloader.status===Loader.Ready ? settingsloader.item.listTitles : []
+
+        Column {
+
+            id: catcontcol
+
+            y: 10
+
+            spacing: 5
+
+            PQText {
+                x: 10
+                visible: catcont.sets.length>0
+                text: qsTranslate("settingsmanager", "Settings:")
+            }
+
+            Repeater {
+
+                model: catcont.sets.length
+
+                PQText {
+                    x: 10
+                    width: catcont.width-20
+                    elide: Text.ElideRight
+                    text: "> " + catcont.sets[index]
+                    font.weight: PQCLook.fontWeightBold
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        text: catcont.sets[index]
+                    }
+                }
+
+            }
+
+        }
+
     }
 
     function setCurrentIndex(ind) {
