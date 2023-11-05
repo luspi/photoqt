@@ -160,9 +160,9 @@ Item {
         y: (parent.height-height)
         width: parent.width
         height: catcontcol.height+20
-        visible: catcont.sets.length>0
+        visible: sets.length>0
 
-        property var sets: settingsloader.status===Loader.Ready ? settingsloader.item.listTitles : []
+        property var sets: subitems[selectedCategories[1]][2]
 
         Column {
 

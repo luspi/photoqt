@@ -56,15 +56,16 @@ PQTemplateFullscreen {
                                              //: A settings subcategory and the qml filename
                             "if_language"    : [qsTranslate("settingsmanager", "Language"), "PQLanguage",
                                                  // the title and settings for filtering
-                                                [qsTranslate("settingsmanager", "Language"),
-                                                 "Language"]],
+                                                [qsTranslate("settingsmanager", "Language")],
+                                                 // the settings for filtering
+                                                ["Language"]],
 
                                                 //: A settings subcategory
                             "if_background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground",
                                                 [qsTranslate("settingsmanager", "Background"),
                                                  qsTranslate("settingsmanager", "Click on empty background"),
-                                                 qsTranslate("settingsmanager", "Blurring elements behind other elements"),
-                                                 "BackgroundImageScreenshot",
+                                                 qsTranslate("settingsmanager", "Blurring elements behind other elements")],
+                                                ["BackgroundImageScreenshot",
                                                  "BackgroundImageUse",
                                                  "BackgroundSolid",
                                                  "BackgroundImageUse",
@@ -83,8 +84,8 @@ PQTemplateFullscreen {
                             "if_popout"      : [qsTranslate("settingsmanager", "Popout"),       "PQPopout",
                                                 [qsTranslate("settingsmanager", "Popout"),
                                                  qsTranslate("settingsmanager", "Keep popouts open"),
-                                                 qsTranslate("settingsmanager", "Pop out when window is small"),
-                                                 "PopoutFileDialogKeepOpen",
+                                                 qsTranslate("settingsmanager", "Pop out when window is small")],
+                                                ["PopoutFileDialogKeepOpen",
                                                  "PopoutMapExplorerKeepOpen",
                                                  "PopoutWhenWindowIsSmall",
                                                  "PopoutFileDialog",
@@ -110,8 +111,8 @@ PQTemplateFullscreen {
                                                 //: A settings subcategory
                             "if_edges"       : [qsTranslate("settingsmanager", "Edges"),        "PQEdges",
                                                 [qsTranslate("settingsmanager", "Edges"),
-                                                 qsTranslate("settingsmanager", "Sensitivity"),
-                                                 "EdgeTopAction",
+                                                 qsTranslate("settingsmanager", "Sensitivity")],
+                                                ["EdgeTopAction",
                                                  "EdgeLeftAction",
                                                  "EdgeRightAction",
                                                  "EdgeBottomAction",
@@ -120,16 +121,16 @@ PQTemplateFullscreen {
                                                 //: A settings subcategory
                             "if_contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu",
                                                 [qsTranslate("settingsmanager", "Context menu"),
-                                                 qsTranslate("settingsmanager", "Duplicate entries in main menu"),
-                                                 "ShowExternal"]],
+                                                 qsTranslate("settingsmanager", "Duplicate entries in main menu")],
+                                                ["ShowExternal"]],
 
                                                 //: A settings subcategory
                             "if_statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfo",
                                                 [qsTranslate("settingsmanager", "Status info"),
                                                  qsTranslate("settingsmanager", "Font size"),
                                                  qsTranslate("settingsmanager", "Hide automatically"),
-                                                 qsTranslate("settingsmanager", "Window management"),
-                                                 "StatusInfoShow",
+                                                 qsTranslate("settingsmanager", "Window management")],
+                                                ["StatusInfoShow",
                                                  "StatusInfoList",
                                                  "StatusInfoFontSize",
                                                  "StatusInfoAutoHide",
@@ -142,8 +143,8 @@ PQTemplateFullscreen {
                             "if_window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow",
                                                 [qsTranslate("settingsmanager", "Fullscreen or window mode"),
                                                  qsTranslate("settingsmanager", "Window buttons"),
-                                                 qsTranslate("settingsmanager", "Hide automatically"),
-                                                 "WindowMode",
+                                                 qsTranslate("settingsmanager", "Hide automatically")],
+                                                ["WindowMode",
                                                  "KeepWindowOnTop",
                                                  "SaveWindowGeometry",
                                                  "WindowDecoration",
@@ -167,8 +168,8 @@ PQTemplateFullscreen {
                                                  qsTranslate("settingsmanager", "Image size"),
                                                  qsTranslate("settingsmanager", "Transparency marker"),
                                                  qsTranslate("settingsmanager", "Interpolation"),
-                                                 qsTranslate("settingsmanager", "Cache"),
-                                                 "Margin",
+                                                 qsTranslate("settingsmanager", "Cache")],
+                                                ["Margin",
                                                  "AlwaysActualSize",
                                                  "FitInWindow",
                                                  "TransparencyMarker",
@@ -179,8 +180,8 @@ PQTemplateFullscreen {
                                                 //: A settings subcategory
                             "iv_interaction" : [qsTranslate("settingsmanager", "Interaction"),  "PQInteraction",
                                                 [qsTranslate("settingsmanager", "Zoom"),
-                                                 qsTranslate("settingsmanager", "Floating navigation"),
-                                                 "ZoomSpeed",
+                                                 qsTranslate("settingsmanager", "Floating navigation")],
+                                                ["ZoomSpeed",
                                                  "ZoomMinEnabled",
                                                  "ZoomMin",
                                                  "ZoomMaxEnabled",
@@ -191,8 +192,8 @@ PQTemplateFullscreen {
                             "iv_folder"      : [qsTranslate("settingsmanager", "Folder"),       "PQFolder",
                                                 [qsTranslate("settingsmanager", "Looping"),
                                                  qsTranslate("settingsmanager", "Sort images"),
-                                                 qsTranslate("settingsmanager", "Animation"),
-                                                 "LoopThroughFolder",
+                                                 qsTranslate("settingsmanager", "Animation")],
+                                                ["LoopThroughFolder",
                                                  "SortImagesBy",
                                                  "SortImagesAscending",
                                                  "AnimationDuration",
@@ -200,7 +201,8 @@ PQTemplateFullscreen {
 
                                                 //: A settings subcategory
                             "iv_online"      : [qsTranslate("settingsmanager", "Share online"), "PQShareOnline",
-                                                ["imgur.com"]]
+                                                ["imgur.com"],
+                                                []]
                        }],
 
         /**************************************************************************************************************************/
@@ -214,8 +216,8 @@ PQTemplateFullscreen {
                                             qsTranslate("settingsmanager", "Scale and crop"),
                                             qsTranslate("settingsmanager", "Icons only"),
                                             qsTranslate("settingsmanager", "Label"),
-                                            qsTranslate("settingsmanager", "Tooltip"),
-                                            "Size",
+                                            qsTranslate("settingsmanager", "Tooltip")],
+                                           ["Size",
                                             "CropToFit",
                                             "SmallThumbnailsKeepSmall",
                                             "IconsOnly",
@@ -229,8 +231,8 @@ PQTemplateFullscreen {
                                            [qsTranslate("settingsmanager", "Spacing"),
                                             qsTranslate("settingsmanager", "Highlight"),
                                             qsTranslate("settingsmanager", "Center on active"),
-                                            qsTranslate("settingsmanager", "Visibility"),
-                                            "Spacing",
+                                            qsTranslate("settingsmanager", "Visibility")],
+                                           ["Spacing",
                                             "HighlightAnimation",
                                             "HighlightAnimationLiftUp",
                                             "CenterOnActive",
@@ -240,8 +242,8 @@ PQTemplateFullscreen {
                             "tb_manage" : [qsTranslate("settingsmanager", "Manage"),         "PQManage",
                                            [qsTranslate("settingsmanager", "Cache"),
                                             qsTranslate("settingsmanager", "Exclude folders"),
-                                            qsTranslate("settingsmanager", "How many threads"),
-                                            "Cache",
+                                            qsTranslate("settingsmanager", "How many threads")],
+                                           ["Cache",
                                             "ExcludeNextcloud",
                                             "ExcludeOwnCloud",
                                             "ExcludeDropBox",
@@ -256,8 +258,8 @@ PQTemplateFullscreen {
                       {
                                              //: A settings subcategory
                             "md_labels"   : [qsTranslate("settingsmanager", "Labels"),        "PQLabels",
-                                             [qsTranslate("settingsmanager", "Labels"),
-                                              "Filename",
+                                             [qsTranslate("settingsmanager", "Labels")],
+                                             ["Filename",
                                               "FileType",
                                               "FileSize",
                                               "ImageNumber",
@@ -282,8 +284,8 @@ PQTemplateFullscreen {
                             "md_behavior" : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior",
                                              [qsTranslate("settingsmanager", "Auto Rotation"),
                                               qsTranslate("settingsmanager", "GPS map"),
-                                              qsTranslate("settingsmanager", "Floating element"),
-                                              "AutoRotation",
+                                              qsTranslate("settingsmanager", "Floating element")],
+                                             ["AutoRotation",
                                               "GpsMap",
                                               "ElementFloating"]],
 
@@ -291,8 +293,8 @@ PQTemplateFullscreen {
                             "md_facetags" : [qsTranslate("settingsmanager", "Face tags"),     "PQFaceTags",
                                              [qsTranslate("settingsmanager", "Show face tags"),
                                               qsTranslate("settingsmanager", "Look"),
-                                              qsTranslate("settingsmanager", "Visibility"),
-                                              "FaceTagsEnabled",
+                                              qsTranslate("settingsmanager", "Visibility")],
+                                             ["FaceTagsEnabled",
                                               "FaceTagsFontSize",
                                               "FaceTagsBorder",
                                               "FaceTagsBorderWidth",
@@ -313,15 +315,15 @@ PQTemplateFullscreen {
                                           //: A settings subcategory
                          "ss_remember" : [qsTranslate("settingsmanager", "Remember"),   "PQRemember",
                                           [qsTranslate("settingsmanager", "Reopen last image"),
-                                           qsTranslate("settingsmanager", "Remember changes"),
-                                           "RememberLastImage",
+                                           qsTranslate("settingsmanager", "Remember changes")],
+                                          ["RememberLastImage",
                                            "RememberZoomRotationMirror"]],
 
                                           //: A settings subcategory
                          "ss_trayicon" : [qsTranslate("settingsmanager", "Tray icon"),  "PQTrayIcon",
                                           [qsTranslate("settingsmanager", "Tray Icon"),
-                                           qsTranslate("settingsmanager", "Reset when hiding"),
-                                           "TrayIcon",
+                                           qsTranslate("settingsmanager", "Reset when hiding")],
+                                          ["TrayIcon",
                                            "TrayIconMonochrome",
                                            "TrayIconHideReset"]]
                      }],
@@ -333,15 +335,16 @@ PQTemplateFullscreen {
                        {
                                              //: A settings subcategory
                            "ft_filetypes" : [qsTranslate("settingsmanager", "File types"), "PQFileTypes",
-                                             [qsTranslate("settingsmanager", "File types")]],
+                                             [qsTranslate("settingsmanager", "File types")],
+                                             []],
 
                                              //: A settings subcategory
                            "ft_tweaks"    : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
                                              [qsTranslate("settingsmanager", "PDF"),
                                               qsTranslate("settingsmanager", "Archive"),
                                               qsTranslate("settingsmanager", "Video"),
-                                              qsTranslate("settingsmanager", "Viewer mode"),
-                                              "PDFQuality",
+                                              qsTranslate("settingsmanager", "Viewer mode")],
+                                             ["PDFQuality",
                                               "ExternalUnrar",
                                               "VideoAutoplay",
                                               "VideoLoop",
@@ -357,15 +360,16 @@ PQTemplateFullscreen {
                        {
                                              //: A settings subcategory
                            "sc_shortcuts" : [qsTranslate("settingsmanager", "Shortcuts"),  "PQShortcuts",
-                                             [qsTranslate("settingsmanager", "Shortcuts")]],
+                                             [qsTranslate("settingsmanager", "Shortcuts")],
+                                             []],
 
                                              //: A settings subcategory
                            "sc_behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
                                              [qsTranslate("settingsmanager", "Move image with mouse"),
                                               qsTranslate("settingsmanager", "Double click"),
                                               qsTranslate("settingsmanager", "Mouse wheel"),
-                                              qsTranslate("settingsmanager", "Hide mouse cursor"),
-                                              "UseMouseWheelForImageMove",
+                                              qsTranslate("settingsmanager", "Hide mouse cursor")],
+                                             ["UseMouseWheelForImageMove",
                                               "UseMouseLeftButtonForImageMove",
                                               "DoubleClickThreshold",
                                               "MouseWheelSensitivity",
@@ -645,6 +649,18 @@ PQTemplateFullscreen {
                             if(foundcat.indexOf(key) === -1)
                                 foundcat.push(key)
                             foundsubcat.push(subkey)
+                            break
+                        }
+
+                    }
+
+                    for(var l in subval[3]) {
+
+                        if(subval[3][l].toLowerCase().includes(str)) {
+                            if(foundcat.indexOf(key) === -1)
+                                foundcat.push(key)
+                            if(foundsubcat.indexOf(subkey) === -1)
+                                foundsubcat.push(subkey)
                             break
                         }
 
