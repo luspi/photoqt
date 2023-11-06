@@ -62,6 +62,9 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerIm
 SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQMainCategory.qml ${d}/PQSubCategory.qml)
 
+SET(d "qml/settingsmanager/popout")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManagerPopout.qml)
+
 SET(d "qml/settingsmanager/settings/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml)
 
