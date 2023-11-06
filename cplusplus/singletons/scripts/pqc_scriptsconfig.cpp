@@ -473,11 +473,11 @@ QStringList PQCScriptsConfig::getAvailableTranslations() {
     // the non-translated language is English
     tmp << "en";
 
-    QDirIterator it(":");
+    QDirIterator it(":/lang");
     while (it.hasNext()) {
         QString file = it.next();
         if(file.endsWith(".qm")) {
-            file = file.remove(0, 10);
+            file = file.remove(0, 15);
             file = file.remove(file.length()-3, file.length());
             if(!ret.contains(file))
                 tmp.push_back(file);
@@ -505,9 +505,9 @@ void PQCScriptsConfig::updateTranslation() {
 
     for(const QString &c : allcodes) {
 
-        if(QFile(":/photoqt_" + c + ".qm").exists()) {
+        if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
 
-            if(trans->load(":/photoqt_" + c)) {
+            if(trans->load(":/lang/photoqt_" + c)) {
                 currentTranslation = c;
                 qApp->installTranslator(trans);
             } else
@@ -517,9 +517,9 @@ void PQCScriptsConfig::updateTranslation() {
 
             const QString cc = c.split("_").at(0);
 
-            if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
 
-                if(trans->load(":/photoqt_" + cc)) {
+                if(trans->load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;
                     qApp->installTranslator(trans);
                 } else
@@ -531,9 +531,9 @@ void PQCScriptsConfig::updateTranslation() {
 
             const QString cc = QString("%1_%2").arg(c, c.toUpper());
 
-            if(QFile(":/photoqt_" + cc + ".qm").exists()) {
+            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
 
-                if(trans->load(":/photoqt_" + cc)) {
+                if(trans->load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;
                     qApp->installTranslator(trans);
                 } else

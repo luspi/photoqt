@@ -195,7 +195,7 @@ endif()
 #### Add the executeable ####
 #############################
 
-qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc python/python.qrc)
+qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
 
 # add qml files
 qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML})
@@ -237,24 +237,11 @@ composeDesktopFile()
 #### TRANSLATIONS ####
 ######################
 
-# We first copy the most recent *.ts files to the build directory and then process them
-# This way, we don't have to mess with files outside of the build folder
-
+# the compiled translations are automatically embedded as resource in executable
 file(GLOB files "lang/*.ts")
 qt_add_translations(photoqt
     TS_FILES ${files}
-    QM_FILES_OUTPUT_VARIABLE qm_files)
-
-#foreach(file ${files})
-#   get_filename_component(filename ${file} NAME)
-#   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-#   qt_add_translations(photoqt ${CMAKE_CURRENT_BINARY_DIR}/${filename})
-#endforeach()
-#add_custom_target(translations ALL DEPENDS ${qm_files})
-
-# Create the lang resource file
-include("CMake/ComposeLangResourceFile.cmake")
-composeLangResourceFile()
+    RESOURCE_PREFIX "/lang")
 
 
 ########################
