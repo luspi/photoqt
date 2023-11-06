@@ -402,7 +402,7 @@ PQTemplateFullscreen {
         SplitView {
 
             width: settingsmanager_top.width
-            height: settingsmanager_top.height
+            height: settingsmanager_top.contentHeight
 
             // Show larger handle with triple dash
             handle: Rectangle {
