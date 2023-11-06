@@ -686,7 +686,7 @@ Item {
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
-                                text: qsTranslate("image", "Hide central 'viewer mode' button")
+                                text: qsTranslate("image", "Hide central button for entering viewer mode")
                                 onClicked: PQCSettings.imageviewBigViewerModeButton = false
                             }
                         }

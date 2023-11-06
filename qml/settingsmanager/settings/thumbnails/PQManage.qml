@@ -208,7 +208,7 @@ Flickable {
 
         PQText {
             x: (parent.width-width)/2
-            //: Important: Please don't forget the placeholder!
+            //: Important: Please do not forget the placeholder!
             text: qsTranslate("settingsmanager", "current value: %1 thread(s)").arg(threads.value)
         }
 

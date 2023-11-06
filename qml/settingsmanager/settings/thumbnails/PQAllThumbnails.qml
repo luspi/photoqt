@@ -221,7 +221,7 @@ Flickable {
             PQRadioButton {
                 id: vis_needed
                 //: used as in: hide thumbnail bar when not needed
-                text: qsTranslate("settingsmanager", "hide when not needd")
+                text: qsTranslate("settingsmanager", "hide when not needed")
                 checked: PQCSettings.thumbnailsVisibility===0
                 onCheckedChanged: checkDefault()
             }

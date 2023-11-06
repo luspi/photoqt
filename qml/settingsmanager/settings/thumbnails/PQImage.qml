@@ -151,6 +151,7 @@ Flickable {
 
             PQRadioButton {
                 id: thumb_actual
+                //: The word actual is used with the same meaning as: real
                 text: qsTranslate("settingsmanager", "use actual thumbnail images")
                 onCheckedChanged: checkDefault()
             }
