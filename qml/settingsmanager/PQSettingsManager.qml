@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 import PQCNotify
 
@@ -398,35 +399,44 @@ PQTemplateFullscreen {
 
     content: [
 
-        Row {
+        SplitView {
 
-            spacing: 2
+            width: settingsmanager_top.width
+            height: settingsmanager_top.height
 
-            PQMainCategory { id: sm_maincategory }
-
-            /***********************************************************/
-
-            Rectangle {
-                width: 3
-                height: settingsmanager_top.contentHeight
-                color: PQCLook.baseColorHighlight
+            // Show larger handle with triple dash
+            handle: Rectangle {
+                implicitWidth: 5
+                implicitHeight: 5
+                color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                Behavior on color { ColorAnimation { duration: 200 } }
+                Image {
+                    y: (parent.height-height)/2
+                    width: parent.implicitWidth
+                    height: parent.implicitHeight
+                    sourceSize: Qt.size(width, height)
+                    source: "/white/handle.svg"
+                }
             }
 
-            PQSubCategory { id: sm_subcategory }
+            PQMainCategory {
+                id: sm_maincategory
+                SplitView.minimumWidth: 100
+                SplitView.preferredWidth: 250
+            }
 
-            /***********************************************************/
-
-            Rectangle {
-                visible: sm_subcategory.visible
-                width: 3
-                height: settingsmanager_top.contentHeight
-                color: PQCLook.baseColorHighlight
+            PQSubCategory {
+                id: sm_subcategory
+                SplitView.minimumWidth: 100
+                SplitView.preferredWidth: 250
             }
 
             Item {
 
+                SplitView.minimumWidth: 400
+                SplitView.fillWidth: true
+
                 height: settingsmanager_top.contentHeight
-                width: settingsmanager_top.width - sm_maincategory.width - (sm_subcategory.visible ? sm_subcategory.width+8 : 0) - 16
 
                 Loader {
                     id: settingsloader
@@ -454,8 +464,6 @@ PQTemplateFullscreen {
                 }
 
             }
-
-            /***********************************************************/
 
         }
 

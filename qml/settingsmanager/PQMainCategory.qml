@@ -7,7 +7,6 @@ Item {
     id: maincatcol
 
     height: settingsmanager_top.contentHeight
-    width: 250-8
 
     PQTextS {
         width: parent.width
