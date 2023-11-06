@@ -245,6 +245,9 @@ bool PQCScriptsChromeCast::disconnect() {
 
     qDebug() << "";
 
+    if(!m_connected)
+        return true;
+
     const QString pyPath = QString("%1/chromecast_disconnect.py").arg(QDir::tempPath());
     QFile::remove(pyPath);
     if(!QFile::copy(":/chromecast_disconnect.py", pyPath)) {
