@@ -155,6 +155,16 @@ Item {
         }
     }
 
+    function gotoNextIndex() {
+        var tmp = [(maincatflick.currentIndex[0]+1)%categoryKeys.length, maincatflick.currentIndex[0]]
+        maincatflick.currentIndex = tmp
+    }
+
+    function gotoPreviousIndex() {
+        var tmp = [(maincatflick.currentIndex[0]+categoryKeys.length-1)%categoryKeys.length, maincatflick.currentIndex[0]]
+        maincatflick.currentIndex = tmp
+    }
+
     function setCurrentIndex(ind) {
         var tmp = [ind, maincatflick.currentIndex[0]]
         maincatflick.currentIndex = tmp

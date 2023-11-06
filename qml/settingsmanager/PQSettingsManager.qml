@@ -612,6 +612,22 @@ PQTemplateFullscreen {
 
                         filtertxt.setFocus()
 
+                    } else if(param[0] === Qt.Key_Tab && param[1] === Qt.ControlModifier) {
+
+                        sm_subcategory.gotoNextIndex()
+
+                    } else if((param[0] === Qt.Key_Backtab || param[0] === Qt.Key_Tab) && param[1] === Qt.ShiftModifier+Qt.ControlModifier) {
+
+                        sm_subcategory.gotoPreviousIndex()
+
+                    } else if(param[0] === Qt.Key_Down && param[1] === Qt.ControlModifier) {
+
+                        sm_maincategory.gotoNextIndex()
+
+                    } else if(param[0] === Qt.Key_Up && param[1] === Qt.ControlModifier) {
+
+                        sm_maincategory.gotoPreviousIndex()
+
                     }
 
                 }

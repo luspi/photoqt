@@ -200,6 +200,16 @@ Item {
 
     }
 
+    function gotoNextIndex() {
+        var tmp = [(subcatflick.currentIndex[0]+1)%subitemskeys.length, subcatflick.currentIndex[0]]
+        subcatflick.currentIndex = tmp
+    }
+
+    function gotoPreviousIndex() {
+        var tmp = [(subcatflick.currentIndex[0]+subitemskeys.length-1)%subitemskeys.length, subcatflick.currentIndex[0]]
+        subcatflick.currentIndex = tmp
+    }
+
     function setCurrentIndex(ind) {
         var tmp = [ind, subcatflick.currentIndex[0]]
         subcatflick.currentIndex = tmp
