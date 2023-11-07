@@ -44,7 +44,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "When loading an image PhotoQt loads all images in the folder into the thumbnail for easy navigation. When PhotoQt reaches the end of the list of files, it can either stop right there or loop back to the other end of the list and keep going.")
+            text: qsTranslate("settingsmanager", "When loading an image PhotoQt loads all images in the folder as thumbnails for easy navigation. When PhotoQt reaches the end of the list of files, it can either stop right there or loop back to the other end of the list and keep going.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
