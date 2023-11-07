@@ -48,7 +48,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can read face tages stored in its metadata. It offers a great deal of flexibility in how and when the face tags are shown. It is also possible to remove and add face tages using the face tagger interface (accessible through the context menu or by shortcut).")
+            text: qsTranslate("settingsmanager", "PhotoQt can read face tags stored in its metadata. It offers a great deal of flexibility in how and when the face tags are shown. It is also possible to remove and add face tags using the face tagger interface (accessible through the context menu or by shortcut).")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 

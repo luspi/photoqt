@@ -49,7 +49,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager",  "The status information refers to the set of information shown in the top right corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
+            text:qsTranslate("settingsmanager",  "The status information refers to the set of information shown in the top left corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 

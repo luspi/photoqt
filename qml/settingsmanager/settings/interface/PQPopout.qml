@@ -197,7 +197,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager",  "Two of the elements have an optional spacial behavior when it comes to keeping them open after they performed their action. The two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
+            text:qsTranslate("settingsmanager",  "Two of the elements have an optional special behavior when it comes to keeping them open after they performed their action. The two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
