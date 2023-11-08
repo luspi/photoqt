@@ -130,12 +130,14 @@ Item {
             id: rightcol
             y: (parent.height-height)/2
             spacing: 5
+            PQText {
+                y: (parent.height-height)/2
+                text: qsTranslate("filedialog", "Sort by:")
+            }
 
             PQComboBox {
                 y: (parent.height-height)/2
                 lineBelowItem: [4]
-
-                prefix: qsTranslate("filedialog", "Sort by:") + " "
 
                 model: [qsTranslate("filedialog", "Name"),
                         qsTranslate("filedialog", "Natural Name"),
