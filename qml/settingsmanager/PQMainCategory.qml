@@ -1,5 +1,7 @@
 import QtQuick
 
+import PQCNotify
+
 import "../elements"
 
 Item {
@@ -24,6 +26,10 @@ Item {
 
         anchors.fill: parent
         anchors.topMargin: 30
+        anchors.bottomMargin: filtercont.height+2
+
+        contentHeight: contcol.height
+        clip: true
 
         property var currentIndex: [0,0]
         onCurrentIndexChanged: {
@@ -39,6 +45,8 @@ Item {
         }
 
         Column {
+
+            id: contcol
 
             spacing: 0
 
@@ -153,6 +161,28 @@ Item {
             }
 
         }
+    }
+
+    Item {
+        id: filtercont
+        y: (parent.height-height)
+        width: parent.width-2
+        height: filtertxt.height+2
+
+        PQLineEdit {
+            id: filtertxt
+            width: filtercont.width
+            placeholderText: qsTranslate("settingsmanager", "Filter settings")
+            onControlActiveFocusChanged:
+                PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+            onTextChanged:
+                settingsmanager_top.filterSettings(filtertxt.text.toLowerCase())
+        }
+
+    }
+
+    function setFocusOnFilter() {
+        filtertxt.setFocus()
     }
 
     function gotoNextIndex() {

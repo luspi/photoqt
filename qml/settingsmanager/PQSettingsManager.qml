@@ -382,21 +382,6 @@ PQTemplateFullscreen {
 
     property var categoryKeys: Object.keys(categories)
 
-    toprow_extracontent: [
-        PQLineEdit {
-            id: filtertxt
-            x: 50
-            y: (toprowHeight-height)/2
-            width: sm_maincategory.width+sm_subcategory.width-2*x
-            placeholderText: qsTranslate("settingsmanager", "Filter settings")
-            onControlActiveFocusChanged:
-                PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
-            onTextChanged:
-                filterSettings()
-        }
-
-    ]
-
     content: [
 
         SplitView {
@@ -610,7 +595,7 @@ PQTemplateFullscreen {
 
                     } else if(param[0] === Qt.Key_F && param[1] === Qt.ControlModifier) {
 
-                        filtertxt.setFocus()
+                        sm_maincategory.setFocusOnFilter()
 
                     } else if(param[0] === Qt.Key_Tab && param[1] === Qt.ControlModifier) {
 
@@ -638,10 +623,9 @@ PQTemplateFullscreen {
 
     }
 
-    function filterSettings() {
+    function filterSettings(str) {
 
-        var str = filtertxt.text.toLowerCase()
-        if(str == "") {
+        if(str === "") {
             filterCategories = []
             filterSubCategories = []
         }

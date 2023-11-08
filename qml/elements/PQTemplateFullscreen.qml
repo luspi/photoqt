@@ -45,7 +45,6 @@ Rectangle {
     /////////
 
     property alias content: insidecont.children
-    property alias toprow_extracontent: extraelement_top.children
 
     /////////
 
@@ -100,10 +99,6 @@ Rectangle {
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
         color: PQCLook.baseColor
-
-        Item {
-            id: extraelement_top
-        }
 
         PQTextXL {
             anchors.centerIn: parent
