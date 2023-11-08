@@ -108,9 +108,9 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             font.weight: PQCLook.fontWeightBold
             textFormat: Text.RichText
-            text: "<table><tr><td align=right>" + PQCScriptsShortcuts.translateShortcut("Enter") +
+            text: "<table><tr><td align=right>" + shortcuts.item.translateShortcut("Enter") +
                   "</td><td>=</td><td>" + qsTranslate("filemanagement", "Move to trash") +
-                  "</td</tr><tr><td align=right>" + PQCScriptsShortcuts.translateShortcut("Shift+Enter") +
+                  "</td</tr><tr><td align=right>" + shortcuts.item.translateShortcut("Shift+Enter") +
                   "</td><td>=</td><td>" + qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
         }
 

@@ -60,14 +60,14 @@ Rectangle {
         var txt = ""
 
         if(keyComboMods.length > 0) {
-            txt += "<b>" + PQCScriptsShortcuts.translateShortcut(keyComboMods.join("+")) + "</b>"
+            txt += "<b>" + shortcuts.item.translateShortcut(keyComboMods.join("+")) + "</b>"
             txt += "<br>+<br>"
         }
 
         if(keyComboKey == "::PLUS::")
             txt += "<b>+</b>"
         else
-            txt += "<b>" + PQCScriptsShortcuts.translateShortcut(keyComboKey) + "</b>"
+            txt += "<b>" + shortcuts.item.translateShortcut(keyComboKey) + "</b>"
 
         combo_txt.text = txt
 
@@ -83,14 +83,14 @@ Rectangle {
         var txt = ""
 
         if(mouseComboMods.length > 0) {
-            txt += "<b>" + PQCScriptsShortcuts.translateShortcut(mouseComboMods.join("+")) + "</b>"
+            txt += "<b>" + shortcuts.item.translateShortcut(mouseComboMods.join("+")) + "</b>"
             txt += "<br>+<br>"
         }
 
-        txt += "<b>" + PQCScriptsShortcuts.translateShortcut(mouseComboButton) + "</b>"
+        txt += "<b>" + shortcuts.item.translateShortcut(mouseComboButton) + "</b>"
         if(mouseComboDirection.length > 0) {
             txt += "<br>+<br>"
-            txt += "<b>" + PQCScriptsShortcuts.translateMouseDirection(mouseComboDirection) + "</b>"
+            txt += "<b>" + shortcuts.item.translateMouseDirection(mouseComboDirection) + "</b>"
         }
 
         combo_txt.text = txt
