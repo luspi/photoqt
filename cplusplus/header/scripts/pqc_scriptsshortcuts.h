@@ -19,8 +19,6 @@ public:
     void operator=(PQCScriptsShortcuts const&) = delete;
 
     Q_INVOKABLE void executeExternal(QString exe, QString args, QString currentfile);
-    Q_INVOKABLE QString translateShortcut(QString combo);
-    Q_INVOKABLE QString translateMouseDirection(QStringList dirs);
 
     Q_INVOKABLE QStringList analyzeModifier(Qt::KeyboardModifiers mods);
     Q_INVOKABLE QString analyzeMouseWheel(QPoint angleDelta);
@@ -30,11 +28,6 @@ public:
 
 private:
     PQCScriptsShortcuts();
-
-    QString getTranslation(QString key);
-
-    QMap<QString,QString> keyStrings;
-    QMap<QString,QString> mouseStrings;
 
 };
 
