@@ -172,7 +172,7 @@ Item {
         PQLineEdit {
             id: filtertxt
             width: filtercont.width
-            placeholderText: qsTranslate("settingsmanager", "Filter settings")
+            placeholderText: qsTranslate("settingsmanager", "Filter")
             onControlActiveFocusChanged:
                 PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
             onTextChanged:
