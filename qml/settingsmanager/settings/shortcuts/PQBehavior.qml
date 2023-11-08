@@ -147,7 +147,8 @@ Flickable {
         Row {
             x: (parent.width-width)/2
             PQText {
-                text: "very sensitive"
+                //: used as in: very sensitive mouse wheel
+                text: qsTranslate("settingsmanager", "very sensitive")
             }
             PQSlider {
                 id: whl_sens
@@ -156,7 +157,8 @@ Flickable {
                 value: PQCSettings.interfaceMouseWheelSensitivity
             }
             PQText {
-                text: "not sensitive"
+                //: used as in: not at all sensitive mouse wheel
+                text: qsTranslate("settingsmanager", "not sensitive")
             }
         }
 
@@ -180,7 +182,7 @@ Flickable {
         PQCheckBox {
             id: hidetimeout_check
             x: (parent.width-width)/2
-            text: "hide cursor after timeout"
+            text: qsTranslate("settingsmanager", "hide cursor after timeout")
             checked: PQCSettings.imageviewHideCursorTimeout===0
         }
 
@@ -203,7 +205,7 @@ Flickable {
         PQText {
             x: (parent.width-width)/2
             enabled: hidetimeout_check.checked
-            text: "current value: " + hidetimeout.value + "s"
+            text: qsTranslate("settingsmanager", "current value:") + " " + hidetimeout.value + "s"
         }
 
         Item {

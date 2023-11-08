@@ -99,7 +99,7 @@ GridView {
         wrapMode: Text.WordWrap
         enabled: false
         visible: PQCFileFolderModel.countAllFileDialog===0
-        text: "no supported files/folders found"
+        text: qsTranslate("filedialog", "no supported files/folders found")
     }
 
     PQMouseArea {

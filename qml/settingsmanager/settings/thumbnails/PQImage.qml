@@ -222,7 +222,7 @@ Flickable {
         PQCheckBox {
             id: thumb_opaque
             x: (parent.width-width)/2
-            text: "decrease opacity for inactive thumbnails"
+            text: qsTranslate("settingsmanager", "decrease opacity for inactive thumbnails")
             checked: PQCSettings.thumbnailsInactiveTransparent
         }
 

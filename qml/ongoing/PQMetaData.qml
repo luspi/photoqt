@@ -169,7 +169,7 @@ Rectangle {
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        text: "No file loaded"
+        text: qsTranslate("metadata", "No file loaded")
         font.bold: PQCLook.fontWeightBold
         color: PQCLook.textColorHighlight
         visible: PQCFileFolderModel.countMainView===0
@@ -190,7 +190,8 @@ Rectangle {
             id: head_txt
             x: 5
             y: 5
-            text: "Metadata"
+            //: The title of the floating element
+            text: qsTranslate("metadata", "Metadata")
             font.weight: PQCLook.fontWeightBold
             opacity: 0.8
         }

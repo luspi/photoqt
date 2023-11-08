@@ -12,7 +12,7 @@ Item {
         width: parent.width
         height: 30
         font.weight: PQCLook.fontWeightBold
-        text: "main category"
+        text: qsTranslate("settingsmanager", "main category")
         color: PQCLook.textColorHighlight
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter

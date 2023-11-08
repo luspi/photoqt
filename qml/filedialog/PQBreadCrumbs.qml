@@ -233,7 +233,7 @@ Item {
                                 id: folderlist
                                 property var subfolders: []
                                 PQMenuItem {
-                                    text: "no subfolders found"
+                                    text: qsTranslate("filedialog", "no subfolders found")
                                     font.italic: true
                                     enabled: false
                                     visible: folderlist.subfolders.length==0

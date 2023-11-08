@@ -58,7 +58,8 @@ Flickable {
         Row {
             x: (parent.width-width)/2
             PQText {
-                text: "none"
+                //: used as in: no margin around image
+                text: qsTranslate("settingsmanager", "none")
             }
             PQSlider {
                 id: marginslider
@@ -74,7 +75,7 @@ Flickable {
         }
         PQText {
             x: (parent.width-width)/2
-            text: "current value: " + marginslider.value + "px"
+            text: qsTranslate("settingsmanager", "current value:") + " " + marginslider.value + "px"
         }
 
         /**********************************************************************/
@@ -103,15 +104,15 @@ Flickable {
             x: (parent.width-width)/2
             PQText {
                 y: (large_fit.height-height)/2
-                text: "large images:"
+                text: qsTranslate("settingsmanager", "large images:")
             }
             PQRadioButton {
                 id: large_fit
-                text: "fit to view"
+                text: qsTranslate("settingsmanager", "fit to view")
             }
             PQRadioButton {
                 id: large_full
-                text: "load at full scale"
+                text: qsTranslate("settingsmanager", "load at full scale")
                 checked: PQCSettings.imageviewAlwaysActualSize
                 onCheckedChanged: checkDefault()
             }
@@ -127,17 +128,17 @@ Flickable {
 
             PQText {
                 y: (small_fit.height-height)/2
-                text: "small images:"
+                text: qsTranslate("settingsmanager", "small images:")
             }
             PQRadioButton {
                 id: small_fit
-                text: "fit to view"
+                text: qsTranslate("settingsmanager", "fit to view")
                 checked: PQCSettings.imageviewFitInWindow
                 onCheckedChanged: checkDefault()
             }
             PQRadioButton {
                 id: small_asis
-                text: "load as-is"
+                text: qsTranslate("settingsmanager", "load as-is")
             }
         }
 
@@ -161,7 +162,7 @@ Flickable {
         PQCheckBox {
             id: checkerboard
             x: (parent.width-width)/2
-            text: "show checkerboard pattern"
+            text: qsTranslate("settingsmanager", "show checkerboard pattern")
             checked: PQCSettings.imageviewTransparencyMarker
             onCheckedChanged: checkDefault()
         }

@@ -283,7 +283,7 @@ Rectangle {
                         PQLineEdit {
                             id: ext_exe
                             width: 300
-                            placeholderText: "executable"
+                            placeholderText: qsTranslate("settingsmanager", "executable")
                         }
 
                         PQButton {
@@ -332,7 +332,8 @@ Rectangle {
                     PQLineEdit {
                         id: ext_flags
                         width: 300
-                        placeholderText: "additional flags"
+                        //: the flags here are parameters specified on the command line
+                        placeholderText: qsTranslate("settingsmanager", "additional flags")
                     }
 
                     PQText {
