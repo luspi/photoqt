@@ -162,7 +162,9 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
                 Magick::CoderInfo magickCoderInfo(magick.toStdString());
                 if(magickCoderInfo.isWritable())
                     canproceed = true;
-            } catch(Magick::Exception &) { }
+            } catch(...) {
+                // do nothing here
+            }
 
             // yes, it's supported
             if(canproceed) {
@@ -319,7 +321,9 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
                     Magick::CoderInfo magickCoderInfo(magick.toStdString());
                     if(magickCoderInfo.isWritable())
                         canproceed = true;
-                } catch(Magick::Exception &) { }
+                } catch(...) {
+                    // do nothing here
+                }
 
                 // yes, it's supported
                 if(canproceed) {

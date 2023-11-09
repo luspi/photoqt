@@ -238,7 +238,7 @@ void PQCImageFormats::readFromDatabase() {
                         Magick::CoderInfo magickCoderInfo(t.toStdString());
                         if(magickCoderInfo.isReadable())
                             validImGmMagick << t;
-                    } catch(Magick::Exception &) {
+                    } catch(...) {
                         // do nothing here
                     }
                 }
@@ -412,7 +412,9 @@ QVariantList PQCImageFormats::getWriteableFormats() {
                 Magick::CoderInfo magickCoderInfo(magick.toStdString());
                 if(magickCoderInfo.isReadable() && magickCoderInfo.isWritable())
                     imgm = true;
-            } catch(Magick::Exception &) {}
+            } catch(...) {
+                // do nothing here
+            }
         }
 #endif
 
@@ -583,7 +585,9 @@ int PQCImageFormats::getWriteStatus(int uniqueid) {
             Magick::CoderInfo magickCoderInfo(magick.toStdString());
             if(magickCoderInfo.isReadable() && magickCoderInfo.isWritable())
                 imgm = true;
-        } catch(Magick::Exception &) {}
+        } catch(...) {
+            // do nothing here
+        }
     }
 #endif
 
