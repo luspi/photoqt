@@ -63,6 +63,8 @@ Item {
 
     signal imageFinishedLoading(var index)
 
+    property var rememberChanges: ({})
+
     Repeater {
 
         id: repeater
@@ -107,6 +109,11 @@ Item {
                 property real defaultScale: 1
                 property size imageResolution: Qt.size(0,0)
 
+                property int imagePosX: 0
+                property int imagePosY: 0
+                property bool imageMirrorH: false
+                property bool imageMirrorV: false
+
                 onImageResolutionChanged: {
                     if(PQCFileFolderModel.currentIndex===index)
                         image_top.currentResolution = imageResolution
@@ -118,6 +125,14 @@ Item {
                 signal rotationZoomResetWithoutAnimation()
                 signal stopVideoAndReset()
                 signal restartVideoIfAutoplay()
+
+                property bool delayAfterLoad: false
+                Timer {
+                    id: delay_timer
+                    interval: 1000
+                    onTriggered:
+                        parent.delayAfterLoad = true
+                }
 
                 // react to user commands
                 Connections {
@@ -247,6 +262,15 @@ Item {
                         contentHeight: flickable_content.height
 
                         interactive: !PQCNotify.faceTagging
+
+                        onContentXChanged: {
+                            if(deleg.imagePosX != contentX)
+                                deleg.imagePosX = contentX
+                        }
+                        onContentYChanged: {
+                            if(deleg.imagePosY != contentY)
+                                deleg.imagePosY = contentY
+                        }
 
                         Connections {
 
@@ -400,6 +424,8 @@ Item {
                                 // the actual image
                                 Loader {
 
+                                    id: image_loader
+
                                     source: loader_component.isMpv ? "PQVideoMpv.qml"
                                                                    : (loader_component.isAnimated ? "PQImageAnimated.qml"
                                                                                                   : "PQImageNormal.qml")
@@ -491,12 +517,31 @@ Item {
                                     }
 
                                     function onRotationZoomResetWithoutAnimation() {
+
                                         scaleAnimation.stop()
                                         rotationAnimation.stop()
-                                        image_wrapper.rotation = 0
-                                        deleg.imageRotation = 0
-                                        image_wrapper.scale = deleg.defaultScale
-                                        deleg.imageScale = image_wrapper.scale
+
+                                        if(PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges)) {
+
+                                            var vals = rememberChanges[deleg.imageSource]
+
+                                            flickable.contentX = vals[0]
+                                            flickable.contentY = vals[1]
+
+                                            image_wrapper.scale = vals[2]
+                                            deleg.imageScale = vals[2]
+
+                                            image_wrapper.rotation = vals[3]
+                                            deleg.imageRotation = vals[3]
+
+                                            image_loader.item.setMirrorHV(vals[4], vals[5])
+
+                                        } else {
+                                            image_wrapper.rotation = 0
+                                            deleg.imageRotation = 0
+                                            image_wrapper.scale = deleg.defaultScale
+                                            deleg.imageScale = image_wrapper.scale
+                                        }
                                     }
 
                                     function onImageRotationChanged() {
@@ -876,6 +921,8 @@ Item {
                 // show the image
                 function showImage() {
 
+                    deleg.delayAfterLoad = false
+
                     image_top.currentlyVisibleIndex = itemIndex
                     image_top.imageFinishedLoading(itemIndex)
 
@@ -956,10 +1003,22 @@ Item {
                     if(PQCSettings.imageviewAnimationType === "random")
                         selectNewRandomAnimation.restart()
 
+                    delay_timer.restart()
+
                 }
 
                 // hide the image
                 function hideImage() {
+
+                    if(PQCSettings.imageviewRememberZoomRotationMirror && deleg.delayAfterLoad) {
+                        var vals = [deleg.imagePosX,
+                                    deleg.imagePosY,
+                                    deleg.imageScale,
+                                    deleg.imageRotation,
+                                    deleg.imageMirrorH,
+                                    deleg.imageMirrorV]
+                        rememberChanges[deleg.imageSource] = vals
+                    }
 
                     var anim = PQCSettings.imageviewAnimationType
                     if(anim === "random")

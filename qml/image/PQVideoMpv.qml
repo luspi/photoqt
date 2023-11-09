@@ -96,13 +96,17 @@ Item {
         target: image_top
         function onMirrorH() {
             video.command(["vf", "toggle", "hflip"])
+            deleg.imageMirrorH = !deleg.imageMirrorH
         }
         function onMirrorV() {
             video.command(["vf", "toggle", "vflip"])
+            deleg.imageMirrorV = !deleg.imageMirrorV
         }
         function onMirrorReset() {
             video.command(["vf", "remove", "hflip"])
             video.command(["vf", "remove", "vflip"])
+            deleg.imageMirrorH = false
+            deleg.imageMirrorV = false
         }
     }
 
@@ -181,6 +185,26 @@ Item {
         function onFiletypesVideoVolumeChanged() {
             video.setProperty("volume", PQCSettings.filetypesVideoVolume)
         }
+    }
+
+    function setMirrorHV(mH, mV) {
+
+        if(mH) {
+            video.command(["vf", "set", "hflip"])
+            deleg.imageMirrorH = true
+        } else {
+            video.command(["vf", "remove", "hflip"])
+            deleg.imageMirrorH = false
+        }
+
+        if(mV) {
+            video.command(["vf", "set", "vflip"])
+            deleg.imageMirrorV = true
+        } else {
+            video.command(["vf", "remove", "vflip"])
+            deleg.imageMirrorV = false
+        }
+
     }
 
 }

@@ -30,6 +30,11 @@ Image {
         }
     }
 
+    onMirrorChanged:
+        deleg.imageMirrorH = mirror
+    onMirrorVerticallyChanged:
+        deleg.imageMirrorV = image.mirrorVertically
+
     property bool hasAlpha: false
 
     onSourceSizeChanged:
@@ -105,6 +110,11 @@ Image {
             mirror: image.mirror
             mirrorVertically: image.mirrorVertically
         }
+    }
+
+    function setMirrorHV(mH, mV) {
+        image.mirror = mH
+        image.mirrorVertically = mV
     }
 
 }

@@ -26,6 +26,11 @@ AnimatedImage {
         deleg.imageResolution = sourceSize
     }
 
+    onMirrorChanged:
+        deleg.imageMirrorH = mirror
+    onMirrorVerticallyChanged:
+        deleg.imageMirrorV = image.mirrorVertically
+
     Image {
         anchors.fill: parent
         z: parent.z-1
@@ -51,6 +56,11 @@ AnimatedImage {
         function onPlayPauseAnimationVideo() {
             image.playing = !image.playing
         }
+    }
+
+    function setMirrorHV(mH, mV) {
+        image.mirror = mH
+        image.mirrorVertically = mV
     }
 
 }
