@@ -14,6 +14,10 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
     /*********************************************************/
     // list all elements and default and threshold sizes
 
+    allElements.append(QVariant(QVariantList() << "mainWindow"  // name
+                                               << 800 << 600    // default size
+                                               << 0 << 0));     // popout threshold;
+
     allElements.append(QVariant(QVariantList() << "export"      // name
                                                << 800 << 600    // default size
                                                << 800 << 800)); // popout threshold;
@@ -153,7 +157,7 @@ void PQCPopoutGeometry::save() {
         const QString key = e.toList()[0].toString();
         const QString k1 = key+"Geometry";
         const QString k2 = key+"Maximized";
-        settings->setValue(k1, this->value(k1));
+        settings->setValue(k1, this->value(k1).toRect());   // some rect show up as QRectF here and mess with the how the value is written to file
         settings->setValue(k2, this->value(k2));
     }
 

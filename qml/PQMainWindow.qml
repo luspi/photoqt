@@ -21,18 +21,21 @@ Window {
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window) : (Qt.FramelessWindowHint|Qt.Window))
 
-    visibility: PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen
-
     color: "transparent"
 
     minimumWidth: 800
     minimumHeight: 600
 
-    onWidthChanged: {
-        PQCPopoutGeometry.windowWidth = width
-    }
-    onHeightChanged: {
-        PQCPopoutGeometry.windowHeight = height
+    property rect geometry: Qt.rect(x, y, width, height)
+    onGeometryChanged: {
+        if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {
+            if(toplevel.visibility == Window.Maximized)
+                PQCPopoutGeometry.mainWindowMaximized = true
+            else {
+                PQCPopoutGeometry.mainWindowMaximized = false
+                PQCPopoutGeometry.mainWindowGeometry = geometry
+            }
+        }
     }
 
     property bool startup: true
@@ -175,7 +178,23 @@ Window {
         if(PQCScriptsConfig.amIOnWindows())
             toplevel.opacity = 0
 
-        toplevel.showMaximized()
+        // show window according to settings
+        if(PQCSettings.interfaceWindowMode) {
+            if(PQCSettings.interfaceSaveWindowGeometry) {
+                var geo = PQCPopoutGeometry.mainWindowGeometry
+                toplevel.x = geo.x
+                toplevel.y = geo.y
+                toplevel.width = geo.width
+                toplevel.height = geo.height
+                if(PQCPopoutGeometry.mainWindowMaximized)
+                    showMaximized()
+                else
+                    showNormal()
+            } else
+                showMaximized()
+        } else {
+            showFullScreen()
+        }
 
         loader.show("mainmenu")
         loader.show("metadata")
@@ -205,10 +224,6 @@ Window {
 
         PQCFileFolderModel.advancedSortMainViewCANCEL()
 
-//        if(PQSettings.interfaceSaveWindowGeometry) {
-//            windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
-//            windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
-//        }
         if(PQCFileFolderModel.currentIndex > -1 && PQCSettings.interfaceRememberLastImage)
             PQCScriptsConfig.setLastLoadedImage(PQCFileFolderModel.currentFile)
         else
