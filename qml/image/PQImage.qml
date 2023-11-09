@@ -1028,13 +1028,21 @@ Item {
 
     // some global handlers
     function showNext() {
-        if(PQCFileFolderModel.countMainView !== 0)
-            PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
+        if(PQCFileFolderModel.countMainView !== 0) {
+            if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
+                PQCFileFolderModel.currentIndex = 0
+            else
+                PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
+        }
     }
 
     function showPrev() {
-        if(PQCFileFolderModel.countMainView !== 0)
-            PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
+        if(PQCFileFolderModel.countMainView !== 0) {
+            if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
+                PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
+            else
+                PQCFileFolderModel.currentIndex = Math.max(PQCFileFolderModel.currentIndex-1, 0)
+        }
     }
 
     function showFirst() {
