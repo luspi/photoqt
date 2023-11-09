@@ -116,7 +116,7 @@ Item {
                 onDragActiveChanged: disconnectPos()
                 text: qsTranslate("navigate", "Navigate to previous image in folder")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__next")
+                    PQCNotify.executeInternalCommand("__prev")
                 onEntered: {
                     resetMouseOver.stop()
                     nav_top.mouseOverId = 1
@@ -150,7 +150,7 @@ Item {
                 onDragActiveChanged: disconnectPos()
                 text: qsTranslate("navigate", "Navigate to next image in folder")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__prev")
+                    PQCNotify.executeInternalCommand("__next")
                 onEntered: {
                     resetMouseOver.stop()
                     nav_top.mouseOverId = 2
@@ -196,7 +196,6 @@ Item {
 
     }
 
-
     Connections {
         target: loader
 
@@ -204,10 +203,7 @@ Item {
 
             if(what === "show") {
                 if(param === "navigationfloating") {
-                    if(nav_top.visible)
-                        hide()
-                    else
-                        show()
+                    show()
                 }
             }
 

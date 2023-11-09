@@ -187,6 +187,8 @@ Window {
             loader.show("mapcurrent")
         if(PQCSettings.interfaceNavigationFloating)
             loader.show("navigationfloating")
+        else
+            loader.ensureItIsReady("navigationfloating", loader.loadermapping["navigationfloating"])
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
