@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("slideshow", "Slideshow setup")
 
-    geometry: PQCPopoutGeometry.slideshowsetupGeometry
-    isMax: PQCPopoutGeometry.slideshowsetupMaximized
+    geometry: PQCWindowGeometry.slideshowsetupGeometry
+    isMax: PQCWindowGeometry.slideshowsetupMaximized
     popout: PQCSettings.interfacePopoutSlideshowSetup
-    sizepopout: PQCPopoutGeometry.slideshowsetupForcePopout
+    sizepopout: PQCWindowGeometry.slideshowsetupForcePopout
     source: "actions/PQSlideshowSetup.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.slideshowsetupGeometry)
-            PQCPopoutGeometry.slideshowsetupGeometry = geometry
+        if(geometry !== PQCWindowGeometry.slideshowsetupGeometry)
+            PQCWindowGeometry.slideshowsetupGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.slideshowsetupMaximized)
-            PQCPopoutGeometry.slideshowsetupMaximized = isMax
+        if(isMax !== PQCWindowGeometry.slideshowsetupMaximized)
+            PQCWindowGeometry.slideshowsetupMaximized = isMax
     }
 
 }

@@ -7,16 +7,16 @@
 class QSettings;
 class QTimer;
 
-class PQCPopoutGeometry : public QQmlPropertyMap {
+class PQCWindowGeometry : public QQmlPropertyMap {
 
     Q_OBJECT
 
 public:
-    static PQCPopoutGeometry& get();
-    ~PQCPopoutGeometry();
+    static PQCWindowGeometry& get();
+    ~PQCWindowGeometry();
 
-    PQCPopoutGeometry(PQCPopoutGeometry const&)        = delete;
-    void operator=(PQCPopoutGeometry const&) = delete;
+    PQCWindowGeometry(PQCWindowGeometry const&)        = delete;
+    void operator=(PQCWindowGeometry const&) = delete;
 
     QSettings *settings;
     void load();
@@ -26,7 +26,7 @@ private Q_SLOTS:
     void computeSmallSizeBehavior();
 
 private:
-    PQCPopoutGeometry();
+    PQCWindowGeometry();
 
     QTimer *saveDelay;
 

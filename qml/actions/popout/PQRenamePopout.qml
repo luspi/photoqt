@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filemanagement", "Rename file")
 
-    geometry: PQCPopoutGeometry.filerenameGeometry
-    isMax: PQCPopoutGeometry.filerenameMaximized
+    geometry: PQCWindowGeometry.filerenameGeometry
+    isMax: PQCWindowGeometry.filerenameMaximized
     popout: PQCSettings.interfacePopoutFileRename
-    sizepopout: PQCPopoutGeometry.filerenameForcePopout
+    sizepopout: PQCWindowGeometry.filerenameForcePopout
     source: "actions/PQRename.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.filerenameGeometry)
-            PQCPopoutGeometry.filerenameGeometry = geometry
+        if(geometry !== PQCWindowGeometry.filerenameGeometry)
+            PQCWindowGeometry.filerenameGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.filerenameMaximized)
-            PQCPopoutGeometry.filerenameMaximized = isMax
+        if(isMax !== PQCWindowGeometry.filerenameMaximized)
+            PQCWindowGeometry.filerenameMaximized = isMax
     }
 
 }

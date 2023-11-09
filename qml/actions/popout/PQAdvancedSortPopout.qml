@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("advancedsort", "Advanced image sort")
 
-    geometry: PQCPopoutGeometry.advancedsortGeometry
-    isMax: PQCPopoutGeometry.advancedsortMaximized
+    geometry: PQCWindowGeometry.advancedsortGeometry
+    isMax: PQCWindowGeometry.advancedsortMaximized
     popout: PQCSettings.interfacePopoutAdvancedSort
-    sizepopout: PQCPopoutGeometry.advancedsortForcePopout
+    sizepopout: PQCWindowGeometry.advancedsortForcePopout
     source: "actions/PQAdvancedSort.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.advancedsortGeometry)
-            PQCPopoutGeometry.advancedsortGeometry = geometry
+        if(geometry !== PQCWindowGeometry.advancedsortGeometry)
+            PQCWindowGeometry.advancedsortGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.advancedsortMaximized)
-            PQCPopoutGeometry.advancedsortMaximized = isMax
+        if(isMax !== PQCWindowGeometry.advancedsortMaximized)
+            PQCWindowGeometry.advancedsortMaximized = isMax
     }
 
     function doSorting() {

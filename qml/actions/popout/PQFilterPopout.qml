@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filter", "Filter images in current directory")
 
-    geometry: PQCPopoutGeometry.filterGeometry
-    isMax: PQCPopoutGeometry.filterMaximized
+    geometry: PQCWindowGeometry.filterGeometry
+    isMax: PQCWindowGeometry.filterMaximized
     popout: PQCSettings.interfacePopoutFilter
-    sizepopout: PQCPopoutGeometry.filterForcePopout
+    sizepopout: PQCWindowGeometry.filterForcePopout
     source: "actions/PQFilter.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.filterGeometry)
-            PQCPopoutGeometry.filterGeometry = geometry
+        if(geometry !== PQCWindowGeometry.filterGeometry)
+            PQCWindowGeometry.filterGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.filterMaximized)
-            PQCPopoutGeometry.filterMaximized = isMax
+        if(isMax !== PQCWindowGeometry.filterMaximized)
+            PQCWindowGeometry.filterMaximized = isMax
     }
 
 }

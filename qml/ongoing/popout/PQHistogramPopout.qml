@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCNotify
 import "../../elements"
 
@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("histogram", "Histogram")
 
-    geometry: PQCPopoutGeometry.histogramGeometry
-    isMax: PQCPopoutGeometry.histogramMaximized
+    geometry: PQCWindowGeometry.histogramGeometry
+    isMax: PQCWindowGeometry.histogramMaximized
     popout: PQCSettings.interfacePopoutHistogram
-    sizepopout: PQCPopoutGeometry.histogramForcePopout
+    sizepopout: PQCWindowGeometry.histogramForcePopout
     source: "ongoing/PQHistogram.qml"
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
@@ -56,13 +56,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.histogramGeometry)
-            PQCPopoutGeometry.histogramGeometry = geometry
+        if(geometry !== PQCWindowGeometry.histogramGeometry)
+            PQCWindowGeometry.histogramGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.histogramMaximized)
-            PQCPopoutGeometry.histogramMaximized = isMax
+        if(isMax !== PQCWindowGeometry.histogramMaximized)
+            PQCWindowGeometry.histogramMaximized = isMax
     }
 
 }

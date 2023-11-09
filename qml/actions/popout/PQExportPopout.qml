@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Export image")
 
-    geometry: PQCPopoutGeometry.exportGeometry
-    isMax: PQCPopoutGeometry.exportMaximized
+    geometry: PQCWindowGeometry.exportGeometry
+    isMax: PQCWindowGeometry.exportMaximized
     popout: PQCSettings.interfacePopoutExport
-    sizepopout: PQCPopoutGeometry.exportForcePopout
+    sizepopout: PQCWindowGeometry.exportForcePopout
     source: "actions/PQExport.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.exportGeometry)
-            PQCPopoutGeometry.exportGeometry = geometry
+        if(geometry !== PQCWindowGeometry.exportGeometry)
+            PQCWindowGeometry.exportGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.exportMaximized)
-            PQCPopoutGeometry.exportMaximized = isMax
+        if(isMax !== PQCWindowGeometry.exportMaximized)
+            PQCWindowGeometry.exportMaximized = isMax
     }
 
 }

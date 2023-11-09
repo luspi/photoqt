@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("imgur", "Upload to imgur.com")
 
-    geometry: PQCPopoutGeometry.imgurGeometry
-    isMax: PQCPopoutGeometry.imgurMaximized
+    geometry: PQCWindowGeometry.imgurGeometry
+    isMax: PQCWindowGeometry.imgurMaximized
     popout: PQCSettings.interfacePopoutImgur
-    sizepopout: PQCPopoutGeometry.imgurForcePopout
+    sizepopout: PQCWindowGeometry.imgurForcePopout
     source: "actions/PQImgur.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.imgurGeometry)
-            PQCPopoutGeometry.imgurGeometry = geometry
+        if(geometry !== PQCWindowGeometry.imgurGeometry)
+            PQCWindowGeometry.imgurGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.imgurMaximized)
-            PQCPopoutGeometry.imgurMaximized = isMax
+        if(isMax !== PQCWindowGeometry.imgurMaximized)
+            PQCWindowGeometry.imgurMaximized = isMax
     }
 
     function uploadAnonymously() {

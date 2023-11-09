@@ -5,7 +5,7 @@ import PQCScriptsOther
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCNotify
-import PQCPopoutGeometry
+import PQCWindowGeometry
 
 import "elements"
 import "other"
@@ -30,10 +30,10 @@ Window {
     onGeometryChanged: {
         if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {
             if(toplevel.visibility == Window.Maximized)
-                PQCPopoutGeometry.mainWindowMaximized = true
+                PQCWindowGeometry.mainWindowMaximized = true
             else {
-                PQCPopoutGeometry.mainWindowMaximized = false
-                PQCPopoutGeometry.mainWindowGeometry = geometry
+                PQCWindowGeometry.mainWindowMaximized = false
+                PQCWindowGeometry.mainWindowGeometry = geometry
             }
         }
     }
@@ -181,12 +181,12 @@ Window {
         // show window according to settings
         if(PQCSettings.interfaceWindowMode) {
             if(PQCSettings.interfaceSaveWindowGeometry) {
-                var geo = PQCPopoutGeometry.mainWindowGeometry
+                var geo = PQCWindowGeometry.mainWindowGeometry
                 toplevel.x = geo.x
                 toplevel.y = geo.y
                 toplevel.width = geo.width
                 toplevel.height = geo.height
-                if(PQCPopoutGeometry.mainWindowMaximized)
+                if(PQCWindowGeometry.mainWindowMaximized)
                     showMaximized()
                 else
                     showNormal()

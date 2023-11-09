@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filemanagement", "Delete file?")
 
-    geometry: PQCPopoutGeometry.filedeleteGeometry
-    isMax: PQCPopoutGeometry.filedeleteMaximized
+    geometry: PQCWindowGeometry.filedeleteGeometry
+    isMax: PQCWindowGeometry.filedeleteMaximized
     popout: PQCSettings.interfacePopoutFileDelete
-    sizepopout: PQCPopoutGeometry.filedeleteForcePopout
+    sizepopout: PQCWindowGeometry.filedeleteForcePopout
     source: "actions/PQDelete.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.filedeleteGeometry)
-            PQCPopoutGeometry.filedeleteGeometry = geometry
+        if(geometry !== PQCWindowGeometry.filedeleteGeometry)
+            PQCWindowGeometry.filedeleteGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.filedeleteMaximized)
-            PQCPopoutGeometry.filedeleteMaximized = isMax
+        if(isMax !== PQCWindowGeometry.filedeleteMaximized)
+            PQCWindowGeometry.filedeleteMaximized = isMax
     }
 
 }

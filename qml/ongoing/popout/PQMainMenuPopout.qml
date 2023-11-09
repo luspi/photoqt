@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCNotify
 import "../../elements"
 
@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Main Menu")
 
-    geometry: PQCPopoutGeometry.mainmenuGeometry
-    isMax: PQCPopoutGeometry.mainmenuMaximized
+    geometry: PQCWindowGeometry.mainmenuGeometry
+    isMax: PQCWindowGeometry.mainmenuMaximized
     popout: PQCSettings.interfacePopoutMainMenu
-    sizepopout: PQCPopoutGeometry.mainmenuForcePopout
+    sizepopout: PQCWindowGeometry.mainmenuForcePopout
     source: "ongoing/PQMainMenu.qml"
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
@@ -56,13 +56,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.mainmenuGeometry)
-            PQCPopoutGeometry.mainmenuGeometry = geometry
+        if(geometry !== PQCWindowGeometry.mainmenuGeometry)
+            PQCWindowGeometry.mainmenuGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.mainmenuMaximized)
-            PQCPopoutGeometry.mainmenuMaximized = isMax
+        if(isMax !== PQCWindowGeometry.mainmenuMaximized)
+            PQCWindowGeometry.mainmenuMaximized = isMax
     }
 
 }

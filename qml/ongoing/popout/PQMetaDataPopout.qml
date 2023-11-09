@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCNotify
 import "../../elements"
 
@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Metadata")
 
-    geometry: PQCPopoutGeometry.metadataGeometry
-    isMax: PQCPopoutGeometry.metadataMaximized
+    geometry: PQCWindowGeometry.metadataGeometry
+    isMax: PQCWindowGeometry.metadataMaximized
     popout: PQCSettings.interfacePopoutMetadata
-    sizepopout: PQCPopoutGeometry.metadataForcePopout
+    sizepopout: PQCWindowGeometry.metadataForcePopout
     source: "ongoing/PQMetaData.qml"
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
@@ -56,13 +56,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.metadataGeometry)
-            PQCPopoutGeometry.metadataGeometry = geometry
+        if(geometry !== PQCWindowGeometry.metadataGeometry)
+            PQCWindowGeometry.metadataGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.metadataMaximized)
-            PQCPopoutGeometry.metadataMaximized = isMax
+        if(isMax !== PQCWindowGeometry.metadataMaximized)
+            PQCWindowGeometry.metadataMaximized = isMax
     }
 
 }

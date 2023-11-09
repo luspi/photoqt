@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "About")
 
-    geometry: PQCPopoutGeometry.aboutGeometry
-    isMax: PQCPopoutGeometry.aboutMaximized
+    geometry: PQCWindowGeometry.aboutGeometry
+    isMax: PQCWindowGeometry.aboutMaximized
     popout: PQCSettings.interfacePopoutAbout
-    sizepopout: PQCPopoutGeometry.aboutForcePopout
+    sizepopout: PQCWindowGeometry.aboutForcePopout
     source: "actions/PQAbout.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.aboutGeometry)
-            PQCPopoutGeometry.aboutGeometry = geometry
+        if(geometry !== PQCWindowGeometry.aboutGeometry)
+            PQCWindowGeometry.aboutGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.aboutMaximized)
-            PQCPopoutGeometry.aboutMaximized = isMax
+        if(isMax !== PQCWindowGeometry.aboutMaximized)
+            PQCWindowGeometry.aboutMaximized = isMax
     }
 
 }

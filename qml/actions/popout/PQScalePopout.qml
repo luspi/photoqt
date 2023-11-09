@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("scale", "Scale image")
 
-    geometry: PQCPopoutGeometry.scaleGeometry
-    isMax: PQCPopoutGeometry.scaleMaximized
+    geometry: PQCWindowGeometry.scaleGeometry
+    isMax: PQCWindowGeometry.scaleMaximized
     popout: PQCSettings.interfacePopoutScale
-    sizepopout: PQCPopoutGeometry.scaleForcePopout
+    sizepopout: PQCWindowGeometry.scaleForcePopout
     source: "actions/PQScale.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.scaleGeometry)
-            PQCPopoutGeometry.scaleGeometry = geometry
+        if(geometry !== PQCWindowGeometry.scaleGeometry)
+            PQCWindowGeometry.scaleGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.scaleMaximized)
-            PQCPopoutGeometry.scaleMaximized = isMax
+        if(isMax !== PQCWindowGeometry.scaleMaximized)
+            PQCWindowGeometry.scaleMaximized = isMax
     }
 
 }

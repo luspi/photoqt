@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCNotify
 import "../../elements"
 
@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("mapcurrent", "Current location")
 
-    geometry: PQCPopoutGeometry.mapcurrentGeometry
-    isMax: PQCPopoutGeometry.mapcurrentMaximized
+    geometry: PQCWindowGeometry.mapcurrentGeometry
+    isMax: PQCWindowGeometry.mapcurrentMaximized
     popout: PQCSettings.interfacePopoutMapCurrent
-    sizepopout: PQCPopoutGeometry.mapcurrentForcePopout
+    sizepopout: PQCWindowGeometry.mapcurrentForcePopout
     source: "ongoing/PQMapCurrent.qml"
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
@@ -56,13 +56,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.mapcurrentGeometry)
-            PQCPopoutGeometry.mapcurrentGeometry = geometry
+        if(geometry !== PQCWindowGeometry.mapcurrentGeometry)
+            PQCWindowGeometry.mapcurrentGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.mapcurrentMaximized)
-            PQCPopoutGeometry.mapcurrentMaximized = isMax
+        if(isMax !== PQCWindowGeometry.mapcurrentMaximized)
+            PQCWindowGeometry.mapcurrentMaximized = isMax
     }
 
 }

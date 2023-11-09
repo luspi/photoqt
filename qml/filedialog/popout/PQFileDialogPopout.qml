@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCNotify
 import "../../elements"
 
@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "File Dialog")
 
-    geometry: PQCPopoutGeometry.filedialogGeometry
-    isMax: PQCPopoutGeometry.filedialogMaximized
+    geometry: PQCWindowGeometry.filedialogGeometry
+    isMax: PQCWindowGeometry.filedialogMaximized
     popout: PQCSettings.interfacePopoutFileDialog
-    sizepopout: PQCPopoutGeometry.filedialogForcePopout
+    sizepopout: PQCWindowGeometry.filedialogForcePopout
     source: "filedialog/PQFileDialog.qml"
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
@@ -49,13 +49,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.filedialogGeometry)
-            PQCPopoutGeometry.filedialogGeometry = geometry
+        if(geometry !== PQCWindowGeometry.filedialogGeometry)
+            PQCWindowGeometry.filedialogGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.filedialogMaximized)
-            PQCPopoutGeometry.filedialogMaximized = isMax
+        if(isMax !== PQCWindowGeometry.filedialogMaximized)
+            PQCWindowGeometry.filedialogMaximized = isMax
     }
 
 }

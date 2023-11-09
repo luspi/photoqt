@@ -35,7 +35,7 @@
 #include <pqc_filefoldermodel.h>
 #include <pqc_metadata.h>
 #include <pqc_resolutioncache.h>
-#include <pqc_popoutgeometry.h>
+#include <pqc_windowgeometry.h>
 #include <pqc_location.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
@@ -235,7 +235,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsContextMenu", 1, 0, "PQCScriptsContextMenu", &PQCScriptsContextMenu::get());
     qmlRegisterSingletonInstance("PQCScriptsShortcuts", 1, 0, "PQCScriptsShortcuts", &PQCScriptsShortcuts::get());
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
-    qmlRegisterSingletonInstance("PQCPopoutGeometry", 1, 0, "PQCPopoutGeometry", &PQCPopoutGeometry::get());
+    qmlRegisterSingletonInstance("PQCWindowGeometry", 1, 0, "PQCWindowGeometry", &PQCWindowGeometry::get());
     qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
     qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
     qmlRegisterSingletonInstance("PQCScriptsWallpaper", 1, 0, "PQCScriptsWallpaper", &PQCScriptsWallpaper::get());

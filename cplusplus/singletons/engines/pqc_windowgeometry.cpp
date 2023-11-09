@@ -1,4 +1,4 @@
-#include <pqc_popoutgeometry.h>
+#include <pqc_windowgeometry.h>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
 
@@ -7,7 +7,7 @@
 #include <QScreen>
 #include <QTimer>
 
-PQCPopoutGeometry::PQCPopoutGeometry() {
+PQCWindowGeometry::PQCWindowGeometry() {
 
     settings = new QSettings(PQCConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
@@ -99,24 +99,24 @@ PQCPopoutGeometry::PQCPopoutGeometry() {
     saveDelay->setInterval(200);
     saveDelay->setSingleShot(true);
     connect(this, &QQmlPropertyMap::valueChanged, this, [=]() { saveDelay->start(); });
-    connect(saveDelay, &QTimer::timeout, this, &PQCPopoutGeometry::save);
+    connect(saveDelay, &QTimer::timeout, this, &PQCWindowGeometry::save);
 
     // load data from file
     load();
 
 }
 
-PQCPopoutGeometry &PQCPopoutGeometry::get() {
-    static PQCPopoutGeometry instance;
+PQCWindowGeometry &PQCWindowGeometry::get() {
+    static PQCWindowGeometry instance;
     return instance;
 }
 
-PQCPopoutGeometry::~PQCPopoutGeometry() {
+PQCWindowGeometry::~PQCWindowGeometry() {
     delete settings;
     delete saveDelay;
 }
 
-void PQCPopoutGeometry::load() {
+void PQCWindowGeometry::load() {
 
     const int sw = QApplication::primaryScreen()->size().width();
     const int sh = QApplication::primaryScreen()->size().height();
@@ -149,7 +149,7 @@ void PQCPopoutGeometry::load() {
 
 }
 
-void PQCPopoutGeometry::save() {
+void PQCWindowGeometry::save() {
 
     computeSmallSizeBehavior();
 
@@ -163,7 +163,7 @@ void PQCPopoutGeometry::save() {
 
 }
 
-void PQCPopoutGeometry::computeSmallSizeBehavior() {
+void PQCWindowGeometry::computeSmallSizeBehavior() {
 
     // store current window size
     const int w = this->value("windowWidth").toInt();

@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import "../../elements"
 
 PQTemplatePopout {
@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("wallpaper", "Wallpaper")
 
-    geometry: PQCPopoutGeometry.wallpaperGeometry
-    isMax: PQCPopoutGeometry.wallpaperMaximized
+    geometry: PQCWindowGeometry.wallpaperGeometry
+    isMax: PQCWindowGeometry.wallpaperMaximized
     popout: PQCSettings.interfacePopoutWallpaper
-    sizepopout: PQCPopoutGeometry.wallpaperForcePopout
+    sizepopout: PQCWindowGeometry.wallpaperForcePopout
     source: "actions/PQWallpaper.qml"
 
     minimumWidth: 800
@@ -52,13 +52,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.wallpaperGeometry)
-            PQCPopoutGeometry.wallpaperGeometry = geometry
+        if(geometry !== PQCWindowGeometry.wallpaperGeometry)
+            PQCWindowGeometry.wallpaperGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.wallpaperMaximized)
-            PQCPopoutGeometry.wallpaperMaximized = isMax
+        if(isMax !== PQCWindowGeometry.wallpaperMaximized)
+            PQCWindowGeometry.wallpaperMaximized = isMax
     }
 
 }

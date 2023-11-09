@@ -28,7 +28,7 @@ import QtQuick.Layouts
 
 import PQCNotify
 import PQCLocation
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 
@@ -278,7 +278,7 @@ Item {
 
     function showExplorer() {
 
-        if(PQCSettings.interfacePopoutMapExplorer || PQCPopoutGeometry.mapexplorerForcePopout)
+        if(PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout)
             mapexplorer_window.visible = true
         else
             opacity = 1
@@ -320,7 +320,7 @@ Item {
         if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerKeepOpen)
             return
 
-        if(PQCSettings.interfacePopoutMapExplorer || PQCPopoutGeometry.mapexplorerForcePopout)
+        if(PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout)
             mapexplorer_window.close()
         else
             opacity = 0

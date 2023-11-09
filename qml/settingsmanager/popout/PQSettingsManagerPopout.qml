@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPopoutGeometry
+import PQCWindowGeometry
 import PQCNotify
 import "../../elements"
 
@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("settingsmanager", "Settings Manager")
 
-    geometry: PQCPopoutGeometry.settingsmanagerGeometry
-    isMax: PQCPopoutGeometry.settingsmanagerMaximized
+    geometry: PQCWindowGeometry.settingsmanagerGeometry
+    isMax: PQCWindowGeometry.settingsmanagerMaximized
     popout: PQCSettings.interfacePopoutSettingsManager
-    sizepopout: PQCPopoutGeometry.settingsmanagerForcePopout
+    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
     source: "settingsmanager/PQSettingsManager.qml"
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
@@ -45,13 +45,13 @@ PQTemplatePopout {
     minimumHeight: 800
 
     onGeometryChanged: {
-        if(geometry !== PQCPopoutGeometry.settingsmanagerGeometry)
-            PQCPopoutGeometry.settingsmanagerGeometry = geometry
+        if(geometry !== PQCWindowGeometry.settingsmanagerGeometry)
+            PQCWindowGeometry.settingsmanagerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCPopoutGeometry.settingsmanagerMaximized)
-            PQCPopoutGeometry.settingsmanagerMaximized = isMax
+        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized)
+            PQCWindowGeometry.settingsmanagerMaximized = isMax
     }
 
 }

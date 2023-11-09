@@ -33,10 +33,10 @@ Window {
 
     // THESE ARE REQUIRED
 
-    property rect geometry  // tie to PQCPopoutGeometry.xxxGeometry
-    property bool isMax     // tie to PQCPopoutGeometry.xxxMaximized
+    property rect geometry  // tie to PQCWindowGeometry.xxxGeometry
+    property bool isMax     // tie to PQCWindowGeometry.xxxMaximized
     property bool popout    // tie to PQSettings.interfacePopoutXxx
-    property bool sizepopout// tie to PQCPopoutGeometry.xxxForcePopout
+    property bool sizepopout// tie to PQCWindowGeometry.xxxForcePopout
     property string source  // set to source file using qml/ as base
 
     /////////
