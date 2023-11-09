@@ -1,6 +1,7 @@
 import QtQuick
 
 import PQCScriptsFilesPaths
+import PQCScriptsImages
 
 Image {
 
@@ -22,10 +23,14 @@ Image {
 
     onStatusChanged: {
         image_wrapper.status = status
-        if(status == Image.Ready && deleg.defaultScale < 0.95) {
-            loadScaledDown.restart()
+        if(status == Image.Ready) {
+            hasAlpha = PQCScriptsImages.supportsTransparency(deleg.imageSource)
+            if(deleg.defaultScale < 0.95)
+                loadScaledDown.restart()
         }
     }
+
+    property bool hasAlpha: false
 
     onSourceSizeChanged:
         deleg.imageResolution = sourceSize
@@ -48,6 +53,15 @@ Image {
         function onHeightChanged() {
             resetScreenSize.restart()
         }
+
+    }
+
+    Image {
+        anchors.fill: parent
+        z: parent.z-1
+        fillMode: Image.Tile
+
+        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
 
     }
 

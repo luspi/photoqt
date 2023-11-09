@@ -36,6 +36,7 @@
 #include <pqc_loadimage.h>
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
+#include <scripts/pqc_scriptsimages.h>
 #include <QSize>
 #include <QImage>
 #include <QFileInfo>
@@ -372,8 +373,10 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     }
 #endif
 
-    if(!img.isNull())
+    if(!img.isNull()) {
         err = "";
+        PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+    }
 
     return err;
 

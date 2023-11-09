@@ -26,6 +26,15 @@ AnimatedImage {
         deleg.imageResolution = sourceSize
     }
 
+    Image {
+        anchors.fill: parent
+        z: parent.z-1
+        fillMode: Image.Tile
+
+        source: PQCSettings.imageviewTransparencyMarker ? "/other/checkerboard.png" : ""
+
+    }
+
     Connections {
         target: image_top
         function onMirrorH() {

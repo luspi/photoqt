@@ -404,3 +404,20 @@ int PQCScriptsImages::getNumberDocumentPages(QString path) {
     return 0;
 
 }
+
+void PQCScriptsImages::setSupportsTransparency(QString path, bool alpha) {
+
+    qDebug() << "args: path =" << path;
+    qDebug() << "args: alpha =" << alpha;
+
+    alphaChannels.insert(path, alpha);
+
+}
+
+bool PQCScriptsImages::supportsTransparency(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    return alphaChannels.value(path, false);
+
+}

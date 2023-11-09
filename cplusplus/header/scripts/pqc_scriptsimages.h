@@ -31,10 +31,15 @@ public:
     Q_INVOKABLE bool isArchive(QString path);
     Q_INVOKABLE int getNumberDocumentPages(QString path);
 
+    Q_INVOKABLE bool supportsTransparency(QString path);
+    void setSupportsTransparency(QString path, bool alpha);
+
 private:
     PQCScriptsImages();
 
     QMap<QString,QVariantList> histogramCache;
+
+    QMap<QString, bool> alphaChannels;
 
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);
