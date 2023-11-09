@@ -231,6 +231,7 @@ Item {
                     Connections {
                         target: PQCFileFolderModel
                         function onCurrentIndexChanged() {
+                            timer_busyloading.restart()
                             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                                 deleg.hasBeenSetup = false
                         }
@@ -367,6 +368,8 @@ Item {
                                 onStatusChanged: {
                                     if(status == Image.Ready) {
                                         if(PQCFileFolderModel.currentIndex === index) {
+                                            timer_busyloading.stop()
+                                            busyloading.hide()
                                             var tmp = image_wrapper.computeDefaultScale()
                                             if(Math.abs(tmp-1) > 1e-6)
                                                 image_wrapper.startupScale = true
@@ -1009,6 +1012,18 @@ Item {
             }
 
 
+    }
+
+    Timer {
+        id: timer_busyloading
+        interval: 500
+        onTriggered:
+            busyloading.showBusy()
+    }
+
+    PQWorking {
+        id: busyloading
+        z: image_top.curZ+1
     }
 
     // some global handlers
