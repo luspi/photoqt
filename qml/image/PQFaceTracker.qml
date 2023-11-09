@@ -31,7 +31,7 @@ Item {
 
             opacity: 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: opacity>0
+            visible: opacity>0 && width > 10 && height > 10
 
             state: "hideentry"
 

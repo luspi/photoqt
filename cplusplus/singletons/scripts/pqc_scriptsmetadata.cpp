@@ -504,10 +504,16 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
 
                         // If all the data is there, store data
                         if(pos.length() == 4) {
-                            facedata[index].insert("x",pos.at(0).trimmed());
-                            facedata[index].insert("y",pos.at(1).trimmed());
-                            facedata[index].insert("w",pos.at(2).trimmed());
-                            facedata[index].insert("h",pos.at(3).trimmed());
+
+                            const QString w = pos.at(2).trimmed();
+                            const QString h = pos.at(3).trimmed();
+
+                            if(w != "0" && h != "0") {
+                                facedata[index].insert("x",pos.at(0).trimmed());
+                                facedata[index].insert("y",pos.at(1).trimmed());
+                                facedata[index].insert("w",w);
+                                facedata[index].insert("h",h);
+                            }
                         }
 
                         // If this item contains the person's name
