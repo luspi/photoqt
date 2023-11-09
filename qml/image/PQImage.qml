@@ -534,6 +534,8 @@ Item {
                                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                                     doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
                                     onPositionChanged: (mouse) => {
+                                        cursorShape = Qt.ArrowCursor
+                                        hidecursor.restart()
                                         var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                         PQCNotify.mouseMove(pos.x, pos.y)
                                     }
@@ -557,6 +559,21 @@ Item {
                                             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                                             PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
                                         }
+                                    }
+                                }
+
+                                Timer {
+                                    id: hidecursor
+                                    interval: PQCSettings.imageviewHideCursorTimeout*1000
+                                    repeat: false
+                                    running: true
+                                    onTriggered: {
+                                        if(PQCSettings.imageviewHideCursorTimeout === 0)
+                                            return
+                                        if(contextmenu.visible)
+                                            hidecursor.restart()
+                                        else
+                                            imagemouse.cursorShape = Qt.BlankCursor
                                     }
                                 }
 
