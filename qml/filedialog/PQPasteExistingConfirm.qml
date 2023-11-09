@@ -32,12 +32,12 @@ PQTemplateFullscreen {
 
         PQTextXL {
             x: (parent.width-width)/2
-            text: files.length + " files already exist in the target directory."
+            text: qsTranslate("filedialog", "%1 files already exist in the target directory.").arg(files.length)
         },
 
         PQText {
             x: (parent.width-width)/2
-            text: "Check the files below that you want to paste anyways. Files left unchecked will not be pasted."
+            text: qsTranslate("filedialog", "Check the files below that you want to paste anyways. Files left unchecked will not be pasted.")
         },
 
         Rectangle {
@@ -159,14 +159,14 @@ PQTemplateFullscreen {
             spacing: 5
 
             PQButton {
-                text: "Select all"
+                text: qsTranslate("filedialog", "Select all")
                 onClicked: {
                     exist_top.checkedFiles = [...Array(view.model).keys()]
                 }
             }
 
             PQButton {
-                text: "Select none"
+                text: qsTranslate("filedialog", "Select none")
                 onClicked:
                     exist_top.checkedFiles = []
             }
