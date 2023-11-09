@@ -231,7 +231,6 @@ Item {
                     Connections {
                         target: PQCFileFolderModel
                         function onCurrentIndexChanged() {
-                            timer_busyloading.restart()
                             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                                 deleg.hasBeenSetup = false
                         }
@@ -383,7 +382,8 @@ Item {
                                             deleg.hasBeenSetup = true
                                             deleg.showImage()
                                         }
-                                    }
+                                    } else if(PQCFileFolderModel.currentIndex === index)
+                                        timer_busyloading.restart()
                                 }
 
                                 // the actual image
