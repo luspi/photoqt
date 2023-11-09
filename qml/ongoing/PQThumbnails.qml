@@ -438,6 +438,11 @@ Rectangle {
 
                         text = str
 
+                    } else if(!PQCSettings.thumbnailsTooltip) {
+
+                        tooltipSetup = false
+                        text = ""
+
                     }
 
                 }
@@ -459,11 +464,13 @@ Rectangle {
 
             Loader {
                 asynchronous: true
-                active: PQCSettings.thumbnailsFilename===1
+                active: PQCSettings.thumbnailsFilename
                 Rectangle {
-                    color: PQCLook.transColor
+                    color: view.hlInvertLabel&&deleg.active ? PQCLook.inverseColor : PQCLook.transColor
+                    Behavior on color { ColorAnimation { duration: 200 } }
                     opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1
                     Behavior on opacity { NumberAnimation { duration: 200 } }
+                    visible: PQCSettings.thumbnailsFilename
                     y: (img.y+img.height-height)
                     width: deleg.width
                     height: Math.min(200, Math.max(30, deleg.height*0.3))
@@ -476,6 +483,7 @@ Rectangle {
                         font.weight: PQCLook.fontWeightBold
                         elide: Text.ElideMiddle
                         text: deleg.filename
+                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorActive : PQCLook.textColor
                     }
                 }
             }

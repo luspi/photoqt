@@ -37,7 +37,7 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: !PQCSettings.interfaceNavigationFloating ? 0 : (mouseOver ? opacityMouseOver : opacityBackground)
+    opacity: (!PQCSettings.interfaceNavigationFloating || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground)
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: (opacity > 0)
     enabled: visible
@@ -194,29 +194,6 @@ Item {
             }
         }
 
-    }
-
-    Connections {
-        target: loader
-
-        function onPassOn(what, param) {
-
-            if(what === "show") {
-                if(param === "navigationfloating") {
-                    show()
-                }
-            }
-
-        }
-
-    }
-
-    function show() {
-        opacity = 1
-    }
-
-    function hide() {
-        opacity = 0
     }
 
 }

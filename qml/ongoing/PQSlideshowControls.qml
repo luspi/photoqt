@@ -84,7 +84,7 @@ Item {
     ]
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: popout ? 0 : 200 } }
+    Behavior on opacity { NumberAnimation { duration: PQCSettings.interfacePopoutSlideshowControls ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 

@@ -203,16 +203,6 @@ Window {
 
     function handleBeforeClosing() {
 
-        // helps with deleting temporary animated image files on Windows at the end of function
-//        if(handlingGeneral.amIOnWindows())
-//            imageitem.resetImageView()
-
-//        if(variables.chromecastConnected)
-//            handlingchromecast.disconnectFromDevice()
-
-//        if(variables.slideShowActive)
-//            loader.passOn("slideshowcontrols", "quit", undefined)
-
         PQCFileFolderModel.advancedSortMainViewCANCEL()
 
 //        if(PQSettings.interfaceSaveWindowGeometry) {
@@ -226,17 +216,14 @@ Window {
 
         PQCScriptsOther.deleteScreenshots()
 
-//        if(PQCScriptsConfig.amIOnWindows())
-//            handlingFileDir.deleteTemporaryAnimatedImageFiles()
-
     }
 
     onClosing: (close) => {
         if(PQCSettings.interfaceTrayIcon === 1) {
             close.accepted = false
             toplevel.visibility = Window.Hidden
-//            if(PQCSettings.interfaceTrayIconHideReset)
-//                resetPhotoQt()
+            if(PQCSettings.interfaceTrayIconHideReset)
+                PQCNotify.resetSessionData()
         } else {
             close.accepted = true
             quitPhotoQt()
