@@ -246,7 +246,7 @@ Item {
                         contentWidth: flickable_content.width
                         contentHeight: flickable_content.height
 
-                        interactive: !PQCNotify.faceTagging && !PQCSettings.imageviewUseMouseLeftButtonForImageMove
+                        interactive: !PQCNotify.faceTagging
 
                         Connections {
 
@@ -260,6 +260,11 @@ Item {
                             }
 
                             function onMousePressed(mods, button, pos) {
+
+                                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging) {
+                                    reEnableInteractive.stop()
+                                    flickable.interactive = false
+                                }
 
                                 if(PQCFileFolderModel.currentIndex !== index)
                                     return
@@ -286,6 +291,12 @@ Item {
                                     return
                                 }
 
+                            }
+
+                            function onMouseReleased() {
+                                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging) {
+                                    reEnableInteractive.restart()
+                                }
                             }
 
                         }
@@ -552,7 +563,7 @@ Item {
                                         PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
                                     }
 
-                                    onClicked: (mouse) => {
+                                    onReleased: (mouse) => {
                                         if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
                                             loader_component.imageClicked()
                                         else {
