@@ -31,6 +31,7 @@ import PQCFileFolderModel
 import PQCScriptsClipboard
 import PQCScriptsOther
 import PQCScriptsShortcuts
+import PQCScriptsImages
 
 Item {
 
@@ -281,10 +282,10 @@ Item {
         console.log("args: wheelDelta =", wheelDelta)
 
         // if in viewer mode, pressing 'Escape' exits viewer mode
-//        if(combo === "Esc" && (filefoldermodel.isPQT || filefoldermodel.isARC)) {
-//            statusinfo.exitViewerMode()
-//            return
-//        }
+        if(combo === "Esc" && (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
+            PQCFileFolderModel.disableViewerMode()
+            return
+        }
 
         // make sure contextmenu is closed before executing shortcut
         contextmenu.dismiss()
@@ -464,8 +465,15 @@ Item {
             case "__loadRandom":
                 image.showRandom()
                 break
-//            case "__viewerMode":
-//                break
+            case "__viewerMode":
+                if(!(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
+                    if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
+                        if(PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
+                            PQCFileFolderModel.enableViewerMode()
+                    } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
+                        PQCFileFolderModel.enableViewerMode()
+                }
+                break
             case "__navigationFloating":
                 loader.show("navigationfloating")
                 break
