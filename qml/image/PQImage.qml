@@ -120,19 +120,13 @@ Item {
                 }
 
                 // some signals
+                signal zoomActualWithoutAnimation()
                 signal zoomResetWithoutAnimation()
                 signal rotationResetWithoutAnimation()
                 signal rotationZoomResetWithoutAnimation()
+                signal loadScaleRotation()
                 signal stopVideoAndReset()
                 signal restartVideoIfAutoplay()
-
-                property bool delayAfterLoad: false
-                Timer {
-                    id: delay_timer
-                    interval: 1000
-                    onTriggered:
-                        parent.delayAfterLoad = true
-                }
 
                 // react to user commands
                 Connections {
@@ -263,10 +257,12 @@ Item {
 
                         interactive: !PQCNotify.faceTagging
 
+                        contentX: deleg.imagePosX
                         onContentXChanged: {
                             if(deleg.imagePosX != contentX)
                                 deleg.imagePosX = contentX
                         }
+                        contentY: deleg.imagePosY
                         onContentYChanged: {
                             if(deleg.imagePosY != contentY)
                                 deleg.imagePosY = contentY
@@ -409,10 +405,7 @@ Item {
                                                 image_wrapper.startupScale = true
                                             deleg.defaultWidth = width*deleg.defaultScale
                                             deleg.defaultHeight = height*deleg.defaultScale
-                                            if(PQCSettings.imageviewAlwaysActualSize)
-                                                deleg.defaultScale = 1
-                                            else
-                                                deleg.defaultScale = 0.99999999*tmp
+                                            deleg.defaultScale = 0.99999999*tmp
                                             image_top.defaultScale = deleg.defaultScale
                                             deleg.hasBeenSetup = true
                                             deleg.showImage()
@@ -465,17 +458,13 @@ Item {
                                     onTriggered: {
                                         var tmp = image_wrapper.computeDefaultScale()
                                         if(Math.abs(image_wrapper.scale-deleg.defaultScale) < 1e-6) {
-                                            if(PQCSettings.imageviewAlwaysActualSize)
-                                                deleg.defaultScale = 1
-                                            else
-                                                deleg.defaultScale = 0.99999999*tmp
+
+                                            deleg.defaultScale = 0.99999999*tmp
                                             deleg.rotationZoomResetWithoutAnimation()
-                                        } else {
-                                            if(PQCSettings.imageviewAlwaysActualSize)
-                                                deleg.defaultScale = 1
-                                            else
-                                                deleg.defaultScale = 0.99999999*tmp
-                                        }
+
+                                        } else
+
+                                            deleg.defaultScale = 0.99999999*tmp
 
                                         if(PQCFileFolderModel.currentIndex === index)
                                             image.defaultScale = deleg.defaultScale
@@ -521,12 +510,30 @@ Item {
                                         scaleAnimation.stop()
                                         rotationAnimation.stop()
 
+                                        image_wrapper.rotation = 0
+                                        deleg.imageRotation = 0
+                                        image_wrapper.scale = deleg.defaultScale
+                                        deleg.imageScale = image_wrapper.scale
+
+                                    }
+
+                                    function onZoomActualWithoutAnimation() {
+
+                                        scaleAnimation.stop()
+
+                                        image_wrapper.scale = 1
+                                        deleg.imageScale = image_wrapper.scale
+
+                                    }
+
+                                    function onLoadScaleRotation() {
+
                                         if(PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges)) {
 
                                             var vals = rememberChanges[deleg.imageSource]
 
-                                            flickable.contentX = vals[0]
-                                            flickable.contentY = vals[1]
+                                            deleg.imagePosX = vals[0]
+                                            deleg.imagePosY = vals[1]
 
                                             image_wrapper.scale = vals[2]
                                             deleg.imageScale = vals[2]
@@ -536,12 +543,18 @@ Item {
 
                                             image_loader.item.setMirrorHV(vals[4], vals[5])
 
-                                        } else {
+                                        } else if(!PQCSettings.imageviewAlwaysActualSize) {
+
+                                            scaleAnimation.stop()
+                                            rotationAnimation.stop()
+
                                             image_wrapper.rotation = 0
                                             deleg.imageRotation = 0
                                             image_wrapper.scale = deleg.defaultScale
                                             deleg.imageScale = image_wrapper.scale
+
                                         }
+
                                     }
 
                                     function onImageRotationChanged() {
@@ -551,23 +564,11 @@ Item {
                                             rotationAnimation.to = deleg.imageRotation
                                             rotationAnimation.restart()
                                             var oldDefault = deleg.defaultScale
-                                            if(PQCSettings.imageviewAlwaysActualSize)
-                                                deleg.defaultScale = 1
-                                            else
-                                                deleg.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
+                                            deleg.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
                                             if(Math.abs(deleg.imageScale-oldDefault) < 1e-6)
                                                 deleg.imageScale = deleg.defaultScale
                                             image.defaultScale = deleg.defaultScale
                                         }
-                                    }
-                                }
-
-                                Connections {
-
-                                    target: PQCSettings
-
-                                    function onImageviewAlwaysActualSizeChanged() {
-                                        resetDefaults.triggered()
                                     }
                                 }
 
@@ -921,12 +922,10 @@ Item {
                 // show the image
                 function showImage() {
 
-                    deleg.delayAfterLoad = false
-
                     image_top.currentlyVisibleIndex = itemIndex
                     image_top.imageFinishedLoading(itemIndex)
 
-                    rotationZoomResetWithoutAnimation()
+                    loadScaleRotation()
 
                     var anim = PQCSettings.imageviewAnimationType
                     if(anim === "random")
@@ -1003,14 +1002,15 @@ Item {
                     if(PQCSettings.imageviewAnimationType === "random")
                         selectNewRandomAnimation.restart()
 
-                    delay_timer.restart()
+                    if(PQCSettings.imageviewAlwaysActualSize)
+                        image_top.zoomActual()
 
                 }
 
                 // hide the image
                 function hideImage() {
 
-                    if(PQCSettings.imageviewRememberZoomRotationMirror && deleg.delayAfterLoad) {
+                    if(PQCSettings.imageviewRememberZoomRotationMirror) {
                         var vals = [deleg.imagePosX,
                                     deleg.imagePosY,
                                     deleg.imageScale,
