@@ -70,12 +70,12 @@ releaseappimage:
   script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https curl
-    - apt-get -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf libqt6svg6-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs
-    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmagick++-6.q16-dev libmagick++-6.q16-8 libmpv-dev
+    - apt-get -y install qt6-base-dev qt6-positioning-dev qt6-image-formats-plugins qt6-image-formats-plugin-pdf libqt6svg6-dev libqt6chartsqml6 qml6-module-qt-labs-platform qml6-module-qtcharts qml6-module-qtcore qml6-module-qtmultimedia qml6-module-qtpositioning qml6-module-qtqml qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-window qt6-multimedia-dev qml6-module-qtqml-workerscript qml6-module-qtquick-templates qml6-module-qtquick-dialogs qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools
+    - apt-get -y install libarchive-dev libraw-dev libfreeimage-dev libfreeimageplus-dev libdevil-dev libpugixml-dev gstreamer1.0-tools libexiv2-dev libmagick++-6.q16-dev libmagick++-6.q16-8 libmpv-dev python-is-python3 python3-pychromecast python3-requests libvips-dev
     - qtchooser -install qt6 $(which qmake6)
     - export QT_SELECT=qt6
     - mkdir -p build && cd build/  # build PhotoQt
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=OFF -DVIDEO_MPV=ON -DLIBVIPS=OFF -DPOPPLER=OFF -DEXIV2_ENABLE_BMFF=ON
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=ON -DVIDEO_MPV=ON -DLIBVIPS=ON -DPOPPLER=OFF -DEXIV2_ENABLE_BMFF=ON -DRESVG=OFF
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ..
     - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
