@@ -34,6 +34,7 @@
 #include <pqc_singleinstance.h>
 #include <pqc_notify.h>
 #include <pqc_settings.h>
+#include <pqc_configfiles.h>
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
@@ -137,9 +138,35 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     this->installEventFilter(this);
 
-    if(PQCSettings::get()["interfaceAllowMultipleInstances"].toBool()) {
-        handleMessage(message);
-        return;
+    // we need to figure out if multiple instances are allowed here WITHOUT using the PQCSettings class
+    if(QFile::exists(PQCConfigFiles::SETTINGS_DB())) {
+        QSqlDatabase dbtmp;
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsmultiple");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsmultiple");
+        dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+        dbtmp.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+        if(!dbtmp.open()) {
+            qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
+            qWarning() << "Assuming only a single instance is to be used";
+        } else {
+            QSqlQuery query(dbtmp);
+            if(!query.exec("SELECT `value` FROM interface WHERE `name`='AllowMultipleInstances'"))
+                qWarning() << "Unable to check for interfaceAllowMultipleInstances setting";
+            else {
+                if(query.next()) {
+                    if(query.value(0).toBool()) {
+                        handleMessage(message);
+                        query.clear();
+                        dbtmp.close();
+                        return;
+                    }
+                }
+            }
+            query.clear();
+            dbtmp.close();
+        }
     }
 
     /*****************/

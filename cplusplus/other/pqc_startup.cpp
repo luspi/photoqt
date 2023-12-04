@@ -164,7 +164,7 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default imgurhistory database
-    if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::CONTEXTMENU_DB()))
+    if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB()))
         qWarning() << "Unable to create default imgurhistory database";
     else {
         QFile file(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB());
