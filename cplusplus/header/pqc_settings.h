@@ -52,7 +52,7 @@ public:
     void closeDatabase();
     void reopenDatabase();
 
-    bool migrateOldDatabase();
+    bool migrate(QString oldversion = "");
 
 private:
     PQCSettings();

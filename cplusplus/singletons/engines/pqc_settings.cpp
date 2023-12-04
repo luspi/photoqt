@@ -363,7 +363,16 @@ void PQCSettings::reopenDatabase() {
 
 }
 
-bool PQCSettings::migrateOldDatabase() {
+bool PQCSettings::migrate(QString oldversion) {
+
+    qDebug() << "args: oldversion =" << oldversion;
+
+    QStringList versions;
+    versions << "4.0";
+
+    int iVersion = versions.length()-1;
+    if(oldversion != "" && versions.contains(oldversion))
+        iVersion = versions.indexOf(oldversion);
 
     dbCommitTimer->stop();
 
@@ -374,67 +383,82 @@ bool PQCSettings::migrateOldDatabase() {
             qWarning() << "ERROR committing database:" << db.lastError().text();
     }
 
-    QMap<QString,QStringList> rename;
-    rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";                             // 4.0
-    rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";                      // 4.0
-    rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";                  // 4.0
-    rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";                // 4.0
-    rename ["DefaultView"] = QStringList() << "Layout" << "filedialog";                         // 4.0
-    rename ["PopoutFileSaveAs"] = QStringList() << "PopoutExport" << "interface";               // 4.0
-    rename ["AdvancedSortExifDateCriteria"] = QStringList() << "AdvancedSortDateCriteria" << "imageview"; // 4.0
-    rename ["PopoutSlideShowSettings"] = QStringList() << "PopoutSlideshowSetup" << "interface";// 4.0
-    rename ["PopoutSlideShowControls"] = QStringList() << "PopoutSlideshowControls" << "interface";// 4.0
-    QMapIterator<QString, QStringList> i(rename);
-    while(i.hasNext()) {
-        i.next();
+    for(int iV = iVersion; iV < versions.length(); ++iV) {
 
-        QString oldname = i.key();
-        QString newname = i.value().value(0);
-        QString table = i.value().value(1);
+        QString curVer = versions[iV];
 
-        // delete old setting
-        if(newname == "") {
+        ////////////////////////////////////
+        // first rename all settings
 
-            QSqlQuery query(db);
-            query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
-            query.bindValue(":old", oldname);
-            if(!query.exec()) {
-                qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text();
-                query.clear();
-                continue;
-            }
-            query.clear();
+        QMap<QString,QStringList> rename;
 
-            // rename old setting
-        } else {
+        // update to v4.0
+        if(curVer == "4.0") {
 
-            // check if the new setting already exists or not
-            QSqlQuery queryExist(db);
-            queryExist.prepare(QString("SELECT COUNT(name) FROM `%1` WHERE name=:name").arg(table));
-            queryExist.bindValue(":name", newname);
-            if(!queryExist.exec()) {
-                qWarning() << "Unable to check if settings name already exists:" << queryExist.lastError().text();
-                queryExist.clear();
-                continue;
-            }
-            queryExist.next();
-            const int oldVal = queryExist.value(0).toInt();
+            rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";
+            rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";
+            rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";
+            rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";
+            rename ["DefaultView"] = QStringList() << "Layout" << "filedialog";
+            rename ["PopoutFileSaveAs"] = QStringList() << "PopoutExport" << "interface";
+            rename ["AdvancedSortExifDateCriteria"] = QStringList() << "AdvancedSortDateCriteria" << "imageview";
+            rename ["PopoutSlideShowSettings"] = QStringList() << "PopoutSlideshowSetup" << "interface";
+            rename ["PopoutSlideShowControls"] = QStringList() << "PopoutSlideshowControls" << "interface";
 
-            if(oldVal == 0) {
+        }
+
+        QMapIterator<QString, QStringList> i(rename);
+        while(i.hasNext()) {
+            i.next();
+
+            QString oldname = i.key();
+            QString newname = i.value().value(0);
+            QString table = i.value().value(1);
+
+            // delete old setting
+            if(newname == "") {
 
                 QSqlQuery query(db);
-                query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
-                query.bindValue(":new", newname);
+                query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
                 query.bindValue(":old", oldname);
                 if(!query.exec()) {
-                    qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text();
+                    qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text();
                     query.clear();
                     continue;
                 }
                 query.clear();
 
-            }
+                // rename old setting
+            } else {
 
+                // check if the new setting already exists or not
+                QSqlQuery queryExist(db);
+                queryExist.prepare(QString("SELECT COUNT(name) FROM `%1` WHERE name=:name").arg(table));
+                queryExist.bindValue(":name", newname);
+                if(!queryExist.exec()) {
+                    qWarning() << "Unable to check if settings name already exists:" << queryExist.lastError().text();
+                    queryExist.clear();
+                    continue;
+                }
+                queryExist.next();
+                const int oldVal = queryExist.value(0).toInt();
+
+                if(oldVal == 0) {
+
+                    QSqlQuery query(db);
+                    query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
+                    query.bindValue(":new", newname);
+                    query.bindValue(":old", oldname);
+                    if(!query.exec()) {
+                        qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text();
+                        query.clear();
+                        continue;
+                    }
+                    query.clear();
+
+                }
+
+            }
         }
     }
 

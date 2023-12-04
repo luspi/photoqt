@@ -411,3 +411,88 @@ QString PQCShortcuts::convertKeyCodeToText(int id) {
     return QKeySequence(id).toString();
 
 }
+
+bool PQCShortcuts::migrate(QString oldversion) {
+
+    qDebug() << "args: oldversion =" << oldversion;
+
+    QStringList versions;
+    versions << "4.0";
+
+    // we iterate through all migrations one by one
+    int iVersion = versions.length()-1;
+    if(oldversion != "" && versions.contains(oldversion))
+        iVersion = versions.indexOf(oldversion);
+
+    dbCommitTimer->stop();
+
+    if(dbIsTransaction) {
+        db.commit();
+        dbIsTransaction = false;
+        if(db.lastError().text().trimmed().length())
+            qWarning() << "ERROR committing database:" << db.lastError().text();
+    }
+
+    for(int iV = iVersion; iV < versions.length(); ++iV) {
+
+        QString curVer = versions[iV];
+
+        /*******************************************/
+        /*******************************************/
+        // update to v4.0
+
+        if(curVer == "4.0") {
+
+            // make sure new table name exists and if not create it and populate it with default data
+
+            QSqlQuery query(db);
+
+            query.exec("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='shortcuts'");
+            if(query.lastError().text().trimmed().length()) {
+                qWarning() << "Unable to check if shortcuts table exists already:" << query.lastError().text();
+                continue;
+            }
+            query.next();
+
+            // table does not exist yet
+            if(query.value(0).toInt() == 0) {
+
+                QSqlQuery queryCreate(db);
+                queryCreate.exec("CREATE TABLE 'shortcuts' ('combo' TEXT UNIQUE, 'commands' TEXT, 'cycle' INTEGER, 'cycletimeout' INTEGER, 'simultaneous' INTEGER)");
+                queryCreate.clear();
+
+                if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::CACHE_DIR() + "/shortcutstmp.db")) {
+                    qWarning() << "Unable to create shortcuts database";
+                    continue;
+                }
+
+                QFile file(PQCConfigFiles::CACHE_DIR() + "/shortcutstmp.db");
+                file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
+                QSqlQuery queryAttach(db);
+                queryAttach.exec(QString("ATTACH DATABASE '%1' AS defaultdb").arg(PQCConfigFiles::CACHE_DIR() + "/shortcutstmp.db"));
+                if(queryAttach.lastError().text().trimmed().length()) {
+                    qWarning() << "Unable to attach default database:" << queryAttach.lastError().text();
+                    continue;
+                }
+
+                QSqlQuery queryInsert(db);
+                queryInsert.exec("INSERT INTO shortcuts SELECT * FROM defaultdb.shortcuts;");
+                if(queryInsert.lastError().text().trimmed().length()) {
+                    qWarning() << "Failed to insert default shortcuts:" << queryInsert.lastError().text();
+                }
+                queryInsert.clear();
+
+                queryAttach.clear();
+
+            }
+
+            query.clear();
+
+        }
+
+    }
+
+    return true;
+
+}

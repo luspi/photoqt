@@ -51,6 +51,8 @@ public:
     Q_INVOKABLE void resetCommandCycle(QString combo);
     Q_INVOKABLE QString convertKeyCodeToText(int id);
 
+    Q_INVOKABLE bool migrate(QString oldversion = "");
+
     bool backupDatabase();
     void closeDatabase();
     void reopenDatabase();

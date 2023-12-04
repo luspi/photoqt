@@ -109,6 +109,8 @@ void PQCStartup::setupFresh() {
     dir.mkpath(PQCConfigFiles::GENERIC_CACHE_DIR());
     dir.mkpath(QString("%1/thumbnails/normal/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
     dir.mkpath(QString("%1/thumbnails/large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
+    dir.mkpath(QString("%1/thumbnails/x-large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
+    dir.mkpath(QString("%1/thumbnails/xx-large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
 
     /**************************************************************/
     // create default imageformats database
@@ -185,62 +187,6 @@ void PQCStartup::resetToDefaults() {
     std::cout << " >> Done!" << std::endl << std::endl;
 
 }
-
-void PQCStartup::performChecksAndMigrations() {
-
-    // TODO: remove and move to respective classes
-
-    /**************************************************************/
-
-    // migrate data
-    // nothing to migrate right now
-
-    /**************************************************************/
-
-    // enter any new settings and shortcuts
-    manageShortcuts();
-
-    /**************************************************************/
-
-    // validate setup
-    PQCValidate validate;
-    validate.validate();
-
-}
-
-bool PQCStartup::manageShortcuts() {
-
-    QSqlDatabase db;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "manageshortcuts");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "manageshortcuts");
-    db.setDatabaseName(PQCConfigFiles::SHORTCUTS_DB());
-
-    if(!db.open())
-        qWarning() << "Error opening database:" << db.lastError().text();
-
-    // delete old entries
-    QSqlQuery query(db);
-
-    // required for transition to v3.3
-    if(!query.exec("DELETE FROM builtin WHERE command like '__keepMetaData'")) {
-        qWarning() << "Error removing old shortcut '__keepMetaData': " << query.lastError().text().trimmed();
-        query.clear();
-        return false;
-    }
-
-    query.clear();
-
-    return true;
-
-}
-
-/**************************************************************/
-/**************************************************************/
-// the following migration functions are below (in this order):
-// -- nothing to migrate right now
-
 
 /**************************************************************/
 /**************************************************************/

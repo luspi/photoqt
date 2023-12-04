@@ -172,20 +172,18 @@ int main(int argc, char *argv[]) {
         if(checker == 2)
             startup.setupFresh();
         else {
-            PQCSettings::get().migrateOldDatabase();
+            PQCShortcuts::get().migrate();
+            PQCSettings::get().migrate();
         }
 
         // run consistency check
         // this is done when updating or coming from dev version
-//        if(checker == 1 || checker == 3)
-//            validate.validate();
+       if(checker == 1 || checker == 3)
+           validate.validate();
 
         PQCSettings::get().update("generalVersion", VERSION);
 
     }
-
-    // TODO: force this in dev version only
-    validate.validate();
 
     // Get screenshots for fake transparency
     PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());

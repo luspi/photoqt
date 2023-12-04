@@ -38,15 +38,11 @@ public:
     int check();
 
     Q_INVOKABLE void setupFresh();
-    Q_INVOKABLE void performChecksAndMigrations();
 
     void exportData(QString path);
     void importData(QString path);
 
     void resetToDefaults();
-
-    bool manageSettings();
-    bool manageShortcuts();
 
     void showInfo();
 
