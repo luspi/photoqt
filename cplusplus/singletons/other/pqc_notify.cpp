@@ -138,3 +138,13 @@ void PQCNotify::setHaveScreenshots(bool val) {
 bool PQCNotify::getHaveScreenshots() {
     return m_haveScreenshots;
 }
+
+void PQCNotify::setSettingUpdate(QStringList val) {
+    if(val != m_settingUpdate) {
+        m_settingUpdate = val;
+        Q_EMIT settingUpdateChanged();
+    }
+}
+QStringList PQCNotify::getSettingUpdate() {
+    return m_settingUpdate;
+}

@@ -64,6 +64,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     if(result & PQCCommandLineHide)
         message += ":://::_H_I_D_E_";
 
+    if(result & PQCCommandLineQuit)
+        message += ":://::_Q_U_I_T_";
+
     if(result & PQCCommandLineToggle)
         message += ":://::_T_O_G_G_L_E_";
 
@@ -90,6 +93,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     if(result & PQCCommandLineNoDebug)
         message += ":://::_N_O_D_E_B_U_G_";
+
+    if(result & PQCCommandLineSettingUpdate)
+        message += ":://::_S_E_T_T_I_N_G_" + parser.settingUpdate.join("::||::").toUtf8();
 
     // validation requested
     checkConfig = false;
@@ -244,6 +250,10 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
             Q_EMIT PQCNotify::get().cmdHide();
 
+        else if(m == "_Q_U_I_T_")
+
+        Q_EMIT PQCNotify::get().cmdQuit();
+
         else if(m == "_T_O_G_G_L_E_")
 
             Q_EMIT PQCNotify::get().cmdToggle();
@@ -279,6 +289,10 @@ void PQCSingleInstance::handleMessage(QString msg) {
         else if(m == "_N_O_D_E_B_U_G_")
 
             PQCNotify::get().setDebug(false);
+
+        else if(m == "_S_E_T_T_I_N_G_")
+
+            PQCNotify::get().setSettingUpdate(m.last(m.length()-15).split(":"));
 
     }
 

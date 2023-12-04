@@ -49,7 +49,9 @@ enum PQCCommandLineResult {
     PQCCommandLineDisableTray = 32768,
     PQCCommandLineCheckConfig = 65536,
     PQCCommandLineResetConfig = 131072,
-    PQCCommandLineShowInfo = 262144
+    PQCCommandLineShowInfo = 262144,
+    PQCCommandLineSettingUpdate = 524288,
+    PQCCommandLineQuit = 1048576
 };
 inline PQCCommandLineResult operator|(PQCCommandLineResult a, PQCCommandLineResult b) {
     return static_cast<PQCCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
@@ -69,6 +71,7 @@ public:
     QString importFileName;
     QString filename;
     QString shortcutSequence;
+    QStringList settingUpdate;
 
 private:
     QTranslator trans;

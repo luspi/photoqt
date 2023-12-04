@@ -115,6 +115,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(QStringList settingUpdate READ getSettingUpdate WRITE setSettingUpdate NOTIFY settingUpdateChanged)
+    void setSettingUpdate(QStringList val);
+    Q_INVOKABLE QStringList getSettingUpdate();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -129,6 +135,7 @@ private:
         m_slideshowRunning = false;
         m_faceTagging = false;
         m_haveScreenshots = false;
+        m_settingUpdate.clear();
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -149,6 +156,7 @@ private:
     bool m_faceTagging;
 
     bool m_haveScreenshots;
+    QStringList m_settingUpdate;
 
 Q_SIGNALS:
     void filePathChanged();
@@ -156,6 +164,7 @@ Q_SIGNALS:
     void freshInstallChanged();
     void thumbsChanged();
     void startInTrayChanged();
+    void settingUpdateChanged();
 
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
@@ -172,6 +181,7 @@ Q_SIGNALS:
     void cmdOpen();
     void cmdShow();
     void cmdHide();
+    void cmdQuit();
     void cmdToggle();
     void cmdShortcutSequence(QString seq);
     void cmdTray(bool tray);

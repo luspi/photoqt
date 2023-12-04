@@ -144,6 +144,10 @@ Item {
 
         target: PQCNotify
 
+        function onCmdShortcutSequence(seq) {
+            checkComboForShortcut(seq)
+        }
+
         function onExecuteInternalCommand(cmd) {
             executeInternalFunction(cmd)
         }

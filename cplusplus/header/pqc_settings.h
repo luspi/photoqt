@@ -52,6 +52,9 @@ public:
     void closeDatabase();
     void reopenDatabase();
 
+    void updateFromCommandLine(QStringList update);
+    QString verifyNameAndGetType(QString name);
+
     bool migrate(QString oldversion = "");
 
 private:

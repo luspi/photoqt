@@ -48,6 +48,8 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {"hide", QApplication::translate("commandlineparser", "Hides PhotoQt to system tray.")},
                    //: Command line option
+        {{"q", "quit"}, QApplication::translate("commandlineparser", "Quit PhotoQt.")},
+                   //: Command line option
         {{"t", "toggle"}, QApplication::translate("commandlineparser", "Show/Hide PhotoQt.")},
                    //: Command line option
         {"thumbs", QApplication::translate("commandlineparser", "Enable thumbnails.")},
@@ -61,6 +63,8 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
         {"start-in-tray", QApplication::translate("commandlineparser", "Start PhotoQt hidden to the system tray.")},
                    //: Command line option
         {"send-shortcut", QApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
+                   //: Command line option
+        {"setting", QApplication::translate("commandlineparser", "Set setting value specified as \"setting name:value\".")},
                    //: Command line option
         {"debug", QApplication::translate("commandlineparser", "Switch on debug messages.")},
                    //: Command line option
@@ -102,6 +106,9 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(isSet("hide"))
         ret = ret|PQCCommandLineHide;
+
+    if(isSet("quit"))
+        ret = ret|PQCCommandLineQuit;
 
     if(isSet("t") || isSet("toggle"))
         ret = ret|PQCCommandLineToggle;
@@ -147,6 +154,15 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(isSet("show-info"))
         ret = ret|PQCCommandLineShowInfo;
+
+    if(isSet("setting")) {
+        const QStringList tmp = value("setting").split(":");
+        if(tmp.length() == 2) {
+            ret = ret|PQCCommandLineSettingUpdate;
+            settingUpdate = tmp;
+        }
+
+    }
 
     return ret;
 

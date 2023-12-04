@@ -169,13 +169,97 @@ Window {
 
     }
 
+    Connections {
+
+        target: PQCNotify
+
+        function onCmdOpen() {
+            loader.show("filedialog")
+        }
+
+        function onCmdShow() {
+
+            if(toplevel.visible)
+                return
+
+            toplevel.visible = true
+            if(toplevel.visibility === Window.Minimized)
+                toplevel.visibility = Window.Maximized
+            toplevel.raise()
+            toplevel.requestActivate()
+
+        }
+
+        function onCmdHide() {
+            PQCSettings.interfaceTrayIcon = 1
+            toplevel.close()
+        }
+
+        function onCmdQuit() {
+            quitPhotoQt()
+        }
+
+        function onCmdToggle() {
+
+            if(toplevel.visible) {
+                PQCSettings.interfaceTrayIcon = 1
+                toplevel.close()
+            } else {
+                toplevel.visible = true
+                if(toplevel.visibility === Window.Minimized)
+                    toplevel.visibility = Window.Maximized
+                toplevel.raise()
+                toplevel.requestActivate()
+            }
+
+        }
+
+        function onCmdTray(enabled) {
+
+            if(enabled && PQCSettings.interfaceTrayIcon === 0)
+                PQCSettings.interfaceTrayIcon = 2
+            else if(!enabled) {
+                PQCSettings.interfaceTrayIcon = 0
+                if(!toplevel.visible) {
+                    toplevel.visible = true
+                    if(toplevel.visibility === Window.Minimized)
+                        toplevel.visibility = Window.Maximized
+                    toplevel.raise()
+                    toplevel.requestActivate()
+                }
+            }
+
+        }
+
+        function onStartInTrayChanged() {
+
+            if(PQCNotify.startInTray)
+                PQCSettings.interfaceTrayIcon = 1
+            else if(!PQCNotify.startInTray && PQCSettings.interfaceTrayIcon === 1)
+                PQCSettings.interfaceTrayIcon = 0
+
+        }
+
+        function onThumbsChanged() {
+            PQCSettings.thumbnailsDisable = !PQCNotify.thumbs
+        }
+
+        function onFilePathChanged() {
+            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
+        }
+
+        // this one is handled directly in PQShortcuts class
+        // function onCmdShortcutSequence(seq) {}
+
+    }
+
     Component.onCompleted: {
 
         fullscreenitem.setBackground()
 
         PQCScriptsConfig.updateTranslation()
 
-        if(PQCScriptsConfig.amIOnWindows())
+        if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             toplevel.opacity = 0
 
         // show window according to settings
@@ -186,14 +270,28 @@ Window {
                 toplevel.y = geo.y
                 toplevel.width = geo.width
                 toplevel.height = geo.height
-                if(PQCWindowGeometry.mainWindowMaximized)
+                if(PQCNotify.startInTray) {
+                    PQCSettings.interfaceTrayIcon = 1
+                    toplevel.hide()
+                } else {
+                    if(PQCWindowGeometry.mainWindowMaximized)
+                        showMaximized()
+                    else
+                        showNormal()
+                }
+            } else {
+                if(PQCNotify.startInTray) {
+                    PQCSettings.interfaceTrayIcon = 1
+                    toplevel.hide()
+                } else
                     showMaximized()
-                else
-                    showNormal()
-            } else
-                showMaximized()
+            }
         } else {
-            showFullScreen()
+            if(PQCNotify.startInTray) {
+                PQCSettings.interfaceTrayIcon = 1
+                toplevel.hide()
+            } else
+                showFullScreen()
         }
 
         loader.show("mainmenu")
@@ -215,7 +313,7 @@ Window {
             PQCFileFolderModel.fileInFolderMainView = PQCScriptsConfig.getLastLoadedImage()
 
 
-        if(PQCScriptsConfig.amIOnWindows())
+        if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
     }

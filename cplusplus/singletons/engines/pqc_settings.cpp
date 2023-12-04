@@ -515,3 +515,83 @@ bool PQCSettings::migrate(QString oldversion) {
     return true;
 
 }
+
+QString PQCSettings::verifyNameAndGetType(QString name) {
+
+    QString tablename = "";
+    QString settingname = "";
+
+    for(auto &t : std::as_const(dbtables)) {
+
+        if(name.startsWith(t)) {
+            tablename = t;
+            break;
+        }
+
+    }
+
+    // invalid table name
+    if(tablename == "")
+        return "";
+
+    settingname = name.last(name.size()-tablename.size());
+
+    QSqlQuery query(db);
+    query.prepare(QString("SELECT datatype FROM `%1` WHERE `name`=:nme").arg(tablename));
+    query.bindValue(":nme", settingname);
+    if(!query.exec()) {
+        qWarning() << "ERROR checking datatype for setting" << settingname;
+        return "";
+    }
+
+    // invalid setting name
+    if(!query.next())
+        return "";
+
+    QString ret = query.value(0).toString();
+    query.clear();
+
+    return ret;
+
+}
+
+void PQCSettings::updateFromCommandLine(QStringList update) {
+
+    qDebug() << "args: update =" << update.join(", ");
+
+    if(update.length() != 2)
+        return;
+
+    const QString key = update[0];
+    const QString val = update[0];
+
+    if(!this->contains(key))
+        return;
+
+    QString type = verifyNameAndGetType(key);
+    if(type == "")
+        return;
+
+    if(type == "int")
+        this->update(key, val.toInt());
+    else if(type == "double")
+        this->update(key, val.toDouble());
+    else if(type == "bool") {
+        if(val == "0" || val.toLower() == "false")
+            this->update(key, false);
+        else if(val == "1" || val.toLower() == "true")
+            this->update(key, true);
+    } else if(type == "list")
+        this->update(key, val.split(":://::"));
+    else if(type == "point") {
+        QStringList parts = val.split(",");
+        if(parts.length() == 2)
+            this->update(key, QPoint(parts[0].toUInt(), parts[1].toUInt()));
+    } else if(type == "size") {
+        QStringList parts = val.split(",");
+        if(parts.length() == 2)
+            this->update(key, QSize(parts[0].toUInt(), parts[1].toUInt()));
+    } else if(type == "string")
+        this->update(key, val);
+
+}
