@@ -65,7 +65,7 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutSlideshowSetup", qsTranslate("settingsmanager", "Slideshow setup")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutSlideShowControls", qsTranslate("settingsmanager", "Slideshow controls")],
+                        ["interfacePopoutSlideshowControls", qsTranslate("settingsmanager", "Slideshow controls")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutFileRename", qsTranslate("settingsmanager", "Rename file")],
                         //: Used as identifying name for one of the elements in the interface
