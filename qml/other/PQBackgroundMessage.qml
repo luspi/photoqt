@@ -300,6 +300,14 @@ Item {
 
     }
 
+    PQText {
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 10
+        font.weight: PQCLook.fontWeightBold
+        text: "This is a beta release and might still contains bugs."
+    }
+
     PQMouseArea {
 
         id: imagemouse
