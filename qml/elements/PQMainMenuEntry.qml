@@ -6,6 +6,8 @@ import PQCFileFolderModel
 
 Item {
 
+    id: entrytop
+
     property int smallestWidth: 0
     property bool alignCenter: false
 
@@ -31,7 +33,7 @@ Item {
         anchors.fill: parent
         color: PQCLook.baseColorHighlight
         radius: 5
-        opacity: hovered ? 0.4 : 0
+        opacity: entrytop.hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 
@@ -47,14 +49,14 @@ Item {
             visible: img!=""
             sourceSize: Qt.size(entry.height, entry.height)
             source: img.startsWith("data:image/png;base64") ? img : (img!="" ? ("/white/" + img) : "")
-            opacity: active ? (hovered ? 1 : 0.8) : 0.4
+            opacity: active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
         PQText {
             id: entry
             text: txt
-            opacity: active ? (hovered ? 1 : 0.8) : 0.4
+            opacity: active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
@@ -62,7 +64,7 @@ Item {
             visible: img_end!=""
             sourceSize: Qt.size(entry.height, entry.height)
             source: img_end!="" ? ("/white/" + img_end) : ""
-            opacity: active ? (hovered ? 1 : 0.8) : 0.4
+            opacity: active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
 
@@ -73,8 +75,10 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onEntered: hovered = true
-        onExited: hovered = false
+        onEntered:
+            entrytop.hovered = true
+        onExited:
+            entrytop.hovered = false
         onClicked: {
             if(!customEntry || cmd.startsWith("__")) {
                 PQCNotify.executeInternalCommand(cmd)
