@@ -87,7 +87,7 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 #endif
 
 #ifdef CHROMECAST
-    txt += QString(" - %1Chromecast%2: %3").arg(bold1, bold2, nl);
+    txt += QString(" - %1Chromecast%2%3").arg(bold1, bold2, nl);
 #endif
 
 #ifdef RAW
