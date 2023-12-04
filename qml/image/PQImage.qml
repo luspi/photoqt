@@ -139,7 +139,7 @@ Item {
                             // compute zoom factor based on wheel movement (if done by mouse)
                             var zoomfactor
                             if(wheelDelta !== undefined)
-                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs((0.3/wheelDelta.y)*PQCSettings.imageviewZoomSpeed)))
+                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
                             else
                                 zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
 
@@ -157,7 +157,7 @@ Item {
                             // compute zoom factor based on wheel movement (if done by mouse)
                             var zoomfactor
                             if(wheelDelta !== undefined)
-                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs((0.3/wheelDelta.y)*PQCSettings.imageviewZoomSpeed)))
+                                zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
                             else
                                 zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
 
