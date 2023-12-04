@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
 
     // after the checks above we can check for any possible settings update from the cli
     if(PQCNotify::get().getSettingUpdate().length() == 2)
-        PQCSettings::get().updateFromCommandLine(PQCNotify::get().getSettingUpdate());
+        PQCSettings::get().updateFromCommandLine();
 
     // Get screenshots for fake transparency
     PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());

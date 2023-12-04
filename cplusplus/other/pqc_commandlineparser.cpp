@@ -64,7 +64,9 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {"send-shortcut", QApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
                    //: Command line option
-        {"setting", QApplication::translate("commandlineparser", "Set setting value specified as \"setting name:value\".")},
+        {"setting", QApplication::translate("commandlineparser", "Change setting to specified value."),
+                   //: Command line option
+                    QApplication::translate("commandlineparser", "settingname:value")},
                    //: Command line option
         {"debug", QApplication::translate("commandlineparser", "Switch on debug messages.")},
                    //: Command line option

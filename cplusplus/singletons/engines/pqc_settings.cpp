@@ -25,6 +25,7 @@
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
+#include <pqc_notify.h>
 
 PQCSettings::PQCSettings() {
 
@@ -116,6 +117,8 @@ PQCSettings::PQCSettings() {
     connect(checkvalid, &QTimer::timeout, this, &PQCSettings::checkValidSlot);
     checkvalid->start();
 #endif
+
+    connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
 
 }
 
@@ -555,15 +558,16 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
 
 }
 
-void PQCSettings::updateFromCommandLine(QStringList update) {
+void PQCSettings::updateFromCommandLine() {
 
-    qDebug() << "args: update =" << update.join(", ");
+    const QStringList update = PQCNotify::get().getSettingUpdate();
+    qDebug() << "update =" << update;
 
     if(update.length() != 2)
         return;
 
     const QString key = update[0];
-    const QString val = update[0];
+    const QString val = update[1];
 
     if(!this->contains(key))
         return;

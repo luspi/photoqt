@@ -95,7 +95,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         message += ":://::_N_O_D_E_B_U_G_";
 
     if(result & PQCCommandLineSettingUpdate)
-        message += ":://::_S_E_T_T_I_N_G_" + parser.settingUpdate.join("::||::").toUtf8();
+        message += ":://::_S_E_T_T_I_N_G_" + parser.settingUpdate.join(":").toUtf8();
 
     // validation requested
     checkConfig = false;
@@ -290,7 +290,7 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
             PQCNotify::get().setDebug(false);
 
-        else if(m == "_S_E_T_T_I_N_G_")
+        else if(m.startsWith("_S_E_T_T_I_N_G_"))
 
             PQCNotify::get().setSettingUpdate(m.last(m.length()-15).split(":"));
 

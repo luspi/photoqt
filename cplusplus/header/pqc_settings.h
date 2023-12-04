@@ -52,10 +52,12 @@ public:
     void closeDatabase();
     void reopenDatabase();
 
-    void updateFromCommandLine(QStringList update);
     QString verifyNameAndGetType(QString name);
 
     bool migrate(QString oldversion = "");
+
+public Q_SLOTS:
+    void updateFromCommandLine();
 
 private:
     PQCSettings();
