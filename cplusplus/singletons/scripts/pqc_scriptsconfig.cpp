@@ -547,3 +547,7 @@ void PQCScriptsConfig::updateTranslation() {
     QQmlEngine::contextForObject(this)->engine()->retranslate();
 
 }
+
+bool PQCScriptsConfig::isBetaVersion() {
+    return QString(VERSION).contains("-beta");
+}

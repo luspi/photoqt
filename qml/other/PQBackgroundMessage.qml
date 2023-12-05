@@ -2,6 +2,7 @@ import QtQuick
 
 import PQCNotify
 import PQCFileFolderModel
+import PQCScriptsConfig
 
 import "../elements"
 
@@ -301,6 +302,7 @@ Item {
     }
 
     PQText {
+        visible: PQCScriptsConfig.isBetaVersion()
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 10
