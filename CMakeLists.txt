@@ -3,13 +3,14 @@
 ##############################################
 
 cmake_minimum_required(VERSION 3.16)
-project(photoqt VERSION 4.0 LANGUAGES CXX)
+project(photoqt LANGUAGES CXX)
 
 ##################################################################
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="dev")#"${PROJECT_VERSION}")
+SET(APPVERSION "4.0-beta.1")
+add_definitions(-DVERSION="${APPVERSION}")
 
 ########################################
 ####  SOME SETTINGS/FLAGS FOR CMAKE ####
@@ -206,8 +207,8 @@ target_include_directories(photoqt PRIVATE "cplusplus/header")
 # set some properties for executable
 set_target_properties(photoqt PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER photoqt.PhotoQt.org
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE_BUNDLE_VERSION "${APPVERSION}"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "${APPVERSION}"
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
