@@ -405,249 +405,6 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
     </message>
   </context>
   <context>
-    <name>PQCScriptsShortcuts</name>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="12"/>
-      <source>Alt</source>
-      <extracomment>Refers to a keyboard modifier</extracomment>
-      <translation type="unfinished">Alt</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="14"/>
-      <source>Ctrl</source>
-      <extracomment>Refers to a keyboard modifier</extracomment>
-      <translation type="unfinished">Ctrl</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="16"/>
-      <source>Shift</source>
-      <extracomment>Refers to a keyboard modifier</extracomment>
-      <translation type="unfinished">Shift</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="18"/>
-      <source>Page Up</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Page Up</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="20"/>
-      <source>Page Down</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Page Down</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="22"/>
-      <source>Meta</source>
-      <extracomment>Refers to the key that usually has the Windows symbol on it</extracomment>
-      <translation type="unfinished">Meta</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="24"/>
-      <source>Keypad</source>
-      <extracomment>Refers to the key that triggers the number block on keyboards</extracomment>
-      <translation type="unfinished">Keypad</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="26"/>
-      <source>Escape</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Escape</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="28"/>
-      <source>Right</source>
-      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation type="unfinished">Right</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="30"/>
-      <source>Left</source>
-      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation type="unfinished">Left</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="32"/>
-      <source>Up</source>
-      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation type="unfinished">Up</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="34"/>
-      <source>Down</source>
-      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation type="unfinished">Down</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="36"/>
-      <source>Space</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Space</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="38"/>
-      <source>Delete</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Delete</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="40"/>
-      <source>Backspace</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Backspace</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="42"/>
-      <source>Home</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Home</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="44"/>
-      <source>End</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">End</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="46"/>
-      <source>Insert</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Insert</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="48"/>
-      <source>Tab</source>
-      <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation type="unfinished">Tab</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="50"/>
-      <source>Return</source>
-      <extracomment>Return refers to the enter key of the number block - please try to make the translations of Return and Enter (the main button) different if possible!</extracomment>
-      <translation type="unfinished">Return</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="52"/>
-      <source>Enter</source>
-      <extracomment>Enter refers to the main enter key - please try to make the translations of Return (in the number block) and Enter different if possible!</extracomment>
-      <translation type="unfinished">Enter</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="55"/>
-      <source>Left Button</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Left Button</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="57"/>
-      <source>Right Button</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Right Button</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="59"/>
-      <source>Middle Button</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Middle Button</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="61"/>
-      <source>Back Button</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Back Button</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="63"/>
-      <source>Forward Button</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Forward Button</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="65"/>
-      <source>Task Button</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Task Button</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="67"/>
-      <source>Button #7</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #7</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="69"/>
-      <source>Button #8</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #8</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="71"/>
-      <source>Button #9</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #9</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="73"/>
-      <source>Button #10</source>
-      <extracomment>Refers to a mouse button</extracomment>
-      <translation type="unfinished">Button #10</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="75"/>
-      <source>Double Click</source>
-      <extracomment>Refers to a mouse event</extracomment>
-      <translation type="unfinished">Double Click</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="77"/>
-      <source>Wheel Up</source>
-      <extracomment>Refers to the mouse wheel</extracomment>
-      <translation type="unfinished">Wheel Up</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="79"/>
-      <source>Wheel Down</source>
-      <extracomment>Refers to the mouse wheel</extracomment>
-      <translation type="unfinished">Wheel Down</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="81"/>
-      <source>Wheel Left</source>
-      <extracomment>Refers to the mouse wheel</extracomment>
-      <translation type="unfinished">Wheel Left</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="83"/>
-      <source>Wheel Right</source>
-      <extracomment>Refers to the mouse wheel</extracomment>
-      <translation type="unfinished">Wheel Right</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="85"/>
-      <source>East</source>
-      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation type="unfinished">East</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="87"/>
-      <source>South</source>
-      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation type="unfinished">South</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="89"/>
-      <source>West</source>
-      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation type="unfinished">West</translation>
-    </message>
-    <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsshortcuts.cpp" line="91"/>
-      <source>North</source>
-      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation type="unfinished">North</translation>
-    </message>
-  </context>
-  <context>
     <name>PQCStartup</name>
     <message>
       <location filename="../cplusplus/other/pqc_startup.cpp" line="47"/>
@@ -664,29 +421,29 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
   <context>
     <name>PQSettings</name>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="71"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="72"/>
       <source>ERROR getting database with default settings</source>
       <extracomment>This is the window title of an error message box</extracomment>
       <translation>ОШИБКА получения базы данных с настройками по умолчанию</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="72"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="73"/>
       <source>I tried hard, but I just cannot open even a read-only version of the settings database.</source>
       <translation>Я очень старался, но я просто не могу открыть даже версию базы данных настроек, доступную только для чтения.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="72"/>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="84"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="73"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="85"/>
       <source>Something went terribly wrong somewhere!</source>
       <translation>Что-то где-то пошло ужасно не так!</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="83"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="84"/>
       <source>ERROR opening database with default settings</source>
       <translation>ОШИБКА открытия базы данных с настройками по умолчанию</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="84"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="85"/>
       <source>I tried hard, but I just cannot open the database of default settings.</source>
       <translation>Я очень старался, но просто не могу открыть базу данных настроек по умолчанию.</translation>
     </message>
@@ -719,6 +476,246 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="73"/>
       <source>I tried hard, but I just cannot open the database of default shortcuts.</source>
       <translation>Я очень старался, но просто не могу открыть базу данных настроек горячих клавиш по умолчанию.</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="50"/>
+      <source>Alt</source>
+      <extracomment>Refers to a keyboard modifier</extracomment>
+      <translation type="unfinished">Alt</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="52"/>
+      <source>Ctrl</source>
+      <extracomment>Refers to a keyboard modifier</extracomment>
+      <translation type="unfinished">Ctrl</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="54"/>
+      <source>Shift</source>
+      <extracomment>Refers to a keyboard modifier</extracomment>
+      <translation type="unfinished">Shift</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="56"/>
+      <source>Page Up</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Page Up</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="58"/>
+      <source>Page Down</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Page Down</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="60"/>
+      <source>Meta</source>
+      <extracomment>Refers to the key that usually has the Windows symbol on it</extracomment>
+      <translation type="unfinished">Meta</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="62"/>
+      <source>Keypad</source>
+      <extracomment>Refers to the key that triggers the number block on keyboards</extracomment>
+      <translation type="unfinished">Keypad</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="64"/>
+      <source>Escape</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Escape</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="66"/>
+      <source>Right</source>
+      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
+      <translation type="unfinished">Right</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="68"/>
+      <source>Left</source>
+      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
+      <translation type="unfinished">Left</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="70"/>
+      <source>Up</source>
+      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
+      <translation type="unfinished">Up</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="72"/>
+      <source>Down</source>
+      <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
+      <translation type="unfinished">Down</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="74"/>
+      <source>Space</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Space</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="76"/>
+      <source>Delete</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Delete</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="78"/>
+      <source>Backspace</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Backspace</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="80"/>
+      <source>Home</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Home</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="82"/>
+      <source>End</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">End</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="84"/>
+      <source>Insert</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Insert</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="86"/>
+      <source>Tab</source>
+      <extracomment>Refers to one of the keys on the keyboard</extracomment>
+      <translation type="unfinished">Tab</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="88"/>
+      <source>Return</source>
+      <extracomment>Return refers to the enter key of the number block - please try to make the translations of Return and Enter (the main button) different if possible!</extracomment>
+      <translation type="unfinished">Return</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="90"/>
+      <source>Enter</source>
+      <extracomment>Enter refers to the main enter key - please try to make the translations of Return (in the number block) and Enter different if possible!</extracomment>
+      <translation type="unfinished">Enter</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="95"/>
+      <source>Left Button</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Left Button</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="97"/>
+      <source>Right Button</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Right Button</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="99"/>
+      <source>Middle Button</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Middle Button</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="101"/>
+      <source>Back Button</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Back Button</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="103"/>
+      <source>Forward Button</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Forward Button</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="105"/>
+      <source>Task Button</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Task Button</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="107"/>
+      <source>Button #7</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Button #7</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="109"/>
+      <source>Button #8</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Button #8</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="111"/>
+      <source>Button #9</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Button #9</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="113"/>
+      <source>Button #10</source>
+      <extracomment>Refers to a mouse button</extracomment>
+      <translation type="unfinished">Button #10</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="115"/>
+      <source>Double Click</source>
+      <extracomment>Refers to a mouse event</extracomment>
+      <translation type="unfinished">Double Click</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="117"/>
+      <source>Wheel Up</source>
+      <extracomment>Refers to the mouse wheel</extracomment>
+      <translation type="unfinished">Wheel Up</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="119"/>
+      <source>Wheel Down</source>
+      <extracomment>Refers to the mouse wheel</extracomment>
+      <translation type="unfinished">Wheel Down</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="121"/>
+      <source>Wheel Left</source>
+      <extracomment>Refers to the mouse wheel</extracomment>
+      <translation type="unfinished">Wheel Left</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="123"/>
+      <source>Wheel Right</source>
+      <extracomment>Refers to the mouse wheel</extracomment>
+      <translation type="unfinished">Wheel Right</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="125"/>
+      <source>East</source>
+      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
+      <translation type="unfinished">East</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="127"/>
+      <source>South</source>
+      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
+      <translation type="unfinished">South</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="129"/>
+      <source>West</source>
+      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
+      <translation type="unfinished">West</translation>
+    </message>
+    <message>
+      <location filename="../qml/other/PQShortcuts.qml" line="131"/>
+      <source>North</source>
+      <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
+      <translation type="unfinished">North</translation>
     </message>
   </context>
   <context>
@@ -1018,90 +1015,107 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="51"/>
+      <source>Quit PhotoQt.</source>
+      <translation type="unfinished">Quit PhotoQt.</translation>
+    </message>
+    <message>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="53"/>
       <source>Show/Hide PhotoQt.</source>
       <translation>Показать/Скрыть PhotoQt.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="53"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="55"/>
       <source>Enable thumbnails.</source>
       <extracomment>Command line option</extracomment>
       <translation>Включить эскизы.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="55"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="57"/>
       <source>Disable thumbnails.</source>
       <extracomment>Command line option</extracomment>
       <translation>Отключить эскизы.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="57"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="59"/>
       <source>Enable system tray icon.</source>
       <extracomment>Command line option</extracomment>
       <translation>Включить значок системного трея.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="59"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="61"/>
       <source>Disable system tray icon.</source>
       <extracomment>Command line option</extracomment>
       <translation>Отключить значок системного трея.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="61"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="63"/>
       <source>Start PhotoQt hidden to the system tray.</source>
       <extracomment>Command line option</extracomment>
       <translation>Запускать PhotoQt в системном трее.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="63"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="65"/>
       <source>Simulate a shortcut sequence</source>
       <extracomment>Command line option</extracomment>
       <translation>Имитация последовательности горячих клавиш</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="65"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="67"/>
+      <source>Change setting to specified value.</source>
+      <extracomment>Command line option</extracomment>
+      <translation type="unfinished">Change setting to specified value.</translation>
+    </message>
+    <message>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="69"/>
+      <source>settingname:value</source>
+      <extracomment>Command line option</extracomment>
+      <translation type="unfinished">settingname:value</translation>
+    </message>
+    <message>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="71"/>
       <source>Switch on debug messages.</source>
       <extracomment>Command line option</extracomment>
       <translation>Показать отладочные сообщения.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="67"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="73"/>
       <source>Switch off debug messages.</source>
       <extracomment>Command line option</extracomment>
       <translation>Выключить отладочные сообщения.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="69"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="75"/>
       <source>Export configuration to given filename.</source>
       <extracomment>Command line option</extracomment>
       <translation>Экспортировать конфигурацию в указанный файл.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="71"/>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="75"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="77"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="81"/>
       <source>filename</source>
       <extracomment>Command line option</extracomment>
       <translation>имя файла</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="73"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="79"/>
       <source>Import configuration from given filename.</source>
       <extracomment>Command line option</extracomment>
       <translation>Импортировать конфигурацию из указанного файла.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="77"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="83"/>
       <source>Check the configuration and correct any detected issues.</source>
       <extracomment>Command line option</extracomment>
       <translation>Проверить конфигурацию и исправить все обнаруженные проблемы.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="79"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="85"/>
       <source>Reset default configuration.</source>
       <extracomment>Command line option</extracomment>
       <translation>Сброс конфигурации по умолчанию.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="81"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="87"/>
       <source>Show configuration overview.</source>
       <extracomment>Command line option</extracomment>
       <translation>Показать обзор конфигурации.</translation>
@@ -1487,52 +1501,52 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
       <translation type="unfinished">Cancel and close</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="138"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="135"/>
       <source>Sort by:</source>
       <translation>Сортировка:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="140"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="142"/>
       <source>Name</source>
       <translation>Имя</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="141"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="143"/>
       <source>Natural Name</source>
       <translation>Природное имя</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="142"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="144"/>
       <source>Time modified</source>
       <translation>Время изменения</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="143"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="145"/>
       <source>File size</source>
       <translation>Размер файла</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="144"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="146"/>
       <source>File type</source>
       <translation>Тип файла</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="145"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="147"/>
       <source>reverse order</source>
       <translation>в обратном порядке</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="199"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="201"/>
       <source>All supported images</source>
       <translation>Все поддерживаемые изображения</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="204"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="206"/>
       <source>Video files</source>
       <translation>Видео файлы</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQTweaks.qml" line="205"/>
+      <location filename="../qml/filedialog/PQTweaks.qml" line="207"/>
       <source>All files</source>
       <translation>Все файлы</translation>
     </message>
@@ -1702,6 +1716,26 @@ file manager settings popdown: scale and crop image previews</extracomment>
       <extracomment>file manager settings popdown: color intensity of image previews</extracomment>
       <translation type="unfinished">color intensity</translation>
     </message>
+    <message>
+      <location filename="../qml/filedialog/PQPasteExistingConfirm.qml" line="35"/>
+      <source>%1 files already exist in the target directory.</source>
+      <translation type="unfinished">%1 files already exist in the target directory.</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQPasteExistingConfirm.qml" line="40"/>
+      <source>Check the files below that you want to paste anyways. Files left unchecked will not be pasted.</source>
+      <translation type="unfinished">Check the files below that you want to paste anyways. Files left unchecked will not be pasted.</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQPasteExistingConfirm.qml" line="162"/>
+      <source>Select all</source>
+      <translation type="unfinished">Select all</translation>
+    </message>
+    <message>
+      <location filename="../qml/filedialog/PQPasteExistingConfirm.qml" line="169"/>
+      <source>Select none</source>
+      <translation type="unfinished">Select none</translation>
+    </message>
   </context>
   <context>
     <name>filemanagement</name>
@@ -1789,22 +1823,22 @@ file manager settings popdown: scale and crop image previews</extracomment>
       <translation type="unfinished">File could not be moved</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="449"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="555"/>
       <source>File successfully deleted</source>
       <translation type="unfinished">File successfully deleted</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="452"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="558"/>
       <source>Could not delete file</source>
       <translation type="unfinished">Could not delete file</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="459"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="565"/>
       <source>File successfully moved to trash</source>
       <translation type="unfinished">File successfully moved to trash</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="462"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="568"/>
       <source>Could not move file to trash</source>
       <translation type="unfinished">Could not move file to trash</translation>
     </message>
@@ -1912,12 +1946,12 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
   <context>
     <name>image</name>
     <message>
-      <location filename="../qml/image/PQImage.qml" line="670"/>
+      <location filename="../qml/image/PQImage.qml" line="747"/>
       <source>Click here to enter viewer mode</source>
       <translation type="unfinished">Click here to enter viewer mode</translation>
     </message>
     <message>
-      <location filename="../qml/image/PQImage.qml" line="689"/>
+      <location filename="../qml/image/PQImage.qml" line="766"/>
       <source>Hide central button for entering viewer mode</source>
       <translation type="unfinished">Hide central button for entering viewer mode</translation>
     </message>
@@ -2249,7 +2283,7 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
     <message>
       <location filename="../qml/actions/PQMapExplorer.qml" line="132"/>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="133"/>
-      <location filename="../qml/elements/PQTemplateFullscreen.qml" line="232"/>
+      <location filename="../qml/elements/PQTemplateFullscreen.qml" line="227"/>
       <location filename="../qml/filedialog/PQFileDialog.qml" line="207"/>
       <location filename="../qml/ongoing/PQMainMenu.qml" line="816"/>
       <location filename="../qml/ongoing/PQMetaData.qml" line="481"/>
@@ -2261,7 +2295,7 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
     <message>
       <location filename="../qml/actions/PQMapExplorer.qml" line="134"/>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="135"/>
-      <location filename="../qml/elements/PQTemplateFullscreen.qml" line="234"/>
+      <location filename="../qml/elements/PQTemplateFullscreen.qml" line="229"/>
       <location filename="../qml/filedialog/PQFileDialog.qml" line="209"/>
       <location filename="../qml/ongoing/PQMainMenu.qml" line="818"/>
       <location filename="../qml/ongoing/PQMetaData.qml" line="483"/>
@@ -2604,33 +2638,28 @@ Settings title</extracomment>
       <translation type="unfinished">Shortcuts</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="391"/>
-      <source>Filter settings</source>
-      <translation type="unfinished">Filter settings</translation>
-    </message>
-    <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="463"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="448"/>
       <source>Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close</source>
       <translation type="unfinished">Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="496"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="481"/>
       <source>Unsaved changes</source>
       <translation type="unfinished">Unsaved changes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="504"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="489"/>
       <source>The settings on this page have changed. Do you want to apply or discard them?</source>
       <translation type="unfinished">The settings on this page have changed. Do you want to apply or discard them?</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="516"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="501"/>
       <source>Apply</source>
       <extracomment>written on button, used as in: apply changes</extracomment>
       <translation type="unfinished">Apply</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="535"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="520"/>
       <source>Discard</source>
       <extracomment>written on button, used as in: discard changes</extracomment>
       <translation type="unfinished">Discard</translation>
@@ -3013,7 +3042,7 @@ Please keep short! This is the rotation of the current image</extracomment>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="172"/>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="244"/>
       <location filename="../qml/settingsmanager/settings/imageview/PQImage.qml" line="226"/>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="45"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="70"/>
       <source>Cache</source>
       <extracomment>Settings title</extracomment>
       <translation type="unfinished">Cache</translation>
@@ -3517,6 +3546,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
       <translation type="unfinished">Wallpaper</translation>
     </message>
     <message>
+      <location filename="../qml/settingsmanager/PQMainCategory.qml" line="175"/>
       <location filename="../qml/settingsmanager/settings/interface/PQPopout.qml" line="82"/>
       <source>Filter</source>
       <extracomment>Noun, not a verb. Used as identifying name for one of the elements in the interface</extracomment>
@@ -5099,62 +5129,78 @@ Written on small button, used as in: add new shortcut action. Please keep short!
       <translation type="unfinished">show tooltips</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="51"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="76"/>
       <source>PhotoQt can cache thumbnails so that each subsequent time they can be generated near instantaneously. PhotoQt implements the standard for thumbnails defined by freedesktop.org. On Windows it can also load (but not write) existing thumbnails from the thumbnail cache built into Windows.</source>
       <translation type="unfinished">PhotoQt can cache thumbnails so that each subsequent time they can be generated near instantaneously. PhotoQt implements the standard for thumbnails defined by freedesktop.org. On Windows it can also load (but not write) existing thumbnails from the thumbnail cache built into Windows.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="58"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="83"/>
       <source>enable cache</source>
       <translation type="unfinished">enable cache</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="245"/>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="70"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="95"/>
       <source>Exclude folders</source>
       <extracomment>Settings title</extracomment>
       <translation type="unfinished">Exclude folders</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="76"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="45"/>
+      <source>Enable thumbnails</source>
+      <extracomment>Settings title</extracomment>
+      <translation type="unfinished">Enable thumbnails</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="51"/>
+      <source>PhotoQt shows all images in the currently loaded folder as thumbnails along one of the screen edges. Disabling thumbnails has the potential to improve the speed at which a folder is loaded but results in a less user-friendly experience.</source>
+      <translation type="unfinished">PhotoQt shows all images in the currently loaded folder as thumbnails along one of the screen edges. Disabling thumbnails has the potential to improve the speed at which a folder is loaded but results in a less user-friendly experience.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="58"/>
+      <source>enable thumbnails</source>
+      <translation type="unfinished">enable thumbnails</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="101"/>
       <source>When an image is loaded PhotoQt preloads thumbnails for all images found in the current folder. Some cloud providers do not fully sync their files unless accessed. To avoid unnecessarily downloading large amount of files, it is possible to exclude specific directories from any sort of caching and preloading. Note that for files in these folders you will still see thumbnails consisting of filetype icons.</source>
       <translation type="unfinished">When an image is loaded PhotoQt preloads thumbnails for all images found in the current folder. Some cloud providers do not fully sync their files unless accessed. To avoid unnecessarily downloading large amount of files, it is possible to exclude specific directories from any sort of caching and preloading. Note that for files in these folders you will still see thumbnails consisting of filetype icons.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="87"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="112"/>
       <source>Cloud providers to exclude from caching:</source>
       <translation type="unfinished">Cloud providers to exclude from caching:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="131"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="156"/>
       <source>Do not cache these folders:</source>
       <translation type="unfinished">Do not cache these folders:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="139"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="164"/>
       <source>One folder per line</source>
       <translation type="unfinished">One folder per line</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="151"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="176"/>
       <source>Add folder</source>
       <extracomment>Written on a button</extracomment>
       <translation type="unfinished">Add folder</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="246"/>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="177"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="202"/>
       <source>How many threads</source>
       <extracomment>Settings title</extracomment>
       <translation type="unfinished">How many threads</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="183"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="208"/>
       <source>In order to speed up loading all the thumbnails in a folder PhotoQt uses multiple threads simultaneously. On more powerful systems, a larger number of threads can result in much faster loading of all the thumbnails of a folder. Too many threads, however, might make a system feel slow for a short time.</source>
       <translation type="unfinished">In order to speed up loading all the thumbnails in a folder PhotoQt uses multiple threads simultaneously. On more powerful systems, a larger number of threads can result in much faster loading of all the thumbnails of a folder. Too many threads, however, might make a system feel slow for a short time.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="212"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="237"/>
       <source>current value: %1 thread(s)</source>
       <extracomment>Important: Please do not forget the placeholder!</extracomment>
       <translation type="unfinished">current value: %1 thread(s)</translation>
@@ -5170,7 +5216,7 @@ Written on small button, used as in: add new shortcut action. Please keep short!
       <translation type="unfinished">Settings:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQMainCategory.qml" line="15"/>
+      <location filename="../qml/settingsmanager/PQMainCategory.qml" line="17"/>
       <source>main category</source>
       <translation type="unfinished">main category</translation>
     </message>
@@ -5459,8 +5505,10 @@ Written on small button, used as in: add new shortcut action. Please keep short!
   <context>
     <name>streaming</name>
     <message>
+      <location filename="../qml/actions/popout/PQChromeCastManagerPopout.qml" line="32"/>
       <location filename="../qml/actions/PQChromeCastManager.qml" line="38"/>
       <source>Streaming (Chromecast)</source>
+      <extracomment>Window title</extracomment>
       <translation>Трансляция (Chromecast)</translation>
     </message>
     <message>
