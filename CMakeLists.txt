@@ -196,7 +196,11 @@ endif()
 #### Add the executeable ####
 #############################
 
-qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+if(WIN32)
+    qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc windowsicons.rc)
+else()
+    qt_add_executable(photoqt ${photoqt_SOURCES} ${ALLHEADERS} misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+endif()
 
 # add qml files
 qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML})
