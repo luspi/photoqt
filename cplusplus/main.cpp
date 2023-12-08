@@ -4,6 +4,7 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QScreen>
+#include <clocale>
 
 #ifdef EXIV2
     #ifdef Q_OS_WIN
