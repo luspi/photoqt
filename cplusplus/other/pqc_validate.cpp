@@ -35,7 +35,7 @@ PQCValidate::PQCValidate(QObject *parent) : QObject(parent) {
 bool PQCValidate::validate() {
 
     std::cout << std::endl
-              << "PhotoQt v" << VERSION << std::endl
+              << "PhotoQt v" << PQMVERSION << std::endl
               << " > Validating configuration... " << std::endl;
 
     PQCSettings::get().closeDatabase();

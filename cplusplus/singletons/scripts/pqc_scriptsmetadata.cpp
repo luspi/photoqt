@@ -4,7 +4,7 @@
 #include <QPointF>
 #include <QVariant>
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
@@ -443,7 +443,7 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
 
     QVariantList ret;
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 
     if(filename.contains("::PDF::") || filename.contains("::ARC::"))
         return ret;
@@ -567,7 +567,7 @@ void PQCScriptsMetaData::setFaceTags(QString filename, QVariantList tags) {
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: tags.length =" << tags;
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 
     try {
 

@@ -61,7 +61,7 @@ int PQCStartup::check() {
         return 3;
 
     // updated
-    if(version != QString(VERSION))
+    if(version != QString(PQMVERSION))
         return 1;
 
     // nothing happened
@@ -73,7 +73,7 @@ void PQCStartup::exportData(QString path) {
 
     // use plain cout as we don't want any log/debug info prepended
     std::cout << std::endl
-              << "PhotoQt v" << VERSION << std::endl
+              << "PhotoQt v" << PQMVERSION << std::endl
               << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;
 
     if(PQCScriptsConfig::get().exportConfigTo(path))
@@ -87,7 +87,7 @@ void PQCStartup::importData(QString path) {
 
     // use plain cout as we don't want any log/debug info prepended
     std::cout << std::endl
-              << "PhotoQt v" << VERSION << std::endl
+              << "PhotoQt v" << PQMVERSION << std::endl
               << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
 
     if(PQCScriptsConfig::get().importConfigFrom(path))
@@ -178,7 +178,7 @@ void PQCStartup::setupFresh() {
 void PQCStartup::resetToDefaults() {
 
     std::cout << std::endl
-              << "PhotoQt v" << VERSION << std::endl
+              << "PhotoQt v" << PQMVERSION << std::endl
               << " > Resetting to default configuration... " << std::flush;
 
     PQCSettings::get().setDefault();

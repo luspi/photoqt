@@ -17,12 +17,12 @@
 #else
 #include <unistd.h>
 #endif
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
 #include <Magick++/Exception.h>
 #include <Magick++/Image.h>
 #endif
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
@@ -148,8 +148,8 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
         }
 
     // imagemagick/graphicsmagick might support it
-    #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-    #ifdef IMAGEMAGICK
+    #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    #ifdef PQMIMAGEMAGICK
         if(databaseinfo.value("imagemagick").toInt() == 1) {
     #else
         if(databaseinfo.value("graphicsmagick").toInt() == 1) {
@@ -244,7 +244,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
 
         QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
 
-    #ifdef EXIV2
+    #ifdef PQMEXIV2
 
         // This will store all the exif data
         Exiv2::ExifData exifData;
@@ -307,8 +307,8 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
         if(!success && (writeStatus == 1 || writeStatus == 3)) {
 
     // imagemagick/graphicsmagick might support it
-    #if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
-    #ifdef IMAGEMAGICK
+    #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+    #ifdef PQMIMAGEMAGICK
             if(databaseinfo.value("imagemagick").toInt() == 1) {
     #else
             if(databaseinfo.value("graphicsmagick").toInt() == 1) {
@@ -381,7 +381,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
             return;
         }
 
-    #ifdef EXIV2
+    #ifdef PQMEXIV2
 
         if(gotExifData) {
 

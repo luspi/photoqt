@@ -9,7 +9,7 @@
 #include <QJSEngine>
 #include <QtConcurrent>
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 #include <pugixml.hpp>
 #endif
 
@@ -58,7 +58,7 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
     QVariantList ret;
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 
     // if file does not exist yet then we create a sceleton file
     if(!QFile(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel")).exists()) {
@@ -204,7 +204,7 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
 
     qDebug() << "";
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -323,7 +323,7 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
     qDebug() << "args: moveDown = " << moveDown;
     qDebug() << "args: howmany = " << howmany;
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -396,7 +396,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
     qDebug() << "args: path =" << path;
     qDebug() << "args: pos =" << pos;
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -545,7 +545,7 @@ void PQCScriptsFileDialog::hidePlacesEntry(QString id, bool hidden) {
     qDebug() << "args: id = " << id;
     qDebug() << "args: hidden = " << hidden;
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -583,7 +583,7 @@ void PQCScriptsFileDialog::deletePlacesEntry(QString id) {
 
     qDebug() << "args: id =" << id;
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());

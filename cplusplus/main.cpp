@@ -6,11 +6,11 @@
 #include <QScreen>
 #include <clocale>
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
     #ifdef Q_OS_WIN
         #define NOMINMAX
     #endif
-    #ifdef EXIV2_ENABLE_BMFF
+    #ifdef PQMEXIV2_ENABLE_BMFF
         #define EXV_ENABLE_BMFF
     #endif
 #endif
@@ -53,31 +53,31 @@
 #include <scripts/pqc_scriptswallpaper.h>
 #include <scripts/pqc_scriptschromecast.h>
 
-#ifdef GRAPHICSMAGICK
+#ifdef PQMGRAPHICSMAGICK
 #include <GraphicsMagick/Magick++.h>
 #endif
 
-#ifdef IMAGEMAGICK
+#ifdef PQMIMAGEMAGICK
 #include <Magick++.h>
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
 #include <IL/il.h>
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
 #include <vips/vips8>
 #endif
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
 #include <pqc_mpvobject.h>
 #endif
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
 #include <FreeImage.h>
 #endif
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
     QApplication::setApplicationName("PhotoQt");
     QApplication::setOrganizationName("");
     QApplication::setOrganizationDomain("photoqt.org");
-    QApplication::setApplicationVersion(VERSION);
+    QApplication::setApplicationVersion(PQMVERSION);
     QApplication::setQuitOnLastWindowClosed(true);
 
     // custom message handler for qDebug/qLog/qInfo/etc.
@@ -135,14 +135,14 @@ int main(int argc, char *argv[]) {
     // only a single instance
     PQCSingleInstance app(argc, argv);
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
     // requires the LC_NUMERIC category to be set to "C", so change it back.
     std::setlocale(LC_NUMERIC, "C");
 #endif
 
-#ifdef EXIV2
-    #ifdef EXIV2_ENABLE_BMFF
+#ifdef PQMEXIV2
+    #ifdef PQMEXIV2_ENABLE_BMFF
         Exiv2::enableBMFF(true);
     #endif
 #endif
@@ -187,7 +187,7 @@ int main(int argc, char *argv[]) {
        if(checker == 1 || checker == 3)
            validate.validate();
 
-        PQCSettings::get().update("generalVersion", VERSION);
+        PQCSettings::get().update("generalVersion", PQMVERSION);
 
     }
 
@@ -199,21 +199,21 @@ int main(int argc, char *argv[]) {
     PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());
 
 // only one of them will be defined at a time
-#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
+#if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
     // Initialise Magick as early as possible
     // this needs to happen BEFORE startup check as this might call into Magick
     Magick::InitializeMagick(*argv);
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
     ilInit();
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
     FreeImage_Initialise();
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
     VIPS_INIT(argv[0]);
 #endif
 
@@ -263,7 +263,7 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("full",new PQCProviderFull);
     engine.addImageProvider("imgurhistory",new PQCAsyncImageProviderImgurHistory);
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 #endif
 
@@ -272,11 +272,11 @@ int main(int argc, char *argv[]) {
 
     int ret = app.exec();
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
     FreeImage_DeInitialise();
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
     vips_shutdown();
 #endif
 

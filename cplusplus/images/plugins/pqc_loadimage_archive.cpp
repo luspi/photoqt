@@ -31,7 +31,7 @@
 #include <QFileInfo>
 #include <QImage>
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
 #endif
@@ -40,7 +40,7 @@ PQCLoadImageArchive::PQCLoadImageArchive() {}
 
 QSize PQCLoadImageArchive::loadSize(QString filename) {
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 
     // filter out name of archivefile and of compressed file inside
     QString archivefile = filename;
@@ -133,7 +133,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
     QString errormsg = "";
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 
     // filter out name of archivefile and of compressed file inside
     QString archivefile = filename;

@@ -29,7 +29,7 @@
 #include <QMimeDatabase>
 #include <QtDebug>
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/Image.h>
 #endif
 
@@ -40,7 +40,7 @@ QSize PQCLoadImageMagick::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
     QString suf = QFileInfo(filename).suffix().toUpper();
     Magick::Image image;
@@ -104,7 +104,7 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
 
     QString errormsg = "";
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 
     QSize finalSize;
 

@@ -3,7 +3,7 @@
 #include <pqc_settings.h>
 #include <QSize>
 #include <QImage>
-#ifdef RESVG
+#ifdef PQMRESVG
 #include <ResvgQt.h>
 #endif
 
@@ -13,7 +13,7 @@ QSize PQCLoadImageResvg::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-#ifdef RESVG
+#ifdef PQMRESVG
 
     ResvgOptions opt;
     ResvgRenderer renderer(filename, opt);
@@ -30,7 +30,7 @@ QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;
 
-#ifdef RESVG
+#ifdef PQMRESVG
 
     ResvgOptions opt;
     ResvgRenderer renderer(filename, opt);

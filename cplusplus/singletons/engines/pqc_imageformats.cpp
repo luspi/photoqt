@@ -31,7 +31,7 @@
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
 #include <Magick++/Exception.h>
 #endif
@@ -144,40 +144,40 @@ void PQCImageFormats::readFromDatabase() {
         const QString cat = query.record().value("category").toString();
         const int enabled = query.record().value("enabled").toInt();
         const int qt = query.record().value("qt").toInt();
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
         const int libvips = query.record().value("libvips").toInt();
 #endif
-#ifdef RESVG
+#ifdef PQMRESVG
         const int resvg = query.record().value("resvg").toInt();
 #endif
-#ifdef IMAGEMAGICK
+#ifdef PQMIMAGEMAGICK
         const int imgmmagick = query.record().value("imagemagick").toInt();
-#elif defined(GRAPHICSMAGICK)
+#elif defined(PQMGRAPHICSMAGICK)
         const int imgmmagick = query.record().value("graphicsmagick").toInt();
 #endif
-#ifdef RAW
+#ifdef PQMRAW
         const int libraw = query.record().value("libraw").toInt();
 #endif
-#if defined(POPPLER) || defined(QTPDF)
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
         const int poppler = query.record().value("poppler").toInt();
 #endif
         const int xcftools = query.record().value("xcftools").toInt();
-#ifdef DEVIL
+#ifdef PQMDEVIL
         const int devil = query.record().value("devil").toInt();
 #endif
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
         const int freeimage = query.record().value("freeimage").toInt();
 #endif
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
         const int archive = query.record().value("archive").toInt();
 #endif
-#ifdef VIDEOQT
+#ifdef PQMVIDEOQT
         const int video = query.record().value("video").toInt();
 #endif
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
         const int libmpv = query.record().value("libmpv").toInt();
 #endif
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
         const QString im_gm_magick = query.record().value("im_gm_magick").toString();
 #endif
         const QString qt_formatname = query.record().value("qt_formatname").toString();
@@ -202,7 +202,7 @@ void PQCImageFormats::readFromDatabase() {
             }
         }
 
-#ifdef RESVG
+#ifdef PQMRESVG
         if(resvg) {
             supportedByAnyLibrary = true;
             all << "resvg";
@@ -212,7 +212,7 @@ void PQCImageFormats::readFromDatabase() {
         }
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
         if(libvips) {
             supportedByAnyLibrary = true;
             all << "libvips";
@@ -224,7 +224,7 @@ void PQCImageFormats::readFromDatabase() {
 
         QStringList validImGmMagick;
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
         if(imgmmagick) {
 
             // we check with the Magick++ API to see if each format is readable
@@ -248,9 +248,9 @@ void PQCImageFormats::readFromDatabase() {
             if(alright) {
                 supportedByAnyLibrary = true;
                 magickToBeAdded = true;
-#ifdef IMAGEMAGICK
+#ifdef PQMIMAGEMAGICK
                 all << "ImageMagick";
-#elif defined(GRAPHICSMAGICK)
+#elif defined(PQMGRAPHICSMAGICK)
                 all << "GraphicsMagick";
 #endif
                 formats_magick << endings.split(",");
@@ -259,7 +259,7 @@ void PQCImageFormats::readFromDatabase() {
             }
         }
 #endif
-#ifdef RAW
+#ifdef PQMRAW
         if(libraw) {
             supportedByAnyLibrary = true;
             all << "libraw";
@@ -268,7 +268,7 @@ void PQCImageFormats::readFromDatabase() {
                 mimetypes_libraw << mimetypes.split(",");
         }
 #endif
-#if defined(POPPLER) || defined(QTPDF)
+#if defined(PQMPOPPLER) || defined(PQMQTPDF)
         if(poppler) {
             supportedByAnyLibrary = true;
             all << "Poppler";
@@ -284,7 +284,7 @@ void PQCImageFormats::readFromDatabase() {
             if(mimetypes != "")
                 mimetypes_xcftools << mimetypes.split(",");
         }
-#ifdef DEVIL
+#ifdef PQMDEVIL
         if(devil) {
             supportedByAnyLibrary = true;
             all << "DevIL";
@@ -293,7 +293,7 @@ void PQCImageFormats::readFromDatabase() {
                 mimetypes_devil << mimetypes.split(",");
         }
 #endif
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
         if(freeimage) {
             supportedByAnyLibrary = true;
             all << "FreeImage";
@@ -302,7 +302,7 @@ void PQCImageFormats::readFromDatabase() {
                 mimetypes_freeimage << mimetypes.split(",");
         }
 #endif
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
         if(archive) {
             supportedByAnyLibrary = true;
             all << "LibArchive";
@@ -311,7 +311,7 @@ void PQCImageFormats::readFromDatabase() {
                 mimetypes_archive << mimetypes.split(",");
         }
 #endif
-#ifdef VIDEOQT
+#ifdef PQMVIDEOQT
         if(video) {
             supportedByAnyLibrary = true;
             all << "Video";
@@ -320,7 +320,7 @@ void PQCImageFormats::readFromDatabase() {
                 mimetypes_video << mimetypes.split(",");
         }
 #endif
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
         if(libmpv) {
             supportedByAnyLibrary = true;
             all << "libmpv";
@@ -406,7 +406,7 @@ QVariantList PQCImageFormats::getWriteableFormats() {
         bool imgm = false;
         if(qt_formatname != "" && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
             qt = true;
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
         else if(magick != "") {
             try {
                 Magick::CoderInfo magickCoderInfo(magick.toStdString());
@@ -579,7 +579,7 @@ int PQCImageFormats::getWriteStatus(int uniqueid) {
     bool imgm = false;
     if(qt_formatname != "" && writer.supportedImageFormats().contains(qt_formatname.toUtf8()))
         qt = true;
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
     else if(magick != "") {
         try {
             Magick::CoderInfo magickCoderInfo(magick.toStdString());

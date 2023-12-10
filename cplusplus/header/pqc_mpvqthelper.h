@@ -24,7 +24,7 @@
 #ifndef LIBMPV_QTHELPER_H_
 #define LIBMPV_QTHELPER_H_
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
 
 #include <mpv/client.h>
 

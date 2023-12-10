@@ -21,7 +21,7 @@
  **                                                                      **
  **************************************************************************/
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
 
 #include <pqc_mpvobject.h>
 

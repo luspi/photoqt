@@ -9,7 +9,7 @@
 #include <QPointF>
 #include <QTimer>
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
@@ -115,7 +115,7 @@ void PQCMetaData::updateMetadata() {
 
     setFileSize(info.size());
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 
 #if EXIV2_TEST_VERSION(0, 28, 0)
     Exiv2::Image::UniquePtr image;

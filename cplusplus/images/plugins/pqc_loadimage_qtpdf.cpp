@@ -26,7 +26,7 @@
 #include <QSize>
 #include <QImage>
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
 #include <QtPdf/QPdfDocument>
 #include <QtPdf/QtPdf>
 #endif
@@ -44,7 +44,7 @@ QSize PQCLoadImageQtPDF::loadSize(QString filename) {
         filename = filename.split("::PDF::").at(1);
     }
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
     QPdfDocument doc;
     doc.load(filename);
 
@@ -71,7 +71,7 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
 
     QString errormsg = "";
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;

@@ -38,20 +38,20 @@
 #include <scripts/pqc_scriptsfiledialog.h>
 #include <pqc_resolutioncache.h>
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
 #include <QtPdf/QPdfDocument>
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 #include <poppler/qt6/poppler-qt6.h>
 #endif
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
@@ -472,7 +472,7 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                     if(item == "exiforiginal" || item == "exifdigital") {
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #if EXIV2_TEST_VERSION(0, 28, 0)
                         Exiv2::Image::UniquePtr image;
 #else
@@ -1192,7 +1192,7 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
 
     QStringList ret;
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 
     std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
     if(document && !document->isLocked()) {
@@ -1203,7 +1203,7 @@ QStringList PQCFileFolderModel::listPDFPages(QString path) {
 
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
     QPdfDocument doc;
     doc.load(path);
 

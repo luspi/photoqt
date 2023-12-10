@@ -24,7 +24,7 @@
 #ifndef MPVRENDERER_H_
 #define MPVRENDERER_H_
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
 
 #include <QtQuick/QQuickFramebufferObject>
 

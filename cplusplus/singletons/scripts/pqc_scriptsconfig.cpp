@@ -14,40 +14,40 @@
 #include <WinSock2.h>
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
 #endif
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
 #include <pugixml.hpp>
 #endif
 
-#ifdef RAW
+#ifdef PQMRAW
 #include <libraw/libraw.h>
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 #include <poppler/poppler-config.h>
 #endif
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/Include.h>
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
 #include <IL/il.h>
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
 #include <FreeImage.h>
 #endif
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
 #include <pqc_mpvobject.h>
 #endif
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
@@ -82,55 +82,55 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
     QString txt = "";
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
     txt += QString(" - %1Exiv2%2: %3%4").arg(bold1, bold2, Exiv2::version(), nl);
 #endif
 
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
     txt += QString(" - %1pugixml%2: %3%4").arg(bold1, bold2).arg((PUGIXML_VERSION)/1000.).arg(nl);
 #endif
 
-#ifdef CHROMECAST
+#ifdef PQMCHROMECAST
     txt += QString(" - %1Chromecast%2%3").arg(bold1, bold2, nl);
 #endif
 
-#ifdef RAW
+#ifdef PQMRAW
     txt += QString(" - %1LibRaw%2: %3%4").arg(bold1, bold2, LibRaw::version(), nl);
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
     txt += QString(" - %1Poppler%2: %3%4").arg(bold1, bold2, POPPLER_VERSION, nl);
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
     txt += QString(" - %1QtPDF%2%3").arg(bold1, bold2, nl);
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
     txt += QString(" - %1LibArchive%2: %3%4").arg(bold1, bold2, ARCHIVE_VERSION_ONLY_STRING, nl);
 #endif
 
-#ifdef IMAGEMAGICK
+#ifdef PQMIMAGEMAGICK
     txt += QString(" - %1ImageMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
 #endif
 
-#ifdef GRAPHICSMAGICK
+#ifdef PQMGRAPHICSMAGICK
     txt += QString(" - %1GraphicsMagick%2: %3%4").arg(bold1, bold2, MagickLibVersionText, nl);
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
     txt += QString(" - %1FreeImage%2: %3.%4%5").arg(bold1, bold2).arg(FREEIMAGE_MAJOR_VERSION).arg(FREEIMAGE_MINOR_VERSION).arg(nl);
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
     txt += QString(" - %1DevIL%2: %3%4").arg(bold1, bold2).arg(IL_VERSION).arg(nl);
 #endif
 
-#ifdef VIDEOQT
+#ifdef PQMVIDEOQT
     txt += QString(" - %1Video%2 through Qt%3").arg(bold1, bold2, nl);
 #endif
 
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
     mpv_handle *mpv = mpv_create();
     if(mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
@@ -156,7 +156,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
     qDebug() << "args: path =" << path;
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
     if(path == "") {
@@ -243,7 +243,7 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
 
     qDebug() << "args: path =" << path;
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
@@ -336,28 +336,28 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
 }
 
 bool PQCScriptsConfig::isChromecastEnabled() {
-#ifdef CHROMECAST
+#ifdef PQMCHROMECAST
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isLocationSupportEnabled() {
-#ifdef LOCATION
+#ifdef PQMLOCATION
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isGraphicsMagickSupportEnabled() {
-#ifdef GRAPHICSMAGICK
+#ifdef PQMGRAPHICSMAGICK
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isImageMagickSupportEnabled() {
-#ifdef IMAGEMAGICK
+#ifdef PQMIMAGEMAGICK
     return true;
 #endif
     return false;
@@ -371,7 +371,7 @@ bool PQCScriptsConfig::isQtAtLeast6_4() {
 }
 
 bool PQCScriptsConfig::isPugixmlSupportEnabled() {
-#ifdef PUGIXML
+#ifdef PQMPUGIXML
     return true;
 #endif
     return false;
@@ -421,49 +421,49 @@ void PQCScriptsConfig::deleteLastLoadedImage() {
 }
 
 bool PQCScriptsConfig::isMPVSupportEnabled() {
-#ifdef VIDEOMPV
+#ifdef PQMVIDEOMPV
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isVideoQtSupportEnabled() {
-#ifdef VIDEOQT
+#ifdef PQMVIDEOQT
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isLibRawSupportEnabled() {
-#ifdef RAW
+#ifdef PQMRAW
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isDevILSupportEnabled() {
-#ifdef DEVIL
+#ifdef PQMDEVIL
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isFreeImageSupportEnabled() {
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
     return true;
 #endif
     return false;
 }
 
 bool PQCScriptsConfig::isPopplerSupportEnabled() {
-#ifdef POPPLER
+#ifdef PQMPOPPLER
     return true;
 #endif
     return false;
 }
 
 QString PQCScriptsConfig::getVersion() {
-    return VERSION;
+    return PQMVERSION;
 }
 
 QStringList PQCScriptsConfig::getAvailableTranslations() {
@@ -553,5 +553,5 @@ void PQCScriptsConfig::updateTranslation() {
 }
 
 bool PQCScriptsConfig::isBetaVersion() {
-    return QString(VERSION).contains("-beta");
+    return QString(PQMVERSION).contains("-beta");
 }

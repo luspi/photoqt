@@ -27,13 +27,13 @@
 #include <QtDebug>
 #include <QFile>
 
-#ifdef RAW
+#ifdef PQMRAW
 #include <libraw/libraw.h>
 #endif
 
 PQCLoadImageRAW::PQCLoadImageRAW() {}
 
-#ifdef RAW
+#ifdef PQMRAW
 void PQCLoadImageRAW::loadRawImage(QString filename, QSize maxSize, LibRaw &raw, libraw_processed_image_t *img, bool &thumb, bool &half) {
 
     QString errormsg = "";
@@ -100,7 +100,7 @@ void PQCLoadImageRAW::loadRawImage(QString filename, QSize maxSize, LibRaw &raw,
 
 QSize PQCLoadImageRAW::loadSize(QString filename) {
 
-#ifdef RAW
+#ifdef PQMRAW
 
     LibRaw raw;
 
@@ -137,7 +137,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;
 
-#ifdef RAW
+#ifdef PQMRAW
 
     bool thumb = false;
     bool half = false;

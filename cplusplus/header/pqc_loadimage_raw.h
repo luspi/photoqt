@@ -28,7 +28,7 @@ class QImage;
 class QString;
 class LibRaw;
 
-#ifdef RAW
+#ifdef PQMRAW
 #include <libraw/libraw_types.h>
 #endif
 
@@ -41,7 +41,7 @@ public:
     static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
 
 private:
-#ifdef RAW
+#ifdef PQMRAW
     static void loadRawImage(QString filename, QSize maxSize, LibRaw &raw, libraw_processed_image_t *img, bool &thumb, bool &half);
 #endif
 

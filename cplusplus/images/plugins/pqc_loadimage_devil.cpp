@@ -27,7 +27,7 @@
 #include <QDir>
 #include <QImageReader>
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
 #include <IL/il.h>
 #endif
 
@@ -35,7 +35,7 @@ PQCLoadImageDevil::PQCLoadImageDevil() {}
 
 QSize PQCLoadImageDevil::loadSize(QString filename) {
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
 
     QString errormsg = "";
 
@@ -84,7 +84,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
 
     QString errormsg = "";
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
 
     // DevIL is NOT threadsafe -> need to ensure only one image is loaded at a time...
     QMutexLocker locker(&PQCLoadImageDevilMutex::get().devilMutex);
@@ -225,7 +225,7 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
 
 }
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
 QString PQCLoadImageDevil::checkForError() {
     ILenum err_enum = ilGetError();
     QString errormsg = "";

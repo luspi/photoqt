@@ -69,17 +69,17 @@ QSize PQCLoadImage::load(QString filename) {
     QSize sze(0,0);
 
     // resvg trumps Qt's SVG engine
-#ifdef RESVG
+#ifdef PQMRESVG
     if(PQCImageFormats::get().getEnabledFormatsResvg().contains(suffix))
         sze = PQCLoadImageResvg::loadSize(filename);
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
         sze = PQCLoadImagePoppler::loadSize(filename);
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
         sze = PQCLoadImageQtPDF::loadSize(filename);
 #endif
@@ -87,12 +87,12 @@ QSize PQCLoadImage::load(QString filename) {
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
         sze = PQCLoadImageQt::loadSize(filename);
 
-#ifdef RAW
+#ifdef PQMRAW
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
         sze = PQCLoadImageRAW::loadSize(filename);
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suffix))
         sze = PQCLoadImageArchive::loadSize(filename);
 #endif
@@ -100,22 +100,22 @@ QSize PQCLoadImage::load(QString filename) {
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix))
         sze = PQCLoadImageXCF::loadSize(filename);
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix))
         sze = PQCLoadImageMagick::loadSize(filename);
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsLibVips().contains(suffix))
         sze = PQCLoadImageLibVips::loadSize(filename);
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix))
         sze = PQCLoadImageFreeImage::loadSize(filename);
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
     if(sze.isNull() && PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix))
         sze = PQCLoadImageDevil::loadSize(filename);
 #endif
@@ -135,17 +135,17 @@ QSize PQCLoadImage::load(QString filename) {
         if(mimetype != "" && mimetype != "application/octet-stream") {
 
             // resvg trumps Qt's SVG engine
-#ifdef RESVG
+#ifdef PQMRESVG
             if(PQCImageFormats::get().getEnabledMimeTypesResvg().contains(mimetype))
                 sze = PQCLoadImageResvg::loadSize(filename);
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
                 sze = PQCLoadImagePoppler::loadSize(filename);
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
                 sze = PQCLoadImageQtPDF::loadSize(filename);
 #endif
@@ -153,12 +153,12 @@ QSize PQCLoadImage::load(QString filename) {
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
                 sze = PQCLoadImageQt::loadSize(filename);
 
-#ifdef RAW
+#ifdef PQMRAW
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
                 sze = PQCLoadImageRAW::loadSize(filename);
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
                 sze = PQCLoadImageArchive::loadSize(filename);
 #endif
@@ -166,22 +166,22 @@ QSize PQCLoadImage::load(QString filename) {
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
                 sze = PQCLoadImageXCF::loadSize(filename);
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
                 sze = PQCLoadImageMagick::loadSize(filename);
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
                 sze = PQCLoadImageLibVips::loadSize(filename);
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
                 sze = PQCLoadImageFreeImage::loadSize(filename);
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
                 sze = PQCLoadImageDevil::loadSize(filename);
 #endif
@@ -194,7 +194,7 @@ QSize PQCLoadImage::load(QString filename) {
     }
 
 
-#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
+#if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
     // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
     if(sze.isNull()) {
 
@@ -236,17 +236,17 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     // first we check for filename suffix matches
 
     // resvg trumps Qt's SVG engine
-#ifdef RESVG
+#ifdef PQMRESVG
     if(PQCImageFormats::get().getEnabledFormatsResvg().contains(suffix))
         err = PQCLoadImageResvg::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
         err = PQCLoadImagePoppler::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsPoppler().contains(suffix))
         err = PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img);
 #endif
@@ -254,12 +254,12 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsQt().contains(suffix))
         err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
 
-#ifdef RAW
+#ifdef PQMRAW
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibRaw().contains(suffix))
         err = PQCLoadImageRAW::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suffix))
         err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
 #endif
@@ -267,22 +267,22 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix))
         err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix))
         err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsLibVips().contains(suffix))
         err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsFreeImage().contains(suffix))
         err = PQCLoadImageFreeImage::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
     if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledFormatsDevIL().contains(suffix))
         err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
 #endif
@@ -302,17 +302,17 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         if(mimetype != "" && mimetype != "application/octet-stream") {
 
             // resvg trumps Qt's SVG engine
-#ifdef RESVG
+#ifdef PQMRESVG
             if(PQCImageFormats::get().getEnabledMimeTypesResvg().contains(suffix))
                 err = PQCLoadImageResvg::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
                 err = PQCLoadImagePoppler::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
                 err = PQCLoadImageQtPDF::load(filename, requestedSize, origSize, img);
 #endif
@@ -320,12 +320,12 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesQt().contains(mimetype))
                 err = PQCLoadImageQt::load(filename, requestedSize, origSize, img);
 
-#ifdef RAW
+#ifdef PQMRAW
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibRaw().contains(mimetype))
                 err = PQCLoadImageRAW::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
                 err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
 #endif
@@ -333,22 +333,22 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
                 err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
 
-#if defined(IMAGEMAGICK) || defined(GRAPHICSMAGICK)
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesMagick().contains(mimetype))
                 err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesLibVips().contains(mimetype))
                 err = PQCLoadImageLibVips::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesFreeImage().contains(mimetype))
                 err = PQCLoadImageFreeImage::load(filename, requestedSize, origSize, img);
 #endif
 
-#ifdef DEVIL
+#ifdef PQMDEVIL
             if((err != "" || img.isNull()) && PQCImageFormats::get().getEnabledMimeTypesDevIL().contains(mimetype))
                 err = PQCLoadImageDevil::load(filename, requestedSize, origSize, img);
 #endif
@@ -361,7 +361,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     }
 
 
-#if defined(GRAPHICSMAGICK) || defined(IMAGEMAGICK)
+#if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
     // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
     if(err != "" || img.isNull()) {
 

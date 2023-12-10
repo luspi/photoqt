@@ -28,7 +28,7 @@
 #include <QSize>
 #include <QtDebug>
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
 #include <FreeImage.h>
 #endif
 
@@ -36,7 +36,7 @@ PQCLoadImageFreeImage::PQCLoadImageFreeImage() {}
 
 QSize PQCLoadImageFreeImage::loadSize(QString filename) {
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
 
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.toStdString().c_str());
     if(fif == FIF_UNKNOWN)
@@ -71,7 +71,7 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize = " << maxSize;
 
-#ifdef FREEIMAGE
+#ifdef PQMFREEIMAGE
 
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.toStdString().c_str());
     if(fif == FIF_UNKNOWN)

@@ -312,7 +312,7 @@ void PQCSettings::setDefault(bool ignoreLanguage) {
 
     QSqlQuery query(db);
     query.prepare("UPDATE general SET value=:ver WHERE name='Version'");
-    query.bindValue(":ver", VERSION);
+    query.bindValue(":ver", PQMVERSION);
     if(!query.exec())
         qWarning() << "SQL Error:" << query.lastError().text();
 

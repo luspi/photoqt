@@ -26,7 +26,7 @@
 #include <QtDebug>
 #include <QImage>
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
 #include <vips/vips.h>
 #endif
 
@@ -34,7 +34,7 @@ PQCLoadImageLibVips::PQCLoadImageLibVips() {}
 
 QSize PQCLoadImageLibVips::loadSize(QString filename) {
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
 
     // The vips image object
     VipsImage *in;
@@ -64,7 +64,7 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
 
     QString errormsg = "";
 
-#ifdef LIBVIPS
+#ifdef PQMLIBVIPS
 
     // we use the C API as the equivalent C++ API calls led to crash on subsequent call
 

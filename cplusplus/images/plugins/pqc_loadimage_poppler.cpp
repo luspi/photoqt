@@ -25,7 +25,7 @@
 #include <pqc_settings.h>
 #include <QSize>
 #include <QImage>
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 #include <poppler/qt6/poppler-qt6.h>
 #endif
 
@@ -35,7 +35,7 @@ QSize PQCLoadImagePoppler::loadSize(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;
@@ -72,7 +72,7 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
 
     QString errormsg = "";
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 
     // extract page and totalpage value from filename (prepended to filename (after filepath))
     int page = 0;

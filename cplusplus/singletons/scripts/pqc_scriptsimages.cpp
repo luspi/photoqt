@@ -14,16 +14,16 @@
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
 #endif
 
-#ifdef QTPDF
+#ifdef PQMQTPDF
 #include <QtPdf/QPdfDocument>
 #include <QtPdf/QtPdf>
 #endif
-#ifdef POPPLER
+#ifdef PQMPOPPLER
 #include <poppler/qt6/poppler-qt6.h>
 #endif
 
@@ -161,7 +161,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
 
 #endif
 
-#ifdef LIBARCHIVE
+#ifdef PQMLIBARCHIVE
 
         // Create new archive handler
         struct archive *a = archive_read_new();
@@ -389,12 +389,12 @@ int PQCScriptsImages::getNumberDocumentPages(QString path) {
     if(path.contains("::PQT::"))
         path = path.split("::PQT::").at(1);
 
-#ifdef POPPLER
+#ifdef PQMPOPPLER
     std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
     if(document && !document->isLocked())
         return document->numPages();
 #endif
-#ifdef QTPDF
+#ifdef PQMQTPDF
     QPdfDocument doc;
     doc.load(path);
     QPdfDocument::Error err = doc.error();

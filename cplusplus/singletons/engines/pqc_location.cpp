@@ -9,7 +9,7 @@
 #include <QCryptographicHash>
 #include <QCollator>
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
 #endif
 
@@ -126,7 +126,7 @@ void PQCLocation::scanForLocations(QStringList files) {
 
     query.clear();
 
-#ifdef EXIV2
+#ifdef PQMEXIV2
 
     db.transaction();
 
