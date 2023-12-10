@@ -38,9 +38,6 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
     source: "settingsmanager/PQSettingsManager.qml"
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
-    modality: Qt.ApplicationModal
-
     minimumWidth: 1000
     minimumHeight: 800
 
