@@ -10,6 +10,10 @@
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsconfig.h>
 
+#ifdef WIN32
+#include <WinSock2.h>
+#endif
+
 #ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>

@@ -4,6 +4,7 @@
 #include <pqc_printtabimagepositiontile.h>
 #include <pqc_loadimage.h>
 
+#include <sstream>
 #include <QMessageBox>
 #include <QDateTime>
 #include <QApplication>

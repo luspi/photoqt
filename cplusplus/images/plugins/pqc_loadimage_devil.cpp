@@ -54,7 +54,11 @@ QSize PQCLoadImageDevil::loadSize(QString filename) {
     }
 
     // load the passed on image file
+#ifdef WIN32
+    ilLoadImage(filename.toStdWString().c_str());
+#else
     ilLoadImage(filename.toStdString().c_str());
+#endif
 
     errormsg = checkForError();
     if(errormsg != "") {
@@ -102,7 +106,11 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
     }
 
     // load the passed on image file
+#ifdef WIN32
+    ilLoadImage(filename.toStdWString().c_str());
+#else
     ilLoadImage(filename.toStdString().c_str());
+#endif
 
     errormsg = checkForError();
     if(errormsg != "") {
@@ -154,7 +162,11 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
     ilEnable(IL_FILE_OVERWRITE);
 
     // Save the decoded image to this temporary file
+#ifdef WIN32
+    if(!ilSaveImage(tempimage.toStdWString().c_str())) {
+#else
     if(!ilSaveImage(tempimage.toStdString().c_str())) {
+#endif
         // If it fails, return error image
         ilBindImage(0);
         ilDeleteImages(1, &imageID);

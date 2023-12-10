@@ -7,6 +7,12 @@
 #include <QDBusInterface>
 #include <QRegularExpression>
 
+#ifdef WIN32
+#include <Windows.h>
+#include <wininet.h>
+#include <ShlObj.h>
+#endif
+
 PQCScriptsWallpaper::PQCScriptsWallpaper() {
 
 }
@@ -291,7 +297,7 @@ void PQCScriptsWallpaper::setWallpaper(QString category, QString filename, QVari
     HRESULT hr = CoCreateInstance(CLSID_ActiveDesktop, NULL, CLSCTX_INPROC_SERVER,
                                   IID_IActiveDesktop, (void**)&pDesk);
     if(hr != S_OK) {
-        LOG << CURDATE << "CoCreateInstance() returned error: " << hr << NL;
+        qWarning() << "CoCreateInstance() returned error:" << hr;
         return;
     }
 
