@@ -54,7 +54,6 @@ option(PUGIXML "Enable features that require pugixml" ON)
 option(CHROMECAST "Enable Chromecast support" ON)
 option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip." OFF)
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
-option(RESVG "Replace Qt's SVG engine with resvg for better SVG support" OFF)
 
 option(TESTING "Build some unit tests" OFF)
 option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
