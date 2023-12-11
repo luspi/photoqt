@@ -715,8 +715,6 @@ PQTemplateFullscreen {
         if(settingsloader.status === Loader.Ready)
             settingsloader.item.revertChanges()
 
-        if(popout)
-            settingsmanager_top.show()
     }
 
     function hide() {
