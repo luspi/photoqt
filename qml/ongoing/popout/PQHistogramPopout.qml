@@ -38,7 +38,6 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.histogramForcePopout
     source: "ongoing/PQHistogram.qml"
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
     modality: Qt.NonModal
 
     minimumWidth: 100

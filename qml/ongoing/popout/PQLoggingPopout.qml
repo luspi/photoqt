@@ -57,7 +57,6 @@ Window {
         duration: 100
     }
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
     modality: Qt.NonModal
 
     visible: false

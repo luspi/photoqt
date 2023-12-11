@@ -38,7 +38,6 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.mapcurrentForcePopout
     source: "ongoing/PQMapCurrent.qml"
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
     modality: Qt.NonModal
 
     minimumWidth: 100

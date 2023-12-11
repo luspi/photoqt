@@ -38,7 +38,6 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.slideshowcontrolsForcePopout
     source: "ongoing/PQSlideshowControls.qml"
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
     modality: Qt.NonModal
 
     minimumWidth: 100

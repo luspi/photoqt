@@ -38,7 +38,6 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.metadataForcePopout
     source: "ongoing/PQMetaData.qml"
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
     modality: Qt.NonModal
 
     minimumWidth: 400

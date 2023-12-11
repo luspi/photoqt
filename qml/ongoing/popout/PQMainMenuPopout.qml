@@ -38,7 +38,6 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.mainmenuForcePopout
     source: "ongoing/PQMainMenu.qml"
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
     modality: Qt.NonModal
 
     minimumWidth: 400
