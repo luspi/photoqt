@@ -59,8 +59,8 @@ Item {
                 id: shader
                 sourceItem: items[itemkeys[index]]
                 anchors.fill: parent
-                property point glob: blur_top.parent.mapToItem(items[itemkeys[index]], blur_top.parent.x, blur_top.parent.y)
-                sourceRect: Qt.rect(blur_top.parent.x, blur_top.parent.y, blur_top.width, blur_top.height)
+                property int adjust: index == 0 ? PQCSettings.imageviewMargin : 0
+                sourceRect: Qt.rect(blur_top.parent.x-adjust, blur_top.parent.y-adjust, blur_top.width, blur_top.height)
             }
 
             MultiEffect {
@@ -70,6 +70,8 @@ Item {
                 blurEnabled: true
                 blurMax: 32
                 shadowBlur: 0
+                shadowEnabled: false
+                paddingRect: Qt.rect(0,0,0,0)
             }
 
         }
