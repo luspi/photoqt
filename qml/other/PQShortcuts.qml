@@ -321,7 +321,7 @@ Item {
                     var parts = cmd.split(":/:/:")
                     if(parts.length !== 3)
                         return
-                    PQCScriptsShortcuts.executeExternal(parts[0], parts[1], PQCFileFolderModel.currentFilePath)
+                    PQCScriptsShortcuts.executeExternal(parts[0], parts[1], PQCFileFolderModel.currentFile)
                     if(parts[2]*1 === 1)
                         toplevel.close()
                 }
@@ -339,7 +339,7 @@ Item {
                 var curparts = curcmd.split(":/:/:")
                 if(curparts.length !== 3)
                     return
-                PQCScriptsShortcuts.executeExternal(curparts[0], curparts[1], PQCFileFolderModel.currentFilePath)
+                PQCScriptsShortcuts.executeExternal(curparts[0], curparts[1], PQCFileFolderModel.currentFile)
                 if(curparts[2]*1 === 1)
                     toplevel.close()
             }

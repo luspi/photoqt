@@ -211,15 +211,14 @@ Flickable {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
-//            PQButton {
-//                text: qsTranslate("settingsmanager", "Add new shortcuts group")
-//                extraextraWide: true
-//                onClicked: {
-//                    setting_top.entries.unshift([[],[],1,0,0])
-//                    setting_top.entriesChanged()
-//                    highlightNew.restart()
-//                }
-//            }
+            PQButton {
+                text: qsTranslate("settingsmanager", "Add new shortcuts group")
+                onClicked: {
+                    setting_top.entries.unshift([[],[],1,0,0])
+                    setting_top.entriesChanged()
+                    highlightNew.restart()
+                }
+            }
             // We use a short timeout to make sure the newly added item has been added and heights updated
             Timer {
                 id: highlightNew
@@ -1132,8 +1131,8 @@ Flickable {
             for(var idx = 0; idx < index; ++idx)
                 offset += setting_top.entriesHeights[idx]
 
-            var cy_top = Math.min(entriesview.y + offset, listview.contentHeight-listview.height)
-            var cy_bot = Math.min(entriesview.y + offset-listview.height+setting_top.entriesHeights[index], listview.contentHeight-listview.height)
+            var cy_top = Math.min(listview.y + offset, listview.contentHeight-listview.height)
+            var cy_bot = Math.min(listview.y + offset-listview.height+setting_top.entriesHeights[index], listview.contentHeight-listview.height)
             if(listview.contentY > cy_top)
                 listview.contentY = cy_top
             else if(listview.contentY < cy_bot)

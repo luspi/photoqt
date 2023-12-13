@@ -26,6 +26,7 @@ import Qt.labs.platform
 
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
+import PQCNotify
 
 import "../../../elements"
 
@@ -453,6 +454,8 @@ Rectangle {
 
     function show(index) {
 
+        PQCNotify.ignoreKeysExceptEnterEsc = true
+
         newaction_top.opacity = 1
         newaction_top.currentShortcutIndex = index
         newaction_top.currentShortcutSubIndex = -1
@@ -463,6 +466,8 @@ Rectangle {
     }
 
     function hide() {
+
+        PQCNotify.ignoreKeysExceptEnterEsc = false
 
         newaction_top.opacity = 0
 
