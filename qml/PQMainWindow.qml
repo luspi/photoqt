@@ -240,10 +240,6 @@ Window {
 
         }
 
-        function onThumbsChanged() {
-            PQCSettings.thumbnailsDisable = !PQCNotify.thumbs
-        }
-
         function onFilePathChanged() {
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
         }

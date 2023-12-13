@@ -37,8 +37,6 @@ enum PQCCommandLineResult {
     PQCCommandLineShow = 4,
     PQCCommandLineHide = 8,
     PQCCommandLineToggle = 16,
-    PQCCommandLineThumbs = 32,
-    PQCCommandLineNoThumbs = 64,
     PQCCommandLineStartInTray = 128,
     PQCCommandLineDebug = 512,
     PQCCommandLineNoDebug = 1024,

@@ -21,7 +21,7 @@ Rectangle {
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: ((setVisible||holdVisible) && !PQCSettings.thumbnailsDisable) ? 1 : 0
+    opacity: (setVisible||holdVisible) ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -119,7 +119,7 @@ Rectangle {
         id: view
 
         // the model is the total image count
-        model: PQCSettings.thumbnailsDisable||thumbnails_top.state==="disabled" ? 0 : PQCFileFolderModel.countMainView
+        model: thumbnails_top.state==="disabled" ? 0 : PQCFileFolderModel.countMainView
         onModelChanged: {
             delegZ = 0
         }

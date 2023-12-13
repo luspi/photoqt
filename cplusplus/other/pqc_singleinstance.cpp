@@ -70,12 +70,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     if(result & PQCCommandLineToggle)
         message += ":://::_T_O_G_G_L_E_";
 
-    if(result & PQCCommandLineThumbs)
-        message += ":://::_T_H_U_M_B_S_";
-
-    if(result & PQCCommandLineNoThumbs)
-        message += ":://::_N_O_T_H_U_M_B_S_";
-
     if(result & PQShortcutSequence)
         message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence.toUtf8();
 
@@ -257,14 +251,6 @@ void PQCSingleInstance::handleMessage(QString msg) {
         else if(m == "_T_O_G_G_L_E_")
 
             Q_EMIT PQCNotify::get().cmdToggle();
-
-        else if(m == "_T_H_U_M_B_S_")
-
-            PQCNotify::get().setThumbs(true);
-
-        else if(m == "_N_O_T_H_U_M_B_S_")
-
-            PQCNotify::get().setThumbs(false);
 
         else if(m == "_S_T_A_R_T_I_N_T_R_A_Y_")
 

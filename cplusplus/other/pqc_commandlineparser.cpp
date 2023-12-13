@@ -52,10 +52,6 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {{"t", "toggle"}, QApplication::translate("commandlineparser", "Show/Hide PhotoQt.")},
                    //: Command line option
-        {"thumbs", QApplication::translate("commandlineparser", "Enable thumbnails.")},
-                   //: Command line option
-        {"no-thumbs", QApplication::translate("commandlineparser", "Disable thumbnails.")},
-                   //: Command line option
         {"enable-tray", QApplication::translate("commandlineparser", "Enable system tray icon.")},
                    //: Command line option
         {"disable-tray", QApplication::translate("commandlineparser", "Disable system tray icon.")},
@@ -114,12 +110,6 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(isSet("t") || isSet("toggle"))
         ret = ret|PQCCommandLineToggle;
-
-    if(isSet("thumbs"))
-        ret = ret|PQCCommandLineThumbs;
-
-    if(isSet("no-thumbs"))
-        ret = ret|PQCCommandLineNoThumbs;
 
     if(isSet("start-in-tray"))
         ret = ret|PQCCommandLineStartInTray;

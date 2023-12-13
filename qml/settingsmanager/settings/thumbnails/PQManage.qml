@@ -39,25 +39,10 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            //: Settings title
-            text: qsTranslate("settingsmanager", "Enable thumbnails")
-            font.capitalization: Font.SmallCaps
-        }
-
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt shows all images in the currently loaded folder as thumbnails along one of the screen edges. Disabling thumbnails has the potential to improve the speed at which a folder is loaded but results in a less user-friendly experience.")
+            text: qsTranslate("settingsmanager", "PhotoQt shows all images in the currently loaded folder as thumbnails along one of the screen edges. If you want to disable thumbnails altogether, you can do so by removing it from all screen edges in the interface settings.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        PQCheckBox {
-            id: thumb_enable
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "enable thumbnails")
-            checked: !PQCSettings.thumbnailsDisable
-            onCheckedChanged: checkDefault()
         }
 
         /**********************************************************************/
@@ -247,14 +232,12 @@ Flickable {
 
     function checkDefault() {
 
-        settingChanged = (thumb_enable.hasChanged() || cache_enable.hasChanged() || nextcloud.hasChanged() || owncloud.hasChanged() || dropbox.hasChanged() ||
+        settingChanged = (cache_enable.hasChanged() || nextcloud.hasChanged() || owncloud.hasChanged() || dropbox.hasChanged() ||
                           exclude_folders.text !== PQCSettings.thumbnailsExcludeFolders.join("\n") || threads.hasChanged())
 
     }
 
     function load() {
-
-        thumb_enable.loadAndSetDefault(!PQCSettings.thumbnailsDisable)
 
         cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache)
 
@@ -294,8 +277,6 @@ Flickable {
     }
 
     function applyChanges() {
-
-        PQCSettings.thumbnailsDisable = !thumb_enable.checked
 
         PQCSettings.thumbnailsCache = cache_enable.checked
 
