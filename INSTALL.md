@@ -4,7 +4,7 @@ The instructions below serve as a guide to compile and install PhotoQt from sour
 
 ## DEPENDENCIES
 
-- Qt >= 6.2
+- Qt >= 6.2 (6.4 or higher recommended)
 - CMake (needed for building PhotoQt)
 - Qt6 ImageFormats
 
@@ -56,10 +56,6 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 - unrar
-
-## ADDITIONAL MAP PROVIDERS
-
-PhotoQt can show image locations on an embedded map. By default it chooses OpenStreetMap, but Esri and Google Maps are also offered as an option. Esri support is currently built-in to Qt, but in order to support Google Maps this plugin for QtLocation needs to be installed: https://github.com/vladest/googlemaps
 
 ## BUILDING AND INSTALLING
 
