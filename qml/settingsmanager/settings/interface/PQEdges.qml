@@ -51,8 +51,8 @@ Flickable {
 
     property var actions: {
         "top": ["", "thumbnails"],
-        "left": ["", "thumbnails", "mainmenu", "metadata"],
-        "right": ["", "thumbnails", "mainmenu", "metadata"],
+        "left": ["", "thumbnails", "metadata"],
+        "right": ["mainmenu"],
         "bottom": ["", "thumbnails"]
     }
 
@@ -157,13 +157,14 @@ Flickable {
                     id: rightedge
                     width: 75
                     height: 300
-                    color: rightmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                    color: PQCLook.baseColorHighlight
                     Behavior on color { ColorAnimation { duration: 200 } }
+                    enabled: false
                     PQText {
                         anchors.centerIn: parent
                         rotation: 90
                         font.weight: current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                        color: rightmouse.hovered ? PQCLook.textColorActive : PQCLook.textColor
+                        color: PQCLook.textColorHighlight
                         text: labels[current["right"]]
                     }
                     PQMouseArea {
@@ -172,8 +173,7 @@ Flickable {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         //: The action here is a screen edge action
-                        text: qsTranslate("settingsmanager", "Click to change action")
-                        onClicked: changeEdge("right")
+                        text: qsTranslate("settingsmanager", "The right edge action cannot be changed")
                     }
                 }
 
@@ -216,15 +216,6 @@ Flickable {
 
             }
 
-        }
-
-        PQText {
-            visible: current["top"]!=="mainmenu" &&
-                     current["left"]!=="mainmenu" &&
-                     current["right"]!=="mainmenu" &&
-                     current["bottom"]!=="mainmenu"
-            font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager", "Warning: No screen edge will trigger the main menu. It is highly recommended to keep the main menu accessible through one of the edges.")
         }
 
         /**********************************************************************/
@@ -343,7 +334,7 @@ Flickable {
 
         PQCSettings.interfaceEdgeTopAction = current["top"]
         PQCSettings.interfaceEdgeLeftAction = current["left"]
-        PQCSettings.interfaceEdgeRightAction = current["right"]
+        PQCSettings.interfaceEdgeRightAction = "mainmenu"
         PQCSettings.interfaceEdgeBottomAction = current["bottom"]
 
         PQCSettings.interfaceHotEdgeSize = sensitivity.value
