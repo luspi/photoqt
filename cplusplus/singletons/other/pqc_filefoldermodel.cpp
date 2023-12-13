@@ -379,8 +379,16 @@ void PQCFileFolderModel::advancedSortMainView() {
         && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified
         && PQCSettings::get()["imageviewAdvancedSortAscending"].toBool() == cacheAdvancedSortAscending) {
 
+        // we first make sure the count is set to 0
+        // to force a refresh of the folder
+        const int tmp = m_countMainView;
+        m_countMainView = 0;
+        Q_EMIT countMainViewChanged();
+        m_countMainView = tmp;
+
         m_entriesMainView = cacheAdvancedSortFolder;
         Q_EMIT newDataLoadedMainView();
+        Q_EMIT countMainViewChanged();
         Q_EMIT advancedSortingComplete();
         return;
 
@@ -672,9 +680,20 @@ void PQCFileFolderModel::advancedSortMainView() {
                 cacheAdvancedSortFolder << e;
         }
 
-        m_entriesMainView = cacheAdvancedSortFolder;
-        Q_EMIT newDataLoadedMainView();
+        // we first make sure the count is set to 0
+        // to force a refresh of the folder
+        const int tmp = m_countMainView;
+        m_countMainView = 0;
         Q_EMIT countMainViewChanged();
+        m_countMainView = tmp;
+
+        m_currentIndex = cacheAdvancedSortFolder.indexOf(m_currentFile);
+
+        m_entriesMainView = cacheAdvancedSortFolder;
+        Q_EMIT countMainViewChanged();
+        Q_EMIT currentIndexChanged();
+        Q_EMIT newDataLoadedMainView();
+        Q_EMIT entriesMainViewChanged();
         Q_EMIT advancedSortingComplete();
 
         QFileInfo info(m_fileInFolderMainView);
@@ -909,6 +928,8 @@ void PQCFileFolderModel::loadDataMainView() {
 
         cacheAdvancedSortFolderName = "";
 
+        // we first make sure the count is set to 0
+        // to force a refresh of the folder
         const int tmp = m_countMainView;
         m_countMainView = 0;
         Q_EMIT countMainViewChanged();
