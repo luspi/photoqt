@@ -57,6 +57,18 @@ Item {
         }
     }
 
+    PQTextL {
+        visible: !view_favorites.visible && !view_devices.visible
+        anchors.fill: parent
+        anchors.margins: 5
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        color: PQCLook.textColorHighlight
+        font.italic: true
+        text: qsTranslate("filedialog", "bookmarks and devices disabled")
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+    }
+
     Flickable {
 
         id: flickable
@@ -157,6 +169,7 @@ Item {
             Item {
                 width: parent.width
                 height: 20
+                visible: view_favorites.visible && view_devices.visible
                 Rectangle {
                     y: 19
                     width: parent.width

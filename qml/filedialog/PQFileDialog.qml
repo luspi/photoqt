@@ -95,7 +95,7 @@ Rectangle {
 
         PQPlaces {
             id: fd_places
-            SplitView.minimumWidth: leftColMinWidth
+            SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? leftColMinWidth : 100
             SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
             onWidthChanged: {
                 PQCSettings.filedialogPlacesWidth = width
