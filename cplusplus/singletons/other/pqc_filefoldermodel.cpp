@@ -902,17 +902,27 @@ void PQCFileFolderModel::loadDataMainView() {
 
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName)
+
         advancedSortMainView();
-    else
+
+    else {
+
         cacheAdvancedSortFolderName = "";
 
-    m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
-    m_currentFile = m_fileInFolderMainView;
+        const int tmp = m_countMainView;
+        m_countMainView = 0;
+        Q_EMIT countMainViewChanged();
+        m_countMainView = tmp;
 
-    Q_EMIT newDataLoadedMainView();
-    Q_EMIT countMainViewChanged();
-    Q_EMIT currentIndexChanged();
-    Q_EMIT currentFileChanged();
+        m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
+        m_currentFile = m_fileInFolderMainView;
+
+        Q_EMIT newDataLoadedMainView();
+        Q_EMIT countMainViewChanged();
+        Q_EMIT currentIndexChanged();
+        Q_EMIT currentFileChanged();
+
+    }
 
 }
 
