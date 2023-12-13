@@ -71,7 +71,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which screen edge. Note that it is highly recommended to keep one edge set to the main menu, although all functions can also be accessed by shortcuts.")
+            text: qsTranslate("settingsmanager", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which window edge. Note that the main menu is fixed to the right window edge and cannot be moved or disabled.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
