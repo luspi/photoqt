@@ -558,7 +558,12 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
     if(info.size() > 1024*1024*256)
         return toPercentEncoding(path);
 
-    QString targetFilename = QString("%1/temp%3.%4").arg(PQCConfigFiles::CACHE_DIR()).arg(animatedImageTemporaryCounter).arg(info.suffix());
+    const QString tempdir = QString("%1/animatedfiles").arg(PQCConfigFiles::CACHE_DIR());
+    QDir dir(tempdir);
+    if(!dir.exists())
+        dir.mkdir(tempdir);
+
+    QString targetFilename = QString("%1/animatedfiles/temp%3.%4").arg(PQCConfigFiles::CACHE_DIR()).arg(animatedImageTemporaryCounter).arg(info.suffix());
     QFileInfo targetinfo(targetFilename);
 
     animatedImageTemporaryCounter = (animatedImageTemporaryCounter+1)%5;
@@ -579,5 +584,15 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
     return toPercentEncoding(path);
 
 #endif
+
+}
+
+void PQCScriptsFilesPaths::cleanupTemporaryAnimatedFiles() {
+
+    QDir dir(QString("%1/animatedfiles").arg(PQCConfigFiles::CACHE_DIR()));
+    if(!dir.exists())
+        return;
+
+    dir.removeRecursively();
 
 }

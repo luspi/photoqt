@@ -28,7 +28,6 @@
 #endif
 
 PQCScriptsImages::PQCScriptsImages() {
-
 }
 
 PQCScriptsImages::~PQCScriptsImages() {

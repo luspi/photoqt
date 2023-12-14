@@ -6,6 +6,7 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCNotify
 import PQCWindowGeometry
+import PQCScriptsFilesPaths
 
 import "elements"
 import "other"
@@ -247,6 +248,14 @@ Window {
         // this one is handled directly in PQShortcuts class
         // function onCmdShortcutSequence(seq) {}
 
+    }
+
+    Timer {
+        id: cleanupTemporaryAnimatedFiles
+        running: PQCScriptsConfig.amIOnWindows()
+        interval: 500
+        onTriggered:
+            PQCScriptsFilesPaths.cleanupTemporaryAnimatedFiles()
     }
 
     Component.onCompleted: {
