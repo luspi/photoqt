@@ -2,6 +2,7 @@
 #include <pqc_settings.h>
 #include <pqc_notify.h>
 #include <pqc_imageformats.h>
+#include <pqc_configfiles.h>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <QtDebug>
 #include <QDir>
@@ -13,7 +14,7 @@
 #include <QFileDialog>
 
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
-
+    animatedImageTemporaryCounter = 0;
 }
 
 PQCScriptsFilesPaths::~PQCScriptsFilesPaths() {
@@ -536,5 +537,47 @@ QString PQCScriptsFilesPaths::findOwnCloudFolder() {
 #endif
 
     return "";
+
+}
+
+QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+#ifndef Q_OS_WIN
+
+    return toPercentEncoding(path);
+
+#else
+
+    QFileInfo info(path);
+    if(!info.exists())
+        return toPercentEncoding(path);
+
+    // if the image is larger than 256 MB we don't copy this
+    if(info.size() > 1024*1024*256)
+        return toPercentEncoding(path);
+
+    QString targetFilename = QString("%1/temp%3.%4").arg(PQCConfigFiles::CACHE_DIR()).arg(animatedImageTemporaryCounter).arg(info.suffix());
+    QFileInfo targetinfo(targetFilename);
+
+    animatedImageTemporaryCounter = (animatedImageTemporaryCounter+1)%5;
+
+    // file copied to itself
+    if(targetFilename == path)
+        return toPercentEncoding(path);
+
+    if(targetinfo.exists()) {
+        QFile tf(targetFilename);
+        tf.remove();
+    }
+
+    QFile f(path);
+    if(f.copy(targetFilename))
+        return toPercentEncoding(targetFilename);
+
+    return toPercentEncoding(path);
+
+#endif
 
 }

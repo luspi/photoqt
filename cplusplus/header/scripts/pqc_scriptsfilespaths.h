@@ -46,9 +46,12 @@ public:
     Q_INVOKABLE QString findDropBoxFolder();
     Q_INVOKABLE QString findNextcloudFolder();
     Q_INVOKABLE QString findOwnCloudFolder();
+    Q_INVOKABLE QString handleAnimatedImagePathAndEncode(QString path);
 
 private:
     PQCScriptsFilesPaths();
+
+    int animatedImageTemporaryCounter;
 
 };
 

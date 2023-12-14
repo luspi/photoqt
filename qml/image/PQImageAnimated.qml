@@ -7,7 +7,7 @@ AnimatedImage {
     id: image
 
     asynchronous: true
-    source: "file:/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
+    source: "file:/" + PQCScriptsFilesPaths.handleAnimatedImagePathAndEncode(deleg.imageSource)
 
     property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
 
