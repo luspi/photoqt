@@ -7,9 +7,6 @@
 #include <clocale>
 
 #ifdef PQMEXIV2
-    #ifdef Q_OS_WIN
-        #define NOMINMAX
-    #endif
     #ifdef PQMEXIV2_ENABLE_BMFF
         #define EXV_ENABLE_BMFF
     #endif
