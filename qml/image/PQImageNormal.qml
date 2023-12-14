@@ -27,7 +27,8 @@ Image {
             hasAlpha = PQCScriptsImages.supportsTransparency(deleg.imageSource)
             if(deleg.defaultScale < 0.95)
                 loadScaledDown.restart()
-        }
+        } else if(status == Image.Error)
+            source = "/other/errorimage.svg"
     }
 
     onMirrorChanged:
