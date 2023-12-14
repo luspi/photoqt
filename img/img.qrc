@@ -96,5 +96,6 @@
         <file>other/logo_full.svg</file>
         <file>white/application.svg</file>
         <file>other/checkerboard.png</file>
+        <file>other/errorimage.svg</file>
     </qresource>
 </RCC>
