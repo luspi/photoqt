@@ -1,6 +1,29 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.0 - 2023-12-14
+----------------------------
+- PhotoQt now based on Qt6 (requiring at least 6.2+, 6.4+ recommended)
+- updated settings manager
+- updated export feature
+- updated file dialog
+- updated image viewer engine (image now snaps in place)
+- updated thumbnails (and faster)
+- updated exiv2 analysis
+- updated main menu
+- updated map view
+- updated file management
+- updated advanced sorting feature
+- updated chromecast manager
+- updated slideshow handling
+- updated wallpaper feature
+- updated context menu
+- updated histogram
+- updated notifications feature
+- numerous bug fixes and general improvements
+- restructured code basis for easier maintenance and higher reliability
+
+
 Release 3.4 - 2023-10-06
 ----------------------------
 - add: resvg support for rendering SVG files
