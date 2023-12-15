@@ -167,7 +167,8 @@ int main(int argc, char *argv[]) {
 
     // perform some startup checks
     // return 1 on updates and 2 on fresh installs
-    int checker = startup.check();
+    const int checker = startup.check();
+    PQCNotify::get().setStartupCheck(checker);
 
     // update or fresh install?
     if(checker != 0) {
@@ -175,16 +176,18 @@ int main(int argc, char *argv[]) {
         if(checker == 2)
             startup.setupFresh();
         else {
-            PQCShortcuts::get().migrate();
             PQCSettings::get().migrate();
+            PQCSettings::get().readDB();
+            PQCShortcuts::get().migrate();
         }
 
         // run consistency check
         // this is done when updating or coming from dev version
-       if(checker == 1 || checker == 3)
+        if(checker == 1 || checker == 3)
            validate.validate();
 
         PQCSettings::get().update("generalVersion", PQMVERSION);
+        PQCSettings::get().readDB();
 
     }
 

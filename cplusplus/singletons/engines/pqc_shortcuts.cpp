@@ -27,6 +27,7 @@
 #include <QCoreApplication>
 #include <pqc_shortcuts.h>
 #include <pqc_configfiles.h>
+#include <pqc_notify.h>
 
 PQCShortcuts::PQCShortcuts() {
 

@@ -56,13 +56,41 @@ int PQCStartup::check() {
         return 2;
 
     // last time a dev version was run
-    QString version = PQCSettings::get()["generalVersion"].toString();
-    if(version == "dev")
-        return 3;
-
-    // updated
-    if(version != QString(PQMVERSION))
-        return 1;
+    // we need to figure this out WITHOUT using the PQCSettings class
+    if(QFile::exists(PQCConfigFiles::SETTINGS_DB())) {
+        QSqlDatabase dbtmp;
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsversion");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsversion");
+        dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+        dbtmp.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+        if(!dbtmp.open()) {
+            qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
+            qWarning() << "Assuming only a single instance is to be used";
+        } else {
+            QSqlQuery query(dbtmp);
+            if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'"))
+                qWarning() << "Unable to check for generalVersion setting";
+            else {
+                if(query.next()) {
+                    QString ver = query.value(0).toString();
+                    if(ver == "dev") {
+                        query.clear();
+                        dbtmp.close();
+                        return 3;
+                    }
+                    if(ver != QString(PQMVERSION)) {
+                        query.clear();
+                        dbtmp.close();
+                        return 1;
+                    }
+                }
+            }
+            query.clear();
+            dbtmp.close();
+        }
+    }
 
     // nothing happened
     return 0;

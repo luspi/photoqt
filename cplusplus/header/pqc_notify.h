@@ -121,6 +121,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(int startupCheck READ getStartupCheck WRITE setStartupCheck NOTIFY startupCheckChanged)
+    void setStartupCheck(int val);
+    Q_INVOKABLE int getStartupCheck();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -136,6 +142,7 @@ private:
         m_faceTagging = false;
         m_haveScreenshots = false;
         m_settingUpdate.clear();
+        m_startupCheck = 0;
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -158,6 +165,8 @@ private:
     bool m_haveScreenshots;
     QStringList m_settingUpdate;
 
+    int m_startupCheck;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
@@ -165,6 +174,7 @@ Q_SIGNALS:
     void thumbsChanged();
     void startInTrayChanged();
     void settingUpdateChanged();
+    void startupCheckChanged();
 
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();

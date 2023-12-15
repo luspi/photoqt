@@ -1,6 +1,11 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.0.1 - 2023-12-15
+----------------------------
+- fix migrating settings table on upgrade in certain circumstances
+
+
 Release 4.0 - 2023-12-14
 ----------------------------
 - PhotoQt now based on Qt6 (requiring at least 6.2+, 6.4+ recommended)

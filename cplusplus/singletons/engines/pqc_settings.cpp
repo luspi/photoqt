@@ -94,7 +94,8 @@ PQCSettings::PQCSettings() {
 
     }
 
-    readDB();
+    if(PQCNotify::get().getStartupCheck() != 1 && PQCNotify::get().getStartupCheck() != 3)
+        readDB();
 
     dbIsTransaction = false;
     dbCommitTimer = new QTimer();
@@ -140,9 +141,9 @@ void PQCSettings::readDB() {
     for(const auto &table : std::as_const(dbtables)) {
 
         QSqlQuery query(db);
-        query.prepare(QString("SELECT name,value,datatype FROM %1").arg(table));
+        query.prepare(QString("SELECT `name`,`value`,`datatype` FROM '%1'").arg(table));
         if(!query.exec())
-            qCritical() << "SQL Query error:" << query.lastError().text();
+            qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();
 
         while(query.next()) {
 
@@ -389,6 +390,19 @@ bool PQCSettings::migrate(QString oldversion) {
     for(int iV = iVersion; iV < versions.length(); ++iV) {
 
         QString curVer = versions[iV];
+
+        ////////////////////////////////////
+        // first rename any tables
+
+        // update to v4.0
+        if(curVer == "4.0") {
+
+            QSqlQuery query(db);
+            if(!query.exec("ALTER TABLE 'openfile' RENAME TO 'filedialog'"))
+                qCritical() << "ERROR renaming 'openfile' to 'filedialog':" << query.lastError().text();
+            query.clear();
+
+        }
 
         ////////////////////////////////////
         // first rename all settings

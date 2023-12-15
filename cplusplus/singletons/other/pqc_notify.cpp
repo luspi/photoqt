@@ -148,3 +148,13 @@ void PQCNotify::setSettingUpdate(QStringList val) {
 QStringList PQCNotify::getSettingUpdate() {
     return m_settingUpdate;
 }
+
+void PQCNotify::setStartupCheck(int val) {
+    if(val != m_startupCheck) {
+        m_startupCheck = val;
+        Q_EMIT startupCheckChanged();
+    }
+}
+int PQCNotify::getStartupCheck() {
+    return m_startupCheck;
+}
