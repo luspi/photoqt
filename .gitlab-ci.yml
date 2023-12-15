@@ -62,7 +62,7 @@ appimage:
 
 releaseappimage:
 
-  image: ubuntu:focal
+  image: ubuntu:jammy
 
   only:
     - tags
