@@ -140,7 +140,7 @@ void PQCFileFolderModel::setFileInFolderMainView(QString val) {
         return;
     QFileInfo oldfile(m_fileInFolderMainView);
     QFileInfo newfile(val);
-    if(oldfile.dir() == newfile.dir()) {
+    if(oldfile.dir() == newfile.dir() && m_fileInFolderMainView != "") {
         m_currentFile = val;
         m_currentIndex = m_entriesMainView.indexOf(val);
         m_fileInFolderMainView = val;
