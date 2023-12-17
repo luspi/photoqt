@@ -96,6 +96,16 @@ Item {
                     }
                 }
 
+                Connections {
+                    target: PQCSettings
+
+                    function onImageviewAlwaysActualSizeChanged() {
+                        deleg.active = false
+                        deleg.active = Qt.binding(function() { return shouldBeShown || hasBeenSetup; })
+                    }
+
+                }
+
                 // the current index
                 property int itemIndex: index
                 property string imageSource: PQCFileFolderModel.entriesMainView[itemIndex]
