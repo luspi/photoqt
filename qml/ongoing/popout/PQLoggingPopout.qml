@@ -33,7 +33,7 @@ import "../../elements"
 
 Window {
 
-    id: logging_popout
+    id: logging_top
 
     width: 800
     height: 600
