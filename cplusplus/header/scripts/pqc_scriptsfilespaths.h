@@ -47,7 +47,7 @@ public:
     Q_INVOKABLE QString findNextcloudFolder();
     Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QString handleAnimatedImagePathAndEncode(QString path);
-    Q_INVOKABLE void cleanupTemporaryAnimatedFiles();
+    Q_INVOKABLE void cleanupTemporaryFiles();
 
 private:
     PQCScriptsFilesPaths();

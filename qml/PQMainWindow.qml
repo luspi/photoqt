@@ -250,12 +250,12 @@ Window {
 
     }
 
+    // clean up some temporary files, mostly from last session
     Timer {
-        id: cleanupTemporaryAnimatedFiles
-        running: PQCScriptsConfig.amIOnWindows()
+        running: true
         interval: 500
         onTriggered:
-            PQCScriptsFilesPaths.cleanupTemporaryAnimatedFiles()
+            PQCScriptsFilesPaths.cleanupTemporaryFiles()
     }
 
     Component.onCompleted: {

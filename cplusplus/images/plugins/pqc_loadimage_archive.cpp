@@ -20,12 +20,17 @@
  **                                                                      **
  **************************************************************************/
 
+#include <thread>
+
+#include <pqc_loadimage.h>
 #include <pqc_loadimage_archive.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
+#include <pqc_imageformats.h>
+
 #include <QSize>
 #include <QtDebug>
 #include <QFileInfo>
@@ -108,9 +113,33 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
             }
 
             // and finish off by turning it into an image
-            QSize origSize = QImage::fromData(buff, size).size();
 
+            // we extract it to a temp location from where we can load it then
+            const QString temppath = PQCConfigFiles::CACHE_DIR() + "/archive/" + filenameinside;
+
+            // file handles
+            QFile file(temppath);
+            QFileInfo info(file);
+
+            // remove it if it exists, there is no way to know if it's the same file or not
+            if(file.exists()) file.remove();
+
+            // make sure the path exists
+            QDir dir(info.absolutePath());
+            if(!dir.exists())
+                dir.mkpath(info.absolutePath());
+
+            // write buffer to file
+            file.open(QIODevice::WriteOnly);
+            QDataStream out(&file);   // we will serialize the data into the file
+            out.writeRawData((const char*) buff,size);
+            file.close();
             delete[] buff;
+
+            QSize origSize = PQCLoadImage::get().load(temppath);
+
+            // finally remove file again
+            file.remove();
 
             r = archive_read_free(a);
             if(r != ARCHIVE_OK)
@@ -240,11 +269,36 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
             }
 
             // and finish off by turning it into an image
-            img = QImage::fromData(buff, size);
 
-            origSize = img.size();
+            // we extract it to a temp location from where we can load it then
+            const QString temppath = PQCConfigFiles::CACHE_DIR() + "/archive/" + filenameinside;
 
+            // file handles
+            QFile file(temppath);
+            QFileInfo info(file);
+
+            // remove it if it exists, there is no way to know if it's the same file or not
+            if(file.exists()) file.remove();
+
+            // make sure the path exists
+            QDir dir(info.absolutePath());
+            if(!dir.exists())
+                dir.mkpath(info.absolutePath());
+
+            // write buffer to file
+            file.open(QIODevice::WriteOnly);
+            QDataStream out(&file);   // we will serialize the data into the file
+            out.writeRawData((const char*) buff,size);
+            file.close();
             delete[] buff;
+
+            // attempt to load file
+            QString err = PQCLoadImage::get().load(temppath, maxSize, origSize, img);
+            if(err != "")
+                qWarning() << "Failed to load image inside archive:" << filenameinside;
+
+            // finally remove file again
+            file.remove();
 
             // Nothing more to do except some cleaning up below
             break;

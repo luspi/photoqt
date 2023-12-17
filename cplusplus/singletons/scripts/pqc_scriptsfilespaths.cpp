@@ -95,6 +95,9 @@ QString PQCScriptsFilesPaths::getFilename(QString fullpath) {
     if(fullpath == "")
         return "";
 
+    if(fullpath.contains("::ARC::"))
+        fullpath = fullpath.split("::ARC::")[0];
+
     return QFileInfo(fullpath).fileName();
 
 }
@@ -587,12 +590,14 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
 
 }
 
-void PQCScriptsFilesPaths::cleanupTemporaryAnimatedFiles() {
+void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
 
     QDir dir(QString("%1/animatedfiles").arg(PQCConfigFiles::CACHE_DIR()));
-    if(!dir.exists())
-        return;
+    if(dir.exists())
+        dir.removeRecursively();
 
-    dir.removeRecursively();
+    dir.setPath(PQCConfigFiles::CACHE_DIR() + "/archive/");
+    if(dir.exists())
+        dir.removeRecursively();
 
 }
