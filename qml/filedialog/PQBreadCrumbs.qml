@@ -21,16 +21,15 @@ Item {
     Row {
 
         Item {
-            width: placesWidth
+
+            width: Math.max(placesWidth, leftrow.width+10)
             height: breadcrumbs_top.height
 
             Row {
 
-                x: 5
+                id: leftrow
 
-                Component.onCompleted: {
-                    filedialog_top.leftColMinWidth = width+10
-                }
+                x: 5
 
                 y: (parent.height-height)/2
                 spacing: 5
