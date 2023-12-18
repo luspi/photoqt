@@ -55,6 +55,8 @@ GridView {
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
     clip: true
 
+    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
+
     // reset index to -1 if no other item has been hovered in the meantime
     Timer {
         id: resetCurrentIndex
