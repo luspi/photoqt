@@ -257,8 +257,8 @@ Flickable {
         else {
             var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
             PQCSettings.imageviewAnimationType = aniValues[anicombo.currentIndex]
+            PQCSettings.imageviewAnimationDuration = anispeed.value
         }
-        PQCSettings.imageviewAnimationDuration = anispeed.value
 
         loop.saveDefault()
         sortasc.saveDefault()
