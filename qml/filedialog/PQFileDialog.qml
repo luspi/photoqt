@@ -29,8 +29,6 @@ Rectangle {
     property var history: []
     property int historyIndex: 0
 
-    property int leftColMinWidth: 200
-
     property bool splitDividerHovered: false
 
     color: PQCLook.baseColor
@@ -95,7 +93,7 @@ Rectangle {
 
         PQPlaces {
             id: fd_places
-            SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? leftColMinWidth : 100
+            SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5
             SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
             onWidthChanged: {
                 PQCSettings.filedialogPlacesWidth = width
