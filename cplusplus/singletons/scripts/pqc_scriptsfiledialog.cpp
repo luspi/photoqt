@@ -113,13 +113,18 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
             continue;
 
         // name
-        entry << bm.select_node("title").node().child_value();
+        const QString nme = bm.select_node("title").node().child_value();
+        entry << nme;
 
         // path
         entry << path;
 
         // icon
-        entry << bm.select_node("info/metadata/bookmark:icon").node().attribute("name").value();
+        const QString icn = bm.select_node("info/metadata/bookmark:icon").node().attribute("name").value();
+        if((nme == "Home" || nme == QStandardPaths::displayName(QStandardPaths::HomeLocation)) && icn == "true")
+            entry << "user-home";
+        else
+            entry << icn;
 
         // id
         QString id = bm.select_node("info/metadata/ID").node().child_value();
@@ -395,6 +400,9 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: pos =" << pos;
+    qDebug() << "args: titlestring =" << titlestring;
+    qDebug() << "args: icon =" << icon;
+    qDebug() << "args: isSystemItem =" << isSystemItem;
 
 #ifdef PQMPUGIXML
 
@@ -452,9 +460,9 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
         metadata1.attribute("owner").set_value("http://freedesktop.org");
 
         // <bookmark:icon>
-        pugi::xml_node icon = metadata1.append_child("bookmark:icon");
-        icon.append_attribute("name");
-        icon.attribute("name").set_value(icon);
+        pugi::xml_node node_icon = metadata1.append_child("bookmark:icon");
+        node_icon.append_attribute("name");
+        node_icon.attribute("name").set_value(icon.toStdString().c_str());
 
         // <metadata> kde.org
         pugi::xml_node metadata2 = info.append_child("metadata");
@@ -470,8 +478,8 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
         IsHidden.text().set("false");
 
         // <isSystemItem>
-        pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
-        isSystemItem.text().set(isSystemItem ? "true" : "false");
+        pugi::xml_node node_isSystemItem = metadata2.append_child("isSystemItem");
+        node_isSystemItem.text().set(isSystemItem ? "true" : "false");
 
     } else {
 
@@ -505,9 +513,9 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
                 metadata1.attribute("owner").set_value("http://freedesktop.org");
 
                 // <bookmark:icon>
-                pugi::xml_node icon = metadata1.append_child("bookmark:icon");
-                icon.append_attribute("name");
-                icon.attribute("name").set_value("folder");
+                pugi::xml_node node_icon = metadata1.append_child("bookmark:icon");
+                node_icon.append_attribute("name");
+                node_icon.attribute("name").set_value(icon.toStdString().c_str());
 
                 // <metadata> kde.org
                 pugi::xml_node metadata2 = info.append_child("metadata");
@@ -523,8 +531,8 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
                 IsHidden.text().set("false");
 
                 // <isSystemItem>
-                pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
-                isSystemItem.text().set("false");
+                pugi::xml_node node_isSystemItem = metadata2.append_child("isSystemItem");
+                node_isSystemItem.text().set("false");
 
                 break;
 
