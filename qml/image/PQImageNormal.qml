@@ -16,6 +16,13 @@ Image {
     smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : interpThreshold
     mipmap: interpThreshold
 
+    property bool fitImage: (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+
+    width: fitImage ? deleg.width : undefined
+    height: fitImage ? deleg.height : undefined
+
+    fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
+
     onWidthChanged:
         image_wrapper.width = width
     onHeightChanged:
