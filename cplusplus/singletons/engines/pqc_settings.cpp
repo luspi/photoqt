@@ -120,6 +120,7 @@ PQCSettings::PQCSettings() {
 #endif
 
     connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
+    connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
 
 }
 
@@ -611,5 +612,12 @@ void PQCSettings::updateFromCommandLine() {
             this->update(key, QSize(parts[0].toUInt(), parts[1].toUInt()));
     } else if(type == "string")
         this->update(key, val);
+
+}
+
+void PQCSettings::resetToDefault() {
+
+    setDefault();
+    readDB();
 
 }

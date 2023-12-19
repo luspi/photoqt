@@ -42,6 +42,7 @@ public:
     Q_INVOKABLE bool isBetaVersion();
     Q_INVOKABLE QStringList getAvailableTranslations();
     Q_INVOKABLE void updateTranslation();
+    Q_INVOKABLE void inform(QString title, QString txt);
 
 private:
     PQCScriptsConfig();

@@ -58,6 +58,7 @@ public:
 
 public Q_SLOTS:
     void updateFromCommandLine();
+    void resetToDefault();
 
 private:
     PQCSettings();

@@ -59,6 +59,7 @@ public:
 
 public Q_SLOTS:
     void readDB();
+    void resetToDefault();
 
 private:
     PQCShortcuts();

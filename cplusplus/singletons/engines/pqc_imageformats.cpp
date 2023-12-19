@@ -30,6 +30,7 @@
 #include <QMimeDatabase>
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
+#include <pqc_notify.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
@@ -93,6 +94,8 @@ PQCImageFormats::PQCImageFormats() {
         readFromDatabase();
 
     }
+
+    connect(&PQCNotify::get(), &PQCNotify::resetFormatsToDefault, this, &PQCImageFormats::restoreDefaults);
 
 }
 
@@ -735,40 +738,92 @@ bool PQCImageFormats::updateFormatByEnding(QString endings, QString mimetypes, Q
 
 void PQCImageFormats::restoreDefaults() {
 
-    qDebug() << "";
+    qDebug() << "readonly =" << readonly;
 
-    db.close();
-
-    QSqlDatabase::removeDatabase("imageformats");
-
-    if(!QFile::remove(PQCConfigFiles::IMAGEFORMATS_DB())) {
-        qWarning() << "Error removing old database.";
+    if(readonly)
         return;
-    }
 
-    if(!QFile::copy(":/imageformats.db", PQCConfigFiles::IMAGEFORMATS_DB())) {
-        qWarning() << "Error copying over new database.";
-        return;
-    }
+    db.transaction();
 
-    QFile file(PQCConfigFiles::IMAGEFORMATS_DB());
-    if(!file.setPermissions(file.permissions()|QFile::WriteOwner)) {
-        qWarning() << "Error setting write permission to new database, setting read-only flag.";
-        readonly = true;
-        return;
-    }
-
-    if(!db.open()) {
-        qWarning() << "Error opening new database:" << db.lastError().text();
-        return;
-    }
-
+    // open database
+    QSqlDatabase dbdefault;
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
-    else
-        db = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
-    db.setDatabaseName(PQCConfigFiles::IMAGEFORMATS_DB());
+        dbdefault = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsrestoredefault");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbdefault = QSqlDatabase::addDatabase("QSQLITE", "shortcutsrestoredefault");
+    else {
+        qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
+        qCritical() << "PhotoQt cannot function without SQLite available.";
+        return;
+    }
+
+    QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/imageformats.db", PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
+                              QFileDevice::ReadGroup);
+    dbdefault.setDatabaseName(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    if(!dbdefault.open()) {
+        qWarning() << "SQL error:" << dbdefault.lastError().text();
+        dbdefault.close();
+        return;
+    }
+
+    QSqlQuery queryDefault(dbdefault);
+    if(!queryDefault.exec("SELECT * FROM 'imageformats'")) {
+        qCritical() << "SQL error:" << queryDefault.lastError().text();
+        queryDefault.clear();
+        dbdefault.close();
+        return;
+    }
+
+    while(queryDefault.next()) {
+
+        QMap<QString,QVariant> vals;
+        for(int i = 0; i < queryDefault.record().count(); ++i)
+            vals.insert(queryDefault.record().fieldName(i), queryDefault.record().value(i));
+
+        const QStringList keys = vals.keys();
+
+        QString str = "UPDATE 'imageformats' SET ";
+        bool first = true;
+        for(const QString &k : keys) {
+            if(!first) str += ", ";
+            first = false;
+            str += QString("`%1`=:%2").arg(k,k);
+        }
+        str += QString(" WHERE `uniqueid`=%1").arg(vals["uniqueid"].toInt());
+
+        QSqlQuery query(db);
+        query.prepare(str);
+
+        for(const QString &k : keys)
+            query.bindValue(QString(":%1").arg(k), vals[k]);
+
+        if(!query.exec()) {
+            qCritical() << "SQL error:" << query.lastError().text();
+            query.clear();
+            dbdefault.close();
+            return;
+        }
+        query.clear();
+
+    }
+
+
+    queryDefault.clear();
+    dbdefault.close();
+
+    db.commit();
+    if(db.lastError().text().trimmed().length())
+        qWarning() << "ERROR committing database:" << db.lastError().text();
 
     readFromDatabase();
+
+}
+
+void PQCImageFormats::closeDatabase() {
+
+    db.close();
 
 }

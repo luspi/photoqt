@@ -375,8 +375,20 @@ PQTemplateFullscreen {
                                               "DoubleClickThreshold",
                                               "MouseWheelSensitivity",
                                               "HideCursorTimeout"]]
-                       }]
+                       }],
 
+        "manage" : [qsTranslate("settingsmanager", "Manage"),
+                    {
+                        "mn_reset" : [qsTranslate("settingsmanager", "Reset"), "PQReset",
+                                      [qsTranslate("settingsmanager", "Reset settings"),
+                                       qsTranslate("settingsmanager", "Reset shortcuts")],
+                                      []],
+
+                        "mn_expimp" : [qsTranslate("settingsmanager", "Export/Import"), "PQExportImport",
+                                       [qsTranslate("settingsmanager", "Export settings"),
+                                        qsTranslate("settingsmanager", "Import settings")],
+                                       []]
+                    }]
 
     }
 

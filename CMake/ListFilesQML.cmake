@@ -86,3 +86,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQ
 
 SET(d "qml/settingsmanager/settings/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
+
+SET(d "qml/settingsmanager/settings/manage")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQReset.qml ${d}/PQExportImport.qml)

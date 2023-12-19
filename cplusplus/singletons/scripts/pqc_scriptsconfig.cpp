@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QImageReader>
 #include <QQmlContext>
+#include <QMessageBox>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
 #include <pqc_shortcuts.h>
@@ -245,6 +246,22 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
 
 #ifdef PQMLIBARCHIVE
 
+    PQCSettings::get().closeDatabase();
+    PQCShortcuts::get().closeDatabase();
+    PQCImageFormats::get().closeDatabase();
+
+    // Obtain a filename from the user or used passed on filename
+    QString archiveFile;
+    if(path == "") {
+        archiveFile = QFileDialog::getOpenFileName(0,
+                                                   "Select Location",
+                                                   QDir::homePath(),
+                                                   "PhotoQt Config File (*.pqt);;All Files (*.*)");
+        if(archiveFile.trimmed() == "")
+            return false;
+    } else
+        archiveFile = path;
+
     // All the config files to be imported
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
@@ -260,7 +277,7 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
     archive_read_support_format_zip(a);
 
     // Read file
-    int r = archive_read_open_filename(a, path.toLocal8Bit().data(), 10240);
+    int r = archive_read_open_filename(a, archiveFile.toLocal8Bit().data(), 10240);
 
     // If something went wrong, output error message and stop here
     if(r != ARCHIVE_OK) {
@@ -554,4 +571,12 @@ void PQCScriptsConfig::updateTranslation() {
 
 bool PQCScriptsConfig::isBetaVersion() {
     return QString(PQMVERSION).contains("-beta");
+}
+
+void PQCScriptsConfig::inform(QString title, QString txt) {
+
+    QMessageBox::information(0,
+                             title,
+                             txt);
+
 }

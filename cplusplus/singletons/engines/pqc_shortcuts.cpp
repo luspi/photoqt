@@ -95,6 +95,8 @@ PQCShortcuts::PQCShortcuts() {
             qCritical() << "ERROR committing database:" << db.lastError().text();
     });
 
+    connect(&PQCNotify::get(), &PQCNotify::resetShortcutsToDefault, this, &PQCShortcuts::resetToDefault);
+
 }
 
 PQCShortcuts::~PQCShortcuts() {}
@@ -495,5 +497,12 @@ bool PQCShortcuts::migrate(QString oldversion) {
     }
 
     return true;
+
+}
+
+void PQCShortcuts::resetToDefault() {
+
+    setDefault();
+    readDB();
 
 }

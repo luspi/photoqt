@@ -197,6 +197,10 @@ Q_SIGNALS:
     void cmdTray(bool tray);
     void resetSessionData();
 
+    void resetSettingsToDefault();
+    void resetShortcutsToDefault();
+    void resetFormatsToDefault();
+
     void keyPress(int key, int modifiers);
     void executeInternalCommand(QString cmd);
 
