@@ -1,6 +1,25 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.1 - 2023-12-20
+----------------------------
+- add: restore default settings/shortcuts from settings manager
+- add: export/import configuration from settings manager
+- add: support loading AVIF format with ImageMagick/GraphicsMagick
+- add: missing fit-to-window feature support
+- improve: apply changes to 'load at actual size' setting immediately
+- improve: reduce minimum width of places column in file dialog
+- improve: add vertical scrollbar to file view
+- improve: load any supported image type inside of archives
+- fix: loading image in current working directory
+- fix: reloading folder when content changes
+- fix: use middle button for shortcuts
+- fix: visibility and alignment of log/debug message window
+- fix: disabling image animations in settings manager
+- fix: icons used for Windows build
+- fix: store layout of file view
+
+
 Release 4.0.1 - 2023-12-15
 ----------------------------
 - fix migrating settings table on upgrade in certain circumstances

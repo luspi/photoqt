@@ -186,21 +186,21 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
   <context>
     <name>PQCImageFormats</name>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="65"/>
-      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="78"/>
+      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="66"/>
+      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="79"/>
       <source>ERROR getting default image formats</source>
       <extracomment>This is the window title of an error message box</extracomment>
       <translation type="unfinished">ERROR getting default image formats</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="66"/>
-      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="79"/>
+      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="67"/>
+      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="80"/>
       <source>Not even a read-only version of the database of default image formats could be opened.</source>
       <translation type="unfinished">Not even a read-only version of the database of default image formats could be opened.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="66"/>
-      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="79"/>
+      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="67"/>
+      <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="80"/>
       <source>Something went terribly wrong somewhere!</source>
       <translation type="unfinished">Something went terribly wrong somewhere!</translation>
     </message>
@@ -451,29 +451,29 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
   <context>
     <name>PQShortcuts</name>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="60"/>
+      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="61"/>
       <source>ERROR getting database with default shortcuts</source>
       <extracomment>This is the window title of an error message box</extracomment>
       <translation type="unfinished">ERROR getting database with default shortcuts</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="61"/>
+      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="62"/>
       <source>I tried hard, but I just cannot open even a read-only version of the shortcuts database.</source>
       <translation type="unfinished">I tried hard, but I just cannot open even a read-only version of the shortcuts database.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="61"/>
-      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="73"/>
+      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="62"/>
+      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="74"/>
       <source>Something went terribly wrong somewhere!</source>
       <translation type="unfinished">Something went terribly wrong somewhere!</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="72"/>
+      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="73"/>
       <source>ERROR opening database with default settings</source>
       <translation type="unfinished">ERROR opening database with default settings</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="73"/>
+      <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="74"/>
       <source>I tried hard, but I just cannot open the database of default shortcuts.</source>
       <translation type="unfinished">I tried hard, but I just cannot open the database of default shortcuts.</translation>
     </message>
@@ -1239,48 +1239,48 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
   <context>
     <name>filedialog</name>
     <message>
-      <location filename="../qml/filedialog/PQBreadCrumbs.qml" line="81"/>
+      <location filename="../qml/filedialog/PQBreadCrumbs.qml" line="80"/>
       <source>Show files as icons</source>
       <translation type="unfinished">Show files as icons</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQBreadCrumbs.qml" line="93"/>
+      <location filename="../qml/filedialog/PQBreadCrumbs.qml" line="92"/>
       <source>Show files as list</source>
       <translation type="unfinished">Show files as list</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQBreadCrumbs.qml" line="236"/>
+      <location filename="../qml/filedialog/PQBreadCrumbs.qml" line="235"/>
       <source>no subfolders found</source>
       <translation type="unfinished">no subfolders found</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="469"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="471"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="473"/>
       <source>%1 image</source>
       <translation>%1 Imagem</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="469"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="473"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="471"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="475"/>
       <source>%1 images</source>
       <translation>%1 Imagens</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="654"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="656"/>
       <source># images</source>
       <translation># imagens</translation>
     </message>
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="215"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="655"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="690"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="657"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="692"/>
       <source>Date:</source>
       <translation>Data:</translation>
     </message>
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="216"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="656"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="691"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="658"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="693"/>
       <source>Time:</source>
       <translation>Tempo:</translation>
     </message>
@@ -1291,128 +1291,128 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
     </message>
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="213"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="688"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="690"/>
       <source>File size:</source>
       <translation>Tamanho do arquivo:</translation>
     </message>
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="214"/>
-      <location filename="../qml/filedialog/PQFileView.qml" line="689"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="691"/>
       <source>File type:</source>
       <translation>Tipo do arquivo:</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="102"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="104"/>
       <source>no supported files/folders found</source>
       <translation type="unfinished">no supported files/folders found</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1110"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1112"/>
       <source>Load this folder</source>
       <translation>Carregar esta pasta</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1110"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1112"/>
       <source>Load this file</source>
       <translation>Carregar este arquivo</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1122"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1124"/>
       <source>Add to Favorites</source>
       <translation>Adicionar aos favoritos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1131"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1133"/>
       <source>Remove file selection</source>
       <translation type="unfinished">Remove file selection</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1131"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1133"/>
       <source>Select file</source>
       <translation type="unfinished">Select file</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1142"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1144"/>
       <source>Remove all file selection</source>
       <translation type="unfinished">Remove all file selection</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1142"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1144"/>
       <source>Select all files</source>
       <translation type="unfinished">Select all files</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1151"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1153"/>
       <source>Delete selection</source>
       <translation type="unfinished">Delete selection</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1152"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1154"/>
       <source>Delete file</source>
       <translation type="unfinished">Delete file</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1153"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1155"/>
       <source>Delete folder</source>
       <translation type="unfinished">Delete folder</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1154"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1156"/>
       <source>Delete file/folder</source>
       <translation type="unfinished">Delete file/folder</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1161"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1163"/>
       <source>Cut selection</source>
       <translation type="unfinished">Cut selection</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1162"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1164"/>
       <source>Cut file</source>
       <translation type="unfinished">Cut file</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1163"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1165"/>
       <source>Cut folder</source>
       <translation type="unfinished">Cut folder</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1164"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1166"/>
       <source>Cut file/folder</source>
       <translation type="unfinished">Cut file/folder</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1171"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1173"/>
       <source>Copy selection</source>
       <translation type="unfinished">Copy selection</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1172"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1174"/>
       <source>Copy file</source>
       <translation type="unfinished">Copy file</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1173"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1175"/>
       <source>Copy folder</source>
       <translation type="unfinished">Copy folder</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1174"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1176"/>
       <source>Copy file/folder</source>
       <translation type="unfinished">Copy file/folder</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1180"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1182"/>
       <source>Paste files from clipboard</source>
       <translation type="unfinished">Paste files from clipboard</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1200"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1202"/>
       <source>Show hidden files</source>
       <translation>Mostrar arquivos ocultos</translation>
     </message>
     <message>
-      <location filename="../qml/filedialog/PQFileView.qml" line="1207"/>
+      <location filename="../qml/filedialog/PQFileView.qml" line="1209"/>
       <source>Show tooltip with image details</source>
       <translation type="unfinished">Show tooltip with image details</translation>
     </message>
@@ -1939,12 +1939,12 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
   <context>
     <name>image</name>
     <message>
-      <location filename="../qml/image/PQImage.qml" line="747"/>
+      <location filename="../qml/image/PQImage.qml" line="757"/>
       <source>Click here to enter viewer mode</source>
       <translation type="unfinished">Click here to enter viewer mode</translation>
     </message>
     <message>
-      <location filename="../qml/image/PQImage.qml" line="766"/>
+      <location filename="../qml/image/PQImage.qml" line="776"/>
       <source>Hide central button for entering viewer mode</source>
       <translation type="unfinished">Hide central button for entering viewer mode</translation>
     </message>
@@ -2277,7 +2277,7 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <location filename="../qml/actions/PQMapExplorer.qml" line="132"/>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="133"/>
       <location filename="../qml/elements/PQTemplateFullscreen.qml" line="227"/>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="207"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="205"/>
       <location filename="../qml/ongoing/PQMainMenu.qml" line="816"/>
       <location filename="../qml/ongoing/PQMetaData.qml" line="481"/>
       <location filename="../qml/ongoing/PQSlideshowControls.qml" line="340"/>
@@ -2289,7 +2289,7 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <location filename="../qml/actions/PQMapExplorer.qml" line="134"/>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="135"/>
       <location filename="../qml/elements/PQTemplateFullscreen.qml" line="229"/>
-      <location filename="../qml/filedialog/PQFileDialog.qml" line="209"/>
+      <location filename="../qml/filedialog/PQFileDialog.qml" line="207"/>
       <location filename="../qml/ongoing/PQMainMenu.qml" line="818"/>
       <location filename="../qml/ongoing/PQMetaData.qml" line="483"/>
       <location filename="../qml/ongoing/PQSlideshowControls.qml" line="342"/>
@@ -2508,6 +2508,7 @@ Settings title</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="243"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="380"/>
       <source>Manage</source>
       <extracomment>A settings subcategory</extracomment>
       <translation type="unfinished">Manage</translation>
@@ -2631,28 +2632,58 @@ Settings title</extracomment>
       <translation type="unfinished">Shortcuts</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="448"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="382"/>
+      <source>Reset</source>
+      <translation type="unfinished">Reset</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="383"/>
+      <source>Reset settings</source>
+      <translation type="unfinished">Reset settings</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="384"/>
+      <source>Reset shortcuts</source>
+      <translation type="unfinished">Reset shortcuts</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="387"/>
+      <source>Export/Import</source>
+      <translation type="unfinished">Export/Import</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="388"/>
+      <source>Export settings</source>
+      <translation type="unfinished">Export settings</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="389"/>
+      <source>Import settings</source>
+      <translation type="unfinished">Import settings</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="460"/>
       <source>Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close</source>
       <translation type="unfinished">Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="481"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="493"/>
       <source>Unsaved changes</source>
       <translation type="unfinished">Unsaved changes</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="489"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="501"/>
       <source>The settings on this page have changed. Do you want to apply or discard them?</source>
       <translation type="unfinished">The settings on this page have changed. Do you want to apply or discard them?</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="501"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="513"/>
       <source>Apply</source>
       <extracomment>written on button, used as in: apply changes</extracomment>
       <translation type="unfinished">Apply</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="520"/>
+      <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="532"/>
       <source>Discard</source>
       <extracomment>written on button, used as in: discard changes</extracomment>
       <translation type="unfinished">Discard</translation>
@@ -5206,6 +5237,68 @@ Written on small button, used as in: add new shortcut action. Please keep short!
       <location filename="../qml/settingsmanager/PQMainCategory.qml" line="17"/>
       <source>main category</source>
       <translation type="unfinished">main category</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQExportImport.qml" line="38"/>
+      <source>Export/Import configuration</source>
+      <extracomment>Settings title</extracomment>
+      <translation type="unfinished">Export/Import configuration</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQExportImport.qml" line="44"/>
+      <source>Here you can create a backup of the configuration for backup or for moving it to another install of PhotoQt. You can import a local backup below. After importing a backup file PhotoQt will automatically close as it will need to be restarted for the changes to take effect.</source>
+      <translation type="unfinished">Here you can create a backup of the configuration for backup or for moving it to another install of PhotoQt. You can import a local backup below. After importing a backup file PhotoQt will automatically close as it will need to be restarted for the changes to take effect.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQExportImport.qml" line="56"/>
+      <source>export configuration</source>
+      <translation type="unfinished">export configuration</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQExportImport.qml" line="69"/>
+      <source>import configuration</source>
+      <translation type="unfinished">import configuration</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQExportImport.qml" line="72"/>
+      <source>Restart required</source>
+      <translation type="unfinished">Restart required</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQExportImport.qml" line="73"/>
+      <source>PhotoQt will now quit as it needs to be restarted for the changes to take effect.</source>
+      <translation type="unfinished">PhotoQt will now quit as it needs to be restarted for the changes to take effect.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQReset.qml" line="38"/>
+      <source>Reset settings and shortcuts</source>
+      <extracomment>Settings title</extracomment>
+      <translation type="unfinished">Reset settings and shortcuts</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQReset.qml" line="44"/>
+      <source>Here the various configurations of PhotoQt can be reset to their defaults. Once you select one of the below categories you have a total of 5 seconds to cancel the action. After the 5 seconds are up the respective defaults will be set. This cannot be undone.</source>
+      <translation type="unfinished">Here the various configurations of PhotoQt can be reset to their defaults. Once you select one of the below categories you have a total of 5 seconds to cancel the action. After the 5 seconds are up the respective defaults will be set. This cannot be undone.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQReset.qml" line="56"/>
+      <source>reset settings</source>
+      <translation type="unfinished">reset settings</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQReset.qml" line="73"/>
+      <source>reset shortcuts</source>
+      <translation type="unfinished">reset shortcuts</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQReset.qml" line="90"/>
+      <source>reset enabled file formats</source>
+      <translation type="unfinished">reset enabled file formats</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/manage/PQReset.qml" line="123"/>
+      <source>You can still cancel this action. Seconds remaining:</source>
+      <translation type="unfinished">You can still cancel this action. Seconds remaining:</translation>
     </message>
   </context>
   <context>
