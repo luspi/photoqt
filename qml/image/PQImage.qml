@@ -598,7 +598,7 @@ Item {
                                     anchors.bottomMargin: -flickable_content.y
                                     hoverEnabled: true
                                     propagateComposedEvents: true
-                                    acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.MiddleButton
+                                    acceptedButtons: Qt.AllButtons
                                     doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
                                     onPositionChanged: (mouse) => {
                                         cursorShape = Qt.ArrowCursor
