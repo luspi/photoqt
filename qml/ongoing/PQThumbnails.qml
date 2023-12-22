@@ -45,7 +45,8 @@ Rectangle {
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
-    property int extraSpacing: Math.max(20,2*PQCSettings.thumbnailsHighlightAnimationLiftUp)
+    property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0
+    property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
 
     PQBlurBackground { thisis: "thumbnails" }
 
@@ -187,7 +188,7 @@ Rectangle {
         PQHorizontalScrollBar {
             id: scrollbar_bottom
             visible: thumbnails_top.state==="bottom"
-            anchors.bottomMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_bottom.height)/2
+            anchors.bottomMargin: (effectiveThumbnailLiftup-scrollbar_bottom.height)/2
         }
 
         // top scroll bar
@@ -198,7 +199,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.topMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_top.height)/2
+            anchors.topMargin: (effectiveThumbnailLiftup-scrollbar_top.height)/2
         }
 
         // set bottom or top scroll bar
@@ -212,7 +213,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.leftMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_left.width)/2
+            anchors.leftMargin: (effectiveThumbnailLiftup-scrollbar_left.width)/2
         }
 
         // right scroll bar
@@ -223,7 +224,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: parent.right
-            anchors.rightMargin: (PQCSettings.thumbnailsHighlightAnimationLiftUp-scrollbar_right.width)/2
+            anchors.rightMargin: (effectiveThumbnailLiftup-scrollbar_right.width)/2
         }
 
         // set left or right scrollbar
@@ -236,7 +237,7 @@ Rectangle {
                 PropertyChanges {
                     target: view
                     x: (parent.width-width)/2
-                    y: Math.max(10,PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                    y: Math.max(10,effectiveThumbnailLiftup)
                     implicitWidth: Math.min(parent.width, contentWidth)
                     implicitHeight: parent.height-y
                     orientation: Qt.Horizontal
@@ -248,7 +249,7 @@ Rectangle {
                 name: "left"
                 PropertyChanges {
                     target: view
-                    x: Math.max(10,PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                    x: Math.max(10,effectiveThumbnailLiftup)
                     y: (parent.height-height)/2
                     implicitWidth: parent.width
                     implicitHeight: Math.min(parent.height, contentHeight)
@@ -261,7 +262,7 @@ Rectangle {
                 name: "right"
                 PropertyChanges {
                     target: view
-                    x: Math.max(10,PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                    x: Math.max(10,effectiveThumbnailLiftup)
                     y: (parent.height-height)/2
                     implicitWidth: parent.width
                     implicitHeight: Math.min(parent.height, contentHeight)
@@ -275,7 +276,7 @@ Rectangle {
                 PropertyChanges {
                     target: view
                     x: (parent.width-width)/2
-                    y: Math.max(10,PQCSettings.thumbnailsHighlightAnimationLiftUp)
+                    y: Math.max(10,effectiveThumbnailLiftup)
                     implicitWidth: toplevel.width
                     implicitHeight: 100
                     orientation: Qt.Horizontal
@@ -328,12 +329,12 @@ Rectangle {
 
                 // the image position can change depending on the highlight animation
                 x: (deleg.active&&view.hlLiftUp)
-                        ? (view.state==="left" ? PQCSettings.thumbnailsHighlightAnimationLiftUp
-                                               : (view.state==="right" ? -PQCSettings.thumbnailsHighlightAnimationLiftUp : 0))
+                        ? (view.state==="left" ? effectiveThumbnailLiftup
+                                               : (view.state==="right" ? -effectiveThumbnailLiftup : 0))
                         : 0
                 y: (deleg.active&&view.hlLiftUp)
-                        ? (view.state==="top" ? PQCSettings.thumbnailsHighlightAnimationLiftUp
-                                              : (view.state==="bottom" ? -PQCSettings.thumbnailsHighlightAnimationLiftUp : 0))
+                        ? (view.state==="top" ? effectiveThumbnailLiftup
+                                              : (view.state==="bottom" ? -effectiveThumbnailLiftup : 0))
                         : 0
 
                 Behavior on x { NumberAnimation { duration: 200 } }
