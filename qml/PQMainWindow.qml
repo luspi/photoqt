@@ -138,6 +138,12 @@ Window {
         anchors.fill: parent
     }
 
+    Loader {
+        asynchronous: true
+        active: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
+        source: "ongoing/PQWindowHandles.qml"
+    }
+
 
     /*************************************************/
 
