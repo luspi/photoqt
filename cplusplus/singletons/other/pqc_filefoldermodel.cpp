@@ -1126,7 +1126,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
             if(m_nameFilters.size() == 0 && m_restrictToSuffixes.size() == 0 && m_restrictToMimeTypes.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
                 const QFileInfoList lst = dir.entryInfoList();
-                if(PQCSettings::get()["imageviewLoadMotionPhotos"].toBool()) {
+                if(PQCSettings::get()["imageviewLoadAppleLivePhotos"].toBool()) {
                     for(const auto &f: lst) {
                         QFileInfo info(f);
                         // we need to exclude video files connected to Apple Live Videos (if support enabled)
@@ -1178,12 +1178,12 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                     if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && m_nameFilters.contains(f.suffix().toLower()))) && (m_restrictToSuffixes.size() == 0 || m_restrictToSuffixes.contains(f.suffix().toLower()))) {
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault) {
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
-                            if(PQCSettings::get()["imageviewLoadMotionPhotos"].toBool() && f.suffix().toLower() == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                            if(PQCSettings::get()["imageviewLoadAppleLivePhotos"].toBool() && f.suffix().toLower() == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
                             ret_cur << f.absoluteFilePath();
                         } else {
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
-                            if(PQCSettings::get()["imageviewLoadMotionPhotos"].toBool() && f.suffix().toLower() == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                            if(PQCSettings::get()["imageviewLoadAppleLivePhotos"].toBool() && f.suffix().toLower() == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
                             for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {

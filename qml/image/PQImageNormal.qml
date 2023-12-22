@@ -134,7 +134,7 @@ Image {
 
         id: checkForMotionPhoto
         interval: 500
-        running: visible&&PQCSettings.imageviewLoadMotionPhotos
+        running: visible&&(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos)
         onTriggered: {
 
             var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)

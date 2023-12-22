@@ -66,7 +66,7 @@ SET(d "qml/settingsmanager/popout")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManagerPopout.qml)
 
 SET(d "qml/settingsmanager/settings/filetypes")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml ${d}/PQAdvanced.qml)
 
 SET(d "qml/settingsmanager/settings/imageview")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImage.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml)

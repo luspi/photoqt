@@ -351,7 +351,12 @@ PQTemplateFullscreen {
                                               "VideoLoop",
                                               "VideoPreferLibmpv",
                                               "VideoThumbnailer",
-                                              "BigViewerModeButton"]]
+                                              "BigViewerModeButton"]],
+                           "ft_motionlive"  : [qsTranslate("settingsmanager", "Advanced"), "PQAdvanced",
+                                               ["Apple Live Photo",
+                                                "Google/Samsung Motion Video"],
+                                                ["LoadMotionPhotos",
+                                                 "LoadAppleLivePhotos"]]
                        }],
 
         /**************************************************************************************************************************/

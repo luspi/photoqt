@@ -443,11 +443,18 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
         /***********************************/
         // check for Apply Live Photos
 
-        QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
-        QFileInfo videoinfo(videopath);
-        qWarning() << "videopath =" << videopath;
-        if(videoinfo.exists())
-            return 1;
+        if(PQCSettings::get()["imageviewLoadAppleLivePhotos"].toBool()) {
+
+            QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
+            QFileInfo videoinfo(videopath);
+            qWarning() << "videopath =" << videopath;
+            if(videoinfo.exists())
+                return 1;
+
+        }
+
+        if(!PQCSettings::get()["imageviewLoadMotionPhotos"].toBool())
+            return 0;
 
         /***********************************/
         // Access EXIV2 data
@@ -560,7 +567,6 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
 
     QDataStream in(&file);
     in.readRawData(data, info.size());
-
 
     // we look for the offset of the header of size 12
     // it looks like this: 00000018667479706d703432
