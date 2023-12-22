@@ -332,6 +332,8 @@ Window {
         else
             PQCScriptsConfig.deleteLastLoadedImage()
 
+        PQCScriptsFilesPaths.cleanupTemporaryFiles()
+
         PQCScriptsOther.deleteScreenshots()
 
     }

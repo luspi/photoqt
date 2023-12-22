@@ -8,11 +8,13 @@
 #include <QStringConverter>
 #include <QImageReader>
 #include <QtConcurrent>
+#include <QMediaPlayer>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
+#include <pqc_configfiles.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -25,6 +27,10 @@
 #endif
 #ifdef PQMPOPPLER
 #include <poppler/qt6/poppler-qt6.h>
+#endif
+
+#ifdef PQMEXIV2
+#include <exiv2/exiv2.hpp>
 #endif
 
 PQCScriptsImages::PQCScriptsImages() {
@@ -418,5 +424,175 @@ bool PQCScriptsImages::supportsTransparency(QString path) {
     qDebug() << "args: path =" << path;
 
     return alphaChannels.value(path, false);
+
+}
+
+int PQCScriptsImages::isMotionPhoto(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    // 1 = Apple Live Photos
+    // 2 = Motion Photo
+    // 3 = Micro Video
+
+    QFileInfo info(path);
+    const QString suffix = info.suffix().toLower();
+
+    if(suffix == "jpg" || suffix == "jpeg" || suffix == "heic" || suffix == "heif") {
+
+        /***********************************/
+        // check for Apply Live Photos
+
+        QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
+        QFileInfo videoinfo(videopath);
+        qWarning() << "videopath =" << videopath;
+        if(videoinfo.exists())
+            return 1;
+
+        /***********************************/
+        // Access EXIV2 data
+
+#if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        Exiv2::Image::UniquePtr image;
+#else
+        Exiv2::Image::AutoPtr image;
+#endif
+
+        try {
+            if (!Exiv2::fileExists(path.toStdString())) {
+                qWarning() << "Failed to open file";
+                return 0;
+            }
+
+            image = Exiv2::ImageFactory::open(path.toStdString());
+            image->readMetadata();
+        } catch (Exiv2::Error& e) {
+            // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type
+            // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+            if(e.code() != 11)
+#endif
+                qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
+            else
+                qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
+
+            return 0;
+        }
+
+        Exiv2::XmpData xmpData;
+        try {
+            xmpData = image->xmpData();
+        } catch(Exiv2::Error &e) {
+            qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
+            return 0;
+        }
+
+        for(Exiv2::XmpData::const_iterator it_xmp = xmpData.begin(); it_xmp != xmpData.end(); ++it_xmp) {
+
+            QString familyName = QString::fromStdString(it_xmp->familyName());
+            QString groupName = QString::fromStdString(it_xmp->groupName());
+            QString tagName = QString::fromStdString(it_xmp->tagName());
+
+            /***********************************/
+            // check for Motion Photo
+            if(familyName == "Xmp" && groupName == "GCamera" && tagName == "MotionPhoto") {
+
+                // check value == 1
+                if(QString::fromStdString(Exiv2::toString(it_xmp->value())) == "1")
+                    return 2;
+            }
+
+            /***********************************/
+            // check for Micro Video
+
+            if(familyName == "Xmp" && groupName == "GCamera" && tagName == "MicroVideo") {
+
+                // check value == 1
+                if(QString::fromStdString(Exiv2::toString(it_xmp->value())) == "1")
+                    return 3;
+
+            }
+
+        }
+
+#endif
+
+    }
+
+    return 0;
+
+}
+
+QString PQCScriptsImages::extractMotionPhoto(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    // at this point we assume that the check for google motion photo has already been done
+    // and we wont need to check again
+
+    // the approach taken in this function is inspired by the analysis found at:
+    // https://linuxreviews.org/Google_Pixel_%22Motion_Photo%22
+
+    QFileInfo info(path);
+    if(!info.exists())
+        return "";
+
+    const QString videofilename = QString("%1/motionphotos/%2.mp4").arg(PQCConfigFiles::CACHE_DIR(), info.baseName());
+    if(QFileInfo::exists(videofilename)) {
+        return videofilename;
+    }
+
+    char data[info.size()];
+
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Unable to open file for reading";
+        return "";
+    }
+
+    QDataStream in(&file);
+    in.readRawData(data, info.size());
+
+
+    // we look for the offset of the header of size 12
+    // it looks like this: 00000018667479706d703432
+    for(int i = 0; i < info.size()-12; ++i) {
+
+        // we inspect the current 3
+        QByteArray firstthree(&data[i], 3);
+
+        if(firstthree.toHex() == "000000") {
+
+            // read the full 12 bytes
+            QByteArray array(&data[i], 12);
+
+            // if it matches we found the video
+            if(array.toHex() == "00000018667479706d703432") {
+
+                // get the video data
+                QByteArray videodata(&data[i], info.size()-i);
+
+                // make sure cache folder exists
+                QDir dir;
+                dir.mkpath(QFileInfo(videofilename).absolutePath());
+
+                // write video to temporary file
+                QFile outfile(videofilename);
+                outfile.open(QIODevice::WriteOnly);
+                QDataStream out(&outfile);
+                out.writeRawData(videodata, info.size()-i);
+                outfile.close();
+
+                return outfile.fileName();
+
+            }
+        }
+    }
+
+    return "";
 
 }

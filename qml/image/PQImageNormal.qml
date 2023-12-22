@@ -3,6 +3,8 @@ import QtQuick
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 
+import QtMultimedia
+
 Image {
 
     id: image
@@ -117,6 +119,26 @@ Image {
             sourceSize: Qt.size(screenW, screenH)
             mirror: image.mirror
             mirrorVertically: image.mirrorVertically
+        }
+    }
+
+    MediaPlayer {
+        id: mediaplayer
+        source: deleg.motionPhotoVideo==="" ? "" : ("file:/" + deleg.motionPhotoVideo)
+        videoOutput: videoOutput
+    }
+
+    VideoOutput {
+        id: videoOutput
+        anchors.fill: parent
+    }
+
+    Connections {
+        target: deleg
+        function onMotionPhotoVideoChanged() {
+            if(deleg.motionPhotoVideo !== "" && PQCSettings.imageviewLoadMotionPhotos) {
+                mediaplayer.play()
+            }
         }
     }
 

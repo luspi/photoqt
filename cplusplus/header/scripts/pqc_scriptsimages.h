@@ -30,6 +30,9 @@ public:
     Q_INVOKABLE bool isPDFDocument(QString path);
     Q_INVOKABLE bool isArchive(QString path);
     Q_INVOKABLE int getNumberDocumentPages(QString path);
+    Q_INVOKABLE int isMotionPhoto(QString path);
+
+    Q_INVOKABLE QString extractMotionPhoto(QString path);
 
     Q_INVOKABLE bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);

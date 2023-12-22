@@ -600,4 +600,8 @@ void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
     if(dir.exists())
         dir.removeRecursively();
 
+    dir.setPath(PQCConfigFiles::CACHE_DIR() + "/motionphotos/");
+    if(dir.exists())
+        dir.removeRecursively();
+
 }
