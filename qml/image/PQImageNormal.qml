@@ -127,6 +127,9 @@ Image {
         image.mirrorVertically = mV
     }
 
+    /*****************************************************************/
+    // the code below takes care of loading motion photos if enabled
+
     Timer {
 
         id: checkForMotionPhoto
@@ -138,7 +141,9 @@ Image {
             var src = ""
 
             // Motion Photo
-            if(what === 2 || what === 3)
+            if(what === 1)
+                src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
+            else if(what === 2 || what === 3)
                 src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
 
             if(src != "") {
