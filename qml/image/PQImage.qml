@@ -96,24 +96,6 @@ Item {
                     }
                 }
 
-                property string motionPhotoVideo: ""
-
-                Timer {
-
-                    id: checkForMotionPhoto
-                    interval: 500
-                    running: visible&&PQCSettings.imageviewLoadMotionPhotos
-                    onTriggered: {
-
-                        var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
-
-                        // Motion Photo
-                        if(what === 2)
-                            deleg.motionPhotoVideo = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
-                    }
-
-                }
-
                 Connections {
                     target: PQCSettings
 

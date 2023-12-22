@@ -546,6 +546,10 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
         return videofilename;
     }
 
+    // we assume header for type==2
+    QStringList headerbytes = {"00000018667479706d703432",
+                               "0000001c6674797069736f6d"};
+
     char data[info.size()];
 
     QFile file(path);
@@ -571,7 +575,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
             QByteArray array(&data[i], 12);
 
             // if it matches we found the video
-            if(array.toHex() == "00000018667479706d703432") {
+            if(headerbytes.contains(array.toHex())) {
 
                 // get the video data
                 QByteArray videodata(&data[i], info.size()-i);

@@ -122,29 +122,41 @@ Image {
         }
     }
 
+    function setMirrorHV(mH, mV) {
+        image.mirror = mH
+        image.mirrorVertically = mV
+    }
+
+    Timer {
+
+        id: checkForMotionPhoto
+        interval: 500
+        running: visible&&PQCSettings.imageviewLoadMotionPhotos
+        onTriggered: {
+
+            var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
+            var src = ""
+
+            // Motion Photo
+            if(what === 2 || what === 3)
+                src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+
+            if(src != "") {
+                mediaplayer.source = "file:/" + src
+                mediaplayer.play()
+            }
+        }
+
+    }
+
     MediaPlayer {
         id: mediaplayer
-        source: deleg.motionPhotoVideo==="" ? "" : ("file:/" + deleg.motionPhotoVideo)
         videoOutput: videoOutput
     }
 
     VideoOutput {
         id: videoOutput
         anchors.fill: parent
-    }
-
-    Connections {
-        target: deleg
-        function onMotionPhotoVideoChanged() {
-            if(deleg.motionPhotoVideo !== "" && PQCSettings.imageviewLoadMotionPhotos) {
-                mediaplayer.play()
-            }
-        }
-    }
-
-    function setMirrorHV(mH, mV) {
-        image.mirror = mH
-        image.mirrorVertically = mV
     }
 
 }
