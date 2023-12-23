@@ -158,3 +158,23 @@ void PQCNotify::setStartupCheck(int val) {
 int PQCNotify::getStartupCheck() {
     return m_startupCheck;
 }
+
+void PQCNotify::setInsidePhotoSphere(bool val) {
+    if(val != m_insidePhotoSphere) {
+        m_insidePhotoSphere = val;
+        Q_EMIT insidePhotoSphereChanged();
+    }
+}
+bool PQCNotify::getInsidePhotoSphere() {
+    return m_insidePhotoSphere;
+}
+
+void PQCNotify::setHasPhotoSphere(bool val) {
+    if(val != m_hasPhotoSphere) {
+        m_hasPhotoSphere = val;
+        Q_EMIT hasPhotoSphereChanged();
+    }
+}
+bool PQCNotify::getHasPhotoSphere() {
+    return m_hasPhotoSphere;
+}

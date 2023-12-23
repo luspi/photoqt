@@ -250,6 +250,7 @@ Item {
                     Connections {
                         target: PQCFileFolderModel
                         function onCurrentIndexChanged() {
+                            PQCNotify.hasPhotoSphere = false
                             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                                 deleg.hasBeenSetup = false
                         }
@@ -265,7 +266,7 @@ Item {
                         contentWidth: flickable_content.width
                         contentHeight: flickable_content.height
 
-                        interactive: !PQCNotify.faceTagging
+                        interactive: !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere
 
                         contentX: deleg.imagePosX
                         onContentXChanged: {
@@ -690,6 +691,40 @@ Item {
 
                     }
 
+                    // a big button in middle of screen to enter photo sphere
+                    Rectangle {
+                        id: spherebut
+                        x: (parent.width-width)/2
+                        y: (parent.height-height)/2
+                        width: 150
+                        height: 150
+                        color: PQCLook.transColor
+                        radius: width/2
+                        visible: PQCNotify.hasPhotoSphere
+                        opacity: (spheremouse.containsMouse ? 1 : 0.5)
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                        Image {
+                            anchors.fill: parent
+                            anchors.margins: 20
+                            mipmap: true
+                            fillMode: Image.PreserveAspectFit
+                            sourceSize: Qt.size(width, height)
+                            source: "/white/photo360.svg"
+                        }
+
+                        PQMouseArea {
+                            id: spheremouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Click here to enter photo sphere")
+                            onClicked:
+                                PQCNotify.enterPhotoSphere()
+                        }
+
+                    }
+
                     // a big button in middle of screen to enter 'viewer mode'
                     Rectangle {
                         id: viewermodebut
@@ -1109,6 +1144,11 @@ Item {
             }
 
 
+    }
+
+    PQPhotoSphere {
+        id: photosphere
+        z: image_top.curZ
     }
 
     Timer {

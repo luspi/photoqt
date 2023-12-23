@@ -606,3 +606,69 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     return "";
 
 }
+
+bool PQCScriptsImages::isPhotoSphere(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+#if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+
+    try {
+        if (!Exiv2::fileExists(path.toStdString())) {
+            qWarning() << "Failed to open file";
+            return false;
+        }
+
+        image = Exiv2::ImageFactory::open(path.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type
+        // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+        if(e.code() != 11)
+#endif
+            qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
+        else
+            qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
+
+        return false;
+    }
+
+    Exiv2::XmpData xmpData;
+    try {
+        xmpData = image->xmpData();
+    } catch(Exiv2::Error &e) {
+        qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
+        return false;
+    }
+
+    for(Exiv2::XmpData::const_iterator it_xmp = xmpData.begin(); it_xmp != xmpData.end(); ++it_xmp) {
+
+        QString familyName = QString::fromStdString(it_xmp->familyName());
+        QString groupName = QString::fromStdString(it_xmp->groupName());
+        QString tagName = QString::fromStdString(it_xmp->tagName());
+
+        /***********************************/
+        // check for Motion Photo
+        if(familyName == "Xmp" && groupName == "GPano" && tagName == "ProjectionType") {
+
+            // check value == equirectangular
+            if(QString::fromStdString(Exiv2::toString(it_xmp->value())) == "equirectangular")
+                return true;
+        }
+
+    }
+
+#endif
+
+    return false;
+
+}

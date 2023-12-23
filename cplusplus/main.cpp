@@ -35,6 +35,7 @@
 #include <pqc_resolutioncache.h>
 #include <pqc_windowgeometry.h>
 #include <pqc_location.h>
+#include <pqc_photosphere.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <scripts/pqc_scriptsfiledialog.h>
@@ -262,6 +263,8 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("dragthumb",new PQCAsyncImageProviderDragThumb);
     engine.addImageProvider("full",new PQCProviderFull);
     engine.addImageProvider("imgurhistory",new PQCAsyncImageProviderImgurHistory);
+
+    qmlRegisterType<PQCPhotoSphere>("PQCPhotoSphere", 1, 0, "PQCPhotoSphere");
 
 #ifdef PQMVIDEOMPV
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");

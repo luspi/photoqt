@@ -2,6 +2,8 @@ import QtQuick
 
 import PQCScriptsFilesPaths
 import PQCScriptsImages
+import PQCNotify
+import PQCFileFolderModel
 
 import QtMultimedia
 
@@ -133,23 +135,40 @@ Image {
     Timer {
 
         id: checkForMotionPhoto
-        interval: 500
+        // this is triggered after the image has animated in
+        interval: PQCSettings.imageviewAnimationDuration*100
         running: visible&&(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos)
         onTriggered: {
 
+            if(PQCFileFolderModel.currentIndex !== index)
+                return
+
             var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
-            var src = ""
 
-            // Motion Photo
-            if(what === 1)
-                src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
-            else if(what === 2 || what === 3)
-                src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+            if(what > 0) {
 
-            if(src != "") {
-                mediaplayer.source = "file:/" + src
-                mediaplayer.play()
+                var src = ""
+
+                // Motion Photo
+                if(what === 1)
+                    src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
+                else if(what === 2 || what === 3)
+                    src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+
+                if(src != "") {
+                    mediaplayer.source = "file:/" + src
+                    mediaplayer.play()
+                    PQCNotify.hasPhotoSphere = false
+                    return
+                }
+
             }
+
+            if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
+                PQCNotify.hasPhotoSphere = true
+            } else
+                PQCNotify.hasPhotoSphere = false
+
         }
 
     }

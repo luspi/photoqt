@@ -20,7 +20,7 @@ Item {
 
     property bool movedByMouse: false
 
-    visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging
+    visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere
 
     width: maincol.width
     height: maincol.height

@@ -127,6 +127,18 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool insidePhotoSphere READ getInsidePhotoSphere WRITE setInsidePhotoSphere NOTIFY insidePhotoSphereChanged)
+    void setInsidePhotoSphere(bool val);
+    Q_INVOKABLE bool getInsidePhotoSphere ();
+
+    /******************************************************/
+
+    Q_PROPERTY(bool hasPhotoSphere READ getHasPhotoSphere WRITE setHasPhotoSphere NOTIFY hasPhotoSphereChanged)
+    void setHasPhotoSphere(bool val);
+    Q_INVOKABLE bool getHasPhotoSphere();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -143,6 +155,8 @@ private:
         m_haveScreenshots = false;
         m_settingUpdate.clear();
         m_startupCheck = 0;
+        m_hasPhotoSphere = false;
+        m_insidePhotoSphere = false;
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -167,6 +181,9 @@ private:
 
     int m_startupCheck;
 
+    bool m_hasPhotoSphere;
+    bool m_insidePhotoSphere;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
@@ -187,6 +204,9 @@ Q_SIGNALS:
     void slideshowRunningChanged();
     void faceTaggingChanged();
 
+    void insidePhotoSphereChanged();
+    void hasPhotoSphereChanged();
+
     // these are kept similar to the
     void cmdOpen();
     void cmdShow();
@@ -203,6 +223,8 @@ Q_SIGNALS:
 
     void keyPress(int key, int modifiers);
     void executeInternalCommand(QString cmd);
+
+    void enterPhotoSphere();
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF angleDelta, int modifiers);
