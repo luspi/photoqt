@@ -15,8 +15,10 @@ Item {
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     onOpacityChanged: (opacity) => {
-        if(opacity === 0)
+        if(opacity === 0) {
             thesphere.visible = false
+            thesphere.source = ""
+        }
     }
 
     PQCPhotoSphere {
@@ -153,6 +155,9 @@ Item {
         loader.visibleItem = "photosphere"
         PQCNotify.insidePhotoSphere = true
         thesphere.source = PQCFileFolderModel.currentFile
+        thesphere.azimuth = 180
+        thesphere.elevation = 0
+        thesphere.fieldOfView = 90
         thesphere.visible = true
         opacity = 1
     }

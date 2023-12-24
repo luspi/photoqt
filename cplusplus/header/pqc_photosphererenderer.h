@@ -29,26 +29,6 @@
 #include <pqc_photosphere.h>
 #include <pqc_photosphereitem.h>
 
-struct PQCRenderState {
-
-    float azimuth = 0;
-    float elevation = 0;
-    float fieldOfView = 90;
-    int viewportWidth = 0;
-    int viewportHeight = 0;
-    QByteArray source;
-
-    bool operator==(PQCRenderState &renderstate) {
-        return (azimuth == renderstate.azimuth
-                && elevation == renderstate.elevation
-                && fieldOfView == renderstate.fieldOfView
-                && viewportHeight == renderstate.viewportHeight
-                && viewportWidth == renderstate.viewportWidth
-                && source.isSharedWith(renderstate.source));
-    }
-
-};
-
 class QOpenGLShaderProgram;
 class QOpenGLTexture;
 
@@ -66,8 +46,10 @@ public:
 
     QOpenGLShaderProgram *shader;
     QQuickWindow* window;
-    PQCRenderState state;
-    PQCRenderState oldState;
+
+    QByteArray source;
+    QByteArray oldSource;
+
     QOpenGLFramebufferObject *frameBufferObject;
     QMatrix4x4 theMatrix;
 

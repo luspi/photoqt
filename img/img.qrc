@@ -97,6 +97,6 @@
         <file>white/application.svg</file>
         <file>other/checkerboard.png</file>
         <file>other/errorimage.svg</file>
-        <file>white/photo360.svg</file>
+        <file>white/photosphere.svg</file>
     </qresource>
 </RCC>

@@ -701,7 +701,7 @@ Item {
                         color: PQCLook.transColor
                         radius: width/2
                         visible: PQCNotify.hasPhotoSphere
-                        opacity: (spheremouse.containsMouse ? 1 : 0.5)
+                        opacity: (spheremouse.containsMouse ? 0.8 : 0.4)
                         Behavior on opacity { NumberAnimation { duration: 200 } }
 
                         Image {
@@ -710,7 +710,7 @@ Item {
                             mipmap: true
                             fillMode: Image.PreserveAspectFit
                             sourceSize: Qt.size(width, height)
-                            source: "/white/photo360.svg"
+                            source: "/white/photosphere.svg"
                         }
 
                         PQMouseArea {

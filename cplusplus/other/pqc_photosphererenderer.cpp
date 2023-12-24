@@ -5,11 +5,16 @@
 #include <QQuickOpenGLUtils>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QPainter>
 
 PQCPhotoSphereRenderer::PQCPhotoSphereRenderer() {
+
     shader = nullptr;
     frameBufferObject = nullptr;
     texturePhotoSphere = nullptr;
+    source = "";
+    oldSource = "";
+
 }
 
 PQCPhotoSphereRenderer::~PQCPhotoSphereRenderer() {
@@ -17,11 +22,14 @@ PQCPhotoSphereRenderer::~PQCPhotoSphereRenderer() {
 }
 
 QOpenGLFramebufferObject *PQCPhotoSphereRenderer::createFramebufferObject(const QSize &size) {
+
     QOpenGLFramebufferObjectFormat format;
     format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
     format.setSamples(1);
     frameBufferObject =  new QOpenGLFramebufferObject(size, format);
+
     return frameBufferObject;
+
 }
 
 void PQCPhotoSphereRenderer::render() {
@@ -38,7 +46,7 @@ void PQCPhotoSphereRenderer::render() {
 
     shader->bind();
     shader->setUniformValue("matrix", theMatrix);
-    shader->setUniformValue("samImage", 0);
+    shader->setUniformValue("samplerImage", 0);
     shader->setUniformValue("color", QColor(0,0,0,255));
 
     if(texturing) {
@@ -65,47 +73,55 @@ void PQCPhotoSphereRenderer::synchronize(QQuickFramebufferObject *item) {
         sphere.setup();
 
         // Create shaders
-        shader->addShaderFromSourceCode(QOpenGLShader::Vertex, QByteArray("attribute highp vec4 vCoord;\n attribute highp vec2 vTexCoord;\n uniform highp mat4 matrix;\n varying highp vec2 texCoord;\n void main()\n {\n texCoord = vTexCoord.xy;\n gl_Position = matrix * vCoord;\n }\n \n"));
-        shader->addShaderFromSourceCode(QOpenGLShader::Fragment, QByteArray("#define texture texture2D\n varying highp vec2 texCoord;\n uniform highp vec4 color;\n uniform sampler2D samImage; \n void main() {\n lowp vec4 texColor = texture(samImage, texCoord.xy);\n gl_FragColor = vec4(texColor.rgb, color.a); \n }\n \n"));
-        shader->bindAttributeLocation("vCoord", 0);
+        shader->addShaderFromSourceCode(QOpenGLShader::Vertex, QByteArray("attribute highp vec4 verticalCoordinates;\n attribute highp vec2 verticalTextureCoord;\n uniform highp mat4 matrix;\n varying highp vec2 textureCoordinates;\n void main()\n {\n textureCoordinates = verticalTextureCoord.xy;\n gl_Position = matrix * verticalCoordinates;\n }\n \n"));
+        shader->addShaderFromSourceCode(QOpenGLShader::Fragment, QByteArray("#define texture texture2D\n varying highp vec2 textureCoordinates;\n uniform highp vec4 color;\n uniform sampler2D samplerImage; \n void main() {\n lowp vec4 textureColor = texture(samplerImage, textureCoordinates.xy);\n gl_FragColor = vec4(textureColor.rgb, color.a); \n }\n \n"));
+        shader->bindAttributeLocation("verticalCoordinates", 0);
         shader->link();
 
         texturePhotoSphere = new QOpenGLTexture(QOpenGLTexture::Target2D);
     }
 
     PQCPhotoSphere *sphereItem = qobject_cast<PQCPhotoSphere *>(item);
-    oldState = state;
-    state.azimuth = sphereItem->getAzimuth();
-    state.elevation = sphereItem->getElevation();
-    state.fieldOfView = sphereItem->getFieldOfView();
-    state.viewportWidth = sphereItem->width();
-    state.viewportHeight = sphereItem->height();
-    state.source = sphereItem->image;
 
-    if(state == oldState)
-        return;
+    // backup previous source
+    oldSource = source;
 
-    if (state.viewportHeight != oldState.viewportHeight
-        || state.viewportWidth != oldState.viewportWidth)
+    // store current source
+    source = sphereItem->getImage();
+
+    if(!oldSource.isSharedWith(source))
         invalidateFramebufferObject();
 
-    const double w_h = static_cast<double>(state.viewportWidth)/static_cast<double>(state.viewportHeight);
+    const double w_h = static_cast<double>(sphereItem->width())/static_cast<double>(sphereItem->height());
 
     QMatrix4x4 matrixProjection;
-    matrixProjection.perspective(state.fieldOfView, w_h, 0.001, 200);
+    matrixProjection.perspective(sphereItem->getFieldOfView(), w_h, 0.001, 200);
 
     QMatrix4x4 matrixAzimuth;
-    matrixAzimuth.rotate(state.azimuth, 0, 1, 0);
+    matrixAzimuth.rotate(sphereItem->getAzimuth(), 0, 1, 0);
 
     QMatrix4x4 matrixElevation;
-    matrixElevation.rotate(state.elevation, -1, 0, 0);
+    matrixElevation.rotate(sphereItem->getElevation(), -1, 0, 0);
 
 
     theMatrix = QMatrix4x4() * matrixProjection * matrixElevation * matrixAzimuth;
 
-    if(oldState.source != state.source) {
+    if(!oldSource.isSharedWith(source)) {
 
-        const QImage image = QImage::fromData(state.source);
+        QImage image;
+
+        // if the stored image is less than the full sphere we pad it with black data
+        if(sphereItem->getPartial()) {
+
+            QImage partialImage = QImage::fromData(source);
+
+            image = QImage(sphereItem->getFullSize(), QImage::Format_RGB32);
+            image.fill(Qt::black);
+            QPainter painter(&image);
+            painter.drawImage((sphereItem->getFullSize().width()-sphereItem->getCroppedSize().width())/2, (sphereItem->getFullSize().height()-sphereItem->getCroppedSize().height())/2, partialImage);
+
+        } else
+            image = QImage::fromData(source);
 
         if (image.isNull() || !image.width() || !image.height())
             return;

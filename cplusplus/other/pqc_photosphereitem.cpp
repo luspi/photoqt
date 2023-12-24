@@ -83,8 +83,6 @@ PQCPhotoSphereItem::PQCPhotoSphereItem() {
 
 void PQCPhotoSphereItem::setup() {
 
-    qDebug() << "";
-
     // only do it once
     if(isSetup)
         return;

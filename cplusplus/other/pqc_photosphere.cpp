@@ -5,10 +5,20 @@
 #include <QFile>
 #include <QFileInfo>
 
+#ifdef PQMEXIV2
+#include <exiv2/exiv2.hpp>
+#endif
+
 PQCPhotoSphere::PQCPhotoSphere(QQuickItem *parent) : QQuickFramebufferObject(parent), recreateRenderer(false) {
+
+    m_azimuth = 180;
+    m_elevation = 0;
+    m_fieldOfView = 90;
+
     setFlag(ItemHasContents);
     setTextureFollowsItemSize(true);
     setMirrorVertically(true);
+
 }
 
 double PQCPhotoSphere::getAzimuth() {
@@ -42,10 +52,10 @@ void PQCPhotoSphere::setElevation(double elevation) {
     if(elevation == m_elevation || !qIsFinite(elevation))
         return;
 
-    elevation = qBound<double>(-90.0, elevation, 90.0);
-    m_elevation = elevation;
+    m_elevation = qBound<double>(-90.0, elevation, 90.0);
     updateSphere();
     Q_EMIT elevationChanged();
+
 }
 
 double PQCPhotoSphere::getFieldOfView() {
@@ -60,6 +70,7 @@ void PQCPhotoSphere::setFieldOfView(double fieldOfView) {
     m_fieldOfView = fieldOfView;
     updateSphere();
     Q_EMIT fieldOfViewChanged();
+
 }
 
 QString PQCPhotoSphere::getSource() {
@@ -68,14 +79,10 @@ QString PQCPhotoSphere::getSource() {
 
 void PQCPhotoSphere::setSource(QString path) {
 
-    qDebug() << "args: path =" << path;
-
     path = QUrl::fromPercentEncoding(path.toUtf8());
 
-    if(path == "") {
-        qDebug() << "Source is empty";
+    if(path == "")
         return;
-    }
 
     if(path != m_imageUrl) {
 
@@ -92,6 +99,76 @@ void PQCPhotoSphere::setSource(QString path) {
         m_imageUrl = path;
         image = data;
 
+#if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        Exiv2::Image::UniquePtr image;
+#else
+        Exiv2::Image::AutoPtr image;
+#endif
+
+        try {
+            if (!Exiv2::fileExists(path.toStdString())) {
+                qWarning() << "Failed to open file";
+                return;
+            }
+
+            image = Exiv2::ImageFactory::open(path.toStdString());
+            image->readMetadata();
+        } catch (Exiv2::Error& e) {
+            // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type
+            // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+            if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+            if(e.code() != 11)
+#endif
+                qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
+            else
+                qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
+
+            return;
+        }
+
+        Exiv2::XmpData xmpData;
+        try {
+            xmpData = image->xmpData();
+        } catch(Exiv2::Error &e) {
+            qDebug() << "ERROR: Unable to read xmp metadata:" << e.what();
+            return;
+        }
+
+        croppedSize = QSize(-1,-1);
+        fullSize = QSize(-1,-1);
+
+        for(Exiv2::XmpData::const_iterator it_xmp = xmpData.begin(); it_xmp != xmpData.end(); ++it_xmp) {
+
+            QString familyName = QString::fromStdString(it_xmp->familyName());
+            QString groupName = QString::fromStdString(it_xmp->groupName());
+            QString tagName = QString::fromStdString(it_xmp->tagName());
+
+            // check for actual and full dimensions of sphere
+            if(familyName == "Xmp" && groupName == "GPano") {
+                if(tagName == "CroppedAreaImageHeightPixels")
+                    croppedSize.setHeight(QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt());
+                else if(tagName == "CroppedAreaImageWidthPixels")
+                    croppedSize.setWidth(QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt());
+                else if(tagName == "FullPanoHeightPixels")
+                    fullSize.setHeight(QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt());
+                else if(tagName == "FullPanoWidthPixels")
+                    fullSize.setWidth(QString::fromStdString(Exiv2::toString(it_xmp->value())).toInt());
+            }
+
+        }
+
+        // we add a small margin to allow for minor inaccuracies in creating the image
+        // this will not affect the visible part of the image
+        partial = (croppedSize.isValid() && fullSize.isValid() && (croppedSize.width() < fullSize.width()-10 || croppedSize.height() < fullSize.height()-10));
+
+#else
+        partial = false;
+#endif
+
         updateSphere();
         Q_EMIT sourceChanged();
     }
@@ -100,14 +177,34 @@ void PQCPhotoSphere::setSource(QString path) {
 
 }
 
+
+QByteArray PQCPhotoSphere::getImage() {
+    return image;
+}
+
+bool PQCPhotoSphere::getPartial() {
+    return partial;
+}
+
+QSize PQCPhotoSphere::getCroppedSize() {
+    return croppedSize;
+}
+
+QSize PQCPhotoSphere::getFullSize() {
+    return fullSize;
+}
+
 QSGNode *PQCPhotoSphere::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
+
     if(oldNode && recreateRenderer) {
         delete oldNode;
         oldNode = nullptr;
         releaseResources();
         recreateRenderer = false;
     }
+
     return QQuickFramebufferObject::updatePaintNode(oldNode, updatePaintNodeData);
+
 }
 
 QQuickFramebufferObject::Renderer *PQCPhotoSphere::createRenderer() const {

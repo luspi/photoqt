@@ -50,7 +50,10 @@ public:
     QString getSource();
     void setSource(QString path);
 
-    QByteArray image;
+    QByteArray getImage();
+    bool getPartial();
+    QSize getCroppedSize();
+    QSize getFullSize();
 
 Q_SIGNALS:
     void azimuthChanged();
@@ -64,9 +67,14 @@ protected:
     void updateSphere();
 
 private:
-    double m_azimuth = 0;
-    double m_elevation = 0;
-    double m_fieldOfView = 90;
+    QByteArray image;
+    bool partial;
+    QSize croppedSize;
+    QSize fullSize;
+
+    double m_azimuth;
+    double m_elevation;
+    double m_fieldOfView;
     QString m_imageUrl;
 
     bool recreateRenderer = false;
