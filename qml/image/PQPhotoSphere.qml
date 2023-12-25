@@ -10,6 +10,7 @@ Item {
     id: sphere_top
 
     anchors.fill: parent
+    anchors.margins: -PQCSettings.imageviewMargin
 
     opacity: 0
     visible: opacity>0
