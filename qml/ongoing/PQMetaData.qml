@@ -496,7 +496,7 @@ Rectangle {
         target: PQCNotify
         function onMouseMove(posx, posy) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) {
+            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging || PQCNotify.insidePhotoSphere) {
                 setVisible = false
                 return
             }
