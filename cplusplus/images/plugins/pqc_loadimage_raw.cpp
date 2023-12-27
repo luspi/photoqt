@@ -22,6 +22,7 @@
 
 #include <pqc_loadimage_raw.h>
 #include <pqc_imagecache.h>
+#include <pqc_settings.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
@@ -118,7 +119,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     // if that's the case we can simply load the embedded thumbnail
     bool thumbIsEnough = false;
     // we only do this if the raw image is larger than 1000x1000 pixels
-    if(raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 && raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
+    if(PQCSettings::get()["filetypesRAWUseEmbeddedIfAvailable"].toBool() && raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 && raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
 
         // we allow for a small margin of error
         const int diff = qMax(qAbs(raw.imgdata.sizes.width-raw.imgdata.thumbnail.twidth), qAbs(raw.imgdata.sizes.height-raw.imgdata.thumbnail.theight));

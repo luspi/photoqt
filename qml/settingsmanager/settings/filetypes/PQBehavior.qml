@@ -176,6 +176,30 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
+            text: qsTranslate("settingsmanager", "RAW images")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "Some RAW images have embedded thumbnail images. If available, PhotoQt will always use those for generating a thumbnail image. Some embedded thumbnails are even as large as the actual RAW image. In that case, PhotoQt can simply load those embedded images instead of the full RAW image. This can result in much faster load times.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: rawembed
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "use embedded image if available")
+            checked: PQCSettings.filetypesRAWUseEmbeddedIfAvailable
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
             text: qsTranslate("settingsmanager", "Viewer mode")
             font.capitalization: Font.SmallCaps
         }
