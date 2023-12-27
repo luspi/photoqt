@@ -17,7 +17,7 @@ Image {
 
     property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
 
-    smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : interpThreshold
+    smooth: interpThreshold
     mipmap: interpThreshold
 
     property bool fitImage: (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
