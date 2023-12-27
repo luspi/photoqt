@@ -608,7 +608,7 @@ Item {
                                         PQCNotify.mouseMove(pos.x, pos.y)
                                     }
                                     onWheel: (wheel) => {
-                                        wheel.accepted = false
+                                        wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
                                         PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                                     }
                                     onPressed: (mouse) => {
@@ -687,6 +687,33 @@ Item {
 
                             }
 
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.AllButtons
+                            enabled: !PQCSettings.imageviewUseMouseWheelForImageMove
+                            onWheel: (wheel) => {
+                                wheel.accepted = true
+                                PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
+                            }
+                            onPressed: (mouse) => {
+                                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+                            }
+                            onDoubleClicked: (mouse) => {
+                                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+                            }
+
+                            onReleased: (mouse) => {
+                                if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
+                                    loader_component.imageClicked()
+                                else {
+                                    var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                                }
+                            }
                         }
 
                     }

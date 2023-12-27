@@ -325,7 +325,7 @@ Item {
             PQCNotify.mouseMove(pos.x, pos.y)
         }
         onWheel: (wheel) => {
-            wheel.accepted = false
+            wheel.accepted = true
             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
         }
         onPressed: (mouse) => {
