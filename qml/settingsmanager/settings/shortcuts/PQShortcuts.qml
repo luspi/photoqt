@@ -117,6 +117,8 @@ Flickable {
         "__playPauseAni":       [qsTranslate("settingsmanager", "Play/Pause animation/video"), "currentimage"],
                                  //: Name of shortcut action
         "__tagFaces":           [qsTranslate("settingsmanager", "Start tagging faces"), "currentimage"],
+                                 //: Name of shortcut action
+        "__enterPhotoSphere":   [qsTranslate("settingsmanager", "Enter photo sphere"), "viewingimages"],
 
 
         // ACTION WITH CURRENT FOLDER

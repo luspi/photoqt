@@ -136,7 +136,7 @@ Image {
 
         target: PQCSettings
 
-        onImageviewCheckForPhotoSphereChanged: {
+        function onImageviewCheckForPhotoSphereChanged() {
             if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
                 PQCNotify.hasPhotoSphere = true
             } else

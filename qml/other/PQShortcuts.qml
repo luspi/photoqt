@@ -481,6 +481,9 @@ Item {
             case "__navigationFloating":
                 loader.show("navigationfloating")
                 break
+            case "__enterPhotoSphere":
+                PQCNotify.enterPhotoSphere()
+                break
 
             /**********************/
             // image functions
