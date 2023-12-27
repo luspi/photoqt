@@ -150,37 +150,45 @@ Image {
         id: checkForMotionPhoto
         // this is triggered after the image has animated in
         interval: PQCSettings.imageviewAnimationDuration*100
-        running: visible&&(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos)
+        running: visible&&(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos || PQCSettings.imageviewCheckForPhotoSphere)
         onTriggered: {
 
             if(PQCFileFolderModel.currentIndex !== index)
                 return
 
-            var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
+            if(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos) {
 
-            if(what > 0) {
+                var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
 
-                var src = ""
+                if(what > 0) {
 
-                // Motion Photo
-                if(what === 1)
-                    src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
-                else if(what === 2 || what === 3)
-                    src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+                    var src = ""
 
-                if(src != "") {
-                    mediaplayer.source = "file:/" + src
-                    mediaplayer.play()
-                    PQCNotify.hasPhotoSphere = false
-                    return
+                    // Motion Photo
+                    if(what === 1)
+                        src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
+                    else if(what === 2 || what === 3)
+                        src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+
+                    if(src != "") {
+                        mediaplayer.source = "file:/" + src
+                        mediaplayer.play()
+                        PQCNotify.hasPhotoSphere = false
+                        return
+                    }
+
                 }
 
             }
 
-            if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
-                PQCNotify.hasPhotoSphere = true
-            } else
-                PQCNotify.hasPhotoSphere = false
+            if(PQCSettings.imageviewCheckForPhotoSphere) {
+
+                if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
+                    PQCNotify.hasPhotoSphere = true
+                } else
+                    PQCNotify.hasPhotoSphere = false
+
+            }
 
         }
 
