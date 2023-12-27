@@ -61,7 +61,7 @@ Item {
         //: Refers to the key that triggers the number block on keyboards
         "keypad" : qsTr("Keypad"),
         //: Refers to one of the keys on the keyboard
-        "escape" : qsTr("Escape"),
+        "esc" : qsTr("Escape"),
         //: Refers to one of the arrow keys on the keyboard
         "right" : qsTr("Right"),
         //: Refers to one of the arrow keys on the keyboard

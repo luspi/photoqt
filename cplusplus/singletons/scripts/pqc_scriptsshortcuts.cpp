@@ -183,7 +183,7 @@ QString PQCScriptsShortcuts::analyzeKeyPress(Qt::Key key) {
         case Qt::Key_Meta:
             break;
         case Qt::Key_Escape:
-            ret += "Escape";
+            ret += "Esc";
             break;
         case Qt::Key_Right:
             ret += "Right";
