@@ -84,14 +84,11 @@ Item {
                 }
 
                 onWheel: (wheel) => {
-                    if(wheel.modifiers & Qt.ControlModifier)
-                        thesphere.fieldOfView -=  wheel.angleDelta.y*0.05
-                    else if(wheel.modifiers & Qt.ShiftModifier)
-                        thesphere.azimuth -=  wheel.angleDelta.y*0.05
-                    else {
+                    if(wheel.modifiers & Qt.ControlModifier) {
                         thesphere.azimuth +=  wheel.angleDelta.x*0.1
                         thesphere.elevation -=  wheel.angleDelta.y*0.05
-                    }
+                    } else
+                        thesphere.fieldOfView -=  wheel.angleDelta.y*0.05
                 }
             }
         }
