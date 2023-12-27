@@ -116,28 +116,27 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     // sometimes the embedded thumb is as large as the actual raw image
     // if that's the case we can simply load the embedded thumbnail
-    bool thumbIsEnough = false;
     // we only do this if the raw image is larger than 1000x1000 pixels
-    if(!thumb && PQCSettings::get()["filetypesRAWUseEmbeddedIfAvailable"].toBool() && raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 && raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
+    if(!thumb && PQCSettings::get()["filetypesRAWUseEmbeddedIfAvailable"].toBool() &&
+        raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 &&
+        raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
 
-        // we allow for a small margin of error
-        const int diff = qMax(qAbs(raw.imgdata.sizes.width-raw.imgdata.thumbnail.twidth), qAbs(raw.imgdata.sizes.height-raw.imgdata.thumbnail.theight));
+        // we allow for a small margin of difference in sizes
+        const double diff = qMax(qAbs(static_cast<double>(raw.imgdata.sizes.width-raw.imgdata.thumbnail.twidth)/raw.imgdata.sizes.width),
+                                 qAbs(static_cast<double>(raw.imgdata.sizes.height-raw.imgdata.thumbnail.theight)/raw.imgdata.sizes.height));
 
-        // up to 3000x3000 we allow an error margin of 50 pixels
-        if(raw.imgdata.sizes.width <= 3000 && raw.imgdata.sizes.height <= 3000 && diff <= 50)
-            thumbIsEnough = true;
-        // for anything larger we allow an error margin of 100 pixels
-        else if(diff <= 100)
-            thumbIsEnough = true;
+        // we allow a size margin of 2.5%
+        if(diff <= 0.025)
+            thumb = true;
 
     }
 
     // Unpack the RAW thumbnail if thumbnail requested
-    if(thumb || thumbIsEnough)
+    if(thumb)
         ret = raw.unpack_thumb();
 
     // If thumbnail failed or full image wanted, unpack full
-    if((!thumb && !thumbIsEnough) || ret != LIBRAW_SUCCESS)
+    if(!thumb || ret != LIBRAW_SUCCESS)
         ret = raw.unpack();
 
     if(ret != LIBRAW_SUCCESS) {
@@ -148,7 +147,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // Post-process image. Not necessary for embedded preview...
-    if(!thumb && !thumbIsEnough) ret = raw.dcraw_process();
+    if(!thumb) ret = raw.dcraw_process();
 
     if(ret != LIBRAW_SUCCESS) {
         raw.recycle();
@@ -158,7 +157,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // Create processed image
-    if(thumb || thumbIsEnough) rawimg = raw.dcraw_make_mem_thumb(&ret);
+    if(thumb) rawimg = raw.dcraw_make_mem_thumb(&ret);
     else rawimg = raw.dcraw_make_mem_image(&ret);
 
 
@@ -203,7 +202,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
         if(imgData.isEmpty()) {
             raw.dcraw_clear_mem(rawimg);
             raw.recycle();
-            errormsg = "Failed to load " + QString(half ? "half preview" : ((thumb||thumbIsEnough) ? "thumbnail" : "image")) + "!";
+            errormsg = "Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + "!";
             qWarning() << errormsg;
             return errormsg;
         }
