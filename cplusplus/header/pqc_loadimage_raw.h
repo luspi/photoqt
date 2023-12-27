@@ -40,11 +40,6 @@ public:
     static QSize loadSize(QString filename);
     static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);
 
-private:
-#ifdef PQMRAW
-    static void loadRawImage(QString filename, QSize maxSize, LibRaw &raw, libraw_processed_image_t *img, bool &thumb, bool &half);
-#endif
-
 };
 
 #endif // PQCLOADIMAGESRAW_H

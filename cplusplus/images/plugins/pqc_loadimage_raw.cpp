@@ -33,71 +33,6 @@
 
 PQCLoadImageRAW::PQCLoadImageRAW() {}
 
-#ifdef PQMRAW
-void PQCLoadImageRAW::loadRawImage(QString filename, QSize maxSize, LibRaw &raw, libraw_processed_image_t *img, bool &thumb, bool &half) {
-
-    QString errormsg = "";
-
-    // The LibRaw instance
-    raw.recycle();
-
-    // Some settings to improve speed
-    // Since we don't care about manipulating RAW images but only want to display
-    // them, we can optimise for speed
-    raw.imgdata.params.user_qual = 2;
-    raw.imgdata.params.use_camera_wb = 1;
-
-    // Open the RAW image
-    int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
-    if(ret != LIBRAW_SUCCESS) {
-        raw.recycle();
-        errormsg = QString("Failed to run open_file: %1").arg(libraw_strerror(ret));
-        qWarning() << errormsg;
-        return;
-    }
-
-    // If either dimension is set to 0 (or actually -1), then the full image is supposed to be loaded
-    if(maxSize.width() > 0 && maxSize.height() > 0) {
-
-        // Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
-        if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height() &&
-            raw.imgdata.thumbnail.tformat != LIBRAW_THUMBNAIL_UNKNOWN)
-            thumb = true;
-        else if(raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()) {
-            half = true;
-            raw.imgdata.params.half_size = 1;
-        }
-
-    }
-
-    // Unpack the RAW image/thumbnail
-    if(thumb) ret = raw.unpack_thumb();
-    else ret = raw.unpack();
-
-    if(ret != LIBRAW_SUCCESS) {
-        raw.recycle();
-        errormsg = QString("Failed to run %1: %2").arg((thumb ? "unpack_thumb" : "unpack"), libraw_strerror(ret));
-        qWarning() << errormsg;
-        return;
-    }
-
-    // Post-process image. Not necessary for embedded preview...
-    if(!thumb) ret = raw.dcraw_process();
-
-    if(ret != LIBRAW_SUCCESS) {
-        raw.recycle();
-        errormsg = QString("Failed to run dcraw_process: %1").arg(libraw_strerror(ret));
-        qWarning() << errormsg;
-        return;
-    }
-
-    // Create processed image
-    if(thumb) img = raw.dcraw_make_mem_thumb(&ret);
-    else img = raw.dcraw_make_mem_image(&ret);
-
-}
-#endif
-
 QSize PQCLoadImageRAW::loadSize(QString filename) {
 
 #ifdef PQMRAW
@@ -179,12 +114,30 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     }
 
+    // sometimes the embedded thumb is as large as the actual raw image
+    // if that's the case we can simply load the embedded thumbnail
+    bool thumbIsEnough = false;
+    // we only do this if the raw image is larger than 1000x1000 pixels
+    if(raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 && raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
+
+        // we allow for a small margin of error
+        const int diff = qMax(qAbs(raw.imgdata.sizes.width-raw.imgdata.thumbnail.twidth), qAbs(raw.imgdata.sizes.height-raw.imgdata.thumbnail.theight));
+
+        // up to 3000x3000 we allow an error margin of 50 pixels
+        if(raw.imgdata.sizes.width <= 3000 && raw.imgdata.sizes.height <= 3000 && diff <= 50)
+            thumbIsEnough = true;
+        // for anything larger we allow an error margin of 100 pixels
+        else if(diff <= 100)
+            thumbIsEnough = true;
+
+    }
+
     // Unpack the RAW thumbnail if thumbnail requested
-    if(thumb)
+    if(thumb || thumbIsEnough)
         ret = raw.unpack_thumb();
 
     // If thumbnail failed or full image wanted, unpack full
-    if(ret != LIBRAW_SUCCESS)
+    if((!thumb && !thumbIsEnough) || ret != LIBRAW_SUCCESS)
         ret = raw.unpack();
 
     if(ret != LIBRAW_SUCCESS) {
@@ -195,7 +148,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // Post-process image. Not necessary for embedded preview...
-    if(!thumb) ret = raw.dcraw_process();
+    if(!thumb && !thumbIsEnough) ret = raw.dcraw_process();
 
     if(ret != LIBRAW_SUCCESS) {
         raw.recycle();
@@ -205,7 +158,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     // Create processed image
-    if(thumb) rawimg = raw.dcraw_make_mem_thumb(&ret);
+    if(thumb || thumbIsEnough) rawimg = raw.dcraw_make_mem_thumb(&ret);
     else rawimg = raw.dcraw_make_mem_image(&ret);
 
 
@@ -250,7 +203,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
         if(imgData.isEmpty()) {
             raw.dcraw_clear_mem(rawimg);
             raw.recycle();
-            errormsg = "Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + "!";
+            errormsg = "Failed to load " + QString(half ? "half preview" : ((thumb||thumbIsEnough) ? "thumbnail" : "image")) + "!";
             qWarning() << errormsg;
             return errormsg;
         }
