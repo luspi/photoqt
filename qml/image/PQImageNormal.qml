@@ -132,6 +132,19 @@ Image {
     /*****************************************************************/
     // the code below takes care of loading motion photos if enabled
 
+    Connections {
+
+        target: PQCSettings
+
+        onImageviewCheckForPhotoSphereChanged: {
+            if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
+                PQCNotify.hasPhotoSphere = true
+            } else
+                PQCNotify.hasPhotoSphere = false
+        }
+
+    }
+
     Timer {
 
         id: checkForMotionPhoto

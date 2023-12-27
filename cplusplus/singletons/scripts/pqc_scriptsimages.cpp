@@ -447,7 +447,6 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
 
             QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
             QFileInfo videoinfo(videopath);
-            qWarning() << "videopath =" << videopath;
             if(videoinfo.exists())
                 return 1;
 
@@ -610,6 +609,9 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
 bool PQCScriptsImages::isPhotoSphere(QString path) {
 
     qDebug() << "args: path =" << path;
+
+    if(!PQCSettings::get()["imageviewCheckForPhotoSphere"].toBool())
+        return false;
 
 #if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)
 

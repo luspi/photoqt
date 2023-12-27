@@ -71,6 +71,31 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager", "Photo spheres")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text:qsTranslate("settingsmanager",  "PhotoQt is able to check whether a current image is a photo sphere, this is done by analyzing the meta data of an image in the background. If a equirectangular projection is detected, then a button is visible in the center of the image for entering the photo sphere. This is supported for both partial photo spheres and for 360 degree views.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: photosphere
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "Check for photo spheres")
+            checked: PQCSettings.imageviewCheckForPhotoSphere
+            onCheckedChanged: checkDefault()
+        }
+
     }
 
     Component.onCompleted:
@@ -86,6 +111,7 @@ Flickable {
 
         applelive.loadAndSetDefault(PQCSettings.imageviewLoadAppleLivePhotos)
         motionmicro.loadAndSetDefault(PQCSettings.imageviewLoadMotionPhotos)
+        photosphere.loadAndSetDefault(PQCSettings.imageviewCheckForPhotoSphere)
 
         settingChanged = false
 
@@ -95,9 +121,11 @@ Flickable {
 
         PQCSettings.imageviewLoadAppleLivePhotos = applelive.checked
         PQCSettings.imageviewLoadMotionPhotos = motionmicro.checked
+        PQCSettings.imageviewCheckForPhotoSphere = photosphere.checked
 
         applelive.saveDefault()
         motionmicro.saveDefault()
+        photosphere.saveDefault()
 
         settingChanged = false
 
