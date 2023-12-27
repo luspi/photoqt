@@ -443,7 +443,7 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
         /***********************************/
         // check for Apply Live Photos
 
-        if(PQCSettings::get()["imageviewLoadAppleLivePhotos"].toBool()) {
+        if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool()) {
 
             QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
             QFileInfo videoinfo(videopath);
@@ -452,7 +452,7 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
 
         }
 
-        if(!PQCSettings::get()["imageviewLoadMotionPhotos"].toBool())
+        if(!PQCSettings::get()["filetypesLoadMotionPhotos"].toBool())
             return 0;
 
         /***********************************/
@@ -610,7 +610,7 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    if(!PQCSettings::get()["imageviewCheckForPhotoSphere"].toBool())
+    if(!PQCSettings::get()["filetypesCheckForPhotoSphere"].toBool())
         return false;
 
 #if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)

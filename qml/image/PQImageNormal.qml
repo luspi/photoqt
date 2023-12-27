@@ -136,7 +136,7 @@ Image {
 
         target: PQCSettings
 
-        function onImageviewCheckForPhotoSphereChanged() {
+        function onFiletypesCheckForPhotoSphereChanged() {
             if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
                 PQCNotify.hasPhotoSphere = true
             } else
@@ -150,13 +150,13 @@ Image {
         id: checkForMotionPhoto
         // this is triggered after the image has animated in
         interval: PQCSettings.imageviewAnimationDuration*100
-        running: visible&&(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos || PQCSettings.imageviewCheckForPhotoSphere)
+        running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos || PQCSettings.filetypesCheckForPhotoSphere)
         onTriggered: {
 
             if(PQCFileFolderModel.currentIndex !== index)
                 return
 
-            if(PQCSettings.imageviewLoadMotionPhotos || PQCSettings.imageviewLoadAppleLivePhotos) {
+            if(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos) {
 
                 var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
 
@@ -181,7 +181,7 @@ Image {
 
             }
 
-            if(PQCSettings.imageviewCheckForPhotoSphere) {
+            if(PQCSettings.filetypesCheckForPhotoSphere) {
 
                 if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
                     PQCNotify.hasPhotoSphere = true

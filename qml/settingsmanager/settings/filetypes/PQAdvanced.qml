@@ -10,8 +10,8 @@ import "../../../elements"
 // 3) function revertChanges()
 
 // settings in this file:
-// - imageviewLoadMotionPhotos
-// - imageviewLoadAppleLivePhotos
+// - filetypesLoadMotionPhotos
+// - filetypesLoadAppleLivePhotos
 
 Flickable {
 
@@ -58,14 +58,14 @@ Flickable {
             PQCheckBox {
                 id: applelive
                 text: qsTranslate("settingsmanager", "Look for Apple Live Photos")
-                checked: PQCSettings.imageviewLoadAppleLivePhotos
+                checked: PQCSettings.filetypesLoadAppleLivePhotos
                 onCheckedChanged: checkDefault()
             }
 
             PQCheckBox {
                 id: motionmicro
                 text: qsTranslate("settingsmanager", "Look for Google Motion Photos")
-                checked: PQCSettings.imageviewLoadMotionPhotos
+                checked: PQCSettings.filetypesLoadMotionPhotos
                 onCheckedChanged: checkDefault()
             }
 
@@ -92,7 +92,7 @@ Flickable {
             id: photosphere
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager", "Check for photo spheres")
-            checked: PQCSettings.imageviewCheckForPhotoSphere
+            checked: PQCSettings.filetypesCheckForPhotoSphere
             onCheckedChanged: checkDefault()
         }
 
@@ -109,9 +109,9 @@ Flickable {
 
     function load() {
 
-        applelive.loadAndSetDefault(PQCSettings.imageviewLoadAppleLivePhotos)
-        motionmicro.loadAndSetDefault(PQCSettings.imageviewLoadMotionPhotos)
-        photosphere.loadAndSetDefault(PQCSettings.imageviewCheckForPhotoSphere)
+        applelive.loadAndSetDefault(PQCSettings.filetypesLoadAppleLivePhotos)
+        motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
+        photosphere.loadAndSetDefault(PQCSettings.filetypesCheckForPhotoSphere)
 
         settingChanged = false
 
@@ -119,9 +119,9 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewLoadAppleLivePhotos = applelive.checked
-        PQCSettings.imageviewLoadMotionPhotos = motionmicro.checked
-        PQCSettings.imageviewCheckForPhotoSphere = photosphere.checked
+        PQCSettings.filetypesLoadAppleLivePhotos = applelive.checked
+        PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
+        PQCSettings.filetypesCheckForPhotoSphere = photosphere.checked
 
         applelive.saveDefault()
         motionmicro.saveDefault()
