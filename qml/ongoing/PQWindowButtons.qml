@@ -45,7 +45,7 @@ Item {
     width: row.width
     height: row.height
 
-    visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCNotify.faceTagging
+    visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere
 
     property bool visibleAlways: false
 
