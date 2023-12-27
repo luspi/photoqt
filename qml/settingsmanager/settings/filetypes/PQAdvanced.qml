@@ -57,7 +57,7 @@ Flickable {
 
             PQCheckBox {
                 id: applelive
-                text: qsTranslate("settingsmanager", "Look for Apple Live Photo")
+                text: qsTranslate("settingsmanager", "Look for Apple Live Photos")
                 checked: PQCSettings.imageviewLoadAppleLivePhotos
                 onCheckedChanged: checkDefault()
             }
