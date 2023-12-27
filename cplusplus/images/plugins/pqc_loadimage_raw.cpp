@@ -170,8 +170,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     if(maxSize.width() > 0 && maxSize.height() > 0) {
 
         // Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
-        if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height() &&
-            raw.imgdata.thumbnail.tformat != LIBRAW_THUMBNAIL_UNKNOWN)
+        if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height())
             thumb = true;
         else if(raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()) {
             half = true;
@@ -180,9 +179,13 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     }
 
-    // Unpack the RAW image/thumbnail
-    if(thumb) ret = raw.unpack_thumb();
-    else ret = raw.unpack();
+    // Unpack the RAW thumbnail if thumbnail requested
+    if(thumb)
+        ret = raw.unpack_thumb();
+
+    // If thumbnail failed or full image wanted, unpack full
+    if(ret != LIBRAW_SUCCESS)
+        ret = raw.unpack();
 
     if(ret != LIBRAW_SUCCESS) {
         raw.recycle();
