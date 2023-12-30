@@ -73,6 +73,8 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     qDebug() << "args: filename =" << filename;
     qDebug() << "args: maxSize =" << maxSize;
 
+    QString errormsg = "";
+
 #ifdef PQMRAW
 
     bool thumb = false;
@@ -80,9 +82,6 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     LibRaw raw;
     libraw_processed_image_t *rawimg;
-
-
-    QString errormsg = "";
 
     // The LibRaw instance
     raw.recycle();
