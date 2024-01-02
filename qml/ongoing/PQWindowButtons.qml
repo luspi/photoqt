@@ -100,7 +100,7 @@ Item {
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                 text: qsTranslate("navigate", "Navigate to previous image in folder")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__next")
+                    PQCNotify.executeInternalCommand("__prev")
             }
         }
 
@@ -122,7 +122,7 @@ Item {
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                 text: qsTranslate("navigate", "Navigate to next image in folder")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__prev")
+                    PQCNotify.executeInternalCommand("__next")
             }
         }
 
