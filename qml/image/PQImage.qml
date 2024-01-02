@@ -590,46 +590,6 @@ Item {
                                     return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
                                 }
 
-                                PQMouseArea {
-                                    id: imagemouse
-                                    anchors.fill: parent
-                                    anchors.leftMargin: -flickable_content.x
-                                    anchors.rightMargin: -flickable_content.x
-                                    anchors.topMargin: -flickable_content.y
-                                    anchors.bottomMargin: -flickable_content.y
-                                    hoverEnabled: true
-                                    propagateComposedEvents: true
-                                    acceptedButtons: Qt.AllButtons
-                                    doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
-                                    onPositionChanged: (mouse) => {
-                                        cursorShape = Qt.ArrowCursor
-                                        hidecursor.restart()
-                                        var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                        PQCNotify.mouseMove(pos.x, pos.y)
-                                    }
-                                    onWheel: (wheel) => {
-                                        wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
-                                        PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
-                                    }
-                                    onPressed: (mouse) => {
-                                        var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                        PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
-                                    }
-                                    onDoubleClicked: (mouse) => {
-                                        var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                        PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
-                                    }
-
-                                    onReleased: (mouse) => {
-                                        if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
-                                            loader_component.imageClicked()
-                                        else {
-                                            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                            PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
-                                        }
-                                    }
-                                }
-
                                 Timer {
                                     id: hidecursor
                                     interval: PQCSettings.imageviewHideCursorTimeout*1000
@@ -645,43 +605,112 @@ Item {
                                     }
                                 }
 
-                                PinchArea {
 
-                                    id: pincharea
 
-                                    anchors.fill: parent
 
-                                    // the actual scale factor from a pinch event is the initial scale multiplied by Pinch.scale
-                                    property real initialScale
-                                    onPinchStarted: {
-                                        initialScale = image_wrapper.scale
+
+                            }
+
+                        }
+
+                    }
+
+                    PQMouseArea {
+                        id: imagemouse
+                        anchors.fill: parent
+                        anchors.leftMargin: -flickable_content.x
+                        anchors.rightMargin: -flickable_content.x
+                        anchors.topMargin: -flickable_content.y
+                        anchors.bottomMargin: -flickable_content.y
+                        hoverEnabled: true
+                        propagateComposedEvents: true
+                        acceptedButtons: Qt.AllButtons
+                        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+                        onPositionChanged: (mouse) => {
+                            cursorShape = Qt.ArrowCursor
+                            hidecursor.restart()
+                            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                            PQCNotify.mouseMove(pos.x, pos.y)
+                        }
+                        onWheel: (wheel) => {
+                            wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
+                            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
+                        }
+                        onPressed: (mouse) => {
+                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
+                                mouse.accepted = false
+                            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                            PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+                        }
+                        onDoubleClicked: (mouse) => {
+                            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                            PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+                        }
+
+                        onReleased: (mouse) => {
+                            if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
+                                loader_component.imageClicked()
+                            else {
+                                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                                PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                            }
+                        }
+                    }
+
+                    // we don't use a pinch area as we want to pass through flick events, something a pincharea cannot do
+                    MultiPointTouchArea {
+
+                        anchors.fill: parent
+
+                        mouseEnabled: false
+
+                        property var initialPts: []
+                        property real initialScale
+
+                        onPressed: (points) => {
+
+                            if(points.length === 2)
+                                initialPts = [Qt.point(points[0].x, points[0].y), Qt.point(points[1].x, points[1].y)]
+                            else
+                                initialPts.push(Qt.point(points[0].x, points[0].y))
+
+                            initialScale = image_wrapper.scale
+
+                        }
+                        onUpdated: (points) => {
+
+                            if(points.length === 1) {
+
+                                flickable.flick(points[0].velocity.x*1.5, points[0].velocity.y*1.5)
+
+                            } else if(points.length === 2 && initialPts.length == 2) {
+
+                                // compute the rate of change initiated by this pinch
+                                var startLength = Math.sqrt(Math.pow(initialPts[0].x-initialPts[1].x, 2) + Math.pow(initialPts[0].y-initialPts[1].y, 2))
+                                var curLength = Math.sqrt(Math.pow(points[0].x-points[1].x, 2) + Math.pow(points[0].y-points[1].y, 2))
+
+                                if(startLength > 0 && curLength > 0) {
+
+                                    var val = initialScale * (curLength / startLength)
+
+                                    if(PQCSettings.imageviewZoomMaxEnabled) {
+                                        var max = PQCSettings.imageviewZoomMax/100
+                                        if(val > max)
+                                            val = max
+                                        else if(val > 25)
+                                            val = 25
                                     }
 
-                                    onPinchUpdated: (pinch) => {
-
-                                        var newscale = deleg.imageScale * ((initialScale*pinch.scale)/image_wrapper.scale)
-
-                                        if(PQCSettings.imageviewZoomMinEnabled) {
-                                            var min = deleg.defaultScale*(PQCSettings.imageviewZoomMin/100)
-                                            if(newscale < min)
-                                                newscale = min
-                                            else if(newscale < 0.01)
-                                                newscale = 0.01
-                                        }
-
-                                        if(PQCSettings.imageviewZoomMaxEnabled) {
-                                            var max = PQCSettings.imageviewZoomMax/100
-                                            if(newscale > max)
-                                                newscale = max
-                                            else if(newscale > 25)
-                                                newscale = 25
-                                        }
-
-                                        // update scale factor
-                                        deleg.imageScale = newscale
-
-
+                                    if(PQCSettings.imageviewZoomMinEnabled) {
+                                        var min = deleg.defaultScale*(PQCSettings.imageviewZoomMin/100)
+                                        if(val < min)
+                                            val = min
+                                        else if(val < 0.01)
+                                            val = 0.01
                                     }
+
+                                    image_wrapper.scale = val
+                                    deleg.imageScale = val
 
                                 }
 
@@ -689,31 +718,8 @@ Item {
 
                         }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            acceptedButtons: Qt.AllButtons
-                            enabled: !PQCSettings.imageviewUseMouseWheelForImageMove
-                            onWheel: (wheel) => {
-                                wheel.accepted = true
-                                PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
-                            }
-                            onPressed: (mouse) => {
-                                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
-                            }
-                            onDoubleClicked: (mouse) => {
-                                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
-                            }
-
-                            onReleased: (mouse) => {
-                                if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
-                                    loader_component.imageClicked()
-                                else {
-                                    var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
-                                }
-                            }
+                        onReleased: (points) => {
+                            initialPts = []
                         }
 
                     }
