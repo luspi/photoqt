@@ -29,7 +29,7 @@
 #endif
 
 #ifdef PQMPOPPLER
-#include <poppler/poppler-config.h>
+#include <poppler/qt6/poppler-version.h>
 #endif
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
