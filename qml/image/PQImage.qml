@@ -60,6 +60,7 @@ Item {
     signal mirrorV()
     signal mirrorReset()
     signal playPauseAnimationVideo()
+    signal moveView(var direction)
 
     signal imageFinishedLoading(var index)
 
@@ -482,6 +483,20 @@ Item {
                                     }
                                 }
 
+                                PropertyAnimation {
+                                    id: animateX
+                                    target: flickable
+                                    property: "contentX"
+                                    duration: 200
+                                }
+
+                                PropertyAnimation {
+                                    id: animateY
+                                    target: flickable
+                                    property: "contentY"
+                                    duration: 200
+                                }
+
                                 Connections {
 
                                     target: image_top
@@ -496,6 +511,39 @@ Item {
 
                                     function onPlayPauseAnimationVideo() {
                                         loader_component.videoTogglePlay()
+                                    }
+
+                                    function onMoveView(direction) {
+                                        if(direction === "left")
+                                            flickable.flick(1000,0)
+                                        else if(direction === "right")
+                                            flickable.flick(-1000,0)
+                                        else if(direction === "up")
+                                            flickable.flick(0,1000)
+                                        else if(direction === "down")
+                                            flickable.flick(0,-1000)
+                                        else if(direction === "leftedge") {
+                                            animateX.stop()
+                                            animateX.from = flickable.contentX
+                                            animateX.to = 0
+                                            animateX.start()
+                                        } else if(direction === "rightedge") {
+                                            animateX.stop()
+                                            animateX.from = flickable.contentX
+                                            animateX.to = flickable.contentWidth-flickable.width
+                                            animateX.start()
+                                        } else if(direction === "topedge") {
+                                            animateY.stop()
+                                            animateY.from = flickable.contentY
+                                            animateY.to = 0
+                                            animateY.start()
+                                        } else if(direction === "bottomedge") {
+                                            animateY.stop()
+                                            animateY.from = flickable.contentY
+                                            animateY.to = flickable.contentHeight-flickable.height
+                                            animateY.start()
+                                        }
+
                                     }
 
                                 }
@@ -604,10 +652,6 @@ Item {
                                             imagemouse.cursorShape = Qt.BlankCursor
                                     }
                                 }
-
-
-
-
 
                             }
 

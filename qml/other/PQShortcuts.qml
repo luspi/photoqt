@@ -536,6 +536,30 @@ Item {
             case "__toggleAlwaysActualSize":
                 PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
                 break
+            case "__moveViewLeft":
+                image.moveView("left")
+                break
+            case "__moveViewRight":
+                image.moveView("right")
+                break
+            case "__moveViewUp":
+                image.moveView("up")
+                break
+            case "__moveViewDown":
+                image.moveView("down")
+                break
+            case "__goToLeftEdge":
+                image.moveView("leftedge")
+                break
+            case "__goToRightEdge":
+                image.moveView("rightedge")
+                break
+            case "__goToTopEdge":
+                image.moveView("topedge")
+                break
+            case "__goToBottomEdge":
+                image.moveView("bottomedge")
+                break
 
             /**********************/
             // file actions
