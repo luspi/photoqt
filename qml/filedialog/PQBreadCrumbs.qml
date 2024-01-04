@@ -391,7 +391,14 @@ Item {
         var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
         if(path.endsWith("/"))
             path = path.substring(0, path.length-1)
-        filedialog_top.loadNewPath(path)
+
+        if(PQCScriptsFilesPaths.isFolder(path))
+            filedialog_top.loadNewPath(path)
+        else {
+            filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(path))
+            PQCFileFolderModel.fileInFolderMainView = path
+            filedialog_top.hideFileDialog()
+        }
     }
 
     function handleKeyEvent(key, mod) {
