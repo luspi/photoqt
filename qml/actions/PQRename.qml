@@ -180,6 +180,9 @@ PQTemplateFullscreen {
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
                         renameFile()
 
+                    else
+                        filenameedit.handleKeyEvents(param[0], param[1])
+
                 }
             }
         }

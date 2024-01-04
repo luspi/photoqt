@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void copyFilesToClipboard(QStringList files);
     Q_INVOKABLE QStringList getListOfFilesInClipboard();
     Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false);
+    Q_INVOKABLE QString getTextFromClipboard();
 
 private:
     PQCScriptsClipboard();

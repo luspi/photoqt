@@ -98,5 +98,6 @@
         <file>other/checkerboard.png</file>
         <file>other/errorimage.svg</file>
         <file>white/photosphere.svg</file>
+        <file>white/editpath.svg</file>
     </qresource>
 </RCC>

@@ -717,6 +717,8 @@ GridView {
 
                 onClicked: (mouse) => {
 
+                    fd_breadcrumbs.disableAddressEdit()
+
                     if(!contextmenu.visible)
                         view.currentIndex = index
                     else

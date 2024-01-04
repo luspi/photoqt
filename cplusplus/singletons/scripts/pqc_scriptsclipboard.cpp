@@ -75,3 +75,11 @@ void PQCScriptsClipboard::copyTextToClipboard(QString txt, bool removeHTML) {
     clipboard->setText(txt, QClipboard::Clipboard);
 
 }
+
+QString PQCScriptsClipboard::getTextFromClipboard() {
+
+    qDebug() << "";
+
+    return clipboard->text();
+
+}

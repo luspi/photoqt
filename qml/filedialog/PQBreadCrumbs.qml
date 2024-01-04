@@ -5,6 +5,8 @@ import "../elements"
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
+import PQCNotify
+import PQCScriptsClipboard
 
 Item {
 
@@ -21,6 +23,8 @@ Item {
     Row {
 
         Item {
+
+            id: leftitem
 
             width: Math.max(placesWidth, leftrow.width+10)
             height: breadcrumbs_top.height
@@ -79,6 +83,7 @@ Item {
                     source: "/white/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
+                        fd_breadcrumbs.disableAddressEdit()
                         PQCSettings.filedialogLayout = (checked ? "icons" : "list")
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="icons" })
                     }
@@ -91,6 +96,7 @@ Item {
                     source: "/white/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
+                        fd_breadcrumbs.disableAddressEdit()
                         PQCSettings.filedialogLayout = (checked ? "list" : "icons")
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
                     }
@@ -115,6 +121,8 @@ Item {
                     checkable: true
                     checked: true
                     source: "/white/remember.svg"
+                    onClicked:
+                        fd_breadcrumbs.disableAddressEdit()
                 }
 
                 PQButtonIcon {
@@ -122,6 +130,7 @@ Item {
                     checkable: true
                     source: "/white/settings.svg"
                     onCheckedChanged: {
+                        fd_breadcrumbs.disableAddressEdit()
                         if(checked)
                             settingsmenu.popup(0, height)
                     }
@@ -144,8 +153,22 @@ Item {
         }
 
         Item {
-            width: fileviewWidth
+
+            id: rightitem
+
+            width: Math.min(fileviewWidth, breadcrumbs_top.width-leftitem.width-8)
             height: breadcrumbs_top.height
+
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.IBeamCursor
+                enabled: !addressedit.visible
+                visible: !addressedit.visible
+                onClicked: {
+                    addressedit.show()
+                }
+            }
 
             Row {
 
@@ -173,7 +196,7 @@ Item {
                                 }
                                 return p
                             } else {
-                                if(index == 0)
+                                if(index === 0)
                                     return "/"
                                 p = ""
                                 for(var j = 1; j <= index; ++j)
@@ -282,6 +305,70 @@ Item {
 
             }
 
+            Row {
+
+                x: 5
+                spacing: 5
+
+                PQLineEdit {
+                    id: addressedit
+                    y: 5
+                    width: rightitem.width-10 - editbutton.width-5
+                    height: rightitem.height-10
+                    radius: 5
+                    visible: false
+                    highlightBG: true
+                    fontBold: true
+
+                    function show() {
+                        if(addressedit.visible)
+                            return
+                        addressedit.text = PQCFileFolderModel.folderFileDialog
+                        checkValidEditPath()
+                        crumbs.visible = false
+                        addressedit.visible = true
+                        addressedit.setFocus()
+                        PQCNotify.ignoreKeysExceptEnterEsc = true
+                    }
+
+                    function hide() {
+                        if(crumbs.visible)
+                            return
+                        crumbs.visible = true
+                        addressedit.visible = false
+                        PQCNotify.ignoreKeysExceptEnterEsc = false
+                    }
+
+                    onTextChanged:
+                        checkValidEditPath()
+
+                }
+
+                Item {
+                    width: addressedit.width
+                    height: addressedit.height
+                    visible: !addressedit.visible
+                }
+
+                PQButtonIcon {
+                    id: editbutton
+                    y: 10
+                    width: rightitem.height-20
+                    height: rightitem.height-20
+                    source: addressedit.visible ? "/white/checkmark.svg" : "/white/editpath.svg"
+                    onClicked: {
+                        if(!addressedit.visible)
+                            addressedit.show()
+                        else {
+                            if(!addressedit.warning)
+                                loadEditPath()
+                            addressedit.hide()
+                        }
+                    }
+                }
+
+            }
+
         }
 
     }
@@ -291,6 +378,45 @@ Item {
         width: parent.width
         height: 1
         color: PQCLook.baseColorActive
+    }
+
+    function checkValidEditPath() {
+        var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+        addressedit.warning = (!PQCScriptsFilesPaths.doesItExist(path))
+    }
+
+    function loadEditPath() {
+        var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+        if(path.endsWith("/"))
+            path = path.substring(0, path.length-1)
+        filedialog_top.loadNewPath(path)
+    }
+
+    function handleKeyEvent(key, mod) {
+
+        // load new path
+        if(key === Qt.Key_Enter || key === Qt.Key_Return) {
+            if(addressedit.warning)
+                return
+            loadEditPath()
+            addressedit.hide()
+
+        // handle text events
+        } else
+            addressedit.handleKeyEvents(key, mod)
+
+    }
+
+    function isEditVisible() {
+        return addressedit.visible
+    }
+
+    function disableAddressEdit() {
+        addressedit.hide()
+    }
+
+    function enableAddressEdit() {
+        addressedit.show()
     }
 
 }

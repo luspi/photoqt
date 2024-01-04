@@ -155,6 +155,9 @@ Rectangle {
                         else if(fd_breadcrumbs.folderListMenuOpen)
                             fd_breadcrumbs.closeFolderListMenu()
 
+                        else if(fd_breadcrumbs.isEditVisible())
+                            fd_breadcrumbs.disableAddressEdit()
+
                         // current selection
                         else if(fd_fileview.currentSelection.length)
                             fd_fileview.currentSelection = []
@@ -168,11 +171,19 @@ Rectangle {
                             hideFileDialog()
 
                     } else {
+
+                        if(fd_breadcrumbs.isEditVisible()) {
+                            fd_breadcrumbs.handleKeyEvent(param[0], param[1])
+                            return
+                        }
+
                         if((param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) && (pasteExisting.visible || modal.visible)) {
                             if(modal.visible)
                                 modal.button1.clicked()
                             else
                                 pasteExisting.hide()
+                        } else if(param[0] === Qt.Key_L && param[1] === Qt.ControlModifier) {
+                            fd_breadcrumbs.enableAddressEdit()
                         } else
                             fd_fileview.handleKeyEvent(param[0], param[1])
                     }
@@ -246,6 +257,7 @@ Rectangle {
     }
 
     function loadNewPath(path) {
+        fd_breadcrumbs.disableAddressEdit()
         PQCFileFolderModel.folderFileDialog = path
         if(historyIndex < history.length-1)
             history.splice(historyIndex+1)
@@ -255,11 +267,13 @@ Rectangle {
     }
 
     function goBackInHistory() {
+        fd_breadcrumbs.disableAddressEdit()
         historyIndex = Math.max(0, historyIndex-1)
         PQCFileFolderModel.folderFileDialog = history[historyIndex]
     }
 
     function goForwardsInHistory() {
+        fd_breadcrumbs.disableAddressEdit()
         historyIndex = Math.min(history.length-1, historyIndex+1)
         PQCFileFolderModel.folderFileDialog = history[historyIndex]
     }
@@ -279,6 +293,7 @@ Rectangle {
             return
         }
 
+        fd_breadcrumbs.disableAddressEdit()
         opacity = 0
         loader.elementClosed(thisis)
     }

@@ -49,8 +49,11 @@ Item {
 
     MouseArea {
         anchors.fill: parent
-        acceptedButtons: Qt.RightButton
-        onClicked: {
+        acceptedButtons: Qt.RightButton|Qt.LeftButton
+        onClicked: (mouse) => {
+            fd_breadcrumbs.disableAddressEdit()
+            if(mouse.button === Qt.LeftButton)
+                return
             contextmenu.currentEntryId = ""
             contextmenu.currentEntryHidden = ""
             contextmenu.popup()
@@ -119,8 +122,6 @@ Item {
 
                         if(newindex === 0)
                             newindex = 1
-
-                        console.log("dropped on:", newindex)
 
                         // if drag/drop originated from folders panel
                         if(!dragReordering) {
@@ -310,6 +311,7 @@ Item {
                 text: index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + entry[4] + ")") : ""))
 
                 onPressed: {
+                    fd_breadcrumbs.disableAddressEdit()
                     pressedIndex[deleg.part] = index
                     pressedIndexChanged()
                 }
@@ -320,6 +322,12 @@ Item {
 
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
+
+                    fd_breadcrumbs.disableAddressEdit()
+
+                    if(index == 0)
+                        return
+
                     if(mouse.button === Qt.LeftButton)
                         filedialog_top.loadNewPath(deleg.entry[1])
                     else {
