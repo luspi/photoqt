@@ -175,7 +175,7 @@ Item {
             Flickable {
 
                 height: parent.height
-                width: parent.width-editbutton.width-10
+                width: Math.min(contentWidth, parent.width-editbutton.width-10)
                 contentWidth: crumbs.width
                 onWidthChanged: {
                     if(contentWidth > width)
