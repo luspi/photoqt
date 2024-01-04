@@ -384,6 +384,8 @@ Item {
 
     function checkValidEditPath() {
         var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+        if(PQCScriptsFilesPaths.getFilename(path) === path)
+            path = PQCFileFolderModel.folderFileDialog + "/" + path
         addressedit.warning = (!PQCScriptsFilesPaths.doesItExist(path))
     }
 
@@ -395,6 +397,8 @@ Item {
         if(PQCScriptsFilesPaths.isFolder(path))
             filedialog_top.loadNewPath(path)
         else {
+            if(PQCScriptsFilesPaths.getFilename(path) === path)
+                path = PQCFileFolderModel.folderFileDialog + "/" + path
             filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(path))
             PQCFileFolderModel.fileInFolderMainView = path
             filedialog_top.hideFileDialog()
