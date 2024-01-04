@@ -24,6 +24,7 @@
 #define PQCNOTIFY_H
 
 #include <QObject>
+#include <QMutex>
 
 class PQCNotify : public QObject {
 
@@ -167,6 +168,7 @@ private:
     bool m_startInTray;
 
     QString m_debugLogMessages;
+    QMutex addDebugLogMessageMutex;
 
     bool m_modalFileDialogOpen;
     bool m_spinBoxPassKeyEvents;

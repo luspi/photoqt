@@ -105,7 +105,10 @@ QString PQCNotify::getDebugLogMessages() {
     return m_debugLogMessages;
 }
 void PQCNotify::addDebugLogMessages(QString val) {
+    // without a mutex a crash can be encountered here when multiple threads write to this variable at the same time
+    addDebugLogMessageMutex.lock();
     m_debugLogMessages.append(val);
+    addDebugLogMessageMutex.unlock();
     Q_EMIT debugLogMessagesChanged();
 }
 
