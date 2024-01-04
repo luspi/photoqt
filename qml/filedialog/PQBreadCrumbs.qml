@@ -119,10 +119,12 @@ Item {
                 PQButtonIcon {
                     id: remember
                     checkable: true
-                    checked: true
+                    checked: PQCSettings.filedialogKeepLastLocation
                     source: "/white/remember.svg"
                     onClicked:
                         fd_breadcrumbs.disableAddressEdit()
+                    onCheckedChanged:
+                        PQCSettings.filedialogKeepLastLocation = checked
                 }
 
                 PQButtonIcon {
