@@ -318,11 +318,17 @@ Window {
         else
             loader.ensureItIsReady("navigationfloating", loader.loadermapping["navigationfloating"])
 
+        var fp = ""
         if(PQCNotify.filePath !== "")
-            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
+            fp = PQCNotify.filePath
         else if(PQCSettings.interfaceRememberLastImage)
-            PQCFileFolderModel.fileInFolderMainView = PQCScriptsConfig.getLastLoadedImage()
+            fp = PQCScriptsConfig.getLastLoadedImage()
 
+        if(fp != "") {
+            PQCFileFolderModel.fileInFolderMainView = fp
+            loader.ensureItIsReady("filedialog", loader.loadermapping["filedialog"])
+            loader_filedialog.item.loadNewPath(PQCScriptsFilesPaths.isFolder(fp) ? fp : PQCScriptsFilesPaths.getDir(fp))
+        }
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()

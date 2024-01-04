@@ -895,7 +895,9 @@ void PQCFileFolderModel::loadDataMainView() {
         m_fileInFolderMainView = m_fileInFolderMainView.split("::ARC::").at(1);
     }
 
-    watcherMainView->addPath(QFileInfo(m_fileInFolderMainView).absolutePath());
+    const bool isFolder = !QFileInfo(m_fileInFolderMainView).isFile();
+
+    watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
     connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
 
     if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
@@ -914,8 +916,11 @@ void PQCFileFolderModel::loadDataMainView() {
 
     } else {
 
-        m_entriesMainView = getAllFiles(QFileInfo(m_fileInFolderMainView).absolutePath());
+        m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
         m_countMainView = m_entriesMainView.length();
+
+        if(isFolder && m_entriesMainView.length())
+            m_fileInFolderMainView = m_entriesMainView[0];
 
     }
 
