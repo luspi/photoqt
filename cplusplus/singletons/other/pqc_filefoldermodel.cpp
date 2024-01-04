@@ -1316,6 +1316,9 @@ bool PQCFileFolderModel::isUserFilterSet() {
 }
 
 void PQCFileFolderModel::enableViewerMode() {
+
+    qDebug() << "";
+
     if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
         setFileInFolderMainView("0::PDF::" + getCurrentFile());
     else
@@ -1324,10 +1327,38 @@ void PQCFileFolderModel::enableViewerMode() {
 }
 
 void PQCFileFolderModel::disableViewerMode() {
+
+    qDebug() << "";
+
     QString tmp = getCurrentFile();
     if(tmp.contains("::PDF::"))
         setFileInFolderMainView(tmp.split("::PDF::")[1]);
     else if(tmp.contains("::ARC::"))
         setFileInFolderMainView(tmp.split("::ARC::")[1]);
     forceReloadMainView();
+}
+
+QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
+
+    qDebug() << "args: partial =" << partial;
+
+    QFileInfo info(partial);
+    QString typed = info.fileName();
+    QString parent = partial.chopped(typed.length());
+
+    QDir dir(parent);
+    dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
+    QStringList folders = dir.entryList();
+    QCollator collator;
+    collator.setNumericMode(true);
+    std::sort(folders.begin(), folders.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+
+    for(const auto &f : std::as_const(folders)) {
+        if(f.startsWith(typed))
+            return QString("%1%2").arg(parent, f);
+
+    }
+
+    return "";
+
 }

@@ -172,139 +172,154 @@ Item {
                 }
             }
 
-            Row {
+            Flickable {
 
-                id: crumbs
+                height: parent.height
+                width: parent.width-editbutton.width-10
+                contentWidth: crumbs.width
+                onWidthChanged: {
+                    if(contentWidth > width)
+                        contentX = (contentWidth-width)
+                }
 
-                y: (parent.height-height)/2
+                ScrollBar.horizontal: PQHorizontalScrollBar {}
 
-                property bool windows: PQCScriptsConfig.amIOnWindows()
+                clip: true
 
-                property var parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : PQCFileFolderModel.folderFileDialog.split("/")
+                Row {
 
-                Repeater {
+                    id: crumbs
 
-                    model: crumbs.parts.length
+                    y: (parent.height-height)/2
 
-                    Row {
+                    property bool windows: PQCScriptsConfig.amIOnWindows()
 
-                        id: deleg
-                        property string subdir: {
-                            var p = ""
-                            if(crumbs.windows) {
-                                for(var i = 0; i <= index; ++i) {
-                                    if(p != "") p += "/"
-                                    p += crumbs.parts[i]
-                                }
-                                return p
-                            } else {
-                                if(index === 0)
-                                    return "/"
-                                p = ""
-                                for(var j = 1; j <= index; ++j)
-                                    p += "/"+crumbs.parts[j]
-                                return p
-                            }
-                        }
+                    property var parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : PQCFileFolderModel.folderFileDialog.split("/")
 
-                        Rectangle {
-                            height: breadcrumbs_top.height
-                            width: folder.width+20
-                            color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
-                            Behavior on color { ColorAnimation { duration: 200 } }
-                            PQText {
-                                id: folder
-                                x: 10
-                                y: (parent.height-height)/2
-                                font.weight: PQCLook.fontWeightBold
-                                text: index===0&&!crumbs.windows ? "/" : crumbs.parts[index]
-                            }
-                            PQMouseArea {
-                                id: mousearea2
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: filedialog_top.loadNewPath(deleg.subdir)
-                            }
-                        }
+                    Repeater {
 
-                        Rectangle {
-                            height: breadcrumbs_top.height
-                            width: height*2/3
-                            property bool down: folderlist.visible
-                            color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
-                            Behavior on color { ColorAnimation { duration: 200 } }
-                            Image {
-                                anchors.fill: parent
-                                anchors.leftMargin: parent.width/3
-                                anchors.rightMargin: parent.width/3
-                                anchors.topMargin: parent.height/3
-                                anchors.bottomMargin: parent.height/3
-                                fillMode: Image.PreserveAspectFit
-                                source: "/white/breadcrumb.svg"
-                            }
-                            PQMouseArea {
-                                id: mousearea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: (pos) => {
-                                    folderlist.popup(0,height)
+                        model: crumbs.parts.length
+
+                        Row {
+
+                            id: deleg
+                            property string subdir: {
+                                var p = ""
+                                if(crumbs.windows) {
+                                    for(var i = 0; i <= index; ++i) {
+                                        if(p != "") p += "/"
+                                        p += crumbs.parts[i]
+                                    }
+                                    return p
+                                } else {
+                                    if(index === 0)
+                                        return "/"
+                                    p = ""
+                                    for(var j = 1; j <= index; ++j)
+                                        p += "/"+crumbs.parts[j]
+                                    return p
                                 }
                             }
 
-                            PQMenu {
-                                id: folderlist
-                                property var subfolders: []
-                                PQMenuItem {
-                                    text: qsTranslate("filedialog", "no subfolders found")
-                                    font.italic: true
-                                    enabled: false
-                                    visible: folderlist.subfolders.length==0
-                                    height: visible ? 40 : 0
+                            Rectangle {
+                                height: breadcrumbs_top.height
+                                width: folder.width+20
+                                color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+                                Behavior on color { ColorAnimation { duration: 200 } }
+                                PQText {
+                                    id: folder
+                                    x: 10
+                                    y: (parent.height-height)/2
+                                    font.weight: PQCLook.fontWeightBold
+                                    text: index===0&&!crumbs.windows ? "/" : crumbs.parts[index]
+                                }
+                                PQMouseArea {
+                                    id: mousearea2
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: filedialog_top.loadNewPath(deleg.subdir)
+                                }
+                            }
+
+                            Rectangle {
+                                height: breadcrumbs_top.height
+                                width: height*2/3
+                                property bool down: folderlist.visible
+                                color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+                                Behavior on color { ColorAnimation { duration: 200 } }
+                                Image {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: parent.width/3
+                                    anchors.rightMargin: parent.width/3
+                                    anchors.topMargin: parent.height/3
+                                    anchors.bottomMargin: parent.height/3
+                                    fillMode: Image.PreserveAspectFit
+                                    source: "/white/breadcrumb.svg"
+                                }
+                                PQMouseArea {
+                                    id: mousearea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: (pos) => {
+                                        folderlist.popup(0,height)
+                                    }
                                 }
 
-                                Instantiator {
-                                    id: inst
-                                    model: 0
-                                    delegate: PQMenuItem {
-                                        id: menuItem
-                                        text: folderlist.subfolders[modelData]
-                                        onTriggered: filedialog_top.loadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
+                                PQMenu {
+                                    id: folderlist
+                                    property var subfolders: []
+                                    PQMenuItem {
+                                        text: qsTranslate("filedialog", "no subfolders found")
+                                        font.italic: true
+                                        enabled: false
+                                        visible: folderlist.subfolders.length==0
+                                        height: visible ? 40 : 0
                                     }
 
-                                    onObjectAdded: (index, object) => folderlist.insertItem(index, object)
-                                    onObjectRemoved: (index, object) => folderlist.removeItem(object)
+                                    Instantiator {
+                                        id: inst
+                                        model: 0
+                                        delegate: PQMenuItem {
+                                            id: menuItem
+                                            text: folderlist.subfolders[modelData]
+                                            onTriggered: filedialog_top.loadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
+                                        }
 
-                                }
-                                onAboutToShow: {
-                                    subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
-                                    inst.model = 0
-                                    inst.model = subfolders.length
-                                    folderListMenuOpen = true
-                                }
-                                onAboutToHide:
-                                    folderListMenuOpen = false
-                                Connections {
-                                    target: filedialog_top
-                                    function onOpacityChanged() {
-                                        if(filedialog_top.opacity<1)
+                                        onObjectAdded: (index, object) => folderlist.insertItem(index, object)
+                                        onObjectRemoved: (index, object) => folderlist.removeItem(object)
+
+                                    }
+                                    onAboutToShow: {
+                                        subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
+                                        inst.model = 0
+                                        inst.model = subfolders.length
+                                        folderListMenuOpen = true
+                                    }
+                                    onAboutToHide:
+                                        folderListMenuOpen = false
+                                    Connections {
+                                        target: filedialog_top
+                                        function onOpacityChanged() {
+                                            if(filedialog_top.opacity<1)
+                                                folderlist.close()
+                                        }
+                                    }
+                                    Connections {
+                                        target: breadcrumbs_top
+                                        function onCloseFolderListMenu() {
                                             folderlist.close()
-                                    }
-                                }
-                                Connections {
-                                    target: breadcrumbs_top
-                                    function onCloseFolderListMenu() {
-                                        folderlist.close()
+                                        }
                                     }
                                 }
                             }
+
                         }
 
                     }
 
                 }
-
             }
 
             Row {
@@ -321,6 +336,10 @@ Item {
                     visible: false
                     highlightBG: true
                     fontBold: true
+                    keepPlaceholderTextVisible: true
+                    placeholderText: completedPath
+
+                    property string completedPath: ""
 
                     function show() {
                         if(addressedit.visible)
@@ -386,11 +405,35 @@ Item {
         var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
         if(PQCScriptsFilesPaths.getFilename(path) === path)
             path = PQCFileFolderModel.folderFileDialog + "/" + path
-        addressedit.warning = (!PQCScriptsFilesPaths.doesItExist(path))
+
+        if(PQCScriptsFilesPaths.doesItExist(path)) {
+            addressedit.warning = false
+            addressedit.completedPath = ""
+            return
+        }
+
+        var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(addressedit.text)
+        console.warn("*** firstmatch =", firstmatch)
+
+        if(firstmatch !== "") {
+            addressedit.warning = false
+            addressedit.completedPath = firstmatch
+            return
+        }
+
+        addressedit.warning = true
+        addressedit.completedPath = ""
+
     }
 
     function loadEditPath() {
-        var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+
+        var path = ""
+        if(addressedit.completedPath !== "")
+            path = PQCScriptsFilesPaths.cleanPath(addressedit.completedPath)
+        else
+            path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+
         if(path.endsWith("/"))
             path = path.substring(0, path.length-1)
 

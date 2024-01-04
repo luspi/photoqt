@@ -171,6 +171,7 @@ public:
     Q_INVOKABLE bool isUserFilterSet();
     Q_INVOKABLE void enableViewerMode();
     Q_INVOKABLE void disableViewerMode();
+    Q_INVOKABLE QString getFirstMatchFileDialog(QString partial);
 
     /********************************************/
 

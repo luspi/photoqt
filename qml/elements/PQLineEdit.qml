@@ -44,6 +44,7 @@ Rectangle {
     property alias controlFocus: control.focus
     property alias controlActiveFocus: control.activeFocus
 
+    property bool keepPlaceholderTextVisible: false
     property alias placeholderText: placeholder.text
 
     property var separators: [" ", "/", ".", "-", "+", "*", "(", ")", "&", "$", "#", "@", "!", ":", ";", "?", "<", ">", "[", "]", "{", "}", "=", "_", "\"", "'", "^", "%"]
@@ -52,10 +53,11 @@ Rectangle {
         id: placeholder
         anchors.fill: parent
         color: PQCLook.textColorHighlight
+        opacity: highlightBG ? 0.5 : 1
         font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
         anchors.leftMargin: control.leftPadding
         verticalAlignment: Text.AlignVCenter
-        visible: control.text===""
+        visible: control.text===""||keepPlaceholderTextVisible
     }
 
     TextInput {
