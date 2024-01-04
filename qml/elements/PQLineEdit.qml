@@ -71,8 +71,8 @@ Rectangle {
         rightPadding: 5
 
         color: highlightBG ? PQCLook.textColorActive : PQCLook.textColor
-        selectedTextColor: PQCLook.textColorHighlight
-        selectionColor: PQCLook.baseColorHighlight
+        selectedTextColor: highlightBG ? PQCLook.textColor : PQCLook.textColorHighlight
+        selectionColor: highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorHighlight
 
         font.pointSize: PQCLook.fontSize
         font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
