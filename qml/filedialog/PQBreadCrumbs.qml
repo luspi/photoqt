@@ -365,13 +365,13 @@ Item {
                         if(completedPath !== "" && isCursorAtEnd()) {
                             var txt = text
                             var missing = PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath.substring(txt.length))
-                            text = txt+missing[0]
+                            lineedit.insert(text.length, missing[0])
                         }
                     }
 
                     onEndPressed: {
                         if(completedPath !== "" && isCursorAtEnd())
-                            text = PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath)
+                            lineedit.insert(text.length, PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath).replace(text, ""))
                     }
 
                     onTextChanged:
@@ -380,8 +380,6 @@ Item {
                     onRightClicked: {
                         contextmenu.popup()
                     }
-
-                    // onCl
 
                 }
 
@@ -512,10 +510,9 @@ Item {
         }
 
         if(PQCScriptsFilesPaths.doesItExist(path)) {
-            if(addressedit.completedPath == addressedit.text) {
-                addressedit.warning = false
+            if(addressedit.completedPath === addressedit.text)
                 addressedit.completedPath = ""
-            }
+            addressedit.warning = false
             return
         }
 
