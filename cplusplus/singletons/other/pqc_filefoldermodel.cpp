@@ -1355,7 +1355,7 @@ QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
 
     for(const auto &f : std::as_const(folders)) {
         if(f.startsWith(typed))
-            return QString("%1%2").arg(parent, f);
+            return QString("%1%2/").arg(parent, f);
 
     }
 

@@ -49,6 +49,9 @@ Rectangle {
 
     property var separators: [" ", "/", ".", "-", "+", "*", "(", ")", "&", "$", "#", "@", "!", ":", ";", "?", "<", ">", "[", "]", "{", "}", "=", "_", "\"", "'", "^", "%"]
 
+    signal leftPressed()
+    signal rightPressed()
+
     PQText {
         id: placeholder
         anchors.fill: parent
@@ -84,6 +87,16 @@ Rectangle {
         focus: true
 
         enabled: opacity>0 && visible
+
+        Keys.onLeftPressed: (event) => {
+            edit_top.leftPressed()
+            event.accepted = false
+        }
+
+        Keys.onRightPressed: (event) => {
+            edit_top.rightPressed()
+            event.accepted = false
+        }
 
     }
 
@@ -221,6 +234,10 @@ Rectangle {
 
         }
 
+    }
+
+    function isCursorAtEnd() {
+        return (control.cursorPosition==control.text.length)
     }
 
     function undo() {

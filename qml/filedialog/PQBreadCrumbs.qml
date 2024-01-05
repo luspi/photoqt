@@ -360,6 +360,14 @@ Item {
                         PQCNotify.ignoreKeysExceptEnterEsc = false
                     }
 
+                    onRightPressed: {
+                        if(completedPath !== "" && isCursorAtEnd()) {
+                            var txt = text
+                            var missing = completedPath.substring(txt.length)
+                            text = txt+missing[0]
+                        }
+                    }
+
                     onTextChanged:
                         checkValidEditPath()
 
@@ -407,13 +415,14 @@ Item {
             path = PQCFileFolderModel.folderFileDialog + "/" + path
 
         if(PQCScriptsFilesPaths.doesItExist(path)) {
-            addressedit.warning = false
-            addressedit.completedPath = ""
+            if(addressedit.completedPath == addressedit.text) {
+                addressedit.warning = false
+                addressedit.completedPath = ""
+            }
             return
         }
 
         var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(addressedit.text)
-        console.warn("*** firstmatch =", firstmatch)
 
         if(firstmatch !== "") {
             addressedit.warning = false
