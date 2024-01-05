@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE static QString cleanPath(QString path);
     Q_INVOKABLE static QString cleanPath_windows(QString path);
     Q_INVOKABLE QString pathWithNativeSeparators(QString path);
+    Q_INVOKABLE QString pathFromNativeSeparators(QString path);
     Q_INVOKABLE QString getSuffix(QString path);
     Q_INVOKABLE QString getBasename(QString fullpath);
     Q_INVOKABLE QString getFilename(QString fullpath);

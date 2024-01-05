@@ -344,7 +344,7 @@ Item {
                     function show() {
                         if(addressedit.visible)
                             return
-                        addressedit.text = PQCFileFolderModel.folderFileDialog
+                        addressedit.text = PQCScriptsFilesPaths.pathWithNativeSeparators(PQCFileFolderModel.folderFileDialog)
                         checkValidEditPath()
                         crumbs.visible = false
                         addressedit.visible = true
@@ -363,7 +363,7 @@ Item {
                     onRightPressed: {
                         if(completedPath !== "" && isCursorAtEnd()) {
                             var txt = text
-                            var missing = completedPath.substring(txt.length)
+                            var missing = PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath.substring(txt.length))
                             text = txt+missing[0]
                         }
                     }
@@ -410,7 +410,7 @@ Item {
     }
 
     function checkValidEditPath() {
-        var path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+        var path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
         if(PQCScriptsFilesPaths.getFilename(path) === path)
             path = PQCFileFolderModel.folderFileDialog + "/" + path
 
@@ -422,11 +422,11 @@ Item {
             return
         }
 
-        var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(addressedit.text)
+        var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
 
         if(firstmatch !== "") {
             addressedit.warning = false
-            addressedit.completedPath = firstmatch
+            addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch)
             return
         }
 
@@ -439,9 +439,9 @@ Item {
 
         var path = ""
         if(addressedit.completedPath !== "")
-            path = PQCScriptsFilesPaths.cleanPath(addressedit.completedPath)
+            path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.completedPath))
         else
-            path = PQCScriptsFilesPaths.cleanPath(addressedit.text)
+            path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
 
         if(path.endsWith("/"))
             path = path.substring(0, path.length-1)

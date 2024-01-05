@@ -556,7 +556,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     QStringList headerbytes = {"00000018667479706d703432",
                                "0000001c6674797069736f6d"};
 
-    char data[info.size()];
+    char *data = new char[info.size()];
 
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly)) {
@@ -596,11 +596,15 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
                 out.writeRawData(videodata, info.size()-i);
                 outfile.close();
 
+                delete[] data;
+
                 return outfile.fileName();
 
             }
         }
     }
+
+    delete[] data;
 
     return "";
 

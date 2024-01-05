@@ -75,6 +75,17 @@ QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
 
 }
 
+QString PQCScriptsFilesPaths::pathFromNativeSeparators(QString path) {
+
+#ifdef Q_OS_WIN
+    while(path.startsWith("\\"))
+        path = path.mid(1);
+#endif
+
+    return QDir::fromNativeSeparators(path);
+
+}
+
 QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
     return QFileInfo(path).completeSuffix();

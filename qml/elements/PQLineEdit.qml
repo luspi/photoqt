@@ -47,7 +47,7 @@ Rectangle {
     property bool keepPlaceholderTextVisible: false
     property alias placeholderText: placeholder.text
 
-    property var separators: [" ", "/", ".", "-", "+", "*", "(", ")", "&", "$", "#", "@", "!", ":", ";", "?", "<", ">", "[", "]", "{", "}", "=", "_", "\"", "'", "^", "%"]
+    property var separators: [" ", "/", "\\", ".", "-", "+", "*", "(", ")", "&", "$", "#", "@", "!", ":", ";", "?", "<", ">", "[", "]", "{", "}", "=", "_", "\"", "'", "^", "%"]
 
     signal leftPressed()
     signal rightPressed()
