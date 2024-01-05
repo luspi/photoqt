@@ -377,6 +377,92 @@ Item {
                     onTextChanged:
                         checkValidEditPath()
 
+                    onRightClicked: {
+                        contextmenu.popup()
+                    }
+
+                    // onCl
+
+                }
+
+                PQMenu {
+
+                    id: contextmenu
+
+                    Connections {
+                        target: filedialog_top
+                        function onOpacityChanged() {
+                            if(filedialog_top.opacity<1)
+                                contextmenu.close()
+                        }
+                    }
+
+                    PQMenuItem {
+                        iconSource: "/white/rotateleft.svg"
+                        text: "Undo"
+                        enabled: addressedit.lineedit.canUndo
+                        onClicked:
+                            addressedit.lineedit.undo()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "/white/rotateright.svg"
+                        text: "Redo"
+                        enabled: addressedit.lineedit.canRedo
+                        onClicked:
+                            addressedit.lineedit.redo()
+                    }
+
+                    PQMenuSeparator {}
+
+                    PQMenuItem {
+                        iconSource: "/white/cut.svg"
+                        text: "Cut"
+                        enabled: addressedit.lineedit.selectedText.length>0
+                        onClicked:
+                            addressedit.actionCut()
+
+                    }
+
+                    PQMenuItem {
+                        iconSource: "/white/copy.svg"
+                        text: "Copy"
+                        enabled: addressedit.lineedit.selectedText.length>0
+                        onClicked:
+                            addressedit.actionCopy()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "/white/clipboard.svg"
+                        text: "Paste"
+                        enabled: addressedit.lineedit.canPaste
+                        onClicked:
+                            addressedit.actionPaste()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "/white/delete.svg"
+                        text: "Delete"
+                        onClicked:
+                            addressedit.actionDelete()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "/white/quit.svg"
+                        text: "Clear"
+                        onClicked:
+                            addressedit.lineedit.remove(0,addressedit.text.length)
+                    }
+
+                    PQMenuSeparator {}
+
+                    PQMenuItem {
+                        iconSource: "/white/leftrightarrow.svg"
+                        text: "Select all"
+                        onClicked:
+                            addressedit.setFocus()
+                    }
+
                 }
 
                 Item {

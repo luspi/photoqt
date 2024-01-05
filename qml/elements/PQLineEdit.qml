@@ -44,6 +44,8 @@ Rectangle {
     property alias controlFocus: control.focus
     property alias controlActiveFocus: control.activeFocus
 
+    property alias lineedit: control
+
     property bool keepPlaceholderTextVisible: false
     property alias placeholderText: placeholder.text
 
@@ -52,6 +54,7 @@ Rectangle {
     signal leftPressed()
     signal rightPressed()
     signal endPressed()
+    signal rightClicked()
 
     PQText {
         id: placeholder
@@ -97,6 +100,14 @@ Rectangle {
             else if(event.key === Qt.Key_End)
                 edit_top.endPressed()
             event.accepted = false
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            propagateComposedEvents: true
+            acceptedButtons: Qt.RightButton
+            onClicked:
+                edit_top.rightClicked()
         }
 
     }
@@ -215,35 +226,57 @@ Rectangle {
         // cut, copy and paste
         else if(key === Qt.Key_X && mod === Qt.ControlModifier) {
 
-            var cuttxt = getSelectedText()
-            if(cuttxt === "")
-                return
-            PQCScriptsClipboard.copyTextToClipboard(cuttxt)
-            control.remove(control.selectionStart, control.selectionEnd)
+            actionCut()
 
         } else if(key === Qt.Key_C && mod === Qt.ControlModifier) {
 
-            var copytxt = getSelectedText()
-            if(copytxt === "")
-                copytxt = control.text
-            PQCScriptsClipboard.copyTextToClipboard(copytxt)
+            actionCopy()
 
         } else if(key === Qt.Key_V && mod === Qt.ControlModifier) {
 
-            var pastetxt = PQCScriptsClipboard.getTextFromClipboard()
-            if(pastetxt === "")
-                return
-
-            if(control.selectionStart !== control.selectionEnd)
-                control.remove(control.selectionStart, control.selectionEnd)
-            control.insert(control.cursorPosition, pastetxt)
+            actionPaste()
 
         }
 
     }
 
+    function actionCut() {
+
+        var cuttxt = getSelectedText()
+        if(cuttxt === "")
+            return
+        PQCScriptsClipboard.copyTextToClipboard(cuttxt)
+        control.remove(control.selectionStart, control.selectionEnd)
+
+    }
+
+    function actionCopy() {
+
+        var copytxt = getSelectedText()
+        if(copytxt === "")
+            copytxt = control.text
+        PQCScriptsClipboard.copyTextToClipboard(copytxt)
+
+    }
+
+    function actionPaste() {
+
+        var pastetxt = PQCScriptsClipboard.getTextFromClipboard()
+        if(pastetxt === "")
+            return
+
+        if(control.selectionStart !== control.selectionEnd)
+            control.remove(control.selectionStart, control.selectionEnd)
+        control.insert(control.cursorPosition, pastetxt)
+
+    }
+
+    function actionDelete() {
+        control.remove(control.selectionStart, control.selectionEnd)
+    }
+
     function isCursorAtEnd() {
-        return (control.cursorPosition==control.text.length)
+        return (control.cursorPosition===control.text.length)
     }
 
     function undo() {
