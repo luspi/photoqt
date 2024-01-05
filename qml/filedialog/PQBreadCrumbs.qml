@@ -344,11 +344,12 @@ Item {
                     function show() {
                         if(addressedit.visible)
                             return
-                        addressedit.text = PQCScriptsFilesPaths.pathWithNativeSeparators(PQCFileFolderModel.folderFileDialog)
+                        completedPath = ""
+                        text = PQCScriptsFilesPaths.pathWithNativeSeparators(PQCFileFolderModel.folderFileDialog)
                         checkValidEditPath()
                         crumbs.visible = false
-                        addressedit.visible = true
-                        addressedit.setFocus()
+                        visible = true
+                        setFocus()
                         PQCNotify.ignoreKeysExceptEnterEsc = true
                     }
 
@@ -356,7 +357,7 @@ Item {
                         if(crumbs.visible)
                             return
                         crumbs.visible = true
-                        addressedit.visible = false
+                        visible = false
                         PQCNotify.ignoreKeysExceptEnterEsc = false
                     }
 
@@ -410,9 +411,14 @@ Item {
     }
 
     function checkValidEditPath() {
+
+        var completeWithoutFolder = false
+
         var path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
-        if(PQCScriptsFilesPaths.getFilename(path) === path)
+        if(PQCScriptsFilesPaths.getFilename(path) === path) {
+            completeWithoutFolder = true
             path = PQCFileFolderModel.folderFileDialog + "/" + path
+        }
 
         if(PQCScriptsFilesPaths.doesItExist(path)) {
             if(addressedit.completedPath == addressedit.text) {
@@ -422,11 +428,14 @@ Item {
             return
         }
 
-        var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
+        var firstmatch = PQCFileFolderModel.getFirstMatchFileDialog(PQCScriptsFilesPaths.pathFromNativeSeparators(path))
 
         if(firstmatch !== "") {
             addressedit.warning = false
-            addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch)
+            if(completeWithoutFolder)
+                addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch.replace(PQCFileFolderModel.folderFileDialog+"/", ""))
+            else
+                addressedit.completedPath = PQCScriptsFilesPaths.pathWithNativeSeparators(firstmatch)
             return
         }
 

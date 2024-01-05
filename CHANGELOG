@@ -1,6 +1,21 @@
 Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.2
+----------------------------
+- add: support for Google Motion Photos and Apple Live Photos
+- add: support for photo spheres including 360 degree views
+- add: when window decoration is disabled custom window handles are available for moving/resizing window
+- improve: RAW images load embedded thumbnail when available
+- improve: RAW images can use embedded thumbnail if as large as actual image
+- fix: degraded image quality when close to 100% zoom
+- fix: use any mouse button for shortcuts
+- fix: disabled lift-up highlight for thumbnails don't affect thumbnail bar
+- fix: mouse wheel triggers shortcut once per movement
+- fix: use Escape key for custom shortcuts
+- fix: actually hide status infos when disabled
+
+
 Release 4.1 - 2023-12-20
 ----------------------------
 - add: restore default settings/shortcuts from settings manager

@@ -1359,6 +1359,17 @@ QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
 
     }
 
+    dir.setFilter(QDir::Files);
+    QStringList files = dir.entryList();
+    collator.setNumericMode(true);
+    std::sort(files.begin(), files.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+
+    for(const auto &f : std::as_const(files)) {
+        if(f.startsWith(typed))
+            return QString("%1%2").arg(parent, f);
+
+    }
+
     return "";
 
 }
