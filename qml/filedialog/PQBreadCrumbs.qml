@@ -369,6 +369,11 @@ Item {
                         }
                     }
 
+                    onEndPressed: {
+                        if(completedPath !== "" && isCursorAtEnd())
+                            text = PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath)
+                    }
+
                     onTextChanged:
                         checkValidEditPath()
 

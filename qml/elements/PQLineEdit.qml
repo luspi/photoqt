@@ -51,6 +51,7 @@ Rectangle {
 
     signal leftPressed()
     signal rightPressed()
+    signal endPressed()
 
     PQText {
         id: placeholder
@@ -88,13 +89,13 @@ Rectangle {
 
         enabled: opacity>0 && visible
 
-        Keys.onLeftPressed: (event) => {
-            edit_top.leftPressed()
-            event.accepted = false
-        }
-
-        Keys.onRightPressed: (event) => {
-            edit_top.rightPressed()
+        Keys.onPressed: (event) => {
+            if(event.key === Qt.Key_Left)
+                edit_top.leftPressed()
+            else if(event.key === Qt.Key_Right)
+                edit_top.rightPressed()
+            else if(event.key === Qt.Key_End)
+                edit_top.endPressed()
             event.accepted = false
         }
 
