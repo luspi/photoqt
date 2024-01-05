@@ -127,14 +127,19 @@ Rectangle {
     function moveToLeftSeperatorList(alsoselect=false) {
         var txt = control.text
         var pos = 0
-        for(var i = control.cursorPosition-2; i >= 0; --i) {
+        for(var i = Math.max(0, control.cursorPosition-2); i >= 0; --i) {
             if(separators.indexOf(txt[i]) !== -1) {
                 pos = i
                 break
             }
         }
-        pos += 1
+        pos = Math.min(pos+1, control.text.length)
         var oldpos = control.cursorPosition
+
+        // this ensures we can reach the very front and then we stay there
+        if(oldpos <= 1 && pos == 1)
+            pos = 0
+
         if(alsoselect) {
             if(control.selectionStart === control.selectionEnd) {
                 control.select(oldpos, pos)
@@ -155,7 +160,7 @@ Rectangle {
                 break
             }
         }
-        pos += 1
+        pos = Math.min(pos+1, control.text.length)
         var oldpos = control.cursorPosition
         if(alsoselect) {
             if(control.selectionStart === control.selectionEnd) {
