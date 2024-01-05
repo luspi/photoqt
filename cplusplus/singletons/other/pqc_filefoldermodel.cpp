@@ -1346,27 +1346,19 @@ QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
     QString typed = info.fileName();
     QString parent = partial.chopped(typed.length());
 
-    QDir dir(parent);
-    dir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
-    QStringList folders = dir.entryList();
-    QCollator collator;
-    collator.setNumericMode(true);
-    std::sort(folders.begin(), folders.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+    QStringList folders = getAllFolders(parent);
 
     for(const auto &f : std::as_const(folders)) {
-        if(f.startsWith(typed))
-            return QString("%1%2/").arg(parent, f);
+        if(f.sliced(parent.length()).startsWith(typed))
+            return QString("%1/").arg(f);
 
     }
 
-    dir.setFilter(QDir::Files);
-    QStringList files = dir.entryList();
-    collator.setNumericMode(true);
-    std::sort(files.begin(), files.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+    QStringList files = getAllFiles(parent, true);
 
     for(const auto &f : std::as_const(files)) {
-        if(f.startsWith(typed))
-            return QString("%1%2").arg(parent, f);
+        if(f.sliced(parent.length()).startsWith(typed))
+            return f;
 
     }
 
