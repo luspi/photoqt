@@ -90,36 +90,37 @@ Rectangle {
     function removeToLeftSeperatorList() {
         var txt = control.text
         var pos = 0
-        for(var i = control.cursorPosition-1; i >= 0; --i) {
+        for(var i = control.cursorPosition-2; i >= 0; --i) {
             if(separators.indexOf(txt[i]) !== -1) {
                 pos = i
                 break
             }
         }
-        control.remove(pos, control.cursorPosition)
+        control.remove(pos+1, control.cursorPosition)
     }
 
     function removeToRightSeperatorList() {
         var txt = control.text
         var pos = control.text.length
-        for(var i = control.cursorPosition+1; i < control.text.length; ++i) {
+        for(var i = control.cursorPosition; i < control.text.length; ++i) {
             if(separators.indexOf(txt[i]) !== -1) {
                 pos = i
                 break
             }
         }
-        control.remove(control.cursorPosition, pos)
+        control.remove(control.cursorPosition, pos+1)
     }
 
     function moveToLeftSeperatorList(alsoselect=false) {
         var txt = control.text
         var pos = 0
-        for(var i = control.cursorPosition-1; i >= 0; --i) {
+        for(var i = control.cursorPosition-2; i >= 0; --i) {
             if(separators.indexOf(txt[i]) !== -1) {
                 pos = i
                 break
             }
         }
+        pos += 1
         var oldpos = control.cursorPosition
         if(alsoselect) {
             if(control.selectionStart === control.selectionEnd) {
@@ -135,12 +136,13 @@ Rectangle {
     function moveToRightSeperatorList(alsoselect=false) {
         var txt = control.text
         var pos = control.text.length
-        for(var i = control.cursorPosition+1; i < control.text.length; ++i) {
+        for(var i = control.cursorPosition; i < control.text.length; ++i) {
             if(separators.indexOf(txt[i]) !== -1) {
                 pos = i
                 break
             }
         }
+        pos += 1
         var oldpos = control.cursorPosition
         if(alsoselect) {
             if(control.selectionStart === control.selectionEnd) {
