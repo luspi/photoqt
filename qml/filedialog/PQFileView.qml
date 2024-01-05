@@ -281,7 +281,7 @@ GridView {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 property string sourceString: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
-                                                    ? (view.showGrid ? "folder" : "folder_listicon")
+                                                    ? (view.showGrid ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon")))
                                                     : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
                 source: sourceString
