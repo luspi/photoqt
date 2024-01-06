@@ -681,7 +681,7 @@ Item {
                             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                         }
                         onPressed: (mouse) => {
-                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
+                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton)
                                 mouse.accepted = false
                             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
