@@ -841,14 +841,14 @@ GridView {
                 drag.target: (!view.showGrid && PQCSettings.filedialogDragDropFileviewList) ? dragHandler : undefined
 
                 drag.onActiveChanged: {
-                    if(mousearea.drag.active) {
+                    if(listthumbmousearea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
                         fd_places.dragItemIndex = index
                         fd_places.dragReordering = false
                         fd_places.dragItemId = deleg.currentPath
                     }
                     deleg.Drag.drop();
-                    if(!mousearea.drag.active) {
+                    if(!listthumbmousearea.drag.active) {
                         // reset variables used for drag/drop
                         fd_places.dragItemIndex = -1
                         fd_places.dragItemId = ""

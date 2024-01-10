@@ -110,7 +110,7 @@ Item {
 
                     onDropped: {
 
-                        if(!PQCScriptsFilesPaths.isFolder(dragItemId))
+                        if(!PQCScriptsFilesPaths.isFolder(dragItemId) && !dragReordering)
                             return
 
                         // find the index on which it was dropped
@@ -152,7 +152,7 @@ Item {
 
                     onPositionChanged: {
 
-                        if(!PQCScriptsFilesPaths.isFolder(dragItemId))
+                        if(!PQCScriptsFilesPaths.isFolder(dragItemId) && !dragReordering)
                             return
 
                         var ind = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
