@@ -90,8 +90,11 @@ Item {
                 property bool hasBeenSetup: false
                 onShouldBeShownChanged: {
                     if(shouldBeShown) {
-                        if(hasBeenSetup)
+                        if(hasBeenSetup) {
                             showImage()
+                            deleg.resetToDefaults()
+                            deleg.moveViewToCenter()
+                        }
                     } else {
                         hideImage()
                     }
@@ -124,6 +127,7 @@ Item {
                 property int imagePosY: 0
                 property bool imageMirrorH: false
                 property bool imageMirrorV: false
+                property bool imageFullyShown: false
 
                 onImageResolutionChanged: {
                     if(PQCFileFolderModel.currentIndex===index)
@@ -138,6 +142,8 @@ Item {
                 signal loadScaleRotation()
                 signal stopVideoAndReset()
                 signal restartVideoIfAutoplay()
+                signal moveViewToCenter()
+                signal resetToDefaults()
 
                 // react to user commands
                 Connections {
@@ -421,6 +427,9 @@ Item {
                                             image_top.defaultScale = deleg.defaultScale
                                             deleg.hasBeenSetup = true
                                             deleg.showImage()
+                                            resetDefaults.triggered()
+                                            deleg.moveViewToCenter()
+
                                         }
                                     } else if(PQCFileFolderModel.currentIndex === index)
                                         timer_busyloading.restart()
@@ -591,9 +600,6 @@ Item {
 
                                             var vals = rememberChanges[deleg.imageSource]
 
-                                            deleg.imagePosX = vals[0]
-                                            deleg.imagePosY = vals[1]
-
                                             image_wrapper.scale = vals[2]
                                             deleg.imageScale = vals[2]
 
@@ -601,6 +607,9 @@ Item {
                                             deleg.imageRotation = vals[3]
 
                                             image_loader.item.setMirrorHV(vals[4], vals[5])
+
+                                            flickable.contentX = vals[0]
+                                            flickable.contentY = vals[1]
 
                                         } else if(!PQCSettings.imageviewAlwaysActualSize) {
 
@@ -629,6 +638,20 @@ Item {
                                             image.defaultScale = deleg.defaultScale
                                         }
                                     }
+
+                                    function onMoveViewToCenter() {
+                                        if(PQCSettings.imageviewRememberZoomRotationMirror)
+                                            return
+                                        if(flickable.width < flickable.contentWidth)
+                                            flickable.contentX = (flickable.contentWidth-flickable.width)/2
+                                        if(flickable.height < flickable.contentHeight)
+                                            flickable.contentY = (flickable.contentHeight-flickable.height)/2
+                                    }
+
+                                    function onResetToDefaults() {
+                                        resetDefaults.triggered()
+                                    }
+
                                 }
 
                                 // calculate the default scale based on the current rotation
@@ -1044,10 +1067,10 @@ Item {
                 // show the image
                 function showImage() {
 
+                    deleg.imageFullyShown = false
+
                     image_top.currentlyVisibleIndex = itemIndex
                     image_top.imageFinishedLoading(itemIndex)
-
-                    loadScaleRotation()
 
                     var anim = PQCSettings.imageviewAnimationType
                     if(anim === "random")
@@ -1127,12 +1150,16 @@ Item {
                     if(PQCSettings.imageviewAlwaysActualSize)
                         image_top.zoomActual()
 
+                    loadScaleRotation()
+
+                    deleg.imageFullyShown = true
+
                 }
 
                 // hide the image
                 function hideImage() {
 
-                    if(PQCSettings.imageviewRememberZoomRotationMirror) {
+                    if(deleg.imageFullyShown && PQCSettings.imageviewRememberZoomRotationMirror) {
                         var vals = [deleg.imagePosX,
                                     deleg.imagePosY,
                                     deleg.imageScale,
@@ -1140,7 +1167,10 @@ Item {
                                     deleg.imageMirrorH,
                                     deleg.imageMirrorV]
                         rememberChanges[deleg.imageSource] = vals
-                    }
+                    } else
+                        delete rememberChanges[deleg.imageSource]
+
+                    deleg.imageFullyShown = false
 
                     var anim = PQCSettings.imageviewAnimationType
                     if(anim === "random")
