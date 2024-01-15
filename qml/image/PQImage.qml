@@ -65,6 +65,7 @@ Item {
     signal imageFinishedLoading(var index)
 
     property var rememberChanges: ({})
+    property var reuseChanges: []
 
     Repeater {
 
@@ -596,9 +597,13 @@ Item {
 
                                     function onLoadScaleRotation() {
 
-                                        if(PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges)) {
+                                        if((PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges)) || (PQCSettings.imageviewReuseZoomRotationMirror && reuseChanges.length > 1)) {
 
-                                            var vals = rememberChanges[deleg.imageSource]
+                                            var vals;
+                                            if(PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges))
+                                                vals = rememberChanges[deleg.imageSource]
+                                            else
+                                                vals = reuseChanges
 
                                             image_wrapper.scale = vals[2]
                                             deleg.imageScale = vals[2]
@@ -610,6 +615,7 @@ Item {
 
                                             flickable.contentX = vals[0]
                                             flickable.contentY = vals[1]
+                                            flickable.returnToBounds()
 
                                         } else if(!PQCSettings.imageviewAlwaysActualSize) {
 
@@ -640,7 +646,7 @@ Item {
                                     }
 
                                     function onMoveViewToCenter() {
-                                        if(PQCSettings.imageviewRememberZoomRotationMirror)
+                                        if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewReuseZoomRotationMirror)
                                             return
                                         if(flickable.width < flickable.contentWidth)
                                             flickable.contentX = (flickable.contentWidth-flickable.width)/2
@@ -1159,15 +1165,19 @@ Item {
                 // hide the image
                 function hideImage() {
 
-                    if(deleg.imageFullyShown && PQCSettings.imageviewRememberZoomRotationMirror) {
+                    if(deleg.imageFullyShown && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewReuseZoomRotationMirror)) {
                         var vals = [deleg.imagePosX,
                                     deleg.imagePosY,
                                     deleg.imageScale,
                                     deleg.imageRotation,
                                     deleg.imageMirrorH,
                                     deleg.imageMirrorV]
-                        rememberChanges[deleg.imageSource] = vals
+                        if(PQCSettings.imageviewRememberZoomRotationMirror)
+                            rememberChanges[deleg.imageSource] = vals
+                        if(PQCSettings.imageviewReuseZoomRotationMirror)
+                            reuseChanges = vals
                     } else
+                        // don't delete reuseChanges here, we want to keep those
                         delete rememberChanges[deleg.imageSource]
 
                     deleg.imageFullyShown = false

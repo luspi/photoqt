@@ -11,6 +11,7 @@ import "../../../elements"
 
 // settings in this file:
 // - imageviewRememberZoomRotationMirror
+// - imageviewReuseZoomRotationMirror
 // - interfaceRememberLastImage
 
 Flickable {
@@ -82,6 +83,12 @@ Flickable {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "In addition to on an per-image basis, PhotoQt can also keep the same changes across different images. If enabled and possible, the next image is loaded with the same scaling, rotation, and mirroring as the image before.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
         Column {
 
             x: (parent.width-width)/2
@@ -100,6 +107,13 @@ Flickable {
                 onCheckedChanged: checkDefault()
             }
 
+            PQRadioButton {
+                id: reuse
+                text: qsTranslate("settingsmanager", "reuse same changes for all images")
+                checked: PQCSettings.imageviewRememberZoomRotationMirror
+                onCheckedChanged: checkDefault()
+            }
+
         }
 
     }
@@ -109,7 +123,7 @@ Flickable {
 
     function checkDefault() {
 
-        settingChanged = (blanksession.hasChanged() || reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged())
+        settingChanged = (blanksession.hasChanged() || reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() || reuse.hasChanged())
 
     }
 
@@ -120,6 +134,7 @@ Flickable {
 
         forget.loadAndSetDefault(!PQCSettings.imageviewRememberZoomRotationMirror)
         remember.loadAndSetDefault(PQCSettings.imageviewRememberZoomRotationMirror)
+        reuse.loadAndSetDefault(PQCSettings.imageviewReuseZoomRotationMirror)
 
         settingChanged = false
 
@@ -129,11 +144,13 @@ Flickable {
 
         PQCSettings.interfaceRememberLastImage = reopenlast.checked
         PQCSettings.imageviewRememberZoomRotationMirror = remember.checked
+        PQCSettings.imageviewReuseZoomRotationMirror = reuse.checked
 
         blanksession.saveDefault()
         reopenlast.saveDefault()
         forget.saveDefault()
         remember.saveDefault()
+        reuse.saveDefault()
 
         settingChanged = false
 
