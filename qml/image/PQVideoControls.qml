@@ -17,13 +17,15 @@ Rectangle {
 
     property bool controlsClosed: false
 
-    opacity: (loader_component.isMpv) ? ((((controlmouse.containsMouse || playpausemouse.containsMouse ||
-                                            volumeiconmouse.containsMouse || volumebg.containsMouse ||
-                                            volumeslider.backgroundContainsMouse || volumeslider.handleContainsMouse ||
-                                            closemouse.containsMouse) && !controlsClosed) || !loader_component.videoPlaying)
-                                         ? 1
-                                         : (controlsClosed ? 0 : 0.2))
-                                      : 0
+    opacity: (loader_component.isMpv || loader_component.isQtVideo)
+                    ? ((((controlmouse.containsMouse || playpausemouse.containsMouse ||
+                          volumeiconmouse.containsMouse || volumebg.containsMouse ||
+                          volumeslider.backgroundContainsMouse || volumeslider.handleContainsMouse ||
+                          posslider.backgroundContainsMouse || posslider.handleContainsMouse ||
+                          closemouse.containsMouse) && !controlsClosed) || !loader_component.videoPlaying)
+                            ? 1
+                            : (controlsClosed ? 0 : 0.2))
+                    : 0
     visible: opacity > 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -93,6 +95,12 @@ Rectangle {
         onPressedChanged: {
             if(!pressed) {
                 loader_component.videoToPos(value)
+            }
+        }
+
+        onPositionChanged: {
+            if(pressed && loader_component.isQtVideo) {
+                loader_component.videoToPos(position*to)
             }
         }
 

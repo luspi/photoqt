@@ -129,9 +129,6 @@ PQCMPVObject::PQCMPVObject(QQuickItem * parent) : QQuickFramebufferObject(parent
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
 
-    // Request hw decoding, just for testing.
-    mpv::qt::set_option_variant(mpv, "hwdec", "auto");
-
     connect(this, &PQCMPVObject::onUpdate, this, &PQCMPVObject::doUpdate,
             Qt::QueuedConnection);
 }

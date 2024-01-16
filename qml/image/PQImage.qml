@@ -242,10 +242,11 @@ Item {
                     width: deleg.width
                     height: deleg.height
 
-                    property bool isMpv: PQCImageFormats.getEnabledFormatsLibmpv().indexOf(PQCScriptsFilesPaths.getSuffix(deleg.imageSource))>-1 && PQCSettings.filetypesVideoPreferLibmpv && PQCScriptsConfig.isMPVSupportEnabled()
+                    property bool isMpv: PQCImageFormats.getEnabledFormatsLibmpv().indexOf(PQCScriptsFilesPaths.getSuffix(deleg.imageSource))>-1 && (PQCSettings.filetypesVideoPreferLibmpv || !PQCScriptsConfig.isVideoQtSupportEnabled()) && PQCScriptsConfig.isMPVSupportEnabled()
+                    property bool isQtVideo: !isMpv && PQCImageFormats.getEnabledFormatsVideo().indexOf(PQCScriptsFilesPaths.getSuffix(deleg.imageSource))>-1 && PQCScriptsConfig.isVideoQtSupportEnabled()
                     property bool isAnimated: PQCScriptsImages.isItAnimated(deleg.imageSource)
 
-                    property bool videoPlaying: isMpv
+                    property bool videoPlaying: isMpv||isQtVideo
                     property real videoDuration: 0.0
                     property real videoPosition: 0.0
                     signal videoTogglePlay()
@@ -278,12 +279,12 @@ Item {
 
                         contentX: deleg.imagePosX
                         onContentXChanged: {
-                            if(deleg.imagePosX != contentX)
+                            if(deleg.imagePosX !== contentX)
                                 deleg.imagePosX = contentX
                         }
                         contentY: deleg.imagePosY
                         onContentYChanged: {
-                            if(deleg.imagePosY != contentY)
+                            if(deleg.imagePosY !== contentY)
                                 deleg.imagePosY = contentY
                         }
 
@@ -442,8 +443,9 @@ Item {
                                     id: image_loader
 
                                     source: loader_component.isMpv ? "PQVideoMpv.qml"
-                                                                   : (loader_component.isAnimated ? "PQImageAnimated.qml"
-                                                                                                  : "PQImageNormal.qml")
+                                                                   : (loader_component.isQtVideo ? "PQVideoQt.qml"
+                                                                                : (loader_component.isAnimated ? "PQImageAnimated.qml"
+                                                                                                               : "PQImageNormal.qml"))
 
                                 }
 
@@ -611,7 +613,8 @@ Item {
                                             image_wrapper.rotation = vals[3]
                                             deleg.imageRotation = vals[3]
 
-                                            image_loader.item.setMirrorHV(vals[4], vals[5])
+                                            if(image_loader.item)
+                                                image_loader.item.setMirrorHV(vals[4], vals[5])
 
                                             flickable.contentX = vals[0]
                                             flickable.contentY = vals[1]
@@ -710,8 +713,10 @@ Item {
                             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                         }
                         onPressed: (mouse) => {
-                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton)
+                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton) {
                                 mouse.accepted = false
+                                return
+                            }
                             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
                         }
@@ -721,7 +726,7 @@ Item {
                         }
 
                         onReleased: (mouse) => {
-                            if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isAnimated))
+                            if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isQtVideo || loader_component.isAnimated))
                                 loader_component.imageClicked()
                             else {
                                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
