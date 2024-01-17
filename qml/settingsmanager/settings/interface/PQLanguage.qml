@@ -29,6 +29,7 @@ Flickable {
     property var languages: {
         "en" : "English",
         "ar" : "عربي ,عربى",
+        "ca_ES" : "Català",
         "cs" : "Čeština",
         "de" : "Deutsch",
         "el" : "Ελληνικά",
