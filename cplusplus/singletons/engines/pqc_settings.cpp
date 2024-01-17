@@ -368,7 +368,11 @@ void PQCSettings::reopenDatabase() {
 
 }
 
-bool PQCSettings::migrate(QString oldversion) {
+// return codes:
+// -1 := error
+//  0 := success
+//  1 := old, don't migrate, need to setup fresh
+int PQCSettings::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
 
@@ -394,6 +398,11 @@ bool PQCSettings::migrate(QString oldversion) {
         query.clear();
     }
 
+    // in this case we stop and return 1 meaning that we should simply set up fresh
+    if(oldversion.startsWith("2") || oldversion.startsWith("1")) {
+        return 1;
+    }
+
     /*************************************************************************/
     /**************************** IMPORTANT NOTE *****************************/
     /*************************************************************************/
@@ -407,7 +416,7 @@ bool PQCSettings::migrate(QString oldversion) {
     versions << "4.0" << "4.1" << "4.2";
 
     // this is a safety check to make sure we don't forget the above check
-    if(oldversion != "dev" && versions.indexOf(oldversion) == -1) {
+    if(oldversion != "dev" && versions.indexOf(oldversion) == -1 && !oldversion.startsWith("3")) {
         qCritical() << "WARNING: The current version number needs to be added to the migrate() functions";
     }
 
@@ -535,7 +544,7 @@ bool PQCSettings::migrate(QString oldversion) {
     if(!queryZoom.exec()) {
         qWarning() << "Unable to migrate ZoomLevel to Zoom:" << queryZoom.lastError().text();
         queryZoom.clear();
-        return false;
+        return -1;
     }
     if(queryZoom.next() ) {
         const int oldVal = queryZoom.value(0).toInt();
@@ -545,7 +554,7 @@ bool PQCSettings::migrate(QString oldversion) {
         if(!queryZoom.exec()) {
             qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
             queryZoom.clear();
-            return false;
+            return -1;
         }
     }
     queryZoom.clear();
@@ -556,7 +565,7 @@ bool PQCSettings::migrate(QString oldversion) {
     if(!querySort.exec()) {
         qWarning() << "Unable to migrate AdvancedSortDateCriteria:" << querySort.lastError().text();
         querySort.clear();
-        return false;
+        return -1;
     }
     if(querySort.next()) {
         const QStringList oldSortVal = querySort.value(0).toString().split(":://::");
@@ -572,12 +581,12 @@ bool PQCSettings::migrate(QString oldversion) {
         if(!querySort.exec()) {
             qWarning() << "Unable to update AdvancedSortDateCriteria value:" << querySort.lastError().text();
             querySort.clear();
-            return false;
+            return -1;
         }
     }
     querySort.clear();
 
-    return true;
+    return 0;
 
 }
 

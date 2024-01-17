@@ -178,9 +178,13 @@ int main(int argc, char *argv[]) {
         if(checker == 2)
             startup.setupFresh();
         else {
-            PQCSettings::get().migrate();
-            PQCSettings::get().readDB();
-            PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
+            int ret = PQCSettings::get().migrate();
+            if(ret == 1) {
+                startup.setupFresh();
+            } else {
+                PQCSettings::get().readDB();
+                PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
+            }
         }
 
         // run consistency check

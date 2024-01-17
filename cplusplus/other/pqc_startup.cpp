@@ -142,6 +142,8 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default imageformats database
+    if(QFile::exists(PQCConfigFiles::IMAGEFORMATS_DB()))
+        QFile::remove(PQCConfigFiles::IMAGEFORMATS_DB());
     if(!QFile::copy(":/imageformats.db", PQCConfigFiles::IMAGEFORMATS_DB()))
         qWarning() << "Unable to create default imageformats database";
     else {
@@ -151,6 +153,8 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default settings database
+    if(QFile::exists(PQCConfigFiles::SETTINGS_DB()))
+        QFile::remove(PQCConfigFiles::SETTINGS_DB());
     if(!QFile::copy(":/settings.db", PQCConfigFiles::SETTINGS_DB()))
         qWarning() << "Unable to create settings database";
     else {
@@ -160,6 +164,8 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default location database
+    if(QFile::exists(PQCConfigFiles::LOCATION_DB()))
+        QFile::remove(PQCConfigFiles::LOCATION_DB());
     if(!QFile::copy(":/location.db", PQCConfigFiles::LOCATION_DB()))
         qWarning() << "Unable to create location database";
     else {
@@ -174,6 +180,8 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default shortcuts database
+    if(QFile::exists(PQCConfigFiles::SHORTCUTS_DB()))
+        QFile::remove(PQCConfigFiles::SHORTCUTS_DB());
     if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::SHORTCUTS_DB()))
         qWarning() << "Unable to create shortcuts database";
     else {
@@ -183,6 +191,8 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default contextmenu database
+    if(QFile::exists(PQCConfigFiles::CONTEXTMENU_DB()))
+        QFile::remove(PQCConfigFiles::CONTEXTMENU_DB());
     if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::CONTEXTMENU_DB()))
         qWarning() << "Unable to create default contextmenu database";
     else {
@@ -192,6 +202,8 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default imgurhistory database
+    if(QFile::exists(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB()))
+        QFile::remove(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB());
     if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB()))
         qWarning() << "Unable to create default imgurhistory database";
     else {
