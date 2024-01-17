@@ -431,6 +431,10 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
 
     qDebug() << "args: path =" << path;
 
+#ifndef PQMMOTIONPHOTO
+    return 0;
+#endif
+
     // 1 = Apple Live Photos
     // 2 = Motion Photo
     // 3 = Micro Video
@@ -561,6 +565,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Unable to open file for reading";
+        delete[] data;
         return "";
     }
 
