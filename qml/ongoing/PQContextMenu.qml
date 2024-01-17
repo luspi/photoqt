@@ -4,6 +4,7 @@ import PQCNotify
 import PQCScriptsShortcuts
 import PQCFileFolderModel
 import PQCScriptsContextMenu
+import PQCScriptsConfig
 
 import "../elements"
 
@@ -85,11 +86,14 @@ PQMenu {
             PQCNotify.executeInternalCommand("__histogram")
     }
 
-    PQMenuItem {
-        iconSource: "image://svg/:/white/mapmarker.svg"
-        text: qsTranslate("contextmenu", "Show on map")
-        onClicked:
-            PQCNotify.executeInternalCommand("__showMapCurrent")
+    Repeater {
+        model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0
+        PQMenuItem {
+            iconSource: "image://svg/:/white/mapmarker.svg"
+            text: qsTranslate("contextmenu", "Show on map")
+            onClicked:
+                PQCNotify.executeInternalCommand("__showMapCurrent")
+        }
     }
 
     PQMenuSeparator { visible: customentries.length>0 }

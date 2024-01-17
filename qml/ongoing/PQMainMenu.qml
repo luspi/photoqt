@@ -242,6 +242,7 @@ Rectangle {
                     txt: qsTranslate("MainMenu", "Map Explorer")
                     cmd: "__showMapExplorer"
                     closeMenu: true
+                    visible: PQCScriptsConfig.isLocationSupportEnabled()
                 }
 
             }
