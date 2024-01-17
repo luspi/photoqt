@@ -58,6 +58,22 @@ Item {
 
     property real mapZoomLevel: 10
 
+    state: PQCSettings.interfacePopoutMapExplorer ?
+               "popout" :
+               ""
+
+    states: [
+        State {
+            name: "popout"
+            PropertyChanges {
+                target: mapexplorer_top
+                width: parentWidth
+                height: parentHeight
+                opacity: 1
+            }
+        }
+    ]
+
     SplitView {
 
         width: parent.width
@@ -133,8 +149,6 @@ Item {
                                  //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                                  qsTranslate("popinpopout", "Move to its own window")
                     onClicked: {
-                        if(PQCSettings.interfacePopoutMapExplorer)
-                            mapexplorer_window.storeGeometry()
                         hideExplorer()
                         PQCSettings.interfacePopoutMapExplorer = !PQCSettings.interfacePopoutMapExplorer
                         PQCNotify.executeInternalCommand("__showMapExplorer")
