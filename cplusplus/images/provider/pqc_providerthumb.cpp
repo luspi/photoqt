@@ -208,7 +208,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
     if(p.isNull()) {
 
-        QString suf = QFileInfo(filenameForChecking).suffix().toLower();
+        const QString suf = QFileInfo(filenameForChecking).suffix().toLower();
         QString iconname = ":/filetypes/unknown.svg";
         if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf)))
             iconname = QString(":/filetypes/%1.svg").arg(suf);

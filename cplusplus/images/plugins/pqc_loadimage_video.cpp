@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include <pqc_loadimage_video.h>
-#include <pqc_providersvg.h>
 #include <pqc_settings.h>
 #include <QImage>
 #include <QImageReader>
@@ -93,9 +92,10 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
         QProcess proc;
         int ret = proc.execute("ffmpegthumbnailer", QStringList() << "-i" << filename << "-s0" << "-o" << tmp_path);
 
+        // without this it seems like zombie ffmpeg processes might appear
+        proc.kill();
+
         if(ret != 0) {
-            PQCProviderSVG svg;
-            img = svg.requestImage(":/other/genericvideothumb.svg", &origSize, maxSize);
             errormsg = QString("ffmpegthumbnailer ended with error code %1 - is it installed?").arg(ret);
             qWarning() << errormsg;
             return errormsg;
@@ -127,9 +127,9 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
 
 #endif
 
-        PQCProviderSVG svg;
-        img = svg.requestImage(":/other/genericvideothumb.svg", &origSize, maxSize);
-        return "";
+        errormsg = "Video thumbnail creation currently only supported on Linux";
+        qWarning() << errormsg;
+        return errormsg;
 
 #ifdef Q_OS_LINUX
 
