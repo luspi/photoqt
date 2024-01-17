@@ -171,7 +171,7 @@ Image {
                         src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
 
                     if(src != "") {
-                        mediaplayer.source = "file:/" + src
+                        mediaplayer.source = "file://" + src
                         mediaplayer.play()
                         PQCNotify.hasPhotoSphere = false
                         return
