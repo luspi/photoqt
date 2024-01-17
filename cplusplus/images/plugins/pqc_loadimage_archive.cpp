@@ -209,9 +209,26 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
                 p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tmpDir);
                 p.waitForFinished(15000);
 
-                PQCLoadImage::get().load(tmpDir + compressedFilename, maxSize, origSize, img);
+                PQCLoadImage::get().load(tmpDir + compressedFilename, QSize(-1,-1), origSize, img);
                 QDir dir(tmpDir);
                 dir.removeRecursively();
+
+                // cache image before potentially scaling it
+                if(!img.isNull())
+                    PQCImageCache::get().saveImageToCache(filename, &img);
+
+                // Scale image if necessary
+                if(maxSize.width() != -1) {
+
+                    QSize finalSize = origSize;
+
+                    if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
+                        finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+
+                    img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+                }
+
                 return "";
 
             } else
@@ -293,7 +310,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
             delete[] buff;
 
             // attempt to load file
-            QString err = PQCLoadImage::get().load(temppath, maxSize, origSize, img);
+            QString err = PQCLoadImage::get().load(temppath, QSize(-1,-1), origSize, img);
             if(err != "")
                 qWarning() << "Failed to load image inside archive:" << filenameinside;
 

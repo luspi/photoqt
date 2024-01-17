@@ -218,7 +218,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
     // check image cache, we might be done right here
     if(PQCImageCache::get().getCachedImage(filename, img)) {
 
-        if(requestedSize.isValid() && (img.width() > requestedSize.width() || img.height() > requestedSize.height()))
+        if(requestedSize.width() > 2 && requestedSize.height() > 2 && (img.width() > requestedSize.width() || img.height() > requestedSize.height()))
             img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         return "";
