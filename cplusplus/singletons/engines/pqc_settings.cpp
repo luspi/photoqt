@@ -372,13 +372,6 @@ bool PQCSettings::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
 
-    QStringList versions;
-    versions << "4.0";
-
-    int iVersion = versions.length()-1;
-    if(oldversion != "" && versions.contains(oldversion))
-        iVersion = versions.indexOf(oldversion);
-
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {
@@ -387,6 +380,45 @@ bool PQCSettings::migrate(QString oldversion) {
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
     }
+
+    if(oldversion == "") {
+        // first we need to find the version in a database that has not yet been read
+        QSqlQuery query(db);
+        if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'")) {
+            qCritical() << "Unable to find previous version number:" << query.lastError().text();
+        } else {
+            query.next();
+            oldversion = query.value(0).toString();
+            qDebug() << "migrating from version" << oldversion << "to" << PQMVERSION;
+        }
+        query.clear();
+    }
+
+    /*************************************************************************/
+    /**************************** IMPORTANT NOTE *****************************/
+    /*************************************************************************/
+    //                                                                       //
+    // BEFORE EVERY NEW RELEASE THE NEW VERSION NUMBER HAS TO BE ADDED BELOW //
+    //                                                                       //
+    // and the same needs to be done in pqc_shortcuts.cpp:migrate()          //
+    /*************************************************************************/
+
+    QStringList versions;
+    versions << "4.0" << "4.1" << "4.2";
+
+    // this is a safety check to make sure we don't forget the above check
+    if(oldversion != "dev" && versions.indexOf(oldversion) == -1) {
+        qCritical() << "WARNING: The current version number needs to be added to the migrate() functions";
+    }
+
+    int iVersion = 0;
+    if(oldversion != "" && versions.contains(oldversion))
+        // we do a +1 as we are on the found version and don't need to migrate to it
+        iVersion = versions.indexOf(oldversion)+1;
+    else if(oldversion == "dev")
+        iVersion = versions.length()-1;
+
+    // we iterate through all migrations one by one
 
     for(int iV = iVersion; iV < versions.length(); ++iV) {
 
@@ -399,9 +431,24 @@ bool PQCSettings::migrate(QString oldversion) {
         if(curVer == "4.0") {
 
             QSqlQuery query(db);
-            if(!query.exec("ALTER TABLE 'openfile' RENAME TO 'filedialog'"))
-                qCritical() << "ERROR renaming 'openfile' to 'filedialog':" << query.lastError().text();
-            query.clear();
+
+            if(!query.exec("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='filedialog'"))
+                qCritical() << "Unable to check if table named 'filedialog' exists:" << query.lastError().text();
+            else {
+
+                query.next();
+                if(query.value(0).toInt() == 0) {
+
+                    QSqlQuery queryUpdate(db);
+                    if(!queryUpdate.exec("ALTER TABLE 'openfile' RENAME TO 'filedialog'"))
+                        qCritical() << "ERROR renaming 'openfile' to 'filedialog':" << queryUpdate.lastError().text();
+                    queryUpdate.clear();
+
+                }
+
+                query.clear();
+
+            }
 
         }
 

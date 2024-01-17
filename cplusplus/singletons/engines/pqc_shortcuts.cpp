@@ -419,13 +419,31 @@ bool PQCShortcuts::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
 
+    /*************************************************************************/
+    /**************************** IMPORTANT NOTE *****************************/
+    /*************************************************************************/
+    //                                                                       //
+    // BEFORE EVERY NEW RELEASE THE NEW VERSION NUMBER HAS TO BE ADDED BELOW //
+    //                                                                       //
+    // and the same needs to be done in pqc_settings.cpp:migrate()           //
+    /*************************************************************************/
+
     QStringList versions;
-    versions << "4.0";
+    versions << "4.0" << "4.1" << "4.2";
+
+    // this is a safety check to make sure we don't forget the above check
+    if(oldversion != "dev" && versions.indexOf(oldversion) == -1) {
+        qCritical() << "WARNING: The current version number needs to be added to the migrate() functions";
+    }
+
+    int iVersion = 0;
+    if(oldversion != "" && versions.contains(oldversion))
+        // we do a +1 as we are on the found version and don't need to migrate to it
+        iVersion = versions.indexOf(oldversion)+1;
+    else if(oldversion == "dev")
+        iVersion = versions.length()-1;
 
     // we iterate through all migrations one by one
-    int iVersion = versions.length()-1;
-    if(oldversion != "" && versions.contains(oldversion))
-        iVersion = versions.indexOf(oldversion);
 
     dbCommitTimer->stop();
 

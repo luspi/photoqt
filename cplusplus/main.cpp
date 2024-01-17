@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
         else {
             PQCSettings::get().migrate();
             PQCSettings::get().readDB();
-            PQCShortcuts::get().migrate();
+            PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
         }
 
         // run consistency check
