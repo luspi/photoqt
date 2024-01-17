@@ -98,7 +98,7 @@ Item {
         Image {
             width: 75
             height: width
-            source: "/white/leftarrow.svg"
+            source: "image://svg/:/white/leftarrow.svg"
             sourceSize: Qt.size(width, height)
             enabled: PQCFileFolderModel.countMainView>0
             opacity: enabled ? 1 : 0.5
@@ -132,7 +132,7 @@ Item {
         Image {
             width: 75
             height: width
-            source: "/white/rightarrow.svg"
+            source: "image://svg/:/white/rightarrow.svg"
             sourceSize: Qt.size(width, height)
             enabled: PQCFileFolderModel.countMainView>0
             opacity: enabled ? 1 : 0.5
@@ -166,7 +166,7 @@ Item {
         Image {
             width: 75
             height: width
-            source: "/white/menu.svg"
+            source: "image://svg/:/white/menu.svg"
             sourceSize: Qt.size(width, height)
             PQMouseArea {
                 anchors.fill: parent

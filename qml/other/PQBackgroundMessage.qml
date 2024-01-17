@@ -69,7 +69,7 @@ Item {
                     height: 40
                     smooth: false
                     sourceSize: Qt.size(width, height)
-                    source: "/white/mouse.svg"
+                    source: "image://svg/:/white/mouse.svg"
 
                 }
 
@@ -123,7 +123,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "/white/leftarrow.svg"
+            source: "image://svg/:/white/leftarrow.svg"
 
             SequentialAnimation on x {
 
@@ -169,7 +169,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "/white/rightarrow.svg"
+            source: "image://svg/:/white/rightarrow.svg"
 
             SequentialAnimation on x {
 
@@ -215,7 +215,7 @@ Item {
             sourceSize: Qt.size(width, height)
             visible: PQCSettings.interfaceEdgeBottomAction!==""
 
-            source: "/white/leftarrow.svg"
+            source: "image://svg/:/white/leftarrow.svg"
             rotation: -90
 
             SequentialAnimation on y {
@@ -262,7 +262,7 @@ Item {
             sourceSize: Qt.size(width, height)
             visible: PQCSettings.interfaceEdgeTopAction!==""
 
-            source: "/white/leftarrow.svg"
+            source: "image://svg/:/white/leftarrow.svg"
             rotation: 90
 
             SequentialAnimation on y {

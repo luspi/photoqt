@@ -178,7 +178,7 @@ Flickable {
                             width: 20
                             height: 20
 
-                            source: "/white/close.svg"
+                            source: "image://svg/:/white/close.svg"
                             sourceSize: Qt.size(width, height)
 
                             opacity: closemouse.containsMouse ? 0.8 : 0.2

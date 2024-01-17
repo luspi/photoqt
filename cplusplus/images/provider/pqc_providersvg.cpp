@@ -20,56 +20,61 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providertheme.h>
 #include <pqc_providersvg.h>
-#include <QIcon>
-#include <QFile>
-#include <QPainter>
+#ifdef PQMRESVG
+#include <pqc_loadimage_resvg.h>
+#else
+#endif
 #include <QSvgRenderer>
+#include <QPainter>
 
-PQCProviderTheme::PQCProviderTheme() : QQuickImageProvider(QQuickImageProvider::Image) {
-    svg = new PQCProviderSVG;
-}
+PQCProviderSVG::PQCProviderSVG() : QQuickImageProvider(QQuickImageProvider::Image) {}
 
-PQCProviderTheme::~PQCProviderTheme() {
-    svg = new PQCProviderSVG;
-}
+PQCProviderSVG::~PQCProviderSVG() {}
 
-QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, const QSize &requestedSize) {
+QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const QSize &requestedSize) {
 
-    QSize use = requestedSize;
+    // we don't have a debug statement here as there would be A LOT of output all the time
 
-    if(!use.isValid()) {
-        use.setWidth(512);
-        use.setHeight(512);
-        origSize->setWidth(512);
-        origSize->setHeight(512);
-    } else {
-        origSize->setWidth(requestedSize.width());
-        origSize->setHeight(requestedSize.width());
+    QImage ret;
+
+    if(requestedSize.isNull()) {
+        ret = QImage(1,1, QImage::Format_ARGB32);
+        ret.fill(Qt::transparent);
+        return ret;
     }
 
-    const QString suf = const_cast<QString&>(icon).toLower();
+#ifdef PQMRESVG
 
-    // Attempt to load icon from current theme
-    QIcon ico = QIcon::fromTheme(suf);
-    QImage ret = QImage(ico.pixmap(use).toImage());
+    PQCLoadImageResvg::load(url, requestedSize, *origSize, ret);
+    return ret;
 
-    if(ret.isNull()) {
-        qDebug() << "Icon not found in theme, using fallback icon:" << suf;
+#endif
 
-        QString iconname = ":/filetypes/unknown.svg";
+    // For reading SVG files
+    QSvgRenderer svg;
 
-        if(suf != "folder" && QFile(QString(":/filetypes/%1.svg").arg(suf)).exists())
-            iconname = QString(":/filetypes/%1.svg").arg(suf);
-        else if(QFile(QString(":/other/filedialog-%1.svg").arg(suf)).exists())
-            iconname = QString(":/other/filedialog-%1.svg").arg(suf);
-        else if(suf.contains("folder") || suf.contains("directory"))
-            iconname = QString(":/other/filedialog-folder.svg");
+    // Loading SVG file
+    svg.load(url);
 
-        return svg->requestImage(iconname, origSize, requestedSize);
-
+    // Invalid vector graphic
+    if(!svg.isValid()) {
+        qWarning() << "Error: invalid svg file";
+        return QImage();
     }
+
+    // Store the width/height for later use
+    *origSize = svg.defaultSize();
+
+    QSize fitSize = origSize->boundedTo(requestedSize);
+    QRect fitRect(QPoint(0,0), fitSize);
+
+    // Render SVG into pixmap
+    ret = QImage(fitSize, QImage::Format_ARGB32);
+    ret.fill(::Qt::transparent);
+    QPainter painter(&ret);
+    svg.render(&painter, fitRect);
+    painter.end();
 
     return ret;
 

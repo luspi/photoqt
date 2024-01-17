@@ -30,6 +30,7 @@
 #include <pqc_providerdragthumb.h>
 #include <pqc_providerfull.h>
 #include <pqc_providerimgurhistory.h>
+#include <pqc_providersvg.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_metadata.h>
 #include <pqc_resolutioncache.h>
@@ -259,10 +260,11 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("theme", new PQCProviderTheme);
     engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
     engine.addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
-    engine.addImageProvider("folderthumb",new PQCAsyncImageProviderFolderThumb);
-    engine.addImageProvider("dragthumb",new PQCAsyncImageProviderDragThumb);
-    engine.addImageProvider("full",new PQCProviderFull);
-    engine.addImageProvider("imgurhistory",new PQCAsyncImageProviderImgurHistory);
+    engine.addImageProvider("folderthumb", new PQCAsyncImageProviderFolderThumb);
+    engine.addImageProvider("dragthumb", new PQCAsyncImageProviderDragThumb);
+    engine.addImageProvider("full", new PQCProviderFull);
+    engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
+    engine.addImageProvider("svg", new PQCProviderSVG);
 
     qmlRegisterType<PQCPhotoSphere>("PQCPhotoSphere", 1, 0, "PQCPhotoSphere");
 

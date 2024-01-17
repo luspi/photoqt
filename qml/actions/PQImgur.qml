@@ -212,7 +212,7 @@ PQTemplateFullscreen {
                 PQButtonIcon {
                     width: result_access.height
                     height: width
-                    source: "/white/copy.svg"
+                    source: "image://svg/:/white/copy.svg"
                     onClicked:
                         PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL)
                 }
@@ -249,7 +249,7 @@ PQTemplateFullscreen {
                 PQButtonIcon {
                     width: result_delete.height
                     height: width
-                    source: "/white/copy.svg"
+                    source: "image://svg/:/white/copy.svg"
                     onClicked:
                         PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
                 }
@@ -346,7 +346,7 @@ PQTemplateFullscreen {
                             width: 26
                             height: 26
                             sourceSize: Qt.size(width, height)
-                            source: "/white/close.svg"
+                            source: "image://svg/:/white/close.svg"
                             opacity: 0.5
                             Behavior on opacity { NumberAnimation { duration: 200 } }
                             PQMouseArea {
@@ -417,7 +417,7 @@ PQTemplateFullscreen {
                                         PQButtonIcon {
                                             width: acctxt.height
                                             height: width
-                                            source: "/white/copy.svg"
+                                            source: "image://svg/:/white/copy.svg"
                                             onClicked:
                                                 PQCScriptsClipboard.copyTextToClipboard(curdata[2])
                                         }
@@ -449,7 +449,7 @@ PQTemplateFullscreen {
                                         PQButtonIcon {
                                             width: deltxt.height
                                             height: width
-                                            source: "/white/copy.svg"
+                                            source: "image://svg/:/white/copy.svg"
                                             onClicked:
                                                 PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + curdata[3])
                                         }

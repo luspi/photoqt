@@ -183,7 +183,7 @@ PQTemplateFullscreen {
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.5
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                                source: "/white/star.svg"
+                                source: "image://svg/:/white/star.svg"
                                 sourceSize: Qt.size(width, height)
                             }
 
@@ -328,7 +328,7 @@ PQTemplateFullscreen {
                         opacity: favmousearea.containsMouse ? 1 : 0.5
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         sourceSize: Qt.size(width, height)
-                        source: isFav ? "/white/star.svg" : "/white/star_empty.svg"
+                        source: isFav ? "image://svg/:/white/star.svg" : "image://svg/:/white/star_empty.svg"
                     }
 
                     PQMouseArea {

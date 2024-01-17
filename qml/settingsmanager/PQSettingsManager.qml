@@ -417,7 +417,7 @@ PQTemplateFullscreen {
                     width: parent.implicitWidth
                     height: parent.implicitHeight
                     sourceSize: Qt.size(width, height)
-                    source: "/white/handle.svg"
+                    source: "image://svg/:/white/handle.svg"
                 }
             }
 

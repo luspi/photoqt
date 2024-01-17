@@ -209,7 +209,7 @@ Item {
                     y: (parent.height-height)/2
                     width: filtertxt.height/2
                     height: width
-                    source: "/white/x.svg"
+                    source: "image://svg/:/white/x.svg"
                     sourceSize: Qt.size(width, height)
                     PQMouseArea {
                         anchors.fill: parent
@@ -303,7 +303,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
                 sourceSize: Qt.size(width, height)
-                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? "/white/viewermode_off.svg" : "/white/viewermode_on.svg"
+                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? "image://svg/:/white/viewermode_off.svg" : "image://svg/:/white/viewermode_on.svg"
                 mipmap: true
             }
 
@@ -352,7 +352,7 @@ Item {
     }
 
     Image {
-        source: "/other/chromecastactive.svg"
+        source: "image://svg/:/other/chromecastactive.svg"
         width: 32
         height: 32
         visible: PQCScriptsChromeCast.connected

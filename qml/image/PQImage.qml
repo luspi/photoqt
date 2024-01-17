@@ -821,7 +821,7 @@ Item {
                             mipmap: true
                             fillMode: Image.PreserveAspectFit
                             sourceSize: Qt.size(width, height)
-                            source: "/white/photosphere.svg"
+                            source: "image://svg/:/white/photosphere.svg"
                         }
 
                         PQMouseArea {
@@ -892,7 +892,7 @@ Item {
                             anchors.margins: 40
                             mipmap: true
                             sourceSize: Qt.size(width, height)
-                            source: "/white/viewermode_on.svg"
+                            source: "image://svg/:/white/viewermode_on.svg"
                         }
 
                         PQMouseArea {
@@ -912,7 +912,7 @@ Item {
                             height: 30
                             opacity: viewermodebutmousehide.containsMouse ? 0.5 : 0.25
                             Behavior on opacity { NumberAnimation { duration: 300 } }
-                            source: "/white/close.svg"
+                            source: "image://svg/:/white/close.svg"
                             sourceSize: Qt.size(width, height)
                             PQMouseArea {
                                 id: viewermodebutmousehide

@@ -155,7 +155,7 @@ Flickable {
                         width: 24
                         height: 24
                         sourceSize: Qt.size(width, height)
-                        source: "/white/close.svg"
+                        source: "image://svg/:/white/close.svg"
                         PQMouseArea {
                             anchors.fill: parent
                             hoverEnabled: true

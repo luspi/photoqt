@@ -118,7 +118,7 @@ Item {
             width: 32
             height: 32
             sourceSize: Qt.size(width, height)
-            source: "/white/close.svg"
+            source: "image://svg/:/white/close.svg"
         }
 
         PQMouseArea {

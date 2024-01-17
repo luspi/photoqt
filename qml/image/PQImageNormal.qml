@@ -40,7 +40,7 @@ Image {
             if(deleg.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)
-            source = "/other/errorimage.svg"
+            source = "image://svg/:/other/errorimage.svg"
     }
 
     onMirrorChanged:

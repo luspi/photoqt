@@ -100,7 +100,7 @@ Flickable {
 
                     PQButtonIcon {
                         id: appicon
-                        source: (entries[index][0]==="" ? "/white/application.svg" : ("data:image/png;base64," + entries[index][0]))
+                        source: (entries[index][0]==="" ? "image://svg/:/white/application.svg" : ("data:image/png;base64," + entries[index][0]))
                         onSourceChanged:
                             checkDefault()
                         onClicked: {
@@ -216,7 +216,7 @@ Flickable {
                     Image {
                         id: delicn
                         y: (addflags.height-height)/2
-                        source: "/white/x.svg"
+                        source: "image://svg/:/white/x.svg"
                         height: 15
                         width: 15
                         sourceSize: Qt.size(width, height)

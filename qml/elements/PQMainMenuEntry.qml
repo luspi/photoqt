@@ -48,7 +48,7 @@ Item {
         Image {
             visible: img!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: img.startsWith("data:image/png;base64") ? img : (img!="" ? ("/white/" + img) : "")
+            source: img.startsWith("data:image/png;base64") ? img : (img!="" ? ("image://svg/:/white/" + img) : "")
             opacity: active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
@@ -63,7 +63,7 @@ Item {
         Image {
             visible: img_end!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: img_end!="" ? ("/white/" + img_end) : ""
+            source: (img_end!="") ? ("image://svg/:/white/" + img_end) : ""
             opacity: active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }

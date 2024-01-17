@@ -574,7 +574,7 @@ PQTemplateFullscreen {
                                     y: (parent.height-height)/2
                                     width: parent.height*0.6
                                     height: width
-                                    source: "/white/upwards.svg"
+                                    source: "image://svg/:/white/upwards.svg"
                                     sourceSize: Qt.size(width, height)
                                     enabled: index>0
                                     opacity: enabled ? 1 : 0.5
@@ -597,7 +597,7 @@ PQTemplateFullscreen {
                                     width: parent.height*0.6
                                     height: width
                                     rotation: 180
-                                    source: "/white/upwards.svg"
+                                    source: "image://svg/:/white/upwards.svg"
                                     sourceSize: Qt.size(width, height)
                                     enabled: index<3
                                     opacity: enabled ? 1 : 0.5

@@ -207,7 +207,7 @@ PQTemplateFloating {
             width: 21
             height: 21
 
-            source: "/white/mapmarker.svg"
+            source: "image://svg/:/white/mapmarker.svg"
             sourceSize: Qt.size(width, height)
 
             opacity: explorermouse.containsMouse ? 0.8 : 0.1

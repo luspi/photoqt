@@ -102,5 +102,6 @@
         <file>filetypes/folder_listicon_small.svg</file>
         <file>filetypes/folder_listicon_verysmall.svg</file>
         <file>white/cut.svg</file>
+        <file>other/genericvideothumb.svg</file>
     </qresource>
 </RCC>

@@ -25,13 +25,18 @@
 
 #include <QQuickImageProvider>
 
+class PQCProviderSVG;
+
 class PQCProviderTheme : public QQuickImageProvider {
 
 public:
-    explicit PQCProviderTheme() : QQuickImageProvider(QQuickImageProvider::Image) { }
-    ~PQCProviderTheme() { }
+    explicit PQCProviderTheme();
+    ~PQCProviderTheme();
 
     QImage requestImage(const QString &icon, QSize *, const QSize &requestedSize);
+
+private:
+    PQCProviderSVG *svg;
 
 };
 

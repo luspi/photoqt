@@ -75,7 +75,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "/white/checkmark.svg"
+        source: "image://svg/:/white/checkmark.svg"
         sourceSize: Qt.size(width, height)
         Timer {
             running: parent.visible
@@ -99,7 +99,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "/white/x.svg"
+        source: "image://svg/:/white/x.svg"
         sourceSize: Qt.size(width, height)
         Timer {
             id: failuretimer

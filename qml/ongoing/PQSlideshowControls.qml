@@ -134,7 +134,7 @@ Item {
             width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
             height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
 
-            source: "/white/slideshowprev.svg"
+            source: "image://svg/:/white/slideshowprev.svg"
 
             sourceSize: Qt.size(width, height)
 
@@ -167,7 +167,7 @@ Item {
             width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
             height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
 
-            source: (loader_slideshowhandler.item.running ? "/white/pause.svg" : "/white/play.svg")
+            source: (loader_slideshowhandler.item.running ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
 
             sourceSize: Qt.size(width, height)
 
@@ -204,7 +204,7 @@ Item {
             width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
             height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
 
-            source: "/white/slideshownext.svg"
+            source: "image://svg/:/white/slideshownext.svg"
 
             sourceSize: Qt.size(width, height)
 
@@ -237,7 +237,7 @@ Item {
             width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
             height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
 
-            source: "/white/exit.svg"
+            source: "image://svg/:/white/exit.svg"
             sourceSize: Qt.size(width, height)
 
             PQMouseArea {
@@ -280,12 +280,12 @@ Item {
             sourceSize: Qt.size(width, height)
 
             source: volumeslider.value<1 ?
-                        "/white/speaker_mute.svg" :
+                        "image://svg/:/white/speaker_mute.svg" :
                         (volumeslider.value <= 40 ?
-                             "/white/speaker_low.svg" :
+                             "image://svg/:/white/speaker_low.svg" :
                              (volumeslider.value <= 80 ?
-                                  "/white/speaker_medium.svg" :
-                                  "/white/speaker_high.svg"))
+                                  "image://svg/:/white/speaker_medium.svg" :
+                                  "image://svg/:/white/speaker_high.svg"))
 
         }
 
@@ -325,7 +325,7 @@ Item {
         y: 4
         width: 15
         height: 15
-        source: "/white/popinpopout.svg"
+        source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }

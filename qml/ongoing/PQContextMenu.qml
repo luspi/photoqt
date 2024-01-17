@@ -12,28 +12,28 @@ PQMenu {
     id: menutop
 
     PQMenuItem {
-        iconSource: "/white/rename.svg"
+        iconSource: "image://svg/:/white/rename.svg"
         text: qsTranslate("contextmenu", "Rename file")
         onClicked:
             PQCNotify.executeInternalCommand("__rename")
     }
 
     PQMenuItem {
-        iconSource: "/white/copy.svg"
+        iconSource: "image://svg/:/white/copy.svg"
         text: qsTranslate("contextmenu", "Copy file")
         onClicked:
             PQCNotify.executeInternalCommand("__copy")
     }
 
     PQMenuItem {
-        iconSource: "/white/move.svg"
+        iconSource: "image://svg/:/white/move.svg"
         text: qsTranslate("contextmenu", "Move file")
         onClicked:
             PQCNotify.executeInternalCommand("__move")
     }
 
     PQMenuItem {
-        iconSource: "/white/delete.svg"
+        iconSource: "image://svg/:/white/delete.svg"
         text: qsTranslate("contextmenu", "Delete file")
         onClicked:
             PQCNotify.executeInternalCommand("__deleteTrash")
@@ -42,35 +42,35 @@ PQMenu {
     PQMenuSeparator {}
 
     PQMenuItem {
-        iconSource: "/white/clipboard.svg"
+        iconSource: "image://svg/:/white/clipboard.svg"
         text: qsTranslate("contextmenu", "Copy to clipboard")
         onClicked:
             PQCNotify.executeInternalCommand("__clipboard")
     }
 
     PQMenuItem {
-        iconSource: "/white/convert.svg"
+        iconSource: "image://svg/:/white/convert.svg"
         text: qsTranslate("contextmenu", "Export to different format")
         onClicked:
             PQCNotify.executeInternalCommand("__export")
     }
 
     PQMenuItem {
-        iconSource: "/white/scale.svg"
+        iconSource: "image://svg/:/white/scale.svg"
         text: qsTranslate("contextmenu", "Scale image")
         onClicked:
             PQCNotify.executeInternalCommand("__scale")
     }
 
     PQMenuItem {
-        iconSource: "/white/faces.svg"
+        iconSource: "image://svg/:/white/faces.svg"
         text: qsTranslate("contextmenu", "Tag faces")
         onClicked:
             PQCNotify.executeInternalCommand("__tagFaces")
     }
 
     PQMenuItem {
-        iconSource: "/white/wallpaper.svg"
+        iconSource: "image://svg/:/white/wallpaper.svg"
         text: qsTranslate("contextmenu", "Set as wallpaper")
         onClicked:
             PQCNotify.executeInternalCommand("__wallpaper")
@@ -79,14 +79,14 @@ PQMenu {
     PQMenuSeparator {}
 
     PQMenuItem {
-        iconSource: "/white/histogram.svg"
+        iconSource: "image://svg/:/white/histogram.svg"
         text: qsTranslate("contextmenu", "Show histogram")
         onClicked:
             PQCNotify.executeInternalCommand("__histogram")
     }
 
     PQMenuItem {
-        iconSource: "/white/mapmarker.svg"
+        iconSource: "image://svg/:/white/mapmarker.svg"
         text: qsTranslate("contextmenu", "Show on map")
         onClicked:
             PQCNotify.executeInternalCommand("__showMapCurrent")
@@ -102,7 +102,7 @@ PQMenu {
 
         PQMenuItem {
             property var entry: customentries[index]
-            iconSource: entry[0]==="" ? "/white/application.svg" : ("data:image/png;base64," + entry[0])
+            iconSource: entry[0]==="" ? "image://svg/:/white/application.svg" : ("data:image/png;base64," + entry[0])
             text: entry[2]
             onTriggered: {
                 if(entry[1].startsWith("__"))

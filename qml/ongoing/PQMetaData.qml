@@ -467,7 +467,7 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        source: "/white/popinpopout.svg"
+        source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }

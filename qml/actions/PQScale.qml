@@ -176,7 +176,7 @@ PQTemplateFullscreen {
             }
 
             Image {
-                source: keepAspectRatio ? "/white/aspectratiokeep.svg" : "/white/aspectratioignore.svg"
+                source: keepAspectRatio ? "image://svg/:/white/aspectratiokeep.svg" : "image://svg/:/white/aspectratioignore.svg"
                 y: (spincol.height-height)/2
                 width: height/3
                 height: spincol.height*0.8

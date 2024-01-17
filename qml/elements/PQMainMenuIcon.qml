@@ -32,7 +32,7 @@ Item {
         opacity: parent.active ? 1 : 0.4
 
         sourceSize: Qt.size(normalEntryHeight*scaleFactor, normalEntryHeight*scaleFactor)
-        source: "/white/" + img
+        source: "image://svg/:/white/" + img
 
     }
     MouseArea {

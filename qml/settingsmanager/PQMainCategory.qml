@@ -132,7 +132,7 @@ Item {
                             opacity: 0.5
                             fillMode: Image.Pad
                             sourceSize: Qt.size(20, 20)
-                            source: "/white/slideshownext.svg"
+                            source: "image://svg/:/white/slideshownext.svg"
                         }
 
                         Rectangle {

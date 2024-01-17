@@ -86,7 +86,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "/white/leftarrow.svg"
+            source: "image://svg/:/white/leftarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0
             opacity: visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -108,7 +108,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "/white/rightarrow.svg"
+            source: "image://svg/:/white/rightarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0
             opacity: visibleAlways||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -135,7 +135,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "/white/menu.svg"
+            source: "image://svg/:/white/menu.svg"
 
             opacity: (visibleAlways||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -159,7 +159,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "/white/keepforeground.svg"
+            source: "image://svg/:/white/keepforeground.svg"
 
             opacity: !visibleAlways ? 0 : (fore_mouse.containsMouse ? 0.8 : 0.5)*(PQCSettings.interfaceKeepWindowOnTop ? 1 : 0.3)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -189,7 +189,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQCScriptsConfig.amIOnWindows() ? "/white/windows-minimize.svg" : "/white/minimize.svg"
+            source: PQCScriptsConfig.amIOnWindows() ? "image://svg/:/white/windows-minimize.svg" : "image://svg/:/white/minimize.svg"
 
             opacity: !visibleAlways ? 0 : (mini_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -220,8 +220,8 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
             source: PQCScriptsConfig.amIOnWindows() ?
-                        (toplevel.visibility===Window.Windowed ? "/white/windows-maximize.svg" : "/white/windows-restore.svg") :
-                        (toplevel.visibility===Window.Windowed ? "/white/maximize.svg" : "/white/restore.svg")
+                        (toplevel.visibility===Window.Windowed ? "image://svg/:/white/windows-maximize.svg" : "image://svg/:/white/windows-restore.svg") :
+                        (toplevel.visibility===Window.Windowed ? "image://svg/:/white/maximize.svg" : "image://svg/:/white/restore.svg")
 
             opacity: !visibleAlways ? 0 : (minimaxi_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -256,7 +256,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQCSettings.interfaceWindowMode ? "/white/fullscreen_on.svg" : "/white/fullscreen_off.svg"
+            source: PQCSettings.interfaceWindowMode ? "image://svg/:/white/fullscreen_on.svg" : "image://svg/:/white/fullscreen_off.svg"
 
             opacity: !visibleAlways ? 0 : (fullscreen_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -285,7 +285,7 @@ Item {
         Image {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
-            source: "/white/close.svg"
+            source: "image://svg/:/white/close.svg"
             sourceSize: Qt.size(width, height)
 
             opacity: !visibleAlways ? 0 : (closemouse.containsMouse ? 1 : 0.8)

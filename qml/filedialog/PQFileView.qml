@@ -505,7 +505,7 @@ GridView {
                 Image {
                     x: (parent.width-width-5)
                     y: (parent.height-height-5)
-                    source: "/white/folder.svg"
+                    source: "image://svg/:/white/folder.svg"
                     height: 16
                     mipmap: true
                     width: height
@@ -1022,7 +1022,7 @@ GridView {
 
                 Image {
                     anchors.fill: parent
-                    source: (view.currentSelection.indexOf(index)!=-1 ? "/white/deselectfile.svg" : "/white/selectfile.svg")
+                    source: (view.currentSelection.indexOf(index)!=-1 ? "image://svg/:/white/deselectfile.svg" : "image://svg/:/white/selectfile.svg")
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }

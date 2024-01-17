@@ -51,7 +51,7 @@ PQTemplateFullscreen {
             width: 400
             height: 400
             fillMode: Image.PreserveAspectFit
-            source: "/other/logo_full.svg"
+            source: "image://svg/:/other/logo_full.svg"
         },
 
         Item {

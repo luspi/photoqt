@@ -21,10 +21,19 @@
  **************************************************************************/
 
 #include <pqc_providericon.h>
+#include <pqc_providersvg.h>
 #include <QIcon>
 #include <QFile>
 #include <QPainter>
 #include <QSvgRenderer>
+
+PQCProviderIcon::PQCProviderIcon() : QQuickImageProvider(QQuickImageProvider::Image) {
+    svg = new PQCProviderSVG;
+}
+
+PQCProviderIcon::~PQCProviderIcon() {
+    svg = new PQCProviderSVG;
+}
 
 QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const QSize &requestedSize) {
 
@@ -46,26 +55,6 @@ QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const
     if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf.toLower())))
         iconname = QString(":/filetypes/%1.svg").arg(suf.toLower());
 
-    QSvgRenderer svg;
-    QImage ret;
-
-    // Loading SVG file
-    if(!svg.load(iconname))
-        qWarning() << "Failed to load svg icon";
-
-    // Invalid vector graphic
-    if(!svg.isValid()) {
-        qWarning() << "Error: invalid svg file";
-        return ret;
-    }
-
-    // Render SVG into pixmap
-    ret = QImage(use, QImage::Format_ARGB32);
-    ret.fill(::Qt::transparent);
-    QPainter painter(&ret);
-    svg.render(&painter);
-    painter.end();
-
-    return ret;
+    return svg->requestImage(iconname, origSize, requestedSize);
 
 }

@@ -35,10 +35,18 @@ QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize
     ResvgOptions opt;
     ResvgRenderer renderer(filename, opt);
 
+    if(!renderer.isValid()) {
+        QString errmsg = "Invalid SVG encountered";
+        qWarning() << errmsg;
+        return errmsg;
+    }
+
+    origSize = renderer.defaultSize();
+
     if(maxSize.isValid())
-        img = renderer.renderToImage();
-    else
         img = renderer.renderToImage(maxSize);
+    else
+        img = renderer.renderToImage();
 
     return "";
 

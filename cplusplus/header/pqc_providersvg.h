@@ -20,72 +20,20 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
-import "../../elements"
+#ifndef PQCProviderSVG_H
+#define PQCProviderSVG_H
 
-Rectangle {
+#include <QQuickImageProvider>
 
-    id: explorertweaks
+class PQCProviderSVG : public QQuickImageProvider {
 
-    color: PQCLook.baseColor
+public:
+    explicit PQCProviderSVG();
+    ~PQCProviderSVG();
 
-    property real minZoomLevel: 0
-    property real maxZoomLevel: 1
+    QImage requestImage(const QString &url, QSize *origSize, const QSize &requestedSize);
 
-    Row {
+};
 
-        x: 10
-        y: (parent.height-height)/2
-        spacing: 10
 
-        PQText {
-
-            y: (parent.height-height)/2
-
-            id: zoomtext
-
-            text: qsTranslate("mapexplorer", "Map zoom:")
-
-        }
-
-        PQSlider {
-
-            y: (parent.height-height)/2
-
-            from: minZoomLevel
-            to: maxZoomLevel
-            stepSize: 0.1
-            value: mapexplorer_top.mapZoomLevel
-
-            onValueChanged: {
-                mapexplorer_top.mapZoomLevel = value
-            }
-        }
-
-    }
-
-    PQButtonIcon {
-        id: resetbutton
-        x: parent.width-width-closebutton.width/2
-        y: (parent.height-height)/2
-        source: "image://svg/:/white/reset.svg"
-        //: The view here is the map layout in the map explorer
-        tooltip: qsTranslate("mapexplorer", "Reset view")
-        onClicked: {
-            map.resetMap()
-            mapexplorer_top.resetWidth()
-        }
-    }
-
-    Rectangle {
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-        }
-        height: 1
-        color: "#aaaaaa"
-    }
-
-}
+#endif // PQCProviderSVG_H

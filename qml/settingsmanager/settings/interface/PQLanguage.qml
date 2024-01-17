@@ -193,7 +193,7 @@ Flickable {
             PQButtonIcon {
                 width: urltxt.height
                 height: width
-                source: "/white/copy.svg"
+                source: "image://svg/:/white/copy.svg"
                 tooltip: qsTranslate("settingsmanager", "Copy to clipboard")
                 onClicked:
                     PQCScriptsClipboard.copyTextToClipboard("https://translate.photoqt.org")

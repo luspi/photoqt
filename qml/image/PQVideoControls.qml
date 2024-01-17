@@ -43,7 +43,7 @@ Rectangle {
         width: 25
         height: 25
         sourceSize: Qt.size(width, height)
-        source: controls_top.controlsClosed ? "/white/thumbnail.svg" : "/white/close.svg"
+        source: controls_top.controlsClosed ? "image://svg/:/white/thumbnail.svg" : "image://svg/:/white/close.svg"
         opacity: closemouse.containsMouse ? 1 : 0.1
         visible: opacity > 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -63,7 +63,7 @@ Rectangle {
         y: parent.height*0.2
         height: parent.height*0.6
         width: height
-        source: loader_component.videoPlaying ? "/white/pause.svg" : "/white/play.svg"
+        source: loader_component.videoPlaying ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
         sourceSize: Qt.size(width, height)
         PQMouseArea {
             id: playpausemouse
@@ -131,12 +131,12 @@ Rectangle {
         width: height
         sourceSize: Qt.size(width, height)
         source: PQCSettings.filetypesVideoVolume===0
-                        ? "/white/volume_mute.svg"
+                        ? "image://svg/:/white/volume_mute.svg"
                         : (PQCSettings.filetypesVideoVolume <= 40
-                                ? "/white/volume_low.svg"
+                                ? "image://svg/:/white/volume_low.svg"
                                 : (PQCSettings.filetypesVideoVolume <= 80
-                                        ? "/white/volume_medium.svg"
-                                        : "/white/volume_high.svg"))
+                                        ? "image://svg/:/white/volume_medium.svg"
+                                        : "image://svg/:/white/volume_high.svg"))
 
         PQMouseArea {
             id: volumeiconmouse

@@ -31,6 +31,7 @@ class PQCLoadImageVideo {
 
 public:
     PQCLoadImageVideo();
+    ~PQCLoadImageVideo();
 
     static QSize loadSize(QString filename);
     static QString load(QString filename, QSize maxSize, QSize &origSize, QImage &img);

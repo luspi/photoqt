@@ -21,12 +21,15 @@
  **************************************************************************/
 
 #include <pqc_loadimage_video.h>
+#include <pqc_providersvg.h>
 #include <pqc_settings.h>
 #include <QImage>
 #include <QImageReader>
 #include <QProcess>
 
 PQCLoadImageVideo::PQCLoadImageVideo() {}
+
+PQCLoadImageVideo::~PQCLoadImageVideo() {}
 
 QSize PQCLoadImageVideo::loadSize(QString filename) {
 
@@ -91,7 +94,8 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
         int ret = proc.execute("ffmpegthumbnailer", QStringList() << "-i" << filename << "-s0" << "-o" << tmp_path);
 
         if(ret != 0) {
-            img = QImage(":/image/genericvideothumb.svg").scaledToWidth(maxSize.width());
+            PQCProviderSVG svg;
+            img = svg.requestImage(":/other/genericvideothumb.svg", &origSize, maxSize);
             errormsg = QString("ffmpegthumbnailer ended with error code %1 - is it installed?").arg(ret);
             qWarning() << errormsg;
             return errormsg;
@@ -123,7 +127,8 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
 
 #endif
 
-        img = QImage(":/image/genericvideothumb.svg").scaledToWidth(maxSize.width());
+        PQCProviderSVG svg;
+        img = svg.requestImage(":/other/genericvideothumb.svg", &origSize, maxSize);
         return "";
 
 #ifdef Q_OS_LINUX

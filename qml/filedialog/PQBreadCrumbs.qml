@@ -45,18 +45,18 @@ Item {
                 }
 
                 PQButtonIcon {
-                    source: "/white/backwards.svg"
+                    source: "image://svg/:/white/backwards.svg"
                     enabled: filedialog_top.historyIndex>0
                     onClicked:
                         filedialog_top.goBackInHistory()
                 }
                 PQButtonIcon {
-                    source: "/white/upwards.svg"
+                    source: "image://svg/:/white/upwards.svg"
                     onClicked:
                         filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                 }
                 PQButtonIcon {
-                    source: "/white/forwards.svg"
+                    source: "image://svg/:/white/forwards.svg"
                     enabled: filedialog_top.historyIndex<filedialog_top.history.length-1
                     onClicked:
                         filedialog_top.goForwardsInHistory()
@@ -80,7 +80,7 @@ Item {
                     id: iconview
                     checkable: true
                     checked: PQCSettings.filedialogLayout==="icons"
-                    source: "/white/iconview.svg"
+                    source: "image://svg/:/white/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit()
@@ -93,7 +93,7 @@ Item {
                     id: listview
                     checkable: true
                     checked: PQCSettings.filedialogLayout!=="icons"
-                    source: "/white/listview.svg"
+                    source: "image://svg/:/white/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit()
@@ -120,7 +120,7 @@ Item {
                     id: remember
                     checkable: true
                     checked: PQCSettings.filedialogKeepLastLocation
-                    source: "/white/remember.svg"
+                    source: "image://svg/:/white/remember.svg"
                     onClicked:
                         fd_breadcrumbs.disableAddressEdit()
                     onCheckedChanged:
@@ -130,7 +130,7 @@ Item {
                 PQButtonIcon {
                     id: settings
                     checkable: true
-                    source: "/white/settings.svg"
+                    source: "image://svg/:/white/settings.svg"
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit()
                         if(checked)
@@ -255,7 +255,7 @@ Item {
                                     anchors.topMargin: parent.height/3
                                     anchors.bottomMargin: parent.height/3
                                     fillMode: Image.PreserveAspectFit
-                                    source: "/white/breadcrumb.svg"
+                                    source: "image://svg/:/white/breadcrumb.svg"
                                 }
                                 PQMouseArea {
                                     id: mousearea
@@ -396,7 +396,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "/white/rotateleft.svg"
+                        iconSource: "image://svg/:/white/rotateleft.svg"
                         text: "Undo"
                         enabled: addressedit.lineedit.canUndo
                         onClicked:
@@ -404,7 +404,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "/white/rotateright.svg"
+                        iconSource: "image://svg/:/white/rotateright.svg"
                         text: "Redo"
                         enabled: addressedit.lineedit.canRedo
                         onClicked:
@@ -414,7 +414,7 @@ Item {
                     PQMenuSeparator {}
 
                     PQMenuItem {
-                        iconSource: "/white/cut.svg"
+                        iconSource: "image://svg/:/white/cut.svg"
                         text: "Cut"
                         enabled: addressedit.lineedit.selectedText.length>0
                         onClicked:
@@ -423,7 +423,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "/white/copy.svg"
+                        iconSource: "image://svg/:/white/copy.svg"
                         text: "Copy"
                         enabled: addressedit.lineedit.selectedText.length>0
                         onClicked:
@@ -431,7 +431,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "/white/clipboard.svg"
+                        iconSource: "image://svg/:/white/clipboard.svg"
                         text: "Paste"
                         enabled: addressedit.lineedit.canPaste
                         onClicked:
@@ -439,14 +439,14 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "/white/delete.svg"
+                        iconSource: "image://svg/:/white/delete.svg"
                         text: "Delete"
                         onClicked:
                             addressedit.actionDelete()
                     }
 
                     PQMenuItem {
-                        iconSource: "/white/quit.svg"
+                        iconSource: "image://svg/:/white/quit.svg"
                         text: "Clear"
                         onClicked:
                             addressedit.lineedit.remove(0,addressedit.text.length)
@@ -455,7 +455,7 @@ Item {
                     PQMenuSeparator {}
 
                     PQMenuItem {
-                        iconSource: "/white/leftrightarrow.svg"
+                        iconSource: "image://svg/:/white/leftrightarrow.svg"
                         text: "Select all"
                         onClicked:
                             addressedit.setFocus()
@@ -474,7 +474,7 @@ Item {
                     y: 10
                     width: rightitem.height-20
                     height: rightitem.height-20
-                    source: addressedit.visible ? "/white/checkmark.svg" : "/white/editpath.svg"
+                    source: addressedit.visible ? "image://svg/:/white/checkmark.svg" : "image://svg/:/white/editpath.svg"
                     onClicked: {
                         if(!addressedit.visible)
                             addressedit.show()
