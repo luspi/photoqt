@@ -47,7 +47,7 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
     QImage ret = QImage(ico.pixmap(use).toImage());
 
     if(ret.isNull()) {
-        qWarning() << "Icon not found in theme, using fallback icon:" << suf;
+        qDebug() << "Icon not found in theme, using fallback icon:" << suf;
 
         QSvgRenderer svg;
 
