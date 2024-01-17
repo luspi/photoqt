@@ -24,7 +24,7 @@ Window {
 
     color: "transparent"
 
-    title: (PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ qsTranslate("other", "PhotoQt Image Viewer")
+    title: (PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt Image Viewer"
 
     minimumWidth: 800
     minimumHeight: 600
