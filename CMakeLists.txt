@@ -54,6 +54,7 @@ option(PUGIXML "Enable features that require pugixml" ON)
 option(CHROMECAST "Enable Chromecast support" ON)
 option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip." OFF)
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
+option(MOTIONPHOTO "Enable support for Google Motion Photos and Apple Live Photos" ON)
 
 option(TESTING "Build some unit tests" OFF)
 option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
@@ -518,6 +519,13 @@ if(RESVG)
     add_definitions(-DPQMRESVG)
 else()
     message("** resvg DISABLED")
+endif()
+
+if(MOTIONPHOTO)
+    message("** Support for Motion Photos and Apple Live Photos enabled")
+    add_definitions(-DPQMMOTIONPHOTO)
+else()
+    message("** Support for Motion Photos and Apple Live Photos DISABLED")
 endif()
 
 

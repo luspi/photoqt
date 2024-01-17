@@ -580,3 +580,10 @@ void PQCScriptsConfig::inform(QString title, QString txt) {
                              txt);
 
 }
+
+bool PQCScriptsConfig::isMotionPhotoSupportEnabled() {
+#ifdef PQMMOTIONPHOTO
+    return true;
+#endif
+    return false;
+}

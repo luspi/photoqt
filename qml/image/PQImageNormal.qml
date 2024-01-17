@@ -4,6 +4,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCNotify
 import PQCFileFolderModel
+import PQCScriptsConfig
 
 import QtMultimedia
 
@@ -145,41 +146,19 @@ Image {
 
     }
 
+    // check for photo sphere if enabled
     Timer {
 
-        id: checkForMotionPhoto
+        id: checkForPhotoSphere
         // this is triggered after the image has animated in
         interval: PQCSettings.imageviewAnimationDuration*100
-        running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos || PQCSettings.filetypesCheckForPhotoSphere)
+
+        // we use this trimmed down version whenever we don't use the motion photo stuff below (the photo sphere checks are part of it)
+        running: visible&&PQCSettings.filetypesCheckForPhotoSphere&&!PQCScriptsConfig.isMotionPhotoSupportEnabled()
         onTriggered: {
 
             if(PQCFileFolderModel.currentIndex !== index)
                 return
-
-            if(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos) {
-
-                var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
-
-                if(what > 0) {
-
-                    var src = ""
-
-                    // Motion Photo
-                    if(what === 1)
-                        src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
-                    else if(what === 2 || what === 3)
-                        src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
-
-                    if(src != "") {
-                        mediaplayer.source = "file://" + src
-                        mediaplayer.play()
-                        PQCNotify.hasPhotoSphere = false
-                        return
-                    }
-
-                }
-
-            }
 
             if(PQCSettings.filetypesCheckForPhotoSphere) {
 
@@ -194,14 +173,83 @@ Image {
 
     }
 
-    MediaPlayer {
-        id: mediaplayer
-        videoOutput: videoOutput
+    Loader {
+        asynchronous: true
+        active: PQCScriptsConfig.isMotionPhotoSupportEnabled()
+        sourceComponent: motionphoto
     }
 
-    VideoOutput {
-        id: videoOutput
-        anchors.fill: parent
+    Component {
+
+        id: motionphoto
+
+        Item {
+
+            width: image.width
+            height: image.height
+
+            // check for motion photo or photo sphere
+            Timer {
+
+                id: checkForMotionPhoto
+                // this is triggered after the image has animated in
+                interval: PQCSettings.imageviewAnimationDuration*100
+                running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos || PQCSettings.filetypesCheckForPhotoSphere)
+                onTriggered: {
+
+                    if(PQCFileFolderModel.currentIndex !== index)
+                        return
+
+                    if(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos) {
+
+                        var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
+
+                        if(what > 0) {
+
+                            var src = ""
+
+                            // Motion Photo
+                            if(what === 1)
+                                src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
+                            else if(what === 2 || what === 3)
+                                src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+
+                            if(src != "") {
+                                mediaplayer.source = "file://" + src
+                                mediaplayer.play()
+                                PQCNotify.hasPhotoSphere = false
+                                return
+                            }
+
+                        }
+
+                    }
+
+                    if(PQCSettings.filetypesCheckForPhotoSphere) {
+
+                        if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
+                            PQCNotify.hasPhotoSphere = true
+                        } else
+                            PQCNotify.hasPhotoSphere = false
+
+                    }
+
+                }
+
+            }
+
+            VideoOutput {
+                id: videoOutput
+                anchors.fill: parent
+            }
+
+            MediaPlayer {
+                id: mediaplayer
+                videoOutput: videoOutput
+            }
+
+        }
+
     }
 
 }
