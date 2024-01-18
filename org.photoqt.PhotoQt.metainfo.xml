@@ -3,41 +3,34 @@
     <id>org.photoqt.PhotoQt</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
-    <name>PhotoQt Image Viewer</name>
+    <name>PhotoQt</name>
     <summary>View and manage images</summary>
     <description>
-        <p>PhotoQt is a fast and simple, good looking, yet powerfull and highly
-           configureable image viewer.</p>
-        <p>It provides an uncluttered interface and can be extensively tweaked
-           to fit ones needs perfectly. It is possible to set key or mouse shortcuts
-           for almost any one of the features, plus for any external script/command
-           one might want to run.</p>
-        <p>The many features provided include: thumbnails, slideshow, chromecast, zooming,
-           rotating, flipping, displaying metadata (selection of Exif and IPTC), set-as-wallpaper,
-           simple file management, scaling, face tags (XMP metadata), integration with many image
-           libraries for wide support of image formats, support of touchscreens,
-           and a lot more...</p>
+        <p>PhotoQt is a fast and simple, good looking, yet powerful and highly configureable image viewer.</p>
+        <p>It provides an uncluttered interface and can be extensively tweaked to fit ones needs perfectly. It is possible to set key or mouse shortcuts for many of its features and capabilities, as well as for any external script/command.</p>
+        <p>It supports loading 100+ image formats, video files, and documents. Additionally, it fully supports Google Motion Photos, Apple Live Photos, and photo spheres (including 360 degree panoramas).</p>
+        <p>The many features provided include: thumbnails, slideshow, chromecast, zooming, rotating, flipping, displaying metadata (selection of Exif and IPTC), set-as-wallpaper, simple file management, scaling, face tags (XMP metadata), touchscreen support, and a lot more.</p>
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://photoqt.org/img/metainfo/metainfo1.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo1.png</image>
             <caption>The main window showing PhotoQt in action</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/metainfo/metainfo2.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo2.png</image>
             <caption>Opening a new file from within PhotoQt</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/metainfo/metainfo3.jpg</image>
-            <caption>The settings manager, 'shortcuts' tab</caption>
+            <image>https://photoqt.org/img/metainfo/metainfo3.png</image>
+            <caption>The 'About' information shown inside PhotoQt</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/metainfo/metainfo4.jpg</image>
+            <image>https://photoqt.org/img/metainfo/metainfo4.png</image>
             <caption>The map explorer showing all images with location data on interactive map</caption>
         </screenshot>
         <screenshot>
-            <image>https://photoqt.org/img/metainfo/metainfo5.jpg</image>
-            <caption>The 'About' information shown inside PhotoQt</caption>
+            <image>https://photoqt.org/img/metainfo/metainfo5.png</image>
+            <caption>The filetypes settings in the settings manager</caption>
         </screenshot>
     </screenshots>
     <url type="homepage">https://photoqt.org</url>
@@ -52,6 +45,11 @@
         <keyword>photo</keyword>
         <keyword>video</keyword>
         <keyword>viewing</keyword>
+        <keyword>motion photos</keyword>
+        <keyword>micro videos</keyword>
+        <keyword>apple live photos</keyword>
+        <keyword>photo spheres</keyword>
+        <keyword>panorama</keyword>
         <keyword>slideshow</keyword>
         <keyword>thumbnails</keyword>
         <keyword>lightbox</keyword>
@@ -67,6 +65,14 @@
         <keyword>touchscreen</keyword>
         <keyword>chromecast</keyword>
         <keyword>map</keyword>
+        <keyword>archives</keyword>
+        <keyword>zip</keyword>
+        <keyword>rar</keyword>
+        <keyword>tar</keyword>
+        <keyword>comic books</keyword>
+        <keyword>cbz</keyword>
+        <keyword>cbr</keyword>
+        <keyword>cbt</keyword>
     </keywords>
     <content_rating type="oars-1.0">
         <content_attribute id="violence-cartoon">none</content_attribute>
@@ -91,6 +97,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="4.2" date="2024-01-18">
+            <description>
+                PhotoQt v4.2 brings, amongst many other improvements and bug fixes, support for some new types of images. If an image has an associated video file - either embedded as with Google Motion Photos or next to it as with Apple Live Photos - PhotoQt can look for them and, if found, they will automatically be played once whenever an image is loaded. Another new type of image that can be properly viewed now are photo spheres using equirectangular projection. PhotoQt now supports both partial photo spheres and full 360 degree panoramas.
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-4.2
+            </url>
+        </release>
         <release version="4.1" date="2023-12-20" />
         <release version="4.0.1" date="2023-12-15" />
         <release version="4.0" date="2023-12-14" />

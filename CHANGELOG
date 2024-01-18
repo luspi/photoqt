@@ -1,5 +1,33 @@
-Changelog PhotoQt - Copyright (C) 2011-2023, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 4.2 - 2024-01-18
+----------------------------
+- add: support for Google Motion Photos and Apple Live Photos
+- add: support for photo spheres including 360 degree views using equirectangular projection
+- add: editable path in file dialog
+- add: Qt video element
+- add: option to apply same changes (zoom, position, rotation) to next image
+- add: when window decoration is disabled custom window handles are available for moving/resizing window
+- improve: touchscreen handling
+- improve: video management
+- improve: use reSVG for all SVG icons everywhere (if enabled)
+- improve: RAW images load embedded thumbnail when available
+- improve: RAW images can use embedded thumbnail if as large as actual image
+- improve: adjust folder icon in list view for small zoom levels
+- improve: hide map related items completely when location support disabled
+- improve: add filename to window title
+- improve/fix: safeguards for initial scaling and positioning of images
+- fix: degraded image quality when close to 100% zoom
+- fix: use any mouse button for shortcuts
+- fix: disabled lift-up highlight for thumbnails don't affect thumbnail bar
+- fix: mouse wheel triggers shortcut once per movement
+- fix: use Escape key for custom shortcuts
+- fix: actually hide status info when disabled
+- fix: detection of other mouse buttons when click on image for dragging
+- fix: drag-and-drop for bookmarks in file dialog
+- fix: proper loading of images inside archives with libarchive
 
 
 Release 4.1 - 2023-12-20
