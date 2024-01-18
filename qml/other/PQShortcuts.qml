@@ -624,7 +624,7 @@ Item {
                 PQCNotify.resetSessionData()
                 break
             case "__onlineHelp":
-                Qt.openUrlExternally("https://photoqt.org/man")
+                Qt.openUrlExternally("https://photoqt.org/support")
                 break
 
 
