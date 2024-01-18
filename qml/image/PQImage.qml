@@ -735,7 +735,7 @@ Item {
                             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                         }
                         onPressed: (mouse) => {
-                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton) {
+                            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
                                 mouse.accepted = false
                                 return
                             }
