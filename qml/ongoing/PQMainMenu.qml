@@ -751,6 +751,11 @@ Rectangle {
     }
 
     MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+    }
+
+    MouseArea {
         x: (parent.width-width)
         width: 10
         height: parent.height
