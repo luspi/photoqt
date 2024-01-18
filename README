@@ -12,6 +12,8 @@
 
 - Support of up to more than 140 IMAGE FORMATS. A list of all possibly supported image formats can be found on the website: https://photoqt.org/formats
 - TOUCHSCREEN support, including pinch-to-zoom
+- Support for PHOTO SPHERES and 360 DEGREE PANORAMAS using equirectangular projection
+- Support for MOTION PHOTOS, MICRO VIDEOS, and APPLE LIVE PHOTOS
 - Showing GPS locations of images with an EMBEDDED MAP or explore all images with location data in current folder with an INTERACTIVE MAP
 - CHROMECAST support (tested with third generation devices)
 - Basic IMAGE MANIPULATION: zooming, rotating, mirroring (all of which per-session only)
