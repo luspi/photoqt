@@ -412,8 +412,8 @@ bool PQCScriptsConfig::isImageMagickSupportEnabled() {
     return false;
 }
 
-bool PQCScriptsConfig::isQtAtLeast6_4() {
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 4, 0))
+bool PQCScriptsConfig::isQtAtLeast6_5() {
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
     return true;
 #endif
     return false;

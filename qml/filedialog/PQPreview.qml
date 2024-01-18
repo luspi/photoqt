@@ -97,7 +97,7 @@ Item {
 
     // pre Qt 6.4 the MultiEffect is not available yet
     Rectangle {
-        visible: !PQCScriptsConfig.isQtAtLeast6_4()
+        visible: !PQCScriptsConfig.isQtAtLeast6_5()
         anchors.fill: preview
         color: "#000000"
         opacity: 0.3+0.05*(10-PQCSettings.filedialogPreviewColorIntensity)
