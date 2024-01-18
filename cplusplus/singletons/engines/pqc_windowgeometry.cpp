@@ -83,8 +83,8 @@ PQCWindowGeometry::PQCWindowGeometry() {
                                                << 0 << 0));     // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "mapexplorer" // name
-                                               << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 1024 << 768    // default size
+                                               << 800 << 700));     // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "chromecastmanager"// name
                                                << 800 << 600    // default size

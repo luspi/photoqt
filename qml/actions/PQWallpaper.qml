@@ -26,6 +26,7 @@ import QtQuick.Controls
 import PQCScriptsConfig
 import PQCFileFolderModel
 import PQCScriptsWallpaper
+import PQCWindowGeometry
 
 import "../elements"
 import "./wallpaperparts"
@@ -36,6 +37,7 @@ PQTemplateFullscreen {
 
     thisis: "wallpaper"
     popout: PQCSettings.interfacePopoutWallpaper
+    forcePopout: PQCWindowGeometry.wallpaperForcePopout
     shortcut: "__wallpaper"
 
     title: qsTranslate("wallpaper", "Wallpaper")

@@ -28,6 +28,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsShortcuts
 import PQCScriptsConfig
 import PQCScriptsFileManagement
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -37,6 +38,7 @@ PQTemplateFullscreen {
 
     thisis: "filedelete"
     popout: PQCSettings.interfacePopoutFileDelete
+    forcePopout: PQCWindowGeometry.filedeleteForcePopout
     shortcut: "__delete"
 
     title: qsTranslate("filemanagement", "Delete file?")

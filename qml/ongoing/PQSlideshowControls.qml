@@ -24,6 +24,7 @@ import QtQuick
 
 import PQCNotify
 import PQCScriptsOther
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -38,6 +39,8 @@ Item {
 
     property int parentWidth: 300
     property int parentHeight: 200
+
+    property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout
 
     state: "hidden"
 
@@ -84,7 +87,7 @@ Item {
     ]
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: PQCSettings.interfacePopoutSlideshowControls ? 0 : 200 } }
+    Behavior on opacity { NumberAnimation { duration: isPopout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
@@ -130,9 +133,9 @@ Item {
 
             id: prev
 
-            y: PQCSettings.interfacePopoutSlideshowControls ? (slideshowcontrols_top.height-height)/2 : 20
-            width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
-            height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
+            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: isPopout ? 80 : 40
+            height: isPopout ? 80 : 40
 
             source: "image://svg/:/white/slideshowprev.svg"
 
@@ -163,9 +166,9 @@ Item {
 
             id: playpause
 
-            y: PQCSettings.interfacePopoutSlideshowControls ? (slideshowcontrols_top.height-height)/2 : 20
-            width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
-            height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
+            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: isPopout ? 80 : 40
+            height: isPopout ? 80 : 40
 
             source: (loader_slideshowhandler.item.running ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
 
@@ -200,9 +203,9 @@ Item {
 
             id: next
 
-            y: PQCSettings.interfacePopoutSlideshowControls ? (slideshowcontrols_top.height-height)/2 : 20
-            width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
-            height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
+            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: isPopout ? 80 : 40
+            height: isPopout ? 80 : 40
 
             source: "image://svg/:/white/slideshownext.svg"
 
@@ -233,9 +236,9 @@ Item {
 
             id: exit
 
-            y: PQCSettings.interfacePopoutSlideshowControls ? (slideshowcontrols_top.height-height)/2 : 20
-            width: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
-            height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
+            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: isPopout ? 80 : 40
+            height: isPopout ? 80 : 40
 
             source: "image://svg/:/white/exit.svg"
             sourceSize: Qt.size(width, height)
@@ -273,9 +276,9 @@ Item {
 
             visible: PQCSettings.slideshowMusicFile!==""
 
-            y: PQCSettings.interfacePopoutSlideshowControls ? (slideshowcontrols_top.height-height)/2 : 20
-            width: visible ? (PQCSettings.interfacePopoutSlideshowControls ? 80 : 40) : 0
-            height: PQCSettings.interfacePopoutSlideshowControls ? 80 : 40
+            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: visible ? (isPopout ? 80 : 40) : 0
+            height: isPopout ? 80 : 40
 
             sourceSize: Qt.size(width, height)
 
@@ -295,7 +298,7 @@ Item {
 
             visible: PQCSettings.slideshowMusicFile!==""
 
-            y: PQCSettings.interfacePopoutSlideshowControls ? (slideshowcontrols_top.height-height)/2 : 30
+            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 30
             width: visible? 200 : 0
             height: 20
 
@@ -325,11 +328,12 @@ Item {
         y: 4
         width: 15
         height: 15
+        visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout
+        enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        visible: PQCSettings.interfacePopoutSlideshowControls
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent
@@ -350,7 +354,7 @@ Item {
 
     function updateState() {
 
-        if(PQCSettings.interfacePopoutSlideshowControls) {
+        if(isPopout) {
             state = "popout"
             return
         }
@@ -426,7 +430,7 @@ Item {
     }
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutSlideshowControls)
+        if(isPopout)
             updateState()
         else
             removeHighlightTimeout.restart()

@@ -25,6 +25,7 @@ import QtQuick.Controls
 
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -34,6 +35,7 @@ PQTemplateFullscreen {
 
     thisis: "slideshowsetup"
     popout: PQCSettings.interfacePopoutSlideshowSetup
+    forcePopout: PQCWindowGeometry.slideshowsetupForcePopout
     shortcut: "__slideshow"
     title: qsTranslate("slideshow", "Slideshow setup")
 

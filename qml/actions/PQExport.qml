@@ -7,6 +7,7 @@ import PQCImageFormats
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -16,6 +17,7 @@ PQTemplateFullscreen {
 
     thisis: "export"
     popout: PQCSettings.interfacePopoutExport
+    forcePopout: PQCWindowGeometry.exportForcePopout
     shortcut: "__export"
 
     //: title of action element

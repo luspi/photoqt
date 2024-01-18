@@ -3,6 +3,7 @@ import QtCharts
 
 import PQCFileFolderModel
 import PQCScriptsImages
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -53,8 +54,9 @@ PQTemplateFloating {
     ]
 
     popout: PQCSettings.interfacePopoutHistogram
+    forcePopout: PQCWindowGeometry.histogramForcePopout
     shortcut: "__histogram"
-    tooltip: (PQCSettings.interfacePopoutHistogram ? "" : (qsTranslate("histogram", "Click-and-drag to move.")+" ")) + qsTranslate("histogram", "Right click to switch version.")
+    tooltip: (popout||forcePopout ? "" : (qsTranslate("histogram", "Click-and-drag to move.")+" ")) + qsTranslate("histogram", "Right click to switch version.")
     blur_thisis: "histogram"
 
     onPopoutChanged: {
@@ -199,7 +201,7 @@ PQTemplateFloating {
     ]
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutHistogram) {
+        if(popout || forcePopout) {
             histogram_top.state = "popout"
         } else {
             histogram_top.state = ""

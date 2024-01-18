@@ -6,6 +6,7 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsFileDialog
 import PQCNotify
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -31,9 +32,11 @@ Rectangle {
 
     property bool splitDividerHovered: false
 
+    property bool isPopout: PQCSettings.interfacePopoutFileDialog||PQCWindowGeometry.filedialogForcePopout
+
     color: PQCLook.baseColor
 
-    state: PQCSettings.interfacePopoutFileDialog ?
+    state: isPopout ?
                "popout" :
                ""
 
@@ -202,6 +205,8 @@ Rectangle {
         y: 5
         width: 15
         height: 15
+        visible: !PQCWindowGeometry.filedialogForcePopout
+        enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4

@@ -27,6 +27,7 @@ import PQCFileFolderModel
 import PQCNotify
 import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -36,6 +37,7 @@ PQTemplateFullscreen {
 
     thisis: "filerename"
     popout: PQCSettings.interfacePopoutFileRename
+    forcePopout: PQCWindowGeometry.filerenameForcePopout
     shortcut: "__rename"
 
     title: qsTranslate("filemanagement", "Rename file")

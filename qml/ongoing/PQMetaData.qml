@@ -29,6 +29,7 @@ import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsMetaData
 import PQCMetaData
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -79,7 +80,7 @@ Rectangle {
 
     PQBlurBackground { thisis: "metadata" }
 
-    state: PQCSettings.interfacePopoutMetadata ?
+    state: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout ?
                "popout" :
                PQCSettings.metadataElementFloating ?
                    "floating" :
@@ -467,6 +468,8 @@ Rectangle {
         y: 5
         width: 15
         height: 15
+        visible: !PQCWindowGeometry.metadataForcePopout
+        enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4

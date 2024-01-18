@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCScriptsChromeCast
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -33,6 +34,7 @@ PQTemplateFullscreen {
 
     thisis: "chromecastmanager"
     popout: PQCSettings.interfacePopoutChromecast
+    forcePopout: PQCWindowGeometry.chromecastmanagerForcePopout
     shortcut: "__chromecast"
 
     title: qsTranslate("streaming", "Streaming (Chromecast)")

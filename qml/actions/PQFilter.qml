@@ -25,6 +25,7 @@ import QtQuick.Controls
 
 import PQCFileFolderModel
 import PQCNotify
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -34,6 +35,7 @@ PQTemplateFullscreen {
 
     thisis: "filter"
     popout: PQCSettings.interfacePopoutFilter
+    forcePopout: PQCWindowGeometry.filterForcePopout
     shortcut: "__filterImages"
     title: qsTranslate("filter", "Filter images in current directory")
 

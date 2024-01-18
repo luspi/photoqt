@@ -27,6 +27,7 @@ import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsContextMenu
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -58,7 +59,9 @@ Rectangle {
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
-    state: PQCSettings.interfacePopoutMainMenu
+    property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout
+
+    state: isPopout
            ? "popout"
            : (PQCSettings.interfaceEdgeLeftAction==="mainmenu"
               ? "left"
@@ -111,7 +114,7 @@ Rectangle {
     ]
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutMainMenu) {
+        if(isPopout) {
             mainmenu_top.opacity = 1
         }
     }
@@ -803,6 +806,8 @@ Rectangle {
         y: 5
         width: 15
         height: 15
+        visible: !PQCWindowGeometry.mainmenuForcePopout
+        enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
@@ -876,7 +881,7 @@ Rectangle {
 
     function showMainMenu() {
         mainmenu_top.setVisible = true
-        if(PQCSettings.interfacePopoutMainMenu)
+        if(isPopout)
             mainmenu_popout.show()
     }
 

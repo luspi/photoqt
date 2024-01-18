@@ -8,6 +8,7 @@ import PQCScriptsCrypt
 import PQCScriptsMetaData
 import PQCMetaData
 import PQCNotify
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -58,8 +59,9 @@ PQTemplateFloating {
     ]
 
     popout: PQCSettings.interfacePopoutMapCurrent
+    forcePopout: PQCWindowGeometry.mapcurrentForcePopout
     shortcut: "__showMapCurrent"
-    tooltip: PQCSettings.interfacePopoutMapCurrent ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.")
+    tooltip: PQCSettings.interfacePopoutMapCurrent||PQCWindowGeometry.mapcurrentForcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.")
 
     blur_thisis: "mapcurrent"
 
@@ -236,7 +238,7 @@ PQTemplateFloating {
     ]
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutMapCurrent) {
+        if(popout || forcePopout) {
             mapcurrent_top.state = "popout"
         } else {
             mapcurrent_top.state = ""

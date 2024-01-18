@@ -28,6 +28,7 @@ import PQCFileFolderModel
 import PQCScriptsFileManagement
 import PQCScriptsFilesPaths
 import PQCImageFormats
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -37,6 +38,7 @@ PQTemplateFullscreen {
 
     thisis: "scale"
     popout: PQCSettings.interfacePopoutScale
+    forcePopout: PQCWindowGeometry.scaleForcePopout
     shortcut: "__scale"
 
     title: qsTranslate("scale", "Scale image")

@@ -26,6 +26,7 @@ import QtQuick.Controls
 import PQCScriptsShareImgur
 import PQCFileFolderModel
 import PQCScriptsClipboard
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -35,6 +36,7 @@ PQTemplateFullscreen {
 
     thisis: "imgur"
     popout: PQCSettings.interfacePopoutFilter
+    forcePopout: PQCWindowGeometry.imgurForcePopout
     shortcut: "__imgurAnonym"
     title: accountname=="" ?
                qsTranslate("imgur", "Upload to imgur.com") :

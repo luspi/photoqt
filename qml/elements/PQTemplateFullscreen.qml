@@ -39,6 +39,7 @@ Rectangle {
     property string thisis
     property bool popout
     property string shortcut
+    property bool forcePopout
 
     // similarly a hide() and show() function is required
 
@@ -216,7 +217,8 @@ Rectangle {
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        visible: showPopinPopout
+        visible: showPopinPopout && !forcePopout
+        enabled: visible
         PQMouseArea {
             id: popinmouse
             anchors.fill: parent

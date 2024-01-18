@@ -25,6 +25,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import PQCFileFolderModel
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -36,6 +37,7 @@ PQTemplateFullscreen {
 
     thisis: "advancedsort"
     popout: PQCSettings.interfacePopoutAdvancedSort
+    forcePopout: PQCWindowGeometry.advancedsortForcePopout
     shortcut: "__advancedSort"
     title: qsTranslate("advancedsort", "Advanced image sort")
 

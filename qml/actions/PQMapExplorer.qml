@@ -58,7 +58,9 @@ Item {
 
     property real mapZoomLevel: 10
 
-    state: PQCSettings.interfacePopoutMapExplorer ?
+    property bool isPopout: PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
+
+    state: isPopout ?
                "popout" :
                ""
 
@@ -125,6 +127,9 @@ Item {
                 y: 0
                 width: 25
                 height: 25
+
+                visible: !PQCWindowGeometry.mapexplorerForcePopout
+                enabled: visible
 
                 color: PQCLook.transColor
 
@@ -292,7 +297,7 @@ Item {
 
     function showExplorer() {
 
-        if(PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout)
+        if(isPopout)
             mapexplorer_window.visible = true
         else
             opacity = 1
@@ -334,7 +339,7 @@ Item {
         if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerKeepOpen)
             return
 
-        if(PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout)
+        if(isPopout)
             mapexplorer_window.close()
         else
             opacity = 0

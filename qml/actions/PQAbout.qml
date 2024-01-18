@@ -25,6 +25,7 @@ import QtQuick.Controls
 
 import PQCScriptsConfig
 import PQCScriptsClipboard
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -34,6 +35,7 @@ PQTemplateFullscreen {
 
     thisis: "about"
     popout: PQCSettings.interfacePopoutAbout
+    forcePopout: PQCWindowGeometry.aboutForcePopout
     shortcut: "__about"
 
     title: qsTranslate("about", "About")
