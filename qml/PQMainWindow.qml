@@ -32,12 +32,8 @@ Window {
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
         if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {
-            if(toplevel.visibility == Window.Maximized)
-                PQCWindowGeometry.mainWindowMaximized = true
-            else {
-                PQCWindowGeometry.mainWindowMaximized = false
-                PQCWindowGeometry.mainWindowGeometry = geometry
-            }
+            PQCWindowGeometry.mainWindowGeometry = geometry
+            PQCWindowGeometry.mainWindowMaximized = (toplevel.visibility == Window.Maximized)
         }
     }
 
