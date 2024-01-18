@@ -1110,7 +1110,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     for(const QString &f : std::as_const(foldersToScan)) {
 
-        if(!cache.loadFilesFromCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, ret)) {
+        if(!cache.loadFilesFromCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret)) {
 
             QStringList ret_cur;
 
@@ -1228,7 +1228,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
             // add current list, sorted, to global result list
             ret << ret_cur;
 
-            cache.saveFilesToCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, ret_cur);
+            cache.saveFilesToCache(f, showHidden, sortFlags, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret_cur);
 
         }
 

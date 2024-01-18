@@ -9,6 +9,7 @@ import PQCScriptsFileDialog
 import PQCScriptsClipboard
 import PQCScriptsFileManagement
 import PQCScriptsOther
+import PQCImageFormats
 
 import "../elements"
 
@@ -34,6 +35,15 @@ GridView {
     }
     Component.onCompleted:
         model = PQCFileFolderModel.countAllFileDialog
+
+    Connections {
+        target: PQCImageFormats
+        function onFormatsUpdated() {
+            view.model = 0
+            PQCFileFolderModel.forceReloadFileDialog()
+            view.model = PQCFileFolderModel.countAllFileDialog
+        }
+    }
 
     // alias
     property alias fileviewContextMenu: contextmenu

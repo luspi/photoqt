@@ -360,6 +360,8 @@ void PQCImageFormats::readFromDatabase() {
         }
     }
 
+    Q_EMIT formatsUpdated();
+
 }
 
 void PQCImageFormats::writeToDatabase(QVariantList f) {

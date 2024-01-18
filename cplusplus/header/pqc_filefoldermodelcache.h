@@ -35,7 +35,7 @@ public:
 
     bool loadFilesFromCache(QString foldername, bool showHidden, int sortFlags,
                             QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                            bool ignoreFiltersExceptDefault, QStringList &entriesFiles);
+                            bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles);
 
     bool loadFoldersFromCache(QString foldername, bool showHidden, int sortFlags,
                               QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
@@ -43,7 +43,7 @@ public:
 
     void saveFilesToCache(QString foldername, bool showHidden, int sortFlags,
                           QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                          bool ignoreFiltersExceptDefault, QStringList &entriesFiles);
+                          bool ignoreFiltersExceptDefault, int numberFormatsEnabled, QStringList &entriesFiles);
 
     void saveFoldersToCache(QString foldername, bool showHidden, int sortFlags,
                             QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFileters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
@@ -54,7 +54,7 @@ public:
 private:
     QString getUniqueCacheKey(QString foldername, bool showHidden, int sortFlags,
                               QStringList defaultNameFilters, QStringList nameFilters, QStringList filenameFilters, QStringList mimeTypeFilters, QSize imageResolutionFilter, int fileSizeFilter,
-                              bool ignoreFiltersExceptDefault);
+                              bool ignoreFiltersExceptDefault, int numberFormatsEnabled = 0);
 
     QHash<QString, QStringList> cacheFiles;
     QHash<QString, QStringList> cacheFolders;

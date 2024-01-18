@@ -182,6 +182,9 @@ public:
 public Q_SLOTS:
     Q_INVOKABLE void restoreDefaults();
 
+Q_SIGNALS:
+    void formatsUpdated();
+
 private:
     PQCImageFormats();
 
