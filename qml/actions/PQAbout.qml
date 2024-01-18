@@ -56,11 +56,6 @@ PQTemplateFullscreen {
             source: "image://svg/:/other/logo_full.svg"
         },
 
-        Item {
-            width: 1
-            height: 10
-        },
-
         PQTextL {
             x: (parent.width-width)/2
             property date currentDate: new Date()
