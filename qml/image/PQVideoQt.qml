@@ -24,6 +24,7 @@ import QtQuick
 import QtMultimedia
 
 import PQCScriptsFilesPaths
+import PQCScriptsConfig
 
 Item {
 
@@ -36,7 +37,8 @@ Item {
 
         id: video
 
-        source: "file:/" + deleg.imageSource
+        // earlier versions of Qt6 seem to struggle if only one slash is used
+        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + deleg.imageSource
 
         volume: PQCSettings.filetypesVideoVolume
 
@@ -56,7 +58,13 @@ Item {
 
         onPlaybackStateChanged: {
             if(playbackState === MediaPlayer.StoppedState) {
-                video.source = "file:/" + deleg.imageSource
+
+                // earlier versions of Qt6 seem to struggle if only one slash is used
+                if(PQCScriptsConfig.isQtAtLeast6_5())
+                    video.source = "file:/" + deleg.imageSource
+                else
+                    video.source = "file://" + deleg.imageSource
+
                 if(PQCSettings.filetypesVideoLoop) {
                     video.play()
                 } else {

@@ -196,7 +196,11 @@ Image {
                         src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
 
                     if(src != "") {
-                        videoloader.mediaSrc = "file:/" + src
+                        // earlier versions of Qt6 seem to struggle if only one slash is used
+                        if(PQCScriptsConfig.isQtAtLeast6_5())
+                            videoloader.mediaSrc = "file:/" + src
+                        else
+                            videoloader.mediaSrc = "file://" + src
                         PQCNotify.hasPhotoSphere = false
                         return
                     }
