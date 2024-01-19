@@ -196,7 +196,7 @@ Image {
                         src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
 
                     if(src != "") {
-                        videoloader.mediaSrc = "file://" + src
+                        videoloader.mediaSrc = "file:/" + src
                         PQCNotify.hasPhotoSphere = false
                         return
                     }

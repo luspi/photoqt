@@ -36,7 +36,7 @@ Item {
 
         id: video
 
-        source: "file://" + deleg.imageSource
+        source: "file:/" + deleg.imageSource
 
         volume: PQCSettings.filetypesVideoVolume
 
@@ -56,7 +56,7 @@ Item {
 
         onPlaybackStateChanged: {
             if(playbackState === MediaPlayer.StoppedState) {
-                video.source = "file://" + deleg.imageSource
+                video.source = "file:/" + deleg.imageSource
                 if(PQCSettings.filetypesVideoLoop) {
                     video.play()
                 } else {
