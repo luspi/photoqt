@@ -118,6 +118,16 @@ PQMenu {
         }
     }
 
+    Repeater {
+        model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0
+        PQMenuItem {
+            iconSource: "image://svg/:/white/qrcode.svg"
+            text: PQCNotify.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes")
+            onClicked:
+                PQCNotify.executeInternalCommand("__detectBarCodes")
+        }
+    }
+
     PQMenuSeparator { visible: customentries.length>0 }
 
     property var customentries: PQCScriptsContextMenu.getEntries()

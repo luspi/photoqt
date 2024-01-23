@@ -154,14 +154,14 @@ Item {
 
         function onKeyPress(key, modifiers) {
 
-            // make sure contextmenu is closed on key press
-            contextmenu.dismiss()
+            if(loader.visibleItem !== "") {
 
-            if(loader.visibleItem !== "")
+                // make sure contextmenu is closed on key press
+                contextmenu.dismiss()
 
                 loader.passOn("keyEvent", [key, modifiers])
 
-            else {
+            } else {
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
                 if(combo !== "")
@@ -292,7 +292,15 @@ Item {
         }
 
         // make sure contextmenu is closed before executing shortcut
-        contextmenu.dismiss()
+        if(contextmenu.opened) {
+            contextmenu.dismiss()
+            return
+        }
+
+        if(combo === "Esc" && PQCNotify.barcodeDisplayed) {
+            image.detectBarCodes()
+            return
+        }
 
         if(combo === "Esc" && PQCFileFolderModel.isUserFilterSet()) {
             PQCFileFolderModel.removeAllUserFilter()
@@ -559,6 +567,9 @@ Item {
                 break
             case "__goToBottomEdge":
                 image.moveView("bottomedge")
+                break
+            case "__detectBarCodes":
+                image.detectBarCodes()
                 break
 
             /**********************/

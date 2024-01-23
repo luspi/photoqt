@@ -203,3 +203,13 @@ void PQCNotify::setHasPhotoSphere(bool val) {
 bool PQCNotify::getHasPhotoSphere() {
     return m_hasPhotoSphere;
 }
+
+void PQCNotify::setBarcodeDisplayed(bool val) {
+    if(val != m_barcodeDisplayed) {
+        m_barcodeDisplayed = val;
+        Q_EMIT barcodeDisplayedChanged();
+    }
+}
+bool PQCNotify::getBarcodeDisplayed() {
+    return m_barcodeDisplayed;
+}

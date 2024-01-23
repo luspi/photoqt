@@ -140,6 +140,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool barcodeDisplayed READ getBarcodeDisplayed WRITE setBarcodeDisplayed NOTIFY barcodeDisplayedChanged)
+    void setBarcodeDisplayed(bool val);
+    Q_INVOKABLE bool getBarcodeDisplayed();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -158,6 +164,7 @@ private:
         m_startupCheck = 0;
         m_hasPhotoSphere = false;
         m_insidePhotoSphere = false;
+        m_barcodeDisplayed = false;
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -186,6 +193,8 @@ private:
     bool m_hasPhotoSphere;
     bool m_insidePhotoSphere;
 
+    bool m_barcodeDisplayed;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
@@ -208,6 +217,8 @@ Q_SIGNALS:
 
     void insidePhotoSphereChanged();
     void hasPhotoSphereChanged();
+
+    void barcodeDisplayedChanged();
 
     // these are kept similar to the
     void cmdOpen();

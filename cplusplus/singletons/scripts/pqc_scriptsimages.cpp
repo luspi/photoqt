@@ -55,6 +55,10 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
+#ifdef PQMZXING
+#include <ZXing/ReadBarcode.h>
+#endif
+
 PQCScriptsImages::PQCScriptsImages() {
 }
 
@@ -703,5 +707,36 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 #endif
 
     return false;
+
+}
+
+QVariantList PQCScriptsImages::getZXingData(QString path) {
+
+    QVariantList ret;
+
+#ifdef PQMZXING
+
+    QSize origSize;
+    QImage img;
+    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+
+    // convert to gray scale
+    img.convertTo(QImage::Format_Grayscale8);
+
+    const ZXing::ImageView image(img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum);
+    const ZXing::ReaderOptions options = ZXing::ReaderOptions().setFormats(ZXing::BarcodeFormat::Any);
+    const std::vector<ZXing::Result> results = ZXing::ReadBarcodes(image, options);
+
+    for(const auto& r : results) {
+        QVariantList vals;
+        vals << QString::fromStdString(r.text());
+        vals << QPoint(r.position().topLeft().x, r.position().topLeft().y);
+        vals << QSize(r.position().bottomRight().x-r.position().topLeft().x, r.position().bottomRight().y-r.position().topLeft().y);
+        ret << vals;
+    }
+
+#endif
+
+    return ret;
 
 }

@@ -83,6 +83,8 @@ Item {
     signal mirrorReset()
     signal playPauseAnimationVideo()
     signal moveView(var direction)
+    signal detectBarCodes()
+    signal barcodeClick()
 
     signal imageFinishedLoading(var index)
 
@@ -735,6 +737,8 @@ Item {
                             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                         }
                         onPressed: (mouse) => {
+                            if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
+                                image.barcodeClick()
                             if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
                                 mouse.accepted = false
                                 return
@@ -1099,6 +1103,8 @@ Item {
 
                 // show the image
                 function showImage() {
+
+                    PQCNotify.barcodeDisplayed = false
 
                     deleg.imageFullyShown = false
 

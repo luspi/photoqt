@@ -107,6 +107,10 @@
 #include <QSGRendererInterface>
 #endif
 
+#ifdef PQMZXING
+#include <ZXing/ReadBarcode.h>
+#endif
+
 int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_WIN

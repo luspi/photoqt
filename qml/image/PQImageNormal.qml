@@ -22,11 +22,15 @@
 
 import QtQuick
 
+import "../elements"
+
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsConfig
+import PQCScriptsOther
+import PQCScriptsClipboard
 
 import QtMultimedia
 
@@ -153,7 +157,7 @@ Image {
     }
 
     /**********************************************************************************/
-    // the code below takes care of loading motion photos and photo spheres if enabled
+    // the code below takes care of loading special photo actions
 
     Connections {
 
@@ -167,6 +171,166 @@ Image {
         }
 
     }
+
+    Connections {
+        target: image_top
+        function onCurrentlyVisibleIndexChanged(currentlyVisibleIndex) {
+            if(currentlyVisibleIndex !== deleg.itemIndex) {
+                videoloader.active = false
+                barcodes = []
+            }
+        }
+        function onDetectBarCodes() {
+            if(image_top.currentlyVisibleIndex === deleg.itemIndex) {
+                if(!PQCNotify.barcodeDisplayed) {
+                    PQCNotify.barcodeDisplayed = true
+                    barcodes = PQCScriptsImages.getZXingData(deleg.imageSource)
+                } else {
+                    PQCNotify.barcodeDisplayed = false
+                    barcodes = []
+                }
+            }
+        }
+    }
+
+    /******************************************************************************************/
+    // The next block deals with bar codes
+
+    property var barcodes: []
+
+    Loader {
+
+        active: barcodes.length>0
+
+        Item {
+            // id: barcodes
+            anchors.fill: parent
+            property var list_barcodes: []
+            Repeater {
+                model: barcodes.length/3
+
+                Rectangle {
+
+                    id: bardeleg
+                    property var val: barcodes[3*index]
+                    property var loc: barcodes[3*index+1]
+                    property var sze: barcodes[3*index+2]
+                    x: loc.x
+                    y: loc.y
+                    width: sze.width
+                    height: sze.height
+
+                    color: "#88ff0000"
+                    radius: 5
+
+                    Rectangle {
+                        id: txtcont
+                        x: (parent.width-width)/2
+                        y: (parent.height-height)/2
+                        width: valtxt.width+10
+                        height: valtxt.height+10
+                        color: "white"
+                        scale: 1/deleg.imageScale
+                        radius: 5
+                        PQTextL {
+                            id: valtxt
+                            x: 5
+                            y: 5
+                            color: "black"
+                            text: bardeleg.val
+                        }
+
+                    }
+
+                    Row {
+                        x: (parent.width-width)/2
+                        y: txtcont.y+txtcont.height+3
+
+                        spacing: 1
+
+                        Rectangle {
+                            id: copycont
+                            width: 32
+                            height: 32
+                            color: "#88000000"
+                            radius: 5
+                            property bool hovered: false
+                            opacity: hovered ? 1 : 0.4
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 5
+                                sourceSize: Qt.size(width, height)
+                                fillMode: Image.Pad
+                                source: "/white/copy.svg"
+                            }
+                        }
+
+                        Rectangle {
+                            id: linkcont
+                            width: 32
+                            height: 32
+                            color: "#88000000"
+                            radius: 5
+                            property bool hovered: false
+                            opacity: hovered ? 1 : 0.4
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 5
+                                sourceSize: Qt.size(width, height)
+                                fillMode: Image.Pad
+                                source: "/white/globe.svg"
+                            }
+                        }
+
+                        Connections {
+
+                            target: image_top
+
+                            function onBarcodeClick() {
+                                if(linkcont.hovered)
+                                    Qt.openUrlExternally(bardeleg.val)
+                                else if(copycont.hovered)
+                                    PQCScriptsClipboard.copyTextToClipboard(bardeleg.val)
+                            }
+
+                        }
+
+                        Connections {
+
+                            target: PQCNotify
+                            enabled: image_top.currentlyVisibleIndex === deleg.itemIndex
+
+                            function onMouseMove(x, y) {
+
+                                var local = copycont.mapFromGlobal(x, y)
+                                copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
+
+                                local = linkcont.mapFromGlobal(x, y)
+                                linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
+
+                                if(copycont.hovered || linkcont.hovered)
+                                    PQCScriptsOther.setPointingHandCursor()
+                                else
+                                    PQCScriptsOther.restoreOverrideCursor()
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    /******************************************************************************************/
+    // The next block is for photo spheres and motion photos
 
 
     // check for photo sphere if enabled
@@ -258,5 +422,7 @@ Image {
         }
 
     }
+
+    /******************************************************************************************/
 
 }

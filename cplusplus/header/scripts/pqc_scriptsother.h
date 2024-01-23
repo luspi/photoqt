@@ -48,6 +48,8 @@ public:
     Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
     Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
     Q_INVOKABLE QVariantList selectColor(QVariantList def);
+    Q_INVOKABLE void setPointingHandCursor();
+    Q_INVOKABLE void restoreOverrideCursor();
 
 private:
     PQCScriptsOther();

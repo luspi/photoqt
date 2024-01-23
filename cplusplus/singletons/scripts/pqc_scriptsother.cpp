@@ -256,3 +256,17 @@ QVariantList PQCScriptsOther::selectColor(QVariantList def) {
     return ret;
 
 }
+
+void PQCScriptsOther::setPointingHandCursor() {
+
+    if(qApp->overrideCursor() != nullptr)
+        qApp->restoreOverrideCursor();
+    qApp->setOverrideCursor(Qt::PointingHandCursor);
+
+}
+
+void PQCScriptsOther::restoreOverrideCursor() {
+
+    qApp->restoreOverrideCursor();
+
+}

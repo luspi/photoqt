@@ -47,6 +47,7 @@ option(VIDEO_QT "Enable video support through Qt" ON)
 option(VIDEO_MPV "Enable video support through MPV" ON)
 option(LIBVIPS "Use libvips" OFF)
 option(RESVG "Replace Qt's SVG engine with resvg for better SVG support" OFF)
+option(QRCODE "Support for QR and barcodes detection (using ZXing)" ON)
 
 option(EXIV2 "Use exiv2 library" ON)
 option(EXIV2_ENABLE_BMFF "Enable BMFF format support in Exiv2 (if available)" ON)
@@ -136,6 +137,10 @@ endif()
 
 if(QTPDF)
     find_package(Qt6 COMPONENTS Pdf REQUIRED)
+endif()
+
+if(QRCODE)
+    find_package(ZXing)
 endif()
 
 ######################
@@ -526,6 +531,20 @@ if(MOTIONPHOTO)
     add_definitions(-DPQMMOTIONPHOTO)
 else()
     message("** Support for Motion Photos and Apple Live Photos DISABLED")
+endif()
+
+if(QRCODE)
+    if(NOT ${ZXing_FOUND})
+        message(FATAL_ERROR "** Unable to locate ZXing... is it installed?")
+    else()
+        message("** Using ZXing " ${ZXING_VERSION})
+        include_directories(${ZXING_INCLUDE_DIRS})
+        add_definitions(-DPQMZXING)
+        target_link_libraries(photoqt PRIVATE "ZXing")
+        if(TESTING)
+            target_link_libraries(photoqt_test PRIVATE "ZXing")
+        endif()
+    endif()
 endif()
 
 

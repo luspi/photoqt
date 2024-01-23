@@ -101,5 +101,7 @@
         <file>filetypes/folder_listicon_small.svg</file>
         <file>filetypes/folder_listicon_verysmall.svg</file>
         <file>white/cut.svg</file>
+        <file>white/qrcode.svg</file>
+        <file>white/globe.svg</file>
     </qresource>
 </RCC>

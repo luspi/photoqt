@@ -619,3 +619,10 @@ bool PQCScriptsConfig::isMotionPhotoSupportEnabled() {
 #endif
     return false;
 }
+
+bool PQCScriptsConfig::isZXingSupportEnabled() {
+#ifdef PQMZXING
+    return true;
+#endif
+    return false;
+}
