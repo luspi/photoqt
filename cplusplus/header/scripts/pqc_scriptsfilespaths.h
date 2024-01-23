@@ -71,6 +71,7 @@ public:
     Q_INVOKABLE QString findOwnCloudFolder();
     Q_INVOKABLE QString handleAnimatedImagePathAndEncode(QString path);
     Q_INVOKABLE void cleanupTemporaryFiles();
+    Q_INVOKABLE bool isUrl(QString path);
 
 private:
     PQCScriptsFilesPaths();

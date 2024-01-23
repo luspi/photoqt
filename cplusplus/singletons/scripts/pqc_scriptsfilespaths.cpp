@@ -638,3 +638,9 @@ void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
         dir.removeRecursively();
 
 }
+
+bool PQCScriptsFilesPaths::isUrl(QString path) {
+
+    return (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("ftp://") || path.startsWith("ftps://"));
+
+}

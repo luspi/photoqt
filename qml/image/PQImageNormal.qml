@@ -197,6 +197,7 @@ Image {
     // The next block deals with bar codes
 
     property var barcodes: []
+    property int barcode_z: 0
 
     Loader {
 
@@ -222,6 +223,9 @@ Image {
 
                     color: "#88ff0000"
                     radius: 5
+                    scale: 1/deleg.imageScale
+
+                    property bool overrideCursorSet: false
 
                     Rectangle {
                         id: txtcont
@@ -230,7 +234,6 @@ Image {
                         width: valtxt.width+10
                         height: valtxt.height+10
                         color: "white"
-                        scale: 1/deleg.imageScale
                         radius: 5
                         PQTextL {
                             id: valtxt
@@ -275,6 +278,8 @@ Image {
                             property bool hovered: false
                             opacity: hovered ? 1 : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
+                            visible: PQCScriptsFilesPaths.isUrl(bardeleg.val)
+                            enabled: visible
                             Image {
                                 anchors.fill: parent
                                 anchors.margins: 5
@@ -289,10 +294,10 @@ Image {
                             target: image_top
 
                             function onBarcodeClick() {
-                                if(linkcont.hovered)
-                                    Qt.openUrlExternally(bardeleg.val)
-                                else if(copycont.hovered)
+                                if(copycont.hovered)
                                     PQCScriptsClipboard.copyTextToClipboard(bardeleg.val)
+                                else if(linkcont.hovered)
+                                    Qt.openUrlExternally(bardeleg.val)
                             }
 
                         }
@@ -310,10 +315,15 @@ Image {
                                 local = linkcont.mapFromGlobal(x, y)
                                 linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
 
-                                if(copycont.hovered || linkcont.hovered)
+                                if(copycont.hovered || linkcont.hovered) {
+                                    barcode_z += 1
+                                    bardeleg.z = barcode_z
+                                    bardeleg.overrideCursorSet = true
                                     PQCScriptsOther.setPointingHandCursor()
-                                else
+                                } else if(bardeleg.overrideCursorSet) {
+                                    bardeleg.overrideCursorSet = false
                                     PQCScriptsOther.restoreOverrideCursor()
+                                }
 
                             }
 
