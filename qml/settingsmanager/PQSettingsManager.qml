@@ -443,14 +443,8 @@ PQTemplateFullscreen {
                 }
             }
 
-            PQMainCategory {
-                id: sm_maincategory
-                SplitView.minimumWidth: 100
-                SplitView.preferredWidth: 250
-            }
-
-            PQSubCategory {
-                id: sm_subcategory
+            PQCategory {
+                id: sm_category
                 SplitView.minimumWidth: 100
                 SplitView.preferredWidth: 250
             }
@@ -543,11 +537,10 @@ PQTemplateFullscreen {
 
                         if(confirmUnsaved.cat == "-") {
                             hide()
-                        } else if(confirmUnsaved.cat == "main") {
-                            sm_maincategory.setCurrentIndex(confirmUnsaved.ind)
-                        } else if(confirmUnsaved.cat == "sub") {
-                            sm_subcategory.setCurrentIndex(confirmUnsaved.ind)
+                        } else {
+                            sm_category.laodFromUnsavedActions(confirmUnsaved.cat, confirmUnsaved.ind)
                         }
+
                         confirmUnsaved.opacity = 0
                         confirmUnsaved.cat = ""
                         confirmUnsaved.ind = -1
@@ -560,10 +553,8 @@ PQTemplateFullscreen {
                     onClicked: {
                         if(confirmUnsaved.cat == "-") {
                             hide()
-                        } else if(confirmUnsaved.cat == "main") {
-                            sm_maincategory.setCurrentIndex(confirmUnsaved.ind)
-                        } else if(confirmUnsaved.cat == "sub") {
-                            sm_subcategory.setCurrentIndex(confirmUnsaved.ind)
+                        } else {
+                            sm_category.laodFromUnsavedActions(confirmUnsaved.cat, confirmUnsaved.ind)
                         }
                         confirmUnsaved.opacity = 0
                         confirmUnsaved.cat = ""
@@ -634,23 +625,23 @@ PQTemplateFullscreen {
 
                     } else if(param[0] === Qt.Key_F && param[1] === Qt.ControlModifier) {
 
-                        sm_maincategory.setFocusOnFilter()
+                        sm_category.setFocusOnFilter()
 
                     } else if(param[0] === Qt.Key_Tab && param[1] === Qt.ControlModifier) {
 
-                        sm_subcategory.gotoNextIndex()
+                        sm_category.gotoNextIndex("sub")
 
                     } else if((param[0] === Qt.Key_Backtab || param[0] === Qt.Key_Tab) && param[1] === Qt.ShiftModifier+Qt.ControlModifier) {
 
-                        sm_subcategory.gotoPreviousIndex()
+                        sm_category.gotoPreviousIndex("sub")
 
                     } else if(param[0] === Qt.Key_Down && param[1] === Qt.ControlModifier) {
 
-                        sm_maincategory.gotoNextIndex()
+                        sm_category.gotoNextIndex("main")
 
                     } else if(param[0] === Qt.Key_Up && param[1] === Qt.ControlModifier) {
 
-                        sm_maincategory.gotoPreviousIndex()
+                        sm_category.gotoPreviousIndex("main")
 
                     }
 
@@ -659,73 +650,6 @@ PQTemplateFullscreen {
             }
 
         }
-
-    }
-
-    function filterSettings(str) {
-
-        if(str === "") {
-            filterCategories = []
-            filterSubCategories = []
-        }
-
-        var foundcat = []
-        var foundsubcat = []
-
-        for(var i in categoryKeys) {
-
-            var key = categoryKeys[i]
-            var val = categories[key]
-
-            var subkeys = Object.keys(val[1])
-
-            for(var j in subkeys) {
-
-                var subkey = subkeys[j]
-                var subval = val[1][subkey]
-
-                if(subval[0].toLowerCase().includes(str)) {
-                    if(foundcat.indexOf(key) === -1)
-                        foundcat.push(key)
-                    foundsubcat.push(subkey)
-                } else {
-
-                    for(var k in subval[2]) {
-
-                        if(subval[2][k].toLowerCase().includes(str)) {
-                            if(foundcat.indexOf(key) === -1)
-                                foundcat.push(key)
-                            foundsubcat.push(subkey)
-                            break
-                        }
-
-                    }
-
-                    for(var l in subval[3]) {
-
-                        if(subval[3][l].toLowerCase().includes(str)) {
-                            if(foundcat.indexOf(key) === -1)
-                                foundcat.push(key)
-                            if(foundsubcat.indexOf(subkey) === -1)
-                                foundsubcat.push(subkey)
-                            break
-                        }
-
-                    }
-                }
-
-            }
-
-        }
-
-        // if nothing was found we need to distinguish this from 'no filter text entered'
-        if(foundcat.length == 0 || foundsubcat.length == 0) {
-            foundcat = ["-"]
-            foundsubcat = ["-"]
-        }
-
-        filterCategories = foundcat
-        filterSubCategories = foundsubcat
 
     }
 
