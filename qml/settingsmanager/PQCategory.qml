@@ -410,6 +410,9 @@ Item {
         filterCategories = foundcat
         filterSubCategories = foundsubcat
 
+        if(filterCategories.indexOf(categoryKeys[currentMainIndex[0]]) == -1)
+            gotoNextIndex("main")
+
     }
 
     function setFocusOnFilter() {
@@ -421,6 +424,18 @@ Item {
         if(section === "main") {
 
             var newmain = (currentMainIndex[0]+1)%categoryKeys.length
+            if(filterCategories.length > 0 && filterCategories.indexOf(newmain) == -1) {
+                while(filterCategories.indexOf(categoryKeys[newmain]) == -1 && newmain < categoryKeys.length)
+                    newmain += 1
+                if(newmain == categoryKeys.length) {
+                    newmain = 0
+                    while(filterCategories.indexOf(categoryKeys[newmain]) == -1 && newmain < currentMainIndex[0])
+                        newmain += 1
+                }
+            }
+
+            if(newmain === currentMainIndex[0] || newmain == categoryKeys.length)
+                return
 
             if(!confirmIfUnsavedChanged("main", newmain))
                 return
@@ -452,6 +467,15 @@ Item {
         if(section === "main") {
 
             var newmain = (currentMainIndex[0]+categoryKeys.length-1)%categoryKeys.length
+            if(filterCategories.length > 0 && filterCategories.indexOf(newmain) == -1) {
+                while(newmain > -1 && filterCategories.indexOf(categoryKeys[newmain]) == -1 && newmain >= 0)
+                    newmain -= 1
+                if(newmain == -1) {
+                    newmain = categoryKeys.length-1
+                    while(filterCategories.indexOf(categoryKeys[newmain]) == -1 && newmain > currentSubIndex[0])
+                        newmain -= 1
+                }
+            }
 
             if(!confirmIfUnsavedChanged("main", newmain))
                 return
