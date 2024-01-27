@@ -420,6 +420,14 @@ PQTemplateFullscreen {
     }
 
     property var categoryKeys: Object.keys(categories)
+    property var subCategoryKeys
+    Component.onCompleted: {
+        var tmp = {}
+        for(var i in categoryKeys) {
+            tmp[categoryKeys[i]] = Object.keys(categories[categoryKeys[i]][1])
+        }
+        subCategoryKeys = tmp
+    }
 
     content: [
 

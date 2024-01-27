@@ -84,7 +84,7 @@ Item {
                         property int catindex: index
                         property string cat: categoryKeys[index]
                         property var catitems: categories[cat][1]
-                        property var catitemskeys: Object.keys(catitems)
+                        property var catitemskeys: subCategoryKeys[cat]
 
                         property bool isSelected: categories_top.currentMainIndex[0]===deleg.catindex
                         property bool passingFilter: true
@@ -94,9 +94,7 @@ Item {
                             target: categories_top
 
                             function onFilterCategoriesChanged() {
-
                                 deleg.passingFilter = (filterCategories.length===0 || filterCategories.indexOf(deleg.cat) > -1)
-
                             }
 
                         }
@@ -235,7 +233,7 @@ Item {
 
                                         target: categories_top
 
-                                        function onFilterCategoriesChanged() {
+                                        function onFilterSubCategoriesChanged() {
 
                                             subdeleg.passingFilter = (filterSubCategories.length===0 || filterSubCategories.indexOf(deleg.catitemskeys[index]) > -1)
 
@@ -332,7 +330,7 @@ Item {
         }
 
         var _main = categoryKeys[currentMainIndex[0]]
-        var _sub = Object.keys(categories[_main][1])[currentSubIndex[0]]
+        var _sub = subCategoryKeys[_main][currentSubIndex[0]]
 
         settingsmanager_top.selectedCategories = [_main, _sub]
 
@@ -353,13 +351,13 @@ Item {
             var key = categoryKeys[i]
             var val = categories[key]
 
-            var subkeys = Object.keys(val[1])
+            var subkeys = subCategoryKeys[key]
 
             if(key.toLowerCase().includes(str)) {
                 if(foundcat.indexOf(key) === -1)
                     foundcat.push(key)
-                for(var i in subkeys)
-                foundsubcat.push(subkeys[i])
+                for(var j in subkeys)
+                    foundsubcat.push(subkeys[j])
             }
 
             for(var j in subkeys) {
@@ -412,6 +410,11 @@ Item {
 
         if(filterCategories.indexOf(categoryKeys[currentMainIndex[0]]) == -1)
             gotoNextIndex("main")
+        else if(filterSubCategories.indexOf(subCategoryKeys[categoryKeys[currentMainIndex[0]]][currentSubIndex[0]]) == -1)
+            gotoNextIndex("sub")
+
+        filtertxt.setFocus()
+        filtertxt.moveToEnd()
 
     }
 
@@ -448,9 +451,18 @@ Item {
 
         } else if(section === "sub") {
 
-            var k = Object.keys(categories[categoryKeys[currentMainIndex[0]]][1])
+            var k = subCategoryKeys[categoryKeys[currentMainIndex[0]]]
 
             var newsub = (currentSubIndex[0]+1)%k.length
+            if(filterSubCategories.length > 0 && filterSubCategories.indexOf(newsub) == -1) {
+                while(filterSubCategories.indexOf(k[newsub]) == -1 && newsub < k.length)
+                    newsub += 1
+                if(newsub === k.length) {
+                    newsub = 0
+                    while(filterSubCategories.indexOf(k[newsub]) == -1 && newsub < currentSubIndex[0])
+                        newsub += 1
+                }
+            }
 
             if(!confirmIfUnsavedChanged("sub", newsub))
                 return
@@ -488,8 +500,20 @@ Item {
 
         } else if(section === "sub") {
 
-            var k = Object.keys(categories[categoryKeys[currentMainIndex[0]]][1])
+            var k = subCategoryKeys[categoryKeys[currentMainIndex[0]]]
+
             var newsub = (currentSubIndex[0]+k.length-1)%k.length
+
+            if(filterSubCategories.length > 0 && filterSubCategories.indexOf(newsub) == -1) {
+                while(filterSubCategories.indexOf(k[newsub]) == -1 && newsub >= 0)
+                    newsub -= 1
+                if(newsub === -1) {
+                    newsub = k.length-1
+                    while(filterSubCategories.indexOf(k[newsub]) == -1 && newsub > currentSubIndex[0])
+                        newsub -= 1
+                }
+            }
+
 
             if(!confirmIfUnsavedChanged("sub", newsub))
                 return

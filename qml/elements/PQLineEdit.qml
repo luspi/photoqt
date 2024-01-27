@@ -112,6 +112,10 @@ Rectangle {
 
     }
 
+    function moveToEnd() {
+        control.cursorPosition = control.text.length
+    }
+
     function removeToLeftSeperatorList() {
         var txt = control.text
         var pos = 0
