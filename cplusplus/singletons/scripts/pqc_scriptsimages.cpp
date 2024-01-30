@@ -717,59 +717,55 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 
 #ifdef PQMZXING
 
+    QSize origSize;
+    QImage img;
+    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+
+    // convert to gray scale
+    img.convertTo(QImage::Format_Grayscale8);
+
 #if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
 
-    QSize origSize;
-    QImage img;
-    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+    // Read any bar code
+    const ZXing::DecodeHints hints = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
+    const ZXing::Result r = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
 
-    // convert to gray scale
-    img.convertTo(QImage::Format_Grayscale8);
+#elif ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR <= 1
 
-    ZXing::DecodeHints hints;
-    hints.setEanAddOnSymbol(ZXing::EanAddOnSymbol::Read);
-    hints.setFormats(ZXing::BarcodeFormats::all());
-
-    const auto& result = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
-
-    if(result.format() != ZXing::BarcodeFormat::None) {
-
-        QVariantList vals;
-        vals << QString::fromStdWString(result.text());
-        vals << QPoint(result.position().topLeft().x, result.position().topLeft().y);
-        vals << QSize(result.position().bottomRight().x-result.position().topLeft().x, result.position().bottomRight().y-result.position().topLeft().y);
-        ret << vals;
-
-    }
+    // Read all bar codes
+    const ZXing::DecodeHints hints = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
+    const std::vector<ZXing::Result> results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
 
 #else
 
-    QSize origSize;
-    QImage img;
-    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+    // Read all bar codes
+    const ZXing::ReaderOptions hints = ZXing::ReaderOptions().setFormats(ZXing::BarcodeFormat::Any);
+    const std::vector<ZXing::Result> results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
 
-    // convert to gray scale
-    img.convertTo(QImage::Format_Grayscale8);
-
-    const ZXing::ImageView image(img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum);
-#if ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR < 2
-    const ZXing::DecodeHints options = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
-#else
-    const ZXing::ReaderOptions options = ZXing::ReaderOptions().setFormats(ZXing::BarcodeFormat::Any);
 #endif
-    const std::vector<ZXing::Result> results = ZXing::ReadBarcodes(image, options);
+
+    /******************************/
+    // process and store results
+
+#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
+
+    if(r.format() != ZXing::BarcodeFormat::None) {
+
+#else // ZXing 1.3 and up
 
     for(const auto& r : results) {
+
+#endif
+
         QVariantList vals;
         vals << QString::fromStdString(r.text());
         vals << QPoint(r.position().topLeft().x, r.position().topLeft().y);
         vals << QSize(r.position().bottomRight().x-r.position().topLeft().x, r.position().bottomRight().y-r.position().topLeft().y);
         ret << vals;
+
     }
 
-#endif
-
-#endif
+#endif  // PQMZXING
 
     return ret;
 
