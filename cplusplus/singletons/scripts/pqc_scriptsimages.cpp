@@ -758,7 +758,11 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 #endif
 
         QVariantList vals;
+#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 3
+        vals << QString::fromStdWString(r.text());
+#else
         vals << QString::fromStdString(r.text());
+#endif
         vals << QPoint(r.position().topLeft().x, r.position().topLeft().y);
         vals << QSize(r.position().bottomRight().x-r.position().topLeft().x, r.position().bottomRight().y-r.position().topLeft().y);
         ret << vals;
