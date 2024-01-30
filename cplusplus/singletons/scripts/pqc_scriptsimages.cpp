@@ -57,6 +57,7 @@
 
 #ifdef PQMZXING
 #include <ZXing/ReadBarcode.h>
+#include <ZXing/ZXVersion.h>
 #endif
 
 PQCScriptsImages::PQCScriptsImages() {
@@ -716,6 +717,33 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 
 #ifdef PQMZXING
 
+#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
+
+    QSize origSize;
+    QImage img;
+    PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
+
+    // convert to gray scale
+    img.convertTo(QImage::Format_Grayscale8);
+
+    ZXing::DecodeHints hints;
+    hints.setEanAddOnSymbol(ZXing::EanAddOnSymbol::Read);
+    hints.setFormats(ZXing::BarcodeFormats::all());
+
+    const auto& result = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
+
+    if(result.format() != ZXing::BarcodeFormat::None) {
+
+        QVariantList vals;
+        vals << QString::fromStdWString(result.text());
+        vals << QPoint(result.position().topLeft().x, result.position().topLeft().y);
+        vals << QSize(result.position().bottomRight().x-result.position().topLeft().x, result.position().bottomRight().y-result.position().topLeft().y);
+        ret << vals;
+
+    }
+
+#else
+
     QSize origSize;
     QImage img;
     PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
@@ -734,6 +762,8 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
         vals << QSize(r.position().bottomRight().x-r.position().topLeft().x, r.position().bottomRight().y-r.position().topLeft().y);
         ret << vals;
     }
+
+#endif
 
 #endif
 
