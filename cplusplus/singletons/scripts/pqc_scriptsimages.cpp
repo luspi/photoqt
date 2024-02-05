@@ -498,11 +498,6 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
 #endif
 
         try {
-            if (!Exiv2::fileExists(path.toStdString())) {
-                qWarning() << "Failed to open file";
-                return 0;
-            }
-
             image = Exiv2::ImageFactory::open(path.toStdString());
             image->readMetadata();
         } catch (Exiv2::Error& e) {
@@ -658,11 +653,6 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 #endif
 
     try {
-        if (!Exiv2::fileExists(path.toStdString())) {
-            qWarning() << "Failed to open file";
-            return false;
-        }
-
         image = Exiv2::ImageFactory::open(path.toStdString());
         image->readMetadata();
     } catch (Exiv2::Error& e) {
