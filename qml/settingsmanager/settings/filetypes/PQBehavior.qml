@@ -191,6 +191,13 @@ Flickable {
             }
         }
 
+        PQCheckBox {
+            id: videojump
+            x: (parent.width-width)/2
+            spacing: 10
+            text: qsTranslate("settingsmanager", "Always use left/right arrow keys to jump back/ahead in videos")
+        }
+
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
@@ -283,6 +290,7 @@ Flickable {
         vid_qtmult.loadAndSetDefault(!PQCSettings.filetypesVideoPreferLibmpv)
         vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
         videothumb.currentIndex = (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
+        videojump.loadAndSetDefault(PQCSettings.imageviewVideoLeftRightJumpVideo)
 
         viewermode.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
 
@@ -300,6 +308,7 @@ Flickable {
         PQCSettings.filetypesVideoLoop = vid_loop.checked
         PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
+        PQCSettings.imageviewVideoLeftRightJumpVideo = videojump.checked
 
         PQCSettings.imageviewBigViewerModeButton = viewermode.checked
 
@@ -309,6 +318,7 @@ Flickable {
         vid_loop.saveDefault()
         vid_qtmult.saveDefault()
         vid_libmpv.saveDefault()
+        videojump.saveDefault()
         viewermode.saveDefault()
 
         settingChanged = false

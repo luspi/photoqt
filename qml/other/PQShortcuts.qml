@@ -32,6 +32,8 @@ import PQCScriptsClipboard
 import PQCScriptsOther
 import PQCScriptsShortcuts
 import PQCScriptsImages
+import PQCImageFormats
+import PQCScriptsConfig
 
 Item {
 
@@ -307,6 +309,29 @@ Item {
             return
         }
 
+        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewVideoLeftRightJumpVideo) {
+
+            var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
+
+            var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() && PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix)>-1) ||
+                                (PQCScriptsConfig.isVideoQtSupportEnabled() && PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix)>-1)
+
+            if(isVideo) {
+
+                if(combo === "Left") {
+                    image.videoJump(-5)
+                    return
+                }
+
+                if(combo === "Right") {
+                    image.videoJump(5)
+                    return
+                }
+
+            }
+
+        }
+
         var data = PQCShortcuts.getCommandsForShortcut(combo)
 
         if(data.length !== 4)
@@ -570,6 +595,12 @@ Item {
                 break
             case "__detectBarCodes":
                 image.detectBarCodes()
+                break
+            case "__videoJumpForwards":
+                image.videoJump(5)
+                break
+            case "__videoJumpBackwards":
+                image.videoJump(-5)
                 break
 
             /**********************/

@@ -138,6 +138,10 @@ Flickable {
                                  //: Name of shortcut action
         "__playPauseAni":       [qsTranslate("settingsmanager", "Play/Pause animation/video"), "currentimage"],
                                  //: Name of shortcut action
+        "__videoJumpForwards":  [qsTranslate("settingsmanager", "Go ahead 5 seconds in video"), "currentimage"],
+                                 //: Name of shortcut action
+        "__videoJumpBackwards": [qsTranslate("settingsmanager", "Go back 5 seconds in video"), "currentimage"],
+                                 //: Name of shortcut action
         "__tagFaces":           [qsTranslate("settingsmanager", "Start tagging faces"), "currentimage"],
                                  //: Name of shortcut action
         "__enterPhotoSphere":   [qsTranslate("settingsmanager", "Enter photo sphere"), "viewingimages"],

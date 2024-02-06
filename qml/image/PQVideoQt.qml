@@ -99,14 +99,38 @@ Item {
     }
 
     Connections {
+        target: image_top
+        function onVideoJump(seconds) {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
+            if(video.seekable)
+                video.seek(video.position + seconds*1000)
+        }
+    }
+
+    Connections {
         target: loader_component
         function onVideoTogglePlay() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
             toggle()
         }
         function onVideoToPos(pos) {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
             video.seek(pos*1000)
         }
         function onImageClicked() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
             toggle()
         }
     }
@@ -114,12 +138,19 @@ Item {
     Connections {
         target: deleg
         function onStopVideoAndReset() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
             if(loader_component.videoPlaying) {
                 video.pause()
                 video.seek(0)
             }
         }
         function onRestartVideoIfAutoplay() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
 
             if(loader_component.videoPlaying) {
 
@@ -139,6 +170,10 @@ Item {
     }
 
     function toggle() {
+
+        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            return
+
         if(loader_component.videoPlaying)
             video.pause()
         else {

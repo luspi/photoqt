@@ -117,24 +117,37 @@ Item {
     Connections {
         target: image_top
         function onMirrorH() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             video.command(["vf", "toggle", "hflip"])
             deleg.imageMirrorH = !deleg.imageMirrorH
         }
         function onMirrorV() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             video.command(["vf", "toggle", "vflip"])
             deleg.imageMirrorV = !deleg.imageMirrorV
         }
         function onMirrorReset() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             video.command(["vf", "remove", "hflip"])
             video.command(["vf", "remove", "vflip"])
             deleg.imageMirrorH = false
             deleg.imageMirrorV = false
+        }
+        function onVideoJump(seconds) {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+            video.command(["seek", seconds])
         }
     }
 
     Connections {
         target: loader_component
         function onVideoTogglePlay() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", deleg.imageSource])
                 loader_component.videoPlaying = true
@@ -144,6 +157,8 @@ Item {
             }
         }
         function onVideoToPos(pos) {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", deleg.imageSource])
                 video.command(["cycle", "pause"])
@@ -154,6 +169,8 @@ Item {
                 video.command(["seek", pos, "absolute"])
         }
         function onImageClicked() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", deleg.imageSource])
                 loader_component.videoPlaying = true
@@ -175,6 +192,8 @@ Item {
     Connections {
         target: deleg
         function onStopVideoAndReset() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
             if(loader_component.videoPlaying) {
                 loader_component.videoPlaying = false
                 video.command(["cycle", "pause"])
@@ -182,6 +201,9 @@ Item {
             }
         }
         function onRestartVideoIfAutoplay() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
 
             if(loader_component.videoPlaying) {
 

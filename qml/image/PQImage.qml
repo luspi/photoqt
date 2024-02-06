@@ -55,6 +55,7 @@ Item {
         visibleIndexPrevCur[0] = currentlyVisibleIndex
         visibleIndexPrevCurChanged()
     }
+    property bool isSomeVideoLoaded: false
 
     property int curZ: 0
     property real defaultScale: 1
@@ -85,6 +86,7 @@ Item {
     signal moveView(var direction)
     signal detectBarCodes()
     signal barcodeClick()
+    signal videoJump(var seconds)
 
     signal imageFinishedLoading(var index)
 
