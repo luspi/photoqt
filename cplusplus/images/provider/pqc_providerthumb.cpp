@@ -87,6 +87,10 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
 #ifdef WIN32
 
+    // we SKIP this for now until writing thumbnails to the cache also works
+    // when re-enabled, we need to make sure to also check the quality of the thumbnail to make sure it is appropriate
+    /*
+
     // on Windows we check the global thumbnail cache for a cached thumbnail
     // if we find one we can stop, otherwise we generate a new one
 
@@ -139,6 +143,8 @@ void PQCAsyncImageResponseThumb::loadImage() {
         Q_EMIT finished();
         return;
     }
+
+    */
 
 #endif
 
