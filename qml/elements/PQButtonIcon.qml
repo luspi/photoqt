@@ -49,6 +49,7 @@ Rectangle {
         id: icon
 
         source: control.source
+        smooth: false
 
         sourceSize: Qt.size(control.height*0.75,control.height*0.75)
 

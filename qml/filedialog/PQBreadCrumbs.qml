@@ -215,8 +215,9 @@ Item {
                     y: (parent.height-height)/2
 
                     property bool windows: PQCScriptsConfig.amIOnWindows()
+                    property bool isNetwork: windows && PQCFileFolderModel.folderFileDialog.startsWith("//")
 
-                    property var parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : PQCFileFolderModel.folderFileDialog.split("/")
+                    property var parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : (isNetwork ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/"))
 
                     Repeater {
 
@@ -232,6 +233,8 @@ Item {
                                         if(p != "") p += "/"
                                         p += crumbs.parts[i]
                                     }
+                                    if(PQCFileFolderModel.folderFileDialog.startsWith("//") && !p.startsWith("/"))
+                                        p = "//"+p
                                     return p
                                 } else {
                                     if(index === 0)
@@ -245,7 +248,7 @@ Item {
 
                             Rectangle {
                                 height: breadcrumbs_top.height
-                                width: folder.width+20
+                                width: folder.text==="" ? 0 : (folder.width+20)
                                 color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 PQText {
@@ -259,8 +262,9 @@ Item {
                                     id: mousearea2
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
                                     onClicked: filedialog_top.loadNewPath(deleg.subdir)
+                                    enabled: (index<2 && crumbs.isNetwork) ? false : true
+                                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                                 }
                             }
 
@@ -271,19 +275,22 @@ Item {
                                 color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor))
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 Image {
-                                    anchors.fill: parent
-                                    anchors.leftMargin: parent.width/3
-                                    anchors.rightMargin: parent.width/3
-                                    anchors.topMargin: parent.height/3
-                                    anchors.bottomMargin: parent.height/3
+                                    property real fact: (index===0 && crumbs.isNetwork) ? 1.5 : 3
+                                    x: (parent.width-width)/2
+                                    y: (parent.height-height)/2
+                                    width: parent.width*(1/fact)
+                                    height: parent.height*(1/fact)
+                                    smooth: false
                                     fillMode: Image.PreserveAspectFit
-                                    source: "image://svg/:/white/breadcrumb.svg"
+                                    source: (index===0 && crumbs.isNetwork) ? "image://svg/:/white/network.svg" : "image://svg/:/white/breadcrumb.svg"
+                                    sourceSize: Qt.size(width, height)
                                 }
                                 PQMouseArea {
                                     id: mousearea
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
+                                    enabled: (index<2 && crumbs.isNetwork) ? false : true
+                                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                                     onClicked: (pos) => {
                                         folderlist.popup(0,height)
                                     }

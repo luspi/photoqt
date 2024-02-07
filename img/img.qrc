@@ -103,5 +103,6 @@
         <file>white/cut.svg</file>
         <file>white/qrcode.svg</file>
         <file>white/globe.svg</file>
+        <file>white/network.svg</file>
     </qresource>
 </RCC>

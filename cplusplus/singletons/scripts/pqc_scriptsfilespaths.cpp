@@ -77,19 +77,16 @@ QString PQCScriptsFilesPaths::cleanPath_windows(QString path) {
     else if(path.startsWith("image://thumb/"))
         path = path.remove(0, 14);
 
-    bool networkPath = path.startsWith("//");
-    path = QDir::cleanPath(path);
-    if(networkPath)
-        path = "/"+path;
-
-    return path;
+    return QDir::cleanPath(path);
 
 }
 
 QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
 
 #ifdef Q_OS_WIN
-    while(path.startsWith("/"))
+    if(path.startsWith("\\\\") && path.mid(3,1) == ":")
+        path = path.mid(2);
+    else if(path.startsWith("\\") && path.mid(2,1) == ":")
         path = path.mid(1);
 #endif
 
@@ -100,7 +97,9 @@ QString PQCScriptsFilesPaths::pathWithNativeSeparators(QString path) {
 QString PQCScriptsFilesPaths::pathFromNativeSeparators(QString path) {
 
 #ifdef Q_OS_WIN
-    while(path.startsWith("\\"))
+    if(path.startsWith("\\\\") && path.mid(3,1) == ":")
+        path = path.mid(2);
+    else if(path.startsWith("\\") && path.mid(2,1) == ":")
         path = path.mid(1);
 #endif
 
