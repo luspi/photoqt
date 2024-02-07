@@ -221,7 +221,7 @@ Item {
 
                     Repeater {
 
-                        model: crumbs.parts.length
+                        model: crumbs.parts[crumbs.parts.length-1] !== "" ? crumbs.parts.length : crumbs.parts.length-1
 
                         Row {
 
