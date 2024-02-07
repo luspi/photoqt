@@ -70,7 +70,7 @@ QImage PQCProviderSVG::requestImage(const QString &url, QSize *origSize, const Q
     if(requestedSize.width() < 2 || requestedSize.height() < 2)
         use = svg.defaultSize();
 
-    QSize fitSize = origSize->boundedTo(use);
+    QSize fitSize = origSize->scaled(use, Qt::KeepAspectRatio);
     QRect fitRect(QPoint(0,0), fitSize);
 
     // Render SVG into pixmap
