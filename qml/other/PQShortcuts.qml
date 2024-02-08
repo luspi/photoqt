@@ -455,6 +455,11 @@ Item {
                 if(!PQCNotify.slideshowRunning)
                     contextmenu.popup()
                 break
+            case "__contextMenuTouch":
+                if(!PQCNotify.slideshowRunning)
+                    // we "misuse" the wheelDelta parameter to pass on the touch point
+                    contextmenu.popup(wheelDelta)
+                break
             case "__showMetaData":
             case "__keepMetaData":
                 PQCSettings.metadataElementVisible = !PQCSettings.metadataElementVisible

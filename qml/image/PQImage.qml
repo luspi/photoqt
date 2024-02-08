@@ -775,10 +775,15 @@ Item {
 
                         onPressed: (points) => {
 
+                            pressAndHoldTimeout.touchPos = points[0]
+
                             if(points.length === 2)
                                 initialPts = [Qt.point(points[0].x, points[0].y), Qt.point(points[1].x, points[1].y)]
-                            else
+                            else {
                                 initialPts.push(Qt.point(points[0].x, points[0].y))
+                                if(points.length === 1)
+                                    pressAndHoldTimeout.restart()
+                            }
 
                             initialScale = image_wrapper.scale
 
@@ -787,9 +792,14 @@ Item {
 
                             if(points.length === 1) {
 
+                                if(Math.abs(points[0].x - pressAndHoldTimeout.touchPos.x) > 20 || Math.abs(points[0].y - pressAndHoldTimeout.touchPos.y) > 20)
+                                    pressAndHoldTimeout.stop()
+
                                 flickable.flick(points[0].velocity.x*1.5, points[0].velocity.y*1.5)
 
                             } else if(points.length === 2 && initialPts.length == 2) {
+
+                                pressAndHoldTimeout.stop()
 
                                 // compute the rate of change initiated by this pinch
                                 var startLength = Math.sqrt(Math.pow(initialPts[0].x-initialPts[1].x, 2) + Math.pow(initialPts[0].y-initialPts[1].y, 2))
@@ -820,12 +830,23 @@ Item {
 
                                 }
 
-                            }
+                            } else
+                                pressAndHoldTimeout.stop()
 
                         }
 
                         onReleased: (points) => {
+                            pressAndHoldTimeout.stop()
                             initialPts = []
+                        }
+
+                        Timer {
+                            id: pressAndHoldTimeout
+                            interval: 1000
+                            property point touchPos
+                            onTriggered: {
+                                shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
+                            }
                         }
 
                     }

@@ -342,8 +342,13 @@ Item {
         acceptedButtons: Qt.AllButtons
         doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
 
+        property bool holdTrigger: false
+        property point touchPos
+
         onPositionChanged: (mouse) => {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            if(Math.abs(pos.x - touchPos.x) > 20 || Math.abs(pos.y - touchPos.y) > 20)
+                holdTrigger = false
             PQCNotify.mouseMove(pos.x, pos.y)
         }
         onWheel: (wheel) => {
@@ -351,7 +356,9 @@ Item {
             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
         }
         onPressed: (mouse) => {
+            holdTrigger = false
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            touchPos = pos
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
         }
         onDoubleClicked: (mouse) => {
@@ -359,12 +366,22 @@ Item {
             PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
+            if(holdTrigger) {
+                holdTrigger = false
+                return
+            }
             if(mouse.button === Qt.LeftButton)
                 loader.show("filedialog")
             else {
                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                 PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
             }
+        }
+        onPressAndHold: (mouse) => {
+            holdTrigger = true
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
+                shortcuts.item.executeInternalFunction("__contextMenuTouch", pos)
         }
     }
 
