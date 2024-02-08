@@ -309,10 +309,10 @@ Image {
 
                             function onMouseMove(x, y) {
 
-                                var local = copycont.mapFromGlobal(x, y)
+                                var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y))
                                 copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
 
-                                local = linkcont.mapFromGlobal(x, y)
+                                local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))
                                 linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
 
                                 if(copycont.hovered || linkcont.hovered) {
