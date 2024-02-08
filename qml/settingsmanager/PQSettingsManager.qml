@@ -635,11 +635,12 @@ PQTemplateFullscreen {
 
                         sm_category.setFocusOnFilter()
 
-                    } else if(param[0] === Qt.Key_Tab && param[1] === Qt.ControlModifier) {
+                    } else if((param[0] === Qt.Key_Tab && param[1] === Qt.ControlModifier) || (param[0] === Qt.Key_Down && param[1] === Qt.AltModifier)) {
 
                         sm_category.gotoNextIndex("sub")
 
-                    } else if((param[0] === Qt.Key_Backtab || param[0] === Qt.Key_Tab) && param[1] === Qt.ShiftModifier+Qt.ControlModifier) {
+                    } else if(((param[0] === Qt.Key_Backtab || param[0] === Qt.Key_Tab) && param[1] === Qt.ShiftModifier+Qt.ControlModifier) ||
+                               (param[0] === Qt.Key_Up && param[1] === Qt.AltModifier)) {
 
                         sm_category.gotoPreviousIndex("sub")
 
