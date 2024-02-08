@@ -790,6 +790,8 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 
 QVariantList PQCScriptsImages::getZXingData(QString path) {
 
+    qDebug() << "args: path =" << path;
+
     QVariantList ret;
 
 #ifdef PQMZXING
