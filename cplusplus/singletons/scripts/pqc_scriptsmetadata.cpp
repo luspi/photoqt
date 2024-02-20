@@ -472,10 +472,6 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
     if(filename.contains("::PDF::") || filename.contains("::ARC::"))
         return ret;
 
-#ifdef WIN32
-    bool retryWithTmpFile = false;
-#endif
-
 #if EXIV2_TEST_VERSION(0, 28, 0)
     Exiv2::Image::UniquePtr image;
 #else
@@ -485,15 +481,6 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
         image  = Exiv2::ImageFactory::open(filename.toStdString());
         image->readMetadata();
     } catch (Exiv2::Error& e) {
-#ifdef WIN32
-        // This error happens on Windows if two conditions are met:
-        // (1) the system locale for non-unicode applications is set to, e.g., Chinese
-        // (2) the file path contains CJK characters
-        // In that case we copy the file to a temporary file for reading the metadata.
-        if(e.code() == Exiv2::ErrorCode::kerDataSourceOpenFailed) {
-            retryWithTmpFile = true;
-        } else {
-#endif
         // An error code of 11 means image not supported. This is much more reliable than, e.g., checking a file ending
 #if EXIV2_TEST_VERSION(0, 28, 0)
         if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
@@ -504,38 +491,7 @@ QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
         else
             qDebug() << "ERROR reading metadata:" << e.what();
         return ret;
-#ifdef WIN32
-        }
-#endif
     }
-
-#ifdef WIN32
-    if(retryWithTmpFile) {
-        QFileInfo info(filename);
-        QString tmppath = QString("%1/metadata.%2").arg(PQCConfigFiles::CACHE_DIR(), info.suffix());
-        QFile tmpinfo(tmppath);
-        if(tmpinfo.exists())
-            tmpinfo.remove();
-        if(!QFile::copy(filename, tmppath))
-            return ret;
-        try {
-            image = Exiv2::ImageFactory::open(tmppath.toStdString());
-            image->readMetadata();
-        } catch (Exiv2::Error& e) {
-#if EXIV2_TEST_VERSION(0, 28, 0)
-            if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
-#else
-            if(e.code() != 11)
-#endif
-                qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
-            else
-                qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
-
-            return ret;
-        }
-        tmpinfo.remove();
-    }
-#endif
 
     // This will hold the data extracted from the metadata
     // It will be filtered again before returning to make sure the data is coherent

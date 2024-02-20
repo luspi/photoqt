@@ -140,10 +140,6 @@ void PQCMetaData::updateMetadata() {
 
 #ifdef PQMEXIV2
 
-#ifdef WIN32
-    bool retryWithTmpFile = false;
-#endif
-
 #if EXIV2_TEST_VERSION(0, 28, 0)
     Exiv2::Image::UniquePtr image;
 #else
@@ -153,15 +149,6 @@ void PQCMetaData::updateMetadata() {
         image  = Exiv2::ImageFactory::open(path.toStdString());
         image->readMetadata();
     } catch (Exiv2::Error& e) {
-#ifdef WIN32
-        // This error happens on Windows if two conditions are met:
-        // (1) the system locale for non-unicode applications is set to, e.g., Chinese
-        // (2) the file path contains CJK characters
-        // In that case we copy the file to a temporary file for reading the metadata.
-        if(e.code() == Exiv2::ErrorCode::kerDataSourceOpenFailed) {
-            retryWithTmpFile = true;
-        } else {
-#endif
         // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type \
         // Since we always try to read any file's meta data, this happens a lot
 #if EXIV2_TEST_VERSION(0, 28, 0)
@@ -174,37 +161,7 @@ void PQCMetaData::updateMetadata() {
             qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
 
         return;
-#ifdef WIN32
-        }
-#endif
     }
-
-#ifdef WIN32
-    if(retryWithTmpFile) {
-        QString tmppath = QString("%1/metadata.%2").arg(PQCConfigFiles::CACHE_DIR(), info.suffix());
-        QFile tmpinfo(tmppath);
-        if(tmpinfo.exists())
-            tmpinfo.remove();
-        if(!QFile::copy(path, tmppath))
-            return;
-        try {
-            image = Exiv2::ImageFactory::open(tmppath.toStdString());
-            image->readMetadata();
-        } catch (Exiv2::Error& e) {
-#if EXIV2_TEST_VERSION(0, 28, 0)
-            if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
-#else
-            if(e.code() != 11)
-#endif
-                qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
-            else
-                qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
-
-            return;
-        }
-        tmpinfo.remove();
-    }
-#endif
 
     Exiv2::ExifData exifData;
 

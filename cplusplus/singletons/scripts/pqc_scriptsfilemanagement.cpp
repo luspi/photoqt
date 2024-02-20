@@ -268,10 +268,6 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
 
     #ifdef PQMEXIV2
 
-#ifdef WIN32
-        bool retryWithTmpFile = false;
-#endif
-
         // This will store all the exif data
         Exiv2::ExifData exifData;
         Exiv2::IptcData iptcData;
@@ -302,45 +298,8 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
         }
 
         catch (Exiv2::Error& e) {
-#ifdef WIN32
-            // This error happens on Windows if two conditions are met:
-            // (1) the system locale for non-unicode applications is set to, e.g., Chinese
-            // (2) the file path contains CJK characters
-            // In that case we copy the file to a temporary file for reading the metadata.
-            if(e.code() == Exiv2::ErrorCode::kerDataSourceOpenFailed)
-                retryWithTmpFile = true;
-#else
             qDebug() << "ERROR reading exif data (caught exception):" << e.what();
-#endif
         }
-
-#ifdef WIN32
-        if(retryWithTmpFile) {
-            QFileInfo info(sourceFilename);
-            QString tmppath = QString("%1/metadatafilemanagement.%2").arg(PQCConfigFiles::CACHE_DIR(), info.suffix());
-            QFile tmpinfo(tmppath);
-            if(tmpinfo.exists())
-                tmpinfo.remove();
-            if(!QFile::copy(sourceFilename, tmppath))
-                return;
-            try {
-                image_read = Exiv2::ImageFactory::open(tmppath.toStdString());
-                image_read->readMetadata();
-            } catch (Exiv2::Error& e) {
-#if EXIV2_TEST_VERSION(0, 28, 0)
-                if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
-#else
-                if(e.code() != 11)
-#endif
-                    qWarning() << "ERROR reading exiv data (caught exception):" << e.what();
-                else
-                    qDebug() << "ERROR reading exiv data (caught exception):" << e.what();
-
-                return;
-            }
-            tmpinfo.remove();
-        }
-#endif
 
         if(gotExifData) {
 
@@ -453,9 +412,6 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
         }
 
     #ifdef PQMEXIV2
-
-        // we do not check for CJK characters here as the logic would be too complex and error pront
-        // if the target filename contains CJK characters then it unfortunately wont contain the original meta data
 
         if(gotExifData) {
 
