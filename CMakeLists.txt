@@ -56,6 +56,7 @@ option(CHROMECAST "Enable Chromecast support" ON)
 option(CHROMECAST_PIPINSTALL "Allows CMake to attempt to install PyChromecast locally using pip." OFF)
 option(LOCATION "Enable use of QtPositioning/QtLocation QML modules" ON)
 option(MOTIONPHOTO "Enable support for Google Motion Photos and Apple Live Photos" ON)
+option(PHOTOSPHERE "Enable support for photo spheres and 360 degree panoramic views" ON)
 
 option(TESTING "Build some unit tests" OFF)
 option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
@@ -141,6 +142,15 @@ endif()
 
 if(ZXING)
     find_package(ZXing)
+endif()
+
+if(PHOTOSPHERE)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere.qml")
+    set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_ps_SOURCES})
+else()
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere.qml")
 endif()
 
 ######################
@@ -531,6 +541,15 @@ if(MOTIONPHOTO)
     add_definitions(-DPQMMOTIONPHOTO)
 else()
     message("** Support for Motion Photos and Apple Live Photos DISABLED")
+endif()
+
+if(PHOTOSPHERE)
+    message("** Support for photo spheres enabled")
+    message("** NOTE: When changing the PHOTOSPHERE option the source tree")
+    message("**       might need to be cleaned before the next build")
+    add_definitions(-DPQMPHOTOSPHERE)
+else()
+    message("** Support for photo spheres DISABLED")
 endif()
 
 if(ZXING)

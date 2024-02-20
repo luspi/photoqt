@@ -1319,10 +1319,18 @@ Item {
 
     }
 
-    PQPhotoSphere {
+    Loader {
         id: photosphere
-        z: image_top.curZ
+        active: PQCScriptsConfig.isPhotoSphereSupportEnabled()
+        sourceComponent:
+            Component {
+                PQPhotoSphere {
+                    z: image_top.curZ
+                }
+            }
     }
+
+
 
     Timer {
         id: timer_busyloading

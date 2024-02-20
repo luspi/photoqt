@@ -641,6 +641,8 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 
     qDebug() << "args: path =" << path;
 
+#ifdef PQMPHOTOSPHERE
+
     if(!PQCSettings::get()["filetypesCheckForPhotoSphere"].toBool())
         return false;
 
@@ -694,6 +696,8 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
         }
 
     }
+
+#endif
 
 #endif
 

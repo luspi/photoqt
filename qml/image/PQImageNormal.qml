@@ -386,7 +386,7 @@ Image {
             } else
                 videoloader.mediaSrc = ""
 
-            if(PQCSettings.filetypesCheckForPhotoSphere) {
+            if(PQCSettings.filetypesCheckForPhotoSphere && PQCScriptsConfig.isPhotoSphereSupportEnabled()) {
 
                 if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
                     PQCNotify.hasPhotoSphere = true

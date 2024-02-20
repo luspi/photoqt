@@ -520,7 +520,10 @@ Item {
                 loader.show("navigationfloating")
                 break
             case "__enterPhotoSphere":
-                PQCNotify.enterPhotoSphere()
+                if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
+                    PQCNotify.enterPhotoSphere()
+                else
+                    loader.show("notification", qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
                 break
 
             /**********************/

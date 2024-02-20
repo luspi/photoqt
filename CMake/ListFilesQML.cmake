@@ -32,7 +32,8 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml
 
 SET(d "qml/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQVideoMpv.qml ${d}/PQVideoControls.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQPhotoSphere.qml ${d}/PQVideoQt.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQVideoQt.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphere.qml ${d}/PQPhotoSphere_real.qml ${d}/PQPhotoSphere_fake.qml)
 
 SET(d "qml/ongoing")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQThumbnails.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQStatusInfo.qml ${d}/PQContextMenu.qml)
