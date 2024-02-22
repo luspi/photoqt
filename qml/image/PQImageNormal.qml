@@ -31,6 +31,7 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsOther
 import PQCScriptsClipboard
+import PQCScriptsMetaData
 
 import QtMultimedia
 
@@ -370,6 +371,60 @@ Image {
                         src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
 
                     if(src != "") {
+
+                        if(PQCSettings.metadataAutoRotation) {
+
+                            var orientation = PQCScriptsMetaData.getExifOrientation(deleg.imageSource)
+                            switch(orientation) {
+
+                            case 1:
+                                // no rotation, no mirror
+                                videoloader.forceRotation = 0
+                                videoloader.forceMirror = false
+                                break;
+                            case 2:
+                                // no rotation, horizontal mirror
+                                videoloader.forceRotation = 0
+                                videoloader.forceMirror = true
+                                break;
+                            case 3:
+                                // 180 degree rotation, no mirror
+                                videoloader.forceRotation = 180
+                                videoloader.forceMirror = false
+                                break;
+                            case 4:
+                                // 180 degree rotation, horizontal mirror
+                                videoloader.forceRotation = 180
+                                videoloader.forceMirror = true
+                                break;
+                            case 5:
+                                // 90 degree rotation, horizontal mirror
+                                videoloader.forceRotation = 90
+                                videoloader.forceMirror = true
+                                break;
+                            case 6:
+                                // 90 degree rotation, no mirror
+                                videoloader.forceRotation = 90
+                                videoloader.forceMirror = false
+                                break;
+                            case 7:
+                                // 270 degree rotation, horizontal mirror
+                                videoloader.forceRotation = 270
+                                videoloader.forceMirror = true
+                                break;
+                            case 8:
+                                // 270 degree rotation, no mirror
+                                videoloader.forceRotation = 270
+                                videoloader.forceMirror = false
+                                break;
+                            default:
+                                console.warn("Unexpected orientation value received:", orientation)
+                                break;
+
+                            }
+
+                        }
+
                         videoloader.active = false
                         // earlier versions of Qt6 seem to struggle if only one slash is used
                         if(PQCScriptsConfig.isQtAtLeast6_5())
@@ -407,6 +462,9 @@ Image {
         active: false
         property string mediaSrc: ""
 
+        property int forceRotation: 0
+        property bool forceMirror: false
+
         asynchronous: true
         sourceComponent: motionphoto
     }
@@ -419,10 +477,18 @@ Image {
 
             width: image.width
             height: image.height
+            transform:
+                Rotation {
+                    origin.x: width / 2
+                    axis { x: 0; y: 1; z: 0 }
+                    angle: videoloader.forceMirror ? 180 : 0
+                }
 
             Video {
                 id: mediaplayer
+                rotation: videoloader.forceRotation
                 anchors.fill: parent
+                anchors.margins: rotation%180==0 ? 0 : -(image.height-image.width)/2
                 source: videoloader.mediaSrc
                 Component.onCompleted: {
                     play()

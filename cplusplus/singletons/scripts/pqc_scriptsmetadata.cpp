@@ -685,3 +685,54 @@ void PQCScriptsMetaData::setFaceTags(QString filename, QVariantList tags) {
 #endif
 
 }
+
+int PQCScriptsMetaData::getExifOrientation(QString path) {
+
+#ifdef PQMEXIV2
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+    try {
+        image  = Exiv2::ImageFactory::open(path.toStdString());
+        image->readMetadata();
+    } catch (Exiv2::Error& e) {
+        // An error code of kerFileContainsUnknownImageType (older version: 11) means unknown file type \
+        // Since we always try to read any file's meta data, this happens a lot
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+        if(e.code() != 11)
+#endif
+            qWarning() << "ERROR reading exif data (caught exception):" << e.what();
+        else
+            qDebug() << "ERROR reading exif data (caught exception):" << e.what();
+
+        return 1;
+    }
+
+    Exiv2::ExifData exifData;
+
+    try {
+        exifData = image->exifData();
+    } catch(Exiv2::Error &e) {
+        qDebug() << "ERROR: Unable to read exif metadata:" << e.what();
+        return 1;
+    }
+
+    Exiv2::ExifData::iterator iter = exifData.findKey(Exiv2::ExifKey("Exif.Image.Orientation"));
+    if(iter != exifData.end()) {
+
+        const int val = QString::fromStdString(Exiv2::toString(iter->value())).toInt();
+        if(val >= 1 && val <= 8)
+            return val;
+
+    }
+
+#endif
+
+    return 1;
+
+}
