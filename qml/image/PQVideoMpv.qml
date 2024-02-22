@@ -114,27 +114,26 @@ Item {
         }
     }
 
+    // we use custom mirror properties to be able to animate the mirror process with transforms
+    property bool myMirrorH: false
+    property bool myMirrorV: false
+
+    onMyMirrorHChanged:
+        deleg.imageMirrorH = myMirrorH
+    onMyMirrorVChanged:
+        deleg.imageMirrorV = myMirrorV
+
     Connections {
         target: image_top
         function onMirrorH() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
-                return
-            video.command(["vf", "toggle", "hflip"])
-            deleg.imageMirrorH = !deleg.imageMirrorH
+            videotop.myMirrorH = !videotop.myMirrorH
         }
         function onMirrorV() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
-                return
-            video.command(["vf", "toggle", "vflip"])
-            deleg.imageMirrorV = !deleg.imageMirrorV
+            videotop.myMirrorV = !videotop.myMirrorV
         }
         function onMirrorReset() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
-                return
-            video.command(["vf", "remove", "hflip"])
-            video.command(["vf", "remove", "vflip"])
-            deleg.imageMirrorH = false
-            deleg.imageMirrorV = false
+            videotop.myMirrorH = false
+            videotop.myMirrorV = false
         }
         function onVideoJump(seconds) {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
@@ -232,23 +231,25 @@ Item {
     }
 
     function setMirrorHV(mH, mV) {
-
-        if(mH) {
-            video.command(["vf", "set", "hflip"])
-            deleg.imageMirrorH = true
-        } else {
-            video.command(["vf", "remove", "hflip"])
-            deleg.imageMirrorH = false
-        }
-
-        if(mV) {
-            video.command(["vf", "set", "vflip"])
-            deleg.imageMirrorV = true
-        } else {
-            video.command(["vf", "remove", "vflip"])
-            deleg.imageMirrorV = false
-        }
-
+        videotop.myMirrorH = mH
+        videotop.myMirrorV = mV
     }
+
+    transform: [
+        Rotation {
+            origin.x: width / 2
+            origin.y: height / 2
+            axis { x: 0; y: 1; z: 0 }
+            angle: myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: 200 } }
+        },
+        Rotation {
+            origin.x: width / 2
+            origin.y: height / 2
+            axis { x: 1; y: 0; z: 0 }
+            angle: myMirrorV ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: 200 } }
+        }
+    ]
 
 }

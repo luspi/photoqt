@@ -183,8 +183,49 @@ Item {
         }
     }
 
-    function setMirrorHV(mH, mV) {
-        // do nothing, mirroring not supported by Video type
+    // we use custom mirror properties to be able to animate the mirror process with transforms
+    property bool myMirrorH: false
+    property bool myMirrorV: false
+
+    onMyMirrorHChanged:
+        deleg.imageMirrorH = myMirrorH
+    onMyMirrorVChanged:
+        deleg.imageMirrorV = myMirrorV
+
+    Connections {
+        target: image_top
+        function onMirrorH() {
+            videotop.myMirrorH = !videotop.myMirrorH
+        }
+        function onMirrorV() {
+            videotop.myMirrorV = !videotop.myMirrorV
+        }
+        function onMirrorReset() {
+            videotop.myMirrorH = false
+            videotop.myMirrorV = false
+        }
     }
+
+    function setMirrorHV(mH, mV) {
+        videotop.myMirrorH = mH
+        videotop.myMirrorV = mV
+    }
+
+    transform: [
+        Rotation {
+            origin.x: width / 2
+            origin.y: height / 2
+            axis { x: 0; y: 1; z: 0 }
+            angle: myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: 200 } }
+        },
+        Rotation {
+            origin.x: width / 2
+            origin.y: height / 2
+            axis { x: 1; y: 0; z: 0 }
+            angle: myMirrorV ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: 200 } }
+        }
+    ]
 
 }

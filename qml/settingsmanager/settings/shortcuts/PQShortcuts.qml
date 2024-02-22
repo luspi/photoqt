@@ -72,9 +72,11 @@ Flickable {
                                  //: Name of shortcut action
         "__rotate0":            [qsTranslate("settingsmanager", "Reset Rotation"), "viewingimages"],
                                  //: Name of shortcut action
-        "__flipH":              [qsTranslate("settingsmanager", "Flip Horizontally"), "viewingimages"],
+        "__flipH":              [qsTranslate("settingsmanager", "Mirror Horizontally"), "viewingimages"],
                                  //: Name of shortcut action
-        "__flipV":              [qsTranslate("settingsmanager", "Flip Vertically"), "viewingimages"],
+        "__flipV":              [qsTranslate("settingsmanager", "Mirror Vertically"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__flipReset":          [qsTranslate("settingsmanager", "Reset Mirror"), "viewingimages"],
                                  //: Name of shortcut action
         "__loadRandom":         [qsTranslate("settingsmanager", "Load a random image"), "viewingimages"],
                                  //: Name of shortcut action

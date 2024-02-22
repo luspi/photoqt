@@ -61,10 +61,14 @@ AnimatedImage {
             source = "image://svg/:/other/errorimage.svg"
     }
 
-    onMirrorChanged:
-        deleg.imageMirrorH = mirror
-    onMirrorVerticallyChanged:
-        deleg.imageMirrorV = image.mirrorVertically
+    // we use custom mirror properties to be able to animate the mirror process with transforms
+    property bool myMirrorH: false
+    property bool myMirrorV: false
+
+    onMyMirrorHChanged:
+        deleg.imageMirrorH = myMirrorH
+    onMyMirrorVChanged:
+        deleg.imageMirrorV = myMirrorV
 
     property bool hasAlpha: false
 
@@ -74,17 +78,34 @@ AnimatedImage {
     Connections {
         target: image_top
         function onMirrorH() {
-            image.mirror = !image.mirror
+            image.myMirrorH = !image.myMirrorH
         }
         function onMirrorV() {
-            image.mirrorVertically = !image.mirrorVertically
+            image.myMirrorV = !image.myMirrorV
         }
         function onMirrorReset() {
-            image.mirror = false
-            image.mirrorVertically = false
+            image.myMirrorH = false
+            image.myMirrorV = false
         }
 
     }
+
+    transform: [
+        Rotation {
+            origin.x: width / 2
+            origin.y: height / 2
+            axis { x: 0; y: 1; z: 0 }
+            angle: myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: 200 } }
+        },
+        Rotation {
+            origin.x: width / 2
+            origin.y: height / 2
+            axis { x: 1; y: 0; z: 0 }
+            angle: myMirrorV ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: 200 } }
+        }
+    ]
 
     Image {
         anchors.fill: parent
@@ -95,8 +116,8 @@ AnimatedImage {
 
     }
     function setMirrorHV(mH, mV) {
-        image.mirror = mH
-        image.mirrorVertically = mV
+        image.myMirrorH = mH
+        image.myMirrorV = mV
     }
 
 }
