@@ -398,7 +398,7 @@ QVariantList PQCImageFormats::getWriteableFormats() {
     QVariantList ret;
 
     QImageWriter writer;
-    QSqlQuery query("SELECT uniqueid,qt_formatname,endings,description,im_gm_magick FROM imageformats ORDER BY qt DESC, description ASC", db);
+    QSqlQuery query("SELECT uniqueid,qt_formatname,endings,description,im_gm_magick FROM imageformats ORDER BY description ASC", db);
     while(query.next()) {
 
         const QString uniqueid = query.value(0).toString();
