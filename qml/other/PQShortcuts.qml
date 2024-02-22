@@ -407,6 +407,7 @@ Item {
                 loader.show("slideshowsetup")
                 break
             case "__slideshowQuick":
+                loader.show("notification", qsTranslate("slideshow", "Slideshow started."))
                 loader.show("slideshowhandler")
                 loader.show("slideshowcontrols")
                 break
