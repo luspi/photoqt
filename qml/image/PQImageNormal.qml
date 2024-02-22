@@ -493,6 +493,20 @@ Image {
                 Component.onCompleted: {
                     play()
                 }
+                Connections {
+                    target: loader_component
+                    function onVideoTogglePlay() {
+                        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                            return
+                        if(mediaplayer.playbackState == MediaPlayer.PausedState)
+                            mediaplayer.play()
+                        else if(mediaplayer.playbackState == MediaPlayer.StoppedState) {
+                            mediaplayer.source = videoloader.mediaSrc
+                            mediaplayer.play()
+                        } else
+                            mediaplayer.pause()
+                    }
+                }
             }
 
         }
