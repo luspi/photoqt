@@ -22,6 +22,7 @@
 
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
+#include <pqc_imageformats.h>
 
 #include <QtDebug>
 #include <QPointF>
@@ -688,6 +689,8 @@ void PQCScriptsMetaData::setFaceTags(QString filename, QVariantList tags) {
 
 int PQCScriptsMetaData::getExifOrientation(QString path) {
 
+    qDebug() << "args: path =" << path;
+
 #ifdef PQMEXIV2
 
 #if EXIV2_TEST_VERSION(0, 28, 0)
@@ -734,5 +737,51 @@ int PQCScriptsMetaData::getExifOrientation(QString path) {
 #endif
 
     return 1;
+
+}
+
+bool PQCScriptsMetaData::areFaceTagsSupported(QString filename) {
+
+    qDebug() << "args: filename =" << filename;
+
+#ifdef PQMEXIV2
+
+    if(filename.contains("::PDF::") || filename.contains("::ARC::"))
+        return false;
+
+    const QString suffix = QFileInfo(filename).suffix().toLower();
+    if(!PQCImageFormats::get().getEnabledFormatsQt().contains(suffix) &&
+        !PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix)) {
+        return false;
+    }
+
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    Exiv2::Image::UniquePtr image;
+#else
+    Exiv2::Image::AutoPtr image;
+#endif
+    try {
+        image  = Exiv2::ImageFactory::open(filename.toStdString());
+        image->readMetadata();
+        Exiv2::XmpData &xmpDataOld = image->xmpData();
+    } catch (Exiv2::Error& e) {
+        // An error code of 11 means image not supported. This is much more reliable than, e.g., checking a file ending
+#if EXIV2_TEST_VERSION(0, 28, 0)
+        if(e.code() != Exiv2::ErrorCode::kerFileContainsUnknownImageType)
+#else
+        if(e.code() != 11)
+#endif
+            qWarning() << "ERROR reading metadata:" << e.what();
+        else
+            qDebug() << "ERROR reading metadata:" << e.what();
+        return false;
+    }
+
+    // if we got here then we can read/write xmp exif data
+    return true;
+
+#endif
+
+    return false;
 
 }

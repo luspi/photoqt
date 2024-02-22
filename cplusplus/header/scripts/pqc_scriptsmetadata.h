@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps);
     Q_INVOKABLE QPointF convertGPSToPoint(QString gps);
 
+    Q_INVOKABLE bool areFaceTagsSupported(QString filename);
     Q_INVOKABLE QVariantList getFaceTags(QString filename);
     Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
 

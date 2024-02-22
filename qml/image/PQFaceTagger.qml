@@ -331,6 +331,12 @@ Item {
 
                 if(what === "tagFaces") {
 
+                    if(!PQCScriptsMetaData.areFaceTagsSupported(PQCFileFolderModel.currentFile)) {
+                        loader.show("notification", qsTranslate("unavailable", "This file type does not support face tags."))
+                        return
+                    } else
+                        loader.show("notification", qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces."))
+
                     image.zoomReset()
                     image.rotateReset()
                     image.mirrorReset()
