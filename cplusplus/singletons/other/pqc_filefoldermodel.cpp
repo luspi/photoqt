@@ -1182,15 +1182,19 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
                     }
 
-                    if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && m_nameFilters.contains(f.suffix().toLower()))) && (m_restrictToSuffixes.size() == 0 || m_restrictToSuffixes.contains(f.suffix().toLower()))) {
+                    QString suffix = f.suffix().toLower();
+                    if(f.isSymLink() && f.exists())
+                        suffix = QFileInfo(f.symLinkTarget()).suffix().toLower();
+
+                    if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && m_nameFilters.contains(suffix))) && (m_restrictToSuffixes.size() == 0 || m_restrictToSuffixes.contains(suffix))) {
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault) {
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
-                            if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool() && f.suffix().toLower() == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                            if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool() && suffix == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
                             ret_cur << f.absoluteFilePath();
                         } else {
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
-                            if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool() && f.suffix().toLower() == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                            if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool() && suffix == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
                             for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {

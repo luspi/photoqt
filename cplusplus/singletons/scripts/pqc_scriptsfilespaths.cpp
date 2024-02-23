@@ -59,6 +59,10 @@ QString PQCScriptsFilesPaths::cleanPath(QString path) {
     else if(path.startsWith("image://thumb/"))
         path = path.remove(0, 14);
 
+    QFileInfo info(path);
+    if(info.isSymLink() && info.exists())
+        path = info.symLinkTarget();
+
     return QDir::cleanPath(path);
 #endif
 
@@ -76,6 +80,10 @@ QString PQCScriptsFilesPaths::cleanPath_windows(QString path) {
         path = path.remove(0, 13);
     else if(path.startsWith("image://thumb/"))
         path = path.remove(0, 14);
+
+    QFileInfo info(path);
+    if(info.isSymLink() && info.exists())
+        path = info.symLinkTarget();
 
     return QDir::cleanPath(path);
 

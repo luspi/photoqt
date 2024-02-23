@@ -285,7 +285,7 @@ Rectangle {
 
     function loadNewPath(path) {
         fd_breadcrumbs.disableAddressEdit()
-        PQCFileFolderModel.folderFileDialog = path
+        PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path)
         if(historyIndex < history.length-1)
             history.splice(historyIndex+1)
         if(history[history.length-1] !== path)

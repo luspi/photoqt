@@ -53,6 +53,9 @@ QSize PQCLoadImage::load(QString filename) {
 
     QFileInfo info(filename);
 
+    if(info.isSymLink() && info.exists())
+        filename = info.symLinkTarget();
+
     // check image cache, we might be done right here
     QImage img;
     if(PQCImageCache::get().getCachedImage(filename, img))
@@ -214,6 +217,9 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         return "";
 
     QFileInfo info(filename);
+
+    if(info.isSymLink() && info.exists())
+        filename = info.symLinkTarget();
 
     // check image cache, we might be done right here
     if(PQCImageCache::get().getCachedImage(filename, img)) {
