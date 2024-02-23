@@ -183,6 +183,29 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
+            text: qsTranslate("settingsmanager", "Mirror/Flip")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "Images can be manipulated inside PhotoQt in a variety of ways, including their zoom and rotation. Another property that can be manipulated is the mirroring (or flipping) of images both vertically and horizontally. By default, PhotoQt animates this process, but this behavior can be disabled here. In that case the mirror/flip happens instantaneously.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: mirroranim
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "Animate mirror/flip")
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
             text: qsTranslate("settingsmanager", "Floating navigation")
             font.capitalization: Font.SmallCaps
         }
@@ -209,7 +232,8 @@ Flickable {
     function checkDefault() {
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
-                maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged()) {
+                maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
+                mirroranim.hasChanged()) {
             settingChanged = true
             return
         }
@@ -226,6 +250,8 @@ Flickable {
         maxzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMaxEnabled)
         maxzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMax)
 
+        mirroranim.loadAndSetDefault(PQCSettings.imageviewMirrorAnimate)
+
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
         settingChanged = false
@@ -240,6 +266,8 @@ Flickable {
         PQCSettings.imageviewZoomMaxEnabled = maxzoom_check.checked
         PQCSettings.imageviewZoomMax = maxzoom_slider.value
 
+        PQCSettings.imageviewMirrorAnimate = mirroranim.checked
+
         PQCSettings.interfaceNavigationFloating = floatingnav.checked
 
         zoomspeed.saveDefault()
@@ -247,6 +275,7 @@ Flickable {
         minzoom_slider.saveDefault()
         maxzoom_check.saveDefault()
         maxzoom_slider.saveDefault()
+        mirroranim.saveDefault()
         floatingnav.saveDefault()
 
         settingChanged = false

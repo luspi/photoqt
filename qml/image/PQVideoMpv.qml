@@ -241,14 +241,14 @@ Item {
             origin.y: height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: 200 } }
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: width / 2
             origin.y: height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: myMirrorV ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: 200 } }
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
