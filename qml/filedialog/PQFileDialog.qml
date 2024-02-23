@@ -69,7 +69,7 @@ Rectangle {
                 target: filedialog_top
                 width: parentWidth
                 height: parentHeight
-                opacity: 1
+                opacity: 0
             }
         }
     ]
