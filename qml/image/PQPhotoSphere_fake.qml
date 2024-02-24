@@ -57,8 +57,7 @@ Item {
     }
 
     function show() {
-        console.warn("NOT SUPPORTED")
-        loader.show("notification", qsTranslate("unavailable", "Photo ppheres are not available in this build of PhotoQt."))
+        loader.show("notification", qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
     }
 
     function hide() {}
