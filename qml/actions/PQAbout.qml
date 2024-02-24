@@ -128,6 +128,11 @@ PQTemplateFullscreen {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
 
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+        }
+
         Flickable {
 
             x: (parent.width-width)/2
