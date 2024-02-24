@@ -30,6 +30,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsMetaData
 import PQCMetaData
 import PQCWindowGeometry
+import PQCScriptsClipboard
 
 import "../elements"
 
@@ -371,16 +372,18 @@ Rectangle {
                 whichtxt: qsTranslate("metadata", "GPS Position")
                 valtxt: PQCMetaData.exifGPS
                 visible: PQCSettings.metadataGps
-                tooltip: tooltip
-                enableMouse: true
-                onClicked: {
-                    if(PQCSettings.metadataGpsMap === "bing.com/maps")
-                        Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + valtxt + "&obox=1")
-                    else if(PQCSettings.metadataGpsMap === "maps.google.com")
-                        Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + valtxt)
-                    else {
-                        Qt.openUrlExternally("https://www.openstreetmap.org/#map=15/" + PQCScriptsMetaData.convertGPSToDecimalForOpenStreetMap(valtxt))
-                    }
+                tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
+                signalClicks: true
+                onClicked: (mouse) => {
+                    if(mouse.modifiers === Qt.ControlModifier) {
+                       if(PQCSettings.metadataGpsMap === "bing.com/maps")
+                           Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + valtxt + "&obox=1")
+                       else if(PQCSettings.metadataGpsMap === "maps.google.com")
+                           Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + valtxt)
+                       else
+                           Qt.openUrlExternally("https://www.openstreetmap.org/#map=15/" + PQCScriptsMetaData.convertGPSToDecimalForOpenStreetMap(valtxt))
+                    } else
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
                 }
             }
 

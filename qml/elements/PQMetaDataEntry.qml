@@ -34,10 +34,10 @@ Column {
 
     property bool fadeout: valtxt==""
 
-    property bool enableMouse: false
-    property string tooltip: ""
+    property bool signalClicks: false
+    property string tooltip: qsTranslate("metadata", "Copy value to clipboard")
 
-    signal clicked()
+    signal clicked(var mouse)
 
     PQText {
         id: which
@@ -59,22 +59,16 @@ Column {
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                enabled: enableMouse
-                text: tooltip
+                enabled: !fadeout
+                text: enabled ? tooltip : ""
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-                onClicked:
-                    entry.clicked()
+                onClicked: (mouse) => {
+                    if(signalClicks)
+                        entry.clicked(mouse)
+                    else
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
+                }
             }
-        }
-
-        PQButtonIcon {
-            width: val.height
-            height: width
-            opacity: 0.5
-            visible: !fadeout
-            source: "image://svg/:/white/copy.svg"
-            onClicked:
-                PQCScriptsClipboard.copyTextToClipboard(valtxt)
         }
 
     }
