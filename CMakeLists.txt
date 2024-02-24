@@ -9,7 +9,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "4.2")
+SET(APPVERSION "dev")
 add_definitions(-DPQMVERSION="${APPVERSION}")
 
 ########################################
@@ -64,7 +64,8 @@ option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
 if(QTPDF)
     if(POPPLER)
         set(POPPLER OFF)
-        message("** For displaying PDF documents you have to choose either Poppler OR QtPDF")
+        message("** For displaying PDF documents you have to choose either Poppler OR QtPDF.")
+        message("** Poppler has been automatically disabled in favour of QtPDF.")
     endif()
 endif()
 
@@ -86,7 +87,8 @@ if(IMAGEMAGICK)
     find_package(ImageMagick COMPONENTS Magick++)
     if(GRAPHICSMAGICK)
         set(GRAPHICSMAGICK OFF)
-        message("** ImageMagick and GraphicsMagick cannot be used at the same time")
+        message("** ImageMagick and GraphicsMagick cannot be used at the same time.")
+        message("** GraphicsMagick has been automatically disabled in favour of ImageMagick.")
     endif()
 endif()
 
@@ -171,6 +173,7 @@ if(RUNCPPCHECK)
         list(APPEND CMAKE_CXX_CPPCHECK
                 "--enable=warning"
                 "--inconclusive"
+                "--library=qt"
         )
 
     endif()
