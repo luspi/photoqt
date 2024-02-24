@@ -23,6 +23,7 @@
 import QtQuick
 
 import PQCFileFolderModel
+import PQCScriptsClipboard
 
 Column {
 
@@ -45,21 +46,37 @@ Column {
         visible: PQCFileFolderModel.countMainView>0
     }
 
-    PQText {
-        id: val
-        text: "  " + (valtxt=="" ? "--" : valtxt)
-        opacity: fadeout ? 0.4 : 1
-        visible: PQCFileFolderModel.countMainView>0
+    Row {
 
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            enabled: enableMouse
-            text: tooltip
-            cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-            onClicked:
-                entry.clicked()
+        spacing: 5
+
+        PQText {
+            id: val
+            text: "  " + (valtxt=="" ? "--" : valtxt)
+            opacity: fadeout ? 0.4 : 1
+            visible: PQCFileFolderModel.countMainView>0
+
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                enabled: enableMouse
+                text: tooltip
+                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                onClicked:
+                    entry.clicked()
+            }
         }
+
+        PQButtonIcon {
+            width: val.height
+            height: width
+            opacity: 0.5
+            visible: !fadeout
+            source: "image://svg/:/white/copy.svg"
+            onClicked:
+                PQCScriptsClipboard.copyTextToClipboard(valtxt)
+        }
+
     }
 
 }
