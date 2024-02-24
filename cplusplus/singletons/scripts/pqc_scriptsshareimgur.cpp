@@ -42,6 +42,7 @@
 PQCScriptsShareImgur::PQCScriptsShareImgur() {
 
     isSetup = false;
+    networkManager = nullptr;
 
 }
 

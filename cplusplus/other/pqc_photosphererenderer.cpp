@@ -34,6 +34,7 @@ PQCPhotoSphereRenderer::PQCPhotoSphereRenderer() {
     shader = nullptr;
     frameBufferObject = nullptr;
     texturePhotoSphere = nullptr;
+    window = nullptr;
     source = "";
     oldSource = "";
 

@@ -38,6 +38,8 @@ PQCPhotoSphere::PQCPhotoSphere(QQuickItem *parent) : QQuickFramebufferObject(par
     m_elevation = 0;
     m_fieldOfView = 90;
 
+    partial = false;
+
     setFlag(ItemHasContents);
     setTextureFollowsItemSize(true);
     setMirrorVertically(true);

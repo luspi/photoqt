@@ -113,8 +113,6 @@ private:
     // Location where to store local file containing access_/refresh_token
     QString imgurLocalConfigFilename;
 
-    bool debug;
-
     QSqlDatabase db;
 
 private Q_SLOTS:

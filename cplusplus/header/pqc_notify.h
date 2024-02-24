@@ -156,6 +156,7 @@ private:
         m_modalFileDialogOpen = false;
         m_spinBoxPassKeyEvents = false;
         m_ignoreKeysExceptEnterEsc = false;
+        m_ignoreKeysExceptEsc = false;
         m_debugLogMessages = "";
         m_slideshowRunning = false;
         m_faceTagging = false;
