@@ -58,7 +58,6 @@ Flickable {
 
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
-            //: Settings title
             text: "imgur.com"
             font.capitalization: Font.SmallCaps
         }
