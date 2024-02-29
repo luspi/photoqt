@@ -475,6 +475,10 @@ Item {
 
                                 }
 
+                                PQBarCodes {
+                                    id: barcodes
+                                }
+
                                 PQFaceTracker {
                                     id: facetracker
                                 }
