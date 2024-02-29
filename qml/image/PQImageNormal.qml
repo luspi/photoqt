@@ -250,7 +250,6 @@ Image {
 
                     color: "#88ff0000"
                     radius: 5
-                    scale: 1/deleg.imageScale
 
                     property bool overrideCursorSet: false
 
