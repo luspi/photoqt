@@ -87,6 +87,7 @@ Item {
     signal detectBarCodes()
     signal barcodeClick()
     signal videoJump(var seconds)
+    signal animImageJump(var leftright)
 
     signal imageFinishedLoading(var index)
 

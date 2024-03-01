@@ -238,7 +238,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. In addition, the animation can be stopped/started through the play/pause animation.")
+            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame, no matter what shortcut action is set to these keys.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -247,6 +247,14 @@ Flickable {
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager", "show controls for animated images")
             checked: PQCSettings.imageviewAnimatedControls
+            onCheckedChanged: checkDefault()
+        }
+
+        PQCheckBox {
+            id: animatedleftright
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next frame")
+            checked: PQCSettings.imageviewAnimatedLeftRight
             onCheckedChanged: checkDefault()
         }
 
@@ -259,7 +267,7 @@ Flickable {
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged() || animatedcontrol.hasChanged()) {
+                mirroranim.hasChanged() || animatedcontrol.hasChanged() || animatedleftright.hasChanged()) {
             settingChanged = true
             return
         }
@@ -281,6 +289,7 @@ Flickable {
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
         animatedcontrol.loadAndSetDefault(PQCSettings.imageviewAnimatedControls)
+        animatedleftright.loadAndSetDefault(PQCSettings.imageviewAnimatedLeftRight)
 
         settingChanged = false
 
@@ -299,6 +308,7 @@ Flickable {
         PQCSettings.interfaceNavigationFloating = floatingnav.checked
 
         PQCSettings.imageviewAnimatedControls = animatedcontrol.checked
+        PQCSettings.imageviewAnimatedLeftRight = animatedleftright.checked
 
         zoomspeed.saveDefault()
         minzoom_check.saveDefault()
@@ -308,6 +318,7 @@ Flickable {
         mirroranim.saveDefault()
         floatingnav.saveDefault()
         animatedcontrol.saveDefault()
+        animatedleftright.saveDefault()
 
         settingChanged = false
 

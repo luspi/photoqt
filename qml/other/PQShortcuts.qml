@@ -332,6 +332,24 @@ Item {
 
         }
 
+        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewAnimatedLeftRight) {
+
+            if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile)) {
+
+                if(combo === "Left") {
+                    image.animImageJump(-1)
+                    return
+                }
+
+                if(combo === "Right") {
+                    image.animImageJump(1)
+                    return
+                }
+
+            }
+
+        }
+
         var data = PQCShortcuts.getCommandsForShortcut(combo)
 
         if(data.length !== 4)

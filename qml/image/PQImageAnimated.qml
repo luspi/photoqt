@@ -141,10 +141,17 @@ AnimatedImage {
     }
 
     Connections {
+
         target: image_top
+
         function onCurrentlyVisibleIndexChanged() {
             image.playing = (image_top.currentlyVisibleIndex === deleg.itemIndex)
         }
+
+        function onAnimImageJump(leftright) {
+            image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
+        }
+
     }
 
     /**********************************************************/
