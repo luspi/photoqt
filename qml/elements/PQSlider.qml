@@ -44,6 +44,14 @@ Slider {
 
     property bool extraWide: false
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        z: parent.z-1
+        onEntered: control.backgroundContainsMouse = true
+        onExited: control.backgroundContainsMouse = false
+    }
+
     background: Rectangle {
         x: _horizontal ? control.leftPadding : (control.leftPadding + control.availableWidth / 2 - width / 2)
         y: _horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : control.topPadding
@@ -55,8 +63,8 @@ Slider {
         color: PQCLook.baseColorHighlight
 
         Rectangle {
-            width: _horizontal ? (control.visualPosition * parent.width) : parent.width
-            height: _horizontal ? parent.height : (control.visualPosition * parent.height)
+            width: _horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
+            height: _horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
             color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
             radius: 2
         }
@@ -73,6 +81,7 @@ Slider {
             onEntered: control.backgroundContainsMouse = true
             onExited: control.backgroundContainsMouse = false
             onWheel: (wheel) => {
+                if(!control.wheelEnabled) return
                 if(reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
                         control.value += control.wheelStepSize
@@ -109,6 +118,7 @@ Slider {
             onEntered: control.handleContainsMouse = true
             onExited: control.handleContainsMouse = false
             onWheel: (wheel) => {
+                if(!control.wheelEnabled) return
                 if(reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
                         control.value += control.wheelStepSize
