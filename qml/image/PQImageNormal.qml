@@ -194,8 +194,8 @@ Image {
 
     Connections {
         target: image_top
-        function onCurrentlyVisibleIndexChanged(currentlyVisibleIndex) {
-            if(currentlyVisibleIndex !== deleg.itemIndex) {
+        function onCurrentlyVisibleIndexChanged() {
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
                 videoloader.active = false
             }
         }
