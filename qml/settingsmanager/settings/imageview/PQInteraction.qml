@@ -39,7 +39,6 @@ import "../../../elements"
 // - imageviewZoomMaxEnabled
 // - imageviewZoomMax
 // - interfaceNavigationFloating
-// - imageviewAnimatedControls
 
 Flickable {
 
@@ -225,39 +224,6 @@ Flickable {
             onCheckedChanged: checkDefault()
         }
 
-        /**********************************************************************/
-        PQSettingsSeparator {}
-        /**********************************************************************/
-
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            //: Settings title
-            text: qsTranslate("settingsmanager", "Controls for animated images")
-            font.capitalization: Font.SmallCaps
-        }
-
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame, no matter what shortcut action is set to these keys.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        PQCheckBox {
-            id: animatedcontrol
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show controls for animated images")
-            checked: PQCSettings.imageviewAnimatedControls
-            onCheckedChanged: checkDefault()
-        }
-
-        PQCheckBox {
-            id: animatedleftright
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next frame")
-            checked: PQCSettings.imageviewAnimatedLeftRight
-            onCheckedChanged: checkDefault()
-        }
-
     }
 
     Component.onCompleted:
@@ -267,7 +233,7 @@ Flickable {
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged() || animatedcontrol.hasChanged() || animatedleftright.hasChanged()) {
+                mirroranim.hasChanged()) {
             settingChanged = true
             return
         }
@@ -288,9 +254,6 @@ Flickable {
 
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
-        animatedcontrol.loadAndSetDefault(PQCSettings.imageviewAnimatedControls)
-        animatedleftright.loadAndSetDefault(PQCSettings.imageviewAnimatedLeftRight)
-
         settingChanged = false
 
     }
@@ -307,9 +270,6 @@ Flickable {
 
         PQCSettings.interfaceNavigationFloating = floatingnav.checked
 
-        PQCSettings.imageviewAnimatedControls = animatedcontrol.checked
-        PQCSettings.imageviewAnimatedLeftRight = animatedleftright.checked
-
         zoomspeed.saveDefault()
         minzoom_check.saveDefault()
         minzoom_slider.saveDefault()
@@ -317,8 +277,6 @@ Flickable {
         maxzoom_slider.saveDefault()
         mirroranim.saveDefault()
         floatingnav.saveDefault()
-        animatedcontrol.saveDefault()
-        animatedleftright.saveDefault()
 
         settingChanged = false
 

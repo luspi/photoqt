@@ -39,6 +39,7 @@ import "../../../elements"
 // - filetypesVideoThumbnailer
 // - filetypesVideoPreferLibmpv
 // - imageviewBigViewerModeButton
+// - imageviewAnimatedControls
 
 Flickable {
 
@@ -205,6 +206,39 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
+            text: qsTranslate("settingsmanager", "Animated images")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame, no matter what shortcut action is set to these keys.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: animatedcontrol
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "show controls for animated images")
+            checked: PQCSettings.imageviewAnimatedControls
+            onCheckedChanged: checkDefault()
+        }
+
+        PQCheckBox {
+            id: animatedleftright
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next frame")
+            checked: PQCSettings.imageviewAnimatedLeftRight
+            onCheckedChanged: checkDefault()
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
             text: qsTranslate("settingsmanager", "RAW images")
             font.capitalization: Font.SmallCaps
         }
@@ -270,6 +304,11 @@ Flickable {
             return
         }
 
+        if(animatedcontrol.hasChanged() || animatedleftright.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
         if(viewermode.hasChanged()) {
             settingChanged = true
             return
@@ -292,6 +331,9 @@ Flickable {
         videothumb.currentIndex = (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
         videojump.loadAndSetDefault(PQCSettings.imageviewVideoLeftRightJumpVideo)
 
+        animatedcontrol.loadAndSetDefault(PQCSettings.imageviewAnimatedControls)
+        animatedleftright.loadAndSetDefault(PQCSettings.imageviewAnimatedLeftRight)
+
         viewermode.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
 
         settingChanged = false
@@ -310,6 +352,9 @@ Flickable {
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
         PQCSettings.imageviewVideoLeftRightJumpVideo = videojump.checked
 
+        PQCSettings.imageviewAnimatedControls = animatedcontrol.checked
+        PQCSettings.imageviewAnimatedLeftRight = animatedleftright.checked
+
         PQCSettings.imageviewBigViewerModeButton = viewermode.checked
 
         pdf_quality.saveDefault()
@@ -320,6 +365,8 @@ Flickable {
         vid_libmpv.saveDefault()
         videojump.saveDefault()
         viewermode.saveDefault()
+        animatedcontrol.saveDefault()
+        animatedleftright.saveDefault()
 
         settingChanged = false
 
