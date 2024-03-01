@@ -56,9 +56,6 @@
 #endif
 
 #ifdef PQMZXING
-#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR == 4
-#define ZX_USE_UTF8
-#endif
 #include <ZXing/ReadBarcode.h>
 #include <ZXing/ZXVersion.h>
 #endif
@@ -757,7 +754,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 #endif
 
         QVariantList vals;
-#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 3
+#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 4
         vals << QString::fromStdWString(r.text());
 #else
         vals << QString::fromStdString(r.text());
