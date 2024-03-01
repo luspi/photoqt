@@ -13,22 +13,22 @@ QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.St
 
 Dependencies that are needed by default, but can be disabled via CMake:
 
-- LibArchive
-- Exiv2
-- ImageMagick _or_ GraphicsMagick
-- LibRaw
-- Poppler (can be replaced by QtPDF)
-- LibVips
-- FreeImage
-- DevIL
-- pugixml
-- libmpv
-- Python (incl. pychromecast package)
+- [LibArchive](https://libarchive.org)
+- [Exiv2](https://exiv2.org)
+- [ImageMagick](https://imagemagick.org) *or* [GraphicsMagick](http://www.graphicsmagick.org/)
+- [LibRaw](https://www.libraw.org)
+- [Poppler](https://poppler.freedesktop.org) (can be replaced by QtPDF)
+- [FreeImage](https://freeimage.sourceforge.io)
+- [DevIL](http://openil.sourceforge.net)
+- [pugixml](https://pugixml.org)
+- [libmpv](https://mpv.io/)
+- [Python](https://www.python.org/) (incl. [pychromecast](https://pypi.org/project/PyChromecast/) package)
+- [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
 
 Dependencies that are disabled by default, but can be enabled via CMake:
 
-- libvips
-- resvg
+- [LibVips](https://www.libvips.org/)
+- [resvg](https://github.com/RazrFalcon/resvg)
 
 
 Please note that you probably want to have as many of these enabled as possible as they greatly enhance the experience of PhotoQt.
@@ -49,13 +49,13 @@ Exiv2 can be compiled with support for the BMFF format. Note that there is the p
 
 These are some libraries and tools that can add additional formats to PhotoQt if installed. None of them are needed at compile time, but they can be picked up at runtime if available.
 
-- KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
-- Qt plug-in for AVIF images - https://github.com/novomesk/qt-avif-image-plugin
-- Qt plug-in for JPEG XL images - https://github.com/novomesk/qt-jpegxl-image-plugin
-- Qt plug-in for HEIF/HEIC images - https://github.com/novomesk/qt-heic-image-plugin
-- XCFtools - https://github.com/j-jorge/xcftools
-- libqpsd - https://github.com/Code-ReaQtor/libqpsd
-- unrar
+- [KImageFormats](https://api.kde.org/frameworks/kimageformats/html/)
+- [Qt plug-in for AVIF images](https://github.com/novomesk/qt-avif-image-plugin)
+- [Qt plug-in for JPEG XL images](https://github.com/novomesk/qt-jpegxl-image-plugin)
+- [Qt plug-in for HEIF/HEIC images](https://github.com/novomesk/qt-heic-image-plugin)
+- [XCFtools](https://github.com/j-jorge/xcftools)
+- [libqpsd](https://github.com/Code-ReaQtor/libqpsd)
+- [unrar](https://www.rarlab.com/)
 
 ## BUILDING AND INSTALLING
 
@@ -107,14 +107,15 @@ The following are required dependencies:
 
 The following dependencies are recommended but can be disabled through CMake if not wanted:
 
-1. LibArchive: https://libarchive.org/
-2. Exiv2: https://exiv2.org/
-3. ImageMagick: https://imagemagick.org/
-4. LibRaw: https://www.libraw.org/
-5. pugixml: https://pugixml.org/
-6. Poppler: https://poppler.freedesktop.org/
-7. FreeImage: https://freeimage.sourceforge.io/
-8. DevIL: http://openil.sourceforge.net/
+1. [LibArchive](https://libarchive.org)
+2. [Exiv2](https://exiv2.org)
+3. [ImageMagick](https://imagemagick.org)
+4. [LibRaw](https://www.libraw.org)
+5. [pugixml](https://pugixml.org)
+6. [Poppler](https://poppler.freedesktop.org) (can be replaced by QtPDF)
+7. [FreeImage](https://freeimage.sourceforge.io)
+8. [DevIL](http://openil.sourceforge.net)
+9. [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
 
 Make sure that any installed dependency is added to the system path, or otherwise you need to explicitely point CMake to the right location for each of them. Regardless, CMake might have to be explicitely pointed to the library/include paths of some of the dependencies by specifying `target_include_directories()` and `target_link_libraries()`.
 

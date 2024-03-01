@@ -14,6 +14,7 @@ PhotoQt is an image viewer that provides a simple and uncluttered interface. Yet
 - Support for **motion photos**, **micro videos**, and **Apple live photos**
 - Showing GPS locations of images with an **embedded map** or explore all images with location data in current folder with an **interactive map**
 - **Chromecast** support (tested with third generation devices)
+- Detect **bar codes** and **QR codes** in images
 - Basic **image manipulation**: zooming, rotating, mirroring (all of which per-session only)
 - **Convert images** between supported formats
 - Keyboard and mouse **shortcuts** for maximum flexibility and control

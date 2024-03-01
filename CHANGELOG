@@ -2,6 +2,28 @@ Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), Li
 ----------------------------------------------------------------------------------------------------------
 
 
+Release 4.3 - 2024-02-29
+----------------------------
+- add: support for detecting QR and bar codes (using ZXing)
+- add: shortcut to jump 5s forwards/backwards in videos
+- add: motion/live photos react to play/pause shortcut
+- add: notification popups for various actions without clear visual feedback
+- add: touch-and-hold opens context menu
+- add: implement missing mirroring for Qt Video element
+- add: animate mirroring of images/videos
+- improve: clarify and streamline layout of settings manager
+- improve: clicking a value in metadata element copies value to clipboard
+- fix: proper handling of link/shortcut files on all platforms
+- fix: show videos of motion/live photos again when loading an image subsequent times
+- fix: motion/live photos respect orientation stored in metadata
+- fix: skip windows thumbnail cache for now
+- fix: correctly compute fitted size for (re-)svg provider
+- fix: proper handling of Windows network paths
+- fix: remove duplicate down array in bread crumbs when path ends with slash
+- fix: fix loading files with CJK characters in filename or path on Windows
+- fix: file dialog no longer pops up when application window is made very small
+
+
 Release 4.2 - 2024-01-18
 ----------------------------
 - add: support for Google Motion Photos and Apple Live Photos

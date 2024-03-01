@@ -9,7 +9,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "dev")
+SET(APPVERSION "4.3")
 add_definitions(-DPQMVERSION="${APPVERSION}")
 
 ########################################
@@ -221,7 +221,7 @@ else()
 endif()
 
 # add qml files
-qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML})
+qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML} RESOURCE_PREFIX)
 
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")

@@ -69,7 +69,7 @@ Flickable {
         "sk" : "Slovenčina",
         "tr" : "Türkçe",
         "uk" : "Українська",
-        "zh" : "Chinese",
+        "zh" : "Chinese (simplified)",
         "zh_TW" : "Chinese (traditional)"
     }
 

@@ -24,15 +24,15 @@
 - ImageMagick or GraphicsMagick
 - LibRaw
 - Poppler (can be replaced by QtPDF)
-- LibVips
 - FreeImage
 - DevIL
 - pugixml
 - libmpv
 - Python (incl. pychromecast package)
+- ZXing-C++
 
 > Dependencies that are disabled by default, but can be enabled via CMake:
-- libvips
+- LibVips
 - resvg
 
 > Please note that you probably want to have as many of these enabled as possible as
@@ -141,6 +141,7 @@
  6) Poppler: https://poppler.freedesktop.org/
  7) FreeImage: https://freeimage.sourceforge.io/
  8) DevIL: http://openil.sourceforge.net/
+ 9) ZXing-C++: https://github.com/zxing-cpp/zxing-cpp/
 
  Make sure that any installed dependency is added to the system path, or otherwise you
  need to explicitely point CMake to the right location for each of them. Regardless, CMake

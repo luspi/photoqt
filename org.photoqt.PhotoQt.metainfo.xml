@@ -65,6 +65,8 @@
         <keyword>touchscreen</keyword>
         <keyword>chromecast</keyword>
         <keyword>map</keyword>
+        <keyword>bar codes</keyword>
+        <keyword>QR codes</keyword>
         <keyword>archives</keyword>
         <keyword>zip</keyword>
         <keyword>rar</keyword>
@@ -97,6 +99,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="4.3" date="2024-02-29">
+            <description>
+                PhotoQt v4.3 focusses to a large degree on quality improvement and bug fixes, but it also brings a few new features nonetheless.
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-4.3
+            </url>
+        </release>
         <release version="4.2" date="2024-01-18">
             <description>
                 PhotoQt v4.2 brings, amongst many other improvements and bug fixes, support for some new types of images. If an image has an associated video file - either embedded as with Google Motion Photos or next to it as with Apple Live Photos - PhotoQt can look for them and, if found, they will automatically be played once whenever an image is loaded. Another new type of image that can be properly viewed now are photo spheres using equirectangular projection. PhotoQt now supports both partial photo spheres and full 360 degree panoramas.

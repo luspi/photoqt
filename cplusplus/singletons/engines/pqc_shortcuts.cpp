@@ -429,7 +429,7 @@ bool PQCShortcuts::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2";
+    versions << "4.0" << "4.1" << "4.2" << "4.3";
 
     // this is a safety check to make sure we don't forget the above check
     if(oldversion != "dev" && versions.indexOf(oldversion) == -1) {
