@@ -299,17 +299,21 @@ Item {
             return
         }
 
+        // Escape when bar/QR codes are displayed hides those bar codes
         if(combo === "Esc" && PQCNotify.barcodeDisplayed) {
             image.detectBarCodes()
             return
         }
 
+        // Escape when filter is set removes filter
         if(combo === "Esc" && PQCFileFolderModel.isUserFilterSet()) {
             PQCFileFolderModel.removeAllUserFilter()
             return
         }
 
-        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewVideoLeftRightJumpVideo) {
+        // Left/Right/Space when video is loaded might have special actions
+        if(((combo === "Left" || combo === "Right") && PQCSettings.imageviewVideoLeftRightJumpVideo) ||
+                (combo === "Space" && PQCSettings.imageviewVideoSpacePause)) {
 
             var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
 
@@ -318,13 +322,22 @@ Item {
 
             if(isVideo) {
 
-                if(combo === "Left") {
-                    image.videoJump(-5)
-                    return
+                if(PQCSettings.imageviewVideoLeftRightJumpVideo) {
+
+                    if(combo === "Left") {
+                        image.videoJump(-5)
+                        return
+                    }
+
+                    if(combo === "Right") {
+                        image.videoJump(5)
+                        return
+                    }
+
                 }
 
-                if(combo === "Right") {
-                    image.videoJump(5)
+                if(PQCSettings.imageviewVideoSpacePause && combo === "Space") {
+                    image.playPauseAnimationVideo()
                     return
                 }
 
@@ -332,23 +345,38 @@ Item {
 
         }
 
-        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewAnimatedLeftRight) {
+        // Left/Right/Space when animated image is loaded might have special actions
+        if(((combo === "Left" || combo === "Right") && PQCSettings.imageviewAnimatedLeftRight) ||
+                (combo === "Space" && PQCSettings.imageviewAnimatedSpacePause)) {
 
             if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile)) {
 
-                if(combo === "Left") {
-                    image.animImageJump(-1)
-                    return
+                if(PQCSettings.imageviewAnimatedLeftRight) {
+
+                    if(combo === "Left") {
+                        image.animImageJump(-1)
+                        return
+                    }
+
+                    if(combo === "Right") {
+                        image.animImageJump(1)
+                        return
+                    }
+
                 }
 
-                if(combo === "Right") {
-                    image.animImageJump(1)
+                if(combo === "Space" && PQCSettings.imageviewAnimatedSpacePause) {
+                    image.playPauseAnimationVideo()
                     return
                 }
 
             }
 
         }
+
+        /***************************************/
+
+        // normal shortcut action
 
         var data = PQCShortcuts.getCommandsForShortcut(combo)
 

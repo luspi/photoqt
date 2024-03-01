@@ -199,6 +199,13 @@ Flickable {
             text: qsTranslate("settingsmanager", "Always use left/right arrow keys to jump back/ahead in videos")
         }
 
+        PQCheckBox {
+            id: videospace
+            x: (parent.width-width)/2
+            spacing: 10
+            text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
+        }
+
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
@@ -212,7 +219,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame, no matter what shortcut action is set to these keys.")
+            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame and/or use the space key to play/pause the animation, no matter what shortcut action is set to these keys.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -230,6 +237,13 @@ Flickable {
             text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next frame")
             checked: PQCSettings.imageviewAnimatedLeftRight
             onCheckedChanged: checkDefault()
+        }
+
+        PQCheckBox {
+            id: animspace
+            x: (parent.width-width)/2
+            spacing: 10
+            text: qsTranslate("settingsmanager", "Always use space key to play/pause animation")
         }
 
         /**********************************************************************/
@@ -299,12 +313,13 @@ Flickable {
 
         if(vid_autoplay.hasChanged() || vid_loop.hasChanged() || vid_qtmult.hasChanged() ||
                 vid_libmpv.hasChanged() || (videothumb.currentIndex==1 && PQCSettings.filetypesVideoThumbnailer==="") ||
-                (videothumb.currentIndex==0 && PQCSettings.filetypesVideoThumbnailer!=="")) {
+                (videothumb.currentIndex==0 && PQCSettings.filetypesVideoThumbnailer!=="") ||
+                videojump.hasChanged() || videospace.hasChanged()) {
             settingChanged = true
             return
         }
 
-        if(animatedcontrol.hasChanged() || animatedleftright.hasChanged()) {
+        if(animatedcontrol.hasChanged() || animatedleftright.hasChanged() || animspace.hasChanged()) {
             settingChanged = true
             return
         }
@@ -330,9 +345,11 @@ Flickable {
         vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
         videothumb.currentIndex = (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
         videojump.loadAndSetDefault(PQCSettings.imageviewVideoLeftRightJumpVideo)
+        videospace.loadAndSetDefault(PQCSettings.imageviewVideoSpacePause)
 
         animatedcontrol.loadAndSetDefault(PQCSettings.imageviewAnimatedControls)
         animatedleftright.loadAndSetDefault(PQCSettings.imageviewAnimatedLeftRight)
+        animspace.loadAndSetDefault(PQCSettings.imageviewAnimatedSpacePause)
 
         viewermode.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
 
@@ -351,9 +368,11 @@ Flickable {
         PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
         PQCSettings.imageviewVideoLeftRightJumpVideo = videojump.checked
+        PQCSettings.imageviewVideoSpacePause = videospace.checked
 
         PQCSettings.imageviewAnimatedControls = animatedcontrol.checked
         PQCSettings.imageviewAnimatedLeftRight = animatedleftright.checked
+        PQCSettings.imageviewAnimatedSpacePause = animspace.checked
 
         PQCSettings.imageviewBigViewerModeButton = viewermode.checked
 
@@ -364,9 +383,11 @@ Flickable {
         vid_qtmult.saveDefault()
         vid_libmpv.saveDefault()
         videojump.saveDefault()
+        videospace.saveDefault()
         viewermode.saveDefault()
         animatedcontrol.saveDefault()
         animatedleftright.saveDefault()
+        animspace.saveDefault()
 
         settingChanged = false
 
