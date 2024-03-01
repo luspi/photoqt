@@ -56,6 +56,9 @@
 #endif
 
 #ifdef PQMZXING
+#if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR == 4
+#define ZX_USE_UTF8
+#endif
 #include <ZXing/ReadBarcode.h>
 #include <ZXing/ZXVersion.h>
 #endif
@@ -726,7 +729,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     const ZXing::DecodeHints hints = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
     const ZXing::Result r = ZXing::ReadBarcode({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
 
-#elif ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR <= 1
+#elif (ZXING_VERSION_MAJOR == 2 && ZXING_VERSION_MINOR <= 1) || ZXING_VERSION_MAJOR == 1
 
     // Read all bar codes
     const ZXing::DecodeHints hints = ZXing::DecodeHints().setFormats(ZXing::BarcodeFormat::Any);
