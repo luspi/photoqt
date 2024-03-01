@@ -72,6 +72,8 @@ Item {
 
     property string randomAnimation: "opacity"
 
+    property point animatedControlsLocation: Qt.point(-1,-1)
+
     signal zoomIn(var wheelDelta)
     signal zoomOut(var wheelDelta)
     signal zoomReset()

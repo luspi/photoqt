@@ -171,11 +171,27 @@ AnimatedImage {
         parent: deleg
 
         x: (parent.width-width)/2
-        y: Math.min(0.9*parent.height, parent.height-height-5)
+        y: 0.9*parent.height
         width: controlrow.width+10
         height: 50
         radius: 5
         color: PQCLook.transColor
+
+        onXChanged: {
+            if(x != (parent.width-width)/2)
+                image_top.animatedControlsLocation.x = x
+        }
+        onYChanged: {
+            if(y != 0.9*parent.height)
+                image_top.animatedControlsLocation.y = y
+        }
+
+        Component.onCompleted: {
+            if(image_top.animatedControlsLocation.x !== -1) {
+                controlitem.x = image_top.animatedControlsLocation.x
+                controlitem.y = image_top.animatedControlsLocation.y
+            }
+        }
 
         // only show when needed
         opacity: (image.frameCount>1 && image.visible && PQCSettings.imageviewAnimatedControls) ? (hovered ? 1 : 0.3) : 0
