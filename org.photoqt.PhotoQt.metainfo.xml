@@ -33,10 +33,12 @@
             <caption>The filetypes settings in the settings manager</caption>
         </screenshot>
     </screenshots>
+    <launchable type="desktop-id">org.photoqt.PhotoQt.desktop</launchable>
+    <developer id="lukas.photoqt">
+        <name>Lukas Spies</name>
+    </developer>
     <url type="homepage">https://photoqt.org</url>
     <url type="translate">https://translate.photoqt.org</url>
-    <update_contact>Lukas_at_photoqt.org</update_contact>
-    <developer_name>Lukas Spies</developer_name>
     <url type="bugtracker">https://gitlab.com/luspi/photoqt/issues</url>
     <url type="donation">https://photoqt.org/about</url>
     <url type="help">https://gitlab.com/luspi/photoqt/issues</url>
