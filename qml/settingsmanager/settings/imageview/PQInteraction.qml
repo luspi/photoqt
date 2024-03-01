@@ -39,6 +39,7 @@ import "../../../elements"
 // - imageviewZoomMaxEnabled
 // - imageviewZoomMax
 // - interfaceNavigationFloating
+// - imageviewAnimatedControls
 
 Flickable {
 
@@ -224,6 +225,31 @@ Flickable {
             onCheckedChanged: checkDefault()
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
+            //: Settings title
+            text: qsTranslate("settingsmanager", "Controls for animated images")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. In addition, the animation can be stopped/started through the play/pause animation.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: animatedcontrol
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "show controls for animated images")
+            checked: PQCSettings.imageviewAnimatedControls
+            onCheckedChanged: checkDefault()
+        }
+
     }
 
     Component.onCompleted:
@@ -233,7 +259,7 @@ Flickable {
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged()) {
+                mirroranim.hasChanged() || animatedcontrol.hasChanged()) {
             settingChanged = true
             return
         }
@@ -254,6 +280,8 @@ Flickable {
 
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
+        animatedcontrol.loadAndSetDefault(PQCSettings.imageviewAnimatedControls)
+
         settingChanged = false
 
     }
@@ -270,6 +298,8 @@ Flickable {
 
         PQCSettings.interfaceNavigationFloating = floatingnav.checked
 
+        PQCSettings.imageviewAnimatedControls = animatedcontrol.checked
+
         zoomspeed.saveDefault()
         minzoom_check.saveDefault()
         minzoom_slider.saveDefault()
@@ -277,6 +307,7 @@ Flickable {
         maxzoom_slider.saveDefault()
         mirroranim.saveDefault()
         floatingnav.saveDefault()
+        animatedcontrol.saveDefault()
 
         settingChanged = false
 

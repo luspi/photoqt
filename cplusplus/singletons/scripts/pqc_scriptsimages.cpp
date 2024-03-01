@@ -773,3 +773,37 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     return ret;
 
 }
+
+bool PQCScriptsImages::extractFrameAndSave(QString path, int frameNumber) {
+
+    QFileInfo info(path);
+
+    // set up reader
+    QImageReader reader(path);
+
+    // we use jumpToNextImage() in a loop as jumpToImage(imageNumber) seems to do nothing
+    QImage img = reader.read();
+    for(int i = 0; i < frameNumber; ++i) {
+        reader.jumpToNextImage();
+        reader.read(&img);
+    }
+
+    // depending on alpha channel we choose the appropriate suffix
+    QString suffix = "jpg";
+    if(img.hasAlphaChannel())
+        suffix = "png";
+
+    // compose default target filename
+    QString targetfile = QString("%1/%2_%3.%4").arg(info.absolutePath(), info.baseName()).arg(frameNumber).arg(suffix);
+
+    // ask user to confirm target file
+    targetfile = PQCScriptsFilesPaths::get().selectFileFromDialog("Save", targetfile, PQCImageFormats::get().detectFormatId(targetfile), true);
+
+    // no file selected/dialog cancelled
+    if(targetfile == "")
+        return false;
+
+    // save to new file
+    return img.save(targetfile);
+
+}
