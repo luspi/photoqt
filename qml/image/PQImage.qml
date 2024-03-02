@@ -31,6 +31,8 @@ import PQCNotify
 import PQCResolutionCache
 
 import "../elements"
+import "./components"
+import "./imageitems"
 
 Item {
 
@@ -471,10 +473,14 @@ Item {
 
                                     id: image_loader
 
-                                    source: loader_component.isMpv ? "PQVideoMpv.qml"
-                                                                   : (loader_component.isQtVideo ? "PQVideoQt.qml"
-                                                                                : (loader_component.isAnimated ? "PQImageAnimated.qml"
-                                                                                                               : "PQImageNormal.qml"))
+                                    property string nameOfImage:
+                                        loader_component.isMpv ? "PQVideoMpv.qml"
+                                                               : (loader_component.isQtVideo ? "PQVideoQt.qml"
+                                                                            : (loader_component.isAnimated ? "PQImageAnimated.qml"
+                                                                                                           : "PQImageNormal.qml"))
+
+                                    source: "imageitems/" + nameOfImage
+
 
                                 }
 

@@ -22,7 +22,7 @@
 
 import QtQuick
 
-import "../elements"
+import "../../elements"
 
 import PQCScriptsFilesPaths
 import PQCScriptsImages

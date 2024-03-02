@@ -24,7 +24,7 @@ import QtQuick
 
 import PQCScriptsImages
 
-import "../elements"
+import "../../elements"
 
 Rectangle {
 

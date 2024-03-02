@@ -28,7 +28,7 @@ import PQCNotify
 import PQCScriptsImages
 import PQCScriptsFilesPaths
 
-import "../elements"
+import "../../elements"
 
 Item {
 

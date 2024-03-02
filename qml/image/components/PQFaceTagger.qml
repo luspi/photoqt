@@ -26,7 +26,7 @@ import PQCFileFolderModel
 import PQCScriptsMetaData
 import PQCNotify
 
-import "../elements"
+import "../../elements"
 
 Item {
 

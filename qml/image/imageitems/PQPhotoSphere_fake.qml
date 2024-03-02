@@ -24,7 +24,7 @@ import QtQuick
 import PQCNotify
 import PQCFileFolderModel
 
-import "../elements"
+import "../../elements"
 
 Item {
 

@@ -25,7 +25,7 @@ import PQCNotify
 import PQCPhotoSphere
 import PQCFileFolderModel
 
-import "../elements"
+import "../../elements"
 
 Item {
 
