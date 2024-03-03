@@ -197,6 +197,7 @@ Flickable {
             x: (parent.width-width)/2
             spacing: 10
             text: qsTranslate("settingsmanager", "Always use left/right arrow keys to jump back/ahead in videos")
+            onCheckedChanged: checkDefault()
         }
 
         PQCheckBox {
@@ -204,6 +205,7 @@ Flickable {
             x: (parent.width-width)/2
             spacing: 10
             text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
+            onCheckedChanged: checkDefault()
         }
 
         /**********************************************************************/
@@ -226,7 +228,7 @@ Flickable {
         PQCheckBox {
             id: animatedcontrol
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show controls for animated images")
+            text: qsTranslate("settingsmanager", "show floating controls for animated images")
             checked: PQCSettings.imageviewAnimatedControls
             onCheckedChanged: checkDefault()
         }
@@ -244,6 +246,7 @@ Flickable {
             x: (parent.width-width)/2
             spacing: 10
             text: qsTranslate("settingsmanager", "Always use space key to play/pause animation")
+            onCheckedChanged: checkDefault()
         }
 
         /**********************************************************************/
@@ -268,6 +271,7 @@ Flickable {
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager", "use embedded image if available")
             checked: PQCSettings.filetypesRAWUseEmbeddedIfAvailable
+            onCheckedChanged: checkDefault()
         }
 
         /**********************************************************************/
@@ -277,21 +281,38 @@ Flickable {
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager", "Viewer mode")
+            text: qsTranslate("settingsmanager", "Documents and Archives")
             font.capitalization: Font.SmallCaps
         }
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "When a document or achive is loaded in PhotoQt, it is possible to enter such a file. This means that PhotoQt will act as if the content of the file is located in some folder and loads the content as thumbnails allowing for the usual interaction and navigation to browse around. This viewer mode can be entered either by a small button that will show up below the status info, or it is possible to also show a big central button to activate this mode.")
+            text: qsTranslate("settingsmanager", "When a document or archive is loaded in PhotoQt, it is possible to navigate through the contents of such a file either through the controls that show up when it contains more than one page/file, or by entering the viewer mode. When the viewer mode is activated all pages/files are loaded as thumbnails. The viewer mode can be activated by shortcut, through a small button integrated with the status info, or through a big button shown centrally on the initial image loaded.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
         PQCheckBox {
             id: viewermode
             x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show big button to enter viewer mode")
+            text: qsTranslate("settingsmanager", "show big central button to enter viewer mode")
             checked: PQCSettings.imageviewBigViewerModeButton
+            onCheckedChanged: checkDefault()
+        }
+
+        PQCheckBox {
+            id: docarccontrols
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "show floating controls for documents and archives")
+            checked: PQCSettings.imageviewDocumentControls
+            onCheckedChanged: checkDefault()
+        }
+
+        PQCheckBox {
+            id: docarcleftright
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next file or page")
+            checked: PQCSettings.imageviewDocumentLeftRight
+            onCheckedChanged: checkDefault()
         }
 
         Item {
@@ -312,8 +333,8 @@ Flickable {
         }
 
         if(vid_autoplay.hasChanged() || vid_loop.hasChanged() || vid_qtmult.hasChanged() ||
-                vid_libmpv.hasChanged() || (videothumb.currentIndex==1 && PQCSettings.filetypesVideoThumbnailer==="") ||
-                (videothumb.currentIndex==0 && PQCSettings.filetypesVideoThumbnailer!=="") ||
+                vid_libmpv.hasChanged() || (videothumb.currentIndex===1 && PQCSettings.filetypesVideoThumbnailer==="") ||
+                (videothumb.currentIndex===0 && PQCSettings.filetypesVideoThumbnailer!=="") ||
                 videojump.hasChanged() || videospace.hasChanged()) {
             settingChanged = true
             return
@@ -324,7 +345,7 @@ Flickable {
             return
         }
 
-        if(viewermode.hasChanged()) {
+        if(viewermode.hasChanged() || docarccontrols.hasChanged() || docarcleftright.hasChanged()) {
             settingChanged = true
             return
         }
@@ -352,6 +373,8 @@ Flickable {
         animspace.loadAndSetDefault(PQCSettings.imageviewAnimatedSpacePause)
 
         viewermode.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
+        docarccontrols.loadAndSetDefault(PQCSettings.imageviewDocumentControls)
+        docarcleftright.loadAndSetDefault(PQCSettings.imageviewDocumentLeftRight)
 
         settingChanged = false
 
@@ -375,6 +398,8 @@ Flickable {
         PQCSettings.imageviewAnimatedSpacePause = animspace.checked
 
         PQCSettings.imageviewBigViewerModeButton = viewermode.checked
+        PQCSettings.imageviewDocumentControls = docarccontrols.checked
+        PQCSettings.imageviewDocumentLeftRight = docarcleftright.checked
 
         pdf_quality.saveDefault()
         arc_extunrar.saveDefault()
@@ -385,6 +410,8 @@ Flickable {
         videojump.saveDefault()
         videospace.saveDefault()
         viewermode.saveDefault()
+        docarccontrols.saveDefault()
+        docarcleftright.saveDefault()
         animatedcontrol.saveDefault()
         animatedleftright.saveDefault()
         animspace.saveDefault()

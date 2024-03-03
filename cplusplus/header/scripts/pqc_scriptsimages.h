@@ -49,11 +49,15 @@ public:
     Q_INVOKABLE void loadHistogramData(QString filepath, int index);
     void _loadHistogramData(QString filepath, int index);
 
+    Q_INVOKABLE bool isMpvVideo(QString path);
+    Q_INVOKABLE bool isQtVideo(QString path);
     Q_INVOKABLE bool isPDFDocument(QString path);
     Q_INVOKABLE bool isArchive(QString path);
     Q_INVOKABLE int getNumberDocumentPages(QString path);
     Q_INVOKABLE int isMotionPhoto(QString path);
     Q_INVOKABLE bool isPhotoSphere(QString path);
+
+    Q_INVOKABLE int getDocumentPageCount(QString path);
 
     Q_INVOKABLE QString extractMotionPhoto(QString path);
     Q_INVOKABLE QVariantList getZXingData(QString path);

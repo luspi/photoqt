@@ -377,6 +377,69 @@ void PQCScriptsImages::_loadHistogramData(QString filepath, int index) {
 
 }
 
+bool PQCScriptsImages::isMpvVideo(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    bool supported = false;
+
+#ifdef PQMVIDEOMPV
+
+    QString suf = QFileInfo(path).suffix().toLower();
+    if(PQCImageFormats::get().getEnabledFormatsLibmpv().contains(suf)) {
+
+        supported = true;
+
+    } else {
+
+        QMimeDatabase db;
+        QString mimetype = db.mimeTypeForFile(path).name();
+        if(PQCImageFormats::get().getEnabledMimeTypesLibmpv().contains(mimetype))
+            supported = true;
+
+    }
+
+#ifdef PQMVIDEOQT
+    if(supported) {
+        if(!PQCSettings::get()["filetypesVideoPreferLibmpv"].toBool())
+            supported = false;
+    }
+#endif
+
+#endif
+
+    return supported;
+
+}
+
+bool PQCScriptsImages::isQtVideo(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    bool supported = false;
+
+#ifdef PQMVIDEOQT
+
+    QString suf = QFileInfo(path).suffix().toLower();
+    if(PQCImageFormats::get().getEnabledFormatsVideo().contains(suf)) {
+
+        supported = true;
+
+    } else {
+
+        QMimeDatabase db;
+        QString mimetype = db.mimeTypeForFile(path).name();
+        if(PQCImageFormats::get().getEnabledMimeTypesVideo().contains(mimetype))
+            supported = true;
+
+    }
+
+#endif
+
+    return supported;
+
+}
+
 bool PQCScriptsImages::isPDFDocument(QString path) {
 
     qDebug() << "args: path =" << path;
@@ -773,6 +836,9 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 
 bool PQCScriptsImages::extractFrameAndSave(QString path, int frameNumber) {
 
+    qDebug() << "args: path =" << path;
+    qDebug() << "args: frameNumber =" << frameNumber;
+
     QFileInfo info(path);
 
     // set up reader
@@ -802,5 +868,31 @@ bool PQCScriptsImages::extractFrameAndSave(QString path, int frameNumber) {
 
     // save to new file
     return img.save(targetfile);
+
+}
+
+int PQCScriptsImages::getDocumentPageCount(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+#ifdef PQMQTPDF
+
+    if(path.contains("::PDF::"))
+        path = path.split("::PDF::").at(1);
+
+    QPdfDocument doc;
+    doc.load(path);
+
+    QPdfDocument::Error err = doc.error();
+    if(err != QPdfDocument::Error::None) {
+        qWarning() << "Error occured loading PDF";
+        return 0;
+    }
+
+    return doc.pageCount();
+
+#elif PQMPOPPLER
+
+#endif
 
 }

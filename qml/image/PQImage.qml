@@ -74,7 +74,7 @@ Item {
 
     property string randomAnimation: "opacity"
 
-    property point animatedControlsLocation: Qt.point(-1,-1)
+    property point extraControlsLocation: Qt.point(-1,-1)
 
     signal zoomIn(var wheelDelta)
     signal zoomOut(var wheelDelta)
@@ -92,6 +92,7 @@ Item {
     signal barcodeClick()
     signal videoJump(var seconds)
     signal animImageJump(var leftright)
+    signal docArcJump(var leftright)
 
     signal imageFinishedLoading(var index)
 
@@ -273,9 +274,10 @@ Item {
                     width: deleg.width
                     height: deleg.height
 
-                    property bool isMpv: PQCImageFormats.getEnabledFormatsLibmpv().indexOf(PQCScriptsFilesPaths.getSuffix(deleg.imageSource))>-1 && (PQCSettings.filetypesVideoPreferLibmpv || !PQCScriptsConfig.isVideoQtSupportEnabled()) && PQCScriptsConfig.isMPVSupportEnabled()
-                    property bool isQtVideo: !isMpv && PQCImageFormats.getEnabledFormatsVideo().indexOf(PQCScriptsFilesPaths.getSuffix(deleg.imageSource))>-1 && PQCScriptsConfig.isVideoQtSupportEnabled()
-                    property bool isAnimated: PQCScriptsImages.isItAnimated(deleg.imageSource)
+                    property bool isDocument: PQCScriptsImages.isPDFDocument(deleg.imageSource)
+                    property bool isMpv: !isDocument && PQCScriptsImages.isMpvVideo(deleg.imageSource)
+                    property bool isQtVideo: !isDocument && !isMpv && PQCScriptsImages.isQtVideo(deleg.imageSource)
+                    property bool isAnimated: !isDocument && !isMpv && !isQtVideo && PQCScriptsImages.isItAnimated(deleg.imageSource)
 
                     property bool videoPlaying: isMpv||isQtVideo
                     property real videoDuration: 0.0
@@ -462,7 +464,6 @@ Item {
                                             deleg.showImage()
                                             resetDefaults.triggered()
                                             deleg.moveViewToCenter()
-
                                         }
                                     } else if(PQCFileFolderModel.currentIndex === index)
                                         timer_busyloading.restart()
@@ -474,10 +475,15 @@ Item {
                                     id: image_loader
 
                                     property string nameOfImage:
-                                        loader_component.isMpv ? "PQVideoMpv.qml"
-                                                               : (loader_component.isQtVideo ? "PQVideoQt.qml"
-                                                                            : (loader_component.isAnimated ? "PQImageAnimated.qml"
-                                                                                                           : "PQImageNormal.qml"))
+                                        loader_component.isMpv ?
+                                            "PQVideoMpv.qml" :
+                                            (loader_component.isQtVideo ?
+                                                 "PQVideoQt.qml" :
+                                                 (loader_component.isAnimated ?
+                                                      "PQImageAnimated.qml" :
+                                                      (loader_component.isDocument ?
+                                                           "PQDocument.qml" :
+                                                           "PQImageNormal.qml")))
 
                                     source: "imageitems/" + nameOfImage
 

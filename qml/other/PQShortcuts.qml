@@ -374,6 +374,25 @@ Item {
 
         }
 
+        // Left/Right/Space when document/archive is loaded might have special actions
+        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewDocumentLeftRight) {
+
+            if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile) || PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)) {
+
+                if(combo === "Left") {
+                    image.docArcJump(-1)
+                    return
+                }
+
+                if(combo === "Right") {
+                    image.docArcJump(1)
+                    return
+                }
+
+            }
+
+        }
+
         /***************************************/
 
         // normal shortcut action

@@ -104,5 +104,6 @@
         <file>white/qrcode.svg</file>
         <file>white/globe.svg</file>
         <file>white/network.svg</file>
+        <file>white/padlock.svg</file>
     </qresource>
 </RCC>

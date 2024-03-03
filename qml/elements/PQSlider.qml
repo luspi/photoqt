@@ -38,18 +38,25 @@ Slider {
     property bool _horizontal: (orientation==Qt.Horizontal)
 
     property bool handleContainsMouse: false
+    property bool sliderContainsMouse: false
     property bool backgroundContainsMouse: false
 
     property bool reverseWheelChange: false
 
     property bool extraWide: false
 
+    snapMode: Slider.SnapAlways
+
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         z: parent.z-1
-        onEntered: control.backgroundContainsMouse = true
-        onExited: control.backgroundContainsMouse = false
+        onEntered: {
+            control.backgroundContainsMouse = true
+        }
+        onExited: {
+            control.backgroundContainsMouse = false
+        }
     }
 
     background: Rectangle {
@@ -78,8 +85,12 @@ Slider {
             onDoubleClicked: mouse.accepted = false
             onPressAndHold: mouse.accepted = false
             onPressed: mouse.accepted = false
-            onEntered: control.backgroundContainsMouse = true
-            onExited: control.backgroundContainsMouse = false
+            onEntered: {
+                control.sliderContainsMouse = true
+            }
+            onExited: {
+                sliderContainsMouse = false
+            }
             onWheel: (wheel) => {
                 if(!control.wheelEnabled) return
                 if(reverseWheelChange) {
