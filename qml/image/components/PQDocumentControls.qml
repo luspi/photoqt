@@ -4,6 +4,7 @@ import "../../elements"
 
 import PQCNotify
 import PQCScriptsImages
+import PQCFileFolderModel
 
 Item {
 
@@ -13,7 +14,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.imageviewDocumentControls
+        active: PQCSettings.imageviewDocumentControls&&!PQCFileFolderModel.isPDF
 
         Rectangle {
 
@@ -59,14 +60,14 @@ Item {
             }
 
             // only show when needed
-            opacity: (image.pageCount>1 && image.visible && PQCSettings.imageviewDocumentControls) ? (hovered ? 1 : 0.3) : 0
+            opacity: (image.pageCount>1 && image.visible && PQCSettings.imageviewDocumentControls && !PQCFileFolderModel.isPDF) ? (hovered ? 1 : 0.3) : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
             enabled: visible
 
             // the first property is set by PCNotify signals for everything else not caught with the elements below
             property bool emptyAreaHovered: false
-            property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||
+            property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||viewermodemouse.containsMouse||
                                    slidercontrol.backgroundContainsMouse||slidercontrol.handleContainsMouse||slidercontrol.sliderContainsMouse||
                                    emptyAreaHovered||controlclosemouse.containsMouse
 
@@ -91,6 +92,40 @@ Item {
 
                 x: 5
                 y: (parent.height-height)/2
+
+                Image {
+                    id: viewermode
+                    y: (parent.height-height)/2
+                    width: height
+                    height: leftrightlock.height
+                    anchors.margins: 5
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/white/viewermode_on.svg"
+                    PQMouseArea {
+                        id: viewermodemouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("image", "Click to enter viewer mode")
+                        onClicked: PQCFileFolderModel.enableViewerMode()
+                    }
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
+
+                Rectangle {
+                    height: parent.height
+                    width: 1
+                    color: PQCLook.textColor
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
 
                 Item {
 

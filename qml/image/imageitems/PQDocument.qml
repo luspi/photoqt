@@ -114,13 +114,15 @@ Image {
 
         target: image_top
 
-        function onDocArcJump(leftright) {
+        function onDocumentJump(leftright) {
             loadNewPage.interval = 0
             image.currentPage = (image.currentPage+leftright+image.pageCount)%image.pageCount
         }
 
     }
 
-    PQDocumentControls { id: controls }
+    PQDocumentControls {
+        id: controls
+    }
 
 }

@@ -92,7 +92,7 @@ Item {
     signal barcodeClick()
     signal videoJump(var seconds)
     signal animImageJump(var leftright)
-    signal docArcJump(var leftright)
+    signal documentJump(var leftright)
 
     signal imageFinishedLoading(var index)
 
