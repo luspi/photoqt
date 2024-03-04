@@ -93,6 +93,7 @@ Item {
     signal videoJump(var seconds)
     signal animImageJump(var leftright)
     signal documentJump(var leftright)
+    signal archiveJump(var leftright)
 
     signal imageFinishedLoading(var index)
 
@@ -275,9 +276,10 @@ Item {
                     height: deleg.height
 
                     property bool isDocument: PQCScriptsImages.isPDFDocument(deleg.imageSource)
-                    property bool isMpv: !isDocument && PQCScriptsImages.isMpvVideo(deleg.imageSource)
-                    property bool isQtVideo: !isDocument && !isMpv && PQCScriptsImages.isQtVideo(deleg.imageSource)
-                    property bool isAnimated: !isDocument && !isMpv && !isQtVideo && PQCScriptsImages.isItAnimated(deleg.imageSource)
+                    property bool isArchive: !isDocument && PQCScriptsImages.isArchive(deleg.imageSource)
+                    property bool isMpv: !isDocument && !isArchive && PQCScriptsImages.isMpvVideo(deleg.imageSource)
+                    property bool isQtVideo: !isDocument && !isArchive && !isMpv && PQCScriptsImages.isQtVideo(deleg.imageSource)
+                    property bool isAnimated: !isDocument && !isArchive && !isMpv && !isQtVideo && PQCScriptsImages.isItAnimated(deleg.imageSource)
 
                     property bool videoPlaying: isMpv||isQtVideo
                     property real videoDuration: 0.0
@@ -483,7 +485,9 @@ Item {
                                                       "PQImageAnimated.qml" :
                                                       (loader_component.isDocument ?
                                                            "PQDocument.qml" :
-                                                           "PQImageNormal.qml")))
+                                                           (loader_component.isArchive ?
+                                                                "PQArchive.qml" :
+                                                                "PQImageNormal.qml"))))
 
                                     source: "imageitems/" + nameOfImage
 

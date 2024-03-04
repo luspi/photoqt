@@ -38,6 +38,8 @@ ComboBox {
 
     property bool extrawide: false
 
+    property int elide: Text.ElideRight
+
     delegate: ItemDelegate {
         width: control.width
         height: 40
@@ -45,7 +47,7 @@ ComboBox {
             text: prefix+(firstItemEmphasized&&index===0 ? modelData.toUpperCase() : modelData)
             color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
             font: control.font
-            elide: Text.ElideRight
+            elide: control.elide
             verticalAlignment: Text.AlignVCenter
             style: highlighted ? Text.Sunken : Text.Normal
             styleColor: PQCLook.textColorHighlight
@@ -104,7 +106,7 @@ ComboBox {
         styleColor: PQCLook.textColorHighlight
         Behavior on color { ColorAnimation { duration: 200 } }
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        elide: control.elide
     }
 
     background: Rectangle {

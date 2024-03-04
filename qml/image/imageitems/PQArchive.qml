@@ -12,10 +12,10 @@ Image {
     source: ""
 
     Component.onCompleted: {
-        if(deleg.imageSource.includes("::PDF::"))
+        if(deleg.imageSource.includes("::ARC::") || currentFile > fileList.length-1)
             source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
         else
-            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(deleg.imageSource))
     }
 
     asynchronous: true
@@ -27,7 +27,7 @@ Image {
 
     onVisibleChanged: {
         if(!image.visible)
-            currentPage = 0
+            currentFile = 0
     }
 
     fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
@@ -75,30 +75,40 @@ Image {
 
 
 
-    property int currentPage: 0
-    property int pageCount: PQCScriptsImages.getDocumentPageCount(deleg.imageSource)
+    property int currentFile: 0
+    property var fileList: []
+    property int fileCount: fileList.length
 
-    onCurrentPageChanged: {
-        loadNewPage.restart()
+    // load the file list asynchronously
+    Timer {
+        interval: 50
+        running: true
+        onTriggered: {
+            fileList = PQCScriptsImages.listArchiveContent(deleg.imageSource, true)
+        }
+    }
+
+    onCurrentFileChanged: {
+        loadNewFile.restart()
     }
 
     Timer {
-        id: loadNewPage
+        id: loadNewFile
         interval: 200
         onTriggered: {
             interval = 200
             if(controls.pressed) {
-                loadNewPage.restart()
+                loadNewFile.restart()
             } else {
-                image.asynchronous = false
-                if(deleg.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource.split("::PDF::")[1]))
-                } else {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource))
-                }
-                image.asynchronous = true
+                setSource()
             }
         }
+    }
+
+    function setSource() {
+        image.asynchronous = false
+        image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.cleanPath(deleg.imageSource)))
+        image.asynchronous = true
     }
 
     onWidthChanged:
@@ -119,14 +129,14 @@ Image {
 
         target: image_top
 
-        function onDocumentJump(leftright) {
-            loadNewPage.interval = 0
-            image.currentPage = (image.currentPage+leftright+image.pageCount)%image.pageCount
+        function onArchiveJump(leftright) {
+            loadNewFile.interval = 0
+            image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
         }
 
     }
 
-    PQDocumentControls {
+    PQArchiveControls {
         id: controls
     }
 

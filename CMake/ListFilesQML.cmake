@@ -33,11 +33,11 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml
 SET(d "qml/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml)
 SET(d "qml/image/imageitems")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQVideoMpv.qml ${d}/PQVideoQt.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQVideoMpv.qml ${d}/PQVideoQt.qml ${d}/PQArchive.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphere.qml ${d}/PQPhotoSphere_real.qml ${d}/PQPhotoSphere_fake.qml ${d}/PQDocument.qml)
 SET(d "qml/image/components")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQVideoControls.qml ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQBarCodes.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImageAnimatedControls.qml ${d}/PQDocumentControls.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImageAnimatedControls.qml ${d}/PQDocumentControls.qml ${d}/PQArchiveControls.qml)
 
 SET(d "qml/ongoing")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQThumbnails.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQStatusInfo.qml ${d}/PQContextMenu.qml)

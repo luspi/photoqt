@@ -143,7 +143,7 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
 
 }
 
-QStringList PQCScriptsImages::listArchiveContent(QString path) {
+QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly) {
 
     qDebug() << "args: path =" << path;
 
@@ -176,9 +176,17 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
                 QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
 
                 allfiles.sort();
-                for(const QString &f : std::as_const(allfiles)) {
-                    if(PQCImageFormats::get().getEnabledFormatsQt().contains(QFileInfo(f).suffix()))
-                        ret.append(QString("%1::ARC::%2").arg(f, path));
+
+                if(insideFilenameOnly) {
+                    for(const QString &f : std::as_const(allfiles)) {
+                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix()))
+                            ret.append(f);
+                    }
+                } else {
+                    for(const QString &f : std::as_const(allfiles)) {
+                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix()))
+                            ret.append(QString("%1::ARC::%2").arg(f, path));
+                    }
                 }
 
             }
@@ -228,8 +236,13 @@ QStringList PQCScriptsImages::listArchiveContent(QString path) {
 
         // Sort the temporary list and add to global list
         allfiles.sort();
-        for(const QString &f : std::as_const(allfiles))
-            ret.append(QString("%1::ARC::%2").arg(f, path));
+
+        if(insideFilenameOnly) {
+            ret = allfiles;
+        } else {
+            for(const QString &f : std::as_const(allfiles))
+                ret.append(QString("%1::ARC::%2").arg(f, path));
+        }
 
         // Close archive
         r = archive_read_free(a);

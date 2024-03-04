@@ -44,7 +44,7 @@ public:
     Q_INVOKABLE bool isItAnimated(QString filename);
     Q_INVOKABLE QString getIconPathFromTheme(QString binary);
     Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
-    Q_INVOKABLE QStringList listArchiveContent(QString path);
+    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false);
     Q_INVOKABLE QString convertSecondsToPosition(int t);
     Q_INVOKABLE void loadHistogramData(QString filepath, int index);
     void _loadHistogramData(QString filepath, int index);

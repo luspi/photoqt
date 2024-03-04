@@ -374,10 +374,10 @@ Item {
 
         }
 
-        // Left/Right/Space when document/archive is loaded might have special actions
-        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewDocumentLeftRight) {
+        // Left/Right when document is loaded might have special actions
+        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewDocumentLeftRight && !PQCFileFolderModel.isPDF) {
 
-            if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)/* || PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)*/) {
+            if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
 
                 if(combo === "Left") {
                     image.documentJump(-1)
@@ -386,6 +386,25 @@ Item {
 
                 if(combo === "Right") {
                     image.documentJump(1)
+                    return
+                }
+
+            }
+
+        }
+
+        // Left/Right when archive is loaded might have special actions
+        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewArchiveLeftRight && !PQCFileFolderModel.isARC) {
+
+            if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)) {
+
+                if(combo === "Left") {
+                    image.archiveJump(-1)
+                    return
+                }
+
+                if(combo === "Right") {
+                    image.archiveJump(1)
                     return
                 }
 
