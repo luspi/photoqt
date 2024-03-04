@@ -114,10 +114,14 @@ Image {
         image.asynchronous = true
     }
 
-    onWidthChanged:
+    onWidthChanged: {
         image_wrapper.width = width
-    onHeightChanged:
+        deleg.resetToDefaults()
+    }
+    onHeightChanged: {
         image_wrapper.height = height
+        deleg.resetToDefaults()
+    }
 
     onStatusChanged: {
         image_wrapper.status = status
@@ -125,8 +129,10 @@ Image {
             source = "image://svg/:/other/errorimage.svg"
     }
 
-    onSourceSizeChanged:
+    onSourceSizeChanged: {
         deleg.imageResolution = sourceSize
+        deleg.resetToDefaults()
+    }
 
     Connections {
 
