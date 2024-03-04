@@ -38,7 +38,6 @@ import "../../../elements"
 // - filetypesVideoLoop
 // - filetypesVideoThumbnailer
 // - filetypesVideoPreferLibmpv
-// - imageviewBigViewerModeButton
 // - imageviewAnimatedControls
 
 Flickable {
@@ -130,20 +129,8 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text:qsTranslate("settingsmanager",  "When an archive is loaded it is possible to browse through the contents of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all files in the archive are loaded as thumbnails. The viewer mode can be activated by shortcut, through a small button located below the status info, or (optionally) through a big button shown centrally on the initial image loaded.")
+            text:qsTranslate("settingsmanager",  "When an archive is loaded it is possible to browse through the contents of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all files in the archive are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating controls.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        PQCheckBox {
-            id: viewermode_archive
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show big central button to enter viewer mode")
-            checked: PQCSettings.imageviewBigViewerModeButton
-            onCheckedChanged: {
-                if(viewermode_document.checked != checked)
-                    viewermode_document.checked = checked
-                checkDefault()
-            }
         }
 
         PQCheckBox {
@@ -321,20 +308,8 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "When a document is loaded it is possible to navigate through the pages of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all pages are loaded as thumbnails. The viewer mode can be activated by shortcut, through a small button located below the status info or as part of the floating navigation, or (optionally) through a big button shown centrally on the initial image loaded.")
+            text: qsTranslate("settingsmanager", "When a document is loaded it is possible to navigate through the pages of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all pages are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating navigation.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        PQCheckBox {
-            id: viewermode_document
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show big central button to enter viewer mode")
-            checked: PQCSettings.imageviewBigViewerModeButton
-            onCheckedChanged: {
-                if(viewermode_archive.checked != checked)
-                    viewermode_archive.checked = checked
-                checkDefault()
-            }
         }
 
         PQCheckBox {
@@ -383,7 +358,7 @@ Flickable {
             return
         }
 
-        if(viewermode_document.hasChanged() || documentcontrols.hasChanged() || documentleftright.hasChanged()) {
+        if(documentcontrols.hasChanged() || documentleftright.hasChanged()) {
             settingChanged = true
             return
         }
@@ -410,8 +385,6 @@ Flickable {
         animatedleftright.loadAndSetDefault(PQCSettings.imageviewAnimatedLeftRight)
         animspace.loadAndSetDefault(PQCSettings.imageviewAnimatedSpacePause)
 
-        viewermode_document.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
-        viewermode_archive.loadAndSetDefault(PQCSettings.imageviewBigViewerModeButton)
         documentcontrols.loadAndSetDefault(PQCSettings.imageviewDocumentControls)
         documentleftright.loadAndSetDefault(PQCSettings.imageviewDocumentLeftRight)
 
@@ -436,7 +409,6 @@ Flickable {
         PQCSettings.imageviewAnimatedLeftRight = animatedleftright.checked
         PQCSettings.imageviewAnimatedSpacePause = animspace.checked
 
-        PQCSettings.imageviewBigViewerModeButton = viewermode_document.checked
         PQCSettings.imageviewDocumentControls = documentcontrols.checked
         PQCSettings.imageviewDocumentLeftRight = documentleftright.checked
 
@@ -448,8 +420,6 @@ Flickable {
         vid_libmpv.saveDefault()
         videojump.saveDefault()
         videospace.saveDefault()
-        viewermode_document.saveDefault()
-        viewermode_archive.saveDefault()
         documentcontrols.saveDefault()
         documentleftright.saveDefault()
         animatedcontrol.saveDefault()
