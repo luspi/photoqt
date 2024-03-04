@@ -106,8 +106,11 @@ Image {
     }
 
     function setSource() {
+        var src = deleg.imageSource
+        if(src.includes("::ARC::"))
+            src = sc.split("::ARC::")[1]
         image.asynchronous = false
-        image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.cleanPath(deleg.imageSource)))
+        image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(src))
         image.asynchronous = true
     }
 

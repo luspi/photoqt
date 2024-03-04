@@ -4,6 +4,7 @@ import "../../elements"
 
 import PQCNotify
 import PQCFileFolderModel
+import PQCScriptsImages
 
 Item {
 
@@ -173,11 +174,34 @@ Item {
 
                     }
 
+                    PQComboBox {
+
+                        id: fileselect
+
+                        y: (parent.height-height)/2
+                        elide: Text.ElideMiddle
+
+                        visible: !PQCScriptsImages.isComicBook(deleg.imageSource)
+
+                        currentIndex: {
+                            image.currentFile
+                        }
+
+                        onCurrentIndexChanged: {
+                            if(currentIndex !== image.currentFile)
+                                image.currentFile = currentIndex
+                        }
+
+                        model: image.fileList
+
+                    }
+
                     PQSlider {
                         id: slidercontrol
                         y: (parent.height-height)/2
                         from: 0
                         to: image.fileCount-1
+                        visible: PQCScriptsImages.isComicBook(deleg.imageSource)
                         value: image.currentFile
                         wheelEnabled: false
                         onPressedChanged: {
@@ -191,26 +215,11 @@ Item {
 
                     }
 
-                }
-
-                PQComboBox {
-
-                    id: fileselect
-
-                    x: 5
-                    width: controlrow.width
-                    elide: Text.ElideMiddle
-
-                    currentIndex: {
-                        image.currentFile
+                    PQText {
+                        y: (parent.height-height)/2
+                        visible: PQCScriptsImages.isComicBook(deleg.imageSource)
+                        text: visible ? qsTranslate("image", "Page %1/%2").arg(image.currentFile+1).arg(image.fileCount) : ""
                     }
-
-                    onCurrentIndexChanged: {
-                        if(currentIndex !== image.currentFile)
-                            image.currentFile = currentIndex
-                    }
-
-                    model: image.fileList
 
                 }
 

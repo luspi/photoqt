@@ -56,6 +56,7 @@ public:
     Q_INVOKABLE int getNumberDocumentPages(QString path);
     Q_INVOKABLE int isMotionPhoto(QString path);
     Q_INVOKABLE bool isPhotoSphere(QString path);
+    Q_INVOKABLE bool isComicBook(QString path);
 
     Q_INVOKABLE int getDocumentPageCount(QString path);
 

@@ -781,6 +781,16 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 
 }
 
+bool PQCScriptsImages::isComicBook(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    const QString suffix = QFileInfo(path).suffix().toLower();
+
+    return (suffix=="cbt" || suffix=="cbr" || suffix=="cbz" || suffix=="cb7");
+
+}
+
 QVariantList PQCScriptsImages::getZXingData(QString path) {
 
     qDebug() << "args: path =" << path;
