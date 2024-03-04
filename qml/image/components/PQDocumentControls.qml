@@ -24,7 +24,7 @@ Item {
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
-            width: controlrow.width+10
+            width: controlrow.width+20
             height: 50
             radius: 5
             color: PQCLook.transColorAccent
@@ -68,8 +68,8 @@ Item {
             // the first property is set by PCNotify signals for everything else not caught with the elements below
             property bool emptyAreaHovered: false
             property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||viewermodemouse.containsMouse||
-                                   slidercontrol.backgroundContainsMouse||slidercontrol.handleContainsMouse||slidercontrol.sliderContainsMouse||
-                                   emptyAreaHovered||controlclosemouse.containsMouse
+                                   emptyAreaHovered||controlclosemouse.containsMouse||mouseprev.containsMouse||mousenext.containsMouse||
+                                   mousefirst.containsMouse||mouselast.containsMouse
 
             // drag and catch wheel events
             MouseArea {
@@ -90,8 +90,117 @@ Item {
 
                 id: controlrow
 
-                x: 5
+                x: 10
                 y: (parent.height-height)/2
+                spacing: 5
+
+                Row {
+                    y: (parent.height-height)/2
+
+                    Image {
+                        y: (parent.height-height)/2
+                        width: height
+                        height: controlitem.height/3
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/first.svg"
+                        PQMouseArea {
+                            id: mousefirst
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Go to first page")
+                            onClicked: image_top.documentJump(-image.currentPage)
+                        }
+                    }
+
+                    Image {
+                        y: (parent.height-height)/2
+                        width: height
+                        height: controlitem.height/2
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/backwards.svg"
+                        PQMouseArea {
+                            id: mouseprev
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Go to previous page")
+                            onClicked: image_top.documentJump(-1)
+                        }
+                    }
+
+                    Image {
+                        y: (parent.height-height)/2
+                        width: height
+                        height: controlitem.height/2
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/forwards.svg"
+                        PQMouseArea {
+                            id: mousenext
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Go to next page")
+                            onClicked: image_top.documentJump(1)
+                        }
+                    }
+
+                    Image {
+                        y: (parent.height-height)/2
+                        width: height
+                        height: controlitem.height/3
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/last.svg"
+                        PQMouseArea {
+                            id: mouselast
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Go to last page")
+                            onClicked: image_top.documentJump(image.pageCount-image.currentPage-1)
+                        }
+                    }
+
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
+
+                Rectangle {
+                    y: (parent.height-height)/2
+                    height: controlitem.height*0.75
+                    width: 1
+                    color: PQCLook.textColor
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
+
+                PQText {
+                    y: (parent.height-height)/2
+                    text: qsTranslate("image", "Page %1/%2").arg(image.currentPage+1).arg(image.pageCount)
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
+
+                Rectangle {
+                    y: (parent.height-height)/2
+                    height: controlitem.height*0.75
+                    width: 1
+                    color: PQCLook.textColor
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
 
                 Image {
                     id: viewermode
@@ -112,22 +221,6 @@ Item {
                 }
 
                 Item {
-                    width: 5
-                    height: 1
-                }
-
-                Rectangle {
-                    height: parent.height
-                    width: 1
-                    color: PQCLook.textColor
-                }
-
-                Item {
-                    width: 5
-                    height: 1
-                }
-
-                Item {
 
                     id: leftrightlock
 
@@ -142,7 +235,7 @@ Item {
                         id: lockrow
 
                         Image {
-                            height: slidercontrol.height
+                            height: controlitem.height/2.5
                             width: height
                             source: "image://svg/:/white/padlock.svg"
                             sourceSize: Qt.size(width, height)
@@ -164,28 +257,6 @@ Item {
                             PQCSettings.imageviewDocumentLeftRight = !PQCSettings.imageviewDocumentLeftRight
                     }
 
-                }
-
-                PQSlider {
-                    id: slidercontrol
-                    y: (parent.height-height)/2
-                    from: 0
-                    to: image.pageCount-1
-                    value: image.currentPage
-                    wheelEnabled: false
-                    onPressedChanged: {
-                        top.pressed = pressed
-                    }
-
-                    onValueChanged: {
-                        if(value !== image.currentPage)
-                            image.currentPage = value
-                    }
-
-                }
-
-                PQText {
-                    text: qsTranslate("image", "Page %1/%2").arg(image.currentPage+1).arg(image.pageCount)
                 }
 
             }

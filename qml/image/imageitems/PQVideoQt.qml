@@ -40,7 +40,7 @@ Item {
         // earlier versions of Qt6 seem to struggle if only one slash is used
         source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + deleg.imageSource
 
-        volume: PQCSettings.filetypesVideoVolume
+        volume: PQCSettings.filetypesVideoVolume/100
 
         width: PQCSettings.imageviewFitInWindow ? deleg.width : undefined
         height: PQCSettings.imageviewFitInWindow ? deleg.height : undefined

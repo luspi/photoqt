@@ -32,7 +32,7 @@ Item {
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
-            width: controlrow.width+10
+            width: controlrow.width+20
             height: 50
             radius: 5
             color: PQCLook.transColor
@@ -77,7 +77,8 @@ Item {
             property bool emptyAreaHovered: false
             property bool hovered: controldrag.containsMouse||playpausecontrol.containsMouse||
                                    slidercontrol.backgroundContainsMouse||slidercontrol.handleContainsMouse||
-                                   emptyAreaHovered||controlclosemouse.containsMouse||saveframemouse.containsMouse
+                                   emptyAreaHovered||controlclosemouse.containsMouse||saveframemouse.containsMouse||
+                                   leftrightmouse.containsMouse
 
             // drag and catch wheel events
             MouseArea {
@@ -98,42 +99,16 @@ Item {
 
                 id: controlrow
 
-                x: 5
+                x: 10
                 y: (parent.height-height)/2
 
-                // play/pause button
-                Image {
-                    y: (parent.height-height)/2
-                    width: 30
-                    height: 30
-                    opacity: enabled ? 0.75 : 0.25
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
-                    source: "image://svg/:/white/remember.svg"
-                    sourceSize: Qt.size(width, height)
-                    enabled: !image.playing
-                    PQMouseArea {
-                        id: saveframemouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        //: The frame here refers to one of the images making up an animation of a gif or other animated image
-                        text: qsTranslate("image", "Save current frame to new file")
-                        onClicked: {
-                            PQCScriptsImages.extractFrameAndSave(deleg.imageSource, image.currentFrame)
-                        }
-                    }
-                }
-
-                Item {
-                    width: 5
-                    height: 1
-                }
+                spacing: 5
 
                 // play/pause button
                 Image {
                     y: (parent.height-height)/2
-                    width: 30
-                    height: 30
+                    width: height
+                    height: controlitem.height/2.5
                     source: (image.playing ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
                     sourceSize: Qt.size(width, height)
                     MouseArea {
@@ -167,6 +142,81 @@ Item {
                     }
 
                 }
+
+                Rectangle {
+                    y: (parent.height-height)/2
+                    height: controlitem.height*0.75
+                    width: 1
+                    color: PQCLook.textColor
+                }
+
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+                // save frame button
+                Image {
+                    y: (parent.height-height)/2
+                    width: height
+                    height: controlitem.height/2.5
+                    opacity: enabled ? 0.75 : 0.25
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    source: "image://svg/:/white/remember.svg"
+                    sourceSize: Qt.size(width, height)
+                    enabled: !image.playing
+                    PQMouseArea {
+                        id: saveframemouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        //: The frame here refers to one of the images making up an animation of a gif or other animated image
+                        text: qsTranslate("image", "Save current frame to new file")
+                        onClicked: {
+                            PQCScriptsImages.extractFrameAndSave(deleg.imageSource, image.currentFrame)
+                        }
+                    }
+                }
+
+                Item {
+
+                    id: leftrightlock
+
+                    y: (parent.height-height)/2
+                    width: lockrow.width
+                    height: lockrow.height
+
+                    opacity: PQCSettings.imageviewAnimatedLeftRight ? 1 : 0.3
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    Row {
+                        id: lockrow
+
+                        Image {
+                            height: controlitem.height/2.5
+                            width: height
+                            source: "image://svg/:/white/padlock.svg"
+                            sourceSize: Qt.size(width, height)
+                        }
+
+                        PQText {
+                            text: "←/→"
+                        }
+
+                    }
+
+                    PQMouseArea {
+                        id: leftrightmouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("image", "Lock left/right arrow keys to frame navigation")
+                        onClicked:
+                            PQCSettings.imageviewAnimatedLeftRight = !PQCSettings.imageviewAnimatedLeftRight
+                    }
+
+                }
+
             }
 
             // the close button is only visible when hovered

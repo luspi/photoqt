@@ -20,6 +20,11 @@ Image {
 
     asynchronous: true
 
+    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
+
+    smooth: interpThreshold
+    mipmap: interpThreshold
+
     property bool fitImage: (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
 
     width: fitImage ? deleg.width : undefined

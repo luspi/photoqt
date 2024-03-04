@@ -24,10 +24,12 @@ Item {
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
-            width: controlrow.width+10
-            height: controw.height+5
+            width: controlrow.width+20
+            height: 50
             radius: 5
             color: PQCLook.transColorAccent
+
+            property bool isComicBook: PQCScriptsImages.isComicBook(deleg.imageSource)
 
             Connections {
                 target: image_top
@@ -68,8 +70,8 @@ Item {
             // the first property is set by PCNotify signals for everything else not caught with the elements below
             property bool emptyAreaHovered: false
             property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||viewermodemouse.containsMouse||
-                                   slidercontrol.backgroundContainsMouse||slidercontrol.handleContainsMouse||slidercontrol.sliderContainsMouse||
-                                   emptyAreaHovered||controlclosemouse.containsMouse||fileselect.hovered
+                                   emptyAreaHovered||controlclosemouse.containsMouse||fileselect.hovered||fileselect.popup.visible||
+                                   mouseprev.containsMouse||mousenext.containsMouse||mousefirst.containsMouse||mouselast.containsMouse
 
             // drag and catch wheel events
             MouseArea {
@@ -86,139 +88,208 @@ Item {
                 onWheel: {}
             }
 
-            Column {
+            Row {
 
-                id: controw
+                id: controlrow
+
+                x: 10
+                y: (parent.height-height)/2
 
                 spacing: 5
 
+                PQComboBox {
+
+                    id: fileselect
+
+                    y: (parent.height-height)/2
+                    elide: Text.ElideMiddle
+                    transparentBackground: true
+
+                    visible: !controlitem.isComicBook
+
+                    currentIndex: {
+                        image.currentFile
+                    }
+
+                    onCurrentIndexChanged: {
+                        if(currentIndex !== image.currentFile)
+                            image.currentFile = currentIndex
+                    }
+
+                    model: image.fileList
+
+                }
+
+
+
                 Row {
 
-                    id: controlrow
-
-                    x: 5
                     y: (parent.height-height)/2
-                    height: 50
+                    visible: controlitem.isComicBook
 
                     Image {
-                        id: viewermode
                         y: (parent.height-height)/2
                         width: height
-                        height: leftrightlock.height
-                        anchors.margins: 5
+                        height: controlitem.height/3
                         sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/viewermode_on.svg"
+                        source: "image://svg/:/white/first.svg"
                         PQMouseArea {
-                            id: viewermodemouse
+                            id: mousefirst
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            text: qsTranslate("image", "Click to enter viewer mode")
-                            onClicked: PQCFileFolderModel.enableViewerMode()
+                            text: qsTranslate("image", "Go to first page")
+                            onClicked: image_top.archiveJump(-image.currentFile)
                         }
                     }
 
-                    Item {
-                        width: 5
-                        height: 1
-                    }
-
-                    Rectangle {
-                        height: parent.height
-                        width: 1
-                        color: PQCLook.textColor
-                    }
-
-                    Item {
-                        width: 5
-                        height: 1
-                    }
-
-                    Item {
-
-                        id: leftrightlock
-
+                    Image {
                         y: (parent.height-height)/2
-                        width: lockrow.width
-                        height: lockrow.height
-
-                        opacity: PQCSettings.imageviewArchiveLeftRight ? 1 : 0.3
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                        Row {
-                            id: lockrow
-
-                            Image {
-                                height: slidercontrol.height
-                                width: height
-                                opacity: PQCSettings.imageviewArchiveLeftRight ? 1 : 0.4
-                                source: "image://svg/:/white/padlock.svg"
-                                sourceSize: Qt.size(width, height)
-                            }
-
-                            PQText {
-                                text: "←/→"
-                            }
-
-                        }
-
+                        width: height
+                        height: controlitem.height/2
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/backwards.svg"
                         PQMouseArea {
-                            id: leftrightmouse
+                            id: mouseprev
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
-                            onClicked:
-                                PQCSettings.imageviewArchiveLeftRight = !PQCSettings.imageviewArchiveLeftRight
+                            text: qsTranslate("image", "Go to previous page")
+                            onClicked: image_top.archiveJump(-1)
+                        }
+                    }
+
+                    Image {
+                        y: (parent.height-height)/2
+                        width: height
+                        height: controlitem.height/2
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/forwards.svg"
+                        PQMouseArea {
+                            id: mousenext
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Go to next page")
+                            onClicked: image_top.archiveJump(1)
+                        }
+                    }
+
+                    Image {
+                        y: (parent.height-height)/2
+                        width: height
+                        height: controlitem.height/3
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/last.svg"
+                        PQMouseArea {
+                            id: mouselast
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Go to last page")
+                            onClicked: image_top.archiveJump(image.fileCount-image.currentFile-1)
+                        }
+                    }
+
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                    visible: controlitem.isComicBook
+                }
+
+                Rectangle {
+                    y: (parent.height-height)/2
+                    height: controlitem.height*0.75
+                    width: 1
+                    color: PQCLook.textColor
+                    visible: controlitem.isComicBook
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                    visible: controlitem.isComicBook
+                }
+
+                PQText {
+                    y: (parent.height-height)/2
+                    visible: controlitem.isComicBook
+                    text: visible ? qsTranslate("image", "Page %1/%2").arg(image.currentFile+1).arg(image.fileCount) : ""
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
+
+                Rectangle {
+                    y: (parent.height-height)/2
+                    width: 1
+                    height: controlitem.height*0.75
+                    color: PQCLook.textColor
+                }
+
+                Item {
+                    width: 5
+                    height: 1
+                }
+
+                Image {
+                    id: viewermode
+                    y: (parent.height-height)/2
+                    width: height
+                    height: leftrightlock.height
+                    anchors.margins: 5
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/white/viewermode_on.svg"
+                    PQMouseArea {
+                        id: viewermodemouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("image", "Click to enter viewer mode")
+                        onClicked: PQCFileFolderModel.enableViewerMode()
+                    }
+                }
+
+                Item {
+
+                    id: leftrightlock
+
+                    y: (parent.height-height)/2
+                    width: lockrow.width
+                    height: lockrow.height
+
+                    opacity: PQCSettings.imageviewArchiveLeftRight ? 1 : 0.3
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    Row {
+                        id: lockrow
+
+                        Image {
+                            height: controlitem.height/2.5
+                            width: height
+                            opacity: PQCSettings.imageviewArchiveLeftRight ? 1 : 0.4
+                            source: "image://svg/:/white/padlock.svg"
+                            sourceSize: Qt.size(width, height)
+                        }
+
+                        PQText {
+                            text: "←/→"
                         }
 
                     }
 
-                    PQComboBox {
-
-                        id: fileselect
-
-                        y: (parent.height-height)/2
-                        elide: Text.ElideMiddle
-
-                        visible: !PQCScriptsImages.isComicBook(deleg.imageSource)
-
-                        currentIndex: {
-                            image.currentFile
-                        }
-
-                        onCurrentIndexChanged: {
-                            if(currentIndex !== image.currentFile)
-                                image.currentFile = currentIndex
-                        }
-
-                        model: image.fileList
-
-                    }
-
-                    PQSlider {
-                        id: slidercontrol
-                        y: (parent.height-height)/2
-                        from: 0
-                        to: image.fileCount-1
-                        visible: PQCScriptsImages.isComicBook(deleg.imageSource)
-                        value: image.currentFile
-                        wheelEnabled: false
-                        onPressedChanged: {
-                            top.pressed = pressed
-                        }
-
-                        onValueChanged: {
-                            if(value !== image.currentFile)
-                                image.currentFile = value
-                        }
-
-                    }
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        visible: PQCScriptsImages.isComicBook(deleg.imageSource)
-                        text: visible ? qsTranslate("image", "Page %1/%2").arg(image.currentFile+1).arg(image.fileCount) : ""
+                    PQMouseArea {
+                        id: leftrightmouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
+                        onClicked:
+                            PQCSettings.imageviewArchiveLeftRight = !PQCSettings.imageviewArchiveLeftRight
                     }
 
                 }

@@ -40,6 +40,8 @@ ComboBox {
 
     property int elide: Text.ElideRight
 
+    property bool transparentBackground: false
+
     delegate: ItemDelegate {
         width: control.width
         height: 40
@@ -51,12 +53,17 @@ ComboBox {
             verticalAlignment: Text.AlignVCenter
             style: highlighted ? Text.Sunken : Text.Normal
             styleColor: PQCLook.textColorHighlight
+            PQToolTip {
+                visible: highlighted
+                text: parent.text
+                timeout: 3000
+            }
         }
         background: Rectangle {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight)
+            color: (highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight))
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
@@ -112,9 +119,9 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: (control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor
+        color: transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor)
         border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
-        border.width: control.visualFocus ? 2 : 1
+        border.width: transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 2
     }
 
