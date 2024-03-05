@@ -44,6 +44,7 @@ Flickable {
     anchors.margins: 10
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     property var actions: {
 
@@ -1152,6 +1153,13 @@ Flickable {
     }
 
     function checkDefault() {
+
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         settingChanged = !areTwoListsEqual(entries, defaultEntries)
     }
 
@@ -1184,6 +1192,7 @@ Flickable {
         setting_top.defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
 
         settingChanged = false
+        settingsLoaded = true
     }
 
     function applyChanges() {

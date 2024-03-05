@@ -61,6 +61,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -328,6 +329,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged()) {
             settingChanged = true
             return
@@ -385,6 +392,7 @@ Flickable {
         check_blurbg.loadAndSetDefault(PQCSettings.interfaceBlurElementsInBackground)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 
@@ -430,7 +438,6 @@ Flickable {
         PQCSettings.interfaceBlurElementsInBackground = check_blurbg.checked
 
         check_blurbg.saveDefault()
-
 
         settingChanged = false
 

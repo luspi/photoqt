@@ -53,6 +53,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 
@@ -280,6 +281,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         settingChanged = (thumb_size.hasChanged() || thumb_fit.hasChanged() || thumb_crop.hasChanged() || thumb_small.hasChanged() ||
                           thumb_actual.hasChanged() || thumb_icon.hasChanged() || label_enable.hasChanged() || label_fontsize.hasChanged() ||
                           tooltips_show.hasChanged())
@@ -304,6 +311,7 @@ Flickable {
         tooltips_show.loadAndSetDefault(PQCSettings.thumbnailsTooltip)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

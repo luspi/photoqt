@@ -49,6 +49,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 

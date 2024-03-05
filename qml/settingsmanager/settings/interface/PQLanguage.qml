@@ -47,6 +47,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     property var languages: {
         "en" : "English",
@@ -127,8 +128,17 @@ Flickable {
         }
 
         property int currentIndex: -1
-        onCurrentIndexChanged:
+        onCurrentIndexChanged: {
+
+            if(!settingsLoaded) return
+            if(PQCSettings.generalAutoSaveSettings) {
+                applyChanges()
+                return
+            }
+
             setting_top.settingChanged = (setting_top.origIndex!==contcol.currentIndex)
+
+        }
 
         Repeater {
 
@@ -257,6 +267,8 @@ Flickable {
 
         origIndex = setindex
         contcol.currentIndex = setindex
+
+        settingsLoaded = true
 
     }
 

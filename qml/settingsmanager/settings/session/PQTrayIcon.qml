@@ -46,6 +46,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -133,6 +134,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(trayicon_show.hasChanged() || trayicon_mono.hasChanged() || trayicon_hide.hasChanged() || trayicon_reset.hasChanged()) {
             settingChanged = true
             return
@@ -151,6 +158,7 @@ Flickable {
         trayicon_reset.loadAndSetDefault(PQCSettings.interfaceTrayIconHideReset)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

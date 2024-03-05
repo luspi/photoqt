@@ -54,6 +54,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -289,6 +290,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged()) {
             settingChanged = true
             return
@@ -328,6 +335,7 @@ Flickable {
         autohide_timeout.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTimeout/1000)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

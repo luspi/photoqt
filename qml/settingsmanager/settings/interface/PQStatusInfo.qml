@@ -51,6 +51,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -475,6 +476,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(status_show.checked !== PQCSettings.interfaceStatusInfoShow) {
             settingChanged = true
             return
@@ -523,6 +530,7 @@ Flickable {
         managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

@@ -48,6 +48,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 
@@ -138,6 +139,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         settingChanged = (applelive.hasChanged() || motionmicro.hasChanged())
 
     }
@@ -149,6 +156,7 @@ Flickable {
         photosphere.loadAndSetDefault(PQCSettings.filetypesCheckForPhotoSphere)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

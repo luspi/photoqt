@@ -48,6 +48,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 
@@ -145,6 +146,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         settingChanged = (blanksession.hasChanged() || reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() || reuse.hasChanged())
 
     }
@@ -159,6 +166,7 @@ Flickable {
         reuse.loadAndSetDefault(PQCSettings.imageviewReuseZoomRotationMirror)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

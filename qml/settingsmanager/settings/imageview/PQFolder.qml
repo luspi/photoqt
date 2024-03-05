@@ -50,6 +50,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 
@@ -218,6 +219,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(loop.hasChanged() || sortasc.hasChanged() || sortdesc.hasChanged() ||
                 anispeed_check.hasChanged() || anispeed.hasChanged()) {
             settingChanged = true
@@ -262,6 +269,7 @@ Flickable {
         anispeed.loadAndSetDefault(PQCSettings.imageviewAnimationDuration)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

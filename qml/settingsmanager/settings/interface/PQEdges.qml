@@ -50,6 +50,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     property var current: {
         "top": "",
@@ -325,6 +326,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(current["top"] !== PQCSettings.interfaceEdgeTopAction ||
                 current["left"] !== PQCSettings.interfaceEdgeLeftAction ||
                 current["right"] !== PQCSettings.interfaceEdgeRightAction ||
@@ -349,6 +356,7 @@ Flickable {
         sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

@@ -46,6 +46,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 
@@ -93,6 +94,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(mult.hasChanged() || sing.hasChanged()) {
             settingChanged = true
             return
@@ -107,6 +114,7 @@ Flickable {
         mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
 
         settingChanged = false
+        settingsLoaded = true
     }
 
     function applyChanges() {

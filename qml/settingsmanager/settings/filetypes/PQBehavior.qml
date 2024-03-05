@@ -50,6 +50,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -340,6 +341,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(pdf_quality.hasChanged() || arc_extunrar.hasChanged()) {
             settingChanged = true
             return
@@ -389,6 +396,7 @@ Flickable {
         documentleftright.loadAndSetDefault(PQCSettings.imageviewDocumentLeftRight)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

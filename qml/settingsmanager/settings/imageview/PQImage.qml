@@ -50,6 +50,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -283,6 +284,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() ||
                 checkerboard.hasChanged() || interp_check.hasChanged() || interp_slider.hasChanged() || cache_slider.hasChanged()) {
             settingChanged = true
@@ -310,6 +317,7 @@ Flickable {
         cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

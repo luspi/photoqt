@@ -52,6 +52,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -253,6 +254,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         settingChanged = (facetags_show.hasChanged() || fontsize.hasChanged() || border_show.hasChanged() ||
                           border_slider.hasChanged() || tags_always.hasChanged() || tags_one.hasChanged() ||
                           tags_all.hasChanged() ||
@@ -274,6 +281,7 @@ Flickable {
         tags_all.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===3)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

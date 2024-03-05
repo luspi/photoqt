@@ -52,6 +52,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     Column {
 
@@ -231,6 +232,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
                 mirroranim.hasChanged()) {
@@ -255,6 +262,7 @@ Flickable {
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

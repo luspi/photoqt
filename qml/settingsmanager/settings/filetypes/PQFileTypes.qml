@@ -45,6 +45,7 @@ Item {
     anchors.margins: 10
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     property string defaultSettings: ""
 
@@ -368,6 +369,13 @@ Item {
     }
 
     function checkDefault() {
+
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         var chk = composeChecker()
         settingChanged = (chk !== defaultSettings)
     }
@@ -376,6 +384,7 @@ Item {
         listview.ft = PQCImageFormats.getAllFormats()
         defaultSettings = composeChecker()
         settingChanged = false
+        settingsLoaded = true
     }
 
     function applyChanges() {

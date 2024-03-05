@@ -70,6 +70,8 @@ Rectangle {
     property int bottomrowHeight: bottomrow.height
     property int contentHeight: ele_top.height-toprowHeight-bottomrowHeight-20
 
+    property alias botLeft: bottomleftelement
+
     /////////
 
     opacity: 0
@@ -165,6 +167,13 @@ Rectangle {
             width: parent.width
             height: 1
             color: PQCLook.baseColorActive
+        }
+
+        Item {
+            id: bottomleftelement
+            x: 0
+            y: 0
+            height: parent.height
         }
 
         Row {

@@ -53,6 +53,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     property var defaultentries: ({})
     property var entries: []
@@ -354,6 +355,13 @@ Flickable {
 
 
     function checkDefault() {
+
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         settingChanged = (!areTwoListsEqual(entries, defaultentries) || check_dupl.hasChanged())
     }
 
@@ -379,6 +387,7 @@ Flickable {
             defaultentries = PQCScriptsContextMenu.getEntries()
             check_dupl.loadAndSetDefault(PQCSettings.mainmenuShowExternal)
             settingChanged = false
+            settingsLoaded = true
         }
     }
 

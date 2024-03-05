@@ -65,6 +65,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -349,6 +350,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("")) {
             settingChanged = true
             return
@@ -377,6 +384,7 @@ Flickable {
             saveDefaultCheckTimer.restart()
 
             settingChanged = false
+            settingsLoaded = true
         }
     }
 

@@ -48,6 +48,7 @@ Flickable {
     contentHeight: contcol.height
 
     property bool settingChanged: false
+    property bool settingsLoaded: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -242,6 +243,12 @@ Flickable {
 
     function checkDefault() {
 
+        if(!settingsLoaded) return
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(movewhl.hasChanged() || movebut.hasChanged() || dblclk.hasChanged() || whl_sens.hasChanged() || hidetimeout.hasChanged() || hidetimeout_check.hasChanged()) {
             settingChanged = true
             return
@@ -261,6 +268,7 @@ Flickable {
         hidetimeout.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout)
 
         settingChanged = false
+        settingsLoaded = true
 
     }
 

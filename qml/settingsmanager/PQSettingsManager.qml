@@ -60,6 +60,19 @@ PQTemplateFullscreen {
             hide()
     }
 
+    botLeft.children: [
+        PQCheckBox {
+            y: (parent.height-height)/2
+            text: qsTranslate("settingsmanager", "auto-save changes")
+            scale: 0.75
+            checked: PQCSettings.generalAutoSaveSettings
+            onCheckedChanged: {
+                PQCSettings.generalAutoSaveSettings = checked
+            }
+        }
+
+    ]
+
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)
 
@@ -671,6 +684,11 @@ PQTemplateFullscreen {
 
         if(!settingsloader.item.settingChanged)
             return true
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            settingsloader.item.applyChanges()
+            return true
+        }
 
         confirmUnsaved.cat = cat
         confirmUnsaved.ind = index
