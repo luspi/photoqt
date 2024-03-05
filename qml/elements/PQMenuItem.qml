@@ -30,6 +30,7 @@ MenuItem {
 
     property string iconSource: ""
     property bool checkableLikeRadioButton: false
+    property bool moveToRightABit: false
 
     onIconSourceChanged:
         checkable = iconSource!=""
@@ -37,7 +38,7 @@ MenuItem {
     contentItem:
         Text {
             id: controltxt
-            leftPadding: menuItem.checkable ? menuItem.indicator.width : 0
+            leftPadding: menuItem.checkable||moveToRightABit ? menuItem.indicator.width : 0
             height: 40
             text: menuItem.text
             font: menuItem.font
