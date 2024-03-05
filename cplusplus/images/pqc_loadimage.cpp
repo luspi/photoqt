@@ -369,12 +369,13 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
     // if everything failed, we make sure to try one more time with ImageMagick or GraphicsMagick to see what could be done
-    if(img.isNull()) {
+    // we do not do this for video files as it can lead to resource intensive ffmpeg processes that may persist after PhotoQt is closed
+    if(img.isNull() && !PQCImageFormats::get().getEnabledFormatsVideo().contains(suffix) && !PQCImageFormats::get().getEnabledFormatsLibmpv().contains(suffix)) {
 
         qDebug() << "null image, try magick";
 
-        // we use two dummy variables to not override the old error image/message
-        QString err = PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
+        // we do not override the old error message
+        PQCLoadImageMagick::load(filename, requestedSize, origSize, img);
 
     }
 #endif
