@@ -202,8 +202,16 @@ QString PQCScriptsFilesPaths::getWindowsDriveLetter(QString path) {
 
 QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
 
+    qDebug() << "args: path =" << path;
+
     if(path == "")
         return QStringList();
+
+#ifdef Q_OS_WIN
+    // Without this the top level folder list shows the folders in the application directory
+    if(!path.endsWith("/"))
+        path = path + "/";
+#endif
 
     QDir dir(path);
 
