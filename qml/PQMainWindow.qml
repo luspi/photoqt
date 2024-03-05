@@ -269,6 +269,12 @@ Window {
 
         function onFilePathChanged() {
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
+            if(!toplevel.visible)
+                toplevel.visible = true
+            if(toplevel.visibility === Window.Minimized)
+                toplevel.visibility = Window.Maximized
+            toplevel.raise()
+            toplevel.requestActivate()
         }
 
         // this one is handled directly in PQShortcuts class
