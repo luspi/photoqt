@@ -34,6 +34,16 @@ Item {
     height: toplevel.height
     visible: PQCFileFolderModel.countMainView===0 && PQCNotify.filePath===""
 
+    property var entries: {
+                       //: Label shown at startup before a file is loaded
+        "thumbnails" : qsTranslate("other", "Thumbnails"),
+                       //: Label shown at startup before a file is loaded
+        "mainmenu"   : qsTranslate("other", "Main menu"),
+                       //: Label shown at startup before a file is loaded
+        "metadata"   : qsTranslate("other", "Metadata"),
+        "" : ""
+    }
+
     Item {
         id: startmessage
         anchors.fill: parent
@@ -106,20 +116,8 @@ Item {
                 id: openmessage
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
-                text: qsTranslate("other", "Click anywhere to open a file")
+                text: qsTranslate("other", "Open a file")
                 font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80))
-                font.bold: true
-                opacity: 0.8
-                color: PQCLook.textColor
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-            }
-            Text {
-                id: arrowmessage
-                width: startmessage.width
-                //: Part of the message shown in the main view before any image is loaded
-                text: qsTranslate("other", "Move your cursor to the indicated window edges for various actions")
-                font.pointSize: Math.min(20, Math.max(15, (toplevel.width+toplevel.height)/100))
                 font.bold: true
                 opacity: 0.8
                 color: PQCLook.textColor
@@ -134,7 +132,7 @@ Item {
         id: edgearrows
         anchors.fill: parent
 
-        visible: startmessage.visible //&& variables.startupCompleted
+        visible: startmessage.visible
 
         Image {
             id: arrleft
@@ -181,6 +179,56 @@ Item {
 
         }
 
+        Rectangle {
+            x: arrleft.width+20
+            y: (parent.height-height)/2
+            width: ltx.width+20
+            height: ltx.height+10
+            color: PQCLook.transColor
+            radius: 5
+            visible: arrleft.visible&&ltx.text!=""
+
+            PQTextL {
+                id: ltx
+                x: 10
+                y: 5
+                text: entries[PQCSettings.interfaceEdgeLeftAction]
+                font.bold: true
+            }
+
+            SequentialAnimation on x {
+
+                id: seqleft_txt
+
+                running: visible&&loader.visibleItem===""
+                loops: Animation.Infinite
+
+                // move out quick
+                NumberAnimation {
+                    from: arrleft.width+20
+                    to: arrleft.width+40
+                    easing.type: Easing.OutExpo
+                    duration: 500
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // bounce back in
+                NumberAnimation {
+                    from: arrleft.width+40
+                    to: arrleft.width+20
+                    easing.type: Easing.InQuad
+                    duration: 1000
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // short pause
+                PauseAnimation { duration: 500 }
+
+            }
+        }
+
 
         Image {
             id: arrright
@@ -225,6 +273,57 @@ Item {
 
             }
 
+        }
+
+        Rectangle {
+            id: right_txt
+            x: arrright.x-width-20
+            y: (parent.height-height)/2
+            width: rtx.width+20
+            height: rtx.height+10
+            color: PQCLook.transColor
+            radius: 5
+            visible: arrright.visible&&rtx.text!=""
+
+            PQTextL {
+                id: rtx
+                x: 10
+                y: 5
+                text: entries[PQCSettings.interfaceEdgeRightAction]
+                font.bold: true
+            }
+
+            SequentialAnimation on x {
+
+                id: seqright_txt
+
+                running: visible&&loader.visibleItem===""
+                loops: Animation.Infinite
+
+                // move out quick
+                NumberAnimation {
+                    from: toplevel.width-arrright.width-right_txt.width-20
+                    to: toplevel.width-arrright.width-right_txt.width-40
+                    easing.type: Easing.OutExpo
+                    duration: 500
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // bounce back in
+                NumberAnimation {
+                    from: toplevel.width-arrright.width-right_txt.width-40
+                    to: toplevel.width-arrright.width-right_txt.width-20
+                    easing.type: Easing.InQuad
+                    duration: 1000
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // short pause
+                PauseAnimation { duration: 500 }
+
+            }
         }
 
         Image {
@@ -274,6 +373,57 @@ Item {
 
         }
 
+        Rectangle {
+            id: bottom_txt
+            x: (parent.width-width)/2
+            y: parent.height-arrdown.height-height-20
+            width: btx.width+20
+            height: btx.height+10
+            color: PQCLook.transColor
+            radius: 5
+            visible: arrdown.visible&&btx.text!=""
+
+            PQTextL {
+                id: btx
+                x: 10
+                y: 5
+                text: entries[PQCSettings.interfaceEdgeBottomAction]
+                font.bold: true
+            }
+
+            SequentialAnimation on y {
+
+                id: seqdown_txt
+
+                running: visible&&loader.visibleItem===""
+                loops: Animation.Infinite
+
+                // move out quick
+                NumberAnimation {
+                    from: toplevel.height-arrdown.height-bottom_txt.height-20
+                    to: toplevel.height-arrdown.height-bottom_txt.height-40
+                    easing.type: Easing.OutExpo
+                    duration: 500
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // bounce back in
+                NumberAnimation {
+                    from: toplevel.height-arrdown.height-bottom_txt.height-40
+                    to: toplevel.height-arrdown.height-bottom_txt.height-20
+                    easing.type: Easing.InQuad
+                    duration: 1000
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // short pause
+                PauseAnimation { duration: 500 }
+
+            }
+        }
+
         Image {
             id: arrup
             x: (parent.width-width)/2
@@ -319,6 +469,57 @@ Item {
 
             }
 
+        }
+
+        Rectangle {
+            id: up_txt
+            x: (parent.width-width)/2
+            y: arrup.height+20
+            width: utx.width+20
+            height: utx.height+10
+            color: PQCLook.transColor
+            radius: 5
+            visible: arrup.visible&&utx.text!=""
+
+            PQTextL {
+                id: utx
+                x: 10
+                y: 5
+                text: entries[PQCSettings.interfaceEdgeTopAction]
+                font.bold: true
+            }
+
+            SequentialAnimation on y {
+
+                id: sequp_txt
+
+                running: visible&&loader.visibleItem===""
+                loops: Animation.Infinite
+
+                // move out quick
+                NumberAnimation {
+                    from: arrup.height+20
+                    to: arrup.height+40
+                    easing.type: Easing.OutExpo
+                    duration: 500
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // bounce back in
+                NumberAnimation {
+                    from: arrup.height+40
+                    to: arrup.height+20
+                    easing.type: Easing.InQuad
+                    duration: 1000
+                    onFromChanged: restartAllAnimations()
+                    onToChanged: restartAllAnimations()
+                }
+
+                // short pause
+                PauseAnimation { duration: 500 }
+
+            }
         }
 
     }
@@ -388,9 +589,13 @@ Item {
     // restarting all at the same time keeps all animations in sync
     function restartAllAnimations() {
         seqdown.restart()
+        seqdown_txt.restart()
         seqright.restart()
+        seqright_txt.restart()
         seqleft.restart()
+        seqleft_txt.restart()
         sequp.restart()
+        sequp_txt.restart()
         clickani.restart()
     }
 
