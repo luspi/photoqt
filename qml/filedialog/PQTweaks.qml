@@ -215,51 +215,296 @@ Item {
 
             }
 
-            PQComboBox {
+            PQButton {
+
+                id: filetypes_button
+
                 y: (parent.height-height)/2
-                firstItemEmphasized: true
-                lineBelowItem: [0,7]
+                font.weight: PQCLook.fontWeightNormal
+                font.pointSize: PQCLook.fontSize
+                horizontalAlignment: Text.AlignLeft
+                width: 300
+                forceWidth: width
 
-                model: [qsTranslate("filedialog", "All supported images"),
-                        "Qt",
-                        (PQCScriptsConfig.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick"),
-                        "LibRaw", "DevIL",
-                        "FreeImage", "PDF",
-                        qsTranslate("filedialog", "Video files"),
-                        qsTranslate("filedialog", "All files")]
+                property bool menuOpen: false
+                forceHovered: menuOpen
 
-                onCurrentIndexChanged: {
-                    if(currentIndex === 0) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormats()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypes()
-                    } else if(currentIndex === 1) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsQt()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesQt()
-                    } else if(currentIndex === 2) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsMagick()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesMagick()
-                    } else if(currentIndex === 3) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsLibRaw()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesLibRaw()
-                    } else if(currentIndex === 4) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsDevIL()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesDevIL()
-                    } else if(currentIndex === 5) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsFreeImage()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesFreeImage()
-                    } else if(currentIndex === 6) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsPoppler()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesPoppler()
-                    } else if(currentIndex === 7) {
-                        PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormatsVideo()
-                        PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypesVideo()
-                    } else if(currentIndex === 8) {
-                        PQCFileFolderModel.restrictToSuffixes = []
-                        PQCFileFolderModel.restrictToMimeTypes = []
+                Timer {
+                    id: resetMenuOpen
+                    interval: 100
+                    onTriggered:
+                        filetypes_button.menuOpen = false
+                }
+
+                text: qsTranslate("filedialog", "All supported images")
+
+                onClicked: {
+                    if(menuOpen)
+                        filetypes.dismiss()
+                    else
+                        showMenu()
+                }
+
+                function showMenu() {
+                    filetypes.popup(x, y-filetypes.height)
+                }
+
+
+            }
+
+            PQMenu {
+
+                id: filetypes
+                width: filetypes_button.width
+
+                onAboutToShow: {
+                    resetMenuOpen.stop()
+                    filetypes_button.menuOpen = true
+                }
+
+                onAboutToHide:
+                    resetMenuOpen.restart()
+
+                PQMenuItem {
+                    id: chk_all
+                    checkable: true
+                    checked: true
+                    text: qsTranslate("filedialog", "All supported images")
+                    onCheckedChanged: {
+                        if(checked)
+                            filetypes.checkAll()
                     }
                 }
 
+                PQMenuSeparator {}
+
+                PQMenuItem {
+                    id: chk_qt
+                    checkable: true
+                    checked: true
+                    text: "Qt"
+                    onCheckedChanged:
+                        filetypes.checkChecked("qt")
+                }
+
+                PQMenuItem {
+                    id: chk_magick
+                    checkable: true
+                    checked: true
+                    visible: PQCScriptsConfig.isImageMagickSupportEnabled()||PQCScriptsConfig.isGraphicsMagickSupportEnabled()
+                    text: (PQCScriptsConfig.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick")
+                    onCheckedChanged:
+                        filetypes.checkChecked("magick")
+                }
+
+                PQMenuItem {
+                    id: chk_libraw
+                    checkable: true
+                    checked: true
+                    visible: PQCScriptsConfig.isLibRawSupportEnabled()
+                    text: "LibRaw"
+                    onCheckedChanged:
+                        filetypes.checkChecked("libraw")
+                }
+
+                PQMenuItem {
+                    id: chk_devil
+                    checkable: true
+                    checked: true
+                    visible: PQCScriptsConfig.isDevILSupportEnabled()
+                    text: "DevIL"
+                    onCheckedChanged:
+                        filetypes.checkChecked("devil")
+                }
+
+                PQMenuItem {
+                    id: chk_freeimage
+                    checkable: true
+                    checked: true
+                    visible: PQCScriptsConfig.isFreeImageSupportEnabled()
+                    text: "FreeImage"
+                    onCheckedChanged:
+                        filetypes.checkChecked("freeimage")
+                }
+
+                PQMenuItem {
+                    id: chk_pdf
+                    checkable: true
+                    checked: true
+                    visible: PQCScriptsConfig.isPDFSupportEnabled()
+                    text: "PDF/PS"
+                    onCheckedChanged:
+                        filetypes.checkChecked("pdf")
+                }
+
+                PQMenuItem {
+                    id: chk_video
+                    checkable: true
+                    checked: true
+                    visible: PQCScriptsConfig.isMPVSupportEnabled()||PQCScriptsConfig.isVideoQtSupportEnabled()
+                    text: qsTranslate("filedialog", "Video files")
+                    onCheckedChanged:
+                        filetypes.checkChecked("video")
+
+                }
+
+                function countChecked() {
+                    var ret = 0
+                    var maxchk = 0
+                    if(chk_qt.visible) {
+                        maxchk += 1
+                        if(chk_qt.checked)
+                            ret += 1
+                    }
+                    if(chk_magick.visible) {
+                        maxchk += 1
+                        if(chk_magick.checked)
+                            ret += 1
+                    }
+                    if(chk_libraw.visible) {
+                        maxchk += 1
+                        if(chk_libraw.checked)
+                            ret += 1
+                    }
+                    if(chk_devil.visible) {
+                        maxchk += 1
+                        if(chk_devil.checked)
+                            ret += 1
+                    }
+                    if(chk_freeimage.visible) {
+                        maxchk += 1
+                        if(chk_freeimage.checked)
+                            ret += 1
+                    }
+                    if(chk_pdf.visible) {
+                        maxchk += 1
+                        if(chk_pdf.checked)
+                            ret += 1
+                    }
+                    if(chk_video.visible) {
+                        maxchk += 1
+                        if(chk_video.checked)
+                            ret += 1
+                    }
+                    return [ret, maxchk]
+                }
+
+                function checkChecked(src) {
+
+                    var situation = countChecked()
+                    var numChecked = situation[0]
+                    var maxChecked = situation[1]
+
+                    if(numChecked === maxChecked)
+                        chk_all.checked = true
+                    else
+                        chk_all.checked = false
+
+                    if(numChecked === 0) {
+                        if(src === "qt")
+                            chk_qt.checked = true
+                        else if(src === "magick")
+                            chk_magick.checked = true
+                        else if(src === "libraw")
+                            chk_libraw.checked = true
+                        else if(src === "devil")
+                            chk_devil.checked = true
+                        else if(src === "freeimage")
+                            chk_freeimage.checked = true
+                        else if(src === "pdf")
+                            chk_pdf.checked = true
+                        else if(src === "video")
+                            chk_video.checked = true
+                    }
+
+                    applyChanges.restart()
+
+                }
+
+                function checkAll() {
+                    chk_qt.checked = true
+                    if(chk_magick.visible)
+                        chk_magick.checked = true
+                    if(chk_libraw.visible)
+                        chk_libraw.checked = true
+                    if(chk_devil.visible)
+                        chk_devil.checked = true
+                    if(chk_freeimage.visible)
+                        chk_freeimage.checked = true
+                    if(chk_pdf.visible)
+                        chk_pdf.checked = true
+                    if(chk_video.visible)
+                        chk_video.checked = true
+                    applyChanges.restart()
+                }
+
+                Component.onCompleted:
+                    applyChanges.triggered()
+
+                Timer {
+                    id: applyChanges
+                    interval: 50
+                    onTriggered: {
+
+                        var txts = []
+
+                        var suffixes = []
+                        var mimetypes = []
+
+                        if(chk_qt.checked) {
+                            txts.push("Qt")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsQt())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesQt())
+                        }
+                        if(chk_magick.checked) {
+                            if(PQCScriptsConfig.isImageMagickSupportEnabled())
+                                txts.push("ImageMagick")
+                            else
+                                txts.push("GraphicsMagick")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsMagick())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesMagick())
+                        }
+                        if(chk_libraw.checked) {
+                            txts.push("LibRaw")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibRaw())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibRaw())
+                        }
+                        if(chk_devil.checked) {
+                            txts.push("DevIL")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsDevIL())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesDevIL())
+                        }
+                        if(chk_freeimage.checked) {
+                            txts.push("FreeImage")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsFreeImage())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesFreeImage())
+                        }
+                        if(chk_pdf.checked) {
+                            txts.push("PDF/PS")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsPoppler())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesPoppler())
+                        }
+                        if(chk_video.checked) {
+                            txts.push("Video")
+                            suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsVideo())
+                            mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesVideo())
+                        }
+
+                        var situation = filetypes.countChecked()
+                        if(situation[0] === situation[1])
+                            filetypes_button.text = qsTranslate("filedialog", "All supported images")
+                        else
+                            filetypes_button.text = txts.join(", ")
+
+                        PQCFileFolderModel.restrictToSuffixes = suffixes
+                        PQCFileFolderModel.restrictToMimeTypes = mimetypes
+
+                    }
+                }
+
+
             }
+
 
         }
 

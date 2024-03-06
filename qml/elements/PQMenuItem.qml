@@ -107,4 +107,18 @@ MenuItem {
         border.width: 1
         Behavior on color { ColorAnimation { duration: 200 } }
     }
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: false
+        acceptedButtons: Qt.LeftButton
+
+        onClicked: function(mouse) {
+            if(menuItem.checkable) {
+                menuItem.checked = !menuItem.checked
+                return
+            }
+            menuItem.triggered()
+        }
+    }
  }

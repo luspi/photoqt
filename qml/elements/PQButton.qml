@@ -43,6 +43,7 @@ Rectangle {
     property alias font: txt.font
     property alias tooltip: mouseArea.text
     property alias cursorShape: mouseArea.cursorShape
+    property alias horizontalAlignment: txt.horizontalAlignment
 
     property bool forceHovered: false
 
@@ -69,6 +70,8 @@ Rectangle {
         id: txt
         x: (parent.width-width)/2
         y: (parent.height-height)/2
+        width: control.forceWidth ? control.forceWidth-20 : childrenRect.width
+        elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
         text: ""
         font.pointSize: PQCLook.fontSizeL
         font.weight: PQCLook.fontWeightBold
@@ -76,7 +79,6 @@ Rectangle {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideMiddle
         color: parent.down ? PQCLook.textColorActive : PQCLook.textColor
     }
 

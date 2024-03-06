@@ -504,8 +504,8 @@ bool PQCScriptsConfig::isFreeImageSupportEnabled() {
     return false;
 }
 
-bool PQCScriptsConfig::isPopplerSupportEnabled() {
-#ifdef PQMPOPPLER
+bool PQCScriptsConfig::isPDFSupportEnabled() {
+#if defined PQMPOPPLER||PQMQTPDF
     return true;
 #endif
     return false;

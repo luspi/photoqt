@@ -56,7 +56,7 @@ public:
     Q_INVOKABLE bool isLibRawSupportEnabled();
     Q_INVOKABLE bool isDevILSupportEnabled();
     Q_INVOKABLE bool isFreeImageSupportEnabled();
-    Q_INVOKABLE bool isPopplerSupportEnabled();
+    Q_INVOKABLE bool isPDFSupportEnabled();
     Q_INVOKABLE bool isQtAtLeast6_5();
     Q_INVOKABLE bool isMPVSupportEnabled();
     Q_INVOKABLE bool isVideoQtSupportEnabled();
