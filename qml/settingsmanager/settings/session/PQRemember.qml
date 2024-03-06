@@ -33,8 +33,10 @@ import "../../../elements"
 
 // settings in this file:
 // - imageviewRememberZoomRotationMirror
-// - imageviewReuseZoomRotationMirror
 // - interfaceRememberLastImage
+// - imageviewPreserveZoom
+// - imageviewPreserveRotation
+// - imageviewPreserveMirror
 
 Flickable {
 
@@ -117,10 +119,13 @@ Flickable {
             x: (parent.width-width)/2
             spacing: 10
 
+            ButtonGroup { id: changedgroup }
+
             PQRadioButton {
                 id: forget
                 text: qsTranslate("settingsmanager", "forget changes when other image loaded")
                 onCheckedChanged: checkDefault()
+                ButtonGroup.group: changedgroup
             }
 
             PQRadioButton {
@@ -128,13 +133,35 @@ Flickable {
                 text: qsTranslate("settingsmanager", "remember changes per session")
                 checked: PQCSettings.imageviewRememberZoomRotationMirror
                 onCheckedChanged: checkDefault()
+                ButtonGroup.group: changedgroup
             }
 
-            PQRadioButton {
-                id: reuse
-                text: qsTranslate("settingsmanager", "reuse same changes for all images")
-                checked: PQCSettings.imageviewRememberZoomRotationMirror
-                onCheckedChanged: checkDefault()
+            Row {
+                PQRadioButton {
+                    id: reuse
+                    //: this refers to preserving any selection of zoom/rotation/mirror across different images
+                    text: qsTranslate("settingsmanager", "preserve across images:")
+                    ButtonGroup.group: changedgroup
+                    onCheckedChanged: checkDefault()
+                }
+                PQCheckBox {
+                    id: reuse_zoom
+                    text: qsTranslate("settingsmanager", "Zoom")
+                    enabled: reuse.checked
+                    onCheckedChanged: checkDefault()
+                }
+                PQCheckBox {
+                    id: reuse_rotation
+                    text: qsTranslate("settingsmanager", "Rotation")
+                    enabled: reuse.checked
+                    onCheckedChanged: checkDefault()
+                }
+                PQCheckBox {
+                    id: reuse_mirror
+                    text: qsTranslate("settingsmanager", "Mirror")
+                    enabled: reuse.checked
+                    onCheckedChanged: checkDefault()
+                }
             }
 
         }
@@ -152,7 +179,8 @@ Flickable {
             return
         }
 
-        settingChanged = (blanksession.hasChanged() || reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() || reuse.hasChanged())
+        settingChanged = (blanksession.hasChanged() || reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() ||
+                          reuse.hasChanged() || reuse_zoom.hasChanged() || reuse_rotation.hasChanged() || reuse_mirror.hasChanged())
 
     }
 
@@ -163,7 +191,11 @@ Flickable {
 
         forget.loadAndSetDefault(!PQCSettings.imageviewRememberZoomRotationMirror)
         remember.loadAndSetDefault(PQCSettings.imageviewRememberZoomRotationMirror)
-        reuse.loadAndSetDefault(PQCSettings.imageviewReuseZoomRotationMirror)
+
+        reuse_zoom.loadAndSetDefault(PQCSettings.imageviewPreserveZoom)
+        reuse_rotation.loadAndSetDefault(PQCSettings.imageviewPreserveRotation)
+        reuse_mirror.loadAndSetDefault(PQCSettings.imageviewPreserveMirror)
+        reuse.loadAndSetDefault(reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
 
         settingChanged = false
         settingsLoaded = true
@@ -174,13 +206,18 @@ Flickable {
 
         PQCSettings.interfaceRememberLastImage = reopenlast.checked
         PQCSettings.imageviewRememberZoomRotationMirror = remember.checked
-        PQCSettings.imageviewReuseZoomRotationMirror = reuse.checked
+        PQCSettings.imageviewPreserveZoom = (reuse.checked && reuse_zoom.checked)
+        PQCSettings.imageviewPreserveRotation = (reuse.checked && reuse_rotation.checked)
+        PQCSettings.imageviewPreserveMirror = (reuse.checked && reuse_mirror.checked)
 
         blanksession.saveDefault()
         reopenlast.saveDefault()
         forget.saveDefault()
         remember.saveDefault()
         reuse.saveDefault()
+        reuse_zoom.saveDefault()
+        reuse_rotation.saveDefault()
+        reuse_mirror.saveDefault()
 
         settingChanged = false
 

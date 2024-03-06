@@ -133,6 +133,11 @@ Rectangle {
 
     property int normalEntryHeight: 20
 
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+    }
+
     Flickable {
 
         id: flickable
@@ -333,6 +338,16 @@ Rectangle {
                         active: anythingLoaded
                     }
 
+                    PQMainMenuEntry {
+                        y: (zoomin_icn.height-height)/2
+                        img: "padlock.svg"
+                        smallestWidth: 10
+                        opacity: PQCSettings.imageviewPreserveZoom ? 1 : 0.1
+                        tooltip: qsTranslate("MainMenu", "Enable to preserve zoom levels across images")
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        onClicked: PQCSettings.imageviewPreserveZoom = !PQCSettings.imageviewPreserveZoom
+                    }
+
                 }
 
                 // ROTATION
@@ -381,6 +396,16 @@ Rectangle {
                         active: anythingLoaded
                     }
 
+                    PQMainMenuEntry {
+                        y: (zoomin_icn.height-height)/2
+                        img: "padlock.svg"
+                        smallestWidth: 10
+                        opacity: PQCSettings.imageviewPreserveRotation ? 1 : 0.1
+                        tooltip: qsTranslate("MainMenu", "Enable to preserve rotation angle across images")
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        onClicked: PQCSettings.imageviewPreserveRotation = !PQCSettings.imageviewPreserveRotation
+                    }
+
                 }
 
                 // FLIP
@@ -427,6 +452,16 @@ Rectangle {
                         cmd: "__flipReset"
                         smallestWidth: 10
                         active: anythingLoaded
+                    }
+
+                    PQMainMenuEntry {
+                        y: (zoomin_icn.height-height)/2
+                        img: "padlock.svg"
+                        smallestWidth: 10
+                        opacity: PQCSettings.imageviewPreserveMirror ? 1 : 0.1
+                        tooltip: qsTranslate("MainMenu", "Enable to preserve mirror across images")
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        onClicked: PQCSettings.imageviewPreserveMirror = !PQCSettings.imageviewPreserveMirror
                     }
 
                 }
@@ -748,11 +783,6 @@ Rectangle {
 
         }
 
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.RightButton
     }
 
     MouseArea {

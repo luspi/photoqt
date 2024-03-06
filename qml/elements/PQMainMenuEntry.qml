@@ -44,12 +44,15 @@ Item {
     property string cmd: ""
     property bool closeMenu: false
     property bool active: true
+    property string tooltip: txt
 
     property bool customEntry: false
     property string custom_args: ""
     property string custom_close: ""
 
     property bool hovered: false
+
+    signal clicked()
 
     Rectangle {
         anchors.fill: parent
@@ -97,12 +100,15 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+        text: entrytop.tooltip
         onEntered:
             entrytop.hovered = true
         onExited:
             entrytop.hovered = false
         onClicked: {
-            if(!customEntry || cmd.startsWith("__")) {
+            if(cmd == "") {
+                entrytop.clicked()
+            } else if(!customEntry || cmd.startsWith("__")) {
                 PQCNotify.executeInternalCommand(cmd)
             } else {
                 PQCScriptsShortcuts.executeExternal(cmd, custom_args, PQCFileFolderModel.currentFile);

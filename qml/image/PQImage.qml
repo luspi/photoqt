@@ -648,7 +648,9 @@ Item {
 
                                     function onLoadScaleRotation() {
 
-                                        if((PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges)) || (PQCSettings.imageviewReuseZoomRotationMirror && reuseChanges.length > 1)) {
+                                        if((PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges)) ||
+                                                ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
+                                                  PQCSettings.imageviewPreserveMirror) && reuseChanges.length > 1)) {
 
                                             var vals;
                                             if(PQCSettings.imageviewRememberZoomRotationMirror && (deleg.imageSource in rememberChanges))
@@ -656,14 +658,23 @@ Item {
                                             else
                                                 vals = reuseChanges
 
-                                            image_wrapper.scale = vals[2]
-                                            deleg.imageScale = vals[2]
+                                            if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom) {
+                                                image_wrapper.scale = vals[2]
+                                                deleg.imageScale = vals[2]
+                                            }
 
-                                            image_wrapper.rotation = vals[3]
-                                            deleg.imageRotation = vals[3]
+                                            if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveRotation) {
+                                                image_wrapper.rotation = vals[3]
+                                                deleg.imageRotation = vals[3]
+                                            } else {
+                                                image_wrapper.rotation = 0
+                                                deleg.imageRotation = 0
+                                            }
 
-                                            if(image_loader.item)
+                                            if(image_loader.item && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror))
                                                 image_loader.item.setMirrorHV(vals[4], vals[5])
+                                            else
+                                                image_loader.item.setMirrorHV(false, false)
 
                                             flickable.contentX = vals[0]
                                             flickable.contentY = vals[1]
@@ -676,6 +687,7 @@ Item {
 
                                             image_wrapper.rotation = 0
                                             deleg.imageRotation = 0
+                                            image_loader.item.setMirrorHV(false, false)
                                             image_wrapper.scale = deleg.defaultScale
                                             deleg.imageScale = image_wrapper.scale
 
@@ -698,7 +710,8 @@ Item {
                                     }
 
                                     function onMoveViewToCenter() {
-                                        if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewReuseZoomRotationMirror)
+                                        if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
+                                                PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
                                             return
                                         if(flickable.width < flickable.contentWidth)
                                             flickable.contentX = (flickable.contentWidth-flickable.width)/2
@@ -1151,7 +1164,8 @@ Item {
                 // hide the image
                 function hideImage() {
 
-                    if(deleg.imageFullyShown && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewReuseZoomRotationMirror)) {
+                    if(deleg.imageFullyShown && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
+                                                 PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
                         var vals = [deleg.imagePosX,
                                     deleg.imagePosY,
                                     deleg.imageScale,
@@ -1160,7 +1174,7 @@ Item {
                                     deleg.imageMirrorV]
                         if(PQCSettings.imageviewRememberZoomRotationMirror)
                             rememberChanges[deleg.imageSource] = vals
-                        if(PQCSettings.imageviewReuseZoomRotationMirror)
+                        if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
                             reuseChanges = vals
                     } else
                         // don't delete reuseChanges here, we want to keep those
