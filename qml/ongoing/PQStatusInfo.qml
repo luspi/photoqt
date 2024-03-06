@@ -54,8 +54,6 @@ Item {
 
     property alias radius: maincontainer.radius
 
-    PQBlurBackground { thisis: "statusinfo" }
-
     // don't pass mouse clicks to background
     MouseArea {
         anchors.fill: parent
@@ -94,7 +92,7 @@ Item {
 
             id: maincontainer
 
-            color: PQCLook.transColor
+            color: PQCLook.baseColor
 
             width: row.width+40
             height: row.height+20
@@ -195,7 +193,7 @@ Item {
 
             property bool filterset: false
 
-            color: PQCLook.transColor
+            color: PQCLook.baseColor
 
             width: filterrow.width+30
             height: filterrow.height+20
@@ -316,7 +314,7 @@ Item {
 
             width: 50
             height: width
-            color: PQCLook.transColor
+            color: PQCLook.baseColor
             radius: 5
 
             visible: false
