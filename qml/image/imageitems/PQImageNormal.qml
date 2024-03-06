@@ -166,6 +166,8 @@ Image {
             width: image.width
             height: image.height
             source: image.source
+            smooth: image_wrapper.scale < 0.95*deleg.defaultScale
+            mipmap: smooth
             visible: deleg.defaultScale >= image_wrapper.scale
             sourceSize: Qt.size(screenW, screenH)
         }
