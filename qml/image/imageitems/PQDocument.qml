@@ -58,7 +58,12 @@ Image {
             image.myMirrorH = false
             image.myMirrorV = false
         }
-
+        function onWidthChanged() {
+            resetScreenSize.restart()
+        }
+        function onHeightChanged() {
+            resetScreenSize.restart()
+        }
     }
 
     transform: [
@@ -78,7 +83,47 @@ Image {
         }
     ]
 
+    // with a short delay we load a version of the image scaled to screen dimensions
+    Timer {
+        id: loadScaledDown
+        interval: (PQCSettings.imageviewAnimationDuration+1)*100    // this ensures it happens after the animation has stopped
+        onTriggered: {
+            if(deleg.shouldBeShown) {
+                screenW = image_top.width
+                screenH = image_top.height
+                ldl.active = true
+            }
+        }
+    }
 
+    property int screenW
+    property int screenH
+    Timer {
+        id: resetScreenSize
+        interval: 500
+        repeat: false
+        onTriggered: {
+            screenW = image_top.width
+            screenH = image_top.height
+        }
+    }
+
+    // image scaled to screen dimensions
+    Loader {
+        id: ldl
+        asynchronous: true
+        active: false
+        sourceComponent:
+        Image {
+            width: image.width
+            height: image.height
+            source: image.source
+            smooth: image_wrapper.scale < 0.95*deleg.defaultScale
+            mipmap: smooth
+            visible: deleg.defaultScale >= image_wrapper.scale
+            sourceSize: Qt.size(screenW, screenH)
+        }
+    }
 
     property int currentPage: 0
     property int pageCount: PQCScriptsImages.getDocumentPageCount(deleg.imageSource)
@@ -121,6 +166,10 @@ Image {
         image_wrapper.status = status
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
+        else if(status == Image.Ready) {
+            if(deleg.defaultScale < 0.95)
+                loadScaledDown.restart()
+        }
     }
 
     onSourceSizeChanged: {
