@@ -916,6 +916,14 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
 
 #elif PQMPOPPLER
 
+    std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
+    if(!document || document->isLocked()) {
+        qWarning() << "Invalid PDF document, unable to load!";
+        return 0;
+    }
+
+    return document->numPages();
+
 #endif
 
 }
