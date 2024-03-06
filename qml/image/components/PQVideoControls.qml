@@ -189,7 +189,7 @@ Rectangle {
         Rectangle {
             y: (parent.height-height)/2
             width: 1
-            height: controlitem.height*0.75
+            height: controls_top.height*0.75
             color: PQCLook.textColor
         }
 
