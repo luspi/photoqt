@@ -122,10 +122,12 @@ Image {
     onWidthChanged: {
         image_wrapper.width = width
         deleg.resetToDefaults()
+        image_wrapper.startupScale = false
     }
     onHeightChanged: {
         image_wrapper.height = height
         deleg.resetToDefaults()
+        image_wrapper.startupScale = false
     }
 
     onStatusChanged: {
@@ -137,6 +139,7 @@ Image {
     onSourceSizeChanged: {
         deleg.imageResolution = sourceSize
         deleg.resetToDefaults()
+        image_wrapper.startupScale = false
     }
 
     Connections {
