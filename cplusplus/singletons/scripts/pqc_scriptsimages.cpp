@@ -926,4 +926,6 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
 
 #endif
 
+    return 0;
+
 }
