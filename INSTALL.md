@@ -4,7 +4,7 @@ The instructions below serve as a guide to compile and install PhotoQt from sour
 
 ## DEPENDENCIES
 
-- Qt >= 6.2 (6.4 or higher recommended)
+- Qt >= 6.2 (6.5 or higher recommended)
 - CMake (needed for building PhotoQt)
 - Qt6 ImageFormats
 
@@ -100,7 +100,7 @@ The following are required dependencies:
 2. Install CMake
     - Website: https://cmake.org/
     - In the installer set the system path option to Add CMake to the system PATH for all users
-3. Install Qt 6.2 (6.4+ recommended)
+3. Install Qt 6.2 (6.5+ recommended)
     - Website: https://qt.io
     - In the installer, make sure to install all required modules as listed above under dependencies
     - After installation, confirm that your installation of Qt finds both CMake and the compiler installed in steps 1 and 2
