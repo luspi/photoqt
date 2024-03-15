@@ -46,6 +46,11 @@ Image {
     onMyMirrorVChanged:
         deleg.imageMirrorV = myMirrorV
 
+    function setMirrorHV(mH, mV) {
+        image.myMirrorH = mH
+        image.myMirrorV = mV
+    }
+
     Connections {
         target: image_top
         function onMirrorH() {
