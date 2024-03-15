@@ -20,24 +20,24 @@
  **                                                                      **
  **************************************************************************/
 
-#include <QTimer>
+#include <QCollator>
+#include <QDir>
+#include <QFileInfo>
+#include <QFileSystemWatcher>
 #include <QMimeDatabase>
 #include <QSize>
-#include <QFileSystemWatcher>
-#include <QtDebug>
-#include <QFileInfo>
-#include <QDir>
-#include <QCollator>
+#include <QTimer>
 #include <QtConcurrent>
+#include <QtDebug>
+#include <pqc_configfiles.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_imageformats.h>
-#include <pqc_settings.h>
 #include <pqc_loadimage.h>
 #include <pqc_notify.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptsfiledialog.h>
 #include <pqc_resolutioncache.h>
-#include <pqc_configfiles.h>
+#include <pqc_settings.h>
+#include <scripts/pqc_scriptsfiledialog.h>
+#include <scripts/pqc_scriptsimages.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>

@@ -511,6 +511,20 @@ bool PQCScriptsConfig::isPDFSupportEnabled() {
     return false;
 }
 
+bool PQCScriptsConfig::isLibVipsSupportEnabled() {
+#ifdef PQMLIBVIPS
+    return true;
+#endif
+    return false;
+}
+
+bool PQCScriptsConfig::isLibArchiveSupportEnabled() {
+#ifdef PQMLIBARCHIVE
+    return true;
+#endif
+    return false;
+}
+
 QString PQCScriptsConfig::getVersion() {
     return PQMVERSION;
 }
