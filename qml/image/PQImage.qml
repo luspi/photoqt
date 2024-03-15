@@ -279,6 +279,7 @@ Item {
 
                     property bool listenToClicksOnImage: false
 
+                    property bool videoLoaded: false
                     property bool videoPlaying: false
                     property real videoDuration: 0.0
                     property real videoPosition: 0.0
@@ -478,6 +479,7 @@ Item {
                                         currentFileInside = 0
                                         loader_component.listenToClicksOnImage = false
                                         loader_component.videoPlaying = false
+                                        loader_component.videoLoaded = false
                                         if(PQCScriptsImages.isPDFDocument(deleg.imageSource))
                                             source = "imageitems/PQDocument.qml"
                                         else if(PQCScriptsImages.isArchive(deleg.imageSource))
@@ -486,10 +488,11 @@ Item {
                                             source = "imageitems/PQVideoMpv.qml"
                                             loader_component.listenToClicksOnImage = true
                                             loader_component.videoPlaying = true
+                                            loader_component.videoLoaded = true
                                         } else if(PQCScriptsImages.isQtVideo(deleg.imageSource)) {
                                             source = "imageitems/PQVideoQt.qml"
                                             loader_component.listenToClicksOnImage = true
-                                            loader_component.videoPlaying = true
+                                            loader_component.videoLoaded = true
                                         } else if(PQCScriptsImages.isItAnimated(deleg.imageSource)) {
                                             source = "imageitems/PQImageAnimated.qml"
                                             loader_component.listenToClicksOnImage = true

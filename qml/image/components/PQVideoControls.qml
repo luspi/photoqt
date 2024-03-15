@@ -39,7 +39,7 @@ Rectangle {
 
     property bool controlsClosed: false
 
-    opacity: (loader_component.isMpv || loader_component.isQtVideo)
+    opacity: (loader_component.videoLoaded)
                     ? ((((controlmouse.containsMouse || playpausemouse.containsMouse ||
                           volumeiconmouse.containsMouse || volumebg.containsMouse ||
                           volumeslider.backgroundContainsMouse || volumeslider.handleContainsMouse ||
@@ -106,7 +106,7 @@ Rectangle {
             }
 
             onPositionChanged: {
-                if(pressed && loader_component.isQtVideo) {
+                if(pressed && loader_component.videoLoaded) {
                     loader_component.videoToPos(position*to)
                 }
             }
