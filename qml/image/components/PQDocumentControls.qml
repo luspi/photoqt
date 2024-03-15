@@ -97,12 +97,21 @@ Item {
                 Row {
                     y: (parent.height-height)/2
 
-                    Image {
+                    Rectangle {
                         y: (parent.height-height)/2
+                        color: mousefirst.containsPress ? PQCLook.transColorActive : (mousefirst.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        Behavior on color { ColorAnimation { duration: 200 } }
                         width: height
-                        height: controlitem.height/3
-                        sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/first.svg"
+                        height: controlitem.height/2.5 + 10
+                        radius: 4
+                        Image {
+                            x: 5
+                            y: 5
+                            width: parent.width-10
+                            height: parent.height-10
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/white/first.svg"
+                        }
                         PQMouseArea {
                             id: mousefirst
                             anchors.fill: parent
@@ -113,12 +122,20 @@ Item {
                         }
                     }
 
-                    Image {
+                    Rectangle {
                         y: (parent.height-height)/2
-                        width: height
-                        height: controlitem.height/2
-                        sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/backwards.svg"
+                        color: mouseprev.containsPress ? PQCLook.transColorActive : (mouseprev.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                        width: height-6
+                        height: controlitem.height/1.5 + 6
+                        radius: 4
+                        Image {
+                            y: 3
+                            width: parent.width
+                            height: parent.height-6
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/white/backwards.svg"
+                        }
                         PQMouseArea {
                             id: mouseprev
                             anchors.fill: parent
@@ -129,12 +146,20 @@ Item {
                         }
                     }
 
-                    Image {
+                    Rectangle {
                         y: (parent.height-height)/2
-                        width: height
-                        height: controlitem.height/2
-                        sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/forwards.svg"
+                        color: mousenext.containsPress ? PQCLook.transColorActive : (mousenext.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                        width: height-6
+                        height: controlitem.height/1.5 + 6
+                        radius: 4
+                        Image {
+                            y: 3
+                            width: parent.width
+                            height: parent.height-6
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/white/forwards.svg"
+                        }
                         PQMouseArea {
                             id: mousenext
                             anchors.fill: parent
@@ -145,12 +170,21 @@ Item {
                         }
                     }
 
-                    Image {
+                    Rectangle {
                         y: (parent.height-height)/2
+                        color: mouselast.containsPress ? PQCLook.transColorActive : (mouselast.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        Behavior on color { ColorAnimation { duration: 200 } }
                         width: height
-                        height: controlitem.height/3
-                        sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/last.svg"
+                        height: controlitem.height/2.5 + 10
+                        radius: 4
+                        Image {
+                            x: 5
+                            y: 5
+                            width: parent.width-10
+                            height: parent.height-10
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/white/last.svg"
+                        }
                         PQMouseArea {
                             id: mouselast
                             anchors.fill: parent
@@ -202,37 +236,50 @@ Item {
                     height: 1
                 }
 
-                Image {
-                    id: viewermode
+                Rectangle {
                     y: (parent.height-height)/2
-                    width: height
-                    height: leftrightlock.height
-                    anchors.margins: 5
-                    sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/white/viewermode_on.svg"
-                    PQMouseArea {
-                        id: viewermodemouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        text: qsTranslate("image", "Click to enter viewer mode")
-                        onClicked: PQCFileFolderModel.enableViewerMode()
+                    color: viewermodemouse.containsPress ? PQCLook.transColorActive : (viewermodemouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                    height: width
+                    width: controlitem.height/2.5 + 10
+                    radius: 5
+                    Image {
+                        x: 5
+                        y: 5
+                        width: height
+                        height: parent.height-10
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/viewermode_on.svg"
+                        PQMouseArea {
+                            id: viewermodemouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("image", "Click to enter viewer mode")
+                            onClicked: PQCFileFolderModel.enableViewerMode()
+                        }
                     }
                 }
 
-                Item {
+                Rectangle {
 
                     id: leftrightlock
 
                     y: (parent.height-height)/2
-                    width: lockrow.width
-                    height: lockrow.height
+                    width: lockrow.width+6
+                    height: lockrow.height+6
+                    radius: 5
 
                     opacity: PQCSettings.imageviewDocumentLeftRight ? 1 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+                    color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    Behavior on color { ColorAnimation { duration: 200 } }
+
                     Row {
                         id: lockrow
+                        x: 3
+                        y: 3
 
                         Image {
                             height: controlitem.height/2.5

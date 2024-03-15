@@ -105,25 +105,34 @@ Item {
                 spacing: 5
 
                 // play/pause button
-                Image {
+                Rectangle {
                     y: (parent.height-height)/2
-                    width: height
-                    height: controlitem.height/2.5
-                    source: (image.playing ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
-                    sourceSize: Qt.size(width, height)
-                    MouseArea {
-                        id: playpausecontrol
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if(!image.playing) {
-                                // without explicitely storing/loading the frame it will restart playing at the start
-                                var fr = image.currentFrame
-                                image.playing = true
-                                image.currentFrame = fr
-                            } else
-                                image.playing = false
+                    color: playpausecontrol.containsPress ? PQCLook.transColorActive : (playpausecontrol.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                    height: width
+                    width: controlitem.height/2.5 + 6
+                    radius: 5
+                    Image {
+                        x: 3
+                        y: 3
+                        width: parent.width-6
+                        height: width
+                        source: (image.playing ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
+                        sourceSize: Qt.size(width, height)
+                        MouseArea {
+                            id: playpausecontrol
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                if(!image.playing) {
+                                    // without explicitely storing/loading the frame it will restart playing at the start
+                                    var fr = image.currentFrame
+                                    image.playing = true
+                                    image.currentFrame = fr
+                                } else
+                                    image.playing = false
+                            }
                         }
                     }
                 }
@@ -156,41 +165,56 @@ Item {
                 }
 
                 // save frame button
-                Image {
+                Rectangle {
                     y: (parent.height-height)/2
-                    width: height
-                    height: controlitem.height/2.5
-                    opacity: enabled ? 0.75 : 0.25
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
-                    source: "image://svg/:/white/remember.svg"
-                    sourceSize: Qt.size(width, height)
-                    enabled: !image.playing
-                    PQMouseArea {
-                        id: saveframemouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        //: The frame here refers to one of the images making up an animation of a gif or other animated image
-                        text: qsTranslate("image", "Save current frame to new file")
-                        onClicked: {
-                            PQCScriptsImages.extractFrameAndSave(deleg.imageSource, image.currentFrame)
+                    color: saveframemouse.containsPress ? PQCLook.transColorActive : (saveframemouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                    height: width
+                    width: controlitem.height/2.5 + 6
+                    radius: 5
+                    Image {
+                        x: 3
+                        y: 3
+                        width: height
+                        height: parent.height-6
+                        opacity: enabled ? 0.75 : 0.25
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        source: "image://svg/:/white/remember.svg"
+                        sourceSize: Qt.size(width, height)
+                        enabled: !image.playing
+                        PQMouseArea {
+                            id: saveframemouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            //: The frame here refers to one of the images making up an animation of a gif or other animated image
+                            text: qsTranslate("image", "Save current frame to new file")
+                            onClicked: {
+                                PQCScriptsImages.extractFrameAndSave(deleg.imageSource, image.currentFrame)
+                            }
                         }
                     }
                 }
 
-                Item {
+                Rectangle {
 
                     id: leftrightlock
 
                     y: (parent.height-height)/2
-                    width: lockrow.width
-                    height: lockrow.height
+                    width: lockrow.width+6
+                    height: lockrow.height+6
+                    radius: 5
+
+                    color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    Behavior on color { ColorAnimation { duration: 200 } }
 
                     opacity: PQCSettings.imageviewAnimatedLeftRight ? 1 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     Row {
                         id: lockrow
+                        x: 3
+                        y: 3
 
                         Image {
                             height: controlitem.height/2.5
