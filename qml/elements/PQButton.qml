@@ -70,7 +70,7 @@ Rectangle {
         id: txt
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: control.forceWidth ? control.forceWidth-20 : childrenRect.width
+        width: control.forceWidth ? control.forceWidth-20 : undefined
         elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
         text: ""
         font.pointSize: PQCLook.fontSizeL
