@@ -27,24 +27,58 @@ import "../../elements"
 
 Rectangle {
 
-    x: parent.width-width-50
-    y: parent.height-height-50
-    width: img.width+10
-    height: img.height+10
+    id: minimap_top
+
+    states: [
+        State {
+            name: "popout"
+            PropertyChanges {
+                target: minimap_top
+                x: 0
+                y: 0
+                width: minimap_popout.width
+                height: minimap_popout.height
+                opacity: 1
+            }
+        },
+        State {
+            name: "normal"
+            PropertyChanges {
+                target: minimap_top
+                x: image_top.width-width-50
+                y: image_top.height-height-50
+                parent: image_top
+                width: Math.max(75, img.width+10)
+                height: Math.max(50, img.height+10)
+                opacity: minimapNeeded ? 1 : 0
+            }
+        }
+    ]
+
+    property bool minimapNeeded: (deleg.imageScale > deleg.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
+
+    state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
+
     color: PQCLook.transColor
     radius: 5
     z: image_top.curZ
 
-    opacity: (deleg.imageScale > deleg.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height)) ? 1 : 0
+
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
+
+    PQText {
+        anchors.centerIn: parent
+        visible: (img.source===""||img.status!=Image.Ready) && PQCSettings.interfaceMinimapPopout
+        text: "Minimap"
+    }
 
     MouseArea {
         id: movemouse
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.SizeAllCursor
-        drag.target: parent
+        cursorShape: PQCSettings.interfaceMinimapPopout ? Qt.ArrowCursor : Qt.SizeAllCursor
+        drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
     }
 
     MouseArea {
@@ -52,7 +86,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 5
         hoverEnabled: true
-        drag.target: parent
+        drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
         acceptedButtons: Qt.AllButtons
         cursorShape: Qt.PointingHandCursor
         onClicked: (mouse) => {
@@ -75,11 +109,33 @@ Rectangle {
 
     Image {
         id: img
-        x: 5
-        y: 5
+
         fillMode: Image.PreserveAspectFit
-        sourceSize: Qt.size(200, 200)
         source: ""
+
+        states: [
+            State {
+                name: "popout"
+                PropertyChanges {
+                    target: img
+                    x: (minimap_top.width-width)/2
+                    y: (minimap_top.height-height)/2
+                    sourceSize: Qt.size(minimap_top.width, minimap_top.height)
+                }
+            },
+            State {
+                name: "normal"
+                PropertyChanges {
+                    target: img
+                    x: 5
+                    y: 5
+                    sourceSize: Qt.size(200, 200)
+                }
+            }
+
+        ]
+
+        state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
         clip: true
 
@@ -92,6 +148,7 @@ Rectangle {
             color: PQCLook.transColorActive
             border.width: 2
             border.color: PQCLook.baseColor
+            visible: minimapNeeded
             radius: 2
             MouseArea {
                 id: navmouse
@@ -124,9 +181,12 @@ Rectangle {
 
         Timer {
             interval: PQCSettings.imageviewAnimationDuration*100
-            running: loader_component.visible// && img.source===""
-            onTriggered:
-                img.source = "image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(PQCScriptsFilesPaths.cleanPath(deleg.imageSource))
+            running: loader_component.visible && !hasBeenTriggered
+            property bool hasBeenTriggered: false
+            onTriggered: {
+                hasBeenTriggered = true
+                img.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(PQCScriptsFilesPaths.cleanPath(deleg.imageSource))
+            }
         }
 
     }
@@ -134,7 +194,42 @@ Rectangle {
     Connections {
         target: image_loader.item
         function onSourceChanged(source) {
-            img.source = "image://thumb/" + PQCScriptsFilesPaths.cleanPath(source)
+            img.source = "image://full/" + PQCScriptsFilesPaths.cleanPath(source)
+        }
+    }
+
+    Image {
+        x: PQCSettings.interfaceMinimapPopout ? 4 : -7
+        y: PQCSettings.interfaceMinimapPopout ? 4 : -7
+        width: 15
+        height: 15
+        z: 1
+        source: "image://svg/:/white/popinpopout.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 1 : 0.2
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            text: PQCSettings.interfaceMinimapPopout ?
+                      //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                      qsTranslate("popinpopout", "Merge into main interface") :
+                      //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                      qsTranslate("popinpopout", "Move to its own window")
+            onClicked: {
+                PQCSettings.interfaceMinimapPopout = !PQCSettings.interfaceMinimapPopout
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: -2
+            radius: 2
+            z: -1
+            color: PQCLook.transColor
+            opacity: parent.opacity
         }
     }
 
@@ -146,6 +241,8 @@ Rectangle {
         height: 24
         radius: 12
         color: PQCLook.transColor
+        visible: !PQCSettings.interfaceMinimapPopout
+        enabled: !PQCSettings.interfaceMinimapPopout
         opacity: controlclosemouse.containsMouse ? 0.75 : 0
         Behavior on opacity { NumberAnimation { duration: 300 } }
         Image {

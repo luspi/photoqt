@@ -517,11 +517,7 @@ Item {
                                 Loader {
                                     active: PQCFileFolderModel.currentIndex===index && PQCSettings.imageviewShowMinimap
                                     asynchronous: true
-                                    sourceComponent:
-                                    PQMinimap {
-                                        id: minimap
-                                        parent: image_top
-                                    }
+                                    source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
                                 }
 
                                 // scaling animation
