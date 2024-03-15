@@ -275,13 +275,9 @@ Item {
                     width: deleg.width
                     height: deleg.height
 
-                    property bool isDocument: PQCScriptsImages.isPDFDocument(deleg.imageSource)
-                    property bool isArchive: !isDocument && PQCScriptsImages.isArchive(deleg.imageSource)
-                    property bool isMpv: !isDocument && !isArchive && PQCScriptsImages.isMpvVideo(deleg.imageSource)
-                    property bool isQtVideo: !isDocument && !isArchive && !isMpv && PQCScriptsImages.isQtVideo(deleg.imageSource)
-                    property bool isAnimated: !isDocument && !isArchive && !isMpv && !isQtVideo && PQCScriptsImages.isItAnimated(deleg.imageSource)
+                    property bool listenToClicksOnImage: false
 
-                    property bool videoPlaying: isMpv||isQtVideo
+                    property bool videoPlaying: false
                     property real videoDuration: 0.0
                     property real videoPosition: 0.0
                     signal videoTogglePlay()
@@ -476,21 +472,27 @@ Item {
 
                                     id: image_loader
 
-                                    property string nameOfImage:
-                                        loader_component.isMpv ?
-                                            "PQVideoMpv.qml" :
-                                            (loader_component.isQtVideo ?
-                                                 "PQVideoQt.qml" :
-                                                 (loader_component.isAnimated ?
-                                                      "PQImageAnimated.qml" :
-                                                      (loader_component.isDocument ?
-                                                           "PQDocument.qml" :
-                                                           (loader_component.isArchive ?
-                                                                "PQArchive.qml" :
-                                                                "PQImageNormal.qml"))))
-
-                                    source: "imageitems/" + nameOfImage
-
+                                    Component.onCompleted: {
+                                        loader_component.listenToClicksOnImage = false
+                                        loader_component.videoPlaying = false
+                                        if(PQCScriptsImages.isPDFDocument(deleg.imageSource))
+                                            source = "imageitems/PQDocument.qml"
+                                        else if(PQCScriptsImages.isArchive(deleg.imageSource))
+                                            source = "imageitems/PQArchive.qml"
+                                        else if(PQCScriptsImages.isMpvVideo(deleg.imageSource)) {
+                                            source = "imageitems/PQVideoMpv.qml"
+                                            loader_component.listenToClicksOnImage = true
+                                            loader_component.videoPlaying = true
+                                        } else if(PQCScriptsImages.isQtVideo(deleg.imageSource)) {
+                                            source = "imageitems/PQVideoQt.qml"
+                                            loader_component.listenToClicksOnImage = true
+                                            loader_component.videoPlaying = true
+                                        } else if(PQCScriptsImages.isItAnimated(deleg.imageSource)) {
+                                            source = "imageitems/PQImageAnimated.qml"
+                                            loader_component.listenToClicksOnImage = true
+                                        } else
+                                            source = "imageitems/PQImageNormal.qml"
+                                    }
 
                                 }
 
@@ -790,7 +792,7 @@ Item {
                         }
 
                         onReleased: (mouse) => {
-                            if(mouse.button === Qt.LeftButton && (loader_component.isMpv || loader_component.isQtVideo || loader_component.isAnimated))
+                            if(mouse.button === Qt.LeftButton && loader_component.listenToClicksOnImage)
                                 loader_component.imageClicked()
                             else {
                                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
