@@ -64,7 +64,7 @@ PQTemplateFullscreen {
         PQCheckBox {
             y: (parent.height-height)/2
             text: qsTranslate("settingsmanager", "auto-save changes")
-            scale: 0.75
+            font.pointSize: PQCLook.fontSizeS
             checked: PQCSettings.generalAutoSaveSettings
             onCheckedChanged: {
                 PQCSettings.generalAutoSaveSettings = checked

@@ -180,7 +180,7 @@ Item {
     }
 
     Timer {
-        interval: 100
+        interval: PQCSettings.imageviewAnimationDuration*100
         running: true
         onTriggered:
             loadData()

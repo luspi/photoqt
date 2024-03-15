@@ -33,6 +33,9 @@ Item {
     width: video.width
     height: video.height
 
+    // avoid warning message as we listen to changes for this item in different places
+    property string source: ""
+
     Video {
 
         id: video

@@ -514,6 +514,16 @@ Item {
                                     id: facetagger
                                 }
 
+                                Loader {
+                                    active: PQCFileFolderModel.currentIndex===index && PQCSettings.imageviewShowMinimap
+                                    asynchronous: true
+                                    sourceComponent:
+                                    PQMinimap {
+                                        id: minimap
+                                        parent: image_top
+                                    }
+                                }
+
                                 // scaling animation
                                 PropertyAnimation {
                                     id: scaleAnimation
@@ -1277,7 +1287,7 @@ Item {
         sourceComponent:
             Component {
                 PQPhotoSphere {
-                    z: image_top.curZ
+                    z: image_top.curZ+1
                 }
             }
     }

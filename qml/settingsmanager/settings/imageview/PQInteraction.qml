@@ -183,6 +183,30 @@ Flickable {
 
         PQTextXL {
             font.weight: PQCLook.fontWeightBold
+            //: Settings title. The minimap is a small version of the image used to show where the view is at.
+            text: qsTranslate("settingsmanager", "Minimap")
+            font.capitalization: Font.SmallCaps
+        }
+
+        PQText {
+            width: setting_top.width
+            text: qsTranslate("settingsmanager", "The minimap is a small version of the image that is shown in the lower right corner whenever the image has been zoomed in. It shows the currently visible section of the image and allows to navigate to other parts of the image by clicking at a location or by dragging the highlighted rectangle.")
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        PQCheckBox {
+            id: minimap
+            x: (parent.width-width)/2
+            text: qsTranslate("settingsmanager", "Show minimap")
+            onCheckedChanged: checkDefault()
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQTextXL {
+            font.weight: PQCLook.fontWeightBold
             //: Settings title
             text: qsTranslate("settingsmanager", "Mirror/Flip")
             font.capitalization: Font.SmallCaps
@@ -198,6 +222,7 @@ Flickable {
             id: mirroranim
             x: (parent.width-width)/2
             text: qsTranslate("settingsmanager", "Animate mirror/flip")
+            onCheckedChanged: checkDefault()
         }
 
         /**********************************************************************/
@@ -240,7 +265,7 @@ Flickable {
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged()) {
+                mirroranim.hasChanged() || minimap.hasChanged()) {
             settingChanged = true
             return
         }
@@ -261,6 +286,8 @@ Flickable {
 
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
+        minimap.loadAndSetDefault(PQCSettings.imageviewShowMinimap)
+
         settingChanged = false
         settingsLoaded = true
 
@@ -278,6 +305,8 @@ Flickable {
 
         PQCSettings.interfaceNavigationFloating = floatingnav.checked
 
+        PQCSettings.imageviewShowMinimap = minimap.checked
+
         zoomspeed.saveDefault()
         minzoom_check.saveDefault()
         minzoom_slider.saveDefault()
@@ -285,6 +314,7 @@ Flickable {
         maxzoom_slider.saveDefault()
         mirroranim.saveDefault()
         floatingnav.saveDefault()
+        minimap.saveDefault()
 
         settingChanged = false
 

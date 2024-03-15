@@ -36,6 +36,9 @@ Item {
     width: 100
     height: 100
 
+    // avoid warning message as we listen to changes for this item in different places
+    property string source: ""
+
     onWidthChanged: {
         image_wrapper.width = width
         deleg.imageResolution.width = width
