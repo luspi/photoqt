@@ -317,7 +317,10 @@ Item {
             color: PQCLook.baseColor
             radius: 5
 
-            visible: false
+            visible: currentIsPDF||currentIsARC
+
+            property bool currentIsPDF: false
+            property bool currentIsARC: false
 
             Image {
                 anchors.fill: parent
@@ -341,8 +344,9 @@ Item {
                 onClicked: {
                     if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)
                         PQCFileFolderModel.disableViewerMode()
-                    else
-                        PQCFileFolderModel.enableViewerMode()
+                    else {
+                        PQCFileFolderModel.enableViewerMode(image.currentFileInside)
+                    }
                 }
                 drag.onActiveChanged:
                     movedByMouse = true
@@ -353,15 +357,10 @@ Item {
 
                 function onCurrentFileChanged() {
 
-                    var s = false
+                    viewermode.currentIsPDF = (PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile) &&
+                                               (PQCFileFolderModel.isPDF || PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile)))
 
-                    if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
-                        if(PQCFileFolderModel.isPDF || PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
-                            s = true
-                    } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
-                        s = true
-
-                    viewermode.visible = s
+                    viewermode.currentIsARC = (PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
 
                 }
 

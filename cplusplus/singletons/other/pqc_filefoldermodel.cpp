@@ -1321,15 +1321,16 @@ bool PQCFileFolderModel::isUserFilterSet() {
             m_fileSizeFilter > 0);
 }
 
-void PQCFileFolderModel::enableViewerMode() {
+void PQCFileFolderModel::enableViewerMode(int page) {
 
-    qDebug() << "";
+    qDebug() << "args: page =" << page;
 
     if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
-        setFileInFolderMainView("0::PDF::" + getCurrentFile());
+        setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(getCurrentFile()));
     else
-        setFileInFolderMainView("0::ARC::" + getCurrentFile());
+        setFileInFolderMainView(QString("%1::ARC::%2").arg(page).arg(getCurrentFile()));
     forceReloadMainView();
+    setCurrentIndex(page);
 }
 
 void PQCFileFolderModel::disableViewerMode() {

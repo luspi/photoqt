@@ -72,6 +72,8 @@ Item {
             PQCResolutionCache.saveResolution(PQCFileFolderModel.currentFile, currentResolution)
     }
 
+    property int currentFileInside: 0
+
     property string randomAnimation: "opacity"
 
     property point extraControlsLocation: Qt.point(-1,-1)
@@ -473,6 +475,7 @@ Item {
                                     id: image_loader
 
                                     Component.onCompleted: {
+                                        currentFileInside = 0
                                         loader_component.listenToClicksOnImage = false
                                         loader_component.videoPlaying = false
                                         if(PQCScriptsImages.isPDFDocument(deleg.imageSource))

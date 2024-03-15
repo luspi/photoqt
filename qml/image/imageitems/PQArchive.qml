@@ -99,20 +99,7 @@ Image {
     }
 
     onCurrentFileChanged: {
-        loadNewFile.restart()
-    }
-
-    Timer {
-        id: loadNewFile
-        interval: 200
-        onTriggered: {
-            interval = 200
-            if(controls.pressed) {
-                loadNewFile.restart()
-            } else {
-                setSource()
-            }
-        }
+        image_top.currentFileInside = currentFile
     }
 
     function setSource() {
@@ -152,8 +139,8 @@ Image {
         target: image_top
 
         function onArchiveJump(leftright) {
-            loadNewFile.interval = 0
             image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
+            setSource()
         }
 
     }

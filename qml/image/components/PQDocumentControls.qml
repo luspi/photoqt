@@ -256,7 +256,7 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Click to enter viewer mode")
-                            onClicked: PQCFileFolderModel.enableViewerMode()
+                            onClicked: PQCFileFolderModel.enableViewerMode(image.currentPage)
                         }
                     }
                 }

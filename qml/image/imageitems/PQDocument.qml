@@ -134,6 +134,7 @@ Image {
     property int pageCount: PQCScriptsImages.getDocumentPageCount(deleg.imageSource)
 
     onCurrentPageChanged: {
+        image_top.currentFileInside = currentPage
         loadNewPage.restart()
     }
 

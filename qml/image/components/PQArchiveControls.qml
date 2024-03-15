@@ -107,13 +107,13 @@ Item {
 
                     visible: !controlitem.isComicBook
 
-                    currentIndex: {
-                        image.currentFile
-                    }
+                    currentIndex: image.currentFile
 
                     onCurrentIndexChanged: {
-                        if(currentIndex !== image.currentFile)
+                        if(currentIndex !== image.currentFile) {
                             image.currentFile = currentIndex
+                            image.setSource()
+                        }
                     }
 
                     model: image.fileList
@@ -290,7 +290,7 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Click to enter viewer mode")
-                            onClicked: PQCFileFolderModel.enableViewerMode()
+                            onClicked: PQCFileFolderModel.enableViewerMode(image.currentFile)
                         }
                     }
                 }
