@@ -23,6 +23,7 @@
 import QtQuick
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
+import PQCScriptsConfig
 import "../../elements"
 
 Rectangle {
@@ -84,7 +85,7 @@ Rectangle {
 
     state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
-    color: PQCLook.transColor
+    color: PQCScriptsConfig.isQtAtLeast6_5() ? "transparent" : PQCLook.transColor
     z: image_top.curZ
 
 
@@ -100,6 +101,7 @@ Rectangle {
     MouseArea {
         id: movemouse
         anchors.fill: parent
+        enabled: !PQCScriptsConfig.isQtAtLeast6_5()
         hoverEnabled: true
         cursorShape: PQCSettings.interfaceMinimapPopout ? Qt.ArrowCursor : Qt.SizeAllCursor
         drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
@@ -108,7 +110,7 @@ Rectangle {
     MouseArea {
         id: minimapmouse
         anchors.fill: parent
-        anchors.margins: 5
+        anchors.margins: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
         hoverEnabled: true
         drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
         acceptedButtons: Qt.AllButtons
