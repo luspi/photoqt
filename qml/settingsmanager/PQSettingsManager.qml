@@ -61,16 +61,25 @@ PQTemplateFullscreen {
     }
 
     botLeft.children: [
-        PQCheckBox {
+        Row {
             y: (parent.height-height)/2
-            text: qsTranslate("settingsmanager", "auto-save changes")
-            font.pointSize: PQCLook.fontSizeS
-            checked: PQCSettings.generalAutoSaveSettings
-            onCheckedChanged: {
-                PQCSettings.generalAutoSaveSettings = checked
+            PQCheckBox {
+                text: qsTranslate("settingsmanager", "auto-save")
+                font.pointSize: PQCLook.fontSizeS
+                checked: PQCSettings.generalAutoSaveSettings
+                onCheckedChanged: {
+                    PQCSettings.generalAutoSaveSettings = checked
+                }
+            }
+            PQCheckBox {
+                text: qsTranslate("settingsmanager", "verbose")
+                font.pointSize: PQCLook.fontSizeS
+                checked: PQCSettings.generalHelpTextSettings
+                onCheckedChanged: {
+                    PQCSettings.generalHelpTextSettings = checked
+                }
             }
         }
-
     ]
 
     property bool passShortcutsToDetector: false
@@ -526,7 +535,7 @@ PQTemplateFullscreen {
             y: (parent.height-height)/2
             width: Math.min(500, parent.width)
             height: settinginfomessage_col.height+30
-            radius: 5
+            radius: 10
             color: PQCLook.baseColor
 
             MouseArea {

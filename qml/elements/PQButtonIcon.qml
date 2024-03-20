@@ -32,12 +32,13 @@ Rectangle {
     opacity: enabled ? 1 : 0.5
     radius: 5
 
-    property string source: ""
-    property bool mouseOver: false
+    property alias source: icon.source
+    property bool mouseOver: mousearea.containsMouse
     property bool down: false
     property bool checkable: false
     property bool checked: false
-    property string tooltip: ""
+    property alias tooltip: mousearea.text
+    property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
 
     color: ((down||checked) ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : PQCLook.baseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
@@ -64,10 +65,6 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.tooltip
-        onEntered:
-            control.mouseOver = true
-        onExited:
-            control.mouseOver = false
         onPressed: {
             if(checkable)
                 checked = !checked

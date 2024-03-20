@@ -71,165 +71,155 @@ Flickable {
 
         x: (parent.width-width)/2
 
-        spacing: 10
+        PQSetting {
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+            helptext: qsTranslate("settingsmanager",  "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.")
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Background")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Background")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            content: [
 
-        Column {
+                PQRadioButton {
+                    id: radio_real
+                    //: How the background of PhotoQt should be
+                    text: qsTranslate("settingsmanager", "real transparency")
+                    onCheckedChanged: checkDefault()
+                },
 
-            x: (parent.width-width)/2
+                PQRadioButton {
+                    id: radio_fake
+                    visible: PQCNotify.haveScreenshots
+                    //: How the background of PhotoQt should be
+                    text: qsTranslate("settingsmanager", "fake transparency")
+                    onCheckedChanged: checkDefault()
+                },
 
-            spacing: 10
+                PQRadioButton {
+                    id: radio_solid
+                    //: How the background of PhotoQt should be
+                    text: qsTranslate("settingsmanager", "solid background color")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: radio_real
-                //: How the background of PhotoQt should be
-                text: qsTranslate("settingsmanager", "real transparency")
-                checked: (!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse)
-                onCheckedChanged: checkDefault()
-            }
+                PQRadioButton {
+                    id: radio_custom
+                    //: How the background of PhotoQt should be
+                    text: qsTranslate("settingsmanager", "custom background image")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: radio_fake
-                visible: PQCNotify.haveScreenshots
-                //: How the background of PhotoQt should be
-                text: qsTranslate("settingsmanager", "fake transparency")
-                checked: PQCSettings.interfaceBackgroundImageScreenshot
-                onCheckedChanged: checkDefault()
-            }
+                Row {
 
-            PQRadioButton {
-                id: radio_solid
-                //: How the background of PhotoQt should be
-                text: qsTranslate("settingsmanager", "solid background color")
-                checked: PQCSettings.interfaceBackgroundSolid
-                onCheckedChanged: checkDefault()
-            }
+                    spacing: 10
 
-            PQRadioButton {
-                id: radio_custom
-                //: How the background of PhotoQt should be
-                text: qsTranslate("settingsmanager", "custom background image")
-                checked: PQCSettings.interfaceBackgroundImageUse
-                onCheckedChanged: checkDefault()
-            }
+                    enabled: radio_custom.checked
 
-            Row {
+                    clip: true
+                    height: enabled ? custombg_optcol.height : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                spacing: 10
+                    Rectangle {
 
-                enabled: radio_custom.checked
+                        id: bgimagerow
 
-                Item {
-                    width: 1
-                    height: 1
-                }
+                        width: custombg_optcol.height
+                        height: custombg_optcol.height
+                        color: PQCLook.baseColorHighlight
+                        border.color: PQCLook.baseColorActive
+                        border.width: 1
 
-                Rectangle {
-                    width: custombg_optcol.height
-                    height: custombg_optcol.height
-                    color: PQCLook.baseColorHighlight
-                    border.color: PQCLook.baseColorActive
-                    border.width: 1
+                        opacity: radio_custom.checked ? 1 : 0.3
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    opacity: radio_custom.checked ? 1 : 0.3
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                    PQText {
-                        anchors.centerIn: parent
-                        text: qsTranslate("settingsmanager", "background image")
-                    }
-
-                    Image {
-                        id: previewimage
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        fillMode: Image.PreserveAspectFit
-                        source: ""
-                    }
-
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
-                        text: qsTranslate("settingsmanager", "Click to select an image")
-                        onClicked: {
-                            var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats())
-                            if(path !== "")
-                                previewimage.source = "file:/" + path
+                        PQText {
+                            anchors.centerIn: parent
+                            text: qsTranslate("settingsmanager", "background image")
                         }
-                    }
 
-                    Image {
-                        x: parent.width-width-2
-                        y: 2
-                        width: 24
-                        height: 24
-                        sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/close.svg"
+                        Image {
+                            id: previewimage
+                            anchors.fill: parent
+                            anchors.margins: 1
+                            fillMode: Image.PreserveAspectFit
+                            source: ""
+                        }
+
                         PQMouseArea {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked:
-                                previewimage.source = ""
+                            //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
+                            text: qsTranslate("settingsmanager", "Click to select an image")
+                            onClicked: {
+                                var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats())
+                                if(path !== "")
+                                    previewimage.source = "file:/" + path
+                            }
+                        }
+
+                        Image {
+                            x: parent.width-width-2
+                            y: 2
+                            width: 24
+                            height: 24
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/white/close.svg"
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked:
+                                    previewimage.source = ""
+                            }
+                        }
+
+                    }
+
+                    Column {
+                        id: custombg_optcol
+                        PQRadioButton {
+                            id: radio_bg_scaletofit
+                            //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
+                            text: qsTranslate("settingsmanager", "scale to fit")
+                            checked: PQCSettings.interfaceBackgroundImageScale
+                            onCheckedChanged: checkDefault()
+                        }
+                        PQRadioButton {
+                            id: radio_bg_scaleandcrop
+                            //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
+                            text: qsTranslate("settingsmanager", "scale and crop to fit")
+                            checked: PQCSettings.interfaceBackgroundImageScaleCrop
+                            onCheckedChanged: checkDefault()
+                        }
+                        PQRadioButton {
+                            id: radio_bg_stretch
+                            //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
+                            text: qsTranslate("settingsmanager", "stretch to fit")
+                            checked: PQCSettings.interfaceBackgroundImageStretch
+                            onCheckedChanged: checkDefault()
+                        }
+                        PQRadioButton {
+                            id: radio_bg_center
+                            //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
+                            text: qsTranslate("settingsmanager", "center image")
+                            checked: PQCSettings.interfaceBackgroundImageCenter
+                            onCheckedChanged: checkDefault()
+                        }
+                        PQRadioButton {
+                            id: radio_bg_tile
+                            //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
+                            text: qsTranslate("settingsmanager", "tile image")
+                            checked: PQCSettings.interfaceBackgroundImageTile
+                            onCheckedChanged: checkDefault()
                         }
                     }
 
                 }
 
-                Column {
-                    id: custombg_optcol
-                    PQRadioButton {
-                        id: radio_bg_scaletofit
-                        //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
-                        text: qsTranslate("settingsmanager", "scale to fit")
-                        checked: PQCSettings.interfaceBackgroundImageScale
-                        onCheckedChanged: checkDefault()
-                    }
-                    PQRadioButton {
-                        id: radio_bg_scaleandcrop
-                        //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
-                        text: qsTranslate("settingsmanager", "scale and crop to fit")
-                        checked: PQCSettings.interfaceBackgroundImageScaleCrop
-                        onCheckedChanged: checkDefault()
-                    }
-                    PQRadioButton {
-                        id: radio_bg_stretch
-                        //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
-                        text: qsTranslate("settingsmanager", "stretch to fit")
-                        checked: PQCSettings.interfaceBackgroundImageStretch
-                        onCheckedChanged: checkDefault()
-                    }
-                    PQRadioButton {
-                        id: radio_bg_center
-                        //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
-                        text: qsTranslate("settingsmanager", "center image")
-                        checked: PQCSettings.interfaceBackgroundImageCenter
-                        onCheckedChanged: checkDefault()
-                    }
-                    PQRadioButton {
-                        id: radio_bg_tile
-                        //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
-                        text: qsTranslate("settingsmanager", "tile image")
-                        checked: PQCSettings.interfaceBackgroundImageTile
-                        onCheckedChanged: checkDefault()
-                    }
-                }
-
-            }
+            ]
 
         }
 
@@ -237,54 +227,42 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager", "Click on empty background")
-            font.capitalization: Font.SmallCaps
-        }
+        PQSetting {
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "The empty background area is the part of the background that is not covered by any image. A click on that area can trigger certain actions, some depending on where exactly the click occured")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            title: qsTranslate("settingsmanager", "Click on empty background")
+            helptext: qsTranslate("settingsmanager", "The empty background area is the part of the background that is not covered by any image. A click on that area can trigger certain actions, some depending on where exactly the click occured")
 
-        Column {
+            content: [
 
-            x: (parent.width-width)/2
+                PQRadioButton {
+                    id: radio_noaction
+                    //: what to do when the empty background is clicked
+                    text: qsTranslate("settingsmanager", "no action")
+                    onCheckedChanged: checkDefault()
+                },
 
-            spacing: 10
+                PQRadioButton {
+                    id: radio_closeclick
+                    //: what to do when the empty background is clicked
+                    text: qsTranslate("settingsmanager", "close window")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: radio_noaction
-                //: what to do when the empty background is clicked
-                text: qsTranslate("settingsmanager", "no action")
-                checked: PQCSettings.interfaceCloseOnEmptyBackground
-                onCheckedChanged: checkDefault()
-            }
+                PQRadioButton {
+                    id: radio_navclick
+                    //: what to do when the empty background is clicked
+                    text: qsTranslate("settingsmanager", "navigate between images")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: radio_closeclick
-                //: what to do when the empty background is clicked
-                text: qsTranslate("settingsmanager", "close window")
-                checked: PQCSettings.interfaceNavigateOnEmptyBackground
-                onCheckedChanged: checkDefault()
-            }
+                PQRadioButton {
+                    id: radio_toggledeco
+                    //: what to do when the empty background is clicked
+                    text: qsTranslate("settingsmanager", "toggle window decoration")
+                    onCheckedChanged: checkDefault()
+                }
 
-            PQRadioButton {
-                id: radio_navclick
-                //: what to do when the empty background is clicked
-                text: qsTranslate("settingsmanager", "navigate between images")
-                checked: PQCSettings.interfaceWindowDecorationOnEmptyBackground
-                onCheckedChanged: checkDefault()
-            }
-
-            PQRadioButton {
-                id: radio_toggledeco
-                //: what to do when the empty background is clicked
-                text: qsTranslate("settingsmanager", "toggle window decoration")
-                onCheckedChanged: checkDefault()
-            }
+            ]
 
         }
 
@@ -292,28 +270,24 @@ Flickable {
         PQSettingsSeparator { visible: PQCScriptsConfig.isQtAtLeast6_5() }
         /**********************************************************************/
 
-        PQTextXL {
+        PQSetting {
+
             visible: PQCScriptsConfig.isQtAtLeast6_5()
-            font.weight: PQCLook.fontWeightBold
+
             //: A settings title
-            text: qsTranslate("settingsmanager", "Blurring elements behind other elements")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Blurring elements behind other elements")
+            helptext: qsTranslate("settingsmanager", "Whenever an element (e.g., histogram, main menu, etc.) is open, anything behind it can be blurred slightly. This reduces the contrast in the background which improves readability. Note that this requires a slightly higher amount of computations. It also does not work with anything behind PhotoQt that is not part of the window itself.")
 
-        PQText {
-            visible: PQCScriptsConfig.isQtAtLeast6_5()
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Whenever an element (e.g., histogram, main menu, etc.) is open, anything behind it can be blurred slightly. This reduces the contrast in the background which improves readability. Note that this requires a slightly higher amount of computations. It also does not work with anything behind PhotoQt that is not part of the window itself.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            content: [
 
-        PQCheckBox {
-            visible: PQCScriptsConfig.isQtAtLeast6_5()
-            id: check_blurbg
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "Blur elements in the back")
-            checked: PQCSettings.interfaceBlurElementsInBackground
-            onCheckedChanged: checkDefault()
+                PQCheckBox {
+                    visible: PQCScriptsConfig.isQtAtLeast6_5()
+                    id: check_blurbg
+                    text: qsTranslate("settingsmanager", "Blur elements in the back")
+                    onCheckedChanged: checkDefault()
+                }
+
+            ]
 
         }
 

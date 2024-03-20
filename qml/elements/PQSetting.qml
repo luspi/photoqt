@@ -31,6 +31,8 @@ Row {
     property string title: ""
     property alias content: contcol.children
 
+    property bool makeHelpTextVisible: PQCSettings.generalHelpTextSettings
+
     Row {
 
         width: leftcol
@@ -38,10 +40,16 @@ Row {
 
         PQButtonIcon {
             y: (parent.height/ttl.lineCount -height)/2
-            width: 30
+            width: makeHelpTextVisible ? 0 : 30
+            Behavior on width { NumberAnimation { duration: 200 } }
             height: 30
+            opacity: makeHelpTextVisible ? 0 : 1
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+            clip: true
             source: "image://svg/:/white/help.svg"
             tooltip: helptext
+            tooltipPartialTransparency: false
+            visible: width>0
             onClicked: {
                 settinginfomessage.show(helptext)
             }
@@ -52,7 +60,7 @@ Row {
             font.weight: PQCLook.fontWeightBold
             text: title
             font.capitalization: Font.SmallCaps
-            width: leftcol-40
+            width: leftcol - (makeHelpTextVisible ? 0 : 40)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -65,11 +73,40 @@ Row {
 
     Column {
 
-        id: contcol
-
         spacing: 15
 
         width: rightcol
+
+        Item {
+
+            width: parent.width
+            height: makeHelpTextVisible ? helptext_verbose.height : 0
+            Behavior on height { NumberAnimation { duration: 200 } }
+            opacity: makeHelpTextVisible ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+            visible: height>0
+
+            PQText {
+
+                id: helptext_verbose
+
+                width: parent.width
+
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: helptext
+            }
+
+        }
+
+        Column {
+
+            id: contcol
+
+            spacing: 15
+
+            width: rightcol
+
+        }
 
     }
 

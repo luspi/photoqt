@@ -32,6 +32,7 @@ ToolTip {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
+    property bool partialTransparency: true
     property bool enforceWidthLimit: true
     property int pw: 0
 
@@ -58,7 +59,7 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: PQCLook.transColor
+        color: partialTransparency ? PQCLook.transColor : PQCLook.baseColor
         border.color: PQCLook.inverseColorHighlight
     }
 
