@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCNotify
 
 import "../../../elements"
 
@@ -119,6 +120,9 @@ Flickable {
     signal popoutLoadDefault()
     signal popoutSaveChanges()
 
+    signal selectAllPopouts()
+    signal selectNoPopouts()
+
     Column {
 
         id: contcol
@@ -127,83 +131,191 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Popout")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Popout")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
 
-        Column {
-
-            x: (parent.width-width)/2
-
-            spacing: 5
-
-            Repeater {
-
-                model: pops.length
+            content: [
 
                 Rectangle {
 
-                    id: deleg
+                    width: Math.min(parent.width, 500)
+                    height: 350
+                    color: "transparent"
+                    border.width: 1
+                    border.color: PQCLook.baseColorHighlight
 
-                    width: Math.min(setting_top.width, 600)
-                    height: 35
-                    radius: 5
-
-                    property bool hovered: false
-
-                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
-                    Behavior on color { ColorAnimation { duration: 200 } }
-
-                    PQCheckBox {
-                        id: check
-                        x: 10
-                        y: (parent.height-height)/2
-                        text: pops[index][1]
-                        font.weight: PQCLook.fontWeightBold
-                        color: deleg.hovered||check.checked ? PQCLook.textColorActive : PQCLook.textColor
-                        onCheckedChanged: {
-                            currentCheckBoxStates[index] = (checked ? "1" : "0")
-                            currentCheckBoxStatesChanged()
+                    PQLineEdit {
+                        id: popout_filter
+                        width: parent.width
+                        //: placeholder text in a text edit
+                        placeholderText: qsTranslate("settingsmanager", "Filter popouts")
+                        onControlActiveFocusChanged: {
+                            if(popout_filter.controlActiveFocus) {
+                                PQCNotify.ignoreKeysExceptEnterEsc = true
+                            } else {
+                                PQCNotify.ignoreKeysExceptEnterEsc = false
+                                fullscreenitem.forceActiveFocus()
+                            }
+                        }
+                        Component.onDestruction: {
+                            PQCNotify.ignoreKeysExceptEnterEsc = false
+                            fullscreenitem.forceActiveFocus()
                         }
                     }
 
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onEntered:
-                            deleg.hovered = true
-                        onExited:
-                            deleg.hovered = false
-                        onClicked:
-                            check.checked = !check.checked
+                    Flickable {
+
+                        id: popout_flickable
+
+                        x: 5
+                        y: popout_filter.height
+                        width: parent.width - (popout_scroll.visible ? 5 : 10)
+                        height: parent.height-popout_filter.height-popout_buts.height
+
+                        contentHeight: popout_col.height
+                        clip: true
+
+                        ScrollBar.vertical: PQVerticalScrollBar { id: popout_scroll }
+
+                        Column {
+
+                            id: popout_col
+                            spacing: 5
+
+                            Item {
+                                width: 1
+                                height: 1
+                            }
+
+                            Repeater {
+
+                                model: pops.length
+
+                                Rectangle {
+
+                                    id: deleg
+
+                                    property bool matchesFilter: (popout_filter.text===""||pops[index][1].toLowerCase().indexOf(popout_filter.text) > -1)
+
+                                    width: popout_flickable.width - (popout_scroll.visible ? popout_scroll.width+1 : 0)
+                                    height: matchesFilter ? 35 : 0
+                                    opacity: matchesFilter ? 1 : 0
+                                    radius: 5
+
+                                    Behavior on height { NumberAnimation { duration: 200 } }
+                                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                                    property bool hovered: false
+
+                                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+
+                                    PQCheckBox {
+                                        id: check
+                                        x: 10
+                                        y: (parent.height-height)/2
+                                        text: pops[index][1]
+                                        font.weight: PQCLook.fontWeightBold
+                                        color: deleg.hovered||check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                                        onCheckedChanged: {
+                                            currentCheckBoxStates[index] = (checked ? "1" : "0")
+                                            currentCheckBoxStatesChanged()
+                                        }
+
+                                        Connections {
+                                            target: setting_top
+                                            function onSelectAllPopouts() {
+                                                check.checked = true
+                                            }
+                                            function onSelectNoPopouts() {
+                                                check.checked = false
+                                            }
+                                        }
+
+                                    }
+
+                                    PQMouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onEntered:
+                                            deleg.hovered = true
+                                        onExited:
+                                            deleg.hovered = false
+                                        onClicked:
+                                            check.checked = !check.checked
+                                    }
+
+                                    Connections {
+
+                                        target: setting_top
+
+                                        function onPopoutLoadDefault() {
+                                            check.checked = PQCSettings[pops[index][0]]
+                                        }
+
+                                        function onPopoutSaveChanges() {
+                                            PQCSettings[pops[index][0]] = check.checked
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                            Item {
+                                width: 1
+                                height: 1
+                            }
+
+                        }
+
                     }
 
-                    Connections {
+                    Item {
 
-                        target: setting_top
+                        id: popout_buts
+                        y: (parent.height-height)
+                        width: parent.width
+                        height: 50
 
-                        function onPopoutLoadDefault() {
-                            check.checked = PQCSettings[pops[index][0]]
+                        Rectangle {
+                            width: parent.width
+                            height: 1
+                            color: PQCLook.baseColorHighlight
                         }
 
-                        function onPopoutSaveChanges() {
-                            PQCSettings[pops[index][0]] = check.checked
+                        Row {
+                            x: 5
+                            y: (parent.height-height)/2
+                            spacing: 5
+                            PQButton {
+                                width: (popout_buts.width-15)/2
+                                //: written on button
+                                text: qsTranslate("settingsmanager", "Select all")
+                                smallerVersion: true
+                                onClicked:
+                                    setting_top.selectAllPopouts()
+                            }
+                            PQButton {
+                                width: (popout_buts.width-15)/2
+                                //: written on button
+                                text: qsTranslate("settingsmanager", "Select none")
+                                smallerVersion: true
+                                onClicked:
+                                    setting_top.selectNoPopouts()
+                            }
                         }
+
                     }
 
                 }
 
-            }
+            ]
 
         }
 
@@ -211,104 +323,30 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Keep popouts open")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Keep popouts open")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "Two of the elements can be kept open after they performed their action. These two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "Two of the elements can be kept open after they performed their action. These two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
 
-        Column {
-
-            x: (parent.width-width)/2
-
-            spacing: 5
-
-            Rectangle {
-
-                id: keepopen_fd
-
-                width: Math.min(setting_top.width, 600)
-                height: 35
-                radius: 5
-
-                property bool hovered: false
-
-                color: hovered||keepopen_fd_check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
-                Behavior on color { ColorAnimation { duration: 200 } }
+            content: [
 
                 PQCheckBox {
                     id: keepopen_fd_check
-                    x: 10
-                    y: (parent.height-height)/2
                     text: qsTranslate("settingsmanager", "keep file dialog open")
-                    font.weight: PQCLook.fontWeightBold
-                    color: keepopen_fd.hovered||keepopen_fd_check.checked ? PQCLook.textColorActive : PQCLook.textColor
-                    checked: PQCSettings.interfacePopoutFileDialogKeepOpen
                     onCheckedChanged:
                         checkDefault()
-                }
-
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onEntered:
-                        keepopen_fd.hovered = true
-                    onExited:
-                        keepopen_fd.hovered = false
-                    onClicked:
-                        keepopen_fd_check.checked = !keepopen_fd_check.checked
-                }
-
-            }
-
-            /*******************************************************/
-
-            Rectangle {
-
-                id: keepopen_me
-
-                width: Math.min(setting_top.width, 600)
-                height: 35
-                radius: 5
-
-                property bool hovered: false
-
-                color: hovered||keepopen_me_check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
-                Behavior on color { ColorAnimation { duration: 200 } }
+                },
 
                 PQCheckBox {
                     id: keepopen_me_check
-                    x: 10
-                    y: (parent.height-height)/2
                     text: qsTranslate("settingsmanager", "keep map explorer open")
-                    font.weight: PQCLook.fontWeightBold
-                    color: keepopen_me.hovered||keepopen_me_check.checked ? PQCLook.textColorActive : PQCLook.textColor
-                    checked: PQCSettings.interfacePopoutMapExplorerKeepOpen
                     onCheckedChanged:
                         checkDefault()
                 }
 
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onEntered:
-                        keepopen_me.hovered = true
-                    onExited:
-                        keepopen_me.hovered = false
-                    onClicked:
-                        keepopen_me_check.checked = !keepopen_me_check.checked
-                }
-
-            }
+            ]
 
         }
 
@@ -316,26 +354,24 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Pop out when window is small")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Pop out when window is small")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "Some elements might not be as usable or function well when the window is too small. Thus it is possible to force such elements to be popped out automatically whenever the application window is too small.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "Some elements might not be as usable or function well when the window is too small. Thus it is possible to force such elements to be popped out automatically whenever the application window is too small.")
 
-        PQCheckBox {
-            id: checksmall
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager",  "pop out when application window is small")
-            checked: PQCSettings.interfacePopoutWhenWindowIsSmall
-            onCheckedChanged:
-                checkDefault()
+            content: [
+
+                PQCheckBox {
+                    id: checksmall
+                    text: qsTranslate("settingsmanager",  "pop out when application window is small")
+                    onCheckedChanged:
+                        checkDefault()
+                }
+
+            ]
+
         }
 
         Item {

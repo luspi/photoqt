@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCNotify
 
 import "../../../elements"
 
@@ -63,383 +64,451 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Status info")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Status info")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "The status information refers to the set of information shown in the top left corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "The status information refers to the set of information shown in the top left corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
 
-        PQCheckBox {
-            id: status_show
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show status information")
-            onCheckedChanged: checkDefault()
-        }
+            content: [
 
-        Rectangle {
-            enabled: status_show.checked
-            opacity: enabled ? 1 : 0.5
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            width: setting_top.width
-            radius: 5
-            height: 60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
-            color: PQCLook.baseColorHighlight
-            ListView {
+                PQCheckBox {
+                    id: status_show
+                    text: qsTranslate("settingsmanager", "show status information")
+                    onCheckedChanged: checkDefault()
+                },
 
-                id: avail
+                Rectangle {
+                    enabled: status_show.checked
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    width: parent.width-5
+                    radius: 5
+                    clip: true
 
-                x: 5
-                y: 5
+                    height: enabled ? (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)) : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                width: parent.width-10
-                height: parent.height-10
+                    color: PQCLook.baseColorHighlight
+                    ListView {
 
-                clip: true
-                orientation: ListView.Horizontal
-                spacing: 5
+                        id: avail
 
-                ScrollBar.horizontal: PQHorizontalScrollBar { id: scrollbar }
+                        x: 5
+                        y: 5
 
-                property int dragItemIndex: -1
+                        width: parent.width-10
+                        height: parent.height-10
 
-                property var widths: []
+                        clip: true
+                        orientation: ListView.Horizontal
+                        spacing: 5
 
-                property var disp: {
-                    //: Please keep short! The counter shows where we are in the folder.
-                    "counter": qsTranslate("settingsmanager", "counter"),
-                    //: Please keep short!
-                    "filename": qsTranslate("settingsmanager", "filename"),
-                    //: Please keep short!
-                    "filepathname": qsTranslate("settingsmanager", "filepath"),
-                    //: Please keep short! This is the image resolution.
-                    "resolution": qsTranslate("settingsmanager", "resolution"),
-                    //: Please keep short! This is the current zoom level.
-                    "zoom": qsTranslate("settingsmanager", "zoom"),
-                    //: Please keep short! This is the rotation of the current image
-                    "rotation": qsTranslate("settingsmanager", "rotation"),
-                    //: Please keep short! This is the filesize of the current image.
-                    "filesize": qsTranslate("settingsmanager", "filesize")
-                }
+                        ScrollBar.horizontal: PQHorizontalScrollBar { id: scrollbar }
 
-                model: ListModel {
-                    id: model
-                }
+                        property int dragItemIndex: -1
 
-                delegate: Item {
-                    id: deleg
-                    width: Math.max.apply(Math, avail.widths)
-                    height: avail.height-(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
+                        property var widths: []
+
+                        property var disp: {
+                            //: Please keep short! The counter shows where we are in the folder.
+                            "counter": qsTranslate("settingsmanager", "counter"),
+                            //: Please keep short!
+                            "filename": qsTranslate("settingsmanager", "filename"),
+                            //: Please keep short!
+                            "filepathname": qsTranslate("settingsmanager", "filepath"),
+                            //: Please keep short! This is the image resolution.
+                            "resolution": qsTranslate("settingsmanager", "resolution"),
+                            //: Please keep short! This is the current zoom level.
+                            "zoom": qsTranslate("settingsmanager", "zoom"),
+                            //: Please keep short! This is the rotation of the current image
+                            "rotation": qsTranslate("settingsmanager", "rotation"),
+                            //: Please keep short! This is the filesize of the current image.
+                            "filesize": qsTranslate("settingsmanager", "filesize")
+                        }
+
+                        model: ListModel {
+                            id: model
+                        }
+
+                        delegate: Item {
+                            id: deleg
+                            width: Math.max.apply(Math, avail.widths)
+                            height: avail.height-(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
+
+                            Rectangle {
+                                id: dragRect
+                                width: deleg.width
+                                height: deleg.height
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                color: PQCLook.baseColorActive
+                                radius: 5
+                                PQText {
+                                    id: txt
+                                    x: (parent.width-width)/2
+                                    y: (parent.height-height)/2
+                                    text: avail.disp[name]
+                                    font.weight: PQCLook.fontWeightBold
+                                    color: PQCLook.textColorActive
+                                    onWidthChanged: {
+                                        avail.widths.push(width+20)
+                                        avail.widthsChanged()
+                                    }
+                                }
+                                PQMouseArea {
+                                    id: mouseArea
+                                    anchors.fill: parent
+                                    drag.target: parent
+                                    drag.axis: Drag.XAxis
+                                    drag.onActiveChanged: {
+                                        if (mouseArea.drag.active) {
+                                            avail.dragItemIndex = index;
+                                        }
+                                        dragRect.Drag.drop();
+                                    }
+                                    cursorShape: Qt.OpenHandCursor
+                                    onPressed:
+                                        cursorShape = Qt.ClosedHandCursor
+                                    onReleased:
+                                        cursorShape = Qt.OpenHandCursor
+                                }
+                                states: [
+                                    State {
+                                        when: dragRect.Drag.active
+                                        ParentChange {
+                                            target: dragRect
+                                            parent: setting_top
+                                        }
+
+                                        AnchorChanges {
+                                            target: dragRect
+                                            anchors.horizontalCenter: undefined
+                                            anchors.verticalCenter: undefined
+                                        }
+                                    }
+                                ]
+
+                                Drag.active: mouseArea.drag.active
+                                Drag.hotSpot.x: 0
+                                Drag.hotSpot.y: 0
+
+                                Image {
+
+                                    x: parent.width-width
+                                    y: 0
+                                    width: 20
+                                    height: 20
+
+                                    source: "image://svg/:/white/close.svg"
+                                    sourceSize: Qt.size(width, height)
+
+                                    opacity: closemouse.containsMouse ? 0.8 : 0.2
+                                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                                    PQMouseArea {
+                                        id: closemouse
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                        hoverEnabled: true
+                                        onClicked: {
+                                            avail.model.remove(index, 1)
+                                            checkDefault()
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    DropArea {
+                        id: dropArea
+                        anchors.fill: parent
+                        onPositionChanged: (drag) => {
+                            var newindex = avail.indexAt(drag.x, drag.y)
+                            if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+                                avail.model.move(avail.dragItemIndex, newindex, 1)
+                                avail.dragItemIndex = newindex
+                                checkDefault()
+                            }
+                        }
+                    }
+                },
+
+                Row {
+                    enabled: status_show.checked
+                    spacing: 10
+
+                    height: enabled ? combo_add.height : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQComboBox {
+                        id: combo_add
+                        y: (but_add.height-height)/2
+                        property var data: [
+                            //: Please keep short! The counter shows where we are in the folder.
+                            ["counter", qsTranslate("settingsmanager", "counter")],
+                            //: Please keep short!
+                            ["filename", qsTranslate("settingsmanager", "filename")],
+                            //: Please keep short!
+                            ["filepathname", qsTranslate("settingsmanager", "filepath")],
+                            //: Please keep short! This is the image resolution.
+                            ["resolution", qsTranslate("settingsmanager", "resolution")],
+                            //: Please keep short! This is the current zoom level.
+                            ["zoom", qsTranslate("settingsmanager", "zoom")],
+                            //: Please keep short! This is the rotation of the current image
+                            ["rotation", qsTranslate("settingsmanager", "rotation")],
+                            //: Please keep short! This is the filesize of the current image.
+                            ["filesize", qsTranslate("settingsmanager", "filesize")]
+                        ]
+                        property var modeldata: []
+                        model: modeldata
+                        Component.onCompleted: {
+                            var tmp = []
+                            for(var i = 0; i < data.length; ++i)
+                                tmp.push(data[i][1])
+                            modeldata = tmp
+                        }
+                    }
+                    PQButton {
+                        id: but_add
+                        //: This is written on a button that is used to add a selected block to the status info section.
+                        text: qsTranslate("settingsmanager", "add")
+                        smallerVersion: true
+                        onClicked: {
+                            model.append({name: combo_add.data[combo_add.currentIndex][0]})
+                            checkDefault()
+                        }
+                    }
+                },
+
+                Row {
+
+                    id: sizerow
+
+                    spacing: 10
+
+                    enabled: status_show.checked
+                    height: enabled ? fontsize.height : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQText {
+                        y: (parent.height-height)/2
+                        //: This is the size of the integrated window buttons.
+                        text: qsTranslate("settingsmanager", "Font size:")
+                    }
 
                     Rectangle {
-                        id: dragRect
-                        width: deleg.width
-                        height: deleg.height
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: PQCLook.baseColorActive
-                        radius: 5
+
+                        width: fontsize.width
+                        height: fontsize.height
+                        color: PQCLook.baseColorHighlight
+
+                        PQSpinBox {
+                            id: fontsize
+                            from: 5
+                            to: 100
+                            width: 120
+                            onValueChanged: checkDefault()
+                            visible: !fontsize_val.visible && enabled
+                            Component.onDestruction:
+                                PQCNotify.spinBoxPassKeyEvents = false
+                        }
+
                         PQText {
-                            id: txt
-                            x: (parent.width-width)/2
-                            y: (parent.height-height)/2
-                            text: avail.disp[name]
-                            font.weight: PQCLook.fontWeightBold
-                            color: PQCLook.textColorActive
-                            onWidthChanged: {
-                                avail.widths.push(width+20)
-                                avail.widthsChanged()
-                            }
-                        }
-                        PQMouseArea {
-                            id: mouseArea
+                            id: fontsize_val
                             anchors.fill: parent
-                            drag.target: parent
-                            drag.axis: Drag.XAxis
-                            drag.onActiveChanged: {
-                                if (mouseArea.drag.active) {
-                                    avail.dragItemIndex = index;
-                                }
-                                dragRect.Drag.drop();
-                            }
-                            cursorShape: Qt.OpenHandCursor
-                            onPressed:
-                                cursorShape = Qt.ClosedHandCursor
-                            onReleased:
-                                cursorShape = Qt.OpenHandCursor
-                        }
-                        states: [
-                            State {
-                                when: dragRect.Drag.active
-                                ParentChange {
-                                    target: dragRect
-                                    parent: setting_top
-                                }
-
-                                AnchorChanges {
-                                    target: dragRect
-                                    anchors.horizontalCenter: undefined
-                                    anchors.verticalCenter: undefined
-                                }
-                            }
-                        ]
-
-                        Drag.active: mouseArea.drag.active
-                        Drag.hotSpot.x: 0
-                        Drag.hotSpot.y: 0
-
-                        Image {
-
-                            x: parent.width-width
-                            y: 0
-                            width: 20
-                            height: 20
-
-                            source: "image://svg/:/white/close.svg"
-                            sourceSize: Qt.size(width, height)
-
-                            opacity: closemouse.containsMouse ? 0.8 : 0.2
-                            Behavior on opacity { NumberAnimation { duration: 150 } }
-
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            text: fontsize.value + " px"
                             PQMouseArea {
-                                id: closemouse
                                 anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                //: Tooltip, used as in: Click to edit this value
+                                text: qsTranslate("settingsmanager", "Click to edit")
                                 onClicked: {
-                                    avail.model.remove(index, 1)
-                                    checkDefault()
+                                    PQCNotify.spinBoxPassKeyEvents = true
+                                    fontsize_val.visible = false
                                 }
                             }
-
                         }
 
                     }
 
-                }
-            }
-
-            DropArea {
-                id: dropArea
-                anchors.fill: parent
-                onPositionChanged: (drag) => {
-                    var newindex = avail.indexAt(drag.x, drag.y)
-                    if(newindex !== -1 && newindex !== avail.dragItemIndex) {
-                        avail.model.move(avail.dragItemIndex, newindex, 1)
-                        avail.dragItemIndex = newindex
-                        checkDefault()
+                    PQButton {
+                        id: acceptbut
+                        //: Written on button, the value is whatever was entered in a spin box
+                        text: qsTranslate("settingsmanager", "Accept value")
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        height: 35
+                        visible: !fontsize_val.visible && enabled
+                        onClicked: {
+                            PQCNotify.spinBoxPassKeyEvents = false
+                            fontsize_val.visible = true
+                        }
                     }
-                }
-            }
-        }
 
-        Row {
-            x: (parent.width-width)/2
-            enabled: status_show.checked
-            spacing: 10
-            PQComboBox {
-                id: combo_add
-                y: (but_add.height-height)/2
-                property var data: [
-                    //: Please keep short! The counter shows where we are in the folder.
-                    ["counter", qsTranslate("settingsmanager", "counter")],
-                    //: Please keep short!
-                    ["filename", qsTranslate("settingsmanager", "filename")],
-                    //: Please keep short!
-                    ["filepathname", qsTranslate("settingsmanager", "filepath")],
-                    //: Please keep short! This is the image resolution.
-                    ["resolution", qsTranslate("settingsmanager", "resolution")],
-                    //: Please keep short! This is the current zoom level.
-                    ["zoom", qsTranslate("settingsmanager", "zoom")],
-                    //: Please keep short! This is the rotation of the current image
-                    ["rotation", qsTranslate("settingsmanager", "rotation")],
-                    //: Please keep short! This is the filesize of the current image.
-                    ["filesize", qsTranslate("settingsmanager", "filesize")]
-                ]
-                property var modeldata: []
-                model: modeldata
-                Component.onCompleted: {
-                    var tmp = []
-                    for(var i = 0; i < data.length; ++i)
-                        tmp.push(data[i][1])
-                    modeldata = tmp
                 }
-            }
-            PQButton {
-                id: but_add
-                //: This is written on a button that is used to add a selected block to the status info section.
-                text: qsTranslate("settingsmanager", "add")
-                onClicked: {
-                    model.append({name: combo_add.data[combo_add.currentIndex][0]})
-                    checkDefault()
-                }
-            }
+
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            //: Settings title, the font sized of the status information
-            text: qsTranslate("settingsmanager", "Font size")
-            font.capitalization: Font.SmallCaps
-        }
+        PQSetting {
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "The size of the status info is determined by the font size of the text.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        Row {
-            x: (parent.width-width)/2
-            PQText {
-                y: (fontsize.height-height)/2
-                text: fontsize.from+"pt"
-            }
-            PQSlider {
-                id: fontsize
-                extraWide: true
-                from: 5
-                to: 30
-                value: PQCSettings.interfaceStatusInfoFontSize
-                onValueChanged: checkDefault()
-            }
-            PQText {
-                y: (fontsize.height-height)/2
-                text: fontsize.to+"pt"
-            }
-        }
-        PQText {
-            x: (parent.width-width)/2
-            //: The current value of the slider specifying the font size for the status information
-            text: qsTranslate("settingsmanager", "current value:") + " " + fontsize.value + "pt"
-        }
-
-        /**********************************************************************/
-        PQSettingsSeparator {}
-        /**********************************************************************/
-
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
             //: Settings title
-            text: qsTranslate("settingsmanager", "Hide automatically")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Hide automatically")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "The status info can either be shown at all times, or it can be hidden automatically based on different criteria. It can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout it will then hide again. In addition to these criteria, it can also be shown shortly whenever the image changes.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "The status info can either be shown at all times, or it can be hidden automatically based on different criteria. It can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout it will then hide again. In addition to these criteria, it can also be shown shortly whenever the image changes.")
 
-        Column {
+            content: [
+                PQRadioButton {
+                    id: autohide_always
+                    //: visibility status of the status information
+                    text: qsTranslate("settingsmanager", "keep always visible")
+                    onCheckedChanged: checkDefault()
+                },
 
-            x: (parent.width-width)/2
+                PQRadioButton {
+                    id: autohide_anymove
+                    //: visibility status of the status information
+                    text: qsTranslate("settingsmanager", "only show with any cursor move")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: autohide_always
-                //: visibility status of the status information
-                text: qsTranslate("settingsmanager", "keep always visible")
-                checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
-                onCheckedChanged: checkDefault()
-            }
+                PQRadioButton {
+                    id: autohide_topedge
+                    //: visibility status of the status information
+                    text: qsTranslate("settingsmanager", "only show when cursor near top edge")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: autohide_anymove
-                //: visibility status of the status information
-                text: qsTranslate("settingsmanager", "only show with any cursor move")
-                checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
-                onCheckedChanged: checkDefault()
-            }
 
-            PQRadioButton {
-                id: autohide_topedge
-                //: visibility status of the status information
-                text: qsTranslate("settingsmanager", "only show when cursor near top edge")
-                checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge
-                onCheckedChanged: checkDefault()
-            }
+                Row {
 
-        }
+                    spacing: 10
 
-        PQText {
-            enabled: !autohide_always.checked
-            x: (parent.width-width)/2
-            //: the status information can be hidden automatically after a set timeout
-            text: qsTranslate("settingsmanager", "hide again after timeout:")
-        }
+                    enabled: !autohide_always.checked
+                    height: enabled ? autohide_timeout.height : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
 
-        Row {
-            x: (parent.width-width)/2
-            PQText {
-                enabled: !autohide_always.checked
-                y: (autohide_timeout.height-height)/2
-                text: autohide_timeout.from+"s"
-            }
-            PQSlider {
-                id: autohide_timeout
-                enabled: !autohide_always.checked
-                from: 0
-                to: 5
-                stepSize: 0.1
-                wheelStepSize: 0.1
-                value: PQCSettings.interfaceStatusInfoAutoHideTimeout/1000
-                onValueChanged: checkDefault()
-            }
-            PQText {
-                enabled: !autohide_always.checked
-                y: (autohide_timeout.height-height)/2
-                text: autohide_timeout.to+"s"
-            }
-        }
-        PQText {
-            enabled: !autohide_always.checked
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "current value:") + " " + autohide_timeout.value.toFixed(1) + "s"
-        }
+                    PQText {
+                        y: (parent.height-height)/2
+                        text: qsTranslate("settingsmanager", "hide again after timeout:")
+                    }
 
-        PQCheckBox {
-            id: imgchange
-            x: (parent.width-width)/2
-            enabled: !autohide_always.checked
-            //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
-            text: qsTranslate("settingsmanager", "also show when image changes")
-            checked: PQCSettings.interfaceStatusInfoShowImageChange
-            onCheckedChanged: checkDefault()
+                    Rectangle {
+
+                        width: autohide_timeout.width
+                        height: autohide_timeout.height
+                        color: PQCLook.baseColorHighlight
+
+                        PQSpinBox {
+                            id: autohide_timeout
+                            from: 0
+                            to: 5
+                            width: 120
+                            onValueChanged: checkDefault()
+                            visible: !autohide_timeout_val.visible && enabled
+                            Component.onDestruction:
+                                PQCNotify.spinBoxPassKeyEvents = false
+                        }
+
+                        PQText {
+                            id: autohide_timeout_val
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            text: autohide_timeout.value + " s"
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                //: Tooltip, used as in: Click to edit this value
+                                text: qsTranslate("settingsmanager", "Click to edit")
+                                onClicked: {
+                                    PQCNotify.spinBoxPassKeyEvents = true
+                                    autohide_timeout_val.visible = false
+                                }
+                            }
+                        }
+
+                    }
+
+                    PQButton {
+                        //: Written on button, the value is whatever was entered in a spin box
+                        text: qsTranslate("settingsmanager", "Accept value")
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        height: 35
+                        visible: !autohide_timeout_val.visible && enabled
+                        onClicked: {
+                            PQCNotify.spinBoxPassKeyEvents = false
+                            autohide_timeout_val.visible = true
+                        }
+                    }
+
+                },
+
+                Item {
+
+                    clip: true
+                    width: imgchange.width
+                    enabled: !autohide_always.checked
+                    height: enabled ? imgchange.height : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQCheckBox {
+                        id: imgchange
+                        //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
+                        text: qsTranslate("settingsmanager", "also show when image changes")
+                        onCheckedChanged: checkDefault()
+                    }
+
+                }
+
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Window management")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Window management")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "By default it is possible to drag the status info around as desired. However, it is also possible to use the status info for managing the window itself. When enabled, dragging the status info will drag the window around, and double clicking the status info will toggle the maximized status of the window.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "By default it is possible to drag the status info around as desired. However, it is also possible to use the status info for managing the window itself. When enabled, dragging the status info will drag the window around, and double clicking the status info will toggle the maximized status of the window.")
 
-        PQCheckBox {
-            id: managewindow
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager",  "manage window through status info")
-            checked: PQCSettings.interfaceStatusInfoManageWindow
-            onCheckedChanged: checkDefault()
+            content: [
+                PQCheckBox {
+                    id: managewindow
+                    text: qsTranslate("settingsmanager",  "manage window through status info")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
         /**********************************************************************/

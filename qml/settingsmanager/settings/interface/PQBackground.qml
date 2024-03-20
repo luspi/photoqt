@@ -145,6 +145,8 @@ Flickable {
                             anchors.margins: 1
                             fillMode: Image.PreserveAspectFit
                             source: ""
+                            onSourceChanged:
+                                checkDefault()
                         }
 
                         PQMouseArea {

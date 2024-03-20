@@ -39,6 +39,7 @@ Row {
         spacing: 10
 
         PQButtonIcon {
+            id: helpicon
             y: (parent.height/ttl.lineCount -height)/2
             width: makeHelpTextVisible ? 0 : 30
             Behavior on width { NumberAnimation { duration: 200 } }
@@ -61,6 +62,7 @@ Row {
             text: title
             font.capitalization: Font.SmallCaps
             width: leftcol - (makeHelpTextVisible ? 0 : 40)
+            Behavior on width { NumberAnimation { duration: 200 } }
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -73,14 +75,19 @@ Row {
 
     Column {
 
-        spacing: 15
+        spacing: 10
 
         width: rightcol
 
         Item {
+            width: 1
+            height: 1
+        }
+
+        Item {
 
             width: parent.width
-            height: makeHelpTextVisible ? helptext_verbose.height : 0
+            height: makeHelpTextVisible ? helptext_verbose.height+10 : 0
             Behavior on height { NumberAnimation { duration: 200 } }
             opacity: makeHelpTextVisible ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -102,7 +109,7 @@ Row {
 
             id: contcol
 
-            spacing: 15
+            spacing: 10
 
             width: rightcol
 
