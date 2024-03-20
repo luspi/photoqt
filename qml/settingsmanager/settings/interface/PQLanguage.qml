@@ -127,53 +127,31 @@ Flickable {
             height: 10
         }
 
-        property int currentIndex: -1
-        onCurrentIndexChanged: {
+        PQComboBox {
 
-            if(!settingsLoaded) return
-            if(PQCSettings.generalAutoSaveSettings) {
-                applyChanges()
-                return
+            id: langcombo
+
+            x: (parent.width-width)/2
+
+            model: []
+
+            Component.onCompleted: {
+                // var m = []
+                // for(var i in availableLanguages) {
+                //     m.push(getLanguageName(availableLanguages[i]))
+                // }
+                // model = m
             }
 
-            setting_top.settingChanged = (setting_top.origIndex!==contcol.currentIndex)
+            onCurrentIndexChanged: {
 
-        }
-
-        Repeater {
-
-            model: availableLanguages.length
-
-            Rectangle {
-
-                x: (parent.width-width)/2
-
-                width: Math.min(setting_top.width, 600)
-                height: 35
-
-                radius: 5
-                color: (hovered || contcol.currentIndex===index) ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
-                Behavior on color { ColorAnimation { duration: 200 } }
-
-                property bool hovered: false
-
-                PQText {
-                    id: langtxt
-                    anchors.centerIn: parent
-                    text: getLanguageName(availableLanguages[index])
-                    color: (hovered || contcol.currentIndex===index) ? PQCLook.textColorActive : PQCLook.textColor
-                    Behavior on color { ColorAnimation { duration: 200 } }
+                if(!settingsLoaded) return
+                if(PQCSettings.generalAutoSaveSettings) {
+                    applyChanges()
+                    return
                 }
 
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onEntered: parent.hovered = true
-                    onExited: parent.hovered = false
-                    onClicked: contcol.currentIndex = index
-                    text: langtxt.text + " (" + availableLanguages[index] + ")"
-                }
+                setting_top.settingChanged = (setting_top.origIndex!==langcombo.currentIndex)
 
             }
 
@@ -239,11 +217,11 @@ Flickable {
         load()
 
     function applyChanges() {
-        if(contcol.currentIndex == -1 || contcol.currentIndex >= availableLanguages.length)
+        if(langcombo.currentIndex == -1 || langcombo.currentIndex >= availableLanguages.length)
             PQCSettings.interfaceLanguage = "en"
         else
-            PQCSettings.interfaceLanguage = availableLanguages[contcol.currentIndex]
-        origIndex = contcol.currentIndex
+            PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
+        origIndex = langcombo.currentIndex
         setting_top.settingChanged = false
         PQCScriptsConfig.updateTranslation()
     }
@@ -253,6 +231,12 @@ Flickable {
     }
 
     function load() {
+
+        var m = []
+        for(var i in availableLanguages) {
+            m.push(getLanguageName(availableLanguages[i]))
+        }
+        langcombo.model = m
 
         var code = PQCSettings.interfaceLanguage
 
@@ -266,7 +250,7 @@ Flickable {
             setindex = availableLanguages.indexOf(c)
 
         origIndex = setindex
-        contcol.currentIndex = setindex
+        langcombo.currentIndex = setindex
 
         settingsLoaded = true
 
