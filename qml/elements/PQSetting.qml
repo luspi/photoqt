@@ -22,13 +22,55 @@
 
 import QtQuick
 
-Column {
-    spacing: 10
-    Item { width: 1; height: 15; }
-    Rectangle {
-        width: setting_top.width
-        height: 1
-        color: PQCLook.baseColorHighlight
+Row {
+
+    property int leftcol: 300
+    property int rightcol: parent.width-leftcol-30
+
+    property string helptext: ""
+    property string title: ""
+    property alias content: contcol.children
+
+    Row {
+
+        width: leftcol
+        spacing: 10
+
+        PQButtonIcon {
+            y: (parent.height/ttl.lineCount -height)/2
+            width: 30
+            height: 30
+            source: "image://svg/:/white/help.svg"
+            tooltip: helptext
+            onClicked: {
+                settinginfomessage.show(helptext)
+            }
+        }
+
+        PQTextXXL {
+            id: ttl
+            font.weight: PQCLook.fontWeightBold
+            text: title
+            font.capitalization: Font.SmallCaps
+            width: leftcol-40
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
     }
-    Item { width: 1; height: 15; }
+
+    Item {
+        width: 20
+        height: 1
+    }
+
+    Column {
+
+        id: contcol
+
+        spacing: 15
+
+        width: rightcol
+
+    }
+
 }

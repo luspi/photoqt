@@ -76,7 +76,7 @@ PQTemplateFullscreen {
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)
 
-    property var selectedCategories: ["interface", "if_language"]
+    property var selectedCategories: ["interface", "if_interface"]
     onSelectedCategoriesChanged: {
         fullscreenitem.forceActiveFocus()
     }
@@ -89,12 +89,26 @@ PQTemplateFullscreen {
         //: A settings category
         "interface" : [qsTranslate("settingsmanager", "Interface"),
                        {
-                                             //: A settings subcategory and the qml filename
-                            "if_language"    : [qsTranslate("settingsmanager", "Language"), "PQLanguage",
+                                                //: A settings subcategory and the qml filename
+                            "if_interface"    : [qsTranslate("settingsmanager", "Interface"), "PQInterface",
                                                  // the title and settings for filtering
-                                                [qsTranslate("settingsmanager", "Language")],
+                                                [qsTranslate("settingsmanager", "Language"),
+                                                 qsTranslate("settingsmanager", "Fullscreen or window mode"),
+                                                 qsTranslate("settingsmanager", "Window buttons"),
+                                                 qsTranslate("settingsmanager", "Hide automatically")],
                                                  // the settings for filtering
-                                                ["Language"]],
+                                                ["Language",
+                                                 "WindowMode",
+                                                 "KeepWindowOnTop",
+                                                 "SaveWindowGeometry",
+                                                 "WindowDecoration",
+                                                 "WindowButtonsShow",
+                                                 "WindowButtonsDuplicateDecorationButtons",
+                                                 "NavigationTopRight",
+                                                 "WindowButtonsSize",
+                                                 "WindowButtonsAutoHide",
+                                                 "WindowButtonsAutoHideTopEdge",
+                                                 "WindowButtonsAutoHideTimeout"]],
 
                                                 //: A settings subcategory
                             "if_background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground",
@@ -173,24 +187,8 @@ PQTemplateFullscreen {
                                                  "StatusInfoAutoHideTopEdge",
                                                  "StatusInfoAutoHideTimeout",
                                                  "StatusInfoShowImageChange",
-                                                 "StatusInfoManageWindow"]],
+                                                 "StatusInfoManageWindow"]]
 
-                                                //: A settings subcategory
-                            "if_window"      : [qsTranslate("settingsmanager", "Window"),       "PQWindow",
-                                                [qsTranslate("settingsmanager", "Fullscreen or window mode"),
-                                                 qsTranslate("settingsmanager", "Window buttons"),
-                                                 qsTranslate("settingsmanager", "Hide automatically")],
-                                                ["WindowMode",
-                                                 "KeepWindowOnTop",
-                                                 "SaveWindowGeometry",
-                                                 "WindowDecoration",
-                                                 "WindowButtonsShow",
-                                                 "WindowButtonsDuplicateDecorationButtons",
-                                                 "NavigationTopRight",
-                                                 "WindowButtonsSize",
-                                                 "WindowButtonsAutoHide",
-                                                 "WindowButtonsAutoHideTopEdge",
-                                                 "WindowButtonsAutoHideTimeout"]],
                        }],
 
         /**************************************************************************************************************************/
@@ -471,6 +469,8 @@ PQTemplateFullscreen {
 
             Item {
 
+                id: rightsidesettings
+
                 SplitView.minimumWidth: 400
                 SplitView.fillWidth: true
 
@@ -506,6 +506,67 @@ PQTemplateFullscreen {
         }
 
     ]
+
+    Rectangle {
+        id: settinginfomessage
+        anchors.fill: parent
+        color: PQCLook.transColor
+        visible: opacity>0
+        opacity: 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: settinginfomessage.hide()
+        }
+
+        Rectangle {
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
+            width: Math.min(500, parent.width)
+            height: settinginfomessage_col.height+30
+            radius: 5
+            color: PQCLook.baseColor
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+            }
+
+            Column {
+
+                id: settinginfomessage_col
+                x: 15
+                y: 15
+                width: parent.width
+                spacing: 15
+
+                PQText {
+                    id: settinginfomessage_txt
+                    width: parent.width
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                PQButton {
+                    x: (parent.width-width)/2
+                    text: genericStringClose
+                    onClicked:
+                        settinginfomessage.hide()
+                }
+            }
+        }
+
+        function show(txt) {
+            settinginfomessage_txt.text = txt
+            opacity = 1
+        }
+
+        function hide() {
+            opacity = 0
+        }
+
+    }
 
     Rectangle {
 
@@ -624,6 +685,8 @@ PQTemplateFullscreen {
 
                         if(confirmUnsaved.visible)
                             confirmCancel.clicked()
+                        else if(settinginfomessage.visible)
+                            settinginfomessage.hide()
                         else {
                             button3.clicked()
                         }
@@ -632,15 +695,17 @@ PQTemplateFullscreen {
 
                         if(confirmUnsaved.visible)
                             confirmApply.clicked()
+                        else if(settinginfomessage.visible)
+                            settinginfomessage.hide()
 
                     } else if(param[0] === Qt.Key_S && param[1] === Qt.ControlModifier) {
 
-                        if(confirmUnsaved.opacity < 1)
+                        if(confirmUnsaved.opacity < 1 && settinginfomessage.opacity < 1)
                             settingsloader.item.applyChanges()
 
                     } else if(param[0] === Qt.Key_R && param[1] === Qt.ControlModifier) {
 
-                        if(confirmUnsaved.opacity < 1)
+                        if(confirmUnsaved.opacity < 1 && settinginfomessage.opacity < 1)
                             settingsloader.item.revertChanges()
 
                     } else if(param[0] === Qt.Key_F && param[1] === Qt.ControlModifier) {
@@ -712,6 +777,7 @@ PQTemplateFullscreen {
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false
+        PQCNotify.spinBoxPassKeyEvents = false
         fullscreenitem.forceActiveFocus()
     }
 

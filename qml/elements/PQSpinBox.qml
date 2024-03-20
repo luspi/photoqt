@@ -105,4 +105,26 @@ SpinBox {
         color: PQCLook.baseColorHighlight
     }
 
+    property int _defaultValue
+    Component.onCompleted: {
+        _defaultValue = value
+    }
+
+    function saveDefault() {
+        _defaultValue = value
+    }
+
+    function setDefault(val) {
+        _defaultValue = val
+    }
+
+    function loadAndSetDefault(val) {
+        value = val
+        _defaultValue = val
+    }
+
+    function hasChanged() {
+        return _defaultValue!==value
+    }
+
 }
