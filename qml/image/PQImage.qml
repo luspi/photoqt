@@ -515,6 +515,7 @@ Item {
                                 }
 
                                 Loader {
+                                    id: minimap_loader
                                     active: PQCFileFolderModel.currentIndex===index && PQCSettings.imageviewShowMinimap
                                     asynchronous: true
                                     source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")

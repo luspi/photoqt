@@ -40,6 +40,12 @@ Rectangle {
                 height: minimap_popout.height
                 opacity: 1
             }
+            PropertyChanges {
+                target: img
+                x: (minimap_top.width-width)/2
+                y: (minimap_top.height-height)/2
+                sourceSize: Qt.size(minimap_top.width, minimap_top.height)
+            }
         },
         State {
             name: "normal"
@@ -52,15 +58,33 @@ Rectangle {
                 height: Math.max(50, img.height+10)
                 opacity: minimapNeeded ? 1 : 0
             }
+            PropertyChanges {
+                target: img
+                x: 5
+                y: 5
+                sourceSize: Qt.size(200, 200)
+            }
         }
     ]
+
+    PQMultiEffect {
+
+        parent: minimap_top.parent
+
+        anchors.fill: minimap_top
+        opacity: minimap_top.opacity
+
+        source: minimap_top
+        shadowEnabled: true
+        z: image_top.curZ
+
+    }
 
     property bool minimapNeeded: (deleg.imageScale > deleg.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
 
     state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
     color: PQCLook.transColor
-    radius: 5
     z: image_top.curZ
 
 
@@ -112,30 +136,6 @@ Rectangle {
 
         fillMode: Image.PreserveAspectFit
         source: ""
-
-        states: [
-            State {
-                name: "popout"
-                PropertyChanges {
-                    target: img
-                    x: (minimap_top.width-width)/2
-                    y: (minimap_top.height-height)/2
-                    sourceSize: Qt.size(minimap_top.width, minimap_top.height)
-                }
-            },
-            State {
-                name: "normal"
-                PropertyChanges {
-                    target: img
-                    x: 5
-                    y: 5
-                    sourceSize: Qt.size(200, 200)
-                }
-            }
-
-        ]
-
-        state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
         clip: true
 
@@ -198,6 +198,7 @@ Rectangle {
         }
     }
 
+    // the pop in/out button
     Image {
         x: PQCSettings.interfaceMinimapPopout ? 4 : -7
         y: PQCSettings.interfaceMinimapPopout ? 4 : -7
@@ -256,7 +257,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: qsTranslate("image", "Hide controls")
+            text: qsTranslate("image", "Hide minimap")
             onClicked: {
                 PQCSettings.imageviewShowMinimap = false
             }

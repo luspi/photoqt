@@ -73,8 +73,6 @@ Rectangle {
 
     color: PQCLook.transColor
 
-    radius: 10
-
     PQBlurBackground { id: blurbg }
 
     Item {

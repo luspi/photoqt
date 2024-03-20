@@ -54,6 +54,18 @@ Item {
 
     property alias radius: maincontainer.radius
 
+    PQMultiEffect {
+
+        parent: statusinfo_top.parent
+
+        anchors.fill: statusinfo_top
+        opacity: statusinfo_top.opacity
+
+        source: statusinfo_top
+        shadowEnabled: true
+
+    }
+
     // don't pass mouse clicks to background
     MouseArea {
         anchors.fill: parent
@@ -96,8 +108,6 @@ Item {
 
             width: row.width+40
             height: row.height+20
-
-            radius: 5
 
             Row {
 

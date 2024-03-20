@@ -29,4 +29,7 @@ Item {
     property int blur
     property bool autoPaddingEnabled
     property real saturation
+    property bool shadowEnabled
+    property bool maskEnabled
+    property Item maskSource
 }
