@@ -66,7 +66,7 @@ Flickable {
         "pl" : "Polski",
         "pt" : "Português (Portugal)",
         "pt_BR" : "Português (Brasil)",
-        "ru" : "русский язык",
+        "ru" : "Русский",
         "sk" : "Slovenčina",
         "tr" : "Türkçe",
         "uk" : "Українська",
