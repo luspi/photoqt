@@ -428,7 +428,7 @@ Item {
                         iconSource: "image://svg/:/white/rotateleft.svg"
                         text: "Undo"
                         enabled: addressedit.lineedit.canUndo
-                        onClicked:
+                        onTriggered:
                             addressedit.lineedit.undo()
                     }
 
@@ -436,7 +436,7 @@ Item {
                         iconSource: "image://svg/:/white/rotateright.svg"
                         text: "Redo"
                         enabled: addressedit.lineedit.canRedo
-                        onClicked:
+                        onTriggered:
                             addressedit.lineedit.redo()
                     }
 
@@ -446,7 +446,7 @@ Item {
                         iconSource: "image://svg/:/white/cut.svg"
                         text: "Cut"
                         enabled: addressedit.lineedit.selectedText.length>0
-                        onClicked:
+                        onTriggered:
                             addressedit.actionCut()
 
                     }
@@ -455,7 +455,7 @@ Item {
                         iconSource: "image://svg/:/white/copy.svg"
                         text: "Copy"
                         enabled: addressedit.lineedit.selectedText.length>0
-                        onClicked:
+                        onTriggered:
                             addressedit.actionCopy()
                     }
 
@@ -463,21 +463,21 @@ Item {
                         iconSource: "image://svg/:/white/clipboard.svg"
                         text: "Paste"
                         enabled: addressedit.lineedit.canPaste
-                        onClicked:
+                        onTriggered:
                             addressedit.actionPaste()
                     }
 
                     PQMenuItem {
                         iconSource: "image://svg/:/white/delete.svg"
                         text: "Delete"
-                        onClicked:
+                        onTriggered:
                             addressedit.actionDelete()
                     }
 
                     PQMenuItem {
                         iconSource: "image://svg/:/white/quit.svg"
                         text: "Clear"
-                        onClicked:
+                        onTriggered:
                             addressedit.lineedit.remove(0,addressedit.text.length)
                     }
 
@@ -486,7 +486,7 @@ Item {
                     PQMenuItem {
                         iconSource: "image://svg/:/white/leftrightarrow.svg"
                         text: "Select all"
-                        onClicked:
+                        onTriggered:
                             addressedit.setFocus()
                     }
 
