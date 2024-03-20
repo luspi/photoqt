@@ -32,11 +32,29 @@ ToolTip {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
+    property bool enforceWidthLimit: true
+    property int pw: 0
+
     contentItem: PQText {
         id: contentText
         text: control.text
         font: control.font
         textFormat: Text.RichText
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        Timer {
+            id: calcWidth
+            interval: 200
+            running: enforceWidthLimit
+            repeat: true
+            onTriggered: {
+                if(control.pw === 0)
+                    control.pw = contentText.paintedWidth
+                else {
+                    control.width = Math.min(500, control.pw+20)
+                    stop()
+                }
+            }
+        }
     }
 
     background: Rectangle {
