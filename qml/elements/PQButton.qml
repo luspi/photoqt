@@ -28,7 +28,7 @@ Rectangle {
     id: control
 
     implicitWidth: forceWidth>0 ? forceWidth : (txt.width + padding)
-    implicitHeight: 40
+    implicitHeight: smallerVersion ? 30 : 40
     opacity: enabled ? 1 : 0.6
     Behavior on opacity { NumberAnimation { duration: 200 } }
     radius: 5
@@ -52,6 +52,8 @@ Rectangle {
     property bool extraextraWide: false
     property int padding: extraextraWide ? 300 : (extraWide ? 100 : 40)
 
+    property bool smallerVersion: false
+
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
     //: This is a generic string written on clickable buttons - please keep short!
@@ -73,8 +75,8 @@ Rectangle {
         width: control.forceWidth ? control.forceWidth-20 : undefined
         elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
         text: ""
-        font.pointSize: PQCLook.fontSizeL
-        font.weight: PQCLook.fontWeightBold
+        font.pointSize: smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
+        font.weight: smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
         opacity: enabled ? 1.0 : 0.6
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
