@@ -27,6 +27,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCNotify
 import PQCScriptsChromeCast
+import PQCScriptsConfig
 
 import "../elements"
 
@@ -60,6 +61,7 @@ Item {
 
         anchors.fill: statusinfo_top
         opacity: statusinfo_top.opacity
+        visible: statusinfo_top.visible
 
         source: statusinfo_top
         shadowEnabled: true
@@ -108,6 +110,8 @@ Item {
 
             width: row.width+40
             height: row.height+20
+
+            radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
             Row {
 
