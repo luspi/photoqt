@@ -70,67 +70,14 @@ Flickable {
 
             content: [
 
-                Row {
-
-                    spacing: 10
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        text: qsTranslate("settingsmanager", "margin:")
-                    }
-
-                    Rectangle {
-
-                        width: marginslider.width
-                        height: marginslider.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: marginslider
-                            from: 0
-                            to: 100
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !marginslidertxt.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: marginslidertxt
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: marginslider.value + " px"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    marginslidertxt.visible = false
-                                    marginslider.forceActiveFocus()
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !marginslidertxt.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            marginslidertxt.visible = true
-                        }
-                    }
-
+                PQSpinBoxAdvanced {
+                    id: marginslider
+                    minval: 0
+                    maxval: 100
+                    title: qsTranslate("settingsmanager", "margin:")
+                    suffix: " px"
+                    onValueChanged:
+                        checkDefault()
                 }
 
             ]
@@ -228,74 +175,16 @@ Flickable {
                     onCheckedChanged: checkDefault()
                 },
 
-                Row {
-
-                    spacing: 10
-
-                    clip: true
+                PQSpinBoxAdvanced {
+                    id: interp_spin
+                    minval: 0
+                    maxval: 1000
+                    title: qsTranslate("settingsmanager", "threshold:")
+                    suffix: " px"
                     enabled: interp_check.checked
-                    height: enabled ? interp_spin.height : 0
-                    Behavior on height { NumberAnimation { duration: 200 } }
-                    opacity: enabled ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 150 } }
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        text: qsTranslate("settingsmanager", "threshold:")
-                    }
-
-                    Rectangle {
-
-                        width: interp_spin.width
-                        height: interp_spin.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: interp_spin
-                            from: 0
-                            to: 1000
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !interp_txt.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: interp_txt
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: interp_spin.value + " px"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    interp_txt.visible = false
-                                    interp_spin.forceActiveFocus()
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !interp_txt.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            interp_txt.visible = true
-                        }
-                    }
-
+                    animateHeight: true
+                    onValueChanged:
+                        checkDefault()
                 }
 
             ]
@@ -315,69 +204,14 @@ Flickable {
 
             content: [
 
-                Row {
-
-                    spacing: 10
-
-                    clip: true
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        text: qsTranslate("settingsmanager", "cache size:")
-                    }
-
-                    Rectangle {
-
-                        width: cache_slider.width
-                        height: cache_slider.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: cache_slider
-                            from: 128
-                            to: 5120
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !cache_txt.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: cache_txt
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: cache_slider.value + " MB"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    cache_txt.visible = false
-                                    cache_slider.forceActiveFocus()
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !cache_txt.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            cache_txt.visible = true
-                        }
-                    }
-
+                PQSpinBoxAdvanced {
+                    id: cache_slider
+                    minval: 128
+                    maxval: 5120
+                    title: qsTranslate("settingsmanager", "cache size:")
+                    suffix: " MB"
+                    onValueChanged:
+                        checkDefault()
                 }
 
             ]

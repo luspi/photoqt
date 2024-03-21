@@ -248,68 +248,16 @@ Flickable {
 
             content: [
 
-                Row {
-
-                    spacing: 10
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        text: qsTranslate("settingsmanager", "Sensitivity") + ":"
-                    }
-
-                    Rectangle {
-
-                        width: sensitivity.width
-                        height: sensitivity.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: sensitivity
-                            from: 1
-                            to: 100
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !butsensitivity_val.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: butsensitivity_val
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: sensitivity.value + " px"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    butsensitivity_val.visible = false
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        id: acceptbut
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !butsensitivity_val.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            butsensitivity_val.visible = true
-                        }
-                    }
-
+                PQSpinBoxAdvanced {
+                    id: sensitivity
+                    minval: 1
+                    maxval: 100
+                    title: qsTranslate("settingsmanager", "Sensitivity:")
+                    suffix: " px"
+                    onValueChanged:
+                        checkDefault()
                 }
+
             ]
 
         }
@@ -388,7 +336,6 @@ Flickable {
         currentChanged()
 
         sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize)
-        butsensitivity_val.visible = true
 
         PQCNotify.spinBoxPassKeyEvents = false
 

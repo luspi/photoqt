@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCNotify
 
 import "../../../elements"
 
@@ -58,140 +59,115 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Spacing")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Spacing")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt preloads thumbnails for all files in the current folder and lines them up side by side. In between each thumbnail image it is possible to add a little bit of blank space to better separate the individual images.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "PhotoQt preloads thumbnails for all files in the current folder and lines them up side by side. In between each thumbnail image it is possible to add a little bit of blank space to better separate the individual images.")
 
-        Row {
+            content: [
 
-            x: (parent.width-width)/2
+                PQSpinBoxAdvanced {
+                    id: spacing_slider
+                    minval: 0
+                    maxval: 100
+                    title: ""
+                    suffix: " px"
+                    onValueChanged:
+                        checkDefault()
+                }
 
-            PQText {
-                text: "0px"
-            }
+            ]
 
-            PQSlider {
-                id: spacing_slider
-                from: 0
-                to: 50
-                value: PQCSettings.thumbnailsSpacing
-                onValueChanged: checkDefault()
-            }
-
-            PQText {
-                text: "50px"
-            }
-
-        }
-
-        PQText {
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "current value:") + " " + spacing_slider.value + "px"
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Highlight")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Highlight")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "The thumbnail corresponding to the currently loaded image is highlighted so that it is easy to spot. The same highlight effect is used when hovering over a thumbnail image. The different effects can be combined as desired.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "The thumbnail corresponding to the currently loaded image is highlighted so that it is easy to spot. The same highlight effect is used when hovering over a thumbnail image. The different effects can be combined as desired.")
 
-        Column {
+            content: [
 
-            x: (parent.width-width)/2
-
-            PQCheckBox {
-                id: highlight_invertbg
-                //: effect for highlighting active thumbnail
-                text: qsTranslate("settingsmanager", "invert background color")
-                checked: PQCSettings.thumbnailsHighlightAnimation.includes("invertbg")
-                onCheckedChanged: checkDefault()
-            }
-
-            PQCheckBox {
-                id: highlight_invertlabel
-                //: effect for highlighting active thumbnail
-                text: qsTranslate("settingsmanager", "invert label color")
-                checked: PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel")
-                onCheckedChanged: checkDefault()
-            }
-
-            PQCheckBox {
-                id: highlight_line
-                //: effect for highlighting active thumbnail
-                text: qsTranslate("settingsmanager", "line below")
-                checked: PQCSettings.thumbnailsHighlightAnimation.includes("line")
-                onCheckedChanged: checkDefault()
-            }
-
-            PQCheckBox {
-                id: highlight_magnify
-                //: effect for highlighting active thumbnail
-                text: qsTranslate("settingsmanager", "magnify")
-                checked: PQCSettings.thumbnailsHighlightAnimation.includes("magnify")
-                onCheckedChanged: checkDefault()
-            }
-
-            Row {
                 PQCheckBox {
-                    id: highlight_liftup_check
+                    id: highlight_invertbg
                     //: effect for highlighting active thumbnail
-                    text: qsTranslate("settingsmanager", "lift up") + ":"
-                    checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
+                    text: qsTranslate("settingsmanager", "invert background color")
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: highlight_invertlabel
+                    //: effect for highlighting active thumbnail
+                    text: qsTranslate("settingsmanager", "invert label color")
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: highlight_line
+                    //: effect for highlighting active thumbnail
+                    text: qsTranslate("settingsmanager", "line below")
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: highlight_magnify
+                    //: effect for highlighting active thumbnail
+                    text: qsTranslate("settingsmanager", "magnify")
+                    onCheckedChanged: checkDefault()
+                },
+
+                Row {
+                    PQCheckBox {
+                        id: highlight_liftup_check
+                        //: effect for highlighting active thumbnail
+                        text: qsTranslate("settingsmanager", "lift up") + (checked ? ":" : " ")
+                        checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
+                        onCheckedChanged: checkDefault()
+                    }
+
+                    PQSpinBoxAdvanced {
+                        id: highlight_liftup_slider
+                        minval: 0
+                        maxval: 100
+                        title: ""
+                        suffix: " px"
+                        enabled: highlight_liftup_check.checked
+                        animateWidth: true
+                        onValueChanged:
+                            checkDefault()
+                    }
+
+                }
+
+            ]
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Center on active")
+
+            helptext: qsTranslate("settingsmanager", "When switching between images PhotoQt always makes sure that the thumbnail corresponding to the currently viewed image is visible somewhere along the thumbnail bar. Additionally it is possible to tell PhotoQt to not only keep it visible but also keep it in the center of the edge.")
+
+            content: [
+                PQCheckBox {
+                    id: thumb_center
+                    text: qsTranslate("settingsmanager", "keep active thumbnail in center")
                     onCheckedChanged: checkDefault()
                 }
-                PQText {
-                    y: (highlight_liftup_check.height-height)/2
-                    enabled: highlight_liftup_check.checked
-                    text: "0px"
-                }
-                PQSlider {
-                    id: highlight_liftup_slider
-                    y: (highlight_liftup_check.height-height)/2
-                    enabled: highlight_liftup_check.checked
-                    from: 0
-                    to: 100
-                    value: PQCSettings.thumbnailsHighlightAnimationLiftUp
-                    onValueChanged: checkDefault()
-                }
-                PQText {
-                    y: (highlight_liftup_check.height-height)/2
-                    enabled: highlight_liftup_check.checked
-                    text: "100px"
-                }
-            }
-
-            Row {
-                enabled: highlight_liftup_check.checked
-                Item {
-                    width: highlight_liftup_check.width
-                    height: 1
-                }
-                PQText {
-                    width: highlight_liftup_slider.width+50
-                    horizontalAlignment: Text.AlignHCenter
-                    text: qsTranslate("settingsmanager", "current value:") + " " + highlight_liftup_slider.value + "px"
-                }
-            }
+            ]
 
         }
 
@@ -199,71 +175,37 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Center on active")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Visibility")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "When switching between images PhotoQt always makes sure that the thumbnail corresponding to the currently viewed image is visible somewhere along the thumbnail bar. Additionally it is possible to tell PhotoQt to not only keep it visible but also keep it in the center of the edge.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "The visibility of the thumbnail bar can be set depending on personal choice. The bar can either always be kept visible, it can be hidden unless the mouse cursor is close to the respective screen edge, or it can be kept visible unless the main image has been zoomed in.")
 
-        PQCheckBox {
-            id: thumb_center
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "keep active thumbnail in center")
-            checked: PQCSettings.thumbnailsCenterOnActive
-            onCheckedChanged: checkDefault()
-        }
+            content: [
 
-        /**********************************************************************/
-        PQSettingsSeparator {}
-        /**********************************************************************/
+                PQRadioButton {
+                    id: vis_needed
+                    //: used as in: hide thumbnail bar when not needed
+                    text: qsTranslate("settingsmanager", "hide when not needed")
+                    onCheckedChanged: checkDefault()
+                },
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            //: Settings title
-            text: qsTranslate("settingsmanager", "Visibility")
-            font.capitalization: Font.SmallCaps
-        }
+                PQRadioButton {
+                    id: vis_always
+                    //: used as in: always keep thumbnail bar visible
+                    text: qsTranslate("settingsmanager", "always keep visible")
+                    onCheckedChanged: checkDefault()
+                },
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "The visibility of the thumbnail bar can be set depending on personal choice. The bar can either always be kept visible, it can be hidden unless the mouse cursor is close to the respective screen edge, or it can be kept visible unless the main image has been zoomed in.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+                PQRadioButton {
+                    id: vis_zoomed
+                    //: used as in: hide thumbnail bar when zoomed in
+                    text: qsTranslate("settingsmanager", "hide when zoomed in")
+                    onCheckedChanged: checkDefault()
+                }
 
-        Column {
-
-            x: (parent.width-width)/2
-
-            PQRadioButton {
-                id: vis_needed
-                //: used as in: hide thumbnail bar when not needed
-                text: qsTranslate("settingsmanager", "hide when not needed")
-                checked: PQCSettings.thumbnailsVisibility===0
-                onCheckedChanged: checkDefault()
-            }
-
-            PQRadioButton {
-                id: vis_always
-                //: used as in: always keep thumbnail bar visible
-                text: qsTranslate("settingsmanager", "always keep visible")
-                checked: PQCSettings.thumbnailsVisibility===1
-                onCheckedChanged: checkDefault()
-            }
-
-            PQRadioButton {
-                id: vis_zoomed
-                //: used as in: hide thumbnail bar when zoomed in
-                text: qsTranslate("settingsmanager", "hide when zoomed in")
-                checked: PQCSettings.thumbnailsVisibility===2
-                onCheckedChanged: checkDefault()
-            }
+            ]
 
         }
 

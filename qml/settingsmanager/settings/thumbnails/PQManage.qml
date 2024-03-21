@@ -64,7 +64,7 @@ Flickable {
 
         PQText {
             width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt shows all images in the currently loaded folder as thumbnails along one of the screen edges. If you want to disable thumbnails altogether, you can do so by removing it from all screen edges in the interface settings.")
+            text: qsTranslate("settingsmanager", "To disable thumbnail altogether remove it from all screen edges in the Interface category.")
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
 
@@ -72,131 +72,107 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Cache")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Cache")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can cache thumbnails so that each subsequent time they can be generated near instantaneously. PhotoQt implements the standard for thumbnails defined by freedesktop.org. On Windows it can also load (but not write) existing thumbnails from the thumbnail cache built into Windows.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "PhotoQt can cache thumbnails so that each subsequent time they can be generated near instantaneously. PhotoQt implements the standard for thumbnails defined by freedesktop.org. On Windows it can also load (but not write) existing thumbnails from the thumbnail cache built into Windows.")
 
-        PQCheckBox {
-            id: cache_enable
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "enable cache")
-            checked: PQCSettings.thumbnailsCache
-            onCheckedChanged: checkDefault()
-        }
-
-        /**********************************************************************/
-        PQSettingsSeparator {}
-        /**********************************************************************/
-
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            //: Settings title
-            text: qsTranslate("settingsmanager", "Exclude folders")
-            font.capitalization: Font.SmallCaps
-        }
-
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "When an image is loaded PhotoQt preloads thumbnails for all images found in the current folder. Some cloud providers do not fully sync their files unless accessed. To avoid unnecessarily downloading large amount of files, it is possible to exclude specific directories from any sort of caching and preloading. Note that for files in these folders you will still see thumbnails consisting of filetype icons.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
-
-        Column {
-
-            x: (parent.width-width)/2
-            spacing: 10
-
-            PQText {
-                id: cloudheader
-                text: qsTranslate("settingsmanager", "Cloud providers to exclude from caching:")
-                visible: nextcloud.visible||owncloud.visible||dropbox.visible
-            }
-
-            PQCheckBox {
-                id: nextcloud
-                property string folder: PQCSettings.thumbnailsExcludeNextcloud
-                visible: folder!=""
-                text: "Nextcloud: " + folder
-                checked: PQCSettings.thumbnailsExcludeNextcloud!==""
-                onCheckedChanged: checkDefault()
-            }
-
-            PQCheckBox {
-                id: owncloud
-                property string folder: PQCSettings.thumbnailsExcludeOwnCloud
-                visible: folder!=""
-                text: "ownCloud: " + folder
-                checked: PQCSettings.thumbnailsExcludeOwnCloud!==""
-                onCheckedChanged: checkDefault()
-            }
-
-            PQCheckBox {
-                id: dropbox
-                property string folder: PQCSettings.thumbnailsExcludeDropBox
-                visible: folder!=""
-                text: "DropBox: " + folder
-                checked: PQCSettings.thumbnailsExcludeDropBox!==""
-                onCheckedChanged: checkDefault()
-            }
-
-        }
-
-        Item {
-            width: 1
-            height: 10
-        }
-
-        Column {
-
-            x: (parent.width-width)/2
-            spacing: 10
-
-            PQText {
-                text: qsTranslate("settingsmanager", "Do not cache these folders:")
-            }
-
-            PQTextArea {
-                id: exclude_folders
-                implicitWidth: 400
-                implicitHeight: 100
-                text: PQCSettings.thumbnailsExcludeFolders.join("\n")
-                placeholderText: qsTranslate("settingsmanager", "One folder per line")
-                onControlActiveFocusChanged: {
-                    PQCNotify.ignoreKeysExceptEsc = controlActiveFocus
+            content: [
+                PQCheckBox {
+                    id: cache_enable
+                    text: qsTranslate("settingsmanager", "enable cache")
+                    onCheckedChanged: checkDefault()
                 }
-                onTextChanged: checkDefault()
-            }
+            ]
 
-            PQButton {
+        }
 
-                x: (parent.width-width)/2
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
 
-                //: Written on a button
-                text: qsTranslate("settingsmanager", "Add folder")
-                onClicked: {
-                    var newdir = PQCScriptsFilesPaths.getExistingDirectory()
-                    if(newdir !== "") {
-                        if(exclude_folders.text === "")
-                            exclude_folders.text = newdir+"\n"
-                        else {
-                            if(exclude_folders.text.endsWith("\n"))
-                                exclude_folders.text += newdir+"\n"
-                            else
-                                exclude_folders.text += "\n"+newdir+"\n"
+        PQSetting {
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Exclude folders")
+
+            helptext: qsTranslate("settingsmanager", "When an image is loaded PhotoQt preloads thumbnails for all images found in the current folder. Some cloud providers do not fully sync their files unless accessed. To avoid unnecessarily downloading large amount of files, it is possible to exclude specific directories from any sort of caching and preloading. Note that for files in these folders you will still see thumbnails consisting of filetype icons.")
+
+            content: [
+
+                PQText {
+                    id: cloudheader
+                    text: qsTranslate("settingsmanager", "Cloud providers to exclude from caching:")
+                    visible: nextcloud.visible||owncloud.visible||dropbox.visible
+                },
+
+                PQCheckBox {
+                    id: nextcloud
+                    property string folder: PQCSettings.thumbnailsExcludeNextcloud
+                    visible: folder!=""
+                    text: "Nextcloud: " + folder
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: owncloud
+                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud
+                    visible: folder!=""
+                    text: "ownCloud: " + folder
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: dropbox
+                    property string folder: PQCSettings.thumbnailsExcludeDropBox
+                    visible: folder!=""
+                    text: "DropBox: " + folder
+                    onCheckedChanged: checkDefault()
+                },
+
+                Item {
+                    width: 1
+                    height: 10
+                },
+
+                PQText {
+                    text: qsTranslate("settingsmanager", "Do not cache these folders:")
+                },
+
+                PQTextArea {
+                    id: exclude_folders
+                    implicitWidth: 400
+                    implicitHeight: 100
+                    placeholderText: qsTranslate("settingsmanager", "One folder per line")
+                    onControlActiveFocusChanged: {
+                        PQCNotify.ignoreKeysExceptEsc = controlActiveFocus
+                    }
+                    onTextChanged: checkDefault()
+                },
+
+                PQButton {
+
+                    //: Written on a button
+                    text: qsTranslate("settingsmanager", "Add folder")
+                    onClicked: {
+                        var newdir = PQCScriptsFilesPaths.getExistingDirectory()
+                        if(newdir !== "") {
+                            if(exclude_folders.text === "")
+                                exclude_folders.text = newdir+"\n"
+                            else {
+                                if(exclude_folders.text.endsWith("\n"))
+                                    exclude_folders.text += newdir+"\n"
+                                else
+                                    exclude_folders.text += "\n"+newdir+"\n"
+                            }
+                            exclude_folders.cursorPosition = exclude_folders.text.length
                         }
-                        exclude_folders.cursorPosition = exclude_folders.text.length
                     }
                 }
-            }
+
+            ]
 
         }
 
@@ -204,45 +180,27 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "How many threads")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "How many threads")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "In order to speed up loading all the thumbnails in a folder PhotoQt uses multiple threads simultaneously. On more powerful systems, a larger number of threads can result in much faster loading of all the thumbnails of a folder. Too many threads, however, might make a system feel slow for a short time.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "In order to speed up loading all the thumbnails in a folder PhotoQt uses multiple threads simultaneously. On more powerful systems, a larger number of threads can result in much faster loading of all the thumbnails of a folder. Too many threads, however, might make a system feel slow for a short time.")
 
-        Row {
+            content: [
 
-            x: (parent.width-width)/2
+                PQSpinBoxAdvanced {
+                    id: threads
+                    minval: 1
+                    maxval: 32
+                    title: ""
+                    suffix: " threads"
+                    onValueChanged:
+                        checkDefault()
+                }
 
-            PQText {
-                text: "1"
-            }
+            ]
 
-            PQSlider {
-                id: threads
-                from: 1
-                to: 8
-                value: PQCSettings.thumbnailsMaxNumberThreads
-                onValueChanged: checkDefault()
-            }
-
-            PQText {
-                text: "8"
-            }
-
-        }
-
-        PQText {
-            x: (parent.width-width)/2
-            //: Important: Please do not forget the placeholder!
-            text: qsTranslate("settingsmanager", "current value: %1 thread(s)").arg(threads.value)
         }
 
     }

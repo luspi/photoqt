@@ -289,76 +289,16 @@ Flickable {
                     }
                 },
 
-                Row {
-
-                    id: sizerow
-
-                    spacing: 10
-
+                PQSpinBoxAdvanced {
+                    id: fontsize
+                    minval: 5
+                    maxval: 30
+                    title: qsTranslate("settingsmanager", "Font size:")
+                    suffix: " pt"
                     enabled: status_show.checked
-                    height: enabled ? fontsize.height : 0
-                    opacity: enabled ? 1 : 0
-                    Behavior on height { NumberAnimation { duration: 200 } }
-                    Behavior on opacity { NumberAnimation { duration: 150 } }
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        //: This is the size of the integrated window buttons.
-                        text: qsTranslate("settingsmanager", "Font size:")
-                    }
-
-                    Rectangle {
-
-                        width: fontsize.width
-                        height: fontsize.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: fontsize
-                            from: 5
-                            to: 30
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !fontsize_val.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: fontsize_val
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: fontsize.value + " pt"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    fontsize_val.visible = false
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        id: acceptbut
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !fontsize_val.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            fontsize_val.visible = true
-                        }
-                    }
-
+                    animateHeight: true
+                    onValueChanged:
+                        checkDefault()
                 }
 
             ]
@@ -398,73 +338,16 @@ Flickable {
                     onCheckedChanged: checkDefault()
                 },
 
-
-                Row {
-
-                    spacing: 10
-
+                PQSpinBoxAdvanced {
+                    id: autohide_timeout
+                    minval: 0
+                    maxval: 10
+                    title: qsTranslate("settingsmanager", "hide again after timeout:")
+                    suffix: " s"
                     enabled: !autohide_always.checked
-                    height: enabled ? autohide_timeout.height : 0
-                    Behavior on height { NumberAnimation { duration: 200 } }
-                    opacity: enabled ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 150 } }
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        text: qsTranslate("settingsmanager", "hide again after timeout:")
-                    }
-
-                    Rectangle {
-
-                        width: autohide_timeout.width
-                        height: autohide_timeout.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: autohide_timeout
-                            from: 0
-                            to: 10
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !autohide_timeout_val.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: autohide_timeout_val
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: autohide_timeout.value + " s"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    autohide_timeout_val.visible = false
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !autohide_timeout_val.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            autohide_timeout_val.visible = true
-                        }
-                    }
-
+                    animateHeight: true
+                    onValueChanged:
+                        checkDefault()
                 },
 
                 Item {

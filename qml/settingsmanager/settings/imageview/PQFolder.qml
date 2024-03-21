@@ -196,61 +196,14 @@ Flickable {
 
                         spacing: 10
 
-                        PQText {
-                            y: (parent.height-height)/2
-                            text: qsTranslate("settingsmanager", "speed: ")
-                        }
-
-                        Rectangle {
-
-                            width: anispeed.width
-                            height: anispeed.height
-                            color: PQCLook.baseColorHighlight
-
-                            PQSpinBox {
-                                id: anispeed
-                                from: 1
-                                to: 10
-                                width: 120
-                                onValueChanged: checkDefault()
-                                visible: !anispeed_txt.visible && enabled
-                                Component.onDestruction:
-                                    PQCNotify.spinBoxPassKeyEvents = false
-                            }
-
-                            PQText {
-                                id: anispeed_txt
-                                anchors.fill: parent
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
-                                text: anispeed.value
-                                PQMouseArea {
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    //: Tooltip, used as in: Click to edit this value
-                                    text: qsTranslate("settingsmanager", "Click to edit")
-                                    onClicked: {
-                                        PQCNotify.spinBoxPassKeyEvents = true
-                                        anispeed_txt.visible = false
-                                        anispeed.forceActiveFocus()
-                                    }
-                                }
-                            }
-
-                        }
-
-                        PQButton {
-                            //: Written on button, the value is whatever was entered in a spin box
-                            text: qsTranslate("settingsmanager", "Accept value")
-                            font.pointSize: PQCLook.fontSize
-                            font.weight: PQCLook.fontWeightNormal
-                            height: 35
-                            visible: !anispeed_txt.visible && enabled
-                            onClicked: {
-                                PQCNotify.spinBoxPassKeyEvents = false
-                                anispeed_txt.visible = true
-                            }
+                        PQSpinBoxAdvanced {
+                            id: anispeed
+                            minval: 1
+                            maxval: 10
+                            title: qsTranslate("settingsmanager", "speed:")
+                            suffix: ""
+                            onValueChanged:
+                                checkDefault()
                         }
 
                         PQText {

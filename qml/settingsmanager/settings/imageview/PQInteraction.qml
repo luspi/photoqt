@@ -70,69 +70,14 @@ Flickable {
 
             content: [
 
-                Row {
-
-                    spacing: 10
-
-                    clip: true
-
-                    PQText {
-                        y: (parent.height-height)/2
-                        text: qsTranslate("settingsmanager", "zoom speed:")
-                    }
-
-                    Rectangle {
-
-                        width: zoomspeed.width
-                        height: zoomspeed.height
-                        color: PQCLook.baseColorHighlight
-
-                        PQSpinBox {
-                            id: zoomspeed
-                            from: 0
-                            to: 100
-                            width: 120
-                            onValueChanged: checkDefault()
-                            visible: !zoomspeed_txt.visible && enabled
-                            Component.onDestruction:
-                                PQCNotify.spinBoxPassKeyEvents = false
-                        }
-
-                        PQText {
-                            id: zoomspeed_txt
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: zoomspeed.value + " %"
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                //: Tooltip, used as in: Click to edit this value
-                                text: qsTranslate("settingsmanager", "Click to edit")
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = true
-                                    zoomspeed_txt.visible = false
-                                    zoomspeed.forceActiveFocus()
-                                }
-                            }
-                        }
-
-                    }
-
-                    PQButton {
-                        //: Written on button, the value is whatever was entered in a spin box
-                        text: qsTranslate("settingsmanager", "Accept value")
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        height: 35
-                        visible: !zoomspeed_txt.visible && enabled
-                        onClicked: {
-                            PQCNotify.spinBoxPassKeyEvents = false
-                            zoomspeed_txt.visible = true
-                        }
-                    }
-
+                PQSpinBoxAdvanced {
+                    id: zoomspeed
+                    minval: 0
+                    maxval: 100
+                    title: qsTranslate("settingsmanager", "zoom speed:")
+                    suffix: " %"
+                    onValueChanged:
+                        checkDefault()
                 },
 
                 Row {
@@ -142,155 +87,38 @@ Flickable {
                         onCheckedChanged: checkDefault()
                     }
 
-                    Row {
-
-                        spacing: 10
-
-                        clip: true
-
-                        width: minzoom_check.checked ? minzoom_row.width : 0
-                        Behavior on width { NumberAnimation { duration: 200 } }
-                        opacity: minzoom_check.checked ? 1 : 0
-                        Behavior on opacity { NumberAnimation { duration: 150 } }
-
-                        Row {
-
-                            id: minzoom_row
-
-                            Rectangle {
-
-                                width: minzoom_slider.width
-                                height: minzoom_slider.height
-                                color: PQCLook.baseColorHighlight
-
-                                PQSpinBox {
-                                    id: minzoom_slider
-                                    from: 1
-                                    to: 100
-                                    width: 120
-                                    onValueChanged: checkDefault()
-                                    visible: !minzoom_txt.visible && enabled
-                                    Component.onDestruction:
-                                        PQCNotify.spinBoxPassKeyEvents = false
-                                }
-
-                                PQText {
-                                    id: minzoom_txt
-                                    anchors.fill: parent
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    text: minzoom_slider.value + " %"
-                                    PQMouseArea {
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        //: Tooltip, used as in: Click to edit this value
-                                        text: qsTranslate("settingsmanager", "Click to edit")
-                                        onClicked: {
-                                            PQCNotify.spinBoxPassKeyEvents = true
-                                            minzoom_txt.visible = false
-                                            minzoom_slider.forceActiveFocus()
-                                        }
-                                    }
-                                }
-
-                            }
-
-                            PQButton {
-                                //: Written on button, the value is whatever was entered in a spin box
-                                text: qsTranslate("settingsmanager", "Accept value")
-                                font.pointSize: PQCLook.fontSize
-                                font.weight: PQCLook.fontWeightNormal
-                                height: 35
-                                visible: !minzoom_txt.visible && enabled
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = false
-                                    minzoom_txt.visible = true
-                                }
-                            }
-
-                        }
-
+                    PQSpinBoxAdvanced {
+                        id: minzoom_slider
+                        minval: 1
+                        maxval: 100
+                        enabled: minzoom_check.checked
+                        animateWidth: true
+                        title: ""
+                        suffix: " %"
+                        onValueChanged:
+                            checkDefault()
                     }
 
                 },
 
                 Row {
+
                     PQCheckBox {
                         id: maxzoom_check
                         text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
                         onCheckedChanged: checkDefault()
                     }
 
-                    Row {
-
-                        spacing: 10
-
-                        clip: true
-
-                        width: maxzoom_check.checked ? maxzoom_row.width : 0
-                        Behavior on width { NumberAnimation { duration: 200 } }
-                        opacity: maxzoom_check.checked ? 1 : 0
-                        Behavior on opacity { NumberAnimation { duration: 150 } }
-
-                        Row {
-
-                            id: maxzoom_row
-
-                            Rectangle {
-
-                                width: maxzoom_slider.width
-                                height: maxzoom_slider.height
-                                color: PQCLook.baseColorHighlight
-
-                                PQSpinBox {
-                                    id: maxzoom_slider
-                                    from: 100
-                                    to: 1000
-                                    width: 120
-                                    onValueChanged: checkDefault()
-                                    visible: !maxzoom_txt.visible && enabled
-                                    Component.onDestruction:
-                                        PQCNotify.spinBoxPassKeyEvents = false
-                                }
-
-                                PQText {
-                                    id: maxzoom_txt
-                                    anchors.fill: parent
-                                    horizontalAlignment: Text.AlignHCenter
-                                    verticalAlignment: Text.AlignVCenter
-                                    text: maxzoom_slider.value + " %"
-                                    PQMouseArea {
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        //: Tooltip, used as in: Click to edit this value
-                                        text: qsTranslate("settingsmanager", "Click to edit")
-                                        onClicked: {
-                                            PQCNotify.spinBoxPassKeyEvents = true
-                                            maxzoom_txt.visible = false
-                                            maxzoom_slider.forceActiveFocus()
-                                        }
-                                    }
-                                }
-
-                            }
-
-                            PQButton {
-                                //: Written on button, the value is whatever was entered in a spin box
-                                text: qsTranslate("settingsmanager", "Accept value")
-                                font.pointSize: PQCLook.fontSize
-                                font.weight: PQCLook.fontWeightNormal
-                                height: 35
-                                visible: !maxzoom_txt.visible && enabled
-                                onClicked: {
-                                    PQCNotify.spinBoxPassKeyEvents = false
-                                    maxzoom_txt.visible = true
-                                }
-                            }
-
-                        }
-
+                    PQSpinBoxAdvanced {
+                        id: maxzoom_slider
+                        minval: 1
+                        maxval: 100
+                        enabled: maxzoom_check.checked
+                        animateWidth: true
+                        title: ""
+                        suffix: " %"
+                        onValueChanged:
+                            checkDefault()
                     }
 
                 }
