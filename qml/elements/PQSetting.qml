@@ -31,7 +31,7 @@ Row {
     property string title: ""
     property alias content: contcol.children
 
-    property bool makeHelpTextVisible: PQCSettings.generalHelpTextSettings
+    property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings
 
     Row {
 

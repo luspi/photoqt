@@ -72,11 +72,11 @@ PQTemplateFullscreen {
                 }
             }
             PQCheckBox {
-                text: qsTranslate("settingsmanager", "verbose")
+                text: qsTranslate("settingsmanager", "compact")
                 font.pointSize: PQCLook.fontSizeS
-                checked: PQCSettings.generalHelpTextSettings
+                checked: PQCSettings.generalCompactSettings
                 onCheckedChanged: {
-                    PQCSettings.generalHelpTextSettings = checked
+                    PQCSettings.generalCompactSettings = checked
                 }
             }
         }
