@@ -24,7 +24,7 @@ import QtQuick
 
 Row {
 
-    property int leftcol: 300
+    property int leftcol: 400
     property int rightcol: parent.width-leftcol-30
 
     property string helptext: ""
