@@ -24,11 +24,11 @@ import QtQuick
 
 Column {
     spacing: 10
-    Item { width: 1; height: 15; }
+    Item { width: 1; height: 10; }
     Rectangle {
         width: setting_top.width
         height: 1
         color: PQCLook.baseColorHighlight
     }
-    Item { width: 1; height: 15; }
+    Item { width: 1; height: 10; }
 }

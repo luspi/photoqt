@@ -56,7 +56,7 @@ Row {
             }
         }
 
-        PQTextXXL {
+        PQTextXL {
             id: ttl
             font.weight: PQCLook.fontWeightBold
             text: title
@@ -75,13 +75,12 @@ Row {
 
     Column {
 
-        spacing: 10
-
         width: rightcol
 
         Item {
             width: 1
-            height: 1
+            height: makeHelpTextVisible ? 5 : 2
+            Behavior on height { NumberAnimation { duration: 200 } }
         }
 
         Item {
@@ -103,6 +102,12 @@ Row {
                 text: helptext
             }
 
+        }
+
+        Item {
+            width: 1
+            height: makeHelpTextVisible ? 10 : 0
+            Behavior on height { NumberAnimation { duration: 200 } }
         }
 
         Column {

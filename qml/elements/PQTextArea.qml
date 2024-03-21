@@ -40,12 +40,14 @@ ScrollView {
 
     ScrollBar.vertical:
         PQVerticalScrollBar {
+            id: scrollver
             x: parent.width - width
             height: control.availableHeight
         }
 
     ScrollBar.horizontal:
         PQHorizontalScrollBar {
+            id: scrollhor
             y: parent.height - height
             width: control.availableWidth
         }
@@ -61,8 +63,8 @@ ScrollView {
         font.weight: PQCLook.fontWeightNormal
 
         background: Rectangle {
-            implicitWidth: control.implicitWidth
-            implicitHeight: control.implicitHeight
+            implicitWidth: control.implicitWidth - scrollver.width
+            implicitHeight: control.implicitHeight - scrollhor.height
             color: PQCLook.baseColor
             border.color: PQCLook.baseColorHighlight
         }
