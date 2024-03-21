@@ -60,142 +60,122 @@ Flickable {
 
         id: contcol
 
+        width: parent.width
+
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Show face tags")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Show face tags")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can read face tags stored in its metadata. It offers a great deal of flexibility in how and when the face tags are shown. It is also possible to remove and add face tags using the face tagger interface (accessible through the context menu or by shortcut).")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "PhotoQt can read face tags stored in its metadata. It offers a great deal of flexibility in how and when the face tags are shown. It is also possible to remove and add face tags using the face tagger interface (accessible through the context menu or by shortcut).")
 
-        PQCheckBox {
-            id: facetags_show
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "Show face tags")
-            checked: PQCSettings.metadataFaceTagsEnabled
-            onCheckedChanged: checkDefault()
+            content: [
+                PQCheckBox {
+                    id: facetags_show
+                    text: qsTranslate("settingsmanager", "Show face tags")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Look")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Look")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "It is possible to adjust the border shown around tagged faces and the font size used for the displayed name. For the border, not only the width but also the color can be specified.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "It is possible to adjust the border shown around tagged faces and the font size used for the displayed name. For the border, not only the width but also the color can be specified.")
 
-        Row {
-            x: (parent.width-width)/2
-            PQText {
-                text: qsTranslate("settingsmanager", "font size:") + " 5pt"
-            }
-            PQSlider {
-                id: fontsize
-                from: 5
-                to: 50
-                value: PQCSettings.metadataFaceTagsFontSize
-                onValueChanged: checkDefault()
-            }
-            PQText {
-                text: "50pt"
-            }
-        }
+            content: [
 
-        Item {
-            width: 1
-            height: 1
-        }
+                PQSpinBoxAdvanced {
+                    id: fontsize
+                    minval: 5
+                    maxval: 50
+                    title: qsTranslate("settingsmanager", "font size:")
+                    suffix: " pt"
+                    onValueChanged:
+                        checkDefault()
+                },
 
-        Column {
+                PQCheckBox {
+                    id: border_show
+                    text: qsTranslate("settingsmanager", "Show border around face tags")
+                    onCheckedChanged: checkDefault()
+                },
 
-            x: (parent.width-width)/2
-            spacing: 15
+                Column {
 
-            PQCheckBox {
-                id: border_show
-                x: (parent.width-width)/2
-                text: qsTranslate("settingsmanager", "Show border around face tags")
-                checked: PQCSettings.metadataFaceTagsBorder
-                onCheckedChanged: checkDefault()
-            }
+                    spacing: 10
 
-            Row {
-                x: (parent.width-width)/2
-                enabled: border_show.checked
-                PQText {
-                    text: "1px"
-                }
-                PQSlider {
-                    id: border_slider
-                    from: 1
-                    to: 20
-                    value: PQCSettings.metadataFaceTagsBorderWidth
-                    onValueChanged: checkDefault()
-                }
-                PQText {
-                    text: "20px"
-                }
-            }
+                    clip: true
+                    enabled: border_show.checked
+                    height: enabled ? (border_slider.height+border_color.height+spacing) : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
 
-            Rectangle {
-                id: border_color
-                property var rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
-                onRgbaChanged: checkDefault()
-                x: (parent.width-width)/2
-                enabled: border_show.checked
-                width: coltxt.width+100
-                height: coltxt.height+50
-                color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
-                Rectangle {
-                    x: 45
-                    y: 20
-                    width: coltxt.width+10
-                    height: coltxt.height+10
-                    radius: 5
-                    color: "#88000000"
-                    PQText {
-                        id: coltxt
-                        x: 5
-                        y: 5
-                        textFormat: Text.RichText
-                        text: "<table><tr><td>" + qsTranslate("settingsmanager", "red") + "</td><td>=</td><td>" + border_color.rgba[0] + "</td><td>&nbsp;(" + (100*border_color.rgba[0]/255).toFixed(0) + "%)</td></tr>" +
-                              "<tr><td>" + qsTranslate("settingsmanager", "green") + "</td><td>=</td><td>" + border_color.rgba[1] + "</td><td>&nbsp;(" + (100*border_color.rgba[1]/255).toFixed(0) + "%)</td></tr>" +
-                              "<tr><td>" + qsTranslate("settingsmanager", "blue") + "</td><td>=</td><td>" + border_color.rgba[2] + "</td><td>&nbsp;(" + (100*border_color.rgba[2]/255).toFixed(0) + "%)</td></tr>" +
-                              "<tr><td>" + qsTranslate("settingsmanager", "alpha") + "</td><td>=</td><td>" + border_color.rgba[3] + "</td><td>&nbsp;(" + (100*border_color.rgba[3]/255).toFixed(0) + "%)</td></tr></table>"
+                    PQSpinBoxAdvanced {
+                        id: border_slider
+                        minval: 1
+                        maxval: 20
+                        title: qsTranslate("settingsmanager", "border width:")
+                        suffix: " px"
+                        onValueChanged:
+                            checkDefault()
                     }
-                }
 
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        PQCNotify.modalFileDialogOpen = true
-                        var newcol = PQCScriptsOther.selectColor(parent.rgba)
-                        PQCNotify.modalFileDialogOpen = false
-                        if(newcol.length !== 0) {
-                            parent.rgba = newcol
+                    Rectangle {
+                        id: border_color
+                        property var rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
+                        onRgbaChanged: checkDefault()
+                        width: coltxt.width+100
+                        height: coltxt.height+50
+                        color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
+                        Rectangle {
+                            x: 45
+                            y: 20
+                            width: coltxt.width+10
+                            height: coltxt.height+10
+                            radius: 5
+                            color: "#88000000"
+                            PQText {
+                                id: coltxt
+                                x: 5
+                                y: 5
+                                textFormat: Text.RichText
+                                text: "<table><tr><td>" + qsTranslate("settingsmanager", "red") + "</td><td>=</td><td>" + border_color.rgba[0] + "</td><td>&nbsp;(" + (100*border_color.rgba[0]/255).toFixed(0) + "%)</td></tr>" +
+                                      "<tr><td>" + qsTranslate("settingsmanager", "green") + "</td><td>=</td><td>" + border_color.rgba[1] + "</td><td>&nbsp;(" + (100*border_color.rgba[1]/255).toFixed(0) + "%)</td></tr>" +
+                                      "<tr><td>" + qsTranslate("settingsmanager", "blue") + "</td><td>=</td><td>" + border_color.rgba[2] + "</td><td>&nbsp;(" + (100*border_color.rgba[2]/255).toFixed(0) + "%)</td></tr>" +
+                                      "<tr><td>" + qsTranslate("settingsmanager", "alpha") + "</td><td>=</td><td>" + border_color.rgba[3] + "</td><td>&nbsp;(" + (100*border_color.rgba[3]/255).toFixed(0) + "%)</td></tr></table>"
+                            }
                         }
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                PQCNotify.modalFileDialogOpen = true
+                                var newcol = PQCScriptsOther.selectColor(parent.rgba)
+                                PQCNotify.modalFileDialogOpen = false
+                                if(newcol.length !== 0) {
+                                    parent.rgba = newcol
+                                }
+                            }
+                        }
+
                     }
+
                 }
 
-            }
+            ]
 
         }
 
@@ -203,47 +183,37 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Visibility")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Visibility")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "The face tags can be shown under different conditions. It is possible to always show all face tags, to show all face tags when the mouse cursor is moving across the image, or to show an individual face tag only when the mouse cursor is above a face tags.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "The face tags can be shown under different conditions. It is possible to always show all face tags, to show all face tags when the mouse cursor is moving across the image, or to show an individual face tag only when the mouse cursor is above a face tags.")
 
-        Column {
+            content: [
 
-            x: (parent.width-width)/2
-            spacing: 10
+                PQRadioButton {
+                    id: tags_always
+                    //: used as in: always show all face tags
+                    text: qsTranslate("settingsmanager", "always show all")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: tags_always
-                //: used as in: always show all face tags
-                text: qsTranslate("settingsmanager", "always show all")
-                checked: PQCSettings.metadataFaceTagsVisibility===1
-                onCheckedChanged: checkDefault()
-            }
+                PQRadioButton {
+                    id: tags_one
+                    //: used as in: show one face tag on hover
+                    text: qsTranslate("settingsmanager", "show one on hover")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQRadioButton {
-                id: tags_one
-                //: used as in: show one face tag on hover
-                text: qsTranslate("settingsmanager", "show one on hover")
-                checked: PQCSettings.metadataFaceTagsVisibility===2
-                onCheckedChanged: checkDefault()
-            }
+                PQRadioButton {
+                    id: tags_all
+                    //: used as in: show one face tag on hover
+                    text: qsTranslate("settingsmanager", "show all on hover")
+                    onCheckedChanged: checkDefault()
+                }
 
-            PQRadioButton {
-                id: tags_all
-                //: used as in: show one face tag on hover
-                text: qsTranslate("settingsmanager", "show all on hover")
-                checked: PQCSettings.metadataFaceTagsVisibility===3
-                onCheckedChanged: checkDefault()
-            }
+            ]
 
         }
 

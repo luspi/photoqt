@@ -82,7 +82,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}
 SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfo.qml ${d}/PQEdges.qml)
 
 SET(d "qml/settingsmanager/settings/metadata")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTags.qml ${d}/PQLabels.qml ${d}/PQBehavior.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTags.qml ${d}/PQConfigure.qml)
 
 SET(d "qml/settingsmanager/settings/session")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQRemember.qml ${d}/PQInstance.qml ${d}/PQTrayIcon.qml)

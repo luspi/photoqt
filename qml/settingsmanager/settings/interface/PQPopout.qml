@@ -142,8 +142,8 @@ Flickable {
 
                 Rectangle {
 
-                    width: Math.min(parent.width, 500)
-                    height: 350
+                    width: Math.min(parent.width, 600)
+                    height: 500
                     color: "transparent"
                     border.width: 1
                     border.color: PQCLook.baseColorHighlight
@@ -181,15 +181,13 @@ Flickable {
 
                         ScrollBar.vertical: PQVerticalScrollBar { id: popout_scroll }
 
-                        Column {
+                        Grid {
 
                             id: popout_col
                             spacing: 5
 
-                            Item {
-                                width: 1
-                                height: 1
-                            }
+                            columns: 2
+                            padding: 5
 
                             Repeater {
 
@@ -199,9 +197,9 @@ Flickable {
 
                                     id: deleg
 
-                                    property bool matchesFilter: (popout_filter.text===""||pops[index][1].toLowerCase().indexOf(popout_filter.text) > -1)
+                                    property bool matchesFilter: (popout_filter.text===""||pops[index][1].toLowerCase().indexOf(popout_filter.text.toLowerCase()) > -1)
 
-                                    width: popout_flickable.width - (popout_scroll.visible ? popout_scroll.width+1 : 0)
+                                    width: (popout_flickable.width - (popout_scroll.visible ? popout_scroll.width+1 : 0))/2 - popout_col.spacing
                                     height: matchesFilter ? 35 : 0
                                     opacity: matchesFilter ? 1 : 0
                                     radius: 5
@@ -411,7 +409,7 @@ Flickable {
         id: loadtimer
         onTriggered: {
 
-            setting_top.popoutLoadDefault()
+            setting_top.labelsLoadDefault()
 
             keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogKeepOpen)
             keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerKeepOpen)

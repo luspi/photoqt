@@ -299,9 +299,13 @@ PQTemplateFullscreen {
         //: A settings category
         "metadata" : [qsTranslate("settingsmanager", "Metadata"),
                       {
+
                                              //: A settings subcategory
-                            "md_labels"   : [qsTranslate("settingsmanager", "Labels"),        "PQLabels",
-                                             [qsTranslate("settingsmanager", "Labels")],
+                            "md_behavior" : [qsTranslate("settingsmanager", "Configure"),      "PQConfigure",
+                                             [qsTranslate("settingsmanager", "Labels"),
+                                              qsTranslate("settingsmanager", "Auto Rotation"),
+                                              qsTranslate("settingsmanager", "GPS map"),
+                                              qsTranslate("settingsmanager", "Floating element")],
                                              ["Filename",
                                               "FileType",
                                               "FileSize",
@@ -321,14 +325,8 @@ PQTemplateFullscreen {
                                               "Model",
                                               "SceneType",
                                               "Software",
-                                              "Time"]],
-
-                                             //: A settings subcategory
-                            "md_behavior" : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior",
-                                             [qsTranslate("settingsmanager", "Auto Rotation"),
-                                              qsTranslate("settingsmanager", "GPS map"),
-                                              qsTranslate("settingsmanager", "Floating element")],
-                                             ["AutoRotation",
+                                              "Time",
+                                              "AutoRotation",
                                               "GpsMap",
                                               "ElementFloating"]],
 
