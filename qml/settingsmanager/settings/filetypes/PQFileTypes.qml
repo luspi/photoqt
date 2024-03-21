@@ -155,6 +155,15 @@ Item {
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
                     }
+                    Keys.onTabPressed: (event) => {
+                        loader.passOn("keyEvent", [event.key, event.modifiers])
+                    }
+                    onPressed: (key, modifiers) => {
+                       if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
+                            loader.passOn("keyEvent", [key, modifiers])
+                        else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
+                            loader.passOn("keyEvent", [key, modifiers])
+                    }
                 }
 
                 PQLineEdit {
@@ -163,6 +172,15 @@ Item {
                     placeholderText: qsTranslate("settingsmanager", "Search by image library or category")
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                    }
+                    Keys.onTabPressed: (event) => {
+                        loader.passOn("keyEvent", [event.key, event.modifiers])
+                    }
+                    onPressed: (key, modifiers) => {
+                        if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
+                            loader.passOn("keyEvent", [key, modifiers])
+                        else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
+                            loader.passOn("keyEvent", [key, modifiers])
                     }
                 }
             }

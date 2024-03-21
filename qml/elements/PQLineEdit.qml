@@ -54,6 +54,7 @@ Rectangle {
     signal leftPressed()
     signal rightPressed()
     signal endPressed()
+    signal pressed(var key, var modifiers)
     signal rightClicked()
 
     PQText {
@@ -99,6 +100,7 @@ Rectangle {
                 edit_top.rightPressed()
             else if(event.key === Qt.Key_End)
                 edit_top.endPressed()
+            edit_top.pressed(event.key, event.modifiers)
             event.accepted = false
         }
 
