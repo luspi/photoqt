@@ -533,7 +533,7 @@ PQTemplateFullscreen {
         Rectangle {
             x: (parent.width-width)/2
             y: (parent.height-height)/2
-            width: Math.min(500, parent.width)
+            width: Math.min(600, parent.width)
             height: settinginfomessage_col.height+30
             radius: 10
             color: PQCLook.baseColor
@@ -551,10 +551,11 @@ PQTemplateFullscreen {
                 width: parent.width
                 spacing: 15
 
-                PQText {
+                PQTextL {
                     id: settinginfomessage_txt
                     width: parent.width
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    lineHeight: 1.2
                 }
 
                 PQButton {
