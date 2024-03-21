@@ -316,7 +316,7 @@ Flickable {
                         PQSpinBox {
                             id: fontsize
                             from: 5
-                            to: 100
+                            to: 30
                             width: 120
                             onValueChanged: checkDefault()
                             visible: !fontsize_val.visible && enabled
@@ -329,7 +329,7 @@ Flickable {
                             anchors.fill: parent
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            text: fontsize.value + " px"
+                            text: fontsize.value + " pt"
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -423,7 +423,7 @@ Flickable {
                         PQSpinBox {
                             id: autohide_timeout
                             from: 0
-                            to: 5
+                            to: 10
                             width: 120
                             onValueChanged: checkDefault()
                             visible: !autohide_timeout_val.visible && enabled

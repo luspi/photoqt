@@ -266,7 +266,7 @@ Flickable {
                         PQSpinBox {
                             id: sensitivity
                             from: 1
-                            to: 20
+                            to: 100
                             width: 120
                             onValueChanged: checkDefault()
                             visible: !butsensitivity_val.visible && enabled

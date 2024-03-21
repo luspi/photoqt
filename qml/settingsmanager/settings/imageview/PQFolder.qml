@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCNotify
 
 import "../../../elements"
 
@@ -58,158 +59,212 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Looping")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Looping")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "When loading an image PhotoQt loads all images in the folder as thumbnails for easy navigation. When PhotoQt reaches the end of the list of files, it can either stop right there or loop back to the other end of the list and keep going.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "When loading an image PhotoQt loads all images in the folder as thumbnails for easy navigation. When PhotoQt reaches the end of the list of files, it can either stop right there or loop back to the other end of the list and keep going.")
 
-        PQCheckBox {
-            id: loop
-            x: (parent.width-width)/2
-            //: When reaching the end of the images in the folder whether to loop back around to the beginning or not
-            text: qsTranslate("settingsmanager", "Loop around")
-            checked: PQCSettings.imageviewLoopThroughFolder
-            onCheckedChanged: checkDefault()
+            content: [
+                PQCheckBox {
+                    id: loop
+                    //: When reaching the end of the images in the folder whether to loop back around to the beginning or not
+                    text: qsTranslate("settingsmanager", "Loop around")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Sort images")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Sort images")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways depending on your preferences. These criteria here are the ones that can be used in a very quick way. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways depending on your preferences. These criteria here are the ones that can be used in a very quick way. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
 
-        Row {
-            x: (parent.width-width)/2
-            spacing: 5
-            PQText {
-                y: (sortcriteria.height-height)/2
-                text: qsTranslate("settingsmanager", "Sort by:")
-            }
-            PQComboBox {
-                id: sortcriteria
-                        //: A criteria for sorting images
-                model: [qsTranslate("settingsmanager", "natural name"),
-                        //: A criteria for sorting images
-                        qsTranslate("settingsmanager", "name"),
-                        //: A criteria for sorting images
-                        qsTranslate("settingsmanager", "time"),
-                        //: A criteria for sorting images
-                        qsTranslate("settingsmanager", "size"),
-                        //: A criteria for sorting images
-                        qsTranslate("settingsmanager", "type")]
-                onCurrentIndexChanged: checkDefault()
-            }
-        }
+            content: [
+                Row {
+                    spacing: 5
+                    PQText {
+                        y: (sortcriteria.height-height)/2
+                        font.bold: true
+                        text: qsTranslate("settingsmanager", "Sort by:")
+                    }
+                    PQComboBox {
+                        id: sortcriteria
+                                //: A criteria for sorting images
+                        model: [qsTranslate("settingsmanager", "natural name"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "name"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "time"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "size"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "type")]
+                        onCurrentIndexChanged: checkDefault()
+                    }
+                },
 
-        Row {
-            x: (parent.width-width)/2
-            spacing: 5
-            PQRadioButton {
-                id: sortasc
-                //: Sort images in ascending order
-                text: qsTranslate("settingsmanager", "ascending order")
-                checked: PQCSettings.imageviewSortImagesAscending
-                onCheckedChanged: checkDefault()
-            }
-            PQRadioButton {
-                id: sortdesc
-                //: Sort images in descending order
-                text: qsTranslate("settingsmanager", "descending order")
-                onCheckedChanged: checkDefault()
-            }
+                Row {
+                    spacing: 5
+                    PQRadioButton {
+                        id: sortasc
+                        //: Sort images in ascending order
+                        text: qsTranslate("settingsmanager", "ascending order")
+                        onCheckedChanged: checkDefault()
+                    }
+                    PQRadioButton {
+                        id: sortdesc
+                        //: Sort images in descending order
+                        text: qsTranslate("settingsmanager", "descending order")
+                        onCheckedChanged: checkDefault()
+                    }
+                }
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Animation")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Animation")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "When switching between images PhotoQt can add an animation to smoothes such a transition. There are a whole bunch of transitions to choose from, and also an option for PhotoQt to choose one at random each time. Additionally, the speed of the chosen animation can be chosen from very slow to very fast.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "When switching between images PhotoQt can add an animation to smoothes such a transition. There are a whole bunch of transitions to choose from, and also an option for PhotoQt to choose one at random each time. Additionally, the speed of the chosen animation can be chosen from very slow to very fast.")
 
-        PQCheckBox {
-            id: anispeed_check
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "animate switching between images")
-            checked: (PQCSettings.imageviewAnimationDuration>0)
-            onCheckedChanged: checkDefault()
-        }
+            content: [
 
-        Row {
-            x: (parent.width-width)/2
-            spacing: 5
-            enabled: anispeed_check.checked
-            PQText {
-                y: (anicombo.height-height)/2
-                text: qsTranslate("settingsmanager", "Animation:")
-            }
-            PQComboBox {
-                id: anicombo
-                        //: This is referring to an in/out animation of images
-                model: [qsTranslate("settingsmanager", "opacity"),
-                        //: This is referring to an in/out animation of images
-                        qsTranslate("settingsmanager", "along x-axis"),
-                        //: This is referring to an in/out animation of images
-                        qsTranslate("settingsmanager", "along y-axis"),
-                        //: This is referring to an in/out animation of images
-                        qsTranslate("settingsmanager", "rotation"),
-                        //: This is referring to an in/out animation of images
-                        qsTranslate("settingsmanager", "explosion"),
-                        //: This is referring to an in/out animation of images
-                        qsTranslate("settingsmanager", "implosion"),
-                        //: This is referring to an in/out animation of images
-                        qsTranslate("settingsmanager", "choose one at random")]
-                lineBelowItem: [5]
-                onCurrentIndexChanged: checkDefault()
-            }
-        }
+                PQCheckBox {
+                    id: anispeed_check
+                    text: qsTranslate("settingsmanager", "animate switching between images")
+                    onCheckedChanged: checkDefault()
+                },
 
-        Row {
-            x: (parent.width-width)/2
-            enabled: anispeed_check.checked
-            PQText {
-                //: used here for the animation speed
-                text: qsTranslate("settingsmanager", "very slow")
-            }
-            PQSlider {
-                id: anispeed
-                from: 1
-                to: 10
-                value: PQCSettings.imageviewAnimationDuration
-                onValueChanged: checkDefault()
-            }
-            PQText {
-                //: used here for the animation speed
-                text: qsTranslate("settingsmanager", "very fast")
-            }
+                Column {
+
+                    spacing: 15
+
+                    enabled: anispeed_check.checked
+                    clip: true
+
+                    height: enabled ? (anirow1.height+anirow2.height+spacing) : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    Row {
+                        id: anirow1
+                        spacing: 5
+                        PQText {
+                            y: (anicombo.height-height)/2
+                            text: qsTranslate("settingsmanager", "Animation:")
+                        }
+                        PQComboBox {
+                            id: anicombo
+                                    //: This is referring to an in/out animation of images
+                            model: [qsTranslate("settingsmanager", "opacity"),
+                                    //: This is referring to an in/out animation of images
+                                    qsTranslate("settingsmanager", "along x-axis"),
+                                    //: This is referring to an in/out animation of images
+                                    qsTranslate("settingsmanager", "along y-axis"),
+                                    //: This is referring to an in/out animation of images
+                                    qsTranslate("settingsmanager", "rotation"),
+                                    //: This is referring to an in/out animation of images
+                                    qsTranslate("settingsmanager", "explosion"),
+                                    //: This is referring to an in/out animation of images
+                                    qsTranslate("settingsmanager", "implosion"),
+                                    //: This is referring to an in/out animation of images
+                                    qsTranslate("settingsmanager", "choose one at random")]
+                            lineBelowItem: [5]
+                            onCurrentIndexChanged: checkDefault()
+                        }
+                    }
+
+                    Row {
+
+                        id: anirow2
+
+                        spacing: 10
+
+                        PQText {
+                            y: (parent.height-height)/2
+                            text: qsTranslate("settingsmanager", "speed: ")
+                        }
+
+                        Rectangle {
+
+                            width: anispeed.width
+                            height: anispeed.height
+                            color: PQCLook.baseColorHighlight
+
+                            PQSpinBox {
+                                id: anispeed
+                                from: 1
+                                to: 10
+                                width: 120
+                                onValueChanged: checkDefault()
+                                visible: !anispeed_txt.visible && enabled
+                                Component.onDestruction:
+                                    PQCNotify.spinBoxPassKeyEvents = false
+                            }
+
+                            PQText {
+                                id: anispeed_txt
+                                anchors.fill: parent
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                text: anispeed.value
+                                PQMouseArea {
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    //: Tooltip, used as in: Click to edit this value
+                                    text: qsTranslate("settingsmanager", "Click to edit")
+                                    onClicked: {
+                                        PQCNotify.spinBoxPassKeyEvents = true
+                                        anispeed_txt.visible = false
+                                        anispeed.forceActiveFocus()
+                                    }
+                                }
+                            }
+
+                        }
+
+                        PQButton {
+                            //: Written on button, the value is whatever was entered in a spin box
+                            text: qsTranslate("settingsmanager", "Accept value")
+                            font.pointSize: PQCLook.fontSize
+                            font.weight: PQCLook.fontWeightNormal
+                            height: 35
+                            visible: !anispeed_txt.visible && enabled
+                            onClicked: {
+                                PQCNotify.spinBoxPassKeyEvents = false
+                                anispeed_txt.visible = true
+                            }
+                        }
+
+                        PQText {
+                            y: (parent.height-height)/2
+                            //: The value is a numerical value expressing the speed of animating between images
+                            text: qsTranslate("settingsmanager", "higher value = slower")
+                        }
+
+                    }
+
+                }
+
+            ]
+
         }
 
     }

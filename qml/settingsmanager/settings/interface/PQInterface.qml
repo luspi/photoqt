@@ -136,7 +136,7 @@ Flickable {
                 PQText {
                     width: set_lang.rightcol.width
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    visible: !PQCSettings.generalHelpTextSettings
+                    visible: PQCSettings.generalCompactSettings
                     // font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
                 }
@@ -276,7 +276,7 @@ Flickable {
                             PQSpinBox {
                                 id: butsize
                                 from: 5
-                                to: 100
+                                to: 50
                                 width: 120
                                 onValueChanged: checkDefault()
                                 visible: !butsize_val.visible && enabled
@@ -386,7 +386,7 @@ Flickable {
                         PQSpinBox {
                             id: autohide_timeout
                             from: 0
-                            to: 5
+                            to: 10
                             width: 120
                             onValueChanged: checkDefault()
                             visible: !autohide_timeouttxt.visible && enabled
@@ -399,7 +399,7 @@ Flickable {
                             anchors.fill: parent
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            text: autohide_timeout.value + " px"
+                            text: autohide_timeout.value + " s"
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true

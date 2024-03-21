@@ -27,6 +27,7 @@ SpinBox {
     id: control
 
     editable: true
+    live: true
 
     width: 160
     height: 30

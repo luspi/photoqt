@@ -57,128 +57,137 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
-            text: "imgur.com"
-            font.capitalization: Font.SmallCaps
-        }
+        PQSetting {
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "It is possible to share an image from PhotoQt directly to imgur.com. This can either be done anonymously or to an imgur.com account. For the former, no setup is required, after a successful upload you are presented with the URL to access and the URL to delete the image. For the latter, PhotoQt first needs to be authenticated to an imgur.com user account.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            title: "imgur.com"
 
-        PQText {
-            width: setting_top.width
-            font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager", "Note that any change here is saved immediately!")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "It is possible to share an image from PhotoQt directly to imgur.com. This can either be done anonymously or to an imgur.com account. For the former, no setup is required, after a successful upload you are presented with the URL to access and the URL to delete the image. For the latter, PhotoQt first needs to be authenticated to an imgur.com user account.")
 
-        PQTextL {
-            id: account
-            x: (parent.width-width)/2
-            visible: acc!=""
-            property string acc: ""
-            text: qsTranslate("settingsmanager", "Authenticated with user account:") + " <b>" + acc + "</b>"
-        }
+            content: [
 
-        Item {
-            visible: account.acc!=""
-            width: 1
-            height: 10
-        }
+                PQText {
+                    width: parent.width
+                    // font.weight: PQCLook.fontWeightBold
+                    text: qsTranslate("settingsmanager", "Note that any change here is saved immediately!")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                },
 
-        PQButton {
-            x: (parent.width-width)/2
-            text: account.acc == "" ?
-                      //: Written on button, used as in: Authenticate with user account
-                      qsTranslate("settingsmanager", "Authenticate") :
-                      //: Written on button, used as in: Forget user account
-                      qsTranslate("settingsmanager", "Forget account")
-            onClicked: {
-                if(account.acc == "") {
-                    Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin())
-                    authcol.authshow = true
-                    error.err = ""
-                } else {
-                    var ret = PQCScriptsShareImgur.forgetAccount()
-                    if(ret === 0) {
-                        account.acc = ""
-                        error.err = ""
-                    } else {
-                        error.err = ret
-                    }
-                }
-            }
-        }
+                Item {
+                    width: 1
+                    height: 10
+                },
 
-        Column {
+                PQTextL {
+                    id: account
+                    visible: acc!=""
+                    property string acc: ""
+                    text: qsTranslate("settingsmanager", "Authenticated with user account:") + " <b>" + acc + "</b>"
+                },
 
-            id: authcol
-            spacing: 10
+                Item {
+                    visible: account.acc!=""
+                    width: 1
+                    height: 10
+                },
 
-            clip: true
-            height: authshow ? (authinfotxt.height+authpinrow.height+authspacer.height+20) : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-
-            property bool authshow: false
-
-            Item {
-                id: authspacer
-                width: 1
-                height: 10
-            }
-
-            PQText {
-                id: authinfotxt
-                width: setting_top.width
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTranslate("settingsmanager", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
-            }
-
-            Row {
-                id: authpinrow
-                x: (parent.width-width)/2
-                spacing: 5
-                PQLineEdit {
-                    id: pinholder
-                    placeholderText: "PIN"
-                    onControlActiveFocusChanged:
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
-                }
                 PQButton {
-                    text: genericStringSave
-                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
+                    text: account.acc == "" ?
+                              //: Written on button, used as in: Authenticate with user account
+                              qsTranslate("settingsmanager", "Authenticate") :
+                              //: Written on button, used as in: Forget user account
+                              qsTranslate("settingsmanager", "Forget account")
                     onClicked: {
-                        authpinrow.enabled = false
-                        var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text)
-                        if(ret !== 0) {
-                            authpinrow.enabled = true
-                            error.err = ret
-                        } else {
-                            authpinrow.enabled = true
+                        if(account.acc == "") {
+                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin())
+                            authcol.authshow = true
                             error.err = ""
-                            account.acc = PQCScriptsShareImgur.getAccountUsername()
-                            authcol.authshow = false
+                        } else {
+                            var ret = PQCScriptsShareImgur.forgetAccount()
+                            if(ret === 0) {
+                                account.acc = ""
+                                error.err = ""
+                            } else {
+                                error.err = ret
+                            }
                         }
                     }
+                },
+
+                Column {
+
+                    id: authcol
+                    spacing: 10
+
+                    clip: true
+                    height: authshow ? (authinfotxt.height+authpinrow.height+authspacer.height+20) : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+
+                    property bool authshow: false
+
+                    onAuthshowChanged: {
+                        PQCNotify.ignoreKeysExceptEnterEsc = authshow
+                    }
+
+                    Item {
+                        id: authspacer
+                        width: 1
+                        height: 10
+                    }
+
+                    PQText {
+                        id: authinfotxt
+                        width: setting_top.width
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        text: qsTranslate("settingsmanager", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
+                    }
+
+                    Row {
+                        id: authpinrow
+                        spacing: 5
+
+                        PQLineEdit {
+                            id: pinholder
+                            placeholderText: "PIN"
+                            onActiveFocusChanged: {
+                                if(activeFocus)
+                                    PQCNotify.ignoreKeysExceptEnterEsc = true
+                            }
+                        }
+                        PQButton {
+                            text: genericStringSave
+                            cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
+                            onClicked: {
+                                authpinrow.enabled = false
+                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text)
+                                if(ret !== 0) {
+                                    authpinrow.enabled = true
+                                    error.err = ret
+                                } else {
+                                    authpinrow.enabled = true
+                                    error.err = ""
+                                    account.acc = PQCScriptsShareImgur.getAccountUsername()
+                                    authcol.authshow = false
+                                }
+                            }
+                        }
+                    }
+
+                },
+
+                PQText {
+                    id: error
+                    width: parent.width
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.weight: PQCLook.fontWeightBold
+                    color: "red"
+                    property string err: ""
+                    visible: err!=""
+                    text: qsTranslate("settingsmanager", "An error occured:") + " " + err
                 }
-            }
 
-        }
+            ]
 
-        PQText {
-            id: error
-            width: setting_top.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.weight: PQCLook.fontWeightBold
-            color: "red"
-            property string err: ""
-            visible: err!=""
-            text: qsTranslate("settingsmanager", "An error occured:") + " " + err
         }
 
     }

@@ -303,7 +303,7 @@ bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
 
         }
 
-        if(PQCNotify::get().getIgnoreKeysExceptEnterEsc() && ((ev->key() != Qt::Key_Enter && ev->key() != Qt::Key_Return && ev->key() != Qt::Key_Escape) && (ev->modifiers() == Qt::NoModifier || ev->modifiers() == Qt::ShiftModifier)))
+        if(PQCNotify::get().getIgnoreKeysExceptEnterEsc() && (ev->key() != Qt::Key_Enter && ev->key() != Qt::Key_Return && ev->key() != Qt::Key_Escape))
             return QApplication::eventFilter(obj, e);
 
         if(PQCNotify::get().getIgnoreKeysExceptEsc() && (ev->key() != Qt::Key_Escape && (ev->modifiers() == Qt::NoModifier || ev->modifiers() == Qt::ShiftModifier)))

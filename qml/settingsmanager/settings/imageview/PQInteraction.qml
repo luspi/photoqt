@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCNotify
 
 import "../../../elements"
 
@@ -60,194 +61,305 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Zoom")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Zoom")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt allows for a great deal of flexibility in viewing images at the perfect size. Additionally it allows for control of how fast the zoom happens, and if there is a minimum/maximum zoom level at which it should always stop no matter what. Note that the maximum zoom level is the absolute zoom level, the minimum zoom level is relative to the default zoom level (the zoom level when the image is first loaded).")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "PhotoQt allows for a great deal of flexibility in viewing images at the perfect size. Additionally it allows for control of how fast the zoom happens, and if there is a minimum/maximum zoom level at which it should always stop no matter what. Note that the maximum zoom level is the absolute zoom level, the minimum zoom level is relative to the default zoom level (the zoom level when the image is first loaded).")
 
-        Row {
-            x: (parent.width-width)/2
-            PQText {
-                text: qsTranslate("settingsmanager", "zoom speed:") + " " + zoomspeed.from + "%"
-            }
-            PQSlider {
-                id: zoomspeed
-                from: 1
-                to: 100
-                value: PQCSettings.imageviewZoomSpeed
-                onValueChanged: checkDefault()
-            }
-            PQText {
-                text: zoomspeed.to + "%"
-            }
-        }
+            content: [
 
-        PQText {
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "current value:") + " " + zoomspeed.value + "%"
-        }
+                Row {
 
-        Item {
-            width: 1
-            height: 1
-        }
+                    spacing: 10
 
-        Column {
-            x: (parent.width-width)/2
-            Row {
-                PQCheckBox {
-                    id: minzoom_check
-                    text: qsTranslate("settingsmanager", "minimum zoom:") + " "
-                    checked: PQCSettings.imageviewZoomMinEnabled
-                    onCheckedChanged: checkDefault()
+                    clip: true
+
+                    PQText {
+                        y: (parent.height-height)/2
+                        text: qsTranslate("settingsmanager", "zoom speed:")
+                    }
+
+                    Rectangle {
+
+                        width: zoomspeed.width
+                        height: zoomspeed.height
+                        color: PQCLook.baseColorHighlight
+
+                        PQSpinBox {
+                            id: zoomspeed
+                            from: 0
+                            to: 100
+                            width: 120
+                            onValueChanged: checkDefault()
+                            visible: !zoomspeed_txt.visible && enabled
+                            Component.onDestruction:
+                                PQCNotify.spinBoxPassKeyEvents = false
+                        }
+
+                        PQText {
+                            id: zoomspeed_txt
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            text: zoomspeed.value + " %"
+                            PQMouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                //: Tooltip, used as in: Click to edit this value
+                                text: qsTranslate("settingsmanager", "Click to edit")
+                                onClicked: {
+                                    PQCNotify.spinBoxPassKeyEvents = true
+                                    zoomspeed_txt.visible = false
+                                    zoomspeed.forceActiveFocus()
+                                }
+                            }
+                        }
+
+                    }
+
+                    PQButton {
+                        //: Written on button, the value is whatever was entered in a spin box
+                        text: qsTranslate("settingsmanager", "Accept value")
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        height: 35
+                        visible: !zoomspeed_txt.visible && enabled
+                        onClicked: {
+                            PQCNotify.spinBoxPassKeyEvents = false
+                            zoomspeed_txt.visible = true
+                        }
+                    }
+
+                },
+
+                Row {
+                    PQCheckBox {
+                        id: minzoom_check
+                        text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
+                        onCheckedChanged: checkDefault()
+                    }
+
+                    Row {
+
+                        spacing: 10
+
+                        clip: true
+
+                        width: minzoom_check.checked ? minzoom_row.width : 0
+                        Behavior on width { NumberAnimation { duration: 200 } }
+                        opacity: minzoom_check.checked ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                        Row {
+
+                            id: minzoom_row
+
+                            Rectangle {
+
+                                width: minzoom_slider.width
+                                height: minzoom_slider.height
+                                color: PQCLook.baseColorHighlight
+
+                                PQSpinBox {
+                                    id: minzoom_slider
+                                    from: 1
+                                    to: 100
+                                    width: 120
+                                    onValueChanged: checkDefault()
+                                    visible: !minzoom_txt.visible && enabled
+                                    Component.onDestruction:
+                                        PQCNotify.spinBoxPassKeyEvents = false
+                                }
+
+                                PQText {
+                                    id: minzoom_txt
+                                    anchors.fill: parent
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: minzoom_slider.value + " %"
+                                    PQMouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        //: Tooltip, used as in: Click to edit this value
+                                        text: qsTranslate("settingsmanager", "Click to edit")
+                                        onClicked: {
+                                            PQCNotify.spinBoxPassKeyEvents = true
+                                            minzoom_txt.visible = false
+                                            minzoom_slider.forceActiveFocus()
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            PQButton {
+                                //: Written on button, the value is whatever was entered in a spin box
+                                text: qsTranslate("settingsmanager", "Accept value")
+                                font.pointSize: PQCLook.fontSize
+                                font.weight: PQCLook.fontWeightNormal
+                                height: 35
+                                visible: !minzoom_txt.visible && enabled
+                                onClicked: {
+                                    PQCNotify.spinBoxPassKeyEvents = false
+                                    minzoom_txt.visible = true
+                                }
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                Row {
+                    PQCheckBox {
+                        id: maxzoom_check
+                        text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
+                        onCheckedChanged: checkDefault()
+                    }
+
+                    Row {
+
+                        spacing: 10
+
+                        clip: true
+
+                        width: maxzoom_check.checked ? maxzoom_row.width : 0
+                        Behavior on width { NumberAnimation { duration: 200 } }
+                        opacity: maxzoom_check.checked ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                        Row {
+
+                            id: maxzoom_row
+
+                            Rectangle {
+
+                                width: maxzoom_slider.width
+                                height: maxzoom_slider.height
+                                color: PQCLook.baseColorHighlight
+
+                                PQSpinBox {
+                                    id: maxzoom_slider
+                                    from: 100
+                                    to: 1000
+                                    width: 120
+                                    onValueChanged: checkDefault()
+                                    visible: !maxzoom_txt.visible && enabled
+                                    Component.onDestruction:
+                                        PQCNotify.spinBoxPassKeyEvents = false
+                                }
+
+                                PQText {
+                                    id: maxzoom_txt
+                                    anchors.fill: parent
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: maxzoom_slider.value + " %"
+                                    PQMouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        //: Tooltip, used as in: Click to edit this value
+                                        text: qsTranslate("settingsmanager", "Click to edit")
+                                        onClicked: {
+                                            PQCNotify.spinBoxPassKeyEvents = true
+                                            maxzoom_txt.visible = false
+                                            maxzoom_slider.forceActiveFocus()
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            PQButton {
+                                //: Written on button, the value is whatever was entered in a spin box
+                                text: qsTranslate("settingsmanager", "Accept value")
+                                font.pointSize: PQCLook.fontSize
+                                font.weight: PQCLook.fontWeightNormal
+                                height: 35
+                                visible: !maxzoom_txt.visible && enabled
+                                onClicked: {
+                                    PQCNotify.spinBoxPassKeyEvents = false
+                                    maxzoom_txt.visible = true
+                                }
+                            }
+
+                        }
+
+                    }
+
                 }
-                PQText {
-                    y: (minzoom_check.height-height)/2
-                    enabled: minzoom_check.checked
-                    text: minzoom_slider.from + "%"
-                }
 
-                PQSlider {
-                    id: minzoom_slider
-                    y: (minzoom_check.height-height)/2
-                    enabled: minzoom_check.checked
-                    from: 1
-                    to: 100
-                    value: PQCSettings.imageviewZoomMin
-                    onValueChanged: checkDefault()
-                }
-                PQText {
-                    y: (minzoom_check.height-height)/2
-                    enabled: minzoom_check.checked
-                    text: minzoom_slider.to + "%"
-                }
-            }
-            PQText {
-                x: (parent.width-width)/2
-                enabled: minzoom_check.checked
-                text: qsTranslate("settingsmanager", "current value:") + " " + minzoom_slider.value + "%"
-            }
+            ]
 
-            /****************/
-            Item {
-                width: 1
-                height: 10
-            }
-
-            Row {
-                PQCheckBox {
-                    id: maxzoom_check
-                    text: qsTranslate("settingsmanager", "maximum zoom:") + " "
-                    checked: PQCSettings.imageviewZoomMaxEnabled
-                    onCheckedChanged: checkDefault()
-                }
-                PQText {
-                    y: (maxzoom_check.height-height)/2
-                    enabled: maxzoom_check.checked
-                    text: maxzoom_slider.from + "%"
-                }
-
-                PQSlider {
-                    id: maxzoom_slider
-                    y: (maxzoom_check.height-height)/2
-                    enabled: maxzoom_check.checked
-                    from: 100
-                    to: 1000
-                    value: PQCSettings.imageviewZoomMax
-                    onValueChanged: checkDefault()
-                }
-                PQText {
-                    y: (maxzoom_check.height-height)/2
-                    enabled: maxzoom_check.checked
-                    text: maxzoom_slider.to + "%"
-                }
-            }
-            PQText {
-                x: (parent.width-width)/2
-                enabled: maxzoom_check.checked
-                text: qsTranslate("settingsmanager", "current value:") + " " + maxzoom_slider.value + "%"
-            }
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title. The minimap is a small version of the image used to show where the view is at.
-            text: qsTranslate("settingsmanager", "Minimap")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Minimap")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "The minimap is a small version of the image that is shown in the lower right corner whenever the image has been zoomed in. It shows the currently visible section of the image and allows to navigate to other parts of the image by clicking at a location or by dragging the highlighted rectangle.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "The minimap is a small version of the image that is shown in the lower right corner whenever the image has been zoomed in. It shows the currently visible section of the image and allows to navigate to other parts of the image by clicking at a location or by dragging the highlighted rectangle.")
 
-        PQCheckBox {
-            id: minimap
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "Show minimap")
-            onCheckedChanged: checkDefault()
+            content: [
+                PQCheckBox {
+                    id: minimap
+                    text: qsTranslate("settingsmanager", "Show minimap")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Mirror/Flip")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Mirror/Flip")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Images can be manipulated inside PhotoQt in a variety of ways, including their zoom and rotation. Another property that can be manipulated is the mirroring (or flipping) of images both vertically and horizontally. By default, PhotoQt animates this process, but this behavior can be disabled here. In that case the mirror/flip happens instantaneously.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "Images can be manipulated inside PhotoQt in a variety of ways, including their zoom and rotation. Another property that can be manipulated is the mirroring (or flipping) of images both vertically and horizontally. By default, PhotoQt animates this process, but this behavior can be disabled here. In that case the mirror/flip happens instantaneously.")
 
-        PQCheckBox {
-            id: mirroranim
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "Animate mirror/flip")
-            onCheckedChanged: checkDefault()
+            content: [
+                PQCheckBox {
+                    id: mirroranim
+                    text: qsTranslate("settingsmanager", "Animate mirror/flip")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Floating navigation")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Floating navigation")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Switching between images can be done in various ways. It is possible to do so through the shortcuts, through the main menu, or through floating navigation buttons. These floating buttons were added especially with touch screens in mind, as it allows easier navigation without having to use neither the keyboard nor the mouse. In addition to buttons for navigation it also includes a button to hide and show the main menu.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "Switching between images can be done in various ways. It is possible to do so through the shortcuts, through the main menu, or through floating navigation buttons. These floating buttons were added especially with touch screens in mind, as it allows easier navigation without having to use neither the keyboard nor the mouse. In addition to buttons for navigation it also includes a button to hide and show the main menu.")
 
-        PQCheckBox {
-            id: floatingnav
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "show floating navigation buttons")
-            checked: PQCSettings.interfaceNavigationFloating
-            onCheckedChanged: checkDefault()
+            content: [
+                PQCheckBox {
+                    id: floatingnav
+                    text: qsTranslate("settingsmanager", "show floating navigation buttons")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
     }
