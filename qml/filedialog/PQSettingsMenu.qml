@@ -109,6 +109,10 @@ PQMenu {
                     checkable: true
                     checkableLikeRadioButton: true
                     checked: PQCSettings.filedialogElementPadding===modelData
+                    onCheckedChanged: {
+                        if(checked)
+                            PQCSettings.filedialogElementPadding = modelData
+                    }
                     onTriggered:
                         PQCSettings.filedialogElementPadding = modelData
                 }

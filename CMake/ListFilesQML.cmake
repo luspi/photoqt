@@ -95,3 +95,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQAllThumbnails.qml ${d}/PQ
 
 SET(d "qml/settingsmanager/settings/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQManage.qml)
+
+SET(d "qml/settingsmanager/settings/filedialog")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml)

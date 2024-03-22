@@ -346,6 +346,55 @@ PQTemplateFullscreen {
         /**************************************************************************************************************************/
 
         //: A settings category
+        "filedialog" : [qsTranslate("settingsmanager", "File dialog"),
+                      {
+
+                                             //: A settings subcategory
+                            "fd_behavior" : [qsTranslate("settingsmanager", "Behavior"),      "PQBehavior",
+                                             [qsTranslate("settingsmanager", "Layout"),
+                                              qsTranslate("settingsmanager", "Show hidden files and folders"),
+                                              qsTranslate("settingsmanager", "Tooltip with Details"),
+                                              qsTranslate("settingsmanager", "Remember previous location"),
+                                              qsTranslate("settingsmanager", "Only select with single click"),
+                                              qsTranslate("settingsmanager", "Sections"),
+                                              qsTranslate("settingsmanager", "Drag and drop")],
+                                             ["Layout",
+                                              "ShowHiddenFilesFolders",
+                                              "DetailsTooltip",
+                                              "KeepLastLocation",
+                                              "SingleClickSelect",
+                                              "Places",
+                                              "Devices",
+                                              "PlacesWidth",
+                                              "DragDropFileviewGrid",
+                                              "DragDropPlaces",
+                                              "DragDropFileviewList"]],
+
+                                             //: A settings subcategory
+                            "fd_look" : [qsTranslate("settingsmanager", "Look"),     "PQLook",
+                                         [qsTranslate("settingsmanager", "Thumbnails"),
+                                          qsTranslate("settingsmanager", "Element padding"),
+                                          qsTranslate("settingsmanager", "Folder thumbnails"),
+                                          qsTranslate("settingsmanager", "Preview")],
+                                         ["Thumbnails",
+                                          "ThumbnailsScaleCrop",
+                                          "ElementPadding",
+                                          "FolderContentThumbnails",
+                                          "FolderContentThumbnailsSpeed",
+                                          "FolderContentThumbnailsLoop",
+                                          "FolderContentThumbnailsAutoload",
+                                          "FolderContentThumbnailsScaleCrop",
+                                          "Preview",
+                                          "PreviewBlur",
+                                          "PreviewMuted",
+                                          "PreviewColorIntensity",
+                                          "PreviewHigherResolution",
+                                          "PreviewCropToFit"]]
+                      }],
+
+        /**************************************************************************************************************************/
+
+        //: A settings category
         "session" : [qsTranslate("settingsmanager", "Session"),
                      {
                                           //: A settings subcategory
