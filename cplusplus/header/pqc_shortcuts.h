@@ -49,7 +49,6 @@ public:
     Q_INVOKABLE void saveAllCurrentShortcuts(QVariantList list);
     Q_INVOKABLE int getNextCommandInCycle(QString combo, int timeout, int maxCmd);
     Q_INVOKABLE void resetCommandCycle(QString combo);
-    Q_INVOKABLE QString convertKeyCodeToText(int id);
 
     Q_INVOKABLE bool migrate(QString oldversion = "");
 

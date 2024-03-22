@@ -31,6 +31,7 @@ import PQCScriptsFileDialog
 import PQCScriptsClipboard
 import PQCScriptsFileManagement
 import PQCScriptsOther
+import PQCScriptsShortcuts
 import PQCImageFormats
 
 import "../elements"
@@ -1559,7 +1560,7 @@ GridView {
             else if(modifiers !== Qt.NoModifier)
                 return
 
-            var keystr = PQCShortcuts.convertKeyCodeToText(key).toLowerCase()
+            var keystr = PQCScriptsShortcuts.analyzeKeyPress(key).toLowerCase()
             if(keystr === "space")
                 keystr = " "
 

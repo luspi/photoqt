@@ -171,7 +171,7 @@ Item {
 
                 // this seems to be the id when a modifier but no key is pressed... ignore key in that case
                 if(key !== 16777249)
-                    combo += PQCShortcuts.convertKeyCodeToText(key)
+                    combo += PQCScriptsShortcuts.analyzeKeyPress(key)
 
                 checkComboForShortcut(combo)
 

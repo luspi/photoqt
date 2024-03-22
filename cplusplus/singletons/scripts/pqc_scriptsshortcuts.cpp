@@ -196,8 +196,6 @@ QString PQCScriptsShortcuts::analyzeMouseDirection(QPoint prevPoint, QPoint curP
 
 QString PQCScriptsShortcuts::analyzeKeyPress(Qt::Key key) {
 
-    QString ret = "";
-
     switch(key) {
         case Qt::Key_Control:
         case Qt::Key_Alt:
@@ -205,211 +203,211 @@ QString PQCScriptsShortcuts::analyzeKeyPress(Qt::Key key) {
         case Qt::Key_Meta:
             break;
         case Qt::Key_Escape:
-            ret += "Esc";
+            return "Esc";
             break;
         case Qt::Key_Right:
-            ret += "Right";
+            return "Right";
             break;
         case Qt::Key_Left:
-            ret += "Left";
+            return "Left";
             break;
         case Qt::Key_Up:
-            ret += "Up";
+            return "Up";
             break;
         case Qt::Key_Down:
-            ret += "Down";
+            return "Down";
             break;
         case Qt::Key_Space:
-            ret += "Space";
+            return "Space";
             break;
         case Qt::Key_Delete:
-            ret += "Delete";
+            return "Delete";
             break;
         case Qt::Key_Home:
-            ret += "Home";
+            return "Home";
             break;
         case Qt::Key_End:
-            ret += "End";
+            return "End";
             break;
         case Qt::Key_PageUp:
-            ret += "Page Up";
+            return "Page Up";
             break;
         case Qt::Key_PageDown:
-            ret += "Page Down";
+            return "Page Down";
             break;
         case Qt::Key_Insert:
-            ret += "Insert";
+            return "Insert";
             break;
         case Qt::Key_Tab:
-            ret += "Tab";
+            return "Tab";
             break;
         case Qt::Key_Backtab:
-            ret += "Tab";
+            return "Tab";
             break;
         case Qt::Key_Return:
-            ret += "Return";
+            return "Return";
             break;
         case Qt::Key_Enter:
-            ret += "Enter";
+            return "Enter";
             break;
         case Qt::Key_Pause:
-            ret += "Pause";
+            return "Pause";
             break;
         case Qt::Key_Print:
-            ret += "Print";
+            return "Print";
             break;
         case Qt::Key_SysReq:
-            ret += "SysReq";
+            return "SysReq";
             break;
         case Qt::Key_Clear:
-            ret += "Clear";
+            return "Clear";
             break;
         case Qt::Key_CapsLock:
-            ret += "CapsLock";
+            return "CapsLock";
             break;
         case Qt::Key_NumLock:
-            ret += "NumLock";
+            return "NumLock";
             break;
         case Qt::Key_ScrollLock:
-            ret += "ScrollLock";
+            return "ScrollLock";
             break;
         case Qt::Key_Super_L:
-            ret += "Super L";
+            return "Super L";
             break;
         case Qt::Key_Super_R:
-            ret += "Super R";
+            return "Super R";
             break;
         case Qt::Key_Menu:
-            ret += "Menu";
+            return "Menu";
             break;
         case Qt::Key_Hyper_L:
-            ret += "Hyper L";
+            return "Hyper L";
             break;
         case Qt::Key_Hyper_R:
-            ret += "Hyper R";
+            return "Hyper R";
             break;
         case Qt::Key_Help:
-            ret += "Help";
+            return "Help";
             break;
         case Qt::Key_Direction_L:
-            ret += "Direction L";
+            return "Direction L";
             break;
         case Qt::Key_Direction_R:
-            ret += "Direction R";
+            return "Direction R";
             break;
         case Qt::Key_F1:
-            ret += "F1";
+            return "F1";
             break;
         case Qt::Key_F2:
-            ret += "F2";
+            return "F2";
             break;
         case Qt::Key_F3:
-            ret += "F3";
+            return "F3";
             break;
         case Qt::Key_F4:
-            ret += "F4";
+            return "F4";
             break;
         case Qt::Key_F5:
-            ret += "F5";
+            return "F5";
             break;
         case Qt::Key_F6:
-            ret += "F6";
+            return "F6";
             break;
         case Qt::Key_F7:
-            ret += "F7";
+            return "F7";
             break;
         case Qt::Key_F8:
-            ret += "F8";
+            return "F8";
             break;
         case Qt::Key_F9:
-            ret += "F9";
+            return "F9";
             break;
         case Qt::Key_F10:
-            ret += "F10";
+            return "F10";
             break;
         case Qt::Key_F11:
-            ret += "F11";
+            return "F11";
             break;
         case Qt::Key_F12:
-            ret += "F12";
+            return "F12";
             break;
         case Qt::Key_F13:
-            ret += "F13";
+            return "F13";
             break;
         case Qt::Key_F14:
-            ret += "F14";
+            return "F14";
             break;
         case Qt::Key_F15:
-            ret += "F15";
+            return "F15";
             break;
         case Qt::Key_F16:
-            ret += "F16";
+            return "F16";
             break;
         case Qt::Key_F17:
-            ret += "F17";
+            return "F17";
             break;
         case Qt::Key_F18:
-            ret += "F18";
+            return "F18";
             break;
         case Qt::Key_F19:
-            ret += "F19";
+            return "F19";
             break;
         case Qt::Key_F20:
-            ret += "F20";
+            return "F20";
             break;
         case Qt::Key_F21:
-            ret += "F21";
+            return "F21";
             break;
         case Qt::Key_F22:
-            ret += "F22";
+            return "F22";
             break;
         case Qt::Key_F23:
-            ret += "F23";
+            return "F23";
             break;
         case Qt::Key_F24:
-            ret += "F24";
+            return "F24";
             break;
         case Qt::Key_F25:
-            ret += "F25";
+            return "F25";
             break;
         case Qt::Key_F26:
-            ret += "F26";
+            return "F26";
             break;
         case Qt::Key_F27:
-            ret += "F27";
+            return "F27";
             break;
         case Qt::Key_F28:
-            ret += "F28";
+            return "F28";
             break;
         case Qt::Key_F29:
-            ret += "F29";
+            return "F29";
             break;
         case Qt::Key_F30:
-            ret += "F30";
+            return "F30";
             break;
         case Qt::Key_F31:
-            ret += "F31";
+            return "F31";
             break;
         case Qt::Key_F32:
-            ret += "F32";
+            return "F32";
             break;
         case Qt::Key_F33:
-            ret += "F33";
+            return "F33";
             break;
         case Qt::Key_F34:
-            ret += "F34";
+            return "F34";
             break;
         case Qt::Key_F35:
-            ret += "F35";
+            return "F35";
             break;
         default: {
             const QString k = QKeySequence(key).toString();
             if(k != "")
-                ret += k;
+                return k;
         }
 
     }
 
-    return ret;
+    return "";
 
 }

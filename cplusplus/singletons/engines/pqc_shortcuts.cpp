@@ -407,14 +407,6 @@ void PQCShortcuts::resetCommandCycle(QString combo) {
     commandCycle.remove(combo);
 }
 
-QString PQCShortcuts::convertKeyCodeToText(int id) {
-
-    qDebug() << "args: id =" << id;
-
-    return QKeySequence(id).toString();
-
-}
-
 bool PQCShortcuts::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
