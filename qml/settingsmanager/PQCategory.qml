@@ -38,22 +38,11 @@ Item {
     property var filterCategories: []
     property var filterSubCategories: []
 
-    PQTextS {
-        width: parent.width
-        height: 30
-        font.weight: PQCLook.fontWeightBold
-        text: qsTranslate("settingsmanager", "category")
-        color: PQCLook.textColorHighlight
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-    }
-
     Flickable {
 
         id: maincatflick
 
         anchors.fill: parent
-        anchors.topMargin: 30
         anchors.bottomMargin: filtercont.height+2
 
         contentHeight: contcol.height

@@ -85,7 +85,7 @@ SET(d "qml/settingsmanager/settings/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTags.qml ${d}/PQConfigure.qml)
 
 SET(d "qml/settingsmanager/settings/session")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQRemember.qml ${d}/PQInstance.qml ${d}/PQTrayIcon.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQManage.qml)
 
 SET(d "qml/settingsmanager/settings/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQNewShortcut.qml ${d}/PQBehavior.qml)
@@ -94,4 +94,4 @@ SET(d "qml/settingsmanager/settings/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
 
 SET(d "qml/settingsmanager/settings/manage")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQReset.qml ${d}/PQExportImport.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQManage.qml)

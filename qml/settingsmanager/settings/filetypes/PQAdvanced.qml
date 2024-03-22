@@ -56,54 +56,38 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Motion/Live photos")
-            font.capitalization: Font.SmallCaps
-            enabled: PQCScriptsConfig.isMotionPhotoSupportEnabled()
-        }
+            title: qsTranslate("settingsmanager", "Motion/Live photos")
 
-        PQText {
-            width: setting_top.width
-            text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.weight: PQCLook.fontWeightBold
-            visible: !PQCScriptsConfig.isMotionPhotoSupportEnabled()
-        }
-
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Both Apple and Android devices can connect a short video clip to photos. Apple refers to this as Apple Live Photo, and Google refers to it as Motion Photo (or sometimes Micro Video). Apple stores small video files next to the image files that have the same filename but different file ending. Android embeds these video files in the image file. If the former is enabled, PhotoQt will hide the video files from the file list and automatically load them when the connected image file is loaded. If the latter is enabled PhotoQt will try to extract and show the video file once the respective image file is loaded. All of this is done asynchronously and should not cause any slowdown.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            enabled: PQCScriptsConfig.isMotionPhotoSupportEnabled()
-        }
-
-        Item {
-            width: 1
-            height: 1
-        }
-
-        Column {
-
-            x: (parent.width-width)/2
-            spacing: 10
+            helptext: qsTranslate("settingsmanager", "Both Apple and Android devices can connect a short video clip to photos. Apple refers to this as Apple Live Photo, and Google refers to it as Motion Photo (or sometimes Micro Video). Apple stores small video files next to the image files that have the same filename but different file ending. Android embeds these video files in the image file. If the former is enabled, PhotoQt will hide the video files from the file list and automatically load them when the connected image file is loaded. If the latter is enabled PhotoQt will try to extract and show the video file once the respective image file is loaded. All of this is done asynchronously and should not cause any slowdown.")
 
             enabled: PQCScriptsConfig.isMotionPhotoSupportEnabled()
 
-            PQCheckBox {
-                id: applelive
-                text: qsTranslate("settingsmanager", "Look for Apple Live Photos")
-                checked: PQCSettings.filetypesLoadAppleLivePhotos
-                onCheckedChanged: checkDefault()
-            }
+            content: [
 
-            PQCheckBox {
-                id: motionmicro
-                text: qsTranslate("settingsmanager", "Look for Google Motion Photos")
-                checked: PQCSettings.filetypesLoadMotionPhotos
-                onCheckedChanged: checkDefault()
-            }
+                PQTextL {
+                    width: setting_top.width
+                    text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    font.weight: PQCLook.fontWeightBold
+                    visible: !PQCScriptsConfig.isMotionPhotoSupportEnabled()
+                },
+
+                PQCheckBox {
+                    id: applelive
+                    text: qsTranslate("settingsmanager", "Look for Apple Live Photos")
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: motionmicro
+                    text: qsTranslate("settingsmanager", "Look for Google Motion Photos")
+                    onCheckedChanged: checkDefault()
+                }
+
+            ]
 
         }
 
@@ -111,25 +95,32 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Photo spheres")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Photo spheres")
 
-        PQText {
-            width: setting_top.width
-            text:qsTranslate("settingsmanager",  "PhotoQt is able to check whether a current image is a photo sphere, this is done by analyzing the meta data of an image in the background. If a equirectangular projection is detected, then a button is visible in the center of the image for entering the photo sphere. This is supported for both partial photo spheres and for 360 degree views.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager",  "PhotoQt is able to check whether a current image is a photo sphere, this is done by analyzing the meta data of an image in the background. If a equirectangular projection is detected, then a button is visible in the center of the image for entering the photo sphere. This is supported for both partial photo spheres and for 360 degree views.")
 
-        PQCheckBox {
-            id: photosphere
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "Check for photo spheres")
-            checked: PQCSettings.filetypesCheckForPhotoSphere
-            onCheckedChanged: checkDefault()
+            enabled: PQCScriptsConfig.isPhotoSphereSupportEnabled()
+
+            content: [
+
+                PQTextL {
+                    width: setting_top.width
+                    text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    font.weight: PQCLook.fontWeightBold
+                    visible: !PQCScriptsConfig.isPhotoSphereSupportEnabled()
+                },
+
+                PQCheckBox {
+                    id: photosphere
+                    text: qsTranslate("settingsmanager", "Check for photo spheres")
+                    onCheckedChanged: checkDefault()
+                }
+            ]
+
         }
 
     }

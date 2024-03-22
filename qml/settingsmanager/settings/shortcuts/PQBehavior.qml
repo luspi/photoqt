@@ -60,37 +60,28 @@ Flickable {
 
         spacing: 10
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Move image with mouse")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Move image with mouse")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "PhotoQt can use both the left button of the mouse and the mouse wheel to move the image around. In that case, however, these actions are not available for shortcuts anymore, except when combined with one or more modifier buttons (Alt, Ctrl, etc.).")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "PhotoQt can use both the left button of the mouse and the mouse wheel to move the image around. In that case, however, these actions are not available for shortcuts anymore, except when combined with one or more modifier buttons (Alt, Ctrl, etc.).")
 
-        Column {
+            content: [
 
-            x: (parent.width-width)/2
-            spacing: 10
+                PQCheckBox {
+                    id: movebut
+                    text: qsTranslate("settingsmanager", "move image with left button")
+                    onCheckedChanged: checkDefault()
+                },
 
-            PQCheckBox {
-                id: movebut
-                text: qsTranslate("settingsmanager", "move image with left button")
-                checked: PQCSettings.imageviewUseMouseWheelForImageMove
-                onCheckedChanged: checkDefault()
-            }
+                PQCheckBox {
+                    id: movewhl
+                    text: qsTranslate("settingsmanager", "move image with mouse wheel")
+                    onCheckedChanged: checkDefault()
+                }
 
-            PQCheckBox {
-                id: movewhl
-                text: qsTranslate("settingsmanager", "move image with mouse wheel")
-                checked: PQCSettings.imageviewUseMouseLeftButtonForImageMove
-                onCheckedChanged: checkDefault()
-            }
+            ]
 
         }
 
@@ -98,137 +89,98 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Double click")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Double click")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.")
 
-        Item {
-            width: 1
-            height: 1
-        }
+            content: [
+                PQSpinBoxAdvanced {
+                    id: dblclk
+                    minval: 0
+                    maxval: 1000
+                    title: qsTranslate("settingsmanager", "threshold:")
+                    suffix: " ms"
+                    onValueChanged:
+                        checkDefault()
+                }
 
-        Row {
+            ]
 
-            x: (parent.width-width)/2
-
-            PQText {
-                text: dblclk.from+"ms"
-            }
-
-            PQSlider {
-                id: dblclk
-                from: 0
-                to: 1000
-                stepSize: 10
-                wheelStepSize: 10
-                value: PQCSettings.interfaceDoubleClickThreshold
-                onValueChanged: checkDefault()
-            }
-
-            PQText {
-                text: dblclk.to+"ms"
-            }
-
-        }
-
-        PQText {
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "current value:") + " " + dblclk.value + "ms"
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Mouse wheel")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Mouse wheel")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Depending on any particular hardware, the mouse wheel moves either a set amount each time it is moved, or relative to how long/fast it is moved. The sensitivity allows to account for very sensitive hardware to decrease the likelihood of accidental/multiple triggers caused by wheel movement.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "Depending on any particular hardware, the mouse wheel moves either a set amount each time it is moved, or relative to how long/fast it is moved. The sensitivity allows to account for very sensitive hardware to decrease the likelihood of accidental/multiple triggers caused by wheel movement.")
 
-        Item {
-            width: 1
-            height: 1
-        }
+            content: [
 
-        Row {
-            x: (parent.width-width)/2
-            PQText {
-                //: used as in: very sensitive mouse wheel
-                text: qsTranslate("settingsmanager", "very sensitive")
-            }
-            PQSlider {
-                id: whl_sens
-                from: 0
-                to: 10
-                value: PQCSettings.interfaceMouseWheelSensitivity
-            }
-            PQText {
-                //: used as in: not at all sensitive mouse wheel
-                text: qsTranslate("settingsmanager", "not sensitive")
-            }
+                Row {
+                    PQText {
+                        //: used as in: very sensitive mouse wheel
+                        text: qsTranslate("settingsmanager", "very sensitive")
+                    }
+                    PQSlider {
+                        id: whl_sens
+                        from: 0
+                        to: 10
+                        onValueChanged: checkDefault()
+                    }
+                    PQText {
+                        //: used as in: not at all sensitive mouse wheel
+                        text: qsTranslate("settingsmanager", "not sensitive")
+                    }
+                }
+
+            ]
         }
 
         /**********************************************************************/
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQTextXL {
-            font.weight: PQCLook.fontWeightBold
+        PQSetting {
+
             //: Settings title
-            text: qsTranslate("settingsmanager", "Hide mouse cursor")
-            font.capitalization: Font.SmallCaps
-        }
+            title: qsTranslate("settingsmanager", "Hide mouse cursor")
 
-        PQText {
-            width: setting_top.width
-            text: qsTranslate("settingsmanager", "Whenever an image is viewed and mouse cursor rests on the image it is possible to hide the mouse cursor after a set timeout. This way the cursor does not get in the way of actually viewing an image.")
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+            helptext: qsTranslate("settingsmanager", "Whenever an image is viewed and mouse cursor rests on the image it is possible to hide the mouse cursor after a set timeout. This way the cursor does not get in the way of actually viewing an image.")
 
-        PQCheckBox {
-            id: hidetimeout_check
-            x: (parent.width-width)/2
-            text: qsTranslate("settingsmanager", "hide cursor after timeout")
-            checked: PQCSettings.imageviewHideCursorTimeout===0
-        }
+            content: [
 
-        Row {
-            x: (parent.width-width)/2
-            enabled: hidetimeout_check.checked
-            PQText {
-                text: hidetimeout.from+"s"
-            }
-            PQSlider {
-                id: hidetimeout
-                from: 1
-                to: 10
-                value: PQCSettings.imageviewHideCursorTimeout
-            }
-            PQText {
-                text: hidetimeout.to+"s"
-            }
-        }
-        PQText {
-            x: (parent.width-width)/2
-            enabled: hidetimeout_check.checked
-            text: qsTranslate("settingsmanager", "current value:") + " " + hidetimeout.value + "s"
+                Row {
+
+                    PQCheckBox {
+                        id: hidetimeout_check
+                        text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
+                        checked: PQCSettings.imageviewHideCursorTimeout===0
+                    }
+
+                    PQSpinBoxAdvanced {
+                        id: hidetimeout
+                        minval: 1
+                        maxval: 10
+                        title: ""
+                        suffix: " s"
+                        enabled: hidetimeout_check.checked
+                        animateWidth: true
+                        onValueChanged:
+                            checkDefault()
+                    }
+
+                }
+
+            ]
+
         }
 
         Item {

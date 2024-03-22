@@ -349,24 +349,18 @@ PQTemplateFullscreen {
         "session" : [qsTranslate("settingsmanager", "Session"),
                      {
                                           //: A settings subcategory
-                         "ss_instance" : [qsTranslate("settingsmanager", "Instance"),   "PQInstance",
+                         "ss_manage" : [qsTranslate("settingsmanager", "Manage"),   "PQManage",
                                           [qsTranslate("settingsmanager", "Single instance"),
-                                           "AllowMultipleInstances"]],
-
-                                          //: A settings subcategory
-                         "ss_remember" : [qsTranslate("settingsmanager", "Remember"),   "PQRemember",
-                                          [qsTranslate("settingsmanager", "Reopen last image"),
-                                           qsTranslate("settingsmanager", "Remember changes")],
-                                          ["RememberLastImage",
-                                           "RememberZoomRotationMirror"]],
-
-                                          //: A settings subcategory
-                         "ss_trayicon" : [qsTranslate("settingsmanager", "Tray icon"),  "PQTrayIcon",
-                                          [qsTranslate("settingsmanager", "Tray Icon"),
+                                           qsTranslate("settingsmanager", "Reopen last image"),
+                                           qsTranslate("settingsmanager", "Remember changes"),
+                                           qsTranslate("settingsmanager", "Tray Icon"),
                                            qsTranslate("settingsmanager", "Reset when hiding")],
-                                          ["TrayIcon",
-                                           "TrayIconMonochrome",
-                                           "TrayIconHideReset"]]
+                                           ["AllowMultipleInstances",
+                                            "RememberLastImage",
+                                            "RememberZoomRotationMirror",
+                                            "TrayIcon",
+                                            "TrayIconMonochrome",
+                                            "TrayIconHideReset"]]
                      }],
 
         /**************************************************************************************************************************/
@@ -423,13 +417,10 @@ PQTemplateFullscreen {
 
         "manage" : [qsTranslate("settingsmanager", "Manage"),
                     {
-                        "mn_reset" : [qsTranslate("settingsmanager", "Reset"), "PQReset",
-                                      [qsTranslate("settingsmanager", "Reset settings"),
-                                       qsTranslate("settingsmanager", "Reset shortcuts")],
-                                      []],
-
-                        "mn_expimp" : [qsTranslate("settingsmanager", "Export/Import"), "PQExportImport",
-                                       [qsTranslate("settingsmanager", "Export settings"),
+                        "mn_manage" : [qsTranslate("settingsmanager", "Manage"), "PQManage",
+                                       [qsTranslate("settingsmanager", "Reset settings"),
+                                        qsTranslate("settingsmanager", "Reset shortcuts"),
+                                        qsTranslate("settingsmanager", "Export settings"),
                                         qsTranslate("settingsmanager", "Import settings")],
                                        []]
                     }]
