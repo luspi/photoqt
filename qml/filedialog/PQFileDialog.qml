@@ -121,7 +121,7 @@ Rectangle {
             SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5
             SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
             onWidthChanged: {
-                PQCSettings.filedialogPlacesWidth = width
+                PQCSettings.filedialogPlacesWidth = Math.round(width)
             }
 
         }
