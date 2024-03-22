@@ -34,9 +34,10 @@ ComboBox {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
-    implicitWidth: extrawide ? 300 : 200
+    implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
 
     property bool extrawide: false
+    property bool extrasmall: false
 
     property int elide: Text.ElideRight
 
@@ -149,6 +150,28 @@ ComboBox {
             border.width: 1
             radius: 2
         }
+    }
+
+    property int _defaultValue
+    Component.onCompleted: {
+        _defaultValue = currentIndex
+    }
+
+    function saveDefault() {
+        _defaultValue = currentIndex
+    }
+
+    function setDefault(val) {
+        _defaultValue = val
+    }
+
+    function loadAndSetDefault(val) {
+        currentIndex = val
+        _defaultValue = val
+    }
+
+    function hasChanged() {
+        return _defaultValue!==currentIndex
     }
 
 }
