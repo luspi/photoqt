@@ -126,7 +126,7 @@ Flickable {
                 Rectangle {
 
                     width: Math.min(parent.width, 600)
-                    height: 300
+                    height: 350
                     color: "transparent"
                     border.width: 1
                     border.color: PQCLook.baseColorHighlight
@@ -169,7 +169,7 @@ Flickable {
                             id: labels_col
                             spacing: 5
 
-                            columns: 2
+                            columns: 3
                             padding: 5
 
                             Repeater {
@@ -182,8 +182,8 @@ Flickable {
 
                                     property bool matchesFilter: (labels_filter.text===""||labels[index][1].toLowerCase().indexOf(labels_filter.text.toLowerCase()) > -1)
 
-                                    width: (labels_flickable.width - (labels_scroll.visible ? labels_scroll.width+1 : 0))/2 - labels_col.spacing
-                                    height: matchesFilter ? 35 : 0
+                                    width: (labels_flickable.width - (labels_scroll.visible ? labels_scroll.width : 0))/3 - labels_col.spacing
+                                    height: matchesFilter ? 30 : 0
                                     opacity: matchesFilter ? 1 : 0
                                     radius: 5
 
@@ -193,14 +193,24 @@ Flickable {
                                     color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
+                                    property bool delegSetup: false
+                                    Timer {
+                                        interval: 500
+                                        running: settingsLoaded
+                                        onTriggered:
+                                            deleg.delegSetup = true
+                                    }
+
                                     PQCheckBox {
                                         id: check
                                         x: 10
                                         y: (parent.height-height)/2
                                         text: labels[index][1]
-                                        font.weight: PQCLook.fontWeightBold
+                                        font.weight: PQCLook.fontWeightNormal
+                                        font.pointSize: PQCLook.fontSizeS
                                         color: tilemouse.containsMouse||check.checked ? PQCLook.textColorActive : PQCLook.textColor
                                         onCheckedChanged: {
+                                            if(!deleg.delegSetup) return
                                             currentCheckBoxStates[index] = (checked ? "1" : "0")
                                             currentCheckBoxStatesChanged()
                                         }
@@ -563,7 +573,7 @@ Flickable {
     }
 
     Timer {
-        interval: 100
+        interval: 300
         id: loadtimer
         onTriggered: {
 

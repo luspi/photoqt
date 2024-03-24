@@ -81,9 +81,6 @@ SET(d "qml/settingsmanager/settings/interface")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfo.qml ${d}/PQEdges.qml)
 
-SET(d "qml/settingsmanager/settings/session")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQManage.qml)
-
 SET(d "qml/settingsmanager/settings/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQNewShortcut.qml ${d}/PQBehavior.qml)
 
@@ -91,7 +88,10 @@ SET(d "qml/settingsmanager/settings/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
 
 SET(d "qml/settingsmanager/settings/manage")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQManage.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
 
 SET(d "qml/settingsmanager/settings/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml)
+
+SET(d "qml/settingsmanager/settings/actions")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)

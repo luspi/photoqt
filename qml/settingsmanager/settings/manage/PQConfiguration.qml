@@ -136,7 +136,7 @@ Flickable {
                     Timer {
                         id: remaining
                         interval: 1000
-                        running: cancel.visible&&!performingAction
+                        running: cancel.visible&&!performingAction&&cancel.action!=""
                         property bool performingAction: false
                         repeat: true
                         onTriggered: {
@@ -151,7 +151,7 @@ Flickable {
                                 else if(cancel.action === "formats")
                                     PQCNotify.resetFormatsToDefault()
 
-                                // do action
+                                cancel.action = ""
 
                                 cancel.hide()
 
@@ -164,10 +164,11 @@ Flickable {
 
                     function show() {
                         timeout = 5
+                        remaining.performingAction = false
                         enabled = true
                     }
                     function hide() {
-                        remaining.stop()
+                        cancel.action = ""
                         enabled = false
                     }
 

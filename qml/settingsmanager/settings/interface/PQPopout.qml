@@ -143,7 +143,7 @@ Flickable {
                 Rectangle {
 
                     width: Math.min(parent.width, 600)
-                    height: 500
+                    height: 350
                     color: "transparent"
                     border.width: 1
                     border.color: PQCLook.baseColorHighlight
@@ -186,7 +186,7 @@ Flickable {
                             id: popout_col
                             spacing: 5
 
-                            columns: 2
+                            columns: 3
                             padding: 5
 
                             Repeater {
@@ -199,8 +199,8 @@ Flickable {
 
                                     property bool matchesFilter: (popout_filter.text===""||pops[index][1].toLowerCase().indexOf(popout_filter.text.toLowerCase()) > -1)
 
-                                    width: (popout_flickable.width - (popout_scroll.visible ? popout_scroll.width+1 : 0))/2 - popout_col.spacing
-                                    height: matchesFilter ? 35 : 0
+                                    width: (popout_flickable.width - (popout_scroll.visible ? popout_scroll.width : 0))/3 - popout_col.spacing
+                                    height: matchesFilter ? 30 : 0
                                     opacity: matchesFilter ? 1 : 0
                                     radius: 5
 
@@ -217,7 +217,8 @@ Flickable {
                                         x: 10
                                         y: (parent.height-height)/2
                                         text: pops[index][1]
-                                        font.weight: PQCLook.fontWeightBold
+                                        font.weight: PQCLook.fontWeightNormal
+                                        font.pointSize: PQCLook.fontSizeS
                                         color: deleg.hovered||check.checked ? PQCLook.textColorActive : PQCLook.textColor
                                         onCheckedChanged: {
                                             currentCheckBoxStates[index] = (checked ? "1" : "0")
@@ -405,11 +406,11 @@ Flickable {
     }
 
     Timer {
-        interval: 100
+        interval: 300
         id: loadtimer
         onTriggered: {
 
-            setting_top.labelsLoadDefault()
+            setting_top.popoutLoadDefault()
 
             keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogKeepOpen)
             keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerKeepOpen)

@@ -385,26 +385,6 @@ PQTemplateFullscreen {
         /**************************************************************************************************************************/
 
         //: A settings category
-        "session" : [qsTranslate("settingsmanager", "Session"),
-                     {
-                                          //: A settings subcategory
-                         "ss_manage" : [qsTranslate("settingsmanager", "Manage"),   "PQManage",
-                                          [qsTranslate("settingsmanager", "Single instance"),
-                                           qsTranslate("settingsmanager", "Reopen last image"),
-                                           qsTranslate("settingsmanager", "Remember changes"),
-                                           qsTranslate("settingsmanager", "Tray Icon"),
-                                           qsTranslate("settingsmanager", "Reset when hiding")],
-                                           ["AllowMultipleInstances",
-                                            "RememberLastImage",
-                                            "RememberZoomRotationMirror",
-                                            "TrayIcon",
-                                            "TrayIconMonochrome",
-                                            "TrayIconHideReset"]]
-                     }],
-
-        /**************************************************************************************************************************/
-
-        //: A settings category
         "filetypes" : [qsTranslate("settingsmanager", "File types"),
                        {
                                              //: A settings subcategory
@@ -454,14 +434,85 @@ PQTemplateFullscreen {
                                               "HideCursorTimeout"]]
                        }],
 
+        /**************************************************************************************************************************/
+
         "manage" : [qsTranslate("settingsmanager", "Manage"),
                     {
-                        "mn_manage" : [qsTranslate("settingsmanager", "Manage"), "PQManage",
+
+                                        //: A settings subcategory
+                        "ss_session" : [qsTranslate("settingsmanager", "Session"),   "PQSession",
+                                        [qsTranslate("settingsmanager", "Single instance"),
+                                         qsTranslate("settingsmanager", "Reopen last image"),
+                                         qsTranslate("settingsmanager", "Remember changes"),
+                                         qsTranslate("settingsmanager", "Tray Icon"),
+                                         qsTranslate("settingsmanager", "Reset when hiding")],
+                                         ["AllowMultipleInstances",
+                                          "RememberLastImage",
+                                          "RememberZoomRotationMirror",
+                                          "TrayIcon",
+                                          "TrayIconMonochrome",
+                                          "TrayIconHideReset"]],
+
+                                       //: A settings subcategory
+                        "mn_config" : [qsTranslate("settingsmanager", "Configuration"), "PQConfiguration",
                                        [qsTranslate("settingsmanager", "Reset settings"),
                                         qsTranslate("settingsmanager", "Reset shortcuts"),
                                         qsTranslate("settingsmanager", "Export settings"),
                                         qsTranslate("settingsmanager", "Import settings")],
                                        []]
+                    }],
+
+        /**************************************************************************************************************************/
+
+        "actions" : [qsTranslate("settingsmanager", "Actions"),
+                    {
+
+                                        //: A settings subcategory
+                        "ac_filedialog" : [qsTranslate("settingsmanager", "File dialog"),   "PQFileDialog",
+                                           [qsTranslate("settingsmanager", "Layout"),
+                                            qsTranslate("settingsmanager", "Show hidden files and folders"),
+                                            qsTranslate("settingsmanager", "Tooltip with Details"),
+                                            qsTranslate("settingsmanager", "Remember previous location"),
+                                            qsTranslate("settingsmanager", "Only select with single click"),
+                                            qsTranslate("settingsmanager", "Sections"),
+                                            qsTranslate("settingsmanager", "Drag and drop"),
+                                            qsTranslate("settingsmanager", "Thumbnails"),
+                                            qsTranslate("settingsmanager", "Element padding"),
+                                            qsTranslate("settingsmanager", "Folder thumbnails"),
+                                            qsTranslate("settingsmanager", "Preview")],
+                                           ["Layout",
+                                            "ShowHiddenFilesFolders",
+                                            "DetailsTooltip",
+                                            "KeepLastLocation",
+                                            "SingleClickSelect",
+                                            "Places",
+                                            "Devices",
+                                            "PlacesWidth",
+                                            "DragDropFileviewGrid",
+                                            "DragDropPlaces",
+                                            "DragDropFileviewList",
+                                            "Thumbnails",
+                                            "ThumbnailsScaleCrop",
+                                            "ElementPadding",
+                                            "FolderContentThumbnails",
+                                            "FolderContentThumbnailsSpeed",
+                                            "FolderContentThumbnailsLoop",
+                                            "FolderContentThumbnailsAutoload",
+                                            "FolderContentThumbnailsScaleCrop",
+                                            "Preview",
+                                            "PreviewBlur",
+                                            "PreviewMuted",
+                                            "PreviewColorIntensity",
+                                            "PreviewHigherResolution",
+                                            "PreviewCropToFit"]],
+
+                                       //: A settings subcategory
+                        "ac_slideshow" : [qsTranslate("settingsmanager", "Slideshow"), "PQSlideshow",
+                                          [qsTranslate("settingsmanager", "Reset settings"),
+                                           qsTranslate("settingsmanager", "Reset shortcuts"),
+                                           qsTranslate("settingsmanager", "Export settings"),
+                                           qsTranslate("settingsmanager", "Import settings")],
+                                          []]
                     }]
 
     }
