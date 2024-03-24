@@ -94,7 +94,6 @@ Item {
 
                             height: 60
                             width: categories_top.width
-                            radius: 5
 
                             color: deleg.isSelected ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
                             Behavior on color { ColorAnimation { duration: 200 } }
@@ -110,6 +109,7 @@ Item {
                                 width: parent.width
                                 height: 1
                                 color: PQCLook.baseColorActive
+                                visible: index>0
                             }
 
                             PQText {
@@ -143,6 +143,7 @@ Item {
                                 width: parent.width
                                 height: 1
                                 color: PQCLook.baseColorActive
+                                visible: index < categoryKeys.length-1
                             }
 
                             PQMouseArea {
@@ -213,7 +214,6 @@ Item {
                                     visible: height>0
 
                                     color: isSelected ? PQCLook.baseColorHighlight : (hovered ? PQCLook.transColorHighlight : PQCLook.baseColorAccent)
-                                    radius: 5
 
                                     opacity: subdeleg.passingFilter ? 1 : 0.4
                                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -236,6 +236,7 @@ Item {
                                         width: parent.width-30
                                         elide: Text.ElideRight
                                         text: subdeleg.curcat
+                                        font.weight: PQCLook.fontWeightBold
                                         color: PQCLook.textColor
                                         Behavior on color { ColorAnimation { duration: 100 } }
                                     }

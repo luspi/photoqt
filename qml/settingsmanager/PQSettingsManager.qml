@@ -34,6 +34,7 @@ PQTemplateFullscreen {
     thisis: "settingsmanager"
     popout: PQCSettings.interfacePopoutSettingsManager
     shortcut: "__settings"
+    noGapsAnywhere: true
 
     title: qsTranslate("settingsmanager", "Settings Manager")
 

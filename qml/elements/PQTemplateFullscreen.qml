@@ -68,9 +68,11 @@ Rectangle {
 
     property int toprowHeight: toprow.height
     property int bottomrowHeight: bottomrow.height
-    property int contentHeight: ele_top.height-toprowHeight-bottomrowHeight-20
+    property int contentHeight: ele_top.height-toprowHeight-bottomrowHeight-(noGapsAnywhere ? 0 : 20)
 
     property alias botLeft: bottomleftelement
+
+    property bool noGapsAnywhere: false
 
     /////////
 
@@ -139,9 +141,9 @@ Rectangle {
             id: insidecont
 
             x: ((parent.width-width)/2)
-            y: 10
+            y: noGapsAnywhere ? 0 : 10
 
-            width: (ele_top.maxWidth==0 ? parent.width-10 : Math.min(parent.width-10, ele_top.maxWidth))
+            width: (ele_top.maxWidth==0 ? parent.width-(noGapsAnywhere ? 0 : 10) : Math.min(parent.width-(noGapsAnywhere ? 0 : 10), ele_top.maxWidth))
 
             spacing: 10
 
