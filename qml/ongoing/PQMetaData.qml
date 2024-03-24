@@ -56,7 +56,7 @@ Rectangle {
         id: saveXY
         interval: 200
         onTriggered:
-            PQCSettings.metadataElementPosition = Qt.point(x,y)
+            PQCSettings.metadataElementPosition = Qt.point(Math.round(x),Math.round(y))
     }
 
     property int parentWidth
@@ -66,7 +66,7 @@ Rectangle {
 
     color: PQCLook.transColor
 
-    radius: 5
+    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
     // visibility status
     opacity: setVisible ? 1 : 0
@@ -80,6 +80,18 @@ Rectangle {
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
     PQBlurBackground { thisis: "metadata" }
+
+    PQMultiEffect {
+
+        parent: metadata_top.parent
+
+        anchors.fill: metadata_top
+        opacity: metadata_top.opacity
+
+        source: metadata_top
+        shadowEnabled: true
+
+    }
 
     state: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout ?
                "popout" :

@@ -41,7 +41,7 @@ Rectangle {
 
     color: PQCLook.transColor
 
-    radius: 5
+    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
     // visibility status
     opacity: setVisible ? 1 : 0
@@ -72,6 +72,18 @@ Rectangle {
     property int gap: 40
 
     PQBlurBackground { thisis: "mainmenu" }
+
+    PQMultiEffect {
+
+        parent: mainmenu_top.parent
+
+        anchors.fill: mainmenu_top
+        opacity: mainmenu_top.opacity
+
+        source: mainmenu_top
+        shadowEnabled: true
+
+    }
 
     // the four states corresponding to screen edges
     states: [
