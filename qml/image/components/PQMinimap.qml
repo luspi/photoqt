@@ -236,36 +236,6 @@ Rectangle {
         }
     }
 
-    // the close button is only visible when hovered
-    Rectangle {
-        x: parent.width-width+12
-        y: -12
-        width: 24
-        height: 24
-        radius: 12
-        color: PQCLook.transColor
-        visible: !PQCSettings.interfaceMinimapPopout
-        enabled: !PQCSettings.interfaceMinimapPopout
-        opacity: controlclosemouse.containsMouse ? 0.75 : 0
-        Behavior on opacity { NumberAnimation { duration: 300 } }
-        Image {
-            anchors.fill: parent
-            anchors.margins: 2
-            source: "image://svg/:/white/close.svg"
-            sourceSize: Qt.size(width, height)
-        }
-        PQMouseArea {
-            id: controlclosemouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            text: qsTranslate("image", "Hide minimap")
-            onClicked: {
-                PQCSettings.imageviewShowMinimap = false
-            }
-        }
-    }
-
     NumberAnimation {
         id: xanim
         target: flickable
