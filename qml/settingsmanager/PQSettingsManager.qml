@@ -245,7 +245,46 @@ PQTemplateFullscreen {
                                                 //: A settings subcategory
                             "iv_online"      : [qsTranslate("settingsmanager", "Share online"), "PQShareOnline",
                                                 ["imgur.com"],
-                                                []]
+                                                []],
+
+                                               //: A settings subcategory
+                            "iv_behavior" : [qsTranslate("settingsmanager", "Metadata"),      "PQMetadata",
+                                             [qsTranslate("settingsmanager", "Labels"),
+                                              qsTranslate("settingsmanager", "Auto Rotation"),
+                                              qsTranslate("settingsmanager", "GPS map"),
+                                              qsTranslate("settingsmanager", "Floating element"),
+                                              qsTranslate("settingsmanager", "Show face tags"),
+                                              qsTranslate("settingsmanager", "Look"),
+                                              qsTranslate("settingsmanager", "Visibility")],
+                                             ["Filename",
+                                              "FileType",
+                                              "FileSize",
+                                              "ImageNumber",
+                                              "Dimensions",
+                                              "Copyright",
+                                              "ExposureTime",
+                                              "Flash",
+                                              "FLength",
+                                              "FNumber",
+                                              "Gps",
+                                              "Iso",
+                                              "Keywords",
+                                              "LightSource",
+                                              "Location",
+                                              "Make",
+                                              "Model",
+                                              "SceneType",
+                                              "Software",
+                                              "Time",
+                                              "AutoRotation",
+                                              "GpsMap",
+                                              "ElementFloating",
+                                              "FaceTagsEnabled",
+                                              "FaceTagsFontSize",
+                                              "FaceTagsBorder",
+                                              "FaceTagsBorderWidth",
+                                              "FaceTagsBorderColor",
+                                              "FaceTagsVisibility"]]
                        }],
 
         /**************************************************************************************************************************/
@@ -293,55 +332,6 @@ PQTemplateFullscreen {
                                             "ExcludeFolders",
                                             "MaxNumberThreads"]]
                         }],
-
-        /**************************************************************************************************************************/
-
-        //: A settings category
-        "metadata" : [qsTranslate("settingsmanager", "Metadata"),
-                      {
-
-                                             //: A settings subcategory
-                            "md_behavior" : [qsTranslate("settingsmanager", "Configure"),      "PQConfigure",
-                                             [qsTranslate("settingsmanager", "Labels"),
-                                              qsTranslate("settingsmanager", "Auto Rotation"),
-                                              qsTranslate("settingsmanager", "GPS map"),
-                                              qsTranslate("settingsmanager", "Floating element")],
-                                             ["Filename",
-                                              "FileType",
-                                              "FileSize",
-                                              "ImageNumber",
-                                              "Dimensions",
-                                              "Copyright",
-                                              "ExposureTime",
-                                              "Flash",
-                                              "FLength",
-                                              "FNumber",
-                                              "Gps",
-                                              "Iso",
-                                              "Keywords",
-                                              "LightSource",
-                                              "Location",
-                                              "Make",
-                                              "Model",
-                                              "SceneType",
-                                              "Software",
-                                              "Time",
-                                              "AutoRotation",
-                                              "GpsMap",
-                                              "ElementFloating"]],
-
-                                             //: A settings subcategory
-                            "md_facetags" : [qsTranslate("settingsmanager", "Face tags"),     "PQFaceTags",
-                                             [qsTranslate("settingsmanager", "Show face tags"),
-                                              qsTranslate("settingsmanager", "Look"),
-                                              qsTranslate("settingsmanager", "Visibility")],
-                                             ["FaceTagsEnabled",
-                                              "FaceTagsFontSize",
-                                              "FaceTagsBorder",
-                                              "FaceTagsBorderWidth",
-                                              "FaceTagsBorderColor",
-                                              "FaceTagsVisibility"]]
-                      }],
 
         /**************************************************************************************************************************/
 

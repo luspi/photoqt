@@ -75,14 +75,11 @@ SET(d "qml/settingsmanager/settings/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml ${d}/PQAdvanced.qml)
 
 SET(d "qml/settingsmanager/settings/imageview")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImage.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImage.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml ${d}/PQMetadata.qml)
 
 SET(d "qml/settingsmanager/settings/interface")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfo.qml ${d}/PQEdges.qml)
-
-SET(d "qml/settingsmanager/settings/metadata")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFaceTags.qml ${d}/PQConfigure.qml)
 
 SET(d "qml/settingsmanager/settings/session")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQManage.qml)
