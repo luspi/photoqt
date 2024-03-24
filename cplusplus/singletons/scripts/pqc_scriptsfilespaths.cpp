@@ -359,7 +359,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
     diag.setNameFilter("*."+endings.join(" *.") + ";;All Files (*.*)");
     diag.setDirectory(info.absolutePath());
-    diag.selectFile(info.baseName() + "." + endings[0]);
+    diag.selectFile(info.completeBaseName() + "." + endings[0]);
 
     if(diag.exec()) {
         QStringList fileNames = diag.selectedFiles();
