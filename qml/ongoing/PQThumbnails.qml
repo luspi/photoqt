@@ -29,12 +29,9 @@ import PQCFileFolderModel
 
 import "../elements"
 
-Rectangle {
+Item {
 
     id: thumbnails_top
-
-    // semi-transparent background color
-    color: PQCLook.transColor
 
     // positioning
     x: (setVisible||holdVisible) ? visiblePos[0] : invisiblePos[0]
@@ -46,6 +43,8 @@ Rectangle {
     opacity: (setVisible||holdVisible) ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    property int radius:0
 
     // which edge the bar should be shown at
     state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ?
@@ -71,6 +70,7 @@ Rectangle {
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
 
     PQBlurBackground { thisis: "thumbnails" }
+    PQShadowEffect { masterItem: thumbnails_top }
 
     // the four states corresponding to screen edges
     states: [

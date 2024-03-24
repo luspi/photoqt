@@ -72,18 +72,7 @@ Rectangle {
     property int gap: 40
 
     PQBlurBackground { thisis: "mainmenu" }
-
-    PQMultiEffect {
-
-        parent: mainmenu_top.parent
-
-        anchors.fill: mainmenu_top
-        opacity: mainmenu_top.opacity
-
-        source: mainmenu_top
-        shadowEnabled: true
-
-    }
+    PQShadowEffect { masterItem: mainmenu_top }
 
     // the four states corresponding to screen edges
     states: [

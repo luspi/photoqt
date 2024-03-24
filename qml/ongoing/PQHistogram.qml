@@ -75,17 +75,7 @@ PQTemplateFloating {
 
     ]
 
-    PQMultiEffect {
-
-        parent: histogram_top.parent
-
-        anchors.fill: histogram_top
-        opacity: histogram_top.opacity
-
-        source: histogram_top
-        shadowEnabled: true
-
-    }
+    PQShadowEffect { masterItem: histogram_top }
 
     popout: PQCSettings.interfacePopoutHistogram
     forcePopout: PQCWindowGeometry.histogramForcePopout

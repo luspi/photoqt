@@ -80,17 +80,7 @@ PQTemplateFloating {
 
     ]
 
-    PQMultiEffect {
-
-        parent: mapcurrent_top.parent
-
-        anchors.fill: mapcurrent_top
-        opacity: mapcurrent_top.opacity
-
-        source: mapcurrent_top
-        shadowEnabled: true
-
-    }
+    PQShadowEffect { masterItem: mapcurrent_top }
 
     popout: PQCSettings.interfacePopoutMapCurrent
     forcePopout: PQCWindowGeometry.mapcurrentForcePopout

@@ -80,18 +80,7 @@ Rectangle {
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
     PQBlurBackground { thisis: "metadata" }
-
-    PQMultiEffect {
-
-        parent: metadata_top.parent
-
-        anchors.fill: metadata_top
-        opacity: metadata_top.opacity
-
-        source: metadata_top
-        shadowEnabled: true
-
-    }
+    PQShadowEffect { masterItem: metadata_top }
 
     state: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout ?
                "popout" :
