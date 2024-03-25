@@ -416,11 +416,11 @@ PQTemplateFullscreen {
 
         /**************************************************************************************************************************/
 
-        "actions" : [qsTranslate("settingsmanager", "Other"),
+        "other" : [qsTranslate("settingsmanager", "Other"),
                     {
 
                                         //: A settings subcategory
-                        "ac_filedialog" : [qsTranslate("settingsmanager", "File dialog"),   "PQFileDialog",
+                        "ot_filedialog" : [qsTranslate("settingsmanager", "File dialog"),   "PQFileDialog",
                                            [qsTranslate("settingsmanager", "Layout"),
                                             qsTranslate("settingsmanager", "Show hidden files and folders"),
                                             qsTranslate("settingsmanager", "Tooltip with Details"),
@@ -459,7 +459,7 @@ PQTemplateFullscreen {
                                             "PreviewCropToFit"]],
 
                                        //: A settings subcategory
-                        "ac_slideshow" : [qsTranslate("settingsmanager", "Slideshow"), "PQSlideshow",
+                        "ot_slideshow" : [qsTranslate("settingsmanager", "Slideshow"), "PQSlideshow",
                                           [qsTranslate("settingsmanager", "Reset settings"),
                                            qsTranslate("settingsmanager", "Reset shortcuts"),
                                            qsTranslate("settingsmanager", "Export settings"),

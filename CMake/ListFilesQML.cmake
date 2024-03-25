@@ -93,5 +93,5 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
 SET(d "qml/settingsmanager/settings/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml)
 
-SET(d "qml/settingsmanager/settings/actions")
+SET(d "qml/settingsmanager/settings/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)

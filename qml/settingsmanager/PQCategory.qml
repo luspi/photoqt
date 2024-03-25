@@ -143,7 +143,6 @@ Item {
                                 width: parent.width
                                 height: 1
                                 color: PQCLook.baseColorActive
-                                visible: index < categoryKeys.length-1
                             }
 
                             PQMouseArea {
