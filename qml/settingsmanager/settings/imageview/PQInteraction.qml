@@ -143,7 +143,26 @@ Flickable {
                     id: minimap
                     text: qsTranslate("settingsmanager", "Show minimap")
                     onCheckedChanged: checkDefault()
+                },
+                Item {
+                    enabled: minimap.checked
+                    clip: true
+                    width: minimapsizelevel.width
+                    height: enabled ? minimapsizelevel.height : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity{ NumberAnimation { duration: 150 } }
+                    PQComboBox {
+                        id: minimapsizelevel
+                        model: [qsTranslate("settingsmanager", "small minimap"),
+                                qsTranslate("settingsmanager", "normal minimap"),
+                                qsTranslate("settingsmanager", "large minimap"),
+                                qsTranslate("settingsmanager", "very large minimap")]
+                        onCurrentIndexChanged:
+                            checkDefault()
+                    }
                 }
+
             ]
 
         }
@@ -205,7 +224,7 @@ Flickable {
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged() || minimap.hasChanged()) {
+                mirroranim.hasChanged() || minimap.hasChanged() || minimapsizelevel.hasChanged()) {
             settingChanged = true
             return
         }
@@ -227,6 +246,7 @@ Flickable {
         floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
 
         minimap.loadAndSetDefault(PQCSettings.imageviewShowMinimap)
+        minimapsizelevel.loadAndSetDefault(PQCSettings.imageviewMinimapSizeLevel)
 
         settingChanged = false
         settingsLoaded = true
@@ -246,6 +266,7 @@ Flickable {
         PQCSettings.interfaceNavigationFloating = floatingnav.checked
 
         PQCSettings.imageviewShowMinimap = minimap.checked
+        PQCSettings.imageviewMinimapSizeLevel = minimapsizelevel.currentIndex
 
         zoomspeed.saveDefault()
         minzoom_check.saveDefault()
@@ -255,6 +276,7 @@ Flickable {
         mirroranim.saveDefault()
         floatingnav.saveDefault()
         minimap.saveDefault()
+        minimapsizelevel.saveDefault()
 
         settingChanged = false
 

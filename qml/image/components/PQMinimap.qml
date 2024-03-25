@@ -30,6 +30,8 @@ Rectangle {
 
     id: minimap_top
 
+    property int sl: PQCSettings.imageviewMinimapSizeLevel
+
     states: [
         State {
             name: "popout"
@@ -63,7 +65,13 @@ Rectangle {
                 target: img
                 x: 5
                 y: 5
-                sourceSize: Qt.size(200, 200)
+                sourceSize: sl == 0 ?
+                                Qt.size(125,125) :
+                                (sl == 1 ?
+                                     Qt.size(250, 250) :
+                                     (sl == 2 ?
+                                          Qt.size(450,450) :
+                                          Qt.size(650,650)))
             }
         }
     ]
