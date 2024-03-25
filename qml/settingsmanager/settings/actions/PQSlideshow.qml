@@ -53,7 +53,20 @@ Flickable {
 
         id: contcol
 
+        width: parent.width
         spacing: 10
+
+        PQText {
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTranslate("settingsmanager", "These settings can also be adjusted when setting up a slideshow.")
+        }
+
+        Item {
+            width: 1
+            height: 1
+        }
 
         PQSetting {
 

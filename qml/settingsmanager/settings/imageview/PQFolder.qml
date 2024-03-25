@@ -86,7 +86,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Sort images")
 
-            helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways depending on your preferences. These criteria here are the ones that can be used in a very quick way. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
+            helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
 
             content: [
                 Row {

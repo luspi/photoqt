@@ -33,6 +33,11 @@ CheckBox {
     font.weight: PQCLook.fontWeightNormal
     property string color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
 
+    property string tooltip: text
+
+    // if the checkbox is embedded with an outside mouse area, this allows for passing on hovered events
+    property bool extraHovered: false
+
     indicator: Rectangle {
         implicitWidth: 22
         implicitHeight: 22
@@ -52,6 +57,14 @@ CheckBox {
             color: PQCLook.inverseColor
             radius: 2
         }
+    }
+
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered||control.extraHovered
+        text: control.tooltip
     }
 
     contentItem: PQText {

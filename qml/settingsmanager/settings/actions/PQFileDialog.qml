@@ -53,6 +53,68 @@ Flickable {
         id: contcol
 
         spacing: 10
+        width: parent.width
+
+        PQText {
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTranslate("settingsmanager", "These settings can also be adjusted from within the file dialog.")
+        }
+
+        PQSetting {
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Sort images")
+
+            helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways depending. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
+
+            content: [
+                Row {
+                    spacing: 5
+                    PQText {
+                        y: (sortcriteria.height-height)/2
+                        font.bold: true
+                        text: qsTranslate("settingsmanager", "Sort by:")
+                    }
+                    PQComboBox {
+                        id: sortcriteria
+                                //: A criteria for sorting images
+                        model: [qsTranslate("settingsmanager", "natural name"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "name"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "time"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "size"),
+                                //: A criteria for sorting images
+                                qsTranslate("settingsmanager", "type")]
+                        onCurrentIndexChanged: checkDefault()
+                    }
+                },
+
+                Row {
+                    spacing: 5
+                    PQRadioButton {
+                        id: sortasc
+                        //: Sort images in ascending order
+                        text: qsTranslate("settingsmanager", "ascending order")
+                        onCheckedChanged: checkDefault()
+                    }
+                    PQRadioButton {
+                        id: sortdesc
+                        //: Sort images in descending order
+                        text: qsTranslate("settingsmanager", "descending order")
+                        onCheckedChanged: checkDefault()
+                    }
+                }
+            ]
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
 
         PQSetting {
 
@@ -485,7 +547,10 @@ Flickable {
             return
         }
 
-        settingChanged = (layout_icon.hasChanged() || layout_list.hasChanged() || hiddencheck.hasChanged() || tooltipcheck.hasChanged() ||
+        var l = ["naturalname", "name", "time", "size", "type"]
+
+        settingChanged = (sortasc.hasChanged() || sortdesc.hasChanged() || sortcriteria.hasChanged() ||
+                          layout_icon.hasChanged() || layout_list.hasChanged() || hiddencheck.hasChanged() || tooltipcheck.hasChanged() ||
                           remembercheck.hasChanged() || singlecheck.hasChanged() || sect_bookmarks.hasChanged() || sect_devices.hasChanged() ||
                           drag_icon.hasChanged() || drag_list.hasChanged() || drag_bookmarks.hasChanged() || singleexec.hasChanged() ||
                           thumb_show.hasChanged() || thumb_scalecrop.hasChanged() || padding.hasChanged() || folderthumb_check.hasChanged() ||
@@ -496,6 +561,11 @@ Flickable {
     }
 
     function load() {
+
+        var l = ["naturalname", "name", "time", "size", "type"]
+        sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy)))
+        sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
+        sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
 
         layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="icons")
         layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="icons")
@@ -533,6 +603,10 @@ Flickable {
 
     function applyChanges() {
 
+        var l = ["naturalname", "name", "time", "size", "type"]
+        PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex]
+        PQCSettings.imageviewSortImagesAscending = sortasc.checked
+
         PQCSettings.filedialogLayout = (layout_icon.checked ? "icons" : "list")
         PQCSettings.filedialogShowHiddenFilesFolders = hiddencheck.checked
         PQCSettings.filedialogDetailsTooltip = tooltipcheck.checked
@@ -558,6 +632,10 @@ Flickable {
         PQCSettings.filedialogPreviewColorIntensity = preview_colint.value
         PQCSettings.filedialogPreviewHigherResolution = preview_resolution.checked
         PQCSettings.filedialogPreviewCropToFit = preview_scalecrop.checked
+
+        sortcriteria.saveDefault()
+        sortasc.saveDefault()
+        sortdesc.saveDefault()
 
         layout_icon.saveDefault()
         layout_list.saveDefault()

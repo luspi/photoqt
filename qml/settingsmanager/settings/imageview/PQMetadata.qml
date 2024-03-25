@@ -205,10 +205,13 @@ Flickable {
                                         id: check
                                         x: 10
                                         y: (parent.height-height)/2
+                                        width: parent.width-20
+                                        elide: Text.ElideMiddle
                                         text: labels[index][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
                                         color: tilemouse.containsMouse||check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                                        extraHovered: tilemouse.containsMouse
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
                                             currentCheckBoxStates[index] = (checked ? "1" : "0")
