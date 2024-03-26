@@ -62,11 +62,10 @@ QString PQCLoadImageResvg::load(QString filename, QSize maxSize, QSize &origSize
         qWarning() << errmsg;
         return errmsg;
     }
-
     origSize = renderer.defaultSize();
 
     if(maxSize.isValid())
-        img = renderer.renderToImage(maxSize);
+        img = renderer.renderToImage(renderer.defaultSize().scaled(maxSize, Qt::KeepAspectRatio));
     else
         img = renderer.renderToImage();
 
