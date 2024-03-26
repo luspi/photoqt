@@ -45,6 +45,8 @@ Item {
     width: image.width
     height: image.height
 
+    property bool hasAlpha: false
+
     Image {
 
         id: image
@@ -91,8 +93,6 @@ Item {
         onMyMirrorVChanged:
             deleg.imageMirrorV = myMirrorV
 
-        property bool hasAlpha: false
-
         onSourceSizeChanged:
             deleg.imageResolution = sourceSize
 
@@ -136,7 +136,7 @@ Item {
         fillMode: Image.Tile
         visible: image.status == Image.Ready && scaledimage.status == Image.Ready
         opacity: deleg.opacity
-        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
+        source: PQCSettings.imageviewTransparencyMarker&&hasAlpha ? "/other/checkerboard.png" : ""
 
     }
 

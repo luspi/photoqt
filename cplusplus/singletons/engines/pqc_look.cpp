@@ -57,6 +57,9 @@ void PQCLook::calculateColors(QString base) {
     m_baseColor = base;
     m_transColor = colTrans.name(QColor::HexArgb);
 
+    colTrans.setAlpha(20);
+    m_faintColor = colTrans.name(QColor::HexArgb);
+
     bool darkcolor = false;
     if(col.toHsv().value() < 128)
         darkcolor = true;
@@ -179,6 +182,9 @@ QString PQCLook::getInverseColorHighlight() {
 
 QString PQCLook::getTransColor() {
     return m_transColor;
+}
+QString PQCLook::getFaintColor() {
+    return m_faintColor;
 }
 QString PQCLook::getTransColorAccent() {
     return m_transColorAccent;

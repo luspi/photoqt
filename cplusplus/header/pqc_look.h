@@ -61,10 +61,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(QString faintColor READ getFaintColor NOTIFY faintColorChanged)
     Q_PROPERTY(QString transColor READ getTransColor NOTIFY transColorChanged)
     Q_PROPERTY(QString transColorAccent READ getTransColorAccent NOTIFY transColorAccentChanged)
     Q_PROPERTY(QString transColorHighlight READ getTransColorHighlight NOTIFY transColorHighlightChanged)
     Q_PROPERTY(QString transColorActive READ getTransColorActive NOTIFY transColorActiveChanged)
+    QString getFaintColor();
     QString getTransColor();
     QString getTransColorAccent();
     QString getTransColorHighlight();
@@ -125,6 +127,7 @@ private:
     QString m_inverseColorHighlight;
     QString m_inverseColorActive;
 
+    QString m_faintColor;
     QString m_transColor;
     QString m_transColorAccent;
     QString m_transColorHighlight;
@@ -157,6 +160,7 @@ Q_SIGNALS:
     void inverseColorHighlightChanged();
     void inverseColorActiveChanged();
 
+    void faintColorChanged();
     void transColorChanged();
     void transColorAccentChanged();
     void transColorHighlightChanged();

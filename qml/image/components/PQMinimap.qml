@@ -57,14 +57,14 @@ Rectangle {
                 x: image_top.width-width-50
                 y: image_top.height-height-50
                 parent: image_top
-                width: Math.max(75, img.width+10)
-                height: Math.max(50, img.height+10)
+                width: Math.max(75, img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
+                height: Math.max(50, img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
                 opacity: minimapNeeded ? 1 : 0
             }
             PropertyChanges {
                 target: img
-                x: 5
-                y: 5
+                x: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
+                y: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
                 sourceSize: sl == 0 ?
                                 Qt.size(125,125) :
                                 (sl == 1 ?
@@ -76,24 +76,19 @@ Rectangle {
         }
     ]
 
-    PQMultiEffect {
+    color: PQCScriptsConfig.isQtAtLeast6_5() ? PQCLook.faintColor : PQCLook.transColor
+    border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0
+    border.color: PQCLook.transColor
 
-        parent: minimap_top.parent
-
-        anchors.fill: minimap_top
-        opacity: minimap_top.opacity
-
-        source: minimap_top
-        shadowEnabled: true
+    PQShadowEffect {
+        masterItem: minimap_top
         z: image_top.curZ
-
     }
 
     property bool minimapNeeded: (deleg.imageScale > deleg.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
 
     state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
-    color: PQCScriptsConfig.isQtAtLeast6_5() ? "transparent" : PQCLook.transColor
     z: image_top.curZ
 
 
@@ -154,8 +149,8 @@ Rectangle {
             y: parent.height*flickable.visibleArea.yPosition
             width: parent.width*flickable.visibleArea.widthRatio
             height: parent.height*flickable.visibleArea.heightRatio
-            opacity: 0.5
-            color: PQCLook.transColorActive
+            opacity: 0.7
+            color: PQCLook.baseColorAccent
             border.width: 2
             border.color: PQCLook.baseColor
             visible: minimapNeeded
@@ -217,7 +212,7 @@ Rectangle {
         z: 1
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.2
+        opacity: popinmouse.containsMouse ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
@@ -237,7 +232,7 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             anchors.margins: -2
-            radius: 2
+            radius: 4
             z: -1
             color: PQCLook.transColor
             opacity: parent.opacity
