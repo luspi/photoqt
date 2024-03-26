@@ -111,8 +111,8 @@ Flickable {
 
                     PQSpinBoxAdvanced {
                         id: maxzoom_slider
-                        minval: 1
-                        maxval: 100
+                        minval: 100
+                        maxval: 10000
                         enabled: maxzoom_check.checked
                         animateWidth: true
                         title: ""
