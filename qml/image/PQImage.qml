@@ -496,6 +496,8 @@ Item {
                                         } else if(PQCScriptsImages.isItAnimated(deleg.imageSource)) {
                                             source = "imageitems/PQImageAnimated.qml"
                                             loader_component.listenToClicksOnImage = true
+                                        } else if(PQCScriptsImages.isSVG(deleg.imageSource)) {
+                                            source = "imageitems/PQSVG.qml"
                                         } else
                                             source = "imageitems/PQImageNormal.qml"
                                     }
@@ -702,7 +704,8 @@ Item {
 
                                             image_wrapper.rotation = 0
                                             deleg.imageRotation = 0
-                                            image_loader.item.setMirrorHV(false, false)
+                                            if(image_loader.item)
+                                                image_loader.item.setMirrorHV(false, false)
                                             image_wrapper.scale = deleg.defaultScale
                                             deleg.imageScale = image_wrapper.scale
 

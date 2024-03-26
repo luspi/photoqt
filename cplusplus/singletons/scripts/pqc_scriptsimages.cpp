@@ -929,3 +929,12 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
     return 0;
 
 }
+
+bool PQCScriptsImages::isSVG(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    const QString suffix = QFileInfo(path).suffix();
+    return (suffix == "svg" || suffix == "svgz");
+
+}
