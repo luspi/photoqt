@@ -33,7 +33,7 @@ Rectangle {
 
     property int sl: PQCSettings.imageviewMinimapSizeLevel
 
-    Item {
+    Rectangle {
         id: containerItemForAnchors
         x: (parent.width-width)/2
         y: (parent.height-height)/2
@@ -58,6 +58,10 @@ Rectangle {
                 y: (minimap_top.height-height)/2
                 sourceSize: Qt.size(minimap_top.width, minimap_top.height)
             }
+            PropertyChanges {
+                target: containerItemForAnchors
+                color: PQCLook.baseColorAccent
+            }
         },
         State {
             name: "normal"
@@ -81,6 +85,10 @@ Rectangle {
                                      (sl == 2 ?
                                           Qt.size(450,450) :
                                           Qt.size(650,650)))
+            }
+            PropertyChanges {
+                target: containerItemForAnchors
+                color: "transparent"
             }
         }
     ]

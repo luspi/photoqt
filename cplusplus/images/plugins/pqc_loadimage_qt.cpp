@@ -127,7 +127,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         // Render SVG into pixmap
         if(maxSize.width() > 5 || maxSize.height() > 5)
-            img = QImage(maxSize, QImage::Format_ARGB32);
+            img = QImage(svg.defaultSize().scaled(maxSize, Qt::KeepAspectRatio), QImage::Format_ARGB32);
         else
             img = QImage(svg.defaultSize(), QImage::Format_ARGB32);
         img.fill(::Qt::transparent);
