@@ -24,6 +24,7 @@ import QtQuick
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PQCScriptsConfig
+import PQCNotify
 import "../../elements"
 
 Rectangle {
@@ -31,6 +32,14 @@ Rectangle {
     id: minimap_top
 
     property int sl: PQCSettings.imageviewMinimapSizeLevel
+
+    Item {
+        id: containerItemForAnchors
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+        width: Math.max(75, img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
+        height: Math.max(50, img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
+    }
 
     states: [
         State {
@@ -96,14 +105,14 @@ Rectangle {
     visible: opacity>0
 
     PQText {
-        anchors.centerIn: parent
+        anchors.centerIn: containerItemForAnchors
         visible: (img.source===""||img.status!=Image.Ready) && PQCSettings.interfaceMinimapPopout
-        text: "Minimap"
+        text: qsTranslate("image", "Minimap")
     }
 
     MouseArea {
         id: movemouse
-        anchors.fill: parent
+        anchors.fill: containerItemForAnchors
         enabled: !PQCScriptsConfig.isQtAtLeast6_5()
         hoverEnabled: true
         cursorShape: PQCSettings.interfaceMinimapPopout ? Qt.ArrowCursor : Qt.SizeAllCursor
@@ -112,7 +121,7 @@ Rectangle {
 
     MouseArea {
         id: minimapmouse
-        anchors.fill: parent
+        anchors.fill: containerItemForAnchors
         anchors.margins: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
         hoverEnabled: true
         drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
@@ -133,6 +142,13 @@ Rectangle {
 
             xanim.restart()
             yanim.restart()
+        }
+        onWheel: (wheel) => {
+            if(!PQCSettings.interfaceMinimapPopout) {
+                wheel.accepted = false
+                return
+            }
+            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
         }
     }
 

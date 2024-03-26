@@ -31,6 +31,8 @@ Window {
 
     flags: Qt.Window|Qt.WindowStaysOnTopHint
 
+    title: qsTranslate("image", "Minimap")
+
     color: PQCLook.transColor
 
     PQMinimap {
