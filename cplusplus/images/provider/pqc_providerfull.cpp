@@ -61,11 +61,25 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
         return QImage();
 
     // check if a color profile has been set
-    QColorSpace::NamedColorSpace icc = PQCScriptsImages::get().getColorProfileFor(filename);
-    if(icc != QColorSpace::SRgb) {
-        QColorSpace sp(icc);
+    QColorSpace sp;
+    int index = PQCScriptsImages::get().getColorProfileFor(filename);
+    QList<QColorSpace::NamedColorSpace> integ = PQCScriptsImages::get().getIntegratedColorProfiles();
+    if(index < integ.length()) {
+        sp = QColorSpace(integ[index]);
+    } else {
+        index -= integ.length();
+        QStringList ext = PQCScriptsImages::get().getExternalColorProfiles();
+        if(index < ext.length()) {
+            QFile f(ext[index]);
+            if(f.open(QIODevice::ReadOnly))
+                sp = QColorSpace::fromIccProfile(f.readAll());
+        } else
+            sp = QColorSpace(QColorSpace::SRgb);
+    }
+    QColorSpace defaultSpace(QColorSpace::SRgb);
+    if(sp != defaultSpace) {
         qDebug() << "Applying color profile:" << sp.description();
-        QImage ret2 = ret.convertedToColorSpace(icc);
+        QImage ret2 = ret.convertedToColorSpace(sp);
         if(ret2.isNull()) {
             qWarning() << "Color profile could not be applied, falling back to sRGB";
             PQCScriptsImages::get().setColorProfile(filename, QColorSpace::SRgb);

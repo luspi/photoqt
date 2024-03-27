@@ -72,10 +72,12 @@ public:
     Q_INVOKABLE bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
 
+    QList<QColorSpace::NamedColorSpace> getIntegratedColorProfiles();
+    QStringList getExternalColorProfiles();
     Q_INVOKABLE QStringList getColorProfiles();
     Q_INVOKABLE void setColorProfile(QString path, int index);
-    Q_INVOKABLE QColorSpace::NamedColorSpace getColorProfileFor(QString path);
-    Q_INVOKABLE QString getDescriptionForColorSpace(QColorSpace::NamedColorSpace nme);
+    Q_INVOKABLE int getColorProfileFor(QString path);
+    Q_INVOKABLE QString getDescriptionForColorSpace(int index);
 
 private:
     PQCScriptsImages();
@@ -84,8 +86,10 @@ private:
 
     QMap<QString, bool> alphaChannels;
 
-    QList<QColorSpace::NamedColorSpace> availableColorProfiles;
-    QMap<QString, QColorSpace::NamedColorSpace> iccColorProfiles;
+    QList<QColorSpace::NamedColorSpace> integratedColorProfiles;
+    QStringList externalColorProfiles;
+    QStringList externalColorProfileDescriptions;
+    QMap<QString, int> iccColorProfiles;
 
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);

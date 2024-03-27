@@ -62,11 +62,13 @@
 #endif
 
 PQCScriptsImages::PQCScriptsImages() {
-    availableColorProfiles << QColorSpace::SRgb
-                           << QColorSpace::SRgbLinear
-                           << QColorSpace::AdobeRgb
-                           << QColorSpace::DisplayP3
-                           << QColorSpace::ProPhotoRgb;
+    integratedColorProfiles << QColorSpace::SRgb
+                            << QColorSpace::SRgbLinear
+                            << QColorSpace::AdobeRgb
+                            << QColorSpace::DisplayP3
+                            << QColorSpace::ProPhotoRgb;
+    externalColorProfiles.clear();
+    externalColorProfileDescriptions.clear();
 }
 
 PQCScriptsImages::~PQCScriptsImages() {
@@ -958,8 +960,36 @@ QStringList PQCScriptsImages::getColorProfiles() {
     qDebug() << "";
 
     QStringList ret;
-    for(auto &c : std::as_const(availableColorProfiles))
+
+#ifdef Q_OS_UNIX
+
+    if(externalColorProfiles.length() == 0) {
+
+        QString basedir = "/usr/share/color/icc";
+        QDir dir(basedir);
+        dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
+        QStringList lst = dir.entryList();
+        for(auto &f : std::as_const(lst)) {
+            QFile iccfile(QString("%1/%2").arg(basedir, f));
+            if(iccfile.open(QIODevice::ReadOnly)) {
+                QColorSpace sp = QColorSpace::fromIccProfile(iccfile.readAll());
+                if(sp.isValid()) {
+                    externalColorProfiles << QString("%1/%2").arg(basedir, f);
+                    externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(sp.description());
+                }
+            }
+        }
+
+    }
+
+#endif
+
+    for(auto &c : std::as_const(integratedColorProfiles))
         ret << QColorSpace(c).description();
+
+    if(externalColorProfileDescriptions.length() > 0)
+        ret << externalColorProfileDescriptions;
+
     return ret;
 
 }
@@ -969,23 +999,46 @@ void PQCScriptsImages::setColorProfile(QString path, int index) {
     qDebug() << "args: path =" << path;
     qDebug() << "args: index =" << index;
 
-    if(index < availableColorProfiles.length())
-        iccColorProfiles[path] = availableColorProfiles[index];
+    if(index < integratedColorProfiles.length())
+        iccColorProfiles[path] = integratedColorProfiles[index];
+
+    if(index-integratedColorProfiles.length() < externalColorProfiles.length())
+        iccColorProfiles[path] = index;
 
 }
 
-QColorSpace::NamedColorSpace PQCScriptsImages::getColorProfileFor(QString path) {
+int PQCScriptsImages::getColorProfileFor(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    return iccColorProfiles.value(path, PQCSettings::get()["imageviewDefaultColorSpace"].value<QColorSpace::NamedColorSpace>());
+    return iccColorProfiles.value(path, PQCSettings::get()["imageviewDefaultColorSpace"].toInt());
 
 }
 
-QString PQCScriptsImages::getDescriptionForColorSpace(QColorSpace::NamedColorSpace nme) {
+QString PQCScriptsImages::getDescriptionForColorSpace(int index) {
 
-    qDebug() << "args: nme =" << nme;
+    qDebug() << "args: index =" << index;
 
-    return QColorSpace(nme).description();
+    if(index < integratedColorProfiles.length())
+        return QColorSpace(integratedColorProfiles[index]).description();
+
+    index -= integratedColorProfiles.length();
+
+    if(index < externalColorProfiles.length())
+        return externalColorProfileDescriptions[index];
+
+    return "[unknown color space]";
+
+}
+
+QStringList PQCScriptsImages::getExternalColorProfiles() {
+
+    return externalColorProfiles;
+
+}
+
+QList<QColorSpace::NamedColorSpace> PQCScriptsImages::getIntegratedColorProfiles() {
+
+    return integratedColorProfiles;
 
 }
