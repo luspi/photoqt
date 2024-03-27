@@ -282,7 +282,7 @@ Flickable {
 
         cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
 
-        colorspace.loadAndSetDefault(PQCSettings.imageviewDefaultColorSpace-1)
+        colorspace.loadAndSetDefault(PQCSettings.imageviewDefaultColorSpace)
 
         settingChanged = false
         settingsLoaded = true
@@ -306,7 +306,7 @@ Flickable {
 
         PQCSettings.imageviewCache = cache_slider.value
 
-        PQCSettings.imageviewDefaultColorSpace = colorspace.currentIndex+1
+        PQCSettings.imageviewDefaultColorSpace = colorspace.currentIndex
 
         marginslider.saveDefault()
         large_fit.saveDefault()
