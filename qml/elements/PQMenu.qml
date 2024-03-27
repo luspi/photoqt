@@ -27,7 +27,9 @@ Menu {
 
     id: control
 
-    delegate: PQMenuItem {}
+    delegate: PQMenuItem {
+        moveToRightABit: true
+    }
 
     background: Rectangle {
         implicitWidth: 250

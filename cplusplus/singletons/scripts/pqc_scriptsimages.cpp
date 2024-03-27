@@ -31,6 +31,7 @@
 #include <QImageReader>
 #include <QtConcurrent>
 #include <QMediaPlayer>
+#include <QColorSpace>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settings.h>
@@ -61,6 +62,11 @@
 #endif
 
 PQCScriptsImages::PQCScriptsImages() {
+    availableColorProfiles << QColorSpace::SRgb
+                           << QColorSpace::SRgbLinear
+                           << QColorSpace::AdobeRgb
+                           << QColorSpace::DisplayP3
+                           << QColorSpace::ProPhotoRgb;
 }
 
 PQCScriptsImages::~PQCScriptsImages() {
@@ -936,5 +942,50 @@ bool PQCScriptsImages::isSVG(QString path) {
 
     const QString suffix = QFileInfo(path).suffix();
     return (suffix == "svg" || suffix == "svgz");
+
+}
+
+bool PQCScriptsImages::isNormalImage(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    return !isMpvVideo(path) && !isQtVideo(path) && !isPDFDocument(path) && !isArchive(path) && !isItAnimated(path) && !isSVG(path);
+
+}
+
+QStringList PQCScriptsImages::getColorProfiles() {
+
+    qDebug() << "";
+
+    QStringList ret;
+    for(auto &c : std::as_const(availableColorProfiles))
+        ret << QColorSpace(c).description();
+    return ret;
+
+}
+
+void PQCScriptsImages::setColorProfile(QString path, int index) {
+
+    qDebug() << "args: path =" << path;
+    qDebug() << "args: index =" << index;
+
+    if(index < availableColorProfiles.length())
+        iccColorProfiles[path] = availableColorProfiles[index];
+
+}
+
+QColorSpace::NamedColorSpace PQCScriptsImages::getColorProfileFor(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    return iccColorProfiles.value(path, PQCSettings::get()["imageviewDefaultColorSpace"].value<QColorSpace::NamedColorSpace>());
+
+}
+
+QString PQCScriptsImages::getDescriptionForColorSpace(QColorSpace::NamedColorSpace nme) {
+
+    qDebug() << "args: nme =" << nme;
+
+    return QColorSpace(nme).description();
 
 }

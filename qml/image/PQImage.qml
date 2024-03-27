@@ -98,6 +98,7 @@ Item {
     signal archiveJump(var leftright)
 
     signal imageFinishedLoading(var index)
+    signal reloadImage()
 
     property var rememberChanges: ({})
     property var reuseChanges: []
@@ -142,6 +143,10 @@ Item {
                     function onImageviewAlwaysActualSizeChanged() {
                         deleg.active = false
                         deleg.active = Qt.binding(function() { return shouldBeShown || hasBeenSetup; })
+                    }
+
+                    function onImageviewDefaultColorSpaceChanged() {
+                        image_top.reloadImage()
                     }
 
                 }
@@ -264,6 +269,12 @@ Item {
                             else if(offset == -180 || offset == -270)
                                 deleg.imageRotation -= (360+offset)
                         }
+                    }
+
+                    function onReloadImage() {
+                        var bak = deleg.imageSource
+                        deleg.imageSource = ""
+                        deleg.imageSource = bak
                     }
 
                 }

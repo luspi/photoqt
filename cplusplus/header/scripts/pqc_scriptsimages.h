@@ -25,6 +25,8 @@
 
 #include <QObject>
 #include <QMap>
+#include <QImage>
+#include <QColorSpace>
 
 class PQCScriptsImages : public QObject {
 
@@ -58,6 +60,7 @@ public:
     Q_INVOKABLE bool isPhotoSphere(QString path);
     Q_INVOKABLE bool isComicBook(QString path);
     Q_INVOKABLE bool isSVG(QString path);
+    Q_INVOKABLE bool isNormalImage(QString path);
 
     Q_INVOKABLE int getDocumentPageCount(QString path);
 
@@ -69,12 +72,20 @@ public:
     Q_INVOKABLE bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
 
+    Q_INVOKABLE QStringList getColorProfiles();
+    Q_INVOKABLE void setColorProfile(QString path, int index);
+    Q_INVOKABLE QColorSpace::NamedColorSpace getColorProfileFor(QString path);
+    Q_INVOKABLE QString getDescriptionForColorSpace(QColorSpace::NamedColorSpace nme);
+
 private:
     PQCScriptsImages();
 
     QMap<QString,QVariantList> histogramCache;
 
     QMap<QString, bool> alphaChannels;
+
+    QList<QColorSpace::NamedColorSpace> availableColorProfiles;
+    QMap<QString, QColorSpace::NamedColorSpace> iccColorProfiles;
 
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);

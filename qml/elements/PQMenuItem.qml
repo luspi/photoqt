@@ -35,7 +35,7 @@ MenuItem {
     contentItem:
         Text {
             id: controltxt
-            leftPadding: menuItem.checkable||iconSource!=""||moveToRightABit ? menuItem.indicator.width : 0
+            leftPadding: menuItem.checkable||iconSource!=""||moveToRightABit ? 30 : 0
             height: 40
             text: menuItem.text
             font: menuItem.font

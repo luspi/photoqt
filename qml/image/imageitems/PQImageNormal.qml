@@ -39,7 +39,7 @@ Image {
 
     id: image
 
-    source: "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
+    source: deleg.imageSource==="" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource))
 
     asynchronous: true
 
@@ -47,6 +47,8 @@ Image {
 
     smooth: interpThreshold
     mipmap: interpThreshold
+
+    cache: false
 
     property bool fitImage: (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
 

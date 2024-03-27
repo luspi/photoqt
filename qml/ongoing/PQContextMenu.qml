@@ -27,6 +27,7 @@ import PQCScriptsShortcuts
 import PQCFileFolderModel
 import PQCScriptsContextMenu
 import PQCScriptsConfig
+import PQCScriptsImages
 
 import "../elements"
 
@@ -101,6 +102,41 @@ PQMenu {
     }
 
     PQMenuSeparator {}
+
+    PQMenu {
+        id: iccmenu
+        title: qsTranslate("contextmenu", "Select color profile")
+        property var availableColorProfiles: []
+        onAboutToShow: {
+            availableColorProfiles = PQCScriptsImages.getColorProfiles()
+        }
+        Repeater{
+            model: iccmenu.availableColorProfiles.length
+            PQMenuItem {
+                text: iccmenu.availableColorProfiles[index]
+                onTriggered: {
+                    PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, index)
+                    image.reloadImage()
+                    PQCFileFolderModel.currentFileChanged()
+                }
+            }
+        }
+        Connections {
+            target: PQCFileFolderModel
+            function onCurrentFileChanged() {
+                evaluateEnabledStatus.restart()
+            }
+        }
+
+        Timer {
+            id: evaluateEnabledStatus
+            interval: 200
+            running: true   // this makes sure the status is evaluated at startup
+            onTriggered: {
+                iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" && PQCScriptsImages.isNormalImage(PQCFileFolderModel.currentFile))
+            }
+        }
+    }
 
     PQMenuItem {
         iconSource: "image://svg/:/white/histogram.svg"

@@ -214,7 +214,9 @@ Rectangle {
             property bool hasBeenTriggered: false
             onTriggered: {
                 hasBeenTriggered = true
-                img.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(PQCScriptsFilesPaths.cleanPath(deleg.imageSource))
+                var cl = PQCScriptsFilesPaths.cleanPath(deleg.imageSource)
+                if(cl !== "")
+                    img.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(cl)
             }
         }
 
@@ -223,7 +225,9 @@ Rectangle {
     Connections {
         target: image_loader.item
         function onSourceChanged(source) {
-            img.source = "image://full/" + PQCScriptsFilesPaths.cleanPath(source)
+            var cl = PQCScriptsFilesPaths.cleanPath(source)
+            if(cl !== "")
+                img.source = "image://full/" + cl
         }
     }
 

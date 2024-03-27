@@ -23,8 +23,10 @@
 #include <pqc_providerfull.h>
 #include <pqc_loadimage.h>
 #include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/pqc_scriptsimages.h>
 #include <QFileInfo>
 #include <QCoreApplication>
+#include <QColorSpace>
 
 PQCProviderFull::PQCProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {}
 
@@ -57,6 +59,19 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     // if returned image is not an error image ...
     if(ret.isNull())
         return QImage();
+
+    // check if a color profile has been set
+    QColorSpace::NamedColorSpace icc = PQCScriptsImages::get().getColorProfileFor(filename);
+    if(icc != QColorSpace::SRgb) {
+        QColorSpace sp(icc);
+        qDebug() << "Applying color profile:" << sp.description();
+        QImage ret2 = ret.convertedToColorSpace(icc);
+        if(ret2.isNull()) {
+            qWarning() << "Color profile could not be applied, falling back to sRGB";
+            PQCScriptsImages::get().setColorProfile(filename, QColorSpace::SRgb);
+        } else
+            ret = ret2;
+    }
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())

@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsImages
 
 import "../../../elements"
 
@@ -218,6 +219,30 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Default color space")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt can apply a selection of color spaces to an image. By default it will ensure the image is in the color space selected here. It is also possible to temporarily select a different color space for individual images through the context menu. If an image cannot be converted to a selected color space, then PhotoQt will fall back to the default one. The currently active color space can be displayed in the status info area.")
+
+            content: [
+
+                PQComboBox {
+                    id: colorspace
+                    model: PQCScriptsImages.getColorProfiles()
+                    onCurrentIndexChanged:
+                        checkDefault()
+                }
+
+            ]
+
+        }
+
     }
 
     Component.onCompleted:
@@ -232,7 +257,7 @@ Flickable {
         }
 
         if(marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() ||
-                checkerboard.hasChanged() || interp_check.hasChanged() || interp_spin.hasChanged() || cache_slider.hasChanged()) {
+                checkerboard.hasChanged() || interp_check.hasChanged() || interp_spin.hasChanged() || cache_slider.hasChanged() || colorspace.hasChanged()) {
             settingChanged = true
             return
         }
@@ -257,6 +282,8 @@ Flickable {
 
         cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
 
+        colorspace.loadAndSetDefault(PQCSettings.imageviewDefaultColorSpace-1)
+
         settingChanged = false
         settingsLoaded = true
 
@@ -279,6 +306,8 @@ Flickable {
 
         PQCSettings.imageviewCache = cache_slider.value
 
+        PQCSettings.imageviewDefaultColorSpace = colorspace.currentIndex+1
+
         marginslider.saveDefault()
         large_fit.saveDefault()
         large_full.saveDefault()
@@ -288,6 +317,7 @@ Flickable {
         interp_check.saveDefault()
         interp_spin.saveDefault()
         cache_slider.saveDefault()
+        colorspace.saveDefault()
 
         settingChanged = false
 

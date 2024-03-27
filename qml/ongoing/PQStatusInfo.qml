@@ -143,7 +143,9 @@ Item {
                                                                            rectRotation :
                                                                            t=="filesize" ?
                                                                                rectFilesize :
-                                                                               rectDummy
+                                                                               t=="colorspace" ?
+                                                                                   rectColorSpace :
+                                                                                   rectDummy
                             }
 
                             Rectangle {
@@ -457,6 +459,14 @@ Item {
         id: rectFilesize
         PQText {
             text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
+        }
+    }
+
+    Component {
+        id: rectColorSpace
+        PQText {
+            id: csptxt
+            text: PQCScriptsImages.getDescriptionForColorSpace(PQCScriptsImages.getColorProfileFor(PQCFileFolderModel.currentFile))
         }
     }
 
