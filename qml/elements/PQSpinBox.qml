@@ -35,7 +35,7 @@ SpinBox {
 
     // faking the 'live' property pre Qt 6.6
     onDisplayTextChanged:
-        value = displayTextp
+        value = displayText
 
     Timer {
         interval: 100
