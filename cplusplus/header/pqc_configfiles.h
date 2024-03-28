@@ -90,6 +90,10 @@ public:
         return QString("%1/imgurhistory.db").arg(CONFIG_DIR());
     }
 
+    static const QString ICC_COLOR_PROFILE_DIR() {
+        return QString("%1/icc").arg(CACHE_DIR());
+    }
+
 };
 
 #endif // PQCCONFIGFILES_H

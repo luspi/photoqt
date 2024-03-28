@@ -32,12 +32,14 @@
 #include <QtConcurrent>
 #include <QMediaPlayer>
 #include <QColorSpace>
+#include <QFileDialog>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
 #include <pqc_configfiles.h>
+#include <pqc_notify.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -69,10 +71,13 @@
 #include <lcms2.h>
 #endif
 
-PQCScriptsImages::PQCScriptsImages() {}
+PQCScriptsImages::PQCScriptsImages() {
+    importedICCLastMod = 0;
+    colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::CACHE_DIR(), "colorlastlocation"));
+}
 
 PQCScriptsImages::~PQCScriptsImages() {
-
+    delete colorlastlocation;
 }
 
 QSize PQCScriptsImages::getCurrentImageResolution(QString filename) {
@@ -957,6 +962,56 @@ bool PQCScriptsImages::isNormalImage(QString path) {
 
 void PQCScriptsImages::loadColorProfileInfo() {
 
+#ifdef PQMLCMS2
+
+    QFileInfo info(PQCConfigFiles::ICC_COLOR_PROFILE_DIR());
+    if(info.lastModified().toMSecsSinceEpoch() != importedICCLastMod) {
+
+        // we always check for imported profile changes
+        importedColorProfiles.clear();
+        importedColorProfileDescriptions.clear();
+
+        importedICCLastMod = info.lastModified().toMSecsSinceEpoch();
+
+        QDir dir(PQCConfigFiles::ICC_COLOR_PROFILE_DIR());
+        dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
+        QStringList lst = dir.entryList();
+        for(auto &f : std::as_const(lst)) {
+
+            QString fullpath = QString("%1/%2").arg(PQCConfigFiles::ICC_COLOR_PROFILE_DIR(), f);
+
+            QFile file(fullpath);
+
+            if(!file.open(QIODevice::ReadOnly)) {
+                qWarning() << "Unable to open imported color profile:" << fullpath;
+                continue;
+            }
+
+            QByteArray bt = file.readAll();
+            cmsHPROFILE profile = cmsOpenProfileFromMem(bt.constData(), bt.size());
+
+            if(!profile) {
+                qWarning() << "Unable to create imported color profile:" << fullpath;
+                continue;
+            }
+
+            int bufSize = 100;
+            char buf[bufSize];
+
+            cmsGetProfileInfoUTF8(profile, cmsInfoDescription,
+                                  "en", "US",
+                                  buf, bufSize);
+
+            importedColorProfiles << fullpath;
+            importedColorProfileDescriptions << QString("%1 <i>(imported)</i>").arg(buf);
+
+        }
+
+    }
+
+#endif
+
+
     if(externalColorProfiles.length() == 0) {
 
         externalColorProfiles.clear();
@@ -1056,6 +1111,7 @@ QStringList PQCScriptsImages::getColorProfiles() {
 
     loadColorProfileInfo();
 
+    ret << importedColorProfileDescriptions;
     ret << integratedColorProfileDescriptions;
     ret << externalColorProfileDescriptions;
 
@@ -1067,11 +1123,18 @@ QString PQCScriptsImages::getColorProfileID(int index) {
 
     loadColorProfileInfo();
 
+    if(index < importedColorProfiles.length())
+        return importedColorProfiles[index];
+
+    index -= importedColorProfiles.length();
+
     if(index < integratedColorProfiles.length())
         return QString("::%1").arg(static_cast<int>(index));
 
-    if(index-integratedColorProfiles.length() < externalColorProfiles.length())
-        return externalColorProfiles[index-integratedColorProfiles.length()];
+    index -= integratedColorProfiles.length();
+
+    if(index < externalColorProfiles.length())
+        return externalColorProfiles[index];
 
     return "";
 
@@ -1114,7 +1177,11 @@ QString PQCScriptsImages::getDescriptionForColorSpace(QString path) {
         return QColorSpace(integratedColorProfiles[index]).description();
     }
 
-    int index = externalColorProfiles.indexOf(name);
+    int index = importedColorProfiles.indexOf(name);
+    if(index != -1)
+        return importedColorProfileDescriptions[index];
+
+    index = externalColorProfiles.indexOf(name);
     if(index != -1)
         return externalColorProfileDescriptions[index];
 
@@ -1123,25 +1190,27 @@ QString PQCScriptsImages::getDescriptionForColorSpace(QString path) {
 }
 
 QStringList PQCScriptsImages::getExternalColorProfiles() {
-
     loadColorProfileInfo();
-
     return externalColorProfiles;
-
 }
 
 QStringList PQCScriptsImages::getExternalColorProfileDescriptions() {
-
     loadColorProfileInfo();
-
     return externalColorProfileDescriptions;
+}
 
+QStringList PQCScriptsImages::getImportedColorProfiles() {
+    loadColorProfileInfo();
+    return importedColorProfiles;
+}
+
+QStringList PQCScriptsImages::getImportedColorProfileDescriptions() {
+    loadColorProfileInfo();
+    return importedColorProfileDescriptions;
 }
 
 QList<QColorSpace::NamedColorSpace> PQCScriptsImages::getIntegratedColorProfiles() {
-
     return integratedColorProfiles;
-
 }
 
 int PQCScriptsImages::getIndexForColorProfile(QString desc) {
@@ -1194,3 +1263,88 @@ int PQCScriptsImages::toLcmsFormat(QImage::Format fmt) {
 
 }
 #endif
+
+bool PQCScriptsImages::importColorProfile() {
+
+    qDebug() << "";
+
+    PQCNotify::get().setModalFileDialogOpen(true);
+
+#ifdef Q_OS_UNIX
+    QString loc = "/usr/share/color/icc";
+#else
+    QString loc = QDir::homePath();
+#endif
+    if(colorlastlocation->open(QIODevice::ReadOnly)) {
+        QTextStream in(colorlastlocation);
+        QString tmp = in.readAll();
+        if(tmp != "" && QFileInfo::exists(tmp))
+            loc = tmp;
+        colorlastlocation->close();
+    }
+
+    QFileDialog diag;
+    diag.setLabelText(QFileDialog::Accept, "Import");
+    diag.setFileMode(QFileDialog::AnyFile);
+    diag.setModal(true);
+    diag.setAcceptMode(QFileDialog::AcceptOpen);
+    diag.setOption(QFileDialog::DontUseNativeDialog, false);
+    diag.setNameFilter("*.icc;;All Files (*.*)");
+    diag.setDirectory(loc);
+
+    if(diag.exec()) {
+        QStringList fileNames = diag.selectedFiles();
+        if(fileNames.length() > 0) {
+
+            PQCNotify::get().setModalFileDialogOpen(false);
+
+            QString fn = fileNames[0];
+            QFileInfo info(fn);
+
+            if(colorlastlocation->open(QIODevice::WriteOnly)) {
+                QTextStream out(colorlastlocation);
+                out << info.absolutePath();
+                colorlastlocation->close();
+            }
+
+            QDir dir(PQCConfigFiles::ICC_COLOR_PROFILE_DIR());
+            if(!dir.exists()) {
+                if(!dir.mkpath(PQCConfigFiles::ICC_COLOR_PROFILE_DIR())) {
+                    qWarning() << "Unable to create internal ICC directory";
+                    return false;
+                }
+            }
+
+            if(!QFile::copy(fn,QString("%1/%2").arg(PQCConfigFiles::ICC_COLOR_PROFILE_DIR(), info.fileName()))) {
+                qWarning() << "Unable to import file";
+                return false;
+            }
+
+            return true;
+
+        }
+    }
+
+    PQCNotify::get().setModalFileDialogOpen(false);
+    return true;
+
+}
+
+bool PQCScriptsImages::removeImportedColorProfile(int index) {
+
+    qDebug() << "args: index =" << index;
+
+    if(index < importedColorProfiles.length()) {
+
+        if(QFile::remove(importedColorProfiles[index])) {
+            importedColorProfiles.remove(index, 1);
+            importedColorProfileDescriptions.remove(index, 1);
+            return true;
+        } else
+            return false;
+
+    } else
+        return false;
+
+
+}

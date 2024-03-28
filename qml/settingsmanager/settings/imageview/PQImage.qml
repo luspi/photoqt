@@ -390,7 +390,7 @@ Flickable {
                                                     id: check
                                                     x: 10
                                                     y: (parent.height-height)/2
-                                                    width: parent.width-20
+                                                    width: parent.width-20  - (delImported.visible ? delImported.width : 0)
                                                     elide: Text.ElideMiddle
                                                     text: colorprofiles[index]
                                                     font.weight: PQCLook.fontWeightNormal
@@ -427,6 +427,31 @@ Flickable {
                                                     cursorShape: Qt.PointingHandCursor
                                                     onClicked:
                                                         check.checked = !check.checked
+                                                }
+
+                                                PQTextL {
+                                                    id: delImported
+                                                    x: (parent.width-width-5)
+                                                    y: (parent.height-height)/2
+                                                    opacity: delmouse.containsMouse ? 1 : 0.2
+                                                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                                                    visible: index < PQCScriptsImages.getImportedColorProfiles().length
+                                                    text: "x"
+                                                    color: "red"
+                                                    font.weight: PQCLook.fontWeightBold
+
+                                                    PQMouseArea {
+                                                        id: delmouse
+                                                        enabled: parent.visible
+                                                        anchors.fill: parent
+                                                        hoverEnabled: true
+                                                        cursorShape: Qt.PointingHandCursor
+                                                        text: qsTranslate("settingsmanager", "Remove imported color profile")
+                                                        onClicked: {
+                                                            PQCScriptsImages.removeImportedColorProfile(index)
+                                                            colorprofiles = PQCScriptsImages.getColorProfiles()
+                                                        }
+                                                    }
                                                 }
 
                                                 Connections {
@@ -499,6 +524,15 @@ Flickable {
 
                             }
 
+                        }
+
+                        PQButton {
+                            text: qsTranslate("settingsmanager", "Import color profile")
+                            onClicked: {
+                                if(PQCScriptsImages.importColorProfile()) {
+                                    colorprofiles = PQCScriptsImages.getColorProfiles()
+                                }
+                            }
                         }
 
                     }

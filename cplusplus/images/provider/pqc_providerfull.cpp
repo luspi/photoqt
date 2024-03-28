@@ -105,8 +105,10 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
         // if external profile is manually selected
         if(!profileApplied && profileName != "" && !profileName.startsWith("::")) {
 
-            QStringList ext = PQCScriptsImages::get().getExternalColorProfiles();
-            int index = ext.indexOf(profileName);
+            QStringList profileList;
+            profileList << PQCScriptsImages::get().getImportedColorProfiles();
+            profileList << PQCScriptsImages::get().getExternalColorProfiles();
+            int index = profileList.indexOf(profileName);
             cmsHPROFILE targetProfile = nullptr;
             if(index != -1) {
 
@@ -118,7 +120,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
 
                 if(targetProfile == nullptr) {
 
-                    qWarning() << "Error creating target color profile:" << ext[index];
+                    qWarning() << "Error creating target color profile:" << profileList[index];
 
                 } else {
 
