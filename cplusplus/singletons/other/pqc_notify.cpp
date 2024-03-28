@@ -213,3 +213,13 @@ void PQCNotify::setBarcodeDisplayed(bool val) {
 bool PQCNotify::getBarcodeDisplayed() {
     return m_barcodeDisplayed;
 }
+
+void PQCNotify::setCurrentColorProfile(QString val) {
+    if(val != m_currentColorProfile) {
+        m_currentColorProfile = val;
+        Q_EMIT currentColorProfileChanged();
+    }
+}
+QString PQCNotify::getCurrentColorProfile() {
+    return m_currentColorProfile;
+}

@@ -61,6 +61,14 @@
 #include <ZXing/ZXVersion.h>
 #endif
 
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+#include <Magick++/Image.h>
+#endif
+
+#ifdef PQMLCMS2
+#include <lcms2.h>
+#endif
+
 PQCScriptsImages::PQCScriptsImages() {
     integratedColorProfiles << QColorSpace::SRgb
                             << QColorSpace::SRgbLinear
@@ -963,6 +971,49 @@ QStringList PQCScriptsImages::getColorProfiles() {
 
 #ifdef Q_OS_UNIX
 
+#ifdef PQMLCMS2
+
+    if(externalColorProfiles.length() == 0) {
+
+        QString basedir = "/usr/share/color/icc";
+        QDir dir(basedir);
+        dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
+        QStringList lst = dir.entryList();
+        for(auto &f : std::as_const(lst)) {
+
+            QString fullpath = QString("%1/%2").arg(basedir, f);
+
+            QFile file(fullpath);
+
+            if(!file.open(QIODevice::ReadOnly)) {
+                qWarning() << "Unable to open color profile:" << fullpath;
+                continue;
+            }
+
+            QByteArray bt = file.readAll();
+            cmsHPROFILE profile = cmsOpenProfileFromMem(bt.constData(), bt.size());
+
+            if(!profile) {
+                qWarning() << "Unable to create color profile:" << fullpath;
+                continue;
+            }
+
+            int bufSize = 100;
+            char buf[bufSize];
+
+            cmsGetProfileInfoUTF8(profile, cmsInfoDescription,
+                                  "en", "US",
+                                  buf, bufSize);
+
+            externalColorProfiles << fullpath;
+            externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(buf);
+
+        }
+
+    }
+
+#else
+
     if(externalColorProfiles.length() == 0) {
 
         QString basedir = "/usr/share/color/icc";
@@ -984,6 +1035,8 @@ QStringList PQCScriptsImages::getColorProfiles() {
 
 #endif
 
+#endif
+
     for(auto &c : std::as_const(integratedColorProfiles))
         ret << QColorSpace(c).description();
 
@@ -999,32 +1052,41 @@ void PQCScriptsImages::setColorProfile(QString path, int index) {
     qDebug() << "args: path =" << path;
     qDebug() << "args: index =" << index;
 
-    if(index < integratedColorProfiles.length())
-        iccColorProfiles[path] = integratedColorProfiles[index];
+    if(index == -1)
+        iccColorProfiles.remove(path);
 
-    if(index-integratedColorProfiles.length() < externalColorProfiles.length())
-        iccColorProfiles[path] = index;
+    else if(index < integratedColorProfiles.length())
+        iccColorProfiles[path] = QString("::%1").arg(static_cast<int>(index));
+
+    else if(index-integratedColorProfiles.length() < externalColorProfiles.length())
+        iccColorProfiles[path] = externalColorProfiles[index-integratedColorProfiles.length()];
 
 }
 
-int PQCScriptsImages::getColorProfileFor(QString path) {
+QString PQCScriptsImages::getColorProfileFor(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    return iccColorProfiles.value(path, PQCSettings::get()["imageviewDefaultColorSpace"].toInt());
+    return iccColorProfiles.value(path, "");
 
 }
 
-QString PQCScriptsImages::getDescriptionForColorSpace(int index) {
+QString PQCScriptsImages::getDescriptionForColorSpace(QString path) {
 
-    qDebug() << "args: index =" << index;
+    qDebug() << "args: path =" << path;
 
-    if(index < integratedColorProfiles.length())
+    if(!iccColorProfiles.contains(path))
+        return QColorSpace(QColorSpace::SRgb).description();
+
+    QString name = iccColorProfiles[path];
+
+    if(name.startsWith("::")) {
+        int index = name.remove(0,2).toInt();
         return QColorSpace(integratedColorProfiles[index]).description();
+    }
 
-    index -= integratedColorProfiles.length();
-
-    if(index < externalColorProfiles.length())
+    int index = externalColorProfiles.indexOf(name);
+    if(index != -1)
         return externalColorProfileDescriptions[index];
 
     return "[unknown color space]";
@@ -1037,8 +1099,51 @@ QStringList PQCScriptsImages::getExternalColorProfiles() {
 
 }
 
+QStringList PQCScriptsImages::getExternalColorProfileDescriptions() {
+
+    return externalColorProfileDescriptions;
+
+}
+
 QList<QColorSpace::NamedColorSpace> PQCScriptsImages::getIntegratedColorProfiles() {
 
     return integratedColorProfiles;
 
 }
+
+#ifdef PQMLCMS2
+int PQCScriptsImages::toLcmsFormat(QImage::Format fmt) {
+
+    switch (fmt) {
+
+        case QImage::Format_ARGB32:  //  (0xAARRGGBB)
+        case QImage::Format_RGB32:   //  (0xffRRGGBB)
+            return TYPE_BGRA_8;
+
+        case QImage::Format_RGB888:
+            return TYPE_RGB_8;       // 24-bit RGB format (8-8-8).
+
+        case QImage::Format_RGBX8888:
+        case QImage::Format_RGBA8888:
+            return TYPE_RGBA_8;
+
+        case QImage::Format_Grayscale8:
+            return TYPE_GRAY_8;
+
+        case QImage::Format_Grayscale16:
+            return TYPE_GRAY_16;
+
+        case QImage::Format_RGBA64:
+        case QImage::Format_RGBX64:
+            return TYPE_RGBA_16;
+
+        case QImage::Format_BGR888:
+            return TYPE_BGR_8;
+
+        default:
+            return 0;
+
+    }
+
+}
+#endif

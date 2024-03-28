@@ -146,6 +146,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(QString currentColorProfile READ getCurrentColorProfile WRITE setCurrentColorProfile NOTIFY currentColorProfileChanged)
+    void setCurrentColorProfile(QString val);
+    Q_INVOKABLE QString getCurrentColorProfile();
+
+    /******************************************************/
+
 private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
@@ -166,6 +172,7 @@ private:
         m_hasPhotoSphere = false;
         m_insidePhotoSphere = false;
         m_barcodeDisplayed = false;
+        m_currentColorProfile = "";
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -196,6 +203,8 @@ private:
 
     bool m_barcodeDisplayed;
 
+    QString m_currentColorProfile;
+
 Q_SIGNALS:
     void filePathChanged();
     void debugChanged();
@@ -220,6 +229,8 @@ Q_SIGNALS:
     void hasPhotoSphereChanged();
 
     void barcodeDisplayedChanged();
+
+    void currentColorProfileChanged();
 
     // these are kept similar to the
     void cmdOpen();

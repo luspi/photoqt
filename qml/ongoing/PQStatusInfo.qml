@@ -466,7 +466,7 @@ Item {
         id: rectColorSpace
         PQText {
             id: csptxt
-            text: PQCScriptsImages.getDescriptionForColorSpace(PQCScriptsImages.getColorProfileFor(PQCFileFolderModel.currentFile))
+            text: PQCNotify.currentColorProfile
         }
     }
 

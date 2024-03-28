@@ -27,6 +27,9 @@
 #include <QMap>
 #include <QImage>
 #include <QColorSpace>
+#ifdef PQMLCMS2
+#include <lcms2.h>
+#endif
 
 class PQCScriptsImages : public QObject {
 
@@ -74,10 +77,15 @@ public:
 
     QList<QColorSpace::NamedColorSpace> getIntegratedColorProfiles();
     QStringList getExternalColorProfiles();
+    QStringList getExternalColorProfileDescriptions();
     Q_INVOKABLE QStringList getColorProfiles();
     Q_INVOKABLE void setColorProfile(QString path, int index);
-    Q_INVOKABLE int getColorProfileFor(QString path);
-    Q_INVOKABLE QString getDescriptionForColorSpace(int index);
+    Q_INVOKABLE QString getColorProfileFor(QString path);
+    Q_INVOKABLE QString getDescriptionForColorSpace(QString path);
+
+#ifdef PQMLCMS2
+    int toLcmsFormat(QImage::Format fmt);
+#endif
 
 private:
     PQCScriptsImages();
@@ -89,7 +97,7 @@ private:
     QList<QColorSpace::NamedColorSpace> integratedColorProfiles;
     QStringList externalColorProfiles;
     QStringList externalColorProfileDescriptions;
-    QMap<QString, int> iccColorProfiles;
+    QMap<QString, QString> iccColorProfiles;
 
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);

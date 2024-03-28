@@ -110,6 +110,18 @@ PQMenu {
         onAboutToShow: {
             availableColorProfiles = PQCScriptsImages.getColorProfiles()
         }
+        PQMenuItem {
+            text: "Default color profile"
+            font.bold: true
+            onTriggered: {
+                PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, -1)
+                image.reloadImage()
+                PQCFileFolderModel.currentFileChanged()
+            }
+        }
+
+        PQMenuSeparator {}
+
         Repeater{
             model: iccmenu.availableColorProfiles.length
             PQMenuItem {
@@ -133,9 +145,16 @@ PQMenu {
             interval: 200
             running: true   // this makes sure the status is evaluated at startup
             onTriggered: {
-                iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" && PQCScriptsImages.isNormalImage(PQCFileFolderModel.currentFile))
+                if(PQCSettings.imageviewColorSpaceEnable)
+                    iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" && PQCScriptsImages.isNormalImage(PQCFileFolderModel.currentFile))
             }
         }
+
+        Component.onCompleted: {
+            // we need to change the visibility of the parent of the menu as that is the respective menuitem
+            parent.visible = PQCSettings.imageviewColorSpaceEnable
+        }
+
     }
 
     PQMenuItem {

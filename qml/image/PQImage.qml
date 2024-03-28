@@ -145,7 +145,7 @@ Item {
                         deleg.active = Qt.binding(function() { return shouldBeShown || hasBeenSetup; })
                     }
 
-                    function onImageviewDefaultColorSpaceChanged() {
+                    function onImageviewColorSpaceDefaultChanged() {
                         image_top.reloadImage()
                     }
 
