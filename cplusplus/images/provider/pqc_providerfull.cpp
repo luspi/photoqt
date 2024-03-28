@@ -98,7 +98,37 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
 
             }
 
+#ifndef PQMLCMS2
+            // basic handling of external color profiles
+            if(!profileApplied) {
+                index -= integ.length();
+                QStringList ext = PQCScriptsImages::get().getExternalColorProfiles();
+                QColorSpace sp;
+                if(index < ext.length()) {
+                    QFile f(ext[index]);
+                    if(f.open(QIODevice::ReadOnly))
+                        sp = QColorSpace::fromIccProfile(f.readAll());
+                } else
+                    sp = QColorSpace(QColorSpace::SRgb);
+                QColorSpace defaultSpace(QColorSpace::SRgb);
+                if(sp != defaultSpace) {
+                    qDebug() << "Applying color profile:" << sp.description();
+                    QImage ret2 = ret.convertedToColorSpace(sp);
+                    if(ret2.isNull()) {
+                        qWarning() << "Color profile could not be applied, falling back to sRGB";
+                    } else {
+                        ret = ret2;
+                        PQCNotify::get().setColorProfileFor(filename, sp.description());
+                        profileApplied = true;
+                    }
+                }
+
+            }
+
         }
+#else
+        }
+#endif
 
 #ifdef PQMLCMS2
 
@@ -211,32 +241,6 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
 
             }
 
-        }
-
-#else
-
-        // basic handling of external color profiles
-
-        index -= integ.length();
-        QStringList ext = PQCScriptsImages::get().getExternalColorProfiles();
-        QColorSpace sp;
-        if(index < ext.length()) {
-            QFile f(ext[index]);
-            if(f.open(QIODevice::ReadOnly))
-                sp = QColorSpace::fromIccProfile(f.readAll());
-        } else
-            sp = QColorSpace(QColorSpace::SRgb);
-        QColorSpace defaultSpace(QColorSpace::SRgb);
-        if(sp != defaultSpace) {
-            qDebug() << "Applying color profile:" << sp.description();
-            QImage ret2 = ret.convertedToColorSpace(sp);
-            if(ret2.isNull()) {
-                qWarning() << "Color profile could not be applied, falling back to sRGB";
-            } else {
-                ret = ret2;
-                PQCNotify::get().setCurrentColorProfile(sp.description());
-                profileApplied = true;
-            }
         }
 
 #endif

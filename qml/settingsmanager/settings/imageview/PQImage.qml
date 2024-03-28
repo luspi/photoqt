@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 import PQCNotify
 import PQCScriptsImages
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -272,6 +273,8 @@ Flickable {
 
                             spacing: 5
                             height: color_defaultcombo.height
+
+                            visible: PQCScriptsConfig.isLCMS2SupportEnabled()
 
                             PQCheckBox {
                                 id: color_default
@@ -527,6 +530,7 @@ Flickable {
                         }
 
                         PQButton {
+                            visible: PQCScriptsConfig.isLCMS2SupportEnabled()
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
                                 if(PQCScriptsImages.importColorProfile()) {

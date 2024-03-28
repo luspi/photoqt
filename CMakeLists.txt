@@ -591,6 +591,8 @@ if(ZXING)
             target_link_libraries(photoqt_test PRIVATE "ZXing")
         endif()
     endif()
+else()
+    message("** ZXing DISABLED")
 endif()
 
 if(LCMS2)
@@ -605,6 +607,8 @@ if(LCMS2)
             target_link_libraries(photoqt_test PRIVATE ${LCMS2_LIBRARIES})
         endif()
     endif()
+else()
+    message("** LCMS2 DISABLED")
 endif()
 
 

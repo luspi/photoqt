@@ -65,6 +65,7 @@ public:
     Q_INVOKABLE bool isMotionPhotoSupportEnabled();
     Q_INVOKABLE bool isPhotoSphereSupportEnabled();
     Q_INVOKABLE bool isZXingSupportEnabled();
+    Q_INVOKABLE bool isLCMS2SupportEnabled();
     Q_INVOKABLE QString getVersion();
     Q_INVOKABLE bool isBetaVersion();
     Q_INVOKABLE QStringList getAvailableTranslations();

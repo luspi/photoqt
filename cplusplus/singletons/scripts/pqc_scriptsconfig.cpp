@@ -74,6 +74,10 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
+#ifdef PQMLCMS2
+#include <lcms2.h>
+#endif
+
 PQCScriptsConfig::PQCScriptsConfig() {
     trans = new QTranslator;
     currentTranslation = "en";
@@ -161,6 +165,10 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
 #ifdef PQMVIDEOQT
     txt += QString(" - %1Video%2 through Qt%3").arg(bold1, bold2, nl);
+#endif
+
+#ifdef PQMLCMS2
+    txt += QString(" - %1LittleCMS%2: %3%4").arg(bold1, bold2).arg(LCMS_VERSION).arg(nl);
 #endif
 
 #ifdef PQMVIDEOMPV
@@ -643,6 +651,13 @@ bool PQCScriptsConfig::isPhotoSphereSupportEnabled() {
 
 bool PQCScriptsConfig::isZXingSupportEnabled() {
 #ifdef PQMZXING
+    return true;
+#endif
+    return false;
+}
+
+bool PQCScriptsConfig::isLCMS2SupportEnabled() {
+#ifdef PQMLCMS2
     return true;
 #endif
     return false;

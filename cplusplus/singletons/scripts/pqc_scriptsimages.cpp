@@ -1061,23 +1061,19 @@ void PQCScriptsImages::loadColorProfileInfo() {
 
     #else
 
-        if(externalColorProfiles.length() == 0) {
-
-            QString basedir = "/usr/share/color/icc";
-            QDir dir(basedir);
-            dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
-            QStringList lst = dir.entryList();
-            for(auto &f : std::as_const(lst)) {
-                QFile iccfile(QString("%1/%2").arg(basedir, f));
-                if(iccfile.open(QIODevice::ReadOnly)) {
-                    QColorSpace sp = QColorSpace::fromIccProfile(iccfile.readAll());
-                    if(sp.isValid()) {
-                        externalColorProfiles << QString("%1/%2").arg(basedir, f);
-                        externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(sp.description());
-                    }
+        QString basedir = "/usr/share/color/icc";
+        QDir dir(basedir);
+        dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
+        QStringList lst = dir.entryList();
+        for(auto &f : std::as_const(lst)) {
+            QFile iccfile(QString("%1/%2").arg(basedir, f));
+            if(iccfile.open(QIODevice::ReadOnly)) {
+                QColorSpace sp = QColorSpace::fromIccProfile(iccfile.readAll());
+                if(sp.isValid()) {
+                    externalColorProfiles << QString("%1/%2").arg(basedir, f);
+                    externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(sp.description());
                 }
             }
-
         }
 
 #endif
