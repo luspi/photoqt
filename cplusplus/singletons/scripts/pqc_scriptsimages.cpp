@@ -998,9 +998,15 @@ void PQCScriptsImages::loadColorProfileInfo() {
             int bufSize = 100;
             char buf[bufSize];
 
+#if LCMS_VERSION >= 2160
             cmsGetProfileInfoUTF8(profile, cmsInfoDescription,
                                   "en", "US",
                                   buf, bufSize);
+#else
+            cmsGetProfileInfoASCII(profile, cmsInfoDescription,
+                                   "en", "US",
+                                   buf, bufSize);
+#endif
 
             importedColorProfiles << fullpath;
             importedColorProfileDescriptions << QString("%1 <i>(imported)</i>").arg(buf);
@@ -1048,9 +1054,15 @@ void PQCScriptsImages::loadColorProfileInfo() {
                 int bufSize = 100;
                 char buf[bufSize];
 
+#if LCMS_VERSION >= 2160
                 cmsGetProfileInfoUTF8(profile, cmsInfoDescription,
                                       "en", "US",
                                       buf, bufSize);
+#else
+                cmsGetProfileInfoASCII(profile, cmsInfoDescription,
+                                       "en", "US",
+                                       buf, bufSize);
+#endif
 
                 externalColorProfiles << fullpath;
                 externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(buf);

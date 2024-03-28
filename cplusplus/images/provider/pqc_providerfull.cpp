@@ -173,9 +173,15 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
                         int bufSize = 100;
                         char buf[bufSize];
 
+#if LCMS_VERSION >= 2160
                         cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
                                               "en", "US",
                                               buf, bufSize);
+#else
+                        cmsGetProfileInfoASCII(targetProfile, cmsInfoDescription,
+                                               "en", "US",
+                                               buf, bufSize);
+#endif
 
                         // Release resources
                         cmsDeleteTransform(transform);
@@ -217,9 +223,15 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
                     int bufSize = 100;
                     char buf[bufSize];
 
+#if LCMS_VERSION >= 2160
                     cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
                                           "en", "US",
                                           buf, bufSize);
+#else
+                    cmsGetProfileInfoASCII(targetProfile, cmsInfoDescription,
+                                           "en", "US",
+                                           buf, bufSize);
+#endif
 
                     PQCNotify::get().setColorProfileFor(filename, buf);
 
