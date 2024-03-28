@@ -66,12 +66,11 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     if(ret.isNull())
         return QImage();
 
+    // If enabled we do some color profile management now
     if(PQCSettings::get()["imageviewColorSpaceEnable"].toBool()) {
 
         // check if a color profile has been set by the user for this file
         QString profileName = PQCScriptsImages::get().getColorProfileFor(filename);
-
-        qWarning() << ">>>>>>>>>>>>>" << profileName;
 
         // we applied a profile, nothing to do further
         bool profileApplied = false;
@@ -91,8 +90,8 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
                     if(ret2.isNull()) {
                         qWarning() << "Color profile could not be applied, falling back to default";
                     } else {
-                        ret = ret2.copy();
-                        PQCNotify::get().setCurrentColorProfile(sp.description());
+                        ret = ret2;
+                        PQCNotify::get().setColorProfileFor(filename, sp.description());
                         profileApplied = true;
                     }
                 }
@@ -139,13 +138,20 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
                         // Perform color space conversion
                         cmsDoTransform(transform, ret.constBits(), ret2.bits(), ret.width() * ret.height());
 
+                        int bufSize = 100;
+                        char buf[bufSize];
+
+                        cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
+                                              "en", "US",
+                                              buf, bufSize);
+
                         // Release resources
                         cmsDeleteTransform(transform);
                         cmsCloseProfile(targetProfile);
 
-                        ret = ret2.copy();
+                        ret = ret2;
 
-                        PQCNotify::get().setCurrentColorProfile(PQCScriptsImages::get().getExternalColorProfileDescriptions()[index]);
+                        PQCNotify::get().setColorProfileFor(filename, buf);
 
                         profileApplied = true;
 
@@ -176,14 +182,14 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
                     qWarning() << "Error creating transform for color profile";
                 } else {
 
-                    int bufSize = 1000;
+                    int bufSize = 100;
                     char buf[bufSize];
 
                     cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
                                           "en", "US",
                                           buf, bufSize);
 
-                    PQCNotify::get().setCurrentColorProfile(buf);
+                    PQCNotify::get().setColorProfileFor(filename, buf);
 
                     QImage ret2(ret.size(), ret.format());
                     ret2.fill(Qt::transparent);
@@ -195,7 +201,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
                     cmsDeleteTransform(transform);
                     cmsCloseProfile(targetProfile);
 
-                    ret = ret2.copy();
+                    ret = ret2;
 
                     profileApplied = true;
 
@@ -233,10 +239,13 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
 
 #endif
 
+        // no profile (successfully) applied, set default name
         if(!profileApplied)
-            PQCNotify::get().setCurrentColorProfile(QColorSpace(QColorSpace::SRgb).description());
+            PQCNotify::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
 
-    }
+    } else
+        // no color profile handling => default profile used
+        PQCNotify::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())

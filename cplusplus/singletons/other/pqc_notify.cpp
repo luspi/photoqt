@@ -214,12 +214,12 @@ bool PQCNotify::getBarcodeDisplayed() {
     return m_barcodeDisplayed;
 }
 
-void PQCNotify::setCurrentColorProfile(QString val) {
-    if(val != m_currentColorProfile) {
-        m_currentColorProfile = val;
-        Q_EMIT currentColorProfileChanged();
+void PQCNotify::setColorProfileFor(QString path, QString val) {
+    if(m_colorProfiles.value(path, "") != val) {
+        m_colorProfiles[path] = val;
+        Q_EMIT colorProfilesChanged();
     }
 }
-QString PQCNotify::getCurrentColorProfile() {
-    return m_currentColorProfile;
+QString PQCNotify::getColorProfileFor(QString path) {
+    return m_colorProfiles.value(path, "");
 }

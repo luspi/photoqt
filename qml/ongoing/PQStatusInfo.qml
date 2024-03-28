@@ -466,7 +466,21 @@ Item {
         id: rectColorSpace
         PQText {
             id: csptxt
-            text: PQCNotify.currentColorProfile
+            // text: PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+            Connections {
+                target: PQCNotify
+                function onColorProfilesChanged() {
+                    csptxt.text = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                }
+            }
+            Connections {
+                target: PQCFileFolderModel
+                function onCurrentFileChanged() {
+                    var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                    if(val !== "")
+                        csptxt.text = val
+                }
+            }
         }
     }
 

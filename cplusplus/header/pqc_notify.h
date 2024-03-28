@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <QMutex>
+#include <QMap>
 
 class PQCNotify : public QObject {
 
@@ -146,9 +147,8 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(QString currentColorProfile READ getCurrentColorProfile WRITE setCurrentColorProfile NOTIFY currentColorProfileChanged)
-    void setCurrentColorProfile(QString val);
-    Q_INVOKABLE QString getCurrentColorProfile();
+    void setColorProfileFor(QString path, QString val);
+    Q_INVOKABLE QString getColorProfileFor(QString path);
 
     /******************************************************/
 
@@ -172,7 +172,7 @@ private:
         m_hasPhotoSphere = false;
         m_insidePhotoSphere = false;
         m_barcodeDisplayed = false;
-        m_currentColorProfile = "";
+        m_colorProfiles.clear();
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -203,7 +203,7 @@ private:
 
     bool m_barcodeDisplayed;
 
-    QString m_currentColorProfile;
+    QMap<QString, QString> m_colorProfiles;
 
 Q_SIGNALS:
     void filePathChanged();
@@ -230,7 +230,7 @@ Q_SIGNALS:
 
     void barcodeDisplayedChanged();
 
-    void currentColorProfileChanged();
+    void colorProfilesChanged();
 
     // these are kept similar to the
     void cmdOpen();

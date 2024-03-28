@@ -126,6 +126,7 @@ PQMenu {
             model: iccmenu.availableColorProfiles.length
             PQMenuItem {
                 text: iccmenu.availableColorProfiles[index]
+                visible: PQCSettings.imageviewColorSpaceLimitTo.indexOf(PQCScriptsImages.getColorProfileID(index))===-1
                 onTriggered: {
                     PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, index)
                     image.reloadImage()

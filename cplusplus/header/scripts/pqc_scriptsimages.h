@@ -79,9 +79,11 @@ public:
     QStringList getExternalColorProfiles();
     QStringList getExternalColorProfileDescriptions();
     Q_INVOKABLE QStringList getColorProfiles();
+    Q_INVOKABLE QString getColorProfileID(int index);
     Q_INVOKABLE void setColorProfile(QString path, int index);
     Q_INVOKABLE QString getColorProfileFor(QString path);
     Q_INVOKABLE QString getDescriptionForColorSpace(QString path);
+    Q_INVOKABLE int getIndexForColorProfile(QString desc);
 
 #ifdef PQMLCMS2
     int toLcmsFormat(QImage::Format fmt);
@@ -95,9 +97,12 @@ private:
     QMap<QString, bool> alphaChannels;
 
     QList<QColorSpace::NamedColorSpace> integratedColorProfiles;
+    QStringList integratedColorProfileDescriptions;
     QStringList externalColorProfiles;
     QStringList externalColorProfileDescriptions;
     QMap<QString, QString> iccColorProfiles;
+
+    void loadColorProfileInfo();
 
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);

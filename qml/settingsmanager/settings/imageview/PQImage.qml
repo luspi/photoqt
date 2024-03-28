@@ -56,6 +56,14 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
+    property var colorprofiles: []
+    property var colorprofiles_excluded: []
+    property var colorprofiles_excluded_default: []
+
+    signal selectAllColorProfiles()
+    signal selectNoColorProfiles()
+    signal colorProfileLoadDefault()
+
     Column {
 
         id: contcol
@@ -226,17 +234,275 @@ Flickable {
         PQSetting {
 
             //: Settings title
-            title: qsTranslate("settingsmanager", "Default color space")
+            title: qsTranslate("settingsmanager", "Color profiles")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt can apply a selection of color spaces to an image. By default it will ensure the image is in the color space selected here. It is also possible to temporarily select a different color space for individual images through the context menu. If an image cannot be converted to a selected color space, then PhotoQt will fall back to the default one. The currently active color space can be displayed in the status info area.")
+            helptext: qsTranslate("settingsmanager", "There are a variety of options available for handling color profiles. Depending on availability, PhotoQt can use a possibly embedded color profile, it can apply any default color profile, it can offer a customized selection of color profiles through the context menu, and it allows for choosing a different color profile on-the-fly.")
 
             content: [
 
-                PQComboBox {
-                    id: colorspace
-                    model: PQCScriptsImages.getColorProfiles()
-                    onCurrentIndexChanged:
+                PQCheckBox {
+                    id: color_enable
+                    text: qsTranslate("settingsmanager", "Enable color profile management")
+                    onCheckedChanged:
                         checkDefault()
+                },
+
+                Item {
+
+                    width: color_col.width
+                    height: color_enable.checked ? color_col.height : 0
+                    opacity: color_enable.checked ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+                    clip: true
+
+                    Column {
+
+                        id: color_col
+                        spacing: 10
+
+                        PQCheckBox {
+                            id: color_embed
+                            text: qsTranslate("settingsmanager", "Look for and load embedded color profiles")
+                            onCheckedChanged:
+                                checkDefault()
+                        }
+
+                        Row {
+
+                            spacing: 5
+                            height: color_defaultcombo.height
+
+                            PQCheckBox {
+                                id: color_default
+                                y: (parent.height-height)/2
+                                text: qsTranslate("settingsmanager", "Change default color profile") + (checked ? ":" : " ")
+                                onCheckedChanged:
+                                    checkDefault()
+                            }
+
+                            Item {
+                                width: color_default.checked ? color_defaultcombo.width : 0
+                                height: color_defaultcombo.height
+                                opacity: color_default.checked ? 1 : 0
+                                Behavior on width { NumberAnimation { duration: 200 } }
+                                Behavior on opacity { NumberAnimation { duration: 150 } }
+                                clip: true
+                                PQComboBox {
+                                    id: color_defaultcombo
+                                    extrawide: true
+                                    model: [qsTranslate("settingsmanager", "(no default color profile)")].concat(colorprofiles)
+                                    onCurrentIndexChanged:
+                                        checkDefault()
+                                }
+                            }
+
+                        }
+
+                        Column {
+
+                            spacing: 5
+
+                            PQText {
+                                text: qsTranslate("settingsmanager", "Select which color profiles should be offered through the context menu:")
+                            }
+
+                            Rectangle {
+
+                                width: Math.min(parent.width, 600)
+                                height: 350
+                                clip: true
+                                color: "transparent"
+                                border.width: 1
+                                border.color: PQCLook.baseColorHighlight
+
+                                PQLineEdit {
+                                    id: color_filter
+                                    width: parent.width
+                                    //: placeholder text in a text edit
+                                    placeholderText: qsTranslate("settingsmanager", "Filter color profiles")
+                                    onControlActiveFocusChanged: {
+                                        if(color_filter.controlActiveFocus) {
+                                            PQCNotify.ignoreKeysExceptEnterEsc = true
+                                        } else {
+                                            PQCNotify.ignoreKeysExceptEnterEsc = false
+                                            fullscreenitem.forceActiveFocus()
+                                        }
+                                    }
+                                    Component.onDestruction: {
+                                        PQCNotify.ignoreKeysExceptEnterEsc = false
+                                        fullscreenitem.forceActiveFocus()
+                                    }
+                                }
+
+                                Flickable {
+
+                                    id: color_flickable
+
+                                    x: 5
+                                    y: color_filter.height
+                                    width: parent.width - (color_scroll.visible ? 5 : 10)
+                                    height: parent.height-color_filter.height-color_buts.height
+
+                                    contentHeight: color_grid.height
+                                    clip: true
+
+                                    ScrollBar.vertical: PQVerticalScrollBar { id: color_scroll }
+
+                                    Grid {
+
+                                        id: color_grid
+
+                                        columns: 2
+                                        spacing: 5
+                                        padding: 5
+
+                                        Repeater {
+
+                                            model: colorprofiles.length
+
+                                            Rectangle {
+
+                                                id: deleg
+
+                                                property bool matchesFilter: (color_filter.text===""||colorprofiles[index].toLowerCase().indexOf(color_filter.text.toLowerCase()) > -1)
+
+                                                width: (color_flickable.width - (color_scroll.visible ? color_scroll.width : 0))/2 - color_grid.spacing
+                                                height: matchesFilter ? 30 : 0
+                                                opacity: matchesFilter ? 1 : 0
+                                                radius: 5
+
+                                                Behavior on height { NumberAnimation { duration: 200 } }
+                                                Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                                                color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                                Behavior on color { ColorAnimation { duration: 200 } }
+
+                                                property bool delegSetup: false
+                                                Timer {
+                                                    interval: 1000
+                                                    running: settingsLoaded
+                                                    onTriggered:
+                                                        deleg.delegSetup = true
+                                                }
+
+                                                PQCheckBox {
+                                                    id: check
+                                                    x: 10
+                                                    y: (parent.height-height)/2
+                                                    width: parent.width-20
+                                                    elide: Text.ElideMiddle
+                                                    text: colorprofiles[index]
+                                                    font.weight: PQCLook.fontWeightNormal
+                                                    font.pointSize: PQCLook.fontSizeS
+                                                    color: tilemouse.containsMouse||check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                                                    extraHovered: tilemouse.containsMouse
+                                                    onCheckedChanged: {
+                                                        if(!deleg.delegSetup) return
+                                                        var curid = PQCScriptsImages.getColorProfileID(index)
+                                                        var arrayIndex = colorprofiles_excluded.indexOf(curid)
+                                                        if(checked && arrayIndex != -1)
+                                                            colorprofiles_excluded.splice(arrayIndex,1)
+                                                        else if(!checked && arrayIndex == -1)
+                                                            colorprofiles_excluded.push(curid)
+                                                        checkDefault()
+                                                    }
+
+                                                    Connections {
+                                                        target: setting_top
+                                                        function onSelectAllColorProfiles() {
+                                                            check.checked = true
+                                                        }
+                                                        function onSelectNoColorProfiles() {
+                                                            check.checked = false
+                                                        }
+                                                    }
+
+                                                }
+
+                                                PQMouseArea {
+                                                    id: tilemouse
+                                                    anchors.fill: parent
+                                                    hoverEnabled: true
+                                                    cursorShape: Qt.PointingHandCursor
+                                                    onClicked:
+                                                        check.checked = !check.checked
+                                                }
+
+                                                Connections {
+
+                                                    target: setting_top
+
+                                                    function onColorProfileLoadDefault() {
+                                                        deleg.loadDefault()
+                                                    }
+
+                                                }
+
+                                                Component.onCompleted: {
+                                                    deleg.loadDefault()
+                                                }
+
+                                                function loadDefault() {
+                                                    check.checked = (colorprofiles_excluded.indexOf(PQCScriptsImages.getColorProfileID(index))==-1)
+                                                }
+
+                                            }
+
+                                        }
+
+                                        Item {
+                                            width: 1
+                                            height: 1
+                                        }
+
+                                    }
+
+                                }
+
+                                Item {
+
+                                    id: color_buts
+                                    y: (parent.height-height)
+                                    width: parent.width
+                                    height: 50
+
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        color: PQCLook.baseColorHighlight
+                                    }
+
+                                    Row {
+                                        x: 5
+                                        y: (parent.height-height)/2
+                                        spacing: 5
+                                        PQButton {
+                                            width: (color_buts.width-15)/2
+                                            //: written on button
+                                            text: qsTranslate("settingsmanager", "Select all")
+                                            smallerVersion: true
+                                            onClicked:
+                                                setting_top.selectAllColorProfiles()
+                                        }
+                                        PQButton {
+                                            width: (color_buts.width-15)/2
+                                            //: written on button
+                                            text: qsTranslate("settingsmanager", "Select none")
+                                            smallerVersion: true
+                                            onClicked:
+                                                setting_top.selectNoColorProfiles()
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                 }
 
             ]
@@ -257,7 +523,27 @@ Flickable {
         }
 
         if(marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() ||
-                checkerboard.hasChanged() || interp_check.hasChanged() || interp_spin.hasChanged() || cache_slider.hasChanged() || colorspace.hasChanged()) {
+                checkerboard.hasChanged() || interp_check.hasChanged() || interp_spin.hasChanged() || cache_slider.hasChanged() || color_enable.hasChanged() ||
+                color_embed.hasChanged() || color_default.hasChanged() || color_defaultcombo.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        if(colorprofiles_excluded.length == colorprofiles_excluded_default.length) {
+            colorprofiles_excluded_default.sort()
+            colorprofiles_excluded.sort()
+            var chg = false
+            for(var i in colorprofiles_excluded) {
+                if(colorprofiles_excluded[i] !== colorprofiles_excluded_default[i]) {
+                    chg = true
+                    break
+                }
+            }
+            if(chg) {
+                settingChanged = true
+                return
+            }
+        } else {
             settingChanged = true
             return
         }
@@ -282,7 +568,21 @@ Flickable {
 
         cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
 
-        colorspace.loadAndSetDefault(PQCSettings.imageviewDefaultColorSpace)
+        // we need to load this before setting up the element below
+        colorprofiles = PQCScriptsImages.getColorProfiles()
+        colorprofiles_excluded = PQCSettings.imageviewColorSpaceLimitTo
+        colorprofiles_excluded_default = PQCSettings.imageviewColorSpaceLimitTo
+
+        color_enable.loadAndSetDefault(PQCSettings.imageviewColorSpaceEnable)
+        color_embed.loadAndSetDefault(PQCSettings.imageviewColorSpaceLoadEmbedded)
+        if(PQCSettings.imageviewColorSpaceDefault === "") {
+            color_defaultcombo.loadAndSetDefault(0)
+            color_default.loadAndSetDefault(false)
+        } else {
+            color_defaultcombo.loadAndSetDefault(PQCScriptsImages.getIndexForColorProfile(PQCSettings.imageviewColorSpaceDefault)+1)
+            color_default.loadAndSetDefault(true)
+        }
+        setting_top.colorProfileLoadDefault()
 
         settingChanged = false
         settingsLoaded = true
@@ -306,7 +606,10 @@ Flickable {
 
         PQCSettings.imageviewCache = cache_slider.value
 
-        PQCSettings.imageviewDefaultColorSpace = colorspace.currentIndex
+        PQCSettings.imageviewColorSpaceEnable = color_enable.checked
+        PQCSettings.imageviewColorSpaceDefault = ((color_defaultcombo.currentIndex == 0 || !color_default.checked) ? "" : color_defaultcombo.currentText)
+        PQCSettings.imageviewColorSpaceLoadEmbedded = color_embed.checked
+        PQCSettings.imageviewColorSpaceLimitTo = colorprofiles_excluded
 
         marginslider.saveDefault()
         large_fit.saveDefault()
@@ -317,7 +620,10 @@ Flickable {
         interp_check.saveDefault()
         interp_spin.saveDefault()
         cache_slider.saveDefault()
-        colorspace.saveDefault()
+        color_enable.saveDefault()
+        color_embed.saveDefault()
+        color_default.saveDefault()
+        color_defaultcombo.saveDefault()
 
         settingChanged = false
 
