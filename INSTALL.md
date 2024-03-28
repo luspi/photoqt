@@ -24,6 +24,7 @@ Dependencies that are needed by default, but can be disabled via CMake:
 - [libmpv](https://mpv.io/)
 - [Python](https://www.python.org/) (incl. [pychromecast](https://pypi.org/project/PyChromecast/) package)
 - [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
+- [LittleCMS](https://littlecms.com/)
 
 Dependencies that are disabled by default, but can be enabled via CMake:
 
@@ -116,6 +117,7 @@ The following dependencies are recommended but can be disabled through CMake if 
 7. [FreeImage](https://freeimage.sourceforge.io)
 8. [DevIL](http://openil.sourceforge.net)
 9. [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
+10. [LittleCMS](https://littlecms.com/)
 
 Make sure that any installed dependency is added to the system path, or otherwise you need to explicitely point CMake to the right location for each of them. Regardless, CMake might have to be explicitely pointed to the library/include paths of some of the dependencies by specifying `target_include_directories()` and `target_link_libraries()`.
 

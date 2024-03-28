@@ -15,6 +15,7 @@
 - Support for PHOTO SPHERES and 360 DEGREE PANORAMAS using equirectangular projection
 - Support for MOTION PHOTOS, MICRO VIDEOS, and APPLE LIVE PHOTOS
 - Showing GPS locations of images with an EMBEDDED MAP or explore all images with location data in current folder with an INTERACTIVE MAP
+- Support for COLOR PROFILES, including embedded profiles and importing custom profiles
 - CHROMECAST support (tested with third generation devices)
 - Basic IMAGE MANIPULATION: zooming, rotating, mirroring (all of which per-session only)
 - CONVERT IMAGES between supported formats
