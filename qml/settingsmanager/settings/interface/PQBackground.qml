@@ -73,10 +73,16 @@ Flickable {
 
         PQSetting {
 
+            id: setbg
+
             helptext: qsTranslate("settingsmanager",  "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.")
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Background")
+
+            ButtonGroup {
+                id: bggrp
+            }
 
             content: [
 
@@ -84,6 +90,7 @@ Flickable {
                     id: radio_real
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "real transparency")
+                    ButtonGroup.group: bggrp
                     onCheckedChanged: checkDefault()
                 },
 
@@ -92,6 +99,7 @@ Flickable {
                     visible: PQCNotify.haveScreenshots
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "fake transparency")
+                    ButtonGroup.group: bggrp
                     onCheckedChanged: checkDefault()
                 },
 
@@ -99,13 +107,45 @@ Flickable {
                     id: radio_solid
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "solid background color")
+                    ButtonGroup.group: bggrp
                     onCheckedChanged: checkDefault()
                 },
+
+                Column {
+
+                    PQRadioButton {
+                        id: radio_nobg
+                        //: How the background of PhotoQt should be
+                        text: qsTranslate("settingsmanager", "fully transparent background")
+                        ButtonGroup.group: bggrp
+                        onCheckedChanged: checkDefault()
+                    }
+
+                    Item {
+                        height: radio_nobg.checked ? nobgwarning.height : 0
+                        width: nobgwarning.width+radio_nobg.leftPadding
+                        opacity: radio_nobg.checked ? 1 : 0
+                        Behavior on height { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { NumberAnimation { duration: 150 } }
+                        clip: true
+                        PQText {
+                            x: radio_nobg.leftPadding
+                            width: setbg.rightcol-radio_nobg.leftPadding
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            id: nobgwarning
+                            font.weight: PQCLook.fontWeightBold
+                            text: qsTranslate("settingsmanager", "Warning: This will make the background fully transparent. This is only recommended if there is a different way to mask the area behind the window.")
+                        }
+                    }
+
+                },
+
 
                 PQRadioButton {
                     id: radio_custom
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "custom background image")
+                    ButtonGroup.group: bggrp
                     onCheckedChanged: checkDefault()
                 },
 
@@ -311,7 +351,7 @@ Flickable {
             return
         }
 
-        if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged()) {
+        if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged() || radio_nobg.hasChanged()) {
             settingChanged = true
             return
         }
@@ -339,9 +379,10 @@ Flickable {
 
     function load() {
 
-        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse)
+        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent)
         radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
         radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
+        radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
         radio_custom.loadAndSetDefault(PQCSettings.interfaceBackgroundImageUse)
 
         /******************************/
@@ -377,11 +418,13 @@ Flickable {
         PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked
         PQCSettings.interfaceBackgroundImageUse = radio_custom.checked
         PQCSettings.interfaceBackgroundSolid = radio_solid.checked
+        PQCSettings.interfaceBackgroundFullyTransparent = radio_nobg.checked
 
         radio_real.saveDefault()
         radio_fake.saveDefault()
         radio_solid.saveDefault()
         radio_custom.saveDefault()
+        radio_nobg.saveDefault()
 
         /******************************/
 

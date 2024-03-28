@@ -62,6 +62,11 @@ Item {
             var sc = PQCScriptsOther.getCurrentScreen(fullscreenitem.mapToGlobal(toplevel.x+toplevel.width/2, toplevel.y+toplevel.height/2))
             bgimage.source = "image://full/" + PQCScriptsFilesPaths.getTempDir() + "/photoqt_screenshot_" + sc + ".jpg"
             bgimage.fillMode = Image.PreserveAspectCrop
+        } else if(PQCSettings.interfaceBackgroundFullyTransparent) {
+            console.warn("Window background set to full transparency!")
+            bgimage.source = ""
+            overlay.color = "transparent"
+            toplevel.color = "transparent"
         } else {
             bgimage.source = ""
             overlay.color = PQCLook.transColor
