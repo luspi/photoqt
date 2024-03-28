@@ -27,12 +27,15 @@ SpinBox {
     id: control
 
     editable: true
-    live: true
 
     width: 160
     height: 30
 
     property alias liveValue: txtinp.text
+
+    // faking the 'live' property pre Qt 6.6
+    onDisplayTextChanged:
+        value = displayTextp
 
     Timer {
         interval: 100
