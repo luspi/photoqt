@@ -21,18 +21,61 @@
  **************************************************************************/
 
 #include <pqc_look.h>
+#include <pqc_settings.h>
 #include <QColor>
 #include <QFont>
 #include <QtDebug>
 
 PQCLook::PQCLook() {
 
-    calculateColors("#ff111111");
+    colorNameToHex.insert("gray",   "#111111");
+    colorNameToHex.insert("red",    "#140808");
+    colorNameToHex.insert("green" , "#081408");
+    colorNameToHex.insert("blue",   "#081018");
+    colorNameToHex.insert("purple", "#100418");
+    colorNameToHex.insert("orange", "#181004");
+    colorNameToHex.insert("pink",   "#180410");
+
+    // we use this to preserve the given order
+    colorNames = {"gray",
+                  "red", "green", "blue",
+                  "purple", "orange", "pink"};
+
+
+    calculateColors(colorNameToHex.value(PQCSettings::get()["interfaceAccentColor"].toString(), "#111111"));
 
     calculateFontSizes(11);
 
     m_fontWeightBold = QFont::Bold;
     m_fontWeightNormal = QFont::Normal;
+
+    connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, [=](const QString &key, const QVariant &value) {
+        if(key == "interfaceAccentColor") {
+            calculateColors(colorNameToHex[value.toString()]);
+            Q_EMIT baseColorChanged();
+            Q_EMIT baseColorAccentChanged();
+            Q_EMIT baseColorHighlightChanged();
+            Q_EMIT baseColorActiveChanged();
+
+            Q_EMIT inverseColorChanged();
+            Q_EMIT inverseColorHighlightChanged();
+            Q_EMIT inverseColorActiveChanged();
+
+            Q_EMIT faintColorChanged();
+            Q_EMIT transColorChanged();
+            Q_EMIT transColorAccentChanged();
+            Q_EMIT transColorHighlightChanged();
+            Q_EMIT transColorActiveChanged();
+
+            Q_EMIT textColorChanged();
+            Q_EMIT textColorHighlightChanged();
+            Q_EMIT textColorActiveChanged();
+
+            Q_EMIT textInverseColorChanged();
+            Q_EMIT textInverseColorHighlightChanged();
+            Q_EMIT textInverseColorActiveChanged();
+        }
+    });
 
 }
 
@@ -264,6 +307,12 @@ void PQCLook::setFontWeightNormal(int val) {
         m_fontWeightNormal = val;
         Q_EMIT fontWeightNormalChanged();
     }
+}
+
+/******************************************************/
+
+QStringList PQCLook::getColorNames() {
+    return colorNames;
 }
 
 

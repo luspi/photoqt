@@ -109,10 +109,9 @@ ComboBox {
 
         text: prefix+control.displayText
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+        color: enabled ? (popup.opened||control.down ? PQCLook.textColorHighlight : PQCLook.textColor) : PQCLook.textColorHighlight
         style: highlighted ? Text.Sunken : Text.Normal
         styleColor: PQCLook.textColorHighlight
-        Behavior on color { ColorAnimation { duration: 200 } }
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }

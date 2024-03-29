@@ -321,6 +321,31 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            helptext: qsTranslate("settingsmanager",  "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it.")
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Accent color")
+
+            content: [
+
+                PQComboBox {
+                    id: accentcolor
+                    property var options: PQCLook.getColorNames()
+                    model: options
+                    onCurrentIndexChanged:
+                        checkDefault()
+                }
+
+            ]
+
+        }
+
     }
 
     Component.onCompleted:
@@ -353,6 +378,8 @@ Flickable {
             settingChanged = true
             return
         }
+
+        settingChanged = accentcolor.hasChanged()
 
     }
 
@@ -398,6 +425,10 @@ Flickable {
         autohide_topedge.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
         autohide_timeout.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTimeout/1000)
 
+        var index = accentcolor.options.indexOf(PQCSettings.interfaceAccentColor)
+        if(index === -1) index = 0
+        accentcolor.loadAndSetDefault(index)
+
         settingChanged = false
         settingsLoaded = true
 
@@ -428,6 +459,8 @@ Flickable {
         PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
         PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value.toFixed(1)*1000
 
+        PQCSettings.interfaceAccentColor = accentcolor.options[accentcolor.currentIndex]
+
         fsmode.saveDefault()
         wmmode.saveDefault()
 
@@ -445,6 +478,8 @@ Flickable {
         autohide_anymove.saveDefault()
         autohide_topedge.saveDefault()
         autohide_timeout.saveDefault()
+
+        accentcolor.saveDefault()
 
         setting_top.settingChanged = false
 

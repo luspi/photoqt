@@ -24,6 +24,7 @@
 #define PQCLOOK_H
 
 #include <QObject>
+#include <QHash>
 
 class PQCLook : public QObject {
 
@@ -115,6 +116,10 @@ public:
     void setFontWeightBold(int val);
     void setFontWeightNormal(int val);
 
+    /******************************************************/
+
+    Q_INVOKABLE QStringList getColorNames();
+
 private:
     PQCLook();
 
@@ -149,6 +154,9 @@ private:
 
     int m_fontWeightBold;
     int m_fontWeightNormal;
+
+    QHash<QString,QString> colorNameToHex;
+    QStringList colorNames;
 
 Q_SIGNALS:
     void baseColorChanged();

@@ -84,7 +84,15 @@ Item {
     Connections {
         target: PQCSettings
 
+        function onInterfaceAccentColorChanged() {
+            resetBG.restart()
+        }
+
         function onInterfaceBackgroundSolidChanged() {
+            resetBG.restart()
+        }
+
+        function onInterfaceBackgroundFullyTransparentChanged() {
             resetBG.restart()
         }
 
