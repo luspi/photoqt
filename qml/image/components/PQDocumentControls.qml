@@ -27,7 +27,7 @@ Item {
             width: controlrow.width+20
             height: 50
             radius: 5
-            color: PQCLook.transColorAccent
+            color: PQCLook.transColor
 
             Connections {
                 target: image_top
@@ -99,7 +99,7 @@ Item {
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mousefirst.containsPress ? PQCLook.transColorActive : (mousefirst.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        color: mousefirst.containsPress ? PQCLook.baseColorActive : (mousefirst.containsMouse ? PQCLook.baseColorAccent : "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height
                         height: controlitem.height/2.5 + 10
@@ -124,7 +124,7 @@ Item {
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mouseprev.containsPress ? PQCLook.transColorActive : (mouseprev.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        color: mouseprev.containsPress ? PQCLook.baseColorActive : (mouseprev.containsMouse ? PQCLook.baseColorAccent : "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height-6
                         height: controlitem.height/1.5 + 6
@@ -148,7 +148,7 @@ Item {
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mousenext.containsPress ? PQCLook.transColorActive : (mousenext.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        color: mousenext.containsPress ? PQCLook.baseColorActive : (mousenext.containsMouse ? PQCLook.baseColorAccent : "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height-6
                         height: controlitem.height/1.5 + 6
@@ -172,7 +172,7 @@ Item {
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mouselast.containsPress ? PQCLook.transColorActive : (mouselast.containsMouse ? PQCLook.transColorAccent : "transparent")
+                        color: mouselast.containsPress ? PQCLook.baseColorActive : (mouselast.containsMouse ? PQCLook.baseColorAccent : "transparent")
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height
                         height: controlitem.height/2.5 + 10
@@ -238,7 +238,7 @@ Item {
 
                 Rectangle {
                     y: (parent.height-height)/2
-                    color: viewermodemouse.containsPress ? PQCLook.transColorActive : (viewermodemouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    color: viewermodemouse.containsPress ? PQCLook.baseColorActive : (viewermodemouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
                     Behavior on color { ColorAnimation { duration: 200 } }
                     height: width
                     width: controlitem.height/2.5 + 10
@@ -273,7 +273,7 @@ Item {
                     opacity: PQCSettings.imageviewDocumentLeftRight ? 1 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
                     Behavior on color { ColorAnimation { duration: 200 } }
 
                     Row {
