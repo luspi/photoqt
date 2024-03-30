@@ -466,23 +466,34 @@ Item {
         id: rectColorSpace
         PQText {
             id: csptxt
-            // text: PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+            Behavior on color { ColorAnimation { duration: 200 } }
             Connections {
                 target: PQCNotify
                 function onColorProfilesChanged() {
-                    csptxt.text = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                    var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                    if(val !== "") {
+                        csptxt.text = val
+                        csptxt.color = PQCLook.textColor
+                    } else
+                        csptxt.color = PQCLook.textColorDisabled
                 }
             }
             Connections {
                 target: PQCFileFolderModel
                 function onCurrentFileChanged() {
                     if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile)) {
-                        csptxt.text = ""
+                        csptxt.color = PQCLook.textColorDisabled
                         loadVideoColorInfo.restart()
-                    } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile))
+                    } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile)) {
+                        csptxt.color = PQCLook.textColor
                         csptxt.text = "sRGB"
-                    else {
-                        csptxt.text = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                    } else {
+                        var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                        if(val !== "") {
+                            csptxt.color = PQCLook.textColor
+                            csptxt.text = val
+                        } else
+                            csptxt.color = PQCLook.textColorDisabled
                     }
                 }
             }
@@ -491,8 +502,9 @@ Item {
                 interval: 1
                 onTriggered: {
                     var val = PQCScriptsImages.detectVideoColorProfile(PQCFileFolderModel.currentFile)
+                    csptxt.color = PQCLook.textColor
                     if(val === "")
-                        val = "unknown color space"
+                        val = qsTranslate("statusinfo", "unknown color space")
                     csptxt.text = val
                 }
             }
@@ -502,7 +514,7 @@ Item {
     Component {
         id: rectDummy
         PQText {
-            text: "[unknown]"
+            text: "[???]"
         }
     }
 
