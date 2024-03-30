@@ -76,11 +76,9 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString textColor READ getTextColor NOTIFY textColorChanged)
-    Q_PROPERTY(QString textColorHighlight READ getTextColorHighlight NOTIFY textColorHighlightChanged)
-    Q_PROPERTY(QString textColorActive READ getTextColorActive NOTIFY textColorActiveChanged)
+    Q_PROPERTY(QString textColorDisabled READ getTextColorDisabled NOTIFY textColorDisabledChanged)
     QString getTextColor();
-    QString getTextColorHighlight();
-    QString getTextColorActive();
+    QString getTextColorDisabled();
 
     /******************************************************/
 
@@ -139,8 +137,7 @@ private:
     QString m_transColorActive;
 
     QString m_textColor;
-    QString m_textColorHighlight;
-    QString m_textColorActive;
+    QString m_textColorDisabled;
 
     QString m_textInverseColor;
     QString m_textInverseColorHighlight;
@@ -175,8 +172,7 @@ Q_SIGNALS:
     void transColorActiveChanged();
 
     void textColorChanged();
-    void textColorHighlightChanged();
-    void textColorActiveChanged();
+    void textColorDisabledChanged();
 
     void textInverseColorChanged();
     void textInverseColorHighlightChanged();

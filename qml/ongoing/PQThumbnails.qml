@@ -506,7 +506,7 @@ Item {
                         font.weight: PQCLook.fontWeightBold
                         elide: Text.ElideMiddle
                         text: deleg.filename
-                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorActive : PQCLook.textColor
+                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor
                     }
                 }
             }

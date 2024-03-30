@@ -210,7 +210,7 @@ Flickable {
                                         text: labels[index][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
-                                        color: tilemouse.containsMouse||check.checked ? PQCLook.textColorActive : PQCLook.textColor
+                                        color: PQCLook.textColor
                                         extraHovered: tilemouse.containsMouse
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return

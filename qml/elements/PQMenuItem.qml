@@ -39,12 +39,12 @@ MenuItem {
             height: 40
             text: menuItem.text
             font: menuItem.font
-            color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorHighlight
+            styleColor: PQCLook.textColorDisabled
         }
 
     indicator: Item {

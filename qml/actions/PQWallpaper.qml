@@ -88,7 +88,7 @@ PQTemplateFullscreen {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==0 ? PQCLook.textColor : PQCLook.textColorHighlight
+                            color: curCat==0 ? PQCLook.textColor : PQCLook.textColorDisabled
                             font.weight: PQCLook.fontWeightBold
                             text: "Plasma 5"
                             PQMouseArea {
@@ -104,7 +104,7 @@ PQTemplateFullscreen {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==1 ? PQCLook.textColor : PQCLook.textColorHighlight
+                            color: curCat==1 ? PQCLook.textColor : PQCLook.textColorDisabled
                             font.weight: PQCLook.fontWeightBold
                             text: "Gnome<br>Unity<br>Cinnamon"
                             PQMouseArea {
@@ -120,7 +120,7 @@ PQTemplateFullscreen {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==2 ? PQCLook.textColor : PQCLook.textColorHighlight
+                            color: curCat==2 ? PQCLook.textColor : PQCLook.textColorDisabled
                             font.weight: PQCLook.fontWeightBold
                             text: "XFCE4"
                             PQMouseArea {
@@ -136,7 +136,7 @@ PQTemplateFullscreen {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==3 ? PQCLook.textColor : PQCLook.textColorHighlight
+                            color: curCat==3 ? PQCLook.textColor : PQCLook.textColorDisabled
                             font.weight: PQCLook.fontWeightBold
                             text: "Enlightenment"
                             PQMouseArea {
@@ -152,7 +152,7 @@ PQTemplateFullscreen {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==4 ? PQCLook.textColor : PQCLook.textColorHighlight
+                            color: curCat==4 ? PQCLook.textColor : PQCLook.textColorDisabled
                             font.weight: PQCLook.fontWeightBold
                             text: "Other"
                             PQMouseArea {

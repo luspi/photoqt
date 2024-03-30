@@ -121,7 +121,7 @@ Item {
                                 elide: Text.ElideRight
                                 font.weight: PQCLook.fontWeightBold
                                 text: categories[deleg.cat][0]
-                                color: deleg.isSelected ? PQCLook.textColorActive : PQCLook.textColor
+                                color: PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 100 } }
                             }
 

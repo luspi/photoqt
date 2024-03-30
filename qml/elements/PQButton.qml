@@ -63,8 +63,8 @@ Rectangle {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
-    property bool down: false
-    property bool hovered: false
+    property bool down: mouseArea.containsPress
+    property bool hovered: mouseArea.containsMouse
 
     signal clicked()
 
@@ -81,7 +81,7 @@ Rectangle {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: parent.down ? PQCLook.textColorActive : PQCLook.textColor
+        color: PQCLook.textColor
     }
 
     PQMouseArea {
@@ -90,19 +90,6 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.text
-        onPressed: {
-            parent.down = true
-        }
-        onReleased: {
-            parent.down = false
-        }
-        onEntered: {
-            parent.hovered = true
-        }
-        onExited: {
-            parent.hovered = false
-            parent.down = false
-        }
         onClicked: {
             control.clicked()
         }

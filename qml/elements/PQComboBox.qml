@@ -48,12 +48,12 @@ ComboBox {
         height: 40
         contentItem: Text {
             text: prefix+(firstItemEmphasized&&index===0 ? modelData.toUpperCase() : modelData)
-            color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
             style: highlighted ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorHighlight
+            styleColor: PQCLook.textColorDisabled
             PQToolTip {
                 visible: highlighted
                 text: parent.text
@@ -109,9 +109,9 @@ ComboBox {
 
         text: prefix+control.displayText
         font: control.font
-        color: enabled ? (popup.opened||control.down ? PQCLook.textColorHighlight : PQCLook.textColor) : PQCLook.textColorHighlight
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
         style: highlighted ? Text.Sunken : Text.Normal
-        styleColor: PQCLook.textColorHighlight
+        styleColor: PQCLook.textColorDisabled
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }

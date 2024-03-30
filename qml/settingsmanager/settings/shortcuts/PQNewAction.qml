@@ -165,7 +165,7 @@ Rectangle {
                         verticalAlignment: Text.AlignVCenter
                         font.weight: PQCLook.fontWeightBold
                         text: categoryTitles[categories[index]]
-                        color: selectedCategory===index ? PQCLook.textColorActive : PQCLook.textColor
+                        color: PQCLook.textColor
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
                     PQMouseArea {
@@ -226,7 +226,7 @@ Rectangle {
                             y: 5
                             width: parent.width-10
                             text: actionsByCategory[selectedCategory][index][1]
-                            color: actionmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
+                            color: PQCLook.textColor
                         }
                         PQMouseArea {
                             id: actionmouse

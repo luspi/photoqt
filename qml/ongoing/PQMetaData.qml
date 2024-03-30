@@ -174,7 +174,7 @@ Rectangle {
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("metadata", "No file loaded")
         font.bold: PQCLook.fontWeightBold
-        color: PQCLook.textColorHighlight
+        color: PQCLook.textColorDisabled
         visible: PQCFileFolderModel.countMainView===0
     }
 

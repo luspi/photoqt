@@ -120,7 +120,7 @@ PQTemplateFullscreen {
                 anchors.centerIn: parent
                 visible: !busy.visible && PQCScriptsChromeCast.availableDevices.length === 0
                 font.weight: PQCLook.fontWeightBold
-                color: PQCLook.textColorActive
+                color: PQCLook.textColorDisabled
                 //: The devices here are chromecast devices
                 text: qsTranslate("streaming", "No devices found")
             }

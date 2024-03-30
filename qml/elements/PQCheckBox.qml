@@ -31,7 +31,7 @@ CheckBox {
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
-    property string color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
 
     property string tooltip: text
 

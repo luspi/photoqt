@@ -87,7 +87,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        color: PQCLook.textColorHighlight
+        color: PQCLook.textColorDisabled
         font.italic: true
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
         verticalAlignment: Text.AlignVCenter

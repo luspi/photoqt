@@ -113,7 +113,7 @@ Flickable {
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: topmouse.hovered ? PQCLook.textColorActive : PQCLook.textColor
+                                color: PQCLook.textColor
                                 text: labels[current["top"]]
                             }
 
@@ -147,7 +147,7 @@ Flickable {
                                 anchors.centerIn: parent
                                 rotation: -90
                                 font.weight: current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: leftmouse.hovered ? PQCLook.textColorActive : PQCLook.textColor
+                                color: PQCLook.textColor
                                 text: labels[current["left"]]
                             }
                             PQMouseArea {
@@ -177,7 +177,7 @@ Flickable {
                                 anchors.centerIn: parent
                                 rotation: 90
                                 font.weight: current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColorHighlight
+                                color: PQCLook.textColorDisabled
                                 text: labels[current["right"]]
                             }
                             PQMouseArea {
@@ -208,7 +208,7 @@ Flickable {
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: botmouse.hovered ? PQCLook.textColorActive : PQCLook.textColor
+                                color: PQCLook.textColor
                                 text: labels[current["bottom"]]
                             }
                             PQMouseArea {

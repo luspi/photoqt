@@ -29,12 +29,12 @@
 PQCLook::PQCLook() {
 
     colorNameToHex.insert("gray",   "#111111");
-    colorNameToHex.insert("red",    "#140808");
-    colorNameToHex.insert("green" , "#081408");
-    colorNameToHex.insert("blue",   "#081018");
-    colorNameToHex.insert("purple", "#100418");
-    colorNameToHex.insert("orange", "#181004");
-    colorNameToHex.insert("pink",   "#180410");
+    colorNameToHex.insert("red",    "#110505");
+    colorNameToHex.insert("green" , "#051105");
+    colorNameToHex.insert("blue",   "#050b11");
+    colorNameToHex.insert("purple", "#0b0211");
+    colorNameToHex.insert("orange", "#110b02");
+    colorNameToHex.insert("pink",   "#11020b");
 
     // we use this to preserve the given order
     colorNames = {"gray",
@@ -68,8 +68,7 @@ PQCLook::PQCLook() {
             Q_EMIT transColorActiveChanged();
 
             Q_EMIT textColorChanged();
-            Q_EMIT textColorHighlightChanged();
-            Q_EMIT textColorActiveChanged();
+            Q_EMIT textColorDisabledChanged();
 
             Q_EMIT textInverseColorChanged();
             Q_EMIT textInverseColorHighlightChanged();
@@ -103,60 +102,32 @@ void PQCLook::calculateColors(QString base) {
     colTrans.setAlpha(20);
     m_faintColor = colTrans.name(QColor::HexArgb);
 
-    bool darkcolor = false;
-    if(col.toHsv().value() < 128)
-        darkcolor = true;
-
     QColor invcol((255-col.red()), (255-col.green()), (255-col.blue()));
     m_inverseColor = invcol.name(QColor::HexArgb);
 
-    if(darkcolor) {
+    const int accent = 150;
+    const int highlight = 300;
+    const int active = 600;
 
-        m_baseColorAccent = col.lighter(150).name(QColor::HexArgb);
-        m_baseColorHighlight = col.lighter(300).name(QColor::HexArgb);
-        m_baseColorActive = col.lighter(900).name(QColor::HexArgb);
+    m_baseColorAccent = col.lighter(accent).name(QColor::HexArgb);
+    m_baseColorHighlight = col.lighter(highlight).name(QColor::HexArgb);
+    m_baseColorActive = col.lighter(active).name(QColor::HexArgb);
 
-        m_inverseColorHighlight = invcol.darker(300).name(QColor::HexArgb);
-        m_inverseColorActive = invcol.darker(900).name(QColor::HexArgb);
+    m_inverseColorHighlight = invcol.darker(highlight).name(QColor::HexArgb);
+    m_inverseColorActive = invcol.darker(active).name(QColor::HexArgb);
 
-        m_transColorAccent = colTrans.lighter(150).name(QColor::HexArgb);
-        m_transColorHighlight = colTrans.lighter(300).name(QColor::HexArgb);
-        m_transColorActive = colTrans.lighter(900).name(QColor::HexArgb);
+    m_transColorAccent = colTrans.lighter(accent).name(QColor::HexArgb);
+    m_transColorHighlight = colTrans.lighter(highlight).name(QColor::HexArgb);
+    m_transColorActive = colTrans.lighter(active).name(QColor::HexArgb);
 
-        QColor colText = QColor(255,255,255);
-        m_textColor = colText.name(QColor::HexArgb);
-        m_textColorHighlight = colText.darker(300).name(QColor::HexArgb);
-        m_textColorActive = colText.darker(900).name(QColor::HexArgb);
+    QColor colText = QColor(255,255,255);
+    m_textColor = colText.name(QColor::HexArgb);
+    m_textColorDisabled = colText.darker(highlight).name(QColor::HexArgb);
 
-        QColor colInverseText = QColor(75,75,75);
-        m_textInverseColor = colInverseText.name(QColor::HexArgb);
-        m_textInverseColorHighlight = colInverseText.lighter(300).name(QColor::HexArgb);
-        m_textInverseColorActive = colInverseText.lighter(900).name(QColor::HexArgb);
-
-    } else {
-
-        m_baseColorAccent = col.darker(150).name(QColor::HexArgb);
-        m_baseColorHighlight = col.darker(300).name(QColor::HexArgb);
-        m_baseColorActive = col.darker(900).name(QColor::HexArgb);
-
-        m_inverseColorHighlight = invcol.lighter(300).name(QColor::HexArgb);
-        m_inverseColorActive = invcol.lighter(900).name(QColor::HexArgb);
-
-        m_transColorAccent = colTrans.darker(150).name(QColor::HexArgb);
-        m_transColorHighlight = colTrans.darker(300).name(QColor::HexArgb);
-        m_transColorActive = colTrans.darker(900).name(QColor::HexArgb);
-
-        QColor colText = QColor(0,0,0);
-        m_textColor = colText.name(QColor::HexArgb);
-        m_textColorHighlight = colText.lighter(300).name(QColor::HexArgb);
-        m_textColorActive = colText.lighter(900).name(QColor::HexArgb);
-
-        QColor colInverseText = QColor(180,180,180);
-        m_textInverseColor = colInverseText.name(QColor::HexArgb);
-        m_textInverseColorHighlight = colInverseText.darker(300).name(QColor::HexArgb);
-        m_textInverseColorActive = colInverseText.darker(900).name(QColor::HexArgb);
-
-    }
+    QColor colInverseText = QColor(75,75,75);
+    m_textInverseColor = colInverseText.name(QColor::HexArgb);
+    m_textInverseColorHighlight = colInverseText.lighter(highlight).name(QColor::HexArgb);
+    m_textInverseColorActive = colInverseText.lighter(active).name(QColor::HexArgb);
 
 }
 
@@ -196,8 +167,7 @@ void PQCLook::setBaseColor(QString val) {
         Q_EMIT transColorHighlightChanged();
 
         Q_EMIT textColorChanged();
-        Q_EMIT textColorActiveChanged();
-        Q_EMIT textColorHighlightChanged();
+        Q_EMIT textColorDisabledChanged();
 
         Q_EMIT textInverseColorChanged();
         Q_EMIT textInverseColorActiveChanged();
@@ -242,8 +212,7 @@ QString PQCLook::getTransColorHighlight() {
 /******************************************************/
 
 QString PQCLook::getTextColor() { return m_textColor; }
-QString PQCLook::getTextColorActive() { return m_textColorActive; }
-QString PQCLook::getTextColorHighlight() { return m_textColorHighlight; }
+QString PQCLook::getTextColorDisabled() { return m_textColorDisabled; }
 
 /******************************************************/
 

@@ -60,7 +60,7 @@ Rectangle {
     PQText {
         id: placeholder
         anchors.fill: parent
-        color: PQCLook.textColorHighlight
+        color: PQCLook.textColorDisabled
         opacity: highlightBG ? 0.5 : 1
         font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
         anchors.leftMargin: control.leftPadding
@@ -80,9 +80,9 @@ Rectangle {
         leftPadding: 5
         rightPadding: 5
 
-        color: highlightBG ? PQCLook.textColorActive : PQCLook.textColor
-        selectedTextColor: highlightBG ? PQCLook.textColor : PQCLook.textColorHighlight
-        selectionColor: highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorHighlight
+        color: PQCLook.textColor
+        selectedTextColor: PQCLook.textColor
+        selectionColor: highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive
 
         font.pointSize: PQCLook.fontSize
         font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal

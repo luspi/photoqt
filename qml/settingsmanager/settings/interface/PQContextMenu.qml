@@ -89,7 +89,7 @@ Flickable {
                     visible: entries.length==0
                     height: 50
                     verticalAlignment: Text.AlignVCenter
-                    color: PQCLook.textColorHighlight
+                    color: PQCLook.textColorDisabled
                     font.weight: PQCLook.fontWeightBold
                     //: The custom entries here are the custom entries in the context menu
                     text: qsTranslate("settingsmanager", "No custom entries exists yet")

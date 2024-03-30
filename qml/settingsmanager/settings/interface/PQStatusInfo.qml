@@ -154,7 +154,7 @@ Flickable {
                                     y: (parent.height-height)/2
                                     text: avail.disp[name]
                                     font.weight: PQCLook.fontWeightBold
-                                    color: PQCLook.textColorActive
+                                    color: PQCLook.textColor
                                     onWidthChanged: {
                                         avail.widths.push(width+20)
                                         avail.widthsChanged()

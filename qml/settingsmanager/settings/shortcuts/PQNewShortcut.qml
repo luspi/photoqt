@@ -175,7 +175,7 @@ Rectangle {
                 y: 10
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                color: PQCLook.textColorActive
+                color: PQCLook.textColor
                 text: qsTranslate("settingsmanager", "The left button is used for moving the main image around.") + "<br>\n" +
                       qsTranslate("settingsmanager", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
             }

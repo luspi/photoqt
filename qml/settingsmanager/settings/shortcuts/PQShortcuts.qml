@@ -476,7 +476,7 @@ Flickable {
                                             y: (parent.height-height)/2
                                             font.weight: PQCLook.fontWeightBold
                                             text: shortcuts.item.translateShortcut(deleg.combos[index])
-                                            color: combomouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
+                                            color: PQCLook.textColor
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
 
@@ -533,7 +533,7 @@ Flickable {
                                     y: 3
                                     //: Written on small button, used as in: add new key combination. Please keep short!
                                     text: qsTranslate("settingsmanager", "ADD")
-                                    color: addmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
+                                    color: PQCLook.textColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
 
@@ -740,7 +740,7 @@ Flickable {
                                                cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] +
                                                //: This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked
                                                (cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager", "quit after") + ")" : ""))
-                                color: actmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
+                                color: PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
 
@@ -811,7 +811,7 @@ Flickable {
                                 y: 3
                                 //: Written on small button, used as in: add new shortcut action. Please keep short!
                                 text: qsTranslate("settingsmanager", "ADD")
-                                color: addactmouse.containsMouse ? PQCLook.textColorActive : PQCLook.textColor
+                                color: PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
 

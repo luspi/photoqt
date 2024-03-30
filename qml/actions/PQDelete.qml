@@ -86,7 +86,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
-            color: PQCLook.textColorHighlight
+            color: PQCLook.textColorDisabled
             text: "this_is_the_filename.jpg"
         },
 

@@ -126,7 +126,7 @@ PQTemplateFullscreen {
                 PQText {
                     width: favcol.width
                     height: 30
-                    color: PQCLook.textColorHighlight
+                    color: PQCLook.textColorDisabled
                     font.weight: PQCLook.fontWeightBold
                     font.italic: true
                     verticalAlignment: Qt.AlignVCenter
@@ -187,14 +187,14 @@ PQTemplateFullscreen {
                                 spacing: 10
                                 PQText {
                                     text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.")
-                                    color: favdeleg.isActive ? PQCLook.textColorActive : PQCLook.textColor
+                                    color: PQCLook.textColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                                 PQTextS {
                                     y: (parent.height-height)/2
                                     font.italic: true
                                     text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")"
-                                    color: favdeleg.isActive ? PQCLook.textColorActive : PQCLook.textColor
+                                    color: PQCLook.textColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                             }
@@ -331,14 +331,14 @@ PQTemplateFullscreen {
                         spacing: 10
                         PQText {
                             text: "*." + deleg.curEndings.join(", *.")
-                            color: isActive ? PQCLook.textColorActive : PQCLook.textColor
+                            color: PQCLook.textColor
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
                         PQTextS {
                             y: (parent.height-height)/2
                             font.italic: true
                             text: "(" + curData[3] + ")"
-                            color: isActive ? PQCLook.textColorActive : PQCLook.textColor
+                            color: PQCLook.textColor
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
                     }

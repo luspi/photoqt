@@ -35,7 +35,7 @@ SpinBox {
 
     // faking the 'live' property pre Qt 6.6
     onDisplayTextChanged:
-        value = displayText
+        value = parseInt(displayText)
 
     Timer {
         interval: 100
@@ -48,10 +48,10 @@ SpinBox {
         id: txtinp
         text: control.value
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
         Behavior on color { ColorAnimation { duration: 200 } }
         selectionColor: PQCLook.baseColorActive
-        selectedTextColor: PQCLook.textColorActive
+        selectedTextColor: PQCLook.textColor
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
@@ -73,7 +73,7 @@ SpinBox {
         Text {
             text: "+"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -95,7 +95,7 @@ SpinBox {
         Text {
             text: "-"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorHighlight
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
