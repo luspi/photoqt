@@ -1564,3 +1564,68 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
     return !manualSelectionCausedError;
 
 }
+
+QString PQCScriptsImages::detectVideoColorProfile(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+#ifdef Q_OS_UNIX
+
+    QProcess which;
+    which.setStandardOutputFile(QProcess::nullDevice());
+    which.start("which", QStringList() << "mediainfo");
+    which.waitForFinished();
+
+    if(!which.exitCode()) {
+
+        QProcess p;
+        p.start("mediainfo", QStringList() << path);
+
+        if(p.waitForStarted()) {
+
+            QByteArray outdata = "";
+
+            while(p.waitForReadyRead())
+                outdata.append(p.readAll());
+
+            auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
+            QString out = (toUtf16(outdata));
+
+            if(out.contains("Color space  "))
+                return out.split("Color space ")[1].split(" : ")[1].split("\n")[0].trimmed();
+
+        }
+
+    }
+
+    which.start("which", QStringList() << "ffprobe");
+    which.waitForFinished();
+
+    if(!which.exitCode()) {
+
+        QProcess p;
+        p.start("ffprobe", QStringList() << "-show_streams" << path);
+
+        if(p.waitForStarted()) {
+
+            QByteArray outdata = "";
+
+            while(p.waitForReadyRead())
+                outdata.append(p.readAll());
+
+            auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
+            QString out = (toUtf16(outdata));
+
+            if(out.contains("pix_fmt="))
+                return out.split("pix_fmt=")[1].split("\n")[0].trimmed();
+
+        }
+
+    }
+
+
+#endif
+
+    return "";
+
+}

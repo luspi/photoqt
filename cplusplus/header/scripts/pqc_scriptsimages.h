@@ -90,6 +90,7 @@ public:
     Q_INVOKABLE int getIndexForColorProfile(QString desc);
     Q_INVOKABLE bool importColorProfile();
     Q_INVOKABLE bool removeImportedColorProfile(int index);
+    Q_INVOKABLE QString detectVideoColorProfile(QString path);
 
 #ifdef PQMLCMS2
     int toLcmsFormat(QImage::Format fmt);

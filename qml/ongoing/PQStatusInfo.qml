@@ -476,9 +476,24 @@ Item {
             Connections {
                 target: PQCFileFolderModel
                 function onCurrentFileChanged() {
-                    var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
-                    if(val !== "")
-                        csptxt.text = val
+                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile)) {
+                        csptxt.text = ""
+                        loadVideoColorInfo.restart()
+                    } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile))
+                        csptxt.text = "sRGB"
+                    else {
+                        csptxt.text = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                    }
+                }
+            }
+            Timer {
+                id: loadVideoColorInfo
+                interval: 1
+                onTriggered: {
+                    var val = PQCScriptsImages.detectVideoColorProfile(PQCFileFolderModel.currentFile)
+                    if(val === "")
+                        val = "unknown color space"
+                    csptxt.text = val
                 }
             }
         }
