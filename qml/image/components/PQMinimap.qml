@@ -108,7 +108,18 @@ Rectangle {
 
     Connections {
         target: deleg
-        onImageScaleChanged: {
+        function onImageScaleChanged() {
+            minimapActive = true
+            minimapMakeDeactive.start()
+        }
+    }
+    Connections {
+        target: flickable.visibleArea
+        function onXPositionChanged() {
+            minimapActive = true
+            minimapMakeDeactive.start()
+        }
+        function onYPositionChanged() {
             minimapActive = true
             minimapMakeDeactive.start()
         }
@@ -116,7 +127,7 @@ Rectangle {
 
     Timer {
         id: minimapMakeDeactive
-        interval: 1000
+        interval: 2000
         onTriggered: {
             minimapActive = false
         }
@@ -154,20 +165,27 @@ Rectangle {
         acceptedButtons: Qt.AllButtons
         cursorShape: Qt.PointingHandCursor
         onClicked: (mouse) => {
-            var propX = mouse.x/img.width
-            var propY = mouse.y/img.height
 
-            xanim.stop()
-            yanim.stop()
+            if(mouse.button === Qt.LeftButton) {
 
-            xanim.from = flickable.contentX
-            yanim.from = flickable.contentY
+                var propX = mouse.x/img.width
+                var propY = mouse.y/img.height
 
-            xanim.to = flickable.contentWidth*propX - flickable.width/2
-            yanim.to = flickable.contentHeight*propY - flickable.height/2
+                xanim.stop()
+                yanim.stop()
 
-            xanim.restart()
-            yanim.restart()
+                xanim.from = flickable.contentX
+                yanim.from = flickable.contentY
+
+                xanim.to = flickable.contentWidth*propX - flickable.width/2
+                yanim.to = flickable.contentHeight*propY - flickable.height/2
+
+                xanim.restart()
+                yanim.restart()
+
+            } else if(mouse.button === Qt.RightButton) {
+                           rightclickmenu.popup()
+                       }
         }
         onWheel: (wheel) => {
             if(!PQCSettings.interfaceMinimapPopout) {
@@ -176,6 +194,44 @@ Rectangle {
             }
             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
         }
+    }
+
+    PQMenu {
+
+        id: rightclickmenu
+
+        PQMenuItem {
+            text: qsTranslate("image", "Small minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 0
+        }
+
+        PQMenuItem {
+            text: qsTranslate("image", "Normal minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 1
+        }
+
+        PQMenuItem {
+            text: qsTranslate("image", "Large minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 2
+        }
+
+        PQMenuItem {
+            text: qsTranslate("image", "Very large minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 3
+        }
+
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            text: qsTranslate("image", "Hide minimap")
+            onTriggered:
+                PQCSettings.imageviewShowMinimap = false
+        }
+
     }
 
     Image {
