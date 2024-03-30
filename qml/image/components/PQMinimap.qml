@@ -72,7 +72,7 @@ Rectangle {
                 parent: image_top
                 width: Math.max(75, img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
                 height: Math.max(50, img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
-                opacity: minimapNeeded ? 1 : 0
+                opacity: minimapNeeded ? ((minimapActive||containsMouse) ? 1 : 0.2) : 0
             }
             PropertyChanges {
                 target: img
@@ -103,6 +103,24 @@ Rectangle {
     }
 
     property bool minimapNeeded: (deleg.imageScale > deleg.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
+    property bool minimapActive: false
+    property bool containsMouse: movemouse.containsMouse||minimapmouse.containsMouse||navmouse.containsMouse
+
+    Connections {
+        target: deleg
+        onImageScaleChanged: {
+            minimapActive = true
+            minimapMakeDeactive.start()
+        }
+    }
+
+    Timer {
+        id: minimapMakeDeactive
+        interval: 1000
+        onTriggered: {
+            minimapActive = false
+        }
+    }
 
     state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
