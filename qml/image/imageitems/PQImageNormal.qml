@@ -374,6 +374,45 @@ Image {
                 }
             }
 
+            Rectangle {
+
+                parent: image_top
+                x: parent.width-width-10
+                y: parent.height-height-10
+                z: image_top.curZ+1
+
+                width: 30
+                height: 30
+                color: "#88000000"
+                radius: 5
+
+                visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo
+
+                opacity: playpausemouse.containsMouse ? 1 : 0.2
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                Image {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    sourceSize: Qt.size(width, height)
+                    source: mediaplayer.playbackState == MediaPlayer.PlayingState ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
+                }
+
+                MouseArea {
+                    id: playpausemouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        if(mediaplayer.playbackState == MediaPlayer.PlayingState)
+                            mediaplayer.pause()
+                        else
+                            mediaplayer.play()
+                    }
+                }
+
+            }
+
         }
 
     }
