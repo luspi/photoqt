@@ -51,9 +51,10 @@ Item {
 
         id: image
 
-        source: "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
+        source: (deleg.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)))
 
         asynchronous: true
+        cache: false
 
         property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
 
@@ -162,6 +163,7 @@ Item {
         anchors.fill: parent
         source: Math.abs(1-currentScale) > 0.01 ? parent.source : ""
         visible: source != "" && status == Image.Ready
+        cache: false
         smooth: false
         mipmap: false
         z: parent.z+1

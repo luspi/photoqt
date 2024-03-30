@@ -95,6 +95,8 @@ public:
     int toLcmsFormat(QImage::Format fmt);
 #endif
 
+    bool applyColorProfile(QString filename, QImage &imgIn, QImage &imgOut);
+
 private:
     PQCScriptsImages();
 

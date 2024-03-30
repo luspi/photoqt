@@ -24,6 +24,7 @@ import QtQuick
 
 import PQCWindowGeometry
 import PQCScriptsConfig
+import PQCNotify
 
 Item {
 
@@ -125,6 +126,15 @@ Item {
     function resetAll() {
         for(var e in ele)
             console.log(e)
+    }
+
+    Connections {
+
+        target: PQCNotify
+        function onShowNotificationMessage(msg) {
+            show("notification", msg)
+        }
+
     }
 
 }

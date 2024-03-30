@@ -19,6 +19,7 @@ Image {
     }
 
     asynchronous: true
+    cache: false
 
     property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
 
@@ -191,6 +192,22 @@ Image {
         function onDocumentJump(leftright) {
             loadNewPage.interval = 0
             image.currentPage = (image.currentPage+leftright+image.pageCount)%image.pageCount
+        }
+
+    }
+
+    Connections {
+
+        target: deleg
+
+        onImageSourceChanged: {
+            if(deleg.imageSource === "") {
+                image.source = ""
+            } else if(deleg.imageSource.includes("::PDF::")) {
+                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource.split("::PDF::")[1]))
+            } else {
+                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource))
+            }
         }
 
     }

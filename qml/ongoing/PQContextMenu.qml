@@ -147,7 +147,10 @@ PQMenu {
             running: true   // this makes sure the status is evaluated at startup
             onTriggered: {
                 if(PQCSettings.imageviewColorSpaceEnable)
-                    iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" && PQCScriptsImages.isNormalImage(PQCFileFolderModel.currentFile))
+                    iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" &&
+                                       !PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile) &&
+                                       !PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile) &&
+                                       !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile))
             }
         }
 

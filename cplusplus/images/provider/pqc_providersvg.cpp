@@ -21,6 +21,9 @@
  **************************************************************************/
 
 #include <pqc_providersvg.h>
+#include <pqc_settings.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
 #ifdef PQMRESVG
 #include <pqc_loadimage_resvg.h>
 #else

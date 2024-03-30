@@ -35,7 +35,7 @@ AnimatedImage {
 
     id: image
 
-    source: "file:/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
+    source: (deleg.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)))
 
     asynchronous: true
 

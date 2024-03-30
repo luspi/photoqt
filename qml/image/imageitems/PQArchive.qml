@@ -19,6 +19,7 @@ Image {
     }
 
     asynchronous: true
+    cache: false
 
     property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
 
@@ -104,6 +105,10 @@ Image {
 
     function setSource() {
         var src = deleg.imageSource
+        if(src === "") {
+            image.source = ""
+            return
+        }
         if(src.includes("::ARC::"))
             src = sc.split("::ARC::")[1]
         image.asynchronous = false
@@ -140,6 +145,17 @@ Image {
 
         function onArchiveJump(leftright) {
             image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
+            setSource()
+        }
+
+    }
+
+    Connections {
+
+        target: deleg
+
+        function onImageSourceChanged() {
+            console.warn("onImageSourceChanged", deleg.imageSource)
             setSource()
         }
 

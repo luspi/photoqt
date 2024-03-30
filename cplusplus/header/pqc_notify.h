@@ -251,6 +251,8 @@ Q_SIGNALS:
 
     void enterPhotoSphere();
 
+    void showNotificationMessage(QString msg);
+
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF angleDelta, int modifiers);
     void mousePressed(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
