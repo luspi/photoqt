@@ -200,7 +200,7 @@ Image {
 
         target: deleg
 
-        onImageSourceChanged: {
+        function onImageSourceChanged() {
             if(deleg.imageSource === "") {
                 image.source = ""
             } else if(deleg.imageSource.includes("::PDF::")) {

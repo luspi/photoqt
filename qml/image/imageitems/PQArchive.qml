@@ -12,7 +12,9 @@ Image {
     source: ""
 
     Component.onCompleted: {
-        if(deleg.imageSource.includes("::ARC::") || currentFile > fileList.length-1)
+        if(fileCount == 0)
+            fileList = PQCScriptsImages.listArchiveContent(deleg.imageSource, true)
+        if(deleg.imageSource.includes("::ARC::") || currentFile > fileCount-1)
             source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
         else
             source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(deleg.imageSource))
@@ -20,6 +22,10 @@ Image {
 
     asynchronous: true
     cache: false
+
+    property int currentFile: 0
+    property var fileList: []
+    property int fileCount: fileList.length
 
     property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
 
@@ -84,21 +90,6 @@ Image {
         }
     ]
 
-
-
-    property int currentFile: 0
-    property var fileList: []
-    property int fileCount: fileList.length
-
-    // load the file list asynchronously
-    Timer {
-        interval: 50
-        running: true
-        onTriggered: {
-            fileList = PQCScriptsImages.listArchiveContent(deleg.imageSource, true)
-        }
-    }
-
     onCurrentFileChanged: {
         image_top.currentFileInside = currentFile
     }
@@ -109,10 +100,19 @@ Image {
             image.source = ""
             return
         }
+
         if(src.includes("::ARC::"))
-            src = sc.split("::ARC::")[1]
+            src = src.split("::ARC::")[1]
         image.asynchronous = false
-        image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(src))
+
+        if(fileCount == 0)
+            fileList = PQCScriptsImages.listArchiveContent(deleg.imageSource, true)
+        currentFile = Math.max(0, currentFile)
+
+        if(currentFile < fileCount)
+            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(src))
+        else
+            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(src)
         image.asynchronous = true
     }
 

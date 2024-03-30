@@ -74,6 +74,9 @@
 PQCScriptsImages::PQCScriptsImages() {
     importedICCLastMod = 0;
     colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::CACHE_DIR(), "colorlastlocation"));
+
+    // if the formats changed then we can't rely on the archive cache anymore
+    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
 }
 
 PQCScriptsImages::~PQCScriptsImages() {
@@ -159,10 +162,16 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
 QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly) {
 
     qDebug() << "args: path =" << path;
+    qDebug() << "args: insideFilenameOnly =" << insideFilenameOnly;
+
+    const QFileInfo info(path);
+    QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettings::get()["imageviewSortImagesAscending"].toBool()).arg(insideFilenameOnly);
+
+    if(archiveContentCache.contains(cacheKey))
+        return archiveContentCache[cacheKey];
 
     QStringList ret;
 
-    const QFileInfo info(path);
 
 #ifndef Q_OS_WIN
 
@@ -277,6 +286,8 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
     else
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+
+    archiveContentCache.insert(cacheKey, ret);
 
     return ret;
 

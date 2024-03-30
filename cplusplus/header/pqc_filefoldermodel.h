@@ -236,6 +236,8 @@ private:
     qint64 cacheAdvancedSortLastModified;
     bool cacheAdvancedSortAscending;
 
+    QStringList archiveContentPreloaded;
+
     void checkFilterActive();
 
 private Q_SLOTS:

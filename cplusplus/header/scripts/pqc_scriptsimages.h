@@ -102,6 +102,7 @@ private:
     PQCScriptsImages();
 
     QMap<QString,QVariantList> histogramCache;
+    QMap<QString,QStringList> archiveContentCache;
 
     QMap<QString, bool> alphaChannels;
 

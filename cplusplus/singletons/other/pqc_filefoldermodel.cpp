@@ -137,6 +137,7 @@ QString PQCFileFolderModel::getFileInFolderMainView() {
     return m_fileInFolderMainView;
 }
 void PQCFileFolderModel::setFileInFolderMainView(QString val) {
+
     if(m_fileInFolderMainView == val)
         return;
     QFileInfo oldfile(m_fileInFolderMainView);
@@ -911,7 +912,10 @@ void PQCFileFolderModel::loadDataMainView() {
 
     } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
-        m_entriesMainView = PQCScriptsImages::get().listArchiveContent(m_fileInFolderMainView);
+        if(archiveContentPreloaded.length() > 0) {
+            m_entriesMainView = archiveContentPreloaded;
+            archiveContentPreloaded.clear();
+        }
         m_countMainView = m_entriesMainView.length();
         m_readArchiveOnly = false;
         setCurrentIndex(numberPageDocument);
@@ -1327,8 +1331,10 @@ void PQCFileFolderModel::enableViewerMode(int page) {
 
     if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
         setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(getCurrentFile()));
-    else
-        setFileInFolderMainView(QString("%1::ARC::%2").arg(page).arg(getCurrentFile()));
+    else {
+        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContent(getCurrentFile());
+        setFileInFolderMainView(QString("%1::ARC::%2").arg(archiveContentPreloaded[page], getCurrentFile()));
+    }
     forceReloadMainView();
     setCurrentIndex(page);
 }
