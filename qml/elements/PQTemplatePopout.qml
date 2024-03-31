@@ -62,23 +62,10 @@ Window {
     }
 
     Component.onCompleted: {
-
-        if(PQCScriptsConfig.amIOnWindows())
-            ele_window.opacity = 0
-
-        if(isMax)
-            showMaximized()
-        else
-            showNormal()
-
         ele_window.setX(geometry.x)
         ele_window.setY(geometry.y)
         ele_window.setWidth(geometry.width)
         ele_window.setHeight(geometry.height)
-
-        if(PQCScriptsConfig.amIOnWindows())
-            showOpacity.restart()
-
     }
 
     minimumWidth: 600

@@ -295,8 +295,7 @@ Flickable {
         }
 
         /**********************************************************************/
-        PQSettingsSeparator {}
-        PQSettingsSeparator {}
+        PQSettingsSeparator { howManyLines: 2 }
         /**********************************************************************/
 
         PQSetting {

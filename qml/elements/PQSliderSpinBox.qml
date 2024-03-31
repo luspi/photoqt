@@ -69,7 +69,7 @@ Item {
                 from: control.minval
                 to: control.maxval
                 suffix: control.suffix
-                tooltip: value+suffix
+                tooltip: ""
                 onValueChanged: {
                     if(value !== spinbox.liveValue)
                         spinbox.liveValue = value

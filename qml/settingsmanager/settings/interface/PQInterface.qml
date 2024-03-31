@@ -457,7 +457,7 @@ Flickable {
 
         PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
         PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
-        PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value.toFixed(1)*1000
+        PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
 
         PQCSettings.interfaceAccentColor = accentcolor.options[accentcolor.currentIndex]
 

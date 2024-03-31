@@ -181,8 +181,8 @@ Flickable {
             content: [
                 PQSliderSpinBox {
                     id: interval
-                    minval: 0
-                    maxval: 15
+                    minval: 1
+                    maxval: 300
                     title: qsTranslate("settingsmanager", "interval:")
                     suffix: " s"
                     onValueChanged:

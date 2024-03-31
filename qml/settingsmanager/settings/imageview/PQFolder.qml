@@ -137,6 +137,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_ani
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Animation")
 
@@ -190,11 +192,12 @@ Flickable {
                         }
                     }
 
-                    Row {
+                    Flow {
 
                         id: anirow2
 
-                        spacing: 10
+                        spacing: 5
+                        width: set_ani.rightcol
 
                         PQSliderSpinBox {
                             id: anispeed
@@ -207,9 +210,10 @@ Flickable {
                         }
 
                         PQText {
-                            y: (parent.height-height)/2
+                            height: anispeed.height
+                            verticalAlignment: Text.AlignVCenter
                             //: The value is a numerical value expressing the speed of animating between images
-                            text: qsTranslate("settingsmanager", "higher value = slower")
+                            text: qsTranslate("settingsmanager", "(higher value = slower)")
                         }
 
                     }

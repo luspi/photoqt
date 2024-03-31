@@ -72,7 +72,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: zoomspeed
-                    minval: 0
+                    minval: 1
                     maxval: 100
                     title: qsTranslate("settingsmanager", "zoom speed:")
                     suffix: " %"
@@ -105,7 +105,7 @@ Flickable {
 
                     PQCheckBox {
                         id: maxzoom_check
-                        text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
+                        text: qsTranslate("settingsmanager", "maximum zoom") + (checked ? ": " : "  ")
                         onCheckedChanged: checkDefault()
                     }
 

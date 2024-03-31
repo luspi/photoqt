@@ -25,10 +25,14 @@ import QtQuick
 Column {
     spacing: 10
     Item { width: 1; height: 10; }
-    Rectangle {
-        width: setting_top.width
-        height: 1
-        color: PQCLook.baseColorHighlight
+    property int howManyLines: 1
+    Repeater {
+        model: howManyLines
+        Rectangle {
+            width: setting_top.width
+            height: 1
+            color: PQCLook.baseColorHighlight
+        }
     }
     Item { width: 1; height: 10; }
 }

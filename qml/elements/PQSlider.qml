@@ -30,8 +30,8 @@ Slider {
     orientation: Qt.Horizontal
     live: true
 
-    implicitHeight: _horizontal ? 20 : (extraWide ? 300 : (extraSmall ? 100 : 200))
-    implicitWidth: _horizontal ? (extraWide ? 300 : (extraSmall ? 100 : 200)) : 20
+    implicitHeight: _horizontal ? 20 : (extraWide ? 300 : (extraSmall ? 150 : 200))
+    implicitWidth: _horizontal ? (extraWide ? 300 : (extraSmall ? 150 : 200)) : 20
 
     stepSize: 1.0
     property real wheelStepSize: 1.0
@@ -48,7 +48,7 @@ Slider {
     property bool extraWide: false
 
     property string suffix: ""
-    property string tooltip: value + suffix
+    property string tooltip: ""
 
     snapMode: Slider.SnapAlways
 
@@ -154,7 +154,7 @@ Slider {
         id: ttip
         delay: 500
         timeout: 5000
-        visible: control.hovered
+        visible: control.hovered && text != ""
         text: control.tooltip
     }
 

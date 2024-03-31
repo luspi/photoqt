@@ -250,7 +250,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: sensitivity
-                    minval: 1
+                    minval: 5
                     maxval: 100
                     title: qsTranslate("settingsmanager", "Sensitivity:")
                     suffix: " px"
@@ -335,7 +335,7 @@ Flickable {
         current["bottom"] = PQCSettings.interfaceEdgeBottomAction
         currentChanged()
 
-        sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize)
+        sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize*5)
 
         PQCNotify.spinBoxPassKeyEvents = false
 
@@ -351,7 +351,7 @@ Flickable {
         PQCSettings.interfaceEdgeRightAction = "mainmenu"
         PQCSettings.interfaceEdgeBottomAction = current["bottom"]
 
-        PQCSettings.interfaceHotEdgeSize = sensitivity.value
+        PQCSettings.interfaceHotEdgeSize = Math.round(sensitivity.value/5)
         sensitivity.saveDefault()
 
         settingChanged = false

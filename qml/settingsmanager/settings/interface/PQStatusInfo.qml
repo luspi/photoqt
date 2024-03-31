@@ -502,7 +502,7 @@ Flickable {
         PQCSettings.interfaceStatusInfoFontSize = fontsize.value
         PQCSettings.interfaceStatusInfoAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
         PQCSettings.interfaceStatusInfoAutoHideTopEdge = autohide_topedge.checked
-        PQCSettings.interfaceStatusInfoAutoHideTimeout = autohide_timeout.value.toFixed(1)*1000
+        PQCSettings.interfaceStatusInfoAutoHideTimeout = autohide_timeout.value*1000
         PQCSettings.interfaceStatusInfoShowImageChange = imgchange.checked
         PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
 
