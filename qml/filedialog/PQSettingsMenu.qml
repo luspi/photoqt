@@ -297,6 +297,15 @@ PQMenu {
                 PQCSettings.filedialogPreviewBlur = checked
         }
         PQMenuItem {
+            //: file manager settings popdown: mute the colors in image previews
+            text: qsTranslate("filedialog", "mute colors")
+            enabled: previewshow.checked
+            checkable: true
+            checked: PQCSettings.filedialogPreviewMuted
+            onCheckedChanged:
+                PQCSettings.filedialogPreviewMuted = checked
+        }
+        PQMenuItem {
             //: file manager settings popdown: scale and crop image previews
             text: qsTranslate("filedialog", "scale and crop")
             enabled: previewshow.checked
