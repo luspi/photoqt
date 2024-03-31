@@ -252,7 +252,6 @@ Flickable {
                     id: sensitivity
                     minval: 5
                     maxval: 100
-                    title: qsTranslate("settingsmanager", "Sensitivity:")
                     suffix: " px"
                     onValueChanged:
                         checkDefault()
