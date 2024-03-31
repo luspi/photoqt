@@ -34,15 +34,14 @@ PQCLook::PQCLook() {
     colorNameToHex.insert("blue",   "#050b11");
     colorNameToHex.insert("purple", "#0b0211");
     colorNameToHex.insert("orange", "#110b02");
-    colorNameToHex.insert("pink",   "#11020b");
+    colorNameToHex.insert("pink",   "#110511");
 
     // we use this to preserve the given order
     colorNames = {"gray",
                   "red", "green", "blue",
                   "purple", "orange", "pink"};
 
-
-    calculateColors(colorNameToHex.value(PQCSettings::get()["interfaceAccentColor"].toString(), "#111111"));
+    calculateColors(PQCSettings::get()["interfaceAccentColor"].toString());
 
     calculateFontSizes(11);
 
@@ -85,7 +84,9 @@ PQCLook &PQCLook::get() {
 
 PQCLook::~PQCLook() { }
 
-void PQCLook::calculateColors(QString base) {
+void PQCLook::calculateColors(QString name) {
+
+    QString base = colorNameToHex.value(PQCSettings::get()["interfaceAccentColor"].toString(), "#111111");
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
     QColor col = QColor::fromString(base);
@@ -107,7 +108,7 @@ void PQCLook::calculateColors(QString base) {
 
     const int accent = 150;
     const int highlight = 300;
-    const int active = 600;
+    const int active = 500;
 
     m_baseColorAccent = col.lighter(accent).name(QColor::HexArgb);
     m_baseColorHighlight = col.lighter(highlight).name(QColor::HexArgb);

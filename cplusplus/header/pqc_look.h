@@ -37,7 +37,7 @@ public:
     PQCLook(PQCLook const&)        = delete;
     void operator=(PQCLook const&) = delete;
 
-    void calculateColors(QString base);
+    void calculateColors(QString name);
 
     /******************************************************/
 
