@@ -78,17 +78,12 @@ PQTemplateFullscreen {
                 }
             }
 
-            PQSlider {
+            PQSliderSpinBox {
                 id: interval_slider
                 y: (interval_txt.height-height)/2
-                width: 300
-                from: 1
-                to: 300
-            }
-
-            PQText {
-                y: (interval_txt.height-height)/2
-                text: interval_slider.value+"s"
+                minval: 1
+                maxval: 300
+                suffix: " s"
             }
 
         },
@@ -161,27 +156,41 @@ PQTemplateFullscreen {
 
                 spacing: 10
 
-                PQSlider {
-                    id: transition_slider
-                    height: trans_txt.height
-                    from: 0
-                    to: 15
+                Row {
 
-                    onValueChanged: {
-                        if(value > 14)
-                            //: This refers to a speed of transitioning from one image to another during slideshows
-                            transspeed_txt.speed = qsTranslate("slideshow", "immediately, without animation")
-                        else if(value > 9)
-                            //: This refers to a speed of transitioning from one image to another during slideshows
-                            transspeed_txt.speed = qsTranslate("slideshow", "pretty fast animation")
-                        else if(value > 4)
-                            //: This refers to a speed of transitioning from one image to another during slideshows
-                            transspeed_txt.speed = qsTranslate("slideshow", "not too fast and not too slow")
-                        else
-                            //: This refers to a speed of transitioning from one image to another during slideshows
-                            transspeed_txt.speed = qsTranslate("slideshow", "very slow animation")
-
+                    PQText {
+                        text: "slow"
                     }
+
+                    PQSlider {
+                        id: transition_slider
+                        height: trans_txt.height
+                        from: 0
+                        to: 15
+                        tooltip: ""
+                        extraSmall: true
+
+                        onValueChanged: {
+                            if(value > 14)
+                                //: This refers to a speed of transitioning from one image to another during slideshows
+                                transspeed_txt.speed = qsTranslate("slideshow", "immediately, without animation")
+                            else if(value > 9)
+                                //: This refers to a speed of transitioning from one image to another during slideshows
+                                transspeed_txt.speed = qsTranslate("slideshow", "pretty fast animation")
+                            else if(value > 4)
+                                //: This refers to a speed of transitioning from one image to another during slideshows
+                                transspeed_txt.speed = qsTranslate("slideshow", "not too fast and not too slow")
+                            else
+                                //: This refers to a speed of transitioning from one image to another during slideshows
+                                transspeed_txt.speed = qsTranslate("slideshow", "very slow animation")
+
+                        }
+                    }
+
+                    PQText {
+                        text: "fast"
+                    }
+
                 }
 
                 PQText {
@@ -373,24 +382,36 @@ PQTemplateFullscreen {
                     text: qsTranslate("slideshow", "enable music")
                 }
 
-                PQButton {
-                    id: music_button
+                Item {
+
+                    clip: true
                     enabled: music_check.checked
-                    font.pointSize: PQCLook.fontSize
-                    font.weight: PQCLook.fontWeightNormal
-                    width: 300
-                    property string musicfile: ""
-                    text: musicfile=="" ? "[" + qsTranslate("slideshow", "no file selected") + "]" : PQCScriptsFilesPaths.getFilename(musicfile)
-                    tooltip: (musicfile==""
-                                ? qsTranslate("slideshow", "Click to select music file")
-                                : ("<b>"+musicfile+"</b><br><br>" + qsTranslate("slideshow", "Click to change music file")))
-                    onClicked: {
-                        var fname = PQCScriptsFilesPaths.openFileFromDialog("Select",
-                                                                            (music_button.musicfile == "" ? PQCScriptsFilesPaths.getHomeDir() : music_button.musicfile),
-                                                                            ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
-                        if(fname !== "")
-                            music_button.musicfile = PQCScriptsFilesPaths.cleanPath(fname)
+                    width: music_button.width
+                    height: enabled ? music_button.height : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQButton {
+                        id: music_button
+                        enabled: music_check.checked
+                        font.pointSize: PQCLook.fontSize
+                        font.weight: PQCLook.fontWeightNormal
+                        width: 300
+                        property string musicfile: ""
+                        text: musicfile=="" ? "[" + qsTranslate("slideshow", "no file selected") + "]" : PQCScriptsFilesPaths.getFilename(musicfile)
+                        tooltip: (musicfile==""
+                                    ? qsTranslate("slideshow", "Click to select music file")
+                                    : ("<b>"+musicfile+"</b><br><br>" + qsTranslate("slideshow", "Click to change music file")))
+                        onClicked: {
+                            var fname = PQCScriptsFilesPaths.openFileFromDialog("Select",
+                                                                                (music_button.musicfile == "" ? PQCScriptsFilesPaths.getHomeDir() : music_button.musicfile),
+                                                                                ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
+                            if(fname !== "")
+                                music_button.musicfile = PQCScriptsFilesPaths.cleanPath(fname)
+                        }
                     }
+
                 }
 
             }
