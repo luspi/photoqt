@@ -70,7 +70,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: zoomspeed
                     minval: 0
                     maxval: 100
@@ -87,7 +87,7 @@ Flickable {
                         onCheckedChanged: checkDefault()
                     }
 
-                    PQSpinBoxAdvanced {
+                    PQSliderSpinBox {
                         id: minzoom_slider
                         minval: 1
                         maxval: 100
@@ -109,7 +109,7 @@ Flickable {
                         onCheckedChanged: checkDefault()
                     }
 
-                    PQSpinBoxAdvanced {
+                    PQSliderSpinBox {
                         id: maxzoom_slider
                         minval: 100
                         maxval: 10000

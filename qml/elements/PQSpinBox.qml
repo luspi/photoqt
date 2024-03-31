@@ -33,9 +33,8 @@ SpinBox {
 
     property alias liveValue: txtinp.text
 
-    // faking the 'live' property pre Qt 6.6
-    onDisplayTextChanged:
-        value = parseInt(displayText)
+    property string tooltip: liveValue + tooltipSuffix
+    property string tooltipSuffix: ""
 
     Timer {
         interval: 100
@@ -109,6 +108,14 @@ SpinBox {
         color: PQCLook.baseColorHighlight
     }
 
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered
+        text: control.tooltip
+    }
+
     property int _defaultValue
     Component.onCompleted: {
         _defaultValue = value
@@ -124,6 +131,7 @@ SpinBox {
 
     function loadAndSetDefault(val) {
         value = val
+        liveValue = val
         _defaultValue = val
     }
 

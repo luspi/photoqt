@@ -179,7 +179,7 @@ Flickable {
             helptext: qsTranslate("settingsmanager", "This determines how long PhotoQt waits before switching to the next image in the list.")
 
             content: [
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: interval
                     minval: 0
                     maxval: 15

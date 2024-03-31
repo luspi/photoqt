@@ -189,7 +189,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: threads
                     minval: 1
                     maxval: 32

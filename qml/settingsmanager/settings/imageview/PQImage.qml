@@ -80,7 +80,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: marginslider
                     minval: 0
                     maxval: 100
@@ -185,7 +185,7 @@ Flickable {
                     onCheckedChanged: checkDefault()
                 },
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: interp_spin
                     minval: 0
                     maxval: 1000
@@ -214,7 +214,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: cache_slider
                     minval: 128
                     maxval: 5120

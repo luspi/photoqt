@@ -97,7 +97,7 @@ Flickable {
             helptext: qsTranslate("settingsmanager", "A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.")
 
             content: [
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: dblclk
                     minval: 0
                     maxval: 1000
@@ -165,7 +165,7 @@ Flickable {
                         checked: PQCSettings.imageviewHideCursorTimeout===0
                     }
 
-                    PQSpinBoxAdvanced {
+                    PQSliderSpinBox {
                         id: hidetimeout
                         minval: 1
                         maxval: 10

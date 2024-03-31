@@ -413,7 +413,8 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "dev";
+    // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
     if(oldversion != "dev" && versions.indexOf(oldversion) == -1 && !oldversion.startsWith("3")) {
@@ -451,6 +452,36 @@ int PQCSettings::migrate(QString oldversion) {
                     QSqlQuery queryUpdate(db);
                     if(!queryUpdate.exec("ALTER TABLE 'openfile' RENAME TO 'filedialog'"))
                         qCritical() << "ERROR renaming 'openfile' to 'filedialog':" << queryUpdate.lastError().text();
+                    queryUpdate.clear();
+
+                }
+
+                query.clear();
+
+            }
+
+        } else if(curVer == "dev") {
+
+            QSqlQuery query(db);
+
+            if(!query.exec("SELECT `value` FROM `filedialog` WHERE `name`='PreviewColorIntensity'"))
+                qCritical() << "Unable to get current PreviewColorIntensity value:" << query.lastError().text();
+            else {
+
+                query.next();
+
+                int val = query.value(0).toInt();
+
+                qWarning() << "******** val =" << val;
+
+                // if it's larger than that something went wrong
+                if(val <= 10) {
+
+                    QSqlQuery queryUpdate(db);
+                    queryUpdate.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='PreviewColorIntensity'");
+                    queryUpdate.bindValue(":val", val*10);
+                    if(!queryUpdate.exec())
+                        qCritical() << "ERROR updating PreviewColorIntensity value:" << queryUpdate.lastError().text();
                     queryUpdate.clear();
 
                 }

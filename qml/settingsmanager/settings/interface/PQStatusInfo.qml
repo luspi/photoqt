@@ -293,7 +293,7 @@ Flickable {
                     }
                 },
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: fontsize
                     minval: 5
                     maxval: 30
@@ -342,7 +342,7 @@ Flickable {
                     onCheckedChanged: checkDefault()
                 },
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: autohide_timeout
                     minval: 0
                     maxval: 10

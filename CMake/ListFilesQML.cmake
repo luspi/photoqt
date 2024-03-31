@@ -15,7 +15,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQToolTip.qml ${d}/PQHorizontalScrollBar.qml
 SET(photoqt_QML ${photoqt_QML} ${d}/PQModal.qml ${d}/PQTextXXL.qml ${d}/PQTemplateFullscreen.qml ${d}/PQTemplatePopout.qml ${d}/PQTemplateFloating.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSpinBox.qml ${d}/PQWorking.qml ${d}/PQLineEdit.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQBlurBackground.qml ${d}/PQBlurBackground_real.qml ${d}/PQBlurBackground_fake.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSpinBoxAdvanced.qml ${d}/PQShadowEffect.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSliderSpinBox.qml ${d}/PQShadowEffect.qml)
 
 SET(d "qml/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
@@ -89,9 +89,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQAllThumbnails.qml ${d}/PQ
 
 SET(d "qml/settingsmanager/settings/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
-
-SET(d "qml/settingsmanager/settings/filedialog")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQBehavior.qml ${d}/PQLook.qml)
 
 SET(d "qml/settingsmanager/settings/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)

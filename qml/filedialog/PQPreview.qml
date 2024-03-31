@@ -91,7 +91,7 @@ Item {
         blurMax: 32
         blur: PQCSettings.filedialogPreviewBlur ? 1.0 : 0.0
         autoPaddingEnabled: false
-        saturation: -1 + 0.1*PQCSettings.filedialogPreviewColorIntensity
+        saturation: -1 + 0.01*PQCSettings.filedialogPreviewColorIntensity
         opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1
     }
 
@@ -100,6 +100,6 @@ Item {
         visible: !PQCScriptsConfig.isQtAtLeast6_5()
         anchors.fill: preview
         color: "#000000"
-        opacity: 0.3+0.05*(10-PQCSettings.filedialogPreviewColorIntensity)
+        opacity: 0.3+0.005*(100-PQCSettings.filedialogPreviewColorIntensity)
     }
 }

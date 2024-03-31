@@ -71,7 +71,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: pdf_quality
                     minval: 50
                     maxval: 300

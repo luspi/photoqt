@@ -255,7 +255,7 @@ Flickable {
                         onCheckedChanged: checkDefault()
                     }
 
-                    PQSpinBoxAdvanced {
+                    PQSliderSpinBox {
                         id: butsize
                         minval: 5
                         maxval: 50
@@ -305,7 +305,7 @@ Flickable {
                     onCheckedChanged: checkDefault()
                 },
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: autohide_timeout
                     minval: 0
                     maxval: 10

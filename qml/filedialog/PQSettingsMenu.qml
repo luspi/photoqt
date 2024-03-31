@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 
 import "../elements"
 
@@ -309,15 +310,20 @@ PQMenu {
             //: file manager settings popdown: color intensity of image previews
             title: qsTranslate("filedialog", "color intensity")
             enabled: previewshow.checked
+
+            ButtonGroup { id: colgrp }
             Instantiator {
                 model: 10
                 delegate: PQMenuItem {
                     text: (10-index)*10 + "%"
                     checkable: true
                     checkableLikeRadioButton: true
-                    checked: PQCSettings.filedialogPreviewColorIntensity===(10-index)
-                    onTriggered:
-                        PQCSettings.filedialogPreviewColorIntensity = (10-index)
+                    checked: Math.round(PQCSettings.filedialogPreviewColorIntensity/10)===(10-index)
+                    onCheckedChanged: {
+                        if(checked)
+                            PQCSettings.filedialogPreviewColorIntensity = 10*(10-index)
+                    }
+                    ButtonGroup.group: colgrp
                 }
                 onObjectAdded: (index, object) => coloritensitysubmenu.insertItem(index, object)
                 onObjectRemoved: (index, object) => coloritensitysubmenu.removeItem(object)

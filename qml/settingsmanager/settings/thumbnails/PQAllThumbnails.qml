@@ -68,7 +68,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: spacing_slider
                     minval: 0
                     maxval: 100
@@ -126,14 +126,16 @@ Flickable {
                 Row {
                     PQCheckBox {
                         id: highlight_liftup_check
+                        y: (parent.height-height)/2
                         //: effect for highlighting active thumbnail
                         text: qsTranslate("settingsmanager", "lift up") + (checked ? ":" : " ")
                         checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
                         onCheckedChanged: checkDefault()
                     }
 
-                    PQSpinBoxAdvanced {
+                    PQSliderSpinBox {
                         id: highlight_liftup_slider
+                        y: (parent.height-height)/2
                         minval: 0
                         maxval: 100
                         title: ""

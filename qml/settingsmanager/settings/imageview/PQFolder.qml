@@ -196,7 +196,7 @@ Flickable {
 
                         spacing: 10
 
-                        PQSpinBoxAdvanced {
+                        PQSliderSpinBox {
                             id: anispeed
                             minval: 1
                             maxval: 10

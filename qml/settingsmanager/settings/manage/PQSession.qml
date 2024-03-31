@@ -237,11 +237,7 @@ Flickable {
                 PQCheckBox {
                     id: trayicon_reset
                     text: qsTranslate("settingsmanager", "reset session when hiding")
-                    onCheckedChanged: {
-                        if(checked)
-                            trayicon_show.checked = true
-                        checkDefault()
-                    }
+                    onCheckedChanged: checkDefault()
                 }
             ]
 

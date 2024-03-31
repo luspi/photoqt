@@ -347,7 +347,7 @@ Flickable {
             helptext: qsTranslate("settingsmanager", "The space between the different thumbnails is the gap shown between them.")
 
             content: [
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: padding
                     minval: 0
                     maxval: 10
@@ -483,35 +483,14 @@ Flickable {
                             onCheckedChanged: checkDefault()
                         }
 
-                        Row {
-                            spacing: 5
-                            PQText {
-                                y: (preview_colintspin.height-height)/2
-                                text: qsTranslate("settingsmanager", "color intensity:")
-                            }
-                            PQSlider {
-                                id: preview_colint
-                                y: (preview_colintspin.height-height)/2
-                                from: 10
-                                to: 100
-                                onValueChanged: {
-                                    if(value != preview_colintspin.value)
-                                        preview_colintspin.value = value
-                                    checkDefault()
-                                }
-                            }
-                            PQSpinBoxAdvanced {
-                                id: preview_colintspin
-                                minval: 10
-                                maxval: 100
-                                title: ""
-                                suffix: " %"
-                                onValueChanged: {
-                                    if(value != preview_colint.value)
-                                        preview_colint.value = value
-                                    checkDefault()
-                                }
-                            }
+                        PQSliderSpinBox {
+                            id: preview_colintspin
+                            title: qsTranslate("settingsmanager", "color intensity:")
+                            titleWeight: PQCLook.fontWeightNormal
+                            minval: 10
+                            maxval: 100
+                            suffix: " %"
+                            onValueChanged: checkDefault()
                         }
 
                         PQCheckBox {
@@ -556,7 +535,7 @@ Flickable {
                           thumb_show.hasChanged() || thumb_scalecrop.hasChanged() || padding.hasChanged() || folderthumb_check.hasChanged() ||
                           folderthumb_timeout.hasChanged() || folderthumb_loop.hasChanged() || folderthumb_autoload.hasChanged() ||
                           folderthumb_scalecrop.hasChanged() || preview_check.hasChanged() || preview_blur.hasChanged() || preview_mute.hasChanged() ||
-                          preview_colint.hasChanged() || preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged())
+                          preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged())
 
     }
 
@@ -591,7 +570,6 @@ Flickable {
         preview_check.loadAndSetDefault(PQCSettings.filedialogPreview)
         preview_blur.loadAndSetDefault(PQCSettings.filedialogPreviewBlur)
         preview_mute.loadAndSetDefault(PQCSettings.filedialogPreviewMuted)
-        preview_colint.loadAndSetDefault(PQCSettings.filedialogPreviewColorIntensity)
         preview_colintspin.loadAndSetDefault(PQCSettings.filedialogPreviewColorIntensity)
         preview_resolution.loadAndSetDefault(PQCSettings.filedialogPreviewHigherResolution)
         preview_scalecrop.loadAndSetDefault(PQCSettings.filedialogPreviewCropToFit)
@@ -629,7 +607,7 @@ Flickable {
         PQCSettings.filedialogPreview = preview_check.checked
         PQCSettings.filedialogPreviewBlur = preview_blur.checked
         PQCSettings.filedialogPreviewMuted = preview_mute.checked
-        PQCSettings.filedialogPreviewColorIntensity = preview_colint.value
+        PQCSettings.filedialogPreviewColorIntensity = preview_colintspin.value
         PQCSettings.filedialogPreviewHigherResolution = preview_resolution.checked
         PQCSettings.filedialogPreviewCropToFit = preview_scalecrop.checked
 
@@ -661,7 +639,6 @@ Flickable {
         preview_check.saveDefault()
         preview_blur.saveDefault()
         preview_mute.saveDefault()
-        preview_colint.saveDefault()
         preview_colintspin.saveDefault()
         preview_resolution.saveDefault()
         preview_scalecrop.saveDefault()

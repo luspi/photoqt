@@ -69,6 +69,20 @@ PQTemplateFullscreen {
         removeFilter()
     }
 
+    property int countOpenSpin: 0
+    signal closeAllSpinExcept(var senderid)
+
+    Timer {
+        id: resetSpinProperty
+        interval: 500
+        repeat: true
+        running: countOpenSpin>0
+        onTriggered: {
+            if(countOpenSpin > 0)
+                PQCNotify.spinBoxPassKeyEvents = true
+        }
+    }
+
     content: [
 
         PQTextL {
@@ -168,14 +182,25 @@ PQTemplateFullscreen {
                     }
                 }
 
-                PQSpinBox {
+                PQSliderSpinBox {
                     id: reswidth
                     enabled: rescheck.checked
-                    from: 0
-                    to: 99999999
-                    onActiveFocusChanged: {
-                        if(!resheight.activeFocus && !filesize.activeFocus)
-                            PQCNotify.spinBoxPassKeyEvents = activeFocus
+                    minval: 0
+                    maxval: 99999999
+                    showSlider: false
+                    onEditModeChanged: {
+                        if(editMode) {
+                            countOpenSpin += 1
+                            filter_top.closeAllSpinExcept("reswidth")
+                        } else
+                            countOpenSpin -= 1
+                    }
+                    Connections {
+                        target: filter_top
+                        function onCloseAllSpinExcept(senderid) {
+                            if(senderid !== "reswidth")
+                                reswidth.acceptValue()
+                        }
                     }
                 }
                 PQText {
@@ -184,14 +209,25 @@ PQTemplateFullscreen {
                     font.weight: PQCLook.fontWeightBold
                     text: "x"
                 }
-                PQSpinBox {
+                PQSliderSpinBox {
                     id: resheight
                     enabled: rescheck.checked
-                    from: 0
-                    to: 99999999
-                    onActiveFocusChanged: {
-                        if(!reswidth.activeFocus && !filesize.activeFocus)
-                            PQCNotify.spinBoxPassKeyEvents = activeFocus
+                    minval: 0
+                    maxval: 99999999
+                    showSlider: false
+                    onEditModeChanged: {
+                        if(editMode) {
+                            countOpenSpin += 1
+                            filter_top.closeAllSpinExcept("resheight")
+                        } else
+                            countOpenSpin -= 1
+                    }
+                    Connections {
+                        target: filter_top
+                        function onCloseAllSpinExcept(senderid) {
+                            if(senderid !== "resheight")
+                                resheight.acceptValue()
+                        }
                     }
                 }
 
@@ -233,14 +269,25 @@ PQTemplateFullscreen {
                     }
                 }
 
-                PQSpinBox {
+                PQSliderSpinBox {
                     id: filesize
                     enabled: filesizecheck.checked
-                    from: 0
-                    to: 99999999
-                    onActiveFocusChanged: {
-                        if(!reswidth.activeFocus && !resheight.activeFocus)
-                            PQCNotify.spinBoxPassKeyEvents = activeFocus
+                    minval: 0
+                    maxval: 99999999
+                    showSlider: false
+                    onEditModeChanged: {
+                        if(editMode) {
+                            countOpenSpin += 1
+                            filter_top.closeAllSpinExcept("filesize")
+                        } else
+                            countOpenSpin -= 1
+                    }
+                    Connections {
+                        target: filter_top
+                        function onCloseAllSpinExcept(senderid) {
+                            if(senderid !== "filesize")
+                                filesize.acceptValue()
+                        }
                     }
                 }
 
@@ -354,18 +401,18 @@ PQTemplateFullscreen {
         if(w > 0 || h > 0) {
             resgreaterless.greater = true
             rescheck.checked = true
-            reswidth.liveValue = w
-            resheight.liveValue = h
+            reswidth.value = w
+            resheight.value = h
         } else if(w < 0 || h < 0) {
             resgreaterless.greater = false
             rescheck.checked = true
-            reswidth.liveValue = -1*w
-            resheight.liveValue = -1*h
+            reswidth.value = -1*w
+            resheight.value = -1*h
         } else {
             resgreaterless.greater = true
             rescheck.checked = false
-            reswidth.liveValue = 0
-            resheight.liveValue = 0
+            reswidth.value = 0
+            resheight.value = 0
         }
 
         // load file size filter data
@@ -380,10 +427,10 @@ PQTemplateFullscreen {
             var kb = Math.round(s/1024)
             if(mb*1024*1024 === s) {
                 filesizemb.checked = true
-                filesize.liveValue = mb
+                filesize.value = mb
             } else {
                 filesizekb.checked = true
-                filesize.liveValue = kb
+                filesize.value = kb
             }
 
         }
@@ -415,12 +462,12 @@ PQTemplateFullscreen {
         PQCFileFolderModel.filenameFilters = fileNameFilter
 
         if(rescheck.checked)
-            PQCFileFolderModel.imageResolutionFilter = Qt.size((resgreaterless.greater ? 1 : -1)*reswidth.liveValue, (resgreaterless.greater ? 1 : -1)*resheight.liveValue)
+            PQCFileFolderModel.imageResolutionFilter = Qt.size((resgreaterless.greater ? 1 : -1)*reswidth.value, (resgreaterless.greater ? 1 : -1)*resheight.value)
         else
             PQCFileFolderModel.imageResolutionFilter = Qt.size(0,0)
 
         if(filesizecheck.checked)
-            PQCFileFolderModel.fileSizeFilter = (filesizegreaterless.greater ? 1 : -1)*filesize.liveValue*(filesizekb.checked ? 1024 : (1024*1024))
+            PQCFileFolderModel.fileSizeFilter = (filesizegreaterless.greater ? 1 : -1)*filesize.value*(filesizekb.checked ? 1024 : (1024*1024))
         else
             PQCFileFolderModel.fileSizeFilter = 0
 

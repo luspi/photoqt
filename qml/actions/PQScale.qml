@@ -114,64 +114,66 @@ PQTemplateFullscreen {
                 id: spincol
                 spacing: 5
 
-                PQSpinBox {
+                PQSliderSpinBox {
                     id: spin_w
                     enabled: scale_top.visible
-                    from: 1
-                    to: 999999
-                    onActiveFocusChanged: {
-                        if(!activeFocus && !spin_h.activeFocus)
-                            PQCNotify.spinBoxPassKeyEvents = false
-                        else if(activeFocus)
+                    minval: 1
+                    maxval: 99999
+                    showSlider: false
+                    animateWidth: false
+                    onEditModeChanged: {
+                        if(!editMode && spin_h.editMode) {
                             PQCNotify.spinBoxPassKeyEvents = true
+                        }
                     }
-                    onLiveValueChanged: {
-                        if(updateAsp.updating) return
-                        updateAsp.stop()
-                        updateAsp.src = "w"
-                        updateAsp.restart()
+                    property bool reactToValueChanged: true
+                    onValueChanged: {
+                        if(scale_top.opacity < 1) return
+                        if(keepAspectRatio && reactToValueChanged) {
+                            var h = value/aspectRatio
+                            if(h !== spin_h.value) {
+                                spin_h.reactToValueChanged = false
+                                spin_h.value = Math.round(h)
+                            }
+                        } else
+                            reactToValueChanged = true
+                    }
+                    Timer {
+                        interval: 50
+                        running: true
+                        onTriggered:
+                            spin_w.animateWidth = true
                     }
                 }
-                PQSpinBox {
+                PQSliderSpinBox {
                     id: spin_h
                     enabled: scale_top.visible
-                    from: 1
-                    to: 999999
-                    onActiveFocusChanged: {
-                        if(!activeFocus && !spin_w.activeFocus)
-                            PQCNotify.spinBoxPassKeyEvents = false
-                        else if(activeFocus)
+                    minval: 1
+                    maxval: 99999
+                    showSlider: false
+                    animateWidth: false
+                    onEditModeChanged: {
+                        if(!editMode && spin_w.editMode) {
                             PQCNotify.spinBoxPassKeyEvents = true
-                    }
-                    onLiveValueChanged: {
-                        if(updateAsp.updating) return
-                        updateAsp.stop()
-                        updateAsp.src = "h"
-                        updateAsp.restart()
-                    }
-                }
-
-                Timer {
-                    id: updateAsp
-                    interval: 100
-                    property string src
-                    property bool updating: false
-                    onTriggered: {
-                        updating = true
-                        if(src === "w") {
-                            if(keepAspectRatio) {
-                                var h = spin_w.liveValue/aspectRatio
-                                if(h !== spin_h.value)
-                                    spin_h.value = h
-                            }
-                        } else if(src === "h") {
-                            if(keepAspectRatio) {
-                                var w = spin_h.liveValue*aspectRatio
-                                if(w !== spin_w.value)
-                                    spin_w.value = w
-                            }
                         }
-                        updating = false
+                    }
+                    property bool reactToValueChanged: true
+                    onValueChanged: {
+                        if(scale_top.opacity < 1) return
+                        if(keepAspectRatio && reactToValueChanged) {
+                            var w = value*aspectRatio
+                            if(w !== spin_w.value) {
+                                spin_w.reactToValueChanged = false
+                                spin_w.value = Math.round(w)
+                            }
+                        } else
+                            reactToValueChanged = true
+                    }
+                    Timer {
+                        interval: 50
+                        running: true
+                        onTriggered:
+                            spin_h.animateWidth = true
                     }
                 }
 
@@ -413,9 +415,6 @@ PQTemplateFullscreen {
             hide()
             return
         }
-        opacity = 1
-        if(popout)
-            scale_popout.show()
 
         spin_w.value = image.currentResolution.width
         spin_h.value = image.currentResolution.height
@@ -424,6 +423,11 @@ PQTemplateFullscreen {
         scalebusy.hide()
         errorlabel.visible = false
         unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
+
+        // the opacity should be set at the end of this function
+        opacity = 1
+        if(popout)
+            scale_popout.show()
     }
 
     function hide() {

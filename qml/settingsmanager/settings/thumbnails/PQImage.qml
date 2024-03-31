@@ -71,7 +71,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: thumb_size
                     minval: 32
                     maxval: 512
@@ -195,7 +195,7 @@ Flickable {
                             height: 1
                         }
 
-                        PQSpinBoxAdvanced {
+                        PQSliderSpinBox {
                             id: label_fontsize
                             minval: 5
                             maxval: 20

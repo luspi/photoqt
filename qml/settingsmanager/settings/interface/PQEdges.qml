@@ -248,7 +248,7 @@ Flickable {
 
             content: [
 
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: sensitivity
                     minval: 1
                     maxval: 100

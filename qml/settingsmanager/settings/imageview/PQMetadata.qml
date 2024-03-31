@@ -462,7 +462,7 @@ Flickable {
             helptext: qsTranslate("settingsmanager", "It is possible to adjust the border shown around tagged faces and the font size used for the displayed name. For the border, not only the width but also the color can be specified.")
 
             content: [
-                PQSpinBoxAdvanced {
+                PQSliderSpinBox {
                     id: fontsize
                     minval: 5
                     maxval: 50
@@ -496,7 +496,7 @@ Flickable {
                     Behavior on height { NumberAnimation { duration: 200 } }
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    PQSpinBoxAdvanced {
+                    PQSliderSpinBox {
                         id: border_slider
                         minval: 1
                         maxval: 20
