@@ -178,28 +178,23 @@ Flickable {
                     clip: true
 
                     enabled: wmmode.checked
-                    height: enabled ? (keeprow.height+wmdeco_show.height+15) : 0
+                    height: enabled ? (keeptop.height+rememgeo.height+wmdeco_show.height+2*15) : 0
                     Behavior on height { NumberAnimation { duration: 200 } }
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    Row {
 
-                        id: keeprow
-
-                        PQCheckBox {
-                            id: keeptop
-                            text: qsTranslate("settingsmanager", "keep above other windows")
-                            onCheckedChanged: checkDefault()
-                        }
-                        PQCheckBox {
-                            id: rememgeo
-                            //: remember the geometry of PhotoQts window between sessions
-                            text: qsTranslate("settingsmanager", "remember its geometry")
-                            onCheckedChanged: checkDefault()
-                        }
+                    PQCheckBox {
+                        id: keeptop
+                        text: qsTranslate("settingsmanager", "keep above other windows")
+                        onCheckedChanged: checkDefault()
                     }
-
+                    PQCheckBox {
+                        id: rememgeo
+                        //: remember the geometry of PhotoQts window between sessions
+                        text: qsTranslate("settingsmanager", "remember its geometry")
+                        onCheckedChanged: checkDefault()
+                    }
                     PQCheckBox {
                         id: wmdeco_show
                         text: qsTranslate("settingsmanager", "enable window decoration")
