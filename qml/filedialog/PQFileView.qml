@@ -271,9 +271,15 @@ GridView {
         width: view.cellWidth
         height: view.cellHeight
 
-        color: PQCLook.transColorAccent
-        border.color: PQCLook.baseColor
+        color: "transparent"
         border.width: 1
+        border.color: PQCLook.baseColorAccent
+
+        Rectangle {
+            anchors.fill: parent
+            color: PQCLook.transColor
+            opacity: 0.5
+        }
 
         property string currentPath: PQCFileFolderModel.entriesFileDialog[index]
         property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
