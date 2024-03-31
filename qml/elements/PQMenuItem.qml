@@ -112,7 +112,7 @@ MenuItem {
 
         onClicked: function(mouse) {
             if(menuItem.checkable) {
-                menuItem.checked = !menuItem.checked
+                menuItem.checked = (checkableLikeRadioButton || !menuItem.checked)
                 return
             }
             menuItem.triggered()
