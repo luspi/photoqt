@@ -159,7 +159,8 @@ PQTemplateFullscreen {
                 Row {
 
                     PQText {
-                        text: "slow"
+                        //: Used as in: slow animation
+                        text: qsTranslate("slideshow", "slow")
                     }
 
                     PQSlider {
@@ -188,7 +189,8 @@ PQTemplateFullscreen {
                     }
 
                     PQText {
-                        text: "fast"
+                        //: Used as in: fast animation
+                        text: qsTranslate("slideshow", "fast")
                     }
 
                 }

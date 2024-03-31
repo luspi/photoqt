@@ -91,7 +91,7 @@ Flickable {
                     enabled: anim_check.checked
                     clip: true
 
-                    height: enabled ? (anirow1.height+anirow2.height+spacing) : 0
+                    height: enabled ? (anirow1.height+anirow2.height+transspeed_txt.height+2*spacing) : 0
                     opacity: enabled ? 1 : 0
                     Behavior on height { NumberAnimation { duration: 200 } }
                     Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -130,6 +130,11 @@ Flickable {
 
                         spacing: 10
 
+                        PQText {
+                            //: Used as in: slow animation
+                            text: qsTranslate("slideshow", "slow")
+                        }
+
                         PQSlider {
                             id: anispeed
                             from: 0
@@ -153,12 +158,17 @@ Flickable {
                         }
 
                         PQText {
-                            id: transspeed_txt
-                            property string speed: ""
-                            //: This refers to the currently set speed of transitioning from one image to another during slideshows
-                            text: qsTranslate("slideshow", "current speed") + ": <b>" + speed + "</b>"
+                            //: Used as in: fast animation
+                            text: qsTranslate("slideshow", "fast")
                         }
 
+                    }
+
+                    PQText {
+                        id: transspeed_txt
+                        property string speed: ""
+                        //: This refers to the currently set speed of transitioning from one image to another during slideshows
+                        text: qsTranslate("slideshow", "current speed") + ": <b>" + speed + "</b>"
                     }
 
                 }
