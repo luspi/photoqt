@@ -406,6 +406,21 @@ Rectangle {
 
     }
 
+    Connections {
+
+        target: settingsmanager_top
+
+        function onPassOnShortcuts(mods, keys) {
+
+            if(!visible) return
+
+            if(keys === Qt.Key_Escape)
+                hide()
+
+        }
+
+    }
+
     Component.onCompleted: {
         //: A shortcuts category: actions with current folder
 
@@ -450,6 +465,8 @@ Rectangle {
         newaction_top.currentShortcutSubIndex = subindex
         newaction_top.currentShortcutAction = cur
 
+        settingsmanager_top.passShortcutsToDetector = true
+
     }
 
     function show(index) {
@@ -463,11 +480,16 @@ Rectangle {
         ext_exe.text = ""
         ext_flags.text = ""
         ext_quit.checked = false
+
+        settingsmanager_top.passShortcutsToDetector = true
+
     }
 
     function hide() {
 
         PQCNotify.ignoreKeysExceptEnterEsc = false
+
+        settingsmanager_top.passShortcutsToDetector = false
 
         newaction_top.opacity = 0
 
