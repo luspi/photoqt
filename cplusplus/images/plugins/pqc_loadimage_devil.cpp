@@ -22,6 +22,8 @@
 
 #include <pqc_loadimage_devil.h>
 #include <pqc_imagecache.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
 #include <QSize>
 #include <QtDebug>
 #include <QDir>
@@ -211,8 +213,11 @@ QString PQCLoadImageDevil::load(QString filename, QSize maxSize, QSize &origSize
         return errormsg;
     }
 
-    if(img.size() == origSize)
-        PQCImageCache::get().saveImageToCache(filename, &img);
+    if(img.size() == origSize) {
+        if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+    }
 
     return "";
 

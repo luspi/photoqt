@@ -30,6 +30,7 @@
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
 #include <pqc_imageformats.h>
+#include <pqc_notify.h>
 
 #include <QSize>
 #include <QtDebug>
@@ -214,8 +215,11 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
                 dir.removeRecursively();
 
                 // cache image before potentially scaling it
-                if(!img.isNull())
-                    PQCImageCache::get().saveImageToCache(filename, &img);
+                if(!img.isNull()) {
+                    if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                        Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                    PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+                }
 
                 // Scale image if necessary
                 if(maxSize.width() != -1) {
@@ -329,8 +333,11 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
         qWarning() << "PQLoadImage::Archive::load(): ERROR: archive_read_free() returned code of" << r;
 
     // cache image before potentially scaling it
-    if(!img.isNull())
-        PQCImageCache::get().saveImageToCache(filename, &img);
+    if(!img.isNull()) {
+        if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+    }
 
     // Scale image if necessary
     if(maxSize.width() != -1) {

@@ -23,6 +23,8 @@
 #include <pqc_loadimage_poppler.h>
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
 #include <QSize>
 #include <QImage>
 #ifdef PQMPOPPLER
@@ -108,8 +110,11 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
 
     img = p->renderToImage(useQuality, useQuality);
 
-    if(!img.isNull())
-        PQCImageCache::get().saveImageToCache(filename, &img);
+    if(!img.isNull()) {
+        if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+    }
 
     origSize = p->pageSize()*(quality/72.0);
 

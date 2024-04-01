@@ -23,6 +23,8 @@
 #include <pqc_loadimage_qt.h>
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
 #include <QSize>
 #include <QImage>
 #include <QFileInfo>
@@ -166,6 +168,8 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         bool imgAlreadyLoaded = false;
 
+        bool colorProfileAlreadyApplied = false;
+
         // Store the width/height for later use
         origSize = reader.size();
         // check if we need to read the image in full to get the original size
@@ -173,8 +177,12 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             reader.read(&img);
             imgAlreadyLoaded = true;
             origSize = img.size();
-            if(!img.isNull())
-                PQCImageCache::get().saveImageToCache(filename, &img);
+            if(!img.isNull()) {
+                colorProfileAlreadyApplied = true;
+                if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                    Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+            }
         }
 
         // check if we need to scale the image
@@ -201,8 +209,12 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         if(!imgAlreadyLoaded) {
             reader.read(&img);
-            if(!img.isNull() && img.size() == origSize)
-                PQCImageCache::get().saveImageToCache(filename, &img);
+            if(!img.isNull() && img.size() == origSize) {
+                colorProfileAlreadyApplied = true;
+                if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                    Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+            }
         }
 
         // If an error occured
@@ -210,6 +222,11 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             errormsg = reader.errorString();
             qWarning() << errormsg;
             return errormsg;
+        }
+
+        if(!colorProfileAlreadyApplied) {
+            if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
         }
 
         return "";

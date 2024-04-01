@@ -310,7 +310,10 @@ Item {
 
                         function onReloadImage() {
                             if(PQCFileFolderModel.currentIndex===index) {
-                                image_loader.setSource()
+                                image_loader.active = false
+                                image_loader.active = true
+                                minimap_loader.active = false
+                                minimap_loader.active = true
                             }
                         }
                     }
@@ -493,11 +496,6 @@ Item {
 
                                     Component.onCompleted: {
                                         currentFileInside = 0
-                                        setSource()
-                                    }
-
-                                    function setSource() {
-                                        source = ""
                                         loader_component.listenToClicksOnImage = false
                                         loader_component.videoPlaying = false
                                         loader_component.videoLoaded = false

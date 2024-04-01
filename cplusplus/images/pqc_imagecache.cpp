@@ -40,14 +40,15 @@ PQCImageCache::~PQCImageCache() {
     delete cache;
 }
 
-QString PQCImageCache::getUniqueCacheKey(QString filename) {
-    return QCryptographicHash::hash(QString("%1%2").arg(filename).arg(QFileInfo(filename).lastModified().toSecsSinceEpoch()).toUtf8(),QCryptographicHash::Md5).toHex();
+QString PQCImageCache::getUniqueCacheKey(QString filename, QString profileName) {
+    return QCryptographicHash::hash(QString("%1%2%3").arg(filename, profileName).arg(QFileInfo(filename).lastModified().toSecsSinceEpoch()).toUtf8(),QCryptographicHash::Md5).toHex();
 }
 
-bool PQCImageCache::getCachedImage(QString filename, QImage &img) {
+bool PQCImageCache::getCachedImage(QString filename, QString profileName, QImage &img) {
 
-    if(cache->contains(getUniqueCacheKey(filename))) {
-        img = *cache->object(getUniqueCacheKey(filename));
+    const QString key = getUniqueCacheKey(filename, profileName);
+    if(cache->contains(key)) {
+        img = *cache->object(key);
         return true;
     }
 
@@ -55,12 +56,12 @@ bool PQCImageCache::getCachedImage(QString filename, QImage &img) {
 
 }
 
-bool PQCImageCache::saveImageToCache(QString filename, QImage *img) {
+bool PQCImageCache::saveImageToCache(QString filename, QString profileName, QImage *img) {
 
     // we need to use a copy of the image here as otherwise img will have two owners (BAD idea!)
     QImage *n = new QImage(*img);
     const int s = static_cast<int>(n->sizeInBytes()/(1024.0*1024.0));
-    return cache->insert(getUniqueCacheKey(filename), n, qMin(maxcost, qMax(1,s)));
+    return cache->insert(getUniqueCacheKey(filename, profileName), n, qMin(maxcost, qMax(1,s)));
 
 }
 

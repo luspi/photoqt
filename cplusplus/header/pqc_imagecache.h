@@ -33,9 +33,9 @@ public:
     PQCImageCache(PQCImageCache const&)     = delete;
     void operator=(PQCImageCache const&) = delete;
 
-    QString getUniqueCacheKey(QString filename);
-    bool getCachedImage(QString filename, QImage &img);
-    bool saveImageToCache(QString filename, QImage *img);
+    QString getUniqueCacheKey(QString filename, QString profileName);
+    bool getCachedImage(QString filename, QString profileName, QImage &img);
+    bool saveImageToCache(QString filename, QString profileName, QImage *img);
 
 private:
     PQCImageCache(QObject *parent = nullptr);

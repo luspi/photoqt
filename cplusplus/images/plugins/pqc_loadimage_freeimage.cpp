@@ -22,11 +22,14 @@
 
 #include <pqc_loadimage_freeimage.h>
 #include <pqc_imagecache.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
 
 #include <QString>
 #include <QImage>
 #include <QSize>
 #include <QtDebug>
+#include <QCoreApplication>
 
 #ifdef PQMFREEIMAGE
 #include <FreeImage.h>
@@ -123,7 +126,9 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
         return errormsg;
     }
 
-    PQCImageCache::get().saveImageToCache(filename, &img);
+    if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+        Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+    PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
 
     // Scale image if necessary
     if(maxSize.width() != -1) {

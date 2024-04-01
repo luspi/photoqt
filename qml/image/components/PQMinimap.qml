@@ -239,6 +239,7 @@ Rectangle {
 
         fillMode: Image.PreserveAspectFit
         source: ""
+        cache: false
 
         clip: true
 

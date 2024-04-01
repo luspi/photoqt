@@ -58,7 +58,7 @@ QSize PQCLoadImage::load(QString filename) {
 
     // check image cache, we might be done right here
     QImage img;
-    if(PQCImageCache::get().getCachedImage(filename, img))
+    if(PQCImageCache::get().getCachedImage(filename, PQCScriptsImages::get().getColorProfileFor(filename), img))
         return img.size();
 
     // for easier access below
@@ -213,6 +213,11 @@ QSize PQCLoadImage::load(QString filename) {
 
 QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSize, QImage &img) {
 
+    qDebug() << "args: filename =" << filename;
+    qDebug() << "args: requestedSize =" << requestedSize;
+    qDebug() << "args: origSize =" << origSize;
+    qDebug() << "args: img";
+
     if(filename.trimmed() == "")
         return "";
 
@@ -222,20 +227,17 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         filename = info.symLinkTarget();
 
     // check image cache, we might be done right here
-    if(PQCImageCache::get().getCachedImage(filename, img)) {
-
-        if(requestedSize.width() > 2 && requestedSize.height() > 2 && (img.width() > requestedSize.width() || img.height() > requestedSize.height()))
+    if(PQCImageCache::get().getCachedImage(filename, PQCScriptsImages::get().getColorProfileFor(filename), img)) {
+        origSize = img.size();
+        if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize.width() > requestedSize.width() && origSize.height() > requestedSize.height())
             img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
         return "";
-
     }
 
     QString err = "";
 
     // for easier access below
     QString suffix = info.suffix().toLower();
-
 
     //////////////////////////////////////////////
     //////////////////////////////////////////////

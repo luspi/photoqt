@@ -22,6 +22,9 @@
 
 #include <pqc_loadimage_libvips.h>
 #include <pqc_imagecache.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
+#include <QCoreApplication>
 #include <QSize>
 #include <QtDebug>
 #include <QImage>
@@ -90,7 +93,9 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
         return errormsg;
     }
 
-    PQCImageCache::get().saveImageToCache(filename, &img);
+    if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+        Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+    PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
 
     g_object_unref(in);
 

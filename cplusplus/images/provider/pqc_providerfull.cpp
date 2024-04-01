@@ -58,18 +58,14 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
         return QImage();
     }
 
+
     // Load image
-    QImage img;
-    PQCLoadImage::get().load(filename, requestedSize, *origSize, img);
+    QImage ret;
+    PQCLoadImage::get().load(filename, requestedSize, *origSize, ret);
 
     // if returned image is not an error image ...
-    if(img.isNull())
+    if(ret.isNull())
         return QImage();
-
-    // color profile handling
-    QImage ret;
-    if(!PQCScriptsImages::get().applyColorProfile(filenameForChecking, img, ret))
-        Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied, falling back to default profile."));
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())

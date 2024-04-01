@@ -23,6 +23,8 @@
 #include <pqc_loadimage_raw.h>
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
@@ -227,8 +229,11 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
 
     if(!thumb && !half) {
 
-        if(!img.isNull())
-            PQCImageCache::get().saveImageToCache(filename, &img);
+        if(!img.isNull()) {
+            if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+            PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+        }
 
         // Scale image if necessary
         if(maxSize.width() != -1) {

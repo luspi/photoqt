@@ -23,6 +23,9 @@
 #include <pqc_loadimage_magick.h>
 #include <pqc_imagecache.h>
 #include <pqc_imageformats.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_notify.h>
+#include <QCoreApplication>
 #include <QSize>
 #include <QImage>
 #include <QFileInfo>
@@ -192,8 +195,11 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         const QByteArray imgData((char*)(ob.data()),ob.length());
         img = QImage::fromData(imgData);
 
-        if(!img.isNull() && img.size() == origSize)
-            PQCImageCache::get().saveImageToCache(filename, &img);
+        if(!img.isNull() && img.size() == origSize) {
+            if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+            PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+        }
 
         // And we're done!
         return "";
