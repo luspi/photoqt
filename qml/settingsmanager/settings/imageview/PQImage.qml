@@ -475,8 +475,10 @@ Flickable {
                                                         cursorShape: Qt.PointingHandCursor
                                                         text: qsTranslate("settingsmanager", "Remove imported color profile")
                                                         onClicked: {
-                                                            PQCScriptsImages.removeImportedColorProfile(index)
-                                                            colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                                                            check.checked = false
+                                                            if(PQCScriptsImages.removeImportedColorProfile(index)) {
+                                                                colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -496,7 +498,7 @@ Flickable {
                                                 }
 
                                                 function loadDefault() {
-                                                    check.checked = (colorprofiles_contextmenu.indexOf(PQCScriptsImages.getColorProfileID(index))>-1)
+                                                    check.checked = (colorprofiles_contextmenu_default.indexOf(PQCScriptsImages.getColorProfileID(index))>-1)
                                                 }
 
                                             }
@@ -631,6 +633,8 @@ Flickable {
         cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
 
         // we need to load this before setting up the element below
+        setting_top.colorProfileLoadDefault()
+
         colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
         colorprofiles = PQCScriptsImages.getColorProfiles()
         colorprofiles_contextmenu = PQCSettings.imageviewColorSpaceContextMenu
@@ -645,7 +649,6 @@ Flickable {
             color_defaultcombo.loadAndSetDefault(colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
             color_default.loadAndSetDefault(true)
         }
-        setting_top.colorProfileLoadDefault()
 
         settingChanged = false
         settingsLoaded = true
@@ -670,12 +673,13 @@ Flickable {
         PQCSettings.imageviewCache = cache_slider.value
 
         PQCSettings.imageviewColorSpaceEnable = color_enable.checked
-        if(color_defaultcombo.currentIndex == 0 || !color_default.checked)
+        if(color_defaultcombo.currentIndex === 0 || !color_default.checked)
             PQCSettings.imageviewColorSpaceDefault = ""
         else
             PQCSettings.imageviewColorSpaceDefault = colorprofiles[color_defaultcombo.currentIndex-1]
         PQCSettings.imageviewColorSpaceLoadEmbedded = color_embed.checked
         PQCSettings.imageviewColorSpaceContextMenu = colorprofiles_contextmenu
+        colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
 
         marginslider.saveDefault()
         large_fit.saveDefault()
