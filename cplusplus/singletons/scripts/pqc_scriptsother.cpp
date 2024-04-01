@@ -243,7 +243,17 @@ QVariantList PQCScriptsOther::selectColor(QVariantList def) {
 
     QVariantList ret;
 
-    QColor col = QColorDialog::getColor(qRgba(def[0].toInt(), def[1].toInt(), def[2].toInt(), def[3].toInt()), nullptr, "Select color", QColorDialog::ShowAlphaChannel);
+    QColor cur = qRgb(def[0].toInt(), def[1].toInt(), def[2].toInt());
+    cur.setAlpha(def[3].toInt());
+
+    QColorDialog coldiag;
+    coldiag.setOption(QColorDialog::ShowAlphaChannel);
+    coldiag.setCurrentColor(cur);
+    coldiag.setWindowTitle("Select color");
+    if(!coldiag.exec())
+        return ret;
+
+    QColor col = coldiag.selectedColor();
 
     if(col == QColor::Invalid)
         return ret;
