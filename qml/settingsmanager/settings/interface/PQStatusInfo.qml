@@ -66,6 +66,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_status
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Status info")
 
@@ -75,6 +77,7 @@ Flickable {
 
                 PQCheckBox {
                     id: status_show
+                    enforceMaxWidth: set_status.rightcol
                     text: qsTranslate("settingsmanager", "show status information")
                     onCheckedChanged: checkDefault()
                 },
@@ -295,6 +298,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: fontsize
+                    width: set_status.rightcol
                     minval: 5
                     maxval: 30
                     title: qsTranslate("settingsmanager", "Font size:")
@@ -315,6 +319,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_hide
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Hide automatically")
 
@@ -323,6 +329,7 @@ Flickable {
             content: [
                 PQRadioButton {
                     id: autohide_always
+                    enforceMaxWidth: set_hide.rightcol
                     //: visibility status of the status information
                     text: qsTranslate("settingsmanager", "keep always visible")
                     onCheckedChanged: checkDefault()
@@ -330,6 +337,7 @@ Flickable {
 
                 PQRadioButton {
                     id: autohide_anymove
+                    enforceMaxWidth: set_hide.rightcol
                     //: visibility status of the status information
                     text: qsTranslate("settingsmanager", "only show with any cursor move")
                     onCheckedChanged: checkDefault()
@@ -337,6 +345,7 @@ Flickable {
 
                 PQRadioButton {
                     id: autohide_topedge
+                    enforceMaxWidth: set_hide.rightcol
                     //: visibility status of the status information
                     text: qsTranslate("settingsmanager", "only show when cursor near top edge")
                     onCheckedChanged: checkDefault()
@@ -344,6 +353,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: autohide_timeout
+                    width: set_hide.rightcol
                     minval: 0
                     maxval: 10
                     title: qsTranslate("settingsmanager", "hide again after timeout:")
@@ -366,6 +376,7 @@ Flickable {
 
                     PQCheckBox {
                         id: imgchange
+                        enforceMaxWidth: set_hide.rightcol
                         //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
                         text: qsTranslate("settingsmanager", "also show when image changes")
                         onCheckedChanged: checkDefault()
@@ -391,6 +402,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: managewindow
+                    enforceMaxWidth: set_hide.rightcol
                     text: qsTranslate("settingsmanager",  "manage window through status info")
                     onCheckedChanged: checkDefault()
                 }

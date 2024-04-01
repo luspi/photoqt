@@ -241,6 +241,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_sens
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Sensitivity")
 
@@ -250,6 +252,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: sensitivity
+                    width: set_sens.rightcol
                     minval: 5
                     maxval: 100
                     suffix: " px"

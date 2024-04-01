@@ -10,7 +10,7 @@ Item {
     property bool animateWidth: false
     property bool animateHeight: false
 
-    width: (enabled||!animateWidth) ? controlrow.width : 0
+    width: (enabled||!animateWidth) ? (pretext.width + sliderrow.width + spinbox.width + 2*controlrow.spacing+ (acceptbut.visible ? (acceptbut.width+controlrow.spacing) : 0)) : 0
     height: (enabled||!animateHeight) ? controlrow.height : 0
     opacity: (enabled||(!animateWidth&&!animateHeight)) ? 1 : 0
 
@@ -41,21 +41,25 @@ Item {
         }
     }
 
-    Row {
+    Flow {
 
         id: controlrow
+
+        width: parent.width
 
         spacing: 10
 
         PQText {
             id: pretext
-            y: (parent.height-height)/2
+            height: spinbox.height
+            verticalAlignment: Text.AlignVCenter
             font.weight: control.titleWeight
             text: ""
         }
 
         Row {
-            y: (parent.height-height)/2
+            id: sliderrow
+            height: spinbox.height
             visible: showSlider
             PQText {
                 y: (parent.height-height)/2

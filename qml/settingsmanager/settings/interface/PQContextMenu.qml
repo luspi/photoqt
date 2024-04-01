@@ -78,6 +78,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_con
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Context menu")
 
@@ -103,7 +105,7 @@ Flickable {
 
                         id: deleg
 
-                        width: Math.min(800, setting_top.width-delicn.width-10)
+                        width: Math.min(800, set_con.rightcol-delicn.width-10)
                         height: 50
                         radius: 5
 
@@ -259,12 +261,12 @@ Flickable {
                 PQButton {
                     //: The entry here is a custom entry in the context menu
                     text: qsTranslate("settingsmanager", "Add new entry")
-                    forceWidth: 500
+                    forceWidth: Math.min(parent.width, 500)
                     font.weight: PQCLook.fontWeightNormal
                     onClicked: addNewEntry()
                 },
                 PQButton {
-                    forceWidth: 500
+                    forceWidth: Math.min(parent.width, 500)
                     visible: !PQCScriptsConfig.amIOnWindows()
                     //: The system applications here refers to any image related applications that can be found automatically on your system
                     text: qsTranslate("settingsmanager", "Add system applications")

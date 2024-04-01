@@ -134,7 +134,7 @@ Flickable {
                 },
 
                 PQText {
-                    width: set_lang.rightcol.width
+                    width: set_lang.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     visible: PQCSettings.generalCompactSettings
                     // font.weight: PQCLook.fontWeightBold
@@ -150,6 +150,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_windowmode
+
             helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
 
             //: A settings title
@@ -157,7 +159,8 @@ Flickable {
 
             content: [
 
-                Row {
+                Flow {
+                    width: set_windowmode.rightcol
                     PQRadioButton {
                         id: fsmode
                         text: qsTranslate("settingsmanager", "fullscreen mode")
@@ -174,7 +177,7 @@ Flickable {
                 Column {
 
                     spacing: 15
-                    width: parent.width
+                    width: set_windowmode.rightcol
                     clip: true
 
                     enabled: wmmode.checked
@@ -186,17 +189,20 @@ Flickable {
 
                     PQCheckBox {
                         id: keeptop
+                        enforceMaxWidth: set_windowmode.rightcol
                         text: qsTranslate("settingsmanager", "keep above other windows")
                         onCheckedChanged: checkDefault()
                     }
                     PQCheckBox {
                         id: rememgeo
+                        enforceMaxWidth: set_windowmode.rightcol
                         //: remember the geometry of PhotoQts window between sessions
-                        text: qsTranslate("settingsmanager", "remember its geometry")
+                        text: qsTranslate("settingsmanager", "remember its geometry ")
                         onCheckedChanged: checkDefault()
                     }
                     PQCheckBox {
                         id: wmdeco_show
+                        enforceMaxWidth: set_windowmode.rightcol
                         text: qsTranslate("settingsmanager", "enable window decoration")
                         onCheckedChanged: checkDefault()
                     }
@@ -213,6 +219,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_winbut
+
             helptext: qsTranslate("settingsmanager",  "PhotoQt can show some integrated window buttons for basic window managements both when shown in fullscreen and when in window mode. In window mode with window decoration enabled it can either hide or show buttons from its integrated set that are duplicates of buttons in the window decoration. For help with navigating through a folder, small left/right arrows for navigation and a menu button can also be added next to the window buttons.")
 
             //: A settings title
@@ -222,6 +230,7 @@ Flickable {
 
                 PQCheckBox {
                     id: integbut_show
+                    enforceMaxWidth: set_winbut.rightcol
                     text: qsTranslate("settingsmanager", "show integrated window buttons")
                     onCheckedChanged: checkDefault()
                 },
@@ -240,18 +249,21 @@ Flickable {
 
                     PQCheckBox {
                         id: integbut_dup
+                        enforceMaxWidth: set_winbut.rightcol
                         text: qsTranslate("settingsmanager", "duplicate buttons from window decoration")
                         onCheckedChanged: checkDefault()
                     }
 
                     PQCheckBox {
                         id: integbut_nav
+                        enforceMaxWidth: set_winbut.rightcol
                         text: qsTranslate("settingsmanager", "add navigation buttons")
                         onCheckedChanged: checkDefault()
                     }
 
                     PQSliderSpinBox {
                         id: butsize
+                        width: set_winbut.rightcol
                         minval: 5
                         maxval: 50
                         title: qsTranslate("settingsmanager", "Size:")
@@ -272,6 +284,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_hideauto
+
             helptext: qsTranslate("settingsmanager",  "The window buttons can either be shown at all times, or they can be hidden automatically based on different criteria. They can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout they will then hide again.")
 
             //: A settings title
@@ -281,6 +295,7 @@ Flickable {
 
                 PQRadioButton {
                     id: autohide_always
+                    enforceMaxWidth: set_hideauto.rightcol
                     //: visibility status of the window buttons
                     text: qsTranslate("settingsmanager", "keep always visible")
                     onCheckedChanged: checkDefault()
@@ -288,6 +303,7 @@ Flickable {
 
                 PQRadioButton {
                     id: autohide_anymove
+                    enforceMaxWidth: set_hideauto.rightcol
                     //: visibility status of the window buttons
                     text: qsTranslate("settingsmanager", "only show with any cursor move")
                     onCheckedChanged: checkDefault()
@@ -295,6 +311,7 @@ Flickable {
 
                 PQRadioButton {
                     id: autohide_topedge
+                    enforceMaxWidth: set_hideauto.rightcol
                     //: visibility status of the window buttons
                     text: qsTranslate("settingsmanager", "only show when cursor near top edge")
                     onCheckedChanged: checkDefault()
@@ -302,6 +319,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: autohide_timeout
+                    width: set_hideauto.rightcol
                     minval: 0
                     maxval: 10
                     title: qsTranslate("settingsmanager", "hide again after timeout:")

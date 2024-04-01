@@ -73,7 +73,7 @@ Flickable {
 
         PQSetting {
 
-            id: setbg
+            id: set_bg
 
             helptext: qsTranslate("settingsmanager",  "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.")
 
@@ -88,6 +88,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_real
+                    enforceMaxWidth: set_bg.rightcol
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "real transparency")
                     ButtonGroup.group: bggrp
@@ -96,6 +97,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_fake
+                    enforceMaxWidth: set_bg.rightcol
                     visible: PQCNotify.haveScreenshots
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "fake transparency")
@@ -105,6 +107,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_solid
+                    enforceMaxWidth: set_bg.rightcol
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "solid background color")
                     ButtonGroup.group: bggrp
@@ -115,6 +118,7 @@ Flickable {
 
                     PQRadioButton {
                         id: radio_nobg
+                        enforceMaxWidth: set_bg.rightcol
                         //: How the background of PhotoQt should be
                         text: qsTranslate("settingsmanager", "fully transparent background")
                         ButtonGroup.group: bggrp
@@ -129,10 +133,10 @@ Flickable {
                         Behavior on opacity { NumberAnimation { duration: 150 } }
                         clip: true
                         PQText {
-                            x: radio_nobg.leftPadding
-                            width: setbg.rightcol-radio_nobg.leftPadding
-                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             id: nobgwarning
+                            x: radio_nobg.leftPadding
+                            width: set_bg.rightcol-radio_nobg.leftPadding
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             font.weight: PQCLook.fontWeightBold
                             text: qsTranslate("settingsmanager", "Warning: This will make the background fully transparent. This is only recommended if there is a different way to mask the area behind the window.")
                         }
@@ -143,6 +147,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_custom
+                    enforceMaxWidth: set_bg.rightcol
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "custom background image")
                     ButtonGroup.group: bggrp
@@ -271,6 +276,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_emp
+
             title: qsTranslate("settingsmanager", "Click on empty background")
             helptext: qsTranslate("settingsmanager", "The empty background area is the part of the background that is not covered by any image. A click on that area can trigger certain actions, some depending on where exactly the click occured")
 
@@ -278,6 +285,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_noaction
+                    enforceMaxWidth: set_emp.rightcol
                     //: what to do when the empty background is clicked
                     text: qsTranslate("settingsmanager", "no action")
                     onCheckedChanged: checkDefault()
@@ -285,6 +293,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_closeclick
+                    enforceMaxWidth: set_emp.rightcol
                     //: what to do when the empty background is clicked
                     text: qsTranslate("settingsmanager", "close window")
                     onCheckedChanged: checkDefault()
@@ -292,6 +301,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_navclick
+                    enforceMaxWidth: set_emp.rightcol
                     //: what to do when the empty background is clicked
                     text: qsTranslate("settingsmanager", "navigate between images")
                     onCheckedChanged: checkDefault()
@@ -299,6 +309,7 @@ Flickable {
 
                 PQRadioButton {
                     id: radio_toggledeco
+                    enforceMaxWidth: set_emp.rightcol
                     //: what to do when the empty background is clicked
                     text: qsTranslate("settingsmanager", "toggle window decoration")
                     onCheckedChanged: checkDefault()
@@ -314,6 +325,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_blur
+
             visible: PQCScriptsConfig.isQtAtLeast6_5()
 
             //: A settings title
@@ -325,6 +338,7 @@ Flickable {
                 PQCheckBox {
                     visible: PQCScriptsConfig.isQtAtLeast6_5()
                     id: check_blurbg
+                    enforceMaxWidth: set_blur.rightcol
                     text: qsTranslate("settingsmanager", "Blur elements in the back")
                     onCheckedChanged: checkDefault()
                 }

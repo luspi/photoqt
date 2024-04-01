@@ -212,13 +212,22 @@ Flickable {
                                     color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
+                                    ToolTip {
+                                        delay: 500
+                                        timeout: 5000
+                                        visible: deleg.hovered
+                                        text: pops[index][1]
+                                    }
+
                                     PQCheckBox {
                                         id: check
                                         x: 10
+                                        width: deleg.width-20
                                         y: (parent.height-height)/2
                                         text: pops[index][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
+                                        elide: Text.ElideMiddle
                                         color: PQCLook.textColor
                                         onCheckedChanged: {
                                             currentCheckBoxStates[index] = (checked ? "1" : "0")
@@ -324,6 +333,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_keep
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Keep popouts open")
 
@@ -333,6 +344,7 @@ Flickable {
 
                 PQCheckBox {
                     id: keepopen_fd_check
+                    enforceMaxWidth: set_keep.rightcol
                     text: qsTranslate("settingsmanager", "keep file dialog open")
                     onCheckedChanged:
                         checkDefault()
@@ -340,6 +352,7 @@ Flickable {
 
                 PQCheckBox {
                     id: keepopen_me_check
+                    enforceMaxWidth: set_keep.rightcol
                     text: qsTranslate("settingsmanager", "keep map explorer open")
                     onCheckedChanged:
                         checkDefault()
@@ -355,6 +368,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_small
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Pop out when window is small")
 
@@ -364,6 +379,7 @@ Flickable {
 
                 PQCheckBox {
                     id: checksmall
+                    enforceMaxWidth: set_small.rightcol
                     text: qsTranslate("settingsmanager",  "pop out when application window is small")
                     onCheckedChanged:
                         checkDefault()

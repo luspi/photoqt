@@ -27,10 +27,14 @@ RadioButton {
 
     id: control
     text: ""
-    property int elide: Text.ElideNone
+    property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideMiddle
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
+
+    property string tooltip: text
+
+    property int enforceMaxWidth: 0
 
     indicator: Rectangle {
         implicitWidth: 22
@@ -57,10 +61,19 @@ RadioButton {
     contentItem: PQText {
         text: control.text
         elide: control.elide
+        width: (control.enforceMaxWidth===0 ? implicitWidth : Math.min(control.enforceMaxWidth-25, implicitWidth))
         font: control.font
         opacity: enabled ? 1.0 : 0.4
         verticalAlignment: Text.AlignVCenter
         leftPadding: control.indicator.width + control.spacing
+    }
+
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered
+        text: control.tooltip
     }
 
     property bool _defaultChecked

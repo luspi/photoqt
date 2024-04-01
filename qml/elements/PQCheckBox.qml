@@ -27,7 +27,7 @@ CheckBox {
 
     id: control
     text: ""
-    property int elide: Text.ElideNone
+    property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideMiddle
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
@@ -37,6 +37,8 @@ CheckBox {
 
     // if the checkbox is embedded with an outside mouse area, this allows for passing on hovered events
     property bool extraHovered: false
+
+    property int enforceMaxWidth: 0
 
     indicator: Rectangle {
         implicitWidth: 22
@@ -69,6 +71,7 @@ CheckBox {
 
     contentItem: PQText {
         text: control.text
+        width: (control.enforceMaxWidth===0 ? implicitWidth : Math.min(control.enforceMaxWidth-25, implicitWidth))
         elide: control.elide
         font: control.font
         color: control.color
