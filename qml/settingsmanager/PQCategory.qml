@@ -433,6 +433,7 @@ Item {
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
+            currentSubIndex = [0, currentSubIndex[0]]
 
             var sub_k = Object.keys(categories[categoryKeys[currentMainIndex[0]]][1])
 
@@ -482,6 +483,7 @@ Item {
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
+            currentSubIndex = [0, currentSubIndex[0]]
 
             var sub_k = Object.keys(categories[categoryKeys[currentMainIndex[0]]][1])
 
