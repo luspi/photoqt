@@ -1381,6 +1381,11 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
         return true;
     }
 
+    // if no color space is set we set the default one
+    // without this some conversion below might fail
+    if(!imgIn.colorSpace().isValid())
+        imgIn.setColorSpace(QColorSpace(QColorSpace::SRgb));
+
     bool manualSelectionCausedError = false;
 
     // check if a color profile has been set by the user for this file
@@ -1393,19 +1398,16 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
 
         if(index < integratedColorProfiles.length()) {
             QColorSpace sp = QColorSpace(integratedColorProfiles[index]);
-            QColorSpace defaultSpace(QColorSpace::SRgb);
-            if(sp != defaultSpace) {
-                qDebug() << "Applying color profile:" << sp.description();
-                imgOut = imgIn.convertedToColorSpace(sp);
-                if(imgOut.isNull()) {
-                    qWarning() << "Color profile could not be applied, falling back to default";
-                    manualSelectionCausedError = true;
-                } else {
-                    const QString desc = sp.description();
-                    qDebug() << "Applying integrated color profile:" << desc;
-                    PQCNotify::get().setColorProfileFor(filename, desc);
-                    return true;
-                }
+            qDebug() << "Applying color profile:" << sp.description();
+            imgOut = imgIn.convertedToColorSpace(sp);
+            if(imgOut.isNull()) {
+                qWarning() << "Color profile could not be applied, falling back to default";
+                manualSelectionCausedError = true;
+            } else {
+                const QString desc = sp.description();
+                qDebug() << "Applying integrated color profile:" << desc;
+                PQCNotify::get().setColorProfileFor(filename, desc);
+                return true;
             }
 
         }
@@ -1558,7 +1560,7 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
                 cmsDeleteTransform(transform);
                 cmsCloseProfile(targetProfile);
 
-                return true;
+                return !manualSelectionCausedError;
 
             }
 
