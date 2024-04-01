@@ -63,6 +63,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_zoom
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Zoom")
 
@@ -72,6 +74,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: zoomspeed
+                    width: set_zoom.rightcol
                     minval: 1
                     maxval: 100
                     title: qsTranslate("settingsmanager", "zoom speed:")
@@ -80,7 +83,8 @@ Flickable {
                         checkDefault()
                 },
 
-                Row {
+                Flow {
+                    width: set_zoom.rightcol
                     PQCheckBox {
                         id: minzoom_check
                         text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
@@ -89,6 +93,7 @@ Flickable {
 
                     PQSliderSpinBox {
                         id: minzoom_slider
+                        width: set_zoom.rightcol
                         minval: 1
                         maxval: 100
                         enabled: minzoom_check.checked
@@ -101,7 +106,9 @@ Flickable {
 
                 },
 
-                Row {
+                Flow {
+
+                    width: set_zoom.rightcol
 
                     PQCheckBox {
                         id: maxzoom_check
@@ -111,6 +118,7 @@ Flickable {
 
                     PQSliderSpinBox {
                         id: maxzoom_slider
+                        width: set_zoom.rightcol
                         minval: 100
                         maxval: 10000
                         enabled: maxzoom_check.checked
@@ -133,6 +141,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_mini
+
             //: Settings title. The minimap is a small version of the image used to show where the view is at.
             title: qsTranslate("settingsmanager", "Minimap")
 
@@ -141,6 +151,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: minimap
+                    enforceMaxWidth: set_mini.rightcol
                     text: qsTranslate("settingsmanager", "Show minimap")
                     onCheckedChanged: checkDefault()
                 },
@@ -173,6 +184,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_mirflp
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Mirror/Flip")
 
@@ -181,6 +194,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: mirroranim
+                    enforceMaxWidth: set_mirflp.rightcol
                     text: qsTranslate("settingsmanager", "Animate mirror/flip")
                     onCheckedChanged: checkDefault()
                 }
@@ -194,6 +208,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_float
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Floating navigation")
 
@@ -202,6 +218,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: floatingnav
+                    enforceMaxWidth: set_float.rightcol
                     text: qsTranslate("settingsmanager", "show floating navigation buttons")
                     onCheckedChanged: checkDefault()
                 }

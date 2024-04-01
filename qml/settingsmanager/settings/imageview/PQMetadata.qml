@@ -116,6 +116,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_labels
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Labels")
 
@@ -125,7 +127,7 @@ Flickable {
 
                 Rectangle {
 
-                    width: Math.min(parent.width, 600)
+                    width: Math.min(set_labels.rightcol, 600)
                     height: 350
                     color: "transparent"
                     border.width: 1
@@ -206,7 +208,7 @@ Flickable {
                                         x: 10
                                         y: (parent.height-height)/2
                                         width: parent.width-20
-                                        elide: Text.ElideMiddle
+                                        elide: Text.ElideRight
                                         text: labels[index][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
@@ -322,6 +324,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: autorot
+                    enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "Apply default rotation automatically")
                     onCheckedChanged: checkDefault()
                 }
@@ -344,16 +347,19 @@ Flickable {
 
                 PQRadioButton {
                     id: osm
+                    enforceMaxWidth: set_labels.rightcol
                     text: "openstreetmap.org"
                     onCheckedChanged: checkDefault()
                 },
                 PQRadioButton {
                     id: google
+                    enforceMaxWidth: set_labels.rightcol
                     text: "maps.google.com"
                     onCheckedChanged: checkDefault()
                 },
                 PQRadioButton {
                     id: bing
+                    enforceMaxWidth: set_labels.rightcol
                     text: "bing.com/maps"
                     onCheckedChanged: checkDefault()
                 }
@@ -376,6 +382,7 @@ Flickable {
 
                 PQRadioButton {
                     id: screenegde
+                    enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "hide behind screen edge")
                     checked: !PQCSettings.metadataElementFloating
                     onCheckedChanged: checkDefault()
@@ -383,6 +390,7 @@ Flickable {
 
                 PQRadioButton {
                     id: floating
+                    enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "use floating element")
                     checked: PQCSettings.metadataElementFloating
                     onCheckedChanged: checkDefault()
@@ -407,6 +415,7 @@ Flickable {
 
                 PQCheckBox {
                     id: facetags_show
+                    enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "show face tags")
                     onCheckedChanged: checkDefault()
                 },
@@ -425,6 +434,7 @@ Flickable {
 
                     PQRadioButton {
                         id: tags_always
+                        enforceMaxWidth: set_labels.rightcol
                         //: used as in: always show all face tags
                         text: qsTranslate("settingsmanager", "always show all")
                         onCheckedChanged: checkDefault()
@@ -432,6 +442,7 @@ Flickable {
 
                     PQRadioButton {
                         id: tags_one
+                        enforceMaxWidth: set_labels.rightcol
                         //: used as in: show one face tag on hover
                         text: qsTranslate("settingsmanager", "show one on hover")
                         onCheckedChanged: checkDefault()
@@ -439,6 +450,7 @@ Flickable {
 
                     PQRadioButton {
                         id: tags_all
+                        enforceMaxWidth: set_labels.rightcol
                         //: used as in: show one face tag on hover
                         text: qsTranslate("settingsmanager", "show all on hover")
                         onCheckedChanged: checkDefault()
@@ -464,6 +476,7 @@ Flickable {
             content: [
                 PQSliderSpinBox {
                     id: fontsize
+                    width: set_labels.rightcol
                     minval: 5
                     maxval: 50
                     title: qsTranslate("settingsmanager", "font size:")
@@ -472,14 +485,11 @@ Flickable {
                         checkDefault()
                 },
 
-                Row {
-
-                    PQCheckBox {
-                        id: border_show
-                        text: qsTranslate("settingsmanager", "show border around face tags")
-                        onCheckedChanged: checkDefault()
-                    }
-
+                PQCheckBox {
+                    id: border_show
+                    enforceMaxWidth: set_labels.rightcol
+                    text: qsTranslate("settingsmanager", "show border around face tags")
+                    onCheckedChanged: checkDefault()
                 },
 
                 Column {
@@ -498,6 +508,7 @@ Flickable {
 
                     PQSliderSpinBox {
                         id: border_slider
+                        width: set_labels.rightcol - parent.x
                         minval: 1
                         maxval: 20
                         title: qsTranslate("settingsmanager", "border width:")

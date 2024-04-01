@@ -58,6 +58,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_single
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Single instance")
 
@@ -67,12 +69,14 @@ Flickable {
 
                 PQRadioButton {
                     id: sing
+                    enforceMaxWidth: set_single.rightcol
                     text: qsTranslate("settingsmanager", "run a single instance only")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQRadioButton {
                     id: mult
+                    enforceMaxWidth: set_single.rightcol
                     text: qsTranslate("settingsmanager", "allow multiple instances")
                     onCheckedChanged: checkDefault()
                 }
@@ -87,6 +91,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_reopen
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Reopen last image")
 
@@ -96,12 +102,14 @@ Flickable {
 
                 PQRadioButton {
                     id: blanksession
+                    enforceMaxWidth: set_reopen.rightcol
                     text: qsTranslate("settingsmanager", "start with blank session")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQRadioButton {
                     id: reopenlast
+                    enforceMaxWidth: set_reopen.rightcol
                     text: qsTranslate("settingsmanager", "reopen last used image")
                     onCheckedChanged: checkDefault()
                 }
@@ -116,6 +124,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_rem
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Remember changes")
 
@@ -127,6 +137,7 @@ Flickable {
 
                 PQRadioButton {
                     id: forget
+                    enforceMaxWidth: set_rem.rightcol
                     text: qsTranslate("settingsmanager", "forget changes when other image loaded")
                     onCheckedChanged: checkDefault()
                     ButtonGroup.group: changedgroup
@@ -134,12 +145,14 @@ Flickable {
 
                 PQRadioButton {
                     id: remember
+                    enforceMaxWidth: set_rem.rightcol
                     text: qsTranslate("settingsmanager", "remember changes per session")
                     onCheckedChanged: checkDefault()
                     ButtonGroup.group: changedgroup
                 },
 
-                Row {
+                Flow {
+                    width: set_rem.rightcol
                     PQRadioButton {
                         id: reuse
                         //: this refers to preserving any selection of zoom/rotation/mirror across different images
@@ -177,6 +190,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_tray
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Tray Icon")
 
@@ -186,6 +201,7 @@ Flickable {
 
                 PQCheckBox {
                     id: trayicon_show
+                    enforceMaxWidth: set_tray.rightcol
                     text: qsTranslate("settingsmanager", "Show tray icon")
                     onCheckedChanged: checkDefault()
                 },
@@ -203,6 +219,7 @@ Flickable {
 
                     PQCheckBox {
                         id: trayicon_mono
+                        enforceMaxWidth: set_tray.rightcol
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "monochrome icon")
                         onCheckedChanged: checkDefault()
@@ -210,6 +227,7 @@ Flickable {
 
                     PQCheckBox {
                         id: trayicon_hide
+                        enforceMaxWidth: set_tray.rightcol
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
                         checked: (PQCSettings.interfaceTrayIcon===1)
@@ -228,6 +246,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_reset
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Reset when hiding")
 
@@ -236,6 +256,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: trayicon_reset
+                    enforceMaxWidth: set_reset.rightcol
                     text: qsTranslate("settingsmanager", "reset session when hiding")
                     onCheckedChanged: checkDefault()
                 }

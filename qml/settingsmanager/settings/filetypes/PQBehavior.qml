@@ -64,6 +64,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_pdf
+
             //: Settings title
             title: qsTranslate("settingsmanager", "PDF")
 
@@ -73,6 +75,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: pdf_quality
+                    width: set_pdf.rightcol
                     minval: 50
                     maxval: 300
                     title: qsTranslate("settingsmanager", "quality:")
@@ -103,12 +106,13 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: arc_extunrar
+                    enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "use external tool: unrar")
                     onCheckedChanged: checkDefault()
                 },
 
                 Item {
-                    width: parent.width
+                    width: set_arc.rightcol
                     height: PQCSettings.generalCompactSettings ? 0 : help2txt.height
                     Behavior on height { NumberAnimation { duration: 200 } }
                     opacity: PQCSettings.generalCompactSettings ? 0 : 1
@@ -124,12 +128,14 @@ Flickable {
 
                 PQCheckBox {
                     id: archivecontrols
+                    enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for archives")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQCheckBox {
                     id: archiveleftright
+                    enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next page")
                     onCheckedChanged: checkDefault()
                 }
@@ -144,6 +150,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_vid
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Video")
 
@@ -151,20 +159,22 @@ Flickable {
 
             content: [
 
-                Row {
-                    PQCheckBox {
-                        id: vid_autoplay
-                        text: qsTranslate("settingsmanager", "Autoplay")
-                        onCheckedChanged: checkDefault()
-                    }
-                    PQCheckBox {
-                        id: vid_loop
-                        text: qsTranslate("settingsmanager", "Loop")
-                        onCheckedChanged: checkDefault()
-                    }
+                PQCheckBox {
+                    id: vid_autoplay
+                    enforceMaxWidth: set_vid.rightcol
+                    text: qsTranslate("settingsmanager", "Autoplay")
+                    onCheckedChanged: checkDefault()
                 },
 
-                Row {
+                PQCheckBox {
+                    id: vid_loop
+                    enforceMaxWidth: set_vid.rightcol
+                    text: qsTranslate("settingsmanager", "Loop")
+                    onCheckedChanged: checkDefault()
+                },
+
+                Flow {
+                    width: set_vid.rightcol
                     PQRadioButton {
                         id: vid_qtmult
                         text: qsTranslate("settingsmanager", "prefer Qt Multimedia")
@@ -177,10 +187,12 @@ Flickable {
                     }
                 },
 
-                Row {
+                Flow {
+                    width: set_vid.rightcol
                     spacing: 10
                     PQText {
-                        y: (videothumb.height-height)/2
+                        height: videothumb.height
+                        verticalAlignment: Text.AlignVCenter
                         text: qsTranslate("settingsmanager", "Video thumbnail generator:")
                     }
                     PQComboBox {
@@ -194,6 +206,7 @@ Flickable {
 
                 PQCheckBox {
                     id: videojump
+                    enforceMaxWidth: set_vid.rightcol
                     spacing: 10
                     text: qsTranslate("settingsmanager", "Always use left/right arrow keys to jump back/ahead in videos")
                     onCheckedChanged: checkDefault()
@@ -201,6 +214,7 @@ Flickable {
 
                 PQCheckBox {
                     id: videospace
+                    enforceMaxWidth: set_vid.rightcol
                     spacing: 10
                     text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
                     onCheckedChanged: checkDefault()
@@ -216,6 +230,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_ani
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Animated images")
 
@@ -225,18 +241,21 @@ Flickable {
 
                 PQCheckBox {
                     id: animatedcontrol
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for animated images")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQCheckBox {
                     id: animatedleftright
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next frame")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQCheckBox {
                     id: animspace
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "Always use space key to play/pause animation")
                     onCheckedChanged: checkDefault()
                 }
@@ -251,6 +270,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_raw
+
             //: Settings title
             title: qsTranslate("settingsmanager", "RAW images")
 
@@ -259,6 +280,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: rawembed
+                    enforceMaxWidth: set_raw.rightcol
                     text: qsTranslate("settingsmanager", "use embedded image if available")
                     onCheckedChanged: checkDefault()
                 }
@@ -272,6 +294,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_doc
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Documents")
 
@@ -281,12 +305,14 @@ Flickable {
 
                 PQCheckBox {
                     id: documentcontrols
+                    enforceMaxWidth: set_doc.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for documents")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQCheckBox {
                     id: documentleftright
+                    enforceMaxWidth: set_doc.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next page")
                     onCheckedChanged: checkDefault()
                 }

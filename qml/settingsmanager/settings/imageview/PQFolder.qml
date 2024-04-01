@@ -61,6 +61,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_loop
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Looping")
 
@@ -69,6 +71,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: loop
+                    enforceMaxWidth: set_loop.rightcol
                     //: When reaching the end of the images in the folder whether to loop back around to the beginning or not
                     text: qsTranslate("settingsmanager", "Loop around")
                     onCheckedChanged: checkDefault()
@@ -83,16 +86,20 @@ Flickable {
 
         PQSetting {
 
+            id: set_sort
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Sort images")
 
             helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
 
             content: [
-                Row {
+                Flow {
+                    width: set_sort.rightcol
                     spacing: 5
                     PQText {
-                        y: (sortcriteria.height-height)/2
+                        height: sortcriteria.height
+                        verticalAlignment: Text.AlignVCenter
                         font.bold: true
                         text: qsTranslate("settingsmanager", "Sort by:")
                     }
@@ -112,7 +119,8 @@ Flickable {
                     }
                 },
 
-                Row {
+                Flow {
+                    width: set_sort.rightcol
                     spacing: 5
                     PQRadioButton {
                         id: sortasc
@@ -148,6 +156,7 @@ Flickable {
 
                 PQCheckBox {
                     id: anispeed_check
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "animate switching between images")
                     onCheckedChanged: checkDefault()
                 },
@@ -164,11 +173,13 @@ Flickable {
                     Behavior on height { NumberAnimation { duration: 200 } }
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    Row {
+                    Flow {
                         id: anirow1
                         spacing: 5
+                        width: set_ani.rightcol
                         PQText {
-                            y: (anicombo.height-height)/2
+                            height: anicombo.height
+                            verticalAlignment: Text.AlignVCenter
                             text: qsTranslate("settingsmanager", "Animation:")
                         }
                         PQComboBox {
@@ -192,15 +203,15 @@ Flickable {
                         }
                     }
 
-                    Flow {
+                    Column {
 
                         id: anirow2
 
                         spacing: 5
-                        width: set_ani.rightcol
 
                         PQSliderSpinBox {
                             id: anispeed
+                            width: set_ani.rightcol
                             minval: 1
                             maxval: 10
                             title: qsTranslate("settingsmanager", "speed:")
@@ -210,8 +221,8 @@ Flickable {
                         }
 
                         PQText {
-                            height: anispeed.height
-                            verticalAlignment: Text.AlignVCenter
+                            width: set_ani.rightcol
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             //: The value is a numerical value expressing the speed of animating between images
                             text: qsTranslate("settingsmanager", "(higher value = slower)")
                         }

@@ -58,6 +58,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_motion
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Motion/Live photos")
 
@@ -68,7 +70,7 @@ Flickable {
             content: [
 
                 PQTextL {
-                    width: setting_top.width
+                    width: set_motion.rightcol
                     text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     font.weight: PQCLook.fontWeightBold
@@ -77,12 +79,14 @@ Flickable {
 
                 PQCheckBox {
                     id: applelive
+                    enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Look for Apple Live Photos")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQCheckBox {
                     id: motionmicro
+                    enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Look for Google Motion Photos")
                     onCheckedChanged: checkDefault()
                 },
@@ -94,6 +98,7 @@ Flickable {
 
                 PQCheckBox {
                     id: motionplaypause
+                    enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Show small play/pause button in bottom right corner of window")
                     onCheckedChanged: checkDefault()
                 }
@@ -108,6 +113,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_sph
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Photo spheres")
 
@@ -118,7 +125,7 @@ Flickable {
             content: [
 
                 PQTextL {
-                    width: setting_top.width
+                    width: set_sph.rightcol
                     text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     font.weight: PQCLook.fontWeightBold
@@ -127,6 +134,7 @@ Flickable {
 
                 PQCheckBox {
                     id: photosphere
+                    enforceMaxWidth: set_sph.rightcol
                     text: qsTranslate("settingsmanager", "Check for photo spheres")
                     onCheckedChanged: checkDefault()
                 }

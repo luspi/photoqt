@@ -227,7 +227,7 @@ Flickable {
                                         text: pops[index][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
-                                        elide: Text.ElideMiddle
+                                        elide: Text.ElideRight
                                         color: PQCLook.textColor
                                         onCheckedChanged: {
                                             currentCheckBoxStates[index] = (checked ? "1" : "0")

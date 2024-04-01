@@ -58,6 +58,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_reset
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Reset settings and shortcuts")
 
@@ -67,7 +69,7 @@ Flickable {
 
                 PQButton {
                     text: qsTranslate("settingsmanager", "reset settings")
-                    width: 400
+                    width: Math.min(400, set_reset.rightcol)
                     enabled: cancel.height===0
                     onClicked: {
                         cancel.action = "settings"
@@ -77,7 +79,7 @@ Flickable {
 
                 PQButton {
                     text: qsTranslate("settingsmanager", "reset shortcuts")
-                    width: 400
+                    width: Math.min(400, set_reset.rightcol)
                     enabled: cancel.height===0
                     onClicked: {
                         cancel.action = "shortcuts"
@@ -87,7 +89,7 @@ Flickable {
 
                 PQButton {
                     text: qsTranslate("settingsmanager", "reset enabled file formats")
-                    width: 400
+                    width: Math.min(400, set_reset.rightcol)
                     enabled: cancel.height===0
                     onClicked: {
                         cancel.action = "formats"
@@ -99,7 +101,7 @@ Flickable {
 
                     id: cancel
 
-                    width: parent.width
+                    width: set_reset.rightcol
                     height: enabled ? cancelcol.height : 0
                     opacity: enabled ? 1 : 0
                     clip: true
@@ -184,6 +186,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_expimp
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Export/Import configuration")
 
@@ -193,14 +197,14 @@ Flickable {
 
                 PQButton {
                     text: qsTranslate("settingsmanager", "export configuration")
-                    width: 400
+                    width: Math.min(400, set_expimp.rightcol)
                     onClicked:
                         PQCScriptsConfig.exportConfigTo("")
                 },
 
                 PQButton {
                     text: qsTranslate("settingsmanager", "import configuration")
-                    width: 400
+                    width: Math.min(400, set_expimp.rightcol)
                     onClicked: {
                         PQCScriptsConfig.importConfigFrom("")
                         PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),

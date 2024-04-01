@@ -58,11 +58,12 @@ Flickable {
         PQText {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
             text: qsTranslate("settingsmanager", "These settings can also be adjusted from within the file dialog.")
         }
 
         PQSetting {
+
+            id: set_sort
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Sort images")
@@ -93,7 +94,8 @@ Flickable {
                     }
                 },
 
-                Row {
+                Flow {
+                    width: set_sort.rightcol
                     spacing: 5
                     PQRadioButton {
                         id: sortasc
@@ -127,12 +129,14 @@ Flickable {
 
                 PQRadioButton {
                     id: layout_icon
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "icon view")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQRadioButton {
                     id: layout_list
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "list view")
                     onCheckedChanged: checkDefault()
                 }
@@ -155,6 +159,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: hiddencheck
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show hidden files/folders")
                     onCheckedChanged: checkDefault()
                 }
@@ -177,6 +182,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: tooltipcheck
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show tooltip with details")
                     onCheckedChanged: checkDefault()
                 }
@@ -199,6 +205,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: remembercheck
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Remember")
                     onCheckedChanged: checkDefault()
                 }
@@ -221,12 +228,14 @@ Flickable {
             content: [
                 PQRadioButton {
                     id: singleexec
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Open with single click")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQRadioButton {
                     id: singlecheck
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Select with single click, open with double click")
                     onCheckedChanged: checkDefault()
                 }
@@ -249,11 +258,13 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: sect_bookmarks
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show bookmarks")
                     onCheckedChanged: checkDefault()
                 },
                 PQCheckBox {
                     id: sect_devices
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show devices")
                     onCheckedChanged: checkDefault()
                 }
@@ -276,16 +287,19 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: drag_icon
+                    enforceMaxWidth: set_sort.rightcol
                     text: "Enable drag-and-drop for icon view"
                     onCheckedChanged: checkDefault()
                 },
                 PQCheckBox {
                     id: drag_list
+                    enforceMaxWidth: set_sort.rightcol
                     text: "Enable drag-and-drop for list view"
                     onCheckedChanged: checkDefault()
                 },
                 PQCheckBox {
                     id: drag_bookmarks
+                    enforceMaxWidth: set_sort.rightcol
                     text: "Enable drag-and-drop for bookmarks"
                     onCheckedChanged: checkDefault()
                 }
@@ -308,6 +322,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: thumb_show
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show thumbnails")
                     onCheckedChanged: checkDefault()
                 },
@@ -325,6 +340,7 @@ Flickable {
 
                     PQCheckBox {
                         id: thumb_scalecrop
+                        enforceMaxWidth: set_sort.rightcol
                         text: qsTranslate("settingsmanager", "Scale and crop thumbnails")
                         onCheckedChanged: checkDefault()
                     }
@@ -348,6 +364,7 @@ Flickable {
             content: [
                 PQSliderSpinBox {
                     id: padding
+                    width: set_sort.rightcol
                     minval: 0
                     maxval: 10
                     title: ""
@@ -374,6 +391,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: folderthumb_check
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Enable folder thumbnails")
                     onCheckedChanged: checkDefault()
                 },
@@ -393,10 +411,12 @@ Flickable {
 
                         spacing: 10
 
-                        Row {
+                        Flow {
+                            width: set_sort.rightcol
                             spacing: 5
                             PQText {
-                                y: (folderthumb_timeout.height-height)/2
+                                height: folderthumb_timeout.height
+                                verticalAlignment: Text.AlignVCenter
                                 text: qsTranslate("settingsmanager", "Timeout:")
                             }
                             PQComboBox {
@@ -411,18 +431,21 @@ Flickable {
 
                         PQCheckBox {
                             id: folderthumb_loop
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Loop through content")
                             onCheckedChanged: checkDefault()
                         }
 
                         PQCheckBox {
                             id: folderthumb_autoload
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Auto-load first thumbnail")
                             onCheckedChanged: checkDefault()
                         }
 
                         PQCheckBox {
                             id: folderthumb_scalecrop
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Scale and crop thumbnails")
                             onCheckedChanged: checkDefault()
                         }
@@ -449,6 +472,7 @@ Flickable {
 
                 PQCheckBox {
                     id: preview_check
+                    enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show preview")
                     onCheckedChanged: checkDefault()
                 },
@@ -472,18 +496,21 @@ Flickable {
 
                         PQCheckBox {
                             id: preview_blur
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Blur the preview")
                             onCheckedChanged: checkDefault()
                         }
 
                         PQCheckBox {
                             id: preview_mute
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Mute its colors")
                             onCheckedChanged: checkDefault()
                         }
 
                         PQSliderSpinBox {
                             id: preview_colintspin
+                            width: set_sort.rightcol
                             title: qsTranslate("settingsmanager", "color intensity:")
                             titleWeight: PQCLook.fontWeightNormal
                             minval: 10
@@ -494,12 +521,14 @@ Flickable {
 
                         PQCheckBox {
                             id: preview_resolution
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Higher resolution")
                             onCheckedChanged: checkDefault()
                         }
 
                         PQCheckBox {
                             id: preview_scalecrop
+                            enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Scale and crop")
                             onCheckedChanged: checkDefault()
                         }

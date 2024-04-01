@@ -57,11 +57,13 @@ Item {
 
             spacing: 10
 
-            Row {
+            Flow {
 
                 id: butrow
 
                 spacing: 10
+
+                width: setting_top.width
 
                 PQComboBox {
                     id: catCombo

@@ -59,7 +59,6 @@ Flickable {
         PQText {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
             text: qsTranslate("settingsmanager", "These settings can also be adjusted when setting up a slideshow.")
         }
 
@@ -70,6 +69,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_ani
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Animation")
 
@@ -79,6 +80,7 @@ Flickable {
 
                 PQCheckBox {
                     id: anim_check
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "Enable animations")
                     onCheckedChanged:
                         checkDefault()
@@ -96,11 +98,13 @@ Flickable {
                     Behavior on height { NumberAnimation { duration: 200 } }
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    Row {
+                    Flow {
                         id: anirow1
+                        width: set_ani.rightcol
                         spacing: 5
                         PQText {
-                            y: (anicombo.height-height)/2
+                            height: anicombo.height
+                            verticalAlignment: Text.AlignVCenter
                             text: qsTranslate("settingsmanager", "Animation:")
                         }
                         PQComboBox {
@@ -124,10 +128,11 @@ Flickable {
                         }
                     }
 
-                    Row {
+                    Flow {
 
                         id: anirow2
 
+                        width: set_ani.rightcol
                         spacing: 10
 
                         PQText {
@@ -166,6 +171,8 @@ Flickable {
 
                     PQText {
                         id: transspeed_txt
+                        width: set_ani.rightcol
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         property string speed: ""
                         //: This refers to the currently set speed of transitioning from one image to another during slideshows
                         text: qsTranslate("slideshow", "current speed") + ": <b>" + speed + "</b>"
@@ -191,6 +198,7 @@ Flickable {
             content: [
                 PQSliderSpinBox {
                     id: interval
+                    width: set_ani.rightcol
                     minval: 1
                     maxval: 300
                     title: qsTranslate("settingsmanager", "interval:")
@@ -217,6 +225,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: loop
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "loop")
                     onCheckedChanged:
                         checkDefault()
@@ -239,6 +248,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: shuffle
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "shuffle")
                     onCheckedChanged:
                         checkDefault()
@@ -261,12 +271,14 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: hidestatusinfo
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "hide status info")
                     onCheckedChanged:
                         checkDefault()
                 },
                 PQCheckBox {
                     id: hidewindowbuttons
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "hide window buttons")
                     onCheckedChanged:
                         checkDefault()
@@ -289,6 +301,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: includesub
+                    enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "include subfolders")
                     onCheckedChanged:
                         checkDefault()
@@ -312,6 +325,7 @@ Flickable {
 
                 PQCheckBox {
                     id: music_check
+                    enforceMaxWidth: set_ani.rightcol
                     //: Enable music to be played during slideshows
                     text: qsTranslate("settingsmanager", "enable music")
                 },
@@ -324,7 +338,7 @@ Flickable {
                     Behavior on height { NumberAnimation { duration: 200 } }
                     opacity: music_check.checked ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
-                    width: 300
+                    width: Math.min(300, set_ani.rightcol)
                     clip: true
                     property string musicfile: ""
                     text: musicfile=="" ? "[" + qsTranslate("settingsmanager", "no file selected") + "]" : PQCScriptsFilesPaths.getFilename(musicfile)

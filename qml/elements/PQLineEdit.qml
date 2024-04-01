@@ -62,6 +62,7 @@ Rectangle {
         anchors.fill: parent
         color: PQCLook.textColorDisabled
         opacity: highlightBG ? 0.5 : 1
+        elide: Text.ElideRight
         font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
         anchors.leftMargin: control.leftPadding
         verticalAlignment: Text.AlignVCenter

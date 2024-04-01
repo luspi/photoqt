@@ -20,6 +20,8 @@ Item {
 
     visible: width>0&&height>0
 
+    property alias spinboxItem: spinbox
+
     property int minval: 1
     property int maxval: 10
 

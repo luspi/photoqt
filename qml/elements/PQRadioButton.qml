@@ -27,7 +27,7 @@ RadioButton {
 
     id: control
     text: ""
-    property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideMiddle
+    property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal

@@ -64,6 +64,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_size
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Size")
 
@@ -73,6 +75,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: thumb_size
+                    width: set_size.rightcol
                     minval: 32
                     maxval: 512
                     title: ""
@@ -91,6 +94,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_scale
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Scale and crop")
 
@@ -100,12 +105,14 @@ Flickable {
 
                 PQRadioButton {
                     id: thumb_fit
+                    enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "fit thumbnail")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQRadioButton {
                     id: thumb_crop
+                    enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "scale and crop thumbnail")
                     onCheckedChanged: checkDefault()
                 },
@@ -117,6 +124,7 @@ Flickable {
 
                 PQCheckBox {
                     id: thumb_small
+                    enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "keep small thumbnails small")
                     onCheckedChanged: checkDefault()
                 }
@@ -131,6 +139,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_icn
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Icons only")
 
@@ -140,6 +150,7 @@ Flickable {
 
                 PQRadioButton {
                     id: thumb_actual
+                    enforceMaxWidth: set_icn.rightcol
                     //: The word actual is used with the same meaning as: real
                     text: qsTranslate("settingsmanager", "use actual thumbnail images")
                     onCheckedChanged: checkDefault()
@@ -147,6 +158,7 @@ Flickable {
 
                 PQRadioButton {
                     id: thumb_icon
+                    enforceMaxWidth: set_icn.rightcol
                     text: qsTranslate("settingsmanager", "use filetype icons")
                     onCheckedChanged: checkDefault()
                 }
@@ -161,6 +173,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_label
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Label")
 
@@ -170,6 +184,7 @@ Flickable {
 
                 PQCheckBox {
                     id: label_enable
+                    enforceMaxWidth: set_label.rightcol
                     text: qsTranslate("settingsmanager", "show filename label")
                     onCheckedChanged: checkDefault()
                 },
@@ -197,6 +212,7 @@ Flickable {
 
                         PQSliderSpinBox {
                             id: label_fontsize
+                            width: set_label.rightcol - 32
                             minval: 5
                             maxval: 20
                             title: qsTranslate("settingsmanager", "Font size:")
@@ -209,6 +225,7 @@ Flickable {
 
                     PQCheckBox {
                         id: thumb_opaque
+                        enforceMaxWidth: set_label.rightcol
                         text: qsTranslate("settingsmanager", "decrease opacity for inactive thumbnails")
                         onCheckedChanged: checkDefault()
                     }
@@ -225,6 +242,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_ttip
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Tooltip")
 
@@ -233,6 +252,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: tooltips_show
+                    enforceMaxWidth: set_ttip.rightcol
                     text: qsTranslate("settingsmanager", "show tooltips")
                     onCheckedChanged: checkDefault()
                 }

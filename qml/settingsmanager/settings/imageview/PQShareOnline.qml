@@ -59,6 +59,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_imgur
+
             title: "imgur.com"
 
             helptext: qsTranslate("settingsmanager", "It is possible to share an image from PhotoQt directly to imgur.com. This can either be done anonymously or to an imgur.com account. For the former, no setup is required, after a successful upload you are presented with the URL to access and the URL to delete the image. For the latter, PhotoQt first needs to be authenticated to an imgur.com user account.")
@@ -66,10 +68,10 @@ Flickable {
             content: [
 
                 PQText {
-                    width: parent.width
+                    width: set_imgur.rightcol
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     // font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("settingsmanager", "Note that any change here is saved immediately!")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 },
 
                 Item {
@@ -79,6 +81,8 @@ Flickable {
 
                 PQTextL {
                     id: account
+                    width: set_imgur.rightcol
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     visible: acc!=""
                     property string acc: ""
                     text: qsTranslate("settingsmanager", "Authenticated with user account:") + " <b>" + acc + "</b>"
@@ -136,7 +140,7 @@ Flickable {
 
                     PQText {
                         id: authinfotxt
-                        width: setting_top.width
+                        width: set_imgur.rightcol
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         text: qsTranslate("settingsmanager", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
                     }
@@ -176,7 +180,7 @@ Flickable {
 
                 PQText {
                     id: error
-                    width: parent.width
+                    width: set_imgur.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     horizontalAlignment: Text.AlignHCenter
                     font.weight: PQCLook.fontWeightBold

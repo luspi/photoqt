@@ -73,6 +73,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_margin
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Margin")
 
@@ -82,6 +84,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: marginslider
+                    width: set_margin.rightcol
                     minval: 0
                     maxval: 100
                     title: qsTranslate("settingsmanager", "margin:")
@@ -100,6 +103,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_sze
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Image size")
 
@@ -107,7 +112,8 @@ Flickable {
 
             content: [
 
-                Row {
+                Flow {
+                    width: set_sze.rightcol
                     PQText {
                         y: (large_fit.height-height)/2
                         text: qsTranslate("settingsmanager", "large images:")
@@ -124,7 +130,8 @@ Flickable {
                     }
                 },
 
-                Row {
+                Flow {
+                    width: set_sze.rightcol
                     PQText {
                         y: (small_fit.height-height)/2
                         text: qsTranslate("settingsmanager", "small images:")
@@ -151,6 +158,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_trans
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Transparency marker")
 
@@ -159,6 +168,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: checkerboard
+                    enforceMaxWidth: set_trans.rightcol
                     text: qsTranslate("settingsmanager", "show checkerboard pattern")
                     checked: PQCSettings.imageviewTransparencyMarker
                     onCheckedChanged: checkDefault()
@@ -172,6 +182,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_interp
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Interpolation")
 
@@ -181,12 +193,14 @@ Flickable {
 
                 PQCheckBox {
                     id: interp_check
+                    enforceMaxWidth: set_interp.rightcol
                     text: qsTranslate("settingsmanager", "disable interpolation for small images")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQSliderSpinBox {
                     id: interp_spin
+                    width: set_interp.rightcol
                     minval: 0
                     maxval: 1000
                     title: qsTranslate("settingsmanager", "threshold:")
@@ -207,6 +221,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_cache
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Cache")
 
@@ -216,6 +232,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: cache_slider
+                    width: set_cache.rightcol
                     minval: 128
                     maxval: 5120
                     title: qsTranslate("settingsmanager", "cache size:")
@@ -234,6 +251,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_col
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Color profiles")
 
@@ -243,6 +262,7 @@ Flickable {
 
                 PQCheckBox {
                     id: color_enable
+                    enforceMaxWidth: set_col.rightcol
                     text: qsTranslate("settingsmanager", "Enable color profile management")
                     onCheckedChanged:
                         checkDefault()
@@ -264,15 +284,16 @@ Flickable {
 
                         PQCheckBox {
                             id: color_embed
+                            enforceMaxWidth: set_col.rightcol
                             text: qsTranslate("settingsmanager", "Look for and load embedded color profiles")
                             onCheckedChanged:
                                 checkDefault()
                         }
 
-                        Row {
+                        Flow {
 
                             spacing: 5
-                            height: color_defaultcombo.height
+                            width: set_col.rightcol
 
                             visible: PQCScriptsConfig.isLCMS2SupportEnabled()
 
@@ -307,12 +328,14 @@ Flickable {
                             spacing: 5
 
                             PQText {
+                                width: set_col.rightcol
+                                elide: Text.ElideMiddle
                                 text: qsTranslate("settingsmanager", "Select which color profiles should be offered through the context menu:")
                             }
 
                             Rectangle {
 
-                                width: Math.min(parent.width, 600)
+                                width: Math.min(set_col.rightcol, 600)
                                 height: 350
                                 clip: true
                                 color: "transparent"

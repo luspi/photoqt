@@ -62,6 +62,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_move
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Move image with mouse")
 
@@ -71,12 +73,14 @@ Flickable {
 
                 PQCheckBox {
                     id: movebut
+                    enforceMaxWidth: set_move.rightcol
                     text: qsTranslate("settingsmanager", "move image with left button")
                     onCheckedChanged: checkDefault()
                 },
 
                 PQCheckBox {
                     id: movewhl
+                    enforceMaxWidth: set_move.rightcol
                     text: qsTranslate("settingsmanager", "move image with mouse wheel")
                     onCheckedChanged: checkDefault()
                 }
@@ -91,6 +95,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_dbl
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Double click")
 
@@ -99,6 +105,7 @@ Flickable {
             content: [
                 PQSliderSpinBox {
                     id: dblclk
+                    width: set_dbl.rightcol
                     minval: 0
                     maxval: 1000
                     title: qsTranslate("settingsmanager", "threshold:")
@@ -117,6 +124,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_whl
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Mouse wheel")
 
@@ -124,7 +133,8 @@ Flickable {
 
             content: [
 
-                Row {
+                Flow {
+                    width: set_whl.rightcol
                     PQText {
                         //: used as in: very sensitive mouse wheel
                         text: qsTranslate("settingsmanager", "very sensitive")
@@ -150,6 +160,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_hidemouse
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Hide mouse cursor")
 
@@ -157,26 +169,24 @@ Flickable {
 
             content: [
 
-                Row {
+                PQCheckBox {
+                    id: hidetimeout_check
+                    enforceMaxWidth: set_hidemouse.rightcol
+                    text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
+                    checked: PQCSettings.imageviewHideCursorTimeout===0
+                },
 
-                    PQCheckBox {
-                        id: hidetimeout_check
-                        text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
-                        checked: PQCSettings.imageviewHideCursorTimeout===0
-                    }
-
-                    PQSliderSpinBox {
-                        id: hidetimeout
-                        minval: 1
-                        maxval: 10
-                        title: ""
-                        suffix: " s"
-                        enabled: hidetimeout_check.checked
-                        animateWidth: true
-                        onValueChanged:
-                            checkDefault()
-                    }
-
+                PQSliderSpinBox {
+                    id: hidetimeout
+                    width: set_hidemouse.rightcol
+                    minval: 1
+                    maxval: 10
+                    title: ""
+                    suffix: " s"
+                    enabled: hidetimeout_check.checked
+                    animateWidth: true
+                    onValueChanged:
+                        checkDefault()
                 }
 
             ]

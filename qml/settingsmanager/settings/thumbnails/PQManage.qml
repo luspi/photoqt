@@ -74,6 +74,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_cache
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Cache")
 
@@ -82,6 +84,7 @@ Flickable {
             content: [
                 PQCheckBox {
                     id: cache_enable
+                    enforceMaxWidth: set_cache.rightcol
                     text: qsTranslate("settingsmanager", "enable cache")
                     onCheckedChanged: checkDefault()
                 }
@@ -95,6 +98,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_excl
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Exclude folders")
 
@@ -104,12 +109,15 @@ Flickable {
 
                 PQText {
                     id: cloudheader
+                    width: set_excl.rightcol
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     text: qsTranslate("settingsmanager", "Cloud providers to exclude from caching:")
                     visible: nextcloud.visible||owncloud.visible||dropbox.visible
                 },
 
                 PQCheckBox {
                     id: nextcloud
+                    enforceMaxWidth: set_excl.rightcol
                     property string folder: PQCSettings.thumbnailsExcludeNextcloud
                     visible: folder!=""
                     text: "Nextcloud: " + folder
@@ -118,6 +126,7 @@ Flickable {
 
                 PQCheckBox {
                     id: owncloud
+                    enforceMaxWidth: set_excl.rightcol
                     property string folder: PQCSettings.thumbnailsExcludeOwnCloud
                     visible: folder!=""
                     text: "ownCloud: " + folder
@@ -126,6 +135,7 @@ Flickable {
 
                 PQCheckBox {
                     id: dropbox
+                    enforceMaxWidth: set_excl.rightcol
                     property string folder: PQCSettings.thumbnailsExcludeDropBox
                     visible: folder!=""
                     text: "DropBox: " + folder
@@ -143,7 +153,7 @@ Flickable {
 
                 PQTextArea {
                     id: exclude_folders
-                    implicitWidth: 400
+                    implicitWidth: Math.min(400, set_excl.rightcol)
                     implicitHeight: 100
                     placeholderText: qsTranslate("settingsmanager", "One folder per line")
                     onControlActiveFocusChanged: {
@@ -182,6 +192,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_thrd
+
             //: Settings title
             title: qsTranslate("settingsmanager", "How many threads")
 
@@ -191,6 +203,7 @@ Flickable {
 
                 PQSliderSpinBox {
                     id: threads
+                    width: set_thrd.rightcol
                     minval: 1
                     maxval: 32
                     title: ""
