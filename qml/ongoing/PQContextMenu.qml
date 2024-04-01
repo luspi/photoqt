@@ -108,7 +108,7 @@ PQMenu {
         title: qsTranslate("contextmenu", "Select color profile")
         property var availableColorProfiles: []
         onAboutToShow: {
-            availableColorProfiles = PQCScriptsImages.getColorProfiles()
+            availableColorProfiles = PQCScriptsImages.getColorProfileDescriptions()
         }
         PQMenuItem {
             text: "Default color profile"

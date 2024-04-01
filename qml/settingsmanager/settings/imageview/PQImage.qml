@@ -58,6 +58,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property var colorprofiles: []
+    property var colorprofiledescs: []
     property var colorprofiles_contextmenu: []
     property var colorprofiles_contextmenu_default: []
 
@@ -315,7 +316,7 @@ Flickable {
                                 PQComboBox {
                                     id: color_defaultcombo
                                     extrawide: true
-                                    model: [qsTranslate("settingsmanager", "(no default color profile)")].concat(colorprofiles)
+                                    model: [qsTranslate("settingsmanager", "(no default color profile)")].concat(colorprofiledescs)
                                     onCurrentIndexChanged:
                                         checkDefault()
                                 }
@@ -385,13 +386,13 @@ Flickable {
 
                                         Repeater {
 
-                                            model: colorprofiles.length
+                                            model: colorprofiledescs.length
 
                                             Rectangle {
 
                                                 id: deleg
 
-                                                property bool matchesFilter: (color_filter.text===""||colorprofiles[index].toLowerCase().indexOf(color_filter.text.toLowerCase()) > -1)
+                                                property bool matchesFilter: (color_filter.text===""||colorprofiledescs[index].toLowerCase().indexOf(color_filter.text.toLowerCase()) > -1)
 
                                                 width: (color_flickable.width - (color_scroll.visible ? color_scroll.width : 0))/2 - color_grid.spacing
                                                 height: matchesFilter ? 30 : 0
@@ -418,7 +419,7 @@ Flickable {
                                                     y: (parent.height-height)/2
                                                     width: parent.width-20  - (delImported.visible ? delImported.width : 0)
                                                     elide: Text.ElideMiddle
-                                                    text: colorprofiles[index]
+                                                    text: colorprofiledescs[index]
                                                     font.weight: PQCLook.fontWeightNormal
                                                     font.pointSize: PQCLook.fontSizeS
                                                     color: PQCLook.textColor
@@ -475,7 +476,7 @@ Flickable {
                                                         text: qsTranslate("settingsmanager", "Remove imported color profile")
                                                         onClicked: {
                                                             PQCScriptsImages.removeImportedColorProfile(index)
-                                                            colorprofiles = PQCScriptsImages.getColorProfiles()
+                                                            colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
                                                         }
                                                     }
                                                 }
@@ -557,7 +558,7 @@ Flickable {
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
                                 if(PQCScriptsImages.importColorProfile()) {
-                                    colorprofiles = PQCScriptsImages.getColorProfiles()
+                                    colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
                                 }
                             }
                         }
@@ -630,6 +631,7 @@ Flickable {
         cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
 
         // we need to load this before setting up the element below
+        colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
         colorprofiles = PQCScriptsImages.getColorProfiles()
         colorprofiles_contextmenu = PQCSettings.imageviewColorSpaceContextMenu
         colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
@@ -640,7 +642,7 @@ Flickable {
             color_defaultcombo.loadAndSetDefault(0)
             color_default.loadAndSetDefault(false)
         } else {
-            color_defaultcombo.loadAndSetDefault(PQCScriptsImages.getIndexForColorProfile(PQCSettings.imageviewColorSpaceDefault)+1)
+            color_defaultcombo.loadAndSetDefault(colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
             color_default.loadAndSetDefault(true)
         }
         setting_top.colorProfileLoadDefault()
@@ -668,7 +670,10 @@ Flickable {
         PQCSettings.imageviewCache = cache_slider.value
 
         PQCSettings.imageviewColorSpaceEnable = color_enable.checked
-        PQCSettings.imageviewColorSpaceDefault = ((color_defaultcombo.currentIndex == 0 || !color_default.checked) ? "" : color_defaultcombo.currentText)
+        if(color_defaultcombo.currentIndex == 0 || !color_default.checked)
+            PQCSettings.imageviewColorSpaceDefault = ""
+        else
+            PQCSettings.imageviewColorSpaceDefault = colorprofiles[color_defaultcombo.currentIndex-1]
         PQCSettings.imageviewColorSpaceLoadEmbedded = color_embed.checked
         PQCSettings.imageviewColorSpaceContextMenu = colorprofiles_contextmenu
 

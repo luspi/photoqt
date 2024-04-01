@@ -1122,7 +1122,7 @@ void PQCScriptsImages::loadColorProfileInfo() {
 
 }
 
-QStringList PQCScriptsImages::getColorProfiles() {
+QStringList PQCScriptsImages::getColorProfileDescriptions() {
 
     qDebug() << "";
 
@@ -1133,6 +1133,23 @@ QStringList PQCScriptsImages::getColorProfiles() {
     ret << importedColorProfileDescriptions;
     ret << integratedColorProfileDescriptions;
     ret << externalColorProfileDescriptions;
+
+    return ret;
+
+}
+
+QStringList PQCScriptsImages::getColorProfiles() {
+
+    qDebug() << "";
+
+    QStringList ret;
+
+    loadColorProfileInfo();
+
+    ret << importedColorProfiles;
+    for(int i = 0; i < integratedColorProfiles.length(); ++i)
+        ret << QString("::%1").arg(i);
+    ret << externalColorProfiles;
 
     return ret;
 
@@ -1381,62 +1398,50 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
         return true;
     }
 
-    // if no color space is set we set the default one
-    // without this some conversion below might fail
-    if(!imgIn.colorSpace().isValid())
-        imgIn.setColorSpace(QColorSpace(QColorSpace::SRgb));
+    loadColorProfileInfo();
 
     bool manualSelectionCausedError = false;
 
     // check if a color profile has been set by the user for this file
     QString profileName = getColorProfileFor(filename);
 
+    // if no color space is set we set the default one
+    // without this some conversion below might fail
+    bool colorSpaceManuallySet = false;
+    if(profileName != "" && !imgIn.colorSpace().isValid()) {
+        colorSpaceManuallySet = true;
+        imgIn.setColorSpace(QColorSpace(QColorSpace::SRgb));
+    }
+
     // if internal profile is manually selected
     if(profileName.startsWith("::")) {
 
+        qDebug() << "Loading integrated color profile:" << profileName;
+
         int index = profileName.remove(0,2).toInt();
 
-        if(index < integratedColorProfiles.length()) {
-            QColorSpace sp = QColorSpace(integratedColorProfiles[index]);
-            qDebug() << "Applying color profile:" << sp.description();
-            imgOut = imgIn.convertedToColorSpace(sp);
-            if(imgOut.isNull()) {
-                qWarning() << "Color profile could not be applied, falling back to default";
-                manualSelectionCausedError = true;
-            } else {
-                const QString desc = sp.description();
-                qDebug() << "Applying integrated color profile:" << desc;
-                PQCNotify::get().setColorProfileFor(filename, desc);
-                return true;
-            }
-
-        }
+        if(index < integratedColorProfiles.length() && applyColorSpaceQt(imgIn, imgOut, filename, QColorSpace(integratedColorProfiles[index])))
+            return true;
+        else
+            manualSelectionCausedError = true;
 
 #ifndef PQMLCMS2
+
+    } else if(profileName != "") {
+
         // basic handling of external color profiles
-        index -= integratedColorProfiles.length();
-        QStringList ext = getExternalColorProfiles();
+
         QColorSpace sp;
-        if(index < ext.length()) {
-            QFile f(ext[index]);
-            if(f.open(QIODevice::ReadOnly))
-                sp = QColorSpace::fromIccProfile(f.readAll());
-        } else
-            sp = QColorSpace(QColorSpace::SRgb);
-        QColorSpace defaultSpace(QColorSpace::SRgb);
-        if(sp != defaultSpace) {
-            qDebug() << "Applying color profile:" << sp.description();
-            imgOut = img.convertedToColorSpace(sp);
-            if(imgOut.isNull()) {
-                qWarning() << "Color profile could not be applied, falling back to sRGB";
-                manualSelectionCausedError = true;
-            } else {
-                const QString desc = sp.description();
-                qDebug() << "Applying external color profile:" << desc;
-                PQCNotify::get().setColorProfileFor(filename, sp.description());
-                return true;
-            }
-        }
+
+        QFile f(profileName);
+        if(f.open(QIODevice::ReadOnly))
+            sp = QColorSpace::fromIccProfile(f.readAll());
+
+        if(applyColorSpaceQt(imgIn, imgOut, filename, sp))
+            return true;
+        else
+            manualSelectionCausedError = true;
+
 #endif
 
     }
@@ -1445,6 +1450,8 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
 
     // if external profile is manually selected
     if(profileName != "" && !profileName.startsWith("::")) {
+
+        qDebug() << "Loading external color profile:" << profileName;
 
         QStringList profileList;
         loadColorProfileInfo();
@@ -1460,115 +1467,75 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
                 targetProfile = cmsOpenProfileFromMem(bt.constData(), bt.size());
             }
 
-            if(targetProfile == nullptr) {
-
-                qWarning() << "Error creating target color profile:" << profileList[index];
+            if(targetProfile && applyColorSpaceLCMS2(imgIn, imgOut, filename, targetProfile))
+                return true;
+            else
                 manualSelectionCausedError = true;
-
-            } else {
-
-                int lcms2format = PQCScriptsImages::get().toLcmsFormat(imgIn.format());
-
-                // Create a transformation from source (sRGB) to destination (provided ICC profile) color space
-                cmsHTRANSFORM transform = cmsCreateTransform(cmsCreate_sRGBProfile(), lcms2format, targetProfile, lcms2format, INTENT_PERCEPTUAL, 0);
-                if (!transform) {
-                    // Handle error, maybe close profile and return original image or null image
-                    cmsCloseProfile(targetProfile);
-                    qWarning() << "Error creating transform for color profile";
-                    manualSelectionCausedError = true;
-                } else {
-
-                    imgOut = QImage(imgIn.size(), imgIn.format());
-                    imgOut.fill(Qt::transparent);
-
-                    // Perform color space conversion
-                    cmsDoTransform(transform, imgIn.constBits(), imgOut.bits(), imgIn.width() * imgIn.height());
-
-                    int bufSize = 100;
-                    char buf[bufSize];
-
-#if LCMS_VERSION >= 2160
-                    cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
-                                          "en", "US",
-                                          buf, bufSize);
-#else
-                    cmsGetProfileInfoASCII(targetProfile, cmsInfoDescription,
-                                           "en", "US",
-                                           buf, bufSize);
-#endif
-
-                    // Release resources
-                    cmsDeleteTransform(transform);
-                    cmsCloseProfile(targetProfile);
-
-                    qDebug() << "Applying external color profile:" << buf;
-
-                    PQCNotify::get().setColorProfileFor(filename, buf);
-                    return true;
-
-                }
-
-            }
 
         }
 
     }
 
     // if no profile has been applied and we need to check for embedded profiles
-    if(PQCSettings::get()["imageviewColorSpaceLoadEmbedded"].toBool()) {
+    if(!colorSpaceManuallySet && PQCSettings::get()["imageviewColorSpaceLoadEmbedded"].toBool()) {
+
+        qDebug() << "Checking for embedded color profiles";
 
         cmsHPROFILE targetProfile = cmsOpenProfileFromMem(imgIn.colorSpace().iccProfile().constData(),
                                                           imgIn.colorSpace().iccProfile().size());
-        if(targetProfile) {
 
-            int lcms2format = PQCScriptsImages::get().toLcmsFormat(imgIn.format());
-
-            // Create a transformation from source (sRGB) to destination (provided ICC profile) color space
-            cmsHTRANSFORM transform = cmsCreateTransform(
-                cmsCreate_sRGBProfile(), lcms2format, targetProfile, lcms2format,
-                INTENT_PERCEPTUAL, 0);
-            if (!transform) {
-                // Handle error, maybe close profile and return original image or null image
-                cmsCloseProfile(targetProfile);
-                qWarning() << "Error creating transform for color profile";
-            } else {
-
-                int bufSize = 100;
-                char buf[bufSize];
-
-#if LCMS_VERSION >= 2160
-                cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
-                                      "en", "US",
-                                      buf, bufSize);
-#else
-                cmsGetProfileInfoASCII(targetProfile, cmsInfoDescription,
-                                       "en", "US",
-                                       buf, bufSize);
-#endif
-
-                PQCNotify::get().setColorProfileFor(filename, buf);
-
-                qDebug() << "Applying embedded color profile:" << buf;
-
-                imgOut = QImage(imgIn.size(), imgIn.format());
-                imgOut.fill(Qt::transparent);
-
-                // Perform color space conversion
-                cmsDoTransform(transform, imgIn.constBits(), imgOut.bits(), imgIn.width() * imgIn.height());
-
-                // Release resources
-                cmsDeleteTransform(transform);
-                cmsCloseProfile(targetProfile);
-
-                return !manualSelectionCausedError;
-
-            }
-
-        }
+        if(targetProfile && applyColorSpaceLCMS2(imgIn, imgOut, filename, targetProfile))
+            return !manualSelectionCausedError;
 
     }
 
 #endif
+
+    // no profile (successfully) applied, set default one (if selected)
+    QString def = PQCSettings::get()["imageviewColorSpaceDefault"].toString();
+    if(def != "") {
+
+        qDebug() << "Applying color profile selected as default:" << def;
+
+        // make sure we have a valid starting profile
+        if(!imgIn.colorSpace().isValid())
+            imgIn.setColorSpace(QColorSpace(QColorSpace::SRgb));
+
+        if(def.startsWith("::")) {
+
+            int index = def.remove(0,2).toInt();
+
+            if(index < integratedColorProfiles.length() && applyColorSpaceQt(imgIn, imgOut, filename, QColorSpace(integratedColorProfiles[index])))
+                return !manualSelectionCausedError;
+
+#ifdef PQMLCMS2
+
+        } else {
+
+            QStringList profileList;
+            loadColorProfileInfo();
+            profileList << importedColorProfiles;
+            profileList << externalColorProfiles;
+            int index = profileList.indexOf(def);
+            cmsHPROFILE targetProfile = nullptr;
+            if(index != -1) {
+
+                QFile f(def);
+                if(f.open(QIODevice::ReadOnly)) {
+                    QByteArray bt = f.readAll();
+                    targetProfile = cmsOpenProfileFromMem(bt.constData(), bt.size());
+                }
+
+                if(targetProfile && applyColorSpaceLCMS2(imgIn, imgOut, filename, targetProfile))
+                    return !manualSelectionCausedError;
+
+            }
+
+#endif
+
+        }
+
+    }
 
     // no profile (successfully) applied, set default name
     PQCNotify::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
@@ -1577,6 +1544,67 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &imgIn, QImage
     return !manualSelectionCausedError;
 
 }
+
+bool PQCScriptsImages::applyColorSpaceQt(QImage &imgIn, QImage &imgOut, QString filename, QColorSpace sp) {
+
+    imgOut = imgIn.convertedToColorSpace(sp);
+    if(imgOut.isNull()) {
+        qWarning() << "Integrated color profile could not be applied.";
+        return false;
+    } else {
+        const QString desc = sp.description();
+        qDebug() << "Applying integrated color profile:" << desc;
+        PQCNotify::get().setColorProfileFor(filename, desc);
+        return true;
+    }
+
+}
+
+#ifdef PQMLCMS2
+bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &imgIn, QImage &imgOut, QString filename, cmsHPROFILE targetProfile) {
+
+    int lcms2format = PQCScriptsImages::get().toLcmsFormat(imgIn.format());
+
+    // Create a transformation from source (sRGB) to destination (provided ICC profile) color space
+    cmsHTRANSFORM transform = cmsCreateTransform(cmsCreate_sRGBProfile(), lcms2format, targetProfile, lcms2format, INTENT_PERCEPTUAL, 0);
+    if (!transform) {
+        // Handle error, maybe close profile and return original image or null image
+        cmsCloseProfile(targetProfile);
+        qWarning() << "Error creating transform for external color profile";
+        return false;
+    } else {
+
+        imgOut = QImage(imgIn.size(), imgIn.format());
+        imgOut.fill(Qt::transparent);
+
+        // Perform color space conversion
+        cmsDoTransform(transform, imgIn.constBits(), imgOut.bits(), imgIn.width() * imgIn.height());
+
+        int bufSize = 100;
+        char buf[bufSize];
+
+#if LCMS_VERSION >= 2160
+        cmsGetProfileInfoUTF8(targetProfile, cmsInfoDescription,
+                              "en", "US",
+                              buf, bufSize);
+#else
+        cmsGetProfileInfoASCII(targetProfile, cmsInfoDescription,
+                               "en", "US",
+                               buf, bufSize);
+#endif
+
+        // Release resources
+        cmsDeleteTransform(transform);
+        cmsCloseProfile(targetProfile);
+
+        qDebug() << "Applying external color profile:" << buf;
+
+        PQCNotify::get().setColorProfileFor(filename, buf);
+        return true;
+
+    }
+}
+#endif
 
 QString PQCScriptsImages::detectVideoColorProfile(QString path) {
 

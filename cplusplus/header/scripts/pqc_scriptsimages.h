@@ -83,6 +83,7 @@ public:
     Q_INVOKABLE QStringList getImportedColorProfiles();
     QStringList getImportedColorProfileDescriptions();
     Q_INVOKABLE QStringList getColorProfiles();
+    Q_INVOKABLE QStringList getColorProfileDescriptions();
     Q_INVOKABLE QString getColorProfileID(int index);
     Q_INVOKABLE void setColorProfile(QString path, int index);
     Q_INVOKABLE QString getColorProfileFor(QString path);
@@ -119,6 +120,11 @@ private:
     void loadColorProfileInfo();
 
     QFile *colorlastlocation;
+
+    bool applyColorSpaceQt(QImage &imgIn, QImage &imgOut, QString filename, QColorSpace sp);
+#ifdef PQMLCMS2
+    bool applyColorSpaceLCMS2(QImage &imgIn, QImage &imgOut, QString filename, cmsHPROFILE targetProfile);
+#endif
 
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);

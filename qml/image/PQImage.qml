@@ -271,14 +271,6 @@ Item {
                         }
                     }
 
-                    function onReloadImage() {
-                        if(PQCFileFolderModel.currentIndex===index) {
-                            var bak = deleg.imageSource
-                            deleg.imageSource = ""
-                            deleg.imageSource = bak
-                        }
-                    }
-
                 }
 
                 // the loader loads a flickable once active
@@ -309,6 +301,17 @@ Item {
                             PQCNotify.hasPhotoSphere = false
                             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                                 deleg.hasBeenSetup = false
+                        }
+                    }
+
+
+                    Connections {
+                        target: image_top
+
+                        function onReloadImage() {
+                            if(PQCFileFolderModel.currentIndex===index) {
+                                image_loader.setSource()
+                            }
                         }
                     }
 
@@ -490,6 +493,11 @@ Item {
 
                                     Component.onCompleted: {
                                         currentFileInside = 0
+                                        setSource()
+                                    }
+
+                                    function setSource() {
+                                        source = ""
                                         loader_component.listenToClicksOnImage = false
                                         loader_component.videoPlaying = false
                                         loader_component.videoLoaded = false
