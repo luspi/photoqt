@@ -272,9 +272,11 @@ Item {
                     }
 
                     function onReloadImage() {
-                        var bak = deleg.imageSource
-                        deleg.imageSource = ""
-                        deleg.imageSource = bak
+                        if(PQCFileFolderModel.currentIndex===index) {
+                            var bak = deleg.imageSource
+                            deleg.imageSource = ""
+                            deleg.imageSource = bak
+                        }
                     }
 
                 }

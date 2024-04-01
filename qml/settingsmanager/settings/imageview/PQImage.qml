@@ -58,8 +58,8 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     property var colorprofiles: []
-    property var colorprofiles_excluded: []
-    property var colorprofiles_excluded_default: []
+    property var colorprofiles_contextmenu: []
+    property var colorprofiles_contextmenu_default: []
 
     signal selectAllColorProfiles()
     signal selectNoColorProfiles()
@@ -403,11 +403,11 @@ Flickable {
                                                     onCheckedChanged: {
                                                         if(!deleg.delegSetup) return
                                                         var curid = PQCScriptsImages.getColorProfileID(index)
-                                                        var arrayIndex = colorprofiles_excluded.indexOf(curid)
-                                                        if(checked && arrayIndex != -1)
-                                                            colorprofiles_excluded.splice(arrayIndex,1)
-                                                        else if(!checked && arrayIndex == -1)
-                                                            colorprofiles_excluded.push(curid)
+                                                        var arrayIndex = colorprofiles_contextmenu.indexOf(curid)
+                                                        if(checked && arrayIndex == -1)
+                                                            colorprofiles_contextmenu.push(curid)
+                                                        else if(!checked && arrayIndex != -1)
+                                                            colorprofiles_contextmenu.splice(arrayIndex,1)
                                                         checkDefault()
                                                     }
 
@@ -472,7 +472,7 @@ Flickable {
                                                 }
 
                                                 function loadDefault() {
-                                                    check.checked = (colorprofiles_excluded.indexOf(PQCScriptsImages.getColorProfileID(index))==-1)
+                                                    check.checked = (colorprofiles_contextmenu.indexOf(PQCScriptsImages.getColorProfileID(index))>-1)
                                                 }
 
                                             }
@@ -567,12 +567,12 @@ Flickable {
             return
         }
 
-        if(colorprofiles_excluded.length == colorprofiles_excluded_default.length) {
-            colorprofiles_excluded_default.sort()
-            colorprofiles_excluded.sort()
+        if(colorprofiles_contextmenu.length == colorprofiles_contextmenu_default.length) {
+            colorprofiles_contextmenu_default.sort()
+            colorprofiles_contextmenu.sort()
             var chg = false
-            for(var i in colorprofiles_excluded) {
-                if(colorprofiles_excluded[i] !== colorprofiles_excluded_default[i]) {
+            for(var i in colorprofiles_contextmenu) {
+                if(colorprofiles_contextmenu[i] !== colorprofiles_contextmenu_default[i]) {
                     chg = true
                     break
                 }
@@ -608,8 +608,8 @@ Flickable {
 
         // we need to load this before setting up the element below
         colorprofiles = PQCScriptsImages.getColorProfiles()
-        colorprofiles_excluded = PQCSettings.imageviewColorSpaceLimitTo
-        colorprofiles_excluded_default = PQCSettings.imageviewColorSpaceLimitTo
+        colorprofiles_contextmenu = PQCSettings.imageviewColorSpaceContextMenu
+        colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
 
         color_enable.loadAndSetDefault(PQCSettings.imageviewColorSpaceEnable)
         color_embed.loadAndSetDefault(PQCSettings.imageviewColorSpaceLoadEmbedded)
@@ -647,7 +647,7 @@ Flickable {
         PQCSettings.imageviewColorSpaceEnable = color_enable.checked
         PQCSettings.imageviewColorSpaceDefault = ((color_defaultcombo.currentIndex == 0 || !color_default.checked) ? "" : color_defaultcombo.currentText)
         PQCSettings.imageviewColorSpaceLoadEmbedded = color_embed.checked
-        PQCSettings.imageviewColorSpaceLimitTo = colorprofiles_excluded
+        PQCSettings.imageviewColorSpaceContextMenu = colorprofiles_contextmenu
 
         marginslider.saveDefault()
         large_fit.saveDefault()
