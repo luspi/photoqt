@@ -577,12 +577,20 @@ Flickable {
             return
         }
 
-        settingChanged = (autorot.hasChanged() || osm.hasChanged() || google.hasChanged() ||
-                          bing.hasChanged() || screenegde.hasChanged() || floating.hasChanged() ||
-                          facetags_show.hasChanged() || fontsize.hasChanged() || border_show.hasChanged() ||
-                          border_slider.hasChanged() || tags_always.hasChanged() || tags_one.hasChanged() ||
-                          tags_all.hasChanged() ||
-                          border_color.rgba !== PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor))
+        if(autorot.hasChanged() || osm.hasChanged() || google.hasChanged() || bing.hasChanged() ||
+                screenegde.hasChanged() || floating.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        if(facetags_show.hasChanged() || fontsize.hasChanged() || border_show.hasChanged() || border_slider.hasChanged() ||
+                tags_always.hasChanged() || tags_one.hasChanged() || tags_all.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
+        var set = PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
+        settingChanged = (border_color.rgba[0] !== set[0] || border_color.rgba[1] !== set[1] || border_color.rgba[2] !== set[2] || border_color.rgba[3] !== set[3])
 
     }
 
