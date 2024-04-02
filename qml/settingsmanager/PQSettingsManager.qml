@@ -105,7 +105,6 @@ PQTemplateFullscreen {
                                                 [qsTranslate("settingsmanager", "Language"),
                                                  qsTranslate("settingsmanager", "Fullscreen or window mode"),
                                                  qsTranslate("settingsmanager", "Window buttons"),
-                                                 qsTranslate("settingsmanager", "Hide automatically"),
                                                  qsTranslate("settingsmanager", "Accent color")],
                                                  // the settings for filtering
                                                 ["Language",

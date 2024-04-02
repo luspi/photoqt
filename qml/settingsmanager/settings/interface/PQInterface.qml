@@ -221,7 +221,7 @@ Flickable {
 
             id: set_winbut
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt can show some integrated window buttons for basic window managements both when shown in fullscreen and when in window mode. In window mode with window decoration enabled it can either hide or show buttons from its integrated set that are duplicates of buttons in the window decoration. For help with navigating through a folder, small left/right arrows for navigation and a menu button can also be added next to the window buttons.")
+            helptext: qsTranslate("settingsmanager",  "PhotoQt can show some integrated window buttons for basic window managements both when shown in fullscreen and when in window mode. In window mode with window decoration enabled it can either hide or show buttons from its integrated set that are duplicates of buttons in the window decoration. For help with navigating through a folder, small left/right arrows for navigation and a menu button can also be added next to the window buttons. There are also various visibility tweaks that can be adjusted.")
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Window buttons")
@@ -235,99 +235,93 @@ Flickable {
                     onCheckedChanged: checkDefault()
                 },
 
-                Column {
+                Item {
 
                     width: parent.width
-                    spacing: parent.spacing
-                    clip: true
 
                     enabled: integbut_show.checked
-                    height: enabled ? (integbut_dup.height+integbut_nav.height+butsize.height+2*spacing) : 0
+                    height: enabled ? (winbutcol.height) : 0
                     Behavior on height { NumberAnimation { duration: 200 } }
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
+                    clip: true
 
-                    PQCheckBox {
-                        id: integbut_dup
-                        enforceMaxWidth: set_winbut.rightcol
-                        text: qsTranslate("settingsmanager", "duplicate buttons from window decoration")
-                        onCheckedChanged: checkDefault()
+                    Column {
+
+                        id: winbutcol
+
+                        width: parent.width
+                        spacing: parent.parent.spacing
+
+                        PQCheckBox {
+                            id: integbut_dup
+                            enforceMaxWidth: set_winbut.rightcol
+                            text: qsTranslate("settingsmanager", "duplicate buttons from window decoration")
+                            onCheckedChanged: checkDefault()
+                        }
+
+                        PQCheckBox {
+                            id: integbut_nav
+                            enforceMaxWidth: set_winbut.rightcol
+                            text: qsTranslate("settingsmanager", "add navigation buttons")
+                            onCheckedChanged: checkDefault()
+                        }
+
+                        PQSliderSpinBox {
+                            id: butsize
+                            width: set_winbut.rightcol
+                            minval: 5
+                            maxval: 50
+                            title: qsTranslate("settingsmanager", "Size:")
+                            suffix: " px"
+                            onValueChanged:
+                                checkDefault()
+                        }
+
+                        Item {
+                            width: 1
+                            height: 1
+                        }
+
+                        PQRadioButton {
+                            id: autohide_always
+                            enforceMaxWidth: set_winbut.rightcol
+                            //: visibility status of the window buttons
+                            text: qsTranslate("settingsmanager", "keep always visible")
+                            onCheckedChanged: checkDefault()
+                        }
+
+                        PQRadioButton {
+                            id: autohide_anymove
+                            enforceMaxWidth: set_winbut.rightcol
+                            //: visibility status of the window buttons
+                            text: qsTranslate("settingsmanager", "only show with any cursor move")
+                            onCheckedChanged: checkDefault()
+                        }
+
+                        PQRadioButton {
+                            id: autohide_topedge
+                            enforceMaxWidth: set_winbut.rightcol
+                            //: visibility status of the window buttons
+                            text: qsTranslate("settingsmanager", "only show when cursor near top edge")
+                            onCheckedChanged: checkDefault()
+                        }
+
+                        PQSliderSpinBox {
+                            id: autohide_timeout
+                            width: set_winbut.rightcol
+                            minval: 0
+                            maxval: 10
+                            title: qsTranslate("settingsmanager", "hide again after timeout:")
+                            suffix: " s"
+                            enabled: !autohide_always.checked
+                            animateHeight: true
+                            onValueChanged:
+                                checkDefault()
+                        }
+
                     }
 
-                    PQCheckBox {
-                        id: integbut_nav
-                        enforceMaxWidth: set_winbut.rightcol
-                        text: qsTranslate("settingsmanager", "add navigation buttons")
-                        onCheckedChanged: checkDefault()
-                    }
-
-                    PQSliderSpinBox {
-                        id: butsize
-                        width: set_winbut.rightcol
-                        minval: 5
-                        maxval: 50
-                        title: qsTranslate("settingsmanager", "Size:")
-                        suffix: " px"
-                        onValueChanged:
-                            checkDefault()
-                    }
-
-                }
-
-            ]
-
-        }
-
-        /**********************************************************************/
-        PQSettingsSeparator {}
-        /**********************************************************************/
-
-        PQSetting {
-
-            id: set_hideauto
-
-            helptext: qsTranslate("settingsmanager",  "The window buttons can either be shown at all times, or they can be hidden automatically based on different criteria. They can either be hidden unless the mouse cursor is near the top edge of the screen or until the mouse cursor is moved anywhere. After a specified timeout they will then hide again.")
-
-            //: A settings title
-            title: qsTranslate("settingsmanager", "Hide automatically")
-
-            content: [
-
-                PQRadioButton {
-                    id: autohide_always
-                    enforceMaxWidth: set_hideauto.rightcol
-                    //: visibility status of the window buttons
-                    text: qsTranslate("settingsmanager", "keep always visible")
-                    onCheckedChanged: checkDefault()
-                },
-
-                PQRadioButton {
-                    id: autohide_anymove
-                    enforceMaxWidth: set_hideauto.rightcol
-                    //: visibility status of the window buttons
-                    text: qsTranslate("settingsmanager", "only show with any cursor move")
-                    onCheckedChanged: checkDefault()
-                },
-
-                PQRadioButton {
-                    id: autohide_topedge
-                    enforceMaxWidth: set_hideauto.rightcol
-                    //: visibility status of the window buttons
-                    text: qsTranslate("settingsmanager", "only show when cursor near top edge")
-                    onCheckedChanged: checkDefault()
-                },
-
-                PQSliderSpinBox {
-                    id: autohide_timeout
-                    width: set_hideauto.rightcol
-                    minval: 0
-                    maxval: 10
-                    title: qsTranslate("settingsmanager", "hide again after timeout:")
-                    suffix: " s"
-                    enabled: !autohide_always.checked
-                    animateHeight: true
-                    onValueChanged:
-                        checkDefault()
                 }
 
             ]
