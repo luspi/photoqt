@@ -544,7 +544,7 @@ Item {
             PQMenuItem {
                 checkable: true
                 checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "fit thumbnail")
+                text: qsTranslate("settingsmanager", "fit thumbnails")
                 ButtonGroup.group: grp1
                 checked: !PQCSettings.thumbnailsCropToFit
                 onCheckedChanged:
@@ -554,7 +554,7 @@ Item {
             PQMenuItem {
                 checkable: true
                 checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "scale and crop thumbnail")
+                text: qsTranslate("settingsmanager", "scale and crop thumbnails")
                 ButtonGroup.group: grp1
                 checked: PQCSettings.thumbnailsCropToFit
                 onCheckedChanged:
@@ -573,7 +573,7 @@ Item {
 
             PQMenuItem {
                 checkable: true
-                text: qsTranslate("settingsmanager", "show filename label")
+                text: qsTranslate("settingsmanager", "show filename labels")
                 checked: PQCSettings.thumbnailsFilename
                 onCheckedChanged:
                     PQCSettings.thumbnailsFilename = checked
@@ -646,6 +646,11 @@ Item {
 
             if(PQCNotify.slideshowRunning || PQCNotify.faceTagging || PQCNotify.insidePhotoSphere) {
                 setVisible = false
+                return
+            }
+
+            if(menu.item.opened) {
+                setVisible = true
                 return
             }
 
