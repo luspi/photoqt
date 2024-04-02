@@ -128,11 +128,21 @@ Item {
         }
     ]
 
+    onSetVisibleChanged: {
+        if(!setVisible)
+            menu.item.dismiss()
+    }
+
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
         onWheel: (wheel) => {
             flickView(wheel.angleDelta)
+        }
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                menu.item.popup()
         }
     }
 
@@ -513,6 +523,104 @@ Item {
 
         }
 
+    }
+
+    ButtonGroup { id: grp1 }
+    ButtonGroup { id: grp2 }
+
+    Loader {
+
+        id: menu
+        asynchronous: true
+
+        sourceComponent:
+        PQMenu {
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "fit thumbnail")
+                ButtonGroup.group: grp1
+                checked: !PQCSettings.thumbnailsCropToFit
+                onCheckedChanged:
+                    PQCSettings.thumbnailsCropToFit = !checked
+            }
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "scale and crop thumbnail")
+                ButtonGroup.group: grp1
+                checked: PQCSettings.thumbnailsCropToFit
+                onCheckedChanged:
+                    PQCSettings.thumbnailsCropToFit = checked
+            }
+
+            PQMenuItem {
+                checkable: true
+                text: qsTranslate("settingsmanager", "keep small thumbnails small")
+                checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall
+                onCheckedChanged:
+                    PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                checkable: true
+                text: qsTranslate("settingsmanager", "show filename label")
+                checked: PQCSettings.thumbnailsFilename
+                onCheckedChanged:
+                    PQCSettings.thumbnailsFilename = checked
+            }
+
+            PQMenuItem {
+                checkable: true
+                text: qsTranslate("settingsmanager", "show tooltips")
+                checked: PQCSettings.thumbnailsTooltip
+                onCheckedChanged:
+                    PQCSettings.thumbnailsTooltip = checked
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "hide when not needed")
+                ButtonGroup.group: grp2
+                checked: PQCSettings.thumbnailsVisibility===0
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.thumbnailsVisibility = 0
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "always keep visible")
+                ButtonGroup.group: grp2
+                checked: PQCSettings.thumbnailsVisibility===1
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.thumbnailsVisibility = 1
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "hide when zoomed in")
+                ButtonGroup.group: grp2
+                checked: PQCSettings.thumbnailsVisibility===2
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.thumbnailsVisibility = 2
+                }
+            }
+
+        }
     }
 
     Connections {
