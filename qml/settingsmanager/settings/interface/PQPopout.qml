@@ -107,12 +107,14 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutAdvancedSort", qsTranslate("settingsmanager", "Advanced image sort")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutChromecast", qsTranslate("settingsmanager", "Streaming (Chromecast)")]]
+                        ["interfacePopoutChromecast", qsTranslate("settingsmanager", "Streaming (Chromecast)")],
+                        //: Used as identifying name for one of the elements in the interface
+                        ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")]]
 
     property var currentCheckBoxStates: ["0","0","0","0","0",
                                          "0","0","0","0","0",
                                          "0","0","0","0","0",
-                                         "0","0","0","0"]
+                                         "0","0","0","0","0"]
     property string _defaultCurrentCheckBoxStates: ""
     onCurrentCheckBoxStatesChanged:
         checkDefault()
