@@ -61,10 +61,12 @@ PQTemplateFullscreen {
 
         Rectangle {
 
+            id: cont
+
             x: (parent.width-width)/2
 
-            width: 600
-            height: 400
+            width: Math.min(chromecastmanager_top.width, 600)
+            height: Math.min(chromecastmanager_top.contentHeight-statusrow.height-10, 400)
 
             color: PQCLook.baseColor
 
@@ -81,7 +83,7 @@ PQTemplateFullscreen {
                 model: PQCScriptsChromeCast.availableDevices.length
 
                 delegate: Rectangle {
-                    width: 600
+                    width: cont.width
                     height: 50
                     color: view.currentIndex==index ? PQCLook.transColorActive : (hovered ? PQCLook.transColorHighlight : PQCLook.transColorAccent)
 
@@ -127,12 +129,14 @@ PQTemplateFullscreen {
 
             PQWorking {
                 id: busy
+                customScaling: Math.min(1.0, parent.height/225)
                 anchors.fill: parent
             }
 
         },
 
         Row {
+            id: statusrow
             x: (parent.width-width)/2
             spacing: 5
             PQText {

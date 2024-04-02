@@ -38,6 +38,8 @@ Rectangle {
     property int circleHeight: 206
     property bool animationRunning: true
 
+    property real customScaling: 1
+
     signal successHidden()
 
     MouseArea {
@@ -64,8 +66,8 @@ Rectangle {
                 id: load
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
-                width: 206 - index*25
-                height: 206 - index*25
+                width: (206 - index*25)*customScaling
+                height: (206 - index*25)*customScaling
                 onPaint: {
                     var ctx = getContext("2d");
                     ctx.strokeStyle = "#ffffff";
@@ -92,8 +94,8 @@ Rectangle {
         id: exportsuccess
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: 200
-        height: 200
+        width: 200*customScaling
+        height: 200*customScaling
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -116,8 +118,8 @@ Rectangle {
         id: exportfailure
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: 125
-        height: 125
+        width: 125*customScaling
+        height: 125*customScaling
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }

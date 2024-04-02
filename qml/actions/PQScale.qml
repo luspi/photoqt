@@ -120,7 +120,6 @@ PQTemplateFullscreen {
                     minval: 1
                     maxval: 99999
                     showSlider: false
-                    animateWidth: false
                     onEditModeChanged: {
                         if(!editMode && spin_h.editMode) {
                             PQCNotify.spinBoxPassKeyEvents = true
@@ -138,12 +137,6 @@ PQTemplateFullscreen {
                         } else
                             reactToValueChanged = true
                     }
-                    Timer {
-                        interval: 50
-                        running: true
-                        onTriggered:
-                            spin_w.animateWidth = true
-                    }
                 }
                 PQSliderSpinBox {
                     id: spin_h
@@ -151,7 +144,6 @@ PQTemplateFullscreen {
                     minval: 1
                     maxval: 99999
                     showSlider: false
-                    animateWidth: false
                     onEditModeChanged: {
                         if(!editMode && spin_w.editMode) {
                             PQCNotify.spinBoxPassKeyEvents = true
@@ -168,12 +160,6 @@ PQTemplateFullscreen {
                             }
                         } else
                             reactToValueChanged = true
-                    }
-                    Timer {
-                        interval: 50
-                        running: true
-                        onTriggered:
-                            spin_h.animateWidth = true
                     }
                 }
 
@@ -195,8 +181,6 @@ PQTemplateFullscreen {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         keepAspectRatio = !keepAspectRatio
-                        if(keepAspectRatio)
-                            updateAsp.restart()
                     }
                 }
             }

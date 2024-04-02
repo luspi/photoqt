@@ -228,7 +228,7 @@ Rectangle {
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        visible: showPopinPopout && !forcePopout
+        visible: showPopinPopout && (!forcePopout || !popout)
         enabled: visible
         PQMouseArea {
             id: popinmouse

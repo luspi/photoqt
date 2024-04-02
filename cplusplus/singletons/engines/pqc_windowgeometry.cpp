@@ -42,15 +42,15 @@ PQCWindowGeometry::PQCWindowGeometry() {
 
     allElements.append(QVariant(QVariantList() << "export"      // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 600)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "about"       // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 500)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "scale"       // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 400)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "mainmenu"    // name
                                                << 400 << 600    // default size
@@ -66,27 +66,27 @@ PQCWindowGeometry::PQCWindowGeometry() {
 
     allElements.append(QVariant(QVariantList() << "histogram"   // name
                                                << 300 << 200    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 500 << 350)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "mapcurrent"  // name
                                                << 400 << 300    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 700 << 500)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "filedelete"  // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 400)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "filerename"  // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 400)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "filter"      // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 650 << 450)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "advancedsort"// name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 650 << 450)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "slideshowsetup"// name
                                                << 800 << 600    // default size
@@ -98,19 +98,19 @@ PQCWindowGeometry::PQCWindowGeometry() {
 
     allElements.append(QVariant(QVariantList() << "imgur"       // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 400)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "wallpaper"   // name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 400)); // popout threshold;
 
-    allElements.append(QVariant(QVariantList() << "mapexplorer" // name
+    allElements.append(QVariant(QVariantList() << "mapexplorer"  // name
                                                << 1024 << 768    // default size
-                                               << 800 << 700));     // popout threshold;
+                                               << 800 << 700));  // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "chromecastmanager"// name
                                                << 800 << 600    // default size
-                                               << 0 << 0));     // popout threshold;
+                                               << 600 << 400)); // popout threshold;
 
     allElements.append(QVariant(QVariantList() << "settingsmanager"// name
                                                << 1000 << 800    // default size
@@ -173,8 +173,6 @@ void PQCWindowGeometry::load() {
 
 void PQCWindowGeometry::save() {
 
-    computeSmallSizeBehavior();
-
     for(const auto &e : allElements) {
         const QString key = e.toList()[0].toString();
         const QString k1 = key+"Geometry";
@@ -182,6 +180,8 @@ void PQCWindowGeometry::save() {
         settings->setValue(k1, this->value(k1).toRect());   // some rect show up as QRectF here and mess with the how the value is written to file
         settings->setValue(k2, this->value(k2));
     }
+
+    computeSmallSizeBehavior();
 
 }
 

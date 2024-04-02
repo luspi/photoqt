@@ -67,14 +67,14 @@ PQTemplateFullscreen {
         Item {
 
             x: (parent.width-width)/2
-            width: 800
+            width: Math.min(wallpaper_top.width, 800)
             height: 400
 
             Item {
                 id: category
                 x: 0
                 y: 0
-                width: visible ? 300 : 0
+                width: visible ? parent.width*0.375 : 0
                 height: parent.height
 
                 visible: !onWindows

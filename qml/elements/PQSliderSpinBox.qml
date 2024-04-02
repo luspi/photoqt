@@ -10,7 +10,8 @@ Item {
     property bool animateWidth: false
     property bool animateHeight: false
 
-    width: (enabled||!animateWidth) ? (pretext.width + sliderrow.width + spinbox.width + 2*controlrow.spacing+ (acceptbut.visible ? (acceptbut.width+controlrow.spacing) : 0)) : 0
+    width: (enabled||!animateWidth) ? (pretext.width + spinbox.width + controlrow.spacing + (showSlider ? (sliderrow.width + controlrow.spacing) : 0) +
+                                       (acceptbut.visible ? (acceptbut.width+controlrow.spacing) : 0)) : 0
     height: (enabled||!animateHeight) ? controlrow.height : 0
     opacity: (enabled||(!animateWidth&&!animateHeight)) ? 1 : 0
 

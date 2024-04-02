@@ -54,7 +54,7 @@ Rectangle {
 
     property bool splitDividerHovered: false
 
-    property bool isPopout: PQCSettings.interfacePopoutFileDialog||PQCWindowGeometry.filedialogForcePopout
+    property bool isPopout: PQCSettings.interfacePopoutFileDialog
 
     color: PQCLook.baseColor
 
@@ -306,6 +306,7 @@ Rectangle {
     }
 
     function showFileDialog() {
+        isPopout = PQCSettings.interfacePopoutFileDialog && PQCWindowGeometry.filedialogForcePopout
         opacity = 1
     }
 
@@ -319,6 +320,8 @@ Rectangle {
             modal.hide()
             return
         }
+
+        isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
 
         fd_breadcrumbs.disableAddressEdit()
         opacity = 0

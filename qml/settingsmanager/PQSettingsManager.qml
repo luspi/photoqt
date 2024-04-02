@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCNotify
+import PQCWindowGeometry
 
 import "../elements"
 
@@ -82,6 +83,8 @@ PQTemplateFullscreen {
             }
         }
     ]
+
+    showPopinPopout: !popout || !PQCWindowGeometry.settingsmanagerForcePopout
 
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)

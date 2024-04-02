@@ -58,7 +58,7 @@ Item {
 
     property real mapZoomLevel: 10
 
-    property bool isPopout: PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
+    property bool isPopout: PQCSettings.interfacePopoutMapExplorer
 
     state: isPopout ?
                "popout" :
@@ -297,10 +297,12 @@ Item {
 
     function showExplorer() {
 
+        isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
+
         if(isPopout)
-            mapexplorer_window.visible = true
-        else
-            opacity = 1
+            mapexplorer_window.show()
+
+        opacity = 1
 
         showExplorerData()
 
@@ -338,6 +340,8 @@ Item {
 
         if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerKeepOpen)
             return
+
+        isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutMapExplorer })
 
         if(isPopout)
             mapexplorer_window.close()
