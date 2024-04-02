@@ -33,14 +33,25 @@ Item {
 
     // MOVE with TOP edge
     MouseArea {
-        x: 0
+        x: statusinfo.item.width
         y: 0
-        width: parent.width-windowbuttons.item.width-10
+        enabled: loader.visibleItem===""
+        visible: enabled
+        width: parent.width - statusinfo.item.width-20 - windowbuttons.item.width-10
         height: 3*thickness
         hoverEnabled: true
         cursorShape: Qt.SizeAllCursor
+        acceptedButtons: Qt.AllButtons
+        onWheel: (wheel) => { wheel.accepted = true }
         onPressed:
             toplevel.startSystemMove()
+        onDoubleClicked: {
+            if(toplevel.visibility === Window.Maximized)
+                toplevel.visibility = Window.Windowed
+            else if(toplevel.visibility === Window.Windowed)
+                toplevel.visibility = Window.Maximized
+        }
+
     }
 
     // LEFT edge
