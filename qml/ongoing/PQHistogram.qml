@@ -21,11 +21,13 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import QtCharts
 
 import PQCFileFolderModel
 import PQCScriptsImages
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 
@@ -80,7 +82,7 @@ PQTemplateFloating {
     popout: PQCSettings.interfacePopoutHistogram
     forcePopout: PQCWindowGeometry.histogramForcePopout
     shortcut: "__histogram"
-    tooltip: (popout||forcePopout ? "" : (qsTranslate("histogram", "Click-and-drag to move.")+" ")) + qsTranslate("histogram", "Right click to switch version.")
+    tooltip: qsTranslate("histogram", "Click-and-drag to move.")
     blur_thisis: "histogram"
 
     onPopoutChanged: {
@@ -240,7 +242,7 @@ PQTemplateFloating {
     }
 
     onRightClicked: (mouse) => {
-        PQCSettings.histogramVersion = (PQCSettings.histogramVersion==="color" ? "grey" : "color")
+        menu.item.popup()
     }
 
     Timer {
@@ -252,6 +254,67 @@ PQTemplateFloating {
             if(PQCFileFolderModel.currentIndex === indexTriggered)
                 PQCScriptsImages.loadHistogramData(PQCFileFolderModel.currentFile, PQCFileFolderModel.currentIndex)
         }
+    }
+
+    ButtonGroup { id: grp }
+
+    Loader {
+
+        id: menu
+        asynchronous: true
+
+        sourceComponent:
+        PQMenu {
+            id: themenu
+            PQMenuItem {
+                checkable: true
+                text: qsTranslate("histogram", "show histogram")
+                checked: PQCSettings.histogramVisible
+                onCheckedChanged: {
+                    PQCSettings.histogramVisible = checked
+                    if(!checked)
+                        themenu.dismiss()
+                }
+            }
+            PQMenuSeparator {}
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                //: used in context menu for histogram
+                text: qsTranslate("histogram", "RGB colors")
+                ButtonGroup.group: grp
+                checked: PQCSettings.histogramVersion==="color"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.histogramVersion = "color"
+                }
+            }
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                //: used in context menu for histogram
+                text: qsTranslate("histogram", "gray scale")
+                ButtonGroup.group: grp
+                checked: PQCSettings.histogramVersion==="grey"
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.histogramVersion = "grey"
+                }
+            }
+
+            onAboutToHide:
+                recordAsClosed.restart()
+            onAboutToShow:
+                PQCNotify.addToWhichContextMenusOpen("histogram")
+
+            Timer {
+                id: recordAsClosed
+                interval: 200
+                onTriggered:
+                    PQCNotify.removeFromWhichContextMenusOpen("histogram")
+            }
+        }
+
     }
 
     Connections {
@@ -304,9 +367,6 @@ PQTemplateFloating {
 
         function onHistogramDataLoadedFailed(index) {
             if(index === PQCFileFolderModel.currentIndex) {
-
-                console.warn("FAILED")
-
                 histogramred.clear()
                 histogramgreen.clear()
                 histogramblue.clear()
@@ -376,6 +436,15 @@ PQTemplateFloating {
                 show()
             else
                 hide()
+        }
+
+    }
+
+    Connections {
+        target: PQCNotify
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss()
         }
 
     }
