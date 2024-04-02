@@ -68,7 +68,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Sort images")
 
-            helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways depending. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
+            helptext: qsTranslate("settingsmanager", "Images in a folder can be sorted in different ways. Once a folder is loaded it is possible to further sort a folder in several advanced ways using the menu option for sorting.")
 
             content: [
                 Row {
@@ -223,7 +223,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Single clicks")
 
-            helptext: qsTranslate("settingsmanager", "By default the behavior of single clicks follows the standard behavior on Linux, where a single click opens a file or folder. Enabling this section results in single clicks only selecting files and folders with double clicks required to actually open them.")
+            helptext: qsTranslate("settingsmanager", "By default the behavior of single clicks follows the standard behavior on Linux, where a single click opens a file or folder. Enabling this setting results in single clicks only selecting files and folders with double clicks required to actually open them.")
 
             content: [
                 PQRadioButton {
@@ -359,7 +359,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Padding")
 
-            helptext: qsTranslate("settingsmanager", "The space between the different thumbnails is the gap shown between them.")
+            helptext: qsTranslate("settingsmanager", "The empty space between the different thumbnails.")
 
             content: [
                 PQSliderSpinBox {
@@ -386,7 +386,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Folder thumbnails")
 
-            helptext: qsTranslate("settingsmanager", "When hovering over a folder PhotoQt can give a preview of that folder by rotating through thumbnails of its content. Additionally, the timeout before changing the thumbnail and whether to loop around can be adjusted. Enabling the auto load setting preloads the first thumbnail when the parent folder is loaded.")
+            helptext: qsTranslate("settingsmanager", "When hovering over a folder PhotoQt can give a preview of that folder by iterating through thumbnails of its content. Additionally, the timeout before changing the thumbnail and whether to loop around can be adjusted. Enabling the auto load setting preloads the first thumbnail when the parent folder is opened.")
 
             content: [
                 PQCheckBox {

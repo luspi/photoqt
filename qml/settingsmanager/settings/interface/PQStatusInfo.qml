@@ -130,8 +130,8 @@ Flickable {
                             "rotation": qsTranslate("settingsmanager", "rotation"),
                             //: Please keep short! This is the filesize of the current image.
                             "filesize": qsTranslate("settingsmanager", "filesize"),
-                            //: Please keep short! This is the color space used for the current image
-                            "colorspace": qsTranslate("settingsmanager", "color space")
+                            //: Please keep short! This is the color profile used for the current image
+                            "colorprofile": qsTranslate("settingsmanager", "color profile")
                         }
 
                         model: ListModel {
@@ -272,8 +272,8 @@ Flickable {
                             ["rotation", qsTranslate("settingsmanager", "rotation")],
                             //: Please keep short! This is the filesize of the current image.
                             ["filesize", qsTranslate("settingsmanager", "filesize")],
-                            //: Please keep short! This is the color space used for the current image
-                            ["colorspace", qsTranslate("settingsmanager", "color space")]
+                            //: Please keep short! This is the color profile used for the current image
+                            ["colorprofile", qsTranslate("settingsmanager", "color profile")]
                         ]
                         property var modeldata: []
                         model: modeldata

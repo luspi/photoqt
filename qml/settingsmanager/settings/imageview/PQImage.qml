@@ -257,7 +257,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Color profiles")
 
-            helptext: qsTranslate("settingsmanager", "There are a variety of options available for handling color profiles. Depending on availability, PhotoQt can use a possibly embedded color profile, it can apply any default color profile, it can offer a customized selection of color profiles through the context menu, and it allows for choosing a different color profile on-the-fly.")
+            helptext: qsTranslate("settingsmanager", "There are a variety of options available for handling color profiles. Depending on availability, PhotoQt can use a possibly embedded color profile or apply a custom selected default color profile, and it can offer a customized selection of color profiles through the context menu for choosing a different profile on-the-fly.")
 
             content: [
 

@@ -155,8 +155,8 @@ Item {
                                                                            rectRotation :
                                                                            t=="filesize" ?
                                                                                rectFilesize :
-                                                                               t=="colorspace" ?
-                                                                                   rectColorSpace :
+                                                                               t=="colorprofile" ?
+                                                                                   rectColorProfile :
                                                                                    rectDummy
                             }
 
@@ -481,7 +481,7 @@ Item {
     }
 
     Component {
-        id: rectColorSpace
+        id: rectColorProfile
         PQText {
             id: csptxt
             Behavior on color { ColorAnimation { duration: 200 } }
@@ -531,7 +531,7 @@ Item {
                     var val = PQCScriptsImages.detectVideoColorProfile(PQCFileFolderModel.currentFile)
                     csptxt.color = PQCLook.textColor
                     if(val === "")
-                        val = qsTranslate("statusinfo", "unknown color space")
+                        val = qsTranslate("statusinfo", "unknown color profile")
                     csptxt.text = val
                 }
             }

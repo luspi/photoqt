@@ -243,7 +243,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Shuffle")
 
-            helptext: qsTranslate("settingsmanager", "The images can either be shown in their normal order or they can be traversed in a randomly shuffled order.")
+            helptext: qsTranslate("settingsmanager", "The images can either be shown in their normal or a randomly shuffled order.")
 
             content: [
                 PQCheckBox {
@@ -264,7 +264,7 @@ Flickable {
         PQSetting {
 
             //: Settings title
-            title: qsTranslate("settingsmanager", "Status info an window buttons")
+            title: qsTranslate("settingsmanager", "Status info and window buttons")
 
             helptext: qsTranslate("settingsmanager", "The status info and the window buttons can either remain visible or be hidden during slideshows.")
 
@@ -296,7 +296,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Include subfolders")
 
-            helptext: qsTranslate("settingsmanager", "When starting a slideshow PhotoQt can also include images in subfolders in the list of images to iterate over.")
+            helptext: qsTranslate("settingsmanager", "When starting a slideshow PhotoQt can also include images in subfolders.")
 
             content: [
                 PQCheckBox {
