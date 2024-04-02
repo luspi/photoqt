@@ -30,6 +30,7 @@ PQMultiEffect {
 
     anchors.fill: masterItem
     opacity: masterItem.opacity
+    visible: masterItem.visible
 
     source: masterItem
     shadowEnabled: true
