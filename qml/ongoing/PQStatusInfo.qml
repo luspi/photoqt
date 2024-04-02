@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
@@ -38,7 +39,7 @@ Item {
     x: 2*distanceFromEdge
     y: distanceFromEdge
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || movedByMouse) ? 200 : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge || movedByMouse) ? 200 : 0 } }
     Behavior on x { NumberAnimation { duration: (movedByMouse) ? 200 : 0 } }
 
     property bool movedByMouse: false
@@ -61,12 +62,21 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        acceptedButtons: Qt.RightButton|Qt.LeftButton
+        acceptedButtons: Qt.AllButtons
+        onPressed: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                menu.item.popup()
+        }
     }
 
-    state: (!PQCSettings.interfaceStatusInfoAutoHide && PQCSettings.interfaceStatusInfoShow) ?
+    state: (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge && PQCSettings.interfaceStatusInfoShow) ?
                "visible" :
                "hidden"
+
+    onStateChanged: {
+        if(state === "hidden")
+            menu.item.dismiss()
+    }
 
     states: [
         State {
@@ -80,7 +90,7 @@ Item {
             name: "hidden"
             PropertyChanges {
                 target: statusinfo_top
-                y: -height
+                y: -height-5
             }
         }
     ]
@@ -151,7 +161,7 @@ Item {
                             Rectangle {
                                 height: ldr.height
                                 width: 1
-                                color: PQCLook.textColor
+                                color: PQCLook.textColorDisabled
                                 visible: index<info.length-1 && PQCFileFolderModel.countMainView>0
                             }
 
@@ -467,6 +477,15 @@ Item {
         PQText {
             id: csptxt
             Behavior on color { ColorAnimation { duration: 200 } }
+            Component.onCompleted: {
+                var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                if(val !== "") {
+                    csptxt.text = val
+                    csptxt.color = PQCLook.textColor
+                } else
+                    csptxt.color = PQCLook.textColorDisabled
+            }
+
             Connections {
                 target: PQCNotify
                 function onColorProfilesChanged() {
@@ -518,6 +537,76 @@ Item {
         }
     }
 
+    ButtonGroup { id: grp }
+
+    Loader {
+        id: menu
+        asynchronous: true
+        sourceComponent:
+            PQMenu {
+                PQMenuItem {
+                    checkable: true
+                    text: qsTranslate("settingsmanager", "show")
+                    checked: PQCSettings.interfaceStatusInfoShow
+                    onCheckedChanged:
+                        PQCSettings.interfaceStatusInfoShow = checked
+                }
+                PQMenuItem {
+                    checkable: true
+                    text: qsTranslate("settingsmanager",  "manage window")
+                    checked: PQCSettings.interfaceStatusInfoManageWindow
+                    onCheckedChanged:
+                        PQCSettings.interfaceStatusInfoManageWindow = checked
+                }
+                PQMenuSeparator {}
+                PQMenuItem {
+                    enabled: false
+                    moveToRightABit: true
+                    text: "visibility:"
+                }
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "always")
+                    ButtonGroup.group: grp
+                    checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.interfaceStatusInfoAutoHide = false
+                            PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
+                        }
+                    }
+                }
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "cursor move")
+                    ButtonGroup.group: grp
+                    checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.interfaceStatusInfoAutoHide = true
+                            PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
+                        }
+                    }
+                }
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "cursor near top edge")
+                    ButtonGroup.group: grp
+                    checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.interfaceStatusInfoAutoHide = false
+                            PQCSettings.interfaceStatusInfoAutoHideTopEdge = true
+                        }
+                    }
+                }
+            }
+    }
+
     property bool nearTopEdge: false
 
     Connections {
@@ -526,7 +615,7 @@ Item {
 
         function onMouseMove(posx, posy) {
 
-            if(!PQCSettings.interfaceStatusInfoAutoHide || loader.visibleItem !== "") {
+            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || loader.visibleItem !== "") {
                 resetAutoHide.stop()
                 statusinfo_top.state = "visible"
                 nearTopEdge = true
@@ -537,13 +626,13 @@ Item {
             if(PQCSettings.interfaceEdgeTopAction !== "")
                 trigger *= 2
 
-            if((posy < trigger && PQCSettings.interfaceStatusInfoAutoHideTopEdge) || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) {
+            if((posy < trigger && PQCSettings.interfaceStatusInfoAutoHideTopEdge) || !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
                 statusinfo_top.state = "visible"
-                nearTopEdge = true
-            } else
-                nearTopEdge = false
 
-            resetAutoHide.restart()
+            nearTopEdge = (posy < trigger)
+
+            if(!nearTopEdge && (!resetAutoHide.running || PQCSettings.interfaceStatusInfoAutoHide))
+                resetAutoHide.restart()
 
         }
 
@@ -555,7 +644,9 @@ Item {
 
         function onCurrentIndexChanged() {
 
-            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 || !PQCSettings.interfaceStatusInfoAutoHide || !PQCSettings.interfaceStatusInfoShowImageChange)
+            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 ||
+                    (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) ||
+                    !PQCSettings.interfaceStatusInfoShowImageChange)
                 return
 
             statusinfo_top.state = "visible"
@@ -582,7 +673,7 @@ Item {
         repeat: false
         running: false
         onTriggered: {
-            if(!nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+            if((!nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened)
                 statusinfo_top.state = "hidden"
         }
     }
