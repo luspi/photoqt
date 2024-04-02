@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Window
 
 import PQCFileFolderModel
@@ -35,7 +36,7 @@ Item {
 
     x: toplevel.width-width-distanceFromEdge
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || movedByMouse) ? 200 : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || PQCSettings.interfaceWindowButtonsAutoHideTopEdge || movedByMouse) ? 200 : 0 } }
     Behavior on x { NumberAnimation { duration: (movedByMouse) ? 200 : 0 } }
 
     property bool movedByMouse: false
@@ -52,6 +53,11 @@ Item {
     state: (!PQCSettings.interfaceWindowButtonsAutoHide && PQCSettings.interfaceWindowButtonsShow) ?
                "visible" :
                "hidden"
+
+    onStateChanged: {
+        if(state === "hidden" && menu.item !== null)
+            menu.item.dismiss()
+    }
 
     states: [
         State {
@@ -74,6 +80,11 @@ Item {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                menu.item.popup()
+        }
     }
 
     Row {
@@ -99,8 +110,13 @@ Item {
                 hoverEnabled: true
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                 text: qsTranslate("navigate", "Navigate to previous image in folder")
-                onClicked:
-                    PQCNotify.executeInternalCommand("__prev")
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        PQCNotify.executeInternalCommand("__prev")
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
         }
 
@@ -121,8 +137,13 @@ Item {
                 hoverEnabled: true
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                 text: qsTranslate("navigate", "Navigate to next image in folder")
-                onClicked:
-                    PQCNotify.executeInternalCommand("__next")
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        PQCNotify.executeInternalCommand("__next")
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
         }
 
@@ -150,8 +171,13 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 text: qsTranslate("quickinfo", "Click here to show main menu")
-                onClicked:
-                    PQCNotify.executeInternalCommand("__toggleMainMenu")
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        PQCNotify.executeInternalCommand("__toggleMainMenu")
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
         }
 
@@ -174,8 +200,13 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 text: PQCSettings.interfaceKeepWindowOnTop ? qsTranslate("quickinfo", "Click here to not keep window in foreground") : qsTranslate("quickinfo", "Click here to keep window in foreground")
-                onClicked:
-                    PQCSettings.interfaceKeepWindowOnTop = !PQCSettings.interfaceKeepWindowOnTop
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        PQCSettings.interfaceKeepWindowOnTop = !PQCSettings.interfaceKeepWindowOnTop
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
         }
 
@@ -204,8 +235,13 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 text: qsTranslate("quickinfo", "Click here to minimize window")
-                onClicked:
-                    toplevel.showMinimized()
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        toplevel.showMinimized()
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
         }
 
@@ -238,11 +274,15 @@ Item {
                 text: (toplevel.visibility===Window.Maximized ?
                            qsTranslate("quickinfo", "Click here to restore window") :
                            qsTranslate("quickinfo", "Click here to maximize window"))
-                onClicked: {
-                    if(toplevel.visibility === Window.Windowed)
-                        toplevel.visibility = Window.Maximized
-                    else
-                        toplevel.visibility = Window.Windowed
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton) {
+                        if(toplevel.visibility === Window.Windowed)
+                            toplevel.visibility = Window.Maximized
+                        else
+                            toplevel.visibility = Window.Windowed
+                    } else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
                 }
             }
         }
@@ -271,8 +311,13 @@ Item {
                 text: (PQCSettings.interfaceWindowMode ?
                            qsTranslate("quickinfo", "Click here to enter fullscreen mode") :
                            qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
-                onClicked:
-                    PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
         }
 
@@ -303,12 +348,98 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 text: qsTranslate("quickinfo", "Click here to close PhotoQt")
-                onClicked:
-                    toplevel.close()
+                acceptedButtons: Qt.AllButtons
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        toplevel.close()
+                    else if(mouse.button === Qt.RightButton)
+                        menu.item.popup()
+                }
             }
 
         }
 
+    }
+
+    ButtonGroup { id: grp }
+
+    Loader {
+        id: menu
+        asynchronous: true
+        sourceComponent:
+            PQMenu {
+                id: menucomponent
+                PQMenuItem {
+                    checkable: true
+                    text: qsTranslate("settingsmanager", "show")
+                    checked: PQCSettings.interfaceWindowButtonsShow
+                    onCheckedChanged: {
+                        PQCSettings.interfaceWindowButtonsShow = checked
+                        if(!checked)
+                            menucomponent.dismiss()
+                    }
+                }
+                PQMenuItem {
+                    checkable: true
+                    text: qsTranslate("settingsmanager", "duplicate buttons")
+                    checked: PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons
+                    onCheckedChanged:
+                        PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = checked
+                }
+                PQMenuItem {
+                    checkable: true
+                    text: qsTranslate("settingsmanager", "navigation icons")
+                    checked: PQCSettings.interfaceNavigationTopRight
+                    onCheckedChanged:
+                        PQCSettings.interfaceNavigationTopRight = checked
+                }
+                PQMenuSeparator {}
+                PQMenuItem {
+                    enabled: false
+                    moveToRightABit: true
+                    text: "visibility:"
+                }
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "always")
+                    ButtonGroup.group: grp
+                    checked: !PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.interfaceWindowButtonsAutoHide = false
+                            PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
+                        }
+                    }
+                }
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "cursor move")
+                    ButtonGroup.group: grp
+                    checked: PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.interfaceWindowButtonsAutoHide = true
+                            PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
+                        }
+                    }
+                }
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "cursor near top edge")
+                    ButtonGroup.group: grp
+                    checked: PQCSettings.interfaceWindowButtonsAutoHideTopEdge
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.interfaceWindowButtonsAutoHide = false
+                            PQCSettings.interfaceWindowButtonsAutoHideTopEdge = true
+                        }
+                    }
+                }
+            }
     }
 
     property bool nearTopEdge: false
@@ -319,7 +450,7 @@ Item {
 
         function onMouseMove(posx, posy) {
 
-            if(!PQCSettings.interfaceWindowButtonsAutoHide || loader.visibleItem !== "") {
+            if((!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || loader.visibleItem !== "") {
                 resetAutoHide.stop()
                 windowbuttons_top.state = "visible"
                 nearTopEdge = true
@@ -330,13 +461,13 @@ Item {
             if(PQCSettings.interfaceEdgeTopAction !== "")
                 trigger *= 2
 
-            if((posy < trigger && PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) {
+            if((posy < trigger && PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
                 windowbuttons_top.state = "visible"
-                nearTopEdge = true
-            } else
-                nearTopEdge = false
 
-            resetAutoHide.restart()
+            nearTopEdge = (posy < trigger)
+
+            if(!nearTopEdge && (!resetAutoHide.running || PQCSettings.interfaceWindowButtonsAutoHideTopEdge))
+                resetAutoHide.restart()
 
         }
 
@@ -359,7 +490,7 @@ Item {
         repeat: false
         running: false
         onTriggered: {
-            if(!nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
+            if((!nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) && !menu.item.opened)
                 windowbuttons_top.state = "hidden"
         }
     }
