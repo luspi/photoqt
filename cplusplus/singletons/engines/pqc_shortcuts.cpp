@@ -240,7 +240,7 @@ void PQCShortcuts::readDB() {
 
     while(query.next()) {
 
-        const QString combo = query.value(0).toString();
+        QString combo = query.value(0).toString();
         const QStringList commands = query.value(1).toString().split(":://::");
         const int cycle = query.value(2).toInt();
         int cycletimeout = query.value(3).toInt();
@@ -248,6 +248,8 @@ void PQCShortcuts::readDB() {
 
         if(cycle == 0 && simultaneous == 0)
             cycletimeout = 1;
+
+        if(combo == "Del") combo = "Delete";
 
         shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
         shortcutsOrder.push_back(combo);
@@ -421,7 +423,8 @@ bool PQCShortcuts::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "dev";
+    // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
     if(oldversion != "dev" && versions.indexOf(oldversion) == -1) {
@@ -429,11 +432,11 @@ bool PQCShortcuts::migrate(QString oldversion) {
     }
 
     int iVersion = 0;
-    if(oldversion != "" && versions.contains(oldversion))
+    if(oldversion == "dev")
+        iVersion = versions.length()-1;
+    else if(oldversion != "" && versions.contains(oldversion))
         // we do a +1 as we are on the found version and don't need to migrate to it
         iVersion = versions.indexOf(oldversion)+1;
-    else if(oldversion == "dev")
-        iVersion = versions.length()-1;
 
     // we iterate through all migrations one by one
 
@@ -497,6 +500,62 @@ bool PQCShortcuts::migrate(QString oldversion) {
                 queryInsert.clear();
 
                 queryAttach.clear();
+
+            }
+
+            query.clear();
+
+        } else if(curVer == "dev") {
+
+            // Update 'Del' to 'Delete'
+
+            // first update shortcut set to exactly 'Del'
+            QSqlQuery query(db);
+            if(!query.exec("Update `shortcuts` SET `combo`='Delete' WHERE `combo`='Del'"))
+                qWarning() << "Unable to change 'Del' shortcut to 'Delete':" << query.lastError().text();
+            query.clear();
+
+            // next we update the ones with 'Del' no at the end
+            QSqlQuery query2(db);
+            if(query2.exec("SELECT `combo` FROM `shortcuts` WHERE combo LIKE 'Del+%'")) {
+
+                while(query2.next()) {
+
+                    QString combo = query2.value(0).toString();
+                    QString comboNEW = query2.value(0).toString().replace("Del+", "Delete+");
+
+                    QSqlQuery queryUpd(db);
+                    queryUpd.prepare("UPDATE `shortcuts` SET `combo`=:combonew WHERE `combo`=:combo");
+                    queryUpd.bindValue(":combonew", comboNEW);
+                    queryUpd.bindValue(":combo", combo);
+                    if(!queryUpd.exec())
+                        qWarning() << "Unable to update 'Del' to 'Delete' in shortcut" << combo << "::" << queryUpd.lastError().text();
+                    queryUpd.clear();
+
+                }
+
+            }
+
+            query2.clear();
+
+            // next we update the ones with 'Del' at the end
+            if(query.exec("SELECT `combo` FROM `shortcuts` WHERE combo LIKE '%+Del'")) {
+
+                while(query.next()) {
+
+                    QString combo = query.value(0).toString();
+                    QString comboNEW = combo.replace("+Del", "+Delete");
+
+                    QSqlQuery queryUpd(db);
+                    queryUpd.prepare("UPDATE `shortcuts` SET `combo`=:combonew WHERE `combo`=:combo");
+                    queryUpd.bindValue(":combonew", comboNEW);
+                    queryUpd.bindValue(":combo", combo);
+                    queryUpd.exec();
+                    if(queryUpd.lastError().text().trimmed().length())
+                        qWarning() << "Unable to update 'Del' to 'Delete' in shortcut" << combo << "::" << queryUpd.lastError().text();
+                    queryUpd.clear();
+
+                }
 
             }
 

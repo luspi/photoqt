@@ -422,11 +422,11 @@ int PQCSettings::migrate(QString oldversion) {
     }
 
     int iVersion = 0;
-    if(oldversion != "" && versions.contains(oldversion))
+    if(oldversion == "dev")
+        iVersion = versions.length()-1;
+    else if(oldversion != "" && versions.contains(oldversion))
         // we do a +1 as we are on the found version and don't need to migrate to it
         iVersion = versions.indexOf(oldversion)+1;
-    else if(oldversion == "dev")
-        iVersion = versions.length()-1;
 
     // we iterate through all migrations one by one
 
