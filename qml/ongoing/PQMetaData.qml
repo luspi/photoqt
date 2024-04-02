@@ -79,6 +79,11 @@ Rectangle {
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
 
+    onSetVisibleChanged: {
+        if(!setVisible)
+            menu.item.dismiss()
+    }
+
     PQBlurBackground { thisis: "metadata" }
     PQShadowEffect { masterItem: metadata_top }
 
@@ -156,8 +161,13 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
         onWheel: (wheel) =>{
             wheel.accepted = true
+        }
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                menu.item.popup()
         }
     }
 
@@ -238,31 +248,31 @@ Rectangle {
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File name")
                 valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
-                visible: PQCSettings.metadataFilename
+                prop: PQCSettings.metadataFilename
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Dimensions")
                 valtxt: PQCFileFolderModel.countMainView>0 ? ("%1 x %2".arg(image.currentResolution.width).arg(image.currentResolution.height)) : ""
-                visible: PQCSettings.metadataDimensions
+                prop: PQCSettings.metadataDimensions
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Image")
                 valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : ""
-                visible: PQCSettings.metadataImageNumber
+                prop: PQCSettings.metadataImageNumber
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File size")
                 valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
-                visible: PQCSettings.metadataFileSize
+                prop: PQCSettings.metadataFileSize
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File type")
                 valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
-                visible: PQCSettings.metadataFileType
+                prop: PQCSettings.metadataFileType
             }
 
             Item {
@@ -273,19 +283,19 @@ Rectangle {
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Make")
                 valtxt: PQCMetaData.exifMake
-                visible: PQCSettings.metadataMake
+                prop: PQCSettings.metadataMake
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Model")
                 valtxt: PQCMetaData.exifModel
-                visible: PQCSettings.metadataModel
+                prop: PQCSettings.metadataModel
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Software")
                 valtxt: PQCMetaData.exifSoftware
-                visible: PQCSettings.metadataSoftware
+                prop: PQCSettings.metadataSoftware
             }
 
             Item {
@@ -296,49 +306,49 @@ Rectangle {
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Time Photo was Taken")
                 valtxt: PQCMetaData.exifDateTimeOriginal
-                visible: PQCSettings.metadataTime
+                prop: PQCSettings.metadataTime
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Exposure Time")
                 valtxt: PQCMetaData.exifExposureTime
-                visible: PQCSettings.metadataExposureTime
+                prop: PQCSettings.metadataExposureTime
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Flash")
                 valtxt: PQCMetaData.exifFlash
-                visible: PQCSettings.metadataFlash
+                prop: PQCSettings.metadataFlash
             }
 
             PQMetaDataEntry {
                 whichtxt: "ISO"
                 valtxt: PQCMetaData.exifISOSpeedRatings
-                visible: PQCSettings.metadataIso
+                prop: PQCSettings.metadataIso
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Scene Type")
                 valtxt: PQCMetaData.exifSceneCaptureType
-                visible: PQCSettings.metadataSceneType
+                prop: PQCSettings.metadataSceneType
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Focal Length")
                 valtxt: PQCMetaData.exifFocalLength
-                visible: PQCSettings.metadataFLength
+                prop: PQCSettings.metadataFLength
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "F Number")
                 valtxt: PQCMetaData.exifFNumber
-                visible: PQCSettings.metadataFNumber
+                prop: PQCSettings.metadataFNumber
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Light Source")
                 valtxt: PQCMetaData.exifLightSource
-                visible: PQCSettings.metadataLightSource
+                prop: PQCSettings.metadataLightSource
             }
 
             Item {
@@ -349,19 +359,19 @@ Rectangle {
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Keywords")
                 valtxt: PQCMetaData.iptcKeywords
-                visible: PQCSettings.metadataKeywords
+                prop: PQCSettings.metadataKeywords
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Location")
                 valtxt: PQCMetaData.iptcLocation
-                visible: PQCSettings.metadataLocation
+                prop: PQCSettings.metadataLocation
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Copyright")
                 valtxt: PQCMetaData.iptcCopyright
-                visible: PQCSettings.metadataCopyright
+                prop: PQCSettings.metadataCopyright
             }
 
             Item {
@@ -372,7 +382,7 @@ Rectangle {
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "GPS Position")
                 valtxt: PQCMetaData.exifGPS
-                visible: PQCSettings.metadataGps
+                prop: PQCSettings.metadataGps
                 tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
                 signalClicks: true
                 onClicked: (mouse) => {
@@ -462,6 +472,125 @@ Rectangle {
                 return
             var diff = clickStart-mouse.x
             PQCSettings.metadataElementSize.width = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
+
+        }
+
+    }
+
+    ButtonGroup { id: grp1 }
+    ButtonGroup { id: grp2 }
+
+    property var labels: [
+        ["Filename", qsTranslate("settingsmanager", "file name")],
+        ["Dimensions", qsTranslate("settingsmanager", "dimensions")],
+        ["ImageNumber", qsTranslate("settingsmanager", "image #/#")],
+        ["FileSize", qsTranslate("settingsmanager", "file size")],
+        ["FileType", qsTranslate("settingsmanager", "file type")],
+        ["Make", qsTranslate("settingsmanager", "make")],
+        ["Model", qsTranslate("settingsmanager", "model")],
+        ["Software", qsTranslate("settingsmanager", "software")],
+        ["Time", qsTranslate("settingsmanager", "time photo was taken")],
+        ["ExposureTime", qsTranslate("settingsmanager", "exposure time")],
+        ["Flash", qsTranslate("settingsmanager", "flash")],
+        ["Iso", "ISO"],
+        ["SceneType", qsTranslate("settingsmanager", "scene type")],
+        ["FLength", qsTranslate("settingsmanager", "focal length")],
+        ["FNumber", qsTranslate("settingsmanager", "f-number")],
+        ["LightSource", qsTranslate("settingsmanager", "light source")],
+        ["Keywords", qsTranslate("settingsmanager", "keywords")],
+        ["Location", qsTranslate("settingsmanager", "location")],
+        ["Copyright", qsTranslate("settingsmanager", "copyright")],
+        ["Gps", qsTranslate("settingsmanager", "GPS position")]]
+
+    Loader {
+
+        id: menu
+        asynchronous: true
+
+        sourceComponent:
+        PQMenu {
+
+            PQMenu {
+                title: "Visible labels"
+
+                Repeater {
+
+                    model: labels.length
+
+                    PQMenuItem {
+                        id: ent
+                        checkable: true
+                        text: labels[index][1]
+                        checked: PQCSettings["metadata"+labels[index][0]]
+                        onCheckedChanged: {
+                            PQCSettings["metadata"+labels[index][0]] = checked
+                        }
+                    }
+
+                }
+
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "hide behind screen edge")
+                ButtonGroup.group: grp1
+                checked: !PQCSettings.metadataElementFloating
+                onCheckedChanged:
+                    PQCSettings.metadataElementFloating = !checked
+            }
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "use floating element")
+                ButtonGroup.group: grp1
+                checked: PQCSettings.metadataElementFloating
+                onCheckedChanged: {
+                    PQCSettings.metadataElementFloating = checked
+                    if(checked)
+                        setVisible = true
+                }
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                enabled: false
+                moveToRightABit: true
+                text: qsTranslate("settingsmanager", "GPS map")
+            }
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: "openstreetmap.org"
+                ButtonGroup.group: grp2
+                checked: PQCSettings.metadataGpsMap==="openstreetmap.org"
+                onCheckedChanged:
+                    PQCSettings.metadataGpsMap = "openstreetmap.org"
+            }
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: "maps.google.com"
+                ButtonGroup.group: grp2
+                checked: PQCSettings.metadataGpsMap==="maps.google.com"
+                onCheckedChanged:
+                    PQCSettings.metadataGpsMap = "maps.google.com"
+            }
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: "bing.com/maps"
+                ButtonGroup.group: grp2
+                checked: PQCSettings.metadataGpsMap==="bing.com/maps"
+                onCheckedChanged:
+                    PQCSettings.metadataGpsMap = "bing.com/maps"
+            }
 
         }
 

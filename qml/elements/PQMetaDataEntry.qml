@@ -36,6 +36,15 @@ Column {
 
     property bool signalClicks: false
     property string tooltip: qsTranslate("metadata", "Copy value to clipboard")
+    clip: true
+
+    property bool prop: true
+
+    height: prop ? childrenRect.height : 0
+    opacity: prop ? 1 : 0
+
+    Behavior on height { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: 150 } }
 
     signal clicked(var mouse)
 
