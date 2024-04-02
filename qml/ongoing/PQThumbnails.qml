@@ -463,6 +463,7 @@ Item {
                 property bool tooltipSetup: false
 
                 onEntered: {
+
                     view.highlightIndex = index
 
                     if(!tooltipSetup && PQCSettings.thumbnailsTooltip) {
@@ -492,10 +493,12 @@ Item {
                 }
 
                 onClicked: {
-                    PQCFileFolderModel.currentIndex = index
+                    if(PQCNotify.whichContextMenusOpen.length === 0)
+                        PQCFileFolderModel.currentIndex = index
                 }
                 onWheel: (wheel) => {
-                    flickView(wheel.angleDelta)
+                    if(PQCNotify.whichContextMenusOpen.length === 0)
+                        flickView(wheel.angleDelta)
                 }
 
             }
