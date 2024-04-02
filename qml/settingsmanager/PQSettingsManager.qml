@@ -105,7 +105,8 @@ PQTemplateFullscreen {
                                                 [qsTranslate("settingsmanager", "Language"),
                                                  qsTranslate("settingsmanager", "Fullscreen or window mode"),
                                                  qsTranslate("settingsmanager", "Window buttons"),
-                                                 qsTranslate("settingsmanager", "Hide automatically")],
+                                                 qsTranslate("settingsmanager", "Hide automatically"),
+                                                 qsTranslate("settingsmanager", "Accent color")],
                                                  // the settings for filtering
                                                 ["Language",
                                                  "WindowMode",
@@ -118,7 +119,8 @@ PQTemplateFullscreen {
                                                  "WindowButtonsSize",
                                                  "WindowButtonsAutoHide",
                                                  "WindowButtonsAutoHideTopEdge",
-                                                 "WindowButtonsAutoHideTimeout"]],
+                                                 "WindowButtonsAutoHideTimeout",
+                                                 "AccentColor"]],
 
                                                 //: A settings subcategory
                             "if_background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground",
@@ -128,6 +130,7 @@ PQTemplateFullscreen {
                                                 ["BackgroundImageScreenshot",
                                                  "BackgroundImageUse",
                                                  "BackgroundSolid",
+                                                 "BackgroundFullyTransparent",
                                                  "BackgroundImageUse",
                                                  "BackgroundImagePath",
                                                  "BackgroundImageScale",
@@ -166,7 +169,8 @@ PQTemplateFullscreen {
                                                  "PopoutWallpaper",
                                                  "PopoutFilter",
                                                  "PopoutAdvancedSort",
-                                                 "PopoutChromecast"]],
+                                                 "PopoutChromecast",
+                                                 "MinimapPopout"]],
 
                                                 //: A settings subcategory
                             "if_edges"       : [qsTranslate("settingsmanager", "Edges"),        "PQEdges",
@@ -212,25 +216,35 @@ PQTemplateFullscreen {
                                                  qsTranslate("settingsmanager", "Image size"),
                                                  qsTranslate("settingsmanager", "Transparency marker"),
                                                  qsTranslate("settingsmanager", "Interpolation"),
-                                                 qsTranslate("settingsmanager", "Cache")],
+                                                 qsTranslate("settingsmanager", "Cache"),
+                                                 qsTranslate("settingsmanager", "Color profiles")],
                                                 ["Margin",
                                                  "AlwaysActualSize",
                                                  "FitInWindow",
                                                  "TransparencyMarker",
                                                  "InterpolationDisableForSmallImages",
                                                  "InterpolationThreshold",
-                                                 "Cache"]],
+                                                 "Cache",
+                                                 "ColorSpaceContextMenu",
+                                                 "ColorSpaceEnable",
+                                                 "ColorSpaceLoadEmbedded",
+                                                 "ColorSpaceDefault"]],
 
                                                 //: A settings subcategory
                             "iv_interaction" : [qsTranslate("settingsmanager", "Interaction"),  "PQInteraction",
                                                 [qsTranslate("settingsmanager", "Zoom"),
+                                                 qsTranslate("settingsmanager", "Minimap"),
+                                                 qsTranslate("settingsmanager", "Mirror/Flip"),
                                                  qsTranslate("settingsmanager", "Floating navigation")],
                                                 ["ZoomSpeed",
                                                  "ZoomMinEnabled",
                                                  "ZoomMin",
                                                  "ZoomMaxEnabled",
                                                  "ZoomMax",
-                                                 "NavigationFloating"]],
+                                                 "MirrorAnimate",
+                                                 "NavigationFloating",
+                                                 "ShowMinimap",
+                                                 "MinimapSizeLevel"]],
 
                                                 //: A settings subcategory
                             "iv_folder"      : [qsTranslate("settingsmanager", "Folder"),       "PQFolder",
@@ -249,14 +263,13 @@ PQTemplateFullscreen {
                                                 []],
 
                                                //: A settings subcategory
-                            "iv_behavior" : [qsTranslate("settingsmanager", "Metadata"),      "PQMetadata",
+                            "iv_metadata" : [qsTranslate("settingsmanager", "Metadata"),      "PQMetadata",
                                              [qsTranslate("settingsmanager", "Labels"),
                                               qsTranslate("settingsmanager", "Auto Rotation"),
                                               qsTranslate("settingsmanager", "GPS map"),
                                               qsTranslate("settingsmanager", "Floating element"),
-                                              qsTranslate("settingsmanager", "Show face tags"),
-                                              qsTranslate("settingsmanager", "Look"),
-                                              qsTranslate("settingsmanager", "Visibility")],
+                                              qsTranslate("settingsmanager", "Face tags"),
+                                              qsTranslate("settingsmanager", "Look of face tags")],
                                              ["Filename",
                                               "FileType",
                                               "FileSize",
@@ -345,22 +358,33 @@ PQTemplateFullscreen {
                                              []],
 
                                              //: A settings subcategory
-                           "ft_tweaks"    : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
+                           "ft_behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
                                              [qsTranslate("settingsmanager", "PDF"),
                                               qsTranslate("settingsmanager", "Archive"),
                                               qsTranslate("settingsmanager", "Video"),
-                                              qsTranslate("settingsmanager", "Viewer mode")],
+                                              qsTranslate("settingsmanager", "Animated images"),
+                                              qsTranslate("settingsmanager", "RAW images"),
+                                              qsTranslate("settingsmanager", "Documents")],
                                              ["PDFQuality",
                                               "ExternalUnrar",
                                               "VideoAutoplay",
                                               "VideoLoop",
                                               "VideoPreferLibmpv",
-                                              "VideoThumbnailer"]],
-                           "ft_motionlive"  : [qsTranslate("settingsmanager", "Advanced"), "PQAdvanced",
-                                               ["Apple Live Photo",
-                                                "Google/Samsung Motion Video"],
+                                              "VideoThumbnailer",
+                                              "VideoLeftRightJumpVideo",
+                                              "VideoSpacePause",
+                                              "AnimatedControls",
+                                              "AnimatedLeftRight",
+                                              "AnimatedSpacePause",
+                                              "DocumentControls",
+                                              "DocumentLeftRight"]],
+                           "ft_advanced"    : [qsTranslate("settingsmanager", "Advanced"), "PQAdvanced",
+                                               [qsTranslate("settingsmanager", "Motion/Live photos"),
+                                                qsTranslate("settingsmanager", "Photo spheres")],
                                                 ["LoadMotionPhotos",
-                                                 "LoadAppleLivePhotos"]]
+                                                 "LoadAppleLivePhotos",
+                                                 "MotionPhotoPlayPause",
+                                                 "CheckForPhotoSphere"]]
                        }],
 
         /**************************************************************************************************************************/
@@ -401,16 +425,17 @@ PQTemplateFullscreen {
                                          ["AllowMultipleInstances",
                                           "RememberLastImage",
                                           "RememberZoomRotationMirror",
+                                          "PreserveZoom",
+                                          "PreserveRotation",
+                                          "PreserveMirror",
                                           "TrayIcon",
                                           "TrayIconMonochrome",
                                           "TrayIconHideReset"]],
 
                                        //: A settings subcategory
                         "mn_config" : [qsTranslate("settingsmanager", "Configuration"), "PQConfiguration",
-                                       [qsTranslate("settingsmanager", "Reset settings"),
-                                        qsTranslate("settingsmanager", "Reset shortcuts"),
-                                        qsTranslate("settingsmanager", "Export settings"),
-                                        qsTranslate("settingsmanager", "Import settings")],
+                                       [qsTranslate("settingsmanager", "Reset settings and shortcuts"),
+                                        qsTranslate("settingsmanager", "Export/Import configuration")],
                                        []]
                     }],
 
@@ -460,11 +485,22 @@ PQTemplateFullscreen {
 
                                        //: A settings subcategory
                         "ot_slideshow" : [qsTranslate("settingsmanager", "Slideshow"), "PQSlideshow",
-                                          [qsTranslate("settingsmanager", "Reset settings"),
-                                           qsTranslate("settingsmanager", "Reset shortcuts"),
-                                           qsTranslate("settingsmanager", "Export settings"),
-                                           qsTranslate("settingsmanager", "Import settings")],
-                                          []]
+                                          [qsTranslate("settingsmanager", "Animation"),
+                                           qsTranslate("settingsmanager", "Interval"),
+                                           qsTranslate("settingsmanager", "Loop"),
+                                           qsTranslate("settingsmanager", "Shuffle"),
+                                           qsTranslate("settingsmanager", "Status info an window buttons"),
+                                           qsTranslate("settingsmanager", "Include subfolders"),
+                                           qsTranslate("settingsmanager", "Music file")],
+                                          ["ImageTransition",
+                                           "TypeAnimation",
+                                           "Time",
+                                           "Loop",
+                                           "Shuffle",
+                                           "HideWindowButtons",
+                                           "HideLabels",
+                                           "MusicFile",
+                                           "IncludeSubFolders"]]
                     }]
 
     }
