@@ -210,10 +210,29 @@ PQMenu {
 
     }
 
+    onAboutToHide:
+        recordAsClosed.restart()
+    onAboutToShow:
+        PQCNotify.addToWhichContextMenusOpen("contextmenu")
+
+    Timer {
+        id: recordAsClosed
+        interval: 200
+        onTriggered:
+            PQCNotify.removeFromWhichContextMenusOpen("contextmenu")
+    }
+
     Connections {
         target: PQCScriptsContextMenu
         function onCustomEntriesChanged() {
             customentries = PQCScriptsContextMenu.getEntries()
+        }
+    }
+
+    Connections {
+        target: PQCNotify
+        function onCloseAllContextMenus() {
+            menutop.dismiss()
         }
     }
 

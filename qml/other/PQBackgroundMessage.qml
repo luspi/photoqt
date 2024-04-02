@@ -571,6 +571,13 @@ Item {
                 holdTrigger = false
                 return
             }
+
+            // a context menu is open -> don't continue
+            if(PQCNotify.whichContextMenusOpen.length > 0) {
+                PQCNotify.closeAllContextMenus()
+                return
+            }
+
             if(mouse.button === Qt.LeftButton)
                 loader.show("filedialog")
             else {

@@ -620,6 +620,18 @@ Item {
                 }
             }
 
+            onAboutToHide:
+                recordAsClosed.restart()
+            onAboutToShow:
+                PQCNotify.addToWhichContextMenusOpen("thumbnails")
+
+            Timer {
+                id: recordAsClosed
+                interval: 200
+                onTriggered:
+                    PQCNotify.removeFromWhichContextMenusOpen("thumbnails")
+            }
+
         }
     }
 
@@ -639,6 +651,9 @@ Item {
                 if(hotArea.x < posx && hotArea.x+hotArea.width > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
                     setVisible = true
             }
+        }
+        function onCloseAllContextMenus() {
+            menu.item.dismiss()
         }
     }
 

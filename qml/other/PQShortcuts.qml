@@ -287,6 +287,13 @@ Item {
         console.log("args: combo =", combo)
         console.log("args: wheelDelta =", wheelDelta)
 
+        // a context menu is open -> don't continue
+        if(PQCNotify.whichContextMenusOpen.length > 0) {
+            if(combo === "Esc")
+                PQCNotify.closeAllContextMenus()
+            return
+        }
+
         // if in viewer mode, pressing 'Escape' exits viewer mode
         if(combo === "Esc" && (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
             PQCFileFolderModel.disableViewerMode()

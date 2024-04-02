@@ -544,6 +544,7 @@ Item {
         asynchronous: true
         sourceComponent:
             PQMenu {
+
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "show")
@@ -604,6 +605,18 @@ Item {
                         }
                     }
                 }
+
+                onAboutToHide:
+                    recordAsClosed.restart()
+                onAboutToShow:
+                    PQCNotify.addToWhichContextMenusOpen("statusinfo")
+
+                Timer {
+                    id: recordAsClosed
+                    interval: 200
+                    onTriggered:
+                        PQCNotify.removeFromWhichContextMenusOpen("statusinfo")
+                }
             }
     }
 
@@ -634,6 +647,10 @@ Item {
             if(!nearTopEdge && (!resetAutoHide.running || PQCSettings.interfaceStatusInfoAutoHide))
                 resetAutoHide.restart()
 
+        }
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss()
         }
 
     }

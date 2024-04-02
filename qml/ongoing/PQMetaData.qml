@@ -592,6 +592,18 @@ Rectangle {
                     PQCSettings.metadataGpsMap = "bing.com/maps"
             }
 
+            onAboutToHide:
+                recordAsClosed.restart()
+            onAboutToShow:
+                PQCNotify.addToWhichContextMenusOpen("metadata")
+
+            Timer {
+                id: recordAsClosed
+                interval: 200
+                onTriggered:
+                    PQCNotify.removeFromWhichContextMenusOpen("metadata")
+            }
+
         }
 
     }
@@ -648,6 +660,11 @@ Rectangle {
                     setVisible = true
             }
         }
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss()
+        }
+
     }
 
 
