@@ -96,7 +96,7 @@ Window {
     // startup message
     Loader { id: background; asynchronous: true; source: "other/PQBackgroundMessage.qml" }
     // status info
-    Loader { id: statusinfo; active: PQCSettings.interfaceStatusInfoShow; asynchronous: true; source: "ongoing/PQStatusInfo.qml" }
+    Loader { id: statusinfo; asynchronous: true; source: "ongoing/PQStatusInfo.qml" }
 
     PQContextMenu { id: contextmenu }
 

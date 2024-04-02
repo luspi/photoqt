@@ -44,7 +44,9 @@ Item {
 
     property bool movedByMouse: false
 
-    visible: !(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere && PQCSettings.interfaceStatusInfoShow
+    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere && PQCSettings.interfaceStatusInfoShow) ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+    visible: opacity>0
 
     width: maincol.width
     height: maincol.height
@@ -213,7 +215,9 @@ Item {
             width: filterrow.width+30
             height: filterrow.height+20
 
-            visible: filterset
+            opacity: filterset ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
 
             radius: 5
 
@@ -332,7 +336,9 @@ Item {
             color: PQCLook.baseColor
             radius: 5
 
-            visible: currentIsPDF||currentIsARC
+            opacity: (currentIsPDF||currentIsARC) ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity>0
 
             property bool currentIsPDF: false
             property bool currentIsARC: false
@@ -389,7 +395,9 @@ Item {
         source: "image://svg/:/other/chromecastactive.svg"
         width: 32
         height: 32
-        visible: PQCScriptsChromeCast.connected
+        opacity: PQCScriptsChromeCast.connected ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        visible: opacity>0
         sourceSize: Qt.size(width, height)
         anchors.left: maincol.right
         anchors.top: maincol.top
@@ -545,12 +553,17 @@ Item {
         sourceComponent:
             PQMenu {
 
+            id: menuitem
+
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "show")
                     checked: PQCSettings.interfaceStatusInfoShow
-                    onCheckedChanged:
+                    onCheckedChanged: {
                         PQCSettings.interfaceStatusInfoShow = checked
+                        if(!checked)
+                            menuitem.dismiss()
+                    }
                 }
                 PQMenuItem {
                     checkable: true
