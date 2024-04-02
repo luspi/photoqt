@@ -74,7 +74,7 @@ Item {
                "hidden"
 
     onStateChanged: {
-        if(state === "hidden")
+        if(state === "hidden" && menu.item !== null)
             menu.item.dismiss()
     }
 
