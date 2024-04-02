@@ -274,13 +274,17 @@ Flickable {
             model: actions[menu.edge].length
             PQMenuItem {
                 checkable: true
+                checkableLikeRadioButton: true
                 property string act: actions[menu.edge][index]
                 text: labels[act]
                 checked: current[menu.edge] === act
-                onTriggered: {
-                    current[menu.edge] = act
-                    makeSureUnique(menu.edge, act)
-                    currentChanged()
+                onCheckedChanged: {
+                    if(checked && current[menu.edge] !== act) {
+                        current[menu.edge] = act
+                        makeSureUnique(menu.edge, act)
+                        currentChanged()
+                    }
+                    checked = Qt.binding(function() { return current[menu.edge] === act; })
                 }
             }
         }
