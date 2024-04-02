@@ -44,7 +44,7 @@ Rectangle {
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
     // visibility status
-    opacity: setVisible ? 1 : 0
+    opacity: setVisible&&windowSizeOkay ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -58,6 +58,7 @@ Rectangle {
     property var invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
+    property bool windowSizeOkay: true
 
     property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout
 
@@ -83,6 +84,7 @@ Rectangle {
                 visiblePos: [gap, gap]
                 invisiblePos: [-width, gap]
                 hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
+                windowSizeOkay: toplevel.width>500 && toplevel.height>500
             }
         },
         State {
@@ -92,6 +94,7 @@ Rectangle {
                 visiblePos: [toplevel.width-width-gap, gap]
                 invisiblePos: [toplevel.width, gap]
                 hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
+                windowSizeOkay: toplevel.width>500 && toplevel.height>500
             }
         },
         State {
@@ -102,6 +105,7 @@ Rectangle {
                 hotArea: Qt.rect(0,0,0,0)
                 width: mainmenu_top.parentWidth
                 height: mainmenu_top.parentHeight
+                windowSizeOkay: true
             }
         },
         State {

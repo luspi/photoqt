@@ -40,7 +40,7 @@ Item {
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: (setVisible||holdVisible) ? 1 : 0
+    opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -68,6 +68,7 @@ Item {
 
     property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
+    property bool windowSizeOkay: true
 
     PQBlurBackground { thisis: "thumbnails" }
     PQShadowEffect { masterItem: thumbnails_top }
@@ -83,6 +84,7 @@ Item {
                 hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
                 width: toplevel.width
                 height: PQCSettings.thumbnailsSize+extraSpacing
+                windowSizeOkay: toplevel.height>500
             }
         },
         State {
@@ -94,6 +96,7 @@ Item {
                 hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
                 width: PQCSettings.thumbnailsSize+extraSpacing
                 height: toplevel.height
+                windowSizeOkay: toplevel.width>500
             }
         },
         State {
@@ -105,6 +108,7 @@ Item {
                 hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
                 width: PQCSettings.thumbnailsSize+extraSpacing
                 height: toplevel.height
+                windowSizeOkay: toplevel.width>500
             }
         },
         State {
@@ -116,6 +120,7 @@ Item {
                 hotArea: Qt.rect(0,0,toplevel.width,hotAreaSize)
                 width: toplevel.width
                 height: PQCSettings.thumbnailsSize+extraSpacing
+                windowSizeOkay: toplevel.height>500
             }
         },
         State {

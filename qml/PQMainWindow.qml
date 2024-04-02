@@ -48,8 +48,11 @@ Window {
 
     title: (PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt Image Viewer"
 
-    minimumWidth: 800
-    minimumHeight: 600
+    minimumWidth: 400
+    minimumHeight: 300
+
+    width: 800
+    height: 600
 
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {

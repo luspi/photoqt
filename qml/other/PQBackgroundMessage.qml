@@ -49,6 +49,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 160
         Column {
+            x: (parent.width-width)/2
             y: (parent.height-height)/2.5
 
             spacing: 10
@@ -119,7 +120,9 @@ Item {
                 text: qsTranslate("other", "Open a file")
                 font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80))
                 font.bold: true
-                opacity: 0.8
+                opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
                 color: PQCLook.textColor
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
@@ -138,12 +141,14 @@ Item {
             id: arrleft
             x: 10
             y: (parent.height-height)/2
-            visible: PQCSettings.interfaceEdgeLeftAction!==""
-            opacity: 0.5
+            visible: PQCSettings.interfaceEdgeLeftAction!==""&&opacity>0
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/white/leftarrow.svg"
+
+            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
 
@@ -186,7 +191,10 @@ Item {
             height: ltx.height+10
             color: PQCLook.transColor
             radius: 5
-            visible: arrleft.visible&&ltx.text!=""
+            visible: arrleft.visible&&ltx.text!=""&&opacity>0
+
+            opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: ltx
@@ -200,7 +208,7 @@ Item {
 
                 id: seqleft_txt
 
-                running: visible&&loader.visibleItem===""
+                running: parent.visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
@@ -234,12 +242,14 @@ Item {
             id: arrright
             x: parent.width-width-10
             y: (parent.height-height)/2
-            visible: PQCSettings.interfaceEdgeRightAction!==""
-            opacity: 0.5
+            visible: PQCSettings.interfaceEdgeRightAction!==""&&opacity>0
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/white/rightarrow.svg"
+
+            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
 
@@ -283,7 +293,9 @@ Item {
             height: rtx.height+10
             color: PQCLook.transColor
             radius: 5
-            visible: arrright.visible&&rtx.text!=""
+            visible: arrright.visible&&rtx.text!=""&&opacity>0
+            opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: rtx
@@ -297,7 +309,7 @@ Item {
 
                 id: seqright_txt
 
-                running: visible&&loader.visibleItem===""
+                running: parent.visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
@@ -330,14 +342,16 @@ Item {
             id: arrdown
             x: (parent.width-width)/2
             y: parent.height-height-10
-            opacity: 0.5
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            visible: PQCSettings.interfaceEdgeBottomAction!==""
+            visible: PQCSettings.interfaceEdgeBottomAction!==""&&opacity>0
 
             source: "image://svg/:/white/leftarrow.svg"
             rotation: -90
+
+            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
 
@@ -381,7 +395,9 @@ Item {
             height: btx.height+10
             color: PQCLook.transColor
             radius: 5
-            visible: arrdown.visible&&btx.text!=""
+            visible: arrdown.visible&&btx.text!=""&&opacity>0
+            opacity: toplevel.width>500&&toplevel.height>625 ? 0.8 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: btx
@@ -395,7 +411,7 @@ Item {
 
                 id: seqdown_txt
 
-                running: visible&&loader.visibleItem===""
+                running: parent.visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick
@@ -428,14 +444,16 @@ Item {
             id: arrup
             x: (parent.width-width)/2
             y: 10
-            opacity: 0.5
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            visible: PQCSettings.interfaceEdgeTopAction!==""
+            visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0
 
             source: "image://svg/:/white/leftarrow.svg"
             rotation: 90
+
+            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
 
@@ -479,7 +497,9 @@ Item {
             height: utx.height+10
             color: PQCLook.transColor
             radius: 5
-            visible: arrup.visible&&utx.text!=""
+            visible: arrup.visible&&utx.text!=""&&opacity>0
+            opacity: toplevel.width>500&&toplevel.height>625 ? 0.8 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: utx
@@ -493,7 +513,7 @@ Item {
 
                 id: sequp_txt
 
-                running: visible&&loader.visibleItem===""
+                running: parent.visible&&loader.visibleItem===""
                 loops: Animation.Infinite
 
                 // move out quick

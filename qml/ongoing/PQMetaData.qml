@@ -69,7 +69,7 @@ Rectangle {
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
     // visibility status
-    opacity: setVisible ? 1 : 0
+    opacity: setVisible&&windowSizeOkay ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -78,6 +78,7 @@ Rectangle {
     property var invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
+    property bool windowSizeOkay: true
 
     onSetVisibleChanged: {
         if(!setVisible)
@@ -109,6 +110,7 @@ Rectangle {
                              Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 invisiblePos: [-width, Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
+                windowSizeOkay: toplevel.width>500 && toplevel.height>500
             }
         },
         State {
@@ -118,6 +120,7 @@ Rectangle {
                 visiblePos: [toplevel.width-width-gap, Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 invisiblePos: [toplevel.width, Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
+                windowSizeOkay: toplevel.width>500 && toplevel.height>500
             }
         },
         State {
@@ -137,6 +140,7 @@ Rectangle {
                 visiblePos: [Math.max(0, Math.min(toplevel.width-width, PQCSettings.metadataElementPosition.x)),
                              Math.max(0, Math.min(toplevel.height-height, PQCSettings.metadataElementPosition.y))]
                 invisiblePos: visiblePos
+                windowSizeOkay: true
             }
         },
         State {
@@ -147,6 +151,7 @@ Rectangle {
                 hotArea: Qt.rect(0,0,0,0)
                 width: metadata_top.parentWidth
                 height: metadata_top.parentHeight
+                windowSizeOkay: true
             }
         }
 
