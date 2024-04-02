@@ -415,9 +415,9 @@ PQTemplateFloating {
             for(var b = 0; b < 256; ++b)
                 histogramblue.append(b, blue[b])
 
-            // GREY SCALE
+            // GRAY SCALE
 
-            histogramgrey.clear()
+            histogramgrey.clear();
             for(var k = 0; k < 256; ++k)
                 histogramgrey.append(k, grey[k])
 
