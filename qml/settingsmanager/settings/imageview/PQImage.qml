@@ -296,8 +296,6 @@ Flickable {
                             spacing: 5
                             width: set_col.rightcol
 
-                            visible: PQCScriptsConfig.isLCMS2SupportEnabled()
-
                             PQCheckBox {
                                 id: color_default
                                 y: (parent.height-height)/2

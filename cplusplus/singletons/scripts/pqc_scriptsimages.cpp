@@ -1424,7 +1424,7 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
         if(f.open(QIODevice::ReadOnly))
             sp = QColorSpace::fromIccProfile(f.readAll());
 
-        if(applyColorSpaceQt(imgIn, imgOut, filename, sp))
+        if(applyColorSpaceQt(img, filename, sp))
             return true;
         else
             manualSelectionCausedError = true;
@@ -1513,6 +1513,21 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
                     return !manualSelectionCausedError;
 
             }
+
+# else
+
+        } else {
+
+            // basic handling of external color profiles
+
+            QColorSpace sp;
+
+            QFile f(def);
+            if(f.open(QIODevice::ReadOnly))
+                sp = QColorSpace::fromIccProfile(f.readAll());
+
+            if(applyColorSpaceQt(img, filename, sp))
+                return !manualSelectionCausedError;
 
 #endif
 
