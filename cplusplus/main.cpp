@@ -109,6 +109,10 @@
 #include <QSGRendererInterface>
 #endif
 
+#ifdef PQMFLATPAKBUILD
+#include <gio/gio.h>
+#endif
+
 int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_WIN
@@ -173,6 +177,12 @@ int main(int argc, char *argv[]) {
 #ifdef PQMEXIV2
     #ifdef PQMEXIV2_ENABLE_BMFF
         Exiv2::enableBMFF(true);
+    #endif
+#endif
+
+#ifdef PQMFLATPAKBUILD
+    #if !GLIB_CHECK_VERSION(2,35,0)
+        g_type_init();
     #endif
 #endif
 

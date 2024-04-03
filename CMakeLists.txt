@@ -161,6 +161,11 @@ if(LCMS2)
     find_package(LCMS2)
 endif()
 
+if(FLATPAKBUILD)
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLIB REQUIRED glib-2.0 gobject-2.0 gio-2.0)
+endif()
+
 ######################
 #### RUN CPPCHECK ####
 ######################
@@ -613,7 +618,12 @@ else()
 endif()
 
 if(FLATPAKBUILD)
+    message("** Enabling Flatpak workarounds")
     add_definitions(-DPQMFLATPAKBUILD)
+    include_directories(${GLIB_INCLUDE_DIRS})
+    target_link_libraries(photoqt PRIVATE ${GLIB_LIBRARIES})
+    target_link_libraries(photoqt PRIVATE "gobject-2.0")
+    target_link_libraries(photoqt PRIVATE "gio-2.0")
 endif()
 
 
