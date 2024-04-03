@@ -37,8 +37,8 @@ Rectangle {
         id: containerItemForAnchors
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: Math.max(75, img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
-        height: Math.max(50, img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
+        width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
+        height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     }
 
     states: [
@@ -70,8 +70,8 @@ Rectangle {
                 x: image_top.width-width-50
                 y: image_top.height-height-50
                 parent: image_top
-                width: Math.max(75, img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
-                height: Math.max(50, img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6))
+                width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
+                height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
                 opacity: minimapNeeded ? ((minimapActive||containsMouse) ? 1 : 0.2) : 0
             }
             PropertyChanges {
