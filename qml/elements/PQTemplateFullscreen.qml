@@ -132,7 +132,7 @@ Rectangle {
 
         clip: true
 
-        contentHeight: insidecont.height+20
+        contentHeight: insidecont.height+(noGapsAnywhere ? 0 : 20)
 
         ScrollBar.vertical: PQVerticalScrollBar { }
 
