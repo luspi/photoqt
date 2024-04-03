@@ -342,7 +342,7 @@ Item {
             property string filename: PQCScriptsFilesPaths.getFilename(filepath)
 
             // set the background color
-            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : PQCLook.transColor
+            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent"
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // size the thumbnail image
