@@ -45,7 +45,8 @@ Item {
             bgimage.source = ""
             overlay.color = PQCLook.baseColor
         } else if(PQCSettings.interfaceBackgroundImageUse) {
-            bgimage.source = "image://full/" + PQCSettings.interfaceBackgroundImagePath
+            if(PQCSettings.interfaceBackgroundImagePath !== "")
+                bgimage.source = "image://full/" + PQCSettings.interfaceBackgroundImagePath
             if(PQCSettings.interfaceBackgroundImageScale)
                 bgimage.fillMode = Image.PreserveAspectFit
             else if(PQCSettings.interfaceBackgroundImageScaleCrop)
