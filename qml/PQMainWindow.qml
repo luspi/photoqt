@@ -51,6 +51,10 @@ Window {
     minimumWidth: 300
     minimumHeight: 200
 
+    // if last geometry has been remembered that one is set in the show() function below
+    width: 800
+    height: 600
+
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
         if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {
