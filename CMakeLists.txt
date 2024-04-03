@@ -61,6 +61,7 @@ option(LCMS2 "Enable advanced color management with LCMS2" ON)
 
 option(TESTING "Build some unit tests" OFF)
 option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
+option(FLATPAKBUILD "Enable this if this is a build for Flatpak" OFF)
 
 if(QTPDF)
     if(POPPLER)
@@ -609,6 +610,10 @@ if(LCMS2)
     endif()
 else()
     message("** LCMS2 DISABLED")
+endif()
+
+if(FLATPAKBUILD)
+    add_definitions(-DPQMFLATPAKBUILD)
 endif()
 
 
