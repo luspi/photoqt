@@ -34,5 +34,6 @@ PQMultiEffect {
 
     source: masterItem
     shadowEnabled: true
+    shadowVerticalOffset: 5
 
 }
