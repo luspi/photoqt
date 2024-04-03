@@ -14,7 +14,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.imageviewArchiveControls&&!PQCFileFolderModel.isARC
+        active: PQCSettings.filetypesArchiveControls&&!PQCFileFolderModel.isARC
 
         Rectangle {
 
@@ -62,7 +62,7 @@ Item {
             }
 
             // only show when needed
-            opacity: (image.fileCount>1 && image.visible && PQCSettings.imageviewArchiveControls && !PQCFileFolderModel.isARC) ? (hovered ? 1 : 0.3) : 0
+            opacity: (image.fileCount>1 && image.visible && PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC) ? (hovered ? 1 : 0.3) : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
             enabled: visible
@@ -304,7 +304,7 @@ Item {
                     height: lockrow.height+6
                     radius: 5
 
-                    opacity: PQCSettings.imageviewArchiveLeftRight ? 1 : 0.3
+                    opacity: PQCSettings.filetypesArchiveLeftRight ? 1 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
@@ -335,7 +335,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
                         onClicked:
-                            PQCSettings.imageviewArchiveLeftRight = !PQCSettings.imageviewArchiveLeftRight
+                            PQCSettings.filetypesArchiveLeftRight = !PQCSettings.filetypesArchiveLeftRight
                     }
 
                 }
@@ -359,7 +359,7 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
                     onClicked: {
-                        PQCSettings.imageviewArchiveControls = false
+                        PQCSettings.filetypesArchiveControls = false
                     }
                 }
             }

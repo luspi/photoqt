@@ -882,6 +882,11 @@ Rectangle {
                 return
             }
 
+            if(!windowSizeOkay && !isPopout) {
+                setVisible = false
+                return
+            }
+
             if(setVisible) {
                 if(posx < mainmenu_top.x-50 || posx > mainmenu_top.x+mainmenu_top.width+50 || posy < mainmenu_top.y-50 || posy > mainmenu_top.y+mainmenu_top.height+50)
                     setVisible = false

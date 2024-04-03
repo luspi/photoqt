@@ -319,8 +319,8 @@ Item {
         }
 
         // Left/Right/Space when video is loaded might have special actions
-        if(((combo === "Left" || combo === "Right") && PQCSettings.imageviewVideoLeftRightJumpVideo) ||
-                (combo === "Space" && PQCSettings.imageviewVideoSpacePause)) {
+        if(((combo === "Left" || combo === "Right") && PQCSettings.filetypesVideoLeftRightJumpVideo) ||
+                (combo === "Space" && PQCSettings.filetypesVideoSpacePause)) {
 
             var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
 
@@ -329,7 +329,7 @@ Item {
 
             if(isVideo) {
 
-                if(PQCSettings.imageviewVideoLeftRightJumpVideo) {
+                if(PQCSettings.filetypesVideoLeftRightJumpVideo) {
 
                     if(combo === "Left") {
                         image.videoJump(-5)
@@ -343,7 +343,7 @@ Item {
 
                 }
 
-                if(PQCSettings.imageviewVideoSpacePause && combo === "Space") {
+                if(PQCSettings.filetypesVideoSpacePause && combo === "Space") {
                     image.playPauseAnimationVideo()
                     return
                 }
@@ -353,12 +353,12 @@ Item {
         }
 
         // Left/Right/Space when animated image is loaded might have special actions
-        if(((combo === "Left" || combo === "Right") && PQCSettings.imageviewAnimatedLeftRight) ||
-                (combo === "Space" && PQCSettings.imageviewAnimatedSpacePause)) {
+        if(((combo === "Left" || combo === "Right") && PQCSettings.filetypesAnimatedLeftRight) ||
+                (combo === "Space" && PQCSettings.filetypesAnimatedSpacePause)) {
 
             if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile)) {
 
-                if(PQCSettings.imageviewAnimatedLeftRight) {
+                if(PQCSettings.filetypesAnimatedLeftRight) {
 
                     if(combo === "Left") {
                         image.animImageJump(-1)
@@ -372,7 +372,7 @@ Item {
 
                 }
 
-                if(combo === "Space" && PQCSettings.imageviewAnimatedSpacePause) {
+                if(combo === "Space" && PQCSettings.filetypesAnimatedSpacePause) {
                     image.playPauseAnimationVideo()
                     return
                 }
@@ -382,7 +382,7 @@ Item {
         }
 
         // Left/Right when document is loaded might have special actions
-        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewDocumentLeftRight && !PQCFileFolderModel.isPDF) {
+        if((combo === "Left" || combo === "Right") && PQCSettings.filetypesDocumentLeftRight && !PQCFileFolderModel.isPDF) {
 
             if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
 
@@ -401,7 +401,7 @@ Item {
         }
 
         // Left/Right when archive is loaded might have special actions
-        if((combo === "Left" || combo === "Right") && PQCSettings.imageviewArchiveLeftRight && !PQCFileFolderModel.isARC) {
+        if((combo === "Left" || combo === "Right") && PQCSettings.filetypesArchiveLeftRight && !PQCFileFolderModel.isARC) {
 
             if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)) {
 

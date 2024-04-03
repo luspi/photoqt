@@ -22,7 +22,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.imageviewAnimatedControls
+        active: PQCSettings.filetypesAnimatedControls
 
         Rectangle {
 
@@ -68,7 +68,7 @@ Item {
             }
 
             // only show when needed
-            opacity: (image.frameCount>1 && image.visible && PQCSettings.imageviewAnimatedControls) ? (hovered ? 1 : 0.3) : 0
+            opacity: (image.frameCount>1 && image.visible && PQCSettings.filetypesAnimatedControls) ? (hovered ? 1 : 0.3) : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
             enabled: visible
@@ -208,7 +208,7 @@ Item {
                     color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent")
                     Behavior on color { ColorAnimation { duration: 200 } }
 
-                    opacity: PQCSettings.imageviewAnimatedLeftRight ? 1 : 0.3
+                    opacity: PQCSettings.filetypesAnimatedLeftRight ? 1 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     Row {
@@ -236,7 +236,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("image", "Lock left/right arrow keys to frame navigation")
                         onClicked:
-                            PQCSettings.imageviewAnimatedLeftRight = !PQCSettings.imageviewAnimatedLeftRight
+                            PQCSettings.filetypesAnimatedLeftRight = !PQCSettings.filetypesAnimatedLeftRight
                     }
 
                 }
@@ -259,7 +259,7 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
-                    onClicked: PQCSettings.imageviewAnimatedControls = false
+                    onClicked: PQCSettings.filetypesAnimatedControls = false
                 }
             }
 

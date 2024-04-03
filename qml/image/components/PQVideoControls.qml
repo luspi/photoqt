@@ -206,7 +206,7 @@ Rectangle {
             width: lockrow.width
             height: lockrow.height
 
-            opacity: PQCSettings.imageviewVideoLeftRightJumpVideo ? 1 : 0.3
+            opacity: PQCSettings.filetypesVideoLeftRightJumpVideo ? 1 : 0.3
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             Row {
@@ -215,7 +215,7 @@ Rectangle {
                 Image {
                     height: lrtxt.height
                     width: height
-                    opacity: PQCSettings.imageviewVideoLeftRightJumpVideo ? 1 : 0.4
+                    opacity: PQCSettings.filetypesVideoLeftRightJumpVideo ? 1 : 0.4
                     source: "image://svg/:/white/padlock.svg"
                     sourceSize: Qt.size(width, height)
                 }
@@ -234,7 +234,7 @@ Rectangle {
                 cursorShape: Qt.PointingHandCursor
                 text: qsTranslate("image", "Lock left/right arrow keys to jumping forwards/backwards 5 seconds")
                 onClicked:
-                    PQCSettings.imageviewVideoLeftRightJumpVideo = !PQCSettings.imageviewVideoLeftRightJumpVideo
+                    PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo
             }
 
         }

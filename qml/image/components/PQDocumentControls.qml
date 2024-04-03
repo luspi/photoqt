@@ -14,7 +14,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.imageviewDocumentControls&&!PQCFileFolderModel.isPDF
+        active: PQCSettings.filetypesDocumentControls&&!PQCFileFolderModel.isPDF
 
         Rectangle {
 
@@ -60,7 +60,7 @@ Item {
             }
 
             // only show when needed
-            opacity: (image.pageCount>1 && image.visible && PQCSettings.imageviewDocumentControls && !PQCFileFolderModel.isPDF) ? (hovered ? 1 : 0.3) : 0
+            opacity: (image.pageCount>1 && image.visible && PQCSettings.filetypesDocumentControls && !PQCFileFolderModel.isPDF) ? (hovered ? 1 : 0.3) : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
             enabled: visible
@@ -270,7 +270,7 @@ Item {
                     height: lockrow.height+6
                     radius: 5
 
-                    opacity: PQCSettings.imageviewDocumentLeftRight ? 1 : 0.3
+                    opacity: PQCSettings.filetypesDocumentLeftRight ? 1 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
@@ -301,7 +301,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
                         onClicked:
-                            PQCSettings.imageviewDocumentLeftRight = !PQCSettings.imageviewDocumentLeftRight
+                            PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
                     }
 
                 }
@@ -325,7 +325,7 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
                     onClicked: {
-                        PQCSettings.imageviewDocumentControls = false
+                        PQCSettings.filetypesDocumentControls = false
                     }
                 }
             }

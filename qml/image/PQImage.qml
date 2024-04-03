@@ -595,8 +595,7 @@ Item {
                                 }
 
                                 Connections {
-
-                                    target: image_top
+                                    target: fullscreenitem
 
                                     function onWidthChanged() {
                                         resetDefaults.restart()
@@ -605,6 +604,11 @@ Item {
                                     function onHeightChanged() {
                                         resetDefaults.restart()
                                     }
+                                }
+
+                                Connections {
+
+                                    target: image_top
 
                                     function onPlayPauseAnimationVideo() {
                                         loader_component.videoTogglePlay()
@@ -762,6 +766,15 @@ Item {
 
                                 }
 
+                                Connections {
+                                    target: PQCSettings
+
+                                    function onThumbnailsVisibilityChanged() {
+                                        resetDefaults.restart()
+                                    }
+
+                                }
+
                                 // calculate the default scale based on the current rotation
                                 function computeDefaultScale() {
                                     if(deleg.rotatedUpright)
@@ -812,6 +825,47 @@ Item {
                             PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
                         }
                         onPressed: (mouse) => {
+
+                            var locpos = flickable_content.mapFromItem(fullscreenitem, mouse.x, mouse.y)
+
+                            if(PQCSettings.interfaceCloseOnEmptyBackground &&
+                                  (locpos.x < flickable_content.x ||
+                                   locpos.y < flickable_content.y ||
+                                   locpos.x > flickable_content.x+flickable_content.width ||
+                                   locpos.y > flickable_content.y+flickable_content.height)) {
+
+                                toplevel.close()
+                                return
+
+                            }
+
+                            if(PQCSettings.interfaceNavigateOnEmptyBackground) {
+                                if(locpos.x < flickable_content.x || (locpos.x < flickable_content.x+flickable_content.width/2 &&
+                                   (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
+
+                                    image.showPrev()
+                                    return
+
+                                } else if(locpos.x > flickable_content.x+flickable_content.width || (locpos.x > flickable_content.x+flickable_content.width/2 &&
+                                          (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
+
+                                    image.showNext()
+                                    return
+
+                                }
+                            }
+
+                            if(PQCSettings.interfaceWindowDecorationOnEmptyBackground &&
+                               (locpos.x < flickable_content.x ||
+                                locpos.y < flickable_content.y ||
+                                locpos.x > flickable_content.x+flickable_content.width ||
+                                locpos.y > flickable_content.y+flickable_content.height)) {
+
+                                PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
+                                return
+
+                            }
+
                             if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
                                 image.barcodeClick()
                             if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {

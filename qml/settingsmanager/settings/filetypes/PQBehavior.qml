@@ -339,7 +339,7 @@ Flickable {
             return
         }
 
-        if(pdf_quality.hasChanged() || arc_extunrar.hasChanged()) {
+        if(pdf_quality.hasChanged() || arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged()) {
             settingChanged = true
             return
         }
@@ -347,7 +347,7 @@ Flickable {
         if(vid_autoplay.hasChanged() || vid_loop.hasChanged() || vid_qtmult.hasChanged() ||
                 vid_libmpv.hasChanged() || (videothumb.currentIndex===1 && PQCSettings.filetypesVideoThumbnailer==="") ||
                 (videothumb.currentIndex===0 && PQCSettings.filetypesVideoThumbnailer!=="") ||
-                videojump.hasChanged() || videospace.hasChanged()) {
+                videojump.hasChanged() || videospace.hasChanged() || rawembed.hasChanged()) {
             settingChanged = true
             return
         }
@@ -371,21 +371,25 @@ Flickable {
         pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality)
 
         arc_extunrar.loadAndSetDefault(PQCSettings.filetypesExternalUnrar)
+        archivecontrols.loadAndSetDefault(PQCSettings.filetypesArchiveControls)
+        archiveleftright.loadAndSetDefault(PQCSettings.filetypesArchiveLeftRight)
 
         vid_autoplay.loadAndSetDefault(PQCSettings.filetypesVideoAutoplay)
         vid_loop.loadAndSetDefault(PQCSettings.filetypesVideoLoop)
         vid_qtmult.loadAndSetDefault(!PQCSettings.filetypesVideoPreferLibmpv)
         vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
         videothumb.currentIndex = (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
-        videojump.loadAndSetDefault(PQCSettings.imageviewVideoLeftRightJumpVideo)
-        videospace.loadAndSetDefault(PQCSettings.imageviewVideoSpacePause)
+        videojump.loadAndSetDefault(PQCSettings.filetypesVideoLeftRightJumpVideo)
+        videospace.loadAndSetDefault(PQCSettings.filetypesVideoSpacePause)
 
-        animatedcontrol.loadAndSetDefault(PQCSettings.imageviewAnimatedControls)
-        animatedleftright.loadAndSetDefault(PQCSettings.imageviewAnimatedLeftRight)
-        animspace.loadAndSetDefault(PQCSettings.imageviewAnimatedSpacePause)
+        animatedcontrol.loadAndSetDefault(PQCSettings.filetypesAnimatedControls)
+        animatedleftright.loadAndSetDefault(PQCSettings.filetypesAnimatedLeftRight)
+        animspace.loadAndSetDefault(PQCSettings.filetypesAnimatedSpacePause)
 
-        documentcontrols.loadAndSetDefault(PQCSettings.imageviewDocumentControls)
-        documentleftright.loadAndSetDefault(PQCSettings.imageviewDocumentLeftRight)
+        rawembed.loadAndSetDefault(PQCSettings.filetypesRAWUseEmbeddedIfAvailable)
+
+        documentcontrols.loadAndSetDefault(PQCSettings.filetypesDocumentControls)
+        documentleftright.loadAndSetDefault(PQCSettings.filetypesDocumentLeftRight)
 
         settingChanged = false
         settingsLoaded = true
@@ -397,23 +401,28 @@ Flickable {
         PQCSettings.filetypesPDFQuality = pdf_quality.value
 
         PQCSettings.filetypesExternalUnrar = arc_extunrar.checked
+        PQCSettings.filetypesArchiveControls = archivecontrols.checked
+        PQCSettings.filetypesArchiveLeftRight = archiveleftright.checked
 
         PQCSettings.filetypesVideoAutoplay = vid_autoplay.checked
         PQCSettings.filetypesVideoLoop = vid_loop.checked
         PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
         PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
-        PQCSettings.imageviewVideoLeftRightJumpVideo = videojump.checked
-        PQCSettings.imageviewVideoSpacePause = videospace.checked
+        PQCSettings.filetypesVideoLeftRightJumpVideo = videojump.checked
+        PQCSettings.filetypesVideoSpacePause = videospace.checked
 
-        PQCSettings.imageviewAnimatedControls = animatedcontrol.checked
-        PQCSettings.imageviewAnimatedLeftRight = animatedleftright.checked
-        PQCSettings.imageviewAnimatedSpacePause = animspace.checked
+        PQCSettings.filetypesAnimatedControls = animatedcontrol.checked
+        PQCSettings.filetypesAnimatedLeftRight = animatedleftright.checked
+        PQCSettings.filetypesAnimatedSpacePause = animspace.checked
 
-        PQCSettings.imageviewDocumentControls = documentcontrols.checked
-        PQCSettings.imageviewDocumentLeftRight = documentleftright.checked
+        PQCSettings.filetypesRAWUseEmbeddedIfAvailable = rawembed.checked
+
+        PQCSettings.filetypesDocumentControls = documentcontrols.checked
+        PQCSettings.filetypesDocumentLeftRight = documentleftright.checked
 
         pdf_quality.saveDefault()
         arc_extunrar.saveDefault()
+        archivecontrols.saveDefault()
         vid_autoplay.saveDefault()
         vid_loop.saveDefault()
         vid_qtmult.saveDefault()

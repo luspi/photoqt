@@ -40,7 +40,7 @@ Item {
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0
+    opacity: ((setVisible||holdVisible) && windowSizeOkay && PQCFileFolderModel.countMainView>0) ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -342,7 +342,7 @@ Item {
             property string filename: PQCScriptsFilesPaths.getFilename(filepath)
 
             // set the background color
-            color: (active&&view.hlInvertBg) ? PQCLook.transColorActive : PQCLook.transColor
+            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : PQCLook.transColor
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // size the thumbnail image
@@ -388,64 +388,6 @@ Item {
                 fillMode: PQCSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                 source: "image://thumb/" + deleg.filepath
 
-            }
-
-            // line-below highlight animation
-            Rectangle {
-
-                id: linebelow
-
-                opacity: (deleg.active&&view.hlLine) ? 1 : 0
-                visible: opacity>0
-
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                color: "white"
-
-                // the state follows the global thumbnails state
-                state: view.state
-                states: [
-                    State {
-                        name: "bottom"
-                        PropertyChanges {
-                            target: linebelow
-                            x: 0
-                            y: parent.height-height
-                            width: parent.width
-                            height: 5
-                        }
-                    },
-                    State {
-                        name: "left"
-                        PropertyChanges {
-                            target: linebelow
-                            x: 0
-                            y: 0
-                            width: 5
-                            height: parent.height
-                        }
-                    },
-                    State {
-                        name: "right"
-                        PropertyChanges {
-                            target: linebelow
-                            x: parent.width-width
-                            y: 0
-                            width: 5
-                            height: parent.height
-                        }
-                    },
-                    State {
-                        name: "top"
-                        PropertyChanges {
-                            target: linebelow
-                            x: 0
-                            y: 0
-                            width: parent.width
-                            height: 5
-                        }
-                    }
-
-                ]
             }
 
             // the mouse area for the current thumbnail
@@ -527,6 +469,64 @@ Item {
                         color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor
                     }
                 }
+            }
+
+            // line-below highlight animation
+            Rectangle {
+
+                id: linebelow
+
+                opacity: (deleg.active&&view.hlLine) ? 1 : 0
+                visible: opacity>0
+
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                color: PQCLook.baseColorActive
+
+                // the state follows the global thumbnails state
+                state: view.state
+                states: [
+                    State {
+                        name: "bottom"
+                        PropertyChanges {
+                            target: linebelow
+                            x: 0
+                            y: parent.height-height
+                            width: parent.width
+                            height: 5
+                        }
+                    },
+                    State {
+                        name: "left"
+                        PropertyChanges {
+                            target: linebelow
+                            x: 0
+                            y: 0
+                            width: 5
+                            height: parent.height
+                        }
+                    },
+                    State {
+                        name: "right"
+                        PropertyChanges {
+                            target: linebelow
+                            x: parent.width-width
+                            y: 0
+                            width: 5
+                            height: parent.height
+                        }
+                    },
+                    State {
+                        name: "top"
+                        PropertyChanges {
+                            target: linebelow
+                            x: 0
+                            y: 0
+                            width: parent.width
+                            height: 5
+                        }
+                    }
+
+                ]
             }
 
         }
