@@ -31,7 +31,7 @@ SpinBox {
     width: 160
     height: 30
 
-    property alias liveValue: txtinp.text
+    property alias liveValue: txtinp.value
 
     property string tooltip: liveValue + tooltipSuffix
     property string tooltipSuffix: ""
@@ -45,7 +45,12 @@ SpinBox {
 
     contentItem: TextInput {
         id: txtinp
+        property int value: control.value
         text: control.value
+        onTextChanged: {
+            value = parseInt(text)
+            control.value = value
+        }
         font: control.font
         color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
         Behavior on color { ColorAnimation { duration: 200 } }
@@ -136,7 +141,7 @@ SpinBox {
     }
 
     function hasChanged() {
-        return _defaultValue!==value
+        return _defaultValue!==liveValue
     }
 
 }
