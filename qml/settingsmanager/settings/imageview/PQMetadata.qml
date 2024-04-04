@@ -105,6 +105,7 @@ Flickable {
 
     signal selectAllLabels()
     signal selectNoLabels()
+    signal invertLabelSelection()
 
     Column {
 
@@ -228,6 +229,9 @@ Flickable {
                                             function onSelectNoLabels() {
                                                 check.checked = false
                                             }
+                                            function onInvertLabelSelection() {
+                                                check.checked = !check.checked
+                                            }
                                         }
 
                                     }
@@ -285,7 +289,7 @@ Flickable {
                             y: (parent.height-height)/2
                             spacing: 5
                             PQButton {
-                                width: (labels_buts.width-15)/2
+                                width: (labels_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select all")
                                 smallerVersion: true
@@ -293,12 +297,20 @@ Flickable {
                                     setting_top.selectAllLabels()
                             }
                             PQButton {
-                                width: (labels_buts.width-15)/2
+                                width: (labels_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select none")
                                 smallerVersion: true
                                 onClicked:
                                     setting_top.selectNoLabels()
+                            }
+                            PQButton {
+                                width: (labels_buts.width-20)/3
+                                //: written on button, referring to inverting the selected options
+                                text: qsTranslate("settingsmanager", "Invert")
+                                smallerVersion: true
+                                onClicked:
+                                    setting_top.invertLabelSelection()
                             }
                         }
 

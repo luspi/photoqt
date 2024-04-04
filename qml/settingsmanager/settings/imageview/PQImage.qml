@@ -64,6 +64,7 @@ Flickable {
 
     signal selectAllColorProfiles()
     signal selectNoColorProfiles()
+    signal invertColorProfileSelection()
     signal colorProfileLoadDefault()
 
     Column {
@@ -441,6 +442,9 @@ Flickable {
                                                         function onSelectNoColorProfiles() {
                                                             check.checked = false
                                                         }
+                                                        function onInvertColorProfileSelection() {
+                                                            check.checked = !check.checked
+                                                        }
                                                     }
 
                                                 }
@@ -530,7 +534,7 @@ Flickable {
                                         y: (parent.height-height)/2
                                         spacing: 5
                                         PQButton {
-                                            width: (color_buts.width-15)/2
+                                            width: (color_buts.width-20)/3
                                             //: written on button
                                             text: qsTranslate("settingsmanager", "Select all")
                                             smallerVersion: true
@@ -538,12 +542,20 @@ Flickable {
                                                 setting_top.selectAllColorProfiles()
                                         }
                                         PQButton {
-                                            width: (color_buts.width-15)/2
+                                            width: (color_buts.width-20)/3
                                             //: written on button
                                             text: qsTranslate("settingsmanager", "Select none")
                                             smallerVersion: true
                                             onClicked:
                                                 setting_top.selectNoColorProfiles()
+                                        }
+                                        PQButton {
+                                            width: (color_buts.width-20)/3
+                                            //: written on button, referring to inverting the selected options
+                                            text: qsTranslate("settingsmanager", "Invert")
+                                            smallerVersion: true
+                                            onClicked:
+                                                setting_top.invertColorProfileSelection()
                                         }
                                     }
 

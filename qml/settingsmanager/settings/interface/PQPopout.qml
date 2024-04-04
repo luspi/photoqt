@@ -124,6 +124,7 @@ Flickable {
 
     signal selectAllPopouts()
     signal selectNoPopouts()
+    signal invertPopoutSelection()
 
     Column {
 
@@ -244,6 +245,9 @@ Flickable {
                                             function onSelectNoPopouts() {
                                                 check.checked = false
                                             }
+                                            function onInvertPopoutSelection() {
+                                                check.checked = !check.checked
+                                            }
                                         }
 
                                     }
@@ -304,7 +308,7 @@ Flickable {
                             y: (parent.height-height)/2
                             spacing: 5
                             PQButton {
-                                width: (popout_buts.width-15)/2
+                                width: (popout_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select all")
                                 smallerVersion: true
@@ -312,12 +316,20 @@ Flickable {
                                     setting_top.selectAllPopouts()
                             }
                             PQButton {
-                                width: (popout_buts.width-15)/2
+                                width: (popout_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select none")
                                 smallerVersion: true
                                 onClicked:
                                     setting_top.selectNoPopouts()
+                            }
+                            PQButton {
+                                width: (popout_buts.width-20)/3
+                                //: written on button, referring to inverting the selected options
+                                text: qsTranslate("settingsmanager", "Invert")
+                                smallerVersion: true
+                                onClicked:
+                                    setting_top.invertPopoutSelection()
                             }
                         }
 
