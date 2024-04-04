@@ -49,18 +49,6 @@ Window {
 
     /////////
 
-    // on windows there is a white flash when the window is created
-    // thus we set up the window with opacity set to 0
-    // and this animation fades the window without white flash
-    PropertyAnimation {
-        id: showOpacity
-        target: ele_window
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: 100
-    }
-
     Component.onCompleted: {
         ele_window.setX(geometry.x)
         ele_window.setY(geometry.y)

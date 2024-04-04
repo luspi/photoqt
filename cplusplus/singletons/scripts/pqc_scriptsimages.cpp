@@ -1011,7 +1011,7 @@ void PQCScriptsImages::loadColorProfileInfo() {
                 continue;
             }
 
-            int bufSize = 100;
+            const int bufSize = 100;
             char buf[bufSize];
 
 #if LCMS_VERSION >= 2160
@@ -1067,7 +1067,7 @@ void PQCScriptsImages::loadColorProfileInfo() {
                     continue;
                 }
 
-                int bufSize = 100;
+                const int bufSize = 100;
                 char buf[bufSize];
 
 #if LCMS_VERSION >= 2160

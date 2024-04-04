@@ -657,7 +657,7 @@ Rectangle {
             if(PQCSettings.metadataElementFloating)
                 return
 
-            if(menu.item.opened) {
+            if(menu.item != null && menu.item.opened) {
                 setVisible = true
                 return
             }

@@ -37,7 +37,6 @@ PQTemplatePopout {
     popout: PQCSettings.interfacePopoutFileDialog
     sizepopout: PQCWindowGeometry.filedialogForcePopout
     source: "filedialog/PQFileDialog.qml"
-    opacity: 0
 
     modality: PQCSettings.interfacePopoutFileDialogKeepOpen ? Qt.NonModal : Qt.ApplicationModal
 

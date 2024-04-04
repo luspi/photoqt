@@ -308,6 +308,8 @@ Rectangle {
     function showFileDialog() {
         isPopout = PQCSettings.interfacePopoutFileDialog && PQCWindowGeometry.filedialogForcePopout
         opacity = 1
+        if(isPopout)
+            filedialog_window.show()
     }
 
     function hideFileDialog() {

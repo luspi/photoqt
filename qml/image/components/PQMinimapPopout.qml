@@ -29,7 +29,7 @@ Window {
     width: 300
     height: 200
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint
+    flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
     title: qsTranslate("image", "Minimap")
 
