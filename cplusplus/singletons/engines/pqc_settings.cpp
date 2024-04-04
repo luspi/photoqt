@@ -413,7 +413,7 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "dev";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -460,7 +460,7 @@ int PQCSettings::migrate(QString oldversion) {
 
             }
 
-        } else if(curVer == "dev") {
+        } else if(curVer == "4.4") {
 
             QSqlQuery query(db);
 
@@ -471,8 +471,6 @@ int PQCSettings::migrate(QString oldversion) {
                 query.next();
 
                 int val = query.value(0).toInt();
-
-                qWarning() << "******** val =" << val;
 
                 // if it's larger than that something went wrong
                 if(val <= 10) {

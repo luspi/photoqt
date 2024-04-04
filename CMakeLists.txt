@@ -9,7 +9,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "dev")
+SET(APPVERSION "4.4")
 add_definitions(-DPQMVERSION="${APPVERSION}")
 
 ########################################
@@ -674,10 +674,13 @@ if(UNIX)
         FILES icons/512x512/org.photoqt.PhotoQt.png
         DESTINATION share/icons/hicolor/512x512/apps/
     )
-    install(
-        FILES icons/1024x1024/org.photoqt.PhotoQt.png
-        DESTINATION share/icons/hicolor/1024x1024/apps/
-    )
+    # the max allowed icon size for flathub is 512x512
+    if(NOT FLATPAKBUILD)
+        install(
+            FILES icons/1024x1024/org.photoqt.PhotoQt.png
+            DESTINATION share/icons/hicolor/1024x1024/apps/
+        )
+    endif()
     install(
         FILES org.photoqt.PhotoQt.metainfo.xml
         DESTINATION share/metainfo/

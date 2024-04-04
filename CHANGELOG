@@ -2,6 +2,41 @@ Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), Li
 ----------------------------------------------------------------------------------------------------------
 
 
+Release 4.4 - 2024-04-04
+----------------------------
+- add: color profile management including applying embedded color profiles
+- add: accent colors to make PhotoQt a little more colorful
+- add: interactive minimap with currently visible area highlighted
+- add: lossless zomm of SVG images
+- add: document and archive navigation even without viewer modus activated
+- add: left/right arrow keys switch between frames of animated image, space plays/pauses animation
+- add: auto-save and compact feature for settings manager
+- add: context menu for various floating elements to access some quick settings
+- add: shadow effect behind floating elements
+- add: small play/pause buttons for live/motion photos
+- add: lock icons to main menu to lock/unlock zoom/rotation/mirror
+- add: option to have background of PhotoQt fully transparent
+- improve: file type selection in file dialog allows for multiple selection
+- improve: closing context menus can happen without triggering other actions
+- improve: better layout and settings handling of settings manager
+- improve: simplified settings menu in file dialog
+- improve: streamline startup background message
+- improve: better spinbox for selecting numbers
+- improve: slider with opacity less than 1
+- improve: split up lock feature for the different categories
+- improve: reduces minimum window size with interface adapting better to smaller sizes
+- improve: faster histogram data loading
+- improve: more tooltips as help text
+- fix: compilation with zxing-cpp v1.4
+- fix: don't use *Magick for video files
+- fix: building PhotoQt with both ImageMagick 6 and 7 installed
+- fix: status info has solid background without (broken) blur
+- fix: converting keys to string when listening to shortcuts uses same code as in settings manager
+- fix: filedialog settings missed entry for muted preview colors
+- fix: in settings manager when selecting new action for shortcut group, pressing Escape closes subwindow only
+- fix: showing status info and window buttons when cursor near top edge
+
+
 Release 4.3 - 2024-02-29
 ----------------------------
 - add: support for detecting QR and bar codes (using ZXing)

@@ -26,11 +26,11 @@
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo4.png</image>
-            <caption>The map explorer showing all images with location data on interactive map</caption>
+            <caption>Zooming in reveals a minimap for easy navigation</caption>
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo5.png</image>
-            <caption>The filetypes settings in the settings manager</caption>
+            <caption>The settings manager in compact format</caption>
         </screenshot>
     </screenshots>
     <launchable type="desktop-id">org.photoqt.PhotoQt.desktop</launchable>
@@ -104,6 +104,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="4.4" date="2024-04-04">
+            <description>
+                PhotoQt v4.4 brings a whole range of exciting new features, from support for color profiles, to accent colors, lossless zoom for vector graphics, and so much more - there is something for everybody.
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-4.4
+            </url>
+        </release>
         <release version="4.3" date="2024-02-29">
             <description>
                 PhotoQt v4.3 focusses to a large degree on quality improvement and bug fixes, but it also brings a few new features nonetheless.
