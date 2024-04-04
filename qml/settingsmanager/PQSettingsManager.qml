@@ -459,7 +459,7 @@ PQTemplateFullscreen {
                                             qsTranslate("settingsmanager", "Sections"),
                                             qsTranslate("settingsmanager", "Drag and drop"),
                                             qsTranslate("settingsmanager", "Thumbnails"),
-                                            qsTranslate("settingsmanager", "Element padding"),
+                                            qsTranslate("settingsmanager", "Padding"),
                                             qsTranslate("settingsmanager", "Folder thumbnails"),
                                             qsTranslate("settingsmanager", "Preview")],
                                            ["Layout",
