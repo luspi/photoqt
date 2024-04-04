@@ -61,7 +61,7 @@ Rectangle {
 
     property int parentWidth
     property int parentHeight
-    width: PQCSettings.metadataElementSize.width
+    width: Math.max(300, PQCSettings.metadataElementSize.width)
     height: Math.min(toplevel.height, PQCSettings.metadataElementSize.height)
 
     color: PQCLook.transColor
@@ -425,7 +425,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.y-clickStart
-            PQCSettings.metadataElementSize.height = origHeight+diff
+            PQCSettings.metadataElementSize.height = Math.round(origHeight+diff)
 
         }
 
@@ -450,7 +450,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.metadataElementSize.width = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(toplevel.width/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -476,7 +476,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.metadataElementSize.width = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(toplevel.width/2, Math.max(200, origWidth+diff)))
 
         }
 

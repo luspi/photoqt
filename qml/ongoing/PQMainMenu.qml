@@ -50,7 +50,7 @@ Rectangle {
 
     property int parentWidth
     property int parentHeight
-    width: PQCSettings.mainmenuElementWidth
+    width: Math.max(400, PQCSettings.mainmenuElementWidth)
     height: toplevel.height-2*gap
 
     property bool setVisible: false
@@ -809,7 +809,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.mainmenuElementWidth = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
+            PQCSettings.mainmenuElementWidth = Math.round(Math.min(toplevel.width/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -835,7 +835,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.mainmenuElementWidth = Math.min(toplevel.width/2, Math.max(200, origWidth+diff))
+            PQCSettings.mainmenuElementWidth = Math.round(Math.min(toplevel.width/2, Math.max(200, origWidth+diff)))
 
         }
 
