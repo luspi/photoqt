@@ -32,4 +32,5 @@ Item {
     property bool shadowEnabled
     property bool maskEnabled
     property Item maskSource
+    property real shadowVerticalOffset
 }
