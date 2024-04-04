@@ -1581,7 +1581,7 @@ bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHP
         // Perform color space conversion
         cmsDoTransform(transform, img.constBits(), ret.bits(), img.width() * img.height());
 
-        int bufSize = 100;
+        const int bufSize = 100;
         char buf[bufSize];
 
 #if LCMS_VERSION >= 2160
