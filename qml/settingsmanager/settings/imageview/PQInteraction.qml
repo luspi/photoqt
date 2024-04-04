@@ -93,7 +93,7 @@ Flickable {
 
                     PQSliderSpinBox {
                         id: minzoom_slider
-                        width: set_zoom.rightcol
+                        width: set_zoom.rightcol - minzoom_check.width - 10
                         minval: 1
                         maxval: 100
                         enabled: minzoom_check.checked
@@ -118,7 +118,7 @@ Flickable {
 
                     PQSliderSpinBox {
                         id: maxzoom_slider
-                        width: set_zoom.rightcol
+                        width: set_zoom.rightcol - maxzoom_check.width - 10
                         minval: 100
                         maxval: 10000
                         enabled: maxzoom_check.checked

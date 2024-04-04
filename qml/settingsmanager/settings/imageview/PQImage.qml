@@ -116,9 +116,14 @@ Flickable {
 
                 Flow {
                     width: set_sze.rightcol
-                    PQText {
-                        y: (large_fit.height-height)/2
-                        text: qsTranslate("settingsmanager", "large images:")
+                    Item {
+                        width: large_txt.width
+                        height: large_fit.height
+                        PQText {
+                            id: large_txt
+                            y: (parent.height-height)/2
+                            text: qsTranslate("settingsmanager", "large images:")
+                        }
                     }
                     PQRadioButton {
                         id: large_fit
@@ -134,9 +139,14 @@ Flickable {
 
                 Flow {
                     width: set_sze.rightcol
-                    PQText {
-                        y: (small_fit.height-height)/2
-                        text: qsTranslate("settingsmanager", "small images:")
+                    Item {
+                        width: small_txt.width
+                        height: small_fit.height
+                        PQText {
+                            id: small_txt
+                            y: (parent.height-height)/2
+                            text: qsTranslate("settingsmanager", "small images:")
+                        }
                     }
                     PQRadioButton {
                         id: small_fit

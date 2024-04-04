@@ -411,9 +411,21 @@ Flickable {
 
                         spacing: 10
 
+                        PQCheckBox {
+                            id: folderthumb_loop
+                            enforceMaxWidth: set_sort.rightcol
+                            text: qsTranslate("settingsmanager", "Loop through content")
+                            onCheckedChanged: checkDefault()
+                        }
+
                         Flow {
                             width: set_sort.rightcol
                             spacing: 5
+                            Item {
+                                width: 25
+                                height: 1
+                            }
+
                             PQText {
                                 height: folderthumb_timeout.height
                                 verticalAlignment: Text.AlignVCenter
@@ -427,13 +439,6 @@ Flickable {
                                         "0.5 s"]
                                 onCurrentIndexChanged: checkDefault()
                             }
-                        }
-
-                        PQCheckBox {
-                            id: folderthumb_loop
-                            enforceMaxWidth: set_sort.rightcol
-                            text: qsTranslate("settingsmanager", "Loop through content")
-                            onCheckedChanged: checkDefault()
                         }
 
                         PQCheckBox {
@@ -494,6 +499,24 @@ Flickable {
 
                         spacing: 10
 
+                        Row {
+                            Item {
+                                width: 30
+                                height: 1
+                            }
+
+                            PQSliderSpinBox {
+                                id: preview_colintspin
+                                width: set_sort.rightcol - 30
+                                title: qsTranslate("settingsmanager", "color intensity:")
+                                titleWeight: PQCLook.fontWeightNormal
+                                minval: 10
+                                maxval: 100
+                                suffix: " %"
+                                onValueChanged: checkDefault()
+                            }
+                        }
+
                         PQCheckBox {
                             id: preview_blur
                             enforceMaxWidth: set_sort.rightcol
@@ -506,17 +529,6 @@ Flickable {
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Mute its colors")
                             onCheckedChanged: checkDefault()
-                        }
-
-                        PQSliderSpinBox {
-                            id: preview_colintspin
-                            width: set_sort.rightcol
-                            title: qsTranslate("settingsmanager", "color intensity:")
-                            titleWeight: PQCLook.fontWeightNormal
-                            minval: 10
-                            maxval: 100
-                            suffix: " %"
-                            onValueChanged: checkDefault()
                         }
 
                         PQCheckBox {

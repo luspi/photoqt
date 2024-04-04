@@ -33,7 +33,7 @@ Item {
     property bool showSlider: true
     property bool sliderExtraSmall: true
 
-    property int titleWeight: PQCLook.fontWeightBold
+    property int titleWeight: PQCLook.fontWeightNormal
 
     property bool editMode: !txt.visible
 

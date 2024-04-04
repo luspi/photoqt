@@ -190,6 +190,11 @@ Flickable {
                 Flow {
                     width: set_vid.rightcol
                     spacing: 10
+                    Item {
+                        width: 25
+                        height: 1
+                    }
+
                     PQText {
                         height: videothumb.height
                         verticalAlignment: Text.AlignVCenter
