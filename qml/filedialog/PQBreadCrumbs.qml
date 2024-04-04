@@ -143,7 +143,7 @@ Item {
                     checkable: true
                     checked: PQCSettings.filedialogKeepLastLocation
                     source: "image://svg/:/white/remember.svg"
-                    tooltip: qsTranslate("filedialog", "Remember last location across sessions")
+                    tooltip: qsTranslate("filedialog", "Remember last location between sessions")
                     onClicked:
                         fd_breadcrumbs.disableAddressEdit()
                     onCheckedChanged:
@@ -154,7 +154,7 @@ Item {
                     id: settings
                     checkable: true
                     source: "image://svg/:/white/settings.svg"
-                    tooltip: qsTranslate("filedialog", "Access settings")
+                    tooltip: qsTranslate("filedialog", "Settings")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit()
                         if(checked)
