@@ -963,7 +963,7 @@ bool PQCScriptsImages::isSVG(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    const QString suffix = QFileInfo(path).suffix();
+    const QString suffix = QFileInfo(path).suffix().toLower();
     return (suffix == "svg" || suffix == "svgz");
 
 }
