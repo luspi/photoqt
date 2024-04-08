@@ -731,6 +731,16 @@ Item {
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
+                        loader.show("notification", qsTranslate("filemanagement", "File successfully move to trash"))
+                        PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
+                    } else {
+                        loader.show("notification", qsTranslate("filemanagement", "Could not move file to trash"))
+                    }
+                }
+                break
+            case "__deleteTrash":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
                         loader.show("notification", qsTranslate("filemanagement", "File successfully moved to trash"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {

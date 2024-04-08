@@ -121,7 +121,9 @@ Flickable {
                                  //: Name of shortcut action
         "__delete":             [qsTranslate("settingsmanager", "Delete File"), "currentimage"],
                                  //: Name of shortcut action
-        "__deletePermanent":    [qsTranslate("settingsmanager", "Delete File (without confirmation)"), "currentimage"],
+        "__deletePermanent":    [qsTranslate("settingsmanager", "Delete File permanently (without confirmation)"), "currentimage"],
+                                 //: Name of shortcut action
+        "__deleteTrash":        [qsTranslate("settingsmanager", "Move file to trash (without confirmation)"), "currentimage"],
                                  //: Name of shortcut action
         "__copy":               [qsTranslate("settingsmanager", "Copy File to a New Location"), "currentimage"],
                                  //: Name of shortcut action
