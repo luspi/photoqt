@@ -46,6 +46,7 @@ Item {
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
+            z: image_top.curZ
             width: controlrow.width+20
             height: 50
             radius: 5

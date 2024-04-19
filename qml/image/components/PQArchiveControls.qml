@@ -44,14 +44,15 @@ Item {
 
             parent: deleg
 
-            x: (parent.width-width)/2
-            y: 0.9*parent.height
+            x: (deleg.width-width)/2
+            y: 0.9*deleg.height
+            z: image_top.curZ
             width: controlrow.width+20
             height: 50
             radius: 5
             color: PQCLook.transColor
 
-            property bool isComicBook: PQCScriptsImages.isComicBook(deleg.imageSource)
+            property bool isComicBook: PQCScriptsImages.isComicBook(loader_top.imageSource)
 
             Connections {
                 target: image_top

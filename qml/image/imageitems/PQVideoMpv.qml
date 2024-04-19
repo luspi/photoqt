@@ -41,16 +41,16 @@ Item {
 
     onWidthChanged: {
         image_wrapper.width = width
-        deleg.imageResolution.width = width
+        loader_top.imageResolution.width = width
     }
     onHeightChanged: {
-        deleg.imageResolution.height = height
+        loader_top.imageResolution.height = height
         image_wrapper.height = height
     }
 
     onVisibleChanged: {
-        if(!visible && loader_component.videoPlaying) {
-            loader_component.videoPlaying = false
+        if(!visible && loader_top.videoPlaying) {
+            loader_top.videoPlaying = false
             video.command(["cycle", "pause"])
         }
     }
@@ -68,7 +68,7 @@ Item {
         interval: 100
         running: true
         onTriggered: {
-            video.command(["loadfile", deleg.imageSource])
+            video.command(["loadfile", loader_top.imageSource])
             getProps.restart()
         }
     }
@@ -88,7 +88,7 @@ Item {
             }
             videotop.width = video.getProperty("width")
             videotop.height = video.getProperty("height")
-            loader_component.videoDuration = video.getProperty("duration")
+            loader_top.videoDuration = video.getProperty("duration")
             video.setProperty("volume", PQCSettings.filetypesVideoVolume)
             image_wrapper.status = Image.Ready
             getPosition.restart()
@@ -97,20 +97,20 @@ Item {
 
     Timer {
         id: getPosition
-        interval: loader_component.videoPlaying ? 250 : 500
+        interval: loader_top.videoPlaying ? 250 : 500
         repeat: true
         running: false
         property bool restarting: false
         onTriggered: {
             PQCSettings.filetypesVideoVolume = video.getProperty("volume")
-            loader_component.videoPlaying = !video.getProperty("core-idle")
+            loader_top.videoPlaying = !video.getProperty("core-idle")
             if(video.getProperty("eof-reached")) {
                 if(PQCSettings.filetypesVideoLoop && !restarting) {
-                    video.command(["loadfile", deleg.imageSource])
+                    video.command(["loadfile", loader_top.imageSource])
                     restarting = true
                 }
             } else {
-                loader_component.videoPosition = video.getProperty("time-pos")
+                loader_top.videoPosition = video.getProperty("time-pos")
                 restarting = false
             }
 
@@ -122,9 +122,9 @@ Item {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        deleg.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        deleg.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV
 
     Connections {
         target: image_top
@@ -146,15 +146,15 @@ Item {
     }
 
     Connections {
-        target: loader_component
+        target: loader_top
         function onVideoTogglePlay() {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
             if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", deleg.imageSource])
-                loader_component.videoPlaying = true
+                video.command(["loadfile", loader_top.imageSource])
+                loader_top.videoPlaying = true
             } else {
-                loader_component.videoPlaying = !loader_component.videoPlaying
+                loader_top.videoPlaying = !loader_top.videoPlaying
                 video.command(["cycle", "pause"])
             }
         }
@@ -162,9 +162,9 @@ Item {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
             if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", deleg.imageSource])
+                video.command(["loadfile", loader_top.imageSource])
                 video.command(["cycle", "pause"])
-                loader_component.videoPlaying = false
+                loader_top.videoPlaying = false
                 setPosTimeout.pos = pos
                 setPosTimeout.restart()
             } else
@@ -174,10 +174,10 @@ Item {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
             if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", deleg.imageSource])
-                loader_component.videoPlaying = true
+                video.command(["loadfile", loader_top.imageSource])
+                loader_top.videoPlaying = true
             } else {
-                loader_component.videoPlaying = !loader_component.videoPlaying
+                loader_top.videoPlaying = !loader_top.videoPlaying
                 video.command(["cycle", "pause"])
             }
         }
@@ -192,12 +192,14 @@ Item {
     }
 
     Connections {
-        target: deleg
+
+        target: loader_top
+
         function onStopVideoAndReset() {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
-            if(loader_component.videoPlaying) {
-                loader_component.videoPlaying = false
+            if(loader_top.videoPlaying) {
+                loader_top.videoPlaying = false
                 video.command(["cycle", "pause"])
                 video.command(["seek", 0, "absolute"])
             }
@@ -207,10 +209,10 @@ Item {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
 
-            if(loader_component.videoPlaying) {
+            if(loader_top.videoPlaying) {
 
                 if(!PQCSettings.filetypesVideoAutoplay) {
-                    loader_component.videoPlaying = false
+                    loader_top.videoPlaying = false
                     video.command(["cycle", "pause"])
                 } else
                     video.command(["seek", 0, "absolute"])
@@ -218,7 +220,7 @@ Item {
             } else {
                 if(PQCSettings.filetypesVideoAutoplay) {
                     video.command(["seek", 0, "absolute"])
-                    loader_component.videoPlaying = true
+                    loader_top.videoPlaying = true
                     video.command(["cycle", "pause"])
                 }
             }

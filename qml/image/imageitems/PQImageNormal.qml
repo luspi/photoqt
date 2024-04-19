@@ -39,7 +39,7 @@ Image {
 
     id: image
 
-    source: deleg.imageSource==="" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource))
+    source: loader_top.imageSource==="" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource))
 
     asynchronous: true
 
@@ -65,8 +65,8 @@ Image {
     onStatusChanged: {
         image_wrapper.status = status
         if(status == Image.Ready) {
-            hasAlpha = PQCScriptsImages.supportsTransparency(deleg.imageSource)
-            if(deleg.defaultScale < 0.95)
+            hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
+            if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
@@ -77,14 +77,14 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        deleg.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        deleg.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV
 
     property bool hasAlpha: false
 
     onSourceSizeChanged:
-        deleg.imageResolution = sourceSize
+        loader_top.imageResolution = sourceSize
 
     Connections {
         target: image_top
@@ -138,7 +138,7 @@ Image {
         id: loadScaledDown
         interval: (PQCSettings.imageviewAnimationDuration+1)*100    // this ensures it happens after the animation has stopped
         onTriggered: {
-            if(deleg.shouldBeShown) {
+            if(loader_top.shouldBeShown) {
                 screenW = image_top.width
                 screenH = image_top.height
                 ldl.active = true
@@ -168,10 +168,10 @@ Image {
             width: image.width
             height: image.height
             source: image.source
-            smooth: image_wrapper.scale < 0.95*deleg.defaultScale
+            smooth: image_wrapper.scale < 0.95*loader_top.defaultScale
             mipmap: smooth
             cache: false
-            visible: deleg.defaultScale >= image_wrapper.scale
+            visible: loader_top.defaultScale >= image_wrapper.scale
             sourceSize: Qt.size(screenW, screenH)
         }
     }
@@ -189,7 +189,7 @@ Image {
         target: PQCSettings
 
         function onFiletypesCheckForPhotoSphereChanged() {
-            if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
+            if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource)) {
                 PQCNotify.hasPhotoSphere = true
             } else
                 PQCNotify.hasPhotoSphere = false
@@ -225,22 +225,22 @@ Image {
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
 
-                var what = PQCScriptsImages.isMotionPhoto(deleg.imageSource)
+                var what = PQCScriptsImages.isMotionPhoto(loader_top.imageSource)
 
                 if(what > 0) {
 
                     var src = ""
 
                     if(what === 1)
-                        src = PQCScriptsFilesPaths.getDir(deleg.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(deleg.imageSource) + ".mov"
+                        src = PQCScriptsFilesPaths.getDir(loader_top.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(loader_top.imageSource) + ".mov"
                     else if(what === 2 || what === 3)
-                        src = PQCScriptsImages.extractMotionPhoto(deleg.imageSource)
+                        src = PQCScriptsImages.extractMotionPhoto(loader_top.imageSource)
 
                     if(src != "") {
 
                         if(PQCSettings.metadataAutoRotation) {
 
-                            var orientation = PQCScriptsMetaData.getExifOrientation(deleg.imageSource)
+                            var orientation = PQCScriptsMetaData.getExifOrientation(loader_top.imageSource)
                             switch(orientation) {
 
                             case 1:
@@ -309,7 +309,7 @@ Image {
 
             if(PQCSettings.filetypesCheckForPhotoSphere && PQCScriptsConfig.isPhotoSphereSupportEnabled()) {
 
-                if(PQCScriptsImages.isPhotoSphere(deleg.imageSource)) {
+                if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource)) {
                     PQCNotify.hasPhotoSphere = true
                 } else
                     PQCNotify.hasPhotoSphere = false
@@ -360,7 +360,7 @@ Image {
                     play()
                 }
                 Connections {
-                    target: loader_component
+                    target: loader_top
                     function onVideoTogglePlay() {
                         if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                             return

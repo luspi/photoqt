@@ -35,7 +35,7 @@ AnimatedImage {
 
     id: image
 
-    source: (deleg.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)))
+    source: (loader_top.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)))
 
     asynchronous: true
 
@@ -60,8 +60,8 @@ AnimatedImage {
     onStatusChanged: {
         image_wrapper.status = status
         if(status == Image.Ready) {
-            hasAlpha = PQCScriptsImages.supportsTransparency(deleg.imageSource)
-            if(deleg.defaultScale < 0.95)
+            hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
+            if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
@@ -72,14 +72,14 @@ AnimatedImage {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        deleg.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        deleg.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV
 
     property bool hasAlpha: false
 
     onSourceSizeChanged:
-        deleg.imageResolution = sourceSize
+        loader_top.imageResolution = sourceSize
 
     Connections {
         target: image_top
@@ -128,7 +128,7 @@ AnimatedImage {
 
     Connections {
 
-        target: loader_component
+        target: loader_top
         function onVideoTogglePlay() {
             if(!image.playing) {
                 // without explicitely storing/loading the frame it will restart playing at the start

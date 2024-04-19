@@ -35,11 +35,11 @@ Image {
 
     Component.onCompleted: {
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(deleg.imageSource, true)
-        if(deleg.imageSource.includes("::ARC::") || currentFile > fileCount-1)
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
+            fileList = PQCScriptsImages.listArchiveContent(loader_top.imageSource, true)
+        if(loader_top.imageSource.includes("::ARC::") || currentFile > fileCount-1)
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)
         else
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(deleg.imageSource))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(loader_top.imageSource))
     }
 
     asynchronous: true
@@ -71,9 +71,9 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        deleg.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        deleg.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV
 
     function setMirrorHV(mH, mV) {
         image.myMirrorH = mH
@@ -117,7 +117,7 @@ Image {
     }
 
     function setSource() {
-        var src = deleg.imageSource
+        var src = loader_top.imageSource
         if(src === "") {
             image.source = ""
             return
@@ -128,7 +128,7 @@ Image {
         image.asynchronous = false
 
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(deleg.imageSource, true)
+            fileList = PQCScriptsImages.listArchiveContent(loader_top.imageSource, true)
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
@@ -140,12 +140,12 @@ Image {
 
     onWidthChanged: {
         image_wrapper.width = width
-        deleg.resetToDefaults()
+        loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
     onHeightChanged: {
         image_wrapper.height = height
-        deleg.resetToDefaults()
+        loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
 
@@ -156,8 +156,8 @@ Image {
     }
 
     onSourceSizeChanged: {
-        deleg.imageResolution = sourceSize
-        deleg.resetToDefaults()
+        loader_top.imageResolution = sourceSize
+        loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
 
@@ -174,10 +174,9 @@ Image {
 
     Connections {
 
-        target: deleg
+        target: loader_top
 
         function onImageSourceChanged() {
-            console.warn("onImageSourceChanged", deleg.imageSource)
             setSource()
         }
 

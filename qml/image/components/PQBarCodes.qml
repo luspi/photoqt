@@ -48,7 +48,7 @@ Item {
         function onDetectBarCodes() {
             if(image_top.currentlyVisibleIndex === deleg.itemIndex) {
                 if(!PQCNotify.barcodeDisplayed) {
-                    barcodes = PQCScriptsImages.getZXingData(deleg.imageSource)
+                    barcodes = PQCScriptsImages.getZXingData(loader_top.imageSource)
                     if(barcodes.length === 0) {
                         loader.show("notification", qsTranslate("image", "No bar/QR codes found."))
                     } else if(barcodes.length/3 == 1) {
@@ -99,7 +99,7 @@ Item {
 
                         spacing: 1
 
-                        scale: 1/deleg.imageScale
+                        scale: 1/loader_top.imageScale
                         Behavior on scale { NumberAnimation { duration: 200 } }
 
                         Rectangle {

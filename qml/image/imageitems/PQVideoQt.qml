@@ -41,7 +41,7 @@ Item {
         id: video
 
         // earlier versions of Qt6 seem to struggle if only one slash is used
-        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + deleg.imageSource
+        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + loader_top.imageSource
 
         volume: PQCSettings.filetypesVideoVolume/100
 
@@ -64,9 +64,9 @@ Item {
 
                 // earlier versions of Qt6 seem to struggle if only one slash is used
                 if(PQCScriptsConfig.isQtAtLeast6_5())
-                    video.source = "file:/" + deleg.imageSource
+                    video.source = "file:/" + loader_top.imageSource
                 else
-                    video.source = "file://" + deleg.imageSource
+                    video.source = "file://" + loader_top.imageSource
 
                 if(PQCSettings.filetypesVideoLoop) {
                     video.play()
@@ -81,23 +81,23 @@ Item {
 
     onWidthChanged: {
         image_wrapper.width = width
-        deleg.imageResolution.width = width
+        loader_top.imageResolution.width = width
     }
     onHeightChanged: {
-        deleg.imageResolution.height = height
+        loader_top.imageResolution.height = height
         image_wrapper.height = height
     }
 
     onVisibleChanged: {
-        if(!visible && loader_component.videoPlaying) {
+        if(!visible && loader_top.videoPlaying) {
             video.pause()
         }
     }
 
     Component.onCompleted: {
-        loader_component.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
-        loader_component.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
-        loader_component.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
+        loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
+        loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
+        loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
         image_wrapper.status = Image.Ready
     }
 
@@ -114,7 +114,7 @@ Item {
     }
 
     Connections {
-        target: loader_component
+        target: loader_top
         function onVideoTogglePlay() {
 
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
@@ -139,13 +139,15 @@ Item {
     }
 
     Connections {
-        target: deleg
+
+        target: loader_top
+
         function onStopVideoAndReset() {
 
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
 
-            if(loader_component.videoPlaying) {
+            if(loader_top.videoPlaying) {
                 video.pause()
                 video.seek(0)
             }
@@ -155,7 +157,7 @@ Item {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
 
-            if(loader_component.videoPlaying) {
+            if(loader_top.videoPlaying) {
 
                 if(!PQCSettings.filetypesVideoAutoplay) {
                     video.pause()
@@ -177,7 +179,7 @@ Item {
         if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
             return
 
-        if(loader_component.videoPlaying)
+        if(loader_top.videoPlaying)
             video.pause()
         else {
             if(video.position > video.duration-150)
@@ -191,9 +193,9 @@ Item {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        deleg.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        deleg.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV
 
     Connections {
         target: image_top

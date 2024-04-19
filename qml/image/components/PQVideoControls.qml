@@ -39,12 +39,12 @@ Rectangle {
 
     property bool controlsClosed: false
 
-    opacity: (loader_component.videoLoaded)
+    opacity: (loader_top.videoLoaded)
                     ? ((((controlmouse.containsMouse || playpausemouse.containsMouse ||
                           volumeiconmouse.containsMouse || volumebg.containsMouse ||
                           volumeslider.backgroundContainsMouse || volumeslider.handleContainsMouse ||
                           posslider.backgroundContainsMouse || posslider.handleContainsMouse ||
-                          closemouse.containsMouse) && !controlsClosed) || !loader_component.videoPlaying)
+                          closemouse.containsMouse) && !controlsClosed) || !loader_top.videoPlaying)
                             ? 1
                             : (controlsClosed ? 0 : 0.2))
                     : 0
@@ -72,7 +72,7 @@ Rectangle {
             y: parent.height*0.2
             height: parent.height*0.6
             width: height
-            source: loader_component.videoPlaying ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
+            source: loader_top.videoPlaying ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
             sourceSize: Qt.size(width, height)
             PQMouseArea {
                 id: playpausemouse
@@ -81,14 +81,14 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked:
-                    loader_component.videoTogglePlay()
+                    loader_top.videoTogglePlay()
             }
         }
 
         PQText {
             id: curtime
             y: (parent.height-height)/2
-            text: PQCScriptsImages.convertSecondsToPosition(loader_component.videoPosition)
+            text: PQCScriptsImages.convertSecondsToPosition(loader_top.videoPosition)
         }
 
         PQSlider {
@@ -97,27 +97,27 @@ Rectangle {
             // width: totaltime.x-curtime.x-curtime.width-20
             live: false
             from: 0
-            to: loader_component.videoDuration
+            to: loader_top.videoDuration
 
             onPressedChanged: {
                 if(!pressed) {
-                    loader_component.videoToPos(value)
+                    loader_top.videoToPos(value)
                 }
             }
 
             onPositionChanged: {
-                if(pressed && loader_component.videoLoaded) {
-                    loader_component.videoToPos(position*to)
+                if(pressed && loader_top.videoLoaded) {
+                    loader_top.videoToPos(position*to)
                 }
             }
 
             Connections {
-                target: loader_component
+                target: loader_top
 
                 function onVideoPositionChanged() {
                     if(posslider.pressed)
                         return
-                    posslider.value = Math.floor(loader_component.videoPosition)
+                    posslider.value = Math.floor(loader_top.videoPosition)
                 }
             }
 
@@ -126,7 +126,7 @@ Rectangle {
         PQText {
             id: totaltime
             y: (parent.height-height)/2
-            text: PQCScriptsImages.convertSecondsToPosition(loader_component.videoDuration)
+            text: PQCScriptsImages.convertSecondsToPosition(loader_top.videoDuration)
         }
 
         Image {

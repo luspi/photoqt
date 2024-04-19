@@ -54,6 +54,7 @@ Item {
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
+            z: image_top.curZ
             width: controlrow.width+20
             height: 50
             radius: 5
@@ -212,7 +213,7 @@ Item {
                             //: The frame here refers to one of the images making up an animation of a gif or other animated image
                             text: qsTranslate("image", "Save current frame to new file")
                             onClicked: {
-                                PQCScriptsImages.extractFrameAndSave(deleg.imageSource, image.currentFrame)
+                                PQCScriptsImages.extractFrameAndSave(loader_top.imageSource, image.currentFrame)
                             }
                         }
                     }

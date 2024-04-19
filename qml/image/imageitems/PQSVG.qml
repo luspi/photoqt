@@ -51,7 +51,7 @@ Item {
 
         id: image
 
-        source: (deleg.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)))
+        source: (loader_top.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)))
 
         asynchronous: true
         cache: false
@@ -80,7 +80,7 @@ Item {
         onStatusChanged: {
             image_wrapper.status = status
             if(status == Image.Ready) {
-                hasAlpha = PQCScriptsImages.supportsTransparency(deleg.imageSource)
+                hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"
         }
@@ -90,12 +90,12 @@ Item {
         property bool myMirrorV: false
 
         onMyMirrorHChanged:
-            deleg.imageMirrorH = myMirrorH
+            loader_top.imageMirrorH = myMirrorH
         onMyMirrorVChanged:
-            deleg.imageMirrorV = myMirrorV
+            loader_top.imageMirrorV = myMirrorV
 
         onSourceSizeChanged:
-            deleg.imageResolution = sourceSize
+            loader_top.imageResolution = sourceSize
 
     }
 
@@ -143,7 +143,7 @@ Item {
 
     property real currentScale: 1
     Connections {
-        target: deleg
+        target: loader_top
         function onImageScaleChanged() {
             resetCurrentScale.restart()
         }
@@ -154,7 +154,7 @@ Item {
         interval: 500
         repeat: false
         onTriggered: {
-            currentScale = deleg.imageScale
+            currentScale = loader_top.imageScale
         }
     }
 
@@ -162,7 +162,7 @@ Item {
         id: scaledimage
         anchors.fill: parent
         source: Math.abs(1-currentScale) > 0.01 ? parent.source : ""
-        visible: source != "" && status == Image.Ready
+        visible: source !== "" && status == Image.Ready
         cache: false
         smooth: false
         mipmap: false

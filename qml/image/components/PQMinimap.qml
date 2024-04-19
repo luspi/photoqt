@@ -102,12 +102,12 @@ Rectangle {
         z: image_top.curZ
     }
 
-    property bool minimapNeeded: (deleg.imageScale > deleg.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
+    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
     property bool minimapActive: false
     property bool containsMouse: movemouse.containsMouse||minimapmouse.containsMouse||navmouse.containsMouse
 
     Connections {
-        target: deleg
+        target: loader_top
         function onImageScaleChanged() {
             minimapActive = true
             minimapMakeDeactive.start()
@@ -285,11 +285,11 @@ Rectangle {
 
         Timer {
             interval: PQCSettings.imageviewAnimationDuration*100
-            running: loader_component.visible && !hasBeenTriggered
+            running: loader_top.visible && !hasBeenTriggered
             property bool hasBeenTriggered: false
             onTriggered: {
                 hasBeenTriggered = true
-                var cl = PQCScriptsFilesPaths.cleanPath(deleg.imageSource)
+                var cl = PQCScriptsFilesPaths.cleanPath(loader_top.imageSource)
                 if(cl !== "")
                     img.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(cl)
             }

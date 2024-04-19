@@ -120,7 +120,7 @@ Item {
                 height: faceLabel.height+10
                 radius: 10
                 color: PQCLook.transColor
-                rotation: -deleg.imageRotation
+                rotation: -loader_top.imageRotation
 
                 // This holds the person's name
                 PQText {

@@ -34,10 +34,10 @@ Image {
     source: ""
 
     Component.onCompleted: {
-        if(deleg.imageSource.includes("::PDF::"))
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource)
+        if(loader_top.imageSource.includes("::PDF::"))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)
         else
-            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(deleg.imageSource))
+            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource))
     }
 
     asynchronous: true
@@ -65,9 +65,9 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        deleg.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        deleg.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV
 
     function setMirrorHV(mH, mV) {
         image.myMirrorH = mH
@@ -146,15 +146,15 @@ Image {
             width: image.width
             height: image.height
             source: image.source
-            smooth: image_wrapper.scale < 0.95*deleg.defaultScale
+            smooth: image_wrapper.scale < 0.95*loader_top.defaultScale
             mipmap: smooth
-            visible: deleg.defaultScale >= image_wrapper.scale
+            visible: loader_top.defaultScale >= image_wrapper.scale
             sourceSize: Qt.size(screenW, screenH)
         }
     }
 
     property int currentPage: 0
-    property int pageCount: PQCScriptsImages.getDocumentPageCount(deleg.imageSource)
+    property int pageCount: PQCScriptsImages.getDocumentPageCount(loader_top.imageSource)
 
     onCurrentPageChanged: {
         image_top.currentFileInside = currentPage
@@ -170,10 +170,10 @@ Image {
                 loadNewPage.restart()
             } else {
                 image.asynchronous = false
-                if(deleg.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource.split("::PDF::")[1]))
+                if(loader_top.imageSource.includes("::PDF::")) {
+                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource.split("::PDF::")[1]))
                 } else {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource))
+                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource))
                 }
                 image.asynchronous = true
             }
@@ -182,12 +182,12 @@ Image {
 
     onWidthChanged: {
         image_wrapper.width = width
-        deleg.resetToDefaults()
+        loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
     onHeightChanged: {
         image_wrapper.height = height
-        deleg.resetToDefaults()
+        loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
 
@@ -196,14 +196,14 @@ Image {
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
         else if(status == Image.Ready) {
-            if(deleg.defaultScale < 0.95)
+            if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         }
     }
 
     onSourceSizeChanged: {
-        deleg.imageResolution = sourceSize
-        deleg.resetToDefaults()
+        loader_top.imageResolution = sourceSize
+        loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
 
@@ -220,15 +220,15 @@ Image {
 
     Connections {
 
-        target: deleg
+        target: loader_top
 
         function onImageSourceChanged() {
-            if(deleg.imageSource === "") {
+            if(loader_top.imageSource === "") {
                 image.source = ""
-            } else if(deleg.imageSource.includes("::PDF::")) {
-                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource.split("::PDF::")[1]))
+            } else if(loader_top.imageSource.includes("::PDF::")) {
+                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource.split("::PDF::")[1]))
             } else {
-                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(deleg.imageSource))
+                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource))
             }
         }
 
