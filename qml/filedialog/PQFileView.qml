@@ -1564,11 +1564,15 @@ GridView {
 
             navigateToFileStartingWith = []
 
-        } else if(key === Qt.Key_Delete || key === Qt.Key_Backspace) {
+        } else if(key === Qt.Key_Delete) {
 
             deleteFiles()
 
             navigateToFileStartingWith = []
+
+        } else if(key === Qt.Key_Backspace) {
+
+            filedialog_top.goBackInHistory()
 
         } else if(key === Qt.Key_Space && view.navigateToFileStartingWith.length == 0) {
 
