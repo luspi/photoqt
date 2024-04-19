@@ -328,6 +328,8 @@ Flickable {
                     enforceMaxWidth: set_ani.rightcol
                     //: Enable music to be played during slideshows
                     text: qsTranslate("settingsmanager", "enable music")
+                    onCheckedChanged:
+                        checkDefault()
                 },
 
                 PQButton {
@@ -349,8 +351,10 @@ Flickable {
                         var fname = PQCScriptsFilesPaths.openFileFromDialog("Select",
                                                                             (music_button.musicfile == "" ? PQCScriptsFilesPaths.getHomeDir() : music_button.musicfile),
                                                                             ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
-                        if(fname !== "")
+                        if(fname !== "") {
                             music_button.musicfile = PQCScriptsFilesPaths.cleanPath(fname)
+                            checkDefault()
+                        }
                     }
                 }
 
@@ -374,7 +378,7 @@ Flickable {
 
         settingChanged = (anicombo.hasChanged() || anispeed.hasChanged() || interval.hasChanged() || loop.hasChanged() ||
                           shuffle.hasChanged() || hidewindowbuttons.hasChanged() || hidestatusinfo.hasChanged() || music_check.hasChanged() ||
-                          includesub.hasChanged())
+                          includesub.hasChanged() && music_button.musicfile !== PQCSettings.slideshowMusicFile)
 
     }
 
