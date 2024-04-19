@@ -1565,10 +1565,19 @@ bool PQCScriptsImages::applyColorSpaceQt(QImage &img, QString filename, QColorSp
 #ifdef PQMLCMS2
 bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile) {
 
-    int lcms2format = PQCScriptsImages::get().toLcmsFormat(img.format());
+    int lcms2SourceFormat = PQCScriptsImages::get().toLcmsFormat(img.format());
+
+    QImage::Format targetFormat = img.format();
+    // this format causes problems with lcms2
+    // no error is caused but the resulting image is fully transparent
+    // removing the alpha channel seems to fix this
+    if(img.format() == QImage::Format_ARGB32)
+        targetFormat = QImage::Format_RGB32;
+    int lcms2targetFormat = PQCScriptsImages::get().toLcmsFormat(img.format());
+
 
     // Create a transformation from source (sRGB) to destination (provided ICC profile) color space
-    cmsHTRANSFORM transform = cmsCreateTransform(cmsCreate_sRGBProfile(), lcms2format, targetProfile, lcms2format, INTENT_PERCEPTUAL, 0);
+    cmsHTRANSFORM transform = cmsCreateTransform(cmsCreate_sRGBProfile(), lcms2SourceFormat, targetProfile, lcms2targetFormat, INTENT_PERCEPTUAL, 0);
     if (!transform) {
         // Handle error, maybe close profile and return original image or null image
         cmsCloseProfile(targetProfile);
@@ -1576,7 +1585,7 @@ bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHP
         return false;
     } else {
 
-        QImage ret(img.size(), img.format());
+        QImage ret(img.size(), targetFormat);
         ret.fill(Qt::transparent);
         // Perform color space conversion
         cmsDoTransform(transform, img.constBits(), ret.bits(), img.width() * img.height());
