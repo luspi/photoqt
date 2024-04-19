@@ -1475,7 +1475,10 @@ GridView {
 
         } else if(key === Qt.Key_Home) {
 
-            view.currentIndex = 0
+            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
+                filedialog_top.loadNewPath(PQCScriptsFilesPaths.getHomeDir())
+             else
+                view.currentIndex = 0
 
             navigateToFileStartingWith = []
 
