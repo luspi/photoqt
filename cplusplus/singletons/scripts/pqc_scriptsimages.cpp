@@ -1683,3 +1683,23 @@ QString PQCScriptsImages::detectVideoColorProfile(QString path) {
     return "";
 
 }
+
+void PQCScriptsImages::removeThumbnailFor(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QByteArray p = QUrl::fromLocalFile(path).toString().toUtf8();
+
+    const QStringList cachedirs = {"xx-large",
+                                   "x-large",
+                                   "large",
+                                   "normal"};
+
+    for(auto &c : cachedirs) {
+        const QByteArray md5 = QCryptographicHash::hash(p,QCryptographicHash::Md5).toHex();
+        const QString thumbcachepath = PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/" + c + "/" + md5 + ".png";
+        if(QFileInfo::exists(thumbcachepath))
+            QFile::remove(thumbcachepath);
+    }
+
+}

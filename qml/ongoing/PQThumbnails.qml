@@ -26,6 +26,7 @@ import QtQuick.Controls
 import PQCNotify
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
+import PQCScriptsImages
 
 import "../elements"
 
@@ -191,6 +192,8 @@ Item {
             previousIndicesChanged()
         }
         property bool previousIndexWithinView: false
+
+        signal reloadThumbnail(var index)
 
         // the highlight index is set when hovering thumbnails
         property int highlightIndex: -1
@@ -385,6 +388,7 @@ Item {
                 width: PQCSettings.thumbnailsSize
                 height: PQCSettings.thumbnailsSize
                 asynchronous: true
+                cache: false
                 fillMode: PQCSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                 source: "image://thumb/" + deleg.filepath
 
@@ -529,6 +533,16 @@ Item {
                 ]
             }
 
+            Connections {
+                target: view
+                function onReloadThumbnail(ind) {
+                    if(index === ind) {
+                        img.source = ""
+                        img.source = "image://thumb/" + deleg.filepath
+                    }
+                }
+            }
+
         }
 
     }
@@ -543,6 +557,22 @@ Item {
 
         sourceComponent:
         PQMenu {
+
+            id: menudeleg
+
+            property int reloadIndex: -1
+
+            PQMenuItem {
+                visible: menudeleg.reloadIndex>-1
+                text: qsTranslate("thumbnails", "Reload thumbnail")
+                iconSource: "image://svg/:/white/convert.svg"
+                onTriggered: {
+                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[menudeleg.reloadIndex])
+                    view.reloadThumbnail(menudeleg.reloadIndex)
+                }
+            }
+
+            PQMenuSeparator { visible: (menudeleg.reloadIndex>-1) }
 
             PQMenuItem {
                 checkable: true
@@ -630,8 +660,19 @@ Item {
 
             onAboutToHide:
                 recordAsClosed.restart()
-            onAboutToShow:
+
+            onAboutToShow: {
                 PQCNotify.addToWhichContextMenusOpen("thumbnails")
+                menudeleg.reloadIndex = view.highlightIndex
+            }
+
+            Connections {
+                target: view
+                function onHighlightIndexChanged() {
+                    if(!menudeleg.visible)
+                        menudeleg.reloadIndex = view.highlightIndex
+                }
+            }
 
             Timer {
                 id: recordAsClosed

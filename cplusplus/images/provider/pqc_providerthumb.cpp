@@ -173,7 +173,6 @@ void PQCAsyncImageResponseThumb::loadImage() {
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
     if(PQCSettings::get()["thumbnailsCache"].toBool()) {
 
-
         // If there exists a thumbnail of the current file already
         if(QFile(thumbcachepath).exists()) {
 

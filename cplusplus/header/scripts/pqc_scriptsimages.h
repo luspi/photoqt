@@ -95,6 +95,8 @@ public:
     void loadColorProfileInfo();
     bool applyColorProfile(QString filename, QImage &img);
 
+    Q_INVOKABLE void removeThumbnailFor(QString path);
+
 #ifdef PQMLCMS2
     int toLcmsFormat(QImage::Format fmt);
 #endif

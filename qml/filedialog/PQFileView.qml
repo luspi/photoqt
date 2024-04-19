@@ -33,6 +33,7 @@ import PQCScriptsFileManagement
 import PQCScriptsOther
 import PQCScriptsShortcuts
 import PQCImageFormats
+import PQCScriptsImages
 
 import "../elements"
 
@@ -83,6 +84,9 @@ GridView {
     property bool showGrid: PQCSettings.filedialogLayout==="icons"
     property bool currentFolderExcluded: false
     property int currentFolderThumbnailIndex: -1
+
+    signal refreshThumbnails()
+    signal refreshCurrentThumbnail()
 
     cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
@@ -359,6 +363,20 @@ GridView {
                 onStatusChanged: {
                     if(status == Image.Ready) {
                         fileicon.source = ""
+                    }
+                }
+
+                Connections {
+                    target: view
+                    function onRefreshThumbnails() {
+                        filethumb.source = ""
+                        filethumb.source = Qt.binding(function() { return (visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""); })
+                    }
+                    function onRefreshCurrentThumbnail() {
+                        if(index === view.currentIndex) {
+                            filethumb.source = ""
+                            filethumb.source = Qt.binding(function() { return (visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""); })
+                        }
                     }
                 }
 
@@ -1147,6 +1165,16 @@ GridView {
                     contextmenu.close()
             }
         }
+
+        PQMenuItem {
+            visible: contextmenu.isFile
+            text: qsTranslate("thumbnails","Reload thumbnail")
+            onTriggered: {
+                PQCScriptsImages.removeThumbnailFor(contextmenu.path)
+                view.refreshCurrentThumbnail()
+            }
+        }
+        PQMenuSeparator { visible: contextmenu.isFile }
 
         PQMenuItem {
             enabled: contextmenu.isFile || contextmenu.isFolder
