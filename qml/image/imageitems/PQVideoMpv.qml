@@ -49,7 +49,7 @@ Item {
     }
 
     onVisibleChanged: {
-        if(!visible && video.playing) {
+        if(!visible && loader_component.videoPlaying) {
             loader_component.videoPlaying = false
             video.command(["cycle", "pause"])
         }
