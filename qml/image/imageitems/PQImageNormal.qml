@@ -220,6 +220,9 @@ Image {
         running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos || PQCSettings.filetypesCheckForPhotoSphere)
         onTriggered: {
 
+            if(PQCNotify.slideshowRunning)
+                return
+
             if(PQCFileFolderModel.currentIndex !== index)
                 return
 
