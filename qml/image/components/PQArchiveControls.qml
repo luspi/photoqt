@@ -36,7 +36,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesArchiveControls&&!PQCFileFolderModel.isARC
+        active: PQCSettings.filetypesArchiveControls&&!PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning
 
         Rectangle {
 

@@ -56,9 +56,13 @@ PQTemplateFullscreen {
 
     property int leftcolwidth: 100
 
+    property var musicfiles: []
+
     content: [
 
         Row {
+
+            id: contentrow
 
             spacing: 15
 
@@ -384,34 +388,185 @@ PQTemplateFullscreen {
                     text: qsTranslate("slideshow", "enable music")
                 }
 
-                Item {
+                Column {
 
-                    clip: true
-                    enabled: music_check.checked
-                    width: music_button.width
-                    height: enabled ? music_button.height : 0
-                    opacity: enabled ? 1 : 0
+                    id: musicont
+
+                    spacing: 5
+
+                    height: music_check.checked ? music_volumevideos.height+filescont.height+filesbut.height+music_shuffle.height+3*10 : 0
+                    opacity: music_check.checked ? 1 : 0
                     Behavior on height { NumberAnimation { duration: 200 } }
                     Behavior on opacity { NumberAnimation { duration: 150 } }
+                    clip: true
+
+                    Row {
+
+                        spacing: 5
+
+                        Item {
+                            width: 30
+                            height: 30
+                        }
+
+                        PQText {
+                            y: (music_volumevideos.height-height)/2
+                            //: some options as to what will happen with the music volume while videos are playing
+                            text: qsTranslate("settingsmanager", "volume during videos:")
+                        }
+
+                        PQComboBox {
+                            id: music_volumevideos
+                            model: [qsTranslate("settingsmanager", "mute"),
+                                    qsTranslate("settingsmanager", "lower"),
+                                    qsTranslate("settingsmanager", "leave unchanged")]
+                        }
+                    }
+
+                    Rectangle {
+
+                        id: filescont
+
+                        color: "transparent"
+                        border.width: 2
+                        border.color: PQCLook.baseColorHighlight
+
+                        width: Math.min(500, slideshowsettings_top.width-leftcolwidth - contentrow.x - contentrow.spacing-10)
+                        height: 200
+
+                        PQTextL {
+                            x: 10
+                            y: (parent.height-height)/2
+                            width: parent.width-20
+                            opacity: slideshowsettings_top.musicfiles.length===0 ? 1 : 0
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            font.weight: PQCLook.fontWeightBold
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            enabled: false
+                            text: qsTranslate("settingsmanager", "No music files selected")
+                        }
+
+                        ListView {
+
+                            id: music_view
+
+                            model: slideshowsettings_top.musicfiles.length
+
+                            x: 5
+                            y: 5
+                            width: parent.width-10
+                            height: parent.height-10
+                            orientation: Qt.Vertical
+                            spacing: 5
+                            clip: true
+
+                            ScrollBar.vertical: PQVerticalScrollBar { id: music_scroll }
+
+                            delegate:
+                                Rectangle {
+
+                                    id: musicdeleg
+
+                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[index])
+                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[index])
+
+                                    width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
+                                    height: 40
+                                    color: PQCLook.baseColorHighlight
+
+                                    Column {
+                                        x: 5
+                                        y: (parent.height-height)/2
+                                        width: parent.width-10
+                                        PQText {
+                                            width: parent.width-musicbutrow.width
+                                            elide: Text.ElideMiddle
+                                            text: musicdeleg.fname
+                                        }
+                                        PQTextS {
+                                            width: parent.width-musicbutrow.width
+                                            elide: Text.ElideMiddle
+                                            text: musicdeleg.fpath
+                                        }
+                                    }
+
+                                    Row {
+                                        id: musicbutrow
+                                        x: parent.width-width
+                                        visible: width>0
+                                        width: slideshowsettings_top.width-1.5*leftcolwidth > 300 ? 120 : 0
+                                        Behavior on width { NumberAnimation { duration: 200 } }
+                                        height: 40
+                                        PQButtonIcon {
+                                            width: 40
+                                            height: 40
+                                            iconScale: 0.5
+                                            radius: 0
+                                            enabled: index>0
+                                            source: "image://svg/:/white/upwards.svg"
+                                            //: This relates to the list of music files for slideshows
+                                            tooltip: qsTranslate("settingsmanager", "Move file up one position")
+                                            onClicked: {
+                                                slideshowsettings_top.musicfiles.splice(index-1, 0, slideshowsettings_top.musicfiles.splice(index, 1)[0])
+                                                slideshowsettings_top.musicfilesChanged()
+                                            }
+                                        }
+                                        PQButtonIcon {
+                                            width: 40
+                                            height: 40
+                                            rotation: 180
+                                            iconScale: 0.5
+                                            radius: 0
+                                            enabled: index < music_view.model-1
+                                            source: "image://svg/:/white/upwards.svg"
+                                            //: This relates to the list of music files for slideshows
+                                            tooltip: qsTranslate("settingsmanager", "Move file down one position")
+                                            onClicked: {
+                                                slideshowsettings_top.musicfiles.splice(index+1, 0, slideshowsettings_top.musicfiles.splice(index, 1)[0])
+                                                slideshowsettings_top.musicfilesChanged()
+                                            }
+                                        }
+                                        PQButtonIcon {
+                                            width: 40
+                                            height: 40
+                                            iconScale: 0.35
+                                            radius: 0
+                                            source: "image://svg/:/white/x.svg"
+                                            //: This relates to the list of music files for slideshows
+                                            tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
+                                            onClicked: {
+                                                slideshowsettings_top.musicfiles.splice(index, 1)
+                                                slideshowsettings_top.musicfilesChanged()
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                        }
+
+                    }
 
                     PQButton {
-                        id: music_button
-                        enabled: music_check.checked
-                        font.pointSize: PQCLook.fontSize
-                        font.weight: PQCLook.fontWeightNormal
-                        width: 300
-                        property string musicfile: ""
-                        text: musicfile=="" ? "[" + qsTranslate("slideshow", "no file selected") + "]" : PQCScriptsFilesPaths.getFilename(musicfile)
-                        tooltip: (musicfile==""
-                                    ? qsTranslate("slideshow", "Click to select music file")
-                                    : ("<b>"+musicfile+"</b><br><br>" + qsTranslate("slideshow", "Click to change music file")))
+                        id: filesbut
+                        text: qsTranslate("settingsmanager", "Add music files")
                         onClicked: {
-                            var fname = PQCScriptsFilesPaths.openFileFromDialog("Select",
-                                                                                (music_button.musicfile == "" ? PQCScriptsFilesPaths.getHomeDir() : music_button.musicfile),
-                                                                                ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
-                            if(fname !== "")
-                                music_button.musicfile = PQCScriptsFilesPaths.cleanPath(fname)
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",
+                                                                                  (slideshowsettings_top.musicfiles.length===0 ?
+                                                                                       PQCScriptsFilesPaths.getHomeDir() :
+                                                                                       PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[slideshowsettings_top.musicfiles.length-1])),
+                                                                                  ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
+                            if(fnames.length > 0) {
+                                slideshowsettings_top.musicfiles = slideshowsettings_top.musicfiles.concat(fnames)
+                                slideshowsettings_top.musicfilesChanged()
+                            }
                         }
+                    }
+
+                    PQCheckBox {
+                        id: music_shuffle
+                        text: qsTranslate("settingsmanager", "shuffle order")
                     }
 
                 }
@@ -473,8 +628,12 @@ PQTemplateFullscreen {
         winbut_check.checked = PQCSettings.slideshowHideWindowButtons
         quick_check.checked = PQCSettings.slideshowHideLabels
         music_check.checked = (PQCSettings.slideshowMusicFile!=="")
-        music_button.musicfile = PQCSettings.slideshowMusicFile
         subfolders_check.checked = PQCSettings.slideshowIncludeSubFolders
+
+        music_check.checked = PQCSettings.slideshowMusic
+        music_volumevideos.currentIndex = PQCSettings.slideshowMusicVolumeVideos
+        music_shuffle.checked = PQCSettings.slideshowMusicShuffle
+        slideshowsettings_top.musicfiles = PQCSettings.slideshowMusicFiles
 
     }
 
@@ -494,8 +653,12 @@ PQTemplateFullscreen {
         PQCSettings.slideshowShuffle = shuffle_check.checked
         PQCSettings.slideshowHideWindowButtons = winbut_check.checked
         PQCSettings.slideshowHideLabels = quick_check.checked
-        PQCSettings.slideshowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
         PQCSettings.slideshowIncludeSubFolders = subfolders_check.checked
+
+        PQCSettings.slideshowMusic = music_check.checked
+        PQCSettings.slideshowMusicVolumeVideos = music_volumevideos.currentIndex
+        PQCSettings.slideshowMusicShuffle = music_shuffle.checked
+        PQCSettings.slideshowMusicFiles = slideshowsettings_top.musicfiles
 
         hide()
         loader.show("slideshowhandler")

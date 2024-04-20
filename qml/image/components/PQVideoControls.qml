@@ -23,6 +23,7 @@
 import QtQuick
 
 import PQCScriptsImages
+import PQCNotify
 
 import "../../elements"
 
@@ -48,7 +49,7 @@ Rectangle {
                             ? 1
                             : (controlsClosed ? 0 : 0.2))
                     : 0
-    visible: opacity > 0
+    visible: opacity > 0 && !PQCNotify.slideshowRunning
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     PQMouseArea {

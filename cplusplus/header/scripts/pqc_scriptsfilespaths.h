@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE QString selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
     Q_INVOKABLE void saveLogToFile(QString txt);
     Q_INVOKABLE QString openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
+    Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
     Q_INVOKABLE QString createTooltipFilename(QString fname);
     Q_INVOKABLE QString getExistingDirectory(QString startDir = QDir::homePath());
     Q_INVOKABLE QString findDropBoxFolder();

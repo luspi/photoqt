@@ -23,6 +23,7 @@
 import QtQuick
 import QtMultimedia
 
+import PQCNotify
 import PQCScriptsFilesPaths
 import PQCMPVObject
 
@@ -226,6 +227,26 @@ Item {
             }
 
         }
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onSlideshowRunningChanged() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
+            if(PQCNotify.slideshowRunning) {
+                video.command(["seek", 0, "absolute"])
+                if(!loader_top.videoPlaying) {
+                    loader_top.videoPlaying = true
+                    video.command(["cycle", "pause"])
+                }
+            }
+        }
+
     }
 
     Connections {

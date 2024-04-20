@@ -36,7 +36,7 @@ Item {
 
     anchors.fill: parent
 
-    visible: deleg.itemIndex===PQCFileFolderModel.currentIndex
+    visible: deleg.itemIndex===PQCFileFolderModel.currentIndex && !PQCNotify.slideshowRunning
 
     Repeater {
 

@@ -407,13 +407,28 @@ QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString pr
     qDebug() << "args: preselectFile" << preselectFile;
     qDebug() << "args: endings" << endings;
 
+    QStringList fnames = openFilesFromDialog(buttonlabel, preselectFile, endings);
+
+    if(fnames.length() > 0)
+        return fnames[0];
+
+    return "";
+
+}
+
+QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings) {
+
+    qDebug() << "args: buttonlabel" << buttonlabel;
+    qDebug() << "args: preselectFile" << preselectFile;
+    qDebug() << "args: endings" << endings;
+
     QFileInfo info(preselectFile);
 
     PQCNotify::get().setModalFileDialogOpen(true);
 
     QFileDialog diag;
     diag.setLabelText(QFileDialog::Accept, buttonlabel);
-    diag.setFileMode(QFileDialog::AnyFile);
+    diag.setFileMode(QFileDialog::ExistingFiles);
     diag.setModal(true);
     diag.setAcceptMode(QFileDialog::AcceptOpen);
     diag.setOption(QFileDialog::DontUseNativeDialog, false);
@@ -429,12 +444,12 @@ QString PQCScriptsFilesPaths::openFileFromDialog(QString buttonlabel, QString pr
         QStringList fileNames = diag.selectedFiles();
         if(fileNames.length() > 0) {
             PQCNotify::get().setModalFileDialogOpen(false);
-            return fileNames[0];
+            return fileNames;
         }
     }
 
     PQCNotify::get().setModalFileDialogOpen(false);
-    return "";
+    return QStringList();
 
 
 }

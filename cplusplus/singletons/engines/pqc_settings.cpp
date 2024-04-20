@@ -413,7 +413,7 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -487,6 +487,34 @@ int PQCSettings::migrate(QString oldversion) {
                 query.clear();
 
             }
+
+        } else if(curVer == "4.5") {
+
+            QSqlQuery query(db);
+
+            if(!query.exec("SELECT `value` FROM `slideshow` WHERE `name`='MusicFile'"))
+                qCritical() << "Unable to get current MusicFile value:" << query.lastError().text();
+            else {
+
+                query.next();
+
+                QString val = query.value(0).toString();
+
+                if(val != "") {
+
+                    QSqlQuery queryUpdate(db);
+                    queryUpdate.prepare("UPDATE `slideshow` SET `value`=:val WHERE `name`='MusicFiles'");
+                    queryUpdate.bindValue(":val", val);
+                    if(!queryUpdate.exec())
+                        qCritical() << "ERROR updating MusicFile value:" << queryUpdate.lastError().text();
+                    queryUpdate.clear();
+
+                }
+
+                query.clear();
+
+            }
+
 
         }
 

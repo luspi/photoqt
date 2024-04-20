@@ -274,7 +274,7 @@ Item {
 
             id: volumeicon
 
-            visible: PQCSettings.slideshowMusicFile!==""
+            visible: PQCSettings.slideshowMusic
 
             y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
             width: visible ? (isPopout ? 80 : 40) : 0
@@ -296,7 +296,7 @@ Item {
 
             id: volumeslider
 
-            visible: PQCSettings.slideshowMusicFile!==""
+            visible: PQCSettings.slideshowMusic
 
             y: isPopout ? (slideshowcontrols_top.height-height)/2 : 30
             width: visible? 200 : 0

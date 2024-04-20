@@ -78,6 +78,9 @@ Item {
 
     property point extraControlsLocation: Qt.point(-1,-1)
 
+    property bool currentlyShowingVideo: false
+    property real currentlyShowingVideoDuration: 0
+
     signal zoomIn(var wheelDelta)
     signal zoomOut(var wheelDelta)
     signal zoomReset()
@@ -145,7 +148,6 @@ Item {
                 source: "PQImageLoader.qml"
 
             }
-
 
     }
 

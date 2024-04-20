@@ -25,6 +25,7 @@ import QtMultimedia
 
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
+import PQCNotify
 
 Item {
 
@@ -43,7 +44,7 @@ Item {
         // earlier versions of Qt6 seem to struggle if only one slash is used
         source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + loader_top.imageSource
 
-        volume: PQCSettings.filetypesVideoVolume/100
+        volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100
 
         width: PQCSettings.imageviewFitInWindow ? deleg.width : undefined
         height: PQCSettings.imageviewFitInWindow ? deleg.height : undefined
@@ -114,7 +115,9 @@ Item {
     }
 
     Connections {
+
         target: loader_top
+
         function onVideoTogglePlay() {
 
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
@@ -136,11 +139,6 @@ Item {
 
             toggle()
         }
-    }
-
-    Connections {
-
-        target: loader_top
 
         function onStopVideoAndReset() {
 
@@ -172,6 +170,23 @@ Item {
             }
 
         }
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onSlideshowRunningChanged() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
+            if(PQCNotify.slideshowRunning) {
+                video.seek(0)
+                video.play()
+            }
+        }
+
     }
 
     function toggle() {

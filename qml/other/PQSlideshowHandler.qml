@@ -35,19 +35,48 @@ Item {
     property int shuffledCurrentIndex: -1
     property bool running: false
 
-    property alias volume: audiooutput.volume
+    property real volume: 1.0
+
+    property var musicFileOrder: []
+    property int currentMusicIndex: 0
 
     MediaPlayer {
         id: audioplayer
-        audioOutput: AudioOutput { id: audiooutput }
+        audioOutput: AudioOutput {
+            id: audiooutput
+            property real reduceVolume: PQCSettings.slideshowMusicVolumeVideos === 0 ?
+                                            0 :
+                                            (PQCSettings.slideshowMusicVolumeVideos === 1 ?
+                                                0.1 :
+                                                1)
+
+            volume: slideshowhandler_top.volume*(image.currentlyShowingVideo ? reduceVolume : 1)
+            Behavior on volume { NumberAnimation { duration: 200 } }
+        }
+        onPlaybackStateChanged: {
+            if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running) {
+                if(PQCSettings.slideshowMusic) {
+                    currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+                    audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
+                    audioplayer.play()
+                }
+            }
+        }
     }
 
     Timer {
         id: switcher
-        interval: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
+        interval: image.currentlyShowingVideo ? Math.max(1000, (image.currentlyShowingVideoDuration+0.5)*1000) :
+                      Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
         repeat: true
         running: slideshowhandler_top.running
-        onTriggered: loadNextImage()
+        onTriggered: {
+            loadNextImage()
+        }
+        onIntervalChanged: {
+            switcher.stop()
+            switcher.restart()
+        }
     }
 
     Connections {
@@ -119,8 +148,12 @@ Item {
         slideshowhandler_top.running = true
         PQCNotify.slideshowRunning = true
 
-        if(PQCSettings.slideshowMusicFile !== "") {
-            audioplayer.source = "file://" + PQCSettings.slideshowMusicFile
+        if(PQCSettings.slideshowMusic) {
+            currentMusicIndex = 0
+            musicFileOrder = PQCSettings.slideshowMusicFiles
+            if(PQCSettings.slideshowMusicShuffle)
+                shuffle(musicFileOrder)
+            audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
             audioplayer.play()
         } else
             audioplayer.source = ""
@@ -183,12 +216,13 @@ Item {
     }
 
     function toggle() {
+        image.playPauseAnimationVideo()
         if(slideshowhandler_top.running) {
             slideshowhandler_top.running = false
             audioplayer.pause()
         } else {
             slideshowhandler_top.running = true
-            if(PQCSettings.slideshowMusicFile !== "")
+            if(PQCSettings.slideshowMusic)
                 audioplayer.play()
         }
     }

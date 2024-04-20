@@ -39,8 +39,9 @@ Rectangle {
     property bool checked: false
     property alias tooltip: mousearea.text
     property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
+    property real iconScale: 0.75
 
-    color: ((down||checked) ? PQCLook.baseColorActive : (mouseOver ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)
@@ -52,7 +53,7 @@ Rectangle {
         source: control.source
         smooth: false
 
-        sourceSize: Qt.size(control.height*0.75,control.height*0.75)
+        sourceSize: Qt.size(control.height*iconScale,control.height*iconScale)
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2

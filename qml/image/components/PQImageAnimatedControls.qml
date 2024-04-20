@@ -44,7 +44,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesAnimatedControls
+        active: PQCSettings.filetypesAnimatedControls && !PQCNotify.slideshowRunning
 
         Rectangle {
 

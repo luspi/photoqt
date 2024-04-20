@@ -36,7 +36,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesDocumentControls&&!PQCFileFolderModel.isPDF
+        active: PQCSettings.filetypesDocumentControls&&!PQCFileFolderModel.isPDF && !PQCNotify.slideshowRunning
 
         Rectangle {
 

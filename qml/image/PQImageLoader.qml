@@ -79,6 +79,11 @@ Item {
     signal videoToPos(var s)
     signal imageClicked()
 
+    onVideoDurationChanged: {
+        if(PQCFileFolderModel.currentIndex===index)
+            image_top.currentlyShowingVideoDuration = videoDuration
+    }
+
     Connections {
 
         target: deleg
@@ -621,7 +626,7 @@ Item {
                                 loader_top.imageRotation = 0
                             }
 
-                            if(image_loader.item && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror))
+                            if(image_loader.item != null && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror))
                                 image_loader.item.setMirrorHV(vals[4], vals[5])
                             else
                                 image_loader.item.setMirrorHV(false, false)
@@ -1075,6 +1080,9 @@ Item {
 
         image_top.currentlyVisibleIndex = deleg.itemIndex
         image_top.imageFinishedLoading(deleg.itemIndex)
+
+        image_top.currentlyShowingVideo = loader_top.videoLoaded
+        image_top.currentlyShowingVideoDuration = loader_top.videoDuration
 
         var anim = PQCSettings.imageviewAnimationType
         if(anim === "random")

@@ -316,10 +316,16 @@ Flickable {
 
         PQSetting {
 
-            //: Settings title
-            title: qsTranslate("settingsmanager", "Music file")
+            id: set_music
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt can play some background music while a slideshow is running.")
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Music files")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt can play some background music while a slideshow is running. You can select an individual file or mutliple files. PhotoQt will restart from the beginning once the end is reached. During videos the volume of the music can optionally be reduced.")
+
+            property var musicfiles: []
+            onMusicfilesChanged:
+                checkDefault()
 
             content: [
 
@@ -332,41 +338,223 @@ Flickable {
                         checkDefault()
                 },
 
-                PQButton {
-                    id: music_button
-                    enabled: music_check.checked
-                    smallerVersion:true
-                    height: music_check.checked ? 35 : 0
-                    Behavior on height { NumberAnimation { duration: 200 } }
+                Column {
+
+                    id: musicont
+
+                    spacing: 10
+
+                    height: music_check.checked ? music_volumevideos.height+filescont.height+filesbut.height+music_shuffle.height+3*10 : 0
                     opacity: music_check.checked ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
                     Behavior on opacity { NumberAnimation { duration: 150 } }
-                    width: Math.min(300, set_ani.rightcol)
                     clip: true
-                    property string musicfile: ""
-                    text: musicfile=="" ? "[" + qsTranslate("settingsmanager", "no file selected") + "]" : PQCScriptsFilesPaths.getFilename(musicfile)
-                    tooltip: (musicfile==""
-                                ? qsTranslate("settingsmanager", "Click to select music file")
-                                : ("<b>"+musicfile+"</b><br><br>" + qsTranslate("settingsmanager", "Click to change music file")))
-                    onClicked: {
-                        var fname = PQCScriptsFilesPaths.openFileFromDialog("Select",
-                                                                            (music_button.musicfile == "" ? PQCScriptsFilesPaths.getHomeDir() : music_button.musicfile),
-                                                                            ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
-                        if(fname !== "") {
-                            music_button.musicfile = PQCScriptsFilesPaths.cleanPath(fname)
-                            checkDefault()
+
+                    Row {
+
+                        spacing: 5
+
+                        Item {
+                            width: 30
+                            height: 30
+                        }
+
+                        PQText {
+                            y: (music_volumevideos.height-height)/2
+                            //: some options as to what will happen with the slideshow music volume while videos are playing
+                            text: qsTranslate("settingsmanager", "volume during videos:")
+                        }
+
+                        PQComboBox {
+                            id: music_volumevideos
+                                    //: one option as to what will happen with the slideshow music volume while videos are playing
+                            model: [qsTranslate("settingsmanager", "mute"),
+                                    //: one option as to what will happen with the slideshow music volume while videos are playing
+                                    qsTranslate("settingsmanager", "lower"),
+                                    //: one option as to what will happen with the slideshow music volume while videos are playing
+                                    qsTranslate("settingsmanager", "leave unchanged")]
+                            onCurrentIndexChanged:
+                                checkDefault()
                         }
                     }
+
+                    Rectangle {
+
+                        id: filescont
+
+                        color: "transparent"
+                        border.width: 1
+                        border.color: PQCLook.baseColorHighlight
+
+                        width: Math.min(500, set_ani.rightcol)
+                        height: 300
+
+                        PQTextL {
+                            x: 10
+                            y: (parent.height-height)/2
+                            width: parent.width-20
+                            opacity: set_music.musicfiles.length===0 ? 1 : 0
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            font.weight: PQCLook.fontWeightBold
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            enabled: false
+                            text: qsTranslate("settingsmanager", "No music files selected")
+                        }
+
+                        ListView {
+
+                            id: music_view
+
+                            model: set_music.musicfiles.length
+
+                            x: 5
+                            y: 5
+                            width: parent.width-10
+                            height: parent.height-10
+                            orientation: Qt.Vertical
+                            spacing: 5
+                            clip: true
+
+                            ScrollBar.vertical: PQVerticalScrollBar { id: music_scroll }
+
+                            delegate:
+                                Rectangle {
+
+                                    id: musicdeleg
+
+                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[index])
+                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[index])
+
+                                    width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
+                                    height: 40
+                                    color: PQCLook.baseColorHighlight
+
+                                    Column {
+                                        x: 5
+                                        y: (parent.height-height)/2
+                                        width: parent.width-10
+                                        PQText {
+                                            width: parent.width-musicbutrow.width
+                                            elide: Text.ElideMiddle
+                                            text: musicdeleg.fname
+                                        }
+                                        PQTextS {
+                                            width: parent.width-musicbutrow.width
+                                            elide: Text.ElideMiddle
+                                            text: musicdeleg.fpath
+                                        }
+                                    }
+
+                                    Row {
+                                        id: musicbutrow
+                                        x: parent.width-width
+                                        visible: width>0
+                                        width: set_ani.rightcol > 300 ? 120 : 0
+                                        Behavior on width { NumberAnimation { duration: 200 } }
+                                        height: 40
+                                        PQButtonIcon {
+                                            width: 40
+                                            height: 40
+                                            iconScale: 0.5
+                                            radius: 0
+                                            enabled: index>0
+                                            source: "image://svg/:/white/upwards.svg"
+                                            //: This relates to the list of music files for slideshows
+                                            tooltip: qsTranslate("settingsmanager", "Move file up one position")
+                                            onClicked: {
+                                                set_music.musicfiles.splice(index-1, 0, set_music.musicfiles.splice(index, 1)[0])
+                                                set_music.musicfilesChanged()
+                                            }
+                                        }
+                                        PQButtonIcon {
+                                            width: 40
+                                            height: 40
+                                            rotation: 180
+                                            iconScale: 0.5
+                                            radius: 0
+                                            enabled: index < music_view.model-1
+                                            source: "image://svg/:/white/upwards.svg"
+                                            //: This relates to the list of music files for slideshows
+                                            tooltip: qsTranslate("settingsmanager", "Move file down one position")
+                                            onClicked: {
+                                                set_music.musicfiles.splice(index+1, 0, set_music.musicfiles.splice(index, 1)[0])
+                                                set_music.musicfilesChanged()
+                                            }
+                                        }
+                                        PQButtonIcon {
+                                            width: 40
+                                            height: 40
+                                            iconScale: 0.35
+                                            radius: 0
+                                            source: "image://svg/:/white/x.svg"
+                                            //: This relates to the list of music files for slideshows
+                                            tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
+                                            onClicked: {
+                                                set_music.musicfiles.splice(index, 1)
+                                                set_music.musicfilesChanged()
+                                            }
+                                        }
+                                    }
+
+                                }
+
+                        }
+
+                    }
+
+                    PQButton {
+                        id: filesbut
+                        text: qsTranslate("settingsmanager", "Add music files")
+                        onClicked: {
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",
+                                                                                  (set_music.musicfiles.length===0 ?
+                                                                                       PQCScriptsFilesPaths.getHomeDir() :
+                                                                                       PQCScriptsFilesPaths.getDir(set_music.musicfiles[set_music.musicfiles.length-1])),
+                                                                                  ["aac", "flac", "mp3", "ogg", "oga", "wav", "wma"]);
+                            if(fnames.length > 0) {
+                                set_music.musicfiles = set_music.musicfiles.concat(fnames)
+                                set_music.musicfilesChanged()
+                            }
+                        }
+                    }
+
+                    PQCheckBox {
+                        id: music_shuffle
+                        text: qsTranslate("settingsmanager", "shuffle order")
+                        onCheckedChanged:
+                            checkDefault()
+                    }
+
                 }
 
             ]
 
         }
 
-
     }
 
     Component.onCompleted:
         load()
+
+    function areTwoListsEqual(l1, l2) {
+
+        if(l1.length !== l2.length)
+            return false
+
+        for(var i = 0; i < l1.length; ++i) {
+
+            if(l1[i].length !== l2[i].length)
+                return false
+
+            for(var j = 0; j < l1[i].length; ++j) {
+                if(l1[i][j] !== l2[i][j])
+                    return false
+            }
+        }
+
+        return true
+    }
 
     function checkDefault() {
 
@@ -378,7 +566,8 @@ Flickable {
 
         settingChanged = (anicombo.hasChanged() || anispeed.hasChanged() || interval.hasChanged() || loop.hasChanged() ||
                           shuffle.hasChanged() || hidewindowbuttons.hasChanged() || hidestatusinfo.hasChanged() || music_check.hasChanged() ||
-                          includesub.hasChanged() && music_button.musicfile !== PQCSettings.slideshowMusicFile)
+                          includesub.hasChanged() || music_volumevideos.hasChanged() || music_shuffle.hasChanged() ||
+                          !areTwoListsEqual(set_music.musicfiles, PQCSettings.slideshowMusicFiles))
 
     }
 
@@ -397,9 +586,11 @@ Flickable {
         shuffle.loadAndSetDefault(PQCSettings.slideshowShuffle)
         hidewindowbuttons.loadAndSetDefault(PQCSettings.slideshowHideWindowButtons)
         hidestatusinfo.loadAndSetDefault(PQCSettings.slideshowHideLabels)
-        music_check.loadAndSetDefault(PQCSettings.slideshowMusicFile!=="")
-        music_button.musicfile = PQCSettings.slideshowMusicFile
         includesub.loadAndSetDefault(PQCSettings.slideshowIncludeSubFolders)
+        music_check.loadAndSetDefault(PQCSettings.slideshowMusic)
+        music_volumevideos.loadAndSetDefault(PQCSettings.slideshowMusicVolumeVideos)
+        music_shuffle.loadAndSetDefault(PQCSettings.slideshowMusicShuffle)
+        set_music.musicfiles = PQCSettings.slideshowMusicFiles
 
         settingChanged = false
         settingsLoaded = true
@@ -417,8 +608,11 @@ Flickable {
         PQCSettings.slideshowShuffle = shuffle.checked
         PQCSettings.slideshowHideWindowButtons = hidewindowbuttons.checked
         PQCSettings.slideshowHideLabels = hidestatusinfo.checked
-        PQCSettings.slideshowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
         PQCSettings.slideshowIncludeSubFolders = includesub.checked
+        PQCSettings.slideshowMusic = music_check.checked
+        PQCSettings.slideshowMusicVolumeVideos = music_volumevideos.currentIndex
+        PQCSettings.slideshowMusicShuffle = music_shuffle.checked
+        PQCSettings.slideshowMusicFiles = set_music.musicfiles
 
         anicombo.saveDefault()
         anispeed.saveDefault()
@@ -429,6 +623,9 @@ Flickable {
         hidestatusinfo.saveDefault()
         music_check.saveDefault()
         includesub.saveDefault()
+        music_check.saveDefault()
+        music_volumevideos.saveDefault()
+        music_shuffle.saveDefault()
 
         settingChanged = false
 
