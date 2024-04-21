@@ -99,6 +99,7 @@ Item {
         loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
         loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
         loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
+        loader_top.videoHasAudio = Qt.binding(function() { return video.hasAudio })
         image_wrapper.status = Image.Ready
     }
 

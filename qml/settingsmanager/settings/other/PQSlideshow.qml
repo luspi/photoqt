@@ -321,7 +321,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Music files")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt can play some background music while a slideshow is running. You can select an individual file or mutliple files. PhotoQt will restart from the beginning once the end is reached. During videos the volume of the music can optionally be reduced.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt can play some background music while a slideshow is running. You can select an individual file or multiple files. PhotoQt will restart from the beginning once the end is reached. During videos the volume of the music can optionally be reduced.")
 
             property var musicfiles: []
             onMusicfilesChanged:
@@ -359,22 +359,28 @@ Flickable {
                             height: 30
                         }
 
-                        PQText {
-                            y: (music_volumevideos.height-height)/2
-                            //: some options as to what will happen with the slideshow music volume while videos are playing
-                            text: qsTranslate("settingsmanager", "volume during videos:")
-                        }
+                        Flow {
+                            width: set_ani.rightcol-35
+                            spacing: 5
 
-                        PQComboBox {
-                            id: music_volumevideos
-                                    //: one option as to what will happen with the slideshow music volume while videos are playing
-                            model: [qsTranslate("settingsmanager", "mute"),
-                                    //: one option as to what will happen with the slideshow music volume while videos are playing
-                                    qsTranslate("settingsmanager", "lower"),
-                                    //: one option as to what will happen with the slideshow music volume while videos are playing
-                                    qsTranslate("settingsmanager", "leave unchanged")]
-                            onCurrentIndexChanged:
-                                checkDefault()
+                            PQText {
+                                height: music_volumevideos.height
+                                verticalAlignment: Text.AlignVCenter
+                                //: some options as to what will happen with the slideshow music volume while videos are playing
+                                text: qsTranslate("settingsmanager", "music volume during videos with audio:")
+                            }
+
+                            PQComboBox {
+                                id: music_volumevideos
+                                        //: one option as to what will happen with the slideshow music volume while videos are playing
+                                model: [qsTranslate("settingsmanager", "mute"),
+                                        //: one option as to what will happen with the slideshow music volume while videos are playing
+                                        qsTranslate("settingsmanager", "lower"),
+                                        //: one option as to what will happen with the slideshow music volume while videos are playing
+                                        qsTranslate("settingsmanager", "leave unchanged")]
+                                onCurrentIndexChanged:
+                                    checkDefault()
+                            }
                         }
                     }
 

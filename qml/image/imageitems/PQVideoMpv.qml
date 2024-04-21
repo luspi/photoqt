@@ -90,6 +90,13 @@ Item {
             videotop.width = video.getProperty("width")
             videotop.height = video.getProperty("height")
             loader_top.videoDuration = video.getProperty("duration")
+            var tracklist = video.getProperty(["track-list"])
+            var countaudio = 0
+            for(var i in tracklist) {
+                if(tracklist[i].type === "audio")
+                    countaudio += 1
+            }
+            loader_top.videoHasAudio = (countaudio>0)
             video.setProperty("volume", PQCSettings.filetypesVideoVolume)
             image_wrapper.status = Image.Ready
             getPosition.restart()

@@ -409,17 +409,24 @@ PQTemplateFullscreen {
                             height: 30
                         }
 
-                        PQText {
-                            y: (music_volumevideos.height-height)/2
-                            //: some options as to what will happen with the music volume while videos are playing
-                            text: qsTranslate("settingsmanager", "volume during videos:")
-                        }
+                        Flow {
 
-                        PQComboBox {
-                            id: music_volumevideos
-                            model: [qsTranslate("settingsmanager", "mute"),
-                                    qsTranslate("settingsmanager", "lower"),
-                                    qsTranslate("settingsmanager", "leave unchanged")]
+                            width: slideshowsettings_top.width-leftcolwidth - contentrow.x - contentrow.spacing-10
+                            spacing: 5
+
+                            PQText {
+                                height: music_volumevideos.height
+                                verticalAlignment: Text.AlignVCenter
+                                //: some options as to what will happen with the music volume while videos are playing
+                                text: qsTranslate("settingsmanager", "music volume during videos with audio:")
+                            }
+
+                            PQComboBox {
+                                id: music_volumevideos
+                                model: [qsTranslate("settingsmanager", "mute"),
+                                        qsTranslate("settingsmanager", "lower"),
+                                        qsTranslate("settingsmanager", "leave unchanged")]
+                            }
                         }
                     }
 

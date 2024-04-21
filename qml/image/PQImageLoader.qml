@@ -75,13 +75,23 @@ Item {
     property bool videoPlaying: false
     property real videoDuration: 0.0
     property real videoPosition: 0.0
+    property bool videoHasAudio: false
     signal videoTogglePlay()
     signal videoToPos(var s)
     signal imageClicked()
 
-    onVideoDurationChanged: {
+    onVideoPlayingChanged: {
         if(PQCFileFolderModel.currentIndex===index)
-            image_top.currentlyShowingVideoDuration = videoDuration
+            image_top.currentlyShowingVideo = loader_top.videoPlaying
+    }
+    onVideoHasAudioChanged: {
+        if(PQCFileFolderModel.currentIndex===index)
+            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+    }
+
+    Component.onCompleted: {
+        image_top.currentlyShowingVideo = loader_top.videoPlaying
+        image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
     }
 
     Connections {
@@ -414,6 +424,10 @@ Item {
                         loader_top.listenToClicksOnImage = false
                         loader_top.videoPlaying = false
                         loader_top.videoLoaded = false
+                        loader_top.videoDuration = 0
+                        loader_top.videoPosition = 0
+                        loader_top.videoHasAudio = false
+                        image_top.currentlyShowingVideo = false
                         if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
                             source = "imageitems/PQDocument.qml"
                         else if(PQCScriptsImages.isArchive(loader_top.imageSource))
@@ -1080,9 +1094,6 @@ Item {
 
         image_top.currentlyVisibleIndex = deleg.itemIndex
         image_top.imageFinishedLoading(deleg.itemIndex)
-
-        image_top.currentlyShowingVideo = loader_top.videoLoaded
-        image_top.currentlyShowingVideoDuration = loader_top.videoDuration
 
         var anim = PQCSettings.imageviewAnimationType
         if(anim === "random")

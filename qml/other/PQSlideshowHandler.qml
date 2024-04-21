@@ -50,9 +50,20 @@ Item {
                                                 0.1 :
                                                 1)
 
-            volume: slideshowhandler_top.volume*(image.currentlyShowingVideo ? reduceVolume : 1)
+            property bool videoWithVolume: image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio
+
+            onVolumeChanged: {
+                if(volume < 1e-4)
+                    audioplayer.pause()
+                else
+                    audioplayer.play()
+            }
+
+            volume: slideshowhandler_top.volume*(videoWithVolume ? reduceVolume : 1)
             Behavior on volume { NumberAnimation { duration: 200 } }
+
         }
+
         onPlaybackStateChanged: {
             if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running) {
                 if(PQCSettings.slideshowMusic) {
@@ -66,17 +77,36 @@ Item {
 
     Timer {
         id: switcher
-        interval: image.currentlyShowingVideo ? Math.max(1000, (image.currentlyShowingVideoDuration+0.5)*1000) :
-                      Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
+        interval: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
         repeat: true
-        running: slideshowhandler_top.running
+        running: false
         onTriggered: {
             loadNextImage()
         }
-        onIntervalChanged: {
-            switcher.stop()
-            switcher.restart()
+    }
+
+    Timer {
+        id: switcherAfterVideo
+        interval: 500
+        onTriggered: {
+            loadNextImage()
         }
+    }
+
+    Connections {
+
+        target: image
+        function onCurrentlyShowingVideoChanged() {
+            if(!slideshowhandler_top.running)
+                return
+            if(image.currentlyShowingVideo) {
+                switcherAfterVideo.stop()
+                switcher.stop()
+            } else {
+                switcherAfterVideo.restart()
+            }
+        }
+
     }
 
     Connections {
@@ -148,6 +178,9 @@ Item {
         slideshowhandler_top.running = true
         PQCNotify.slideshowRunning = true
 
+        if(!image.currentlyShowingVideo)
+            switcher.restart()
+
         if(PQCSettings.slideshowMusic) {
             currentMusicIndex = 0
             musicFileOrder = PQCSettings.slideshowMusicFiles
@@ -162,14 +195,22 @@ Item {
 
     function hide() {
 
+        var tmp = slideshowhandler_top.running
+
         PQCNotify.slideshowRunning = false
         slideshowhandler_top.running = false
         audioplayer.stop()
         loader.elementClosed("slideshowhandler")
 
+        if(tmp)
+            image.playPauseAnimationVideo()
+
     }
 
     function loadPrevImage() {
+
+        switcherAfterVideo.stop()
+        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex > 0)
@@ -193,6 +234,9 @@ Item {
     }
 
     function loadNextImage() {
+
+        switcherAfterVideo.stop()
+        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex < PQCFileFolderModel.countMainView-1)
