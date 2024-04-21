@@ -81,15 +81,24 @@ Item {
         repeat: true
         running: false
         onTriggered: {
+            ignoreVideoSwitcher = false
             loadNextImage()
         }
     }
+
+    // this is needed for one specific use case:
+    // when manually switching away from a playing video during a slidehow
+    // then the special switcher below would get activated for the next image
+    // this bool prevents that from happening
+    property bool ignoreVideoSwitcher: false
 
     Timer {
         id: switcherAfterVideo
         interval: 500
         onTriggered: {
-            loadNextImage()
+            if(!ignoreVideoSwitcher)
+                loadNextImage()
+            ignoreVideoSwitcher = false
         }
     }
 
@@ -207,9 +216,11 @@ Item {
 
     }
 
-    function loadPrevImage() {
+    function loadPrevImage(switchedManually = false) {
 
-        switcherAfterVideo.stop()
+        if(switchedManually)
+            ignoreVideoSwitcher = true
+
         switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
         if(!PQCSettings.slideshowShuffle) {
@@ -233,9 +244,11 @@ Item {
 
     }
 
-    function loadNextImage() {
+    function loadNextImage(switchedManually = false) {
 
-        switcherAfterVideo.stop()
+        if(switchedManually)
+            ignoreVideoSwitcher = true
+
         switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
         if(!PQCSettings.slideshowShuffle) {

@@ -147,7 +147,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the previous image")
                 onClicked:
-                    loader_slideshowhandler.item.loadPrevImage()
+                    loader_slideshowhandler.item.loadPrevImage(true)
                 drag.target: slideshowcontrols_top
                 property string myId: "111"
                 onEntered: {
@@ -217,7 +217,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the next image")
                 onClicked:
-                    loader_slideshowhandler.item.loadNextImage()
+                    loader_slideshowhandler.item.loadNextImage(true)
                 drag.target: slideshowcontrols_top
                 property string myId: "333"
                 onEntered: {
