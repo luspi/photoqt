@@ -25,6 +25,7 @@ import QtMultimedia
 
 import PQCFileFolderModel
 import PQCNotify
+import PQCScriptsFilesPaths
 
 Item {
 
@@ -68,6 +69,11 @@ Item {
             if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running) {
                 if(PQCSettings.slideshowMusic) {
                     currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+
+                    var startingIndex = currentMusicIndex
+                    while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex != startingIndex)
+                        currentMusicIndex += (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+
                     audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
                     audioplayer.play()
                 }
@@ -195,6 +201,8 @@ Item {
             musicFileOrder = PQCSettings.slideshowMusicFiles
             if(PQCSettings.slideshowMusicShuffle)
                 shuffle(musicFileOrder)
+            while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex < musicFileOrder.length)
+                currentMusicIndex += 1
             audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
             audioplayer.play()
         } else

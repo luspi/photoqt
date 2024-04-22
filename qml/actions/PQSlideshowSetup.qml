@@ -640,7 +640,13 @@ PQTemplateFullscreen {
         music_check.checked = PQCSettings.slideshowMusic
         music_volumevideos.currentIndex = PQCSettings.slideshowMusicVolumeVideos
         music_shuffle.checked = PQCSettings.slideshowMusicShuffle
-        slideshowsettings_top.musicfiles = PQCSettings.slideshowMusicFiles
+
+        var tmp = []
+        for(var i in PQCSettings.slideshowMusicFiles) {
+            if(PQCScriptsFilesPaths.doesItExist(PQCSettings.slideshowMusicFiles[i]))
+                tmp.push(PQCSettings.slideshowMusicFiles[i])
+        }
+        slideshowsettings_top.musicfiles = tmp
 
     }
 

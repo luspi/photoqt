@@ -596,7 +596,13 @@ Flickable {
         music_check.loadAndSetDefault(PQCSettings.slideshowMusic)
         music_volumevideos.loadAndSetDefault(PQCSettings.slideshowMusicVolumeVideos)
         music_shuffle.loadAndSetDefault(PQCSettings.slideshowMusicShuffle)
-        set_music.musicfiles = PQCSettings.slideshowMusicFiles
+
+        var tmp = []
+        for(var i in PQCSettings.slideshowMusicFiles) {
+            if(PQCScriptsFilesPaths.doesItExist(PQCSettings.slideshowMusicFiles[i]))
+                tmp.push(PQCSettings.slideshowMusicFiles[i])
+        }
+        set_music.musicfiles = tmp
 
         settingChanged = false
         settingsLoaded = true
