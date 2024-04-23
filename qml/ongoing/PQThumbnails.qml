@@ -684,6 +684,9 @@ Item {
         }
     }
 
+    // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
+    property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0
+
     Connections {
         target: PQCNotify
         function onMouseMove(posx, posy) {
@@ -702,7 +705,7 @@ Item {
                 if(posx < thumbnails_top.x-50 || posx > thumbnails_top.x+thumbnails_top.width+50 || posy < thumbnails_top.y-50 || posy > thumbnails_top.y+thumbnails_top.height+50)
                     setVisible = false
             } else {
-                if(hotArea.x < posx && hotArea.x+hotArea.width > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
+                if(hotArea.x < posx && hotArea.x+hotArea.width-ignoreRightMotion > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
                     setVisible = true
             }
         }

@@ -204,6 +204,16 @@ bool PQCNotify::getHasPhotoSphere() {
     return m_hasPhotoSphere;
 }
 
+void PQCNotify::setIsMotionPhoto(bool val) {
+    if(val != m_isMotionPhoto) {
+        m_isMotionPhoto = val;
+        Q_EMIT isMotionPhotoChanged();
+    }
+}
+bool PQCNotify::getIsMotionPhoto() {
+    return m_isMotionPhoto;
+}
+
 void PQCNotify::setBarcodeDisplayed(bool val) {
     if(val != m_barcodeDisplayed) {
         m_barcodeDisplayed = val;

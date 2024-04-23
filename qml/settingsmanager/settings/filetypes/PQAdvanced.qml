@@ -63,7 +63,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Motion/Live photos")
 
-            helptext: qsTranslate("settingsmanager", "Both Apple and Android devices can connect a short video clip to photos. Apple refers to this as Apple Live Photo, and Google refers to it as Motion Photo (or sometimes Micro Video). Apple stores small video files next to the image files that have the same filename but different file ending. Android embeds these video files in the image file. If the former is enabled, PhotoQt will hide the video files from the file list and automatically load them when the connected image file is loaded. If the latter is enabled PhotoQt will try to extract and show the video file once the respective image file is loaded. All of this is done asynchronously and should not cause any slowdown. PhotoQt can also show a small play/pause button in the bottom right corner of the window.")
+            helptext: qsTranslate("settingsmanager", "Both Apple and Android devices can connect a short video clip to photos. Apple refers to this as Apple Live Photo, and Google refers to it as Motion Photo (or sometimes Micro Video). Apple stores small video files next to the image files that have the same filename but different file ending. Android embeds these video files in the image file. If the former is enabled, PhotoQt will hide the video files from the file list and automatically load them when the connected image file is loaded. If the latter is enabled PhotoQt will try to extract and show the video file once the respective image file is loaded. All of this is done asynchronously and should not cause any slowdown. PhotoQt can also show a small play/pause button in the bottom right corner of the window, and it can force the space bar to always play/pause the detected video.")
 
             enabled: PQCScriptsConfig.isMotionPhotoSupportEnabled()
 
@@ -100,6 +100,13 @@ Flickable {
                     id: motionplaypause
                     enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Show small play/pause button in bottom right corner of window")
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: motionspace
+                    enforceMaxWidth: set_motion.rightcol
+                    text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
                     onCheckedChanged: checkDefault()
                 }
 
@@ -155,7 +162,7 @@ Flickable {
             return
         }
 
-        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged())
+        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged())
 
     }
 
@@ -164,6 +171,7 @@ Flickable {
         applelive.loadAndSetDefault(PQCSettings.filetypesLoadAppleLivePhotos)
         motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
         motionplaypause.loadAndSetDefault(PQCSettings.filetypesMotionPhotoPlayPause)
+        motionspace.loadAndSetDefault(PQCSettings.filetypesMotionSpacePause)
         photosphere.loadAndSetDefault(PQCSettings.filetypesCheckForPhotoSphere)
 
         settingChanged = false
@@ -176,11 +184,13 @@ Flickable {
         PQCSettings.filetypesLoadAppleLivePhotos = applelive.checked
         PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
         PQCSettings.filetypesMotionPhotoPlayPause = motionplaypause.checked
+        PQCSettings.filetypesMotionSpacePause = motionspace.checked
         PQCSettings.filetypesCheckForPhotoSphere = photosphere.checked
 
         applelive.saveDefault()
         motionmicro.saveDefault()
         motionplaypause.saveDefault()
+        motionspace.saveDefault()
         photosphere.saveDefault()
 
         settingChanged = false

@@ -381,6 +381,14 @@ Item {
 
         }
 
+        // Space when motion photo is loaded might have special actions
+        if(combo === "Space" && PQCNotify.isMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
+
+            image.playPauseAnimationVideo()
+            return
+
+        }
+
         // Left/Right when document is loaded might have special actions
         if((combo === "Left" || combo === "Right") && PQCSettings.filetypesDocumentLeftRight && !PQCFileFolderModel.isPDF) {
 

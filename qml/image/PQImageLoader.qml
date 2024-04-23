@@ -238,6 +238,7 @@ Item {
         target: PQCFileFolderModel
         function onCurrentIndexChanged() {
             PQCNotify.hasPhotoSphere = false
+            PQCNotify.isMotionPhoto = false
             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                 deleg.hasBeenSetup = false
         }

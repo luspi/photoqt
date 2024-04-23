@@ -490,6 +490,7 @@ int PQCSettings::migrate(QString oldversion) {
 
         } else if(curVer == "4.5") {
 
+            // update slideshow music settings
             QSqlQuery query(db);
 
             if(!query.exec("SELECT `value` FROM `slideshow` WHERE `name`='MusicFile'"))

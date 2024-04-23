@@ -141,6 +141,12 @@ public:
 
     /******************************************************/
 
+    Q_PROPERTY(bool isMotionPhoto READ getIsMotionPhoto WRITE setIsMotionPhoto NOTIFY isMotionPhotoChanged)
+    void setIsMotionPhoto(bool val);
+    Q_INVOKABLE bool getIsMotionPhoto();
+
+    /******************************************************/
+
     Q_PROPERTY(bool barcodeDisplayed READ getBarcodeDisplayed WRITE setBarcodeDisplayed NOTIFY barcodeDisplayedChanged)
     void setBarcodeDisplayed(bool val);
     Q_INVOKABLE bool getBarcodeDisplayed();
@@ -177,6 +183,7 @@ private:
         m_settingUpdate.clear();
         m_startupCheck = 0;
         m_hasPhotoSphere = false;
+        m_isMotionPhoto = false;
         m_insidePhotoSphere = false;
         m_barcodeDisplayed = false;
         m_colorProfiles.clear();
@@ -208,6 +215,7 @@ private:
 
     bool m_hasPhotoSphere;
     bool m_insidePhotoSphere;
+    bool m_isMotionPhoto;
 
     bool m_barcodeDisplayed;
 
@@ -237,6 +245,7 @@ Q_SIGNALS:
 
     void insidePhotoSphereChanged();
     void hasPhotoSphereChanged();
+    void isMotionPhotoChanged();
 
     void barcodeDisplayedChanged();
 

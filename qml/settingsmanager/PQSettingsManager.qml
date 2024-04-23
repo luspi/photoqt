@@ -389,6 +389,7 @@ PQTemplateFullscreen {
                                                 ["LoadMotionPhotos",
                                                  "LoadAppleLivePhotos",
                                                  "MotionPhotoPlayPause",
+                                                 "MotionSpacePause",
                                                  "CheckForPhotoSphere"]]
                        }],
 

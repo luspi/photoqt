@@ -241,6 +241,8 @@ Image {
 
                     if(src != "") {
 
+                        PQCNotify.isMotionPhoto = true
+
                         if(PQCSettings.metadataAutoRotation) {
 
                             var orientation = PQCScriptsMetaData.getExifOrientation(loader_top.imageSource)
