@@ -2,18 +2,18 @@ Thank you for your suggestion or feature request. Please fill out as much as pos
 
 ## Requested Feature/Change
 
-Please include as much information as possible here.
+(Please include as much information as possible here.)
 
 ## Motivation or Use Case of this Change
 
-If this is just something you would like to have, that is perfectly okay :-)
+(If this is just something you would like to have, that is perfectly okay :) )
 
 ## Context (Environment)
 
 - PhotoQt version: v...
-- Operating system: Window/Ubuntu/...
+- Operating system: Windows/Ubuntu/...
 - Installed by: Website installer/repository/...
 
 ## Example Image
 
-If your submission relates to a specific image format or type, please include an example image.
+(If your submission relates to a specific image format or type, please include an example image.)
