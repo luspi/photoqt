@@ -55,6 +55,7 @@ import "../../../elements"
 // - interfacePopoutMapExplorerNonModal
 // - interfacePopoutFileDialogNonModal
 // - interfacePopoutWhenWindowIsSmall
+// - interfacePopoutSettingsManagerNonModal
 
 Flickable {
 
@@ -350,16 +351,16 @@ Flickable {
             id: set_keep
 
             //: Settings title
-            title: qsTranslate("settingsmanager", "Keep popouts open")
+            title: qsTranslate("settingsmanager", "Non-modal popouts")
 
-            helptext: qsTranslate("settingsmanager",  "Two of the elements can be kept open after they performed their action. These two elements are the file dialog and the map explorer (if available). Both of them can be kept open after a file is selected and loaded in the main view allowing for quick and convenient browsing of images.")
+            helptext: qsTranslate("settingsmanager", "All popouts by default are modal windows. That means that they block the main interface until they are closed again. Some popouts can be switched to a non-modal behavior, allowing them to stay open while using the main interface.") + "<br><br>" + qsTranslate("settingsmanager", "Please note: If a popout is set to be non-modal then it will not be able to receive any shortcut commands anymore.")
 
             content: [
 
                 PQCheckBox {
                     id: keepopen_fd_check
                     enforceMaxWidth: set_keep.rightcol
-                    text: qsTranslate("settingsmanager", "keep file dialog open")
+                    text: qsTranslate("settingsmanager", "make file dialog non-modal")
                     onCheckedChanged:
                         checkDefault()
                 },
@@ -367,7 +368,15 @@ Flickable {
                 PQCheckBox {
                     id: keepopen_me_check
                     enforceMaxWidth: set_keep.rightcol
-                    text: qsTranslate("settingsmanager", "keep map explorer open")
+                    text: qsTranslate("settingsmanager", "make map explorer non-modal")
+                    onCheckedChanged:
+                        checkDefault()
+                },
+
+                PQCheckBox {
+                    id: keepopen_sm_check
+                    enforceMaxWidth: set_keep.rightcol
+                    text: qsTranslate("settingsmanager", "make settings manager non-modal")
                     onCheckedChanged:
                         checkDefault()
                 }
@@ -426,7 +435,7 @@ Flickable {
             return
         }
 
-        if(keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() || checksmall.hasChanged()) {
+        if(keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() || keepopen_sm_check.hasChanged() || checksmall.hasChanged()) {
             settingChanged = true
             return
         }
@@ -444,6 +453,7 @@ Flickable {
 
             keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal)
             keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
+            keepopen_sm_check.loadAndSetDefault(PQCSettings.interfacePopoutSettingsManagerNonModal)
             checksmall.loadAndSetDefault(PQCSettings.interfacePopoutWhenWindowIsSmall)
 
             saveDefaultCheckTimer.restart()
@@ -470,11 +480,13 @@ Flickable {
         setting_top.popoutSaveChanges()
         PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked
         PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
+        PQCSettings.interfacePopoutSettingsManagerNonModal = keepopen_sm_check.checked
         PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked
 
         _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
         keepopen_fd_check.saveDefault()
         keepopen_me_check.saveDefault()
+        keepopen_sm_check.saveDefault()
         checksmall.saveDefault()
 
         settingChanged = false

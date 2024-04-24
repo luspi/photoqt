@@ -152,6 +152,7 @@ PQTemplateFullscreen {
                                                  qsTranslate("settingsmanager", "Pop out when window is small")],
                                                 ["PopoutFileDialogNonModal",
                                                  "PopoutMapExplorerNonModal",
+                                                 "PopoutSettingsManagerNonModal",
                                                  "PopoutWhenWindowIsSmall",
                                                  "PopoutFileDialog",
                                                  "PopoutMapExplorer",
@@ -763,6 +764,9 @@ PQTemplateFullscreen {
                         passOnShortcuts(param[1], param[0])
                         return
                     }
+
+                    if(PQCSettings.interfacePopoutSettingsManagerNonModal)
+                        return
 
                     if(param[0] === Qt.Key_Escape) {
 
