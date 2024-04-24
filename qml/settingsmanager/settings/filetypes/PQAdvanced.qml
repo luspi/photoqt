@@ -99,7 +99,7 @@ Flickable {
                 PQCheckBox {
                     id: motionplaypause
                     enforceMaxWidth: set_motion.rightcol
-                    text: qsTranslate("settingsmanager", "Show small play/pause button in bottom right corner of window")
+                    text: qsTranslate("settingsmanager", "Show small play/pause/autoplay button in bottom right corner of window")
                     onCheckedChanged: checkDefault()
                 },
 

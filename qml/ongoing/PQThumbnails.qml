@@ -685,7 +685,7 @@ Item {
     }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
-    property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0
+    property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0
 
     Connections {
         target: PQCNotify

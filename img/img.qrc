@@ -105,5 +105,7 @@
         <file>white/globe.svg</file>
         <file>white/network.svg</file>
         <file>white/padlock.svg</file>
+        <file>white/autoplay.svg</file>
+        <file>white/autoplay_off.svg</file>
     </qresource>
 </RCC>

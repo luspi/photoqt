@@ -362,7 +362,8 @@ Image {
                 anchors.margins: rotation%180==0 ? 0 : -(image.height-image.width)/2
                 source: videoloader.mediaSrc
                 Component.onCompleted: {
-                    play()
+                    if(PQCSettings.filetypesMotionAutoPlay)
+                        play()
                 }
                 Connections {
                     target: loader_top
@@ -380,41 +381,78 @@ Image {
                 }
             }
 
-            Rectangle {
+            Row {
 
                 parent: image_top
+
                 x: parent.width-width-10
                 y: parent.height-height-10
                 z: image_top.curZ+1
 
-                width: 30
-                height: 30
-                color: "#88000000"
-                radius: 5
-
                 visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo
 
-                opacity: playpausemouse.containsMouse ? 1 : 0.2
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Rectangle {
 
-                Image {
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    sourceSize: Qt.size(width, height)
-                    source: mediaplayer.playbackState == MediaPlayer.PlayingState ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
+                    width: 30
+                    height: 30
+                    color: "#88000000"
+                    radius: 5
+
+                    opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        sourceSize: Qt.size(width, height)
+                        source: PQCSettings.filetypesMotionAutoPlay ? "image://svg/:/white/autoplay.svg" : "image://svg/:/white/autoplay_off.svg"
+                    }
+
+                    PQMouseArea {
+                        id: autoplaymouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("image", "Toggle autoplay")
+                        onClicked: {
+                            PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
+                        }
+                    }
+
                 }
 
-                MouseArea {
-                    id: playpausemouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if(mediaplayer.playbackState == MediaPlayer.PlayingState)
-                            mediaplayer.pause()
-                        else
-                            mediaplayer.play()
+                Rectangle {
+
+                    width: 30
+                    height: 30
+                    color: "#88000000"
+                    radius: 5
+
+                    opacity: playpausemouse.containsMouse ? 1 : 0.2
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        sourceSize: Qt.size(width, height)
+                        source: mediaplayer.playbackState == MediaPlayer.PlayingState ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
                     }
+
+                    MouseArea {
+                        id: playpausemouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            if(mediaplayer.playbackState == MediaPlayer.PlayingState)
+                                mediaplayer.pause()
+                            else
+                                mediaplayer.play()
+                        }
+                    }
+
                 }
 
             }
