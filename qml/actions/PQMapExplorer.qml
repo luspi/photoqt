@@ -236,6 +236,10 @@ Item {
             } else if(mapexplorer_top.opacity > 0) {
 
                 if(what === "keyEvent") {
+
+                    if(PQCSettings.interfacePopoutMapExplorerNonModal)
+                        return
+
                     if(param[0] === Qt.Key_Escape)
                         hideExplorer()
                 }

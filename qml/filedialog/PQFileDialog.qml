@@ -168,6 +168,9 @@ Rectangle {
 
                 if(what === "keyEvent") {
 
+                    if(PQCSettings.interfacePopoutFileDialogNonModal)
+                        return
+
                     // close something
                     if(param[0] === Qt.Key_Escape) {
 
