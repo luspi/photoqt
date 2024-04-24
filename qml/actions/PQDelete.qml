@@ -41,7 +41,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.filedeleteForcePopout
     shortcut: "__delete"
 
-    title: qsTranslate("filemanagement", "Delete file?")
+    title: qsTranslate("filemanagement", "Delete file?") + " | PhotoQt"
 
     button1.text: qsTranslate("filemanagement", "Move to trash")
 
@@ -187,16 +187,17 @@ PQTemplateFullscreen {
             return
         }
         opacity = 1
+        if(popoutWindowUsed)
+            filedelete_popout.visible = true
         error.visible = false
         filename.text = PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
-
-        if(popout)
-            filedelete_popout.show()
 
     }
 
     function hide() {
         delete_top.opacity = 0
+        if(popoutWindowUsed)
+            filedelete_popout.visible = false
         loader.elementClosed(thisis)
     }
 

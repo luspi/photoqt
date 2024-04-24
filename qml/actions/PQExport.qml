@@ -43,7 +43,7 @@ PQTemplateFullscreen {
     shortcut: "__export"
 
     //: title of action element
-    title: qsTranslate("export", "Export image")
+    title: qsTranslate("export", "Export image") + " | PhotoQt"
 
     //: written on button
     button1.text: qsTranslate("export", "Export")
@@ -578,12 +578,14 @@ PQTemplateFullscreen {
         }
         exportbusy.hide()
         convert_top.opacity = 1
-        if(popout)
-            export_popout.show()
+        if(popoutWindowUsed)
+            export_popout.visible = true
     }
 
     function hide() {
         convert_top.opacity = 0
+        if(popoutWindowUsed)
+            export_popout.visible = false
         loader.elementClosed(thisis)
     }
 

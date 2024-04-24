@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: filedelete_popout
 
     //: Window title
-    title: qsTranslate("filemanagement", "Delete file?")
+    title: qsTranslate("filemanagement", "Delete file?") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.filedeleteGeometry
     isMax: PQCWindowGeometry.filedeleteMaximized

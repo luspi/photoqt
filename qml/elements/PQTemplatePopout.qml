@@ -41,6 +41,7 @@ Window {
 
     /////////
 
+    signal popoutOpened()
     signal popoutClosed()
 
     /////////
@@ -61,11 +62,15 @@ Window {
 
     modality: Qt.ApplicationModal
 
-    onClosing: {
-        popoutClosed()
+    onVisibleChanged: {
+        if(visible) {
+            popoutOpened()
+        } else {
+            popoutClosed()
+        }
     }
 
-    visible: (sizepopout || popout)&&curloader.item.opacity===1
+    visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
     color: PQCLook.transColor
@@ -86,6 +91,7 @@ Window {
         source: "../"+ele_window.source
         onStatusChanged:
             if(status == Loader.Ready) {
+                item.popoutWindowUsed = true
                 item.parentWidth = Qt.binding(function() { return ele_window.width })
                 item.parentHeight = Qt.binding(function() { return ele_window.height })
             }

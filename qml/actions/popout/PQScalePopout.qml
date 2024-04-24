@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: scale_popout
 
     //: Window title
-    title: qsTranslate("scale", "Scale image")
+    title: qsTranslate("scale", "Scale image") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.scaleGeometry
     isMax: PQCWindowGeometry.scaleMaximized

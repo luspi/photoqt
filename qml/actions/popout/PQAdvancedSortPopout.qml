@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: advancedsort_popout
 
     //: Window title
-    title: qsTranslate("advancedsort", "Advanced image sort")
+    title: qsTranslate("advancedsort", "Advanced image sort") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.advancedsortGeometry
     isMax: PQCWindowGeometry.advancedsortMaximized

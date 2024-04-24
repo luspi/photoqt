@@ -38,7 +38,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.aboutForcePopout
     shortcut: "__about"
 
-    title: qsTranslate("about", "About")
+    title: qsTranslate("about", "About") + " | PhotoQt"
 
     onPopoutChanged:
         PQCSettings.interfacePopoutAbout = popout
@@ -219,8 +219,8 @@ PQTemplateFullscreen {
 
     function show() {
         opacity = 1
-        if(popout)
-            about_popout.show()
+        if(popoutWindowUsed)
+            about_popout.visible = true
     }
 
     function hide() {
@@ -228,6 +228,8 @@ PQTemplateFullscreen {
             configinfo.opacity = 0
         else {
             about_top.opacity = 0
+            if(popoutWindowUsed)
+                about_popout.visible = false
             loader.elementClosed(thisis)
         }
     }

@@ -40,7 +40,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.wallpaperForcePopout
     shortcut: "__wallpaper"
 
-    title: qsTranslate("wallpaper", "Wallpaper")
+    title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
 
     onPopoutChanged:
         PQCSettings.interfacePopoutWallpaper = popout
@@ -289,12 +289,14 @@ PQTemplateFullscreen {
 
     function show() {
         opacity = 1
-        if(popout)
-            wallpaper_popout.show()
+        if(popoutWindowUsed)
+            wallpaper_popout.visible = true
     }
 
     function hide() {
         wallpaper_top.opacity = 0
+        if(popoutWindowUsed)
+            wallpaper_popout.visible = false
         loader.elementClosed(thisis)
     }
 

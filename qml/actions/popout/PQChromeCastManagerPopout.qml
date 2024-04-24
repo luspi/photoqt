@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: chromecastmanager_popout
 
     //: Window title
-    title: qsTranslate("streaming", "Streaming (Chromecast)")
+    title: qsTranslate("streaming", "Streaming (Chromecast)") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.chromecastmanagerGeometry
     isMax: PQCWindowGeometry.chromecastmanagerMaximized

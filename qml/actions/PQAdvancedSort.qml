@@ -39,7 +39,7 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutAdvancedSort
     forcePopout: PQCWindowGeometry.advancedsortForcePopout
     shortcut: "__advancedSort"
-    title: qsTranslate("advancedsort", "Advanced image sort")
+    title: qsTranslate("advancedsort", "Advanced image sort") + " | PhotoQt"
 
     button1.text: qsTranslate("advancedsort", "Sort images")
 
@@ -774,15 +774,17 @@ PQTemplateFullscreen {
         }
         working.hide()
         opacity = 1
+        if(popoutWindowUsed)
+            advancedsort_popout.visible = true
         advancedsort_top.loadData()
-        if(popout)
-            advancedsort_popout.show()
 
     }
 
     function hide() {
 
         opacity = 0
+        if(popoutWindowUsed)
+            advancedsort_popout.visible = false
         loader.elementClosed(thisis)
 
     }

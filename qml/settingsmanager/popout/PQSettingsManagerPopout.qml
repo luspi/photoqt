@@ -27,10 +27,10 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: filedialog_window
+    id: settingsmanager_window
 
     //: Window title
-    title: qsTranslate("settingsmanager", "Settings Manager")
+    title: qsTranslate("settingsmanager", "Settings Manager") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.settingsmanagerGeometry
     isMax: PQCWindowGeometry.settingsmanagerMaximized

@@ -1290,7 +1290,7 @@ GridView {
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
-            if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogKeepOpen)
+            if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
                 filedialog_top.hideFileDialog()
         }
 

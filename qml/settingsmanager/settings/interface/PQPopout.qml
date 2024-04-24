@@ -52,8 +52,8 @@ import "../../../elements"
 // - interfacePopoutMapCurrent
 // - interfacePopoutMapExplorer
 // - interfacePopoutFileDialog
-// - interfacePopoutMapExplorerKeepOpen
-// - interfacePopoutFileDialogKeepOpen
+// - interfacePopoutMapExplorerNonModal
+// - interfacePopoutFileDialogNonModal
 // - interfacePopoutWhenWindowIsSmall
 
 Flickable {
@@ -442,8 +442,8 @@ Flickable {
 
             setting_top.popoutLoadDefault()
 
-            keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogKeepOpen)
-            keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerKeepOpen)
+            keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal)
+            keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
             checksmall.loadAndSetDefault(PQCSettings.interfacePopoutWhenWindowIsSmall)
 
             saveDefaultCheckTimer.restart()
@@ -468,8 +468,8 @@ Flickable {
     function applyChanges() {
 
         setting_top.popoutSaveChanges()
-        PQCSettings.interfacePopoutFileDialogKeepOpen = keepopen_fd_check.checked
-        PQCSettings.interfacePopoutMapExplorerKeepOpen = keepopen_me_check.checked
+        PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked
+        PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
         PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked
 
         _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")

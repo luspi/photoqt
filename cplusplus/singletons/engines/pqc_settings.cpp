@@ -516,6 +516,18 @@ int PQCSettings::migrate(QString oldversion) {
 
             }
 
+            // update name for modal settings
+            const QStringList renameModalSettings = {"PopoutFileDialog", "PopoutMapExplorer"};
+
+            for(auto &s : renameModalSettings) {
+
+                QSqlQuery queryRename(db);
+                if(!queryRename.exec(QString("Update `interface` SET `name`='%1NonModal' WHERE `name`='%2KeepOpen'").arg(s, s)))
+                    qCritical() << ("Unable to rename modal settings name '" + s + "':") << query.lastError().text();
+
+                queryRename.clear();
+
+            }
 
         }
 

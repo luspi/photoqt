@@ -40,7 +40,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.filerenameForcePopout
     shortcut: "__rename"
 
-    title: qsTranslate("filemanagement", "Rename file")
+    title: qsTranslate("filemanagement", "Rename file") + " | PhotoQt"
 
     button1.enabled: filenameedit.text!==""&&!error_exists.visible
     button1.text: qsTranslate("filemanagement", "Rename file")
@@ -218,8 +218,8 @@ PQTemplateFullscreen {
         }
         PQCNotify.ignoreKeysExceptEnterEsc = true
         opacity = 1
-        if(popout)
-            filerename_popout.show()
+        if(popoutWindowUsed)
+            filerename_popout.visible = true
 
         filenameedit.text = PQCScriptsFilesPaths.getBasename(PQCFileFolderModel.currentFile)
         filesuffix.text = "." + PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
@@ -233,6 +233,8 @@ PQTemplateFullscreen {
     function hide() {
         PQCNotify.ignoreKeysExceptEnterEsc = false
         rename_top.opacity = 0
+        if(popoutWindowUsed)
+            filerename_popout.visible = false
         loader.elementClosed(thisis)
     }
 

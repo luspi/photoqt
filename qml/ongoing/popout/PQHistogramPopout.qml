@@ -30,7 +30,7 @@ PQTemplatePopout {
     id: histogram_popout
 
     //: Window title
-    title: qsTranslate("histogram", "Histogram")
+    title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.histogramGeometry
     isMax: PQCWindowGeometry.histogramMaximized

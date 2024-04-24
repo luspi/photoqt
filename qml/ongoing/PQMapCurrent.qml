@@ -346,12 +346,14 @@ PQTemplateFloating {
     function show() {
         opacity = 1
         PQCSettings.mapviewCurrentVisible = true
-        if(popout)
-            mapcurrent_popout.show()
+        if(popoutWindowUsed)
+            mapcurrent_popout.visible = true
     }
 
     function hide() {
         opacity = 0
+        if(popoutWindowUsed)
+            mapcurrent_popout.visible = false
         PQCSettings.mapviewCurrentVisible = false
     }
 

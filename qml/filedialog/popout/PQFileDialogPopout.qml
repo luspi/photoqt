@@ -30,7 +30,7 @@ PQTemplatePopout {
     id: filedialog_window
 
     //: Window title
-    title: qsTranslate("actions", "File Dialog")
+    title: qsTranslate("actions", "File Dialog") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.filedialogGeometry
     isMax: PQCWindowGeometry.filedialogMaximized
@@ -38,7 +38,7 @@ PQTemplatePopout {
     sizepopout: PQCWindowGeometry.filedialogForcePopout
     source: "filedialog/PQFileDialog.qml"
 
-    modality: PQCSettings.interfacePopoutFileDialogKeepOpen ? Qt.NonModal : Qt.ApplicationModal
+    modality: PQCSettings.interfacePopoutFileDialogNonModal ? Qt.NonModal : Qt.ApplicationModal
 
     minimumWidth: 400
     minimumHeight: 600

@@ -41,7 +41,7 @@ Window {
     minimumWidth: 300
     minimumHeight: 200
 
-    title: "Log/Debug"
+    title: "Log/Debug" + " | PhotoQt"
 
     /////////
 

@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: wallpaper_popout
 
     //: Window title
-    title: qsTranslate("wallpaper", "Wallpaper")
+    title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.wallpaperGeometry
     isMax: PQCWindowGeometry.wallpaperMaximized

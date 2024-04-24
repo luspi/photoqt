@@ -27,10 +27,10 @@ import "../../elements"
 
 PQTemplatePopout {
 
-    id: histogram_popout
+    id: slideshowcontrols_popout
 
     //: Window title
-    title: qsTranslate("slideshow", "Slideshow")
+    title: qsTranslate("slideshow", "Slideshow") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.slideshowcontrolsGeometry
     isMax: PQCWindowGeometry.slideshowcontrolsMaximized

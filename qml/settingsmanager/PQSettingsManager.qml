@@ -150,8 +150,8 @@ PQTemplateFullscreen {
                                                 [qsTranslate("settingsmanager", "Popout"),
                                                  qsTranslate("settingsmanager", "Keep popouts open"),
                                                  qsTranslate("settingsmanager", "Pop out when window is small")],
-                                                ["PopoutFileDialogKeepOpen",
-                                                 "PopoutMapExplorerKeepOpen",
+                                                ["PopoutFileDialogNonModal",
+                                                 "PopoutMapExplorerNonModal",
                                                  "PopoutWhenWindowIsSmall",
                                                  "PopoutFileDialog",
                                                  "PopoutMapExplorer",
@@ -848,6 +848,8 @@ PQTemplateFullscreen {
 
     function show() {
         opacity = 1
+        if(settingsmanager_window)
+            settingsmanager_window.visible = true
 
         if(settingsloader.status === Loader.Ready)
             settingsloader.item.revertChanges()
@@ -857,6 +859,8 @@ PQTemplateFullscreen {
     function hide() {
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
+        if(settingsmanager_window)
+            settingsmanager_window.visible = false
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false

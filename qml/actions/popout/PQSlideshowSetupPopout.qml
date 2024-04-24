@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: slideshowsetup_popout
 
     //: Window title
-    title: qsTranslate("slideshow", "Slideshow setup")
+    title: qsTranslate("slideshow", "Slideshow setup") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.slideshowsetupGeometry
     isMax: PQCWindowGeometry.slideshowsetupMaximized

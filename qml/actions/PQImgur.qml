@@ -38,9 +38,9 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutFilter
     forcePopout: PQCWindowGeometry.imgurForcePopout
     shortcut: "__imgurAnonym"
-    title: accountname=="" ?
+    title: (accountname=="" ?
                qsTranslate("imgur", "Upload to imgur.com") :
-               qsTranslate("imgur", "Upload to imgur.com") + ": " + accountname
+               qsTranslate("imgur", "Upload to imgur.com") + ": " + accountname) + " | PhotoQt"
     showPopinPopout: false
 
     property string accountname: ""
@@ -633,7 +633,8 @@ PQTemplateFullscreen {
         state = "uploading"
 
         opacity = 1
-
+        if(popoutWindowUsed)
+            imgur_popout.visible = true
 
     }
 
@@ -646,6 +647,8 @@ PQTemplateFullscreen {
 
         PQCScriptsShareImgur.abort()
         opacity = 0
+        if(popoutWindowUsed)
+            imgur_popout.visible = false
         loader.elementClosed("imgur")
     }
 

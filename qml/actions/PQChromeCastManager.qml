@@ -37,7 +37,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.chromecastmanagerForcePopout
     shortcut: "__chromecast"
 
-    title: qsTranslate("streaming", "Streaming (Chromecast)")
+    title: qsTranslate("streaming", "Streaming (Chromecast)") + " | PhotoQt"
 
     onPopoutChanged:
         PQCSettings.interfacePopoutChromecast = popout
@@ -214,10 +214,10 @@ PQTemplateFullscreen {
 
     function show() {
         opacity = 1
+        if(popoutWindowUsed)
+            chromecastmanager_popout.visible = true
         // we also show the chromecast handler
         loader.show("chromecast")
-        if(popout)
-            chromecastmanager_popout.show()
 
         PQCScriptsChromeCast.startDiscovery()
 
@@ -226,6 +226,8 @@ PQTemplateFullscreen {
 
     function hide() {
         opacity = 0
+        if(popoutWindowUsed)
+            chromecastmanager_popout.visible = false
         loader.elementClosed(thisis)
     }
 

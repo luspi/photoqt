@@ -66,6 +66,12 @@ Rectangle {
 
     /////////
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
+    /////////
+
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: popout ? 0 : 200 } }
     visible: opacity>0
@@ -158,11 +164,11 @@ Rectangle {
             onClicked: {
                 if(!showPopinPopout)
                     return
+                ele_top.hide()
                 if(!ele_top.popout)
                     ele_top.popout = true
                 else
                     close()
-                ele_top.hide()
                 PQCNotify.executeInternalCommand(ele_top.shortcut)
             }
         }

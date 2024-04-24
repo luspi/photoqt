@@ -76,10 +76,23 @@ Rectangle {
 
     /////////
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
+    /////////
+
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: popout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
+
+    onOpacityChanged: {
+        if(opacity > 0 && !popout)
+            toplevel.titleOverride = title
+        else if(opacity == 0)
+            toplevel.titleOverride = ""
+    }
 
     color: PQCLook.baseColorAccent
 
@@ -245,6 +258,7 @@ Rectangle {
                     return
                 ele_top.hide()
                 ele_top.popout = !ele_top.popout
+                ele_top.opacityChanged()
                 PQCNotify.executeInternalCommand(ele_top.shortcut)
             }
         }

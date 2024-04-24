@@ -37,7 +37,7 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutFilter
     forcePopout: PQCWindowGeometry.filterForcePopout
     shortcut: "__filterImages"
-    title: qsTranslate("filter", "Filter images in current directory")
+    title: qsTranslate("filter", "Filter images in current directory") + " | PhotoQt"
 
     //: Written on a clickable button - please keep short
     button1.text: qsTranslate("filter", "Filter")
@@ -377,8 +377,8 @@ PQTemplateFullscreen {
             return
         }
         opacity = 1
-        if(popout)
-            filter_popout.show()
+        if(popoutWindowUsed)
+            filter_popout.visible = true
 
         // we explicitely load the data below to pre-load it even when switching between popout and not
 
@@ -439,6 +439,8 @@ PQTemplateFullscreen {
 
     function hide() {
         filter_top.opacity = 0
+        if(popoutWindowUsed)
+            filter_popout.visible = false
         loader.elementClosed(thisis)
     }
 

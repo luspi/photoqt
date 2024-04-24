@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: about_popout
 
     //: Window title
-    title: qsTranslate("actions", "About")
+    title: qsTranslate("actions", "About") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.aboutGeometry
     isMax: PQCWindowGeometry.aboutMaximized

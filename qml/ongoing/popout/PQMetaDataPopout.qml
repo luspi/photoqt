@@ -30,7 +30,7 @@ PQTemplatePopout {
     id: metadata_popout
 
     //: Window title
-    title: qsTranslate("actions", "Metadata")
+    title: qsTranslate("actions", "Metadata") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.metadataGeometry
     isMax: PQCWindowGeometry.metadataMaximized

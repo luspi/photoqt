@@ -42,6 +42,10 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
     property string thisis: "filedialog"
     property alias placesWidth: fd_places.width
     property alias fileviewWidth: fd_fileview.width
@@ -77,6 +81,13 @@ Rectangle {
     opacity: 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    onOpacityChanged: {
+        if(opacity > 0 && !isPopout)
+            toplevel.titleOverride = qsTranslate("actions", "File Dialog") + " | PhotoQt"
+        else if(opacity == 0)
+            toplevel.titleOverride = ""
+    }
 
     MouseArea {
         anchors.fill: parent
@@ -248,6 +259,7 @@ Rectangle {
                 if(PQCSettings.interfacePopoutFileDialog)
                     close()
                 PQCSettings.interfacePopoutFileDialog = !PQCSettings.interfacePopoutFileDialog
+                filedialog_top.opacityChanged()
                 PQCNotify.executeInternalCommand("__open")
             }
         }
@@ -306,10 +318,10 @@ Rectangle {
     }
 
     function showFileDialog() {
-        isPopout = PQCSettings.interfacePopoutFileDialog && PQCWindowGeometry.filedialogForcePopout
+        isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout
         opacity = 1
-        if(isPopout)
-            filedialog_window.show()
+        if(popoutWindowUsed)
+            filedialog_window.visible = true
     }
 
     function hideFileDialog() {
@@ -323,10 +335,13 @@ Rectangle {
             return
         }
 
-        isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
-
         fd_breadcrumbs.disableAddressEdit()
         opacity = 0
+        if(popoutWindowUsed)
+            filedialog_window.visible = false
+
+        isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
+
         loader.elementClosed(thisis)
     }
 

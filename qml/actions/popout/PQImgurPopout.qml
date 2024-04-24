@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: imgur_popout
 
     //: Window title
-    title: qsTranslate("imgur", "Upload to imgur.com")
+    title: qsTranslate("imgur", "Upload to imgur.com") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.imgurGeometry
     isMax: PQCWindowGeometry.imgurMaximized

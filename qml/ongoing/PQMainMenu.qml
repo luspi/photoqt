@@ -60,6 +60,10 @@ Rectangle {
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
     property bool windowSizeOkay: true
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
     property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout
 
     state: isPopout
@@ -925,12 +929,14 @@ Rectangle {
 
     function hideMainMenu() {
         mainmenu_top.setVisible = false
+        if(popoutWindowUsed)
+            mainmenu_popout.visible = false
     }
 
     function showMainMenu() {
         mainmenu_top.setVisible = true
-        if(isPopout)
-            mainmenu_popout.show()
+        if(popoutWindowUsed)
+            mainmenu_popout.visible = true
     }
 
 }

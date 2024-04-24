@@ -156,7 +156,9 @@ Item {
 
         function onKeyPress(key, modifiers) {
 
-            if(loader.visibleItem !== "") {
+            if(loader.visibleItem !== "" ||
+                    (loader_mapexplorer.item !== null && loader_mapexplorer.item.active && PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal) ||
+                    (loader_filedialog.item !== null && loader_filedialog.item.active && PQCSettings.interfacePopoutFileDialog && PQCSettings.interfacePopoutFileDialogNonModal)) {
 
                 // make sure contextmenu is closed on key press
                 contextmenu.dismiss()

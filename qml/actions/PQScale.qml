@@ -41,7 +41,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.scaleForcePopout
     shortcut: "__scale"
 
-    title: qsTranslate("scale", "Scale image")
+    title: qsTranslate("scale", "Scale image") + " | PhotoQt"
 
     button1.text: qsTranslate("scale", "Scale")
     button1.enabled: (spin_w.value>0 && spin_h.value>0 && !unsupportedlabel.visible)
@@ -410,12 +410,14 @@ PQTemplateFullscreen {
 
         // the opacity should be set at the end of this function
         opacity = 1
-        if(popout)
-            scale_popout.show()
+        if(popoutWindowUsed)
+            scale_popout.visible = true
     }
 
     function hide() {
         opacity = 0
+        if(popoutWindowUsed)
+            scale_popout.visible = false
         loader.elementClosed(thisis)
 
     }

@@ -42,6 +42,10 @@ Item {
 
     property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
     state: "hidden"
 
     states: [
@@ -109,7 +113,7 @@ Item {
         id: controlsbgmousearea
         anchors.fill: parent
         hoverEnabled: true
-        drag.target: slideshowcontrols_top
+        drag.target: isPopout ? undefined : slideshowcontrols_top
         property string myId: "123"
         onEntered: {
             resetMouseOver.stop()
@@ -148,7 +152,7 @@ Item {
                 text: qsTranslate("slideshow", "Click to go to the previous image")
                 onClicked:
                     loader_slideshowhandler.item.loadPrevImage(true)
-                drag.target: slideshowcontrols_top
+                drag.target: isPopout ? undefined : slideshowcontrols_top
                 property string myId: "111"
                 onEntered: {
                     resetMouseOver.stop()
@@ -185,7 +189,7 @@ Item {
                     loader_slideshowhandler.item.toggle()
                     updateState()
                 }
-                drag.target: slideshowcontrols_top
+                drag.target: isPopout ? undefined : slideshowcontrols_top
                 property string myId: "222"
                 onEntered: {
                     resetMouseOver.stop()
@@ -218,7 +222,7 @@ Item {
                 text: qsTranslate("slideshow", "Click to go to the next image")
                 onClicked:
                     loader_slideshowhandler.item.loadNextImage(true)
-                drag.target: slideshowcontrols_top
+                drag.target: isPopout ? undefined : slideshowcontrols_top
                 property string myId: "333"
                 onEntered: {
                     resetMouseOver.stop()
@@ -251,7 +255,7 @@ Item {
                 onClicked: {
                     loader_slideshowhandler.item.hide()
                 }
-                drag.target: slideshowcontrols_top
+                drag.target: isPopout ? undefined : slideshowcontrols_top
                 property string myId: "444"
                 onEntered: {
                     resetMouseOver.stop()
@@ -422,10 +426,14 @@ Item {
 
     function show() {
         opacity = 1
+        if(popoutWindowUsed)
+            slideshowcontrols_popout.visible = true
     }
 
     function hide() {
         opacity = 0
+        if(popoutWindowUsed)
+            slideshowcontrols_popout.visible = false
         loader.elementClosed("slideshowcontrols")
     }
 

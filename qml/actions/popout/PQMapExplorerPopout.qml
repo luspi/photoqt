@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: mapexplorer_window
 
     //: Window title
-    title: qsTranslate("actions", "Map Explorer")
+    title: qsTranslate("actions", "Map Explorer") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.mapexplorerGeometry
     isMax: PQCWindowGeometry.mapexplorerMaximized
@@ -39,6 +39,8 @@ PQTemplatePopout {
 
     minimumWidth: 800
     minimumHeight: 600
+
+    modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit

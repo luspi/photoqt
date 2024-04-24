@@ -45,10 +45,21 @@ Item {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
     enabled: visible
+
+    onOpacityChanged: {
+        if(opacity > 0 && !isPopout)
+            toplevel.titleOverride = qsTranslate("actions", "Map Explorer") + " | PhotoQt"
+        else if(opacity == 0)
+            toplevel.titleOverride = ""
+    }
 
     property bool finishShow: false
 
@@ -299,10 +310,9 @@ Item {
 
         isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
 
-        if(isPopout)
-            mapexplorer_window.show()
-
         opacity = 1
+        if(popoutWindowUsed)
+            mapexplorer_window.visible = true
 
         showExplorerData()
 
@@ -338,15 +348,15 @@ Item {
 
     function hideExplorer() {
 
-        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerKeepOpen)
+        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal)
             return
+
+        opacity = 0
+        if(popoutWindowUsed)
+            mapexplorer_window.visible = false
 
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutMapExplorer })
 
-        if(isPopout)
-            mapexplorer_window.close()
-        else
-            opacity = 0
         loader.elementClosed("mapexplorer")
 
     }

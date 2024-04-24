@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: filerename_popout
 
     //: Window title
-    title: qsTranslate("filemanagement", "Rename file")
+    title: qsTranslate("filemanagement", "Rename file") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.filerenameGeometry
     isMax: PQCWindowGeometry.filerenameMaximized

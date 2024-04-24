@@ -30,7 +30,7 @@ PQTemplatePopout {
     id: mapcurrent_popout
 
     //: Window title
-    title: qsTranslate("mapcurrent", "Current location")
+    title: qsTranslate("mapcurrent", "Current location") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.mapcurrentGeometry
     isMax: PQCWindowGeometry.mapcurrentMaximized

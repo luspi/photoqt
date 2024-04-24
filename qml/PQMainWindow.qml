@@ -46,7 +46,10 @@ Window {
 
     color: "transparent"
 
-    title: (PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt Image Viewer"
+    property string titleOverride: ""
+    title: titleOverride!="" ?
+               titleOverride :
+               ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt")
 
     minimumWidth: 300
     minimumHeight: 200

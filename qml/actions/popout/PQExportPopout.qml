@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: export_popout
 
     //: Window title
-    title: qsTranslate("actions", "Export image")
+    title: qsTranslate("actions", "Export image") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.exportGeometry
     isMax: PQCWindowGeometry.exportMaximized

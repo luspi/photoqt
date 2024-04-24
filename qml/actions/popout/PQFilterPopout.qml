@@ -29,7 +29,7 @@ PQTemplatePopout {
     id: filter_popout
 
     //: Window title
-    title: qsTranslate("filter", "Filter images in current directory")
+    title: qsTranslate("filter", "Filter images in current directory") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.filterGeometry
     isMax: PQCWindowGeometry.filterMaximized

@@ -30,7 +30,7 @@ PQTemplatePopout {
     id: mainmenu_popout
 
     //: Window title
-    title: qsTranslate("actions", "Main Menu")
+    title: qsTranslate("actions", "Main Menu") + " | PhotoQt"
 
     geometry: PQCWindowGeometry.mainmenuGeometry
     isMax: PQCWindowGeometry.mainmenuMaximized

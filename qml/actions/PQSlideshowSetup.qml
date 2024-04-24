@@ -37,7 +37,7 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutSlideshowSetup
     forcePopout: PQCWindowGeometry.slideshowsetupForcePopout
     shortcut: "__slideshow"
-    title: qsTranslate("slideshow", "Slideshow setup")
+    title: qsTranslate("slideshow", "Slideshow setup") + " | PhotoQt"
 
     //: Written on a clickable button
     button1.text: qsTranslate("slideshow", "Start slideshow")
@@ -620,8 +620,8 @@ PQTemplateFullscreen {
         }
 
         opacity = 1
-        if(popout)
-            slideshowsetup_popout.show()
+        if(popoutWindowUsed)
+            slideshowsetup_popout.visible = true
 
         var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
@@ -652,6 +652,8 @@ PQTemplateFullscreen {
 
     function hide() {
         opacity = 0
+        if(popoutWindowUsed)
+            slideshowsetup_popout.visible = false
         loader.elementClosed(thisis)
     }
 

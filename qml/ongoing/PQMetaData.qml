@@ -80,6 +80,10 @@ Rectangle {
     property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
     property bool windowSizeOkay: true
 
+    // this is set to true/false by the popout window
+    // this is a way to reliably detect whether it is used
+    property bool popoutWindowUsed: false
+
     onSetVisibleChanged: {
         if(!setVisible)
             menu.item.dismiss()
@@ -689,8 +693,8 @@ Rectangle {
                     if(!PQCSettings.metadataElementFloating)
                         setVisible = !setVisible
 
-                    if(PQCSettings.interfacePopoutMetadata)
-                        metadata_popout.show()
+                    if(popoutWindowUsed)
+                        metadata_popout.visible = true
                 }
             }
 
@@ -699,6 +703,8 @@ Rectangle {
     }
 
     function hideMetaData() {
+        if(popoutWindowUsed)
+            metadata_popout.visible = false
         metadata_top.setVisible = false
     }
 
