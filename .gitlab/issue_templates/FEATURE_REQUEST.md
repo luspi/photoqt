@@ -17,3 +17,7 @@ Thank you for your suggestion or feature request. Please fill out as much as pos
 ## Example Image
 
 (If your submission relates to a specific image format or type, please include an example image.)
+
+## Comments
+
+(Anything else you want to add to this request.)

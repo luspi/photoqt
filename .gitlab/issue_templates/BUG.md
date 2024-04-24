@@ -21,3 +21,7 @@ Thank you for reporting a bug! Please fill in as much of the information below a
 ## Example Image
 
 (If the bug relates to displaying some image or some specific image features please include an example image in your report.)
+
+## Comments
+
+(Anything else you want to add to this report.)
