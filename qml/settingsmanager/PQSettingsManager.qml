@@ -848,7 +848,7 @@ PQTemplateFullscreen {
 
     function show() {
         opacity = 1
-        if(settingsmanager_window)
+        if(popoutWindowUsed)
             settingsmanager_window.visible = true
 
         if(settingsloader.status === Loader.Ready)
@@ -859,7 +859,7 @@ PQTemplateFullscreen {
     function hide() {
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
-        if(settingsmanager_window)
+        if(popoutWindowUsed)
             settingsmanager_window.visible = false
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
