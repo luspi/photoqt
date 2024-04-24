@@ -805,7 +805,7 @@ Item {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
         }
-        onDoubleClicked: (mouse) => {
+        onMouseDoubleClicked: (mouse) => {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }

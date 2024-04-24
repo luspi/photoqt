@@ -234,6 +234,12 @@ Rectangle {
                         onClicked: {
                             clickOnImage(maindeleg.latitude, maindeleg.longitude)
                         }
+
+                        doubleClickThreshold: 200
+                        onMouseDoubleClicked: {
+                            PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath
+                        }
+
                     }
 
                 }

@@ -39,7 +39,10 @@ MouseArea {
 
     property int doubleClickThreshold: 0
 
-    signal doubleClicked(var mouse)
+    // there is also a built-in doubleClicked signal
+    // our custom signal allows for control of the threshold
+    // and also prevents a normal click from firing WHEN a nonzero threshold is set
+    signal mouseDoubleClicked(var mouse)
 
     onPressed: (mouse) => {
         if(mouse.button === Qt.LeftButton) {
@@ -47,7 +50,7 @@ MouseArea {
                 if(doubleClickTimer.running) {
                     doubleClickTimer.stop()
                     if(Math.abs(mouse.x - doubleClickTimer.firstClick.x) < 50 && Math.abs(mouse.y - doubleClickTimer.firstClick.y) < 50)
-                        tooltip_top.doubleClicked(mouse)
+                        tooltip_top.mouseDoubleClicked(mouse)
                     mouse.accepted = false
                 } else {
                     doubleClickTimer.firstClick = Qt.point(mouse.x, mouse.y)

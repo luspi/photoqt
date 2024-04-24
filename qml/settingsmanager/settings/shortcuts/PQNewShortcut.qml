@@ -224,7 +224,7 @@ Rectangle {
 
             }
 
-            onDoubleClicked: (mouse) => {
+            onMouseDoubleClicked: (mouse) => {
                 ignoreSingleBecauseDouble = true
                 pressedEventInProgress = false
                 keyComboMods = []
