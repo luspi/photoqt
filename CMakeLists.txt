@@ -71,18 +71,6 @@ if(QTPDF)
     endif()
 endif()
 
-find_program(QMAKE_EXECUTABLE NAMES qmake6 HINTS ${QTDIR} ENV QTDIR PATH_SUFFIXES bin)
-execute_process(COMMAND ${QMAKE_EXECUTABLE} -query QT_VERSION OUTPUT_VARIABLE QT_VERSION)
-
-if(QT_VERSION VERSION_GREATER 6.6)
-    if(VIDEO_MPV)
-        message("** MPV SUPPORT FOR QT 6.7+ IS CURRENTLY NOT AVAILABLE")
-        message("** QT'S NATIVE VIDEO SUPPORT WILL BE ENABLED INSTEAD")
-        set(VIDEO_MPV OFF)
-        set(VIDEO_QT ON)
-    endif()
-endif()
-
 ################################
 #### FIND REQUIRED PACKAGES ####
 ################################
@@ -90,6 +78,15 @@ endif()
 find_package(Qt6 6.2 REQUIRED COMPONENTS Quick Widgets Sql Core Svg Concurrent Multimedia PrintSupport DBus LinguistTools)
 if(TESTING)
     find_package(Qt6 6.2 REQUIRED COMPONENTS Test)
+endif()
+
+if(Qt6_VERSION VERSION_GREATER_EQUAL 6.7)
+    if(VIDEO_MPV)
+        message("** MPV SUPPORT FOR QT 6.7+ IS CURRENTLY NOT AVAILABLE")
+        message("** QT'S NATIVE VIDEO SUPPORT WILL BE ENABLED INSTEAD")
+        set(VIDEO_MPV OFF)
+        set(VIDEO_QT ON)
+    endif()
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
