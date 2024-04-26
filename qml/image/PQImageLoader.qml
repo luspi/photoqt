@@ -59,6 +59,7 @@ Item {
     }
 
     // some signals
+    signal zoomInForKenBurns()
     signal zoomActualWithoutAnimation()
     signal zoomResetWithoutAnimation()
     signal rotationResetWithoutAnimation()
@@ -254,7 +255,16 @@ Item {
         contentWidth: flickable_content.width
         contentHeight: flickable_content.height
 
-        interactive: !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere
+        rebound: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
+                duration: PQCNotify.slideshowRunning ? 0 : 250
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        interactive: !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere && !PQCNotify.slideshowRunning
 
         contentX: loader_top.imagePosX
         onContentXChanged: {
@@ -356,6 +366,8 @@ Item {
                 property real prevH: loader_top.defaultHeight
                 property real prevScale: scale
                 property bool startupScale: false
+
+                property real kenBurnsZoomFactor: loader_top.defaultScale
 
                 rotation: 0
                 scale: loader_top.defaultScale
@@ -612,6 +624,37 @@ Item {
                         scaleAnimation.stop()
 
                         image_wrapper.scale = 1
+                        loader_top.imageScale = image_wrapper.scale
+
+                    }
+
+                    function onZoomInForKenBurns() {
+
+                        // this function might be called more than once
+                        // this check makes sure that we only do this once
+                        if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
+                            return
+
+                        scaleAnimation.stop()
+
+                        // figure out whether the image is much wider or much higher than the other dimension
+
+                        var facW = 1
+                        var facH = 1
+
+                        if(flickable.contentWidth > 0)
+                            facW = image_top.width/flickable.contentWidth
+                        if(flickable.contentHeight > 0)
+                            facH = image_top.height/flickable.contentHeight
+
+                        // small images are not scaled as much as larger ones
+                        if(loader_top.defaultScale > 0.99)
+                            image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.05
+                        else
+                            image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.2
+
+                        // set scale factors
+                        image_wrapper.scale = image_wrapper.kenBurnsZoomFactor
                         loader_top.imageScale = image_wrapper.scale
 
                     }
@@ -951,12 +994,16 @@ Item {
         property: "opacity"
         from: 0
         to: 1
-        duration: PQCSettings.imageviewAnimationDuration*100
+        duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
         onFinished: {
             if(deleg.opacity < 1e-6) {
 
                 // stop any possibly running video
                 loader_top.stopVideoAndReset()
+
+                // stop any ken burns animations if running
+                if(loader_kenburns.item != null)
+                    loader_kenburns.item.stopAni()
 
                 deleg.visible = false
 
@@ -1077,6 +1124,13 @@ Item {
         }
     }
 
+    Loader {
+        id: loader_kenburns
+        active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
+        sourceComponent:
+            PQImageLoaderKenBurns { }
+    }
+
     Timer {
         id: selectNewRandomAnimation
         interval: 50
@@ -1100,7 +1154,12 @@ Item {
         if(anim === "random")
             anim = image_top.randomAnimation
 
-        if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
+        // if a slideshow is running with the ken burns effect
+        // then we need to do some special handling
+        if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
+
+            zoomInForKenBurns()
+            flickable.returnToBounds()
 
             opacityAnimation.stop()
 
@@ -1110,48 +1169,62 @@ Item {
 
             opacityAnimation.restart()
 
-        } else if(anim === "x") {
+        } else {
 
-            xAnimation.stop()
+            if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
-            // the from value depends on whether we go forwards or backwards in the folder
-            xAnimation.from = -width
-            if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                xAnimation.from = width
+                opacityAnimation.stop()
 
-            xAnimation.to = 0
+                deleg.opacity = 0
+                opacityAnimation.from = 0
+                opacityAnimation.to = 1
 
-            xAnimation.restart()
+                opacityAnimation.restart()
 
-        } else if(anim === "y") {
+            } else if(anim === "x") {
 
-            yAnimation.stop()
+                xAnimation.stop()
 
-            // the from value depends on whether we go forwards or backwards in the folder
-            yAnimation.from = -height
-            if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                yAnimation.from = height
+                // the from value depends on whether we go forwards or backwards in the folder
+                xAnimation.from = -width
+                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                    xAnimation.from = width
 
-            yAnimation.to = 0
+                xAnimation.to = 0
 
-            yAnimation.restart()
+                xAnimation.restart()
 
-        } else if(anim === "rotation") {
+            } else if(anim === "y") {
 
-            rotAnimation.stop()
+                yAnimation.stop()
 
-            rotAnimation_rotation.from = -180
-            rotAnimation_rotation.to = 0
+                // the from value depends on whether we go forwards or backwards in the folder
+                yAnimation.from = -height
+                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                    yAnimation.from = height
 
-            if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
-                rotAnimation_rotation.from = 180
+                yAnimation.to = 0
+
+                yAnimation.restart()
+
+            } else if(anim === "rotation") {
+
+                rotAnimation.stop()
+
+                rotAnimation_rotation.from = -180
                 rotAnimation_rotation.to = 0
+
+                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                    rotAnimation_rotation.from = 180
+                    rotAnimation_rotation.to = 0
+                }
+
+                rotAnimation_opacity.from = 0
+                rotAnimation_opacity.to = 1
+
+                rotAnimation.restart()
+
             }
-
-            rotAnimation_opacity.from = 0
-            rotAnimation_opacity.to = 1
-
-            rotAnimation.restart()
 
         }
 
@@ -1168,13 +1241,18 @@ Item {
         image_top.currentRotation = loader_top.imageRotation
         image_top.currentResolution = loader_top.imageResolution
 
-        if(PQCSettings.imageviewAnimationType === "random")
-            selectNewRandomAnimation.restart()
+        // these are only done if we are not in a slideshow with the ken burns effect
+        if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-        if(PQCSettings.imageviewAlwaysActualSize)
-            image_top.zoomActual()
+            if(PQCSettings.imageviewAnimationType === "random")
+                selectNewRandomAnimation.restart()
 
-        loader_top.loadScaleRotation()
+            if(PQCSettings.imageviewAlwaysActualSize)
+                image_top.zoomActual()
+
+            loader_top.loadScaleRotation()
+
+        }
 
         loader_top.imageFullyShown = true
 

@@ -32,6 +32,7 @@ Item {
     id: slideshowhandler_top
 
     property string backupAnimType: ""
+    property int backupAnimSpeed: 0
     property var shuffledIndices: []
     property int shuffledCurrentIndex: -1
     property bool running: false
@@ -161,8 +162,16 @@ Item {
     function show() {
 
         backupAnimType = PQCSettings.imageviewAnimationType
+        backupAnimSpeed = PQCSettings.imageviewAnimationDuration
 
         PQCSettings.imageviewAnimationType = PQCSettings.slideshowTypeAnimation
+        PQCSettings.imageviewAnimationDuration = PQCSettings.slideshowImageTransition
+
+        // This effect only exists for slideshow and not for normal viewing
+        // Thus we need to make sure it is not set to the imageviewAnimationType
+        // as otherwise old images will not be removed from view
+        if(PQCSettings.imageviewAnimationType === "kenburns")
+            PQCSettings.imageviewAnimationType = "opacity"
 
         var sortby = 1
         if(PQCSettings.imageviewSortImagesBy === "name")
@@ -219,6 +228,11 @@ Item {
         audioplayer.stop()
         loader.elementClosed("slideshowhandler")
 
+        PQCSettings.imageviewAnimationType = backupAnimType
+        PQCSettings.imageviewAnimationDuration = backupAnimSpeed
+
+        image.zoomReset()
+
         if(tmp)
             image.playPauseAnimationVideo()
 
@@ -229,7 +243,7 @@ Item {
         if(switchedManually)
             ignoreVideoSwitcher = true
 
-        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
+        switcher.stop()
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex > 0)
@@ -250,14 +264,15 @@ Item {
 
         }
 
+        switcher.restart()
+        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
+
     }
 
     function loadNextImage(switchedManually = false) {
 
         if(switchedManually)
             ignoreVideoSwitcher = true
-
-        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex < PQCFileFolderModel.countMainView-1)
@@ -277,6 +292,9 @@ Item {
                 hide()
 
         }
+
+        switcher.restart()
+        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
     }
 

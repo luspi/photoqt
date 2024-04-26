@@ -109,8 +109,10 @@ Flickable {
                         }
                         PQComboBox {
                             id: anicombo
-                                    //: This is referring to an in/out animation of images
-                            model: [qsTranslate("settingsmanager", "opacity"),
+                                    //: A special slideshow effect: https://en.wikipedia.org/wiki/Ken_Burns_effect
+                            model: [qsTranslate("slideshow", "Ken Burns effect"),
+                                    //: This is referring to the in/out animation of images during slideshows
+                                    qsTranslate("slideshow", "opacity"),
                                     //: This is referring to an in/out animation of images
                                     qsTranslate("settingsmanager", "along x-axis"),
                                     //: This is referring to an in/out animation of images
@@ -123,7 +125,7 @@ Flickable {
                                     qsTranslate("settingsmanager", "implosion"),
                                     //: This is referring to an in/out animation of images
                                     qsTranslate("settingsmanager", "choose one at random")]
-                            lineBelowItem: [5]
+                            lineBelowItem: [0,6]
                             onCurrentIndexChanged: checkDefault()
                         }
                     }
@@ -581,7 +583,7 @@ Flickable {
 
         anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15)
 
-        var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+        var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         anicombo.loadAndSetDefault(animArray.indexOf(PQCSettings.slideshowTypeAnimation))
         if(anicombo.currentIndex === -1) anicombo.loadAndSetDefault(0)
 
@@ -611,7 +613,7 @@ Flickable {
 
     function applyChanges() {
 
-        var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+        var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex]
 
         PQCSettings.slideshowTime = interval.value

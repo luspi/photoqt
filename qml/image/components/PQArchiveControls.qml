@@ -38,6 +38,7 @@ Item {
 
         active: PQCSettings.filetypesArchiveControls&&!PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning
 
+        sourceComponent:
         Rectangle {
 
             id: controlitem

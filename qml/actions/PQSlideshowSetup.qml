@@ -115,8 +115,10 @@ PQTemplateFullscreen {
 
             PQComboBox {
                 id: animtype_combo
-                //: This is referring to the in/out animation of images during slideshows
-                model: [qsTranslate("slideshow", "opacity"),
+                        //: A special slideshow effect: https://en.wikipedia.org/wiki/Ken_Burns_effect
+                model: [qsTranslate("slideshow", "Ken Burns effect"),
+                        //: This is referring to the in/out animation of images during slideshows
+                        qsTranslate("slideshow", "opacity"),
                         //: This is referring to the in/out animation of images during slideshows
                         qsTranslate("slideshow", "along x-axis"),
                         //: This is referring to the in/out animation of images during slideshows
@@ -129,7 +131,7 @@ PQTemplateFullscreen {
                         qsTranslate("slideshow", "implosion"),
                         //: This is referring to the in/out animation of images
                         qsTranslate("slideshow", "choose one at random")]
-                lineBelowItem: [5]
+                lineBelowItem: [0,6]
             }
 
         },
@@ -170,7 +172,7 @@ PQTemplateFullscreen {
                     PQSlider {
                         id: transition_slider
                         height: trans_txt.height
-                        from: 0
+                        from: 1
                         to: 15
                         tooltip: ""
                         extraSmall: true
@@ -623,8 +625,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             slideshowsetup_popout.visible = true
 
-        var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
+        var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         animtype_combo.currentIndex = animArray.indexOf(PQCSettings.slideshowTypeAnimation)
         if(animtype_combo.currentIndex === -1) animtype_combo.currentIndex = 0
 
@@ -659,7 +660,7 @@ PQTemplateFullscreen {
 
     function startSlideshow() {
 
-        var animArray = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+        var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
 
         PQCSettings.slideshowTime = interval_slider.value

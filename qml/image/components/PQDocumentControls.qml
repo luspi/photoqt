@@ -38,6 +38,7 @@ Item {
 
         active: PQCSettings.filetypesDocumentControls&&!PQCFileFolderModel.isPDF && !PQCNotify.slideshowRunning
 
+        sourceComponent:
         Rectangle {
 
             id: controlitem

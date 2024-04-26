@@ -102,7 +102,7 @@ Rectangle {
         z: image_top.curZ
     }
 
-    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height))
+    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height)) && !PQCNotify.slideshowRunning
     property bool minimapActive: false
     property bool containsMouse: movemouse.containsMouse||minimapmouse.containsMouse||navmouse.containsMouse
 

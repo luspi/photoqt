@@ -46,6 +46,7 @@ Item {
 
         active: PQCSettings.filetypesAnimatedControls && !PQCNotify.slideshowRunning
 
+        sourceComponent:
         Rectangle {
 
             id: controlitem
