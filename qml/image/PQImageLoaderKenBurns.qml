@@ -47,11 +47,11 @@ Item {
         onStarted:
             flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
 
-        // animate to the right
+        // animate from middle to the right
         NumberAnimation {
             target: flickable;
             property: "contentX";
-            from: 0
+            from: -(flickable.width-flickable.contentWidth)/2
             to: -(flickable.width-flickable.contentWidth)
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
@@ -62,6 +62,15 @@ Item {
             property: "contentX";
             from: -(flickable.width-flickable.contentWidth)
             to: 0
+            duration: Math.abs(from-to)*aniDeleg.aniSpeed
+        }
+
+        // animate from right to the middle
+        NumberAnimation {
+            target: flickable;
+            property: "contentX";
+            from: 0
+            to: -(flickable.width-flickable.contentWidth)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -79,11 +88,11 @@ Item {
         onStarted:
             flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
 
-        // animate to the left
+        // animate from middle to the left
         NumberAnimation {
             target: flickable;
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)
+            from: -(flickable.width-flickable.contentWidth)/2
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
@@ -94,6 +103,15 @@ Item {
             property: "contentX";
             from: 0
             to: -(flickable.width-flickable.contentWidth)
+            duration: Math.abs(from-to)*aniDeleg.aniSpeed
+        }
+
+        // animate from right to the middle
+        NumberAnimation {
+            target: flickable;
+            property: "contentX";
+            from: -(flickable.width-flickable.contentWidth)
+            to: -(flickable.width-flickable.contentWidth)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -111,11 +129,11 @@ Item {
         onStarted:
             flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 })
 
-        // animate to the bottom
+        // animate from middle to the bottom
         NumberAnimation {
             target: flickable;
             property: "contentY";
-            from: 0
+            from: -(flickable.height-flickable.contentHeight)/2
             to: -(flickable.height-flickable.contentHeight)
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
@@ -126,6 +144,15 @@ Item {
             property: "contentY";
             from: -(flickable.height-flickable.contentHeight)
             to: 0
+            duration: Math.abs(from-to)*aniDeleg.aniSpeed
+        }
+
+        // animate from bottom to the middle
+        NumberAnimation {
+            target: flickable;
+            property: "contentY";
+            from: 0
+            to: -(flickable.height-flickable.contentHeight)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -143,11 +170,11 @@ Item {
         onStarted:
             flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 })
 
-        // animate to the top
+        // animate from middle to the top
         NumberAnimation {
             target: flickable;
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)
+            from: -(flickable.height-flickable.contentHeight)/2
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
@@ -158,6 +185,15 @@ Item {
             property: "contentY";
             from: 0
             to: -(flickable.height-flickable.contentHeight)
+            duration: Math.abs(from-to)*aniDeleg.aniSpeed
+        }
+
+        // animate from bottom to the middle
+        NumberAnimation {
+            target: flickable;
+            property: "contentY";
+            from: -(flickable.height-flickable.contentHeight)
+            to: -(flickable.height-flickable.contentHeight)/2
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -307,16 +343,29 @@ Item {
         var fac = image_wrapper.width/image_wrapper.height
 
         // image is much higher than wide
-        if(fac < 0.75)
+        if(fac < 0.5)
             aniDeleg.aniIndex = 3 + deleg.itemIndex%3
 
         // image is much wider than high
-        else if(fac > 1.33)
+        else if(fac > 2)
             aniDeleg.aniIndex = deleg.itemIndex%3
 
         // more "normal" image
         else
             aniDeleg.aniIndex = deleg.itemIndex%6
+    }
+
+    // after switched away from this image we repeatedly check whether the image is still visible
+    // once it is not we finally stop the animation
+    Timer {
+        id: stopAfterFadeOut
+        interval: PQCSettings.imageviewAnimationDuration*100
+        onTriggered: {
+            if(deleg.opacity > 1e-6)
+                stopAfterFadeOut.restart()
+            else
+                aniDeleg.stopAni()
+        }
     }
 
     // manage the animation
@@ -326,7 +375,7 @@ Item {
         if(PQCFileFolderModel.currentIndex !== deleg.itemIndex || !PQCNotify.slideshowRunning ||
                 PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
                 loader_top.defaultScale >= 1) {
-            aniDeleg.stopAni()
+            stopAfterFadeOut.restart()
             return
         }
 
