@@ -368,6 +368,26 @@ Item {
         }
     }
 
+    // This is a safetry check to make sure we don't ever get stuck
+    // If a slideshow is running with this effect then AN animation should always be running
+    Timer {
+        interval: 250
+        running: PQCNotify.slideshowRunning
+        repeat: true
+        onTriggered: {
+            if(loader_slideshowhandler.item !== null &&
+                    loader_slideshowhandler.item.running &&
+                    PQCNotify.slideshowRunning &&
+                    PQCSettings.slideshowTypeAnimation === "kenburns") {
+                if(!kb_lefttorightani.running && !kb_righttoleftani.running &&
+                        !kb_toptobottomani.running && !kb_bottomtotopani.running &&
+                        !kb_zoominout.running && !kb_zoomoutin.running) {
+                    manageAni()
+                }
+            }
+        }
+    }
+
     // manage the animation
     function manageAni() {
 
