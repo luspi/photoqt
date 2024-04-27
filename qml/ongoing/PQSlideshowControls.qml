@@ -287,12 +287,12 @@ Item {
             sourceSize: Qt.size(width, height)
 
             source: volumeslider.value<1 ?
-                        "image://svg/:/white/speaker_mute.svg" :
+                        "image://svg/:/white/volume_mute.svg" :
                         (volumeslider.value <= 40 ?
-                             "image://svg/:/white/speaker_low.svg" :
+                             "image://svg/:/white/volume_low.svg" :
                              (volumeslider.value <= 80 ?
-                                  "image://svg/:/white/speaker_medium.svg" :
-                                  "image://svg/:/white/speaker_high.svg"))
+                                  "image://svg/:/white/volume_medium.svg" :
+                                  "image://svg/:/white/volume_high.svg"))
 
         }
 
