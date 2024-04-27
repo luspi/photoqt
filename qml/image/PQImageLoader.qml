@@ -1259,21 +1259,26 @@ Item {
     // hide the image
     function hideImage() {
 
-        if(loader_top.imageFullyShown && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
-                                     PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
-            var vals = [loader_top.imagePosX,
-                        loader_top.imagePosY,
-                        loader_top.imageScale,
-                        loader_top.imageRotation,
-                        loader_top.imageMirrorH,
-                        loader_top.imageMirrorV]
-            if(PQCSettings.imageviewRememberZoomRotationMirror)
-                image_top.rememberChanges[loader_top.imageSource] = vals
-            if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                image_top.reuseChanges = vals
-        } else
-            // don't delete reuseChanges here, we want to keep those
-            delete image_top.rememberChanges[loader_top.imageSource]
+        // ignore anything that happened during a slideshow
+        if(!PQCNotify.slideshowRunning) {
+
+            if(loader_top.imageFullyShown && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
+                                         PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
+                var vals = [loader_top.imagePosX,
+                            loader_top.imagePosY,
+                            loader_top.imageScale,
+                            loader_top.imageRotation,
+                            loader_top.imageMirrorH,
+                            loader_top.imageMirrorV]
+                if(PQCSettings.imageviewRememberZoomRotationMirror)
+                    image_top.rememberChanges[loader_top.imageSource] = vals
+                if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
+                    image_top.reuseChanges = vals
+            } else
+                // don't delete reuseChanges here, we want to keep those
+                delete image_top.rememberChanges[loader_top.imageSource]
+
+        }
 
         loader_top.imageFullyShown = false
 
