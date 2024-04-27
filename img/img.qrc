@@ -107,5 +107,6 @@
         <file>white/padlock.svg</file>
         <file>white/autoplay.svg</file>
         <file>white/autoplay_off.svg</file>
+        <file>white/volume_noaudio.svg</file>
     </qresource>
 </RCC>

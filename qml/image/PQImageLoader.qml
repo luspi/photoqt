@@ -985,8 +985,6 @@ Item {
 
     }
 
-    PQVideoControls { id: videocontrols}
-
     // animation to show the image
     PropertyAnimation {
         id: opacityAnimation

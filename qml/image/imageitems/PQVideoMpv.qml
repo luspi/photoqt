@@ -27,6 +27,8 @@ import PQCNotify
 import PQCScriptsFilesPaths
 import PQCMPVObject
 
+import "../components"
+
 // The MPV object needs to be wrapped in an item
 // and be as empty as shown below
 // otherwise a separate mpv window will open up
@@ -284,5 +286,9 @@ Item {
             Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
+
+    PQVideoControls {
+        id: controls
+    }
 
 }

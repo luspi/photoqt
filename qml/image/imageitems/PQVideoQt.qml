@@ -27,6 +27,8 @@ import PQCScriptsFilesPaths
 import PQCScriptsConfig
 import PQCNotify
 
+import "../components"
+
 Item {
 
     id: videotop
@@ -248,5 +250,9 @@ Item {
             Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
+
+    PQVideoControls {
+        id: controls
+    }
 
 }

@@ -32,11 +32,9 @@ Item {
 
     id: top
 
-    property bool pressed: false
-
     Loader {
 
-        active: PQCSettings.filetypesArchiveControls&&!PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning
+        active: PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning
 
         sourceComponent:
         Rectangle {
