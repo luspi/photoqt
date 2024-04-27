@@ -167,8 +167,10 @@ Item {
     Timer {
         id: timer_busyloading
         interval: 500
-        onTriggered:
-            busyloading.showBusy()
+        onTriggered: {
+            if(!PQCNotify.slideshowRunning)
+                busyloading.showBusy()
+        }
     }
 
     PQWorking {
