@@ -419,9 +419,6 @@ Item {
                             loader_top.defaultScale = 0.99999999*tmp
                             image_top.defaultScale = loader_top.defaultScale
                             deleg.hasBeenSetup = true
-                            showImage()
-                            resetDefaults.triggered()
-                            loader_top.moveViewToCenter()
                         }
                     } else if(PQCFileFolderModel.currentIndex === index)
                         timer_busyloading.restart()
@@ -1141,6 +1138,9 @@ Item {
     // show the image
     function showImage() {
 
+        // this needs to be checked for early as we set currentlyVisibleIndex in a few lines
+        var noPreviousImage = (image_top.currentlyVisibleIndex===-1)
+
         PQCNotify.barcodeDisplayed = false
 
         loader_top.imageFullyShown = false
@@ -1148,9 +1148,6 @@ Item {
         image_top.currentlyVisibleIndex = deleg.itemIndex
         image_top.imageFinishedLoading(deleg.itemIndex)
 
-        var anim = PQCSettings.imageviewAnimationType
-        if(anim === "random")
-            anim = image_top.randomAnimation
 
         // if a slideshow is running with the ken burns effect
         // then we need to do some special handling
@@ -1169,58 +1166,72 @@ Item {
 
         } else {
 
-            if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
+            // don't pipe showing animation through the property animators
+            // when no animation is set or no previous image has been shown
+            if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage) {
 
-                opacityAnimation.stop()
+                deleg.opacity = 1
 
-                deleg.opacity = 0
-                opacityAnimation.from = 0
-                opacityAnimation.to = 1
+            } else {
 
-                opacityAnimation.restart()
+                var anim = PQCSettings.imageviewAnimationType
+                if(anim === "random")
+                    anim = image_top.randomAnimation
 
-            } else if(anim === "x") {
+                if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
-                xAnimation.stop()
+                    opacityAnimation.stop()
 
-                // the from value depends on whether we go forwards or backwards in the folder
-                xAnimation.from = -width
-                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                    xAnimation.from = width
+                    deleg.opacity = 0
+                    opacityAnimation.from = 0
+                    opacityAnimation.to = 1
 
-                xAnimation.to = 0
+                    opacityAnimation.restart()
 
-                xAnimation.restart()
+                } else if(anim === "x") {
 
-            } else if(anim === "y") {
+                    xAnimation.stop()
 
-                yAnimation.stop()
+                    // the from value depends on whether we go forwards or backwards in the folder
+                    xAnimation.from = -width
+                    if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                        xAnimation.from = width
 
-                // the from value depends on whether we go forwards or backwards in the folder
-                yAnimation.from = -height
-                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                    yAnimation.from = height
+                    xAnimation.to = 0
 
-                yAnimation.to = 0
+                    xAnimation.restart()
 
-                yAnimation.restart()
+                } else if(anim === "y") {
 
-            } else if(anim === "rotation") {
+                    yAnimation.stop()
 
-                rotAnimation.stop()
+                    // the from value depends on whether we go forwards or backwards in the folder
+                    yAnimation.from = -height
+                    if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                        yAnimation.from = height
 
-                rotAnimation_rotation.from = -180
-                rotAnimation_rotation.to = 0
+                    yAnimation.to = 0
 
-                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
-                    rotAnimation_rotation.from = 180
+                    yAnimation.restart()
+
+                } else if(anim === "rotation") {
+
+                    rotAnimation.stop()
+
+                    rotAnimation_rotation.from = -180
                     rotAnimation_rotation.to = 0
+
+                    if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                        rotAnimation_rotation.from = 180
+                        rotAnimation_rotation.to = 0
+                    }
+
+                    rotAnimation_opacity.from = 0
+                    rotAnimation_opacity.to = 1
+
+                    rotAnimation.restart()
+
                 }
-
-                rotAnimation_opacity.from = 0
-                rotAnimation_opacity.to = 1
-
-                rotAnimation.restart()
 
             }
 
