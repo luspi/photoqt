@@ -1123,7 +1123,7 @@ Item {
         id: loader_kenburns
         active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
         sourceComponent:
-            PQImageLoaderKenBurns { }
+            PQKenBurnsSlideshowEffect { }
     }
 
     Timer {
