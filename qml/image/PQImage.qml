@@ -104,6 +104,8 @@ Item {
     signal documentJump(var leftright)
     signal archiveJump(var leftright)
 
+    signal animatePhotoSpheres(var direction)
+
     signal imageFinishedLoading(var index)
     signal reloadImage()
 

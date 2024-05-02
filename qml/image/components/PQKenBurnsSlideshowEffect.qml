@@ -340,6 +340,13 @@ Item {
     // calculate the animation to be used for this image
     function figureOutAniIndex() {
 
+        if(PQCNotify.showingPhotoSphere) {
+            image_top.animatePhotoSpheres(deleg.itemIndex%2)
+            return
+        }
+
+        image_top.animatePhotoSpheres(-1)
+
         var fac = image_wrapper.width/image_wrapper.height
 
         // image is much higher than wide

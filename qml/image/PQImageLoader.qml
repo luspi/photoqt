@@ -1140,7 +1140,8 @@ Item {
         // then we need to do some special handling
         if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-            zoomInForKenBurns()
+            if(!PQCNotify.showingPhotoSphere)
+                zoomInForKenBurns()
             flickable.returnToBounds()
 
             opacityAnimation.stop()

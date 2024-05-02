@@ -132,17 +132,24 @@ PQCPhotoSphere {
         target: image_top
 
         function onZoomIn(wheelDelta) {
-            zoom("in")
+            if(image_top.currentlyVisibleIndex === deleg.itemIndex)
+                zoom("in")
         }
         function onZoomOut(wheelDelta) {
-            zoom("out")
+            if(image_top.currentlyVisibleIndex === deleg.itemIndex)
+                zoom("out")
         }
         function onZoomReset() {
-            zoom("reset")
-            moveView("reset")
+            if(image_top.currentlyVisibleIndex === deleg.itemIndex) {
+                zoom("reset")
+                moveView("reset")
+            }
         }
 
         function onMoveView(direction) {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
 
             if(direction === "left")
                 moveView("left")
@@ -159,6 +166,9 @@ PQCPhotoSphere {
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
     function zoom(dir) {
+
+        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            return
 
         animatedFieldOfView.stop()
 
@@ -179,6 +189,9 @@ PQCPhotoSphere {
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
     function moveView(dir) {
+
+        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            return
 
         if(dir === "up" || dir === "down" || dir === "reset")
             animatedElevation.stop()
@@ -213,6 +226,168 @@ PQCPhotoSphere {
 
     PQPhotoSphereControls {
         id: controls
+    }
+
+    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
+    property bool animationRunning: false
+    property int aniDirection: -1
+
+    Connections {
+        target: image_top
+
+        function onAnimatePhotoSpheres(direction) {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                return
+
+            aniDirection = direction
+
+            if(direction === 0) {
+                kb_right.stop()
+                if(kb_left.paused)
+                    kb_left.resume()
+                else
+                    kb_left.start()
+            } else if(direction === 1) {
+                kb_left.stop()
+                if(kb_right.paused)
+                    kb_right.resume()
+                else
+                    kb_right.start()
+            } else {
+                if(kb_left.running)
+                    kb_left.pause()
+                if(kb_right.running)
+                    kb_right.pause()
+            }
+
+        }
+    }
+
+    Connections {
+
+        target: image_top
+
+        function onCurrentlyVisibleIndexChanged() {
+
+            if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
+                if(kb_left.running)
+                    kb_left.pause()
+                if(kb_right.running)
+                    kb_right.pause()
+            }
+
+        }
+
+    }
+
+    // slideshow paused/resumed
+    Connections {
+
+        target: loader_slideshowhandler.item
+
+        function onRunningChanged() {
+            if(loader_slideshowhandler.item.running) {
+                if(aniDirection === 0) {
+                    kb_right.stop()
+                    if(kb_left.paused)
+                        kb_left.resume()
+                    else
+                        kb_left.start()
+                } else if(aniDirection === 1) {
+                    kb_left.stop()
+                    if(kb_right.paused)
+                        kb_right.resume()
+                    else
+                        kb_right.start()
+                } else {
+                    if(kb_left.running)
+                        kb_left.pause()
+                    if(kb_right.running)
+                        kb_right.pause()
+                }
+            } else {
+                if(kb_left.running)
+                    kb_left.pause()
+                if(kb_right.running)
+                    kb_right.pause()
+            }
+        }
+
+    }
+
+    // Animation: to left
+    SequentialAnimation {
+
+        id: kb_left
+
+        loops: Animation.Infinite
+        running: animationRunning
+
+        // animate from middle to the left
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 180
+            to: 0
+            duration: Math.abs(from-to)*aniSpeed
+        }
+
+        // animate to the right
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 0
+            to: 360
+            duration: Math.abs(from-to)*aniSpeed
+        }
+
+        // animate to the middle
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 360
+            to: 180
+            duration: Math.abs(from-to)*aniSpeed
+        }
+
+    }
+
+    // Animation: to right
+    SequentialAnimation {
+
+        id: kb_right
+
+        loops: Animation.Infinite
+        running: false
+
+        // animate from middle to the right
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 180
+            to: 360
+            duration: Math.abs(from-to)*aniSpeed
+        }
+
+        // animate to the left
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 360
+            to: 0
+            duration: Math.abs(from-to)*aniSpeed
+        }
+
+        // animate to the middle
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 0
+            to: 180
+            duration: Math.abs(from-to)*aniSpeed
+        }
+
     }
 
 }
