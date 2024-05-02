@@ -1264,6 +1264,7 @@ Item {
         }
 
         loader_top.imageFullyShown = true
+        image_top.initialLoadingFinished = true
 
     }
 

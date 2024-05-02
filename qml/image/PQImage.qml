@@ -59,6 +59,10 @@ Item {
     }
     property bool isSomeVideoLoaded: false
 
+    // this is set to true once an image is shown
+    // this is used, e.g., to detect when to start loading thumbnails
+    property bool initialLoadingFinished: false
+
     property int curZ: 0
     property real defaultScale: 1
     property real currentScale: 1

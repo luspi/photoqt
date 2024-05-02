@@ -158,7 +158,7 @@ Item {
         id: view
 
         // the model is the total image count
-        model: thumbnails_top.state==="disabled" ? 0 : PQCFileFolderModel.countMainView
+        model: thumbnails_top.state==="disabled"||!image.initialLoadingFinished ? 0 : PQCFileFolderModel.countMainView
         onModelChanged: {
             delegZ = 0
         }
