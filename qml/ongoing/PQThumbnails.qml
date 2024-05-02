@@ -691,7 +691,7 @@ Item {
         target: PQCNotify
         function onMouseMove(posx, posy) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging || PQCNotify.insidePhotoSphere) {
+            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) {
                 setVisible = false
                 return
             }

@@ -155,19 +155,6 @@ Item {
 
     }
 
-    Loader {
-        id: photosphere
-        active: PQCScriptsConfig.isPhotoSphereSupportEnabled()
-        sourceComponent:
-            Component {
-                PQPhotoSphere {
-                    z: image_top.curZ+1
-                }
-            }
-    }
-
-
-
     Timer {
         id: timer_busyloading
         interval: 500

@@ -129,15 +129,9 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(bool insidePhotoSphere READ getInsidePhotoSphere WRITE setInsidePhotoSphere NOTIFY insidePhotoSphereChanged)
-    void setInsidePhotoSphere(bool val);
-    Q_INVOKABLE bool getInsidePhotoSphere ();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool hasPhotoSphere READ getHasPhotoSphere WRITE setHasPhotoSphere NOTIFY hasPhotoSphereChanged)
-    void setHasPhotoSphere(bool val);
-    Q_INVOKABLE bool getHasPhotoSphere();
+    Q_PROPERTY(bool showingPhotoSphere READ getShowingPhotoSphere WRITE setShowingPhotoSphere NOTIFY showingPhotoSphereChanged)
+    void setShowingPhotoSphere(bool val);
+    Q_INVOKABLE bool getShowingPhotoSphere ();
 
     /******************************************************/
 
@@ -182,9 +176,8 @@ private:
         m_haveScreenshots = false;
         m_settingUpdate.clear();
         m_startupCheck = 0;
-        m_hasPhotoSphere = false;
         m_isMotionPhoto = false;
-        m_insidePhotoSphere = false;
+        m_showingPhotoSphere = false;
         m_barcodeDisplayed = false;
         m_colorProfiles.clear();
         m_whichContextMenusOpen.clear();
@@ -213,8 +206,7 @@ private:
 
     int m_startupCheck;
 
-    bool m_hasPhotoSphere;
-    bool m_insidePhotoSphere;
+    bool m_showingPhotoSphere;
     bool m_isMotionPhoto;
 
     bool m_barcodeDisplayed;
@@ -243,8 +235,7 @@ Q_SIGNALS:
     void slideshowRunningChanged();
     void faceTaggingChanged();
 
-    void insidePhotoSphereChanged();
-    void hasPhotoSphereChanged();
+    void showingPhotoSphereChanged();
     void isMotionPhotoChanged();
 
     void barcodeDisplayedChanged();

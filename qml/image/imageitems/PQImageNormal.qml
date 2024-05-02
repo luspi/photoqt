@@ -185,19 +185,6 @@ Image {
     // the code below takes care of loading special photo actions
 
     Connections {
-
-        target: PQCSettings
-
-        function onFiletypesCheckForPhotoSphereChanged() {
-            if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource)) {
-                PQCNotify.hasPhotoSphere = true
-            } else
-                PQCNotify.hasPhotoSphere = false
-        }
-
-    }
-
-    Connections {
         target: image_top
         function onCurrentlyVisibleIndexChanged() {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
@@ -217,7 +204,7 @@ Image {
         interval: PQCSettings.imageviewAnimationDuration*100
 
         // we use this trimmed down version whenever we don't use the motion photo stuff below (the photo sphere checks are part of it)
-        running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos || PQCSettings.filetypesCheckForPhotoSphere)
+        running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)
         onTriggered: {
 
             if(PQCNotify.slideshowRunning)
@@ -303,7 +290,6 @@ Image {
                         else
                             videoloader.mediaSrc = "file://" + src
                         videoloader.active = true
-                        PQCNotify.hasPhotoSphere = false
                         return
                     }
 
@@ -311,15 +297,6 @@ Image {
 
             } else
                 videoloader.mediaSrc = ""
-
-            if(PQCSettings.filetypesCheckForPhotoSphere && PQCScriptsConfig.isPhotoSphereSupportEnabled()) {
-
-                if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource)) {
-                    PQCNotify.hasPhotoSphere = true
-                } else
-                    PQCNotify.hasPhotoSphere = false
-
-            }
 
         }
 

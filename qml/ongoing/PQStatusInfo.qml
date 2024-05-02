@@ -44,7 +44,7 @@ Item {
 
     property bool movedByMouse: false
 
-    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere && PQCSettings.interfaceStatusInfoShow) ? 1 : 0
+    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging && PQCSettings.interfaceStatusInfoShow) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 

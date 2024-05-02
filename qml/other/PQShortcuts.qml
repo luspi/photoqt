@@ -427,6 +427,15 @@ Item {
 
         }
 
+        // Left/Right when archive is loaded might have special actions
+        if(PQCNotify.showingPhotoSphere && PQCSettings.filetypesPhotoSphereArrowKeys &&
+                (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
+
+            image.moveView(combo.toLowerCase())
+            return
+
+        }
+
         /***************************************/
 
         // normal shortcut action

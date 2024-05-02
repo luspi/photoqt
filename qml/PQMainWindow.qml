@@ -357,11 +357,8 @@ Window {
         else if(PQCSettings.interfaceRememberLastImage)
             fp = PQCScriptsConfig.getLastLoadedImage()
 
-        if(fp != "") {
+        if(fp != "")
             PQCFileFolderModel.fileInFolderMainView = fp
-            loader.ensureItIsReady("filedialog", loader.loadermapping["filedialog"])
-            loader_filedialog.item.loadNewPath(PQCScriptsFilesPaths.isFolder(fp) ? fp : PQCScriptsFilesPaths.getDir(fp))
-        }
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()

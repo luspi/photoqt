@@ -184,24 +184,14 @@ int PQCNotify::getStartupCheck() {
     return m_startupCheck;
 }
 
-void PQCNotify::setInsidePhotoSphere(bool val) {
-    if(val != m_insidePhotoSphere) {
-        m_insidePhotoSphere = val;
-        Q_EMIT insidePhotoSphereChanged();
+void PQCNotify::setShowingPhotoSphere(bool val) {
+    if(val != m_showingPhotoSphere) {
+        m_showingPhotoSphere = val;
+        Q_EMIT showingPhotoSphereChanged();
     }
 }
-bool PQCNotify::getInsidePhotoSphere() {
-    return m_insidePhotoSphere;
-}
-
-void PQCNotify::setHasPhotoSphere(bool val) {
-    if(val != m_hasPhotoSphere) {
-        m_hasPhotoSphere = val;
-        Q_EMIT hasPhotoSphereChanged();
-    }
-}
-bool PQCNotify::getHasPhotoSphere() {
-    return m_hasPhotoSphere;
+bool PQCNotify::getShowingPhotoSphere() {
+    return m_showingPhotoSphere;
 }
 
 void PQCNotify::setIsMotionPhoto(bool val) {

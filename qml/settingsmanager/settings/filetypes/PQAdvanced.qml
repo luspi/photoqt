@@ -125,7 +125,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Photo spheres")
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt is able to check whether a current image is a photo sphere, this is done by analyzing the meta data of an image in the background. If a equirectangular projection is detected, then a button is visible in the center of the image for entering the photo sphere. This is supported for both partial photo spheres and for 360 degree views.")
+            helptext: qsTranslate("settingsmanager",  "PhotoQt can check whether the current image is a photo sphere by analyzing its metadata. If a equirectangular projection is detected, the photo sphere will be loaded instead of a flat image. In addition, the arrow keys can optionally be forced to be used for moving around the sphere regardless of which shortcut actions they are set to. Both partial photo spheres and 360 degree views are supported.")
 
             enabled: PQCScriptsConfig.isPhotoSphereSupportEnabled()
 
@@ -140,9 +140,16 @@ Flickable {
                 },
 
                 PQCheckBox {
-                    id: photosphere
+                    id: ps_controls
                     enforceMaxWidth: set_sph.rightcol
-                    text: qsTranslate("settingsmanager", "Check for photo spheres")
+                    text: qsTranslate("settingsmanager", "show floating controls for photo spheres")
+                    onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: ps_arrows
+                    enforceMaxWidth: set_sph.rightcol
+                    text: qsTranslate("settingsmanager", "use arrow keys for moving around photo spheres")
                     onCheckedChanged: checkDefault()
                 }
             ]
@@ -162,7 +169,7 @@ Flickable {
             return
         }
 
-        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged())
+        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged())
 
     }
 
@@ -172,7 +179,8 @@ Flickable {
         motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
         motionplaypause.loadAndSetDefault(PQCSettings.filetypesMotionPhotoPlayPause)
         motionspace.loadAndSetDefault(PQCSettings.filetypesMotionSpacePause)
-        photosphere.loadAndSetDefault(PQCSettings.filetypesCheckForPhotoSphere)
+        ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
+        ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
 
         settingChanged = false
         settingsLoaded = true
@@ -185,13 +193,15 @@ Flickable {
         PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
         PQCSettings.filetypesMotionPhotoPlayPause = motionplaypause.checked
         PQCSettings.filetypesMotionSpacePause = motionspace.checked
-        PQCSettings.filetypesCheckForPhotoSphere = photosphere.checked
+        PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
+        PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
 
         applelive.saveDefault()
         motionmicro.saveDefault()
         motionplaypause.saveDefault()
         motionspace.saveDefault()
-        photosphere.saveDefault()
+        ps_controls.saveDefault()
+        ps_arrows.saveDefault()
 
         settingChanged = false
 

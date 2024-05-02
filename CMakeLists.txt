@@ -158,12 +158,7 @@ if(ZXING)
 endif()
 
 if(PHOTOSPHERE)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere.qml")
     set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_ps_SOURCES})
-else()
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/image/PQPhotoSphere.qml")
 endif()
 
 if(LCMS2)

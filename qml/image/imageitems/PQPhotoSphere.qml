@@ -26,134 +26,85 @@ import PQCPhotoSphere
 import PQCFileFolderModel
 
 import "../../elements"
+import "../components"
 
-Item {
+PQCPhotoSphere {
 
-    id: sphere_top
+    id: thesphere
 
-    parent: image_top
-    anchors.fill: parent
-    anchors.margins: -PQCSettings.imageviewMargin
+    width: deleg.width
+    height: deleg.height
 
-    opacity: 0
-    visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
-    onOpacityChanged: (opacity) => {
-        if(opacity === 0) {
-            thesphere.visible = false
-            thesphere.source = ""
-        }
+    // these need to have a small duration as otherwise touchpad handling is awkward
+    // key events are handled with their own animations below
+    Behavior on fieldOfView { NumberAnimation { id: behavior_fov; duration: 0 } }
+    Behavior on azimuth { NumberAnimation { id: behavior_az; duration: 0 } }
+    Behavior on elevation { NumberAnimation { id: behavior_ele; duration: 0 } }
+
+    Component.onCompleted: {
+        image_wrapper.status = Image.Ready
+        image_wrapper.width = width
+        image_wrapper.height = height
+        behavior_fov.duration = 50
+        behavior_az.duration = 50
+        behavior_ele.duration = 50
     }
 
-    PQCPhotoSphere {
+    source: loader_top.imageSource
+    azimuth: 180
+    elevation: 0
+    fieldOfView: 90
 
-        id: thesphere
+    PinchArea {
+
+        id: pincharea
+
         anchors.fill: parent
 
-        visible: false
+        z: image_top.curZ+1
 
-        // these need to have a small duration as otherwise touchpad handling is awkward
-        // key events are handled with their own animations below
-        Behavior on fieldOfView { NumberAnimation { id: behavior_fov; duration: 50 } }
-        Behavior on azimuth { NumberAnimation { id: behavior_az; duration: 50 } }
-        Behavior on elevation { NumberAnimation { id: behavior_ele; duration: 50 } }
+        property real storeFieldOfView
 
-        PinchArea {
+        onPinchStarted:
+            storeFieldOfView = thesphere.fieldOfView
 
-            id: pincharea
+        onPinchUpdated: (pinch) => {
+            // compute the rate of change initiated by this pinch
+            var startLength = Math.sqrt(Math.pow(pinch.startPoint1.x-pinch.startPoint2.x, 2) + Math.pow(pinch.startPoint1.y-pinch.startPoint2.y, 2))
+            var curLength = Math.sqrt(Math.pow(pinch.point1.x-pinch.point2.x, 2) + Math.pow(pinch.point1.y-pinch.point2.y, 2))
+            thesphere.fieldOfView = storeFieldOfView * (startLength / curLength)
+        }
+
+        MouseArea {
+
+            id: mousearea
 
             anchors.fill: parent
 
-            property real storeFieldOfView
+            property var clickedPos
+            property var clickedAzimuth
+            property var clickedElevation
 
-            onPinchStarted:
-                storeFieldOfView = thesphere.fieldOfView
-
-            onPinchUpdated: (pinch) => {
-                // compute the rate of change initiated by this pinch
-                var startLength = Math.sqrt(Math.pow(pinch.startPoint1.x-pinch.startPoint2.x, 2) + Math.pow(pinch.startPoint1.y-pinch.startPoint2.y, 2))
-                var curLength = Math.sqrt(Math.pow(pinch.point1.x-pinch.point2.x, 2) + Math.pow(pinch.point1.y-pinch.point2.y, 2))
-                thesphere.fieldOfView = storeFieldOfView * (startLength / curLength)
+            onPressed: (mouse) => {
+                behavior_fov.duration = 0
+                behavior_az.duration = 0
+                behavior_ele.duration = 0
+                clickedPos = Qt.point(mouse.x, mouse.y)
+                clickedAzimuth = thesphere.azimuth
+                clickedElevation = thesphere.elevation
             }
-
-            MouseArea {
-
-                id: mousearea
-
-                anchors.fill: parent
-
-                property var clickedPos
-                property var clickedAzimuth
-                property var clickedElevation
-
-                onPressed: (mouse) => {
-                    behavior_fov.duration = 0
-                    behavior_az.duration = 0
-                    behavior_ele.duration = 0
-                    clickedPos = Qt.point(mouse.x, mouse.y)
-                    clickedAzimuth = thesphere.azimuth
-                    clickedElevation = thesphere.elevation
-                }
-                onPositionChanged: (mouse) => {
-                    var posDiff = Qt.point(mouse.x-mousearea.clickedPos.x , mouse.y-mousearea.clickedPos.y)
-                    var curTan = Math.tan(thesphere.fieldOfView * ((0.5*Math.PI)/180));
-                    thesphere.azimuth = clickedAzimuth - (((3*256)/image.height) * posDiff.x/6) * curTan
-                    thesphere.elevation = clickedElevation + (((3*256)/image.height) * posDiff.y/6) * curTan
-                }
-                onReleased: {
-                    behavior_fov.duration = 50
-                    behavior_az.duration = 50
-                    behavior_ele.duration = 50
-                }
-
-                onWheel: (wheel) => {
-                    if(wheel.modifiers & Qt.ControlModifier) {
-                        thesphere.azimuth +=  wheel.angleDelta.x*0.1
-                        thesphere.elevation -=  wheel.angleDelta.y*0.05
-                    } else
-                        thesphere.fieldOfView -=  wheel.angleDelta.y*0.05
-                }
+            onPositionChanged: (mouse) => {
+                var posDiff = Qt.point(mouse.x-mousearea.clickedPos.x , mouse.y-mousearea.clickedPos.y)
+                var curTan = Math.tan(thesphere.fieldOfView * ((0.5*Math.PI)/180));
+                thesphere.azimuth = clickedAzimuth - (((3*256)/image.height) * posDiff.x/6) * curTan
+                thesphere.elevation = clickedElevation + (((3*256)/image.height) * posDiff.y/6) * curTan
+            }
+            onReleased: {
+                behavior_fov.duration = 50
+                behavior_az.duration = 50
+                behavior_ele.duration = 50
             }
         }
-
-    }
-
-    Rectangle {
-
-        parent: fullscreenitem_foreground
-        x: 20
-        y: 20
-        width: 42
-        height: 42
-        radius: 21
-
-        opacity: hovered ? 0.8 : 0.3
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        visible: PQCNotify.insidePhotoSphere
-
-        color: PQCLook.transColor
-
-        property bool hovered: false
-
-        Image {
-            x: 5
-            y: 5
-            width: 32
-            height: 32
-            sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/close.svg"
-        }
-
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            text: qsTranslate("facetagging", "Click to exit photo sphere")
-            onClicked: hide()
-            onEntered: parent.hovered = true
-            onExited: parent.hovered = false
-        }
-
     }
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
@@ -178,44 +129,29 @@ Item {
 
     Connections {
 
-        target: loader
+        target: image_top
 
-        function onPassOn(what, param) {
+        function onZoomIn(wheelDelta) {
+            zoom("in")
+        }
+        function onZoomOut(wheelDelta) {
+            zoom("out")
+        }
+        function onZoomReset() {
+            zoom("reset")
+            moveView("reset")
+        }
 
-            if(loader.visibleItem !== "photosphere")
-                return
+        function onMoveView(direction) {
 
-            if(what === "keyEvent") {
-
-                if(param[0] === Qt.Key_Escape)
-                    hide()
-
-                else if(param[0] === Qt.Key_Left)
-                    moveView("left")
-
-                else if(param[0] === Qt.Key_Right)
-                    moveView("right")
-
-                else if(param[0] === Qt.Key_Up)
-                    moveView("up")
-
-                else if(param[0] === Qt.Key_Down)
-                    moveView("down")
-
-                else if(param[0] === Qt.Key_Plus)
-                    zoom("in")
-
-                else if(param[0] === Qt.Key_Minus)
-                    zoom("out")
-
-                else if(param[0] === Qt.Key_0) {
-
-                    moveView("reset")
-                    zoom("reset")
-
-                }
-
-            }
+            if(direction === "left")
+                moveView("left")
+            else if(direction === "right")
+                moveView("right")
+            else if(direction === "up")
+                moveView("up")
+            else if(direction === "down")
+                moveView("down")
 
         }
 
@@ -275,31 +211,8 @@ Item {
 
     }
 
-    Connections {
-
-        target: PQCNotify
-
-        function onEnterPhotoSphere() {
-            sphere_top.show()
-        }
-
-    }
-
-    function show() {
-        loader.visibleItem = "photosphere"
-        PQCNotify.insidePhotoSphere = true
-        thesphere.source = PQCFileFolderModel.currentFile
-        thesphere.azimuth = 180
-        thesphere.elevation = 0
-        thesphere.fieldOfView = 90
-        thesphere.visible = true
-        opacity = 1
-    }
-
-    function hide() {
-        PQCNotify.insidePhotoSphere = false
-        opacity = 0
-        loader.visibleItem = ""
+    PQPhotoSphereControls {
+        id: controls
     }
 
 }

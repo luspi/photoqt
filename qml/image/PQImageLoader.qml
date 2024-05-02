@@ -128,7 +128,7 @@ Item {
         function onZoomIn(wheelDelta) {
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex) {
 
-                if(PQCNotify.faceTagging) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
                 // compute zoom factor based on wheel movement (if done by mouse)
                 var zoomfactor
@@ -146,7 +146,7 @@ Item {
         function onZoomOut(wheelDelta) {
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex) {
 
-                if(PQCNotify.faceTagging) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
                 // compute zoom factor based on wheel movement (if done by mouse)
                 var zoomfactor
@@ -163,35 +163,35 @@ Item {
         }
         function onZoomReset() {
 
-            if(PQCNotify.faceTagging) return
+            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
                 loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
         }
         function onZoomActual() {
 
-            if(PQCNotify.faceTagging) return
+            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
                 loader_top.imageScale = 1
         }
         function onRotateClock() {
 
-            if(PQCNotify.faceTagging) return
+            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
                 loader_top.imageRotation += 90
         }
         function onRotateAntiClock() {
 
-            if(PQCNotify.faceTagging) return
+            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
                 loader_top.imageRotation -= 90
         }
         function onRotateReset() {
 
-            if(PQCNotify.faceTagging) return
+            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
             if(PQCFileFolderModel.currentIndex===deleg.itemIndex) {
                 // rotate to the nearest (rotation%360==0) degrees
@@ -238,7 +238,6 @@ Item {
     Connections {
         target: PQCFileFolderModel
         function onCurrentIndexChanged() {
-            PQCNotify.hasPhotoSphere = false
             PQCNotify.isMotionPhoto = false
             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                 deleg.hasBeenSetup = false
@@ -264,7 +263,7 @@ Item {
             }
         }
 
-        interactive: !PQCNotify.faceTagging && !PQCNotify.insidePhotoSphere && !PQCNotify.slideshowRunning
+        interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
 
         contentX: loader_top.imagePosX
         onContentXChanged: {
@@ -282,7 +281,7 @@ Item {
             target: PQCNotify
 
             function onMouseWheel(angleDelta, modifiers) {
-                if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging)
+                if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere)
                     return
                 flickable.interactive = false
                 reEnableInteractive.restart()
@@ -290,7 +289,7 @@ Item {
 
             function onMousePressed(mods, button, pos) {
 
-                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging) {
+                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
                     reEnableInteractive.stop()
                     flickable.interactive = false
                 }
@@ -323,7 +322,7 @@ Item {
             }
 
             function onMouseReleased() {
-                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging) {
+                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
                     reEnableInteractive.restart()
                 }
             }
@@ -335,7 +334,7 @@ Item {
             interval: 100
             repeat: false
             onTriggered:
-                flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging })
+                flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
         }
 
         // the container for the content
@@ -456,6 +455,8 @@ Item {
                             loader_top.listenToClicksOnImage = true
                         } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
                             source = "imageitems/PQSVG.qml"
+                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource)) {
+                            source = "imageitems/PQPhotoSphere.qml"
                         } else
                             source = "imageitems/PQImageNormal.qml"
                     }
@@ -554,6 +555,10 @@ Item {
                     }
 
                     function onMoveView(direction) {
+
+                        if(PQCNotify.showingPhotoSphere)
+                            return
+
                         if(direction === "left")
                             flickable.flick(1000,0)
                         else if(direction === "right")
@@ -606,6 +611,9 @@ Item {
 
                     function onRotationZoomResetWithoutAnimation() {
 
+                        if(PQCNotify.showingPhotoSphere)
+                            return
+
                         scaleAnimation.stop()
                         rotationAnimation.stop()
 
@@ -617,6 +625,9 @@ Item {
                     }
 
                     function onZoomActualWithoutAnimation() {
+
+                        if(PQCNotify.showingPhotoSphere)
+                            return
 
                         scaleAnimation.stop()
 
@@ -657,6 +668,9 @@ Item {
                     }
 
                     function onLoadScaleRotation() {
+
+                        if(PQCNotify.showingPhotoSphere)
+                            return
 
                         if((PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges)) ||
                                 ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
@@ -721,6 +735,10 @@ Item {
                     }
 
                     function onMoveViewToCenter() {
+
+                        if(PQCNotify.showingPhotoSphere)
+                            return
+
                         if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
                                 PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
                             return
@@ -867,6 +885,8 @@ Item {
 
         mouseEnabled: false
 
+        enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
+
         property var initialPts: []
         property real initialScale
 
@@ -944,40 +964,6 @@ Item {
             onTriggered: {
                 shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
             }
-        }
-
-    }
-
-    // a big button in middle of screen to enter photo sphere
-    Rectangle {
-        id: spherebut
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
-        width: 150
-        height: 150
-        color: PQCLook.transColor
-        radius: width/2
-        visible: PQCNotify.hasPhotoSphere
-        opacity: (spheremouse.containsMouse ? 0.8 : 0.4)
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-
-        Image {
-            anchors.fill: parent
-            anchors.margins: 20
-            mipmap: true
-            fillMode: Image.PreserveAspectFit
-            sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/photosphere.svg"
-        }
-
-        PQMouseArea {
-            id: spheremouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            text: qsTranslate("image", "Click here to enter photo sphere")
-            onClicked:
-                PQCNotify.enterPhotoSphere()
         }
 
     }
@@ -1148,6 +1134,7 @@ Item {
         image_top.currentlyVisibleIndex = deleg.itemIndex
         image_top.imageFinishedLoading(deleg.itemIndex)
 
+        PQCNotify.showingPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
 
         // if a slideshow is running with the ken burns effect
         // then we need to do some special handling
