@@ -36,7 +36,7 @@ Item {
     width: deleg.width
     height: deleg.height
 
-    property string imageSource: PQCFileFolderModel.entriesMainView[itemIndex]
+    property string imageSource: PQCFileFolderModel.entriesMainView[deleg.itemIndex]
 
     // some image properties
     property int imageRotation: 0
