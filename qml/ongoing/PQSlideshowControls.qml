@@ -395,6 +395,14 @@ Item {
                 if(param === "slideshowcontrols")
                     hide()
 
+            } else if(what === "keyEvent") {
+
+                if(param[0] === Qt.Key_Left)
+                    loader_slideshowhandler.item.loadPrevImage(true)
+
+                else if(param[0] === Qt.Key_Right)
+                    loader_slideshowhandler.item.loadNextImage(true)
+
             }
 
         }
