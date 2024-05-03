@@ -238,6 +238,9 @@ Rectangle {
                         doubleClickThreshold: 200
                         onMouseDoubleClicked: {
                             PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath
+                            if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
+                                mapexplorer_top.hideExplorer()
+                            }
                         }
 
                     }
