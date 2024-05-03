@@ -52,7 +52,7 @@ bool PQCScriptsOther::takeScreenshots() {
         QRect r = screen->geometry();
         QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
         if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
-            qWarning() << "Error taking screenshot for screen #" << i;
+            qDebug() << "Error taking screenshot for screen #" << i;
             return false;
         }
     }
