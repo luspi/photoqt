@@ -203,12 +203,12 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
 
                 if(insideFilenameOnly) {
                     for(const QString &f : std::as_const(allfiles)) {
-                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix()))
+                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
                             ret.append(f);
                     }
                 } else {
                     for(const QString &f : std::as_const(allfiles)) {
-                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix()))
+                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
                             ret.append(QString("%1::ARC::%2").arg(f, path));
                     }
                 }
@@ -253,7 +253,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
             QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
 
             // If supported file format, append to temporary list
-            if((PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(filenameinside).suffix())))
+            if((PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(filenameinside).suffix().toLower())))
                 allfiles.append(filenameinside);
 
         }
