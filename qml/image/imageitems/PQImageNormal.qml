@@ -197,6 +197,48 @@ Image {
     // The next block is for photo spheres and motion photos
 
 
+    // a big button in middle of screen to enter photo sphere
+    Loader {
+
+        active: loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton
+
+        sourceComponent:
+            Rectangle {
+                parent: loader_top
+                id: spherebut
+                x: (parent.width-width)/2
+                y: (parent.height-height)/2
+                width: 150
+                height: 150
+                color: PQCLook.transColor
+                radius: width/2
+                opacity: (spheremouse.containsMouse ? 0.8 : 0.4)
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                Image {
+                    anchors.fill: parent
+                    anchors.margins: 20
+                    mipmap: true
+                    fillMode: Image.PreserveAspectFit
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/white/photosphere.svg"
+                }
+
+                PQMouseArea {
+                    id: spheremouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    text: qsTranslate("image", "Click here to enter photo sphere")
+                    onClicked:
+                        deleg.photoSphereManuallyEntered = true
+                }
+
+            }
+    }
+
+
+
     // check for photo sphere if enabled
     Timer {
 

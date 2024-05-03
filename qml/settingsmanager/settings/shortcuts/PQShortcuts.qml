@@ -149,6 +149,8 @@ Flickable {
                                  //: Name of shortcut action
         "__tagFaces":           [qsTranslate("settingsmanager", "Start tagging faces"), "currentimage"],
                                  //: Name of shortcut action
+        "__enterPhotoSphere":   [qsTranslate("settingsmanager", "Enter photo sphere"), "currentimage"],
+                                 //: Name of shortcut action
         "__detectBarCodes":     [qsTranslate("settingsmanager", "Detect QR and barcodes"), "currentimage"],
 
 

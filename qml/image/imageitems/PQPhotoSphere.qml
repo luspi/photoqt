@@ -390,4 +390,49 @@ PQCPhotoSphere {
 
     }
 
+    Loader {
+
+        active: !PQCSettings.filetypesPhotoSphereAutoLoad
+
+        sourceComponent:
+            Rectangle {
+
+                    parent: fullscreenitem_foreground
+                    x: statusinfo.item.visible ? statusinfo.item.x : 20
+                    y: statusinfo.item.visible ? statusinfo.item.y+statusinfo.item.height+20 : 20
+                    width: 42
+                    height: 42
+                    radius: 21
+
+                    opacity: hovered ? 0.8 : 0.3
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                    color: PQCLook.transColor
+
+                    property bool hovered: false
+
+                    Image {
+                        x: 5
+                        y: 5
+                        width: 32
+                        height: 32
+                        sourceSize: Qt.size(width, height)
+                        source: "image://svg/:/white/close.svg"
+                    }
+
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("facetagging", "Click to exit photo sphere")
+                        onClicked: image_top.exitPhotoSphere()
+                        onEntered: parent.hovered = true
+                        onExited: parent.hovered = false
+                    }
+
+                }
+
+    }
+
+
 }

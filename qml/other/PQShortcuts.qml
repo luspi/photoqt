@@ -428,11 +428,21 @@ Item {
         }
 
         // Left/Right when archive is loaded might have special actions
-        if(PQCNotify.showingPhotoSphere && PQCSettings.filetypesPhotoSphereArrowKeys &&
-                (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
+        if(PQCNotify.showingPhotoSphere) {
+            if(PQCSettings.filetypesPhotoSphereArrowKeys &&
+                    (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
 
-            image.moveView(combo.toLowerCase())
-            return
+                image.moveView(combo.toLowerCase())
+                return
+
+            }
+
+            if(!PQCSettings.filetypesPhotoSphereAutoLoad && combo === "Esc") {
+
+                image.exitPhotoSphere()
+                return
+
+            }
 
         }
 
@@ -630,7 +640,7 @@ Item {
                 break
             case "__enterPhotoSphere":
                 if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
-                    PQCNotify.enterPhotoSphere()
+                    image.enterPhotoSphere()
                 else
                     loader.show("notification", qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
                 break

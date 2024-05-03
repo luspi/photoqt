@@ -71,6 +71,7 @@ Item {
     signal resetToDefaults()
 
     property bool listenToClicksOnImage: false
+    property bool thisIsAPhotoSphere: false
 
     property bool videoLoaded: false
     property bool videoPlaying: false
@@ -455,10 +456,13 @@ Item {
                             loader_top.listenToClicksOnImage = true
                         } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
                             source = "imageitems/PQSVG.qml"
-                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource)) {
+                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                            loader_top.thisIsAPhotoSphere = true
                             source = "imageitems/PQPhotoSphere.qml"
-                        } else
+                        } else {
+                            loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
                             source = "imageitems/PQImageNormal.qml"
+                        }
                     }
 
                 }
@@ -1134,7 +1138,7 @@ Item {
         image_top.currentlyVisibleIndex = deleg.itemIndex
         image_top.imageFinishedLoading(deleg.itemIndex)
 
-        PQCNotify.showingPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
+        PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
 
         // if a slideshow is running with the ken burns effect
         // then we need to do some special handling

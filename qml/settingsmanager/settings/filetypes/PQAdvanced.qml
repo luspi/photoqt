@@ -139,6 +139,32 @@ Flickable {
                     visible: !PQCScriptsConfig.isPhotoSphereSupportEnabled()
                 },
 
+                Flow {
+
+                    width: set_sph.rightcol
+                    spacing: 5
+
+                    PQText {
+                        height: ps_entering.height
+                        verticalAlignment: Text.AlignVCenter
+                        //: This is the info text for a combobox about how to enter photo spheres
+                        text: qsTranslate("settingsmanager", "Enter photo spheres:")
+                    }
+
+                    PQComboBox {
+                        id: ps_entering
+                        extrawide: true
+                                //: Used as in: Enter photo spheres automatically
+                        model: [qsTranslate("settingsmanager", "automatically"),
+                                //: Used as in: Enter photo spheres through central big button
+                                qsTranslate("settingsmanager", "through central big button"),
+                                //: Used as in: Enter photo spheres never
+                                qsTranslate("settingsmanager", "never")]
+                        onCurrentIndexChanged:
+                            checkDefault()
+                    }
+                },
+
                 PQCheckBox {
                     id: ps_controls
                     enforceMaxWidth: set_sph.rightcol
@@ -169,7 +195,8 @@ Flickable {
             return
         }
 
-        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged())
+        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() ||
+                          ps_entering.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged())
 
     }
 
@@ -179,6 +206,7 @@ Flickable {
         motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
         motionplaypause.loadAndSetDefault(PQCSettings.filetypesMotionPhotoPlayPause)
         motionspace.loadAndSetDefault(PQCSettings.filetypesMotionSpacePause)
+        ps_entering.loadAndSetDefault(PQCSettings.filetypesPhotoSphereAutoLoad ? 0 : (PQCSettings.filetypesPhotoSphereBigButton ? 1 : 2))
         ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
         ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
 
@@ -193,6 +221,8 @@ Flickable {
         PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
         PQCSettings.filetypesMotionPhotoPlayPause = motionplaypause.checked
         PQCSettings.filetypesMotionSpacePause = motionspace.checked
+        PQCSettings.filetypesPhotoSphereAutoLoad = ps_entering.currentIndex===0
+        PQCSettings.filetypesPhotoSphereBigButton = ps_entering.currentIndex===1
         PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
         PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
 
@@ -200,6 +230,7 @@ Flickable {
         motionmicro.saveDefault()
         motionplaypause.saveDefault()
         motionspace.saveDefault()
+        ps_entering.saveDefault()
         ps_controls.saveDefault()
         ps_arrows.saveDefault()
 

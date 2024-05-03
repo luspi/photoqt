@@ -108,6 +108,8 @@ Item {
 
     signal imageFinishedLoading(var index)
     signal reloadImage()
+    signal enterPhotoSphere()
+    signal exitPhotoSphere()
 
     property var rememberChanges: ({})
     property var reuseChanges: []
@@ -137,14 +139,41 @@ Item {
                 property bool shouldBeShown: PQCFileFolderModel.currentIndex===index || (image_top.currentlyVisibleIndex === index)
                 property bool hasBeenSetup: false
 
+                property bool photoSphereManuallyEntered: false
+                onPhotoSphereManuallyEnteredChanged: {
+                    deleg.reloadImage()
+                }
+
                 Connections {
                     target: PQCSettings
-
                     function onImageviewAlwaysActualSizeChanged() {
-                        deleg.active = false
-                        deleg.active = Qt.binding(function() { return shouldBeShown || hasBeenSetup; })
+                        deleg.reloadImage()
                     }
+                }
 
+                Connections {
+                    target: image_top
+                    function onReloadImage() {
+                        deleg.reloadImage()
+                    }
+                    function onExitPhotoSphere() {
+                        if(deleg.itemIndex === PQCFileFolderModel.currentIndex) {
+                            deleg.photoSphereManuallyEntered = false
+                            deleg.reloadImage()
+                        }
+                    }
+                    function onEnterPhotoSphere() {
+                        if(deleg.itemIndex === PQCFileFolderModel.currentIndex) {
+                            deleg.photoSphereManuallyEntered = true
+                            deleg.reloadImage()
+                        }
+                    }
+                }
+
+                function reloadImage() {
+                    deleg.active = false
+                    deleg.hasBeenSetup = false
+                    deleg.active = true
                 }
 
                 // the current index

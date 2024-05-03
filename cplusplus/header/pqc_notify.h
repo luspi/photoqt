@@ -262,8 +262,6 @@ Q_SIGNALS:
     void keyPress(int key, int modifiers);
     void executeInternalCommand(QString cmd);
 
-    void enterPhotoSphere();
-
     void showNotificationMessage(QString msg);
 
     // these are called by various qml elements to trigger mouse shortcuts
