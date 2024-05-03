@@ -456,7 +456,7 @@ Item {
                             loader_top.listenToClicksOnImage = true
                         } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
                             source = "imageitems/PQSVG.qml"
-                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad || PQCNotify.slideshowRunning)) {
                             loader_top.thisIsAPhotoSphere = true
                             source = "imageitems/PQPhotoSphere.qml"
                         } else {
