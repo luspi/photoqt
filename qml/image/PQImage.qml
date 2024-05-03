@@ -120,6 +120,11 @@ Item {
 
         model: PQCFileFolderModel.countMainView
 
+        // If the model changed then all images are hidden initially
+        // This information is used, e.g., to disable animation on show
+        onModelChanged:
+            image_top.currentlyVisibleIndex = -1
+
         delegate:
             // the item is a loader that is only loaded when needed
             // there should be as little as possible in the loader outside of the source item
