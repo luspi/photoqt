@@ -197,6 +197,7 @@ Item {
 
     PQWorking {
         id: busyloading
+        anchors.margins: -PQCSettings.imageviewMargin
         z: image_top.curZ+1
     }
 
