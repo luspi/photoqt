@@ -53,6 +53,11 @@ PQCPhotoSphere {
             panOnCompleted.start()
     }
 
+    onWidthChanged:
+        image_wrapper.width = width
+    onHeightChanged:
+        image_wrapper.height = height
+
     source: loader_top.imageSource
     azimuth: 180
     elevation: 0
