@@ -529,6 +529,22 @@ int PQCSettings::migrate(QString oldversion) {
 
             }
 
+            // update name for filwtypes settings
+            const QStringList renameFiletypeSettings = {"CheckForPhotoSphere", "PhotoSphereAutoLoad"};
+
+            for(int i = 0; i < renameFiletypeSettings.length()/2; ++i) {
+
+                QString oldSetting = renameFiletypeSettings[2*i +0];
+                QString newSetting = renameFiletypeSettings[2*i +1];
+
+                QSqlQuery queryRename(db);
+                if(!queryRename.exec(QString("Update `filetypes` SET `name`='%1' WHERE `name`='%2'").arg(newSetting, oldSetting)))
+                    qCritical() << ("Unable to rename filetypes settings name '" + oldSetting + "' to '" + newSetting + "':") << query.lastError().text();
+
+                queryRename.clear();
+
+            }
+
         }
 
         ////////////////////////////////////

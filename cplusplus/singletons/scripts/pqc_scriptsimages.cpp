@@ -748,9 +748,6 @@ bool PQCScriptsImages::isPhotoSphere(QString path) {
 
 #ifdef PQMPHOTOSPHERE
 
-    if(!PQCSettings::get()["filetypesCheckForPhotoSphere"].toBool())
-        return false;
-
 #if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)
 
 #if EXIV2_TEST_VERSION(0, 28, 0)
