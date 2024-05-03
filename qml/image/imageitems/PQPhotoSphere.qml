@@ -68,8 +68,10 @@ PQCPhotoSphere {
 
         property real storeFieldOfView
 
-        onPinchStarted:
+        onPinchStarted: {
+            leftrightani.stop()
             storeFieldOfView = thesphere.fieldOfView
+        }
 
         onPinchUpdated: (pinch) => {
             // compute the rate of change initiated by this pinch
@@ -89,6 +91,7 @@ PQCPhotoSphere {
             property var clickedElevation
 
             onPressed: (mouse) => {
+                leftrightani.stop()
                 behavior_fov.duration = 0
                 behavior_az.duration = 0
                 behavior_ele.duration = 0
@@ -116,12 +119,24 @@ PQCPhotoSphere {
         target: thesphere
         property: "azimuth"
         duration: 200
+        onRunningChanged: {
+            if(!running) {
+                animatedAzimuth.easing.type = Easing.Linear
+                animatedAzimuth.duration = 200
+            }
+        }
     }
     NumberAnimation {
         id: animatedElevation
         target: thesphere
         property: "elevation"
         duration: 200
+        onRunningChanged: {
+            if(!running) {
+                animatedElevation.easing.type = Easing.Linear
+                animatedElevation.duration = 200
+            }
+        }
     }
     NumberAnimation {
         id: animatedFieldOfView
@@ -170,8 +185,7 @@ PQCPhotoSphere {
     // these are not handled with the behavior above because key events are handled smoother than mouse events
     function zoom(dir) {
 
-        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
-            return
+        leftrightani.stop()
 
         animatedFieldOfView.stop()
 
@@ -193,8 +207,7 @@ PQCPhotoSphere {
     // these are not handled with the behavior above because key events are handled smoother than mouse events
     function moveView(dir) {
 
-        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
-            return
+        leftrightani.stop()
 
         if(dir === "up" || dir === "down" || dir === "reset")
             animatedElevation.stop()
@@ -216,8 +229,12 @@ PQCPhotoSphere {
         } else if(dir === "reset") {
             animatedElevation.from = thesphere.elevation
             animatedElevation.to = 0
+            animatedElevation.easing.type = Easing.OutBack
+            animatedElevation.duration = 500
             animatedAzimuth.from = thesphere.azimuth
             animatedAzimuth.to = 180
+            animatedAzimuth.easing.type = Easing.OutBack
+            animatedAzimuth.duration = 500
         }
 
         if(dir === "up" || dir === "down" || dir === "reset")
@@ -472,7 +489,8 @@ PQCPhotoSphere {
         id: panOnCompleted
         interval: PQCSettings.imageviewAnimationDuration*100
         onTriggered: {
-            leftrightani.start()
+            if(!mousearea.pressed)
+                leftrightani.start()
         }
     }
 
