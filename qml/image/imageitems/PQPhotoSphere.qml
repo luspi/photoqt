@@ -49,7 +49,7 @@ PQCPhotoSphere {
         behavior_az.duration = 50
         behavior_ele.duration = 50
 
-        if(!PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
+        if(!panOnCompleted.running && !PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
             panOnCompleted.start()
     }
 
@@ -62,6 +62,21 @@ PQCPhotoSphere {
     azimuth: 180
     elevation: 0
     fieldOfView: 90
+
+    onVisibleChanged: {
+
+        if(!visible) {
+            zoom("reset")
+            moveView("reset")
+        }
+
+        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            return
+
+        if(!panOnCompleted.running && !PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
+            panOnCompleted.start()
+
+    }
 
     PinchArea {
 
